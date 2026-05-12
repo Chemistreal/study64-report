@@ -2268,8 +2268,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     return `<section id="v36Trust" class="v36FinalSection v36Reveal"><div class="v36Head"><div><h2>해석 신뢰도</h2><p>결과를 과장하지 않기 위한 안전장치입니다. 숫자는 학생의 능력 점수가 아니라, 현재 응답을 얼마나 선명하게 읽을 수 있는지에 대한 표시입니다.</p></div><span class="v36Badge">${t.pct}%</span></div><div class="v36TrustGrid">${cells.map(c=>`<div class="v36TrustCell"><b>${esc(c[0])}</b><strong>${esc(c[1])}</strong><span>${esc(c[2])}</span></div>`).join('')}</div></section>`;
   }
   function effectsHTML(){
-    const fx=[['Spotlight Focus','결과 상단에 학생의 핵심 판정이 먼저 들어오도록 시선 흐름을 정리했습니다.'],['Layered Hexagon','등급별 기준선과 본인 그래프가 겹쳐 보이도록 비교 구조를 강화했습니다.'],['Card Lift','핵심 카드에 미세한 상승 효과를 넣어 중요한 정보가 더 잘 보이게 했습니다.'],['Reveal Motion','결과 섹션이 순차적으로 나타나도록 하여 리포트를 읽는 흐름을 부드럽게 만들었습니다.']];
-    return `<section id="v36Effects" class="v36FinalSection v36Reveal"><div class="v36Head"><div><h2><span class="v36PulseDot"></span>디자인 특수효과</h2><p>화려함 자체가 목적이 아니라, 중요한 해석이 먼저 보이고 오래 기억되도록 시각 효과를 정리했습니다.</p></div><span class="v36Badge">Premium Motion</span></div><div class="v36SpecialDeck">${fx.map(x=>`<div class="v36FxCard"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join('')}</div></section>`;
+    return '';
   }
   function cleanupText(){
     const t=trust(); document.title=document.title.replace(/조준모의\s*/g,'').replace(/조준모/g,'').replace(/화학/g,'');
@@ -2283,7 +2282,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     ensureStyles(); makeAmbient(); cleanupText();
     const anchor=document.getElementById('v35ExpertWrap')||document.getElementById('v34Verification')||document.getElementById('premiumOverview')||document.getElementById('report');
     let wrap=document.getElementById('v36FinalWrap'); if(!wrap){wrap=document.createElement('div');wrap.id='v36FinalWrap';wrap.className='v36FinalWrap'; anchor.insertAdjacentElement(anchor.id==='report'?'afterbegin':'beforebegin',wrap)}
-    wrap.innerHTML=verdictHTML(r)+compareHTML(r)+trustHTML()+effectsHTML();
+    wrap.innerHTML=verdictHTML(r)+compareHTML(r)+trustHTML();
     reveal(); addNav(); cleanupText();
   }
   function reveal(){
@@ -2292,7 +2291,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     const io=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting){en.target.classList.add('v36In'); io.unobserve(en.target);}})},{threshold:.08});
     els.forEach(e=>io.observe(e)); setTimeout(()=>els.slice(0,2).forEach(e=>e.classList.add('v36In')),80);
   }
-  function addNav(){const nav=document.querySelector('.reportNav'); if(!nav||document.getElementById('v36Nav'))return; const span=document.createElement('span'); span.id='v36Nav'; span.style.display='contents'; span.innerHTML='<button onclick="jumpTo(\'v36Verdict\')">성적 전환</button><button onclick="jumpTo(\'v36Benchmark\')">기준선 비교</button><button onclick="jumpTo(\'v36Trust\')">신뢰도</button><button onclick="jumpTo(\'v36Effects\')">특수효과</button>'; nav.appendChild(span);}
+  function addNav(){const nav=document.querySelector('.reportNav'); if(!nav||document.getElementById('v36Nav'))return; const span=document.createElement('span'); span.id='v36Nav'; span.style.display='contents'; span.innerHTML='<button onclick="jumpTo(\'v36Verdict\')">성적 전환</button><button onclick="jumpTo(\'v36Benchmark\')">기준선 비교</button><button onclick="jumpTo(\'v36Trust\')">신뢰도</button>'; nav.appendChild(span);}
   function ripple(e){const btn=e.currentTarget; if(!btn||btn.disabled)return; const r=btn.getBoundingClientRect(); const dot=document.createElement('span'); dot.className='v36Ripple'; dot.style.left=(e.clientX-r.left)+'px'; dot.style.top=(e.clientY-r.top)+'px'; dot.style.width=dot.style.height=Math.max(r.width,r.height)/3+'px'; btn.style.position='relative'; btn.style.overflow='hidden'; btn.appendChild(dot); setTimeout(()=>dot.remove(),650);}
   function safeButtons(){
     document.querySelectorAll('button,.btn,.opt').forEach(b=>{if(!b.dataset.v36Ripple){b.dataset.v36Ripple='1'; b.addEventListener('click',ripple,{passive:true});}});
