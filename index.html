@@ -3046,5 +3046,30 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
 })();
 </script>
 
+
+<script id="rename-counsel-title-final-patch">
+(function(){
+  const OLD_TITLE = '상담에서 이렇게 말하면 됩니다';
+  const NEW_TITLE = '아이의 현재 학습 상태와 첫 조정 포인트';
+  function renameCounselTitle(){
+    document.querySelectorAll('h2,h3,strong,b,button').forEach(function(el){
+      if((el.textContent||'').trim() === OLD_TITLE){
+        el.textContent = NEW_TITLE;
+      }
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', renameCounselTitle);
+  } else {
+    renameCounselTitle();
+  }
+  let count = 0;
+  const timer = setInterval(function(){
+    renameCounselTitle();
+    count += 1;
+    if(count >= 12) clearInterval(timer);
+  }, 500);
+})();
+</script>
 </body>
 </html>
