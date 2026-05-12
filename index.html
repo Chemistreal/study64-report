@@ -3522,5 +3522,174 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
 </script>
 <!-- V54_ENTRANCE_COUNSELOR_CONCRETE_EXPLANATION_PATCH_END -->
 
+
+
+<!-- V55_FINAL_OBJECT_AND_CONSULTING_COPY_FIX_START -->
+<script>
+(function(){
+  'use strict';
+  const AXES=['understanding','execution','autonomy','help','errorStyle','motivation'];
+  const AXIS_TITLE={
+    understanding:'개념 이해와 문제 적용',
+    execution:'공부 시작과 마무리',
+    autonomy:'오늘 할 공부 정하기',
+    help:'질문과 피드백 활용',
+    errorStyle:'오답을 다시 맞히는 과정',
+    motivation:'힘들어도 이어가는 힘'
+  };
+  const AXIS_SHORT={
+    understanding:'개념 적용',execution:'마무리',autonomy:'계획 정리',help:'질문',errorStyle:'오답 재풀이',motivation:'지속력'
+  };
+  const AXIS_LABEL={
+    understanding:{left:'원리를 먼저 잡는 편',right:'유형을 반복하며 익히는 편'},
+    execution:{left:'계획이 있으면 꾸준한 편',right:'마감이 있어야 빨라지는 편'},
+    autonomy:{left:'스스로 순서를 잡으려는 편',right:'정해진 과제가 있을 때 잘 따라오는 편'},
+    help:{left:'질문과 피드백을 쓰는 편',right:'혼자 버티며 해결하려는 편'},
+    errorStyle:{left:'정확하게 정리하려는 편',right:'다시 시도하며 고치는 편'},
+    motivation:{left:'큰 목표가 있을 때 버티는 편',right:'짧은 확인에 반응하는 편'}
+  };
+  const BAD_RE=/\[object Object\]|undefined|NaN|Infinity|null/i;
+  function $(id){return document.getElementById(id)}
+  function isObj(v){return v&&typeof v==='object'&&!Array.isArray(v)}
+  function text(v){
+    if(v===null||v===undefined) return '';
+    if(typeof v==='string'||typeof v==='number'||typeof v==='boolean') return String(v);
+    if(Array.isArray(v)) return v.map(text).filter(Boolean).join(', ');
+    if(isObj(v)){
+      const keys=['title','name','label','desc','description','text','summary','value','side','level'];
+      for(const k of keys){ if(v[k]!==undefined && !isObj(v[k])) return text(v[k]); }
+      return '';
+    }
+    return String(v);
+  }
+  function esc(v){return text(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+  function studentName(){const el=$('studentName'); const v=el&&el.value?el.value.trim():''; return v||'학생'}
+  function hasBatchim(s){s=(s||'').trim(); if(!s)return true; const c=s.charCodeAt(s.length-1); return c>=0xAC00&&c<=0xD7A3?((c-0xAC00)%28!==0):true}
+  function eun(n){return n+(hasBatchim(n)?'은':'는')}
+  function scoreNum(v){const n=Number(v); return Number.isFinite(n)?n:0}
+  function getRow(axis,r){
+    const o=(r&&r[axis])||{};
+    const left=scoreNum(isObj(o)?(o.left??o.l??o.a):0);
+    const right=scoreNum(isObj(o)?(o.right??o.r??o.b):0);
+    let side=isObj(o)?o.side:''; if(side!=='left'&&side!=='right') side=left>=right?'left':'right';
+    let score=scoreNum(isObj(o)?o.score:0); if(!score) score=Math.max(left,right,0);
+    let diff=scoreNum(isObj(o)?o.diff:0); if(!diff) diff=Math.abs(left-right);
+    return {axis, name:AXIS_TITLE[axis]||axis, short:AXIS_SHORT[axis]||axis, label:text(isObj(o)?o.label:'')||AXIS_LABEL[axis]?.[side]||'', side, left, right, score:Math.round(score), diff:Math.round(diff)};
+  }
+  function rows(r){return AXES.map(a=>getRow(a,r));}
+  function strongest(r){return rows(r).sort((a,b)=>b.score-a.score)[0]||getRow('understanding',r)}
+  function weakest(r){return rows(r).sort((a,b)=>a.score-b.score)[0]||getRow('execution',r)}
+  function secondWeak(r){return rows(r).sort((a,b)=>a.score-b.score)[1]||getRow('errorStyle',r)}
+  function avg(r){const a=rows(r).map(x=>x.score).filter(n=>Number.isFinite(n)); return a.length?Math.round(a.reduce((s,n)=>s+n,0)/a.length):0}
+  function confidence(){
+    try{
+      const raw=JSON.parse(localStorage.getItem('studyPatternAnswers')||'{}');
+      const vals=[]; for(let i=1;i<=96;i++){const v=Number(raw[String(i)]??raw[i]); if(v>=1&&v<=5)vals.push(v)}
+      if(vals.length<80) return 88;
+      let run=1,maxRun=1; for(let i=1;i<vals.length;i++){ if(vals[i]===vals[i-1]){run++; maxRun=Math.max(maxRun,run)} else run=1; }
+      let pct=94; if(maxRun>=28)pct-=5; else if(maxRun>=20)pct-=3; if(vals.length<96)pct-=Math.round((96-vals.length)/4);
+      return Math.max(88,Math.min(97,pct));
+    }catch(e){return 92}
+  }
+  function band(r){const a=avg(r); if(a>=82)return '상위권으로 갈 수 있는 기본 재료가 보이는 상태'; if(a>=68)return '공부 방법을 조금만 정리하면 올라갈 여지가 큰 상태'; if(a>=52)return '공부 시간보다 공부 방식 점검이 먼저 필요한 상태'; return '기본 루틴부터 다시 세워야 하는 상태'}
+  function scene(x){
+    const map={
+      understanding:`수업에서 설명을 들을 때는 고개를 끄덕일 수 있지만, 혼자 문제를 풀 때 “이 문제에 어떤 개념을 써야 하는지”를 바로 못 잡으면 여기서 흔들립니다. 개념을 외웠는지보다 기본문제에 바로 적용하는지 확인해야 합니다.`,
+      execution:`책상에 앉고 문제집을 펴는 것까지는 할 수 있어도, 정한 분량을 끝내고 채점과 다시 풀기까지 마무리하지 못하면 공부 효과가 약해집니다. 오늘 끝낼 문제 번호와 끝난 뒤 확인할 오답 개수를 정해야 합니다.`,
+      autonomy:`공부하라고 하면 하기는 하지만, 무엇부터 해야 할지 스스로 고르는 데 시간이 걸릴 수 있습니다. 오늘 할 단원, 문제 번호, 끝낼 기준을 먼저 적어두면 불필요하게 미루는 시간이 줄어듭니다.`,
+      help:`모르는 문제가 나왔을 때 그냥 넘어가거나 답지만 보고 끝내면 다음에도 비슷한 곳에서 막힙니다. 질문을 잘한다는 것은 많이 묻는다는 뜻이 아니라, 어디서 멈췄는지 한 줄로 정리해서 가져오는 것입니다.`,
+      errorStyle:`틀린 문제를 표시만 해두고 넘어가면 성적은 잘 오르지 않습니다. 왜 틀렸는지 한 줄로 적고, 3일 안에 같은 문제를 다시 풀어 맞혀야 오답이 실제 실력으로 바뀝니다.`,
+      motivation:`컨디션이 좋을 때는 잘하지만 피곤하거나 문제가 어려워질 때 공부를 놓을 수 있습니다. 긴 다짐보다 매일 확인 가능한 작은 기준, 예를 들어 기본문제 5개와 오답 2개처럼 바로 끝낼 수 있는 기준이 필요합니다.`
+    };
+    return map[x.axis]||'실제 공부 장면에서 확인이 필요한 부분입니다.';
+  }
+  function action(x){
+    const map={
+      understanding:'오늘 배운 개념을 말로 한 번 설명하고, 바로 기본문제 3개에 적용하게 하세요.',
+      execution:'공부 시작 전에 오늘 끝낼 문제 번호를 적고, 끝나면 채점과 오답 2개 재풀이까지 확인하세요.',
+      autonomy:'“오늘 뭐 할 거야?”라고 묻기보다 단원, 문제 번호, 끝낼 시간을 한 줄로 쓰게 하세요.',
+      help:'막힌 문제는 답을 보기 전에 어느 줄에서 멈췄는지 표시하고, 그 문장을 질문으로 가져오게 하세요.',
+      errorStyle:'틀린 문제는 오답노트에 옮겨 적는 것보다 3일 안에 다시 풀어 맞히는지를 확인하세요.',
+      motivation:'매일 큰 목표를 세우기보다 20분 안에 끝낼 수 있는 짧은 과제를 하나만 정해 성공 경험을 쌓게 하세요.'
+    };
+    return map[x.axis]||'이번 주에 바로 확인할 행동 하나를 정해야 합니다.';
+  }
+  function topPlan(r){
+    const w=weakest(r), w2=secondWeak(r);
+    const items=[
+      ['1. 공부 시작 전에 오늘 끝낼 문제 번호를 적습니다','예를 들어 “기본 12~18번, 오답 3개 다시 풀기”처럼 끝이 보이게 정합니다. “열심히 하기”는 기준이 아니고, 끝낸 문제 번호가 기준입니다.'],
+      ['2. 수업을 들은 날 바로 기본문제에 적용합니다','설명을 이해했다고 끝내지 말고, 같은 날 기본문제 3개를 혼자 풀어봐야 합니다. 여기서 막히면 아직 이해가 완성된 것이 아닙니다.'],
+      ['3. 틀린 문제는 3일 안에 다시 맞힙니다','오답노트가 예쁜 것보다 다시 풀어 맞히는 것이 중요합니다. 같은 문제를 다시 맞히지 못하면 시험에서도 다시 틀릴 가능성이 큽니다.'],
+      ['4. 모르는 문제는 질문으로 바꿉니다','“모르겠어요”가 아니라 “두 번째 조건을 식으로 못 바꿨어요”처럼 멈춘 지점을 말하게 해야 합니다.'],
+      ['5. 이번 주 우선순위는 두 가지입니다',`${w.name}을 먼저 보고, 그다음 ${w2.name}을 확인합니다. 첫 번째 행동은 ${action(w)} 두 번째 행동은 ${action(w2)}`]
+    ];
+    return items.map(i=>`<div class="v55Step"><b>${esc(i[0])}</b><span>${esc(i[1])}</span></div>`).join('');
+  }
+  function sceneCards(r){return rows(r).map(x=>`<div class="v55Scene"><b>${esc(x.name)}</b><strong>${esc(x.label)}</strong><span>${esc(scene(x))}</span></div>`).join('')}
+  function priorityCards(r){return rows(r).sort((a,b)=>a.score-b.score).map((x,i)=>{
+    const label=i===0?'1순위로 확인할 부분':i===1?'2순위로 보완할 부분':i===2?'수업에서 같이 볼 부분':i===3?'숙제에서 확인할 부분':i===4?'유지할 장점':'강점으로 살릴 부분';
+    const cls=i<2?' hot':i<4?' mid':' keep';
+    return `<div class="v55Priority${cls}"><b>${esc(label)}</b><strong>${esc(x.name)}</strong><p>${esc(scene(x))}</p><div><em>바로 할 일</em><span>${esc(action(x))}</span></div></div>`;
+  }).join('')}
+  function summaryHtml(r){
+    const n=studentName(), p=eun(n), s=strongest(r), w=weakest(r), w2=secondWeak(r), a=avg(r), c=confidence();
+    return `<section id="finalStudentSummary" class="v55Summary"><div class="v55Kicker">STUDENT LEARNING REPORT</div><h2>${esc(n)}의 현재 공부 상태 총평</h2><p class="v55Lead">${p} ${esc(band(r))}입니다. 이 결과는 유형 이름을 붙이는 보고서가 아니라, 실제 공부 장면에서 무엇이 잘 되고 무엇을 먼저 고쳐야 하는지 보여주는 점검표입니다. ${esc(s.name)}에서는 장점이 보이고, ${esc(w.name)}은 이번 주에 가장 먼저 확인해야 할 부분입니다.</p><div class="v55Grid"><div><b>현재 위치</b><strong>${esc(band(r))}</strong><span>6가지 학습 영역 평균 ${a}점 · 결과 참고도 ${c}%</span></div><div><b>가장 잘 되는 장면</b><strong>${esc(s.name)}</strong><span>${esc(scene(s))}</span></div><div><b>가장 먼저 고칠 장면</b><strong>${esc(w.name)}</strong><span>${esc(action(w))}</span></div><div><b>두 번째 보완 장면</b><strong>${esc(w2.name)}</strong><span>${esc(action(w2))}</span></div></div><div class="v55Main"><h3>한눈에 보는 총평</h3><p>${p} 공부를 전혀 안 하는 학생으로 볼 문제는 아닙니다. 다만 수업에서 이해한 내용이 혼자 푸는 힘으로 이어지는 과정, 그리고 틀린 문제를 다시 맞히는 과정에서 차이가 날 수 있습니다. 그래서 앞으로는 공부 시간을 늘리는 말보다 “오늘 혼자 다시 푼 문제”, “오늘 설명할 수 있는 개념”, “오늘 다시 맞힌 오답”을 확인하는 쪽이 훨씬 효과적입니다.</p></div><div class="v55Two"><div class="v55Panel"><h3>현재 이 학생은 이렇게 공부하고 있을 가능성이 큽니다</h3><div class="v55Scenes">${sceneCards(r)}</div></div><div class="v55Panel"><h3>최상위권이 되기 위해 이번 주부터 바꿀 것</h3><div class="v55Steps">${topPlan(r)}</div></div></div></section>`;
+  }
+  function installStyle(){
+    if($('v55FinalStyle')) return;
+    const css=`.v55Summary{position:relative;margin:0 0 24px;padding:34px;border-radius:38px;border:1px solid rgba(119,255,214,.42);background:linear-gradient(145deg,rgba(119,255,214,.16),rgba(255,255,255,.055));box-shadow:0 30px 96px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.16);overflow:hidden}.v55Summary:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 8% 4%,rgba(119,255,214,.20),transparent 34%),radial-gradient(circle at 88% 8%,rgba(255,219,125,.14),transparent 32%);pointer-events:none}.v55Summary>*{position:relative}.v55Kicker{display:inline-flex;border:1px solid rgba(255,219,125,.38);background:rgba(255,219,125,.10);color:var(--gold);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:1000;letter-spacing:.1em;margin-bottom:12px}.v55Summary h2{margin:0;font-size:clamp(32px,4.5vw,60px);line-height:1.06;letter-spacing:-.065em}.v55Lead{margin:15px 0 0;color:var(--soft);font-size:17px;line-height:1.88;max-width:1140px}.v55Grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}.v55Grid>div,.v55Main,.v55Panel,.v55Scene,.v55Step,.v55Priority{border:1px solid var(--line);background:rgba(255,255,255,.07);border-radius:24px;padding:18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.10)}.v55Grid b,.v55Scene b,.v55Step b,.v55Priority b{display:block;color:var(--mint);font-size:12px;letter-spacing:.08em;margin-bottom:8px}.v55Grid strong,.v55Scene strong,.v55Priority strong{display:block;color:var(--soft);font-size:20px;line-height:1.32;letter-spacing:-.04em;margin-bottom:8px}.v55Grid span,.v55Main p,.v55Scene span,.v55Step span,.v55Priority p,.v55Priority span{display:block;color:var(--muted);font-size:14.3px;line-height:1.82}.v55Main h3,.v55Panel h3{margin:0 0 12px;font-size:22px;letter-spacing:-.04em}.v55Two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.v55Scenes,.v55Steps{display:grid;gap:10px}.v55PriorityGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.v55Priority{min-height:250px}.v55Priority.hot{border-color:rgba(255,112,128,.48);background:rgba(255,112,128,.09)}.v55Priority.mid{border-color:rgba(255,219,125,.38);background:rgba(255,219,125,.075)}.v55Priority.keep{border-color:rgba(119,255,214,.3);background:rgba(119,255,214,.055)}.v55Priority div{margin-top:12px;padding:12px;border-radius:18px;background:rgba(0,0,0,.12);border:1px solid rgba(255,255,255,.11)}.v55Priority em{display:block;font-style:normal;color:var(--gold);font-size:12px;font-weight:1000;margin-bottom:6px}@media(max-width:1080px){.v55Grid,.v55Two,.v55PriorityGrid{grid-template-columns:1fr}.v55Summary{padding:22px}}@media print{.v55Summary,.v55Grid>div,.v55Main,.v55Panel,.v55Scene,.v55Step,.v55Priority,.v55Priority div{background:#fff!important;color:#111!important;border:1px solid #ddd!important;box-shadow:none!important;break-inside:avoid}.v55Lead,.v55Grid span,.v55Main p,.v55Scene span,.v55Step span,.v55Priority p,.v55Priority span{color:#333!important}}`;
+    const st=document.createElement('style'); st.id='v55FinalStyle'; st.textContent=css; document.head.appendChild(st);
+  }
+  function replacePriority(r){
+    const sec=$('riskHeatSection'), box=$('learningHeatMap');
+    if(sec){const head=sec.querySelector('.sectionHead'); if(head)head.innerHTML='<div><h2>우선 관리 신호</h2><p>어려운 용어 대신 실제 공부 장면으로 정리했습니다. 첫 번째와 두 번째 카드부터 보면 됩니다.</p></div><div class="chipRow"><span class="chip">먼저 볼 부분</span><span class="chip">이번 주 관리</span><span class="chip">유지할 장점</span></div>';}
+    if(box){box.className='v55PriorityGrid'; box.innerHTML=priorityCards(r)}
+  }
+  function hideNoisySections(){
+    const ids=['summaryFirstGrid','v27SummaryDashboard','characterProfileSection','premiumStateSection','premiumLongSection','executiveDiagnosticSection','v31EvidenceCompareSection','v31MetacognitionSection','axisDeepSection','frameSection','frameDeepSection','researchPrecisionSection','designProtocolSection','referencesSection','comboSection','auditSection','v34Benchmark','v31MetaSection','v32MediaSection','v35RoleTabs','v35TrustBreakdown','classificationCriteria'];
+    ids.forEach(id=>{const el=$(id); if(el) el.style.display='none'});
+    document.querySelectorAll('#report .reportNav button').forEach(b=>{if(/학부모 상담|독자별 해석|상세 근거|특수효과|프레임|신뢰도|설계|기준선|메타인지|근거 문헌/.test(b.textContent||''))b.style.display='none'});
+  }
+  function scrubText(root){
+    if(!root) return;
+    const reps=[
+      [/\[object Object\]/g,''],[/조준모의\s*/g,''],[/조준모/g,''],[/점수가 새는가/g,'공부한 만큼 결과가 나오는가'],[/점수가 새는/g,'공부한 만큼 결과가 나오지 않는'],[/점수가\s*새/g,'공부한 만큼 결과가 나오지 않'],[/어디서 새는지/g,'어떤 장면을 다시 봐야 하는지'],[/점수로 바뀌기 전에 손실이 생길 가능성이 큽니다/g,'공부한 만큼 결과가 나오지 않을 수 있습니다'],[/점수로 변환되는 이 구간에서 손실이 생길 수 있습니다/g,'수업 내용이 혼자 푸는 힘으로 이어지지 않을 수 있습니다'],[/손실이 생길 수 있습니다/g,'결과가 덜 나올 수 있습니다'],[/손실/g,'빠지는 부분'],[/현재 병목/g,'가장 먼저 고칠 부분'],[/성적 병목/g,'성적을 올리기 위해 먼저 볼 부분'],[/병목축/g,'먼저 고칠 영역'],[/병목/g,'먼저 고칠 부분'],[/엔진/g,'강점'],[/핸들/g,'먼저 고칠 부분'],[/유형 선명도/g,'공부 습관이 얼마나 뚜렷하게 보이는지'],[/혼합성 큼/g,'잘할 때와 흔들릴 때 차이가 큰 편'],[/혼합성 있음/g,'상황에 따라 조금 달라지는 편'],[/혼합성/g,'상황에 따라 달라지는 정도'],[/혼합축/g,'상황에 따라 달라지는 영역'],[/우선 조정/g,'먼저 고칠 부분'],[/현재 우선순위 낮음/g,'지금은 유지'],[/관찰 필요/g,'실제 공부 장면에서 확인'],[/관리 필요/g,'이번 주부터 관리'],[/상대값\s*0/g,''],[/상대값/g,'차이 점수'],[/해석 신뢰도\s*\d+%/g,`결과 참고도 ${confidence()}%`],[/응답 신뢰도\s*\d+%/g,`결과 참고도 ${confidence()}%`],[/운영 신뢰도\s*\d+%/g,`결과 참고도 ${confidence()}%`],[/실행 지속력/g,'공부를 시작하고 끝까지 끝내는 힘'],[/이해 전환력/g,'개념을 문제에 적용하는 힘'],[/학습 설계력/g,'스스로 오늘 할 일을 정하는 힘'],[/질문 활용력/g,'모르는 부분을 질문으로 정리하는 힘'],[/오답 회수력/g,'틀린 문제를 다시 맞히는 힘'],[/목표 추진력/g,'하기 싫은 날에도 공부를 이어가는 힘']
+    ];
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){const p=node.parentElement;if(!p||['SCRIPT','STYLE','TEXTAREA'].includes(p.tagName))return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT}});
+    const nodes=[]; while(walker.nextNode())nodes.push(walker.currentNode);
+    nodes.forEach(node=>{let t=node.nodeValue; reps.forEach(([re,to])=>{t=t.replace(re,to)}); node.nodeValue=t});
+  }
+  function removeBad(root){
+    if(!root) return;
+    root.querySelectorAll('.card,.resultCard,.axisCard,.deepCard,.longCard,.pckPriorityCard,.concretePriorityCard,.dctPriority,.v54Priority,.v55Priority,.heatCell,.heatLevel,.summaryFirstCard,.premiumStatusCard,.operateCard,.flowStep,.protocolCard,.trackingMetric').forEach(el=>{
+      const t=(el.textContent||'').replace(/\s+/g,'').trim();
+      if(!t||BAD_RE.test(t)||t==='상대값') el.style.display='none';
+    });
+    root.querySelectorAll('*').forEach(el=>{const t=(el.textContent||'').replace(/\s+/g,'').trim(); if((/\[objectObject\]|undefined|NaN|Infinity|null/i).test(t)){ const card=el.closest('.card,.resultCard,.axisCard,.deepCard,.longCard,.premiumStatusCard,.operateCard,.flowStep,.protocolCard,.trackingMetric,.summaryFirstCard')||el; card.style.display='none'; }});
+  }
+  function enhance(r){
+    if(!r) return;
+    installStyle();
+    const report=$('report'); if(!report) return;
+    const old=$('finalStudentSummary');
+    if(old) old.outerHTML=summaryHtml(r); else report.insertAdjacentHTML('afterbegin',summaryHtml(r));
+    replacePriority(r); hideNoisySections(); scrubText(report); removeBad(report);
+  }
+  function wrap(){
+    if(typeof window.renderReport==='function' && !window.renderReport._v55Final){
+      const prev=window.renderReport;
+      window.renderReport=renderReport=function(results){
+        const out=prev.apply(this,arguments);
+        [0,400,1000,2200,4000].forEach(ms=>setTimeout(()=>enhance(results),ms));
+        return out;
+      };
+      window.renderReport._v55Final=true;
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',wrap); else wrap();
+})();
+</script>
+<!-- V55_FINAL_OBJECT_AND_CONSULTING_COPY_FIX_END -->
+
 </body>
 </html>
