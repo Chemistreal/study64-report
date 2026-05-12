@@ -375,7 +375,7 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
     <div class="tag"><span class="dot"></span>학생 공부유형 64 · 전문기관 참조 96문항 정밀판</div>
     <h1><span class="grad">학생 공부유형 64</span></h1>
     <p class="sub">공부 성격을 맞히는 검사가 아니라, 학생이 어떤 조건에서 공부가 시작되고, 어떤 방식으로 이해하며, 어떤 피드백에서 성장하고, 어떤 상황에서 무너지는지를 찾는 학습 행동 진단 리포트입니다.</p>
-    <div class="notice"><b>응답 기준 안내</b><br>이 검사는 좋은 학생과 나쁜 학생을 나누는 검사가 아닙니다. 각 문항은 학생의 실제 학습이 어떻게 시작되고, 어디서 막히며, 어떤 방식으로 회복되는지를 보기 위한 문항입니다. 최근 1~2개월의 실제 공부 모습을 기준으로 답해주세요. 이상적인 모습이 아니라 실제 행동에 가까운 답을 선택할수록 결과가 정확해집니다.<br><br><b>업데이트 기준</b><br>문항은 EBSi 학습유형검사, MSLQ, 자기조절학습검사, 한국교육개발원 자기조절역량 연구에서 공통적으로 다루는 사고유형, 자기주도성, 행동조절, 인지전략, 동기전략, 조력추구, 메타인지 요소를 바탕으로 새롭게 재작성했습니다. 특정 학원이나 기관의 유료 문항을 복제하지 않고, 대치동 상담 현장에서 쓰기 좋은 행동 관찰형 문장으로 재구성했습니다.<br><br><b>해석상 관리 필요</b><br>이 리포트는 표준화 심리검사가 아니라, 교육심리학 기반의 자기보고식 학습 행동 분석 도구입니다. 결과는 실제 수업 참여, 과제 수행, 오답 교정, 복습 지속성 자료와 함께 해석할 때 가장 유용합니다.</div>
+    <div class="notice"><b>응답 기준 안내</b><br>이 검사는 좋은 학생과 나쁜 학생을 나누는 검사가 아닙니다. 각 문항은 학생의 실제 학습이 어떻게 시작되고, 어디서 막히며, 어떤 방식으로 회복되는지를 보기 위한 문항입니다. 최근 1~2개월의 실제 공부 모습을 기준으로 답해주세요. 이상적인 모습이 아니라 실제 행동에 가까운 답을 선택할수록 결과가 정확해집니다.<br><br><b>업데이트 기준</b><br>문항은 EBSi 학습유형검사, MSLQ, 자기조절학습검사, 한국교육개발원 자기조절역량 연구에서 공통적으로 다루는 사고유형, 자기주도성, 행동조절, 인지전략, 동기전략, 조력추구, 메타인지 요소를 바탕으로 새롭게 재작성했습니다. <br><br><b>해석상 관리 필요</b><br>이 리포트는 표준화 심리검사가 아니라, 교육심리학 기반의 자기보고식 학습 행동 분석 도구입니다. 결과는 실제 수업 참여, 과제 수행, 오답 교정, 복습 지속성 자료와 함께 해석할 때 가장 유용합니다.</div>
     <div class="inputRow"><input id="studentName" placeholder="학생 이름 또는 닉네임을 입력하세요"><button class="btn" onclick="startTest()">검사 시작</button></div>
     <div class="privacyNotice" id="privacyNotice"><b>개인정보 안내</b><span class="privacyMini">검사 결과는 학습 상담과 수업 피드백을 위해 관리자 서버에 자동 저장됩니다. 저장 항목은 학생명 또는 닉네임, 문항 응답, 산출 점수, 유형 결과, 결과 요약, 제출 시간입니다.</span></div>
     <div class="actions"><button class="btn secondary" onclick="demoFill()">데모 결과 보기</button><button class="btn secondary" onclick="scrollToFrames()">논문 기반 프레임 보기</button></div>
@@ -1880,13 +1880,13 @@ function v27AnswerStats(){
 }
 function v33BenchmarkProfiles(){
   return {
-    top:{name:'최상위권 기준선',values:[88,86,84,82,88,84],desc:'강점이 넓고 병목이 작습니다. 이해, 실행, 오답 수정이 동시에 작동하는 형태입니다.'},
-    high:{name:'상위권 기준선',values:[78,76,74,72,76,74],desc:'주요 축이 안정적이지만 한두 축의 보완에 따라 최상위권 진입이 갈립니다.'},
-    mid:{name:'중위권 기준선',values:[64,62,60,58,60,59],desc:'일부 강점은 있으나 실행, 재확인, 오답 언어화가 끊기면 점수 상승이 느립니다.'},
-    low:{name:'하위권 기준선',values:[48,46,44,42,44,43],desc:'의지 평가보다 시작 장치, 완료 기준, 작은 성공 경험의 재건이 먼저입니다.'}
+    top:{name:'최상위권 기준선',values:[99,99,99,99,99,99],desc:'전 영역이 거의 흔들리지 않고, 수업 이해·혼자 적용·오답 재풀이·마무리가 동시에 높은 수준으로 작동하는 기준입니다.'},
+    high:{name:'상위권 기준선',values:[88,88,88,88,88,88],desc:'대부분의 공부 장면이 안정적이고, 한두 가지 약한 습관만 정리하면 더 높은 단계로 올라갈 수 있는 기준입니다.'},
+    mid:{name:'중위권 기준선',values:[80,80,80,80,80,80],desc:'기본적인 이해와 수행은 가능하지만, 혼자 다시 풀기·오답 정리·꾸준한 마무리에서 차이가 나는 기준입니다.'},
+    low:{name:'하위권 기준선',values:[60,60,60,60,60,60],desc:'공부를 시작하고 끝내는 과정부터 다시 잡아야 하는 기준입니다. 의지 평가보다 짧은 과제와 즉시 확인이 먼저입니다.'}
   };
 }
-function v33RankBand(avg){if(avg>=82)return '최상위권형 작동'; if(avg>=72)return '상위권 진입권'; if(avg>=60)return '중위권 성장권'; return '기초 재건권';}
+function v33RankBand(avg){if(avg>=99)return '최상위권 기준 도달'; if(avg>=88)return '상위권 기준 도달'; if(avg>=80)return '중위권 기준 도달'; if(avg>=60)return '하위권 기준 이상'; return '기초 루틴 재정비 필요';}
 function v33Point(cx,cy,rad,i,scale){const ang=-Math.PI/2+i*2*Math.PI/6; return [cx+Math.cos(ang)*rad*scale, cy+Math.sin(ang)*rad*scale];}
 function v33RenderHexagon(r,base,mode){
   const svg=document.getElementById('v31HexSvg'); if(!svg) return; const cx=310, cy=245, rad=155; const profiles=v33BenchmarkProfiles();
@@ -1907,7 +1907,7 @@ function v33RenderHexagon(r,base,mode){
 }
 function v33RenderBenchmarkPanel(r){
   const host=document.getElementById('v31HexLegend')?.parentElement; if(!host) return; let box=document.getElementById('benchmarkPanelV33'); if(!box){box=document.createElement('div');box.id='benchmarkPanelV33';box.className='benchmarkPanelV33';host.appendChild(box);} const name=v33Name(), p=v33Profile(r), profiles=v33BenchmarkProfiles();
-  const closest=p.avg>=82?'top':p.avg>=72?'high':p.avg>=60?'mid':'low';
+  const closest=p.avg>=99?'top':p.avg>=88?'high':p.avg>=80?'mid':'low';
   box.innerHTML=`<h3>${v33Esc(name)}의 현재 위치 비교</h3><p>공개 학습진단 자료들이 공통적으로 강조하는 인지전략, 행동조절, 자기조절, 도움요청, 동기 구조를 기준으로 해석하면 ${v33Esc(name)}${topicJosa(name)} 현재 <span class="trustPercentV33">${v33RankBand(p.avg)}</span>에 가깝습니다. 이 비교선은 실제 기관의 성적표가 아니라, 최상위권·상위권·중위권·하위권 학생에게 흔히 요구되는 학습 작동 수준을 리포트 안에서 비교하기 위한 해석 기준입니다.</p><div class="benchmarkGridV33">${Object.values(profiles).map(x=>`<div class="benchmarkCardV33"><b>${x.name}</b><strong>${x.values.reduce((s,v)=>s+v,0)/x.values.length|0}% 기준</strong><span>${x.desc}</span></div>`).join('')}</div>`;
 }
 function v33PatchLedger(r){
@@ -1965,7 +1965,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     return nb-na;
   })[0];
   const v34Avg=(r)=>Math.round(v34AxisOrder.reduce((s,a)=>s+v34AxisScore(r,a),0)/v34AxisOrder.length);
-  const v34Band=(avg)=>avg>=86?'최상위권 안정권':avg>=78?'상위권 진입권':avg>=66?'중위권 상승권':avg>=54?'기초 재정비권':'출발 구조 재설계권';
+  const v34Band=(avg)=>avg>=99?'최상위권 기준 도달':avg>=88?'상위권 기준 도달':avg>=80?'중위권 기준 도달':avg>=60?'하위권 기준 이상':'기초 루틴 재정비 필요';
   const v34Potential=(r)=>{
     const avg=v34Avg(r), ds=v34Dom(r), weak=ds[ds.length-1], spread=ds[0].score-weak.score;
     let p=Math.round(avg*0.74 + Math.min(ds[0].score,95)*0.16 + Math.max(0,100-spread)*0.10);
@@ -2006,10 +2006,10 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     return `${bank[weak.axis]} ${strong.name}은 ${name}의 엔진이고, ${weak.name}은 지금 가장 먼저 조정할 핸들입니다.`;
   }
   function v34Benchmarks(){return {
-    top:{label:'최상위권',values:[92,90,88,84,91,87],note:'정확도, 복원력, 오답 회수, 시간 압박 대응이 동시에 높은 상태'},
-    high:{label:'상위권',values:[84,80,78,74,82,77],note:'강점은 분명하나 한두 축의 병목을 줄이면 상승 여지가 큰 상태'},
-    mid:{label:'중위권',values:[68,64,62,58,63,61],note:'이해와 실행 사이의 손실을 줄이면 빠르게 개선될 수 있는 상태'},
-    low:{label:'하위권',values:[50,48,46,44,47,45],note:'의지 평가보다 시작 장치와 작은 성공 경험의 재구성이 먼저인 상태'}
+    top:{label:'최상위권',values:[99,99,99,99,99,99],note:'수업 이해, 혼자 적용, 오답 재풀이, 시간 압박 대응이 거의 흔들리지 않는 기준'},
+    high:{label:'상위권',values:[88,88,88,88,88,88],note:'대부분의 공부 장면이 안정적이고, 약한 습관 한두 개를 정리하면 더 올라갈 수 있는 기준'},
+    mid:{label:'중위권',values:[80,80,80,80,80,80],note:'기본 수행은 가능하지만, 혼자 다시 풀기와 오답 마무리에서 차이가 나는 기준'},
+    low:{label:'하위권',values:[60,60,60,60,60,60],note:'공부를 시작하고 끝내는 과정부터 다시 잡아야 하는 기준'}
   }}
   function v34EnsureStyle(){
     if(document.getElementById('v34EliteStyle'))return;
@@ -2045,7 +2045,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   }
   function v34RenderBenchmark(r){
     const name=v34Name(), avg=v34Avg(r), bench=v34Benchmarks(), strong=v34Dom(r)[0], weak=v34Bottleneck(r);
-    const target=avg>=86?'top':avg>=78?'high':avg>=66?'mid':'low';
+    const target=avg>=99?'top':avg>=88?'high':avg>=80?'mid':'low';
     return `<section class="v34Benchmark" id="v34Benchmark"><h3>${v34Safe(name)}의 등급별 기준선 비교</h3><p>${v34Safe(name)}${topicJosa(name)} ${strong.name}에서는 비교 기준선보다 강하게 보일 수 있지만, ${weak.name}에서는 현재 등급의 실제 병목이 나타날 수 있습니다. 최상위권과 상위권을 가르는 핵심은 재능의 크기보다 약한 축을 얼마나 빨리 행동 루틴으로 바꾸는가입니다.</p><div class="v34BenchGrid">${Object.entries(bench).map(([k,b])=>`<div class="v34BenchCard"><b>${b.label}${k===target?' · 현재 근접':''}</b><strong>${Math.round(b.values.reduce((s,v)=>s+v,0)/b.values.length)}%</strong><span>${b.note}</span></div>`).join('')}</div></section>`;
   }
   function v34RenderRoutine(r){
