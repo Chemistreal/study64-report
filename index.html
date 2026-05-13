@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<!-- FINAL_BUILD_VERSION: v2026.05.13.5 | rebuilt 2026-05-13T02:22:00.031893+00:00 | verified no v2026.05.13.4 -->
+<!-- FINAL_BUILD_VERSION: v2026.05.13.6 | rebuilt 2026-05-13T02:22:00.031893+00:00 | verified no v2026.05.13.6 -->
 
 <head>
 <meta charset="UTF-8">
@@ -314,7 +314,7 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
 @media print{.addonPanel,.addonToast{display:none!important}.addonReportSection,.addonCard,.addonDay{background:#fff!important;border:1px solid #ddd!important;box-shadow:none!important;color:#111!important;break-inside:avoid;page-break-inside:avoid}.addonReportSection p,.addonCard span,.addonCard li,.addonDay span{color:#333!important}}
 
 
-/* v2026.05.13.5 footer privacy and version badge */
+/* v2026.05.13.6 footer privacy and version badge */
 .versionBadge{position:fixed;top:8px;right:10px;z-index:9998;font-size:10px;letter-spacing:.02em;color:rgba(255,219,125,.72);border:1px solid rgba(255,219,125,.22);background:rgba(5,7,18,.42);backdrop-filter:blur(10px);border-radius:999px;padding:4px 7px;line-height:1;pointer-events:none}
 .footerPrivacy{width:min(1180px,calc(100% - 32px));margin:42px auto 18px;padding:0;color:rgba(174,185,214,.46);font-size:10.5px;line-height:1.55;text-align:left}
 .footerPrivacy details{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);border-radius:14px;padding:9px 11px}
@@ -354,7 +354,7 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
 
 </head>
 <body>
-<div class="versionBadge" id="versionBadge">v2026.05.13.5</div>
+<div class="versionBadge" id="versionBadge">v2026.05.13.6</div>
 
 <div class="analysisOverlayV20" id="analysisOverlayV20" aria-live="polite">
   <div class="analysisConsole" id="analysisConsoleV20">
@@ -3287,9 +3287,215 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
 </script>
 
 
-<script id="forceFinalVersionV5">
+<script id="finalNextTierStrategyPatchV6">
 (function(){
-  const FINAL_VERSION = 'v2026.05.13.5';
+  'use strict';
+  const FINAL_VERSION='v2026.05.13.6';
+  const AXES=['understanding','execution','autonomy','help','errorStyle','motivation'];
+  const AXIS_LABEL={
+    understanding:'설명을 듣고 문제에 적용하는 힘',
+    execution:'시작한 공부를 끝까지 마무리하는 힘',
+    autonomy:'혼자 공부 순서를 잡는 힘',
+    help:'모르는 문제를 그냥 넘기지 않고 확인하는 습관',
+    errorStyle:'틀린 문제를 다시 풀어 맞히는 과정',
+    motivation:'힘들어도 공부를 놓지 않는 힘'
+  };
+  const TIER_RULES=[
+    {key:'super',label:'극상위권',min:99,target:'극상위권 유지',title:'극상위권을 유지하기 위한 전략',short:'이미 매우 높은 수준입니다. 더 올리는 전략보다, 무너지는 조건을 줄이고 시험장에서 재현성을 유지하는 전략이 필요합니다.'},
+    {key:'top',label:'최상위권',min:96,target:'극상위권',title:'최상위권에서 극상위권으로 올라가기 위한 전략',short:'큰 개념 부족보다 한두 문제의 표현 변화, 조건 누락, 시간 압박, 오답 재현 실패가 마지막 차이를 만듭니다.'},
+    {key:'upper',label:'상위권',min:88,target:'최상위권',title:'상위권에서 최상위권으로 올라가기 위한 전략',short:'수업 이해는 충분하지만, 혼자 다시 풀어 맞히는 재현력과 낯선 조건 처리력이 최상위권 진입을 가릅니다.'},
+    {key:'middle',label:'중위권',min:80,target:'상위권',title:'중위권에서 상위권으로 올라가기 위한 전략',short:'많이 하는 것보다 대표 문제를 정확히 끝내고, 틀린 문제를 다음날 다시 맞히는 과정이 먼저입니다.'},
+    {key:'lower',label:'하위권',min:60,target:'중위권',title:'하위권에서 중위권으로 올라가기 위한 전략',short:'공부 의지 평가보다 시작 장치, 완료 기준, 작은 성공 경험을 먼저 만들어야 합니다.'}
+  ];
+  function $(id){return document.getElementById(id)}
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]});}
+  function getName(){
+    const input=$('studentName');
+    const q=new URLSearchParams(location.search);
+    return ((input&&input.value)||q.get('n')||'학생').trim().replace(/조준모/g,'')||'학생';
+  }
+  function hasBatchim(name){
+    name=(name||'').trim(); if(!name)return true;
+    const c=name.charCodeAt(name.length-1);
+    return c>=0xAC00&&c<=0xD7A3 ? ((c-0xAC00)%28!==0) : /[0-9a-zA-Z]$/.test(name);
+  }
+  function eunNeun(name){return hasBatchim(name)?'은':'는'}
+  function scoreOf(results,axis){const x=results&&results[axis]||{}; return Math.max(Number(x.left)||0,Number(x.right)||0)}
+  function avgScore(results){
+    const vals=AXES.map(a=>scoreOf(results,a)).filter(v=>Number.isFinite(v));
+    if(!vals.length)return 0;
+    return Math.round(vals.reduce((s,v)=>s+v,0)/vals.length);
+  }
+  function tierFor(score){
+    if(score>=99)return TIER_RULES[0];
+    if(score>=96)return TIER_RULES[1];
+    if(score>=88)return TIER_RULES[2];
+    if(score>=80)return TIER_RULES[3];
+    return TIER_RULES[4];
+  }
+  function rowsFrom(results){
+    return AXES.map(axis=>({axis,name:AXIS_LABEL[axis],score:scoreOf(results,axis)})).sort((a,b)=>b.score-a.score);
+  }
+  function weakAxis(results){return rowsFrom(results).slice().reverse()[0]||{axis:'execution',name:AXIS_LABEL.execution,score:0}}
+  function strongAxis(results){return rowsFrom(results)[0]||{axis:'understanding',name:AXIS_LABEL.understanding,score:0}}
+  function strategySet(tier,weak,strong,name){
+    const n=esc(name), p=eunNeun(name);
+    if(tier.key==='super')return {
+      main:`${n}${p} 극상위권을 유지하려면 새 문제집을 더 늘리는 것보다, 이미 맞히는 문제에서 실수가 생기는 조건을 줄여야 합니다.`,
+      bullets:[
+        '틀린 문제보다 “맞혔지만 오래 걸린 문제”를 따로 표시합니다.',
+        '고난도 문제를 풀 때 첫 조건 표시, 첫 식 설정, 단위 확인을 루틴으로 만듭니다.',
+        '시험 전에는 양을 늘리기보다 실수 패턴 3개를 정리하고 같은 실수 재발 여부를 봅니다.',
+        `가장 낮은 영역인 ${esc(weak.name)}은 유지 관리 지표로 두고, 수업과 숙제에서 계속 확인합니다.`
+      ],
+      parent:'부모와 선생님은 더 열심히 하라는 말보다, 안정적으로 유지되는지 확인해야 합니다. 특히 컨디션이 안 좋은 날에도 풀이 순서가 무너지지 않는지 보는 것이 중요합니다.'
+    };
+    if(tier.key==='top')return {
+      main:`${n}${p} 최상위권에서 극상위권으로 올라가려면 “아는 문제를 맞히는 힘”보다 “처음 보는 표현에서도 같은 풀이를 재현하는 힘”을 더 봐야 합니다.`,
+      bullets:[
+        '오답은 해설을 읽고 끝내지 말고, 다음날 같은 문제를 해설 없이 다시 풀어 맞힙니다.',
+        '낯선 표현이 나온 문제는 조건을 다시 쓰게 해서 어디서 읽기가 흔들렸는지 확인합니다.',
+        '시간을 재고 풀었을 때도 첫 식 설정과 계산 마무리가 유지되는지 봅니다.',
+        `가장 낮은 영역인 ${esc(weak.name)}에서 1주일에 한 가지 행동만 정해 반복합니다.`
+      ],
+      parent:'부모와 선생님은 점수 칭찬에서 끝내지 말고, 틀린 한두 문제가 왜 나왔는지를 구체적으로 물어봐야 합니다. 극상위권은 큰 약점보다 작은 누락을 줄이는 싸움입니다.'
+    };
+    if(tier.key==='upper')return {
+      main:`${n}${p} 상위권에서 최상위권으로 올라가려면 수업 때 이해한 내용을 혼자 다시 풀어 맞히는 과정이 필요합니다.`,
+      bullets:[
+        '수업 직후 대표 문제 1개를 해설 없이 다시 풀어봅니다.',
+        '숙제 검사는 완료 여부보다 틀린 문제 재풀이 흔적을 봅니다.',
+        '비슷한 문제에서 같은 조건 누락이나 계산 실수가 반복되는지 표시합니다.',
+        `강점인 ${esc(strong.name)}은 유지하고, ${esc(weak.name)}을 이번 주 첫 조정 포인트로 삼습니다.`
+      ],
+      parent:'부모와 선생님은 “이해했니?”보다 “방금 배운 내용으로 한 문제 다시 풀어볼래?”가 더 정확합니다. 상위권 학생은 이해감과 실제 재현력 사이에 차이가 생기기 쉽습니다.'
+    };
+    if(tier.key==='middle')return {
+      main:`${n}${p} 중위권에서 상위권으로 올라가려면 문제 수를 무작정 늘리기보다, 오늘 배운 대표 문제를 끝까지 맞히는 루틴을 만들어야 합니다.`,
+      bullets:[
+        '공부 시작 전에 오늘 끝낼 문제 번호를 먼저 정합니다.',
+        '채점 후 틀린 문제는 바로 해설만 보지 말고, 틀린 이유를 한 줄로 적습니다.',
+        '다음날 오답 3문제만 다시 풀어 실제로 맞히는지 확인합니다.',
+        `가장 먼저 잡을 부분은 ${esc(weak.name)}입니다. 이 영역에서 공부가 점수로 바뀌는 과정이 끊기기 쉽습니다.`
+      ],
+      parent:'부모와 선생님은 공부 시간보다 완료 기준을 봐야 합니다. 중위권 학생은 책상에 앉아 있는 시간보다, 정해진 문제를 채점하고 고쳐 맞히는 과정이 더 중요합니다.'
+    };
+    return {
+      main:`${n}${p} 하위권에서 중위권으로 올라가려면 어려운 계획보다 “짧게 시작해서 끝까지 맞히는 경험”을 먼저 만들어야 합니다.`,
+      bullets:[
+        '하루 목표를 한 단원 전체가 아니라 대표 문제 3개로 줄입니다.',
+        '문제를 풀기 전 오늘 끝낼 번호를 정하고, 끝나면 바로 채점합니다.',
+        '틀린 문제는 해설을 베끼지 말고, 다시 풀어 맞힌 문제만 완료로 봅니다.',
+        `가장 낮은 영역인 ${esc(weak.name)}은 혼자 두면 흔들릴 수 있으므로 수업과 숙제에서 계속 봐야 합니다.`
+      ],
+      parent:'부모와 선생님은 의지 부족으로만 해석하지 말고, 시작 조건과 완료 기준을 아주 작게 만들어야 합니다. 작은 성공 경험이 쌓여야 중위권으로 이동할 수 있습니다.'
+    };
+  }
+  function ensureStyle(){
+    if($('nextTierStrategyFinalStyleV6'))return;
+    const css=`
+    .nextTierStrategyFinal{margin:22px 0;padding:30px;border-radius:36px;border:1px solid rgba(255,219,125,.44);background:radial-gradient(circle at 8% 0,rgba(255,219,125,.20),transparent 32%),linear-gradient(145deg,rgba(255,219,125,.12),rgba(255,255,255,.055));box-shadow:0 30px 95px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.14)}
+    .nextTierStrategyFinal .kicker{font-size:12px;color:#ffdb7d;font-weight:1000;letter-spacing:.12em;margin-bottom:8px}.nextTierStrategyFinal h2{margin:0 0 10px;font-size:clamp(29px,4.2vw,50px);line-height:1.1;letter-spacing:-.06em}.nextTierStrategyFinal h2 span{color:#ffdb7d;text-shadow:0 0 24px rgba(255,219,125,.28)}
+    .nextTierStrategyFinal .lead{color:var(--muted);font-size:16px;line-height:1.86;margin:0 0 18px}.nextTierMeta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.nextTierMeta div{padding:15px;border-radius:20px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.055)}.nextTierMeta b{display:block;color:#ffdb7d;font-size:12px;letter-spacing:.08em;margin-bottom:5px}.nextTierMeta strong{display:block;font-size:22px;color:var(--soft);letter-spacing:-.04em}.nextTierMeta span{display:block;margin-top:4px;color:var(--muted);font-size:13px;line-height:1.5}
+    .nextTierBody{display:grid;grid-template-columns:1.03fr .97fr;gap:14px}.nextTierCard{padding:20px;border-radius:24px;border:1px solid var(--line);background:rgba(255,255,255,.058)}.nextTierCard b{display:block;color:var(--mint);font-size:12px;letter-spacing:.08em;margin-bottom:8px}.nextTierCard strong{display:block;color:var(--soft);font-size:22px;line-height:1.3;letter-spacing:-.04em;margin-bottom:8px}.nextTierCard p,.nextTierCard li{color:var(--muted);font-size:14.5px;line-height:1.78}.nextTierCard ul{margin:8px 0 0;padding-left:18px}.nextTierCard.priority{border-color:rgba(255,219,125,.36);background:rgba(255,219,125,.07)}
+    .nextTierBench{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}.nextTierBench div{padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.045);text-align:center}.nextTierBench b{display:block;color:var(--soft);font-size:12px}.nextTierBench strong{display:block;color:#ffdb7d;font-size:21px;margin-top:4px}.nextTierBench .on{border-color:rgba(119,255,214,.50);box-shadow:0 0 0 1px rgba(119,255,214,.18);background:rgba(119,255,214,.08)}
+    @media(max-width:980px){.nextTierMeta,.nextTierBody,.nextTierBench{grid-template-columns:1fr}}@media print{.nextTierStrategyFinal,.nextTierMeta div,.nextTierCard,.nextTierBench div{background:#fff!important;color:#111!important;border:1px solid #ddd!important;box-shadow:none!important}.nextTierStrategyFinal p,.nextTierStrategyFinal li,.nextTierMeta span{color:#333!important}}
+    `;
+    const st=document.createElement('style'); st.id='nextTierStrategyFinalStyleV6'; st.textContent=css; document.head.appendChild(st);
+  }
+  function getResultsFallback(){
+    try{if(window.v27LastPayload&&window.v27LastPayload.results)return window.v27LastPayload.results;}catch(e){}
+    try{if(typeof buildResultPayload==='function')return buildResultPayload().results;}catch(e){}
+    return null;
+  }
+  function renderNextTierStrategy(results){
+    results=results||getResultsFallback();
+    if(!results)return;
+    ensureStyle();
+    const name=getName(); const av=avgScore(results); const tier=tierFor(av); const weak=weakAxis(results); const strong=strongAxis(results); const s=strategySet(tier,weak,strong,name);
+    const html=`<section id="finalNextTierStrategy" class="nextTierStrategyFinal">
+      <div class="kicker">NEXT TIER STRATEGY · 5단계 권역별 맞춤 해설</div>
+      <h2><span>${esc(s.title)}</span></h2>
+      <p class="lead">${esc(name)}${eunNeun(name)} 현재 ${av}%로 ${esc(tier.label)} 구간입니다. 따라서 결과 해설은 막연히 “상위권이 되기 위한 전략”이 아니라, 현재 권역에서 바로 다음 권역으로 이동하기 위한 전략으로 읽어야 합니다. ${esc(tier.short)}</p>
+      <div class="nextTierMeta">
+        <div><b>현재 권역</b><strong>${esc(tier.label)}</strong><span>현재 결과값 ${av}% 기준</span></div>
+        <div><b>목표 권역</b><strong>${esc(tier.target)}</strong><span>${esc(s.title)}</span></div>
+        <div><b>첫 조정 포인트</b><strong>${esc(weak.name)}</strong><span>현재 가장 먼저 확인할 영역 ${weak.score}%</span></div>
+      </div>
+      <div class="nextTierBody">
+        <div class="nextTierCard priority"><b>핵심 판단</b><strong>${esc(s.main)}</strong><p>강점은 ${esc(strong.name)}이고, 가장 먼저 잡아야 할 부분은 ${esc(weak.name)}입니다. 이 두 영역을 함께 보면 단순한 점수보다 “어디서 점수가 새는지”가 더 잘 보입니다.</p></div>
+        <div class="nextTierCard"><b>이번 주 실행 전략</b><strong>바로 바꿀 행동</strong><ul>${s.bullets.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="nextTierCard"><b>부모·선생님 확인 포인트</b><strong>말보다 수행 증거를 봅니다.</strong><p>${esc(s.parent)}</p></div>
+        <div class="nextTierCard"><b>2주 후 확인 지표</b><strong>다음 권역으로 가고 있는지 보는 기준</strong><ul><li>오답을 다시 풀어 맞힌 문제가 늘었는지 확인합니다.</li><li>수업 직후와 하루 뒤 풀이가 모두 유지되는지 봅니다.</li><li>새 문제에서 조건 표시와 첫 식 설정이 안정적인지 봅니다.</li><li>숙제 완료가 “풀었다”가 아니라 “채점하고 고쳐 맞혔다”로 바뀌었는지 확인합니다.</li></ul></div>
+      </div>
+      <div class="nextTierBench">
+        ${TIER_RULES.map(b=>`<div class="${b.key===tier.key?'on':''}"><b>${esc(b.label)}</b><strong>${b.min}%</strong></div>`).join('')}
+      </div>
+    </section>`;
+    const old=$('finalNextTierStrategy');
+    if(old){old.outerHTML=html;}
+    else{
+      const summary=$('finalConsultingSummary');
+      const nav=document.querySelector('#report .reportNav');
+      const report=$('report');
+      if(summary)summary.insertAdjacentHTML('afterend',html);
+      else if(nav)nav.insertAdjacentHTML('afterend',html);
+      else if(report)report.insertAdjacentHTML('afterbegin',html);
+    }
+    replaceGenericStrategyWords(tier);
+  }
+  function replaceGenericStrategyWords(tier){
+    const root=$('report')||document.body; if(!root)return;
+    const repl=[
+      [/상위권 진입 가능성/g,'다음 권역 이동 가능성'],
+      [/상위권 가능성/g,'다음 권역 가능성'],
+      [/상위권으로 갈 수 있는가\?/g,'다음 권역으로 올라갈 수 있는가?'],
+      [/상위권으로 갈 수 있는 구조/g,'다음 권역으로 올라갈 수 있는 구조'],
+      [/상위권으로 갈 수/g,'다음 권역으로 올라갈 수']
+    ];
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(node){
+      const p=node.parentElement; if(!p||p.closest('script,style,#questions,#testArea'))return NodeFilter.FILTER_REJECT; return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; while(walker.nextNode())nodes.push(walker.currentNode);
+    nodes.forEach(node=>{let t=node.nodeValue, nt=t; repl.forEach(pair=>{nt=nt.replace(pair[0],pair[1])}); if(nt!==t)node.nodeValue=nt;});
+  }
+  function applyVersion(){
+    let badge=$('versionBadge');
+    if(!badge){badge=document.createElement('div');badge.id='versionBadge';badge.className='versionBadge';document.body.prepend(badge)}
+    badge.textContent=FINAL_VERSION;
+    document.documentElement.setAttribute('data-final-version',FINAL_VERSION);
+  }
+  const prevRender=window.renderReport;
+  if(typeof prevRender==='function'&&!prevRender._nextTierStrategyPatchV6){
+    window.renderReport=renderReport=function(results,code,baseCode,modeCode,base,mode){
+      const out=prevRender.apply(this,arguments);
+      try{window.finalNextTierLastResults=results;}catch(e){}
+      setTimeout(()=>renderNextTierStrategy(results),30);
+      setTimeout(()=>renderNextTierStrategy(results),320);
+      setTimeout(()=>renderNextTierStrategy(results),1000);
+      return out;
+    };
+    window.renderReport._nextTierStrategyPatchV6=true;
+  }
+  const prevCalc=window.calculateResult;
+  if(typeof prevCalc==='function'&&!prevCalc._nextTierStrategyPatchV6){
+    window.calculateResult=calculateResult=async function(){
+      const out=await prevCalc.apply(this,arguments);
+      setTimeout(()=>renderNextTierStrategy(getResultsFallback()),120);
+      setTimeout(()=>renderNextTierStrategy(getResultsFallback()),800);
+      return out;
+    };
+    window.calculateResult._nextTierStrategyPatchV6=true;
+  }
+  window.renderNextTierStrategyFinal=renderNextTierStrategy;
+  document.addEventListener('DOMContentLoaded',function(){applyVersion(); setTimeout(()=>renderNextTierStrategy(getResultsFallback()),900);});
+  if(document.readyState!=='loading'){applyVersion(); setTimeout(()=>renderNextTierStrategy(getResultsFallback()),300);}
+})();
+</script>
+
+<script id="forceFinalVersionV6">
+(function(){
+  const FINAL_VERSION = 'v2026.05.13.6';
   function applyFinalVersion(){
     let badge = document.getElementById('versionBadge');
     if(!badge){
