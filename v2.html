@@ -13,8 +13,8 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
 </style>
 </head>
 <body>
-<div id="loading"><div class="box"><b>STUDY64 V2</b><h1>종합해설 버전</h1><p>원본 리포트 문장만 모아 하나의 종합해설로 정리합니다.</p><div class="bar"><div class="fill"></div></div></div></div>
-<iframe id="app" src="index.html?v2=original-text-only"></iframe>
+<div id="loading"><div class="box"><b>STUDY64 V2</b><h1>종합해설 버전</h1><p>표·배지·점수 라벨을 제외하고 문장형 해설만 하나로 통합합니다.</p><div class="bar"><div class="fill"></div></div></div></div>
+<iframe id="app" src="index.html?v2=narrative-only"></iframe>
 <script>
 (function(){
   var frame=document.getElementById('app');
@@ -29,35 +29,48 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
     st.textContent='.study64-v2-hide{display:none!important}.reportNav{display:none!important}#study64-v2-integrated{margin:22px 0 28px;padding:34px;border-radius:34px;border:1px solid rgba(119,255,214,.42);background:linear-gradient(145deg,rgba(119,255,214,.13),rgba(99,247,255,.07),rgba(255,255,255,.045));box-shadow:0 24px 86px rgba(99,247,255,.13),inset 0 1px 0 rgba(255,255,255,.13)}#study64-v2-integrated h2{font-size:clamp(34px,4.8vw,62px);line-height:1.04;letter-spacing:-.073em;margin:0 0 20px;color:var(--soft,#e7eeff)}#study64-v2-integrated .v2Text{margin:0;padding:28px 30px;border-radius:26px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.056);color:var(--muted,#a9b5d6);font-size:16.5px;line-height:2.04;word-break:keep-all;white-space:normal}#study64-v2-visuals{margin:24px 0 32px;padding:24px;border-radius:32px;border:1px solid rgba(255,255,255,.18);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.04));box-shadow:0 22px 70px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.10)}#study64-v2-visuals h2{font-size:30px;letter-spacing:-.055em;margin:0 0 8px;color:var(--soft,#e7eeff)}#study64-v2-visuals p{margin:0 0 16px;color:var(--muted,#a9b5d6);line-height:1.65}.study64-v2-moved{margin-top:16px!important;margin-bottom:16px!important}@media(max-width:980px){#study64-v2-integrated{padding:22px}#study64-v2-integrated .v2Text{padding:21px;font-size:15.5px;line-height:1.94}#study64-v2-visuals{padding:18px}}';
     d.head.appendChild(st);
   }
-  function extractTextOnly(report){
-    var parts=[];
-    var seen={};
-    Array.prototype.slice.call(report.children).forEach(function(child){
-      if(child.id==='study64-v2-integrated'||child.id==='study64-v2-visuals')return;
-      if(child.classList.contains('bottomActions')||child.classList.contains('reportNav'))return;
-      var clone=child.cloneNode(true);
-      Array.prototype.slice.call(clone.querySelectorAll('button,script,style,svg,canvas,img,.bottomActions,.reportNav')).forEach(function(n){n.remove();});
-      var t=clean(clone.textContent);
-      t=t.replace(/VISUAL DATA/g,'').replace(/그래프·이미지·시각 자료/g,'').replace(/종합해설을 먼저 읽은 뒤 아래 자료를 확인하면 됩니다\.?/g,'');
-      t=t.replace(/PDF/g,'').replace(/인쇄하기/g,'').replace(/처음으로/g,'').replace(/다시 검사/g,'');
-      t=clean(t);
-      if(t.length<20)return;
-      var key=t.slice(0,120);
-      if(seen[key])return;
-      seen[key]=true;
-      parts.push(t);
+  function isBadText(t){
+    if(!t||t.length<18)return true;
+    if(/PREMIUM|LEARNING INSIGHT|v2026|VISUAL DATA|PDF|인쇄|처음으로|다시 검사/.test(t))return true;
+    if(/극상위권\s*\d+%|최상위권\s*\d+%|상위권\s*\d+%|중위권\s*\d+%|하위권\s*\d+%/.test(t))return true;
+    if(/^(극상위권|최상위권|상위권|중위권|하위권|점수|백분위|신뢰도|유형|코드)$/.test(t))return true;
+    var digits=(t.match(/[0-9%]/g)||[]).length;
+    if(digits>0&&digits/t.length>0.28)return true;
+    return false;
+  }
+  function extractNarrative(report){
+    var selectors=['.copy p','.one','.notice','.resultCard span','.eduCard span','.axisCard span','.commandActionCard span','.summaryFirstCard span','.card p','.card li','.quad p','.day span','.humanLayerCard p','.evidenceFrame p','.claimMapCard p','.dynamicQuad p','.auditCard span','.auditRow span','.frameMini span'];
+    var parts=[];var seen={};
+    selectors.forEach(function(sel){
+      Array.prototype.slice.call(report.querySelectorAll(sel)).forEach(function(el){
+        if(el.closest('#study64-v2-integrated,#study64-v2-visuals,.reportNav,.bottomActions'))return;
+        if(el.querySelector('svg,canvas,img'))return;
+        var t=clean(el.textContent);
+        if(isBadText(t))return;
+        var key=t.slice(0,100);
+        if(seen[key])return;
+        seen[key]=true;parts.push(t);
+      });
     });
+    if(parts.length<3){
+      Array.prototype.slice.call(report.querySelectorAll('p,li')).forEach(function(el){
+        if(el.closest('#study64-v2-integrated,#study64-v2-visuals,.reportNav,.bottomActions'))return;
+        var t=clean(el.textContent);
+        if(isBadText(t))return;
+        var key=t.slice(0,100);
+        if(seen[key])return;
+        seen[key]=true;parts.push(t);
+      });
+    }
     return parts.join(' ');
   }
   function visualBlocks(report){
-    var out=[];
-    var seen=[];
+    var out=[];var seen=[];
     Array.prototype.slice.call(report.querySelectorAll('svg,canvas,img,.visualGrid,.visualCard')).forEach(function(el){
       if(el.closest('#study64-v2-integrated,#study64-v2-visuals'))return;
       var node=el.matches('svg,canvas,img')?(el.closest('.visualCard,.card,.glass')||el):el;
       if(seen.indexOf(node)>=0)return;
-      seen.push(node);
-      out.push(node);
+      seen.push(node);out.push(node);
     });
     return out;
   }
@@ -68,7 +81,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
     injectStyle(d);
     var report=d.querySelector('.report');
     if(!report||getComputedStyle(report).display==='none'||clean(report.textContent).length<80)return;
-    var text=extractTextOnly(report);
+    var text=extractNarrative(report);
     var sig=clean(text).length+'|'+clean((report.querySelector('.code')||{}).textContent);
     if(report.getAttribute('data-v2-ok')===sig)return;
     report.setAttribute('data-v2-ok',sig);
@@ -77,7 +90,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
     var oldv=report.querySelector('#study64-v2-visuals');if(oldv)oldv.remove();
     var integrated=d.createElement('section');
     integrated.id='study64-v2-integrated';
-    integrated.innerHTML='<h2>종합해설</h2><p class="v2Text">'+esc(text)+'</p>';
+    integrated.innerHTML='<h2>종합해설</h2><p class="v2Text">'+esc(text||'결과 해설 문장을 수집하지 못했습니다. 원본 결과 화면의 해설 요소 구조를 확인해야 합니다.')+'</p>';
     var visuals=d.createElement('section');
     visuals.id='study64-v2-visuals';
     visuals.innerHTML='<h2>그래프·이미지·시각 자료</h2><p>종합해설 다음에 확인하는 보조 자료입니다.</p>';
