@@ -13,8 +13,8 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
 </style>
 </head>
 <body>
-<div id="loading"><div class="box"><b>STUDY64 V2</b><h1>종합해설 버전</h1><p>표·배지·점수 라벨을 제외하고 문장형 해설만 하나로 통합합니다.</p><div class="bar"><div class="fill"></div></div></div></div>
-<iframe id="app" src="index.html?v2=narrative-only"></iframe>
+<div id="loading"><div class="box"><b>STUDY64 V2</b><h1>종합해설 버전</h1><p>결과값은 원본에서 가져오고, 해설은 상담 리포트처럼 자연스럽게 재구성합니다.</p><div class="bar"><div class="fill"></div></div></div></div>
+<iframe id="app" src="index.html?v2=consulting-narrative"></iframe>
 <script>
 (function(){
   var frame=document.getElementById('app');
@@ -22,11 +22,12 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
   var timer=null;
   function clean(s){return String(s||'').replace(/\s+/g,' ').replace(/챕터를 나누지 않고 읽는 통합 종합해설/g,'').replace(/하나로 읽는 단일 통합해설/g,'').replace(/단일 통합해설/g,'').replace(/SINGLE INTEGRATED INTERPRETATION/g,'').trim();}
   function esc(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function soften(s){return clean(s).replace(/무너지는/g,'흔들리는').replace(/무너질/g,'흔들릴').replace(/무너짐/g,'흔들림').replace(/붕괴/g,'불안정').replace(/치명적/g,'중요한').replace(/위험하다/g,'주의가 필요하다').replace(/실패/g,'어려움').replace(/못한다/g,'어려움을 보일 수 있다');}
   function injectStyle(d){
     if(d.getElementById('study64-v2-style'))return;
     var st=d.createElement('style');
     st.id='study64-v2-style';
-    st.textContent='.study64-v2-hide{display:none!important}.reportNav{display:none!important}#study64-v2-integrated{margin:22px 0 28px;padding:34px;border-radius:34px;border:1px solid rgba(119,255,214,.42);background:linear-gradient(145deg,rgba(119,255,214,.13),rgba(99,247,255,.07),rgba(255,255,255,.045));box-shadow:0 24px 86px rgba(99,247,255,.13),inset 0 1px 0 rgba(255,255,255,.13)}#study64-v2-integrated h2{font-size:clamp(34px,4.8vw,62px);line-height:1.04;letter-spacing:-.073em;margin:0 0 20px;color:var(--soft,#e7eeff)}#study64-v2-integrated .v2Text{margin:0;padding:28px 30px;border-radius:26px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.056);color:var(--muted,#a9b5d6);font-size:16.5px;line-height:2.04;word-break:keep-all;white-space:normal}#study64-v2-visuals{margin:24px 0 32px;padding:24px;border-radius:32px;border:1px solid rgba(255,255,255,.18);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.04));box-shadow:0 22px 70px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.10)}#study64-v2-visuals h2{font-size:30px;letter-spacing:-.055em;margin:0 0 8px;color:var(--soft,#e7eeff)}#study64-v2-visuals p{margin:0 0 16px;color:var(--muted,#a9b5d6);line-height:1.65}.study64-v2-moved{margin-top:16px!important;margin-bottom:16px!important}@media(max-width:980px){#study64-v2-integrated{padding:22px}#study64-v2-integrated .v2Text{padding:21px;font-size:15.5px;line-height:1.94}#study64-v2-visuals{padding:18px}}';
+    st.textContent='.study64-v2-hide{display:none!important}.reportNav{display:none!important}#study64-v2-integrated{margin:22px 0 28px;padding:34px;border-radius:34px;border:1px solid rgba(119,255,214,.42);background:linear-gradient(145deg,rgba(119,255,214,.13),rgba(99,247,255,.07),rgba(255,255,255,.045));box-shadow:0 24px 86px rgba(99,247,255,.13),inset 0 1px 0 rgba(255,255,255,.13)}#study64-v2-integrated h2{font-size:clamp(34px,4.8vw,62px);line-height:1.04;letter-spacing:-.073em;margin:0 0 20px;color:var(--soft,#e7eeff)}#study64-v2-integrated .v2Text{margin:0;padding:30px 32px;border-radius:26px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.056);color:var(--muted,#a9b5d6);font-size:16.8px;line-height:2.02;word-break:keep-all;white-space:normal}#study64-v2-integrated .v2Text p{margin:0 0 18px;color:inherit;line-height:2.02}#study64-v2-integrated .v2Text p:last-child{margin-bottom:0}#study64-v2-integrated strong{color:var(--soft,#e7eeff);font-weight:1000}#study64-v2-visuals{margin:24px 0 32px;padding:24px;border-radius:32px;border:1px solid rgba(255,255,255,.18);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.04));box-shadow:0 22px 70px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.10)}#study64-v2-visuals h2{font-size:30px;letter-spacing:-.055em;margin:0 0 8px;color:var(--soft,#e7eeff)}#study64-v2-visuals p{margin:0 0 16px;color:var(--muted,#a9b5d6);line-height:1.65}.study64-v2-moved{margin-top:16px!important;margin-bottom:16px!important}@media(max-width:980px){#study64-v2-integrated{padding:22px}#study64-v2-integrated .v2Text{padding:22px;font-size:15.6px;line-height:1.94}#study64-v2-integrated .v2Text p{line-height:1.94}#study64-v2-visuals{padding:18px}}';
     d.head.appendChild(st);
   }
   function isBadText(t){
@@ -38,31 +39,37 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
     if(digits>0&&digits/t.length>0.28)return true;
     return false;
   }
-  function extractNarrative(report){
-    var selectors=['.copy p','.one','.notice','.resultCard span','.eduCard span','.axisCard span','.commandActionCard span','.summaryFirstCard span','.card p','.card li','.quad p','.day span','.humanLayerCard p','.evidenceFrame p','.claimMapCard p','.dynamicQuad p','.auditCard span','.auditRow span','.frameMini span'];
-    var parts=[];var seen={};
-    selectors.forEach(function(sel){
-      Array.prototype.slice.call(report.querySelectorAll(sel)).forEach(function(el){
-        if(el.closest('#study64-v2-integrated,#study64-v2-visuals,.reportNav,.bottomActions'))return;
-        if(el.querySelector('svg,canvas,img'))return;
-        var t=clean(el.textContent);
-        if(isBadText(t))return;
-        var key=t.slice(0,100);
-        if(seen[key])return;
-        seen[key]=true;parts.push(t);
-      });
-    });
-    if(parts.length<3){
-      Array.prototype.slice.call(report.querySelectorAll('p,li')).forEach(function(el){
-        if(el.closest('#study64-v2-integrated,#study64-v2-visuals,.reportNav,.bottomActions'))return;
-        var t=clean(el.textContent);
-        if(isBadText(t))return;
-        var key=t.slice(0,100);
-        if(seen[key])return;
-        seen[key]=true;parts.push(t);
-      });
-    }
-    return parts.join(' ');
+  function getFirst(report,selector){var el=report.querySelector(selector);return clean(el?el.textContent:'');}
+  function getAll(report,selector){return Array.prototype.slice.call(report.querySelectorAll(selector)).map(function(el){return soften(el.textContent);}).filter(function(t){return !isBadText(t);});}
+  function uniq(arr){var out=[],seen={};arr.forEach(function(t){t=soften(t);var k=t.slice(0,80);if(t&&!seen[k]&&!isBadText(t)){seen[k]=1;out.push(t);}});return out;}
+  function pick(arr,keyword){for(var i=0;i<arr.length;i++){if(arr[i].indexOf(keyword)>=0)return arr[i];}return '';}
+  function makeNarrative(report){
+    var full=clean(report.textContent);
+    var student='학생';
+    var m=full.match(/([가-힣A-Za-z0-9]{1,8})의 현재 권역은/); if(m)student=m[1];
+    var band=''; m=full.match(/현재 권역은\s*([가-힣]+권)입니다/); if(m)band=m[1];
+    var score=''; m=full.match(/전체 점수\s*([0-9]{1,3})%/); if(m)score=m[1]+'%';
+    var typeName=getFirst(report,'.name')||'현재 학습유형';
+    var one=soften(getFirst(report,'.one'));
+    var pool=uniq([].concat(
+      getAll(report,'.copy p'),getAll(report,'.one'),getAll(report,'.resultCard span'),getAll(report,'.eduCard span'),getAll(report,'.axisCard span'),getAll(report,'.commandActionCard span'),getAll(report,'.summaryFirstCard span'),getAll(report,'.card p'),getAll(report,'.card li'),getAll(report,'.quad p'),getAll(report,'.day span'),getAll(report,'.humanLayerCard p'),getAll(report,'.evidenceFrame p'),getAll(report,'.claimMapCard p'),getAll(report,'.dynamicQuad p'),getAll(report,'.auditCard span'),getAll(report,'.auditRow span'),getAll(report,'.frameMini span')
+    ));
+    var first=student+'의 결과를 종합하면, 현재 학습 상태는 단순히 점수 하나로 판단하기보다 수업을 들을 때의 이해, 혼자 문제를 풀 때의 실행, 오답을 고쳐 다시 맞히는 과정까지 함께 보아야 합니다.';
+    if(band||score)first=student+'의 결과를 종합하면, 현재 위치는 '+(band?band:'현재 권역')+(score?'이고 전체 점수는 '+score:'')+'로 확인됩니다. 다만 이 수치는 최종 평가라기보다 지금 학습 과정에서 어느 지점이 안정적이고 어느 지점에 추가 관리가 필요한지를 보여주는 출발점으로 보는 것이 적절합니다.';
+    var p1=first+' '+(one?one+' ':'')+typeName+'이라는 결과명은 학생을 한 문장으로 단정하기 위한 이름이 아니라, 공부가 실제로 진행되는 순서를 읽기 위한 기준입니다.';
+    var concept=pick(pool,'개념')||pick(pool,'이해')||pool[0]||'';
+    var problem=pick(pool,'문제')||pick(pool,'풀이')||pool[1]||'';
+    var feedback=pick(pool,'오답')||pick(pool,'피드백')||pick(pool,'채점')||pool[2]||'';
+    var habit=pick(pool,'숙제')||pick(pool,'복습')||pick(pool,'하루')||pick(pool,'유지')||pool[3]||'';
+    var consult=[];
+    if(concept)consult.push(concept);
+    if(problem&&problem!==concept)consult.push(problem);
+    if(feedback&&consult.indexOf(feedback)<0)consult.push(feedback);
+    if(habit&&consult.indexOf(habit)<0)consult.push(habit);
+    var p2='실제 수업 장면에서는 '+student+'가 설명을 들을 때 이해한 내용을 새 문제의 조건 정리와 첫 식 설정으로 자연스럽게 옮길 수 있는지를 우선 확인해야 합니다. '+(consult.length?consult.join(' '):'수업 직후의 이해가 하루 뒤에도 유지되는지, 새 문제에서 조건 표시와 첫 식 설정이 안정적인지, 숙제가 단순히 푸는 단계에서 끝나지 않고 채점과 수정까지 이어지는지를 확인해야 합니다.');
+    var p3='따라서 상담에서는 “잘한다, 못한다”로 단순화하기보다 어떤 단계에서 사고가 느려지고 어떤 조건에서는 다시 안정되는지를 구체적으로 보아야 합니다. 수업 직후에는 아는 것처럼 보이더라도 혼자 풀 때 조건을 다시 정리하지 못하면 실전 점수로 연결되기 어렵고, 반대로 오답을 고쳐 맞히는 과정이 자리 잡으면 같은 개념을 다음 문제에 적용하는 힘이 빠르게 좋아질 수 있습니다.';
+    var p4='지도 방향은 명확합니다. 개념 설명을 들은 뒤 바로 유사 문제에서 조건 표시, 첫 식 설정, 풀이 근거 말하기를 확인하고, 숙제는 “풀었다”가 아니라 “채점했고, 틀린 문제를 고쳐 맞혔고, 왜 틀렸는지 한 문장으로 설명했다”까지 확인하는 방식으로 관리하는 것이 좋습니다. 이렇게 보면 이 결과는 학생의 한계를 말하는 리포트가 아니라, 앞으로 수업과 가정 학습에서 무엇을 확인해야 하는지 알려주는 컨설팅 자료로 사용할 수 있습니다.';
+    return [p1,p2,p3,p4];
   }
   function visualBlocks(report){
     var out=[];var seen=[];
@@ -81,8 +88,8 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
     injectStyle(d);
     var report=d.querySelector('.report');
     if(!report||getComputedStyle(report).display==='none'||clean(report.textContent).length<80)return;
-    var text=extractNarrative(report);
-    var sig=clean(text).length+'|'+clean((report.querySelector('.code')||{}).textContent);
+    var paras=makeNarrative(report);
+    var sig=paras.join(' ').length+'|'+clean((report.querySelector('.code')||{}).textContent);
     if(report.getAttribute('data-v2-ok')===sig)return;
     report.setAttribute('data-v2-ok',sig);
     Array.prototype.slice.call(report.querySelectorAll('.study64-v2-hide')).forEach(function(x){x.classList.remove('study64-v2-hide');});
@@ -90,7 +97,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#040612;fon
     var oldv=report.querySelector('#study64-v2-visuals');if(oldv)oldv.remove();
     var integrated=d.createElement('section');
     integrated.id='study64-v2-integrated';
-    integrated.innerHTML='<h2>종합해설</h2><p class="v2Text">'+esc(text||'결과 해설 문장을 수집하지 못했습니다. 원본 결과 화면의 해설 요소 구조를 확인해야 합니다.')+'</p>';
+    integrated.innerHTML='<h2>종합해설</h2><div class="v2Text">'+paras.map(function(p){return '<p>'+esc(p)+'</p>';}).join('')+'</div>';
     var visuals=d.createElement('section');
     visuals.id='study64-v2-visuals';
     visuals.innerHTML='<h2>그래프·이미지·시각 자료</h2><p>종합해설 다음에 확인하는 보조 자료입니다.</p>';
