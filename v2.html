@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>학생 공부유형 64 V2 · 통합 종합해설</title>
+<title>학생 공부유형 64 V2 · 단일 통합해설</title>
 <style>
 :root{--bg0:#040612;--bg1:#08162b;--mint:#77ffd6;--cyan:#63f7ff;--soft:#e7eeff;--muted:#a9b5d6;--line:rgba(255,255,255,.18)}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Apple SD Gothic Neo,Noto Sans KR,system-ui,sans-serif;color:var(--soft);background:radial-gradient(circle at 20% 10%,rgba(99,247,255,.18),transparent 30%),linear-gradient(135deg,var(--bg0),var(--bg1))}.loader{width:min(720px,calc(100% - 32px));padding:34px;border:1px solid var(--line);border-radius:28px;background:rgba(255,255,255,.08);box-shadow:0 30px 90px rgba(0,0,0,.42);backdrop-filter:blur(18px)}.loader b{display:block;color:var(--mint);font-size:13px;letter-spacing:.08em;margin-bottom:12px}.loader h1{font-size:clamp(30px,6vw,54px);line-height:1.06;margin:0 0 12px;letter-spacing:-.065em}.loader p{color:var(--muted);font-size:15px;line-height:1.7;margin:0}.bar{height:11px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:22px}.fill{width:35%;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--mint),var(--cyan));animation:move 1.2s ease-in-out infinite alternate}@keyframes move{to{transform:translateX(185%);width:45%}}
 </style>
 </head>
 <body>
-<div class="loader"><b>STUDY64 V2</b><h1>통합 종합해설 버전을 불러오는 중입니다.</h1><p>기존 index.html의 검사 문항, 채점, 리포트 구조는 그대로 사용하고 해설 표시 방식만 V2 방식으로 재배치합니다.</p><div class="bar"><div class="fill"></div></div></div>
+<div class="loader"><b>STUDY64 V2</b><h1>단일 통합해설 버전을 불러오는 중입니다.</h1><p>기존 index.html의 검사 문항과 채점 구조는 유지하고, 결과 해설은 하나의 종합해설만 보이도록 재배치합니다.</p><div class="bar"><div class="fill"></div></div></div>
 <script>
 (async function(){
   const v2Css = `<style id="study64-v2-style">
 .v2Badge{display:inline-flex;margin-left:8px;padding:7px 10px;border-radius:999px;border:1px solid rgba(119,255,214,.42);background:rgba(119,255,214,.10);color:var(--mint);font-size:11px;font-weight:1000;letter-spacing:.08em;vertical-align:middle}
-#study64-v2-integrated{margin:22px 0 24px;padding:30px;border-radius:34px;border:1px solid rgba(119,255,214,.40);background:linear-gradient(145deg,rgba(119,255,214,.13),rgba(99,247,255,.07),rgba(255,255,255,.045));box-shadow:0 24px 86px rgba(99,247,255,.13),inset 0 1px 0 rgba(255,255,255,.13);position:relative;overflow:hidden}#study64-v2-integrated:before{content:'';position:absolute;inset:-40%;background:radial-gradient(circle at 20% 20%,rgba(119,255,214,.12),transparent 34%),radial-gradient(circle at 80% 15%,rgba(255,219,125,.10),transparent 28%),radial-gradient(circle at 50% 95%,rgba(183,140,255,.10),transparent 35%);pointer-events:none}#study64-v2-integrated>*{position:relative}#study64-v2-integrated .v2Eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,219,125,.32);background:rgba(255,219,125,.08);color:var(--gold);font-size:12px;font-weight:1000;letter-spacing:.08em;margin-bottom:13px}#study64-v2-integrated h2{font-size:clamp(31px,4.8vw,58px);line-height:1.06;letter-spacing:-.073em;margin:0 0 16px;color:var(--soft)}#study64-v2-integrated h2 span{color:var(--mint);text-shadow:0 0 28px rgba(119,255,214,.34)}.v2Lead{font-size:17px;line-height:1.88;color:var(--muted);margin:0 0 18px;max-width:1060px}.v2Lead strong{color:var(--soft)}.v2Narrative{display:grid;gap:13px;margin-top:20px}.v2Narrative p{margin:0;padding:18px 19px;border-radius:22px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.055);color:var(--muted);font-size:15.5px;line-height:1.86}.v2Narrative p b{color:var(--mint)}.v2SignalRow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.v2Signal{padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.09)}.v2Signal b{display:block;color:var(--mint);font-size:12px;letter-spacing:.08em;margin-bottom:7px}.v2Signal strong{display:block;color:var(--soft);font-size:20px;line-height:1.28;letter-spacing:-.04em;margin-bottom:7px}.v2Signal span{display:block;color:var(--muted);font-size:13.5px;line-height:1.62}.v2ActionLine{margin-top:18px;padding:18px 19px;border-radius:24px;border:1px solid rgba(255,219,125,.28);background:rgba(255,219,125,.075);color:var(--gold);font-size:15px;line-height:1.75;font-weight:850}.v2ActionLine b{color:#fff0b8}
-#study64-v2-visual-stage{margin:24px 0 30px;padding:24px;border-radius:32px;border:1px solid rgba(255,255,255,.18);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.04));box-shadow:0 22px 70px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.10)}#study64-v2-visual-stage .v2VisualHead{margin:0 0 16px}#study64-v2-visual-stage .v2VisualHead b{display:inline-flex;padding:7px 10px;border-radius:999px;border:1px solid rgba(119,255,214,.34);background:rgba(119,255,214,.08);color:var(--mint);font-size:12px;letter-spacing:.08em}#study64-v2-visual-stage .v2VisualHead h2{font-size:30px;letter-spacing:-.055em;margin:10px 0 6px}#study64-v2-visual-stage .v2VisualHead p{margin:0;color:var(--muted);line-height:1.65;font-size:14px}.study64-v2-hidden-old{display:none!important}.study64-v2-moved{margin-top:16px!important;margin-bottom:16px!important}@media(max-width:980px){.v2SignalRow{grid-template-columns:1fr}#study64-v2-integrated{padding:22px}#study64-v2-visual-stage{padding:18px}}@media print{#study64-v2-integrated,#study64-v2-visual-stage{background:#fff!important;border:1px solid #ddd!important;box-shadow:none!important;color:#111!important}.v2Narrative p,.v2Signal,.v2ActionLine{background:#fff!important;border:1px solid #ddd!important;color:#333!important}}
+#study64-v2-integrated{margin:22px 0 26px;padding:34px;border-radius:34px;border:1px solid rgba(119,255,214,.42);background:linear-gradient(145deg,rgba(119,255,214,.13),rgba(99,247,255,.07),rgba(255,255,255,.045));box-shadow:0 24px 86px rgba(99,247,255,.13),inset 0 1px 0 rgba(255,255,255,.13);position:relative;overflow:hidden}#study64-v2-integrated:before{content:'';position:absolute;inset:-40%;background:radial-gradient(circle at 20% 20%,rgba(119,255,214,.12),transparent 34%),radial-gradient(circle at 80% 15%,rgba(255,219,125,.10),transparent 28%),radial-gradient(circle at 50% 95%,rgba(183,140,255,.10),transparent 35%);pointer-events:none}#study64-v2-integrated>*{position:relative}#study64-v2-integrated .v2Eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,219,125,.32);background:rgba(255,219,125,.08);color:var(--gold);font-size:12px;font-weight:1000;letter-spacing:.08em;margin-bottom:13px}#study64-v2-integrated h2{font-size:clamp(31px,4.8vw,58px);line-height:1.06;letter-spacing:-.073em;margin:0 0 18px;color:var(--soft)}#study64-v2-integrated h2 span{color:var(--mint);text-shadow:0 0 28px rgba(119,255,214,.34)}.v2MegaText{margin:0;padding:25px 26px;border-radius:26px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.056);color:var(--muted);font-size:16.5px;line-height:2.02;word-break:keep-all}.v2MegaText strong{color:var(--soft);font-weight:1000}.v2MegaText em{font-style:normal;color:var(--mint);font-weight:1000}.v2Closing{margin-top:18px;padding:18px 20px;border-radius:24px;border:1px solid rgba(255,219,125,.28);background:rgba(255,219,125,.075);color:var(--gold);font-size:15px;line-height:1.78;font-weight:850}.v2Closing b{color:#fff0b8}
+#study64-v2-visual-stage{margin:24px 0 30px;padding:24px;border-radius:32px;border:1px solid rgba(255,255,255,.18);background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.04));box-shadow:0 22px 70px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.10)}#study64-v2-visual-stage .v2VisualHead{margin:0 0 16px}#study64-v2-visual-stage .v2VisualHead b{display:inline-flex;padding:7px 10px;border-radius:999px;border:1px solid rgba(119,255,214,.34);background:rgba(119,255,214,.08);color:var(--mint);font-size:12px;letter-spacing:.08em}#study64-v2-visual-stage .v2VisualHead h2{font-size:30px;letter-spacing:-.055em;margin:10px 0 6px}#study64-v2-visual-stage .v2VisualHead p{margin:0;color:var(--muted);line-height:1.65;font-size:14px}.study64-v2-hidden-old{display:none!important}.study64-v2-moved{margin-top:16px!important;margin-bottom:16px!important}.study64-v2-visual-empty{padding:18px;border-radius:22px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.045);color:var(--muted);line-height:1.7}.reportNav{display:none!important}@media(max-width:980px){#study64-v2-integrated{padding:22px}.v2MegaText{padding:20px;font-size:15.5px;line-height:1.92}#study64-v2-visual-stage{padding:18px}}@media print{#study64-v2-integrated,#study64-v2-visual-stage{background:#fff!important;border:1px solid #ddd!important;box-shadow:none!important;color:#111!important}.v2MegaText,.v2Closing,.study64-v2-visual-empty{background:#fff!important;border:1px solid #ddd!important;color:#333!important}}
 </style>`;
 
   function installV2Patch(){
@@ -25,76 +25,100 @@
     const esc=s=>String(s||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
     const q=(s,r=document)=>r.querySelector(s);
     const qa=(s,r=document)=>Array.from(r.querySelectorAll(s));
-    function firstStrong(root){return text(q('strong',root))||text(q('h3',root))||text(q('h2',root));}
-    function firstSpan(root){return text(q('span',root))||text(q('p',root));}
-    function getCards(report){
-      const seen=new Set();
-      return qa('.resultCard,.eduCard,.axisCard,.commandActionCard',report).map(card=>({key:text(q('b',card)),title:firstStrong(card),desc:firstSpan(card)})).filter(x=>x.title||x.desc).filter(x=>{const k=(x.key+'|'+x.title+'|'+x.desc).slice(0,180);if(seen.has(k))return false;seen.add(k);return true;}).slice(0,6);
+    function getDatum(selector, fallback){return text(q(selector))||fallback;}
+    function getCardTexts(report){
+      const picked=[]; const seen=new Set();
+      qa('.resultCard,.eduCard,.axisCard,.commandActionCard,.summaryFirstCard,.auditCard,.humanLayerCard',report).forEach(card=>{
+        if(card.closest('#study64-v2-integrated,#study64-v2-visual-stage'))return;
+        if(card.querySelector('svg,canvas,img'))return;
+        const title=text(q('strong,h3,h2',card));
+        const desc=text(q('span,p',card));
+        const key=(title+' '+desc).slice(0,160);
+        if((title||desc)&&!seen.has(key)){seen.add(key);picked.push({title,desc});}
+      });
+      return picked.slice(0,7);
+    }
+    function sentenceFromCards(cards){
+      const clean=cards.map(c=>(c.title||c.desc||'').replace(/\s+/g,' ').trim()).filter(Boolean).slice(0,5);
+      if(!clean.length)return '결과 카드에서 추출되는 핵심 신호가 제한적이므로, 이 결과는 학생의 실제 학습 장면에서 확인되는 문제 읽기, 풀이 지속, 오답 수정 양상을 함께 보아야 합니다.';
+      return '세부 지표로는 '+clean.map(esc).join(', ')+'의 신호가 함께 나타납니다. 이 신호들은 각각 따로 읽을 내용이 아니라, 학생이 문제를 만났을 때 어떤 방식으로 진입하고 멈추며 다시 회복하는지를 보여주는 하나의 연결된 흐름입니다.';
     }
     function buildIntegrated(report){
-      const code=text(q('.code',report))||'STUDY64';
-      const typeName=text(q('.name',report))||'학습유형 결과';
-      const one=text(q('.one',report))||'응답 패턴을 바탕으로 학습 상황에서 반복될 가능성이 높은 반응 구조를 종합합니다.';
-      const cards=getCards(report);
-      const fallback=[typeName,'이해와 실행 사이의 연결 방식','피드백을 다음 행동으로 바꾸는 방식'];
-      const signalSource=cards.length?cards.slice(0,3):fallback.map((x,i)=>({key:['핵심 신호','학습 반응','상담 초점'][i],title:x,desc:one}));
-      const cardHtml=signalSource.map((c,i)=>'<div class="v2Signal"><b>'+esc(c.key||['핵심 신호','학습 반응','상담 초점'][i])+'</b><strong>'+esc(c.title||fallback[i])+'</strong><span>'+esc(c.desc||one)+'</span></div>').join('');
-      const main=signalSource[0]?.title||typeName;
-      const second=signalSource[1]?.title||fallback[1];
-      const third=signalSource[2]?.title||fallback[2];
-      return '<section id="study64-v2-integrated" aria-label="V2 통합 종합해설"><div class="v2Eyebrow">STUDY64 V2 · INTEGRATED REPORT</div><h2>챕터를 나누지 않고 읽는 <span>통합 종합해설</span></h2><p class="v2Lead"><strong>'+esc(typeName)+'</strong> 결과는 학생을 하나의 성격표로 단정하기 위한 것이 아니라, 실제 공부 장면에서 반복되는 선택의 흐름을 한 번에 읽기 위한 종합 진단입니다. 이번 V2 해설은 강점, 약점, 감정 반응, 문제풀이 태도, 복습 지속성, 피드백 수용성을 따로 떼어 설명하지 않고 하나의 학습 작동 방식으로 묶어서 해석합니다.</p><div class="v2SignalRow">'+cardHtml+'</div><div class="v2Narrative"><p><b>전체 흐름.</b> '+esc(typeName)+'의 핵심은 '+esc(main)+'에서 출발합니다. 이 학생은 공부를 전혀 못하는 유형이라기보다, 무엇을 먼저 붙잡고 어떤 순서로 생각을 전개하느냐에 따라 결과 편차가 커질 수 있습니다. 따라서 상담에서는 단순히 열심히 하라는 말보다 첫 줄 해석, 조건 정리, 풀이 진입, 검산, 오답 재구성까지 하나의 루틴으로 연결시키는 것이 중요합니다.</p><p><b>학습 장면에서의 의미.</b> '+esc(second)+'은 수업을 들을 때와 혼자 문제를 풀 때의 간극으로 나타날 수 있습니다. 설명을 들으면 이해되는 느낌이 있어도, 새 문제에서 조건을 재배열하거나 숨은 전제를 찾아야 하는 순간에는 속도가 늦어질 수 있습니다. 반대로 구조가 보이면 빠르게 안정되는 면도 있으므로, 이 학생에게 필요한 처방은 더 많은 양의 반복만이 아니라 문제를 어떤 눈으로 다시 읽을 것인가를 훈련시키는 것입니다.</p><p><b>성장 가능성.</b> '+esc(third)+'은 피드백을 얼마나 행동으로 바꾸는지와 연결됩니다. 틀린 문제를 정답만 확인하고 넘어가면 같은 유형에서 다시 흔들릴 가능성이 높고, 오답 원인을 문장으로 재작성하면 빠르게 개선될 가능성이 큽니다. 즉 결과의 핵심은 현재 점수가 아니라, 학생이 자신의 사고 과정을 얼마나 구체적으로 관찰하고 수정할 수 있느냐입니다.</p><p><b>상담에서 바로 쓸 결론.</b> '+esc(code)+'라는 결과 코드는 학생의 한계를 표시하는 이름이 아니라, 수업 설계의 출발점입니다. 이 학생에게는 개념 설명, 예제 풀이, 유사 문제 반복, 오답 문장화, 짧은 재테스트가 끊어지지 않고 이어져야 합니다. 부모님께는 의지가 부족하다보다 혼자 공부할 때 어떤 단계에서 멈추는지 찾아야 한다는 관점으로 설명하는 것이 더 정확합니다.</p></div><div class="v2ActionLine"><b>V2 처방 요약.</b> 오늘부터는 그래프나 세부 지표를 먼저 보지 말고, 위 종합해설을 먼저 읽은 뒤 아래 시각 자료로 근거를 확인하는 순서가 좋습니다. 해석의 순서는 전체 작동 방식 → 세부 지표 확인 → 구체적 학습 처방입니다.</div></section>';
+      const code=getDatum('.code','STUDY64');
+      const typeName=getDatum('.name','학습유형 결과');
+      const one=getDatum('.one','응답 패턴을 바탕으로 학습 상황에서 반복될 가능성이 높은 반응 구조를 종합합니다.');
+      const cards=getCardTexts(report);
+      const cardSentence=sentenceFromCards(cards);
+      const body='<strong>'+esc(typeName)+'</strong> 결과는 학생을 여러 개의 챕터로 쪼개어 “이건 어떻고, 저건 어떻다”라고 따로따로 판정하기 위한 리포트가 아닙니다. 이 결과는 학생이 실제 공부 장면에서 문제를 처음 읽는 방식, 조건을 붙잡는 방식, 수업 설명을 자기 언어로 바꾸는 방식, 혼자 풀 때 멈추는 지점, 틀린 뒤 다시 회복하는 속도, 피드백을 다음 행동으로 전환하는 정도가 하나의 흐름으로 연결되어 있다는 뜻입니다. <em>'+esc(code)+'</em>라는 코드는 학생의 정체성을 단정하는 이름이 아니라, 수업과 상담에서 먼저 확인해야 할 사고의 작동 순서를 압축한 표지입니다. '+esc(one)+' 따라서 이 학생을 볼 때 핵심은 어느 한 항목의 높고 낮음이 아니라, 이해한 것 같은 느낌이 실제 풀이 행동으로 넘어가는 과정이 얼마나 매끄러운가입니다. '+cardSentence+' 이 학생은 단순히 의지가 부족하거나 공부량만 부족한 유형으로 보아서는 안 됩니다. 설명을 들을 때는 이해가 되는 것처럼 보이더라도, 새 문제 앞에서 조건을 재배열하고, 숨은 전제를 찾고, 풀이의 첫 줄을 세우는 단계에서 사고가 느려질 수 있습니다. 반대로 한 번 구조가 잡히면 생각의 방향이 빠르게 안정될 수 있기 때문에, 처방은 무작정 더 많이 풀리는 방식보다 문제를 읽는 순서와 오답을 정리하는 언어를 일정하게 만드는 쪽이 더 정확합니다. 부모 상담에서는 “집에서 열심히 안 한다”는 표현보다 “혼자 공부할 때 어느 단계에서 멈추는지 아직 선명하게 보지 못하고 있다”라고 설명하는 편이 더 적절합니다. 수업에서는 개념 설명 후 바로 유사 문제를 풀게 하고, 정답 여부보다 첫 조건을 어떻게 해석했는지, 어떤 기준으로 식을 세웠는지, 틀린 뒤 무엇을 바꾸었는지를 짧은 문장으로 남기게 해야 합니다. 이 문장화 과정이 반복되면 학생은 단순 암기나 감각적 풀이에서 벗어나 자기 사고를 다시 조정할 수 있고, 그때부터 성적 변화는 우연한 컨디션이 아니라 재현 가능한 학습 루틴의 결과가 됩니다. 결국 이 리포트의 결론은 하나입니다. 이 학생에게 필요한 것은 별도의 성격 해설, 영역별 평가, 세부 항목 나열이 아니라, 개념 이해, 문제 진입, 풀이 지속, 오답 수정, 재테스트가 끊어지지 않는 하나의 학습 회로를 만들어 주는 것입니다.';
+      return '<section id="study64-v2-integrated" aria-label="V2 단일 통합해설"><div class="v2Eyebrow">STUDY64 V2 · SINGLE INTEGRATED INTERPRETATION</div><h2>하나로 읽는 <span>단일 통합해설</span></h2><p class="v2MegaText">'+body+'</p><div class="v2Closing"><b>읽는 순서.</b> 위 해설을 먼저 하나의 흐름으로 읽고, 아래 그래프와 이미지는 그 해석을 확인하는 보조 자료로만 보면 됩니다.</div></section>';
     }
     function makeVisualStage(){
       const box=document.createElement('section');
       box.id='study64-v2-visual-stage';
-      box.innerHTML='<div class="v2VisualHead"><b>VISUAL DATA AFTER INTERPRETATION</b><h2>그래프·이미지·세부 지표</h2><p>종합해설을 먼저 읽은 뒤, 아래 자료를 근거 확인용으로 보도록 순서를 재배치했습니다. 기존 index.html의 시각화 요소는 삭제하지 않고 이 영역으로 모았습니다.</p></div>';
+      box.innerHTML='<div class="v2VisualHead"><b>VISUAL DATA AFTER TEXT</b><h2>그래프·이미지·시각 자료</h2><p>개별 해설 카드는 숨기고, 시각 자료만 종합해설 다음으로 옮겼습니다.</p></div>';
       return box;
     }
-    function isVisualNode(node){
-      if(!node||node.nodeType!==1||node.closest('#study64-v2-integrated,#study64-v2-visual-stage'))return false;
-      const label=text(node).slice(0,320);
-      return node.matches('.visualGrid,.visualCard')||node.querySelector('svg,canvas,img')||(node.matches('.card,.glass,.resultCard,.eduCard,.axisCard')&&/(그래프|시각화|분포|레이더|이미지|도표|차트|matrix|map)/i.test(label));
+    function isVisualCandidate(el){
+      if(!el||el.nodeType!==1||el.closest('#study64-v2-integrated,#study64-v2-visual-stage'))return false;
+      if(el.matches('svg,canvas,img'))return true;
+      if(el.querySelector('svg,canvas,img'))return true;
+      const label=text(el).slice(0,260);
+      return el.matches('.visualGrid,.visualCard')||/(그래프|시각화|레이더|분포도|도표|차트|프로파일 맵|matrix|chart|visual)/i.test(label);
     }
-    function collectVisuals(report){
-      const set=new Set();
-      qa('.visualGrid,.visualCard,svg,canvas,img,.card,.glass,.resultCard,.eduCard,.axisCard',report).forEach(el=>{let node=el;if(['svg','canvas','img'].includes(el.tagName.toLowerCase()))node=el.closest('.visualCard,.card,.glass')||el;if(isVisualNode(node))set.add(node);});
-      return Array.from(set).filter(node=>report.contains(node));
+    function collectVisualBlocks(report){
+      const blocks=[]; const seen=new Set();
+      qa('svg,canvas,img,.visualGrid,.visualCard,.card,.glass',report).forEach(el=>{
+        if(!isVisualCandidate(el))return;
+        let node=el.matches('svg,canvas,img')?(el.closest('.visualCard,.card,.glass,.resultCard,.eduCard,.axisCard')||el):el;
+        if(node.closest('#study64-v2-integrated,#study64-v2-visual-stage'))return;
+        if(seen.has(node))return;
+        seen.add(node);blocks.push(node);
+      });
+      return blocks;
     }
-    function hideOldChapterBlocks(report){
-      qa('.deepSection,.deepNarrativeBox,.interpretGrid,.behaviorMap',report).forEach(el=>{if(!el.closest('#study64-v2-integrated,#study64-v2-visual-stage')&&!el.querySelector('svg,canvas,img'))el.classList.add('study64-v2-hidden-old');});
-      qa('.card,.glass',report).forEach(el=>{const head=text(q('h2,h3,.sectionHead',el));if(!el.closest('#study64-v2-integrated,#study64-v2-visual-stage')&&/(챕터별|세부 해설|영역별 해석|종합 해석|해설|학습 처방 해설)/.test(head)&&!el.querySelector('svg,canvas,img'))el.classList.add('study64-v2-hidden-old');});
+    function hideAllOriginalExplanation(report){
+      Array.from(report.children).forEach(child=>{
+        if(child.id==='study64-v2-integrated'||child.id==='study64-v2-visual-stage'||child.classList.contains('reportHero')||child.classList.contains('bottomActions'))return;
+        child.classList.add('study64-v2-hidden-old');
+      });
+      qa('.deepSection,.deepNarrativeBox,.interpretGrid,.behaviorMap,.summaryFirstGrid,.resultGrid,.grid2,.grid3,.auditGrid,.humanLayerGrid,.evidenceLayer,.dynamicMatrix,.matrix,.plan,.refs',report).forEach(el=>{
+        if(!el.closest('#study64-v2-integrated,#study64-v2-visual-stage'))el.classList.add('study64-v2-hidden-old');
+      });
+      qa('.card,.resultCard,.eduCard,.axisCard,.commandActionCard,.summaryFirstCard,.auditCard,.humanLayerCard,.evidenceFrame,.claimMapCard,.dynamicQuad,.quad,.day,.ref',report).forEach(el=>{
+        if(!el.closest('#study64-v2-integrated,#study64-v2-visual-stage'))el.classList.add('study64-v2-hidden-old');
+      });
     }
     function badge(){
       if(document.querySelector('.v2Badge'))return;
       const target=document.querySelector('.tag,.brand,h1');
-      if(target){const b=document.createElement('span');b.className='v2Badge';b.textContent='V2 · 통합해설';target.appendChild(b);}
+      if(target){const b=document.createElement('span');b.className='v2Badge';b.textContent='V2 · 단일 통합해설';target.appendChild(b);}
     }
     function apply(){
       const report=q('.report');
       if(!report)return;
       const visible=getComputedStyle(report).display!=='none'&&text(report).length>80;
       if(!visible)return;
-      const sig=[text(q('.code',report)),text(q('.name',report)),text(q('.one',report))].join('|');
-      if(STATE.applying||(STATE.lastSig===sig&&q('#study64-v2-integrated',report)))return;
+      const sig=[text(q('.code',report)),text(q('.name',report)),text(q('.one',report)),text(report).length].join('|');
+      if(STATE.applying||(STATE.lastSig===sig&&q('#study64-v2-integrated',report)&&q('#study64-v2-visual-stage',report)))return;
       STATE.applying=true;
       try{
         STATE.lastSig=sig;
         qa('.study64-v2-hidden-old',report).forEach(el=>el.classList.remove('study64-v2-hidden-old'));
-        q('#study64-v2-integrated',report)?.remove();
-        q('#study64-v2-visual-stage',report)?.remove();
+        const oldIntegrated=q('#study64-v2-integrated',report); if(oldIntegrated)oldIntegrated.remove();
+        const oldStage=q('#study64-v2-visual-stage',report); if(oldStage)oldStage.remove();
         const anchor=q('.reportHero',report)||report.firstElementChild;
-        const holder=document.createElement('div');
-        holder.innerHTML=buildIntegrated(report);
+        const holder=document.createElement('div'); holder.innerHTML=buildIntegrated(report);
         const integrated=holder.firstElementChild;
         if(anchor&&anchor.parentNode)anchor.insertAdjacentElement('afterend',integrated);else report.prepend(integrated);
-        const stage=makeVisualStage();
-        integrated.insertAdjacentElement('afterend',stage);
-        collectVisuals(report).forEach(node=>{if(node!==integrated&&node!==stage&&!node.closest('#study64-v2-integrated,#study64-v2-visual-stage')){node.classList.add('study64-v2-moved');stage.appendChild(node);}});
-        hideOldChapterBlocks(report);
+        const stage=makeVisualStage(); integrated.insertAdjacentElement('afterend',stage);
+        const visuals=collectVisualBlocks(report);
+        visuals.forEach(node=>{node.classList.add('study64-v2-moved');stage.appendChild(node);});
+        if(!visuals.length){const empty=document.createElement('div');empty.className='study64-v2-visual-empty';empty.textContent='이 결과 화면에서 이동 가능한 별도 그래프나 이미지 요소를 찾지 못했습니다. 기존 수치 카드와 개별 해설은 V2 목적에 맞게 숨김 처리했습니다.';stage.appendChild(empty);}
+        hideAllOriginalExplanation(report);
       }finally{STATE.applying=false;}
     }
     function boot(){
-      badge();apply();
+      badge(); apply();
       document.addEventListener('click',()=>setTimeout(apply,250),true);
       document.addEventListener('change',()=>setTimeout(apply,250),true);
       new MutationObserver(()=>setTimeout(apply,120)).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class']});
@@ -106,12 +130,13 @@
     const res=await fetch('index.html?v2_source='+Date.now(),{cache:'no-store'});
     if(!res.ok)throw new Error('index.html fetch failed: '+res.status);
     let html=await res.text();
-    html=html.replace(/<title>(.*?)<\/title>/i,'<title>학생 공부유형 64 V2 · 통합 종합해설</title>');
+    html=html.replace(/<title>(.*?)<\/title>/i,'<title>학생 공부유형 64 V2 · 단일 통합해설</title>');
     html=html.replace(/<\/head>/i,v2Css+'\n</head>');
     document.open();
     document.write(html);
     document.close();
-    setTimeout(installV2Patch,80);
+    setTimeout(installV2Patch,100);
+    setTimeout(installV2Patch,800);
   }catch(err){
     document.body.innerHTML='<div class="loader"><b>STUDY64 V2</b><h1>V2 로딩에 실패했습니다.</h1><p>index.html을 같은 경로에서 불러와야 합니다. 배포 후 v2.html과 index.html이 같은 폴더에 있는지 확인하세요.</p><p style="margin-top:12px;color:#ffdb7d">'+String(err.message).replace(/[&<>"']/g,'')+'</p></div>';
   }
