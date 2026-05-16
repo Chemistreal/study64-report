@@ -2967,11 +2967,11 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   const AXIS_NAMES={understanding:'개념 이해',execution:'마무리 실행',autonomy:'스스로 점검',help:'모르는 문제를 그냥 넘기지 않고 확인하는 습관',errorStyle:'오답 정리',motivation:'힘들어도 공부를 놓지 않는 힘'};
   const PREFERRED_POLES={understanding:'deep',execution:'plan',autonomy:'self',help:'ask',errorStyle:'complete',motivation:'future'};
   const TIER_BANDS=[
-    {key:'super',label:'극상위권',line:'극상위권 기준선',pct:99,color:'#77ffd6',dash:'1 0',note:'거의 모든 영역에서 이해, 문제풀이, 오답 정리, 다시 풀기가 함께 돌아가는 수준입니다.'},
-    {key:'top',label:'최상위권',line:'최상위권 기준선',pct:96,color:'#ff6fb1',dash:'3 4',note:'주요 강점이 매우 강하고, 약한 영역도 관리하면 바로 상위 성과로 이어질 수 있는 수준입니다.'},
-    {key:'upper',label:'상위권',line:'상위권 기준선',pct:88,color:'#ffdb7d',dash:'5 5',note:'잘하는 영역은 분명하지만, 한두 영역에서 반복 점검과 오답 정리가 더 필요합니다.'},
-    {key:'middle',label:'중위권',line:'중위권 기준선',pct:80,color:'#8ca7ff',dash:'7 5',note:'수업을 따라가는 힘은 있으나, 혼자 다시 풀고 설명하는 과정이 안정되어야 합니다.'},
-    {key:'lower',label:'하위권',line:'하위권 기준선',pct:60,color:'#a9b5d6',dash:'8 6',note:'많은 양을 요구하기보다, 오늘 배운 내용 중 한두 개를 정확히 끝내는 것부터 필요합니다.'}
+    {key:'super',label:'극상위권',line:'극상위권 기준선',pct:98,color:'#77ffd6',dash:'1 0',note:'거의 모든 영역에서 이해, 문제풀이, 오답 정리, 다시 풀기가 함께 돌아가는 수준입니다.'},
+    {key:'top',label:'최상위권',line:'최상위권 기준선',pct:90,color:'#ff6fb1',dash:'3 4',note:'주요 강점이 매우 강하고, 약한 영역도 관리하면 바로 상위 성과로 이어질 수 있는 수준입니다.'},
+    {key:'upper',label:'상위권',line:'상위권 기준선',pct:80,color:'#ffdb7d',dash:'5 5',note:'잘하는 영역은 분명하지만, 한두 영역에서 반복 점검과 오답 정리가 더 필요합니다.'},
+    {key:'middle',label:'중위권',line:'중위권 기준선',pct:65,color:'#8ca7ff',dash:'7 5',note:'수업을 따라가는 힘은 있으나, 혼자 다시 풀고 설명하는 과정이 안정되어야 합니다.'},
+    {key:'lower',label:'하위권',line:'하위권 기준선',pct:50,color:'#a9b5d6',dash:'8 6',note:'많은 양을 요구하기보다, 오늘 배운 내용 중 한두 개를 정확히 끝내는 것부터 필요합니다.'}
   ];
   function $(id){return document.getElementById(id)}
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
@@ -3014,15 +3014,15 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function buildBenchmarkHTML(results){
     const n=studentName(); const rows=axisRows(results); const avg=avgScore(results); const band=bandFor(avg);
     const comp=rows.map(x=>{const b=bandFor(x.score);let msg;
-      if(x.score>=99) msg=`${n}은 ${x.name}에서 극상위권 기준선에 닿아 있습니다. 이 영역은 유지하면서 속도와 실수 관리를 확인하면 됩니다.`;
-      else if(x.score>=96) msg=`${n}은 ${x.name}에서 최상위권 기준선에 가깝습니다. 한두 번 흔들리는 문제를 다시 풀어 맞히는 과정이 중요합니다.`;
-      else if(x.score>=88) msg=`${n}은 ${x.name}에서 상위권 기준선에 있습니다. 수업 때 이해한 내용을 혼자 다시 풀 수 있는지 확인해야 합니다.`;
-      else if(x.score>=80) msg=`${n}은 ${x.name}에서 중위권 기준선에 있습니다. 문제 수를 늘리기 전에 틀린 문제를 다시 맞히는 연습이 먼저입니다.`;
-      else if(x.score>=60) msg=`${n}은 ${x.name}에서 하위권 기준선에 있습니다. 오늘 배운 내용 중 핵심 1개를 설명하고 대표 문제 1개를 다시 푸는 것부터 시작해야 합니다.`;
+      if(x.score>=98) msg=`${n}은 ${x.name}에서 극상위권 기준선에 닿아 있습니다. 이 영역은 유지하면서 속도와 실수 관리를 확인하면 됩니다.`;
+      else if(x.score>=90) msg=`${n}은 ${x.name}에서 최상위권 기준선에 가깝습니다. 한두 번 흔들리는 문제를 다시 풀어 맞히는 과정이 중요합니다.`;
+      else if(x.score>=80) msg=`${n}은 ${x.name}에서 상위권 기준선에 있습니다. 수업 때 이해한 내용을 혼자 다시 풀 수 있는지 확인해야 합니다.`;
+      else if(x.score>=65) msg=`${n}은 ${x.name}에서 중위권 기준선에 있습니다. 문제 수를 늘리기 전에 틀린 문제를 다시 맞히는 연습이 먼저입니다.`;
+      else if(x.score>=50) msg=`${n}은 ${x.name}에서 하위권 기준선에 있습니다. 오늘 배운 내용 중 핵심 1개를 설명하고 대표 문제 1개를 다시 푸는 것부터 시작해야 합니다.`;
       else msg=`${n}은 ${x.name}에서 하위권 기준선보다 낮게 나왔습니다. 긴 공부 계획보다 짧고 쉬운 완료 기준을 먼저 잡아야 합니다.`;
       return {x,b,msg};
     });
-    return `<section id="v36Benchmark" class="v36FinalSection v36Reveal v36In"><div class="v36Head"><div><h2>5단계 기준선 비교</h2><p>기준선은 극상위권 99%, 최상위권 96%, 상위권 88%, 중위권 80%, 하위권 60%입니다. 이 표는 학생을 단정하는 표로 쓰지 않고, 현재 공부 방식이 어느 수준의 행동 기준에 가까운지 보여주는 비교표입니다.</p></div><span class="v36Badge">현재 평균 ${avg}% · ${esc(band.label)}</span></div><div class="v36Dual"><div class="v36RadarBox">${drawTierRadar(results)}<div class="v36Legend">${TIER_BANDS.map(b=>`<span>${b.line}</span>`).join('')}<span>현재 학생</span></div></div><div class="v36CompareGrid"><div class="v36CompareRow"><div class="v36CompareRowTop"><span>전체 판정</span><span>${avg}%</span></div><div class="v36Track"><div class="v36Fill" style="width:${Math.max(0,Math.min(100,avg))}%"></div></div><p>${esc(n)}은 전체 평균 기준으로 ${esc(band.label)} 구간에 가장 가깝습니다. 세부적으로는 아래 6개 영역 중 어느 영역이 높은지, 어느 영역이 다음 보완 대상인지 함께 봐야 합니다.</p></div>${comp.map(({x,b,msg})=>`<div class="v36CompareRow"><div class="v36CompareRowTop"><span>${esc(x.name)} · ${esc(x.label||'현재 응답')}</span><span>${x.score}% · ${esc(b.label)}</span></div><div class="v36Track"><div class="v36Fill" style="width:${Math.max(0,Math.min(100,x.score))}%"></div></div><p>${esc(msg)}</p></div>`).join('')}</div></div><div class="benchmarkGridV33 finalFiveTierCards">${TIER_BANDS.map(b=>`<div class="benchmarkCardV33"><b>${b.line}</b><strong>${b.pct}%</strong><span>${esc(b.note)}</span></div>`).join('')}</div></section>`;
+    return `<section id="v36Benchmark" class="v36FinalSection v36Reveal v36In"><div class="v36Head"><div><h2>5단계 기준선 비교</h2><p>기준선은 극상위권 98%, 최상위권 90%, 상위권 80%, 중위권 65%, 하위권 50%입니다. 이 표는 학생을 단정하는 표로 쓰지 않고, 현재 공부 방식이 어느 수준의 행동 기준에 가까운지 보여주는 비교표입니다.</p></div><span class="v36Badge">현재 평균 ${avg}% · ${esc(band.label)}</span></div><div class="v36Dual"><div class="v36RadarBox">${drawTierRadar(results)}<div class="v36Legend">${TIER_BANDS.map(b=>`<span>${b.line}</span>`).join('')}<span>현재 학생</span></div></div><div class="v36CompareGrid"><div class="v36CompareRow"><div class="v36CompareRowTop"><span>전체 판정</span><span>${avg}%</span></div><div class="v36Track"><div class="v36Fill" style="width:${Math.max(0,Math.min(100,avg))}%"></div></div><p>${esc(n)}은 전체 평균 기준으로 ${esc(band.label)} 구간에 가장 가깝습니다. 세부적으로는 아래 6개 영역 중 어느 영역이 높은지, 어느 영역이 다음 보완 대상인지 함께 봐야 합니다.</p></div>${comp.map(({x,b,msg})=>`<div class="v36CompareRow"><div class="v36CompareRowTop"><span>${esc(x.name)} · ${esc(x.label||'현재 응답')}</span><span>${x.score}% · ${esc(b.label)}</span></div><div class="v36Track"><div class="v36Fill" style="width:${Math.max(0,Math.min(100,x.score))}%"></div></div><p>${esc(msg)}</p></div>`).join('')}</div></div><div class="benchmarkGridV33 finalFiveTierCards">${TIER_BANDS.map(b=>`<div class="benchmarkCardV33"><b>${b.line}</b><strong>${b.pct}%</strong><span>${esc(b.note)}</span></div>`).join('')}</div></section>`;
   }
   function patchVerdict(results){
     const card=document.querySelector('#v36Verdict .v36VerdictCard');
@@ -3132,11 +3132,11 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     motivation:'처음 의욕보다 힘든 구간에서 공부를 놓지 않는 장치가 중요합니다. 짧은 확인 테스트와 작은 완료 표시가 효과적입니다.'
   };
   const BANDS=[
-    {label:'극상위권',pct:99,desc:'작은 실수와 시간 관리까지 점검해야 하는 구간입니다.'},
-    {label:'최상위권',pct:96,desc:'이해와 적용은 높지만, 낯선 표현에서 흔들리지 않는 재현력이 필요합니다.'},
-    {label:'상위권',pct:88,desc:'수업 이해를 혼자 다시 풀어 맞히는 과정으로 바꾸면 상승 여지가 큽니다.'},
-    {label:'중위권',pct:80,desc:'많은 양보다, 오늘 배운 대표 문제를 정확히 끝내는 루틴이 먼저입니다.'},
-    {label:'하위권',pct:60,desc:'짧은 과제를 완전히 끝내는 경험부터 다시 쌓아야 합니다.'}
+    {label:'극상위권',pct:98,desc:'작은 실수와 시간 관리까지 점검해야 하는 구간입니다.'},
+    {label:'최상위권',pct:90,desc:'이해와 적용은 높지만, 낯선 표현에서 흔들리지 않는 재현력이 필요합니다.'},
+    {label:'상위권',pct:80,desc:'수업 이해를 혼자 다시 풀어 맞히는 과정으로 바꾸면 상승 여지가 큽니다.'},
+    {label:'중위권',pct:65,desc:'많은 양보다, 오늘 배운 대표 문제를 정확히 끝내는 루틴이 먼저입니다.'},
+    {label:'하위권',pct:50,desc:'짧은 과제를 완전히 끝내는 경험부터 다시 쌓아야 합니다.'}
   ];
   function $(id){return document.getElementById(id)}
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
@@ -3320,11 +3320,11 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     motivation:'힘들어도 공부를 놓지 않는 힘'
   };
   const TIER_RULES=[
-    {key:'super',label:'극상위권',min:99,target:'극상위권 유지',title:'극상위권을 유지하기 위한 전략',short:'이미 매우 높은 수준입니다. 더 올리는 전략보다, 무너지는 조건을 줄이고 시험장에서 재현성을 유지하는 전략이 필요합니다.'},
-    {key:'top',label:'최상위권',min:96,target:'극상위권',title:'최상위권에서 극상위권으로 올라가기 위한 전략',short:'큰 개념 부족보다 한두 문제의 표현 변화, 조건 누락, 시간 압박, 오답 재현 실패가 마지막 차이를 만듭니다.'},
-    {key:'upper',label:'상위권',min:88,target:'최상위권',title:'상위권에서 최상위권으로 올라가기 위한 전략',short:'수업 이해는 충분하지만, 혼자 다시 풀어 맞히는 재현력과 낯선 조건 처리력이 최상위권 진입을 가릅니다.'},
-    {key:'middle',label:'중위권',min:80,target:'상위권',title:'중위권에서 상위권으로 올라가기 위한 전략',short:'많이 하는 것보다 대표 문제를 정확히 끝내고, 틀린 문제를 다음날 다시 맞히는 과정이 먼저입니다.'},
-    {key:'lower',label:'하위권',min:60,target:'중위권',title:'하위권에서 중위권으로 올라가기 위한 전략',short:'공부 의지 평가보다 시작 장치, 완료 기준, 작은 성공 경험을 먼저 만들어야 합니다.'}
+    {key:'super',label:'극상위권',min:98,target:'극상위권 유지',title:'극상위권을 유지하기 위한 전략',short:'이미 매우 높은 수준입니다. 더 올리는 전략보다, 무너지는 조건을 줄이고 시험장에서 재현성을 유지하는 전략이 필요합니다.'},
+    {key:'top',label:'최상위권',min:90,target:'극상위권',title:'최상위권에서 극상위권으로 올라가기 위한 전략',short:'큰 개념 부족보다 한두 문제의 표현 변화, 조건 누락, 시간 압박, 오답 재현 실패가 마지막 차이를 만듭니다.'},
+    {key:'upper',label:'상위권',min:80,target:'최상위권',title:'상위권에서 최상위권으로 올라가기 위한 전략',short:'수업 이해는 충분하지만, 혼자 다시 풀어 맞히는 재현력과 낯선 조건 처리력이 최상위권 진입을 가릅니다.'},
+    {key:'middle',label:'중위권',min:65,target:'상위권',title:'중위권에서 상위권으로 올라가기 위한 전략',short:'많이 하는 것보다 대표 문제를 정확히 끝내고, 틀린 문제를 다음날 다시 맞히는 과정이 먼저입니다.'},
+    {key:'lower',label:'하위권',min:50,target:'중위권',title:'하위권에서 중위권으로 올라가기 위한 전략',short:'공부 의지 평가보다 시작 장치, 완료 기준, 작은 성공 경험을 먼저 만들어야 합니다.'}
   ];
   function $(id){return document.getElementById(id)}
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]});}
@@ -3346,10 +3346,10 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     return Math.round(vals.reduce((s,v)=>s+v,0)/vals.length);
   }
   function tierFor(score){
-    if(score>=99)return TIER_RULES[0];
-    if(score>=96)return TIER_RULES[1];
-    if(score>=88)return TIER_RULES[2];
-    if(score>=80)return TIER_RULES[3];
+    if(score>=98)return TIER_RULES[0];
+    if(score>=90)return TIER_RULES[1];
+    if(score>=80)return TIER_RULES[2];
+    if(score>=65)return TIER_RULES[3];
     return TIER_RULES[4];
   }
   function rowsFrom(results){
@@ -3714,7 +3714,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function clean(s){return esc(String(s==null?'':s).replace(/\[object Object\]|undefined|NaN|Infinity|null|85% 기준|75% 기준|44% 기준|현재 비교값 없음|현재 우선순위 낮음/g,''))}
   function setVersion(){var b=el('versionBadge'); if(b)b.textContent=FINAL_VERSION;}
   function scoreFromResults(r){var axes=Object.keys(axisMap); return Math.round(axes.reduce(function(sum,a){return sum+Math.max(r[a].left,r[a].right)},0)/axes.length)}
-  function tierFromScore(s){if(s>=99)return {name:'극상위권',short:'유지 전략',next:'극상위권을 유지하기 위한 전략'}; if(s>=96)return {name:'최상위권',short:'극상위권 진입',next:'최상위권에서 극상위권으로 올라가기 위한 전략'}; if(s>=88)return {name:'상위권',short:'최상위권 진입',next:'상위권에서 최상위권으로 올라가기 위한 전략'}; if(s>=80)return {name:'중위권',short:'상위권 진입',next:'중위권에서 상위권으로 올라가기 위한 전략'}; return {name:'하위권',short:'중위권 진입',next:'하위권에서 중위권으로 올라가기 위한 전략'}}
+  function tierFromScore(s){if(s>=98)return {name:'극상위권',short:'유지 전략',next:'극상위권을 유지하기 위한 전략'}; if(s>=90)return {name:'최상위권',short:'극상위권 진입',next:'최상위권에서 극상위권으로 올라가기 위한 전략'}; if(s>=80)return {name:'상위권',short:'최상위권 진입',next:'상위권에서 최상위권으로 올라가기 위한 전략'}; if(s>=65)return {name:'중위권',short:'상위권 진입',next:'중위권에서 상위권으로 올라가기 위한 전략'}; return {name:'하위권',short:'중위권 진입',next:'하위권에서 중위권으로 올라가기 위한 전략'}}
   function hasJong(name){name=String(name||'').trim();if(!name)return true;var ch=name.charCodeAt(name.length-1);if(ch>=0xAC00&&ch<=0xD7A3)return ((ch-0xAC00)%28)!==0;return /[0-9a-zA-Z]$/.test(name);} function josa(name,pair){var h=hasJong(name); if(pair==='이가')return h?'이':'가'; if(pair==='을를')return h?'을':'를'; if(pair==='과와')return h?'과':'와'; return h?'은':'는';} function ptopic(name){name=String(name||'학생').trim()||'학생';return name+josa(name,'은는')}
   function dominantRows(r){return Object.keys(axisMap).map(function(a){var s=r[a], m=axisMap[a], score=Math.max(s.left,s.right); return {axis:a,name:m.name,label:s.chosen,score:score,diff:s.diff,side:s.side,left:s.left,right:s.right}}).sort(function(a,b){return b.score-a.score})}
   var axisScene={
@@ -3739,12 +3739,12 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var report=el('report'); if(!report)return;
     report.innerHTML='<section class="v12Report">'+
       '<div class="v12Hero glass"><div class="v12Score"><div><div class="v12ScoreNum">'+score+'%</div><div class="v12Tier">'+clean(tier.name)+'</div><div style="color:var(--muted);margin-top:10px">응답 96 / 96 · 코드 '+clean(code||'')+'</div></div></div><div class="v12Copy"><span class="v12Kicker">'+clean(name)+' · '+FINAL_VERSION+'</span><h2>아이의 현재 학습 상태와 첫 조정 포인트</h2><p class="v12Lead"><span class="v12KeyTag">핵심 판단</span>'+clean(intro(score,tier,name))+'</p><p>먼저 확인할 장면은 <b style="color:var(--mint)">'+clean(weak.name)+'</b>입니다. 반대로 현재 가장 안정적인 장면은 <b style="color:var(--gold)">'+clean(strong.name)+'</b>입니다. 강점은 살리고, 약점은 이번 주 숙제와 오답에서 바로 확인해야 합니다.</p></div></div>'+ 
-      '<div class="v12Grid3"><div class="v12Card"><b>현재 권역</b><strong>'+clean(tier.name)+' · '+score+'%</strong><span><span class="v12Focus">극상위권 99%</span>, <span class="v12FocusMint">최상위권 96%</span>, 상위권 88%, 중위권 80%, 하위권 60% 기준입니다.</span></div><div class="v12Card"><b>다음 목표</b><strong>'+clean(tier.short)+'</strong><span>'+clean(tier.next)+'</span></div><div class="v12Card"><b>이번 주 첫 확인</b><strong>'+clean(weak.name)+'</strong><span>'+clean((axisScene[weak.axis]||['',''])[1])+'</span></div></div>'+ 
+      '<div class="v12Grid3"><div class="v12Card"><b>현재 권역</b><strong>'+clean(tier.name)+' · '+score+'%</strong><span><span class="v12Focus">극상위권 98%</span>, <span class="v12FocusMint">최상위권 90%</span>, 상위권 80%, 중위권 65%, 하위권 50% 기준입니다.</span></div><div class="v12Card"><b>다음 목표</b><strong>'+clean(tier.short)+'</strong><span>'+clean(tier.next)+'</span></div><div class="v12Card"><b>이번 주 첫 확인</b><strong>'+clean(weak.name)+'</strong><span>'+clean((axisScene[weak.axis]||['',''])[1])+'</span></div></div>'+ 
       '<div class="v12Section"><b>NEXT STEP</b><h2>'+clean(plan.title)+'</h2><p class="v12ImportantLine"><span class="v12KeyTag">이번 주 방향</span>'+clean(plan.summary)+'</p><div class="v12NextGrid"><div class="v12Mini"><b>학생이 할 일</b><p>'+clean(plan.student)+'</p></div><div class="v12Mini"><b>선생님이 볼 장면</b><p>'+clean(plan.teacher)+'</p></div><div class="v12Mini"><b>학부모가 확인할 것</b><p>'+clean(plan.parent)+'</p></div></div></div>'+ 
       '<div class="v12Section"><b>2022 개정교육과정 이후 입시 전략</b><h2>제도, 과목 선택, 실제 성취가 한 줄로 이어져야 합니다.</h2><p><span class="v12KeyTag">입시 핵심</span>'+clean(adm[0])+'</p><p><span class="v12KeyTag">학생별 적용</span>'+clean(adm[1])+'</p><div class="v12Admission"><div class="v12Mini"><b>내신 5등급제</b><p><span class="v12FocusMint">학교 수업, 수행, 시험 대비</span>가 따로 움직이면 학생부 설득력이 약해집니다.</p></div><div class="v12Mini"><b>통합형 수능</b><p>선택과목 유불리보다 <span class="v12FocusMint">공통기초, 자료 해석, 긴 지문 독해</span>가 중요해집니다. 기본 개념을 문제 상황에 꺼내 쓰는 훈련이 필요합니다.</p></div><div class="v12Mini"><b>고교학점제</b><p>과목 수보다 <span class="v12FocusMint">진로와 맞는 과목 선택</span>, 그리고 그 과목에서 만든 성취가 중요합니다.</p></div><div class="v12Mini"><b>자연계열 준비</b><p>수학은 미적분Ⅱ·기하 흐름, 과학은 전공연계 과목 선택과 성취가 중요합니다. 학교별 권장과목이 다르므로 목표 대학 자료를 확인해야 합니다.</p></div></div></div>'+ 
       '<div class="v12Section"><b>대치권 최상위권 커리 기준으로 본 현재 위치</b><h2>빠른 커리보다, 그 커리에서 실제로 남는 것이 중요합니다.</h2><p><span class="v12KeyTag">커리 현실</span>'+clean(dachiCurriculumFor(tier,weak,name)[0])+'</p><p><span class="v12KeyTag">학생별 적용</span>'+clean(dachiCurriculumFor(tier,weak,name)[1])+'</p><div class="v12Criteria curriculumCompare">'+curriculumTableHtml(tier.name)+'</div></div>'+ 
       '<div class="v12Section"><b>메디컬·영재학교·과학고 연결 전략</b><h2>수학, 과학, 독해, 오답이 함께 움직여야 합니다.</h2><p><span class="v12KeyTag">진로 핵심</span>'+clean(medicalStrategyFor(tier,weak,name)[0])+'</p><p><span class="v12KeyTag">학생별 적용</span>'+clean(medicalStrategyFor(tier,weak,name)[1])+'</p><div class="v12Admission"><div class="v12Mini"><b>과학심화·올림피아드형 준비</b><p>중등 과학 반복에서 멈추면 약합니다. 물리·화학·생명과학의 기본 구조를 잡고 <span class="v12FocusMint">조건 정리와 논리 전개</span>로 넘어가야 합니다.</p></div><div class="v12Mini"><b>영재·과고형 준비</b><p>수학·과학을 따로 보지 않습니다. 풀이 논리, 실험·탐구 맥락, 면접에서 말할 수 있는 사고 흐름까지 봅니다.</p></div><div class="v12Mini"><b>메디컬형 준비</b><p>생명과학·화학·수학, 그리고 긴 지문을 버티는 독해력이 같이 필요합니다. 선택한 과목에서 만든 성취가 진로와 연결되어야 합니다.</p></div><div class="v12Mini"><b>학부모 확인 포인트</b><p>어느 학원에 다니는지보다 <span class="v12FocusMint">틀린 문제를 다시 맞히는지</span>, 어려운 내용을 자기 말로 설명하는지 확인해야 합니다.</p></div></div></div>'+ 
-      '<div class="v12Section"><b>5단계 기준선</b><h2>결과 권역과 다음 목표를 분리해서 봅니다.</h2><div class="v12Criteria"><div class="v12Criterion"><strong>극상위권</strong><span>99% 기준</span><span>유지 전략</span></div><div class="v12Criterion"><strong>최상위권</strong><span>96% 기준</span><span>극상위권 진입</span></div><div class="v12Criterion"><strong>상위권</strong><span>88% 기준</span><span>최상위권 진입</span></div><div class="v12Criterion"><strong>중위권</strong><span>80% 기준</span><span>상위권 진입</span></div><div class="v12Criterion"><strong>하위권</strong><span>60% 기준</span><span>중위권 진입</span></div></div></div>'+ 
+      '<div class="v12Section"><b>5단계 기준선</b><h2>결과 권역과 다음 목표를 분리해서 봅니다.</h2><div class="v12Criteria"><div class="v12Criterion"><strong>극상위권</strong><span>98% 기준</span><span>유지 전략</span></div><div class="v12Criterion"><strong>최상위권</strong><span>90% 기준</span><span>극상위권 진입</span></div><div class="v12Criterion"><strong>상위권</strong><span>80% 기준</span><span>최상위권 진입</span></div><div class="v12Criterion"><strong>중위권</strong><span>65% 기준</span><span>상위권 진입</span></div><div class="v12Criterion"><strong>하위권</strong><span>50% 기준</span><span>중위권 진입</span></div></div></div>'+ 
       '<div class="v12Section"><b>영역별 해석</b><h2>각 영역을 실제 공부 장면으로 다시 읽기</h2><div class="v12Axis">'+rows.map(function(r){var sc=axisScene[r.axis]||['',''];return '<div class="v12AxisRow"><b>'+clean(r.name)+'</b><em>'+r.score+'%</em><span>'+clean(sc[0])+'<br>'+clean(sc[1])+'</span><span class="v12Pill">'+clean(level(r.score))+'</span></div>'}).join('')+'</div></div>'+ 
       '<div class="v12Section"><b>학습 장면 분석</b><h2>학부모와 선생님이 바로 확인할 행동</h2><div class="v12SceneGrid"><div class="v12Scene"><b>수업 시간</b><p>설명 직후 <span class="v12FocusMint">비슷한 문제를 혼자 풀 수 있는지</span>가 진짜 확인입니다.</p></div><div class="v12Scene"><b>혼자 문제 풀 때</b><p>첫 줄에서 멈추면 개념을 모른다고 단정하기보다 조건을 풀이로 바꾸는 훈련이 부족한 장면으로 봐야 합니다.</p></div><div class="v12Scene"><b>오답 처리</b><p>해설을 읽은 뒤 <span class="v12FocusMint">다음 날 가리고 다시 맞히는지</span>가 중요합니다.</p></div><div class="v12Scene"><b>숙제 마무리</b><p><span class="v12FocusMint">다시 푼 문제</span>와 <span class="v12FocusMint">질문으로 남긴 문제</span>를 봐야 합니다.</p></div><div class="v12Scene"><b>질문 장면</b><p><span class="v12FocusMint">막힌 조건을 정확히 말하는 질문</span>은 실력이 빨리 오르는 신호입니다.</p></div><div class="v12Scene"><b>시험 전</b><p>새 문제보다 <span class="v12FocusMint">자주 틀린 유형을 다시 맞히는 것</span>이 점수에 더 직접적으로 연결됩니다.</p></div></div></div>'+ 
       '<div class="v12Section"><b>이번 주 확인 체크리스트</b><h2>많이 했는지보다, 무엇이 남았는지를 봅니다.</h2><div class="v12Check"><div><b>1</b>틀린 문제 10개 중 해설 없이 다시 맞힌 개수</div><div><b>2</b>오늘 배운 개념을 비슷한 문제 첫 줄에 적용한 횟수</div><div><b>3</b>숙제 중 질문으로 남긴 문제와 그 이유</div><div><b>4</b>학교 수업, 내신, 심화 학습, 진로 방향이 같은 방향으로 이어지는지</div></div></div>'+ 
@@ -3865,13 +3865,13 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function rawName(){try{var q=new URLSearchParams(location.search);var v=(el('studentName')&&el('studentName').value)||q.get('n')||q.get('name')||'학생';return String(v||'학생').trim()||'학생'}catch(e){return '학생'}}
   function topic(name){return name+josa(name,'은는')}
   function scoreFromResults(r){var axes=Object.keys(axisMap);return Math.round(axes.reduce(function(sum,a){return sum+Math.max(r[a].left,r[a].right)},0)/axes.length)}
-  function tierFromScore(s){if(s>=99)return {name:'극상위권',goal:'극상위권 유지',next:'극상위권을 유지하기 위한 전략'};if(s>=96)return {name:'최상위권',goal:'극상위권 진입',next:'최상위권에서 극상위권으로 올라가기 위한 전략'};if(s>=88)return {name:'상위권',goal:'최상위권 진입',next:'상위권에서 최상위권으로 올라가기 위한 전략'};if(s>=80)return {name:'중위권',goal:'상위권 진입',next:'중위권에서 상위권으로 올라가기 위한 전략'};return {name:'하위권',goal:'중위권 진입',next:'하위권에서 중위권으로 올라가기 위한 전략'}}
-  function level(s){if(s>=96)return '강하게 안정';if(s>=88)return '안정권';if(s>=80)return '보완 필요';return '우선 보정'}
+  function tierFromScore(s){if(s>=98)return {name:'극상위권',goal:'극상위권 유지',next:'극상위권을 유지하기 위한 전략'};if(s>=90)return {name:'최상위권',goal:'극상위권 진입',next:'최상위권에서 극상위권으로 올라가기 위한 전략'};if(s>=80)return {name:'상위권',goal:'최상위권 진입',next:'상위권에서 최상위권으로 올라가기 위한 전략'};if(s>=65)return {name:'중위권',goal:'상위권 진입',next:'중위권에서 상위권으로 올라가기 위한 전략'};return {name:'하위권',goal:'중위권 진입',next:'하위권에서 중위권으로 올라가기 위한 전략'}}
+  function level(s){if(s>=90)return '강하게 안정';if(s>=80)return '안정권';if(s>=65)return '보완 필요';return '우선 보정'}
   function rowsFrom(r){return Object.keys(axisMap).map(function(a){var s=r[a],m=axisMap[a];return {axis:a,name:m.name,label:s.chosen,score:Math.max(s.left,s.right),left:s.left,right:s.right,diff:s.diff,side:s.side}})}
   function weakest(r){var rows=rowsFrom(r);rows.sort(function(a,b){return a.score-b.score});return rows[0]||{name:'학습 흐름',score:0,axis:'understanding'}}
   function strongest(r){var rows=rowsFrom(r);rows.sort(function(a,b){return b.score-a.score});return rows[0]||{name:'학습 흐름',score:0,axis:'understanding'}}
   function axisText(row,name){
-    var n=topic(name), s=row.score, a=row.axis, high=s>=96, mid=s>=88, low=s<80;
+    var n=topic(name), s=row.score, a=row.axis, high=s>=90, mid=s>=80, low=s<65;
     var status='', action='';
     if(a==='understanding'){
       status=high?n+' 개념을 받아들이는 힘은 강하게 나타납니다. 지금 볼 장면은 설명을 듣는 순간보다 새 문제 첫 줄을 얼마나 빨리 세우는지입니다.':mid?n+' 개념 흐름은 안정적입니다. 다만 표현이나 숫자가 바뀌었을 때 첫 식이 늦어지는 장면이 있는지 확인해야 합니다.':low?n+' 설명을 들을 때는 따라가도 혼자 풀 때 조건 정리에서 멈출 수 있습니다. 지금은 개념 설명보다 대표 문제 적용을 먼저 봐야 합니다.':n+' 이해 흐름은 잡히고 있습니다. 새 문제에서 첫 줄을 세우는 속도를 올리면 점수로 더 잘 이어집니다.';
@@ -3898,7 +3898,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function nextPlan(tier,weak,name){var n=topic(name), w=weak.name;var common={student:'틀린 문제를 다시 풀었을 때 혼자 맞히는지 확인하세요.',teacher:'정답 여부보다 풀이 첫 줄, 조건 표시, 다시 맞힌 문제 수를 보세요.',parent:'공부 시간보다 오늘 끝낸 문제 번호와 다시 맞힌 문제 수를 확인해 주세요.'};if(tier.name==='극상위권')return {title:tier.next,summary:n+' 이미 강한 축이 많습니다. 유지 전략의 핵심은 실전 흔들림 관리입니다. 어려운 문제를 맞힌 뒤에도 조건이 바뀌면 같은 판단을 다시 할 수 있어야 합니다.',student:'맞힌 문제도 핵심 조건과 첫 식을 한 문장으로 남기세요.',teacher:'고난도 한 문제보다 변형 문제에서 사고가 재현되는지 확인하세요.',parent:'무리한 추가 진도보다 컨디션, 수면, 실전 루틴을 같이 봐 주세요.'};if(tier.name==='최상위권')return {title:tier.next,summary:n+' 극상위권 진입의 핵심은 '+w+'입니다. 이 구간은 다들 수업을 잘 듣습니다. 차이는 혼자 풀 때 첫 줄이 나오는지, 오답을 다음 날 다시 맞히는지에서 납니다.',student:'해설을 보고 이해한 문제를 다음 날 가리고 다시 풀어 맞히세요.',teacher:'풀이 시작 장면을 보세요. 조건 표시, 첫 식, 단위 확인에서 차이가 납니다.',parent:'문제 수를 늘리기보다 틀린 문제 10개를 다시 풀렸을 때 몇 개 맞히는지 확인해 주세요.'};if(tier.name==='상위권')return {title:tier.next,summary:n+' 최상위권으로 올라가려면 '+w+'을 먼저 잡아야 합니다. 선행 진도를 더 올리기 전에 오늘 배운 내용을 새 문제에서 바로 쓰는지 확인해야 합니다.',student:'오늘 배운 개념을 문제 첫 줄에 어떻게 쓰는지 적어 보세요.',teacher:'대표 문제 이후 숫자와 조건을 바꾼 문제를 바로 연결해 주세요.',parent:'숙제를 냈는지보다 숙제에서 틀린 문제를 다시 맞혔는지 확인해 주세요.'};if(tier.name==='중위권')return {title:tier.next,summary:n+' 상위권 진입의 출발점은 루틴입니다. 오늘 끝낼 번호, 틀린 문제 재풀이, 질문할 문제를 분리하면 공부가 점수로 이어지는 흐름이 생깁니다.',student:'많이 푼 날보다 틀린 문제를 다시 맞힌 날이 더 중요합니다.',teacher:'숙제 검사에서 제출 여부보다 오답 재풀이 여부를 먼저 확인하세요.',parent:'하루 공부량을 크게 늘리기보다 오늘 끝낸 작은 범위를 확인해 주세요.'};return {title:tier.next,summary:n+' 중위권으로 올라가려면 공부의 기본 구조가 먼저입니다. 한 번에 많은 양을 맡기면 시작부터 흐려질 수 있습니다. 대표 개념 1개와 대표 문제 1개를 확실히 맞히게 하는 편이 낫습니다.',student:'오늘은 한 문제라도 혼자 다시 맞히는 경험을 남기세요.',teacher:'한 단원 전체보다 대표 개념 1개와 대표 문제 1개를 확실히 잡아 주세요.',parent:'긴 계획보다 오늘 끝낼 작은 범위를 정하고 완료를 확인해 주세요.'}}
   function admissionText(tier,weak,name){var n=topic(name);var base='2028 대입은 통합형 수능, 내신 5등급제, 고교학점제, 대학별 권장과목이 같이 움직입니다. 중학생에게 바로 필요한 것은 제도 이름 암기에서 끝나지 않습니다. 학교 수업을 정확히 가져가고, 선택한 과목에서 성취를 만들고, 그 흐름을 학생부와 진로 설명으로 이어가는 구조입니다.';var t='';if(tier.name==='극상위권'||tier.name==='최상위권')t=n+' 자연계열과 메디컬을 열어둘 수 있습니다. 동시에 영재학교·과학고·전국단위 자사고까지 함께 놓고 봐야 합니다. 수학, 과학, 국어 독해, 서술형 풀이, 면접에서 말할 수 있는 탐구 경험이 같이 필요합니다. '+weak.name+'의 작은 빈틈도 고등 내신과 면접형 평가에서는 크게 보일 수 있습니다.';else if(tier.name==='상위권')t=n+' 상위권 기반이 있으므로 목표를 넓게 열어둘 수 있습니다. 다만 과목 선택표를 먼저 보는 방식은 위험합니다. 수업 내용을 혼자 문제에서 쓰는지, 오답을 다시 맞히는지, 독서와 탐구를 말로 설명할 수 있는지부터 확인해야 합니다.';else t=n+' 지금은 목표 이름을 많이 붙이는 것보다 공부 구조를 먼저 세워야 합니다. 내신, 수행, 면접형 질문은 결국 평소 학습 장면에서 드러납니다. 기본 문제를 놓치지 않고 다시 맞히는 루틴이 먼저입니다.';return [base,t]}
   function trackText(tier,weak,name){var n=topic(name);var common='중학생 상위권 준비는 한 방향으로만 좁히면 약합니다. 메디컬은 고교 과목 선택과 성취, 영재학교·과학고는 수학·과학 서술과 탐구 면접, 외O부고·하O고 등 전국단위 자사고는 내신, 독서, 자기소개서, 면접이 함께 중요합니다. 대치권에서는 다O교육, 미O탐구, 파O만, 와O즈만, C○S, 깊O생각, 황O, 세O, 시O인재 등 여러 라인을 학생 상태에 맞게 조합합니다. 과목별 강사도 조O모T, 이O희T처럼 한두 명으로 정리되는 구조보다 여러 선택지를 비교하는 흐름이 일반적입니다.';var by='';if(tier.name==='극상위권')by=n+' 빠른 진도와 심화 문제를 견딜 가능성이 큽니다. 이 구간은 영재학교·과학고형 서술, 전사고형 독서·면접, 메디컬형 수학·과학 과목 설계를 함께 놓고 비교해야 합니다. 핵심은 어려운 내용을 자기 풀이와 말로 다시 꺼내는 힘입니다.';else if(tier.name==='최상위권')by=n+' 메디컬, 영재학교, 과학고, 전사고 가능성을 모두 열어두고 볼 수 있습니다. 다만 빠른 커리에 올렸을 때 '+weak.name+'이 먼저 흔들릴 수 있습니다. 커리 선택 전에는 첫 줄 안정성, 오답 재풀이, 면접에서 말할 수 있는 탐구 경험을 함께 봐야 합니다.';else if(tier.name==='상위권')by=n+' 상위권 커리에 들어갈 수 있는 기반은 있습니다. 그러나 영재고·과고형 문제에서는 서술 과정, 전사고 준비에서는 독서와 자기소개서 소재, 메디컬 준비에서는 수학·과학의 지속성이 바로 드러납니다. 지금은 약점 보정 뒤에 커리 속도를 올리는 편이 안전합니다.';else if(tier.name==='중위권')by=n+' 목표 이름보다 학습 구조가 먼저입니다. 빠른 커리는 숙제량과 복습 압박이 큽니다. 오늘 푼 문제, 다시 맞힌 문제, 질문으로 남긴 문제를 분리해야 다음 단계 커리로 넘어갈 수 있습니다.';else by=n+' 상위권 커리를 바로 얹기보다 기본 루틴을 먼저 만들어야 합니다. 대표 문제를 혼자 다시 맞히고, 모르는 문제를 질문으로 바꾸는 경험이 있어야 빠른 커리에서도 남는 것이 생깁니다.';return [common,by]}
-  function criteriaHtml(current){var data=[['극상위권','99% 이상','유지 전략','고난도 재현성, 컨디션, 면접형 사고까지 관리합니다.'],['최상위권','96% 이상','극상위권 진입','첫 줄 안정성, 오답 재풀이, 심화 커리 적합도를 확인합니다.'],['상위권','88% 이상','최상위권 진입','약점 축을 보정한 뒤 선행과 심화를 올리는 편이 안전합니다.'],['중위권','80% 이상','상위권 진입','숙제 완료 기준과 오답 재풀이 루틴을 먼저 잡습니다.'],['하위권','60% 이상','중위권 진입','대표 문제를 다시 맞히는 기본 구조부터 만듭니다.']];return data.map(function(x){return '<div class="v21Criterion '+(x[0]===current?'active':'')+'"><strong>'+clean(x[0])+'</strong><span>'+clean(x[1]+' · '+x[2])+'</span><span>'+clean(x[3])+'</span></div>'}).join('')}
+  function criteriaHtml(current){var data=[['극상위권','98% 이상','유지 전략','고난도 재현성, 컨디션, 면접형 사고까지 관리합니다.'],['최상위권','90% 이상','극상위권 진입','첫 줄 안정성, 오답 재풀이, 심화 커리 적합도를 확인합니다.'],['상위권','80% 이상','최상위권 진입','약점 축을 보정한 뒤 선행과 심화를 올리는 편이 안전합니다.'],['중위권','65% 이상','상위권 진입','숙제 완료 기준과 오답 재풀이 루틴을 먼저 잡습니다.'],['하위권','50% 이상','중위권 진입','대표 문제를 다시 맞히는 기본 구조부터 만듭니다.']];return data.map(function(x){return '<div class="v21Criterion '+(x[0]===current?'active':'')+'"><strong>'+clean(x[0])+'</strong><span>'+clean(x[1]+' · '+x[2])+'</span><span>'+clean(x[3])+'</span></div>'}).join('')}
   function miniCards(items){return items.map(function(x){return '<div class="v21Card"><strong>'+clean(x[0])+'</strong><p>'+clean(x[1])+'</p></div>'}).join('')}
   function safeReportV21(results,code,baseCode,modeCode,base,mode){
     try{setVersion();var report=el('report');if(!report)return;var name=rawName();var score=scoreFromResults(results);var tier=tierFromScore(score);var strong=strongest(results), weak=weakest(results);var plan=nextPlan(tier,weak,name);var ad=admissionText(tier,weak,name);var tr=trackText(tier,weak,name);var rows=rowsFrom(results);var nav=el('reportNav');if(nav)nav.classList.add('hide');
@@ -3924,6 +3924,15 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
 })();
 </script>
 <!-- FINAL_V21_REALISTIC_ADMISSION_REPORT_END -->
+
+
+
+<script id="scoreTierThresholdPatch20260516">
+(function(){
+  'use strict';
+  window.STUDY64_SCORE_THRESHOLDS={super:98,top:90,upper:80,middle:65,lower:50};
+})();
+</script>
 
 </body>
 </html>
