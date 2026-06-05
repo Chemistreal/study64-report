@@ -711,6 +711,13 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
 .s64gapFill.ok{background:linear-gradient(90deg,#43e0a6,#77ffd6)}
 .s64gapFill.near{background:linear-gradient(90deg,#e6b94d,#ffdb7d)}
 .s64gapFill.low{background:linear-gradient(90deg,#e07b7b,#ff9c9c)}
+.s64gapTag.turn{color:#1a1030;background:linear-gradient(90deg,#b78cff,#d9c4ff)}
+.s64gapFill.turn{background:linear-gradient(90deg,#8b6fd6,#b78cff)}
+.s64gapNote{font-size:11.5px;line-height:1.5;color:var(--muted);margin:1px 0 9px;padding-left:2px;opacity:.9}
+.s64gapNote b{color:var(--violet)}
+.s64light .s64gapTag.turn{color:#fff;background:#9a6ff0}
+.s64light .s64gapNote{color:#5a6477}
+@media print{.s64gapTag.turn{background:#e8def7!important;color:#5a3aa0!important}.s64gapNote{color:#555!important}}
 .s64gapRef{position:absolute;top:-3px;width:0;height:16px;border-left:2px dashed #ffce5a;transform:translateX(-1px);z-index:2}
 .s64gapPct{font-size:12px;font-weight:900;color:var(--soft);text-align:right}
 .s64gapPct i{font-style:normal;color:var(--muted);font-weight:600;font-size:11px}
@@ -5341,27 +5348,58 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   }
   function buildBenchmark(r,tid,tname){
     var prof=REF_PROFILES[tid];if(!prof)return '';
-    var cv=[],rv=[],labels=[],rows=[];
-    prof.forEach(function(e){var ax=e[0],pole=e[1],t=e[2];var cval=pole==='L'?r[ax].left:pole==='R'?r[ax].right:vmax(r,ax);var lbl=pole==='-'?POLE[ax].n:(pole==='L'?POLE[ax].L:POLE[ax].R);cv.push(cval);rv.push(t);labels.push(lbl);rows.push({lbl:lbl,c:cval,t:t,gap:cval-t});});
-    var gate=!trustOk(window.__S64TRUST__);
-    var needs=rows.filter(function(x){return x.gap<-12;}).sort(function(a,b){return a.gap-b.gap;});
-    var meet=rows.filter(function(x){return x.gap>=0;}).length;
-    var rankMap={};needs.forEach(function(x,i){rankMap[x.lbl]=i+1;});
-    var bars=rows.map(function(x){
-      var st=x.gap>=0?['충족','ok']:x.gap>=-12?['근접','near']:['보강'+(rankMap[x.lbl]?' '+rankMap[x.lbl]+'순위':''),'low'];
-      var cpct=Math.max(3,Math.min(100,x.c)),tpos=Math.max(0,Math.min(100,x.t));
-      return '<div class="s64gapRow"><span class="s64gapName">'+esc(x.lbl)+'</span><span class="s64gapBar"><span class="s64gapFill '+(gate?'blur ':'')+st[1]+'" style="width:'+cpct+'%"></span><span class="s64gapRef" style="left:'+tpos+'%"></span></span><span class="s64gapPct'+(gate?' blur':'')+'">'+x.c+'<i>/'+x.t+'</i></span><span class="s64gapTag '+st[1]+'">'+st[0]+'</span></div>';
-    }).join('');
-    var headline=meet>=5?pick(['대부분의 축이 기준선을 넘었습니다. 강점을 유지하며 마무리하면 됩니다.','여섯 축 대부분이 기준에 도달했습니다. 지금 흐름을 유지하세요.'],70):meet>=3?pick(['핵심 축은 기준선에 닿아 있고, 일부 축을 끌어올리면 더 탄탄해집니다.','중심 축은 충족했고, 몇 개만 보강하면 더 단단해집니다.'],71):pick(['아직 기준선 아래 축이 있습니다. 아래 보강 순위대로 한 축씩 채워 가면 됩니다.','기준선 아래 축이 보입니다. 보강 1순위부터 차근차근 올리면 됩니다.'],72);
-    var needTxt=needs.length?('보강 우선순위 — '+needs.map(function(x,i){return (i+1)+') '+x.lbl+'(기준 대비 '+x.gap+')';}).join(' · ')):'현재 기준선에 미달하는 축이 없습니다.';
+    var refMap={};prof.forEach(function(e){refMap[e[0]]={pole:e[1],t:e[2]};});
     var nm=esc(tname.split(' ·')[0].split('(')[0]);
+    var cv=[],rv=[],labels=[],rows=[];
+    /* "이 아이"는 학생의 우세 극 프로파일로 고정 — 어떤 트랙 탭에서도 동일. 기준선(rv)만 트랙별로 달라짐. */
+    AX.forEach(function(a){
+      var domIsLeft=sideL(r,a);
+      var domSc=domScore(r,a);
+      var domLab=domName(r,a);
+      var ref=refMap[a]||{pole:'-',t:58};
+      var dir,tgt,oppLab='',wantSc=domSc;
+      if(ref.pole==='-'){dir='neutral';tgt=ref.t;}
+      else{
+        var refIsLeft=(ref.pole==='L');
+        if(refIsLeft===domIsLeft){dir='match';tgt=ref.t;}
+        else{dir='opp';tgt=clamp(100-ref.t);oppLab=refIsLeft?POLE[a].L:POLE[a].R;wantSc=refIsLeft?r[a].left:r[a].right;}
+      }
+      cv.push(domSc);rv.push(tgt);labels.push(domLab);
+      rows.push({lbl:domLab,c:domSc,t:tgt,dir:dir,opp:oppLab,want:wantSc,refT:ref.t,gap:domSc-tgt});
+    });
+    var gate=!trustOk(window.__S64TRUST__);
+    var lacks=rows.filter(function(x){return x.dir!=='opp'&&x.gap<-12;}).sort(function(a,b){return a.gap-b.gap;});
+    var turns=rows.filter(function(x){return x.dir==='opp';});
+    var meet=rows.filter(function(x){return x.dir!=='opp'&&x.gap>=0;}).length;
+    var rankMap={};lacks.forEach(function(x,i){rankMap[x.lbl]=i+1;});
+    var bars=rows.map(function(x){
+      var st;
+      if(x.dir==='opp')st=['방향 주의','turn'];
+      else if(x.gap>=0)st=['충족','ok'];
+      else if(x.gap>=-12)st=['근접','near'];
+      else st=['보강'+(rankMap[x.lbl]?' '+rankMap[x.lbl]+'순위':''),'low'];
+      var cpct=Math.max(3,Math.min(100,x.c)),tpos=Math.max(0,Math.min(100,x.t));
+      var row='<div class="s64gapRow"><span class="s64gapName">'+esc(x.lbl)+'</span><span class="s64gapBar"><span class="s64gapFill '+(gate?'blur ':'')+st[1]+'" style="width:'+cpct+'%"></span><span class="s64gapRef" style="left:'+tpos+'%"></span></span><span class="s64gapPct'+(gate?' blur':'')+'">'+x.c+'<i>/'+x.t+'</i></span><span class="s64gapTag '+st[1]+'">'+st[0]+'</span></div>';
+      if(x.dir==='opp')row+='<div class="s64gapNote">'+nm+' 기준 이 축은 <b>'+esc(x.opp)+'</b>을(를) 봅니다 — 이 아이의 '+esc(x.opp)+'는 '+x.want+'. 같은 축이라도 반대 성향이라 방향 전환이 필요합니다.</div>';
+      return row;
+    }).join('');
+    var headline;
+    if(turns.length)headline=nm+'이(가) 핵심으로 보는 역량은 갖췄지만, '+turns.length+'개 축은 이 아이의 강한 방향과 반대라 방향 전환이 필요합니다.';
+    else if(meet>=5)headline=pick(['대부분의 축이 기준선을 넘었습니다. 강점을 유지하며 마무리하면 됩니다.','여섯 축 대부분이 기준에 도달했습니다. 지금 흐름을 유지하세요.'],70);
+    else if(meet>=3)headline=pick(['핵심 축은 기준선에 닿아 있고, 일부 축을 끌어올리면 더 탄탄해집니다.','중심 축은 충족했고, 몇 개만 보강하면 더 단단해집니다.'],71);
+    else headline=pick(['아직 기준선 아래 축이 있습니다. 아래 보강 순위대로 한 축씩 채워 가면 됩니다.','기준선 아래 축이 보입니다. 보강 1순위부터 차근차근 올리면 됩니다.'],72);
+    var parts=[];
+    if(turns.length)parts.push('방향 전환 — '+turns.map(function(x){return esc(x.lbl)+'→'+esc(x.opp);}).join(' · '));
+    if(lacks.length)parts.push('보강 — '+lacks.map(function(x,i){return (i+1)+') '+esc(x.lbl)+'(기준 대비 '+x.gap+')';}).join(' · '));
+    var needTxt=parts.length?parts.join('   /   '):'현재 기준선에 미달하거나 방향이 어긋난 축이 없습니다.';
     return '<div class="s64bench">'
       +'<div class="s64benchHead"><span class="s64benchBadge">AI 추론 기대 프로파일 · 벤치마크</span><h3>'+nm+'이(가) 요구하는 역량 vs 이 아이</h3></div>'
-      +'<div class="s64benchGrid"><div class="s64benchHex">'+hexOverlaySVG(cv,rv,labels)+'<div class="s64benchLegend"><span><i class="lc"></i>이 아이</span><span><i class="lr"></i>기준선(기대 프로파일)</span></div></div>'
+      +'<div class="s64benchGrid"><div class="s64benchHex">'+hexOverlaySVG(cv,rv,labels)+'<div class="s64benchLegend"><span><i class="lc"></i>이 아이(고정)</span><span><i class="lr"></i>기준선(트랙별)</span></div></div>'
       +'<div class="s64benchRead"><p class="s64benchLine">'+esc(headline)+'</p><div class="s64gapList">'+bars+'</div><p class="s64benchNeed">'+esc(needTxt)+'</p></div></div>'
-      +'<p class="s64benchCaption">기준선은 공개된 전형 요건·평가 방식을 <b>AI 추론 모델로 정량화</b>한 <b>기대 역량 추정치</b>입니다. 개별 학교의 실측 합격생 점수가 아니라, 트랙이 요구하는 역량의 벤치마크입니다.'+(gate?' <b>지금은 응답 신뢰도가 낮아 비교 수치는 참고용으로만 보세요.</b>':'')+'</p>'
+      +'<p class="s64benchCaption"><b>이 아이</b> 프로파일은 모든 트랙에서 동일하게 고정이며, <b>기준선만</b> 트랙별로 바뀝니다. 기준선은 공개된 전형 요건·평가 방식을 <b>AI 추론 모델로 정량화</b>한 <b>기대 역량 추정치</b>로, 개별 학교의 실측 합격생 점수가 아니라 트랙이 요구하는 역량의 벤치마크입니다.'+(gate?' <b>지금은 응답 신뢰도가 낮아 비교 수치는 참고용으로만 보세요.</b>':'')+'</p>'
       +'</div>';
   }
+
   function buildTrackArea(r){
     var tracks=computeTracks(r);
     var maxFit=Math.max.apply(null,tracks.map(function(t){return t.fit;}));
