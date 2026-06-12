@@ -6039,6 +6039,212 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
 
 
 </script>
+<!-- ===== PRISM 관리자 수기입력(OMR) 모듈 v2 (키보드 입력) ===== -->
+<style id="prismAdminEntryStyle">
+#prismAdminEntry{display:none;position:fixed;inset:0;z-index:99999;background:rgba(8,12,22,.93);backdrop-filter:blur(6px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismAdminEntry.open{display:block}
+#prismAdminEntry .paeWrap{max-width:1040px;margin:0 auto;padding:22px 18px 80px}
+#prismAdminEntry .paeBar{position:sticky;top:0;z-index:5;background:linear-gradient(180deg,rgba(10,14,24,.99),rgba(10,14,24,.9));padding:14px 4px 12px;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,.12)}
+#prismAdminEntry .paeTitle{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#prismAdminEntry .paeTitle b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismAdminEntry .paeTitle h2{margin:0;color:#f4f8ff;font-size:21px;letter-spacing:-.04em}
+#prismAdminEntry .paeSub{color:#c3cce8;font-size:13px;line-height:1.6;margin:8px 2px 0}
+#prismAdminEntry .paeSub b{color:#ffdb7d}
+#prismAdminEntry .paeRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+#prismAdminEntry input.paeName{flex:1;min-width:180px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#f4f8ff;border-radius:12px;padding:11px 13px;font-size:15px}
+#prismAdminEntry .paeBtn{border:1px solid rgba(119,255,214,.4);background:rgba(119,255,214,.12);color:#aef7e0;border-radius:12px;padding:11px 16px;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap}
+#prismAdminEntry .paeBtn.primary{border-color:#77ffd6;background:linear-gradient(145deg,rgba(119,255,214,.30),rgba(119,255,214,.14));color:#eafff7}
+#prismAdminEntry .paeBtn.ghost{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7}
+#prismAdminEntry .paeBtn:disabled{opacity:.45;cursor:not-allowed}
+#prismAdminEntry .paeMeta{color:#c3cce8;font-size:12.5px;margin-left:auto}
+#prismAdminEntry .paeMeta b{color:#ffdb7d}
+#prismAdminEntry .paeGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:16px}
+#prismAdminEntry .paeBlock{border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:12px 12px 14px;background:rgba(255,255,255,.025)}
+#prismAdminEntry .paeBlock h3{margin:0 0 8px;color:#9fb0d8;font-size:11.5px;letter-spacing:.06em;font-weight:800;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:7px}
+#prismAdminEntry .paeItem{display:flex;align-items:center;gap:9px;padding:3px 0}
+#prismAdminEntry .paeItem .qn{flex:0 0 30px;text-align:right;color:#aab6d6;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+#prismAdminEntry input.paeCell{width:46px;height:38px;text-align:center;font-size:18px;font-weight:800;border-radius:9px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#f4f8ff;caret-color:#77ffd6;font-variant-numeric:tabular-nums}
+#prismAdminEntry input.paeCell:focus{outline:none;border-color:#77ffd6;background:rgba(119,255,214,.14);box-shadow:0 0 0 3px rgba(119,255,214,.18)}
+#prismAdminEntry input.paeCell.filled{border-color:rgba(119,255,214,.5);color:#aef7e0}
+#prismAdminEntry input.paeCell.bad{border-color:#ff7080;background:rgba(255,112,128,.12)}
+#prismAdminEntry .paeItem.filled .qn{color:#77ffd6}
+#prismAdminEntry .paeFoot{position:sticky;bottom:0;margin-top:18px;padding:12px 4px;background:linear-gradient(0deg,rgba(10,14,24,.99),rgba(10,14,24,.72));border-top:1px solid rgba(255,255,255,.12);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+#prismAdminEntry .paeWarn{color:#ffd0d5;font-size:13px;font-weight:700}
+#prismAdminEntry .paeOk{color:#aef7e0;font-size:13px;font-weight:700}
+#prismAdminFab{position:fixed;right:16px;bottom:16px;z-index:9000;border:1px solid rgba(119,255,214,.4);background:rgba(12,20,30,.9);color:#aef7e0;border-radius:999px;padding:11px 16px;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 6px 22px rgba(0,0,0,.4)}
+@media(max-width:920px){#prismAdminEntry .paeGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){#prismAdminEntry .paeGrid{grid-template-columns:1fr}}
+@media print{#prismAdminFab,#prismAdminEntry{display:none!important}}
+</style>
+
+<button id="prismAdminFab" onclick="prismAdminOpen()" title="OMR 수기입력">＋ OMR 수기입력</button>
+
+<div id="prismAdminEntry" role="dialog" aria-label="OMR 수기입력">
+  <div class="paeWrap">
+    <div class="paeBar">
+      <div class="paeTitle"><b>관리자 · ADMIN</b><h2>OMR 수기 입력 → 리포트 생성</h2></div>
+      <div class="paeSub">각 칸에 <b>1~5 숫자</b>를 키보드로 입력하세요. 숫자를 누르면 자동으로 다음 칸으로 넘어갑니다. <b>← Backspace</b>로 지우며 뒤로, <b>방향키</b>로 칸 이동, <b>Enter</b>로 다음 칸. 96칸을 모두 채우면 검사와 동일한 리포트가 생성됩니다.</div>
+      <div class="paeRow">
+        <input class="paeName" id="paeName" placeholder="학생 이름 또는 닉네임">
+        <button class="paeBtn ghost" onclick="prismAdminClear()">전체 지우기</button>
+        <button class="paeBtn ghost" onclick="prismAdminPasteOpen()">번호 일괄 붙여넣기</button>
+        <span class="paeMeta">입력 <b id="paeCount">0</b> / 96</span>
+      </div>
+    </div>
+    <div class="paeGrid" id="paeGrid"></div>
+    <div class="paeFoot">
+      <button class="paeBtn primary" id="paeRun" onclick="prismAdminRun()" disabled>리포트 생성</button>
+      <button class="paeBtn ghost" onclick="prismAdminClose()">닫기</button>
+      <span id="paeStatus" class="paeWarn">남은 문항 96개</span>
+    </div>
+  </div>
+</div>
+
+<script id="prismAdminEntryScript">
+(function(){
+  "use strict";
+  var TOTAL=96;
+  function $(id){return document.getElementById(id);}
+  function cell(q){return document.getElementById('paeCell'+q);}
+  function buildGrid(){
+    var grid=$('paeGrid'); if(!grid||grid.dataset.built)return; grid.dataset.built='1';
+    var html='';
+    for(var b=0;b<4;b++){
+      var s=b*24+1, e=b*24+24;
+      html+='<div class="paeBlock"><h3>문항 '+s+' ~ '+e+'</h3>';
+      for(var q=s;q<=e;q++){
+        html+='<div class="paeItem" id="paeItem'+q+'"><span class="qn">'+q+'</span>'
+            + '<input class="paeCell" id="paeCell'+q+'" data-q="'+q+'" type="text" inputmode="numeric" '
+            + 'maxlength="1" autocomplete="off" aria-label="문항 '+q+' 응답(1~5)"></div>';
+      }
+      html+='</div>';
+    }
+    grid.innerHTML=html;
+    // 이벤트 위임
+    grid.addEventListener('input', onInput, true);
+    grid.addEventListener('keydown', onKey, true);
+    grid.addEventListener('focus', function(e){ if(e.target.classList&&e.target.classList.contains('paeCell')) e.target.select(); }, true);
+  }
+  function valid(v){ return v>='1' && v<='5'; }
+  function markCell(inp){
+    var v=inp.value;
+    inp.classList.remove('filled','bad');
+    if(v==='') return;
+    if(valid(v)) inp.classList.add('filled'); else inp.classList.add('bad');
+    var item=inp.closest('.paeItem'); if(item) item.classList.toggle('filled', valid(v));
+  }
+  function focusCell(q,selectAll){
+    var c=cell(q); if(!c) return;
+    c.focus();
+    if(selectAll!==false) c.select();
+    var r=c.getBoundingClientRect();
+    if(r.bottom>window.innerHeight-80 || r.top<88) c.scrollIntoView({block:'center'});
+  }
+  function onInput(e){
+    var inp=e.target; if(!inp.classList||!inp.classList.contains('paeCell')) return;
+    var raw=inp.value;
+    // 마지막으로 입력한 유효 숫자만 남김 (붙여넣기/IME 대비)
+    var m=raw.replace(/[^1-5]/g,'');
+    if(m.length>1) m=m.slice(-1);
+    inp.value=m;
+    markCell(inp);
+    refresh();
+    if(valid(inp.value)){
+      var q=+inp.dataset.q;
+      if(q<TOTAL) focusCell(q+1);
+    }
+  }
+  function onKey(e){
+    var inp=e.target; if(!inp.classList||!inp.classList.contains('paeCell')) return;
+    var q=+inp.dataset.q, k=e.key;
+    if(k==='Backspace'){
+      if(inp.value===''){ // 이미 비어 있으면 이전 칸으로 이동하며 그 칸을 지움
+        e.preventDefault();
+        if(q>1){ var p=cell(q-1); if(p){ p.value=''; markCell(p); refresh(); focusCell(q-1); } }
+      } else {
+        // 현재 칸 비우기 (기본 동작)
+        setTimeout(function(){ markCell(inp); refresh(); },0);
+      }
+      return;
+    }
+    if(k==='ArrowRight'||k==='Enter'){ e.preventDefault(); if(q<TOTAL) focusCell(q+1); return; }
+    if(k==='ArrowLeft'){ e.preventDefault(); if(q>1) focusCell(q-1); return; }
+    if(k==='ArrowDown'){ e.preventDefault(); var d=q+1; if(d<=TOTAL) focusCell(d); return; }
+    if(k==='ArrowUp'){ e.preventDefault(); var u=q-1; if(u>=1) focusCell(u); return; }
+    // 유효 숫자면 덮어쓰기 자연스럽게 (현재 값 선택 상태가 아니어도 교체)
+    if(/^[1-5]$/.test(k)){ inp.value=''; }
+    else if(/^[0-9]$/.test(k)){ e.preventDefault(); inp.classList.add('bad'); setTimeout(function(){inp.classList.remove('bad');},220); }
+  }
+  function collect(){
+    var out={}, ok=0;
+    for(var q=1;q<=TOTAL;q++){ var c=cell(q); if(c && valid(c.value)){ out[q]=+c.value; ok++; } }
+    return {ans:out, ok:ok};
+  }
+  function refresh(){
+    var n=collect().ok;
+    $('paeCount').textContent=n;
+    var run=$('paeRun'), st=$('paeStatus');
+    if(n>=TOTAL){ run.disabled=false; st.className='paeOk'; st.textContent='입력 완료 · 리포트 생성 가능'; }
+    else{ run.disabled=true; st.className='paeWarn'; st.textContent='남은 문항 '+(TOTAL-n)+'개'; }
+  }
+  window.prismAdminPick=function(q,v){ // 외부/일괄 입력용
+    var c=cell(q); if(!c) return;
+    c.value=(v>=1&&v<=5)?String(v):''; markCell(c); refresh();
+  };
+  window.prismAdminClear=function(){
+    for(var q=1;q<=TOTAL;q++){ var c=cell(q); if(c){ c.value=''; c.classList.remove('filled','bad'); var it=c.closest('.paeItem'); if(it)it.classList.remove('filled'); } }
+    refresh(); focusCell(1);
+  };
+  window.prismAdminPasteOpen=function(){
+    var raw=window.prompt('1~5 숫자를 문항 순서대로 붙여넣으세요.\n공백, 줄바꿈, 쉼표 모두 구분자로 인식합니다. (예: 3 5 2 4 1 ... 총 96개)','');
+    if(raw==null)return;
+    var nums=(raw.match(/[1-5]/g)||[]);
+    if(nums.length<TOTAL){ alert('1~5 숫자가 '+nums.length+'개만 인식됐습니다. 96개가 필요합니다.'); return; }
+    if(nums.length>TOTAL){ if(!confirm(nums.length+'개가 인식됐습니다. 앞에서부터 96개만 사용할까요?')) return; }
+    for(var i=0;i<TOTAL;i++) window.prismAdminPick(i+1, +nums[i]);
+    var g=$('paeGrid'); if(g)g.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  window.prismAdminOpen=function(){
+    buildGrid();
+    try{ var sn=$('studentName'); if(sn&&sn.value&&!$('paeName').value)$('paeName').value=sn.value; }catch(e){}
+    $('prismAdminEntry').classList.add('open');
+    document.body.style.overflow='hidden';
+    refresh();
+    setTimeout(function(){ focusCell(1); },120); // 열면 1번 칸에 바로 커서
+  };
+  window.prismAdminClose=function(){
+    $('prismAdminEntry').classList.remove('open');
+    document.body.style.overflow='';
+  };
+  window.prismAdminRun=function(){
+    var c=collect();
+    if(c.ok<TOTAL){ alert('96문항을 모두 1~5로 입력해 주세요. (남은 '+(TOTAL-c.ok)+'개)'); return; }
+    var ans={}; for(var q=1;q<=TOTAL;q++) ans[q]=c.ans[q];
+    try{ window.answers=ans; }catch(e){}
+    try{ answers=ans; }catch(e){}
+    try{ localStorage.setItem('studyPatternAnswers', JSON.stringify(ans)); }catch(e){}
+    try{ var sn=$('studentName'); if(sn) sn.value=($('paeName').value||'').trim()||'학생'; }catch(e){}
+    window.prismAdminClose();
+    try{
+      if(typeof startTest==='function'){ startTest(); }
+      if(typeof renderQuestions==='function'){ renderQuestions(); }
+      if(typeof updateProgress==='function'){ updateProgress(); }
+    }catch(e){ console.warn('[admin entry] prep',e); }
+    try{
+      if(typeof calculateResult==='function'){ calculateResult(); }
+      else if(typeof buildResultPayload==='function' && typeof renderReport==='function'){
+        var p=buildResultPayload();
+        renderReport(p.results,p.code,p.baseCode,p.modeCode,p.base,p.mode);
+        var rep=$('report'); if(rep){rep.style.display='block'; rep.scrollIntoView({behavior:'smooth'});}
+      }
+    }catch(e){ console.error('[admin entry] render',e); alert('리포트 생성 중 문제가 발생했습니다. 콘솔을 확인해 주세요.'); }
+  };
+  try{ if(new URLSearchParams(location.search).get('admin')==='1'){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(window.prismAdminOpen,300);}); else setTimeout(window.prismAdminOpen,300); } }catch(e){}
+})();
+</script>
+<!-- ===== /PRISM 관리자 수기입력(OMR) 모듈 ===== -->
+
+
 </body>
 </html>
 
