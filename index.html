@@ -1305,7 +1305,32 @@ async function showAnalysisSequence(){const ov=document.getElementById('analysis
 function hideAnalysisSequence(){setTimeout(()=>{document.getElementById('analysisOverlayV20')?.classList.remove('show');},260);} 
 function renderReport(results,code,baseCode,modeCode,base,mode){const name=document.getElementById('studentName').value.trim()||'학생';document.getElementById('finalCode').textContent=base;document.getElementById('typeName').textContent=mode;document.getElementById('modeName').textContent='내부 코드 · '+code;document.getElementById('baseTypeOut').textContent=base;document.getElementById('modeOut').textContent=mode;document.getElementById('headline').textContent=`${name}의 학습 행동 정밀 리포트`;document.getElementById('oneLine').textContent=oneLine(results,base,mode);const trust=trustCheck(results);document.getElementById('trustOut').textContent=trust.title;document.getElementById('trustDesc').textContent=trust.desc;renderPremium(results,code,base,mode,name,trust);renderScores(results);renderEduFrames(results);renderAudit(results,trust);renderClaims(results);renderAdvice(results,base,mode);renderRefs();}
 function oneLine(r,base,mode){const chosen=Object.values(r).map(x=>x.chosen).join(' · ');return `${base} · ${mode}. 핵심 성향은 ${chosen}입니다. 최종 유형명보다 각 축의 점수 강도와 조합을 기준으로 과제와 피드백 방식을 조정하는 것이 중요합니다.`}
-function trustCheck(r){const vals=Object.values(r).flatMap(x=>[x.left,x.right]);const avg=vals.reduce((a,b)=>a+b,0)/vals.length;const high=vals.filter(v=>v>=85).length;const midDiff=Object.values(r).filter(x=>x.diff<10).length;if(high>=10)return{title:'확장 응답 경향',desc:'많은 성향에 높게 답했습니다. 실제 과제 수행 기록과 함께 해석하세요.'};if(midDiff>=4)return{title:'혼합형 응답',desc:'여러 축에서 양쪽 성향 차이가 작습니다. 단정형보다 상황별 해석이 적합합니다.'};if(avg<45)return{title:'낮은 자기인식 가능성',desc:'전반 점수가 낮습니다. 현재 공부 경험 부족, 피로, 자신감 저하 여부를 확인하세요.'};return{title:'분석 가능',desc:'축별 성향 차이를 바탕으로 리포트 해석이 가능합니다.'};}
+function __trustCheckAggregate(r){const vals=Object.values(r).flatMap(x=>[x.left,x.right]);const avg=vals.reduce((a,b)=>a+b,0)/vals.length;const high=vals.filter(v=>v>=85).length;const midDiff=Object.values(r).filter(x=>x.diff<10).length;if(high>=10)return{title:'확장 응답 경향',desc:'많은 성향에 높게 답했습니다. 실제 과제 수행 기록과 함께 해석하세요.'};if(midDiff>=4)return{title:'혼합형 응답',desc:'여러 축에서 양쪽 성향 차이가 작습니다. 단정형보다 상황별 해석이 적합합니다.'};if(avg<45)return{title:'낮은 자기인식 가능성',desc:'전반 점수가 낮습니다. 현재 공부 경험 부족, 피로, 자신감 저하 여부를 확인하세요.'};return{title:'분석 가능',desc:'축별 성향 차이를 바탕으로 리포트 해석이 가능합니다.'};}
+/* A-2단계: 원답안 기반 응답품질을 trustCheck에 통합 (집계로는 못 보는 직진/극단/모순 탐지) */
+function trustCheck(r){
+  var agg=__trustCheckAggregate(r);
+  try{
+    var ans=(typeof window.answers!=='undefined'&&window.answers)?window.answers:null;
+    if(!ans){ try{ans=JSON.parse(localStorage.getItem('studyPatternAnswers'));}catch(e){} }
+    var ansN=0; if(ans){ for(var _q=1;_q<=96;_q++){ if(ans[_q]!=null) ansN++; } }
+    if(ans && ansN>=90 && typeof window.prismQC_analyze==='function'){
+      var qc=window.prismQC_analyze(ans);
+      window.__S64QC__=qc; // 관리자/디버그용 보관
+      if(qc.level==='low'){
+        var why=qc.flags && qc.flags.length? qc.flags.slice(0,2).join(', ') : '응답 패턴 이상';
+        return {title:'응답 신뢰도 낮음', desc:'응답 품질 점수 '+qc.reliability+'/100 ('+why+'). 적합도 수치는 참고용으로만 보고, 실제 과제 수행 기록과 함께 해석하세요.', qc:qc};
+      }
+      if(qc.level==='medium'){
+        return {title:'응답 신뢰도 보통', desc:'응답 품질 점수 '+qc.reliability+'/100. 단정형보다 상황별 해석이 적합합니다.', qc:qc};
+      }
+      // high면 집계 기반 경고(확장/혼합/낮은인식)는 유지하되, 품질은 양호
+      if(agg.title==='분석 가능') return {title:'분석 가능', desc:'응답 품질 양호(점수 '+qc.reliability+'/100). 축별 성향 차이를 바탕으로 해석이 가능합니다.', qc:qc};
+      return agg;
+    }
+  }catch(e){ /* 분석 실패 시 집계 결과로 폴백 */ }
+  return agg;
+}
+window.trustCheck=trustCheck;
 
 function jumpTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 function strongestAxis(r){return Object.entries(r).sort((a,b)=>Math.max(b[1].left,b[1].right)-Math.max(a[1].left,a[1].right))[0];}
@@ -6083,10 +6108,11 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   <div class="paeWrap">
     <div class="paeBar">
       <div class="paeTitle"><b>관리자 · ADMIN</b><h2>OMR 수기 입력 → 리포트 생성</h2></div>
-      <div class="paeSub">각 칸에 <b>1~5 숫자</b>를 키보드로 입력하세요. 숫자를 누르면 자동으로 다음 칸으로 넘어갑니다. <b>← Backspace</b>로 지우며 뒤로, <b>방향키</b>로 칸 이동, <b>Enter</b>로 다음 칸. 96칸을 모두 채우면 검사와 동일한 리포트가 생성됩니다.</div>
+      <div class="paeSub">각 칸에 <b>1~5 숫자</b>를 키보드로 입력하세요. 숫자를 누르면 자동으로 다음 칸으로 넘어갑니다. <b>← Backspace</b>로 지우며 뒤로, <b>방향키</b>로 칸 이동, <b>Enter</b>로 다음 칸. 96칸을 모두 채우면 검사와 동일한 리포트가 생성됩니다. <b>단축키</b>: Ctrl+S 저장하고 다음, Ctrl+Enter 리포트 생성, Esc 닫기.</div>
       <div class="paeRow">
         <input class="paeName" id="paeName" placeholder="학생 이름 또는 닉네임">
         <button class="paeBtn ghost" onclick="prismAdminClear()">전체 지우기</button>
+        <button class="paeBtn ghost" onclick="prismRecordsOpen()">저장 기록</button>
         <button class="paeBtn ghost" onclick="prismAdminPasteOpen()">번호 일괄 붙여넣기</button>
         <span class="paeMeta">입력 <b id="paeCount">0</b> / 96</span>
       </div>
@@ -6094,7 +6120,10 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     <div class="paeGrid" id="paeGrid"></div>
     <div class="paeFoot">
       <button class="paeBtn primary" id="paeRun" onclick="prismAdminRun()" disabled>리포트 생성</button>
+      <button class="paeBtn" id="paeSaveNext" onclick="prismAdminSaveNext()" disabled style="border-color:rgba(119,255,214,.4);background:rgba(119,255,214,.1);color:#aef7e0">저장하고 다음 학생</button>
       <button class="paeBtn ghost" onclick="prismAdminClose()">닫기</button>
+      <button class="paeBtn ghost" onclick="prismQCDetailOpen()">품질 점검</button>
+      <button class="paeBtn ghost" onclick="prismAuditOpen()">채점 검산</button>
       <span id="paeStatus" class="paeWarn">남은 문항 96개</span>
     </div>
   </div>
@@ -6184,8 +6213,9 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var n=collect().ok;
     $('paeCount').textContent=n;
     var run=$('paeRun'), st=$('paeStatus');
-    if(n>=TOTAL){ run.disabled=false; st.className='paeOk'; st.textContent='입력 완료 · 리포트 생성 가능'; }
-    else{ run.disabled=true; st.className='paeWarn'; st.textContent='남은 문항 '+(TOTAL-n)+'개'; }
+    var sn2=$('paeSaveNext');
+    if(n>=TOTAL){ run.disabled=false; if(sn2)sn2.disabled=false; st.className='paeOk'; st.textContent='입력 완료 · 생성 또는 저장 가능'; }
+    else{ run.disabled=true; if(sn2)sn2.disabled=true; st.className='paeWarn'; st.textContent='남은 문항 '+(TOTAL-n)+'개'; }
   }
   window.prismAdminPick=function(q,v){ // 외부/일괄 입력용
     var c=cell(q); if(!c) return;
@@ -6204,8 +6234,15 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     for(var i=0;i<TOTAL;i++) window.prismAdminPick(i+1, +nums[i]);
     var g=$('paeGrid'); if(g)g.scrollIntoView({behavior:'smooth',block:'start'});
   };
+  function onAdminKey(e){
+    var panel=$('prismAdminEntry'); if(!panel||!panel.classList.contains('open')) return;
+    if(e.key==='Escape'){ e.preventDefault(); window.prismAdminClose(); return; }
+    if((e.ctrlKey||e.metaKey) && (e.key==='s'||e.key==='S')){ e.preventDefault(); if(!$('paeSaveNext').disabled) window.prismAdminSaveNext(); return; }
+    if((e.ctrlKey||e.metaKey) && e.key==='Enter'){ e.preventDefault(); if(!$('paeRun').disabled) window.prismAdminRun(); return; }
+  }
   window.prismAdminOpen=function(){
     buildGrid();
+    if(!window.__paeKeyBound){ document.addEventListener('keydown', onAdminKey, true); window.__paeKeyBound=true; }
     try{ var sn=$('studentName'); if(sn&&sn.value&&!$('paeName').value)$('paeName').value=sn.value; }catch(e){}
     $('prismAdminEntry').classList.add('open');
     document.body.style.overflow='hidden';
@@ -6216,14 +6253,65 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     $('prismAdminEntry').classList.remove('open');
     document.body.style.overflow='';
   };
-  window.prismAdminRun=function(){
+  // 공유: 점검 + 저장. confirmMsg에 따라 다이얼로그 문구 조정. 성공 시 {ans, name} 반환, 취소/실패 시 null.
+  function __validateAndSave(actionWord){
     var c=collect();
-    if(c.ok<TOTAL){ alert('96문항을 모두 1~5로 입력해 주세요. (남은 '+(TOTAL-c.ok)+'개)'); return; }
+    if(c.ok<TOTAL){ alert('96문항을 모두 1~5로 입력해 주세요. (남은 '+(TOTAL-c.ok)+'개)'); return null; }
     var ans={}; for(var q=1;q<=TOTAL;q++) ans[q]=c.ans[q];
+    var nm=($('paeName').value||'').trim()||'학생';
+    try{
+      var issues=(typeof window.prismIntegrityCheck==='function')?window.prismIntegrityCheck(nm, ans):[];
+      var qc=(typeof window.prismQC_analyze==='function')?window.prismQC_analyze(ans):null;
+      var lines=[];
+      if(issues && issues.length){ lines.push('[입력 점검]'); issues.forEach(function(s){lines.push(' - '+s);}); }
+      if(qc && qc.level!=='high'){
+        var lv=qc.level==='low'?'낮음':'보통';
+        lines.push('[응답 품질] '+qc.reliability+'/100 ('+lv+')');
+        if(qc.flags&&qc.flags.length) qc.flags.forEach(function(s){lines.push(' - '+s);});
+      }
+      if(lines.length){
+        var msg=lines.join('\n')+'\n\n이대로 '+(actionWord||'저장')+'할까요?';
+        if(!window.confirm(msg)) return null;
+      }
+    }catch(e){}
     try{ window.answers=ans; }catch(e){}
     try{ answers=ans; }catch(e){}
     try{ localStorage.setItem('studyPatternAnswers', JSON.stringify(ans)); }catch(e){}
-    try{ var sn=$('studentName'); if(sn) sn.value=($('paeName').value||'').trim()||'학생'; }catch(e){}
+    try{ var sn=$('studentName'); if(sn) sn.value=nm; }catch(e){}
+    try{
+      if(typeof window.prismStoreAdd==='function'){
+        var __qc2=(typeof window.prismQC_analyze==='function')?window.prismQC_analyze(ans):null;
+        window.prismStoreAdd(nm, ans, __qc2);
+      }
+    }catch(e){ console.warn('[store add]',e); }
+    return {ans:ans, name:nm};
+  }
+
+  // 배치: 저장만 하고 리포트는 안 띄움. 폼 비우고 다음 학생 입력 대기.
+  window.prismAdminSaveNext=function(){
+    var r=__validateAndSave('저장하고 다음 학생으로 넘어가');
+    if(!r) return;
+    var prevName=r.name;
+    window.prismAdminClear();
+    // 이름칸 비우고 포커스 → 다음 학생
+    var nameEl=$('paeName'); if(nameEl){ nameEl.value=''; }
+    // 저장 토스트
+    showBatchToast('저장됨: '+prevName);
+    if(nameEl) nameEl.focus();
+  };
+
+  function showBatchToast(txt){
+    var t=$('paeBatchToast');
+    if(!t){ t=document.createElement('div'); t.id='paeBatchToast';
+      t.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:100010;background:rgba(12,30,24,.96);border:1px solid rgba(119,255,214,.5);color:#aef7e0;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 6px 22px rgba(0,0,0,.4);opacity:0;transition:opacity .2s';
+      document.body.appendChild(t); }
+    t.textContent='✓ '+txt; t.style.opacity='1';
+    clearTimeout(t.__h); t.__h=setTimeout(function(){ t.style.opacity='0'; },1600);
+  }
+
+  window.prismAdminRun=function(){
+    var r=__validateAndSave('리포트를 생성하고 저장');
+    if(!r) return;
     window.prismAdminClose();
     try{
       if(typeof startTest==='function'){ startTest(); }
@@ -6244,6 +6332,2202 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
 </script>
 <!-- ===== /PRISM 관리자 수기입력(OMR) 모듈 ===== -->
 
+
+<!-- ===== PRISM 응답 품질 계측 · A-1단계: 모순쌍 정의 + 분석기 ===== -->
+<script id="prismQC_pairs">
+/*
+ * A-1단계: 문항을 바꾸지 않고, 기존 96문항의 응답에서 "모순"을 탐지하기 위한
+ * 의미상 반대 문항쌍을 정의한다. 같은 축의 두 극(예: deep vs practice)은 행동상
+ * 대립하므로, 양쪽에 동시에 강하게 동의(또는 동시에 강하게 비동의)하면 응답 일관성이
+ * 의심된다. 여기서는 각 축에서 가장 직접적으로 상충하는 쌍만 고른다(고신뢰 쌍).
+ *
+ * 각 쌍: {a, b, axis, note}. a/b는 문항 id. 응답값 1~5.
+ * 모순 점수 산정은 prismQC_analyze에서 수행한다(이 파일은 데이터 + 분석 함수만, UI 없음).
+ */
+(function(){
+  "use strict";
+  // 고신뢰 대립쌍: 한쪽에 '매우 그렇다'면 다른 쪽엔 '그렇다' 이상이기 어려운 문항들.
+  var PAIRS = [
+    // understanding: 원리 우선 vs 유형반복 우선
+    {a:1,  b:6,  axis:'understanding', note:'공식보다 원리 먼저 vs 개념설명보다 유형반복'},
+    {a:37, b:18, axis:'understanding', note:'구조·원리 먼저 암기 vs 원리설명보다 기출변형'},
+    // execution: 사전계획 vs 상황·압박 반응
+    {a:7,  b:38, axis:'execution',     note:'시간표·체크리스트로 관리 vs 몰아서 처리'},
+    {a:55, b:14, axis:'execution',     note:'계획표 있어야 꾸준 vs 리듬보다 컨디션·압박'},
+    // autonomy: 자기주도 점검 vs 외부기준 의존
+    {a:33, b:51, axis:'autonomy',      note:'혼자 약점목록·우선순위 vs 혼자 정하면 흔들림'},
+    {a:57, b:87, axis:'autonomy',      note:'스스로 공부법 점검 vs 관리자 점검해야 실행'},
+    // help: 빠른 질문 vs 끝까지 혼자
+    {a:11, b:64, axis:'help',          note:'막히면 질문으로 빨리 정리 vs 혼자 충분히 버텨야'},
+    {a:59, b:88, axis:'help',          note:'질문으로 시간단축 vs 사고과정 지키며 끝까지'},
+    // errorStyle: 완결 추구 vs 시행착오 수용
+    {a:24, b:32, axis:'errorStyle',    note:'노트 완성 후 풀이 vs 완벽보다 시행착오'},
+    {a:72, b:8,  axis:'errorStyle',    note:'단원 완전정리 안되면 불안 vs 이해 전 일단 건드림'},
+    // motivation: 장기목표 vs 즉각보상
+    {a:5,  b:82, axis:'motivation',    note:'점수 안올라도 장기목표면 지속 vs 장기보다 짧은목표'},
+    {a:77, b:70, axis:'motivation',    note:'누적감각으로 지속 vs 단기성취 없으면 늘어짐'}
+  ];
+  // 검증: 모든 id 1~96 범위, 중복쌍 없음
+  (function check(){
+    var seen={};
+    for(var i=0;i<PAIRS.length;i++){
+      var p=PAIRS[i];
+      if(!(p.a>=1&&p.a<=96&&p.b>=1&&p.b<=96)) { console.warn('[QC] pair out of range', p); }
+      var k=Math.min(p.a,p.b)+'-'+Math.max(p.a,p.b);
+      if(seen[k]) console.warn('[QC] duplicate pair', k); seen[k]=1;
+    }
+  })();
+
+  window.PRISM_QC_PAIRS = PAIRS;
+
+  /*
+   * prismQC_analyze(answers): answers는 {questionId: 1..5}.
+   * 반환: 응답 품질 지표 묶음. (UI 없음, 순수 계산)
+   *   - n: 응답 수
+   *   - straightRun: 같은 값이 연속된 최대 길이
+   *   - extremeRate: 1 또는 5 비율
+   *   - midRate: 3 비율
+   *   - distribution: {1..5: count}
+   *   - contradictions: 모순쌍 분석 [{a,b,va,vb,gap,axis,note}], gap = |va-(6-vb)| 의 보완식
+   *   - contraCount: 강한 모순 개수(gap>=3)
+   *   - flags: 사람이 읽을 경고 문자열 배열
+   *   - reliability: 0~100 종합 신뢰도(높을수록 신뢰 가능)
+   */
+  window.prismQC_analyze = function(answers){
+    var ids=[]; for(var q=1;q<=96;q++){ if(answers && answers[q]!=null) ids.push(q); }
+    var n=ids.length;
+    var dist={1:0,2:0,3:0,4:0,5:0};
+    var seq=[];
+    for(var i=0;i<ids.length;i++){ var v=+answers[ids[i]]; if(v>=1&&v<=5){ dist[v]++; seq.push(v); } }
+    // 직진 응답: 문항 순서대로 같은 값 최대 연속
+    var maxRun=0, run=0, prev=null;
+    for(var s=0;s<seq.length;s++){ if(seq[s]===prev){ run++; } else { run=1; prev=seq[s]; } if(run>maxRun) maxRun=run; }
+    var extreme = n? (dist[1]+dist[5])/n : 0;
+    var mid = n? dist[3]/n : 0;
+    // 모순쌍: 두 문항이 의미상 반대이므로, 한쪽 v_a를 반대축 기준으로 뒤집으면(6-v_b) 비슷해야 함.
+    // 일치도 = 6-|va-(6-vb)|? 대신 직관적으로: 두 문항 모두 4~5(동시 강동의) 또는 모두 1~2(동시 강비동의)면 모순.
+    var contra=[], strong=0;
+    for(var p=0;p<PAIRS.length;p++){
+      var pr=PAIRS[p]; var va=answers? answers[pr.a]:null, vb=answers? answers[pr.b]:null;
+      if(va==null||vb==null) continue;
+      va=+va; vb=+vb;
+      // 모순 강도: 두 대립문항에 같은 방향으로 답할수록 큼.
+      // 이상적으로 대립문항은 합이 약 6 근처(한쪽 높으면 다른쪽 낮음). |va+vb-6|이 클수록 모순.
+      var gap=Math.abs(va+vb-6);
+      var rec={a:pr.a,b:pr.b,va:va,vb:vb,gap:gap,axis:pr.axis,note:pr.note};
+      contra.push(rec);
+      if(gap>=4) strong++; // 양극단 동시동의(5+5)·동시비동의(1+1)만 강모순으로
+    }
+    contra.sort(function(x,y){return y.gap-x.gap;});
+
+    var flags=[];
+    if(n<96) flags.push('미응답 '+(96-n)+'문항');
+    if(maxRun>=8) flags.push('같은 번호 '+maxRun+'개 연속(직진 응답 의심)');
+    if(extreme>0.85) flags.push('1·5 극단 응답 '+Math.round(extreme*100)+'%');
+    if(mid>0.6) flags.push('3(보통) 집중 '+Math.round(mid*100)+'%');
+    if(strong>=4) flags.push('대립문항 모순 '+strong+'쌍');
+
+    // 종합 신뢰도(감점식): 직진·극단·중앙·모순·미응답에 비례해 감점
+    var rel=100;
+    rel -= Math.max(0, maxRun-6)*4;          // 7연속부터 감점
+    if(extreme>0.82) rel -= (extreme-0.82)*110;
+    if(extreme>0.90) rel -= (extreme-0.90)*120;  // 극단 응답 90%+ 추가 감점
+    if(mid>0.62) rel -= (mid-0.62)*110;
+    rel -= Math.max(0,strong-1)*7;
+    rel -= Math.max(0,96-n)*1.2;
+    rel = Math.max(0, Math.min(100, Math.round(rel)));
+
+    var level = rel>=78?'high' : rel>=58?'medium' : 'low';
+
+    return {
+      n:n, straightRun:maxRun, extremeRate:+extreme.toFixed(3), midRate:+mid.toFixed(3),
+      distribution:dist, contradictions:contra, contraCount:strong,
+      flags:flags, reliability:rel, level:level
+    };
+  };
+})();
+</script>
+<!-- ===== /PRISM 응답 품질 계측 · A-1단계 ===== -->
+
+<!-- ===== PRISM 응답 품질 상세 패널 · A-3단계 ===== -->
+<style id="prismQCDetailStyle">
+#prismQCDetail{display:none;position:fixed;inset:0;z-index:100000;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismQCDetail.open{display:block}
+#prismQCDetail .qdWrap{max-width:780px;margin:0 auto;padding:24px 18px 60px}
+#prismQCDetail .qdHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+#prismQCDetail .qdHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismQCDetail .qdHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismQCDetail .qdClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismQCDetail .qdGauge{display:flex;align-items:center;gap:16px;margin:16px 0 8px;padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.03)}
+#prismQCDetail .qdScore{font-size:42px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+#prismQCDetail .qdScore small{font-size:16px;color:#9fb0d8;font-weight:700}
+#prismQCDetail .qdLevel{display:inline-block;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:800;margin-bottom:6px}
+#prismQCDetail .qdLevel.high{background:rgba(119,255,214,.16);color:#aef7e0;border:1px solid rgba(119,255,214,.4)}
+#prismQCDetail .qdLevel.medium{background:rgba(255,219,125,.16);color:#ffdb7d;border:1px solid rgba(255,219,125,.4)}
+#prismQCDetail .qdLevel.low{background:rgba(255,112,128,.16);color:#ffb0ba;border:1px solid rgba(255,112,128,.45)}
+#prismQCDetail .qdGaugeMsg{color:#c3cce8;font-size:13px;line-height:1.55}
+#prismQCDetail .qdSec{margin-top:18px}
+#prismQCDetail .qdSec h3{margin:0 0 10px;color:#9fb0d8;font-size:12px;letter-spacing:.06em;font-weight:800;text-transform:none}
+#prismQCDetail .qdFlags{display:flex;flex-wrap:wrap;gap:8px}
+#prismQCDetail .qdFlag{font-size:12.5px;font-weight:700;padding:6px 11px;border-radius:9px;background:rgba(255,112,128,.12);border:1px solid rgba(255,112,128,.3);color:#ffc4cb}
+#prismQCDetail .qdFlag.ok{background:rgba(119,255,214,.1);border-color:rgba(119,255,214,.3);color:#aef7e0}
+#prismQCDetail .qdDist{display:flex;align-items:flex-end;gap:10px;height:120px;padding:10px 6px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+#prismQCDetail .qdBar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+#prismQCDetail .qdBar .bar{width:100%;max-width:54px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#77ffd6,#3fb8a0);min-height:2px}
+#prismQCDetail .qdBar .cap{font-size:11px;color:#aab6d6;font-weight:700}
+#prismQCDetail .qdBar .val{font-size:12px;color:#f4f8ff;font-weight:800}
+#prismQCDetail .qdDistLbl{display:flex;gap:10px;margin-top:6px}
+#prismQCDetail .qdDistLbl div{flex:1;text-align:center;font-size:10.5px;color:#8c98ba}
+#prismQCDetail table.qdPairs{width:100%;border-collapse:collapse;font-size:12.5px}
+#prismQCDetail table.qdPairs th{text-align:left;color:#8c98ba;font-weight:700;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.12);font-size:11.5px}
+#prismQCDetail table.qdPairs td{padding:8px;border-bottom:1px solid rgba(255,255,255,.07);color:#dbe3f5;vertical-align:top}
+#prismQCDetail tr.sev td{background:rgba(255,112,128,.08)}
+#prismQCDetail .qdGapPill{display:inline-block;min-width:20px;text-align:center;padding:2px 7px;border-radius:6px;font-weight:800;font-size:11.5px}
+#prismQCDetail .qdGapPill.g0{background:rgba(119,255,214,.14);color:#aef7e0}
+#prismQCDetail .qdGapPill.g1{background:rgba(255,219,125,.14);color:#ffdb7d}
+#prismQCDetail .qdGapPill.g2{background:rgba(255,112,128,.16);color:#ffb0ba}
+#prismQCDetail .qdNote{color:#9fb0d8;font-size:11.5px;line-height:1.45}
+#prismQCDetail .qdAns{font-variant-numeric:tabular-nums;font-weight:800;color:#f4f8ff}
+#prismQCDetail .qdHint{margin-top:16px;padding:12px 14px;border-radius:12px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12.5px;line-height:1.6}
+@media print{#prismQCDetail{display:none!important}}
+</style>
+
+<div id="prismQCDetail" role="dialog" aria-label="응답 품질 상세">
+  <div class="qdWrap">
+    <div class="qdHead">
+      <b>관리자 · 응답 품질</b><h2>응답 품질 상세 점검</h2>
+      <button class="qdClose" onclick="prismQCDetailClose()">닫기</button>
+    </div>
+    <div id="prismQCDetailBody"></div>
+  </div>
+</div>
+
+<script id="prismQCDetailScript">
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  // 현재 패널 입력값 수집 (관리자 입력칸 우선, 없으면 window.answers / localStorage)
+  function currentAnswers(){
+    var a={}, n=0;
+    for(var q=1;q<=96;q++){ var c=$('paeCell'+q); if(c && c.value>='1' && c.value<='5'){ a[q]=+c.value; n++; } }
+    if(n>0) return a;
+    try{ if(window.answers){ var k=0; for(var x in window.answers){k++;} if(k) return window.answers; } }catch(e){}
+    try{ var ls=JSON.parse(localStorage.getItem('studyPatternAnswers')); if(ls) return ls; }catch(e){}
+    return a;
+  }
+  function pairText(id){
+    try{ if(typeof questions!=='undefined'){ for(var i=0;i<questions.length;i++) if(questions[i].id===id) return questions[i].text; } }catch(e){}
+    return '문항 '+id;
+  }
+  var AXKO={understanding:'이해 방식',execution:'실행 방식',autonomy:'학습 구조',help:'막힘 처리',errorStyle:'오류 처리',motivation:'지속 동기'};
+
+  window.prismQCDetailOpen = function(){
+    var ans=currentAnswers();
+    var n=0; for(var q=1;q<=96;q++){ if(ans[q]!=null) n++; }
+    if(n<10){ alert('점검할 응답이 부족합니다. 문항을 입력한 뒤 다시 시도해 주세요.'); return; }
+    if(typeof window.prismQC_analyze!=='function'){ alert('분석 엔진을 찾을 수 없습니다.'); return; }
+    var r=window.prismQC_analyze(ans);
+    var color = r.level==='high'?'#aef7e0' : r.level==='medium'?'#ffdb7d' : '#ffb0ba';
+    var lvKo = r.level==='high'?'양호' : r.level==='medium'?'보통' : '낮음';
+    var msg = r.level==='high'?'응답 패턴이 안정적입니다. 리포트 해석을 신뢰할 수 있습니다.'
+            : r.level==='medium'?'일부 응답 패턴에 주의가 필요합니다. 단정형보다 상황별 해석을 권합니다.'
+            : '응답 패턴에 문제가 있어 결과 해석에 주의가 필요합니다. 재검사를 고려하세요.';
+
+    // 분포 막대
+    var dmax=1; for(var v=1;v<=5;v++) dmax=Math.max(dmax, r.distribution[v]);
+    var bars='';
+    for(var v=1;v<=5;v++){
+      var ct=r.distribution[v], hpx=Math.round(ct/dmax*88);
+      bars+='<div class="qdBar"><span class="val">'+ct+'</span><div class="bar" style="height:'+hpx+'px"></div><span class="cap">'+v+'</span></div>';
+    }
+
+    // 플래그
+    var flagsHtml = r.flags.length
+      ? r.flags.map(function(f){return '<span class="qdFlag">'+esc(f)+'</span>';}).join('')
+      : '<span class="qdFlag ok">특이사항 없음</span>';
+
+    // 모순쌍 표 (gap 내림차순, 엔진이 이미 정렬)
+    var rowsHtml='';
+    r.contradictions.forEach(function(c){
+      var gcls = c.gap>=4?'g2' : c.gap>=2?'g1' : 'g0';
+      var sev = c.gap>=4?'sev':'';
+      rowsHtml+='<tr class="'+sev+'">'
+        +'<td><span class="qdGapPill '+gcls+'">'+c.gap+'</span></td>'
+        +'<td><span class="qdAns">'+c.va+'</span> ↔ <span class="qdAns">'+c.vb+'</span><div class="qdNote">'+esc(AXKO[c.axis]||c.axis)+'</div></td>'
+        +'<td><div>'+c.a+'. '+esc(pairText(c.a))+'</div><div style="margin-top:4px">'+c.b+'. '+esc(pairText(c.b))+'</div></td>'
+        +'</tr>';
+    });
+
+    $('prismQCDetailBody').innerHTML =
+      '<div class="qdGauge">'
+        +'<div><div class="qdScore" style="color:'+color+'">'+r.reliability+'<small>/100</small></div></div>'
+        +'<div><span class="qdLevel '+r.level+'">신뢰도 '+lvKo+'</span><div class="qdGaugeMsg">'+esc(msg)+'</div></div>'
+      +'</div>'
+      +'<div class="qdSec"><h3>점검 요약</h3><div class="qdFlags">'+flagsHtml+'</div></div>'
+      +'<div class="qdSec"><h3>응답 분포 (1~5 선택 횟수 · 총 '+r.n+'문항)</h3><div class="qdDist">'+bars+'</div>'
+        +'<div class="qdDistLbl"><div>전혀 아니다</div><div>아니다</div><div>보통이다</div><div>그렇다</div><div>매우 그렇다</div></div>'
+        +'<div class="qdNote" style="margin-top:8px">최대 연속 동일응답 '+r.straightRun+'개 · 극단(1·5) '+Math.round(r.extremeRate*100)+'% · 중앙(3) '+Math.round(r.midRate*100)+'%</div></div>'
+      +'<div class="qdSec"><h3>대립 문항쌍 일관성 (12쌍 · 차이 클수록 모순)</h3>'
+        +'<table class="qdPairs"><thead><tr><th>차이</th><th>응답</th><th>대립 문항 (서로 반대 성향)</th></tr></thead><tbody>'+rowsHtml+'</tbody></table></div>'
+      +'<div class="qdHint"><b>읽는 법</b> · 대립쌍은 행동상 서로 반대인 문항입니다(예: "원리 먼저" vs "유형반복 먼저"). 양쪽에 모두 강하게 동의(4~5+4~5)하거나 모두 강하게 비동의(1~2+1~2)하면 차이가 커지고, 응답 일관성이 의심됩니다. 차이 0~1은 정상, 4는 양극단 동시 응답입니다.</div>';
+
+    $('prismQCDetail').classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+  window.prismQCDetailClose = function(){
+    $('prismQCDetail').classList.remove('open');
+    // 관리자 패널이 열려 있으면 스크롤 복구는 그쪽 닫을 때
+    if(!($('prismAdminEntry') && $('prismAdminEntry').classList.contains('open'))) document.body.style.overflow='';
+  };
+})();
+</script>
+<!-- ===== /PRISM 응답 품질 상세 패널 · A-3단계 ===== -->
+
+<!-- ===== PRISM 코호트 기록 저장소 · A-4단계 ===== -->
+<style id="prismStoreStyle">
+#prismRecords{display:none;position:fixed;inset:0;z-index:100001;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismRecords.open{display:block}
+#prismRecords .prWrap{max-width:920px;margin:0 auto;padding:24px 18px 60px}
+#prismRecords .prHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+#prismRecords .prHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismRecords .prHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismRecords .prBtn{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 13px;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+#prismRecords .prBtn.danger{border-color:rgba(255,112,128,.4);background:rgba(255,112,128,.1);color:#ffb0ba}
+#prismRecords .prBtn.go{border-color:rgba(119,255,214,.4);background:rgba(119,255,214,.12);color:#aef7e0}
+#prismRecords .prClose{margin-left:auto}
+#prismRecords .prBar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+#prismRecords .prFilter{flex:1;min-width:160px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#f4f8ff;border-radius:10px;padding:9px 12px;font-size:13px}
+#prismRecords .prStat{color:#c3cce8;font-size:12.5px}
+#prismRecords .prStat b{color:#ffdb7d}
+#prismRecords table.prTbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+#prismRecords table.prTbl th{text-align:left;color:#8c98ba;font-weight:700;padding:8px;border-bottom:1px solid rgba(255,255,255,.14);font-size:11.5px;white-space:nowrap}
+#prismRecords table.prTbl td{padding:9px 8px;border-bottom:1px solid rgba(255,255,255,.07);color:#dbe3f5;vertical-align:middle}
+#prismRecords table.prTbl td:last-child{white-space:normal}
+#prismRecords .prRowBtns{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end}
+@media(max-width:560px){
+  #prismRecords table.prTbl,#prismRecords table.prTbl tbody,#prismRecords table.prTbl tr{display:block;width:100%}
+  #prismRecords table.prTbl thead{display:none}
+  #prismRecords table.prTbl tr{border:1px solid rgba(255,255,255,.1);border-radius:11px;margin-bottom:9px;padding:10px 12px;background:rgba(255,255,255,.02)}
+  #prismRecords table.prTbl td{display:block;border:none;padding:4px 0}
+  #prismRecords table.prTbl td:last-child{margin-top:6px}
+  #prismRecords .prRowBtns{justify-content:flex-start}
+  #prismRecords .prRowBtn{margin-right:0;padding:6px 11px;font-size:12px}
+}
+#prismRecords tr.lowrel td{background:rgba(255,112,128,.07)}
+#prismRecords .prRel{display:inline-block;min-width:34px;text-align:center;padding:3px 8px;border-radius:7px;font-weight:800;font-size:12px}
+#prismRecords .prRel.high{background:rgba(119,255,214,.16);color:#aef7e0}
+#prismRecords .prRel.medium{background:rgba(255,219,125,.16);color:#ffdb7d}
+#prismRecords .prRel.low{background:rgba(255,112,128,.18);color:#ffb0ba}
+#prismRecords .prName{font-weight:800;color:#f4f8ff}
+#prismRecords .prWhen{color:#8c98ba;font-size:11.5px}
+#prismRecords .prRowBtn{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:#cdd6ee;border-radius:7px;padding:5px 9px;font-size:11.5px;font-weight:700;cursor:pointer;margin-right:5px}
+#prismRecords .prRowBtn.go{border-color:rgba(119,255,214,.35);color:#aef7e0}
+#prismRecords .prRowBtn.del{border-color:rgba(255,112,128,.35);color:#ffb0ba}
+#prismRecords .prEmpty{padding:40px 16px;text-align:center;color:#8c98ba;font-size:14px}
+#prismRecords .prFlagMini{font-size:10.5px;color:#ffb0ba;display:block;margin-top:2px}
+@media print{#prismRecords{display:none!important}}
+</style>
+
+<div id="prismRecords" role="dialog" aria-label="저장된 검사 기록">
+  <div class="prWrap">
+    <div class="prHead">
+      <b>관리자 · 검사 기록</b><h2>저장된 학생 기록</h2>
+      <button class="prBtn prClose" onclick="prismRecordsClose()">닫기</button>
+    </div>
+    <div class="prBar">
+      <input class="prFilter" id="prFilter" placeholder="이름으로 검색" oninput="prismRecordsRender()">
+      <span class="prStat" id="prStat"></span>
+      <button class="prBtn" style="border-color:rgba(119,255,214,.3);color:#aef7e0" onclick="prismCohortOpen()">반 집계</button>
+      <button class="prBtn go" onclick="prismRecordsExport()">CSV 내보내기</button>
+      <button class="prBtn" style="border-color:rgba(119,255,214,.3);color:#aef7e0" onclick="prismLabelExportCSV()">라벨 CSV(검증용)</button>
+      <button class="prBtn" style="border-color:rgba(119,255,214,.3);color:#aef7e0" onclick="prismStorageOpen()">용량</button>
+      <button class="prBtn" onclick="prismRecordsBackup()">백업(JSON)</button>
+      <button class="prBtn" onclick="prismRecordsRestorePick()">복원</button>
+      <input type="file" id="prRestoreFile" accept="application/json,.json" style="display:none" onchange="prismRecordsRestoreFile(event)">
+      <button class="prBtn danger" onclick="prismRecordsClearAll()">전체 삭제</button>
+    </div>
+    <div id="prismRecordsBody"></div>
+  </div>
+</div>
+
+<script id="prismStoreScript">
+(function(){
+  "use strict";
+  var KEY='prism_records_v1';
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  function load(){
+    try{ var raw=localStorage.getItem(KEY); var a=raw?JSON.parse(raw):[]; return Array.isArray(a)?a:[]; }catch(e){ return []; }
+  }
+  function save(list){
+    try{ localStorage.setItem(KEY, JSON.stringify(list)); return true; }catch(e){ console.warn('[store] save fail',e); return false; }
+  }
+
+  // 12극 점수 계산 (답안 → 극별 평균*20). questions 전역의 pole 사용.
+  function poleScores(ans){
+    var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+    var sum={},cnt={}; POLES.forEach(function(p){sum[p]=0;cnt[p]=0;});
+    try{
+      if(typeof questions!=='undefined'){
+        for(var i=0;i<questions.length;i++){
+          var q=questions[i], v=ans[q.id];
+          if(v!=null && q.pole in sum){ sum[q.pole]+=+v; cnt[q.pole]++; }
+        }
+      }
+    }catch(e){}
+    var out={}; POLES.forEach(function(p){ out[p]= cnt[p]? Math.round(sum[p]/cnt[p]/5*100) : null; });
+    return out;
+  }
+
+  // 공개 API: 기록 추가
+  window.prismStoreAdd = function(name, ans, qc){
+    var list=load();
+    var rec={
+      id: 'r'+Date.now()+'_'+Math.floor(Math.random()*1000),
+      name: (name||'학생').trim()||'학생',
+      ts: Date.now(),
+      answers: ans,
+      poles: poleScores(ans),
+      qc: qc ? {reliability:qc.reliability, level:qc.level, flags:qc.flags, straightRun:qc.straightRun, contraCount:qc.contraCount, extremeRate:qc.extremeRate, midRate:qc.midRate, n:qc.n} : null
+    };
+    list.push(rec);
+    var saved=save(list);
+    if(!saved){
+      try{ alert('저장 공간이 부족하여 기록을 저장하지 못했습니다.\n[저장 기록] > [용량]에서 백업 후 오래된 기록을 정리해 주세요.'); }catch(e){}
+    }
+    return rec.id;
+  };
+  window.prismStoreList = function(){ return load(); };
+  window.prismStoreGet = function(id){ var l=load(); for(var i=0;i<l.length;i++) if(l[i].id===id) return l[i]; return null; };
+  window.prismStoreDelete = function(id){ var l=load().filter(function(r){return r.id!==id;}); save(l); };
+
+  function fmtDate(ts){
+    var d=new Date(ts);
+    function p(n){return (n<10?'0':'')+n;}
+    return d.getFullYear()+'.'+p(d.getMonth()+1)+'.'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  }
+
+  window.prismRecordsOpen = function(){
+    $('prismRecords').classList.add('open');
+    document.body.style.overflow='hidden';
+    prismRecordsRender();
+  };
+  window.prismRecordsClose = function(){
+    $('prismRecords').classList.remove('open');
+    if(!($('prismAdminEntry') && $('prismAdminEntry').classList.contains('open'))) document.body.style.overflow='';
+  };
+
+  window.prismRecordsRender = function(){
+    var list=load().slice().sort(function(a,b){return b.ts-a.ts;});
+    var f=($('prFilter')&&$('prFilter').value||'').trim().toLowerCase();
+    if(f) list=list.filter(function(r){return (r.name||'').toLowerCase().indexOf(f)>=0;});
+    var total=load().length, lowN=load().filter(function(r){return r.qc&&r.qc.level==='low';}).length;
+    $('prStat').innerHTML='총 <b>'+total+'</b>명 · 신뢰도 낮음 <b>'+lowN+'</b>명';
+    if(!list.length){
+      $('prismRecordsBody').innerHTML='<div class="prEmpty">'+(total? '검색 결과가 없습니다.' : '저장된 기록이 없습니다.\n관리자 입력으로 리포트를 생성하면 자동으로 저장됩니다.')+'</div>';
+      return;
+    }
+    var rows=list.map(function(r){
+      var qc=r.qc||{}; var lvl=qc.level||'high'; var rel=qc.reliability!=null?qc.reliability:'-';
+      var lvKo=lvl==='high'?'양호':lvl==='medium'?'보통':'낮음';
+      var flagMini = (lvl!=='high' && qc.flags && qc.flags.length)? '<span class="prFlagMini">'+esc(qc.flags[0])+(qc.flags.length>1?(' 외 '+(qc.flags.length-1)):'')+'</span>':'';
+      return '<tr class="'+(lvl==='low'?'lowrel':'')+'">'
+        +'<td><span class="prName">'+esc(r.name)+'</span><div class="prWhen">'+fmtDate(r.ts)+'</div></td>'
+        +'<td><span class="prRel '+lvl+'">'+rel+'</span> '+lvKo+flagMini+'</td>'
+        +'<td><div class="prRowBtns">'
+          +'<button class="prRowBtn go" onclick="prismRecordsReopen(\''+r.id+'\')">리포트</button>'
+          +'<button class="prRowBtn" style="border-color:rgba(159,176,216,.35);color:#cdd6ee" onclick="prismAuditOpen(\''+r.id+'\')">검산</button>'
+          +'<button class="prRowBtn" style="border-color:rgba(119,255,214,.3);color:#aef7e0" onclick="prismLabelOpen(\''+r.id+'\')">라벨'+((typeof window.prismLabelHas==='function'&&window.prismLabelHas(r.id))?' ✓':'')+'</button>'
+          +((typeof window.prismHasCohort==='function'&&window.prismHasCohort())?('<button class="prRowBtn" style="border-color:rgba(119,255,214,.3);color:#9fe8d8" onclick="prismRankOpen(\''+r.id+'\')">반대비</button>'):'')
+          +((typeof window.prismHasRetest==='function'&&window.prismHasRetest(r.name))?('<button class="prRowBtn" style="border-color:rgba(255,219,125,.4);color:#ffdb7d" onclick="prismCompareOpen(\''+esc(r.name).replace(/'/g,"&#39;")+'\')">비교</button>'):'')
+          +((typeof window.prismHasTrend==='function'&&window.prismHasTrend(r.name))?('<button class="prRowBtn" style="border-color:rgba(155,140,255,.45);color:#bcb0ff" onclick="prismTrendOpen(\''+esc(r.name).replace(/'/g,"&#39;")+'\')">추세</button>'):'')
+          +'<button class="prRowBtn del" onclick="prismRecordsDelete(\''+r.id+'\')">삭제</button>'
+        +'</div></td></tr>';
+    }).join('');
+    $('prismRecordsBody').innerHTML=
+      '<table class="prTbl"><thead><tr><th>학생 · 검사일시</th><th>응답 신뢰도</th><th>동작</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  };
+
+  window.prismRecordsDelete = function(id){
+    var r=window.prismStoreGet(id);
+    if(!r) return;
+    if(!confirm('"'+r.name+'" 기록을 삭제할까요?')) return;
+    window.prismStoreDelete(id); prismRecordsRender();
+  };
+  window.prismRecordsClearAll = function(){
+    var n=load().length; if(!n){ alert('삭제할 기록이 없습니다.'); return; }
+    if(!confirm('저장된 '+n+'개 기록을 모두 삭제할까요? 되돌릴 수 없습니다.')) return;
+    save([]); prismRecordsRender();
+  };
+
+  // 저장된 답안으로 리포트 재생성 (관리자 경로 재사용)
+  window.prismRecordsReopen = function(id){
+    var r=window.prismStoreGet(id); if(!r){ alert('기록을 찾을 수 없습니다.'); return; }
+    try{ window.answers=r.answers; }catch(e){}
+    try{ localStorage.setItem('studyPatternAnswers', JSON.stringify(r.answers)); }catch(e){}
+    try{ var sn=$('studentName'); if(sn) sn.value=r.name; }catch(e){}
+    window.prismRecordsClose();
+    if($('prismAdminEntry')) $('prismAdminEntry').classList.remove('open');
+    document.body.style.overflow='';
+    try{
+      if(typeof startTest==='function') startTest();
+      if(typeof renderQuestions==='function') renderQuestions();
+      if(typeof updateProgress==='function') updateProgress();
+    }catch(e){}
+    try{
+      if(typeof calculateResult==='function') calculateResult();
+      else if(typeof buildResultPayload==='function' && typeof renderReport==='function'){
+        var p=buildResultPayload(); renderReport(p.results,p.code,p.baseCode,p.modeCode,p.base,p.mode);
+        var rep=$('report'); if(rep){rep.style.display='block'; rep.scrollIntoView({behavior:'smooth'});}
+      }
+    }catch(e){ console.error('[store reopen]',e); }
+  };
+
+  window.prismRecordsExport = function(){
+    var list=load().slice().sort(function(a,b){return a.ts-b.ts;});
+    if(!list.length){ alert('내보낼 기록이 없습니다.'); return; }
+    var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+    var POLEKO=['심층이해','반복숙달','계획실행','상황반응','자기주도','외부구조','질문확인','자기해결','완성추구','시행착오','미래목표','즉시피드백'];
+    var head=['이름','검사일시','응답신뢰도','신뢰도등급','직진최대','모순쌍'].concat(POLEKO);
+    var lines=[head.join(',')];
+    list.forEach(function(r){
+      var qc=r.qc||{};
+      var row=[
+        '"'+(r.name||'').replace(/"/g,'""')+'"',
+        '"'+fmtDate(r.ts)+'"',
+        qc.reliability!=null?qc.reliability:'',
+        qc.level||'',
+        qc.straightRun!=null?qc.straightRun:'',
+        qc.contraCount!=null?qc.contraCount:''
+      ];
+      POLES.forEach(function(p){ row.push(r.poles&&r.poles[p]!=null?r.poles[p]:''); });
+      lines.push(row.join(','));
+    });
+    var csv='\ufeff'+lines.join('\r\n'); // BOM: 엑셀 한글
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url;
+    a.download='PRISM_검사기록_'+(new Date()).toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  };
+
+  // A-5: 전체 백업(JSON), 답안 포함, 진짜 복원 가능한 완전 파일
+  window.prismRecordsBackup = function(){
+    var list=load();
+    if(!list.length){ alert('백업할 기록이 없습니다.'); return; }
+    var __labels=(typeof window.prismLabelExport==='function')?window.prismLabelExport():{};
+    var payload={ format:'PRISM_records', version:1, exportedAt:new Date().toISOString(), count:list.length, records:list, labels:__labels };
+    var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8;'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url;
+    a.download='PRISM_backup_'+(new Date()).toISOString().slice(0,10)+'_'+list.length+'.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  };
+
+  window.prismRecordsRestorePick = function(){
+    var f=$('prRestoreFile'); if(f){ f.value=''; f.click(); }
+  };
+
+  // 복원: 파일 읽어 병합(중복 id는 건너뜀). 결과를 사용자에게 보고.
+  window.prismRecordsRestoreFile = function(ev){
+    var file = ev && ev.target && ev.target.files && ev.target.files[0];
+    if(!file){ return; }
+    var reader=new FileReader();
+    reader.onload=function(){
+      var data;
+      try{ data=JSON.parse(reader.result); }
+      catch(e){ alert('JSON 파일을 읽을 수 없습니다. 올바른 백업 파일인지 확인해 주세요.'); return; }
+      var incoming = Array.isArray(data) ? data : (data && Array.isArray(data.records) ? data.records : null);
+      if(!incoming){ alert('PRISM 백업 형식이 아닙니다. (records 배열을 찾을 수 없음)'); return; }
+      // 유효 레코드만 (id + answers 필수)
+      var valid = incoming.filter(function(r){ return r && r.id && r.answers && typeof r.answers==='object'; });
+      var cur=load();
+      var have={}; cur.forEach(function(r){ have[r.id]=1; });
+      var added=0, dup=0, bad=incoming.length - valid.length;
+      valid.forEach(function(r){
+        if(have[r.id]){ dup++; return; }
+        // 누락 필드 보강(구버전/외부 파일 대비)
+        if(r.poles==null && typeof poleScores==='function'){ try{ r.poles=poleScores(r.answers); }catch(e){} }
+        cur.push(r); have[r.id]=1; added++;
+      });
+      if(added>0) save(cur);
+      // 라벨 병합 (없는 키만 추가)
+      try{ if(data && data.labels && typeof data.labels==='object'){
+        var lk='prism_labels_v1'; var curL={}; try{curL=JSON.parse(localStorage.getItem(lk))||{};}catch(e){}
+        var addedL=0; for(var kk in data.labels){ if(!curL[kk]){ curL[kk]=data.labels[kk]; addedL++; } }
+        if(addedL>0) localStorage.setItem(lk, JSON.stringify(curL));
+      } }catch(e){}
+      var msg='복원 완료\n- 새로 추가: '+added+'건\n- 중복(건너뜀): '+dup+'건';
+      if(bad>0) msg+='\n- 형식 오류(제외): '+bad+'건';
+      alert(msg);
+      prismRecordsRender();
+    };
+    reader.onerror=function(){ alert('파일을 읽는 중 오류가 발생했습니다.'); };
+    reader.readAsText(file);
+  };
+})();
+</script>
+<!-- ===== /PRISM 코호트 기록 저장소 · A-4단계 ===== -->
+
+<!-- ===== PRISM 재검사 비교 · A-6단계 ===== -->
+<style id="prismCompareStyle">
+#prismCompare{display:none;position:fixed;inset:0;z-index:100002;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismCompare.open{display:block}
+#prismCompare .pcWrap{max-width:840px;margin:0 auto;padding:24px 18px 60px}
+#prismCompare .pcHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+#prismCompare .pcHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismCompare .pcHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismCompare .pcClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismCompare .pcPick{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0 6px}
+#prismCompare .pcPick label{color:#9fb0d8;font-size:12.5px;font-weight:700}
+#prismCompare .pcPick select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#f4f8ff;border-radius:9px;padding:8px 11px;font-size:13px;max-width:230px}
+#prismCompare .pcMeta{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+#prismCompare .pcCard{flex:1;min-width:200px;border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,.03)}
+#prismCompare .pcCard .t{color:#8c98ba;font-size:11.5px;font-weight:700;margin-bottom:4px}
+#prismCompare .pcCard .d{color:#f4f8ff;font-size:15px;font-weight:800}
+#prismCompare .pcCard .r{font-size:12.5px;margin-top:6px}
+#prismCompare .pcRel{display:inline-block;padding:2px 9px;border-radius:7px;font-weight:800;font-size:11.5px}
+#prismCompare .pcRel.high{background:rgba(119,255,214,.16);color:#aef7e0}
+#prismCompare .pcRel.medium{background:rgba(255,219,125,.16);color:#ffdb7d}
+#prismCompare .pcRel.low{background:rgba(255,112,128,.18);color:#ffb0ba}
+#prismCompare .pcArrow{font-size:13px;color:#9fb0d8;text-align:center;padding:0 4px}
+#prismCompare h3.pcSec{margin:18px 0 10px;color:#9fb0d8;font-size:12px;letter-spacing:.06em;font-weight:800}
+#prismCompare table.pcTbl{width:100%;border-collapse:collapse;font-size:13px}
+#prismCompare table.pcTbl th{text-align:left;color:#8c98ba;font-weight:700;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.14);font-size:11.5px}
+#prismCompare table.pcTbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.07);color:#dbe3f5}
+#prismCompare .pcPole{font-weight:700;color:#f4f8ff}
+#prismCompare .pcAxis{color:#8c98ba;font-size:10.5px}
+#prismCompare .pcScore{font-variant-numeric:tabular-nums;font-weight:800;text-align:center}
+#prismCompare .pcBarWrap{position:relative;height:8px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden;min-width:90px}
+#prismCompare .pcBar1{position:absolute;left:0;top:0;height:100%;background:rgba(159,176,216,.5)}
+#prismCompare .pcBar2{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,#77ffd6,#3fb8a0);opacity:.9}
+#prismCompare .pcDelta{font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+#prismCompare .pcDelta.up{color:#7ce0c0}
+#prismCompare .pcDelta.down{color:#ffb0ba}
+#prismCompare .pcDelta.same{color:#8c98ba}
+#prismCompare .pcHint{margin-top:16px;padding:12px 14px;border-radius:12px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12.5px;line-height:1.6}
+#prismCompare .pcEmpty{padding:30px 16px;text-align:center;color:#8c98ba;font-size:14px}
+@media print{#prismCompare{display:none!important}}
+</style>
+
+<div id="prismCompare" role="dialog" aria-label="재검사 비교">
+  <div class="pcWrap">
+    <div class="pcHead">
+      <b>관리자 · 재검사 비교</b><h2 id="pcTitle">재검사 비교</h2>
+      <button class="pcClose" onclick="prismCompareClose()">닫기</button>
+    </div>
+    <div id="prismCompareBody"></div>
+  </div>
+</div>
+
+<script id="prismCompareScript">
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+  var POLEKO={deep:'심층이해',practice:'반복숙달',plan:'계획실행',situational:'상황반응',self:'자기주도',structured:'외부구조',ask:'질문·확인',solve:'자기해결',complete:'완성추구',trial:'시행착오',future:'미래목표',feedback:'즉시피드백'};
+  var POLEAX={deep:'이해 방식',practice:'이해 방식',plan:'실행 방식',situational:'실행 방식',self:'학습 구조',structured:'학습 구조',ask:'막힘 처리',solve:'막힘 처리',complete:'오류 처리',trial:'오류 처리',future:'지속 동기',feedback:'지속 동기'};
+
+  function fmtDate(ts){var d=new Date(ts);function p(n){return(n<10?'0':'')+n;}return d.getFullYear()+'.'+p(d.getMonth()+1)+'.'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());}
+
+  // 동일 이름 기록이 2개 이상인지 (재검사 후보 판단)
+  window.prismHasRetest = function(name){
+    try{
+      var l=window.prismStoreList(); var c=0;
+      for(var i=0;i<l.length;i++) if((l[i].name||'')===name) c++;
+      return c>=2;
+    }catch(e){ return false; }
+  };
+
+  // 비교 패널 열기: 해당 이름의 기록들을 시간순으로, 기본은 (가장 오래된, 가장 최근)
+  window.prismCompareOpen = function(name){
+    var all;
+    try{ all=window.prismStoreList(); }catch(e){ all=[]; }
+    var recs=all.filter(function(r){return (r.name||'')===name;}).sort(function(a,b){return a.ts-b.ts;});
+    if(recs.length<2){ alert('"'+name+'" 학생의 검사 기록이 2개 미만이라 비교할 수 없습니다.'); return; }
+    $('pcTitle').textContent=esc(name)+' · 재검사 비교';
+    // 선택 UI (기록이 3개 이상이면 두 시점을 고를 수 있게)
+    var opts=recs.map(function(r,i){return '<option value="'+r.id+'">'+(i+1)+'회 · '+fmtDate(r.ts)+'</option>';}).join('');
+    var pick='';
+    if(recs.length>2){
+      pick='<div class="pcPick"><label>이전</label><select id="pcSelA" onchange="prismCompareRefresh(\''+esc(name)+'\')">'+opts+'</select>'
+          +'<label>이후</label><select id="pcSelB" onchange="prismCompareRefresh(\''+esc(name)+'\')">'+opts+'</select></div>';
+    }
+    $('prismCompareBody').innerHTML=pick+'<div id="pcResult"></div>';
+    if(recs.length>2){ $('pcSelA').value=recs[0].id; $('pcSelB').value=recs[recs.length-1].id; }
+    window.__pcRecs=recs;
+    renderCompare(recs[0], recs[recs.length-1]);
+    $('prismCompare').classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+  window.prismCompareRefresh = function(name){
+    var recs=window.__pcRecs||[];
+    var aId=$('pcSelA')?$('pcSelA').value:null, bId=$('pcSelB')?$('pcSelB').value:null;
+    var A=null,B=null; recs.forEach(function(r){if(r.id===aId)A=r;if(r.id===bId)B=r;});
+    if(A&&B) renderCompare(A,B);
+  };
+
+  function relBadge(qc){
+    var lvl=qc&&qc.level||'high'; var rel=qc&&qc.reliability!=null?qc.reliability:'-';
+    var ko=lvl==='high'?'양호':lvl==='medium'?'보통':'낮음';
+    return '<span class="pcRel '+lvl+'">'+rel+'</span> '+ko;
+  }
+
+  function renderCompare(A, B){
+    var swapped=false;
+    if(A.ts>B.ts){ var t=A;A=B;B=t; swapped=true; }
+    var dDays=Math.round((B.ts-A.ts)/86400000);
+    // 평균 점수 변화
+    function avg(p){var s=0,c=0;POLES.forEach(function(k){if(p&&p[k]!=null){s+=p[k];c++;}});return c?Math.round(s/c):null;}
+    var avA=avg(A.poles), avB=avg(B.poles);
+
+    // 메타 카드
+    var meta='<div class="pcMeta">'
+      +'<div class="pcCard"><div class="t">1차 · 이전</div><div class="d">'+fmtDate(A.ts)+'</div><div class="r">신뢰도 '+relBadge(A.qc)+'</div></div>'
+      +'<div class="pcArrow">'+(dDays>0?(dDays+'일 후'):'같은 날')+' →</div>'
+      +'<div class="pcCard"><div class="t">2차 · 이후</div><div class="d">'+fmtDate(B.ts)+'</div><div class="r">신뢰도 '+relBadge(B.qc)+'</div></div>'
+      +'</div>';
+
+    // 12극 변화 표
+    var rows='';
+    var upN=0,downN=0,sumAbs=0;
+    POLES.forEach(function(k){
+      var v1=A.poles?A.poles[k]:null, v2=B.poles?B.poles[k]:null;
+      var d=(v1!=null&&v2!=null)?(v2-v1):null;
+      if(d!=null){ if(d>0)upN++; else if(d<0)downN++; sumAbs+=Math.abs(d); }
+      var dcls=d==null?'same':(d>0?'up':(d<0?'down':'same'));
+      var dtxt=d==null?'-':(d>0?('+'+d):(''+d));
+      var w1=v1!=null?v1:0, w2=v2!=null?v2:0;
+      rows+='<tr>'
+        +'<td><span class="pcPole">'+esc(POLEKO[k])+'</span><div class="pcAxis">'+esc(POLEAX[k])+'</div></td>'
+        +'<td class="pcScore" style="color:#9fb0d8">'+(v1!=null?v1:'-')+'</td>'
+        +'<td style="width:42%"><div class="pcBarWrap"><div class="pcBar1" style="width:'+w1+'%"></div><div class="pcBar2" style="width:'+w2+'%"></div></div></td>'
+        +'<td class="pcScore">'+(v2!=null?v2:'-')+'</td>'
+        +'<td class="pcDelta '+dcls+'">'+dtxt+'</td>'
+        +'</tr>';
+    });
+
+    // 요약 한 줄
+    var avgD=(avA!=null&&avB!=null)?(avB-avA):null;
+    var summ='';
+    if(avgD!=null){
+      var dir=avgD>0?'전반적으로 상승':(avgD<0?'전반적으로 하락':'전반적으로 유지');
+      summ='평균 '+(avgD>0?'+':'')+avgD+'점('+dir+') · 오른 극 '+upN+'개, 내린 극 '+downN+'개 · 변화량 합 '+sumAbs+'점';
+    }
+    var qcTrend='';
+    if(A.qc&&B.qc&&A.qc.reliability!=null&&B.qc.reliability!=null){
+      var qd=B.qc.reliability-A.qc.reliability;
+      qcTrend=' · 응답 신뢰도 '+(qd>0?('+'+qd+' 개선'):(qd<0?(qd+' 하락'):'동일'));
+    }
+
+    $('pcResult').innerHTML=meta
+      +'<h3 class="pcSec">12극 변화 ('+(swapped?'시간순 자동 정렬':'이전 → 이후')+')</h3>'
+      +'<table class="pcTbl"><thead><tr><th>극</th><th class="pcScore">1차</th><th>변화</th><th class="pcScore">2차</th><th class="pcDelta">Δ</th></tr></thead><tbody>'+rows+'</tbody></table>'
+      +(summ?('<div class="pcHint"><b>요약</b> · '+summ+qcTrend+'<br><span style="color:#9fb0d8">막대: 회색=1차, 민트=2차. 자기보고 점수는 컨디션·자기인식에 따라 출렁일 수 있으니, 변화는 추세로만 참고하세요.</span></div>'):'');
+  }
+
+  window.prismCompareClose = function(){
+    $('prismCompare').classList.remove('open');
+    if(!($('prismRecords') && $('prismRecords').classList.contains('open'))) document.body.style.overflow='';
+  };
+})();
+</script>
+<!-- ===== /PRISM 재검사 비교 · A-6단계 ===== -->
+
+<!-- ===== PRISM 교사 라벨 수집 · A-7단계(타당도 데이터) ===== -->
+<style id="prismLabelStyle">
+#prismLabel{display:none;position:fixed;inset:0;z-index:100003;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismLabel.open{display:block}
+#prismLabel .plWrap{max-width:620px;margin:0 auto;padding:24px 18px 60px}
+#prismLabel .plHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+#prismLabel .plHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismLabel .plHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismLabel .plClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismLabel .plWho{color:#c3cce8;font-size:13px;margin:6px 0 14px}
+#prismLabel .plWho b{color:#f4f8ff}
+#prismLabel .plIntro{padding:12px 14px;border-radius:12px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12.5px;line-height:1.6;margin-bottom:16px}
+#prismLabel .plField{margin-bottom:16px}
+#prismLabel .plField > label{display:block;color:#9fb0d8;font-size:12.5px;font-weight:800;margin-bottom:8px}
+#prismLabel .plField .plHelp{color:#8c98ba;font-size:11.5px;font-weight:600;margin-top:5px;line-height:1.5}
+#prismLabel .plChips{display:flex;flex-wrap:wrap;gap:8px}
+#prismLabel .plChip{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:#cdd6ee;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;user-select:none}
+#prismLabel .plChip.on{border-color:#77ffd6;background:rgba(119,255,214,.16);color:#aef7e0}
+#prismLabel select.plSel,#prismLabel input.plInp,#prismLabel textarea.plTxt{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#f4f8ff;border-radius:10px;padding:10px 12px;font-size:14px;font-family:inherit}
+#prismLabel textarea.plTxt{min-height:84px;resize:vertical;line-height:1.55}
+#prismLabel .plRow2{display:flex;gap:10px}
+#prismLabel .plRow2 > div{flex:1}
+#prismLabel .plConf{display:flex;gap:6px;align-items:center}
+#prismLabel .plConf .plChip{padding:6px 12px;font-size:12.5px}
+#prismLabel .plFoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+#prismLabel .plBtn{border:1px solid rgba(119,255,214,.4);background:rgba(119,255,214,.12);color:#aef7e0;border-radius:11px;padding:11px 18px;font-size:14px;font-weight:800;cursor:pointer}
+#prismLabel .plBtn.primary{border-color:#77ffd6;background:linear-gradient(145deg,rgba(119,255,214,.30),rgba(119,255,214,.14));color:#eafff7}
+#prismLabel .plBtn.ghost{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7}
+#prismLabel .plSaved{color:#aef7e0;font-size:12.5px;font-weight:700}
+#prismLabel .plBadgeHas{display:inline-block;margin-left:6px;font-size:10.5px;color:#08202a;background:#77ffd6;border-radius:6px;padding:2px 7px;font-weight:800}
+@media print{#prismLabel{display:none!important}}
+</style>
+
+<div id="prismLabel" role="dialog" aria-label="교사 라벨 입력">
+  <div class="plWrap">
+    <div class="plHead">
+      <b>관리자 · 타당도 데이터</b><h2>교사 관찰 라벨</h2>
+      <button class="plClose" onclick="prismLabelClose()">닫기</button>
+    </div>
+    <div class="plWho" id="plWho"></div>
+    <div class="plIntro">이 라벨은 <b>리포트에 보이지 않습니다.</b> 검사 결과(12극·트랙 적합도)가 실제 학생과 얼마나 맞는지 나중에 검증하기 위한 정답 데이터입니다. 선생님이 아는 범위에서만 채워 주세요. 모르면 비워도 됩니다.</div>
+
+    <div class="plField">
+      <label>실제 목표 트랙 (선생님 판단)</label>
+      <div class="plChips" id="plTrack"></div>
+      <div class="plHelp">검사의 트랙 적합도가 맞는지 보는 기준입니다. 학생의 실제 지망/적성에 가장 가까운 하나를 고르세요.</div>
+    </div>
+
+    <div class="plField">
+      <label>이 학생에게 가장 두드러진 학습 성향 (선생님 관찰, 최대 2개)</label>
+      <div class="plChips" id="plPoles"></div>
+      <div class="plHelp">검사가 짚은 강점 극이 선생님 관찰과 일치하는지 보는 기준입니다.</div>
+    </div>
+
+    <div class="plRow2">
+      <div class="plField">
+        <label>학년</label>
+        <select class="plSel" id="plGrade">
+          <option value="">선택</option>
+          <option>초4</option><option>초5</option><option>초6</option>
+          <option>중1</option><option>중2</option><option>중3</option>
+          <option>고1</option><option>고2</option><option>고3</option>
+        </select>
+      </div>
+      <div class="plField">
+        <label>검사 결과 체감 정확도</label>
+        <div class="plConf" id="plConf"></div>
+        <div class="plHelp">리포트가 이 학생을 잘 설명했나요?</div>
+      </div>
+    </div>
+
+    <div class="plField">
+      <label>실제 결과 (있으면, 추후 입력 가능)</label>
+      <input class="plInp" id="plOutcome" placeholder="예: 2027 영재고 합격 / 자사고 불합격 / 미정">
+      <div class="plHelp">시간이 지나 입시 결과가 나오면 입력하세요. 예측 타당도(검사가 결과를 예측했는지)의 핵심 데이터입니다.</div>
+    </div>
+
+    <div class="plField">
+      <label>교사 관찰 메모 (자유)</label>
+      <textarea class="plTxt" id="plNote" placeholder="검사 결과와 실제 학생의 차이, 특이사항, 검사가 놓친 점 등"></textarea>
+    </div>
+
+    <div class="plFoot">
+      <button class="plBtn primary" onclick="prismLabelSave()">라벨 저장</button>
+      <button class="plBtn ghost" onclick="prismLabelClear()">이 학생 라벨 삭제</button>
+      <span class="plSaved" id="plSavedMsg"></span>
+    </div>
+  </div>
+</div>
+
+<script id="prismLabelScript">
+(function(){
+  "use strict";
+  var KEY='prism_labels_v1';
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var TRACKS=['영재고','전국자사고','과학고','메디컬','일반/미정'];
+  var POLEKO=['심층이해','반복숙달','계획실행','상황반응','자기주도','외부구조','질문·확인','자기해결','완성추구','시행착오','미래목표','즉시피드백'];
+  var CONF=[['상','맞음'],['중','부분'],['하','다름']];
+
+  function loadAll(){ try{ var r=localStorage.getItem(KEY); var o=r?JSON.parse(r):{}; return (o&&typeof o==='object')?o:{}; }catch(e){ return {}; } }
+  function saveAll(o){ try{ localStorage.setItem(KEY, JSON.stringify(o)); return true; }catch(e){ return false; } }
+
+  // 공개: 특정 기록 id의 라벨 조회/존재
+  window.prismLabelGet = function(recId){ var o=loadAll(); return o[recId]||null; };
+  window.prismLabelHas = function(recId){ var o=loadAll(); return !!o[recId]; };
+  window.prismLabelExport = function(){ return loadAll(); }; // 백업 통합용
+
+  // 라벨 + 학생 검사결과를 결합한 CSV (타당도 분석용)
+  // 각 행: 학생 검사결과(12극) + 교사 라벨(실제 트랙/관찰성향/결과). 라벨 있는 학생만.
+  window.prismLabelExportCSV = function(){
+    var labels=loadAll();
+    var ids=Object.keys(labels);
+    if(!ids.length){ alert('내보낼 라벨이 없습니다. 먼저 [라벨] 버튼으로 교사 관찰을 입력하세요.'); return; }
+    var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+    var POLEKO=['심층이해','반복숙달','계획실행','상황반응','자기주도','외부구조','질문확인','자기해결','완성추구','시행착오','미래목표','즉시피드백'];
+    function fmtDate(ts){ var d=new Date(ts); function p(n){return(n<10?'0':'')+n;} return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
+    function q(s){ return '"'+String(s==null?'':s).replace(/"/g,'""')+'"'; }
+
+    var head=['학생명','검사일','학년','신뢰도','신뢰도등급']
+      .concat(POLEKO.map(function(k){return '검사_'+k;}))
+      .concat(['교사_실제트랙','교사_관찰성향1','교사_관찰성향2','교사_체감정확도','교사_실제결과','교사_메모','라벨입력일']);
+    var lines=[head.join(',')];
+
+    // 각 라벨에 대응하는 레코드를 찾아 결합
+    var rows=[];
+    ids.forEach(function(id){
+      var L=labels[id]; if(!L) return;
+      var rec=(typeof window.prismStoreGet==='function')?window.prismStoreGet(id):null;
+      var name = rec? rec.name : '(기록없음)';
+      var date = rec? fmtDate(rec.ts) : '';
+      var qc = rec&&rec.qc? rec.qc : {};
+      var poles = rec&&rec.poles? rec.poles : {};
+      var pol = Array.isArray(L.poles)? L.poles : [];
+      var row=[ q(name), q(date), q(L.grade||''), (qc.reliability!=null?qc.reliability:''), q(qc.level||'') ];
+      POLES.forEach(function(k){ row.push(poles[k]!=null?poles[k]:''); });
+      var confKo = L.conf==='상'?'상(맞음)':L.conf==='중'?'중(부분)':L.conf==='하'?'하(다름)':'';
+      row.push(q(L.track||''), q(pol[0]||''), q(pol[1]||''), q(confKo), q(L.outcome||''), q(L.note||''), q(L.labeledAt? L.labeledAt.slice(0,10):''));
+      // 정렬용 ts 보관
+      rows.push({ts: rec?rec.ts:0, line: row.join(',')});
+    });
+    rows.sort(function(a,b){return a.ts-b.ts;});
+    rows.forEach(function(r){ lines.push(r.line); });
+
+    var csv='\ufeff'+lines.join('\r\n'); // BOM: 엑셀 한글
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url;
+    a.download='PRISM_label_validation_'+(new Date()).toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  };
+
+  var curId=null, curTrack=null, curPoles=[], curConf=null;
+
+  function renderChips(){
+    $('plTrack').innerHTML=TRACKS.map(function(t){return '<span class="plChip'+(curTrack===t?' on':'')+'" data-t="'+esc(t)+'">'+esc(t)+'</span>';}).join('');
+    $('plPoles').innerHTML=POLEKO.map(function(p){return '<span class="plChip'+(curPoles.indexOf(p)>=0?' on':'')+'" data-p="'+esc(p)+'">'+esc(p)+'</span>';}).join('');
+    $('plConf').innerHTML=CONF.map(function(c){return '<span class="plChip'+(curConf===c[0]?' on':'')+'" data-c="'+c[0]+'" title="'+c[1]+'">'+c[0]+'</span>';}).join('');
+    // 바인딩
+    [].forEach.call($('plTrack').children,function(el){el.onclick=function(){curTrack=(curTrack===el.dataset.t)?null:el.dataset.t;renderChips();};});
+    [].forEach.call($('plPoles').children,function(el){el.onclick=function(){
+      var p=el.dataset.p, i=curPoles.indexOf(p);
+      if(i>=0)curPoles.splice(i,1); else { if(curPoles.length>=2){ curPoles.shift(); } curPoles.push(p); }
+      renderChips();
+    };});
+    [].forEach.call($('plConf').children,function(el){el.onclick=function(){curConf=(curConf===el.dataset.c)?null:el.dataset.c;renderChips();};});
+  }
+
+  window.prismLabelOpen = function(recId){
+    if(!recId){ return; }
+    var rec=(typeof window.prismStoreGet==='function')?window.prismStoreGet(recId):null;
+    curId=recId;
+    $('plWho').innerHTML= rec? ('<b>'+esc(rec.name)+'</b> · '+new Date(rec.ts).toLocaleString('ko-KR')+' 검사 기록에 라벨을 답니다.') : '기록에 라벨을 답니다.';
+    var L=window.prismLabelGet(recId)||{};
+    curTrack=L.track||null; curPoles=Array.isArray(L.poles)?L.poles.slice(0,2):[]; curConf=L.conf||null;
+    $('plGrade').value=L.grade||''; $('plOutcome').value=L.outcome||''; $('plNote').value=L.note||'';
+    $('plSavedMsg').textContent='';
+    renderChips();
+    $('prismLabel').classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+  window.prismLabelClose = function(){
+    $('prismLabel').classList.remove('open');
+    if(!($('prismRecords') && $('prismRecords').classList.contains('open'))) document.body.style.overflow='';
+    if(typeof window.prismRecordsRender==='function') try{window.prismRecordsRender();}catch(e){}
+  };
+  window.prismLabelSave = function(){
+    if(!curId){ return; }
+    var o=loadAll();
+    var label={ track:curTrack, poles:curPoles.slice(), grade:$('plGrade').value||null, conf:curConf,
+                outcome:($('plOutcome').value||'').trim()||null, note:($('plNote').value||'').trim()||null,
+                labeledAt:new Date().toISOString() };
+    // 전부 비었으면 저장 대신 삭제
+    var empty=!label.track && (!label.poles||!label.poles.length) && !label.grade && !label.conf && !label.outcome && !label.note;
+    if(empty){ delete o[curId]; saveAll(o); $('plSavedMsg').textContent='입력이 없어 저장하지 않았습니다.'; return; }
+    o[curId]=label; saveAll(o);
+    $('plSavedMsg').textContent='저장되었습니다.';
+  };
+  window.prismLabelClear = function(){
+    if(!curId) return;
+    if(!confirm('이 학생의 라벨을 삭제할까요?')) return;
+    var o=loadAll(); delete o[curId]; saveAll(o);
+    curTrack=null;curPoles=[];curConf=null; $('plGrade').value='';$('plOutcome').value='';$('plNote').value='';
+    renderChips(); $('plSavedMsg').textContent='삭제되었습니다.';
+  };
+})();
+</script>
+<!-- ===== /PRISM 교사 라벨 수집 · A-7단계 ===== -->
+
+<!-- ===== PRISM 다회차 추세선 · B-1단계 ===== -->
+<style id="prismTrendStyle">
+#prismTrend{display:none;position:fixed;inset:0;z-index:100002;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismTrend.open{display:block}
+#prismTrend .ptWrap{max-width:860px;margin:0 auto;padding:24px 18px 60px}
+#prismTrend .ptHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+#prismTrend .ptHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismTrend .ptHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismTrend .ptClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismTrend .ptMeta{color:#c3cce8;font-size:12.5px;margin:6px 0 14px}
+#prismTrend .ptMeta b{color:#f4f8ff}
+#prismTrend .ptChartBox{border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:14px 10px 8px;background:rgba(255,255,255,.025);overflow-x:auto}
+#prismTrend svg{display:block;width:100%;min-width:520px;height:auto}
+#prismTrend .ptAxes{margin-top:10px}
+#prismTrend h3.ptSec{margin:18px 0 10px;color:#9fb0d8;font-size:12px;letter-spacing:.06em;font-weight:800}
+#prismTrend .ptLegend{display:flex;flex-wrap:wrap;gap:7px}
+#prismTrend .ptChip{display:flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);color:#aab6d6;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;user-select:none}
+#prismTrend .ptChip .dot{width:10px;height:10px;border-radius:50%}
+#prismTrend .ptChip.on{color:#f4f8ff;border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.09)}
+#prismTrend .ptChip.off svg{opacity:.4}
+#prismTrend .ptChip.off{opacity:.55}
+#prismTrend .ptQuick{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+#prismTrend .ptQuickBtn{border:1px solid rgba(119,255,214,.3);background:rgba(119,255,214,.08);color:#aef7e0;border-radius:9px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
+#prismTrend .ptHint{margin-top:16px;padding:12px 14px;border-radius:12px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12.5px;line-height:1.6}
+#prismTrend .ptEmpty{padding:30px 16px;text-align:center;color:#8c98ba;font-size:14px;line-height:1.6}
+#prismTrend .gaGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#prismTrend .gaBox{border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:10px 12px;background:rgba(255,255,255,.025)}
+#prismTrend .gaT{font-size:11.5px;font-weight:800;margin-bottom:7px}
+#prismTrend .gaT-rise{color:#7ce0c0}
+#prismTrend .gaT-fall{color:#ffb0ba}
+#prismTrend .gaT-vol{color:#ffd166}
+#prismTrend .gaT-stable{color:#9fb0d8}
+#prismTrend .gaChips{display:flex;flex-wrap:wrap;gap:6px}
+#prismTrend .gaChip{font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:8px;background:rgba(255,255,255,.05);color:#dbe3f5;border:1px solid rgba(255,255,255,.1)}
+#prismTrend .gaChip b{font-weight:800}
+#prismTrend .gaChip.rise b{color:#7ce0c0}
+#prismTrend .gaChip.fall b{color:#ffb0ba}
+#prismTrend .gaChip.vol b{color:#ffd166}
+#prismTrend .gaNone{font-size:11.5px;color:#8c98ba}
+@media(max-width:560px){#prismTrend .gaGrid{grid-template-columns:1fr}}
+@media print{#prismTrend{display:none!important}}
+</style>
+
+<div id="prismTrend" role="dialog" aria-label="다회차 추세">
+  <div class="ptWrap">
+    <div class="ptHead">
+      <b>관리자 · 성장 추적</b><h2 id="ptTitle">다회차 추세</h2>
+      <button class="ptClose" onclick="prismTrendClose()">닫기</button>
+    </div>
+    <div id="prismTrendBody"></div>
+  </div>
+</div>
+
+<script id="prismTrendScript">
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+  var POLEKO={deep:'심층이해',practice:'반복숙달',plan:'계획실행',situational:'상황반응',self:'자기주도',structured:'외부구조',ask:'질문·확인',solve:'자기해결',complete:'완성추구',trial:'시행착오',future:'미래목표',feedback:'즉시피드백'};
+  // 12색 (구분 잘 되게)
+  var COLORS={deep:'#77ffd6',practice:'#ffd166',plan:'#4da6ff',situational:'#ff8fa3',self:'#9b8cff',structured:'#5ad1c5',ask:'#ffb04d',solve:'#7ce0c0',complete:'#ff6fae',trial:'#67d4f5',future:'#a0e878',feedback:'#f59edb'};
+  // 색맹 보완: 색 외에 선 스타일(대시)로도 구분. 12극에 6패턴을 순환 + 같은 축의 두 극은 다른 스타일.
+  var DASH_PATTERNS={deep:'',practice:'1 5',plan:'8 4',situational:'2 4',self:'10 3 2 3',structured:'6 3',ask:'',solve:'1 5',complete:'8 4',trial:'2 4',future:'10 3 2 3',feedback:'6 3'};
+  var POLE_MARKER={deep:'circle',practice:'square',plan:'triangle',situational:'diamond',self:'circle',structured:'square',ask:'triangle',solve:'diamond',complete:'circle',trial:'square',future:'triangle',feedback:'diamond'};
+  function markerSVG(type,cx,cy,col,r){
+    r=r||3.4;
+    if(type==='square') return '<rect x="'+(cx-r).toFixed(1)+'" y="'+(cy-r).toFixed(1)+'" width="'+(r*2).toFixed(1)+'" height="'+(r*2).toFixed(1)+'" fill="'+col+'"/>';
+    if(type==='triangle') return '<path d="M'+cx.toFixed(1)+' '+(cy-r-0.5).toFixed(1)+' L'+(cx+r).toFixed(1)+' '+(cy+r).toFixed(1)+' L'+(cx-r).toFixed(1)+' '+(cy+r).toFixed(1)+' Z" fill="'+col+'"/>';
+    if(type==='diamond') return '<path d="M'+cx.toFixed(1)+' '+(cy-r-0.5).toFixed(1)+' L'+(cx+r+0.5).toFixed(1)+' '+cy.toFixed(1)+' L'+cx.toFixed(1)+' '+(cy+r+0.5).toFixed(1)+' L'+(cx-r-0.5).toFixed(1)+' '+cy.toFixed(1)+' Z" fill="'+col+'"/>';
+    return '<circle cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" r="'+r.toFixed(1)+'" fill="'+col+'"/>';
+  }
+
+  function fmtD(ts){var d=new Date(ts);function p(n){return(n<10?'0':'')+n;}return p(d.getMonth()+1)+'.'+p(d.getDate());}
+  function fmtFull(ts){var d=new Date(ts);function p(n){return(n<10?'0':'')+n;}return d.getFullYear()+'.'+p(d.getMonth()+1)+'.'+p(d.getDate());}
+
+  var recs=[], shown={};
+
+  window.prismHasTrend = function(name){
+    try{ var l=window.prismStoreList(); var c=0; for(var i=0;i<l.length;i++) if((l[i].name||'')===name) c++; return c>=3; }catch(e){ return false; }
+  };
+
+  window.prismTrendOpen = function(name){
+    window.__pcTrendName=name;
+    var all; try{ all=window.prismStoreList(); }catch(e){ all=[]; }
+    recs=all.filter(function(r){return (r.name||'')===name;}).sort(function(a,b){return a.ts-b.ts;});
+    $('ptTitle').textContent=esc(name)+' · 다회차 추세';
+    if(recs.length<2){
+      $('prismTrendBody').innerHTML='<div class="ptEmpty">"'+esc(name)+'" 학생의 검사 기록이 2회 미만입니다.\n같은 이름으로 재검사가 누적되면 12극 변화 궤적을 선으로 보여줍니다.</div>';
+    } else {
+      // 가장 많이 변한 극 3개를 기본 표시 (첫 회 대비 마지막 회 |변화|)
+      var first=recs[0].poles||{}, last=recs[recs.length-1].poles||{};
+      var ch=POLES.map(function(k){return {k:k, d:Math.abs((last[k]||0)-(first[k]||0))};}).sort(function(a,b){return b.d-a.d;});
+      shown={}; POLES.forEach(function(k){shown[k]=false;});
+      ch.slice(0,3).forEach(function(o){shown[o.k]=true;});
+      renderTrend(name);
+    }
+    $('prismTrend').classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+
+  window.prismTrendToggle = function(k){ shown[k]=!shown[k]; redraw(); };
+  window.prismTrendQuick = function(mode){
+    if(mode==='all'){ POLES.forEach(function(k){shown[k]=true;}); }
+    else if(mode==='none'){ POLES.forEach(function(k){shown[k]=false;}); }
+    else if(mode==='changed'){
+      var first=recs[0].poles||{}, last=recs[recs.length-1].poles||{};
+      var ch=POLES.map(function(k){return {k:k, d:Math.abs((last[k]||0)-(first[k]||0))};}).sort(function(a,b){return b.d-a.d;});
+      POLES.forEach(function(k){shown[k]=false;}); ch.slice(0,3).forEach(function(o){shown[o.k]=true;});
+    }
+    redraw();
+  };
+
+  function buildSVG(){
+    var W=720, H=320, padL=38, padR=14, padT=16, padB=42;
+    var n=recs.length;
+    var plotW=W-padL-padR, plotH=H-padT-padB;
+    function X(i){ return padL + (n===1?plotW/2:(plotW*i/(n-1))); }
+    function Y(v){ return padT + plotH*(1-v/100); }
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="다회차 추세 선그래프">';
+    // 가로 격자 + y라벨 (0,25,50,75,100)
+    [0,25,50,75,100].forEach(function(v){
+      var y=Y(v);
+      svg+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="rgba(255,255,255,'+(v===0||v===100?0.22:0.1)+')" stroke-width="1"/>';
+      svg+='<text x="'+(padL-6)+'" y="'+(y+3.5).toFixed(1)+'" fill="#8c98ba" font-size="10" text-anchor="end">'+v+'</text>';
+    });
+    // 세로 회차 라벨
+    for(var i=0;i<n;i++){
+      var x=X(i);
+      svg+='<line x1="'+x.toFixed(1)+'" y1="'+padT+'" x2="'+x.toFixed(1)+'" y2="'+(padT+plotH)+'" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>';
+      svg+='<text x="'+x.toFixed(1)+'" y="'+(H-padB+16)+'" fill="#aab6d6" font-size="10.5" text-anchor="middle" font-weight="700">'+(i+1)+'회</text>';
+      svg+='<text x="'+x.toFixed(1)+'" y="'+(H-padB+28)+'" fill="#8c98ba" font-size="9" text-anchor="middle">'+fmtD(recs[i].ts)+'</text>';
+    }
+    // 각 극 polyline
+    POLES.forEach(function(k){
+      if(!shown[k]) return;
+      var col=COLORS[k];
+      var pts=[];
+      for(var i=0;i<n;i++){ var v=recs[i].poles?recs[i].poles[k]:null; if(v==null) continue; pts.push([X(i),Y(v)]); }
+      if(pts.length<1) return;
+      var d=pts.map(function(p,idx){return (idx===0?'M':'L')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+      var dash=DASH_PATTERNS[k]?(' stroke-dasharray="'+DASH_PATTERNS[k]+'"'):'';
+      svg+='<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" opacity="0.95"'+dash+'/>';
+      // 마커(색맹 보완: 모양으로도 구분)
+      var mk=POLE_MARKER[k];
+      pts.forEach(function(p){ svg+=markerSVG(mk,p[0],p[1],col); });
+      // 마지막 점에 극 이름
+      var lp=pts[pts.length-1];
+      svg+='<text x="'+(lp[0]-6).toFixed(1)+'" y="'+(lp[1]-7).toFixed(1)+'" fill="'+col+'" font-size="10" font-weight="800" text-anchor="end">'+esc(POLEKO[k])+'</text>';
+    });
+    svg+='</svg>';
+    return svg;
+  }
+
+  function legendHTML(){
+    return POLES.map(function(k){
+      var on=shown[k];
+      // 선 스타일 미리보기 (SVG 작은 선 + 마커)
+      var col=COLORS[k];
+      var da=DASH_PATTERNS[k]?(' stroke-dasharray="'+DASH_PATTERNS[k]+'"'):'';
+      var prev='<svg width="22" height="10" style="vertical-align:middle;margin-right:5px"><line x1="1" y1="5" x2="21" y2="5" stroke="'+col+'" stroke-width="2"'+da+'/>'+markerSVG(POLE_MARKER[k],11,5,col,2.6)+'</svg>';
+      return '<span class="ptChip '+(on?'on':'off')+'" onclick="prismTrendToggle(\''+k+'\')">'+prev+esc(POLEKO[k])+'</span>';
+    }).join('');
+  }
+
+  // B-2: 각 극의 다회차 궤적을 패턴으로 분류
+  function growthAnalysis(){
+    function seq(k){ return recs.map(function(r){return r.poles?r.poles[k]:null;}).filter(function(v){return v!=null;}); }
+    var cats={rise:[],fall:[],vol:[],stable:[]};
+    POLES.forEach(function(k){
+      var s=seq(k); if(s.length<2) return;
+      var net=s[s.length-1]-s[0];
+      var mn=Math.min.apply(null,s), mx=Math.max.apply(null,s);
+      var range=mx-mn;
+      // 단조성: 연속 증가/감소 비율
+      var up=0,down=0;
+      for(var i=1;i<s.length;i++){ if(s[i]>s[i-1])up++; else if(s[i]<s[i-1])down++; }
+      var monotoneUp = (down===0 && up>0);
+      var monotoneDown = (up===0 && down>0);
+      // 단조 상승/하강이면 추세, 아니면서 폭이 크면 출렁임, 그 외 안정
+      if(monotoneUp && Math.abs(net)>=10) cats.rise.push({k:k,net:net,s:s});
+      else if(monotoneDown && Math.abs(net)>=10) cats.fall.push({k:k,net:net,s:s});
+      else if(range>=20) cats.vol.push({k:k,range:range,s:s});
+      else if(net>=15) cats.rise.push({k:k,net:net,s:s});
+      else if(net<=-15) cats.fall.push({k:k,net:net,s:s});
+      else cats.stable.push({k:k,range:range,s:s});
+    });
+    cats.rise.sort(function(a,b){return b.net-a.net;});
+    cats.fall.sort(function(a,b){return a.net-b.net;});
+    cats.vol.sort(function(a,b){return b.range-a.range;});
+    return cats;
+  }
+  function growthHTML(){
+    var c=growthAnalysis();
+    function chips(arr,kind){
+      if(!arr.length) return '<span class="gaNone">해당 없음</span>';
+      return arr.map(function(o){
+        var detail = (kind==='vol'||kind==='stable')?('폭 '+(o.range!=null?o.range:0)):((o.net>0?'+':'')+o.net);
+        return '<span class="gaChip '+kind+'">'+esc(POLEKO[o.k])+' <b>'+detail+'</b></span>';
+      }).join('');
+    }
+    return '<div class="gaGrid">'
+      +'<div class="gaBox"><div class="gaT gaT-rise">꾸준히 오른 극</div><div class="gaChips">'+chips(c.rise,'rise')+'</div></div>'
+      +'<div class="gaBox"><div class="gaT gaT-fall">꾸준히 내린 극</div><div class="gaChips">'+chips(c.fall,'fall')+'</div></div>'
+      +'<div class="gaBox"><div class="gaT gaT-vol">출렁인 극 (오르내림)</div><div class="gaChips">'+chips(c.vol,'vol')+'</div></div>'
+      +'<div class="gaBox"><div class="gaT gaT-stable">안정된 극</div><div class="gaChips">'+chips(c.stable,'stable')+'</div></div>'
+      +'</div>';
+  }
+  function summaryHTML(name){
+    var first=recs[0].poles||{}, last=recs[recs.length-1].poles||{};
+    var spanDays=Math.round((recs[recs.length-1].ts-recs[0].ts)/86400000);
+    var deltas=POLES.map(function(k){return {k:k, d:(last[k]||0)-(first[k]||0)};});
+    var up=deltas.slice().sort(function(a,b){return b.d-a.d;})[0];
+    var down=deltas.slice().sort(function(a,b){return a.d-b.d;})[0];
+    // 변동성: 회차간 표준편차 근사(최대-최소)
+    function range(k){var vs=recs.map(function(r){return r.poles?r.poles[k]:null;}).filter(function(v){return v!=null;});return vs.length?Math.max.apply(null,vs)-Math.min.apply(null,vs):0;}
+    var vol=POLES.map(function(k){return {k:k,r:range(k)};}).sort(function(a,b){return b.r-a.r;})[0];
+    var parts=[];
+    parts.push('검사 '+recs.length+'회 · 첫 회부터 '+(spanDays>0?spanDays+'일':'같은 날')+' 경과');
+    if(up&&up.d>0) parts.push('가장 오른 극 '+POLEKO[up.k]+' (+'+up.d+')');
+    if(down&&down.d<0) parts.push('가장 내린 극 '+POLEKO[down.k]+' ('+down.d+')');
+    if(vol&&vol.r>0) parts.push('가장 출렁인 극 '+POLEKO[vol.k]+' (폭 '+vol.r+')');
+    return parts.join(' · ');
+  }
+
+  function redraw(){
+    $('ptChart').innerHTML=buildSVG();
+    $('ptLegend').innerHTML=legendHTML();
+  }
+
+  function renderTrend(name){
+    var meta='검사 '+recs.length+'회 · '+fmtFull(recs[0].ts)+' ~ '+fmtFull(recs[recs.length-1].ts);
+    $('prismTrendBody').innerHTML=
+      '<div class="ptMeta">'+esc(meta)+'</div>'
+      +'<div class="ptQuick">'
+        +'<button class="ptQuickBtn" onclick="prismTrendQuick(\'changed\')">많이 변한 3극</button>'
+        +'<button class="ptQuickBtn" onclick="prismTrendQuick(\'all\')">전체 표시</button>'
+        +'<button class="ptQuickBtn" onclick="prismTrendQuick(\'none\')">전체 끄기</button>'
+        +'<button class="ptQuickBtn" style="border-color:rgba(255,219,125,.4);color:#ffdb7d;margin-left:auto" onclick="prismTrendExport()">HTML 내보내기</button>'
+      +'</div>'
+      +'<div class="ptChartBox" id="ptChart">'+buildSVG()+'</div>'
+      +'<h3 class="ptSec">극 선택 (눌러서 켜고 끄기)</h3>'
+      +'<div class="ptLegend" id="ptLegend">'+legendHTML()+'</div>'
+      +'<h3 class="ptSec">성장 분석 (전체 회차 패턴)</h3>'
+      +growthHTML()
+      +'<div class="ptHint"><b>요약</b> · '+esc(summaryHTML(name))+'<br><span style="color:#9fb0d8">세로축은 극 점수(0~100), 가로축은 검사 회차입니다. 자기보고 점수는 컨디션·자기인식에 따라 출렁이므로, 한두 회 변화보다 전체 방향(추세)으로 보세요.</span></div>';
+  }
+
+  // B-5: 다회차 추세를 독립 HTML로 내보내기 (상담/학부모용, 오프라인 열람·인쇄 가능)
+  window.prismTrendExport = function(){
+    if(!recs || recs.length<2){ alert('내보낼 추세 데이터가 부족합니다.'); return; }
+    var name=(window.__pcTrendName||recs[0].name||'학생');
+    // 모든 극을 표시한 차트로 한 번 그림 (export는 전체 보여줌)
+    var savedShown={}; POLES.forEach(function(k){ savedShown[k]=shown[k]; shown[k]=true; });
+    var svg=buildSVG();
+    POLES.forEach(function(k){ shown[k]=savedShown[k]; }); // 복구
+    var ga=growthHTML();
+    var summ=summaryHTML(name);
+    // 회차 표
+    var thead='<tr><th>극</th>'+recs.map(function(r,i){return '<th>'+(i+1)+'회<br><span class="d">'+fmtFull(r.ts)+'</span></th>';}).join('')+'<th>변화</th></tr>';
+    var tbody=POLES.map(function(k){
+      var cells=recs.map(function(r){var v=r.poles?r.poles[k]:null;return '<td>'+(v!=null?v:'-')+'</td>';}).join('');
+      var first=recs[0].poles?recs[0].poles[k]:null, last=recs[recs.length-1].poles?recs[recs.length-1].poles[k]:null;
+      var d=(first!=null&&last!=null)?(last-first):null;
+      var dtxt=d==null?'-':(d>0?('+'+d):(''+d));
+      return '<tr><td class="pole">'+POLEKO[k]+'</td>'+cells+'<td class="delta '+(d>0?'up':(d<0?'down':''))+'">'+dtxt+'</td></tr>';
+    }).join('');
+    var doc='<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+      +'<title>'+esc(name)+' 학습 성향 변화 추세</title><style>'
+      +'body{font-family:-apple-system,BlinkMacSystemFont,"Malgun Gothic","Apple SD Gothic Neo",sans-serif;background:#fff;color:#1a2230;margin:0;padding:28px 20px;line-height:1.6}'
+      +'.wrap{max-width:760px;margin:0 auto}h1{font-size:22px;margin:0 0 4px}.sub{color:#5a6478;font-size:13px;margin-bottom:20px}'
+      +'h2{font-size:14px;color:#2a7d68;border-bottom:2px solid #e3eef0;padding-bottom:6px;margin:24px 0 12px}'
+      +'.chart{border:1px solid #e3e8ef;border-radius:12px;padding:14px;background:#fafcfd;overflow-x:auto}'
+      +'.chart svg{width:100%;height:auto;min-width:480px}'
+      +'svg line[stroke^="rgba(255"]{stroke:rgba(0,0,0,0.1) !important}svg text{fill:#5a6478 !important}'
+      +'table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px}'
+      +'th,td{padding:6px 8px;border-bottom:1px solid #eef2f6;text-align:center}th{color:#5a6478;font-size:11px;font-weight:700}th .d{color:#9aa4b8;font-weight:400;font-size:9px}'
+      +'td.pole{text-align:left;font-weight:700;color:#1a2230}td.delta.up{color:#1c9b78;font-weight:800}td.delta.down{color:#d84a5e;font-weight:800}'
+      +'.ga{display:grid;grid-template-columns:1fr 1fr;gap:10px}.gab{border:1px solid #e3e8ef;border-radius:10px;padding:10px 12px}'
+      +'.gat{font-size:12px;font-weight:800;margin-bottom:6px}.gat.r{color:#1c9b78}.gat.f{color:#d84a5e}.gat.v{color:#c79100}.gat.s{color:#5a6478}'
+      +'.gac{display:flex;flex-wrap:wrap;gap:5px}.chip{font-size:11px;padding:3px 8px;border-radius:7px;background:#f1f5f8;border:1px solid #e3e8ef}'
+      +'.summ{background:#f1faf7;border:1px solid #cfeae0;border-radius:10px;padding:12px 14px;font-size:12.5px;color:#2a4a40;margin-top:14px}'
+      +'.foot{color:#9aa4b8;font-size:11px;margin-top:24px;border-top:1px solid #eef2f6;padding-top:10px}'
+      +'@media print{body{padding:0}.chart{break-inside:avoid}}'
+      +'</style></head><body><div class="wrap">'
+      +'<h1>'+esc(name)+' · 학습 성향 변화 추세</h1>'
+      +'<div class="sub">PRISM 12극 진단 · 검사 '+recs.length+'회 · '+fmtFull(recs[0].ts)+' ~ '+fmtFull(recs[recs.length-1].ts)+'</div>'
+      +'<h2>12극 변화 그래프</h2><div class="chart">'+svg+'</div>'
+      +'<h2>회차별 점수</h2><table><thead>'+thead+'</thead><tbody>'+tbody+'</tbody></table>'
+      +'<h2>성장 분석</h2><div class="ga">'
+        +'<div class="gab"><div class="gat r">꾸준히 오른 극</div><div class="gac">'+gaChipsPlain('rise')+'</div></div>'
+        +'<div class="gab"><div class="gat f">꾸준히 내린 극</div><div class="gac">'+gaChipsPlain('fall')+'</div></div>'
+        +'<div class="gab"><div class="gat v">출렁인 극</div><div class="gac">'+gaChipsPlain('vol')+'</div></div>'
+        +'<div class="gab"><div class="gat s">안정된 극</div><div class="gac">'+gaChipsPlain('stable')+'</div></div>'
+      +'</div>'
+      +'<div class="summ">'+esc(summ)+'</div>'
+      +'<div class="foot">자기보고식 진단 결과입니다. 점수는 학생의 컨디션과 자기인식에 따라 달라질 수 있으므로, 개별 점수보다 전체 변화 방향(추세)으로 해석하시기 바랍니다. 본 자료는 상담 참고용입니다.</div>'
+      +'</div></body></html>';
+    var blob=new Blob([doc],{type:'text/html;charset=utf-8;'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url;
+    a.download='PRISM_추세_'+name+'_'+(new Date()).toISOString().slice(0,10)+'.html';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  };
+  function gaChipsPlain(kind){
+    var c=growthAnalysis();
+    var arr = kind==='rise'?c.rise : kind==='fall'?c.fall : kind==='vol'?c.vol : c.stable;
+    if(!arr.length) return '<span style="color:#9aa4b8;font-size:11px">해당 없음</span>';
+    return arr.map(function(o){
+      var d = (kind==='vol'||kind==='stable')?('폭 '+(o.range!=null?o.range:0)):((o.net>0?'+':'')+o.net);
+      return '<span class="chip">'+POLEKO[o.k]+' '+d+'</span>';
+    }).join('');
+  }
+
+  window.prismTrendClose = function(){
+    $('prismTrend').classList.remove('open');
+    if(!($('prismRecords') && $('prismRecords').classList.contains('open'))) document.body.style.overflow='';
+  };
+})();
+</script>
+<!-- ===== /PRISM 다회차 추세선 · B-1단계 ===== -->
+
+<!-- ===== PRISM 반 단위 집계 · B-3단계 ===== -->
+<style id="prismCohortStyle">
+#prismCohort{display:none;position:fixed;inset:0;z-index:100002;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismCohort.open{display:block}
+#prismCohort .pgWrap{max-width:900px;margin:0 auto;padding:24px 18px 60px}
+#prismCohort .pgHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+#prismCohort .pgHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismCohort .pgHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismCohort .pgClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismCohort .pgBar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0 8px}
+#prismCohort .pgBar label{color:#9fb0d8;font-size:12.5px;font-weight:700}
+#prismCohort .pgBar select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#f4f8ff;border-radius:9px;padding:8px 11px;font-size:13px}
+#prismCohort .pgStat{color:#c3cce8;font-size:12.5px;margin-left:auto}
+#prismCohort .pgStat b{color:#ffdb7d}
+#prismCohort h3.pgSec{margin:18px 0 10px;color:#9fb0d8;font-size:12px;letter-spacing:.06em;font-weight:800}
+#prismCohort table.pgTbl{width:100%;border-collapse:collapse;font-size:13px}
+#prismCohort table.pgTbl th{text-align:left;color:#8c98ba;font-weight:700;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.14);font-size:11.5px}
+#prismCohort table.pgTbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.07);color:#dbe3f5}
+#prismCohort .pgPole{font-weight:700;color:#f4f8ff}
+#prismCohort .pgAxis{color:#8c98ba;font-size:10.5px}
+#prismCohort .pgMean{font-variant-numeric:tabular-nums;font-weight:800;text-align:center;color:#aef7e0}
+#prismCohort .pgRangeBar{position:relative;height:16px;background:rgba(255,255,255,.06);border-radius:5px;min-width:140px}
+#prismCohort .pgRangeFill{position:absolute;top:0;height:100%;background:rgba(119,255,214,.18);border-radius:5px}
+#prismCohort .pgRangeMean{position:absolute;top:-2px;width:3px;height:20px;background:#77ffd6;border-radius:2px}
+#prismCohort .pgMinMax{color:#8c98ba;font-size:10.5px;text-align:center;font-variant-numeric:tabular-nums}
+#prismCohort .pgHint{margin-top:16px;padding:12px 14px;border-radius:12px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12.5px;line-height:1.6}
+#prismCohort .pgEmpty{padding:30px 16px;text-align:center;color:#8c98ba;font-size:14px;line-height:1.6}
+#prismCohort .pgCards{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 4px}
+#prismCohort .pgCard{flex:1;min-width:130px;border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:11px 13px;background:rgba(255,255,255,.03)}
+#prismCohort .pgCard .t{color:#8c98ba;font-size:11px;font-weight:700;margin-bottom:3px}
+#prismCohort .pgCard .v{color:#f4f8ff;font-size:15px;font-weight:800}
+#prismCohort .pgCard .s{color:#9fb0d8;font-size:11px;margin-top:2px}
+@media print{#prismCohort{display:none!important}}
+</style>
+
+<div id="prismCohort" role="dialog" aria-label="반 단위 집계">
+  <div class="pgWrap">
+    <div class="pgHead">
+      <b>관리자 · 집단 분석</b><h2>반 단위 12극 집계</h2>
+      <button class="pgClose" style="margin-left:auto;border-color:rgba(119,255,214,.3);color:#aef7e0" onclick="prismCorrOpen()">극 상관</button>
+      <button class="pgClose" onclick="prismCohortClose()">닫기</button>
+    </div>
+    <div id="prismCohortBody"></div>
+  </div>
+</div>
+
+<script id="prismCohortScript">
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+  var POLEKO={deep:'심층이해',practice:'반복숙달',plan:'계획실행',situational:'상황반응',self:'자기주도',structured:'외부구조',ask:'질문·확인',solve:'자기해결',complete:'완성추구',trial:'시행착오',future:'미래목표',feedback:'즉시피드백'};
+  var POLEAX={deep:'이해 방식',practice:'이해 방식',plan:'실행 방식',situational:'실행 방식',self:'학습 구조',structured:'학습 구조',ask:'막힘 처리',solve:'막힘 처리',complete:'오류 처리',trial:'오류 처리',future:'지속 동기',feedback:'지속 동기'};
+
+  // 학생별 '최근 1회'만 사용 (이름 기준 dedup, 최신 ts)
+  function latestPerStudent(){
+    var all; try{ all=window.prismStoreList(); }catch(e){ all=[]; }
+    var by={};
+    all.forEach(function(r){
+      var nm=r.name||'학생';
+      if(!by[nm] || r.ts>by[nm].ts) by[nm]=r;
+    });
+    return Object.keys(by).map(function(k){return by[k];});
+  }
+
+  // 라벨 학년으로 필터 옵션 만들기
+  function gradeOf(rec){
+    try{ var L=(typeof window.prismLabelGet==='function')?window.prismLabelGet(rec.id):null; return L&&L.grade||null; }catch(e){ return null; }
+  }
+
+  var curGrade='__all__';
+
+  window.prismCohortOpen = function(){
+    var recs=latestPerStudent();
+    if(recs.length<2){
+      $('prismCohortBody').innerHTML='<div class="pgEmpty">집계하려면 서로 다른 학생이 2명 이상 필요합니다.\n관리자 입력으로 여러 학생의 리포트를 생성하면 자동으로 집계됩니다.</div>';
+      $('prismCohort').classList.add('open'); document.body.style.overflow='hidden'; return;
+    }
+    // 학년 옵션 수집
+    var grades={};
+    recs.forEach(function(r){ var g=gradeOf(r); if(g) grades[g]=(grades[g]||0)+1; });
+    var gkeys=Object.keys(grades).sort();
+    var sel='<select id="pgGrade" onchange="prismCohortRefresh()"><option value="__all__">전체 ('+recs.length+'명)</option>';
+    gkeys.forEach(function(g){ sel+='<option value="'+esc(g)+'">'+esc(g)+' ('+grades[g]+'명)</option>'; });
+    sel+='<option value="__nolabel__">학년 미입력</option></select>';
+    $('prismCohortBody').innerHTML=
+      '<div class="pgBar"><label>그룹</label>'+sel+'<span class="pgStat" id="pgStat"></span></div>'
+      +'<div id="pgResult"></div>';
+    curGrade='__all__';
+    renderCohort();
+    $('prismCohort').classList.add('open'); document.body.style.overflow='hidden';
+  };
+  window.prismCohortRefresh = function(){ curGrade=$('pgGrade')?$('pgGrade').value:'__all__'; renderCohort(); };
+
+  function renderCohort(){
+    var recs=latestPerStudent();
+    if(curGrade==='__nolabel__') recs=recs.filter(function(r){return !gradeOf(r);});
+    else if(curGrade!=='__all__') recs=recs.filter(function(r){return gradeOf(r)===curGrade;});
+
+    if(!recs.length){ $('pgResult').innerHTML='<div class="pgEmpty">이 그룹에 해당하는 학생이 없습니다.</div>'; $('pgStat').textContent=''; return; }
+
+    // 극별 통계
+    var stat={};
+    POLES.forEach(function(k){
+      var vs=recs.map(function(r){return r.poles?r.poles[k]:null;}).filter(function(v){return v!=null;});
+      if(!vs.length){ stat[k]=null; return; }
+      var sum=vs.reduce(function(a,b){return a+b;},0);
+      stat[k]={mean:Math.round(sum/vs.length), min:Math.min.apply(null,vs), max:Math.max.apply(null,vs), n:vs.length};
+    });
+
+    // 신뢰도 낮은 학생 수
+    var lowN=recs.filter(function(r){return r.qc&&r.qc.level==='low';}).length;
+    $('pgStat').innerHTML='학생 <b>'+recs.length+'</b>명'+(lowN?(' · 신뢰도 낮음 <b>'+lowN+'</b>명 포함'):'');
+
+    // 상위/하위 극 카드
+    var ranked=POLES.filter(function(k){return stat[k];}).map(function(k){return {k:k,m:stat[k].mean};}).sort(function(a,b){return b.m-a.m;});
+    var top=ranked[0], bot=ranked[ranked.length-1];
+    // 가장 편차 큰 극(min-max 폭)
+    var spread=POLES.filter(function(k){return stat[k];}).map(function(k){return {k:k,r:stat[k].max-stat[k].min};}).sort(function(a,b){return b.r-a.r;})[0];
+    var cards='<div class="pgCards">'
+      +(top?'<div class="pgCard"><div class="t">집단 강점 극</div><div class="v">'+esc(POLEKO[top.k])+'</div><div class="s">평균 '+top.m+'점</div></div>':'')
+      +(bot?'<div class="pgCard"><div class="t">집단 약점 극</div><div class="v">'+esc(POLEKO[bot.k])+'</div><div class="s">평균 '+bot.m+'점</div></div>':'')
+      +(spread?'<div class="pgCard"><div class="t">편차 가장 큰 극</div><div class="v">'+esc(POLEKO[spread.k])+'</div><div class="s">'+stat[spread.k].min+' ~ '+stat[spread.k].max+'</div></div>':'')
+      +'</div>';
+
+    // 표: 극 · 평균 · 분포막대(min~max, 평균 마커) · min/max
+    var rows=POLES.map(function(k){
+      var s=stat[k];
+      if(!s) return '<tr><td><span class="pgPole">'+esc(POLEKO[k])+'</span></td><td colspan="3" style="color:#8c98ba">데이터 없음</td></tr>';
+      var fillL=s.min, fillW=Math.max(2,s.max-s.min);
+      return '<tr>'
+        +'<td><span class="pgPole">'+esc(POLEKO[k])+'</span><div class="pgAxis">'+esc(POLEAX[k])+'</div></td>'
+        +'<td class="pgMean">'+s.mean+'</td>'
+        +'<td style="width:46%"><div class="pgRangeBar"><div class="pgRangeFill" style="left:'+fillL+'%;width:'+fillW+'%"></div><div class="pgRangeMean" style="left:'+s.mean+'%"></div></div></td>'
+        +'<td class="pgMinMax">'+s.min+' ~ '+s.max+'</td>'
+        +'</tr>';
+    }).join('');
+
+    $('pgResult').innerHTML=cards
+      +'<h3 class="pgSec">12극 집단 평균 및 분포</h3>'
+      +'<table class="pgTbl"><thead><tr><th>극</th><th class="pgMean">평균</th><th>분포 (최저~최고, 막대=평균)</th><th class="pgMinMax">범위</th></tr></thead><tbody>'+rows+'</tbody></table>'
+      +'<div class="pgHint"><b>읽는 법</b> · 각 학생의 가장 최근 검사 1회만 집계했습니다. 막대는 이 집단의 최저~최고 점수 구간, 세로선은 평균입니다. 편차가 큰 극은 학생마다 성향이 갈리는 지점이고, 평균이 낮은 극은 반 전체가 공통으로 약한 부분입니다.'+(lowN?' 신뢰도 낮은 응답('+lowN+'명)도 포함되어 있으니 그 학생들은 개별 확인을 권합니다.':'')+'</div>';
+  }
+
+  window.prismCohortClose = function(){
+    $('prismCohort').classList.remove('open');
+    if(!($('prismRecords') && $('prismRecords').classList.contains('open'))) document.body.style.overflow='';
+  };
+})();
+</script>
+<!-- ===== /PRISM 반 단위 집계 · B-3단계 ===== -->
+
+<!-- ===== PRISM 반 대비 개인 위치 · B-4단계 ===== -->
+<style id="prismRankStyle">
+#prismRank{display:none;position:fixed;inset:0;z-index:100002;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismRank.open{display:block}
+#prismRank .prkWrap{max-width:880px;margin:0 auto;padding:24px 18px 60px}
+#prismRank .prkHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+#prismRank .prkHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismRank .prkHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismRank .prkClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismRank .prkMeta{color:#c3cce8;font-size:12.5px;margin:6px 0 14px}
+#prismRank .prkMeta b{color:#f4f8ff}
+#prismRank .prkBar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+#prismRank .prkBar label{color:#9fb0d8;font-size:12.5px;font-weight:700}
+#prismRank .prkBar select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#f4f8ff;border-radius:9px;padding:8px 11px;font-size:13px}
+#prismRank h3.prkSec{margin:18px 0 10px;color:#9fb0d8;font-size:12px;letter-spacing:.06em;font-weight:800}
+#prismRank table.prkTbl{width:100%;border-collapse:collapse;font-size:13px}
+#prismRank table.prkTbl th{text-align:left;color:#8c98ba;font-weight:700;padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.14);font-size:11.5px}
+#prismRank table.prkTbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.07);color:#dbe3f5}
+#prismRank .prkPole{font-weight:700;color:#f4f8ff}
+#prismRank .prkAxis{color:#8c98ba;font-size:10.5px}
+#prismRank .prkScore{font-variant-numeric:tabular-nums;font-weight:800;text-align:center}
+#prismRank .prkTrack{position:relative;height:18px;background:rgba(255,255,255,.06);border-radius:5px;min-width:150px}
+#prismRank .prkAvgMark{position:absolute;top:-2px;width:2px;height:22px;background:rgba(159,176,216,.7);border-radius:2px}
+#prismRank .prkDot{position:absolute;top:2px;width:14px;height:14px;border-radius:50%;margin-left:-7px;border:2px solid #0b1018}
+#prismRank .prkDot.above{background:#77ffd6}
+#prismRank .prkDot.below{background:#ff8fa3}
+#prismRank .prkDot.mid{background:#ffd166}
+#prismRank .prkPct{font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+#prismRank .prkPct.above{color:#7ce0c0}
+#prismRank .prkPct.below{color:#ffb0ba}
+#prismRank .prkPct.mid{color:#ffd166}
+#prismRank .prkCards{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+#prismRank .prkCard{flex:1;min-width:150px;border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:11px 13px;background:rgba(255,255,255,.03)}
+#prismRank .prkCard .t{color:#8c98ba;font-size:11px;font-weight:700;margin-bottom:3px}
+#prismRank .prkCard .v{color:#f4f8ff;font-size:15px;font-weight:800}
+#prismRank .prkCard .s{color:#9fb0d8;font-size:11px;margin-top:2px}
+#prismRank .prkHint{margin-top:16px;padding:12px 14px;border-radius:12px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12.5px;line-height:1.6}
+#prismRank .prkEmpty{padding:30px 16px;text-align:center;color:#8c98ba;font-size:14px;line-height:1.6}
+#prismRank .prkLegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:#9fb0d8}
+#prismRank .prkLegend span{display:flex;align-items:center;gap:5px}
+#prismRank .prkLegend i{width:11px;height:11px;border-radius:50%;display:inline-block}
+@media print{#prismRank{display:none!important}}
+</style>
+
+<div id="prismRank" role="dialog" aria-label="반 대비 개인 위치">
+  <div class="prkWrap">
+    <div class="prkHead">
+      <b>관리자 · 상대 위치</b><h2 id="prkTitle">반 대비 개인 위치</h2>
+      <button class="prkClose" onclick="prismRankClose()">닫기</button>
+    </div>
+    <div id="prismRankBody"></div>
+  </div>
+</div>
+
+<script id="prismRankScript">
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+  var POLEKO={deep:'심층이해',practice:'반복숙달',plan:'계획실행',situational:'상황반응',self:'자기주도',structured:'외부구조',ask:'질문·확인',solve:'자기해결',complete:'완성추구',trial:'시행착오',future:'미래목표',feedback:'즉시피드백'};
+  var POLEAX={deep:'이해 방식',practice:'이해 방식',plan:'실행 방식',situational:'실행 방식',self:'학습 구조',structured:'학습 구조',ask:'막힘 처리',solve:'막힘 처리',complete:'오류 처리',trial:'오류 처리',future:'지속 동기',feedback:'지속 동기'};
+
+  function latestPerStudent(){
+    var all; try{ all=window.prismStoreList(); }catch(e){ all=[]; }
+    var by={};
+    all.forEach(function(r){ var nm=r.name||'학생'; if(!by[nm] || r.ts>by[nm].ts) by[nm]=r; });
+    return Object.keys(by).map(function(k){return by[k];});
+  }
+  function gradeOf(rec){ try{ var L=(typeof window.prismLabelGet==='function')?window.prismLabelGet(rec.id):null; return L&&L.grade||null; }catch(e){ return null; } }
+
+  // 동일 학생 모집단 충분 여부(자신 제외 1명 이상)
+  window.prismHasCohort = function(){ try{ return latestPerStudent().length>=2; }catch(e){ return false; } };
+
+  var curRecId=null, curGrade='__all__';
+
+  window.prismRankOpen = function(recId){
+    var rec=(typeof window.prismStoreGet==='function')?window.prismStoreGet(recId):null;
+    if(!rec){ alert('기록을 찾을 수 없습니다.'); return; }
+    curRecId=recId;
+    var all=latestPerStudent();
+    if(all.length<2){
+      $('prismRankBody').innerHTML='<div class="prkEmpty">비교할 다른 학생이 없습니다.\n서로 다른 학생이 2명 이상이면 반 평균 대비 위치를 보여줍니다.</div>';
+      $('prkTitle').textContent=esc(rec.name)+' · 반 대비 위치';
+      $('prismRank').classList.add('open'); document.body.style.overflow='hidden'; return;
+    }
+    $('prkTitle').textContent=esc(rec.name)+' · 반 대비 위치';
+    // 학년 옵션 (이 학생의 학년이 있으면 기본 그 학년)
+    var grades={}; all.forEach(function(r){var g=gradeOf(r);if(g)grades[g]=(grades[g]||0)+1;});
+    var gkeys=Object.keys(grades).sort();
+    var myGrade=gradeOf(rec);
+    var sel='<select id="prkGrade" onchange="prismRankRefresh()"><option value="__all__">전체 ('+all.length+'명)</option>';
+    gkeys.forEach(function(g){ sel+='<option value="'+esc(g)+'"'+(g===myGrade?' selected':'')+'>'+esc(g)+' ('+grades[g]+'명)</option>'; });
+    sel+='</select>';
+    $('prismRankBody').innerHTML=
+      '<div class="prkMeta"><b>'+esc(rec.name)+'</b> · '+new Date(rec.ts).toLocaleDateString('ko-KR')+' 검사</div>'
+      +'<div class="prkBar"><label>비교 집단</label>'+sel+'</div>'
+      +'<div id="prkResult"></div>';
+    curGrade=(myGrade&&grades[myGrade])?myGrade:'__all__';
+    if($('prkGrade')) $('prkGrade').value=curGrade;
+    renderRank();
+    $('prismRank').classList.add('open'); document.body.style.overflow='hidden';
+  };
+  window.prismRankRefresh = function(){ curGrade=$('prkGrade')?$('prkGrade').value:'__all__'; renderRank(); };
+
+  function renderRank(){
+    var rec=(typeof window.prismStoreGet==='function')?window.prismStoreGet(curRecId):null;
+    if(!rec) return;
+    var pool=latestPerStudent();
+    if(curGrade!=='__all__') pool=pool.filter(function(r){return gradeOf(r)===curGrade;});
+    // 본인이 풀에 없으면(다른 학년 필터) 추가
+    if(!pool.some(function(r){return r.id===rec.id;})) pool=pool.concat([rec]);
+    var nPool=pool.length;
+
+    // 극별: 본인 점수, 집단 평균, 백분위(본인 이상인 비율 기준 상위 %)
+    var aboveCnt=0, belowCnt=0;
+    var rows=POLES.map(function(k){
+      var mine=rec.poles?rec.poles[k]:null;
+      var vals=pool.map(function(r){return r.poles?r.poles[k]:null;}).filter(function(v){return v!=null;});
+      if(mine==null||!vals.length) return '<tr><td><span class="prkPole">'+esc(POLEKO[k])+'</span></td><td colspan="4" style="color:#8c98ba">데이터 없음</td></tr>';
+      var sum=vals.reduce(function(a,b){return a+b;},0); var avg=Math.round(sum/vals.length);
+      // 백분위: 나보다 낮은 사람 비율 (상위 = 100 - 그 비율은 헷갈리니 '상위 X%'로 표현)
+      var lower=vals.filter(function(v){return v<mine;}).length;
+      var equal=vals.filter(function(v){return v===mine;}).length;
+      // 상위 백분위: (나보다 높은 사람 수 / 전체) 기준. 높을수록 상위.
+      var higher=vals.filter(function(v){return v>mine;}).length;
+      var topPct=Math.round((higher/vals.length)*100); // 상위 topPct% (0이면 최상위)
+      var diff=mine-avg;
+      var cls=diff>3?'above':(diff<-3?'below':'mid');
+      if(diff>3)aboveCnt++; else if(diff<-3)belowCnt++;
+      var label = topPct<=20?('상위 '+(topPct+ (topPct===0?0:0))+'%'):(topPct>=80?('하위 '+(100-topPct)+'%'):('상위 '+topPct+'%'));
+      var dotLeft=mine;
+      return '<tr>'
+        +'<td><span class="prkPole">'+esc(POLEKO[k])+'</span><div class="prkAxis">'+esc(POLEAX[k])+'</div></td>'
+        +'<td class="prkScore" style="color:#f4f8ff">'+mine+'</td>'
+        +'<td class="prkScore" style="color:#9fb0d8">'+avg+'</td>'
+        +'<td style="width:42%"><div class="prkTrack"><div class="prkAvgMark" style="left:'+avg+'%"></div><div class="prkDot '+cls+'" style="left:'+dotLeft+'%"></div></div></td>'
+        +'<td class="prkPct '+cls+'">'+(diff>0?'+':'')+diff+'<div style="font-size:10px;color:#8c98ba;font-weight:600">'+esc(label)+'</div></td>'
+        +'</tr>';
+    }).join('');
+
+    // 종합 카드: 평균 대비 강점/약점 극
+    var diffs=POLES.map(function(k){
+      var mine=rec.poles?rec.poles[k]:null;
+      var vals=pool.map(function(r){return r.poles?r.poles[k]:null;}).filter(function(v){return v!=null;});
+      if(mine==null||!vals.length) return null;
+      var avg=vals.reduce(function(a,b){return a+b;},0)/vals.length;
+      return {k:k, d:Math.round(mine-avg)};
+    }).filter(Boolean);
+    var strong=diffs.slice().sort(function(a,b){return b.d-a.d;})[0];
+    var weak=diffs.slice().sort(function(a,b){return a.d-b.d;})[0];
+    var cards='<div class="prkCards">'
+      +'<div class="prkCard"><div class="t">비교 집단</div><div class="v">'+nPool+'명</div><div class="s">'+(curGrade==='__all__'?'전체':esc(curGrade))+' · 각자 최근 검사</div></div>'
+      +(strong?'<div class="prkCard"><div class="t">반 평균보다 두드러진 극</div><div class="v">'+esc(POLEKO[strong.k])+'</div><div class="s">평균 대비 '+(strong.d>0?'+':'')+strong.d+'</div></div>':'')
+      +(weak?'<div class="prkCard"><div class="t">반 평균보다 낮은 극</div><div class="v">'+esc(POLEKO[weak.k])+'</div><div class="s">평균 대비 '+(weak.d>0?'+':'')+weak.d+'</div></div>':'')
+      +'</div>';
+
+    $('prkResult').innerHTML=cards
+      +'<h3 class="prkSec">12극 · 본인(점) vs 반 평균(세로선)</h3>'
+      +'<table class="prkTbl"><thead><tr><th>극</th><th class="prkScore">본인</th><th class="prkScore">반평균</th><th>위치</th><th class="prkPct">평균차</th></tr></thead><tbody>'+rows+'</tbody></table>'
+      +'<div class="prkLegend"><span><i style="background:#77ffd6"></i>평균보다 높음</span><span><i style="background:#ffd166"></i>평균 근처</span><span><i style="background:#ff8fa3"></i>평균보다 낮음</span></div>'
+      +'<div class="prkHint"><b>읽는 법</b> · 점은 이 학생의 점수, 세로선은 비교 집단의 평균입니다. 점이 선보다 오른쪽이면 반에서 상대적으로 높은 극입니다. 백분위는 같은 집단 안에서의 순위 느낌이며, 집단이 작을수록(예: 몇 명) 통계적 의미는 약하니 참고로만 보세요. 자기보고 점수라는 한계도 함께 고려하세요.</div>';
+  }
+
+  window.prismRankClose = function(){
+    $('prismRank').classList.remove('open');
+    if(!($('prismRecords') && $('prismRecords').classList.contains('open'))) document.body.style.overflow='';
+  };
+})();
+</script>
+<!-- ===== /PRISM 반 대비 개인 위치 · B-4단계 ===== -->
+
+<!-- ===== PRISM 채점 감사 모드 · 운영정확도 ===== -->
+<style id="prismAuditStyle">
+#prismAudit{display:none;position:fixed;inset:0;z-index:100003;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismAudit.open{display:block}
+#prismAudit .paWrap{max-width:880px;margin:0 auto;padding:24px 18px 60px}
+#prismAudit .paHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+#prismAudit .paHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismAudit .paHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismAudit .paClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismAudit .paMeta{color:#c3cce8;font-size:12.5px;margin:6px 0 12px}
+#prismAudit .paMeta b{color:#f4f8ff}
+#prismAudit .paIntro{padding:11px 14px;border-radius:12px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12.5px;line-height:1.6;margin-bottom:14px}
+#prismAudit .paPole{border:1px solid rgba(255,255,255,.12);border-radius:12px;margin-bottom:10px;overflow:hidden;background:rgba(255,255,255,.02)}
+#prismAudit .paPoleHd{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;user-select:none;background:rgba(255,255,255,.03)}
+#prismAudit .paPoleHd:hover{background:rgba(255,255,255,.05)}
+#prismAudit .paPoleName{font-weight:800;color:#f4f8ff;font-size:14px;flex:1}
+#prismAudit .paPoleAx{color:#8c98ba;font-size:11px;font-weight:600}
+#prismAudit .paPoleScore{font-variant-numeric:tabular-nums;font-weight:900;font-size:18px;color:#aef7e0}
+#prismAudit .paCalc{color:#8c98ba;font-size:11.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+#prismAudit .paCaret{color:#8c98ba;font-size:12px;transition:transform .15s;display:inline-block;width:14px;text-align:center}
+#prismAudit .paPole.open .paCaret{transform:rotate(90deg)}
+#prismAudit .paItems{display:none;padding:4px 8px 10px}
+#prismAudit .paPole.open .paItems{display:block}
+#prismAudit table.paTbl{width:100%;border-collapse:collapse;font-size:12.5px}
+#prismAudit table.paTbl th{text-align:left;color:#8c98ba;font-weight:700;padding:6px 8px;font-size:11px;border-bottom:1px solid rgba(255,255,255,.1)}
+#prismAudit table.paTbl td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.06);color:#dbe3f5;vertical-align:top}
+#prismAudit .paQid{font-variant-numeric:tabular-nums;color:#9fb0d8;font-weight:700;white-space:nowrap}
+#prismAudit .paVal{font-variant-numeric:tabular-nums;font-weight:800;text-align:center;width:34px}
+#prismAudit .paVal.v1{color:#ff8fa3}#prismAudit .paVal.v2{color:#ffb07a}#prismAudit .paVal.v3{color:#ffd166}#prismAudit .paVal.v4{color:#9fe8a0}#prismAudit .paVal.v5{color:#77ffd6}
+#prismAudit .paVal.miss{color:#ff7080;font-weight:900}
+#prismAudit .paQt{color:#cdd6ee;line-height:1.4}
+#prismAudit .paBar{height:5px;border-radius:3px;background:rgba(255,255,255,.07);margin-top:5px;overflow:hidden}
+#prismAudit .paBar i{display:block;height:100%;background:linear-gradient(90deg,#77ffd6,#3fb8a0)}
+#prismAudit .paFlag{color:#ffb0ba;font-size:11px;font-weight:700;margin-left:8px}
+#prismAudit .paTools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+#prismAudit .paBtn{border:1px solid rgba(119,255,214,.3);background:rgba(119,255,214,.08);color:#aef7e0;border-radius:9px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer}
+#prismAudit .paWarn{margin-top:8px;padding:10px 13px;border-radius:10px;background:rgba(255,112,128,.1);border:1px solid rgba(255,112,128,.3);color:#ffc4cb;font-size:12px;font-weight:700}
+@media print{#prismAudit{display:none!important}}
+</style>
+
+<div id="prismAudit" role="dialog" aria-label="채점 감사">
+  <div class="paWrap">
+    <div class="paHead">
+      <b>관리자 · 채점 검산</b><h2>채점 감사 (점수 역추적)</h2>
+      <button class="paClose" onclick="prismAuditClose()">닫기</button>
+    </div>
+    <div id="prismAuditBody"></div>
+  </div>
+</div>
+
+<script id="prismAuditScript">
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+  var POLEKO={deep:'심층이해',practice:'반복숙달',plan:'계획실행',situational:'상황반응',self:'자기주도',structured:'외부구조',ask:'질문·확인',solve:'자기해결',complete:'완성추구',trial:'시행착오',future:'미래목표',feedback:'즉시피드백'};
+  var POLEAX={deep:'이해 방식',practice:'이해 방식',plan:'실행 방식',situational:'실행 방식',self:'학습 구조',structured:'학습 구조',ask:'막힘 처리',solve:'막힘 처리',complete:'오류 처리',trial:'오류 처리',future:'지속 동기',feedback:'지속 동기'};
+
+  // 극별 기여 문항 수집 (questions 전역에서)
+  function poleQuestions(){
+    var map={}; POLES.forEach(function(p){map[p]=[];});
+    try{ if(typeof questions!=='undefined'){ questions.forEach(function(q){ if(q.pole in map) map[q.pole].push({id:q.id,text:q.text}); }); } }catch(e){}
+    POLES.forEach(function(p){ map[p].sort(function(a,b){return a.id-b.id;}); });
+    return map;
+  }
+
+  // 한 극의 점수 재계산 (앱과 동일 공식: 평균/5*100)
+  function calcPole(qs, ans){
+    var sum=0,cnt=0,miss=[];
+    qs.forEach(function(q){ var v=ans[q.id]; if(v!=null && v>='1'&&(''+v)<='5' || (typeof v==='number'&&v>=1&&v<=5)){ sum+=+v; cnt++; } else { miss.push(q.id); } });
+    var score = cnt? Math.round(sum/cnt/5*100) : null;
+    return {sum:sum, cnt:cnt, score:score, miss:miss};
+  }
+
+  var curAns=null, curName='';
+
+  window.prismAuditOpen = function(recId){
+    var rec=(typeof window.prismStoreGet==='function')?window.prismStoreGet(recId):null;
+    if(rec){ curAns=rec.answers; curName=rec.name; }
+    else {
+      // 기록 id 없으면 현재 입력값/전역 answers 사용
+      curAns=null;
+      try{ var a={}, n=0; for(var q=1;q<=96;q++){ var c=$('paeCell'+q); if(c&&c.value>='1'&&c.value<='5'){a[q]=+c.value;n++;} } if(n>0)curAns=a; }catch(e){}
+      if(!curAns){ try{ if(window.answers&&Object.keys(window.answers).length)curAns=window.answers; }catch(e){} }
+      curName='현재 입력';
+    }
+    if(!curAns){ alert('감사할 응답이 없습니다. 기록을 선택하거나 문항을 입력해 주세요.'); return; }
+    render();
+    $('prismAudit').classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+
+  function render(){
+    var pq=poleQuestions();
+    var ans=curAns;
+    var totalMiss=0, mismatch=null;
+    var blocks=POLES.map(function(p){
+      var r=calcPole(pq[p], ans);
+      totalMiss += r.miss.length;
+      var rows=pq[p].map(function(q){
+        var v=ans[q.id];
+        var has=(v!=null);
+        var vcls = has?('v'+(+v)):'miss';
+        var vtxt = has?(+v):'미입력';
+        return '<tr><td class="paQid">'+q.id+'</td><td class="paVal '+vcls+'">'+vtxt+'</td><td class="paQt">'+esc(q.text)+'</td></tr>';
+      }).join('');
+      var calc = r.cnt? ('합 '+r.sum+' ÷ '+r.cnt+'문항 = 평균 '+(r.sum/r.cnt).toFixed(2)+' → '+(r.sum/r.cnt).toFixed(2)+'/5×100 = '+r.score) : '응답 없음';
+      var flag = r.miss.length? ('<span class="paFlag">미입력 '+r.miss.length+'문항 (문항 '+r.miss.join(', ')+')</span>') : '';
+      return '<div class="paPole" id="paPole_'+p+'">'
+        +'<div class="paPoleHd" onclick="prismAuditToggle(\''+p+'\')">'
+          +'<span class="paCaret">▶</span>'
+          +'<span class="paPoleName">'+esc(POLEKO[p])+' <span class="paPoleAx">'+esc(POLEAX[p])+'</span>'+flag+'</span>'
+          +'<span class="paCalc">'+esc(calc)+'</span>'
+          +'<span class="paPoleScore">'+(r.score!=null?r.score:'-')+'</span>'
+        +'</div>'
+        +'<div class="paItems"><table class="paTbl"><thead><tr><th>문항</th><th>응답</th><th>문항 내용</th></tr></thead><tbody>'+rows+'</tbody></table>'
+          +'<div class="paBar"><i style="width:'+(r.score!=null?r.score:0)+'%"></i></div></div>'
+      +'</div>';
+    }).join('');
+
+    var nAns=0; for(var q=1;q<=96;q++){ if(ans[q]!=null) nAns++; }
+    var warn = totalMiss? '<div class="paWarn">미입력 문항이 총 '+totalMiss+'개 있습니다. OMR 표기 누락이나 입력 실수일 수 있으니 해당 문항을 확인하세요.</div>' : '';
+
+    $('prismAuditBody').innerHTML=
+      '<div class="paMeta"><b>'+esc(curName)+'</b> · 입력 '+nAns+'/96문항</div>'
+      +'<div class="paIntro">각 극 점수가 어느 문항의 어떤 응답에서 나왔는지 보여줍니다. OMR 원지와 대조해 입력 실수를 잡는 검산용입니다. 극 이름을 누르면 8개 기여 문항이 펼쳐집니다. 공식: 극 점수 = (8문항 응답 평균) ÷ 5 × 100.</div>'
+      +'<div class="paTools"><button class="paBtn" onclick="prismAuditAll(true)">전체 펼치기</button><button class="paBtn" onclick="prismAuditAll(false)">전체 접기</button></div>'
+      +warn
+      +blocks;
+  }
+
+  window.prismAuditToggle = function(p){ var el=$('paPole_'+p); if(el) el.classList.toggle('open'); };
+  window.prismAuditAll = function(open){ POLES.forEach(function(p){ var el=$('paPole_'+p); if(el){ if(open)el.classList.add('open'); else el.classList.remove('open'); } }); };
+
+  window.prismAuditClose = function(){
+    $('prismAudit').classList.remove('open');
+    if(!($('prismRecords') && $('prismRecords').classList.contains('open')) && !($('prismAdminEntry') && $('prismAdminEntry').classList.contains('open'))) document.body.style.overflow='';
+  };
+})();
+</script>
+<!-- ===== /PRISM 채점 감사 모드 ===== -->
+
+<!-- ===== PRISM 입력 무결성 체크 · 운영정확도 ===== -->
+<script id="prismIntegrityScript">
+(function(){
+  "use strict";
+  // 입력 데이터 무결성 점검 (응답 품질과 별개: 입력 실수/중복 탐지)
+  // 반환: 사람이 읽는 경고 문자열 배열 (비었으면 이상 없음)
+  window.prismIntegrityCheck = function(name, ans){
+    var out=[];
+    // 1) 미입력 문항
+    var miss=0; for(var q=1;q<=96;q++){ if(ans[q]==null) miss++; }
+    if(miss>0) out.push('미입력 문항 '+miss+'개 (채점에서 제외됩니다)');
+    // 2) 범위 밖 값 (정상 입력 경로면 없어야 하나 방어)
+    var bad=0; for(var q2=1;q2<=96;q2++){ var v=ans[q2]; if(v!=null && !(v>=1&&v<=5)) bad++; }
+    if(bad>0) out.push('1~5 범위 밖 값 '+bad+'개');
+    // 3) 동일 이름 중복 (이미 저장된 같은 이름 → 재입력 실수 가능성)
+    try{
+      if(typeof window.prismStoreList==='function'){
+        var nm=(name||'').trim();
+        if(nm && nm!=='학생'){
+          var same=window.prismStoreList().filter(function(r){return (r.name||'').trim()===nm;});
+          if(same.length>0){
+            // 오늘 같은 이름이 이미 있으면 더 강하게 경고
+            var today=new Date(); today.setHours(0,0,0,0);
+            var todayN=same.filter(function(r){return r.ts>=today.getTime();}).length;
+            if(todayN>0) out.push('같은 이름 "'+nm+'"이 오늘 이미 '+todayN+'건 저장됨 (중복 입력일 수 있음). 재검사라면 그대로 진행하세요.');
+            else out.push('같은 이름 "'+nm+'"의 이전 기록 '+same.length+'건 있음 (재검사로 누적됩니다)');
+          }
+        } else {
+          out.push('이름이 비어 있어 "학생"으로 저장됩니다. 구분을 위해 이름 입력을 권합니다.');
+        }
+      }
+    }catch(e){}
+    return out;
+  };
+})();
+</script>
+<!-- ===== /PRISM 입력 무결성 체크 ===== -->
+<!-- ===== PRISM 데이터 스키마 버저닝 · 신뢰성 ===== -->
+<script id="prismMigrateScript">
+(function(){
+  "use strict";
+  // 현재 데이터 스키마 버전. 구조를 바꿀 때마다 1씩 올리고 MIGRATIONS에 단계를 추가한다.
+  var CURRENT_VERSION = 1;
+  var META_KEY = 'prism_schema_version';
+  var RECORDS_KEY = 'prism_records_v1';
+  var LABELS_KEY  = 'prism_labels_v1';
+
+  function readJSON(key, fallback){
+    try{ var raw=localStorage.getItem(key); return raw? JSON.parse(raw) : fallback; }catch(e){ return fallback; }
+  }
+  function writeJSON(key, val){
+    try{ localStorage.setItem(key, JSON.stringify(val)); return true; }catch(e){ console.warn('[migrate] write fail', key, e); return false; }
+  }
+
+  // 12극 점수 재계산 (저장된 답안에서, questions 전역 사용)
+  function recomputePoles(ans){
+    var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+    var sum={},cnt={}; POLES.forEach(function(p){sum[p]=0;cnt[p]=0;});
+    try{
+      if(typeof questions!=='undefined' && ans){
+        for(var i=0;i<questions.length;i++){ var q=questions[i], v=ans[q.id]; if(v!=null && q.pole in sum){ sum[q.pole]+=+v; cnt[q.pole]++; } }
+      }
+    }catch(e){}
+    var out={}; POLES.forEach(function(p){ out[p]= cnt[p]? Math.round(sum[p]/cnt[p]/5*100) : null; });
+    return out;
+  }
+
+  /*
+   * MIGRATIONS[v] = 버전 v에서 v+1로 올리는 함수.
+   * 각 함수는 현재 저장된 모든 데이터를 읽어 변환 후 다시 저장한다.
+   * 지금은 v1이 최신이라 등록된 마이그레이션이 없다(프레임워크만 준비).
+   *
+   * 예시(미래에 schema를 바꿀 때):
+   *   1: function(){  // v1 -> v2: 레코드에 'source' 필드 추가
+   *        var recs=readJSON(RECORDS_KEY, []);
+   *        recs.forEach(function(r){ if(r.source==null) r.source='manual'; });
+   *        writeJSON(RECORDS_KEY, recs);
+   *      },
+   */
+  var MIGRATIONS = {
+    // (현재 비어 있음 - v1이 최신)
+  };
+
+  // 레코드 무결성 복구: 버전과 무관하게, 깨졌거나 누락된 필드를 안전하게 보강
+  // (이전 버전 코드가 만든 레코드 / 수동 복원된 외부 파일 대비)
+  function repairRecords(){
+    var recs=readJSON(RECORDS_KEY, null);
+    if(!Array.isArray(recs)) {
+      // 배열이 아니면(손상) 빈 배열로 초기화하지 않고 그대로 두되, 객체면 값 추출 시도
+      if(recs && typeof recs==='object'){
+        var arr=[]; for(var k in recs){ if(recs[k]&&recs[k].id) arr.push(recs[k]); }
+        if(arr.length){ writeJSON(RECORDS_KEY, arr); recs=arr; } else return 0;
+      } else return 0;
+    }
+    var fixed=0;
+    recs.forEach(function(r){
+      if(!r || typeof r!=='object') return;
+      // id 없으면 생성
+      if(!r.id){ r.id='r'+Date.now()+'_'+Math.floor(Math.random()*1000); fixed++; }
+      // name 기본값
+      if(r.name==null || (''+r.name).trim()===''){ r.name='학생'; fixed++; }
+      // ts 없으면 현재
+      if(r.ts==null || isNaN(+r.ts)){ r.ts=Date.now(); fixed++; }
+      // answers는 객체여야
+      if(!r.answers || typeof r.answers!=='object'){ r.answers={}; fixed++; }
+      // poles 없거나 비정상이면 답안에서 재계산
+      if(!r.poles || typeof r.poles!=='object' || Object.keys(r.poles).length!==12){
+        r.poles=recomputePoles(r.answers); fixed++;
+      }
+      // qc 필드는 선택적이므로 강제하지 않음
+    });
+    if(fixed>0) writeJSON(RECORDS_KEY, recs);
+    return fixed;
+  }
+
+  // 라벨 무결성: 객체여야 함
+  function repairLabels(){
+    var raw=localStorage.getItem(LABELS_KEY);
+    if(raw==null) return 0;
+    var o; try{ o=JSON.parse(raw); }catch(e){ o=null; }
+    if(o && typeof o==='object' && !Array.isArray(o)) return 0; // 정상
+    // 손상 시 빈 객체로(데이터 보존 불가하면 최소한 앱이 안 죽게)
+    writeJSON(LABELS_KEY, {});
+    return 1;
+  }
+
+  // 메인: 버전 확인 → 필요한 마이그레이션 순차 적용 → 무결성 복구 → 버전 기록
+  function runMigrations(){
+    var stored = parseInt(localStorage.getItem(META_KEY), 10);
+    if(isNaN(stored)){
+      // 버전 메타가 없음: 기존 데이터가 있으면 v1로 간주, 없으면 그냥 최신으로 시작
+      stored = 1;
+    }
+    var applied=[];
+    var v=stored;
+    while(v < CURRENT_VERSION){
+      var fn=MIGRATIONS[v];
+      if(typeof fn==='function'){
+        try{ fn(); applied.push(v+'->'+(v+1)); }
+        catch(e){ console.error('[migrate] step '+v+' 실패', e); break; }
+      }
+      v++;
+    }
+    // 무결성 복구는 항상 실행 (버전이 같아도)
+    var fixedR=0, fixedL=0;
+    try{ fixedR=repairRecords(); }catch(e){ console.warn('[migrate] repairRecords', e); }
+    try{ fixedL=repairLabels(); }catch(e){ console.warn('[migrate] repairLabels', e); }
+
+    // 버전 기록
+    try{ localStorage.setItem(META_KEY, String(CURRENT_VERSION)); }catch(e){}
+
+    if(applied.length || fixedR || fixedL){
+      console.log('[PRISM migrate] 적용:', applied.join(', ')||'(마이그레이션 없음)',
+                  '| 레코드 복구:', fixedR, '| 라벨 복구:', fixedL);
+    }
+    return {from:stored, to:CURRENT_VERSION, applied:applied, fixedRecords:fixedR, fixedLabels:fixedL};
+  }
+
+  // 공개 API (테스트/디버그용)
+  window.prismSchemaVersion = function(){ return { current:CURRENT_VERSION, stored:parseInt(localStorage.getItem(META_KEY),10)||null }; };
+  window.prismRunMigrations = runMigrations; // 수동 재실행 가능
+  window.prismRepairRecords = repairRecords;
+
+  // 앱 로드시 1회 자동 실행 (questions 정의 이후를 보장하기 위해 약간 지연)
+  function boot(){ try{ runMigrations(); }catch(e){ console.error('[migrate] boot', e); } }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', function(){ setTimeout(boot, 200); });
+  else setTimeout(boot, 200);
+})();
+</script>
+<!-- ===== /PRISM 데이터 스키마 버저닝 ===== -->
+
+<!-- ===== PRISM 저장 용량 관리 · 신뢰성 ===== -->
+<style id="prismStorageStyle">
+#prismStorage{display:none;position:fixed;inset:0;z-index:100003;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismStorage.open{display:block}
+#prismStorage .psWrap{max-width:620px;margin:0 auto;padding:24px 18px 60px}
+#prismStorage .psHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+#prismStorage .psHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismStorage .psHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismStorage .psClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismStorage .psMeter{margin:16px 0 8px;padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.03)}
+#prismStorage .psMeterTop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+#prismStorage .psUsed{font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}
+#prismStorage .psUsed small{font-size:14px;color:#9fb0d8;font-weight:700}
+#prismStorage .psPct{font-size:13px;font-weight:800}
+#prismStorage .psBar{height:12px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden}
+#prismStorage .psBarFill{height:100%;border-radius:6px;transition:width .3s}
+#prismStorage .psBreak{margin-top:12px;font-size:12px;color:#9fb0d8;line-height:1.7}
+#prismStorage .psBreak b{color:#dbe3f5}
+#prismStorage .psWarn{margin-top:12px;padding:11px 14px;border-radius:11px;font-size:12.5px;font-weight:700;line-height:1.5}
+#prismStorage .psWarn.ok{background:rgba(119,255,214,.08);border:1px solid rgba(119,255,214,.25);color:#aef7e0}
+#prismStorage .psWarn.warn{background:rgba(255,219,125,.1);border:1px solid rgba(255,219,125,.35);color:#ffdb7d}
+#prismStorage .psWarn.crit{background:rgba(255,112,128,.12);border:1px solid rgba(255,112,128,.4);color:#ffb0ba}
+#prismStorage h3.psSec{margin:20px 0 10px;color:#9fb0d8;font-size:12px;letter-spacing:.06em;font-weight:800}
+#prismStorage .psTool{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1px solid rgba(255,255,255,.12);border-radius:11px;margin-bottom:9px;background:rgba(255,255,255,.02)}
+#prismStorage .psTool .psToolText{flex:1}
+#prismStorage .psTool .psToolText .t{color:#f4f8ff;font-size:13.5px;font-weight:700}
+#prismStorage .psTool .psToolText .d{color:#8c98ba;font-size:11.5px;margin-top:2px}
+#prismStorage .psBtn{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:9px;padding:8px 13px;font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap}
+#prismStorage .psBtn.danger{border-color:rgba(255,112,128,.4);background:rgba(255,112,128,.1);color:#ffb0ba}
+#prismStorage .psBtn.go{border-color:rgba(119,255,214,.4);background:rgba(119,255,214,.1);color:#aef7e0}
+#prismStorage .psInput{width:62px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:#f4f8ff;border-radius:8px;padding:7px 9px;font-size:13px;text-align:center}
+#prismStorage .psHint{margin-top:14px;padding:11px 14px;border-radius:11px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12px;line-height:1.6}
+@media print{#prismStorage{display:none!important}}
+</style>
+
+<div id="prismStorage" role="dialog" aria-label="저장 용량 관리">
+  <div class="psWrap">
+    <div class="psHead">
+      <b>관리자 · 저장 용량</b><h2>저장 용량 관리</h2>
+      <button class="psClose" onclick="prismStorageClose()">닫기</button>
+    </div>
+    <div id="prismStorageBody"></div>
+  </div>
+</div>
+
+<script id="prismStorageScript">
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  var LIMIT = 5 * 1024 * 1024; // localStorage 통상 한계 5MB (브라우저별 상이, 보수적 기준)
+  var RECORDS_KEY='prism_records_v1', LABELS_KEY='prism_labels_v1';
+
+  function bytesOf(str){ try{ return new Blob([str]).size; }catch(e){ return (str||'').length*2; } }
+
+  // 전체 localStorage 사용량 측정
+  function measure(){
+    var total=0, prism=0, recordsB=0, labelsB=0, otherB=0, nRecords=0, nLabels=0;
+    try{
+      for(var i=0;i<localStorage.length;i++){
+        var k=localStorage.key(i); var v=localStorage.getItem(k)||'';
+        var b=bytesOf(k)+bytesOf(v);
+        total+=b;
+        if(k===RECORDS_KEY){ recordsB=b; try{ nRecords=(JSON.parse(v)||[]).length; }catch(e){} }
+        else if(k===LABELS_KEY){ labelsB=b; try{ nLabels=Object.keys(JSON.parse(v)||{}).length; }catch(e){} }
+        if(k.indexOf('prism')===0||k==='studyPatternAnswers'){ prism+=b; }
+      }
+    }catch(e){}
+    otherB = total - recordsB - labelsB;
+    return {total:total, prism:prism, recordsB:recordsB, labelsB:labelsB, otherB:otherB, nRecords:nRecords, nLabels:nLabels};
+  }
+
+  function fmtKB(b){ return b<1024? (b+' B') : (b/1024).toFixed(1)+' KB'; }
+  function fmtMB(b){ return (b/1024/1024).toFixed(2)+' MB'; }
+
+  window.prismStorageUsage = measure; // API
+
+  window.prismStorageOpen = function(){ render(); $('prismStorage').classList.add('open'); document.body.style.overflow='hidden'; };
+  window.prismStorageClose = function(){
+    $('prismStorage').classList.remove('open');
+    if(!($('prismRecords') && $('prismRecords').classList.contains('open'))) document.body.style.overflow='';
+  };
+
+  function render(){
+    var m=measure();
+    var pct=Math.min(100, Math.round(m.total/LIMIT*1000)/10);
+    var col = pct<60?'#77ffd6' : pct<85?'#ffd166' : '#ff8fa3';
+    var warnCls = pct<60?'ok' : pct<85?'warn' : 'crit';
+    var warnMsg = pct<60? '저장 공간이 충분합니다.'
+                : pct<85? '저장 공간이 절반 이상 찼습니다. 학기말 백업 후 오래된 기록 정리를 권합니다.'
+                : '저장 공간이 거의 찼습니다. 새 기록 저장이 실패할 수 있으니, 지금 백업하고 정리하세요.';
+    // 약 몇 명 더 저장 가능 (레코드 평균 크기 기준)
+    var avg = m.nRecords? (m.recordsB/m.nRecords) : 1100;
+    var room = Math.max(0, Math.floor((LIMIT-m.total)/avg));
+
+    $('prismStorageBody').innerHTML=
+      '<div class="psMeter">'
+        +'<div class="psMeterTop"><span class="psUsed" style="color:'+col+'">'+fmtMB(m.total)+' <small>/ '+fmtMB(LIMIT)+'</small></span><span class="psPct" style="color:'+col+'">'+pct+'%</span></div>'
+        +'<div class="psBar"><div class="psBarFill" style="width:'+Math.max(2,pct)+'%;background:'+col+'"></div></div>'
+        +'<div class="psBreak">학생 기록 <b>'+m.nRecords+'명</b> ('+fmtKB(m.recordsB)+') · 교사 라벨 <b>'+m.nLabels+'건</b> ('+fmtKB(m.labelsB)+') · 기타 '+fmtKB(m.otherB)+'<br>남은 공간에 약 <b>'+room+'명</b> 더 저장 가능 (현재 평균 기준)</div>'
+        +'<div class="psWarn '+warnCls+'">'+warnMsg+'</div>'
+      +'</div>'
+      +'<h3 class="psSec">정리 도구</h3>'
+      +'<div class="psTool"><div class="psToolText"><div class="t">먼저 백업</div><div class="d">정리 전에 전체 기록을 파일로 저장하세요. 되돌릴 수 없습니다.</div></div>'
+        +'<button class="psBtn go" onclick="prismStorageBackupFirst()">백업(JSON)</button></div>'
+      +'<div class="psTool"><div class="psToolText"><div class="t">오래된 기록 삭제</div><div class="d">가장 오래된 검사부터 지정 수만큼 삭제합니다. 라벨이 달린 기록도 포함됩니다.</div></div>'
+        +'<input class="psInput" id="psDelN" type="number" min="1" value="10"><button class="psBtn danger" onclick="prismStorageDeleteOldest()">삭제</button></div>'
+      +'<div class="psTool"><div class="psToolText"><div class="t">라벨 없는 기록만 삭제</div><div class="d">교사 라벨이 달리지 않은(검증에 안 쓰는) 기록만 정리합니다.</div></div>'
+        +'<button class="psBtn danger" onclick="prismStorageDeleteUnlabeled()">삭제</button></div>'
+      +'<div class="psTool"><div class="psToolText"><div class="t">신뢰도 낮은 기록 삭제</div><div class="d">응답 신뢰도가 낮은(직진·극단 의심) 기록을 정리합니다.</div></div>'
+        +'<button class="psBtn danger" onclick="prismStorageDeleteLowRel()">삭제</button></div>'
+      +'<div class="psHint">localStorage는 이 브라우저에만 저장되며 통상 5MB 한계가 있습니다. 한 학생 기록은 약 1KB이므로 수천 명까지 가능하지만, 한계에 가까워지면 새 저장이 실패할 수 있습니다. 정기적으로 백업(JSON)하고, 학기가 끝난 기록은 정리하세요.</div>';
+  }
+
+  window.prismStorageBackupFirst = function(){
+    if(typeof window.prismRecordsBackup==='function') window.prismRecordsBackup();
+    else alert('백업 기능을 찾을 수 없습니다.');
+  };
+
+  function loadRecs(){ try{ return JSON.parse(localStorage.getItem(RECORDS_KEY))||[]; }catch(e){ return []; } }
+  function saveRecs(list){ try{ localStorage.setItem(RECORDS_KEY, JSON.stringify(list)); return true; }catch(e){ alert('저장 실패: 공간이 부족합니다. 백업 후 더 많이 정리해 주세요.'); return false; } }
+
+  window.prismStorageDeleteOldest = function(){
+    var n=parseInt($('psDelN').value,10); if(isNaN(n)||n<1){ alert('삭제할 수를 입력하세요.'); return; }
+    var recs=loadRecs(); if(!recs.length){ alert('삭제할 기록이 없습니다.'); return; }
+    n=Math.min(n, recs.length);
+    if(!confirm('가장 오래된 '+n+'명의 기록을 삭제할까요? 되돌릴 수 없습니다.\n(백업을 먼저 했는지 확인하세요)')) return;
+    recs.sort(function(a,b){return a.ts-b.ts;});
+    var removed=recs.slice(0,n);
+    var keep=recs.slice(n);
+    saveRecs(keep);
+    // 해당 라벨도 정리
+    cleanupLabels(removed);
+    render();
+    alert(n+'명의 기록을 삭제했습니다.');
+    if(typeof window.prismRecordsRender==='function') try{window.prismRecordsRender();}catch(e){}
+  };
+
+  window.prismStorageDeleteUnlabeled = function(){
+    var recs=loadRecs(); if(!recs.length){ alert('삭제할 기록이 없습니다.'); return; }
+    var hasLabel=function(id){ try{ return typeof window.prismLabelHas==='function' && window.prismLabelHas(id); }catch(e){ return false; } };
+    var keep=recs.filter(function(r){return hasLabel(r.id);});
+    var removeN=recs.length-keep.length;
+    if(removeN===0){ alert('라벨 없는 기록이 없습니다. (모든 기록에 라벨이 있습니다)'); return; }
+    if(!confirm('라벨 없는 '+removeN+'명의 기록을 삭제할까요? 되돌릴 수 없습니다.')) return;
+    saveRecs(keep);
+    render();
+    alert(removeN+'명의 기록을 삭제했습니다. (라벨 있는 '+keep.length+'명 유지)');
+    if(typeof window.prismRecordsRender==='function') try{window.prismRecordsRender();}catch(e){}
+  };
+
+  window.prismStorageDeleteLowRel = function(){
+    var recs=loadRecs(); if(!recs.length){ alert('삭제할 기록이 없습니다.'); return; }
+    var keep=recs.filter(function(r){ return !(r.qc && r.qc.level==='low'); });
+    var removeN=recs.length-keep.length;
+    if(removeN===0){ alert('신뢰도 낮은 기록이 없습니다.'); return; }
+    if(!confirm('신뢰도 낮은 '+removeN+'명의 기록을 삭제할까요? 되돌릴 수 없습니다.')) return;
+    var removed=recs.filter(function(r){ return r.qc && r.qc.level==='low'; });
+    saveRecs(keep);
+    cleanupLabels(removed);
+    render();
+    alert(removeN+'명의 기록을 삭제했습니다.');
+    if(typeof window.prismRecordsRender==='function') try{window.prismRecordsRender();}catch(e){}
+  };
+
+  function cleanupLabels(removedRecs){
+    try{
+      var raw=localStorage.getItem(LABELS_KEY); if(!raw) return;
+      var o=JSON.parse(raw)||{};
+      removedRecs.forEach(function(r){ if(r.id && o[r.id]) delete o[r.id]; });
+      localStorage.setItem(LABELS_KEY, JSON.stringify(o));
+    }catch(e){}
+  }
+})();
+</script>
+<!-- ===== /PRISM 저장 용량 관리 ===== -->
+
+<!-- ===== PRISM 극 간 상관 · 분석 ===== -->
+<style id="prismCorrStyle">
+#prismCorr{display:none;position:fixed;inset:0;z-index:100003;background:rgba(6,10,18,.96);backdrop-filter:blur(7px);overflow:auto;-webkit-text-size-adjust:100%}
+#prismCorr.open{display:block}
+#prismCorr .pcoWrap{max-width:760px;margin:0 auto;padding:24px 18px 60px}
+#prismCorr .pcoHead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+#prismCorr .pcoHead b{color:#77ffd6;font-size:12px;letter-spacing:.12em;font-weight:900}
+#prismCorr .pcoHead h2{margin:0;color:#f4f8ff;font-size:20px;letter-spacing:-.03em}
+#prismCorr .pcoClose{margin-left:auto;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:#dfe6f7;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+#prismCorr .pcoWarn{margin:12px 0;padding:11px 14px;border-radius:11px;font-size:12.5px;font-weight:700;line-height:1.5}
+#prismCorr .pcoWarn.crit{background:rgba(255,112,128,.12);border:1px solid rgba(255,112,128,.4);color:#ffb0ba}
+#prismCorr .pcoWarn.warn{background:rgba(255,219,125,.1);border:1px solid rgba(255,219,125,.35);color:#ffdb7d}
+#prismCorr .pcoWarn.ok{background:rgba(119,255,214,.08);border:1px solid rgba(119,255,214,.25);color:#aef7e0}
+#prismCorr .pcoMatrix{overflow-x:auto;margin-top:10px}
+#prismCorr table.pcoTbl{border-collapse:collapse;font-size:11px}
+#prismCorr table.pcoTbl th{color:#8c98ba;font-weight:700;padding:3px;font-size:9.5px;white-space:nowrap}
+#prismCorr table.pcoTbl th.rowh{text-align:right;padding-right:7px;position:sticky;left:0;background:#0b1018;z-index:2}
+#prismCorr table.pcoTbl th.colh{writing-mode:vertical-rl;text-orientation:mixed;height:62px;vertical-align:bottom}
+#prismCorr table.pcoTbl td{width:30px;height:30px;text-align:center;font-variant-numeric:tabular-nums;font-weight:700;font-size:10px;border:1px solid rgba(11,16,24,.6)}
+#prismCorr .pcoLegend{display:flex;align-items:center;gap:4px;margin-top:12px;font-size:11px;color:#9fb0d8;flex-wrap:wrap}
+#prismCorr .pcoLegend .sc{display:inline-flex;align-items:center;gap:6px;margin-right:8px}
+#prismCorr .pcoLegend i{width:16px;height:12px;border-radius:3px;display:inline-block}
+#prismCorr h3.pcoSec{margin:20px 0 10px;color:#9fb0d8;font-size:12px;letter-spacing:.06em;font-weight:800}
+#prismCorr .pcoPair{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.1);border-radius:10px;margin-bottom:7px;font-size:12.5px}
+#prismCorr .pcoPairR{font-variant-numeric:tabular-nums;font-weight:800;min-width:48px;text-align:right}
+#prismCorr .pcoPairR.pos{color:#7ce0c0}#prismCorr .pcoPairR.neg{color:#ff8fa3}
+#prismCorr .pcoPairName{flex:1;color:#dbe3f5}
+#prismCorr .pcoHint{margin-top:14px;padding:11px 14px;border-radius:11px;background:rgba(119,255,214,.06);border:1px solid rgba(119,255,214,.18);color:#c3cce8;font-size:12px;line-height:1.6}
+#prismCorr .pcoEmpty{padding:30px 16px;text-align:center;color:#8c98ba;font-size:14px;line-height:1.6}
+@media print{#prismCorr{display:none!important}}
+</style>
+
+<div id="prismCorr" role="dialog" aria-label="극 간 상관">
+  <div class="pcoWrap">
+    <div class="pcoHead">
+      <b>관리자 · 집단 분석</b><h2>극 간 상관</h2>
+      <button class="pcoClose" onclick="prismCorrClose()">닫기</button>
+    </div>
+    <div id="prismCorrBody"></div>
+  </div>
+</div>
+
+<script id="prismCorrScript">
+(function(){
+  "use strict";
+  function $(id){return document.getElementById(id);}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
+  var POLEKO={deep:'심층이해',practice:'반복숙달',plan:'계획실행',situational:'상황반응',self:'자기주도',structured:'외부구조',ask:'질문확인',solve:'자기해결',complete:'완성추구',trial:'시행착오',future:'미래목표',feedback:'즉시피드백'};
+  var POLESHORT={deep:'심층',practice:'반복',plan:'계획',situational:'상황',self:'자주',structured:'외구',ask:'질문',solve:'자해',complete:'완성',trial:'시행',future:'미래',feedback:'즉피'};
+
+  function latestPerStudent(){
+    var all; try{ all=window.prismStoreList(); }catch(e){ all=[]; }
+    var by={}; all.forEach(function(r){ var nm=r.name||'학생'; if(!by[nm] || r.ts>by[nm].ts) by[nm]=r; });
+    return Object.keys(by).map(function(k){return by[k];});
+  }
+
+  // 피어슨 상관
+  function pearson(xs, ys){
+    var n=xs.length; if(n<2) return null;
+    var mx=0,my=0; for(var i=0;i<n;i++){mx+=xs[i];my+=ys[i];} mx/=n;my/=n;
+    var num=0,dx=0,dy=0;
+    for(var j=0;j<n;j++){ var a=xs[j]-mx, b=ys[j]-my; num+=a*b; dx+=a*a; dy+=b*b; }
+    if(dx===0||dy===0) return 0; // 한쪽이 상수면 상관 0 처리
+    return num/Math.sqrt(dx*dy);
+  }
+
+  // 상관계수 → 색 (양: 청록, 음: 분홍, 0: 어두움)
+  function corrColor(r){
+    if(r==null) return 'rgba(255,255,255,.03)';
+    var a=Math.abs(r);
+    if(r>=0) return 'rgba(119,255,214,'+(0.08+a*0.62).toFixed(2)+')';
+    return 'rgba(255,143,163,'+(0.08+a*0.62).toFixed(2)+')';
+  }
+
+  window.prismCorrOpen = function(){
+    var recs=latestPerStudent();
+    var n=recs.length;
+    if(n<3){
+      $('prismCorrBody').innerHTML='<div class="pcoEmpty">극 간 상관을 계산하려면 서로 다른 학생이 최소 3명 필요합니다. (현재 '+n+'명)\n학생이 많을수록 상관의 신뢰도가 올라갑니다. 통계적으로 의미 있으려면 보통 20명 이상을 권장합니다.</div>';
+      $('prismCorr').classList.add('open'); document.body.style.overflow='hidden'; return;
+    }
+
+    // 각 극의 점수 벡터
+    var vecs={};
+    POLES.forEach(function(k){ vecs[k]=recs.map(function(r){return r.poles?r.poles[k]:null;}).filter(function(v){return v!=null;}); });
+
+    // 상관 행렬
+    var M={};
+    POLES.forEach(function(a){ M[a]={}; POLES.forEach(function(b){ M[a][b]=pearson(vecs[a], vecs[b]); }); });
+
+    // 표본 크기 경고
+    var warnCls = n>=20?'ok' : n>=8?'warn' : 'crit';
+    var warnMsg = n>=20? ('학생 '+n+'명 기준. 상관 해석에 충분한 표본입니다.')
+                : n>=8? ('학생 '+n+'명 기준. 경향 참고는 가능하나, 통계적 결론에는 표본이 작습니다(20명+ 권장).')
+                : ('학생 '+n+'명 기준. 표본이 매우 작아 상관이 우연일 수 있습니다. 경향 힌트로만 보세요.');
+
+    // 행렬 HTML
+    var thead='<tr><th class="rowh"></th>'+POLES.map(function(k){return '<th class="colh">'+esc(POLESHORT[k])+'</th>';}).join('')+'</tr>';
+    var trows=POLES.map(function(a){
+      var cells=POLES.map(function(b){
+        var r=M[a][b];
+        var txt = a===b? '–' : (r==null?'·':(r>=0?'':'')+r.toFixed(1).replace('0.','.').replace('-0.','-.'));
+        var col = a===b? 'rgba(255,255,255,.06)' : corrColor(r);
+        var tc = a===b?'#566':(Math.abs(r||0)>0.5?'#0b1018':'#cdd6ee');
+        return '<td style="background:'+col+';color:'+tc+'">'+txt+'</td>';
+      }).join('');
+      return '<tr><th class="rowh">'+esc(POLEKO[a])+'</th>'+cells+'</tr>';
+    }).join('');
+
+    // 강한 상관쌍 추출 (|r|>=0.4, 같은 쌍 1회)
+    var pairs=[];
+    for(var i=0;i<POLES.length;i++) for(var j=i+1;j<POLES.length;j++){
+      var r=M[POLES[i]][POLES[j]];
+      if(r!=null && Math.abs(r)>=0.4) pairs.push({a:POLES[i], b:POLES[j], r:r});
+    }
+    pairs.sort(function(x,y){return Math.abs(y.r)-Math.abs(x.r);});
+    var pairsHtml = pairs.length? pairs.slice(0,8).map(function(p){
+      var cls=p.r>=0?'pos':'neg';
+      var rel=p.r>=0?'함께 높아지는 경향':'반대로 움직이는 경향';
+      return '<div class="pcoPair"><span class="pcoPairR '+cls+'">'+(p.r>=0?'+':'')+p.r.toFixed(2)+'</span><span class="pcoPairName">'+esc(POLEKO[p.a])+' &harr; '+esc(POLEKO[p.b])+' <span style="color:#8c98ba">('+rel+')</span></span></div>';
+    }).join('') : '<div style="color:#8c98ba;font-size:12.5px">뚜렷한 상관(|r|≥0.4)이 없습니다.</div>';
+
+    $('prismCorrBody').innerHTML=
+      '<div class="pcoWarn '+warnCls+'">'+warnMsg+'</div>'
+      +'<div class="pcoMatrix"><table class="pcoTbl"><thead>'+thead+'</thead><tbody>'+trows+'</tbody></table></div>'
+      +'<div class="pcoLegend"><span class="sc"><i style="background:rgba(119,255,214,.6)"></i>양(+): 함께 높아짐</span><span class="sc"><i style="background:rgba(255,143,163,.6)"></i>음(-): 반대로 움직임</span><span>진할수록 상관 강함</span></div>'
+      +'<h3 class="pcoSec">뚜렷한 상관쌍 (|r| ≥ 0.4)</h3>'+pairsHtml
+      +'<div class="pcoHint"><b>읽는 법</b> · 두 극이 학생들 사이에서 같이 움직이는 정도입니다. 예를 들어 자기주도와 심층이해의 상관이 높으면, 자기주도적인 학생이 심층이해 성향도 높은 편이라는 뜻입니다. 상관은 인과가 아니며, 자기보고 점수라는 한계와 작은 표본에서는 우연일 수 있다는 점을 함께 고려하세요. (현재 '+n+'명)</div>';
+
+    $('prismCorr').classList.add('open'); document.body.style.overflow='hidden';
+  };
+
+  window.prismCorrClose = function(){
+    $('prismCorr').classList.remove('open');
+    if(!($('prismCohort') && $('prismCohort').classList.contains('open')) && !($('prismRecords') && $('prismRecords').classList.contains('open'))) document.body.style.overflow='';
+  };
+})();
+</script>
+<!-- ===== /PRISM 극 간 상관 ===== -->
 
 </body>
 </html>
