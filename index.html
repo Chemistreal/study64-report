@@ -330,6 +330,7 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
 .footerPrivacy summary::-webkit-details-marker{display:none}
 .footerPrivacy p{margin:8px 0 0;color:rgba(174,185,214,.44);font-size:10.5px;line-height:1.65}
 .footerPrivacy b{color:rgba(255,219,125,.54);font-weight:800}
+.pcoCredit{margin-top:10px;text-align:center;font-size:10px;letter-spacing:.05em;color:rgba(174,185,210,.4);font-weight:600}
 @media(max-width:980px){.versionBadge{top:7px;right:8px;font-size:9px;padding:3px 6px}.footerPrivacy{width:min(100% - 22px,1180px);margin:34px auto 14px;font-size:10px}}
 @media print{.versionBadge,.footerPrivacy{display:none!important}}
 
@@ -602,6 +603,17 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
 .s64footer{border-top:1px solid var(--line);padding-top:15px;display:grid;gap:9px}
 .s64footer div{font-size:12px;color:var(--muted);line-height:1.6}
 .s64footer b{color:var(--soft);margin-right:6px}
+.s64sign{margin-top:8px;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:14px}
+.s64signLogo{height:34px;width:auto;opacity:.95;flex-shrink:0}
+.s64signDiv{width:1px;align-self:stretch;background:var(--line);margin:2px 0}
+.s64signText{display:flex;flex-direction:column;gap:2px;line-height:1.25}
+.s64signInst{font-size:10px;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.s64signName{font-size:14.5px;font-weight:800;color:var(--soft);letter-spacing:-.01em}
+.s64signT{font-size:10px;font-weight:700;color:var(--muted);vertical-align:super;margin-left:1px;margin-right:4px}
+.brandPhrase{display:inline;letter-spacing:normal}
+[data-keep-brand] span{letter-spacing:normal;margin:0;padding:0}
+[data-keep-brand] .brandPhrase span{margin:0;padding:0;letter-spacing:normal}
+.s64signRole{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.03em}
 .s64btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--soft)}
 /* 툴팁 */
@@ -636,7 +648,7 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
  .s64print1p #s64TrackSection{display:block!important}
  .s64print1p #s64TrackSection .eliteTrackGrid,.s64print1p #s64TrackSection .s64gateBanner{display:none!important}
  .s64summary,.s64action,.s64consult,.s64myths,.s64compare,.s64oly>div,.s64transRow p,.s64sumItem p,.s64sumItem,.eliteBar,.s64meter,.s64timeline{background:#fff!important;color:#222!important;border-color:#e3e8f0!important}
- .s64sumItem p,.s64action p,.s64consult li,.s64mythRow p,.s64footer div,.s64transRow p,.s64subWhy{color:#333!important}
+ .s64sumItem p,.s64action p,.s64consult li,.s64mythRow p,.s64footer div,.s64signName,.s64signInst,.s64signRole,.s64transRow p,.s64subWhy{color:#333!important}
  .hexAxisLbl{fill:#16202e!important}.hexPoleLbl{fill:#0a7d5a!important}
 }
 
@@ -901,7 +913,7 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
 <section class="hero" id="hero">
   <div class="glass heroMain">
     <div class="topNav"><div class="brand"><div class="brandIcon"></div><span>PRISM</span></div><div class="pills"><span class="pill">96문항</span><span class="pill">12극 연속</span><span class="pill">학습상담 참조형</span><span class="pill">논문 기반 프레임</span></div></div>
-    <div class="tag"><span class="dot"></span>PRISM · 96문항 프리미엄 학습 정밀 진단 · by 조준모</div>
+    <div class="tag" data-keep-brand><span class="dot"></span><span class="brandPhrase">PRISM · 96문항 프리미엄 학습 정밀 진단 · 다원교육 영재관 <span>조</span><span>준</span><span>모</span>T</span></div>
     <h1><span class="grad">PRISM</span></h1>
     <p class="sub">공부 성격을 맞히는 검사에서 끝나지 않고, 학생이 어떤 조건에서 공부가 시작되고, 어떤 방식으로 이해하며, 어떤 피드백에서 성장하고, 어떤 상황에서 무너지는지를 찾는 학습 행동 진단 리포트입니다.</p>
     <div class="notice"><b>응답 기준 안내</b><br>이 검사는 좋고 나쁜 학생을 나누기 위한 검사가 아닙니다. 각 문항은 학생의 실제 학습이 어떻게 시작되고, 어디서 막히며, 어떤 방식으로 회복되는지를 보기 위한 문항입니다. 최근 1~2개월의 실제 공부 모습을 기준으로 답해주세요. 이상적인 모습보다 실제 행동에 가까운 답을 선택할수록 결과가 정확해집니다.<br><br><b>업데이트 기준</b><br>문항은 EBSi 학습유형검사, MSLQ, 자기조절학습검사, 한국교육개발원 자기조절역량 연구에서 공통적으로 다루는 사고유형, 자기주도성, 행동조절, 인지전략, 동기전략, 조력추구, 메타인지 요소를 바탕으로 새롭게 재작성했습니다. <br><br><b>해석상 확인할 점</b><br>이 리포트는 표준화 심리검사 형식보다 교육심리학 기반의 자기보고식 학습 행동 분석 도구입니다. 결과는 실제 수업 참여, 과제 수행, 틀린 문제를 다시 풀어 맞히는 과정, 복습 지속성 자료와 함께 해석할 때 가장 유용합니다.</div>
@@ -1157,9 +1169,12 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
     <summary>개인정보 안내</summary>
     <p><b>저장 안내</b> 검사 결과는 학습 상담과 수업 피드백을 위해 관리자 서버에 자동 저장됩니다. 저장 항목은 학생명 또는 닉네임, 문항 응답, 산출 점수, 유형 결과, 결과 요약, 제출 시간입니다.</p>
   </details>
+  <div class="pcoCredit" data-keep-brand>PRISM 학습 정밀 진단 · 다원교육 영재관 <span>조</span><span>준</span><span>모</span>T</div>
 </section>
 </main>
 <script>
+window.PRISM_DAWON_LOGO="data:image/png;base64,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";
+
 const questions = [
 {id:1,text:'나는 새 개념을 배울 때 공식보다 먼저 상황, 원인, 조건을 파악해야 오래 기억된다.',axis:'understanding',pole:'deep',code:'이'},
 {id:2,text:'나는 평소에는 속도가 느려도 시험 일정이 가까워지면 집중력이 갑자기 올라간다.',axis:'execution',pole:'situational',code:'상'},
@@ -2605,6 +2620,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     const banned=['이미지 파일 없이 SVG로 시각화합니다','SVG로 시각화합니다','어떻게 만들어졌는지','결과를 이미지 파일 없이'];
     const trust=v34TrustPercent();
     document.querySelectorAll('body *').forEach(el=>{
+      if(el.closest('[data-keep-brand]')) return;
       if(el.children.length===0){let t=el.textContent||''; if(!t)return; let nt=t.replace(/의\s*/g,'').replace(new RegExp('조'+'준'+'모','g'),''); banned.forEach(b=>{nt=nt.replaceAll(b,'');}); nt=nt.replace(/응답 신뢰도\s*[ABCD]/g,`응답 신뢰도 ${trust.pct}%`).replace(/응답 일관성\s*[ABCD]/g,`응답 일관성 ${trust.pct}%`).replace(/^\s*[ABCD]\s*$/g,`${trust.pct}%`).replace(/유형명보다 점수 조합, 가장 먼저 잡아야 할 부분 영역, 응답 신뢰도을 함께 볼 때 가장 정확합니다\.?/g,'현재 상태 · 첫 조정 포인트 · 확인 행동'); if(nt!==t)el.textContent=nt;}
     });
     const nav=[...document.querySelectorAll('.reportNav button')].find(b=>b.textContent.includes('메타인지')); if(nav) nav.textContent='자기이해 해설';
@@ -5726,6 +5742,11 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       +'<div class="s64src"><b>근거</b> 2028 통합형 수능 · 내신 5등급제 · 정시 40% · 올림피아드 가산점 폐지 (2026년 6월 공개된 입시 정책 기준이며, 제도는 이후 변동될 수 있습니다)</div>'
       +'<div class="s64method"><b>방법론</b> 이 리포트는 학습 행동의 6개 차원(이해·실행·구조·막힘·오류·동기)을 96문항으로 측정한 자기보고 진단입니다. 합격을 예측하는 시험이 아니라 현재의 공부 행동 경향이며, 실제 수행 기록·상담과 함께 해석해야 합니다.</div>'
       +'<div class="s64recheck"><b>재검사</b> 공부 환경이 바뀐 뒤 3~6개월 후 다시 진단하면 어떤 극이 움직였는지 비교할 수 있습니다.</div>'
+      +'<div class="s64sign" data-keep-brand>'
+        +'<img class="s64signLogo" src="'+(window.PRISM_DAWON_LOGO||'')+'" alt="다원교육" />'
+        +'<div class="s64signDiv"></div>'
+        +'<div class="s64signText"><div class="s64signInst">화학 영재 · 올림피아드 · 학습 정밀 진단</div><div class="s64signName">다원교육 영재관 <span>조</span><span>준</span><span>모</span><span class="s64signT">T</span> <span class="s64signRole">진단 · 상담</span></div></div>'
+      +'</div>'
       +'</div>';
   }
 
