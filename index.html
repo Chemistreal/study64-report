@@ -1318,7 +1318,7 @@ async function calculateResult(){if(Object.keys(answers).length<questions.length
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 async function showAnalysisSequence(){const ov=document.getElementById('analysisOverlayV20');const fill=document.getElementById('analysisProgressFillV20');const pct=document.getElementById('analysisPercentV20');const sub=document.getElementById('analysisSubtitleV20');const consoleBox=document.getElementById('analysisConsoleV20');const phases=[...document.querySelectorAll('.analysisPhase')];ov.classList.add('show');consoleBox.classList.remove('flash');phases.forEach(p=>p.classList.remove('active','done'));fill.style.width='0%';pct.textContent='0%';const lines=['응답 누락과 일괄 응답 경향을 확인합니다.','96문항을 12개 하위 성향 점수로 변환합니다.','12극 각각의 강도와 강점·그림자 구간을 판정합니다.','자기결정성·자기조절·메타인지·인지부하 프레임으로 매핑합니다.','극별 해석과 조합 해석, 실제 사례형 설명을 결합합니다.','PDF 보고서 구조와 근거 문헌 섹션을 결합합니다.'];for(let i=0;i<phases.length;i++){phases.forEach((p,j)=>{p.classList.toggle('active',j===i);if(j<i)p.classList.add('done');});const target=Math.round((i+1)/phases.length*100);sub.textContent=lines[i];fill.style.width=target+'%';pct.textContent=target+'%';await sleep(i===phases.length-1?520:620);}phases.forEach(p=>{p.classList.remove('active');p.classList.add('done')});consoleBox.classList.add('flash');await sleep(520);} 
 function hideAnalysisSequence(){setTimeout(()=>{document.getElementById('analysisOverlayV20')?.classList.remove('show');},260);} 
-function renderReport(results,code,baseCode,modeCode,base,mode){const name=document.getElementById('studentName').value.trim()||'학생';document.getElementById('finalCode').textContent=base;document.getElementById('typeName').textContent=mode;document.getElementById('modeName').textContent='내부 코드 · '+code;document.getElementById('baseTypeOut').textContent=base;document.getElementById('modeOut').textContent=mode;document.getElementById('headline').textContent=`${name}의 학습 행동 정밀 리포트`;document.getElementById('oneLine').textContent=oneLine(results,base,mode);const trust=trustCheck(results);document.getElementById('trustOut').textContent=trust.title;document.getElementById('trustDesc').textContent=trust.desc;renderPremium(results,code,base,mode,name,trust);renderScores(results);renderEduFrames(results);renderAudit(results,trust);renderClaims(results);renderAdvice(results,base,mode);renderRefs();}
+function renderReport(results,code,baseCode,modeCode,base,mode){const name=document.getElementById('studentName').value.trim()||'학생';document.getElementById('finalCode').textContent=base;document.getElementById('typeName').textContent=mode;document.getElementById('modeName').textContent='내부 코드 · '+code;document.getElementById('baseTypeOut').textContent=base;document.getElementById('modeOut').textContent=mode;document.getElementById('headline').textContent=`${name}의 학습 행동 리포트`;document.getElementById('oneLine').textContent=oneLine(results,base,mode);const trust=trustCheck(results);document.getElementById('trustOut').textContent=trust.title;document.getElementById('trustDesc').textContent=trust.desc;renderPremium(results,code,base,mode,name,trust);renderScores(results);renderEduFrames(results);renderAudit(results,trust);renderClaims(results);renderAdvice(results,base,mode);renderRefs();}
 function oneLine(r,base,mode){const chosen=Object.values(r).map(x=>x.chosen).join(' · ');return `${base} · ${mode}. 핵심 성향은 ${chosen}입니다. 최종 유형명보다 각 축의 점수 강도와 조합을 기준으로 과제와 피드백 방식을 조정하는 것이 중요합니다.`}
 function __trustCheckAggregate(r){const vals=Object.values(r).flatMap(x=>[x.left,x.right]);const avg=vals.reduce((a,b)=>a+b,0)/vals.length;const high=vals.filter(v=>v>=85).length;const midDiff=Object.values(r).filter(x=>x.diff<10).length;if(high>=10)return{title:'확장 응답 경향',desc:'많은 성향에 높게 답했습니다. 실제 과제 수행 기록과 함께 해석하세요.'};if(midDiff>=4)return{title:'혼합형 응답',desc:'여러 축에서 양쪽 성향 차이가 작습니다. 단정형보다 상황별 해석이 적합합니다.'};if(avg<45)return{title:'낮은 자기인식 가능성',desc:'전반 점수가 낮습니다. 현재 공부 경험 부족, 피로, 자신감 저하 여부를 확인하세요.'};return{title:'분석 가능',desc:'축별 성향 차이를 바탕으로 리포트 해석이 가능합니다.'};}
 /* A-2단계: 원답안 기반 응답품질을 trustCheck에 통합 (집계로는 못 보는 직진/극단/모순 탐지) */
@@ -1544,7 +1544,7 @@ box.innerHTML='';frames.forEach(f=>{const div=document.createElement('div');div.
 function renderComboInterpretation(r){const box=document.getElementById('comboCards');if(!box)return;var __META={perfectionist_crammer:['완성 × 실행','완벽주의 + 벼락치기 패턴'],deep_finisher:['심층 × 완성','깊게, 그리고 끝까지'],selfdirected_nostructure:['자기주도 × 장치','계획은 세우는데 흔들림'],solver_silent:['자기해결 × 심층','혼자 깊이 파는 힘'],planner_future:['계획 × 미래목표','가장 단단한 강점 조합'],feedback_situational:['즉시피드백 × 상황','자극에 빠르게 반응']};var __pairs=(window.InterpEngine&&window.InterpContent)?window.InterpEngine.pairMechanisms(r):null;if(__pairs){var __cards=__pairs.map(function(p){var m=__META[p.id]||['조합','이 아이만의 패턴'];var body=(window.InterpContent.PAIR_COPY[p.id]||p.tag);return '<div class="comboCard"><b>'+m[0]+'</b><strong>'+m[1]+'</strong><p>'+body+'</p></div>';});if(!__cards.length)__cards.push('<div class="comboCard"><b>균형형</b><strong>특정 조합이 두드러지지 않음</strong><p>지금은 특정 축 조합이 강하게 튀기보다 여러 축이 고르게 섞여 있어요. 유형 조합보다 과목별 실제 모습·오답 양상을 함께 보며 천천히 방향을 잡는 게 좋습니다.</p></div>');box.innerHTML=__cards.join('');}else{box.innerHTML='<div class="comboCard"><b>조합</b><strong>해석 준비 중</strong><p>조합 해석을 불러오지 못했습니다.</p></div>';}
 document.getElementById('scenarioNarrative').innerHTML=`<h3>개인별 학습 운영 시나리오</h3><p>이 아이의 리포트는 하나의 성격표보다 수업 운영 시나리오로 읽어야 합니다. 첫 단계에서는 ${topLabel('understanding',r.understanding)}에 맞춰 개념 제시 방식을 정하고, 두 번째 단계에서는 ${topLabel('execution',r.execution)}에 맞춰 공부 시작 장치를 설계합니다. 세 번째 단계에서는 ${topLabel('help',r.help)}에 맞춰 막혔을 때의 피드백 규칙을 만들고, 마지막 단계에서는 ${topLabel('motivation',r.motivation)}에 맞춰 공부 지속 장치를 붙입니다.</p><p>따라서 실제 운영은 “개념 설명 → 대표 문제 → 막힌 지점 기록 → 피드백 → 유사 문제 재시도 → 3일 뒤 재인출”의 순서가 가장 안정적입니다. 이 순서가 반복되면 유형명과 무관하게 이 아이의 메타인지, 자기조절, 오답 수정력이 함께 올라갑니다.</p>`;
 }
-function renderReport(results,code,baseCode,modeCode,base,mode){const name=document.getElementById('studentName').value.trim()||'학생';document.getElementById('finalCode').textContent=base;document.getElementById('typeName').textContent=mode;document.getElementById('modeName').textContent='내부 코드 · '+code;document.getElementById('baseTypeOut').textContent=base;document.getElementById('modeOut').textContent=mode;document.getElementById('headline').textContent=`${name}의 학습 행동 정밀 리포트`;document.getElementById('oneLine').textContent=oneLine(results,base,mode);const trust=trustCheck(results);document.getElementById('trustOut').textContent=trust.title;document.getElementById('trustDesc').textContent=trust.desc;renderPremium(results,code,base,mode,name,trust);renderPremiumValuePack(results,code,base,mode,name,trust);renderComprehensive(results,code,base,mode,name,trust);renderScores(results);renderAxisDeep(results);renderEduFrames(results);renderFrameDeep(results);renderAudit(results,trust);renderClaims(results);renderComboInterpretation(results);renderResearchPrecision(results,code,base,mode,name,trust);renderAdvice(results,base,mode);renderRefs();}
+function renderReport(results,code,baseCode,modeCode,base,mode){const name=document.getElementById('studentName').value.trim()||'학생';document.getElementById('finalCode').textContent=base;document.getElementById('typeName').textContent=mode;document.getElementById('modeName').textContent='내부 코드 · '+code;document.getElementById('baseTypeOut').textContent=base;document.getElementById('modeOut').textContent=mode;document.getElementById('headline').textContent=`${name}의 학습 행동 리포트`;document.getElementById('oneLine').textContent=oneLine(results,base,mode);const trust=trustCheck(results);document.getElementById('trustOut').textContent=trust.title;document.getElementById('trustDesc').textContent=trust.desc;renderPremium(results,code,base,mode,name,trust);renderPremiumValuePack(results,code,base,mode,name,trust);renderComprehensive(results,code,base,mode,name,trust);renderScores(results);renderAxisDeep(results);renderEduFrames(results);renderFrameDeep(results);renderAudit(results,trust);renderClaims(results);renderComboInterpretation(results);renderResearchPrecision(results,code,base,mode,name,trust);renderAdvice(results,base,mode);renderRefs();}
 function renderAdvice(r,base,mode){const strengths=document.getElementById('strengths'), risks=document.getElementById('risks'), teaching=document.getElementById('teaching');strengths.innerHTML='';risks.innerHTML='';teaching.innerHTML='';
 const chosenAxes=Object.keys(axisMap).map(a=>[a,topLabel(a,r[a]),Math.max(r[a].left,r[a].right)]).sort((a,b)=>b[2]-a[2]);
 chosenAxes.slice(0,4).forEach(([a,label,score])=>add(strengths,`${axisMap[a].name}에서 ${label} 신호가 ${score}점으로 나타납니다. ${axisMeaning(a,r[a].side)[1].split('.')[0]}입니다.`));
@@ -2621,7 +2621,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     const trust=v34TrustPercent();
     document.querySelectorAll('body *').forEach(el=>{
       if(el.closest('[data-keep-brand]')) return;
-      if(el.children.length===0){let t=el.textContent||''; if(!t)return; let nt=t.replace(/의\s*/g,'').replace(new RegExp('조'+'준'+'모','g'),''); banned.forEach(b=>{nt=nt.replaceAll(b,'');}); nt=nt.replace(/응답 신뢰도\s*[ABCD]/g,`응답 신뢰도 ${trust.pct}%`).replace(/응답 일관성\s*[ABCD]/g,`응답 일관성 ${trust.pct}%`).replace(/^\s*[ABCD]\s*$/g,`${trust.pct}%`).replace(/유형명보다 점수 조합, 가장 먼저 잡아야 할 부분 영역, 응답 신뢰도을 함께 볼 때 가장 정확합니다\.?/g,'현재 상태 · 첫 조정 포인트 · 확인 행동'); if(nt!==t)el.textContent=nt;}
+      if(el.children.length===0){let t=el.textContent||''; if(!t)return; let nt=t.replace(new RegExp('조'+'준'+'모','g'),''); banned.forEach(b=>{nt=nt.replaceAll(b,'');}); nt=nt.replace(/응답 신뢰도\s*[ABCD]/g,`응답 신뢰도 ${trust.pct}%`).replace(/응답 일관성\s*[ABCD]/g,`응답 일관성 ${trust.pct}%`).replace(/^\s*[ABCD]\s*$/g,`${trust.pct}%`).replace(/유형명보다 점수 조합, 가장 먼저 잡아야 할 부분 영역, 응답 신뢰도을 함께 볼 때 가장 정확합니다\.?/g,'현재 상태 · 첫 조정 포인트 · 확인 행동'); if(nt!==t)el.textContent=nt;}
     });
     const nav=[...document.querySelectorAll('.reportNav button')].find(b=>b.textContent.includes('메타인지')); if(nav) nav.textContent='자기이해 해설';
     document.querySelectorAll('h2,h3,strong,b,span,p').forEach(el=>{if(el.textContent.includes('메타인지 해설'))el.textContent=el.textContent.replace('메타인지 해설','자기이해 해설');});
@@ -2867,10 +2867,10 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     return '';
   }
   function cleanupText(){
-    const t=trust(); document.title=document.title.replace(/의\s*/g,'').replace(new RegExp('조'+'준'+'모','g'),'').replace(/화학/g,'');
+    const t=trust(); document.title=document.title.replace(new RegExp('조'+'준'+'모','g'),'').replace(/화학/g,'');
     const banned=['이미지 파일 없이 SVG로 시각화합니다','SVG로 시각화합니다','결과를 이미지 파일 없이','어떻게 만들어졌는지'];
     document.querySelectorAll('body *').forEach(el=>{
-      if(el.children.length===0){let s=el.textContent||''; if(!s)return; let n=s.replace(/의\s*/g,'').replace(new RegExp('조'+'준'+'모','g'),'').replace(/화학올림피아드 적용/g,'학습 전환 적용').replace(/화학에서는 특히/g,'고난도 학습에서는 특히').replace(/평형, 산·염기, 산화환원 문제는 공식 암기보다/g,'고난도 문제는 단순 암기보다'); banned.forEach(b=>{n=n.replaceAll(b,'')}); n=n.replace(/응답 신뢰도\s*[ABCD]/g,`응답 신뢰도 ${t.pct}%`).replace(/응답 일관성\s*[ABCD]/g,`응답 일관성 ${t.consistency}%`).replace(/\b[ABCD]\b/g,(m)=>m.length===1?`${t.pct}%`:m).replace(/유형명보다 점수 조합, 가장 먼저 잡아야 할 부분 영역, 응답 신뢰도을 함께 볼 때 가장 정확합니다\.?/g,'현재 상태 · 첫 조정 포인트 · 확인 행동').replace(/최종 유형보다 점수 강도와 차이가 더 중요합니다\.?/g,'현재 상태 · 첫 조정 포인트 · 확인 행동'); if(n!==s)el.textContent=n; }
+      if(el.children.length===0){let s=el.textContent||''; if(!s)return; let n=s.replace(new RegExp('조'+'준'+'모','g'),'').replace(/화학올림피아드 적용/g,'학습 전환 적용').replace(/화학에서는 특히/g,'고난도 학습에서는 특히').replace(/평형, 산·염기, 산화환원 문제는 공식 암기보다/g,'고난도 문제는 단순 암기보다'); banned.forEach(b=>{n=n.replaceAll(b,'')}); n=n.replace(/응답 신뢰도\s*[ABCD]/g,`응답 신뢰도 ${t.pct}%`).replace(/응답 일관성\s*[ABCD]/g,`응답 일관성 ${t.consistency}%`).replace(/\b[ABCD]\b/g,(m)=>m.length===1?`${t.pct}%`:m).replace(/유형명보다 점수 조합, 가장 먼저 잡아야 할 부분 영역, 응답 신뢰도을 함께 볼 때 가장 정확합니다\.?/g,'현재 상태 · 첫 조정 포인트 · 확인 행동').replace(/최종 유형보다 점수 강도와 차이가 더 중요합니다\.?/g,'현재 상태 · 첫 조정 포인트 · 확인 행동'); if(n!==s)el.textContent=n; }
     });
     const nav=[...document.querySelectorAll('.reportNav button')].find(b=>b.textContent.includes('메타인지')); if(nav)nav.textContent='자기이해 해설';
   }
@@ -2936,7 +2936,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     safeCall(()=>{$('finalCode').textContent=base||'복합 학습형'});
     safeCall(()=>{$('typeName').textContent=mode||'복합 모드'});
     safeCall(()=>{$('modeName').textContent='내부 코드 · '+(code||'')});
-    safeCall(()=>{$('headline').textContent=`${name}의 학습 행동 정밀 리포트`});
+    safeCall(()=>{$('headline').textContent=`${name}의 학습 행동 리포트`});
     safeCall(()=>{$('oneLine').textContent=`${base||'복합 학습형'} · ${mode||'복합 모드'}. 가장 강한 신호는 ${strongest?.label||'학습 성향'}이고, 우선 관찰 영역은 ${weakest?.label||'학습 운영'}입니다.`});
     const body=$('reportBody')||$('premiumOverview')||$('report');
     if(body&&!$('fallbackSafetyReport')){
@@ -3045,7 +3045,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     if(status){
       const missing=questions.length-n;
       const next=firstUnanswered();
-      status.textContent=missing===0?`모든 문항 응답 완료 · 결과 분석을 실행할 수 있습니다. · ${ADDON_VERSION}`:`현재 ${n}/${questions.length}문항 응답 · 남은 문항 ${missing}개 · 다음 미응답 ${next}번 · ${ADDON_VERSION}`;
+      status.textContent=missing===0?`모든 문항 응답 완료 · 결과 분석을 실행할 수 있습니다.`:`현재 ${n}/${questions.length}문항 응답 · 남은 문항 ${missing}개 · 다음 미응답 ${next}번`;
     }
   }
   window.addonGoBlock=function(block){startTest();setTimeout(()=>{const id=(block-1)*BLOCK_SIZE+1;($('q'+id)||$('questions'))?.scrollIntoView({behavior:'smooth',block:'start'});renderBlockNav()},80)};
@@ -5166,7 +5166,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   /* === 1차: A(밴드→문장) 극별 강점/그림자 라이브러리 + B(축 쌍) 상호작용 라이브러리 === */
   var POLE_ESS={deep:'원리·구조로 파고드는',practice:'유형·반복으로 체화하는',plan:'계획·루틴으로 굴러가는',situational:'흥미·마감에 폭발하는',self:'스스로 길을 정하는',structured:'구조 안에서 최대치를 내는',ask:'묻고 빠르게 정리하는',solve:'혼자 끝까지 파고드는',complete:'끝까지 다듬어 완성하는',trial:'시도하며 고쳐 배우는',future:'먼 목표로 버티는',feedback:'작은 성취로 달리는'};
   var POLE_STR={
-    deep:{hi:['원리를 끝까지 파고들어, 한 번 이해한 개념은 응용·변형은 물론 새 단원까지 스스로 연결해 냅니다','겉이 아니라 구조를 보기 때문에, 처음 보는 문제도 「왜 그런지」로 뚫고 들어가는 강한 무기를 가졌습니다'],mid:['원리로 이해하려는 성향이 분명해, 단순 암기보다 개념의 뿌리를 잡는 편입니다','이유와 구조를 따지는 습관이 있어 응용·심화 문제에서 유리합니다'],lo:['원리 이해를 선호하지만 아직 일관되게 발휘되지는 않아, 조건이 맞을 때 빛납니다']},
+    deep:{hi:['원리를 끝까지 파고들어, 한 번 이해한 개념은 응용·변형은 물론 새 단원까지 스스로 연결해 냅니다','겉이 아니라 구조를 보기 때문에, 처음 보는 문제도 「왜 그런지」로 뚫고 들어가는 단단한 힘을 갖췄습니다'],mid:['원리로 이해하려는 성향이 분명해, 단순 암기보다 개념의 뿌리를 잡는 편입니다','이유와 구조를 따지는 습관이 있어 응용·심화 문제에서 유리합니다'],lo:['원리 이해를 선호하지만 아직 일관되게 발휘되지는 않아, 조건이 맞을 때 빛납니다']},
     practice:{hi:['익숙한 유형을 정확하고 빠르게 처리해 안정적인 점수를 만드는 힘이 뛰어납니다','한번 익힌 것은 흔들림 없이 재현해, 시험장에서 특히 강한 유형입니다'],mid:['유형과 반복으로 다지는 성향이 있어 기본기가 단단한 편입니다','연습량이 쌓이면 정확도가 빠르게 올라옵니다'],lo:['반복으로 익히는 쪽을 선호하지만 아직 양이 충분히 누적되지는 않았습니다']},
     plan:{hi:['분량과 일정만 정해지면 흔들림 없이 끝까지 실행하는, 자기관리가 뛰어난 유형입니다','루틴 위에서 꾸준히 굴러가, 긴 레이스에서 누수가 적습니다'],mid:['계획과 루틴이 있을 때 안정적으로 공부하는 편입니다','할 일이 정리되면 차분히 밀고 나갑니다'],lo:['계획대로 하려는 마음은 있으나 아직 루틴이 자리 잡지는 않았습니다']},
     situational:{hi:['흥미와 마감이 걸리면 단기 집중력이 폭발해, 짧은 시간에 큰 성과를 냅니다','자극과 위기감 앞에서 폭발적으로 몰입하는 순발력이 강점입니다'],mid:['흥미가 붙거나 마감이 다가오면 집중력이 확 올라옵니다','자극이 있을 때 추진력이 좋아집니다'],lo:['상황에 따라 움직이는 편이지만 그 폭발력이 아직 자주 나오지는 않습니다']},
@@ -5295,7 +5295,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function buildSummaryInner(r){
     var tracks=computeTracks(r);var t=topTrack(tracks,S64GOAL);
     var yj=tracks.find(function(x){return x.id==='yeongjae';});
-    var yjLine=(S64GOAL==='auto'&&t.id!=='yeongjae'&&yj)?('<span style="display:block;margin-top:6px;font-size:12.5px;color:var(--muted);line-height:1.55">함께 보기 · 영재고 적합도 <b>'+yj.fit+'%</b>. 현재 성향은 '+esc(t.k.split(' ·')[0])+' 쪽에 더 가깝지만, 영재고가 목표라면 ⑧에서 어떤 극을 끌어올릴지 확인하세요.</span>'):'';
+    var yjLine=(S64GOAL==='auto'&&t.id!=='yeongjae'&&yj)?('<span style="display:block;margin-top:6px;font-size:12.5px;color:var(--muted);line-height:1.55">함께 보기 · 영재고 적합도 <b>'+yj.fit+'%</b>. 현재 성향은 '+esc(t.k.split(' ·')[0])+' 쪽에 더 가깝지만, 이 점수 차이는 합격 가능성의 서열이 아니라 성향의 결이 어느 쪽에 가까운지를 보여줄 뿐입니다. 영재고가 목표라면 충분히 도전할 수 있고, ⑧에서 어떤 극을 끌어올리면 좋을지 확인하세요.</span>'):'';
     var js=tracks.find(function(x){return x.id==='jasago';});
     var jsLine=(S64GOAL==='auto'&&t.id==='yeongjae'&&js)?('<span style="display:block;margin-top:6px;font-size:12.5px;color:var(--muted);line-height:1.55">함께 보기 · 전국단위 자사고 적합도 <b>'+js.fit+'%</b>. '+(Math.abs(t.fit-js.fit)<=4?'두 길의 적합도가 비슷해서, 실제 선택은 전형 전략에 따라 갈릴 수 있습니다. ⑧의 목표 토글로 두 기준선을 비교해 보세요.':'현재 성향은 영재고 쪽에 더 가깝지만, 전사고·메디컬을 병행 고려한다면 ⑧의 목표 토글로 기준선을 비교해 보세요.')+'</span>'):'';
     var ord=AX.slice().sort(function(a,b){return vmax(r,b)-vmax(r,a);});
@@ -5369,7 +5369,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
        fit:W([[.30,U],[.22,Et],[.18,Hs],[.15,Mf],[.15,As]]),
        drv:[['심층이해',U,.30],['시행착오',Et,.22],['자기해결',Hs,.18],['자기주도',As,.15]],
        prep:'1차 학생기록물 → 2차 '+tip('창의적문제해결력','정해진 진도를 넘는 비정형 고난도 사고력 지필. 길게는 200분')+' 지필 → 3차 '+tip('영재성다면평가','캠프형 관찰·면접·과제수행으로 영재성을 다면 평가하는 단계')+'로 갑니다. 낯선 문제를 오래 붙들고 스스로 길을 내는 힘과 '+tip('R&E','Research & Education. 학생이 주제를 정해 직접 탐구·연구하는 활동')+' 적성이 결정적입니다.',
-       rel:'최상위 이공계 영재가 가장 먼저 보는 1순위 트랙입니다. (한국과학영재학교 등 일부는 의약학 진학을 제재하니 사전 확인이 필요합니다.)',
+       rel:'최상위 이공계 영재가 가장 먼저 보는 1순위 트랙입니다. (한국과학영재학교 등 일부는 의약학 진학을 제한하니 사전 확인이 필요합니다.)',
        gr:'보통 초6까지(빠르면 초5) 중등 과학 선행을 끝내고 1년간 화학·물리 대회를 준비해 중2 8월에 응시한 뒤, 9월부터 영재고 대비반에서 지필·캠프를 준비하는 흐름이 일반적입니다.',
        pf:'암기·선행만으로는 200분 지필을 넘기 어렵습니다. 낯선 문제 앞에서의 끈기가 없으면 진도가 빨라도 무너집니다.'},
       {id:'jasago',k:'전국단위 자사고 · 일반고 최상위',tag:'1순위 · 상위권 종합형의 대표 트랙',role:'1순위',
@@ -5385,7 +5385,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
        prep:'의약학은 긴 호흡의 안정성이 핵심입니다. 반복 숙달로 실수를 줄이고 완성도 있게 마무리하며, 정해진 루틴을 오래 유지하는 힘이 내신과 정시 모두에서 결정적입니다.',
        rel:'영재고·과학고처럼 "선발 시험"이 아니라, 전국자사고·일반고 최상위에서 이어지는 긴 내신·정시 레이스입니다. 상위권 종합형이 선택하는 주요 진로 중 하나입니다.',
        gr:'중2 8월까지는 화학·물리 대회로 개념을 다지고(영재고 트랙과 비슷), 이후에는 자사 준비와 함께 화학을 수능특강→수능완성→모의고사→수능 순으로 응용 문제풀이를 넓혀 갑니다.',
-       pf:'한 번의 큰 실수가 치명적인 트랙입니다. 깊이보다 흔들리지 않는 안정성을 못 만들면 긴 레이스에서 샙니다.'},
+       pf:'한 번의 큰 실수가 치명적인 트랙입니다. 깊이보다 흔들리지 않는 안정성을 갖추지 못하면 긴 레이스를 끝까지 버티기 어렵습니다.'},
       {id:'gwahak',k:'과학고',tag:'후순위 · 영재고 차선',role:'후순위',
        fit:W([[.28,As],[.22,Hq],[.18,U],[.16,Xp],[.16,Ec]]),
        drv:[['자기주도',As,.28],['질문·확인',Hq,.22],['심층이해',U,.18],['계획실행',Xp,.16]],
@@ -5491,7 +5491,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var gateBanner = gate?'<div class="s64gateBanner">응답 신뢰도가 \''+esc((window.__S64TRUST__||{}).title||'')+'\' 상태라, 아래 적합도 %는 <b>참고용</b>으로만 보세요. 실제 과제 수행 기록과 함께 해석해야 합니다.</div>':'';
     var cards=ordered.map(function(t){
       var g=gradeChip(t.fit);var foc=focusIds.indexOf(t.id)>=0;
-      var dist=t.fit-maxFit; var distTxt=(t.fit===maxFit)?(t.id===bestTrackId?'최고 적합 트랙':'공동 최고 수준'):('최고 트랙과 '+Math.abs(dist)+'%p 차이');
+      var dist=t.fit-maxFit; var ad=Math.abs(dist); var distTxt=(t.fit===maxFit)?(t.id===bestTrackId?'최고 적합 트랙':'공동 최고 수준'):(ad<=5?'최고 트랙과 거의 대등':(ad<=12?'함께 고려 가능':'성향이 다른 방향'));
       var roleCls=t.role==='1순위'?'role-main':t.role==='연계'?'role-link':'role-sub';
       var medConflict=(t.id==='medical'&&conflict)?'<div class="eliteTRow warn"><span class="eliteTIc">'+ICON('warn')+'</span><div class="eliteTTxt"><b>전사고↔메디컬 상충 체크</b><p>'+conflict+'</p></div></div>':'';
       return '<div class="eliteTrackCard'+(foc?' focus':'')+'">'
@@ -5550,7 +5550,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var cards=[math,phys,chem].map(function(d){
       return '<div class="s64subjCard"><div class="s64subjTop"><span class="s64subjNm">'+d.nm+'</span><span class="s64subjPct">'+d.pct+'%</span></div>'
         +'<div class="s64subjBarT"><span style="width:'+d.pct+'%"></span></div>'
-        +'<p class="s64subjRow str"><b>강점이 이렇게</b> '+esc(d.str)+'.</p>'
+        +'<p class="s64subjRow str"><b>이런 강점</b> '+esc(d.str)+'.</p>'
         +'<p class="s64subjRow trap"><b>이런 막힘 주의</b> '+esc(d.trap)+'.</p>'
         +'<p class="s64subjRow act"><b>이렇게 공부하면</b> '+esc(d.act)+'.</p></div>';
     }).join('');
@@ -5608,25 +5608,25 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       {g:'중1~중2',focus:'대회 과목(화학 또는 물리)을 집중 심화하며 중2 8월 대회 응시를 목표로 준비합니다. 비정형·고난도 문제로 사고력을 끌어올립니다',comp:'중2 8월 화학·물리 대회 응시',mile:'고난도 문제를 끝까지 밀어붙이는 끈기가 붙었는가'},
       {g:'중2~중3',focus:'중2 8월 대회 직후, 9월부터 영재고 대비반에서 2차 비정형 지필(길게 200분)과 3차 캠프를 본격 대비합니다',comp:'영재고 대비반에서 기출 사고력·지필 훈련',mile:'시간 압박 속에서 처음 보는 문제를 끝까지 밀어붙이는가'},
       {g:'중3',focus:'1차 서류 → 2차 지필 → 3차 캠프 라인업을 마무리하고, 자기소개·면접을 자기 언어로 정리합니다',comp:'지필·면접 마무리에 집중',mile:'지원 서류와 면접 답변이 자기 말로 완성됐는가'}
-    ],books:'중등 과학 선행을 빠르게 끝낸 뒤 화학·물리 대회 교재로 개념을 단단히 하고, 대회 이후에는 영재고 기출 비정형 사고력 문제 비중을 꾸준히 높입니다.'},
+    ],books:'수학은 개념원리·쎈 → RPM·일품 → 최상위·에이급/블랙라벨로 중등 심화를 끝내고, 수(상)·수(하)를 선행하며 기하 감각을 위해 기하 교재를 병행합니다(KMO를 노린다면 올림포스·셈본 중급으로 KMO 입문까지). 과학은 중등 과학 심화 후 고등 화학1 → 화학2(하이탑), 화학 대회를 본다면 줌달의 일반화학으로 넓혀 갑니다. 영재고 2차는 결국 낯선 문제를 스스로 푸는 힘이라, 기출·비정형 사고력 비중을 꾸준히 높이는 것이 핵심입니다.'},
     jasago:{label:'전국단위 자사고·일반고 최상위',grades:[
       {g:'초6~중1',focus:'전 과목 내신 기초를 탄탄히 하고, 폭넓은 독서로 배경지식과 어휘를 쌓습니다',comp:'경시는 선택: 수학·과학 흥미 유지 수준',mile:'매일 일정 분량의 독서·학습 루틴이 자리 잡았는가'},
       {g:'중1~중2',focus:'내신 관리와 함께 관심 분야 활동·독서를 「내 이야기」로 연결하기 시작합니다',comp:'관심 있으면 교내·지역 대회 참여로 경험 축적',mile:'활동·독서가 한 줄 이야기로 꿰어지는가'},
       {g:'중2~중3',focus:'내신 최상위를 유지하며 자기주도 학습 기록을 정리하고, 자기소개서 소재를 구체화합니다',comp:'경시 실적보다 탐구·활동의 깊이에 집중',mile:'자기 학습 과정을 구체 사례로 말할 수 있는가'},
       {g:'중3',focus:'자기소개서·면접을 설계·리허설하고 지원 라인업을 확정합니다',comp:'경시보다 자기 이야기 완성에 집중',mile:'면접에서 자기 이야기를 일관되게 전달하는가'}
-    ],books:'국어·영어·수학 내신서로 기본을 다진 뒤 심화서로, 독서는 분야를 넓혀 꾸준히. 활동·독서를 자기소개로 연결하는 기록 습관이 핵심입니다.'},
+    ],books:'수학은 개념원리·쎈으로 개념을 잡고 RPM·일품으로 유형을, 최상위·블랙라벨로 심화를 다집니다(상위권은 중등 마무리 후 수(상)·수(하) 선행). 국어·영어는 학교 내신서와 어휘·독해서로 꾸준히, 독서는 분야를 넓혀 「내 이야기」로 엮는 기록 습관이 자기소개서·면접의 바탕이 됩니다.'},
     medical:{label:'메디컬(의약학)',grades:[
       {g:'초6~중1',focus:'수학·과학 위계를 정확도·완성도 우선으로 선행하며, 과학은 화학·물리 대회 준비로 개념을 단단히 다집니다. 중2 8월 대회까지는 영재고 트랙과 비슷하게 갑니다',comp:'화학·물리 대회로 개념 기반 다지기',mile:'아는 문제를 실수로 틀리는 비율이 줄었는가'},
       {g:'중1~중2',focus:'대회 준비로 쌓은 개념 위에 반복 숙달과 긴 학습 루틴을 더해 흔들림 없이 굳힙니다(중2 8월 대회 응시)',comp:'중2 8월 대회 응시 · 반복 숙달 안정화',mile:'같은 단원 재시험에서 점수가 안정적인가'},
       {g:'중2~중3',focus:'대회 이후에는 영재고 대비반 대신 자사 준비·고등 응용으로 방향을 잡습니다. 화학은 대회에서 쌓은 개념 위에 수능특강 → 수능완성 → 교육청 모의고사 → 평가원 6·9월 모의고사 → 수능 순으로 문제풀이를 확장해 응용력을 키웁니다',comp:'고등 응용 문제풀이로 전환',mile:'개념을 실제 응용·추론 문제에서 써먹는가'},
       {g:'중3',focus:'고교 진학 후 내신·정시를 동시에 대비하는 체계로 전환하며, 실수 관리·장기 루틴을 고교 강도로 끌어올립니다',comp:'내신·정시 병행 체제 준비',mile:'실수 관리·루틴이 고교 수준 강도에서 버티는가'}
-    ],books:'과학은 화학·물리 대회 교재로 개념을 다진 뒤, 화학은 수능특강 → 수능완성 → 교육청·평가원 모의고사 → 수능 순으로 응용 문제풀이를 넓혀 갑니다. 깊이보다 「흔들리지 않는 안정성」이 핵심입니다.'},
+    ],books:'수학은 개념원리·쎈 → RPM·일품 → 최상위로 빈틈 없이 다지고(메디컬은 난도 폭주보다 정확도·반복이 우선), 화학은 화학1 → 화학2(하이탑)로 개념을 굳힌 뒤 수능특강 → 수능완성 → 평가원·교육청 모의고사 → 기출 순으로 응용을 넓혀 갑니다. 깊이보다 「흔들리지 않는 안정성」과 내신 루틴이 핵심입니다.'},
     gwahak:{label:'과학고',grades:[
       {g:'초6~중1',focus:'수학·과학 개념을 자기주도로 학습하고, 탐구·관찰 경험을 기록하기 시작합니다',comp:'KMO·과목 올림피아드 입문(면접 소재용 경험)',mile:'스스로 학습 계획을 세워 본 적이 있는가'},
       {g:'중1~중2',focus:'자기주도 학습 과정과 탐구 활동을 학생부식으로 정리하고, 설명력을 키웁니다',comp:'관심 분야 대회·탐구로 「무엇을 어떻게」 경험 축적',mile:'탐구 과정을 조리 있게 설명할 수 있는가'},
       {g:'중2~중3',focus:'자기주도학습전형 대비: 학생부 일관성과 면접·구술 연습을 병행합니다',comp:'경시는 면접 소재 수준, 실적보다 과정',mile:'자료를 읽고 논리적으로 설명·토론할 수 있는가'},
       {g:'중3',focus:'자기소개서·면접/구술을 마무리하고 지원을 준비합니다',comp:'-',mile:'면접에서 자기 학습 과정을 설득력 있게 전달하는가'}
-    ],books:'과학·수학 개념서→심화로 자기주도 학습하고, 탐구·독서 기록을 꾸준히. 지필보다 「설명·구술」 연습과 학생부 일관성이 핵심입니다.'}
+    ],books:'수학은 개념원리·쎈 → RPM·일품 → 최상위로 중등 심화를 자기주도로 다지고, 과학은 중등 과학 심화 후 고등 화학1·물리1로 개념을 넓힙니다. 다만 과학고는 지필 난도보다 「설명·구술」과 학생부 일관성이 당락을 가르니, 배운 것을 자기 말로 설명하는 연습과 탐구·독서 기록이 더 중요합니다.'}
   };
   var W90={
     understanding:{h:'매일 개념 1개를 「왜 그런지」 자기 말로 설명·기록하기',c:'설명 노트가 하루 1줄 이상 쌓였는가'},
@@ -5646,6 +5646,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var tracks=computeTracks(r);var t=topTrack(tracks,S64GOAL);var plan=TRACK_PLAN[t.id]||TRACK_PLAN.yeongjae;
     var order=AX.slice().sort(function(a,b){return vmax(r,b)-vmax(r,a);});var weakP=weakestSupportPole(r),weak=weakP.ax;
     var w=W90[weak],tk=T90[t.id]||T90.yeongjae;
+    var roadLead='이 로드맵은 큰 뼈대입니다. 강점을 출발점으로 삼아 학년별 계획을 스스로 짜 보게 하되, 가장 약한 「'+esc(weakP.name)+'」만은 한 학기에 하나씩, 매주 한 번 같이 점검해 주세요.';
     var grades=plan.grades.map(function(x){return '<div class="s64plStep"><div class="s64plG">'+esc(x.g)+'</div><div class="s64plBody"><p><b>학습 초점</b> '+esc(x.focus)+'</p><p><b>경시</b> '+esc(x.comp)+'</p><p class="s64plMile"><b>측정</b> '+esc(x.mile)+'</p></div></div>';}).join('');
     var blocks='<div class="s64plBlk"><span class="s64plBk">1~2주</span><div><p><b>'+esc(weakP.name)+' 보강</b>: '+esc(w.h)+'</p><p class="s64plChk">측정 · '+esc(w.c)+'</p></div></div>'
       +'<div class="s64plBlk"><span class="s64plBk">3~6주</span><div><p>'+esc(tk[0])+'</p></div></div>'
@@ -5653,7 +5654,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var medCallout=(t.id==='jasago')?('<div class="s64plSect s64plMed"><div class="s64plTlHead">이공계·메디컬을 함께 본다면</div><p style="margin:8px 0 0;font-size:14px;line-height:1.72">위 로드맵은 종합·인문 전사고까지 아우르는 큰 틀입니다. 이공계·메디컬을 노린다면 중2 8월 화학·물리 대회까지는 영재고 트랙과 비슷하게 개념을 다진 뒤, 영재고 대비반 대신 자사 준비로 분기합니다. 화학은 대회에서 쌓은 개념 위에 <b>수능특강 → 수능완성 → 교육청·평가원 모의고사 → 수능</b> 순으로 응용 문제풀이를 넓혀 갑니다.</p></div>'):'';
     return '<div class="s64plan">'
       +'<div class="s64plHead"><span class="s64plBadge">'+esc(plan.label.split('(')[0])+' 기준</span><p>현재 선택 진로 기준의 학년별·90일 플랜입니다. 위 진로 토글로 바꾸면 플랜도 함께 바뀝니다.</p></div>'
-      +'<div class="s64plSect"><div class="s64plTlHead">학년별 로드맵 · 초6 → 중3</div><div class="s64plTimeline">'+grades+'</div></div>'
+      +'<div class="s64plSect"><div class="s64plTlHead">학년별 로드맵 · 초6 → 중3</div><p class="s64plLead" style="margin:2px 0 10px;font-size:13px;color:var(--muted);line-height:1.55">'+roadLead+'</p><div class="s64plTimeline">'+grades+'</div></div>'
       +'<div class="s64plSect"><div class="s64plTlHead">다음 90일 집중 플랜 · 약점(<b>'+esc(weakP.name)+'</b>) + 목표 트랙</div><div class="s64plBlocks">'+blocks+'</div></div>'
       +'<div class="s64plBooks"><b>교재·선행 위계</b> '+esc(plan.books)+'</div>'
       +medCallout
@@ -5700,7 +5701,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var strongLabel=esc(imeta(r,order[0]).t), weakLabel=esc(weakestSupportPole(r).name);
     var allStrong=poleScore12(r,weakestSupportPole(r))>=73;
     var uDeep=(r.understanding.side==='left'), mFuture=(r.motivation.side==='left');
-    var a3='전혀 아닙니다. 「보강」은 「못한다」가 아니라, 그 길이 특히 중시하는 극에서 아이가 아직 기준선보다 낮다는 신호일 뿐입니다. 그 극의 습관을 의식적으로 늘리면 충분히 따라갑니다. 강한 극들이 이미 든든히 받쳐 주고 있으니, 보강 1순위 극 하나부터 천천히 끌어올리면 됩니다. <b>수준은 타고나는 게 아니라 훈련으로 바뀝니다.</b> 적합도 %가 높게 나온 건 그만큼 바탕 역량은 갖췄다는 뜻입니다.';
+    var a3='무리가 아닙니다. 「보강」은 「못한다」가 아니라, 그 길이 특히 중시하는 극에서 아이가 아직 기준선보다 낮다는 신호일 뿐입니다. 그 극의 습관을 의식적으로 늘리면 충분히 따라갑니다. 강한 극들이 이미 든든히 받쳐 주고 있으니, 보강 1순위 극 하나부터 천천히 끌어올리면 됩니다. <b>수준은 타고나는 게 아니라 훈련으로 바뀝니다.</b> 적합도 %가 높게 나온 건 그만큼 바탕 역량은 갖췄다는 뜻입니다.';
     var qSeon=uDeep
       ?('선행은 <b>양보다 깊이가 먼저</b>입니다. 우리 아이는 원리를 파고드는 강점이 있어, 진도를 빼는 선행보다 한 단원을 제대로 이해하는 선행이 훨씬 남습니다. 1~2학년 선행이면 충분하고, 그 이상은 「왜」를 건너뛰게 만들어 오히려 독이 될 수 있습니다.')
       :('선행은 진도 경쟁이 아니라 <b>「소화할 수 있는 만큼」</b>이 기준입니다. 우리 아이는 반복으로 체화하는 강점이 있으니, 무리하게 앞서가기보다 배운 범위를 탄탄히 다지는 선행이 더 효과적입니다.');
@@ -5711,15 +5712,16 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       ?('우리 아이는 먼 목표와 의미로 버티는 힘이 있습니다. 그래서 힘들어할 땐 <b>「이게 어디로 이어지는지」를 다시 그려</b> 주시면 다시 켜집니다. 단기 점수로 다그치면 오히려 꺼집니다.')
       :('우리 아이는 작은 성취와 즉각적인 반응에서 힘을 얻습니다. 그래서 힘들어할 땐 큰 목표보다 <b>「오늘 이만큼 했다」는 작은 성공</b>을 자주 확인시켜 주세요. 완벽을 기다리기보다 바로바로 인정해 주는 게 효과적입니다.');
     var qa=[
-      ['이 점수가 우리 아이가 똑똑하다는 뜻인가요?','그건 아닙니다. 이 리포트는 머리가 좋고 나쁨을 재는 게 아니라, 지금 <b>「어떻게 공부하는지」를 그린 지도</b>입니다. 같은 머리라도 공부하는 방식에 따라 결과는 크게 달라집니다. 그래서 점수보다 「어떤 방식이 강하고, 어디를 받쳐 줘야 하는지」를 봐 주세요.'],
-      ['점수가 높을수록 좋은 건가요?','꼭 그렇진 않습니다. 한쪽이 너무 높으면 강점이지만, 과하면 오히려 발목을 잡기도 합니다(예: 완벽주의가 너무 강하면 시작이 늦어져요). 중요한 건 점수의 높이가 아니라 <b>「어떻게 쓰느냐」와 「균형」</b>입니다.'],
+      ['이 점수가 우리 아이가 똑똑하다는 뜻인가요?','지능 자체를 재는 검사는 아닙니다. 이 리포트는 머리가 좋고 나쁨이 아니라, 지금 <b>「어떻게 공부하는지」를 그린 지도</b>입니다. 같은 머리라도 공부하는 방식에 따라 결과는 크게 달라집니다. 그래서 점수보다 「어떤 방식이 강하고, 어디를 받쳐 줘야 하는지」를 봐 주세요.'],
+      ['점수가 높을수록 좋은 건가요?','꼭 그렇진 않습니다. 한쪽이 너무 높으면 강점이지만, 과하면 오히려 발목을 잡기도 합니다(예: 완벽주의가 너무 강하면 시작이 늦어집니다). 중요한 건 점수의 높이가 아니라 <b>「어떻게 쓰느냐」와 「균형」</b>입니다.'],
       ['적합도 %가 합격 가능성인가요?','아닙니다. %는 「지금 아이의 성향이 그 길이 요구하는 힘과 얼마나 맞는가」입니다. 합격은 성적·노력·준비 시기가 훨씬 크게 좌우합니다. 적합도는 <b>「어느 길이 더 자연스러운가」를 보는 나침반</b> 정도로 생각해 주세요.'],
-      ['적합도가 낮은 트랙은 포기해야 하나요?','아니요. 적합도는 「지금 성향」이 그 길과 얼마나 맞는가일 뿐, 노력으로 충분히 바뀝니다. 목표가 분명하다면 그 길이 보는 힘을 의식적으로 길러 가면 됩니다. <b>적합도는 출발점이지 한계선이 아닙니다.</b>'],
+      ['적합도가 낮은 트랙은 포기해야 하나요?','포기할 필요 없습니다. 적합도는 「지금 성향」이 그 길과 얼마나 맞는가일 뿐, 노력으로 충분히 바뀝니다. 목표가 분명하다면 그 길이 보는 힘을 의식적으로 길러 가면 됩니다. <b>적합도는 출발점이지 한계선이 아닙니다.</b>'],
       ['「보강」으로 나온 극이 있는데, 그럼 '+topName+'은(는) 무리인가요?',a3],
       ['적합도가 높게 나오면 안심해도 되나요?','숫자 하나로 안심하기보다 <b>「가장 약한 극 하나」</b>를 봐 주세요. 강점은 알아서 굴러가지만, 약한 극 하나가 긴 레이스에서 발목을 잡습니다. 한 번에 다 고치려 하지 말고, 가장 약한 극 하나만 2~3주 단위로 받쳐 주는 게 좋습니다.'],
       ['우리 아이의 강점은 어떻게 키워 줘야 하나요?','우리 아이의 가장 큰 강점은 「'+strongLabel+'」 힘입니다. 이건 알아서 굴러가니 억누르지 말고, <b>오히려 공부의 출발점으로 쓰세요.</b> 강점을 중심에 두고 설계하면 같은 시간에 더 멀리 갑니다.'],
       ['약점을 고친다면 어디부터 손대야 하나요?',allStrong?('지금은 뚜렷한 약점이 없습니다. 굳이 꼽자면 가장 낮은 <b>「'+weakLabel+'」</b> 정도지만, 약점 보강보다 <b>강점을 한 단계 더 깊이</b> 밀어붙이는 편이 낫습니다.'):('한 번에 다 고치려 하지 마세요. 지금은 <b>「'+weakLabel+'」 하나만</b> 잡으면 충분합니다. 작은 규칙 하나를 정해 2~3주 반복해서 자리 잡은 뒤, 다음으로 넘어가는 게 가장 효율적입니다.')],
       ['약점을 고치려다 강점까지 죽이는 건 아닐까요?','좋은 걱정입니다. 그래서 순서가 중요합니다. <b>강점이 먼저고, 약점은 「받침」</b>입니다. 강점으로 공부를 시작하게 만들고, 약점은 무리하게 끌어올리기보다 하나씩 천천히 보완하면 됩니다. 약점부터 파고들면 공부 자체가 싫어질 수 있습니다.'],
+      ['지금 보이는 약점, 크면서 저절로 나아지지 않을까요?','일부는 자라며 나아지지만, 「질문·확인」이나 「계획 실행」 같은 학습 습관은 <b>일찍 잡을수록 작은 노력으로 자리 잡고, 미룰수록 굳어져 바꾸기 어려워집니다</b>. 지금은 거창하게 고칠 게 아니라 작은 규칙 하나를 2~3주 반복하는 정도면 충분합니다. 학년이 올라가 공부량이 늘면 같은 약점을 고치는 데 훨씬 큰 품이 들기 때문에, 부담 없는 지금이 오히려 가장 좋은 시기입니다.'],
       ['진로(영재고·과학고·자사고)를 지금 정해야 하나요?','초·중등에는 <b>「확정」보다 「방향」</b>만 잡으면 충분합니다. 지금 보이는 성향과 강점이 어느 길에 더 자연스러운지를 참고하되, 최종 결정은 중2~중3에 성적과 실제 모습을 보고 하면 됩니다. 너무 일찍 못 박으면 아이가 자랄 여지를 좁힐 수 있습니다.'],
       ['과학고가 영재고보다 쉬운 길인가요?','흔히 그렇게 생각하시는데, 그렇지 않습니다. 지필 난도는 낮아 보여도 학생부의 일관성과 면접에서의 설명력이 없으면 합격은 쉽지 않습니다. <b>「쉬운 우회로」가 아니라 「다른 준비가 필요한 길」</b>로 봐 주세요.'],
       ['선행은 어느 정도 시켜야 하나요?',qSeon],
@@ -5727,6 +5729,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       ['메디컬(의대)을 생각한다면 지금 뭘 해야 하나요?','의약학은 긴 호흡의 안정성 싸움입니다. 화려한 한 방보다 <b>「흔들리지 않는 꾸준함」</b>이 내신과 정시 모두를 좌우합니다. 지금은 반복 숙달·완성도·계획 실행 같은 안정성 축을 의식적으로 받쳐 주고, 내신 루틴을 일찍 잡아 두는 게 가장 큰 준비입니다.'],
       ['2028 입시가 바뀐다는데 우리 아이에게 어떤 영향이 있나요?','2028부터 통합형 수능과 내신 5등급제로 바뀌고 올림피아드 가산점은 폐지됩니다. 그래서 「실적 한 줄」보다 <b>사고력과 내신의 일관성</b>이 더 중요해집니다. 화려한 스펙보다, 꾸준한 학습 습관과 깊이 있는 사고력을 길러 주는 게 가장 안전한 방향입니다.'],
       ['집에서 부모가 도와줄 수 있는 건 뭔가요?','세 가지면 충분합니다. 첫째 <b>목표 방향만 함께 정하고 방법은 아이에게 맡기기</b>, 둘째 막힐 때 편하게 물어볼 수 있는 분위기 만들기, 셋째 다른 집 아이와 비교하지 않기. 특히 가장 낮은 「'+weakLabel+'」 하나에 가볍게 신경 쓰되, 한 번에 고치려 하지 말고 작은 규칙 하나를 2~3주 반복하도록 곁에서 봐 주세요.'],
+      ['이 결과를 보니 지금 다니는 학원이나 반을 바꿔야 하나요?','리포트 하나로 학원을 옮길 필요는 없습니다. 중요한 건 「어디를 다니느냐」보다 <b>지금 자리에서 이 아이의 강점을 살리고 약점을 받쳐 주고 있는가</b>입니다. 먼저 지금 학원에서 이 강점·약점을 어떻게 다루는지 확인해 보시고, 방식이 성향과 너무 안 맞는다고 느껴질 때만 이동을 고민하셔도 늦지 않습니다. 이 리포트를 가지고 상담에서 「우리 아이에게 맞는 방식」을 구체적으로 물어보시는 것이 가장 빠른 길입니다.'],
       ['아이가 공부를 힘들어할 때는 어떻게 해야 하나요?',qDonggi],
       ['다른 집 아이와 비교해도 될까요?','그게 아이 동기를 가장 빨리 깎습니다. 비교는 <b>「어제의 우리 아이」와만</b> 해 주세요. 이 리포트의 목적도 남과의 순위가 아니라, 우리 아이만의 출발점을 잡는 것입니다.'],
       ['이 결과는 한 번 나오면 그대로인가요?','바뀝니다. 그래서 3~6개월 뒤 재진단을 권합니다. 이건 성적표가 아니라 <b>「성장의 출발 사진」</b>입니다. 다음 진단에서 어떤 축이 자랐는지 함께 보면, 우리가 제대로 가고 있는지 확인할 수 있습니다.']
@@ -5740,7 +5743,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function buildFooter(){
     return '<div class="s64footer">'
       +'<div class="s64src"><b>근거</b> 2028 통합형 수능 · 내신 5등급제 · 정시 40% · 올림피아드 가산점 폐지 (2026년 6월 공개된 입시 정책 기준이며, 제도는 이후 변동될 수 있습니다)</div>'
-      +'<div class="s64method"><b>방법론</b> 이 리포트는 학습 행동의 6개 차원(이해·실행·구조·막힘·오류·동기)을 96문항으로 측정한 자기보고 진단입니다. 합격을 예측하는 시험이 아니라 현재의 공부 행동 경향이며, 실제 수행 기록·상담과 함께 해석해야 합니다.</div>'
+      +'<div class="s64method"><b>방법론</b> 이 리포트는 성격 유형을 가르는 검사가 아니라, 실제로 「어떻게 공부하는가」를 보는 학습 행동 진단입니다. 학습 행동의 6개 차원(이해·실행·구조·막힘·오류·동기)을 96문항으로 측정했으며, 문항은 EBSi 학습유형검사·MSLQ·한국교육개발원 자기조절역량 연구에서 공통으로 다루는 학습 요소에 기반합니다. 합격을 예측하는 시험이 아니라 현재의 공부 행동 경향이므로, 실제 수행 기록·상담과 함께 해석해야 합니다.</div>'
       +'<div class="s64recheck"><b>재검사</b> 공부 환경이 바뀐 뒤 3~6개월 후 다시 진단하면 어떤 극이 움직였는지 비교할 수 있습니다.</div>'
       +'<div class="s64sign" data-keep-brand>'
         +'<img class="s64signLogo" src="'+(window.PRISM_DAWON_LOGO||'')+'" alt="다원교육" />'
@@ -5843,7 +5846,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function headerHtml(r,trust){
     var arr=POLE12.map(function(p){var sc=poleScore12(r,p);return {n:p.name,sc:sc,bk:bandOf10(sc)};}).sort(function(a,b){return b.sc-a.sc;});
     var t1=arr[0],t2=arr[1],strong=arr.filter(function(x){return x.sc>=73;}).length;
-    return '<div class="badge"><div><div class="code">'+esc(t1.n)+'</div><div class="name">'+t1.sc+' \u00b7 '+esc(BAND10[t1.bk])+'</div><div class="one">다음 강점 \u00b7 '+esc(t2.n)+' '+t2.sc+'</div></div></div><div class="copy"><div class="stamp">96문항 정밀 학습 행동 진단</div><h2>이 아이의 학습 행동 정밀 리포트</h2><p>아래는 이 아이의 응답을 바탕으로 한 개인별 해석입니다. 점수 자체보다, 각 학습 전략을 실제로 얼마나 쓰고 있는지를 영역별로 풀어내고 진로\u00b7입시 트랙까지 연결합니다.</p><div class="resultGrid"><div class="resultCard"><b>가장 강한 극</b><strong>'+esc(t1.n)+'</strong><span>'+t1.sc+'점 \u00b7 '+esc(BAND10[t1.bk])+'</span></div><div class="resultCard"><b>강한 극</b><strong>'+strong+'개</strong><span>12극 중 73점 이상</span></div><div class="resultCard"><b>응답 신뢰도</b><strong>'+esc(trust&&trust.title||'분석 가능')+'</strong><span>'+esc(trust&&trust.desc||'')+'</span></div></div></div>';
+    return '<div class="badge"><div><div class="code">'+esc(t1.n)+'</div><div class="name">'+t1.sc+' \u00b7 '+esc(BAND10[t1.bk])+'</div><div class="one">다음 강점 \u00b7 '+esc(t2.n)+' '+t2.sc+'</div></div></div><div class="copy"><div class="stamp">96문항 정밀 학습 행동 진단</div><h2>이 아이의 학습 행동 리포트</h2><p>아래는 이 아이의 응답을 바탕으로 한 개인별 해석입니다. 점수 자체보다, 각 학습 전략을 실제로 얼마나 쓰고 있는지를 영역별로 풀어내고 진로\u00b7입시 트랙까지 연결합니다.</p><div class="resultGrid"><div class="resultCard"><b>가장 강한 극</b><strong>'+esc(t1.n)+'</strong><span>'+t1.sc+'점 \u00b7 '+esc(BAND10[t1.bk])+'</span></div><div class="resultCard"><b>강한 극</b><strong>'+strong+'개</strong><span>12극 중 73점 이상</span></div><div class="resultCard"><b>응답 신뢰도</b><strong>'+esc(trust&&trust.title||'분석 가능')+'</strong><span>'+esc(trust&&trust.desc||'')+'</span></div></div></div>';
   }
   function sec(num,h,p,inner,id){return '<section class="deepSection"'+(id?' id="'+id+'"':'')+'><div class="sectionHead eliteNumHead"><span class="eliteSecNum">'+num+'</span><div><h2>'+esc(h)+'</h2><p>'+esc(p)+'</p></div></div>'+inner+'</section>';}
   function secOpen(num,h,p){return '<section class="deepSection"><div class="sectionHead eliteNumHead"><span class="eliteSecNum">'+num+'</span><div><h2>'+esc(h)+'</h2><p>'+esc(p)+'</p></div></div>';}
@@ -6001,7 +6004,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       +sec('05','축별 두 극 (독립 측정)','각 축의 두 극을 따로 나란히 봅니다. 두 극은 독립이라, 한쪽이 높다고 다른 쪽이 낮은 게 아닙니다.',spectrum(results))
       +secOpen('06','개인별 학습 해석','이 아이의 이해·실행·구조·막힘·오류·동기를 영역별로 해석하고, 각 해석의 연구 근거를 함께 답니다.')+'<div class="longReportStack" id="premiumLongReport"></div></section>'
       +secOpen('07','이 아이만의 패턴','개별 점수보다 중요한, 강한 극들이 만나 만드는 고유한 학습 패턴입니다.')+'<div class="comboGrid" id="comboCards"></div></section>'
-      +sec('08','진로·입시 트랙 적합도','순위가 아니라 트랙별 적합도 %로 봅니다. %는 합격 확률이 아니라 성향과 길의 맞음 정도입니다. 맨 위에서 목표 트랙이 요구하는 역량과 이 아이를 12극 레이더로 겹쳐 보고, 영재고·전국자사고가 1순위, 전국자사고/일반고 최상위는 의약학을 포함한 상위권 진로로 이어지며, 과학고는 영재고 차선의 후순위입니다. 위 버튼으로 목표 진로를 고르면 그 트랙 기준으로 강조·비교됩니다.','<div id="s64TrackInner">'+buildTrackArea(results)+'</div>','s64TrackSection')
+      +sec('08','진로·입시 트랙 적합도','순위가 아니라 트랙별 적합도 %로 봅니다. %는 합격 확률이 아니라 성향과 길의 맞음 정도입니다. 맨 위에서 목표 트랙이 요구하는 역량과 이 아이를 12극 레이더로 겹쳐 보고, 여기서 순위는 합격 가능성이 아니라 이 시기 대치동에서 일반적으로 먼저 고려하는 진학 순서입니다. 영재고·전국자사고를 먼저 보고, 전국자사고/일반고 최상위는 의약학을 포함한 상위권 진로로 이어지며, 과학고는 보통 영재고와 함께 또는 그 차선으로 고려합니다. 위 버튼으로 목표 진로를 고르면 그 트랙 기준으로 강조·비교됩니다.','<div id="s64TrackInner">'+buildTrackArea(results)+'</div>','s64TrackSection')
       +sec('09','경시(올림피아드) 활용 전략','경시는 "목표"가 아니라 트랙별로 도움이 되는 역량 빌더입니다. 이 아이의 경시 적성·과목 적합·트랙별 전이 효과·권장 비중을 봅니다.',buildOlympiad(results))
       +sec('10','목표 맞춤 실행 플랜','선택한 진로 기준으로 학년별 로드맵(초6~중3)과 다음 90일 집중 플랜·측정 마일스톤·교재 위계까지 구체화했습니다. 위 진로 토글로 플랜이 바뀝니다.','<div id="s64PlanInner">'+buildPlan(results)+'</div>')
       +'<section class="deepSection s64extra">'+buildAction(results)+buildConsult(results)+buildParentQA(results)+buildNextSteps()+buildFooter()
@@ -6811,7 +6814,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var list=load().slice().sort(function(a,b){return a.ts-b.ts;});
     if(!list.length){ alert('내보낼 기록이 없습니다.'); return; }
     var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
-    var POLEKO=['심층이해','반복숙달','계획실행','상황반응','자기주도','외부구조','질문확인','자기해결','완성추구','시행착오','미래목표','즉시피드백'];
+    var POLEKO=['심층이해','반복숙달','계획실행','상황반응','자기주도','외부구조','질문·확인','자기해결','완성추구','시행착오','미래목표','즉시피드백'];
     var head=['이름','검사일시','응답신뢰도','신뢰도등급','직진최대','모순쌍'].concat(POLEKO);
     var lines=[head.join(',')];
     list.forEach(function(r){
@@ -7176,7 +7179,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var ids=Object.keys(labels);
     if(!ids.length){ alert('내보낼 라벨이 없습니다. 먼저 [라벨] 버튼으로 교사 관찰을 입력하세요.'); return; }
     var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
-    var POLEKO=['심층이해','반복숙달','계획실행','상황반응','자기주도','외부구조','질문확인','자기해결','완성추구','시행착오','미래목표','즉시피드백'];
+    var POLEKO=['심층이해','반복숙달','계획실행','상황반응','자기주도','외부구조','질문·확인','자기해결','완성추구','시행착오','미래목표','즉시피드백'];
     function fmtDate(ts){ var d=new Date(ts); function p(n){return(n<10?'0':'')+n;} return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
     function q(s){ return '"'+String(s==null?'':s).replace(/"/g,'""')+'"'; }
 
@@ -8457,7 +8460,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function $(id){return document.getElementById(id);}
   function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
   var POLES=['deep','practice','plan','situational','self','structured','ask','solve','complete','trial','future','feedback'];
-  var POLEKO={deep:'심층이해',practice:'반복숙달',plan:'계획실행',situational:'상황반응',self:'자기주도',structured:'외부구조',ask:'질문확인',solve:'자기해결',complete:'완성추구',trial:'시행착오',future:'미래목표',feedback:'즉시피드백'};
+  var POLEKO={deep:'심층이해',practice:'반복숙달',plan:'계획실행',situational:'상황반응',self:'자기주도',structured:'외부구조',ask:'질문·확인',solve:'자기해결',complete:'완성추구',trial:'시행착오',future:'미래목표',feedback:'즉시피드백'};
   var POLESHORT={deep:'심층',practice:'반복',plan:'계획',situational:'상황',self:'자주',structured:'외구',ask:'질문',solve:'자해',complete:'완성',trial:'시행',future:'미래',feedback:'즉피'};
 
   function latestPerStudent(){
