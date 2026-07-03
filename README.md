@@ -6,18 +6,20 @@
 
 ---
 
-## 업로드 파일 목록 (총 13개)
+## 업로드 파일 목록 (총 15개)
 
 ### 핵심 애플리케이션
 | 파일 | 크기 | 설명 |
 |---|---|---|
 | **index.html** | 1040KB | PRISM 본체. 검사·리포트·관리자 도구 전부 포함. 브라우저로 바로 열림 |
 | **prism_regression.js** | 13KB | 자동 회귀 테스트 도구(개발자용). `node prism_regression.js`로 75개 검사 실행 |
+| **prism_apps_script.gs** | 11KB | 응답 수집 서버(Google Apps Script v2). responses 탭에 시간·이름·짧은 링크 자동 기록. SHEET_ID 설정 후 웹 앱으로 배포 |
+| **build_omr_pdf.py** | 6KB | 설문지+OMR PDF 생성기. index.html에서 96문항을 직접 추출해 패리티 보장. `python3 build_omr_pdf.py` |
 
 ### 오프라인 검사 자료
 | 파일 | 크기 | 설명 |
 |---|---|---|
-| **PRISM_설문지_OMR.pdf** | 215KB | 종이 검사용 7페이지(표지 + 설문 5쪽 + OMR 답안지). 문항 옆 번호 없이 문항만, 번호는 OMR에만 |
+| **PRISM_설문지_OMR.pdf** | 159KB | 종이 검사용 7페이지(표지 + 설문 5쪽 + OMR 답안지). 문항 옆 번호 없이 문항만, 번호는 OMR에만 |
 
 ### 배포 자료
 | 파일 | 크기 | 설명 |
