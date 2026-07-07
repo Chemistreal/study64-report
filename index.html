@@ -6139,7 +6139,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   <div class="paeWrap">
     <div class="paeBar">
       <div class="paeTitle"><b>관리자 · ADMIN</b><h2>OMR 수기 입력 → 리포트 생성</h2></div>
-      <div class="paeSub">각 칸에 <b>1~5 숫자</b>를 키보드로 입력하세요. 숫자를 누르면 자동으로 다음 칸으로 넘어갑니다. <b>← Backspace</b>로 지우며 뒤로, <b>방향키</b>로 칸 이동, <b>Enter</b>로 다음 칸. 96칸을 모두 채우면 검사와 동일한 리포트가 생성됩니다. <b>단축키</b>: Ctrl+S 저장하고 다음, Ctrl+Enter 리포트 생성, Esc 닫기.</div>
+      <div class="paeSub">각 칸에 <b>1~5 숫자</b>를 키보드로 입력하세요. 숫자를 누르면 자동으로 다음 칸으로 넘어갑니다. <b>← Backspace</b>로 지우며 뒤로, <b>방향키</b>로 칸 이동, <b>Enter</b>로 다음 칸. 96칸을 모두 채우면 검사와 동일한 리포트가 생성됩니다. <b>단축키</b>: Ctrl+S 또는 Ctrl+Enter 저장, Esc 닫기.</div>
       <div class="paeRow">
         <input class="paeName" id="paeName" placeholder="학생 이름 또는 닉네임">
         <button class="paeBtn ghost" onclick="prismAdminClear()">전체 지우기</button>
@@ -6264,7 +6264,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
   function onAdminKey(e){
     var panel=$('prismAdminEntry'); if(!panel||!panel.classList.contains('open')) return;
     if(e.key==='Escape'){ e.preventDefault(); window.prismAdminClose(); return; }
-    if((e.ctrlKey||e.metaKey) && (e.key==='s'||e.key==='S')){ e.preventDefault(); if(!$('paeSaveNext').disabled) window.prismAdminSaveNext(); return; }
+    if((e.ctrlKey||e.metaKey) && (e.key==='s'||e.key==='S')){ e.preventDefault(); var _sn=$('paeSaveNext'); if(_sn){ if(!_sn.disabled) window.prismAdminSaveNext(); } else { var _rb=$('paeRun'); if(_rb&&!_rb.disabled) window.prismAdminRun(); } return; }
     if((e.ctrlKey||e.metaKey) && e.key==='Enter'){ e.preventDefault(); if(!$('paeRun').disabled) window.prismAdminRun(); return; }
   }
   window.prismAdminOpen=function(){
@@ -6348,7 +6348,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     try{ answers=ans; }catch(e){}
     try{ localStorage.setItem('studyPatternAnswers', JSON.stringify(ans)); }catch(e){}
     try{ var sn=$('studentName'); if(sn) sn.value=nm; }catch(e){}
-    try{ if(typeof window.prismStoreAdd==='function'){ window.prismStoreAdd(nm, ans, null); } }catch(e){}
+    try{ if(typeof window.prismStoreAdd==='function'){ var __qcR=(typeof window.prismQC_analyze==='function')?window.prismQC_analyze(ans):null; window.prismStoreAdd(nm, ans, __qcR); } }catch(e){}
 
     // 리포트는 화면에 띄우지 않는다: 계산만 수행해 전송 페이로드를 만들고 sendPayload가 자동 발사된다.
     var done=false;
