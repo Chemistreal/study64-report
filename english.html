@@ -235,6 +235,23 @@ footer{border-top:1px solid var(--edge);margin-top:60px;padding:20px 0;color:var
 kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-radius:5px;
   padding:2px 6px;color:var(--fg);background:var(--card2)}
 
+/* 클립 */
+.drop{border:2px dashed var(--edge);border-radius:16px;padding:34px 18px;text-align:center;
+  background:var(--card2);transition:.2s;cursor:pointer}
+.drop:hover,.drop.over{border-color:var(--a1);background:var(--card);box-shadow:var(--glow)}
+.scrub{position:relative;height:44px;border-radius:12px;background:var(--card2);
+  border:1px solid var(--edge);overflow:hidden;cursor:pointer;margin:14px 0 6px}
+.scrub .rng{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,var(--au1),var(--au2));opacity:.55}
+.scrub .ph{position:absolute;top:0;bottom:0;width:2px;background:var(--fg)}
+.scrub .mk{position:absolute;top:0;bottom:0;width:2px;background:var(--a3)}
+.scrub .lb{position:absolute;bottom:3px;font-size:10px;font-family:var(--mono);color:var(--mut);padding:0 4px}
+.clip{border:1px solid var(--edge);border-radius:12px;padding:12px;margin:9px 0;background:var(--card2);transition:.18s}
+.clip:hover{border-color:var(--a1)}
+.clip.on{border-color:var(--a2);box-shadow:var(--glow)}
+.tc{font-family:var(--mono);font-variant-numeric:tabular-nums}
+#mediaHost video{width:100%;max-height:230px;border-radius:12px;background:#000;display:block}
+#mediaHost audio{width:100%;display:block}
+
 /* 자료 카드 */
 .src{border:1px solid var(--edge);border-radius:14px;padding:16px;background:var(--card2);
   margin:10px 0;transition:.2s}
@@ -460,6 +477,73 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     <span class="small mut">음운 대조 자체는 근거표 안이지만 단어 선택은 검증 대상이다.</span>
   </div>
   <div id="mpList"></div>
+</section>
+
+<!-- ========== 클립 ========== -->
+<section id="t-clip" role="tabpanel" hidden>
+  <h2>클립</h2>
+  <p class="lede">가진 파일을 이 기기에서 직접 자른다. 구간과 메모만 저장되고 파일은 어디로도 올라가지 않는다.</p>
+
+  <div class="note">
+    <b>파일은 이 브라우저 밖으로 나가지 않는다.</b>
+    <div class="small" style="margin-top:4px">
+      저장되는 건 파일 이름, 시작과 끝 시각, 라벨, 메모뿐이다. 음성 자체는 저장소에도 서버에도 올라가지 않는다.
+      그래서 저작권 있는 자료도 개인 학습용으로 쓸 수 있다. 대신 그 파일을 저장소에 넣지는 않는다.
+      이 페이지는 공개 주소로 열려 있고 GitHub Pages 에는 비밀번호를 걸 수 없다.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="margin-bottom:12px">
+      <span class="rb a" id="clipRa">A</span><span class="small mut">재생과 구간을 맡는다</span>
+      <span class="grow" style="flex:1"></span>
+      <span class="rb b" id="clipRb">B</span><span class="small mut">듣고 복원한다. 화면을 보지 않는다</span>
+    </div>
+    <div class="drop" id="drop">
+      <div style="font-size:15px;font-weight:700">음성이나 영상 파일을 여기에 끌어다 놓는다</div>
+      <div class="small mut" style="margin-top:4px">또는 눌러서 고른다. mp3, m4a, wav, mp4, webm</div>
+      <input type="file" id="clipFile" accept="audio/*,video/*" hidden>
+    </div>
+    <div id="mediaHost" style="margin-top:14px"></div>
+    <div id="clipCtl" hidden>
+      <div class="scrub" id="scrub">
+        <div class="rng" id="scRng" style="left:0;width:0"></div>
+        <div class="mk" id="scA" style="left:0;display:none"></div>
+        <div class="mk" id="scB" style="left:0;display:none"></div>
+        <div class="ph" id="scPh" style="left:0"></div>
+        <div class="lb" id="scLb" style="left:6px">0:00</div>
+        <div class="lb" id="scLb2" style="right:6px">0:00</div>
+      </div>
+      <div class="row">
+        <button class="g" id="cPlay">재생</button>
+        <button class="g" id="cSetA">A 찍기</button>
+        <button class="g" id="cSetB">B 찍기</button>
+        <button class="g" id="cLoop">구간 반복</button>
+        <button class="g" id="cBack">3초 뒤로</button>
+      </div>
+      <div class="grid g3" style="margin-top:12px">
+        <div><label class="f">속도 <span class="mono" id="cRateN">1.00</span></label>
+          <input type="range" id="cRate" min="0.5" max="1" step="0.05" value="1"></div>
+        <div><label class="f">A 시각</label>
+          <div class="stp"><button data-nud="a" data-d="-0.5">-</button><input id="cA" class="tc" readonly><button data-nud="a" data-d="0.5">+</button></div></div>
+        <div><label class="f">B 시각</label>
+          <div class="stp"><button data-nud="b" data-d="-0.5">-</button><input id="cB" class="tc" readonly><button data-nud="b" data-d="0.5">+</button></div></div>
+      </div>
+      <div class="grid g2" style="margin-top:12px">
+        <div><label class="f">라벨</label><input id="cLabel" placeholder="되묻기 나오는 구간"></div>
+        <div><label class="f">회차 초점</label><select id="cFocus">
+          <option value="1">1회 소리. 어디가 줄었는지</option>
+          <option value="2">2회 청크. 통째로 굴러가는 덩어리</option>
+          <option value="3">3회 의미. 이제 내용을 잡는다</option>
+        </select></div>
+      </div>
+      <div class="row end" style="margin-top:12px"><button class="b" id="cSave">구간 저장</button></div>
+    </div>
+  </div>
+
+  <h3>저장한 구간</h3>
+  <p class="lede">같은 파일을 다시 열면 그대로 이어서 쓴다. 파일 이름으로 맞춘다.</p>
+  <div id="clipList"></div>
 </section>
 
 <!-- ========== 자료 ========== -->
@@ -761,7 +845,7 @@ var KEY="eng2p.v1";
 var S=load();
 
 function blank(){
-  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],theme:null,wk:0,onboarded:false};
+  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],theme:null,wk:0,onboarded:false};
 }
 function load(){
   try{
@@ -838,7 +922,7 @@ function monday(d){ var x=parseISO(d); var w=(x.getDay()+6)%7; x.setDate(x.getDa
 /* =========================================================================
    탭
    ========================================================================= */
-var TABS=[["today","오늘"],["review","복습"],["sound","소리"],["src","자료"],["ledger","대장"],["verify","판정"],["quarter","분기"],
+var TABS=[["today","오늘"],["review","복습"],["sound","소리"],["clip","클립"],["src","자료"],["ledger","대장"],["verify","판정"],["quarter","분기"],
           ["SEP",""],["check","검사"],["rot","회전"],["SEP",""],["rules","규칙"]];
 function buildNav(){
   var n=$("#nav");
@@ -862,6 +946,7 @@ function go(name){
   if(name==="review") renderReview();
   if(name==="sound") renderSound();
   if(name==="src") renderSrc();
+  if(name==="clip") renderClip();
   if(name==="ledger") renderLedger();
   if(name==="verify") renderVerify();
   if(name==="quarter") renderQuarter();
@@ -1900,6 +1985,181 @@ $("#vPairPush").onclick=function(){
 };
 
 /* =========================================================================
+   클립. 로컬 파일 구간 반복.
+   파일은 objectURL 로만 다룬다. 업로드도 저장도 하지 않는다.
+   남는 것은 파일 이름과 시각과 메모뿐이다.
+   ========================================================================= */
+var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1};
+
+function mmss(s){
+  if(s==null||isNaN(s)) return "-";
+  s=Math.max(0,s);
+  var m=Math.floor(s/60), r=s-m*60;
+  return m+":"+(r<10?"0":"")+r.toFixed(1);
+}
+function loadMedia(file){
+  if(CLIP.url) URL.revokeObjectURL(CLIP.url);
+  CLIP.file=file; CLIP.url=URL.createObjectURL(file);
+  var isVid=/^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name);
+  var host=$("#mediaHost"); host.innerHTML="";
+  var m=document.createElement(isVid?"video":"audio");
+  m.src=CLIP.url; m.controls=true; m.preload="metadata";
+  try{ m.preservesPitch=true; m.mozPreservesPitch=true; m.webkitPreservesPitch=true; }catch(e){}
+  host.appendChild(m); CLIP.el=m; CLIP.a=null; CLIP.b=null; CLIP.loop=false;
+  $("#cLoop").classList.remove("on");
+  $("#clipCtl").hidden=false;
+  m.addEventListener("loadedmetadata",function(){ paintScrub(); renderClip(); });
+  m.addEventListener("timeupdate",function(){
+    if(CLIP.loop&&CLIP.a!=null&&CLIP.b!=null&&m.currentTime>=CLIP.b){ m.currentTime=CLIP.a; }
+    paintScrub();
+  });
+  m.addEventListener("play",function(){ $("#cPlay").textContent="일시정지"; });
+  m.addEventListener("pause",function(){ $("#cPlay").textContent="재생"; });
+  m.playbackRate=+$("#cRate").value||1;
+  paintScrub(); renderClip();
+}
+function dur(){ return (CLIP.el&&CLIP.el.duration&&isFinite(CLIP.el.duration))?CLIP.el.duration:0; }
+function paintScrub(){
+  var d=dur();
+  var t2=CLIP.el?CLIP.el.currentTime:0;
+  $("#cA").value=mmss(CLIP.a); $("#cB").value=mmss(CLIP.b);
+  if(!d) return;
+  $("#scPh").style.left=(t2/d*100)+"%";
+  $("#scLb").textContent=mmss(t2);
+  $("#scLb2").textContent=mmss(d);
+  var A=$("#scA"), B=$("#scB"), R=$("#scRng");
+  if(CLIP.a!=null){ A.style.display="block"; A.style.left=(CLIP.a/d*100)+"%"; } else A.style.display="none";
+  if(CLIP.b!=null){ B.style.display="block"; B.style.left=(CLIP.b/d*100)+"%"; } else B.style.display="none";
+  if(CLIP.a!=null&&CLIP.b!=null&&CLIP.b>CLIP.a){
+    R.style.left=(CLIP.a/d*100)+"%"; R.style.width=((CLIP.b-CLIP.a)/d*100)+"%";
+  } else { R.style.width="0"; }
+}
+function renderClip(){
+  var box=$("#clipList"); if(!box) return;
+  var A=roleOf(today())==="a"?S.names.a:S.names.b;
+  var B=roleOf(today())==="a"?S.names.b:S.names.a;
+  var ra=$("#clipRa"), rb=$("#clipRb");
+  if(ra) ra.textContent="A "+A;
+  if(rb) rb.textContent="B "+B;
+
+  box.innerHTML="";
+  if(!S.clips.length){
+    box.innerHTML='<div class="note small">저장한 구간이 없다. 파일을 열고 A와 B를 찍은 뒤 저장한다.</div>';
+    return;
+  }
+  var cur=CLIP.file?CLIP.file.name:null;
+  var groups={};
+  S.clips.forEach(function(c,i){ (groups[c.f]=groups[c.f]||[]).push({c:c,i:i}); });
+  Object.keys(groups).sort().forEach(function(fname){
+    var h=el("div","row"); h.style.marginTop="14px";
+    h.appendChild(el("b",null,fname));
+    h.appendChild(el("span","tag"+(fname===cur?" o":""), fname===cur?"열려 있음":"파일을 다시 열면 재생된다"));
+    box.appendChild(h);
+    groups[fname].forEach(function(x){
+      var c=x.c, i=x.i;
+      var d=el("div","clip"+(CLIP.active===i?" on":""));
+      var top=el("div","hd2");
+      var left=el("div");
+      left.appendChild(el("b",null,c.label||"무제"));
+      left.appendChild(el("div","small mut tc",
+        mmss(c.a)+"  ~  "+mmss(c.b)+"   ("+(c.b-c.a).toFixed(1)+"초)   ·   "+c.focus+"회 초점"));
+      top.appendChild(left);
+      var acts=el("div","row"); acts.style.gap="8px";
+      if(fname===cur){
+        var play=el("button","g","구간 재생");
+        play.style.padding="3px 10px"; play.style.fontSize="12px";
+        play.onclick=function(){
+          CLIP.a=c.a; CLIP.b=c.b; CLIP.loop=true; CLIP.active=i;
+          $("#cLoop").classList.add("on");
+          CLIP.el.currentTime=c.a; CLIP.el.play(); paintScrub(); renderClip();
+        };
+        acts.appendChild(play);
+      }
+      var del=el("button","del","삭제");
+      del.onclick=function(){
+        var gone=S.clips.splice(i,1)[0]; save(); renderClip();
+        offerUndo("구간 1개 삭제",function(){ S.clips.splice(i,0,gone); renderClip(); });
+      };
+      acts.appendChild(del);
+      top.appendChild(acts); d.appendChild(top);
+
+      var row=el("div","row"); row.style.marginTop="10px";
+      var inp=el("input"); inp.placeholder="여기서 들린 표현을 적는다";
+      inp.style.flex="1"; inp.style.minWidth="170px"; inp.value=c.note||"";
+      inp.oninput=function(){ c.note=inp.value; save(); };
+      var send=el("button","g","채집으로");
+      send.onclick=function(){
+        var e2=(c.note||"").trim();
+        if(!e2){ inp.focus(); flash("들린 표현을 먼저 적는다"); return; }
+        day(today()).coll.push({e:e2, s:fname+" "+mmss(c.a)+"-"+mmss(c.b), q:c.label||"", k:"", done:false});
+        save(); renderColl(); flash("채집으로 보냈다");
+        offerUndo("채집 1건 추가",function(){ day(today()).coll.pop(); renderColl(); });
+      };
+      row.appendChild(inp); row.appendChild(send);
+      d.appendChild(row);
+      box.appendChild(d);
+    });
+  });
+}
+
+$("#drop").onclick=function(){ $("#clipFile").click(); };
+$("#clipFile").onchange=function(e){ if(e.target.files[0]) loadMedia(e.target.files[0]); };
+["dragenter","dragover"].forEach(function(ev){
+  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.add("over"); });
+});
+["dragleave","drop"].forEach(function(ev){
+  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.remove("over"); });
+});
+$("#drop").addEventListener("drop",function(e){
+  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+  if(f) loadMedia(f);
+});
+$("#cPlay").onclick=function(){ if(!CLIP.el) return; if(CLIP.el.paused) CLIP.el.play(); else CLIP.el.pause(); };
+$("#cSetA").onclick=function(){
+  if(!CLIP.el) return;
+  CLIP.a=+CLIP.el.currentTime.toFixed(1);
+  if(CLIP.b!=null&&CLIP.b<=CLIP.a) CLIP.b=null;
+  paintScrub();
+};
+$("#cSetB").onclick=function(){
+  if(!CLIP.el) return;
+  CLIP.b=+CLIP.el.currentTime.toFixed(1);
+  if(CLIP.a!=null&&CLIP.a>=CLIP.b) CLIP.a=null;
+  paintScrub();
+};
+$("#cLoop").onclick=function(){
+  if(CLIP.a==null||CLIP.b==null){ flash("A와 B를 먼저 찍는다"); return; }
+  CLIP.loop=!CLIP.loop; this.classList.toggle("on",CLIP.loop);
+  if(CLIP.loop&&CLIP.el){ CLIP.el.currentTime=CLIP.a; CLIP.el.play(); }
+};
+$("#cBack").onclick=function(){ if(CLIP.el) CLIP.el.currentTime=Math.max(0,CLIP.el.currentTime-3); };
+$("#cRate").oninput=function(){
+  $("#cRateN").textContent=(+this.value).toFixed(2);
+  if(CLIP.el) CLIP.el.playbackRate=+this.value;
+};
+document.querySelectorAll("[data-nud]").forEach(function(b){
+  b.onclick=function(){
+    var k=b.dataset.nud, d=+b.dataset.d;
+    if(CLIP[k]==null) return;
+    CLIP[k]=Math.max(0,+(CLIP[k]+d).toFixed(1));
+    paintScrub();
+  };
+});
+$("#scrub").onclick=function(e){
+  if(!CLIP.el||!dur()) return;
+  var r=this.getBoundingClientRect();
+  CLIP.el.currentTime=(e.clientX-r.left)/r.width*dur();
+  paintScrub();
+};
+$("#cSave").onclick=function(){
+  if(!CLIP.file){ flash("파일을 먼저 연다"); return; }
+  if(CLIP.a==null||CLIP.b==null||CLIP.b<=CLIP.a){ flash("A와 B를 찍는다"); return; }
+  S.clips.push({f:CLIP.file.name,a:CLIP.a,b:CLIP.b,label:$("#cLabel").value.trim(),
+    focus:+$("#cFocus").value,note:"",date:today()});
+  $("#cLabel").value=""; save(); renderClip(); flash("구간을 저장했다");
+};
+
+/* =========================================================================
    자료. 조준표.
    음성은 만들지 않고 겨눈다. 라이선스를 확인한 것만 올린다.
    ========================================================================= */
@@ -2065,7 +2325,7 @@ applyTheme();
 $("#themeBtn").textContent = S.theme==null ? "테마" : S.theme==="dark" ? "어두움" : "밝음";
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
 renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind();
-ttsVoices(); renderSound();
+ttsVoices(); renderSound(); renderClip();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });
 </script>
