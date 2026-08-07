@@ -37,5 +37,9 @@
 | out/lectures/eng2p_q1_l022.md | 시간과 장소에 쓰는 고빈도 덩어리 목록과 전치사 대응 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l023.md | 시간 벌기 표현 세 묶음과 각 묶음이 버는 시간의 길이 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l024.md | 대화를 여닫는 표현의 단계 구성과 각 단계의 대표 형태 | 보류 | 보류 |
+| out/lectures/eng2p_q2_l025.md | 선언 지식과 절차 지식의 구분, 자동화된 상태를 학습자가 스스로 못 알아본다는 서술 | 완료 | 통과 |
+| out/lectures/eng2p_q2_l026.md | 600 목록을 여덟 자리로 나누는 구분과 자리별 배분 수 | 보류 | 보류 |
+| out/lectures/eng2p_q2_l027.md | 시작 덩어리 목록과 자리별 쓰임 | 보류 | 보류 |
+| out/lectures/eng2p_q2_l028.md | gimme, lemme, dunno, cuz 의 철자 표기와 맞장구 소리의 형태 | 완료 | 통과 |
 
-대기 0건 / 보류 7건 / 전체 18건
+대기 0건 / 보류 9건 / 전체 22건
