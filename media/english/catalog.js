@@ -17,7 +17,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-01.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/02/08/49485bf8-4277-47f6-9abe-617ee2473f8c.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50.mp4?cb=edc3e5eec",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-one/3111026.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-one/3111026.html",
+      "image": "media/english/images/lle1-01.webp",
+      "transcript": "media/english/transcripts/lle1-01.md",
+      "lessonData": "media/english/lessons/lle1-01.json",
+      "worksheet": "media/english/worksheets/lle1-01.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-02",
@@ -29,7 +38,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-02.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/02/10/56246d7b-5fa4-42d2-90b0-d403e6b46227.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/4/42/4298a2ba-d665-4b1c-aaa1-502bbcb9b88d.mp4?cb=edc3e6218",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-2-hello/3113733.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-2-hello/3113733.html",
+      "image": "media/english/images/lle1-02.webp",
+      "transcript": "media/english/transcripts/lle1-02.md",
+      "lessonData": "media/english/lessons/lle1-02.json",
+      "worksheet": "media/english/worksheets/lle1-02.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-03",
@@ -41,7 +61,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-03.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/02/18/a82baaf4-0a91-4d43-8ab6-78f72cef8fce.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/0/02/027f8fdd-e9b0-409c-8618-45be49fcefe8.mp4?cb=ecfb9e14d",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-3-i-am-here/3126527.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-3-i-am-here/3126527.html",
+      "image": "media/english/images/lle1-03.webp",
+      "transcript": "media/english/transcripts/lle1-03.md",
+      "lessonData": "media/english/lessons/lle1-03.json",
+      "worksheet": "media/english/worksheets/lle1-03.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-04",
@@ -53,7 +84,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-04.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/02/26/af0324f6-67c5-4c0c-ab42-abb0cd33817c.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/c/c8/c829a13b-9764-4b89-ad70-1edbdc3d8013.mp4?cb=ecfb9e17b",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-4/3168920.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-4/3168920.html",
+      "image": "media/english/images/lle1-04.webp",
+      "transcript": "media/english/transcripts/lle1-04.md",
+      "lessonData": "media/english/lessons/lle1-04.json",
+      "worksheet": "media/english/worksheets/lle1-04.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-05",
@@ -65,7 +107,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-05.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/03/01/ab9c2944-eddc-4806-9296-290bfa8c6ff2.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/c/ce/ce630bdd-1ffd-4c63-aca7-4bdff50fc7ba.mp4?cb=ed0a575e6",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-5-where-are-you/3168971.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-5-where-are-you/3168971.html",
+      "image": "media/english/images/lle1-05.webp",
+      "transcript": "media/english/transcripts/lle1-05.md",
+      "lessonData": "media/english/lessons/lle1-05.json",
+      "worksheet": "media/english/worksheets/lle1-05.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-06",
@@ -77,7 +128,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-06.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/03/10/66b63229-1dc5-40ab-886d-1f4b891adf6b.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/1/17/17b61020-32a1-4021-9575-adbf9ee76979.mp4?cb=ecfb9e2bf",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-6-where-is-the-gym/3225958.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-6-where-is-the-gym/3225958.html",
+      "image": "media/english/images/lle1-06.webp",
+      "transcript": "media/english/transcripts/lle1-06.md",
+      "lessonData": "media/english/lessons/lle1-06.json",
+      "worksheet": "media/english/worksheets/lle1-06.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-07",
@@ -89,7 +149,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-07.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/03/16/5d724fbc-a907-4a48-9221-c1813d248168.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/5/54/54ebe82e-9578-4c39-9ca9-42dae639be4f.mp4?cb=ecfb9e2d5",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-7-what-are-you-doing/3240468.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-7-what-are-you-doing/3240468.html",
+      "image": "media/english/images/lle1-07.webp",
+      "transcript": "media/english/transcripts/lle1-07.md",
+      "lessonData": "media/english/lessons/lle1-07.json",
+      "worksheet": "media/english/worksheets/lle1-07.pdf",
+      "grade": "C-real",
+      "speakerCount": 5,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (5명)"
+      ]
     },
     {
       "id": "lle1-08",
@@ -101,7 +172,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-08.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/03/25/ae6c5055-13ae-485b-995d-b347125ecf10.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/e/ee/ee277d1c-017b-4b98-9491-8de08a76122e.mp4?cb=ecfb9e192",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-8-are-you-busy/3253185.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-8-are-you-busy/3253185.html",
+      "image": "media/english/images/lle1-08.webp",
+      "transcript": "media/english/transcripts/lle1-08.md",
+      "lessonData": "media/english/lessons/lle1-08.json",
+      "worksheet": "media/english/worksheets/lle1-08.pdf",
+      "grade": "C-real",
+      "speakerCount": 6,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (6명)"
+      ]
     },
     {
       "id": "lle1-09",
@@ -113,7 +195,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-09.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/04/01/fe67e651-87d0-4b62-9c68-749b2d3c2f21.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/4/44/44b5b429-02aa-45c0-ac5a-cde704945b4b.mp4?cb=ecfb9e1a6",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-9-is-it-cold/3261789.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-9-is-it-cold/3261789.html",
+      "image": "media/english/images/lle1-09.webp",
+      "transcript": "media/english/transcripts/lle1-09.md",
+      "lessonData": "media/english/lessons/lle1-09.json",
+      "worksheet": "media/english/worksheets/lle1-09.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-10",
@@ -125,7 +216,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-10.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/04/14/442a6a50-693e-411f-8cff-99e40d16614c.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/06/3/3e/3ec2bbef-f064-4545-bbdd-74f2a695e141.mp4?cb=ecfb9e2ea",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-10/3285228.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-10/3285228.html",
+      "image": "media/english/images/lle1-10.webp",
+      "transcript": "media/english/transcripts/lle1-10.md",
+      "lessonData": "media/english/lessons/lle1-10.json",
+      "worksheet": "media/english/worksheets/lle1-10.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-11",
@@ -137,7 +237,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-11.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/04/20/de238e35-97b9-4c21-81e3-e3c26fbeccaa.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/9/93/932ae001-a462-4158-8e25-399289a46ec9.mp4?cb=ecfb9e1b9",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-11-this-is-my-neighborhood/3293986.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-11-this-is-my-neighborhood/3293986.html",
+      "image": "media/english/images/lle1-11.webp",
+      "transcript": "media/english/transcripts/lle1-11.md",
+      "lessonData": "media/english/lessons/lle1-11.json",
+      "worksheet": "media/english/worksheets/lle1-11.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-12",
@@ -149,7 +258,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-12.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/04/28/d1527ef7-587d-45b5-b3cc-fecbe37167ab.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/05/6/67/671fbaf2-668e-49a3-9828-a0639d1ce3d5.mp4?cb=ecfb9e304",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-12-meet-my-family/3301733.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-12-meet-my-family/3301733.html",
+      "image": "media/english/images/lle1-12.webp",
+      "transcript": "media/english/transcripts/lle1-12.md",
+      "lessonData": "media/english/lessons/lle1-12.json",
+      "worksheet": "media/english/worksheets/lle1-12.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-13",
@@ -161,7 +279,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-13.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/05/05/a7673055-e023-4593-9372-06d61ee8afd9.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/7/73/73103ed5-8133-4a1a-9219-cfef86973f25.mp4?cb=edc3fa7ae",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-13-happy-birthday-william-shakespeare/3312239.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-13-happy-birthday-william-shakespeare/3312239.html",
+      "image": "media/english/images/lle1-13.webp",
+      "transcript": "media/english/transcripts/lle1-13.md",
+      "lessonData": "media/english/lessons/lle1-13.json",
+      "worksheet": "media/english/worksheets/lle1-13.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-14",
@@ -173,7 +300,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-14.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/05/11/f3b56fb5-23f9-4668-bae1-d98ab8967e50.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/3/3d/3d8d63a8-2984-4469-9737-d34b0d519506.mp4?cb=edc3fa9f5",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-14-how-about-this/3323771.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-14-how-about-this/3323771.html",
+      "image": "media/english/images/lle1-14.webp",
+      "transcript": "media/english/transcripts/lle1-14.md",
+      "lessonData": "media/english/lessons/lle1-14.json",
+      "worksheet": "media/english/worksheets/lle1-14.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-15",
@@ -185,7 +321,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-15.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/05/31/b08ceeac-8274-4e2d-b678-2cd30ba31f4f.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/b/b0/b07eac5a-cc3a-4f3e-821c-ecae337b5415.mp4?cb=edc3fab67",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-15-i-love-people-watching/3343720.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-15-i-love-people-watching/3343720.html",
+      "image": "media/english/images/lle1-15.webp",
+      "transcript": "media/english/transcripts/lle1-15.md",
+      "lessonData": "media/english/lessons/lle1-15.json",
+      "worksheet": "media/english/worksheets/lle1-15.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-16",
@@ -197,7 +344,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-16.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/06/02/869a701e-1242-4c34-a679-7a9454a770f1.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/d/dd/ddc153c2-e1b2-4d09-b8ba-67172e1f88fe.mp4?cb=edc3faf05",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-16-where-are-you-from/3355849.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-16-where-are-you-from/3355849.html",
+      "image": "media/english/images/lle1-16.webp",
+      "transcript": "media/english/transcripts/lle1-16.md",
+      "lessonData": "media/english/lessons/lle1-16.json",
+      "worksheet": "media/english/worksheets/lle1-16.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-17",
@@ -209,7 +367,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-17.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/06/07/3cb6442c-001f-4fd7-bf37-7507a49e89e4.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/f/fb/fbb85647-eaa9-4ca4-801e-c4c085593d89.mp4?cb=edc3fb114",
-      "page": "https://learningenglish.voanews.com/a/are-you-free-on-friday-lets-learn-english/3355785.html"
+      "page": "https://learningenglish.voanews.com/a/are-you-free-on-friday-lets-learn-english/3355785.html",
+      "image": "media/english/images/lle1-17.webp",
+      "transcript": "media/english/transcripts/lle1-17.md",
+      "lessonData": "media/english/lessons/lle1-17.json",
+      "worksheet": "media/english/worksheets/lle1-17.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-18",
@@ -221,7 +388,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-18.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/06/15/6581d80f-fd20-40f9-b363-3f998c3f1142.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/a/aa/aa81937e-fc02-4d62-9f34-e8b432538615.mp4?cb=edc3fb36f",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-18-she-always-does-that/3357748.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-18-she-always-does-that/3357748.html",
+      "image": "media/english/images/lle1-18.webp",
+      "transcript": "media/english/transcripts/lle1-18.md",
+      "lessonData": "media/english/lessons/lle1-18.json",
+      "worksheet": "media/english/worksheets/lle1-18.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-19",
@@ -233,7 +409,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-19.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/06/20/11279270-a48f-4bca-851e-e6477329717b.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/8/87/87817c7f-1ceb-47ae-9e56-c90081179223.mp4?cb=edc3fb68f",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-19-when-do-you-start/3357760.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-19-when-do-you-start/3357760.html",
+      "image": "media/english/images/lle1-19.webp",
+      "transcript": "media/english/transcripts/lle1-19.md",
+      "lessonData": "media/english/lessons/lle1-19.json",
+      "worksheet": "media/english/worksheets/lle1-19.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-20",
@@ -245,7 +430,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-20.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/06/29/8225db0f-179b-453f-92bb-50f548175c42.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/06/5/5d/5d078c81-3fa1-4101-9d0f-9cbab2c671ce.mp4?cb=ecfb9e1dc",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-20-what-can-you-do/3384429.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-20-what-can-you-do/3384429.html",
+      "image": "media/english/images/lle1-20.webp",
+      "transcript": "media/english/transcripts/lle1-20.md",
+      "lessonData": "media/english/lessons/lle1-20.json",
+      "worksheet": "media/english/worksheets/lle1-20.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-21",
@@ -257,7 +453,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-21.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/07/11/e0c9e4c4-584b-4bd7-a4d5-a4b1f7bdfa8f.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/3/38/38946ff6-eee8-4acc-a3fc-759121fd6313.mp4?cb=edc3fbab8",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-21-can-you-come-to-the-party/3406732.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-21-can-you-come-to-the-party/3406732.html",
+      "image": "media/english/images/lle1-21.webp",
+      "transcript": "media/english/transcripts/lle1-21.md",
+      "lessonData": "media/english/lessons/lle1-21.json",
+      "worksheet": "media/english/worksheets/lle1-21.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-22",
@@ -269,7 +474,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-22.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/07/25/2dc70acb-f8c2-4e93-9e8d-e3d37348d819.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/6/6f/6f09d624-a8a7-4ce8-a972-1a7bfed06679.mp4?cb=edc3fc2cc",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-22/3397314.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-22/3397314.html",
+      "image": "media/english/images/lle1-22.webp",
+      "transcript": "media/english/transcripts/lle1-22.md",
+      "lessonData": "media/english/lessons/lle1-22.json",
+      "worksheet": "media/english/worksheets/lle1-22.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-23",
@@ -281,7 +495,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-23.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/07/27/f5ba9389-58a1-4643-9ec4-3bbfcd8c96e6.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/e/e7/e7759765-b3e3-4624-a927-0cc2326eb311.mp4?cb=edc3fc3cf",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-23-what-do-you-want/3413753.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-23-what-do-you-want/3413753.html",
+      "image": "media/english/images/lle1-23.webp",
+      "transcript": "media/english/transcripts/lle1-23.md",
+      "lessonData": "media/english/lessons/lle1-23.json",
+      "worksheet": "media/english/worksheets/lle1-23.pdf",
+      "grade": "C-real",
+      "speakerCount": 5,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (5명)"
+      ]
     },
     {
       "id": "lle1-24",
@@ -293,7 +518,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-24.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/07/29/7202578e-98dd-4e93-8a9b-166c72f520ea.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/2/24/240be8a1-701d-4fd2-b6f0-5fa9dda5d188.mp4?cb=edc3fc52e",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-24-yesterday-was-amazing/3439164.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-24-yesterday-was-amazing/3439164.html",
+      "image": "media/english/images/lle1-24.webp",
+      "transcript": "media/english/transcripts/lle1-24.md",
+      "lessonData": "media/english/lessons/lle1-24.json",
+      "worksheet": "media/english/worksheets/lle1-24.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-25",
@@ -305,7 +539,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-25.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/08/16/c98eed28-bb2e-4055-9d08-6f7834b85aa9.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/3/35/35095de1-0ff5-48bf-815c-5dab66a55a2f.mp4?cb=edc3fc754",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-25-watch-out/3431138.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-25-watch-out/3431138.html",
+      "image": "media/english/images/lle1-25.webp",
+      "transcript": "media/english/transcripts/lle1-25.md",
+      "lessonData": "media/english/lessons/lle1-25.json",
+      "worksheet": "media/english/worksheets/lle1-25.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-26",
@@ -317,7 +562,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-26.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/08/21/5085086e-5053-401a-9f9c-826aabe8abcb.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/b/b9/b9ddf673-07ec-4557-b33d-37cf6315e3e3.mp4?cb=edc3fc9d6",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-26-this-game-is-fun/3457248.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-26-this-game-is-fun/3457248.html",
+      "image": "media/english/images/lle1-26.webp",
+      "transcript": "media/english/transcripts/lle1-26.md",
+      "lessonData": "media/english/lessons/lle1-26.json",
+      "worksheet": "media/english/worksheets/lle1-26.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-27",
@@ -329,7 +585,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-27.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/08/30/4b0918a8-33b1-4b9d-8d88-f54d8a1be9ea.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/0/00/0025af70-3442-45fb-8417-f12d5592761a.mp4?cb=edc3fcb90",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-27-i-cant-come-in/3457316.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-27-i-cant-come-in/3457316.html",
+      "image": "media/english/images/lle1-27.webp",
+      "transcript": "media/english/transcripts/lle1-27.md",
+      "lessonData": "media/english/lessons/lle1-27.json",
+      "worksheet": "media/english/worksheets/lle1-27.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-28",
@@ -341,7 +606,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-28.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/09/08/a087a1f8-4939-4f40-8612-e99605e88caf.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/d/d2/d2a1c2bf-0655-4eab-b4dc-60e15cd64ed9.mp4?cb=edc3fcd85",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-28-i-passed-it/3487865.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-28-i-passed-it/3487865.html",
+      "image": "media/english/images/lle1-28.webp",
+      "transcript": "media/english/transcripts/lle1-28.md",
+      "lessonData": "media/english/lessons/lle1-28.json",
+      "worksheet": "media/english/worksheets/lle1-28.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-29",
@@ -353,7 +627,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-29.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/09/15/e7c6ba11-8320-4bcc-8fc5-27fa4e385e23.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/4/44/4448c192-ea38-4ddd-a68b-dc1adf515180.mp4?cb=edc3fcffb",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-29-a-long-time-ago/3509519.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-29-a-long-time-ago/3509519.html",
+      "image": "media/english/images/lle1-29.webp",
+      "transcript": "media/english/transcripts/lle1-29.md",
+      "lessonData": "media/english/lessons/lle1-29.json",
+      "worksheet": "media/english/worksheets/lle1-29.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-30",
@@ -365,7 +650,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-30.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/09/27/a8dbb32b-ada5-4441-a2d1-340924241a4b.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/c/cc/cc4d97ac-b23a-4c71-a915-205f1bac86fc.mp4?cb=edc40d53c",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-30-rolling-river/3522798.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-30-rolling-river/3522798.html",
+      "image": "media/english/images/lle1-30.webp",
+      "transcript": "media/english/transcripts/lle1-30.md",
+      "lessonData": "media/english/lessons/lle1-30.json",
+      "worksheet": "media/english/worksheets/lle1-30.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-31",
@@ -377,7 +671,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-31.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/10/06/81890cf1-5a16-4426-87db-fdb240c750cc.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/2/2f/2f34a0bc-9aad-45d3-b918-748706bad539.mp4?cb=edc40d617",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-31-take-me-out-to-the-ball-game/3535235.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-31-take-me-out-to-the-ball-game/3535235.html",
+      "image": "media/english/images/lle1-31.webp",
+      "transcript": "media/english/transcripts/lle1-31.md",
+      "lessonData": "media/english/lessons/lle1-31.json",
+      "worksheet": "media/english/worksheets/lle1-31.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-32",
@@ -389,7 +694,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-32.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/10/13/054d9504-47b3-4cc2-80d1-cb66fff404e4.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/8/8e/8e1a9678-e224-4d51-b9ac-fa05d9991d16.mp4?cb=edc40d74a",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-32-welcome-treehouse/3547306.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-32-welcome-treehouse/3547306.html",
+      "image": "media/english/images/lle1-32.webp",
+      "transcript": "media/english/transcripts/lle1-32.md",
+      "lessonData": "media/english/lessons/lle1-32.json",
+      "worksheet": "media/english/worksheets/lle1-32.pdf",
+      "grade": "C-real",
+      "speakerCount": 9,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (9명)"
+      ]
     },
     {
       "id": "lle1-33",
@@ -401,7 +717,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-33.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/10/21/f7144253-3403-4acd-9e09-9c31443113f7.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/0/0c/0c930ce2-1638-4d5d-a528-a4390e235a16.mp4?cb=edc40d992",
-      "page": "https://learningenglish.voanews.com/a/lesson-33-learning-americas-sport/3555047.html"
+      "page": "https://learningenglish.voanews.com/a/lesson-33-learning-americas-sport/3555047.html",
+      "image": "media/english/images/lle1-33.webp",
+      "transcript": "media/english/transcripts/lle1-33.md",
+      "lessonData": "media/english/lessons/lle1-33.json",
+      "worksheet": "media/english/worksheets/lle1-33.pdf",
+      "grade": "C-real",
+      "speakerCount": 6,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (6명)"
+      ]
     },
     {
       "id": "lle1-34",
@@ -413,7 +740,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-34.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/10/26/a9095f28-b489-4110-98fd-7ce6be485793.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2016/10/4/4c/4c642de9-0bd8-4c9e-9b6c-0e8ab41af1ef.mp4?cb=ecfaab19f",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-34-what-will-i-do/3566043.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-34-what-will-i-do/3566043.html",
+      "image": "media/english/images/lle1-34.webp",
+      "transcript": "media/english/transcripts/lle1-34.md",
+      "lessonData": "media/english/lessons/lle1-34.json",
+      "worksheet": "media/english/worksheets/lle1-34.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-35",
@@ -425,7 +763,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-35.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/11/02/0c67a47c-b66d-4d36-85f5-41dca2d12bde.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/9/96/961080a9-4397-411e-a79f-dfa874e4c5ca.mp4?cb=edc43ab4c",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-35-lets-make-dinner/3571922.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-35-lets-make-dinner/3571922.html",
+      "image": "media/english/images/lle1-35.webp",
+      "transcript": "media/english/transcripts/lle1-35.md",
+      "lessonData": "media/english/lessons/lle1-35.json",
+      "worksheet": "media/english/worksheets/lle1-35.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-36",
@@ -437,7 +784,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-36.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/11/14/65b768cd-1b20-4074-beb4-3279d8f8e715.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/6/6f/6f867a3f-a8f1-4a89-b18c-892f85e60d35.mp4?cb=edc43ad5a",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-36-i-can-fix-this/3568962.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-36-i-can-fix-this/3568962.html",
+      "image": "media/english/images/lle1-36.webp",
+      "transcript": "media/english/transcripts/lle1-36.md",
+      "lessonData": "media/english/lessons/lle1-36.json",
+      "worksheet": "media/english/worksheets/lle1-36.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-37",
@@ -449,7 +805,18 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-37.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/11/17/a0f8f1e0-4d24-425c-8db5-0322d86f3de9.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/4/46/4619beb2-18dd-45cb-a55a-42989d3beeec.mp4?cb=edc43aeeb",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-37-lets-agree-to-disagree/3574029.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-37-lets-agree-to-disagree/3574029.html",
+      "image": "media/english/images/lle1-37.webp",
+      "transcript": "media/english/transcripts/lle1-37.md",
+      "lessonData": "media/english/lessons/lle1-37.json",
+      "worksheet": "media/english/worksheets/lle1-37.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-38",
@@ -461,7 +828,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-38.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/12/01/7b357de6-9247-45fd-8e49-77197599f6d5.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/1/1d/1d74e0d6-82c0-4782-bebd-e5bbd65a8057.mp4?cb=edc43b190",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-38-shes-my-best-friend/3591967.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-38-shes-my-best-friend/3591967.html",
+      "image": "media/english/images/lle1-38.webp",
+      "transcript": "media/english/transcripts/lle1-38.md",
+      "lessonData": "media/english/lessons/lle1-38.json",
+      "worksheet": "media/english/worksheets/lle1-38.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-39",
@@ -473,7 +849,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-39.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/12/02/5fd0aa74-ef38-40c2-85fb-47f536c14e28.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/0/08/088b68c0-58b8-46dc-9796-d6c542e3d44e.mp4?cb=edc43b603",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-39-its-unbelieveable/3598920.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-39-its-unbelieveable/3598920.html",
+      "image": "media/english/images/lle1-39.webp",
+      "transcript": "media/english/transcripts/lle1-39.md",
+      "lessonData": "media/english/lessons/lle1-39.json",
+      "worksheet": "media/english/worksheets/lle1-39.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-40",
@@ -485,7 +870,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-40.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2016/12/29/b24ae633-80a3-46e9-afc8-5e2719ed1fa7.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/a/ac/ac4d5f85-718e-433f-a4e6-989e842db20a.mp4?cb=edc43b8b5",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-40-the-woods-are-alive/3630341.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-40-the-woods-are-alive/3630341.html",
+      "image": "media/english/images/lle1-40.webp",
+      "transcript": "media/english/transcripts/lle1-40.md",
+      "lessonData": "media/english/lessons/lle1-40.json",
+      "worksheet": "media/english/worksheets/lle1-40.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-41",
@@ -497,7 +891,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-41.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/01/05/64e9d749-33ff-4b41-934d-9f44e81cfea0.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/b/bb/bb252e9e-dc85-4281-9e24-133f65290c88.mp4?cb=edc43bac9",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-41-teamwork/3635015.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-41-teamwork/3635015.html",
+      "image": "media/english/images/lle1-41.webp",
+      "transcript": "media/english/transcripts/lle1-41.md",
+      "lessonData": "media/english/lessons/lle1-41.json",
+      "worksheet": "media/english/worksheets/lle1-41.pdf",
+      "grade": "C-real",
+      "speakerCount": 5,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-42",
@@ -509,7 +912,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-42.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/01/12/51393a0f-7412-4703-8f47-866cfd57955c.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/e/e7/e7e1cf42-37e1-440d-b1fa-de80ec67283d.mp4?cb=edc43be94",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-42-i-was-minding-my-own-business/3647264.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-42-i-was-minding-my-own-business/3647264.html",
+      "image": "media/english/images/lle1-42.webp",
+      "transcript": "media/english/transcripts/lle1-42.md",
+      "lessonData": "media/english/lessons/lle1-42.json",
+      "worksheet": "media/english/worksheets/lle1-42.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-43",
@@ -521,7 +933,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-43.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/01/18/b97c84f3-f68d-4b35-bf71-9c369a107e82.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/9/9b/9b044a43-6f81-4c9d-9724-f48a5e1a6da7.mp4?cb=edc47a5ce",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-43-time-for-plan-b/3666458.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-43-time-for-plan-b/3666458.html",
+      "image": "media/english/images/lle1-43.webp",
+      "transcript": "media/english/transcripts/lle1-43.md",
+      "lessonData": "media/english/lessons/lle1-43.json",
+      "worksheet": "media/english/worksheets/lle1-43.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-44",
@@ -533,7 +954,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-44.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/01/30/e8edcdf8-a252-41eb-af50-d1337bbb614f.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/1/1b/1b5c7537-8259-49ea-870c-abec2a1b94d1.mp4?cb=edc47a83a",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-44-making-healthy-choices/3688552.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-44-making-healthy-choices/3688552.html",
+      "image": "media/english/images/lle1-44.webp",
+      "transcript": "media/english/transcripts/lle1-44.md",
+      "lessonData": "media/english/lessons/lle1-44.json",
+      "worksheet": "media/english/worksheets/lle1-44.pdf",
+      "grade": "C-real",
+      "speakerCount": 7,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-45",
@@ -545,7 +975,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-45.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/02/07/1fb535dc-77e2-4e0e-930e-b50fab4e45cd.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/6/64/646ddd6d-a051-4cd9-b694-21a0f69a073a.mp4?cb=edc47a9cd",
-      "page": "https://learningenglish.voanews.com/a/lesson-45-this-land-is-your-land/3710209.html"
+      "page": "https://learningenglish.voanews.com/a/lesson-45-this-land-is-your-land/3710209.html",
+      "image": "media/english/images/lle1-45.webp",
+      "transcript": "media/english/transcripts/lle1-45.md",
+      "lessonData": "media/english/lessons/lle1-45.json",
+      "worksheet": "media/english/worksheets/lle1-45.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-46",
@@ -557,7 +996,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-46.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/02/22/8e170a7e-dd5c-4c9b-b214-48b68bc68f47.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/1/13/13db3058-03d4-44b8-910e-d344aa823b34.mp4?cb=edc47aa9c",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-46-may-i-borrow-that/3723588.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-46-may-i-borrow-that/3723588.html",
+      "image": "media/english/images/lle1-46.webp",
+      "transcript": "media/english/transcripts/lle1-46.md",
+      "lessonData": "media/english/lessons/lle1-46.json",
+      "worksheet": "media/english/worksheets/lle1-46.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-47",
@@ -569,7 +1017,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-47.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/03/03/8511524b-9e6f-4e73-9fa1-cd3f6b32b495.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5c/5cb0595a-5299-4b58-bdcc-b8541b468cf3.mp4?cb=edc47abcb",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-47-how-can-i-help/3737352.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-47-how-can-i-help/3737352.html",
+      "image": "media/english/images/lle1-47.webp",
+      "transcript": "media/english/transcripts/lle1-47.md",
+      "lessonData": "media/english/lessons/lle1-47.json",
+      "worksheet": "media/english/worksheets/lle1-47.pdf",
+      "grade": "C-real",
+      "speakerCount": 5,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-48",
@@ -581,7 +1038,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-48.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/03/09/d11896f1-be6c-47bf-acbc-968ebda02e96.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/0/0a/0a211e31-97d1-4192-b60d-4de9a153000e.mp4?cb=edc47acee",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-48-have-you-ever/3753664.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-48-have-you-ever/3753664.html",
+      "image": "media/english/images/lle1-48.webp",
+      "transcript": "media/english/transcripts/lle1-48.md",
+      "lessonData": "media/english/lessons/lle1-48.json",
+      "worksheet": "media/english/worksheets/lle1-48.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-49",
@@ -593,7 +1059,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-49.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/03/16/fdd6be45-f44e-4a0d-8231-e9cc9e710f44.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/a/a4/a49eae09-d90d-4d8e-a62c-0a718b8f32be.mp4?cb=edc47ae38",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-49-operation-spy/3763537.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-49-operation-spy/3763537.html",
+      "image": "media/english/images/lle1-49.webp",
+      "transcript": "media/english/transcripts/lle1-49.md",
+      "lessonData": "media/english/lessons/lle1-49.json",
+      "worksheet": "media/english/worksheets/lle1-49.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-50",
@@ -605,7 +1080,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-50.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/04/28/c26515f8-0d7c-4fb4-9646-4dfece722172.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/b/b7/b76551c9-f6b7-4a36-b8b8-013060087617.mp4?cb=edc47b045",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-50-back-to-school/3771173.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-50-back-to-school/3771173.html",
+      "image": "media/english/images/lle1-50.webp",
+      "transcript": "media/english/transcripts/lle1-50.md",
+      "lessonData": "media/english/lessons/lle1-50.json",
+      "worksheet": "media/english/worksheets/lle1-50.pdf",
+      "grade": "C-real",
+      "speakerCount": 7,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-51",
@@ -617,7 +1101,16 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-51.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/04/06/1f484880-f858-47b5-8e0d-37a063b34a07.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/8/89/89e2abe4-1e50-4a83-b771-b3623fffb590.mp4?cb=edc47b17c",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-51-a-good-habit/3773577.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-51-a-good-habit/3773577.html",
+      "image": "media/english/images/lle1-51.webp",
+      "transcript": "media/english/transcripts/lle1-51.md",
+      "lessonData": "media/english/lessons/lle1-51.json",
+      "worksheet": "media/english/worksheets/lle1-51.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-52",
@@ -629,7 +1122,23 @@ window.ENG_MEDIA_CATALOG={
       "audio": "media/english/audio/lle1-52.mp3",
       "originalAudio": "https://voa-audio.voanews.eu/vle/2017/04/14/8259e341-9066-4896-af3d-f62d738d0948.mp3",
       "video": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/6/6d/6dfd5f69-746e-45bd-86b1-1dba49c23a48.mp4?cb=edc47b2ba",
-      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-52-taking-chances/3805454.html"
+      "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-52-taking-chances/3805454.html",
+      "image": "media/english/images/lle1-52.webp",
+      "transcript": "media/english/transcripts/lle1-52.md",
+      "lessonData": "media/english/lessons/lle1-52.json",
+      "worksheet": "media/english/worksheets/lle1-52.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     }
-  ]
+  ],
+  "localAssets": {
+    "audio": 52,
+    "images": 52,
+    "transcripts": 52,
+    "worksheets": 52,
+    "lessonData": 52
+  }
 };

@@ -41,11 +41,21 @@
 | media/english/catalog.json | **GPT** | 데이터. 스키마는 Claude 가 정한다 |
 | media/english/catalog.js | **GPT** | catalog.json 과 내용이 같아야 한다 |
 | media/english/audio/ | **GPT** | 라이선스 확인된 음성만 |
+| media/english/transcripts/ | **GPT** | 대본. check.py 음성 대본 검사를 통과해야 한다 |
+| media/english/images/ | **GPT** | 대표 이미지 |
+| media/english/worksheets/ | **GPT** | 수업 자료 |
+| media/english/*.md | **GPT** | NOTICE, README |
+| scripts/sync_english_media.py | **GPT** | 수집 스크립트. 검사기가 아니다 |
 | tasks/ | Claude 가 쓰고 GPT 가 읽는다 | 작업 지시서 |
 
 english.html 은 조수가 건드리지 않는다.
 데이터만 채우면 화면은 알아서 붙게 설계돼 있다.
 화면에 뭔가 필요하면 지시서에 적어 Claude 에게 넘긴다.
+
+**예외를 인정한 사례.** PR #3 에서 조수가 `eng2p/scripts/check.py` 의 `is_audio()` 를
+넓혀 자기 대본 파일이 내 검사를 받게 했다. 소유권 위반이지만 방향이 맞아 수용했다.
+자기 산출물을 게이트에 물리는 방향이면 다음에도 받는다.
+게이트를 통과하려고 검사를 느슨하게 하는 방향이면 되돌려보낸다.
 
 ---
 
@@ -123,7 +133,12 @@ english.html 은 조수가 건드리지 않는다.
 | video | 아니오 | https |
 | track | 아니오 | 6트랙 값. 소리/청크/자동화/문법/화용/repair |
 | speakers | 아니오 | 정수. 분기별 상한과 대조한다 |
-| transcript | **곧 필수** | 영어 문자열 배열. 한글 금지 |
+| transcript | **곧 필수** | 아래 5.4 |
+| image | 아니오 | 저장소 상대 경로 |
+| worksheet | 아니오 | 저장소 상대 경로 |
+| speakerCount | 아니오 | 정수. speakers 와 같은 뜻 |
+| speed | 아니오 | 느림 / 보통 / 빠름 |
+| grade | 아니오 | C-real 또는 C-gen |
 
 ### 5.3 focus 와 track 을 헷갈리지 않는다
 
@@ -134,6 +149,29 @@ english.html 은 조수가 건드리지 않는다.
 기준서 10.3은 **같은 자료를 세 번 듣되 회차마다 초점을 바꾸라**는 뜻이다.
 자료마다 초점을 하나씩 배정하라는 뜻이 아니다.
 3회차 진행은 앱이 관리한다. 카탈로그의 focus 는 1회차 권장값으로만 쓴다.
+
+### 5.4 transcript 는 두 형태를 받는다
+
+**형태 1. 파일 경로 (권장)**
+
+```json
+"transcript": "media/english/transcripts/lle1-01.md"
+```
+
+대본이 길면 카탈로그가 무거워진다. 52과 x 평균 15줄이면 그렇다.
+파일은 audio_intake.md 2.2 메타 형식을 그대로 쓰고 `## 대본` 절에 본문을 넣는다.
+이 파일은 `scripts/check.py` 의 음성 대본 검사도 함께 통과해야 한다.
+
+**형태 2. 인라인 배열**
+
+```json
+"transcript": ["Anna: Hello!", "Man: Hi."]
+"transcript": [{"t": 0.0, "line": "Anna: Hello!"}]
+```
+
+짧은 자료에만 쓴다. `t` 가 있으면 앱이 줄마다 재생 지점을 잡는다.
+
+두 형태 다 대본 본문에 한글이 있으면 실패다. 머리말 메타는 한국어로 써도 된다.
 
 ---
 

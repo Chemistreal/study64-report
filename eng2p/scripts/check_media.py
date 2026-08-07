@@ -62,6 +62,38 @@ def check_top(cat):
     return items
 
 
+def check_line(tag, where, s):
+    if re.search(r"[가-힣]", s):
+        fail("%s: %s 에 한글이 있다. 대본은 영어로만 적는다" % (tag, where))
+    for ch, label in (("\u2014", "em-dash"), ("\ufffd", "U+FFFD")):
+        if ch in s:
+            fail("%s: %s 에 금지 문자 %s" % (tag, where, label))
+
+
+def check_transcript_file(tag, rel):
+    """대본을 별도 파일로 둔 형태. 경로와 내용을 대조한다."""
+    if not rel.endswith(".md"):
+        fail("%s: transcript 경로는 .md 여야 한다 (%s)" % (tag, rel))
+        return
+    p = ROOT / rel
+    if not p.exists():
+        fail("%s: transcript 파일이 없다 (%s)" % (tag, rel))
+        return
+    text = p.read_text(encoding="utf-8")
+    if not re.search(r"^신뢰도:\s*(C-gen|C-real)\s*$", text, re.M):
+        fail("%s: 대본 파일에 C-gen 또는 C-real 표시가 없다" % tag)
+    if "## 대본" not in text:
+        fail("%s: 대본 파일에 '## 대본' 절이 없다" % tag)
+        return
+    body = text.split("## 대본", 1)[1]
+    # 대본 본문에는 한글이 없어야 한다. 머리말 메타는 한국어라 제외한다.
+    for j, ln in enumerate(body.split("\n")):
+        ln = ln.strip()
+        if not ln or ln.startswith("#"):
+            continue
+        check_line(tag, "%s 대본 %d행" % (rel, j), ln)
+
+
 def check_item(it, i, seen_ids, seen_lessons):
     tag = "items[%d] %s" % (i, it.get("id", "?"))
     for k in ITEM_REQUIRED:
@@ -111,26 +143,30 @@ def check_item(it, i, seen_ids, seen_lessons):
         if v and not str(v).startswith("https://"):
             fail("%s: %s 는 https 로 시작해야 한다" % (tag, k))
 
-    # 대본. 지금은 선택이지만 있으면 형식을 본다.
+    # 대본. 두 형태를 받는다.
+    #   1) 파일 경로 문자열. 대본이 길어서 카탈로그에 넣기 곤란할 때
+    #   2) 인라인 배열. 문자열 또는 {t, line}
     tr = it.get("transcript")
     if tr is None:
         warn("%s: transcript 없음. 대본 없는 음성은 반입 대상이 아니다 (audio_intake.md 2.1)" % tag)
+    elif isinstance(tr, str):
+        check_transcript_file(tag, tr)
+    elif isinstance(tr, list):
+        if not tr:
+            fail("%s: transcript 배열이 비어 있다" % tag)
+        for j, ln in enumerate(tr):
+            s = ln if isinstance(ln, str) else (ln or {}).get("line")
+            if not isinstance(s, str) or not s.strip():
+                fail("%s: transcript[%d] 가 비어 있다" % (tag, j))
+                continue
+            check_line(tag, "transcript[%d]" % j, s)
     else:
-        if not isinstance(tr, list) or not tr:
-            fail("%s: transcript 는 비어 있지 않은 배열이어야 한다" % tag)
-        else:
-            for j, ln in enumerate(tr):
-                if not isinstance(ln, str) or not ln.strip():
-                    fail("%s: transcript[%d] 가 비어 있다" % (tag, j))
-                    continue
-                if re.search(r"[가-힣]", ln):
-                    fail("%s: transcript[%d] 에 한글이 있다. 대본은 영어로만 적는다" % (tag, j))
-                for ch, label in (("—", "em-dash"), ("�", "U+FFFD")):
-                    if ch in ln:
-                        fail("%s: transcript[%d] 에 금지 문자 %s" % (tag, j, label))
+        fail("%s: transcript 는 파일 경로 문자열이거나 배열이어야 한다" % tag)
 
     # 화자 수는 선택이지만 있으면 분기 조건과 대조한다
     spk = it.get("speakers")
+    if spk is None:
+        spk = it.get("speakerCount")
     if isinstance(spk, int) and isinstance(q, int) and q in SPK_MAX and spk > SPK_MAX[q]:
         warn("%s: Q%d 재료 조건보다 화자가 많다 (%d명)" % (tag, q, spk))
 
