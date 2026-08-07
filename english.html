@@ -139,6 +139,32 @@ svg text{fill:var(--mut);font-size:10px;font-family:var(--mono)}
 
 footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var(--mut);font-size:12px}
 
+/* 스테퍼 */
+.stp{display:flex;gap:6px;align-items:stretch}
+.stp input{text-align:center}
+.stp button{flex:none;width:40px;background:none;border:1px solid var(--line);color:var(--fg);
+  font:inherit;font-size:17px;border-radius:6px;cursor:pointer;line-height:1}
+.stp button:hover{border-color:var(--fg)}
+.bigtap{width:100%;padding:16px;font-size:16px;font-weight:650;border-radius:8px;
+  background:var(--fg);color:var(--bg);border:1px solid var(--fg);cursor:pointer;font-family:inherit}
+.bigtap:hover{opacity:.88}
+.bigtap.alt{background:none;color:var(--fg);border-color:var(--line)}
+.bigtap.alt:hover{border-color:var(--fg)}
+
+/* 복습 */
+.revcard{border:1px solid var(--line);border-radius:8px;padding:26px 20px;text-align:center}
+.revq{font-size:19px;font-weight:600;margin:10px 0 4px;line-height:1.45}
+.revmeta{font-size:12.5px;color:var(--mut)}
+.reva{font-size:21px;font-weight:650;margin:14px 0 6px;letter-spacing:-.01em}
+.revbox{display:flex;gap:1px;justify-content:center;margin:14px 0 0}
+.revbox i{width:26px;height:3px;background:var(--line);display:block}
+.revbox i.on{background:var(--fg)}
+.undo{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;z-index:50;
+  background:var(--fg);color:var(--bg);border-radius:8px;padding:10px 14px;font-size:13px;
+  display:flex;gap:12px;align-items:center;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.undo button{background:none;border:0;color:var(--bg);font:inherit;font-weight:650;text-decoration:underline;cursor:pointer}
+kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--mut)}
+
 @media print{
   header,nav,footer,.noprint{display:none!important}
   body{font-size:12px}
@@ -165,6 +191,18 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var
   <h2>오늘</h2>
   <p class="lede">날짜만 보고 역할을 정한다. 협의하면 편중된다.</p>
 
+  <div class="card" id="onboard" hidden>
+    <b>처음이면 이것만 정하고 시작한다.</b>
+    <div class="grid g3" style="margin-top:12px">
+      <div><label class="f">이름 A</label><input id="obA" placeholder="남편"></div>
+      <div><label class="f">이름 B</label><input id="obB" placeholder="아내"></div>
+      <div><label class="f">시작일</label><input type="date" id="obD"></div>
+    </div>
+    <div class="row end" style="margin-top:12px"><button class="b" id="obGo">시작</button></div>
+  </div>
+
+  <div id="revNudge"></div>
+
   <div class="card tight">
     <div class="row">
       <div style="flex:1;min-width:180px">
@@ -184,8 +222,9 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var
       <div class="steps" id="tSteps"></div>
       <div class="slab"><span>0분</span><span>120분</span></div>
     </div>
-    <div class="row" style="justify-content:center;margin-top:18px">
-      <button class="b" id="tStart">시작</button>
+    <div style="margin-top:20px"><button class="bigtap" id="tOne">세션 시작</button></div>
+    <div class="row" style="justify-content:center;margin-top:12px">
+      <button class="g" id="tStart">시작</button>
       <button class="g" id="tSkip">다음 블록</button>
       <button class="g" id="tReset">처음으로</button>
       <label class="small mut" style="display:flex;align-items:center;gap:5px;margin-left:6px">
@@ -204,12 +243,16 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var
       <button class="g" data-st="absent">결석</button>
     </div>
     <div class="grid g3">
-      <div><label class="f">발화 시간 (분)</label><input type="number" id="fSpeak" min="0" step="1"></div>
-      <div><label class="f">드릴 소화량 (장)</label><input type="number" id="fCards" min="0" step="1"></div>
-      <div><label class="f">LRE 발생 (회)</label><input type="number" id="fLre" min="0" step="1"></div>
+      <div><label class="f">발화 시간 (분)</label>
+        <div class="stp"><button data-stp="fSpeak" data-d="-5">-</button><input type="number" id="fSpeak" min="0" step="1"><button data-stp="fSpeak" data-d="5">+</button></div></div>
+      <div><label class="f">드릴 소화량 (장)</label>
+        <div class="stp"><button data-stp="fCards" data-d="-1">-</button><input type="number" id="fCards" min="0" step="1"><button data-stp="fCards" data-d="1">+</button></div></div>
+      <div><label class="f">LRE 발생 (회)</label>
+        <div class="stp"><button data-stp="fLre" data-d="-1">-</button><input type="number" id="fLre" min="0" step="1"><button data-stp="fLre" data-d="1">+</button></div></div>
     </div>
+    <div style="margin-top:12px"><button class="bigtap alt" id="lrePlus">LRE +1</button></div>
     <div class="note small">LRE는 둘이 <b>지금 쓰는 영어 자체</b>에 대해 얘기한 순간이다. 한 덩어리 이야기가 한 항목을 다루면 1회다. 횟수를 채우려고 억지로 만들지 않는다.</div>
-    <div class="row end"><button class="b" id="fSave">기록 저장</button><span class="small mut" id="fMsg"></span></div>
+    <div class="row end"><span class="small mut" id="fMsg">자동 저장된다</span></div>
   </div>
 
   <h3>미해결 LRE</h3>
@@ -219,6 +262,8 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var
       <div><label class="f">우리가 말한 문장</label><input id="uT" placeholder="I have went there yesterday"></div>
       <div><label class="f">무엇이 걸렸나</label><input id="uI" placeholder="시제를 어떻게 잡는지"></div>
     </div>
+    <div style="margin-top:10px"><label class="f">한국어 단서 (복습 때 이것만 보고 영어를 꺼낸다)</label>
+      <input id="uK" placeholder="나 어제 거기 갔었어"></div>
     <div class="grid g2" style="margin-top:10px">
       <div><label class="f" id="labU1">남편 생각</label><input id="uH"></div>
       <div><label class="f" id="labU2">아내 생각</label><input id="uW"></div>
@@ -235,9 +280,23 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var
       <div><label class="f">어디서 봤나</label><input id="cS"></div>
       <div><label class="f">궁금한 점</label><input id="cQ"></div>
     </div>
+    <div style="margin-top:10px"><label class="f">한국어 단서 (복습 때 이것만 보고 영어를 꺼낸다)</label>
+      <input id="cK" placeholder="신경 쓰지 마"></div>
     <div class="row end" style="margin-top:10px"><button class="g" id="cAdd">추가</button></div>
     <div id="cList"></div>
   </div>
+</section>
+
+<!-- ========== 복습 ========== -->
+<section id="t-review" role="tabpanel" hidden>
+  <h2>복습</h2>
+  <p class="lede">읽어서 넘기지 않는다. 단서만 보고 입으로 꺼낸다. 판정은 상대가 한다.</p>
+  <div class="note small">
+    판정 세션에서 완료 표시한 항목만 여기로 들어온다.
+    간격은 1, 3, 7, 14, 30, 60일이다. 여섯 번 통과하면 큐에서 빠진다.
+    틀리면 1일로 되돌아간다.
+  </div>
+  <div id="revBody"></div>
 </section>
 
 <!-- ========== 소리 ========== -->
@@ -269,6 +328,8 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var
       <div><label class="f">속도 <span class="mono" id="vRateN">0.85</span></label>
         <input type="range" id="vRate" min="0.5" max="1.1" step="0.05" value="0.85"></div>
       <div><label class="f">반복</label><select id="vRep"><option>1</option><option selected>2</option><option>3</option><option>5</option></select></div>
+      <div><label class="f">모드</label>
+        <select id="vMode"><option value="plain">듣기만</option><option value="shadow">섀도잉 (따라 말할 틈을 준다)</option></select></div>
     </div>
     <div style="margin-top:12px">
       <label class="f">읽을 내용 (한 줄에 하나)</label>
@@ -422,6 +483,17 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var
   <div class="row noprint"><button class="g" onclick="window.print()">인쇄</button></div>
   <div class="wallcard" id="wall"></div>
 
+  <h2>단축키</h2>
+  <div class="card tight small">
+    <div class="row" style="gap:18px">
+      <span><kbd>Space</kbd> 타이머 시작과 정지</span>
+      <span><kbd>N</kbd> 다음 블록</span>
+      <span><kbd>L</kbd> LRE +1</span>
+      <span><kbd>1</kbd>~<kbd>9</kbd> 탭 이동</span>
+    </div>
+    <div class="mut" style="margin-top:8px">입력칸에 커서가 있을 때는 동작하지 않는다.</div>
+  </div>
+
   <h2>금지 목록</h2>
   <h3>학습자 행위 금지</h3>
   <div class="scroll"><table id="banA"></table></div>
@@ -534,7 +606,7 @@ var KEY="eng2p.v1";
 var S=load();
 
 function blank(){
-  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],theme:null,wk:0};
+  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],theme:null,wk:0,onboarded:false};
 }
 function load(){
   try{
@@ -573,7 +645,21 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
 function today(){return iso(new Date());}
 function roleOf(d){ return parseISO(d).getDate()%2===0 ? "a" : "b"; }
 function hoursOf(rec){ return !rec||!rec.status?0: rec.status==="normal"?2: rec.status==="emg"?0.25:0; }
-function toast(m){ var f=$("#fMsg"); if(f){f.textContent=m; setTimeout(function(){f.textContent="";},2600);} }
+function toast(m){ var f=$("#fMsg"); if(f){f.textContent=m; setTimeout(function(){f.textContent="자동 저장된다";},2600);} }
+
+/* 삭제 되돌리기. 실수로 지운 기록을 다시 적게 하지 않는다. */
+var UNDO={box:null,t:null};
+function offerUndo(label,restore){
+  if(UNDO.box) UNDO.box.remove();
+  clearTimeout(UNDO.t);
+  var d=el("div","undo");
+  d.appendChild(el("span",null,label));
+  var b=el("button",null,"실행 취소");
+  b.onclick=function(){ restore(); save(); d.remove(); UNDO.box=null; };
+  d.appendChild(b);
+  document.body.appendChild(d); UNDO.box=d;
+  UNDO.t=setTimeout(function(){ if(UNDO.box===d){ d.remove(); UNDO.box=null; } },7000);
+}
 function copy(text,msgEl){
   function ok(){ if(msgEl){msgEl.textContent="복사됨"; setTimeout(function(){msgEl.textContent="";},2000);} }
   if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok,fallback); }
@@ -584,12 +670,20 @@ function copy(text,msgEl){
     t.select(); try{document.execCommand("copy"); ok();}catch(e){} document.body.removeChild(t);
   }
 }
+/* 이름 뒤 조사. 받침이 있으면 이/은/을, 없으면 가/는/를. */
+function jo(name,withJ,without){
+  var s=String(name||"");
+  if(!s) return s+without;
+  var c=s.charCodeAt(s.length-1);
+  var has=(c>=0xAC00&&c<=0xD7A3) ? ((c-0xAC00)%28)!==0 : false;
+  return s+(has?withJ:without);
+}
 function monday(d){ var x=parseISO(d); var w=(x.getDay()+6)%7; x.setDate(x.getDate()-w); return iso(x); }
 
 /* =========================================================================
    탭
    ========================================================================= */
-var TABS=[["today","오늘"],["sound","소리"],["ledger","대장"],["verify","판정"],["quarter","분기"],
+var TABS=[["today","오늘"],["review","복습"],["sound","소리"],["ledger","대장"],["verify","판정"],["quarter","분기"],
           ["SEP",""],["check","검사"],["rot","회전"],["SEP",""],["rules","규칙"]];
 function buildNav(){
   var n=$("#nav");
@@ -610,6 +704,7 @@ function go(name){
   });
   if(typeof ttsStop==="function") ttsStop();
   if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
+  if(name==="review") renderReview();
   if(name==="sound") renderSound();
   if(name==="ledger") renderLedger();
   if(name==="verify") renderVerify();
@@ -646,16 +741,33 @@ function renderToday(){
   document.querySelectorAll("[data-st]").forEach(function(b){
     b.classList.toggle("on", rec.status===b.dataset.st);
   });
-  renderUnres(); renderColl();
+  renderUnres(); renderColl(); renderNudge();
 }
 document.querySelectorAll("[data-st]").forEach(function(b){
   b.onclick=function(){ day(today()).status=b.dataset.st; save(); renderToday(); };
 });
-$("#fSave").onclick=function(){
+function pullForm(){
   var rec=day(today());
   rec.speak=+$("#fSpeak").value||0; rec.cards=+$("#fCards").value||0; rec.lre=+$("#fLre").value||0;
-  if(!rec.status) rec.status="normal";
-  save(); renderToday(); toast("저장했다.");
+  save(); flash("저장됨");
+}
+function flash(m){
+  var f=$("#fMsg"); if(!f) return;
+  f.textContent=m; clearTimeout(flash.t);
+  flash.t=setTimeout(function(){ f.textContent="자동 저장된다"; },1600);
+}
+["#fSpeak","#fCards","#fLre"].forEach(function(s){ $(s).addEventListener("input",pullForm); });
+document.querySelectorAll("[data-stp]").forEach(function(b){
+  b.onclick=function(){
+    var inp=$("#"+b.dataset.stp);
+    inp.value=Math.max(0,(+inp.value||0)+(+b.dataset.d));
+    pullForm();
+  };
+});
+$("#lrePlus").onclick=function(){
+  var inp=$("#fLre"); inp.value=(+inp.value||0)+1;
+  var rec=day(today()); if(!rec.status) rec.status="normal";
+  pullForm(); renderToday();
 };
 function renderUnres(){
   var box=$("#uList"); box.innerHTML="";
@@ -666,7 +778,11 @@ function renderUnres(){
     h.appendChild(el("b",null,u.t||"(문장 없음)"));
     var acts=el("div","row"); acts.style.gap="8px";
     acts.appendChild(spkBtn(u.t||""));
-    var x=el("button","del","삭제"); x.onclick=function(){rec.unres.splice(i,1);save();renderUnres();};
+    var x=el("button","del","삭제");
+    x.onclick=function(){
+      var gone=rec.unres.splice(i,1)[0]; save(); renderUnres();
+      offerUndo("미해결 LRE 1건 삭제",function(){ rec.unres.splice(i,0,gone); renderUnres(); });
+    };
     acts.appendChild(x); h.appendChild(acts); d.appendChild(h);
     if(u.i) d.appendChild(el("div","small mut","걸린 것: "+u.i));
     if(u.h) d.appendChild(el("div","small",S.names.a+": "+u.h));
@@ -676,8 +792,9 @@ function renderUnres(){
 }
 $("#uAdd").onclick=function(){
   var t=$("#uT").value.trim(); if(!t){ $("#uT").focus(); return; }
-  day(today()).unres.push({t:t,i:$("#uI").value.trim(),h:$("#uH").value.trim(),w:$("#uW").value.trim(),done:false});
-  ["#uT","#uI","#uH","#uW"].forEach(function(s){$(s).value="";});
+  day(today()).unres.push({t:t,i:$("#uI").value.trim(),k:$("#uK").value.trim(),
+    h:$("#uH").value.trim(),w:$("#uW").value.trim(),done:false});
+  ["#uT","#uI","#uK","#uH","#uW"].forEach(function(s){$(s).value="";});
   save(); renderUnres();
 };
 function renderColl(){
@@ -688,7 +805,11 @@ function renderColl(){
     var h=el("div","hd2"); h.appendChild(el("b",null,c.e));
     var acts=el("div","row"); acts.style.gap="8px";
     acts.appendChild(spkBtn(c.e||""));
-    var x=el("button","del","삭제"); x.onclick=function(){rec.coll.splice(i,1);save();renderColl();};
+    var x=el("button","del","삭제");
+    x.onclick=function(){
+      var gone=rec.coll.splice(i,1)[0]; save(); renderColl();
+      offerUndo("채집 표현 1건 삭제",function(){ rec.coll.splice(i,0,gone); renderColl(); });
+    };
     acts.appendChild(x); h.appendChild(acts); d.appendChild(h);
     d.appendChild(el("div","small mut","출처: "+(c.s||"(없음)")+(c.q?" · "+c.q:"")));
     box.appendChild(d);
@@ -698,8 +819,8 @@ $("#cAdd").onclick=function(){
   var e=$("#cE").value.trim(); if(!e){ $("#cE").focus(); return; }
   var s=$("#cS").value.trim();
   if(!s){ toast("출처 없이 올리지 않는다."); $("#cS").focus(); return; }
-  day(today()).coll.push({e:e,s:s,q:$("#cQ").value.trim(),done:false});
-  ["#cE","#cS","#cQ"].forEach(function(x){$(x).value="";});
+  day(today()).coll.push({e:e,s:s,q:$("#cQ").value.trim(),k:$("#cK").value.trim(),done:false});
+  ["#cE","#cS","#cQ","#cK"].forEach(function(x){$(x).value="";});
   save(); renderColl();
 };
 
@@ -746,14 +867,14 @@ function tick(){
   if(T.left<=0){
     beep();
     if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; }
-    else { T.run=false; clearInterval(T.tick); T.left=0; }
+    else { T.run=false; clearInterval(T.tick); T.left=0; relWake(); }
   }
   paintTimer();
 }
 $("#tStart").onclick=function(){
   T.run=!T.run;
   clearInterval(T.tick);
-  if(T.run) T.tick=setInterval(tick,1000);
+  if(T.run){ T.tick=setInterval(tick,1000); reqWake(); } else { relWake(); }
   paintTimer();
 };
 $("#tSkip").onclick=function(){
@@ -762,7 +883,58 @@ $("#tSkip").onclick=function(){
   paintTimer();
 };
 $("#tReset").onclick=function(){
-  T.idx=0; T.left=BLOCKS[0].m*60; T.run=false; clearInterval(T.tick); paintTimer();
+  T.idx=0; T.left=BLOCKS[0].m*60; T.run=false; clearInterval(T.tick); relWake(); paintTimer();
+};
+
+/* 화면 꺼짐 방지. 2시간짜리 타이머를 켜 두고 매번 화면을 깨우게 하지 않는다. */
+var wakeLock=null;
+function reqWake(){
+  try{
+    if(!("wakeLock" in navigator)) return;
+    navigator.wakeLock.request("screen").then(function(w){
+      wakeLock=w;
+      w.addEventListener("release",function(){ wakeLock=null; });
+    }).catch(function(){});
+  }catch(e){}
+}
+function relWake(){ try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){} }
+document.addEventListener("visibilitychange",function(){
+  if(document.visibilityState==="visible" && T.run && !wakeLock) reqWake();
+});
+
+/* 원탭 시작. 수행 표시와 타이머와 화면 유지를 한 번에 건다. */
+$("#tOne").onclick=function(){
+  var rec=day(today());
+  if(!rec.status){ rec.status="normal"; save(); renderToday(); }
+  if(!T.run){ T.run=true; clearInterval(T.tick); T.tick=setInterval(tick,1000); reqWake(); }
+  paintTimer();
+  var c=$("#tClock"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
+};
+
+/* 키보드 단축키. 데스크톱에서 세션 중 마우스를 안 잡게 한다. */
+document.addEventListener("keydown",function(e){
+  var tag=(e.target.tagName||"").toLowerCase();
+  if(tag==="input"||tag==="textarea"||tag==="select"||e.metaKey||e.ctrlKey||e.altKey) return;
+  var vis=TABS.filter(function(x){return x[0]!=="SEP";});
+  if(e.key===" "){ e.preventDefault(); $("#tStart").click(); return; }
+  if(e.key==="n"||e.key==="N"){ $("#tSkip").click(); return; }
+  if(e.key==="l"||e.key==="L"){ var b=$("#lrePlus"); if(b){ b.click(); flash("LRE +1"); } return; }
+  var n=parseInt(e.key,10);
+  if(n>=1&&n<=vis.length){ go(vis[n-1][0]); }
+});
+
+/* 첫 실행 온보딩. 물어보는 것은 세 개뿐이다. */
+function renderOnboard(){
+  var card=$("#onboard");
+  if(S.onboarded){ card.hidden=true; return; }
+  card.hidden=false;
+  $("#obA").value=S.names.a; $("#obB").value=S.names.b; $("#obD").value=S.start;
+}
+$("#obGo").onclick=function(){
+  S.names.a=$("#obA").value.trim()||"남편";
+  S.names.b=$("#obB").value.trim()||"아내";
+  S.start=$("#obD").value||today();
+  S.onboarded=true; save(); renderOnboard(); renderToday();
 };
 
 /* =========================================================================
@@ -962,7 +1134,12 @@ function itemCard(d,title,lines,ref){
   h.appendChild(left);
   var lab=el("label","small mut"); lab.style.whiteSpace="nowrap";
   var cb=el("input"); cb.type="checkbox"; cb.checked=!!ref.done;
-  cb.onchange=function(){ ref.done=cb.checked; save(); renderVerify(); };
+  cb.onchange=function(){
+    ref.done=cb.checked;
+    if(ref.done && !ref.box){ ref.box=1; ref.due=addDays(today(),1); }
+    if(!ref.done){ ref.box=0; ref.due=null; }
+    save(); renderVerify();
+  };
   lab.appendChild(cb); lab.appendChild(document.createTextNode(" 판정 완료"));
   var acts=el("div","row"); acts.style.gap="8px";
   acts.appendChild(spkBtn(title||"")); acts.appendChild(lab);
@@ -1038,7 +1215,7 @@ function renderQuarter(){
   var rb=$("#qRel"); rb.innerHTML="";
   [["a",S.names.a],["b",S.names.b]].forEach(function(p){
     var card=el("div","card tight");
-    card.appendChild(el("h3",null,p[1]+"이(가) 적은 것"));
+    card.appendChild(el("h3",null,jo(p[1],"이","가")+" 적은 것"));
     REL_Q.forEach(function(q){
       var w=el("div"); w.style.margin="8px 0";
       var l=el("label","f",q.l); w.appendChild(l);
@@ -1311,6 +1488,100 @@ $("#rRowCopy").onclick=function(){
 };
 
 /* =========================================================================
+   복습. 간격 반복.
+   간격은 널리 쓰이는 1/3/7/14/30/60일 일정을 따른다.
+   읽어서 넘기는 형태로 만들지 않는다. 13.1이 복습 읽기를 금지하기 때문이다.
+   단서만 보여주고 입으로 꺼내게 하고, 판정은 상대가 한다.
+   ========================================================================= */
+var IVL=[1,3,7,14,30,60];
+var REV={queue:[],i:0,shown:false};
+
+function revPrompt(it){ return it.k || it.i || it.q || (it.s ? "출처: "+it.s : ""); }
+function revAnswer(it){ return it.t || it.e || ""; }
+function revDue(){
+  var out=[], td=today();
+  allDays().forEach(function(d){
+    S.days[d].unres.concat(S.days[d].coll).forEach(function(it){
+      if(it.done && it.box && it.box<=IVL.length && it.due && it.due<=td) out.push(it);
+    });
+  });
+  return out;
+}
+function revGrade(it,ok){
+  if(ok){ it.box=(it.box||1)+1; }
+  else { it.box=1; }
+  it.due = it.box>IVL.length ? null : addDays(today(), IVL[it.box-1]);
+  save();
+}
+function renderNudge(){
+  var box=$("#revNudge"); if(!box) return;
+  var n=revDue().length;
+  if(!n){ box.innerHTML=""; return; }
+  box.innerHTML='<div class="card tight"><div class="row"><div style="flex:1;min-width:150px">'+
+    '<div class="small mut">오늘 복습</div><div class="mono" style="font-size:19px;font-weight:650">'+n+'개</div></div>'+
+    '<button class="g" id="revJump">복습 열기</button></div></div>';
+  $("#revJump").onclick=function(){ go("review"); };
+}
+function renderReview(){
+  var body=$("#revBody");
+  REV.queue=revDue();
+  if(!REV.queue.length){
+    var waiting=0, td=today();
+    allDays().forEach(function(d){
+      S.days[d].unres.concat(S.days[d].coll).forEach(function(it){
+        if(it.done && it.box && it.box<=IVL.length && it.due && it.due>td) waiting++;
+      });
+    });
+    body.innerHTML='<div class="card"><b>오늘 복습할 것 없다.</b>'+
+      '<div class="small mut" style="margin-top:6px">대기 중 '+waiting+'개. 판정 세션에서 완료 표시한 항목이 하루 뒤부터 들어온다.</div></div>';
+    return;
+  }
+  if(REV.i>=REV.queue.length) REV.i=0;
+  var it=REV.queue[REV.i];
+  var A=roleOf(today())==="a"?S.names.a:S.names.b;
+  var B=roleOf(today())==="a"?S.names.b:S.names.a;
+
+  var c=el("div","revcard");
+  c.appendChild(el("div","revmeta",(REV.i+1)+" / "+REV.queue.length+"   ·   "+
+    jo(A,"이","가")+" 읽고 "+jo(B,"이","가")+" 영어로 말한다"));
+  c.appendChild(el("div","revq",revPrompt(it)||"(단서 없음)"));
+  var meta=[];
+  if(it.s) meta.push("출처 "+it.s);
+  if(it.i&&it.k) meta.push("걸린 것 "+it.i);
+  c.appendChild(el("div","revmeta",meta.join("   ·   ")));
+
+  var boxes=el("div","revbox");
+  for(var k=0;k<IVL.length;k++){ var b=el("i"); if(k<(it.box||0)) b.className="on"; boxes.appendChild(b); }
+  c.appendChild(boxes);
+
+  var slot=el("div"); slot.style.marginTop="18px"; c.appendChild(slot);
+
+  if(!REV.shown){
+    var show=el("button","bigtap alt","정답 보기");
+    show.onclick=function(){ REV.shown=true; renderReview(); };
+    slot.appendChild(show);
+  } else {
+    var ans=el("div","reva",revAnswer(it)); slot.appendChild(ans);
+    var sp=el("div","row"); sp.style.justifyContent="center"; sp.appendChild(spkBtn(revAnswer(it)));
+    slot.appendChild(sp);
+    var row=el("div","row"); row.style.marginTop="16px"; row.style.gap="10px";
+    var no=el("button","bigtap alt","틀림"); no.style.flex="1";
+    var yes=el("button","bigtap","맞음"); yes.style.flex="1";
+    no.onclick=function(){ revGrade(it,false); step(); };
+    yes.onclick=function(){ revGrade(it,true); step(); };
+    row.appendChild(no); row.appendChild(yes); slot.appendChild(row);
+  }
+  body.innerHTML=""; body.appendChild(c);
+
+  var hint=el("div","note small","다음 간격: 맞으면 "+
+    ((it.box||1)>=IVL.length ? "졸업. 큐에서 빠진다" : IVL[Math.min(it.box||1,IVL.length-1)]+"일 뒤")+
+    ", 틀리면 1일 뒤. 정답을 보기 전에 반드시 소리 내어 말한다.");
+  body.appendChild(hint);
+
+  function step(){ REV.shown=false; REV.i++; renderReview(); renderNudge(); }
+}
+
+/* =========================================================================
    소리. 기기 내장 음성 합성만 쓴다. 외부 음성 파일을 받지 않는다.
    ========================================================================= */
 var TTS={ok:(typeof window!=="undefined"&&"speechSynthesis" in window),voices:[],busy:false,stop:false};
@@ -1380,14 +1651,21 @@ function paintSeq(i){
 function playSeq(items,times){
   TTS.stop=false; TTS.busy=true;
   var i=0,t=0;
+  function gap(text){
+    // 섀도잉은 따라 말할 틈이 있어야 성립한다. 글자 수와 속도로 추정한다.
+    if($("#vMode").value!=="shadow") return 280;
+    var rate=+$("#vRate").value||0.85;
+    return Math.max(1200, Math.round(text.length*75/rate));
+  }
   function step(){
     if(TTS.stop||i>=items.length){ TTS.busy=false; paintSeq(-1); return; }
     paintSeq(i);
-    utter(items[i]).then(function(){
+    var cur=items[i];
+    utter(cur).then(function(){
       if(TTS.stop){ TTS.busy=false; paintSeq(-1); return; }
       t++;
       if(t>=times){ t=0; i++; }
-      return wait(280).then(step);
+      return wait(gap(cur)).then(step);
     });
   }
   step();
@@ -1500,7 +1778,7 @@ buildNav();
 applyTheme();
 $("#themeBtn").textContent = S.theme==null ? "테마" : S.theme==="dark" ? "어두움" : "밝음";
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
-renderToday(); paintTimer(); renderRules(); paintKind();
+renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind();
 ttsVoices(); renderSound();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });
