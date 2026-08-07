@@ -97,6 +97,7 @@ state/rotation.md       주제 조합 회전 대장
 state/verify_queue.md   B등급 검증 대기열
 scripts/check.py        제작물 규격 검사
 scripts/check_media.py  미디어 카탈로그 검사. 조수 산출물 게이트
+scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
 ```
 
 ## 절대 규칙

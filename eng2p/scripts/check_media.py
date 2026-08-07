@@ -11,10 +11,14 @@ media/english/catalog.json 과 실제 파일을 대조한다.
 종료 코드 0이면 통과, 1이면 실패.
 규격: eng2p/docs/audio_intake.md, eng2p/docs/collab.md
 """
+import collections
 import json
 import pathlib
 import re
 import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from derive_speakers import speakers as derive_speakers  # noqa: E402
 
 FAIL = []
 WARN = []
@@ -163,12 +167,32 @@ def check_item(it, i, seen_ids, seen_lessons):
     else:
         fail("%s: transcript 는 파일 경로 문자열이거나 배열이어야 한다" % tag)
 
-    # 화자 수는 선택이지만 있으면 분기 조건과 대조한다
+    # 화자 수는 사람이 적는 값이 아니다. 대본에서 뽑아 대조한다.
+    # 경고를 없애려고 숫자를 낮춰 적는 길을 막는 것이 이 검사의 목적이다.
     spk = it.get("speakers")
     if spk is None:
         spk = it.get("speakerCount")
+    if isinstance(tr, str) and (ROOT / tr).exists():
+        real = len(derive_speakers(tr))
+        if isinstance(spk, int) and spk != real:
+            fail("%s: 화자 수가 대본과 다르다. 카탈로그 %d, 대본에서 센 값 %d. "
+                 "derive_speakers.py --write 로 맞춘다" % (tag, spk, real))
+            spk = real
+        elif spk is None:
+            fail("%s: speakerCount 가 없다. 대본에서 %d명이 나온다" % (tag, real))
+            spk = real
+        head = (ROOT / tr).read_text(encoding="utf-8")
+        m = re.search(r"^화자 수:\s*(\d+)", head, re.M)
+        if m and int(m.group(1)) != real:
+            fail("%s: 대본 머리말의 화자 수(%s)가 본문에서 센 값(%d)과 다르다"
+                 % (tag, m.group(1), real))
+        m = re.search(r"^분기:\s*Q(\d)", head, re.M)
+        if m and isinstance(q, int) and int(m.group(1)) != q:
+            fail("%s: 대본 머리말의 분기(Q%s)가 카탈로그(Q%d)와 다르다"
+                 % (tag, m.group(1), q))
     if isinstance(spk, int) and isinstance(q, int) and q in SPK_MAX and spk > SPK_MAX[q]:
         warn("%s: Q%d 재료 조건보다 화자가 많다 (%d명)" % (tag, q, spk))
+    return q
 
 
 def main():
@@ -184,8 +208,19 @@ def main():
 
     items = check_top(cat)
     seen_ids, seen_lessons = set(), set()
+    quarters = []
     for i, it in enumerate(items):
-        check_item(it, i, seen_ids, seen_lessons)
+        quarters.append(check_item(it, i, seen_ids, seen_lessons))
+
+    # 분기 분포. 한쪽으로 몰리면 그 분기의 자료가 굶는다.
+    dist = collections.Counter(q for q in quarters if isinstance(q, int))
+    if items:
+        for q in (1, 2, 3, 4):
+            n = dist.get(q, 0)
+            if n == 0:
+                warn("Q%d 에 자료가 하나도 없다" % q)
+            elif n > len(items) * 0.4:
+                warn("Q%d 에 자료가 몰려 있다 (%d / %d)" % (q, n, len(items)))
 
     # catalog.js 는 catalog.json 과 같은 내용을 담아야 한다
     js = target.parent / "catalog.js"
@@ -207,6 +242,8 @@ def main():
         print("[경고] %s" % w)
     for f in FAIL:
         print("[실패] %s" % f)
+    if items:
+        print("분기 분포: %s" % dict(sorted(dist.items())))
     print("\n항목 %d개 / 실패 %d / 경고 %d" % (len(items), len(FAIL), len(WARN)))
     return 1 if FAIL else 0
 

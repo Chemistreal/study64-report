@@ -283,7 +283,7 @@
     {
       "id": "lle1-14",
       "lesson": 14,
-      "quarter": 2,
+      "quarter": 1,
       "title": "Lesson 14: How About This?",
       "duration": "03:28",
       "focus": "청크",
@@ -346,7 +346,7 @@
     {
       "id": "lle1-17",
       "lesson": 17,
-      "quarter": 2,
+      "quarter": 1,
       "title": "Lesson 17: Are You Free on Friday?",
       "duration": "02:33",
       "focus": "청크",
@@ -367,7 +367,7 @@
     {
       "id": "lle1-18",
       "lesson": 18,
-      "quarter": 2,
+      "quarter": 1,
       "title": "Lesson 18: She Always Does That",
       "duration": "04:03",
       "focus": "의미",
@@ -388,7 +388,7 @@
     {
       "id": "lle1-19",
       "lesson": 19,
-      "quarter": 2,
+      "quarter": 1,
       "title": "Lesson 19: When Do I Start?",
       "duration": "02:51",
       "focus": "소리",
@@ -485,7 +485,7 @@
       "lessonData": "media/english/lessons/lle1-23.json",
       "worksheet": "media/english/worksheets/lle1-23.pdf",
       "grade": "C-real",
-      "speakerCount": 4,
+      "speakerCount": 5,
       "speed": "느림",
       "track": "소리",
       "intakeWarnings": []
@@ -506,7 +506,7 @@
       "lessonData": "media/english/lessons/lle1-24.json",
       "worksheet": "media/english/worksheets/lle1-24.pdf",
       "grade": "C-real",
-      "speakerCount": 2,
+      "speakerCount": 1,
       "speed": "느림",
       "track": "소리",
       "intakeWarnings": []
@@ -598,7 +598,7 @@
     {
       "id": "lle1-29",
       "lesson": 29,
-      "quarter": 3,
+      "quarter": 2,
       "title": "Lesson 29: A Long Time Ago",
       "duration": "03:21",
       "focus": "청크",
@@ -619,7 +619,7 @@
     {
       "id": "lle1-30",
       "lesson": 30,
-      "quarter": 3,
+      "quarter": 2,
       "title": "Lesson 30: Rolling on the River",
       "duration": "03:19",
       "focus": "의미",
@@ -674,7 +674,7 @@
       "lessonData": "media/english/lessons/lle1-32.json",
       "worksheet": "media/english/worksheets/lle1-32.pdf",
       "grade": "C-real",
-      "speakerCount": 8,
+      "speakerCount": 6,
       "speed": "느림",
       "track": "소리",
       "intakeWarnings": []
@@ -682,7 +682,7 @@
     {
       "id": "lle1-33",
       "lesson": 33,
-      "quarter": 4,
+      "quarter": 3,
       "title": "Lesson 33: Learning America's Sport",
       "duration": "03:48",
       "focus": "의미",
@@ -695,7 +695,7 @@
       "lessonData": "media/english/lessons/lle1-33.json",
       "worksheet": "media/english/worksheets/lle1-33.pdf",
       "grade": "C-real",
-      "speakerCount": 6,
+      "speakerCount": 3,
       "speed": "느림",
       "track": "소리",
       "intakeWarnings": []
@@ -724,7 +724,7 @@
     {
       "id": "lle1-35",
       "lesson": 35,
-      "quarter": 3,
+      "quarter": 2,
       "title": "Lesson 35: Let’s Make Dinner!",
       "duration": "02:47",
       "focus": "청크",
@@ -745,7 +745,7 @@
     {
       "id": "lle1-36",
       "lesson": 36,
-      "quarter": 3,
+      "quarter": 2,
       "title": "Lesson 36: I Can Fix This!",
       "duration": "02:03",
       "focus": "의미",
@@ -787,7 +787,7 @@
     {
       "id": "lle1-38",
       "lesson": 38,
-      "quarter": 3,
+      "quarter": 2,
       "title": "Lesson 38: She's My Best Friend!",
       "duration": "03:31",
       "focus": "청크",
@@ -829,7 +829,7 @@
     {
       "id": "lle1-40",
       "lesson": 40,
-      "quarter": 4,
+      "quarter": 2,
       "title": "Lesson 40: The Woods Are Alive",
       "duration": "04:11",
       "focus": "소리",
@@ -926,7 +926,7 @@
       "lessonData": "media/english/lessons/lle1-44.json",
       "worksheet": "media/english/worksheets/lle1-44.pdf",
       "grade": "C-real",
-      "speakerCount": 7,
+      "speakerCount": 5,
       "speed": "느림",
       "track": "소리",
       "intakeWarnings": []
@@ -934,7 +934,7 @@
     {
       "id": "lle1-45",
       "lesson": 45,
-      "quarter": 4,
+      "quarter": 3,
       "title": "Lesson 45: This Land is Your Land",
       "duration": "04:00",
       "focus": "의미",
@@ -989,7 +989,7 @@
       "lessonData": "media/english/lessons/lle1-47.json",
       "worksheet": "media/english/worksheets/lle1-47.pdf",
       "grade": "C-real",
-      "speakerCount": 5,
+      "speakerCount": 4,
       "speed": "느림",
       "track": "소리",
       "intakeWarnings": []
@@ -997,7 +997,7 @@
     {
       "id": "lle1-48",
       "lesson": 48,
-      "quarter": 4,
+      "quarter": 2,
       "title": "Lesson 48: Have You Ever ...?",
       "duration": "03:37",
       "focus": "의미",
@@ -1018,7 +1018,7 @@
     {
       "id": "lle1-49",
       "lesson": 49,
-      "quarter": 4,
+      "quarter": 2,
       "title": "Lesson 49: Operation Spy!",
       "duration": "03:24",
       "focus": "소리",
@@ -1060,7 +1060,7 @@
     {
       "id": "lle1-51",
       "lesson": 51,
-      "quarter": 4,
+      "quarter": 3,
       "title": "Lesson 51: A Good Habit",
       "duration": "03:05",
       "focus": "의미",
@@ -1073,7 +1073,7 @@
       "lessonData": "media/english/lessons/lle1-51.json",
       "worksheet": "media/english/worksheets/lle1-51.pdf",
       "grade": "C-real",
-      "speakerCount": 4,
+      "speakerCount": 3,
       "speed": "느림",
       "track": "소리",
       "intakeWarnings": []
@@ -1081,7 +1081,7 @@
     {
       "id": "lle1-52",
       "lesson": 52,
-      "quarter": 4,
+      "quarter": 2,
       "title": "Lesson 52: Taking Chances",
       "duration": "03:42",
       "focus": "소리",
