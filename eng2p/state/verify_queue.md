@@ -32,6 +32,7 @@
 | out/dialog/eng2p_dialog_q2_005.md | 1층 이야기의 자연스러움과 순서 표시의 실제 밀도 | 보류 | 보류 |
 | out/dialog/eng2p_dialog_q2_006.md | 1층 마무리의 자연스러움과 화제 전환 표시의 실제 형태 | 보류 | 보류 |
 | out/input/eng2p_input_q1.md | 대체 재료 유형 5종의 조건 충족 여부와 라이선스 표기 | 완료 | 통과 |
+| out/input/eng2p_input_q2.md | 대체 재료 유형 5종의 조건 충족 여부 | 보류 | 보류 |
 | out/lectures/eng2p_q1_l007.md | going to, got to, ought to 의 축약형 철자 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l008.md | want to, have to, has to 의 축약형 철자 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l009.md | lot of, out of, kind of, sort of 의 축약형 철자 표기 | 완료 | 통과 |
@@ -71,4 +72,4 @@
 | out/lectures/eng2p_q2_l047.md | 화제를 옮기는 네 방법과 끊긴 대화를 살리는 절차 | 보류 | 보류 |
 | out/lectures/eng2p_q2_l048.md | 90초를 두 화제로 채운다는 구성과 분기 마감 측정 항목 | 보류 | 보류 |
 
-대기 0건 / 보류 38건 / 전체 51건
+대기 0건 / 보류 39건 / 전체 52건
