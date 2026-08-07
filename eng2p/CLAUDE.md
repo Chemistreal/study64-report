@@ -79,11 +79,12 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 ```bash
 python3 scripts/check.py out/<만든파일>
 python3 scripts/check_media.py
+python3 scripts/check_cards_plan.py
 python3 scripts/collect_b.py
 python3 scripts/update_status.py
 ```
 
-네 개가 다 통과해야 세션이 끝난 것이다.
+다섯 개가 다 통과해야 세션이 끝난 것이다.
 
 ## 파일 배치
 
@@ -106,7 +107,9 @@ state/rotation.md       주제 조합 회전 대장
 state/verify_queue.md   B등급 검증 대기열
 scripts/check.py        제작물 규격 검사
 scripts/check_media.py  미디어 카탈로그 검사
+scripts/check_cards_plan.py 카드 유형 총량을 기준서 8.1과 대조
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
+out/cards/eng2p_card_plan_q1.md 카드 001~150 배정표. 강의보다 이쪽이 기준
 ```
 
 ## 절대 규칙
@@ -161,6 +164,10 @@ repair는 되묻기, 자기수정, 끊김 처리, 이해 확인, 시간 벌기, 
 ## 카드 5유형
 
 판정형 / 압박형 / 확장형 / 역할형 / repair형
+
+분기별 유형 총량은 기준서 8.1이 고정한다. Q1은 판정 75, 압박 25, 확장 20, 역할 10, repair 20.
+강의를 한 편씩 쓰면서 카드를 붙이면 이 총량이 반드시 어긋난다.
+`out/cards/eng2p_card_plan_q1.md` 가 배정의 기준이고 강의는 거기에 맞춘다.
 
 - 판정형 정답은 A면에만. B면 노출 금지
 - 압박형 제한시간은 숫자 (Q2 5초, Q3 3초, Q4 2초)
