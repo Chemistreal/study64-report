@@ -3039,12 +3039,37 @@ var DOCS2=[
      {t:"Q2 점검 보고서",u:"out/manual/eng2p_q2_review.md"}]}
 ];
 
+var DOCS3=[
+ {g:"강의 24편", n:"49강부터 72강. 자동화 9, 청크 5, 문법 4, repair 3, 화용 3",
+  f:(function(){var a=[];for(var i=49;i<=72;i++){var s=("00"+i).slice(-3);
+    a.push({t:i+"강", u:"out/lectures/eng2p_q3_l"+s+".md"});}return a;})()},
+ {g:"드릴 카드 150장", n:"판정 20, 압박 45, 확장 35, 역할 25, repair 25. 제한 시간 3초",
+  f:[{t:"001-050",u:"out/cards/eng2p_card_q3_001_050.md"},
+     {t:"051-100",u:"out/cards/eng2p_card_q3_051_100.md"},
+     {t:"101-150",u:"out/cards/eng2p_card_q3_101_150.md"},
+     {t:"배정표",u:"out/cards/eng2p_card_plan_q3.md"}]},
+ {g:"대조 교차 세트 72개", n:"25주부터 36주. 32주에 관계 점검, 36주에 분기 마감",
+  f:(function(){var a=[];for(var i=25;i<=36;i++){var s=("0"+i).slice(-2);
+    a.push({t:s+"주", u:"out/sets/eng2p_set_w"+s+".md"});}return a;})()},
+ {g:"3층 대조판 6장", n:"1층과 2층 병치. 2주에 한 장. 기준서 6.4",
+  f:(function(){var a=[];for(var i=1;i<=6;i++){var s=("00"+i).slice(-3);
+    a.push({t:s, u:"out/dialog/eng2p_dialog_q3_"+s+".md"});}
+    a.push({t:"운용 문서",u:"out/dialog/eng2p_dialog_manual.md"});return a;})()},
+ {g:"산출 과제집 12주분", n:"주 1개. 분량 400자",
+  f:(function(){var a=[];for(var i=25;i<=36;i++){var s=("0"+i).slice(-2);
+    a.push({t:s+"주", u:"out/tasks/eng2p_task_w"+s+".md"});}return a;})()},
+ {g:"그 밖", n:"조준표, 비상판, 점검 보고서",
+  f:[{t:"입력 조준표",u:"out/input/eng2p_input_q3.md"},
+     {t:"비상판 20개",u:"out/emergency/eng2p_emg_041_060.md"},
+     {t:"Q3 점검 보고서",u:"out/manual/eng2p_q3_review.md"}]}
+];
+
 function renderDocs(){
   var box=$("#srcDocs"); if(!box) return; box.innerHTML="";
   var q=(typeof curSrcQ!=="undefined"&&curSrcQ)?curSrcQ:1;
-  var ttl=$("#srcDocsTitle"); if(ttl) ttl.textContent=(q>=2?"Q2":"Q1")+" 교재";
-  var nt=$("#srcDocsNote"); if(nt) nt.textContent=(q>=3?"Q3와 Q4 제작물은 아직 없다. Q2 것을 보여 준다.":"");
-  (q>=2?DOCS2:DOCS).forEach(function(g){
+  var ttl=$("#srcDocsTitle"); if(ttl) ttl.textContent=(q>=3?"Q3":(q>=2?"Q2":"Q1"))+" 교재";
+  var nt=$("#srcDocsNote"); if(nt) nt.textContent=(q>=4?"Q4 제작물은 아직 없다. Q3 것을 보여 준다.":"");
+  (q>=3?DOCS3:(q>=2?DOCS2:DOCS)).forEach(function(g){
     var d=el("div","card");
     d.appendChild(el("h4",null,g.g));
     d.appendChild(el("div","small mut",g.n));
