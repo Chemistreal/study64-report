@@ -83,6 +83,7 @@ docs/spec.md            상위 규격. 수정 금지. 개정은 사용자만
 docs/audio_intake.md    외부 제작 음성 반입 규격 (제안. 승격 전 임시)
 docs/collab.md          공동 개발 규약. 역할, 파일 소유권, 카탈로그 스키마
 tasks/gpt_backlog.md    조수(GPT) 작업 지시서. Claude 가 쓰고 GPT 가 읽는다
+tasks/gpt_prompt.md     조수에게 그대로 붙여 넣는 프롬프트
 templates/              각 산출물 템플릿
 out/lectures/           eng2p_q1_l001.md
 out/cards/              eng2p_card_q1_001_050.md
