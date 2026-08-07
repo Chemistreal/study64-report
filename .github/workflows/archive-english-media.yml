@@ -7,13 +7,19 @@ on:
       - agent/english-media-archive
     paths:
       - media/english/archive/BUILD_RELEASE
+  pull_request:
+    branches:
+      - main
+    paths:
+      - media/english/archive/BUILD_RELEASE
+      - .github/workflows/archive-english-media.yml
 
 permissions:
   contents: write
 
 concurrency:
   group: english-media-v1
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   archive:
@@ -43,10 +49,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: english-media-v1
+          TARGET_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release edit "$TAG" --target "$GITHUB_SHA" --notes-file media/english/archive/RELEASE.md
+            gh release edit "$TAG" --target "$TARGET_SHA" --notes-file media/english/archive/RELEASE.md
           else
-            gh release create "$TAG" --target "$GITHUB_SHA" --title "English media archive v1" --notes-file media/english/archive/RELEASE.md
+            gh release create "$TAG" --target "$TARGET_SHA" --title "English media archive v1" --notes-file media/english/archive/RELEASE.md
           fi
           gh release upload "$TAG" dist/english-media/* --clobber
