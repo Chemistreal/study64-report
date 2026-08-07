@@ -8,6 +8,7 @@
 
 | 파일 | 검증 대상 | 상태 |
 |---|---|---|
-| (없음) | | |
+| out/lectures/eng2p_q1_l007.md | going to, got to, ought to 의 축약형 철자 표기 | 완료 |
+| out/lectures/eng2p_q1_l008.md | want to, have to, has to 의 축약형 철자 표기 | 완료 |
 
-대기 0건 / 전체 0건
+대기 0건 / 전체 2건
