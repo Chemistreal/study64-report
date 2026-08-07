@@ -804,6 +804,10 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     <div id="srcCollect"></div>
     <div class="row end noprint"><button class="g" id="srcCopy">채집 양식 복사</button><span class="small mut" id="srcMsg"></span></div>
   </div>
+
+  <h3>Q1 교재</h3>
+  <p class="lede">저장소 안의 제작물이다. 눌러서 열고 종이로 쓸 때는 인쇄한다.</p>
+  <div id="srcDocs"></div>
 </section>
 
 <!-- ========== 대장 ========== -->
@@ -2985,7 +2989,47 @@ var MPAIRS=[
 ];
 var curSrcQ=1;
 
+var REPO="https://github.com/Chemistreal/study64-report/blob/main/eng2p/";
+var DOCS=[
+ {g:"강의 24편", n:"01강부터 24강. 소리 15, 청크 4, repair 3, 화용 2",
+  f:(function(){var a=[];for(var i=1;i<=24;i++){var s=("00"+i).slice(-3);
+    a.push({t:("0"+i).slice(-2)+"강", u:"out/lectures/eng2p_q1_l"+s+".md"});}return a;})()},
+ {g:"드릴 카드 150장", n:"판정 75, 압박 25, 확장 20, 역할 10, repair 20",
+  f:[{t:"001-050",u:"out/cards/eng2p_card_q1_001_050.md"},
+     {t:"051-100",u:"out/cards/eng2p_card_q1_051_100.md"},
+     {t:"101-150",u:"out/cards/eng2p_card_q1_101_150.md"},
+     {t:"배정표",u:"out/cards/eng2p_card_plan_q1.md"}]},
+ {g:"대조 교차 세트 72개", n:"주 6세트. 한 파일이 한 주다",
+  f:(function(){var a=[];for(var i=1;i<=12;i++){var s=("0"+i).slice(-2);
+    a.push({t:s+"주", u:"out/sets/eng2p_set_w"+s+".md"});}return a;})()},
+ {g:"산출 과제집 12주분", n:"주 1개. 한 문장씩 번갈아 만든다",
+  f:(function(){var a=[];for(var i=1;i<=12;i++){var s=("0"+i).slice(-2);
+    a.push({t:s+"주", u:"out/tasks/eng2p_task_w"+s+".md"});}return a;})()},
+ {g:"그 밖", n:"조준표, 비상판, 매뉴얼, 대장, 점검 보고서",
+  f:[{t:"입력 조준표",u:"out/input/eng2p_input_q1.md"},
+     {t:"비상판 20개",u:"out/emergency/eng2p_emg_001_020.md"},
+     {t:"운영 매뉴얼",u:"out/manual/eng2p_manual.md"},
+     {t:"진행 대장",u:"out/manual/eng2p_ledger.md"},
+     {t:"Q1 점검 보고서",u:"out/manual/eng2p_q1_review.md"}]}
+];
+
+function renderDocs(){
+  var box=$("#srcDocs"); if(!box) return; box.innerHTML="";
+  DOCS.forEach(function(g){
+    var d=el("div","card");
+    d.appendChild(el("h4",null,g.g));
+    d.appendChild(el("div","small mut",g.n));
+    var r=el("div","row"); r.style.flexWrap="wrap"; r.style.marginTop="6px";
+    g.f.forEach(function(f){
+      var a=el("a","tag"); a.textContent=f.t; a.href=REPO+f.u;
+      a.target="_blank"; a.rel="noopener noreferrer"; r.appendChild(a);
+    });
+    d.appendChild(r); box.appendChild(d);
+  });
+}
+
 function renderSrc(){
+  renderDocs();
   var box=$("#srcList"); box.innerHTML="";
   SOURCES.forEach(function(s){
     var d=el("div","src");
