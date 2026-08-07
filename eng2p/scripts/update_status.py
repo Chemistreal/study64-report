@@ -29,7 +29,9 @@ def main():
     ]
     for d, label, goal in TARGETS:
         p = OUT / d
-        n = len(list(p.glob("*.md"))) if p.exists() else 0
+        # 배정표는 산출물이 아니라 계획 문서다. 개수에서 뺀다.
+        files = [f for f in p.glob("*.md") if "plan" not in f.name] if p.exists() else []
+        n = len(files)
         lines.append("| %s | %d | %d | %d%% |" % (label, n, goal, n * 100 // goal))
 
     lec = OUT / "lectures"

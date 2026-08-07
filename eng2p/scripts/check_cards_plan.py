@@ -134,6 +134,47 @@ def check_lectures(seen, quarter):
                      % (path.name, ty))
 
 
+CARD_HEAD = re.compile(r"^\[(\d{3})\]\s+(\S+?)형\s", re.M)
+
+
+def check_card_files(seen, quarter):
+    """실제 카드 파일이 나왔으면 배정표와 대조한다.
+
+    아직 안 만든 구간은 건너뛴다. 만든 구간은 번호와 유형이 정확히 같아야 한다.
+    """
+    card_dir = ROOT / "out" / "cards"
+    made = {}
+    for path in sorted(card_dir.glob("eng2p_card_%s_*.md" % quarter)):
+        if "plan" in path.name:
+            continue
+        text = path.read_text(encoding="utf-8")
+        for m in CARD_HEAD.finditer(text):
+            n, ty = int(m.group(1)), m.group(2)
+            if n in made:
+                fail("카드 %03d 가 두 번 나온다 (%s)" % (n, path.name))
+            made[n] = (ty, path.name)
+
+    if not made:
+        print("\n카드 파일 없음. 배정표만 검사했다")
+        return
+
+    for n in sorted(made):
+        ty, name = made[n]
+        if n not in seen:
+            fail("%s: 카드 %03d 가 배정표에 없다" % (name, n))
+        elif seen[n][1] != ty:
+            fail("%s: 카드 %03d 유형이 배정표와 다르다 (파일 %s, 배정표 %s)"
+                 % (name, n, ty, seen[n][1]))
+
+    lo, hi = min(made), max(made)
+    gaps = [n for n in range(lo, hi + 1) if n not in made]
+    if gaps:
+        fail("카드 파일에 번호 구멍: %s"
+             % ", ".join("%03d" % n for n in gaps[:10]))
+    print("\n카드 파일 %d장 확인 (%03d ~ %03d). 남은 것 %d장"
+          % (len(made), lo, hi, len(seen) - len(made)))
+
+
 def main():
     quarter = (sys.argv[1] if len(sys.argv) > 1 else "q1").lower()
     if quarter not in SPEC:
@@ -148,6 +189,7 @@ def main():
     seen = check_coverage(rows, 150)
     check_totals(seen, quarter)
     check_lectures(seen, quarter)
+    check_card_files(seen, quarter)
 
     print("\n배정 %d장 / 실패 %d / 경고 %d" % (len(seen), len(FAIL), len(WARN)))
     return 1 if FAIL else 0

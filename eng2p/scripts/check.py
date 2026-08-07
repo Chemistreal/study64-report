@@ -82,7 +82,17 @@ def check_common(path, text):
         fail(path, "B등급인데 검증로그 항목이 없다")
 
     # 1인 지시 탐지
+    #
+    # "혼자" 는 부정문과 "각자" 가 붙은 문장에서도 나온다.
+    # "혼자 하는 블록은 없다" 와 "각자 혼자 적는다" 는 둘 다 2인 절차다.
+    # 그 둘을 걸러야 경고가 남아 있는 것에 의미가 생긴다.
+    SAFE = re.compile(r"(없다|않는다|없고|아니다|각자|둘 다|서로)")
     for m in re.finditer(r"(혼자|각자 알아서|스스로 만들어)", text):
+        s = text.rfind("\n", 0, m.start()) + 1
+        e = text.find("\n", m.end())
+        line = text[s:e if e > 0 else len(text)]
+        if m.group(1) == "혼자" and SAFE.search(line):
+            continue
         warn(path, "1인 수행 지시 의심: %s" % m.group(1))
 
 
