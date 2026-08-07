@@ -69,17 +69,20 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 
 ```bash
 python3 scripts/check.py out/<만든파일>
+python3 scripts/check_media.py
 python3 scripts/collect_b.py
 python3 scripts/update_status.py
 ```
 
-세 개가 다 통과해야 세션이 끝난 것이다.
+네 개가 다 통과해야 세션이 끝난 것이다.
 
 ## 파일 배치
 
 ```
 docs/spec.md            상위 규격. 수정 금지. 개정은 사용자만
 docs/audio_intake.md    외부 제작 음성 반입 규격 (제안. 승격 전 임시)
+docs/collab.md          공동 개발 규약. 역할, 파일 소유권, 카탈로그 스키마
+tasks/gpt_backlog.md    조수(GPT) 작업 지시서. Claude 가 쓰고 GPT 가 읽는다
 templates/              각 산출물 템플릿
 out/lectures/           eng2p_q1_l001.md
 out/cards/              eng2p_card_q1_001_050.md
@@ -91,7 +94,8 @@ state/status.md         진행 상태 (자동 생성)
 state/journal.md        제작 일지 (수기). 단계 진척, 기준서 개정 대기
 state/rotation.md       주제 조합 회전 대장
 state/verify_queue.md   B등급 검증 대기열
-scripts/                검사 스크립트
+scripts/check.py        제작물 규격 검사
+scripts/check_media.py  미디어 카탈로그 검사. 조수 산출물 게이트
 ```
 
 ## 절대 규칙
@@ -169,6 +173,13 @@ repair는 되묻기, 자기수정, 끊김 처리, 이해 확인, 시간 벌기, 
 추상도와 언어 난이도는 분리한다.
 게임과 투자와 철학 주제를 A2 문장으로 다룰 수 있다.
 초급 주제만 주면 학습자가 이탈한다.
+
+## 공동 개발
+
+Claude 가 주 개발, GPT 가 조수다. 규약은 docs/collab.md 에 있다.
+조수는 media/english/ 만 고친다. english.html 과 scripts/ 는 건드리지 않는다.
+조수 산출물은 눈으로 훑지 말고 `python3 scripts/check_media.py` 로 거른다.
+둘 다 같은 실패 모드를 갖기 때문이다. 그럴듯한 영어를 자신 있게 쓴다.
 
 ## 하지 말 것
 

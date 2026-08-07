@@ -639,6 +639,8 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
         <a id="libPage" target="_blank" rel="noopener noreferrer">대본과 원문</a>
         <a id="libDownload" download>MP3 직접 다운로드</a>
       </div>
+      <div id="libPass" class="noprint" style="margin-top:14px"></div>
+      <div id="libScript"></div>
     </div>
   </div>
 
@@ -963,7 +965,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null},theme:null,wk:0,onboarded:false};
+          media:{done:{},fav:{},last:null,pass:{}},theme:null,wk:0,onboarded:false};
 }
 function load(){
   try{
@@ -2436,6 +2438,91 @@ function paintMediaPlayer(){
   $("#libDownload").href=it.audio; $("#libDownload").setAttribute("download",it.id+".mp3");
   $("#libPrev").disabled=LIB.active<=0; $("#libNext").disabled=LIB.active>=MEDIA.length-1;
   document.querySelectorAll("[data-lib-mode]").forEach(function(b){ b.classList.toggle("on",b.dataset.libMode===LIB.mode); });
+  renderLibPass(it); renderLibScript(it);
+}
+
+/* 3회차 진행. 기준서 10.3은 같은 자료를 최소 3회 듣되 회차마다 초점을 바꾸라고 한다.
+   카탈로그의 focus 는 1회차 권장값일 뿐이고 진행은 여기서 관리한다. */
+var PASSES=[[1,"소리","어디가 줄었는지만 찾는다. 무슨 말인지는 묻지 않는다"],
+            [2,"청크","통째로 굴러가는 덩어리를 찾는다. 단어로 쪼개지 않는다"],
+            [3,"의미","이제 내용을 잡는다. 앞의 두 회차가 먼저다"]];
+function passRec(){ var r=mediaRec(); if(!r.pass) r.pass={}; return r.pass; }
+function renderLibPass(it){
+  var box=$("#libPass"); if(!box) return;
+  var pr=passRec(), cur=pr[it.id]||{};
+  box.innerHTML="";
+  var lab=el("div","small mut","회차 초점. 같은 자료를 세 번 듣고 매번 다른 것을 찾는다");
+  lab.style.marginBottom="8px"; box.appendChild(lab);
+  var row=el("div","row");
+  PASSES.forEach(function(p){
+    var on=!!cur[p[0]];
+    var b=el("button","g"+(on?" on":""),p[0]+"회 "+p[1]);
+    b.type="button"; b.title=p[2];
+    b.onclick=function(){
+      var c=pr[it.id]||(pr[it.id]={});
+      if(c[p[0]]) delete c[p[0]]; else c[p[0]]=true;
+      save(); paintMediaPlayer(); renderMediaList();
+    };
+    row.appendChild(b);
+  });
+  box.appendChild(row);
+  var n=PASSES.filter(function(p){return !!cur[p[0]];}).length;
+  var next=PASSES.filter(function(p){return !cur[p[0]];})[0];
+  box.appendChild(el("div","small mut",
+    n+" / 3 회차 완료"+(next?".  다음: "+next[0]+"회 "+next[1]+". "+next[2]:".  세 회차를 다 돌았다")));
+}
+
+/* 대본. 조수가 catalog 의 transcript 를 채우면 코드 수정 없이 여기로 흐른다.
+   문자열 배열과 {t, line} 객체 배열을 둘 다 받는다. */
+function trLines(it){
+  var tr=it&&it.transcript;
+  if(!Array.isArray(tr)||!tr.length) return null;
+  return tr.map(function(x){
+    return (typeof x==="string") ? {t:null,line:x} : {t:(typeof x.t==="number"?x.t:null),line:String(x.line||"")};
+  }).filter(function(x){ return x.line; });
+}
+function renderLibScript(it){
+  var box=$("#libScript"); if(!box) return;
+  var lines=trLines(it);
+  box.innerHTML="";
+  if(!lines){
+    box.innerHTML='<div class="note small" style="margin-bottom:0"><b>대본이 아직 없다.</b> '+
+      '위의 대본과 원문 링크에서 확인한다. 카탈로그에 transcript 가 채워지면 여기에 자동으로 나온다. '+
+      'eng2p/tasks/gpt_backlog.md T-001</div>';
+    return;
+  }
+  var head=el("div","row"); head.style.margin="14px 0 6px";
+  head.appendChild(el("b",null,"대본 "+lines.length+"줄"));
+  var toClip=el("button","g","대본을 클립으로"); toClip.type="button";
+  toClip.onclick=function(){
+    var name=it.id+".mp3";
+    S.scripts[name]=lines.map(function(x){ return {line:x.line, t:x.t}; });
+    loadClipUrl(name, it.audio, false);
+    var lab=$("#cLabel"); if(lab&&!lab.value) lab.value=it.title;
+    $("#scText").value=lines.map(function(x){return x.line;}).join("\n");
+    save(); renderScript(); go("clip");
+    flash("대본 "+lines.length+"줄을 클립으로 보냈다");
+  };
+  head.appendChild(toClip);
+  box.appendChild(head);
+  lines.forEach(function(x){
+    var d=el("div","clip");
+    var top=el("div","hd2");
+    var left=el("div"); left.style.flex="1"; left.style.minWidth="140px";
+    left.appendChild(el("div",null,x.line));
+    if(x.t!=null) left.appendChild(el("div","small mut tc",mmss(x.t)));
+    top.appendChild(left);
+    var acts=el("div","row"); acts.style.gap="6px";
+    if(x.t!=null&&LIB.el){
+      var jump=el("button","g","여기부터"); jump.type="button";
+      jump.style.padding="3px 10px"; jump.style.fontSize="12px";
+      jump.onclick=function(){ LIB.el.currentTime=x.t; var q=LIB.el.play(); if(q&&q.catch) q.catch(function(){}); };
+      acts.appendChild(jump);
+    }
+    acts.appendChild(spkBtn(x.line.replace(/^[^:]{1,14}:\s*/,"")));
+    top.appendChild(acts); d.appendChild(top);
+    box.appendChild(d);
+  });
 }
 function openMedia(i,mode,play){
   var it=mediaItem(i); if(!it) return;
