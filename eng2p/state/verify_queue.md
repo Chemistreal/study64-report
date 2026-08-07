@@ -22,6 +22,12 @@
 | out/cards/eng2p_card_q1_001_050.md | dark l 낱말 목록과 자음군 낱말 목록의 선정 | 보류 | 보류 |
 | out/cards/eng2p_card_q1_051_100.md | 연음 자리와 약모음 자리의 낱말 선정, 억양 방향의 대응 | 보류 | 보류 |
 | out/cards/eng2p_card_q1_101_150.md | 고빈도 덩어리 목록, 되묻기 3형과 자기수정 3형의 형태, 3레지스터 대표 형태 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q2_001.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q2_002.md | 1층 대화의 자연스러움과 되돌리는 덩어리의 실제 빈도 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q2_003.md | 1층 대화의 자연스러움과 시간 덩어리의 자리 분포 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q2_004.md | 1층 대화의 자연스러움과 의견 세기와 확인의 실제 분포 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q2_005.md | 1층 이야기의 자연스러움과 순서 표시의 실제 밀도 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q2_006.md | 1층 마무리의 자연스러움과 화제 전환 표시의 실제 형태 | 보류 | 보류 |
 | out/input/eng2p_input_q1.md | 대체 재료 유형 5종의 조건 충족 여부와 라이선스 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l007.md | going to, got to, ought to 의 축약형 철자 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l008.md | want to, have to, has to 의 축약형 철자 표기 | 완료 | 통과 |
@@ -62,4 +68,4 @@
 | out/lectures/eng2p_q2_l047.md | 화제를 옮기는 네 방법과 끊긴 대화를 살리는 절차 | 보류 | 보류 |
 | out/lectures/eng2p_q2_l048.md | 90초를 두 화제로 채운다는 구성과 분기 마감 측정 항목 | 보류 | 보류 |
 
-대기 0건 / 보류 29건 / 전체 42건
+대기 0건 / 보류 35건 / 전체 48건
