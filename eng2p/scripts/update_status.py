@@ -7,12 +7,17 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "out"
 STATUS = ROOT / "state" / "status.md"
 
+import re
+
+# 파일 개수를 세는 것과 안의 항목 수를 세는 것이 다르다.
+# 카드와 세트는 한 파일에 여럿이 들어가므로 안을 세야 실제 진척이 나온다.
+# count 가 None 이면 파일 개수, 정규식이면 그 패턴의 등장 횟수를 센다.
 TARGETS = [
-    ("lectures", "강의", 96),
-    ("cards", "카드 묶음", 12),
-    ("sets", "대조교차 세트", 288),
-    ("input", "입력 조준표", 4),
-    ("manual", "매뉴얼류", 3),
+    ("lectures", "강의", 96, None),
+    ("cards", "카드", 600, r"^\[\d{3}\]\s+\S+형"),
+    ("sets", "대조교차 세트", 288, r"^##\s*세트\s*\d{3}"),
+    ("input", "입력 조준표", 4, None),
+    ("manual", "매뉴얼류", 3, None),
 ]
 
 
@@ -27,11 +32,15 @@ def main():
         "| 산출물 | 완료 | 목표 | 비율 |",
         "|---|---|---|---|",
     ]
-    for d, label, goal in TARGETS:
+    for d, label, goal, pat in TARGETS:
         p = OUT / d
         # 배정표는 산출물이 아니라 계획 문서다. 개수에서 뺀다.
         files = [f for f in p.glob("*.md") if "plan" not in f.name] if p.exists() else []
-        n = len(files)
+        if pat is None:
+            n = len(files)
+        else:
+            rx = re.compile(pat, re.M)
+            n = sum(len(rx.findall(f.read_text(encoding="utf-8"))) for f in files)
         lines.append("| %s | %d | %d | %d%% |" % (label, n, goal, n * 100 // goal))
 
     lec = OUT / "lectures"
