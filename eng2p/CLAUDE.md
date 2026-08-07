@@ -81,9 +81,9 @@ python3 scripts/update_status.py
 ```
 docs/spec.md            상위 규격. 수정 금지. 개정은 사용자만
 docs/audio_intake.md    외부 제작 음성 반입 규격 (제안. 승격 전 임시)
-docs/collab.md          공동 개발 규약. 역할, 파일 소유권, 카탈로그 스키마
-tasks/gpt_backlog.md    조수(GPT) 작업 지시서. Claude 가 쓰고 GPT 가 읽는다
-tasks/gpt_prompt.md     조수에게 그대로 붙여 넣는 프롬프트
+docs/roadmap.md         완료까지의 턴 단위 계획. 매 턴 갱신한다
+docs/collab.md          공동 개발 규약 (종료. 기록으로만 남긴다)
+tasks/                  조수 지시서 (종료. 기록으로만 남긴다)
 templates/              각 산출물 템플릿
 out/lectures/           eng2p_q1_l001.md
 out/cards/              eng2p_card_q1_001_050.md
@@ -96,7 +96,7 @@ state/journal.md        제작 일지 (수기). 단계 진척, 기준서 개정 
 state/rotation.md       주제 조합 회전 대장
 state/verify_queue.md   B등급 검증 대기열
 scripts/check.py        제작물 규격 검사
-scripts/check_media.py  미디어 카탈로그 검사. 조수 산출물 게이트
+scripts/check_media.py  미디어 카탈로그 검사
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
 ```
 
@@ -176,12 +176,17 @@ repair는 되묻기, 자기수정, 끊김 처리, 이해 확인, 시간 벌기, 
 게임과 투자와 철학 주제를 A2 문장으로 다룰 수 있다.
 초급 주제만 주면 학습자가 이탈한다.
 
-## 공동 개발
+## 단독 개발
 
-Claude 가 주 개발, GPT 가 조수다. 규약은 docs/collab.md 에 있다.
-조수는 media/english/ 만 고친다. english.html 과 scripts/ 는 건드리지 않는다.
-조수 산출물은 눈으로 훑지 말고 `python3 scripts/check_media.py` 로 거른다.
-둘 다 같은 실패 모드를 갖기 때문이다. 그럴듯한 영어를 자신 있게 쓴다.
+**조수를 쓰지 않는다. 전부 내가 직접 만들고 내가 검사한다.**
+
+이전에 조수(GPT)가 만든 미디어 52과와 대본은 그대로 쓴다.
+`docs/collab.md` 와 `tasks/` 는 그 기간의 기록으로만 남긴다.
+새 작업 지시는 나가지 않는다.
+
+혼자 만든다고 검사를 건너뛰지 않는다. 오히려 반대다.
+검출할 사람이 아무도 없어졌으므로 검사기가 유일한 외부 눈이다.
+`docs/roadmap.md` 가 완료까지의 턴 단위 계획이다. 매 턴 그 표를 갱신한다.
 
 ## 하지 말 것
 
