@@ -57,11 +57,12 @@ C등급은 만들지 않는다. 조준표에 채집 지시만 쓴다.
 1. 운영 매뉴얼, 진행 대장, 회전 대장
 2. Q1 강의 24편
 3. Q1 카드 150장, 세트 72개, 조준표 1권
-4. **8주 실행 후 피드백. 여기서 반드시 멈춘다.**
+4. **8주 실행 후 피드백. 원래는 여기서 멈춘다.**
 5. Q2 → Q3 → Q4
 
-4단계를 건너뛰지 않는다. 사용자가 명시적으로 지시하기 전에는
-Q2 이후를 만들지 않는다.
+4단계 정지는 사용자가 세 번 다 진행을 지시해 지나갔다.
+2026-08-07 에 모든 의사결정 기준을 제작자에게 넘겼다.
+기준서 개정 8건도 그 지시로 다 결정했다. state/journal.md 5장에 있다.
 
 ## 세션 시작 절차
 
@@ -90,7 +91,8 @@ python3 scripts/update_status.py
 
 ```
 docs/spec.md            상위 규격. 수정 금지. 개정은 사용자만
-docs/audio_intake.md    외부 제작 음성 반입 규격 (제안. 승격 전 임시)
+docs/audio_intake.md    외부 제작 음성 반입 규격 (승격 확정. 기준서 9장 부속)
+docs/spec_amendments.md 기준서 개정문 8건. 사용자가 spec.md 에 붙일 문안
 docs/roadmap.md         완료까지의 턴 단위 계획. 매 턴 갱신한다
 docs/collab.md          공동 개발 규약 (종료. 기록으로만 남긴다)
 tasks/                  조수 지시서 (종료. 기록으로만 남긴다)
@@ -99,10 +101,10 @@ out/lectures/           eng2p_q1_l001.md
 out/cards/              eng2p_card_q1_001_050.md
 out/sets/               eng2p_set_w01.md
 out/input/              eng2p_input_q1.md
-out/manual/             운영 매뉴얼, 진행 대장
+out/manual/             운영 매뉴얼, 진행 대장, 분기 점검 보고서
 out/audio/              eng2p_audio_q1_001.md (대본만. 음성 파일은 넣지 않는다)
 state/status.md         진행 상태 (자동 생성)
-state/journal.md        제작 일지 (수기). 단계 진척, 기준서 개정 대기
+state/journal.md        제작 일지 (수기). 단계 진척, 기준서 개정 결정
 state/rotation.md       주제 조합 회전 대장
 state/verify_queue.md   B등급 검증 대기열
 scripts/check.py        제작물 규격 검사
@@ -124,6 +126,7 @@ out/cards/eng2p_card_plan_q1.md 카드 001~150 배정표. 강의보다 이쪽이
 | 슬랭 | 전면 금지 |
 | 1인 지시 | 금지. 모든 과제는 2인 전제 |
 | 통과 기준 | 반드시 숫자. "자연스러워지면" 류 금지 |
+| 통과선 | 선언하지 않고 계획에서 파생시킨다. 누적 시간 144/288/432/576 이 그 예다 |
 
 ## 강의 7블록 (순서 고정)
 
@@ -206,8 +209,7 @@ repair는 되묻기, 자기수정, 끊김 처리, 이해 확인, 시간 벌기, 
 
 ## 하지 말 것
 
-- Q2 이후를 미리 만들기
-- docs/spec.md 수정
+- docs/spec.md 수정. 개정문은 docs/spec_amendments.md 에 적고 사용자가 붙인다
 - 검사 스크립트 통과 없이 세션 종료
 - 확신 없는 표현을 A등급으로 쓰기
 - 1인 수행 가능한 과제 쓰기
