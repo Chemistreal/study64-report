@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>eng2p 운영 콘솔</title>
+<meta name="description" content="2인 전용 영어 1년 과정 운영 도구. 세션 타이머, 진행 대장, 판정 큐, 분기 점검, 규격 검사, 회전 대장.">
+<style>
+/* ---------- 토큰 ---------- */
+:root{
+  --bg:#ffffff; --fg:#111111; --mut:#767676; --line:#e7e7e7; --sub:#fafafa;
+  --acc:#2f4fd0; --warn:#b42318; --ok:#1f6b45;
+  --mono:ui-monospace,SFMono-Regular,SF Mono,Menlo,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+}
+:root:not([data-theme="light"]){ }
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c0c0d; --fg:#ececec; --mut:#8d8d90; --line:#232326; --sub:#141416;
+    --acc:#8fa8ff; --warn:#ff8078; --ok:#68c99a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c0c0d; --fg:#ececec; --mut:#8d8d90; --line:#232326; --sub:#141416;
+  --acc:#8fa8ff; --warn:#ff8078; --ok:#68c99a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--sans);
+  font-size:15px; line-height:1.65; letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased; word-break:keep-all;
+}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px 96px}
+
+/* ---------- 헤더 ---------- */
+header{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20}
+.hd{max-width:880px;margin:0 auto;padding:16px 20px 0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand{font-size:14px;font-weight:600;letter-spacing:.02em}
+.brand span{color:var(--mut);font-weight:400}
+.hd .grow{flex:1}
+.tbtn{background:none;border:1px solid var(--line);color:var(--mut);font:inherit;font-size:12px;padding:3px 9px;border-radius:99px;cursor:pointer}
+.tbtn:hover{color:var(--fg);border-color:var(--fg)}
+nav{max-width:880px;margin:0 auto;padding:10px 20px 0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{
+  background:none;border:0;border-bottom:2px solid transparent;color:var(--mut);
+  font:inherit;font-size:14px;padding:6px 12px 10px;cursor:pointer;white-space:nowrap;
+}
+nav button:hover{color:var(--fg)}
+nav button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--fg);font-weight:600}
+nav .sep{width:1px;background:var(--line);margin:4px 8px 10px;flex:none}
+
+/* ---------- 공통 ---------- */
+h2{font-size:20px;font-weight:650;letter-spacing:-.02em;margin:36px 0 4px}
+h2:first-of-type{margin-top:28px}
+h3{font-size:14px;font-weight:650;margin:26px 0 8px;letter-spacing:-.01em}
+.lede{color:var(--mut);font-size:13.5px;margin:0 0 18px}
+p{margin:0 0 12px}
+section[hidden]{display:none}
+.card{border:1px solid var(--line);border-radius:8px;padding:18px;margin:14px 0}
+.card.tight{padding:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.end{justify-content:flex-end}
+.grid{display:grid;gap:10px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.mut{color:var(--mut)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.small{font-size:12.5px}
+hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+
+button.b{background:var(--fg);color:var(--bg);border:1px solid var(--fg);font:inherit;font-size:13.5px;padding:7px 15px;border-radius:6px;cursor:pointer}
+button.b:hover{opacity:.85}
+button.g{background:none;color:var(--fg);border:1px solid var(--line);font:inherit;font-size:13.5px;padding:7px 15px;border-radius:6px;cursor:pointer}
+button.g:hover{border-color:var(--fg)}
+button.g.on{border-color:var(--fg);background:var(--sub);font-weight:600}
+button:disabled{opacity:.4;cursor:not-allowed}
+input,select,textarea{
+  font:inherit;font-size:14px;color:var(--fg);background:var(--bg);
+  border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:100%;
+}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--acc)}
+textarea{resize:vertical;min-height:92px;font-family:var(--mono);font-size:12.5px;line-height:1.6}
+label.f{display:block;font-size:12px;color:var(--mut);margin-bottom:4px}
+input[type=number]{font-family:var(--mono)}
+input[type=checkbox]{width:auto;accent-color:var(--acc)}
+
+table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:500;font-size:12px}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border:1px solid var(--line);border-radius:99px;color:var(--mut);white-space:nowrap}
+.tag.w{color:var(--warn);border-color:var(--warn)}
+.tag.o{color:var(--ok);border-color:var(--ok)}
+.tag.a{color:var(--acc);border-color:var(--acc)}
+.note{border-left:2px solid var(--line);padding:2px 0 2px 12px;color:var(--mut);font-size:13px;margin:12px 0}
+.note.w{border-color:var(--warn);color:var(--warn)}
+
+/* ---------- 타이머 ---------- */
+.timer{text-align:center;padding:26px 0 6px}
+.tblock{font-size:13px;color:var(--mut);letter-spacing:.06em}
+.tbig{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:clamp(56px,17vw,96px);line-height:1;letter-spacing:-.04em;margin:6px 0 2px;font-weight:500}
+.tdesc{font-size:13.5px;color:var(--mut);min-height:22px}
+.bar{height:2px;background:var(--line);margin:22px 0 0;position:relative}
+.bar i{position:absolute;left:0;top:0;height:100%;background:var(--fg);transition:width .3s linear}
+.steps{display:flex;gap:1px;margin-top:22px}
+.steps div{flex:var(--w,1);height:3px;background:var(--line)}
+.steps div.done{background:var(--fg)}
+.steps div.now{background:var(--acc)}
+.slab{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-top:6px}
+
+/* ---------- 차트 ---------- */
+svg.chart{width:100%;height:auto;display:block}
+svg .ax{stroke:var(--line);stroke-width:1}
+svg .tgt{stroke:var(--mut);stroke-width:1;stroke-dasharray:3 3;fill:none}
+svg .plan{stroke:var(--acc);stroke-width:1;stroke-dasharray:1 3;fill:none}
+svg .act{stroke:var(--fg);stroke-width:1.75;fill:none}
+svg text{fill:var(--mut);font-size:10px;font-family:var(--mono)}
+
+/* ---------- 규칙 카드 ---------- */
+.wallcard{border:1px solid var(--fg);border-radius:8px;padding:22px}
+.wallcard h4{margin:0 0 2px;font-size:15px}
+.wallcard ul{margin:6px 0 0;padding-left:18px}
+.wallcard li{margin:3px 0;font-size:13.5px}
+.wc-sec{border-top:1px solid var(--line);margin-top:16px;padding-top:14px}
+
+.lreitem{border:1px solid var(--line);border-radius:6px;padding:12px;margin:8px 0;font-size:13.5px}
+.lreitem .hd2{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+.del{background:none;border:0;color:var(--mut);cursor:pointer;font:inherit;font-size:12px;padding:0}
+.del:hover{color:var(--warn)}
+
+.res{font-family:var(--mono);font-size:12.5px;line-height:1.75;white-space:pre-wrap}
+.res .f{color:var(--warn)}
+.res .w2{color:var(--acc)}
+
+footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var(--mut);font-size:12px}
+
+@media print{
+  header,nav,footer,.noprint{display:none!important}
+  body{font-size:12px}
+  .wrap{padding:0}
+  section[hidden]{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <div class="brand">eng2p <span>· 2인 전용 영어 1년 과정 운영 콘솔</span></div>
+    <div class="grow"></div>
+    <button class="tbtn" id="themeBtn" type="button">테마</button>
+  </div>
+  <nav id="nav" role="tablist"></nav>
+</header>
+
+<div class="wrap">
+
+<!-- ========== 오늘 ========== -->
+<section id="t-today" role="tabpanel">
+  <h2>오늘</h2>
+  <p class="lede">날짜만 보고 역할을 정한다. 협의하면 편중된다.</p>
+
+  <div class="card tight">
+    <div class="row">
+      <div style="flex:1;min-width:180px">
+        <div class="small mut">오늘 <span class="mono" id="todayDate"></span></div>
+        <div style="font-size:19px;font-weight:650" id="todayRole"></div>
+      </div>
+      <div class="small mut" style="text-align:right">짝수 날 <span id="nameA1"></span> = A<br>홀수 날 <span id="nameB1"></span> = A</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="timer">
+      <div class="tblock" id="tBlockName">블록 1 · 병렬 침묵</div>
+      <div class="tbig" id="tClock">40:00</div>
+      <div class="tdesc" id="tDesc"></div>
+      <div class="bar"><i id="tBar" style="width:0%"></i></div>
+      <div class="steps" id="tSteps"></div>
+      <div class="slab"><span>0분</span><span>120분</span></div>
+    </div>
+    <div class="row" style="justify-content:center;margin-top:18px">
+      <button class="b" id="tStart">시작</button>
+      <button class="g" id="tSkip">다음 블록</button>
+      <button class="g" id="tReset">처음으로</button>
+      <label class="small mut" style="display:flex;align-items:center;gap:5px;margin-left:6px">
+        <input type="checkbox" id="tSound" checked> 종료음
+      </label>
+    </div>
+  </div>
+
+  <h3>세션 기록</h3>
+  <p class="lede">세션이 끝난 직후 30초 안에 적는다. 나중에 적으면 안 적는다.</p>
+  <div class="card">
+    <div class="row" style="margin-bottom:14px">
+      <span class="small mut">수행</span>
+      <button class="g" data-st="normal">정상 2시간</button>
+      <button class="g" data-st="emg">비상판 15분</button>
+      <button class="g" data-st="absent">결석</button>
+    </div>
+    <div class="grid g3">
+      <div><label class="f">발화 시간 (분)</label><input type="number" id="fSpeak" min="0" step="1"></div>
+      <div><label class="f">드릴 소화량 (장)</label><input type="number" id="fCards" min="0" step="1"></div>
+      <div><label class="f">LRE 발생 (회)</label><input type="number" id="fLre" min="0" step="1"></div>
+    </div>
+    <div class="note small">LRE는 둘이 <b>지금 쓰는 영어 자체</b>에 대해 얘기한 순간이다. 한 덩어리 이야기가 한 항목을 다루면 1회다. 횟수를 채우려고 억지로 만들지 않는다.</div>
+    <div class="row end"><button class="b" id="fSave">기록 저장</button><span class="small mut" id="fMsg"></span></div>
+  </div>
+
+  <h3>미해결 LRE</h3>
+  <p class="lede">반드시 문장으로 적는다. 이게 주간 판정 세션의 입력이 된다.</p>
+  <div class="card">
+    <div class="grid g2">
+      <div><label class="f">우리가 말한 문장</label><input id="uT" placeholder="I have went there yesterday"></div>
+      <div><label class="f">무엇이 걸렸나</label><input id="uI" placeholder="시제를 어떻게 잡는지"></div>
+    </div>
+    <div class="grid g2" style="margin-top:10px">
+      <div><label class="f" id="labU1">남편 생각</label><input id="uH"></div>
+      <div><label class="f" id="labU2">아내 생각</label><input id="uW"></div>
+    </div>
+    <div class="row end" style="margin-top:10px"><button class="g" id="uAdd">추가</button></div>
+    <div id="uList"></div>
+  </div>
+
+  <h3>채집 표현</h3>
+  <p class="lede">출처 없이 올리지 않는다. 출처가 없으면 판정이 안 된다.</p>
+  <div class="card">
+    <div class="grid g3">
+      <div><label class="f">표현</label><input id="cE"></div>
+      <div><label class="f">어디서 봤나</label><input id="cS"></div>
+      <div><label class="f">궁금한 점</label><input id="cQ"></div>
+    </div>
+    <div class="row end" style="margin-top:10px"><button class="g" id="cAdd">추가</button></div>
+    <div id="cList"></div>
+  </div>
+</section>
+
+<!-- ========== 대장 ========== -->
+<section id="t-ledger" role="tabpanel" hidden>
+  <h2>진행 대장</h2>
+  <p class="lede">매일 칸은 활동량이다. 실력 판정은 분기 탭에서만 한다.</p>
+
+  <div class="card tight">
+    <div class="grid g3">
+      <div><label class="f">시작일</label><input type="date" id="sStart"></div>
+      <div><label class="f">이름 A</label><input id="sNameA"></div>
+      <div><label class="f">이름 B</label><input id="sNameB"></div>
+    </div>
+  </div>
+
+  <div class="grid g3" id="statCards"></div>
+
+  <h3>누적 시간</h3>
+  <div class="card"><div id="chart"></div>
+    <div class="small mut" style="margin-top:8px">
+      실선 누적 · 점선 730h 기준선(기준서 1장) · 성긴 점선 576h 계획선(주 6일 x 2시간 x 48주)
+    </div>
+    <div class="note w small">기준서 1장은 "하루 2시간, 주 6일, 48주"와 "총 730시간"을 같이 적는데 앞의 값으로는 576시간이 나온다. 730은 하루 2시간에 365일을 곱한 값이다. 두 선을 다 그려 두었다. 어느 쪽으로 고칠지는 기준서 개정 사항이다.</div>
+  </div>
+
+  <h3>이번 주</h3>
+  <div class="row noprint" style="margin-bottom:6px">
+    <button class="g" id="wPrev">이전 주</button>
+    <span class="mono small" id="wLabel"></span>
+    <button class="g" id="wNext">다음 주</button>
+  </div>
+  <div class="scroll"><table id="weekTable"></table></div>
+  <div id="alerts"></div>
+
+  <h3>내보내기</h3>
+  <div class="card tight">
+    <div class="row">
+      <button class="g" id="exJson">JSON 내려받기</button>
+      <button class="g" id="exMd">대장 마크다운 복사</button>
+      <button class="g" id="imBtn">JSON 가져오기</button>
+      <input type="file" id="imFile" accept="application/json" hidden>
+      <button class="g" id="wipe" style="color:var(--warn)">전체 삭제</button>
+    </div>
+    <div class="small mut" style="margin-top:8px">기록은 이 브라우저에만 저장된다. 기기를 바꾸면 JSON으로 옮긴다.</div>
+  </div>
+</section>
+
+<!-- ========== 판정 ========== -->
+<section id="t-verify" role="tabpanel" hidden>
+  <h2>판정 큐</h2>
+  <p class="lede">주 1회 고정. 생성보다 판정이 정확하다. 이게 이 과정의 주된 품질 보증 장치다.</p>
+  <div class="row noprint">
+    <button class="g" id="vFilter">해결된 항목 보기</button>
+    <button class="b" id="vCopy">판정 세션 마크다운 복사</button>
+    <span class="small mut" id="vMsg"></span>
+  </div>
+  <h3>미해결 LRE</h3>
+  <div id="vLre"></div>
+  <h3>채집 표현</h3>
+  <div id="vColl"></div>
+</section>
+
+<!-- ========== 분기 ========== -->
+<section id="t-quarter" role="tabpanel" hidden>
+  <h2>분기 점검</h2>
+  <p class="lede">성과 측정은 분기 1회만 한다. 분기 이동은 날짜가 아니라 통과 조건으로 한다.</p>
+  <div class="row noprint" id="qTabs"></div>
+
+  <h3>통과 조건</h3>
+  <p class="lede">측정은 둘이 서로에게 한다. 같은 항목을 역할 바꿔 두 번 잰다.</p>
+  <div id="qPass"></div>
+  <div class="small mut" id="qFoot"></div>
+
+  <h3>관계 유형 점검</h3>
+  <p class="lede">각자 다른 방에서 따로 적고 동시에 공개한다. 상의하면 힘센 쪽 답으로 수렴한다.</p>
+  <div id="qRel"></div>
+  <div id="qSignal"></div>
+</section>
+
+<!-- ========== 검사 ========== -->
+<section id="t-check" role="tabpanel" hidden>
+  <h2>규격 검사</h2>
+  <p class="lede">scripts/check.py 를 브라우저로 옮긴 것이다. 통과 못 하면 미완성이다.</p>
+  <div class="card">
+    <div class="grid g2">
+      <div><label class="f">파일명</label><input id="kName" value="eng2p_q1_l001.md"></div>
+      <div><label class="f">종류 (파일명으로 자동 판정)</label><input id="kKind" readonly class="mono"></div>
+    </div>
+    <div style="margin-top:10px"><label class="f">제작물 내용</label><textarea id="kText" rows="14" placeholder="마크다운을 그대로 붙여넣는다"></textarea></div>
+    <div class="row end" style="margin-top:10px">
+      <span class="small mut mono" id="kLen"></span>
+      <button class="b" id="kRun">검사</button>
+    </div>
+  </div>
+  <div id="kOut"></div>
+</section>
+
+<!-- ========== 회전 ========== -->
+<section id="t-rot" role="tabpanel" hidden>
+  <h2>회전 대장</h2>
+  <p class="lede">관리하지 않으면 익숙한 조합(일상 x 친구 x 잡담)에 몰린다. 제작자 편향이라 의식적으로 막는다.</p>
+
+  <div class="card">
+    <div class="grid g2">
+      <div><label class="f">제작물 ID</label><input id="rId" placeholder="eng2p_q1_l001"></div>
+      <div><label class="f">분기</label><select id="rQ"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+    </div>
+    <div class="grid g3" style="margin-top:10px">
+      <div><label class="f">영역</label><select id="rD"></select></div>
+      <div><label class="f">관계</label><select id="rR"></select></div>
+      <div><label class="f">기능</label><select id="rF"></select></div>
+    </div>
+    <div id="rLadder" class="note small"></div>
+    <div id="rAlerts"></div>
+    <div class="row end"><button class="g" id="rRowCopy">표 한 줄 복사</button><button class="b" id="rAdd">등록</button></div>
+  </div>
+
+  <h3>카운터</h3>
+  <div class="scroll"><table id="rCount"></table></div>
+
+  <h3>등록 내역</h3>
+  <div class="scroll"><table id="rLog"></table></div>
+</section>
+
+<!-- ========== 규칙 ========== -->
+<section id="t-rules" role="tabpanel" hidden>
+  <h2>세션 규칙 카드</h2>
+  <p class="lede noprint">이 장만 인쇄해서 공부하는 자리 벽에 붙인다. 세션 중에 규칙이 헷갈리면 매뉴얼을 뒤지지 말고 벽을 본다.</p>
+  <div class="row noprint"><button class="g" onclick="window.print()">인쇄</button></div>
+  <div class="wallcard" id="wall"></div>
+
+  <h2>금지 목록</h2>
+  <h3>학습자 행위 금지</h3>
+  <div class="scroll"><table id="banA"></table></div>
+  <h3>제작물 작성 금지</h3>
+  <div class="scroll"><table id="banB"></table></div>
+
+  <h2>실패 지점</h2>
+  <div class="scroll"><table id="failTbl"></table></div>
+  <div class="note">예고된 어려움은 이탈 사유가 되지 않는다. 미리 읽어 둔다.</div>
+</section>
+
+<footer>
+  eng2p 운영 콘솔 · 상위 규격 eng2p/docs/spec.md · 기록은 이 브라우저의 localStorage 에만 남는다
+</footer>
+</div>
+
+<script>
+"use strict";
+/* =========================================================================
+   상수. 전부 eng2p/docs/spec.md 와 out/manual/ 에서 온 값이다.
+   ========================================================================= */
+
+var BLOCKS=[
+ {n:"병렬 침묵",m:40,d:"같은 공간, 각자 헤드폰. 말 걸지 않는다."},
+ {n:"대조 교차",m:30,d:"A 설명 8분, B 재구성 8분, 상호 검토 10분, 기록 4분."},
+ {n:"페어 드릴",m:30,d:"A 출제, B 반응. 시간 압박을 건다."},
+ {n:"공동 입력",m:20,d:"같은 자료를 함께 듣는다."}
+];
+var TOTAL_MIN=120;
+
+var DOM=[
+ ["D01","일상과 집","핵심"],["D02","음식","핵심"],["D03","게임과 놀이","핵심"],["D04","관계와 사람","핵심"],
+ ["D05","일과 가르침","핵심"],["D06","돈과 계획","핵심"],["D07","판단과 생각","핵심"],["D08","실용 처리","핵심"],
+ ["D09","몸과 건강","확장"],["D10","사회와 뉴스","확장"],["D11","문화","확장"],["D12","이동과 장소","확장"]
+];
+var REL=[["R1","배우자와 가족",1],["R2","친한 친구",2],["R3","동료",2],["R4","상사와 권위",3],["R5","서비스 상황",1],["R6","처음 만난 사람",4]];
+var FUN=[["F01","요청",1],["F02","거절",3],["F03","제안",2],["F04","불동의",3],["F05","사과",1],
+         ["F06","불평",2],["F07","칭찬",2],["F08","설명",1],["F09","협상",4],["F10","잡담",4]];
+
+var LADDER={
+ D01:["오늘 집에서 뭘 했는지","집안일을 어떻게 나누는지","집이 편할 때와 답답할 때가 뭐가 다른지","사는 공간이 습관을 얼마나 바꾸는지"],
+ D02:["어제 뭘 먹었는지","이 음식을 왜 좋아하는지","만든 것과 사 먹는 것의 차이","입맛이 기억과 어떻게 붙어 있는지"],
+ D03:["어제 뭐 했는지","왜 이 종족을 고르는지","이길 때와 질 때 뭐가 다른지","실력과 운을 어떻게 구분하는지"],
+ D04:["오늘 누구를 만났는지","어떤 사람이 편한지","친한 사이와 편한 사이의 차이","오래 가는 관계에 뭐가 있어야 하는지"],
+ D05:["오늘 무슨 일을 했는지","이 일을 어떻게 배웠는지","가르쳐서 되는 것과 안 되는 것","잘 가르친다는 게 뭘 뜻하는지"],
+ D06:["오늘 뭘 샀는지","무엇에 돈을 안 아끼는지","지금 쓰는 것과 나중에 쓰는 것의 차이","위험을 어디까지 감수할지 어떻게 정하는지"],
+ D07:["오늘 뭘 정했는지","왜 그렇게 정했는지","빨리 정할 때와 오래 볼 때의 차이","확신과 근거를 어떻게 구분하는지"],
+ D08:["뭐가 고장 났는지","어떻게 고쳤는지","직접 하는 것과 맡기는 것의 차이","문제를 어디까지 파고들지 어떻게 정하는지"],
+ D09:["어디가 아픈지","뭘 하면 나아지는지","몸이 괜찮을 때와 아닐 때 하루의 차이","건강을 관리한다는 말이 뭘 뜻하는지"],
+ D10:["오늘 무슨 소식을 봤는지","그 소식이 왜 눈에 띄었는지","같은 일을 두 곳이 다르게 전할 때의 차이","무엇을 믿을지 어떻게 고르는지"],
+ D11:["뭘 보고 뭘 들었는지","왜 그게 좋았는지","좋아하는 것과 잘 만든 것의 차이","취향이 어디서 오는지"],
+ D12:["오늘 어디에 갔는지","거기까지 어떻게 갔는지","익숙한 길과 처음 가는 길의 차이","낯선 곳에서 방향을 어떻게 잡는지"]
+};
+var LEVELS=["A1","A2","A2+","B1"];
+
+/* 통과 조건. 기준서에 숫자가 있는 것은 [기준서], 운용상 정한 것은 [운용]으로 표시한다. */
+var PASS={
+1:[{k:"red",l:"축약 20종 청취 식별",u:"20개 중",need:18,src:"기준서 90%"},
+   {k:"str",l:"강세 박자 재현",u:"10문장 중",need:8,src:"운용"},
+   {k:"ask",l:"되묻기 3형 자동 (2초 내)",u:"3형 중",need:3,src:"기준서 자동"}],
+2:[{k:"chk",l:"고빈도 청크 0.5초 인출",u:"표본 50개 중",need:45,src:"운용 90%"},
+   {k:"non",l:"무중단 발화",u:"초",need:90,src:"기준서 90초"},
+   {k:"rep",l:"자기수정 자연화",u:"3분 중 성공 회",need:3,src:"운용"}],
+3:[{k:"rct",l:"3초 내 반응",u:"20문항 중",need:18,src:"운용 90%"},
+   {k:"lre",l:"LRE 세션당 평균",u:"회",need:8,src:"기준서 8회"},
+   {k:"ovl",l:"겹침 상황 처리",u:"10회 중 복구",need:7,src:"운용"}],
+4:[{k:"spk",l:"발화 지속",u:"초",need:180,src:"기준서 3분"},
+   {k:"reg",l:"3레지스터 구분",u:"6문항 중",need:5,src:"운용"},
+   {k:"trn",l:"대화 주도권 전환",u:"10회 중",need:7,src:"운용"}]
+};
+
+var REL_Q=[
+ {k:"share",l:"발화 지분",opt:["비슷","A쪽 우세","B쪽 우세","7대 3 넘음"]},
+ {k:"lead", l:"주도권 (주제를 누가 바꾸는가)",opt:["비슷","A쪽","B쪽"]},
+ {k:"fix",  l:"수정 방향 (교정이 한쪽으로만 흐르는가)",opt:["양방향","A에서 B로만","B에서 A로만"]},
+ {k:"ask",  l:"질문 발생 (누가 더 묻는가)",opt:["비슷","A쪽","B쪽"]}
+];
+var RX={
+ share:{t:"발화 지분 편중",p:"타이머 고정",d:"대조 교차 2단계에서 B 재구성 8분을 타이머로 잰다. 그 8분 동안 A는 말하지 않는다. 질문에도 답하지 않는다. 침묵을 채우려고 A가 끼어드는 게 원인이다."},
+ fix:{t:"수정 일방향",p:"교정 횟수 상한",d:"한 세션에서 상대를 고쳐 주는 횟수를 각자 3회로 제한한다. 넘기면 적어 뒀다가 판정 세션으로 보낸다."},
+ lead:{t:"주도권 고정",p:"개시권 이양",d:"2주 동안 대조 교차의 주제 선택과 종료 선언을 열세인 쪽이 전담한다. 날짜 교대와 별개로 도는 임시 조치다."},
+ gap:{t:"인식 불일치",p:"3단계 형식 강제",d:"2주 동안 상호 검토에서 '나는 이렇게 이해했다'와 '내가 이해한 게 너랑 다른 것 같다' 두 형식만 쓴다. '틀렸다', '아니야', '그게 아니라'를 쓰지 않는다."}
+};
+
+var BAN_A=[
+ ["한글 발음 표기","전 구간","표기 구조 자체가 모음 삽입을 생산"],
+ ["한국어 자막","전 구간","청취를 읽기로 대체"],
+ ["단어장 암기","전 구간","청크 저장 방해"],
+ ["문법서 선행","Q1~Q2","산출 전 규칙 학습은 인지부하만 증가"],
+ ["번역 경유","전 구간","자동화 직접 방해"],
+ ["복습 읽기","전 구간","인출이 아니라 재인. 익숙함을 실력으로 오인"]
+];
+var BAN_B=[
+ ["슬랭 생성","수명이 지식 컷오프보다 짧음"],["1인 수행 가능 지시","2인 전제 위반"],
+ ["측정 불가능한 통과 기준","진행 판정 불가"],["'자연스러워지면' 류","기준이 아니라 감상"],
+ ["원인 없는 오류 나열","블록 2 존재 이유 상실"],["카드 지시문 3문장 초과","실행 중 읽기 부담"],
+ ["판정형 정답의 B면 노출","판정 무의미화"],["인공물 표기 없는 1층 대화","실제 영어로 오인"],
+ ["신뢰도 표시 누락","검증 대상 식별 불가"],["'말수 적으면 손해' 전제","연구와 배치. 내적 언어화 무시"]
+];
+var FAILPT=[
+ ["10~14주","지루함","소리 훈련 중 어휘가 안 늘어 성장 체감 없음","화용 2편과 repair 3편을 이 구간에 배치. 처음 말이 통하는 경험"],
+ ["20주 전후","관계 유형 고착","부부의 기존 대화 패턴이 학습에 전이","분기 점검, 역할 교대, 사전 고지"],
+ ["24~28주","방법론 재설계 욕구","성향적 충동","매뉴얼 1항. 고치지 말고 적는다. 12개월 후 개봉"]
+];
+
+/* =========================================================================
+   저장소
+   ========================================================================= */
+var KEY="eng2p.v1";
+var S=load();
+
+function blank(){
+  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],theme:null,wk:0};
+}
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(!raw) return blank();
+    var o=JSON.parse(raw); var b=blank();
+    for(var k in b) if(!(k in o)) o[k]=b[k];
+    return o;
+  }catch(e){ return blank(); }
+}
+var saveTimer=null;
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(function(){
+    try{ localStorage.setItem(KEY,JSON.stringify(S)); }
+    catch(e){ toast("저장 실패. 브라우저 저장 공간을 확인한다."); }
+  },120);
+}
+function day(d){
+  if(!S.days[d]) S.days[d]={status:null,speak:0,cards:0,lre:0,unres:[],coll:[]};
+  return S.days[d];
+}
+
+/* =========================================================================
+   유틸
+   ========================================================================= */
+function $(s,r){return (r||document).querySelector(s);}
+function el(t,c,x){var e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;}
+function iso(d){
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function parseISO(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+function addDays(s,n){var d=parseISO(s); d.setDate(d.getDate()+n); return iso(d);}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
+function today(){return iso(new Date());}
+function roleOf(d){ return parseISO(d).getDate()%2===0 ? "a" : "b"; }
+function hoursOf(rec){ return !rec||!rec.status?0: rec.status==="normal"?2: rec.status==="emg"?0.25:0; }
+function toast(m){ var f=$("#fMsg"); if(f){f.textContent=m; setTimeout(function(){f.textContent="";},2600);} }
+function copy(text,msgEl){
+  function ok(){ if(msgEl){msgEl.textContent="복사됨"; setTimeout(function(){msgEl.textContent="";},2000);} }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok,fallback); }
+  else fallback();
+  function fallback(){
+    var t=document.createElement("textarea"); t.value=text;
+    t.style.position="fixed"; t.style.opacity="0"; document.body.appendChild(t);
+    t.select(); try{document.execCommand("copy"); ok();}catch(e){} document.body.removeChild(t);
+  }
+}
+function monday(d){ var x=parseISO(d); var w=(x.getDay()+6)%7; x.setDate(x.getDate()-w); return iso(x); }
+
+/* =========================================================================
+   탭
+   ========================================================================= */
+var TABS=[["today","오늘"],["ledger","대장"],["verify","판정"],["quarter","분기"],
+          ["SEP",""],["check","검사"],["rot","회전"],["SEP",""],["rules","규칙"]];
+function buildNav(){
+  var n=$("#nav");
+  TABS.forEach(function(t){
+    if(t[0]==="SEP"){ n.appendChild(el("div","sep")); return; }
+    var b=el("button",null,t[1]);
+    b.setAttribute("role","tab"); b.dataset.t=t[0];
+    b.onclick=function(){ go(t[0]); };
+    n.appendChild(b);
+  });
+}
+function go(name){
+  TABS.forEach(function(t){
+    if(t[0]==="SEP") return;
+    var sec=$("#t-"+t[0]); if(sec) sec.hidden=(t[0]!==name);
+    var b=$('nav button[data-t="'+t[0]+'"]');
+    if(b) b.setAttribute("aria-selected",t[0]===name?"true":"false");
+  });
+  if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
+  if(name==="ledger") renderLedger();
+  if(name==="verify") renderVerify();
+  if(name==="quarter") renderQuarter();
+  if(name==="rot") renderRot();
+  window.scrollTo(0,0);
+}
+
+/* =========================================================================
+   테마
+   ========================================================================= */
+function applyTheme(){
+  if(S.theme) document.documentElement.setAttribute("data-theme",S.theme);
+  else document.documentElement.removeAttribute("data-theme");
+}
+$("#themeBtn").onclick=function(){
+  S.theme = S.theme==="dark" ? "light" : S.theme==="light" ? null : "dark";
+  applyTheme(); save();
+  this.textContent = S.theme==null ? "테마" : S.theme==="dark" ? "어두움" : "밝음";
+};
+
+/* =========================================================================
+   오늘 탭
+   ========================================================================= */
+function renderToday(){
+  var d=today(), r=roleOf(d), rec=day(d);
+  $("#todayDate").textContent=d;
+  var A = r==="a" ? S.names.a : S.names.b;
+  var B = r==="a" ? S.names.b : S.names.a;
+  $("#todayRole").textContent = "A = "+A+"   ·   B = "+B;
+  $("#nameA1").textContent=S.names.a; $("#nameB1").textContent=S.names.b;
+  $("#labU1").textContent=S.names.a+" 생각"; $("#labU2").textContent=S.names.b+" 생각";
+  $("#fSpeak").value=rec.speak||""; $("#fCards").value=rec.cards||""; $("#fLre").value=rec.lre||"";
+  document.querySelectorAll("[data-st]").forEach(function(b){
+    b.classList.toggle("on", rec.status===b.dataset.st);
+  });
+  renderUnres(); renderColl();
+}
+document.querySelectorAll("[data-st]").forEach(function(b){
+  b.onclick=function(){ day(today()).status=b.dataset.st; save(); renderToday(); };
+});
+$("#fSave").onclick=function(){
+  var rec=day(today());
+  rec.speak=+$("#fSpeak").value||0; rec.cards=+$("#fCards").value||0; rec.lre=+$("#fLre").value||0;
+  if(!rec.status) rec.status="normal";
+  save(); renderToday(); toast("저장했다.");
+};
+function renderUnres(){
+  var box=$("#uList"); box.innerHTML="";
+  var rec=day(today());
+  rec.unres.forEach(function(u,i){
+    var d=el("div","lreitem");
+    var h=el("div","hd2");
+    h.appendChild(el("b",null,u.t||"(문장 없음)"));
+    var x=el("button","del","삭제"); x.onclick=function(){rec.unres.splice(i,1);save();renderUnres();};
+    h.appendChild(x); d.appendChild(h);
+    if(u.i) d.appendChild(el("div","small mut","걸린 것: "+u.i));
+    if(u.h) d.appendChild(el("div","small",S.names.a+": "+u.h));
+    if(u.w) d.appendChild(el("div","small",S.names.b+": "+u.w));
+    box.appendChild(d);
+  });
+}
+$("#uAdd").onclick=function(){
+  var t=$("#uT").value.trim(); if(!t){ $("#uT").focus(); return; }
+  day(today()).unres.push({t:t,i:$("#uI").value.trim(),h:$("#uH").value.trim(),w:$("#uW").value.trim(),done:false});
+  ["#uT","#uI","#uH","#uW"].forEach(function(s){$(s).value="";});
+  save(); renderUnres();
+};
+function renderColl(){
+  var box=$("#cList"); box.innerHTML="";
+  var rec=day(today());
+  rec.coll.forEach(function(c,i){
+    var d=el("div","lreitem");
+    var h=el("div","hd2"); h.appendChild(el("b",null,c.e));
+    var x=el("button","del","삭제"); x.onclick=function(){rec.coll.splice(i,1);save();renderColl();};
+    h.appendChild(x); d.appendChild(h);
+    d.appendChild(el("div","small mut","출처: "+(c.s||"(없음)")+(c.q?" · "+c.q:"")));
+    box.appendChild(d);
+  });
+}
+$("#cAdd").onclick=function(){
+  var e=$("#cE").value.trim(); if(!e){ $("#cE").focus(); return; }
+  var s=$("#cS").value.trim();
+  if(!s){ toast("출처 없이 올리지 않는다."); $("#cS").focus(); return; }
+  day(today()).coll.push({e:e,s:s,q:$("#cQ").value.trim(),done:false});
+  ["#cE","#cS","#cQ"].forEach(function(x){$(x).value="";});
+  save(); renderColl();
+};
+
+/* =========================================================================
+   타이머
+   ========================================================================= */
+var T={idx:0,left:BLOCKS[0].m*60,run:false,tick:null};
+function fmt(s){var m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");}
+function paintTimer(){
+  var b=BLOCKS[T.idx];
+  $("#tBlockName").textContent="블록 "+(T.idx+1)+" · "+b.n;
+  $("#tClock").textContent=fmt(Math.max(0,T.left));
+  $("#tDesc").textContent=b.d;
+  var doneMin=BLOCKS.slice(0,T.idx).reduce(function(a,x){return a+x.m;},0);
+  var pct=(doneMin+(b.m-T.left/60))/TOTAL_MIN*100;
+  $("#tBar").style.width=Math.min(100,Math.max(0,pct))+"%";
+  var st=$("#tSteps"); st.innerHTML="";
+  BLOCKS.forEach(function(x,i){
+    var d=el("div"); d.style.setProperty("--w",x.m);
+    d.style.flex=x.m; d.className=i<T.idx?"done":i===T.idx?"now":"";
+    st.appendChild(d);
+  });
+  $("#tStart").textContent=T.run?"일시정지":(T.left===b.m*60&&T.idx===0?"시작":"이어서");
+  document.title=(T.run?fmt(Math.max(0,T.left))+" · ":"")+"eng2p 운영 콘솔";
+}
+function beep(){
+  if(!$("#tSound").checked) return;
+  try{
+    var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+    var a=new C(), t=a.currentTime;
+    [660,880].forEach(function(f,i){
+      var o=a.createOscillator(), g=a.createGain();
+      o.type="sine"; o.frequency.value=f;
+      g.gain.setValueAtTime(0.0001,t+i*0.28);
+      g.gain.exponentialRampToValueAtTime(0.12,t+i*0.28+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+i*0.28+0.26);
+      o.connect(g); g.connect(a.destination); o.start(t+i*0.28); o.stop(t+i*0.28+0.3);
+    });
+    setTimeout(function(){a.close();},1200);
+  }catch(e){}
+}
+function tick(){
+  T.left--;
+  if(T.left<=0){
+    beep();
+    if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; }
+    else { T.run=false; clearInterval(T.tick); T.left=0; }
+  }
+  paintTimer();
+}
+$("#tStart").onclick=function(){
+  T.run=!T.run;
+  clearInterval(T.tick);
+  if(T.run) T.tick=setInterval(tick,1000);
+  paintTimer();
+};
+$("#tSkip").onclick=function(){
+  if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; }
+  else { T.left=0; T.run=false; clearInterval(T.tick); }
+  paintTimer();
+};
+$("#tReset").onclick=function(){
+  T.idx=0; T.left=BLOCKS[0].m*60; T.run=false; clearInterval(T.tick); paintTimer();
+};
+
+/* =========================================================================
+   대장 탭
+   ========================================================================= */
+function allDays(){ return Object.keys(S.days).sort(); }
+function totalHours(){ return allDays().reduce(function(a,d){return a+hoursOf(S.days[d]);},0); }
+
+function renderLedger(){
+  $("#sStart").value=S.start; $("#sNameA").value=S.names.a; $("#sNameB").value=S.names.b;
+  var th=totalHours();
+  var weeks=Math.max(1,Math.floor((parseISO(today())-parseISO(S.start))/604800000)+1);
+  var norm=0,emg=0,abs=0,lre=0;
+  allDays().forEach(function(d){var r=S.days[d];
+    if(r.status==="normal")norm++; else if(r.status==="emg")emg++; else if(r.status==="absent")abs++;
+    lre+=r.lre||0;});
+  var sc=$("#statCards"); sc.innerHTML="";
+  [["누적 시간",th.toFixed(2).replace(/\.?0+$/,"")+"h","목표 730h · 계획 576h"],
+   ["주차",weeks+" / 48",""],
+   ["수행일",norm+"일","비상판 "+emg+" · 결석 "+abs],
+   ["LRE 누적",lre+"회","활동량 기록"]
+  ].forEach(function(x){
+    var c=el("div","card tight");
+    c.appendChild(el("div","small mut",x[0]));
+    var v=el("div",null,x[1]); v.style.fontSize="21px"; v.style.fontWeight="650"; v.className="mono";
+    c.appendChild(v);
+    if(x[2]) c.appendChild(el("div","small mut",x[2]));
+    sc.appendChild(c);
+  });
+  drawChart(); renderWeek(); renderAlerts();
+}
+["#sStart","#sNameA","#sNameB"].forEach(function(s){
+  $(s).oninput=function(){
+    S.start=$("#sStart").value||S.start;
+    S.names.a=$("#sNameA").value||"A"; S.names.b=$("#sNameB").value||"B";
+    save(); renderToday();
+  };
+});
+
+function drawChart(){
+  var W=640,H=190,P={l:34,r:10,t:12,b:20};
+  var maxW=48, maxH=760;
+  function x(w){ return P.l+(w/maxW)*(W-P.l-P.r); }
+  function y(h){ return H-P.b-(h/maxH)*(H-P.t-P.b); }
+  var pts=[],cum=0;
+  var start=parseISO(S.start);
+  var byWeek={};
+  allDays().forEach(function(d){
+    var wk=Math.floor((parseISO(d)-start)/604800000);
+    if(wk<0) wk=0;
+    byWeek[wk]=(byWeek[wk]||0)+hoursOf(S.days[d]);
+  });
+  var lastWk=Math.max(0,Math.floor((parseISO(today())-start)/604800000));
+  for(var w=0;w<=Math.min(maxW,lastWk);w++){ cum+=byWeek[w]||0; pts.push([w+1,cum]); }
+  var actual=pts.map(function(p){return x(p[0])+","+y(p[1]);}).join(" ");
+  var svg=[
+    '<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="누적 학습 시간">',
+    '<line class="ax" x1="'+P.l+'" y1="'+y(0)+'" x2="'+(W-P.r)+'" y2="'+y(0)+'"/>',
+    '<line class="ax" x1="'+P.l+'" y1="'+P.t+'" x2="'+P.l+'" y2="'+y(0)+'"/>'
+  ];
+  [0,180,365,550,730].forEach(function(h){
+    svg.push('<text x="2" y="'+(y(h)+3)+'">'+h+'</text>');
+    if(h>0) svg.push('<line class="ax" x1="'+P.l+'" y1="'+y(h)+'" x2="'+(W-P.r)+'" y2="'+y(h)+'" opacity=".45"/>');
+  });
+  [12,24,36,48].forEach(function(w){
+    var anchor = w===maxW ? "end" : "middle";
+    svg.push('<text x="'+x(w)+'" y="'+(H-6)+'" text-anchor="'+anchor+'">'+w+'주</text>');
+  });
+  svg.push('<polyline class="tgt" points="'+x(0)+","+y(0)+" "+x(48)+","+y(730)+'"/>');
+  svg.push('<polyline class="plan" points="'+x(0)+","+y(0)+" "+x(48)+","+y(576)+'"/>');
+  if(pts.length) svg.push('<polyline class="act" points="'+x(0)+","+y(0)+" "+actual+'"/>');
+  svg.push('</svg>');
+  $("#chart").innerHTML=svg.join("");
+}
+
+function renderWeek(){
+  var base=monday(today());
+  var start=addDays(base, S.wk*7);
+  $("#wLabel").textContent=start+" ~ "+addDays(start,6);
+  var names=["월","화","수","목","금","토","일"];
+  var rows=['<tr><th>일자</th><th>요일</th><th>오늘 A</th><th>수행</th><th class="n">발화</th><th class="n">드릴</th><th class="n">LRE</th><th class="n">미해결</th></tr>'];
+  var sp=0,cd=0,lr=0,hh=0;
+  for(var i=0;i<7;i++){
+    var d=addDays(start,i), r=S.days[d];
+    var st=!r||!r.status?"-":r.status==="normal"?"정상":r.status==="emg"?"비상판":"결석";
+    var role=roleOf(d)==="a"?S.names.a:S.names.b;
+    sp+=r?(r.speak||0):0; cd+=r?(r.cards||0):0; lr+=r?(r.lre||0):0; hh+=hoursOf(r);
+    var un=r?r.unres.length:0;
+    rows.push('<tr'+(d===today()?' style="background:var(--sub)"':'')+'><td class="mono">'+d.slice(5)+'</td><td>'+names[i]+
+      '</td><td>'+esc(i===6?"점검":role)+'</td><td>'+st+
+      '</td><td class="n">'+(r&&r.speak?r.speak:"")+'</td><td class="n">'+(r&&r.cards?r.cards:"")+
+      '</td><td class="n">'+(r&&r.lre?r.lre:"")+'</td><td class="n">'+(un||"")+'</td></tr>');
+  }
+  rows.push('<tr><td colspan="4"><b>합계</b> <span class="mut small">'+hh.toFixed(2).replace(/\.?0+$/,"")+'h</span></td><td class="n"><b>'+sp+'</b></td><td class="n"><b>'+cd+'</b></td><td class="n"><b>'+lr+'</b></td><td></td></tr>');
+  $("#weekTable").innerHTML=rows.join("");
+}
+$("#wPrev").onclick=function(){S.wk--;save();renderWeek();renderAlerts();};
+$("#wNext").onclick=function(){S.wk++;save();renderWeek();renderAlerts();};
+
+function renderAlerts(){
+  var box=$("#alerts"); box.innerHTML="";
+  var ds=allDays(); var out=[];
+  var runAbs=0,runEmg=0,maxAbs=0,maxEmg=0;
+  // 실제 달력 연속으로 센다. 기록이 없는 날은 끊긴 것으로 보지 않는다.
+  if(ds.length){
+    var cur=ds[0], end=today();
+    while(cur<=end){
+      var r=S.days[cur];
+      runAbs = (r&&r.status==="absent")?runAbs+1:0;
+      runEmg = (r&&r.status==="emg")?runEmg+1:0;
+      maxAbs=Math.max(maxAbs,runAbs); maxEmg=Math.max(maxEmg,runEmg);
+      cur=addDays(cur,1);
+    }
+  }
+  if(maxAbs>=2) out.push(["결석 연속 "+maxAbs+"일","즉시 다음 날 비상판이라도 수행한다. 원인을 주간 점검에 적는다."]);
+  if(maxEmg>=3) out.push(["비상판 "+maxEmg+"일","주간 점검에서 원인을 기록한다."]);
+  else if(maxEmg>=2) out.push(["비상판 연속 2일","경고. 다음 날은 정규 세션으로 돌아온다."]);
+  var withStatus=ds.filter(function(d){return S.days[d].status;});
+  if(!withStatus.length) out.push(["기록 없음","오늘 탭에서 수행 여부부터 누른다."]);
+  if(!out.length){ box.innerHTML='<div class="note small">걸린 경보 없음.</div>'; return; }
+  out.forEach(function(o){
+    var d=el("div","note w");
+    d.appendChild(el("b",null,o[0])); d.appendChild(el("div","small",o[1]));
+    box.appendChild(d);
+  });
+}
+
+$("#exJson").onclick=function(){
+  var blob=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
+  var a=el("a"); a.href=URL.createObjectURL(blob); a.download="eng2p_ledger_"+today()+".json";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+};
+$("#exMd").onclick=function(){
+  var L=["# eng2p 진행 대장 내보내기","","생성일: "+today(),"시작일: "+S.start,
+    "누적 시간: "+totalHours()+"h","",
+    "| 일자 | 오늘 A | 수행 | 발화(분) | 드릴(장) | LRE | 미해결 |","|---|---|---|---|---|---|---|"];
+  allDays().forEach(function(d){
+    var r=S.days[d];
+    L.push("| "+d+" | "+(roleOf(d)==="a"?S.names.a:S.names.b)+" | "+
+      (r.status==="normal"?"정상":r.status==="emg"?"비상판":r.status==="absent"?"결석":"-")+
+      " | "+(r.speak||0)+" | "+(r.cards||0)+" | "+(r.lre||0)+" | "+r.unres.length+" |");
+  });
+  copy(L.join("\n"), $("#fMsg"));
+  alert("대장 마크다운을 복사했다.");
+};
+$("#imBtn").onclick=function(){ $("#imFile").click(); };
+$("#imFile").onchange=function(e){
+  var f=e.target.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var o=JSON.parse(r.result);
+      if(!o.days) throw 0;
+      if(!confirm("현재 기록을 덮어쓴다. 진행할까.")) return;
+      S=o; var b=blank(); for(var k in b) if(!(k in S)) S[k]=b[k];
+      save(); applyTheme(); renderToday(); renderLedger();
+      alert("가져왔다.");
+    }catch(err){ alert("JSON 형식이 아니다."); }
+  };
+  r.readAsText(f); e.target.value="";
+};
+$("#wipe").onclick=function(){
+  if(!confirm("전체 기록을 지운다. 되돌릴 수 없다.")) return;
+  if(!confirm("정말 지울까. JSON 내려받기를 먼저 하는 게 낫다.")) return;
+  localStorage.removeItem(KEY); S=blank(); save(); applyTheme(); renderToday(); renderLedger();
+};
+
+/* =========================================================================
+   판정 탭
+   ========================================================================= */
+var showDone=false;
+function renderVerify(){
+  $("#vFilter").textContent = showDone?"미해결만 보기":"해결된 항목 보기";
+  var lreBox=$("#vLre"), colBox=$("#vColl");
+  lreBox.innerHTML=""; colBox.innerHTML="";
+  var nL=0,nC=0;
+  allDays().forEach(function(d){
+    S.days[d].unres.forEach(function(u,i){
+      if(!!u.done!==showDone) return;
+      nL++;
+      lreBox.appendChild(itemCard(d,u.t,[u.i?"걸린 것: "+u.i:"",u.h?S.names.a+": "+u.h:"",u.w?S.names.b+": "+u.w:""],u));
+    });
+    S.days[d].coll.forEach(function(c){
+      if(!!c.done!==showDone) return;
+      nC++;
+      colBox.appendChild(itemCard(d,c.e,["출처: "+c.s,c.q?"궁금한 점: "+c.q:""],c));
+    });
+  });
+  if(!nL) lreBox.innerHTML='<div class="note small">'+(showDone?"해결 표시된 항목이 없다.":"미해결 LRE 없음.")+'</div>';
+  if(!nC) colBox.innerHTML='<div class="note small">'+(showDone?"해결 표시된 항목이 없다.":"채집 표현 없음.")+'</div>';
+}
+function itemCard(d,title,lines,ref){
+  var box=el("div","lreitem");
+  var h=el("div","hd2");
+  var left=el("div"); left.appendChild(el("b",null,title||"(내용 없음)"));
+  h.appendChild(left);
+  var lab=el("label","small mut"); lab.style.whiteSpace="nowrap";
+  var cb=el("input"); cb.type="checkbox"; cb.checked=!!ref.done;
+  cb.onchange=function(){ ref.done=cb.checked; save(); renderVerify(); };
+  lab.appendChild(cb); lab.appendChild(document.createTextNode(" 판정 완료"));
+  h.appendChild(lab); box.appendChild(h);
+  lines.filter(Boolean).forEach(function(t){ box.appendChild(el("div","small mut",t)); });
+  box.appendChild(el("div","small mut","기록일 "+d));
+  return box;
+}
+$("#vFilter").onclick=function(){ showDone=!showDone; renderVerify(); };
+$("#vCopy").onclick=function(){
+  var L=["# 판정 세션 입력","","작성일: "+today(),"",
+    "규칙: 채집 항목은 출처 없이 올리지 않는다. 출처가 없으면 판정이 안 된다.","",
+    "## 미해결 LRE","","| 기록일 | 우리가 말한 문장 | 무엇이 걸렸나 | "+S.names.a+" | "+S.names.b+" |","|---|---|---|---|---|"];
+  var n=0;
+  allDays().forEach(function(d){ S.days[d].unres.forEach(function(u){
+    if(u.done) return; n++;
+    L.push("| "+d+" | "+u.t+" | "+(u.i||"")+" | "+(u.h||"")+" | "+(u.w||"")+" |");
+  });});
+  if(!n) L.push("| (없음) | | | | |");
+  L.push("","## 채집 표현","","| 기록일 | 표현 | 출처 | 궁금한 점 |","|---|---|---|---|");
+  var m=0;
+  allDays().forEach(function(d){ S.days[d].coll.forEach(function(c){
+    if(c.done) return; m++;
+    L.push("| "+d+" | "+c.e+" | "+c.s+" | "+(c.q||"")+" |");
+  });});
+  if(!m) L.push("| (없음) | | | |");
+  L.push("","미해결 LRE "+n+"건 / 채집 "+m+"건");
+  copy(L.join("\n"), $("#vMsg"));
+};
+
+/* =========================================================================
+   분기 탭
+   ========================================================================= */
+var curQ=1;
+function qs(q){ if(!S.q["Q"+q]) S.q["Q"+q]={pass:{},rel:{a:{},b:{}}};
+  if(!S.q["Q"+q].rel) S.q["Q"+q].rel={a:{},b:{}}; return S.q["Q"+q]; }
+function renderQuarter(){
+  var tb=$("#qTabs"); tb.innerHTML="";
+  [1,2,3,4].forEach(function(q){
+    var b=el("button","g"+(q===curQ?" on":""),"Q"+q);
+    b.onclick=function(){curQ=q;renderQuarter();}; tb.appendChild(b);
+  });
+  var st=qs(curQ);
+  var box=$("#qPass"); box.innerHTML="";
+  PASS[curQ].forEach(function(c){
+    var card=el("div","card tight");
+    var row=el("div","row");
+    var lab=el("div"); lab.style.flex="1"; lab.style.minWidth="200px";
+    lab.appendChild(el("div",null,c.l));
+    var meta=el("div","small mut"); meta.textContent=c.u+" "+c.need+" 이상 · 기준 "+c.src;
+    lab.appendChild(meta); row.appendChild(lab);
+    var inp=el("input"); inp.type="number"; inp.style.width="110px"; inp.style.flex="none";
+    inp.value=(st.pass[c.k]!=null?st.pass[c.k]:"");
+    var tag=el("span","tag");
+    function paint(){
+      var v=st.pass[c.k];
+      if(v==null||v===""){ tag.textContent="미측정"; tag.className="tag"; }
+      else if(+v>=c.need){ tag.textContent="통과"; tag.className="tag o"; }
+      else { tag.textContent="미통과"; tag.className="tag w"; }
+    }
+    inp.oninput=function(){ st.pass[c.k]= inp.value===""?null:+inp.value; save(); paint(); summary(); };
+    row.appendChild(inp); row.appendChild(tag);
+    card.appendChild(row); box.appendChild(card); paint();
+  });
+  var sum=el("div","note small"); sum.id="qSum"; box.appendChild(sum);
+  function summary(){
+    var n=PASS[curQ].filter(function(c){var v=st.pass[c.k];return v!=null&&v!==""&&+v>=c.need;}).length;
+    sum.textContent="통과 "+n+" / "+PASS[curQ].length+" 트랙. 미통과 트랙은 그대로 그 분기에 남는다. 남는 게 지연이 아니라 설계다.";
+  }
+  summary();
+  $("#qFoot").textContent="기준 표시가 [운용]인 항목은 기준서에 숫자가 없어 이 콘솔에서 정한 값이다. 기준서 개정 시 함께 고친다.";
+
+  var rb=$("#qRel"); rb.innerHTML="";
+  [["a",S.names.a],["b",S.names.b]].forEach(function(p){
+    var card=el("div","card tight");
+    card.appendChild(el("h3",null,p[1]+"이(가) 적은 것"));
+    REL_Q.forEach(function(q){
+      var w=el("div"); w.style.margin="8px 0";
+      var l=el("label","f",q.l); w.appendChild(l);
+      var sel=el("select");
+      sel.appendChild(el("option",null,"미기재"));
+      q.opt.forEach(function(o){ sel.appendChild(el("option",null,o)); });
+      sel.value=st.rel[p[0]][q.k]||"미기재";
+      sel.onchange=function(){ st.rel[p[0]][q.k]=sel.value; save(); signals(); };
+      w.appendChild(sel); card.appendChild(w);
+    });
+    rb.appendChild(card);
+  });
+  signals();
+
+  function signals(){
+    var out=$("#qSignal"); out.innerHTML="";
+    var A=st.rel.a, B=st.rel.b, hits=[];
+    if(A.share==="7대 3 넘음"||B.share==="7대 3 넘음") hits.push("share");
+    if((A.fix&&A.fix.indexOf("만")>0)&&(B.fix&&B.fix.indexOf("만")>0)&&A.fix===B.fix) hits.push("fix");
+    var prev=S.q["Q"+(curQ-1)];
+    if(prev&&prev.rel&&A.lead&&A.lead!=="미기재"&&A.lead!=="비슷"&&prev.rel.a&&prev.rel.a.lead===A.lead) hits.push("lead");
+    REL_Q.forEach(function(q){
+      var a=A[q.k],b=B[q.k];
+      if(a&&b&&a!=="미기재"&&b!=="미기재"&&a!==b&&hits.indexOf("gap")<0) hits.push("gap");
+    });
+    if(!hits.length){
+      out.innerHTML='<div class="note small">걸린 신호 없음. 신호가 없어도 이 표는 매 분기 채운다. 변화를 보려면 정상일 때 값이 남아 있어야 한다.</div>';
+      return;
+    }
+    hits.forEach(function(k){
+      var r=RX[k], d=el("div","card tight");
+      var h=el("div","row");
+      h.appendChild(el("span","tag w",r.t));
+      h.appendChild(el("b",null,"처방: "+r.p));
+      d.appendChild(h);
+      d.appendChild(el("div","small mut",r.d));
+      out.appendChild(d);
+    });
+    out.appendChild(el("div","note small","적용 기간은 2주. 2주 뒤 같은 양식으로 재점검한다. 걸린 신호에 해당하는 처방만 쓴다. 전부 적용하지 않는다."));
+    out.appendChild(el("div","note small","이 신호는 '말수가 적다'가 아니라 '고착됐다'를 잡는 장치다. 조용한 사람을 말하게 만드는 게 목적이 아니다."));
+  }
+}
+
+/* =========================================================================
+   규격 검사 (scripts/check.py 이식)
+   ========================================================================= */
+var TRANSLIT=["디스","왓","하우","웨어","쓰리","파이브","굿모닝","땡큐","쏘리","플리즈","아이엠"];
+var CLICHE=["결론적으로","중요한 것은","핵심은 바로","요약하자면"];
+var VAGUE=["자연스러워지면","익숙해지면","감이 오면","편해지면","어느 정도"];
+var LEC_BLOCKS=["## 1. 원리","## 2. 한국어 화자 함정","## 3. 역할 지정","## 4. 드릴 연결","## 5. 통과 기준","## 6. 다음 강 예고"];
+var B2KEYS=["모음 삽입","음절 박자","구개음화","dark l","표기"];
+var CARD_T=["판정형","압박형","확장형","역할형","repair형"];
+var ROLE_E=["상황","관계","목적","레지스터","종료"];
+var HANGUL=/[가-힣]/;
+
+function kindOf(name){
+  var k=[];
+  if(/_q\d_l\d{3}\b/.test(name)) k.push("강의");
+  if(name.indexOf("card")>=0) k.push("카드");
+  if(/_set_/.test(name)) k.push("세트");
+  return k.length?k.join(", "):"공통만";
+}
+function sect(t,a,b){
+  var i=t.indexOf(a); if(i<0) return "";
+  var j=t.indexOf(b,i+a.length);
+  return t.slice(i, j>0?j:t.length);
+}
+function runCheck(name,text){
+  var F=[],W=[];
+  function f(m){F.push(m);} function w(m){W.push(m);}
+
+  if(!/^[A-Za-z0-9_.\-]+$/.test(name)) f("파일명이 ASCII가 아니다");
+  // 금지 문자는 이스케이프로 적는다. 이 파일 자체가 금지 문자를 품지 않게 한다.
+  [["\u2014","em-dash (U+2014)"],["\uFFFD","U+FFFD"],["\u2013","en-dash (U+2013)"]].forEach(function(p){
+    var n=text.split(p[0]).length-1; if(n) f(p[1]+" "+n+"개");
+  });
+  if(/\\u[0-9a-fA-F]{4}/.test(text)) f("유니코드 이스케이프 발견. 리터럴 UTF-8로 쓴다");
+  TRANSLIT.forEach(function(t){
+    var i=-1;
+    while((i=text.indexOf(t,i+1))>=0){
+      var before=text[i-1]||"", after=text[i+t.length]||"";
+      if(!HANGUL.test(before)&&!HANGUL.test(after)){ w("한글 음차 의심: "+t); break; }
+    }
+  });
+  CLICHE.forEach(function(c){ if(text.indexOf(c)>=0) w("AI 상투 표현: "+c); });
+  if(!/^신뢰도:\s*[ABC]/m.test(text)) f("신뢰도 등급 표시가 없다 (첫 줄에 '신뢰도: A')");
+  if(/^신뢰도:\s*C/m.test(text)) f("C등급은 제작하지 않는다. 조준표에 채집 지시만 쓴다");
+  if(/^신뢰도:\s*B/m.test(text)&&text.indexOf("검증로그:")<0) f("B등급인데 검증로그 항목이 없다");
+  ["혼자","각자 알아서","스스로 만들어"].forEach(function(p){
+    if(text.indexOf(p)>=0) w("1인 수행 지시 의심: "+p);
+  });
+
+  var kind=kindOf(name);
+
+  if(kind.indexOf("강의")>=0){
+    var pos=-1;
+    LEC_BLOCKS.forEach(function(b){
+      var i=text.indexOf(b);
+      if(i<0) f("블록 누락: "+b);
+      else if(i<pos) f("블록 순서 어긋남: "+b);
+      else pos=i;
+    });
+    var n=text.replace(/\s/g,"").length;
+    if(n<2400||n>3600) f("분량 이탈: 공백 제외 "+n+"자 (허용 2400~3600, 목표 2700~3300)");
+    else if(n<2700||n>3300) w("목표 분량 밖: 공백 제외 "+n+"자 (목표 2700~3300)");
+
+    var s2=sect(text,"## 2. 한국어 화자 함정","## 3.");
+    if(s2&&!/한국어(에서는|는|가)/.test(s2)) f("블록 2에 한국어 간섭의 인과가 없다");
+    if(s2&&!B2KEYS.some(function(k){return s2.indexOf(k)>=0;})) w("블록 2가 근거표 밖이다. B등급 표시 확인");
+
+    var s4=sect(text,"## 4. 드릴 연결","## 5.");
+    if(s4&&!/\b\d{3}\b/.test(s4)) f("블록 4에 카드 번호가 없다");
+
+    var s5=sect(text,"## 5. 통과 기준","## 6.");
+    if(s5){
+      if(!/\d/.test(s5)) f("블록 5 통과 기준에 숫자가 없다");
+      VAGUE.forEach(function(v){ if(s5.indexOf(v)>=0) f("블록 5에 모호한 기준: "+v); });
+    }
+    if(name.indexOf("_q1_")>=0&&/^트랙:\s*문법/m.test(text)) f("Q1에 문법 트랙 강의는 없다");
+    var s3=sect(text,"## 3. 역할 지정","## 4.");
+    if(s3&&(s3.indexOf("A")<0||s3.indexOf("B")<0)) f("블록 3에 A/B 역할이 모두 없다");
+  }
+
+  if(kind.indexOf("카드")>=0){
+    text.split(/^---$/m).forEach(function(c){
+      if(c.indexOf("[A면]")<0&&c.indexOf("[B면]")<0) return;
+      var num=c.match(/\[(\d{3})\]/);
+      var tag="카드 "+(num?num[1]:"?");
+      var t=CARD_T.filter(function(x){return c.indexOf(x)>=0;})[0];
+      if(!t){ f(tag+": 유형 표시 없음"); return; }
+      var a=sect(c,"[A면]","[B면]"), b=sect(c,"[B면]","\n---");
+      [[a,"A면"],[b,"B면"]].forEach(function(p){
+        var m=p[0].match(/지시:\s*(.+)/);
+        if(m&&(m[1].split(".").length-1)>2) f(tag+" "+p[1]+": 지시문 3문장 초과");
+      });
+      if(t==="판정형"&&/정답:/.test(b)) f(tag+": 판정형 정답이 B면에 노출됐다");
+      if(t==="압박형"&&!/\d+\s*초/.test(c)) f(tag+": 압박형에 제한시간 숫자가 없다");
+      if(t==="확장형"&&c.indexOf("변형축:")<0) f(tag+": 확장형에 변형 축이 없다");
+      if(t==="역할형") ROLE_E.forEach(function(e){ if(c.indexOf(e)<0) f(tag+": 역할형에 "+e+" 없음"); });
+      if(t==="repair형"&&c.indexOf("실패가 정상")<0) f(tag+": repair형에 '실패가 정상' 문구 없음");
+    });
+  }
+
+  if(kind.indexOf("세트")>=0){
+    ["1단계","2단계","3단계","4단계"].forEach(function(s){ if(text.indexOf(s)<0) f("단계 누락: "+s); });
+    if(text.indexOf("나는 이렇게 이해했다")<0) f("'나는 이렇게 이해했다' 규칙 문구가 없다");
+    if(text.indexOf("LRE")<0) f("4단계에 LRE 기록란이 없다");
+    if(!/대응강의:\s*\S+/.test(text)) f("대응 강의 번호가 없다");
+  }
+
+  if(text.indexOf("[1층]")>=0&&text.indexOf("학습용 인공물")<0) f("1층 대화에 '학습용 인공물' 표기가 없다");
+  if(text.indexOf("[2층]")>=0&&text.indexOf("출처:")<0) f("2층 자료에 출처 표기가 없다");
+  if(text.indexOf("[3층]")>=0&&name.indexOf("_q1_")>=0) f("3층 대조판은 Q2부터다");
+
+  return {fail:F,warn:W,kind:kind,len:text.replace(/\s/g,"").length};
+}
+function paintKind(){
+  var n=$("#kName").value.trim();
+  $("#kKind").value=kindOf(n);
+  var t=$("#kText").value;
+  $("#kLen").textContent="공백 제외 "+t.replace(/\s/g,"").length+"자";
+}
+$("#kName").oninput=paintKind;
+$("#kText").oninput=paintKind;
+$("#kRun").onclick=function(){
+  var name=$("#kName").value.trim(), text=$("#kText").value;
+  if(!text.trim()){ $("#kOut").innerHTML='<div class="note w small">검사할 내용이 없다.</div>'; return; }
+  var r=runCheck(name,text);
+  var h=['<div class="card"><div class="row" style="margin-bottom:10px">'];
+  h.push('<span class="tag '+(r.fail.length?"w":"o")+'">'+(r.fail.length?"실패 "+r.fail.length:"통과")+'</span>');
+  h.push('<span class="tag'+(r.warn.length?" a":"")+'">경고 '+r.warn.length+'</span>');
+  h.push('<span class="tag">'+esc(r.kind)+'</span>');
+  h.push('<span class="tag">공백 제외 '+r.len+'자</span></div>');
+  h.push('<div class="res">');
+  r.fail.forEach(function(m){ h.push('<span class="f">[실패] '+esc(m)+'</span>\n'); });
+  r.warn.forEach(function(m){ h.push('<span class="w2">[경고] '+esc(m)+'</span>\n'); });
+  if(!r.fail.length&&!r.warn.length) h.push("걸린 항목 없음.");
+  h.push('</div>');
+  if(!r.fail.length) h.push('<div class="note small">규격 검사는 형식만 본다. 영어 표현의 현행성은 잡지 못한다. 확신 없는 표현은 B등급으로 표시하고 대화 세션에서 웹 검색으로 검증한다.</div>');
+  h.push('</div>');
+  $("#kOut").innerHTML=h.join("");
+};
+
+/* =========================================================================
+   회전 대장
+   ========================================================================= */
+function fillSel(id,arr){
+  var s=$(id); s.innerHTML="";
+  arr.forEach(function(x){
+    var o=el("option",null,x[0]+" "+x[1]); o.value=x[0]; s.appendChild(o);
+  });
+}
+function rotCounts(){
+  var c={d:{},r:{},f:{},combo:{}};
+  S.rot.forEach(function(x){
+    c.d[x.d]=(c.d[x.d]||0)+1; c.r[x.r]=(c.r[x.r]||0)+1; c.f[x.f]=(c.f[x.f]||0)+1;
+    c.combo[x.d+"-"+x.r+"-"+x.f]=1;
+  });
+  return c;
+}
+function rotRound(d){ return S.rot.filter(function(x){return x.d===d;}).length+1; }
+function renderRot(){
+  var d=$("#rD").value,r=$("#rR").value,f=$("#rF").value,q=+$("#rQ").value;
+  var round=rotRound(d), step=Math.min(round,4);
+  $("#rLadder").innerHTML="<b>"+esc(d)+" "+esc(round)+"회차</b> · 추상도 "+step+"단계 ("+LEVELS[step-1]+")<br>"+
+    esc(LADDER[d][step-1])+(round>4?"<br><span class='mut'>5회차 이상은 추상도를 4단계에 두고 관계와 기능만 바꾼다.</span>":"");
+
+  var c=rotCounts(), n=S.rot.length, out=[];
+  var relOpen=REL.filter(function(x){return x[0]===r;})[0][2];
+  var funOpen=FUN.filter(function(x){return x[0]===f;})[0][2];
+  if(relOpen>q) out.push([r+"는 Q"+relOpen+"부터 연다","분기 허용 밖이다. 다른 관계를 고른다."]);
+  if(funOpen>q) out.push([f+"는 Q"+funOpen+"부터 연다","분기 허용 밖이다. 다른 기능을 고른다."]);
+  if(c.combo[d+"-"+r+"-"+f]) out.push(["조합 중복","같은 조합은 전 과정에서 한 번만 쓴다."]);
+  var dflt=["D01","R2","F10"], hit=[d,r,f].filter(function(x){return dflt.indexOf(x)>=0;});
+  if(hit.length>=2) out.push(["기본값 회귀","제작할 때 제일 손이 가는 조합이다. 편하게 써지면 편향 신호로 읽는다."]);
+  if(n>=10){
+    if((c.r[r]||0)/n>0.3) out.push([r+" 관계 편중","누적 30%를 넘었다. 다음 3개 제작물에서 뺀다."]);
+    if((c.f[f]||0)/n>0.2) out.push([f+" 기능 편중","누적 20%를 넘었다. 다음 3개 제작물에서 뺀다."]);
+    var ext=["D09","D10","D11","D12"].reduce(function(a,x){return a+(c.d[x]||0);},0);
+    if(ext/n<0.15) out.push(["확장 영역 부족","확장 4가 누적 15% 미만이다. 다음 제작물을 D09~D12에서 고른다."]);
+  }
+  var ab=$("#rAlerts"); ab.innerHTML="";
+  if(!out.length) ab.innerHTML='<div class="note small">걸린 경보 없음. 등록해도 된다.</div>';
+  else out.forEach(function(o){
+    var x=el("div","note w"); x.appendChild(el("b",null,o[0])); x.appendChild(el("div","small",o[1])); ab.appendChild(x);
+  });
+
+  var rows=['<tr><th>축</th><th>코드</th><th>이름</th><th class="n">등장</th><th class="n">비중</th><th>비고</th></tr>'];
+  DOM.forEach(function(x){
+    var k=c.d[x[0]]||0;
+    rows.push('<tr><td>영역</td><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="n">'+k+
+      '</td><td class="n">'+(n?Math.round(k/n*100):0)+'%</td><td class="small mut">'+x[2]+' · 목표 5회</td></tr>');
+  });
+  REL.forEach(function(x){
+    var k=c.r[x[0]]||0;
+    rows.push('<tr><td>관계</td><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="n">'+k+
+      '</td><td class="n">'+(n?Math.round(k/n*100):0)+'%</td><td class="small mut">Q'+x[2]+' 개방</td></tr>');
+  });
+  FUN.forEach(function(x){
+    var k=c.f[x[0]]||0;
+    rows.push('<tr><td>기능</td><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="n">'+k+
+      '</td><td class="n">'+(n?Math.round(k/n*100):0)+'%</td><td class="small mut">Q'+x[2]+' 개방</td></tr>');
+  });
+  $("#rCount").innerHTML=rows.join("");
+
+  var lg=['<tr><th>제작물</th><th>분기</th><th>영역</th><th>관계</th><th>기능</th><th class="n">회차</th><th></th></tr>'];
+  if(!S.rot.length) lg.push('<tr><td colspan="7" class="mut">등록 없음. 첫 등록은 Q1 강의 1편에서 발생한다.</td></tr>');
+  S.rot.forEach(function(x,i){
+    lg.push('<tr><td class="mono">'+esc(x.id)+'</td><td>Q'+x.q+'</td><td class="mono">'+x.d+'</td><td class="mono">'+x.r+
+      '</td><td class="mono">'+x.f+'</td><td class="n">'+x.round+'</td><td><button class="del" data-i="'+i+'">삭제</button></td></tr>');
+  });
+  $("#rLog").innerHTML=lg.join("");
+  $("#rLog").querySelectorAll(".del").forEach(function(b){
+    b.onclick=function(){ S.rot.splice(+b.dataset.i,1); save(); renderRot(); };
+  });
+}
+["#rD","#rR","#rF","#rQ"].forEach(function(s){ $(s).addEventListener("change",renderRot); });
+$("#rAdd").onclick=function(){
+  var id=$("#rId").value.trim();
+  if(!id){ $("#rId").focus(); return; }
+  var d=$("#rD").value;
+  S.rot.push({id:id,q:+$("#rQ").value,d:d,r:$("#rR").value,f:$("#rF").value,round:rotRound(d),date:today()});
+  save(); $("#rId").value=""; renderRot();
+};
+$("#rRowCopy").onclick=function(){
+  var d=$("#rD").value,r=$("#rR").value,f=$("#rF").value;
+  var nm=function(a,k){return a.filter(function(x){return x[0]===k;})[0][1];};
+  copy("| "+($("#rId").value.trim()||"(ID)")+" | Q"+$("#rQ").value+" | 강의 | "+nm(DOM,d)+" | "+nm(REL,r)+" | "+nm(FUN,f)+" | "+rotRound(d)+" | "+today()+" |",null);
+  alert("state/rotation.md 3장에 붙일 한 줄을 복사했다.");
+};
+
+/* =========================================================================
+   규칙 탭
+   ========================================================================= */
+function renderRules(){
+  var w=$("#wall"); w.innerHTML="";
+  var h=el("div");
+  h.appendChild(el("h4",null,"2인 영어 세션 규칙 카드"));
+  h.appendChild(el("div","small mut","오늘의 A : 짝수 날 = "+S.names.a+" / 홀수 날 = "+S.names.b));
+  w.appendChild(h);
+  var s1=el("div","wc-sec");
+  var t=el("table");
+  t.innerHTML='<tr><th>블록</th><th>시간</th><th>형태</th></tr>'+
+    BLOCKS.map(function(b,i){return '<tr><td>'+(i+1)+' '+b.n+'</td><td class="n">'+b.m+'분</td><td>'+b.d+'</td></tr>';}).join("");
+  s1.appendChild(t); w.appendChild(s1);
+
+  var s2=el("div","wc-sec"); s2.appendChild(el("h4",null,"말할 때"));
+  var u=el("ul");
+  ['"틀렸다" 대신 "나는 이렇게 이해했다"','못 알아들으면 넘어가지 말고 되묻는다','막히면 한국어로 새지 말고 아는 말로 돌려 말한다']
+    .forEach(function(x){u.appendChild(el("li",null,x));});
+  s2.appendChild(u); w.appendChild(s2);
+
+  var s3=el("div","wc-sec"); s3.appendChild(el("h4",null,"하지 않는 것"));
+  var u2=el("ul");
+  ["한글로 발음 적기","한국어 자막","단어장 외우기","눈으로 복습하기","번역해서 말하기"]
+    .forEach(function(x){u2.appendChild(el("li",null,x));});
+  s3.appendChild(u2); w.appendChild(s3);
+
+  var s4=el("div","wc-sec"); s4.appendChild(el("h4",null,"끝내기 전 30초"));
+  var u3=el("ul");
+  ["LRE 몇 번이었는지 적는다","해결 안 된 것 한 줄로 적는다"].forEach(function(x){u3.appendChild(el("li",null,x));});
+  s4.appendChild(u3);
+  s4.appendChild(el("div","small mut","하루 빠졌으면 다음 날은 무조건 한다. 안 되면 비상판 15분. 비상판도 수행일이다."));
+  w.appendChild(s4);
+
+  $("#banA").innerHTML='<tr><th>항목</th><th>구간</th><th>이유</th></tr>'+
+    BAN_A.map(function(x){return '<tr><td>'+x[0]+'</td><td class="mut">'+x[1]+'</td><td class="mut">'+x[2]+'</td></tr>';}).join("");
+  $("#banB").innerHTML='<tr><th>항목</th><th>이유</th></tr>'+
+    BAN_B.map(function(x){return '<tr><td>'+x[0]+'</td><td class="mut">'+x[1]+'</td></tr>';}).join("");
+  $("#failTbl").innerHTML='<tr><th>시점</th><th>현상</th><th>원인</th><th>대응</th></tr>'+
+    FAILPT.map(function(x){return '<tr><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="mut">'+x[2]+'</td><td class="mut">'+x[3]+'</td></tr>';}).join("");
+}
+
+/* =========================================================================
+   시작
+   ========================================================================= */
+buildNav();
+applyTheme();
+$("#themeBtn").textContent = S.theme==null ? "테마" : S.theme==="dark" ? "어두움" : "밝음";
+fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
+renderToday(); paintTimer(); renderRules(); paintKind();
+go((location.hash.slice(1)||"today"));
+window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });
+</script>
+</body>
+</html>
