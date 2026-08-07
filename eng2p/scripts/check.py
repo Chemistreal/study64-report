@@ -49,7 +49,7 @@ VAGUE_CRITERIA = ["자연스러워지면", "익숙해지면", "감이 오면", "
 
 
 def is_audio(name):
-    return bool(re.search(r"_audio_", name))
+    return bool(re.search(r"_audio_", name) or re.fullmatch(r"lle1-\d{2}\.md", name))
 
 
 def check_common(path, text):

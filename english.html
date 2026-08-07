@@ -263,6 +263,8 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
 .mitem:hover{border-color:var(--a1);box-shadow:var(--glow)}
 .mitem.on{border-color:var(--a2);box-shadow:var(--glow)}
 .mitem.done{background:linear-gradient(135deg,var(--card2),rgba(15,118,110,.09))}
+.mthumb{display:block;width:100%;aspect-ratio:1200/630;object-fit:cover;border-radius:10px;
+  margin-bottom:11px;background:var(--edge)}
 .mitem h4{font-size:14px;line-height:1.4;margin:5px 0 8px;overflow-wrap:anywhere}
 .mitem .mnum{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:.04em}
 .mitem .macts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
@@ -595,7 +597,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
 <!-- ========== 미디어 라이브러리 ========== -->
 <section id="t-media" role="tabpanel" hidden>
   <h2>미디어 라이브러리</h2>
-  <p class="lede">VOA Learning English 초급 52개 레슨을 순서대로 듣고 본다. 전체 음성은 저장소에서 바로 재생되고, 영상과 대본은 공식 원본으로 이어진다.</p>
+  <p class="lede">VOA Learning English 초급 52개 레슨을 순서대로 듣고 본다. 음성·대표 이미지·대본·수업 PDF는 저장소에서 바로 열리고, 영상은 공식 원본으로 이어진다.</p>
 
   <div class="note">
     <b>신뢰도 C-real</b>
@@ -636,7 +638,9 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
       <div class="licrow">
         <span class="tag o">VOA 자체 제작 · 퍼블릭 도메인</span>
         <span>출처: VOA Learning English</span>
-        <a id="libPage" target="_blank" rel="noopener noreferrer">대본과 원문</a>
+        <a id="libTranscript" target="_blank" rel="noopener noreferrer">저장 대본</a>
+        <a id="libWorksheet" target="_blank" rel="noopener noreferrer">수업 PDF</a>
+        <a id="libPage" target="_blank" rel="noopener noreferrer">공식 원문</a>
         <a id="libDownload" download>MP3 직접 다운로드</a>
       </div>
     </div>
@@ -2433,6 +2437,8 @@ function paintMediaPlayer(){
   $("#libDone").textContent=done?"완료됨":"학습 완료";
   $("#libDone").classList.toggle("on",done); $("#libDone").setAttribute("aria-pressed",done?"true":"false");
   $("#libPage").href=it.page;
+  $("#libTranscript").href=it.transcript||it.page; $("#libTranscript").hidden=!it.transcript;
+  $("#libWorksheet").href=it.worksheet||it.page; $("#libWorksheet").hidden=!it.worksheet;
   $("#libDownload").href=it.audio; $("#libDownload").setAttribute("download",it.id+".mp3");
   $("#libPrev").disabled=LIB.active<=0; $("#libNext").disabled=LIB.active>=MEDIA.length-1;
   document.querySelectorAll("[data-lib-mode]").forEach(function(b){ b.classList.toggle("on",b.dataset.libMode===LIB.mode); });
@@ -2473,6 +2479,10 @@ function renderMediaList(){
   box.innerHTML="";
   shown.forEach(function(o){
     var x=o.x, d=el("article","mitem"+(o.i===LIB.active?" on":"")+(r.done[x.id]?" done":""));
+    if(x.image){
+      var img=document.createElement("img"); img.className="mthumb"; img.src=x.image;
+      img.alt=x.title+" 대표 이미지"; img.loading="lazy"; img.decoding="async"; d.appendChild(img);
+    }
     var top=el("div","row");
     top.appendChild(el("span","mnum","Q"+x.quarter+" · "+x.id.toUpperCase()));
     var grow=el("span"); grow.style.flex="1"; top.appendChild(grow);
@@ -2486,7 +2496,10 @@ function renderMediaList(){
     var fa=el("button","g",r.fav[x.id]?"★":"☆"); fa.type="button"; fa.title="즐겨찾기"; fa.setAttribute("aria-label",x.title+" 즐겨찾기");
     fa.onclick=function(){setMediaFlag("fav",x.id,!r.fav[x.id]);};
     var a=el("a",null,"원문"); a.href=x.page; a.target="_blank"; a.rel="noopener noreferrer";
-    acts.appendChild(ab); acts.appendChild(vb); acts.appendChild(fa); acts.appendChild(a); d.appendChild(acts); box.appendChild(d);
+    acts.appendChild(ab); acts.appendChild(vb); acts.appendChild(fa);
+    if(x.transcript){ var tr=el("a",null,"대본"); tr.href=x.transcript; tr.target="_blank"; tr.rel="noopener noreferrer"; acts.appendChild(tr); }
+    if(x.worksheet){ var ws=el("a",null,"PDF"); ws.href=x.worksheet; ws.target="_blank"; ws.rel="noopener noreferrer"; acts.appendChild(ws); }
+    acts.appendChild(a); d.appendChild(acts); box.appendChild(d);
   });
   if(!shown.length) box.innerHTML='<div class="note small">조건에 맞는 레슨이 없다.</div>';
 }
