@@ -31,7 +31,7 @@ window.ENG_MEDIA_CATALOG={
     {
       "id": "lle1-02",
       "lesson": 2,
-      "quarter": 1,
+      "quarter": 3,
       "title": "Lesson 2: Hello, I'm Anna!",
       "duration": "00:48",
       "focus": "청크",
@@ -47,14 +47,12 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 3,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-03",
       "lesson": 3,
-      "quarter": 1,
+      "quarter": 3,
       "title": "Lesson 3: I'm Here!",
       "duration": "02:00",
       "focus": "의미",
@@ -70,14 +68,12 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 3,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-04",
       "lesson": 4,
-      "quarter": 1,
+      "quarter": 3,
       "title": "Lesson 4: What Is It?",
       "duration": "01:29",
       "focus": "소리",
@@ -93,9 +89,7 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 3,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-05",
@@ -142,7 +136,7 @@ window.ENG_MEDIA_CATALOG={
     {
       "id": "lle1-07",
       "lesson": 7,
-      "quarter": 1,
+      "quarter": 4,
       "title": "Lesson 7: What Are You Doing?",
       "duration": "02:30",
       "focus": "소리",
@@ -158,14 +152,12 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 5,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q1 재료 조건의 화자 수 상한 2명 초과 (5명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-08",
       "lesson": 8,
-      "quarter": 1,
+      "quarter": 4,
       "title": "Lesson 8: Are You Busy?",
       "duration": "01:59",
       "focus": "청크",
@@ -181,9 +173,7 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 6,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q1 재료 조건의 화자 수 상한 2명 초과 (6명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-09",
@@ -314,7 +304,7 @@ window.ENG_MEDIA_CATALOG={
     {
       "id": "lle1-15",
       "lesson": 15,
-      "quarter": 2,
+      "quarter": 4,
       "title": "Lesson 15: I Love People-Watching!",
       "duration": "02:51",
       "focus": "의미",
@@ -330,14 +320,12 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 4,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-16",
       "lesson": 16,
-      "quarter": 2,
+      "quarter": 4,
       "title": "Lesson 16: Where Are You From?",
       "duration": "03:26",
       "focus": "소리",
@@ -353,9 +341,7 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 4,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-17",
@@ -423,7 +409,7 @@ window.ENG_MEDIA_CATALOG={
     {
       "id": "lle1-20",
       "lesson": 20,
-      "quarter": 2,
+      "quarter": 3,
       "title": "Lesson 20: What Can You Do?",
       "duration": "03:39",
       "focus": "청크",
@@ -439,9 +425,7 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 3,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q2 재료 조건의 화자 수 상한 2명 초과 (3명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-21",
@@ -488,7 +472,7 @@ window.ENG_MEDIA_CATALOG={
     {
       "id": "lle1-23",
       "lesson": 23,
-      "quarter": 2,
+      "quarter": 4,
       "title": "Lesson 23: What Do You Want?",
       "duration": "02:57",
       "focus": "청크",
@@ -501,12 +485,10 @@ window.ENG_MEDIA_CATALOG={
       "lessonData": "media/english/lessons/lle1-23.json",
       "worksheet": "media/english/worksheets/lle1-23.pdf",
       "grade": "C-real",
-      "speakerCount": 5,
+      "speakerCount": 4,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q2 재료 조건의 화자 수 상한 2명 초과 (5명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-24",
@@ -532,7 +514,7 @@ window.ENG_MEDIA_CATALOG={
     {
       "id": "lle1-25",
       "lesson": 25,
-      "quarter": 2,
+      "quarter": 3,
       "title": "Lesson 25: Watch Out!",
       "duration": "02:30",
       "focus": "소리",
@@ -548,14 +530,12 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 3,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q2 재료 조건의 화자 수 상한 2명 초과 (3명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-26",
       "lesson": 26,
-      "quarter": 2,
+      "quarter": 3,
       "title": "Lesson 26: This Game Is Fun!",
       "duration": "02:02",
       "focus": "청크",
@@ -568,12 +548,10 @@ window.ENG_MEDIA_CATALOG={
       "lessonData": "media/english/lessons/lle1-26.json",
       "worksheet": "media/english/worksheets/lle1-26.pdf",
       "grade": "C-real",
-      "speakerCount": 4,
+      "speakerCount": 3,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-27",
@@ -633,12 +611,10 @@ window.ENG_MEDIA_CATALOG={
       "lessonData": "media/english/lessons/lle1-29.json",
       "worksheet": "media/english/worksheets/lle1-29.pdf",
       "grade": "C-real",
-      "speakerCount": 4,
+      "speakerCount": 2,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-30",
@@ -664,7 +640,7 @@ window.ENG_MEDIA_CATALOG={
     {
       "id": "lle1-31",
       "lesson": 31,
-      "quarter": 3,
+      "quarter": 4,
       "title": "Lesson 31: Take Me Out to the Ball Game",
       "duration": "03:30",
       "focus": "소리",
@@ -680,14 +656,12 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 4,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-32",
       "lesson": 32,
-      "quarter": 3,
+      "quarter": 4,
       "title": "Lesson 32: Welcome to the Treehouse!",
       "duration": "03:48",
       "focus": "청크",
@@ -700,17 +674,15 @@ window.ENG_MEDIA_CATALOG={
       "lessonData": "media/english/lessons/lle1-32.json",
       "worksheet": "media/english/worksheets/lle1-32.pdf",
       "grade": "C-real",
-      "speakerCount": 9,
+      "speakerCount": 8,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q3 재료 조건의 화자 수 상한 3명 초과 (9명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-33",
       "lesson": 33,
-      "quarter": 3,
+      "quarter": 4,
       "title": "Lesson 33: Learning America's Sport",
       "duration": "03:48",
       "focus": "의미",
@@ -726,14 +698,12 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 6,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q3 재료 조건의 화자 수 상한 3명 초과 (6명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-34",
       "lesson": 34,
-      "quarter": 3,
+      "quarter": 4,
       "title": "Lesson 34: What Will I Do?",
       "duration": "04:04",
       "focus": "소리",
@@ -749,9 +719,7 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 4,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-35",
@@ -798,7 +766,7 @@ window.ENG_MEDIA_CATALOG={
     {
       "id": "lle1-37",
       "lesson": 37,
-      "quarter": 3,
+      "quarter": 4,
       "title": "Lesson 37: Let's Agree to Disagree",
       "duration": "03:38",
       "focus": "소리",
@@ -814,9 +782,7 @@ window.ENG_MEDIA_CATALOG={
       "speakerCount": 4,
       "speed": "느림",
       "track": "소리",
-      "intakeWarnings": [
-        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
-      ]
+      "intakeWarnings": []
     },
     {
       "id": "lle1-38",
