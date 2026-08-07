@@ -1,0 +1,2391 @@
+{
+  "schemaVersion": 1,
+  "generated": "2026-08-07",
+  "source": "VOA Learning English",
+  "sourceUrl": "https://learningenglish.voanews.com/p/5644.html",
+  "termsUrl": "https://learningenglish.voanews.com/p/6861.html",
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
+  "summary": {
+    "lessons": 52,
+    "files": 264,
+    "bytes": 163874072
+  },
+  "files": [
+    {
+      "path": "media/english/NOTICE.md",
+      "role": "license-notice",
+      "bytes": 763,
+      "mime": "text/markdown",
+      "sha256": "e8162fe8e4b58b8ea7fa30112e15d378973ec74f8355e474f966eb3130ccbbb1",
+      "sourceUrl": "https://learningenglish.voanews.com/p/6861.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/README.md",
+      "role": "documentation",
+      "bytes": 3113,
+      "mime": "text/markdown",
+      "sha256": "4ef8bc08f3eb4f2e98ceba17a515523a438705e8ee22fa5bdc984e513185300f",
+      "sourceUrl": "https://learningenglish.voanews.com/p/5644.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-01.mp3",
+      "role": "conversation-audio",
+      "bytes": 177964,
+      "mime": "audio/mpeg",
+      "sha256": "47109937034f0473668489e20522fd13c937d2b89120a12d39c0799be04bfbdb",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/02/08/49485bf8-4277-47f6-9abe-617ee2473f8c.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-02.mp3",
+      "role": "conversation-audio",
+      "bytes": 288775,
+      "mime": "audio/mpeg",
+      "sha256": "f97b49f8ad700d5bead2b9aa0dc4fa26b96bfb06408fe18eb89b136b4aff5585",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/02/10/56246d7b-5fa4-42d2-90b0-d403e6b46227.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-03.mp3",
+      "role": "conversation-audio",
+      "bytes": 722460,
+      "mime": "audio/mpeg",
+      "sha256": "ffc36db013dd5f8dbcfb8b34252ccbabc99192fd10852ac4d4b890f18c539ab6",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/02/18/a82baaf4-0a91-4d43-8ab6-78f72cef8fce.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-04.mp3",
+      "role": "conversation-audio",
+      "bytes": 536103,
+      "mime": "audio/mpeg",
+      "sha256": "024ce4f38a4ff31f208e80be75b275fe7cc7ec20f656e7dfe95b4ccb775c9724",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/02/26/af0324f6-67c5-4c0c-ab42-abb0cd33817c.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-05.mp3",
+      "role": "conversation-audio",
+      "bytes": 364478,
+      "mime": "audio/mpeg",
+      "sha256": "64c95735db101b1184892cedbd6b48d96f85c6f6c5f2b564f5b96ca6882f5fd1",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/03/01/ab9c2944-eddc-4806-9296-290bfa8c6ff2.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-06.mp3",
+      "role": "conversation-audio",
+      "bytes": 648795,
+      "mime": "audio/mpeg",
+      "sha256": "210006562944bca2ad7fc5a8393b47772fe30b578085fc52cbe3810ad54ecbef",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/03/10/66b63229-1dc5-40ab-886d-1f4b891adf6b.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-07.mp3",
+      "role": "conversation-audio",
+      "bytes": 899884,
+      "mime": "audio/mpeg",
+      "sha256": "3a40ba923160083605166bc6eff24c7a19956e489fe970f3e25aa51f152dfbee",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/03/16/5d724fbc-a907-4a48-9221-c1813d248168.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-08.mp3",
+      "role": "conversation-audio",
+      "bytes": 711959,
+      "mime": "audio/mpeg",
+      "sha256": "d6d973fcf8ce817c7b6a2e9d57a9ad1c3aec9008c321007255c96bba9181fcbc",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/03/25/ae6c5055-13ae-485b-995d-b347125ecf10.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-09.mp3",
+      "role": "conversation-audio",
+      "bytes": 731708,
+      "mime": "audio/mpeg",
+      "sha256": "753811e12f5d8b82b39d1932fad4befdae8f0aac0b4d2337e05a83fa91fc3abe",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/04/01/fe67e651-87d0-4b62-9c68-749b2d3c2f21.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-10.mp3",
+      "role": "conversation-audio",
+      "bytes": 544566,
+      "mime": "audio/mpeg",
+      "sha256": "d1a8f05496e943f69fc23ccbfd605da50a146a29df0fd5ea2e0d95142614f448",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/04/14/442a6a50-693e-411f-8cff-99e40d16614c.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-11.mp3",
+      "role": "conversation-audio",
+      "bytes": 663685,
+      "mime": "audio/mpeg",
+      "sha256": "f480cc27a02ca482a6974bd6c1e71167cf9f6b8d8a8af656ceb4453a15d7fd3e",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/04/20/de238e35-97b9-4c21-81e3-e3c26fbeccaa.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-12.mp3",
+      "role": "conversation-audio",
+      "bytes": 1137180,
+      "mime": "audio/mpeg",
+      "sha256": "a7af0506f7b2a993e04a3243933a3de7387a0ec343d775643d482b4799d9df29",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/04/28/d1527ef7-587d-45b5-b3cc-fecbe37167ab.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-13.mp3",
+      "role": "conversation-audio",
+      "bytes": 780452,
+      "mime": "audio/mpeg",
+      "sha256": "d35d67e83571a508e9a850617888785172e66e0663e7aaa6f1b021eb977c22f7",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/05/05/a7673055-e023-4593-9372-06d61ee8afd9.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-14.mp3",
+      "role": "conversation-audio",
+      "bytes": 1247208,
+      "mime": "audio/mpeg",
+      "sha256": "c9fbdbbb39dd050bf6aa2ad616ae5864a2da46d193d09c4be3ebe78819ab14d6",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/05/11/f3b56fb5-23f9-4668-bae1-d98ab8967e50.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-15.mp3",
+      "role": "conversation-audio",
+      "bytes": 1028406,
+      "mime": "audio/mpeg",
+      "sha256": "950c5d08a88b8821245df82ce324eb62b47ba2c1d4c0ce4aac56c2cee6832cee",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/05/31/b08ceeac-8274-4e2d-b678-2cd30ba31f4f.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-16.mp3",
+      "role": "conversation-audio",
+      "bytes": 1235453,
+      "mime": "audio/mpeg",
+      "sha256": "94240eb4a4db1bdea9c02efc1574a535d77e2738ae2e7bc0be58fc0b6e7f0131",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/06/02/869a701e-1242-4c34-a679-7a9454a770f1.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-17.mp3",
+      "role": "conversation-audio",
+      "bytes": 915557,
+      "mime": "audio/mpeg",
+      "sha256": "2f866803c157e49a0ab98286fee7ec26099b5b7346740ea87bffe17f611b38ab",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/06/07/3cb6442c-001f-4fd7-bf37-7507a49e89e4.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-18.mp3",
+      "role": "conversation-audio",
+      "bytes": 1457232,
+      "mime": "audio/mpeg",
+      "sha256": "1c90c9a1579b8d761d88b1f3d348062795ae307f1c25d3df655dee6e5f571ba8",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/06/15/6581d80f-fd20-40f9-b363-3f998c3f1142.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-19.mp3",
+      "role": "conversation-audio",
+      "bytes": 1023548,
+      "mime": "audio/mpeg",
+      "sha256": "c2e9fd697cfd348201f4907f6892d5674502da0d11be911c693b92a4120608d4",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/06/20/11279270-a48f-4bca-851e-e6477329717b.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-20.mp3",
+      "role": "conversation-audio",
+      "bytes": 1316485,
+      "mime": "audio/mpeg",
+      "sha256": "6e929bff2c74488f7e957b297a0bdde454ee854cf383089f692945a11aaf4ea8",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/06/29/8225db0f-179b-453f-92bb-50f548175c42.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-21.mp3",
+      "role": "conversation-audio",
+      "bytes": 1063985,
+      "mime": "audio/mpeg",
+      "sha256": "cf53041bc54e51814a898119ee9c023b7b350262ee07748a64d16058693964a6",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/07/11/e0c9e4c4-584b-4bd7-a4d5-a4b1f7bdfa8f.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-22.mp3",
+      "role": "conversation-audio",
+      "bytes": 1169624,
+      "mime": "audio/mpeg",
+      "sha256": "c140ec2a6e18fe52872a5bbcf0aaae16bf3471e58e7633d02828a8f542c8cfd2",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/07/25/2dc70acb-f8c2-4e93-9e8d-e3d37348d819.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-23.mp3",
+      "role": "conversation-audio",
+      "bytes": 1065082,
+      "mime": "audio/mpeg",
+      "sha256": "e9d48b5e2f0f017f1c1fbef51cdbf924ee2bcca388ed72feb8a9493a4c5bcd1b",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/07/27/f5ba9389-58a1-4643-9ec4-3bbfcd8c96e6.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-24.mp3",
+      "role": "conversation-audio",
+      "bytes": 946434,
+      "mime": "audio/mpeg",
+      "sha256": "387ef47b8c307be4ef18ee19062e0f41eb5a37bb86cfe7bd11ae18ef55dbf961",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/07/29/7202578e-98dd-4e93-8a9b-166c72f520ea.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-25.mp3",
+      "role": "conversation-audio",
+      "bytes": 899570,
+      "mime": "audio/mpeg",
+      "sha256": "4c7be29947fb863345e13b1b712db948758f4851bf1a7175cc13f8f7f2922542",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/08/16/c98eed28-bb2e-4055-9d08-6f7834b85aa9.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-26.mp3",
+      "role": "conversation-audio",
+      "bytes": 734059,
+      "mime": "audio/mpeg",
+      "sha256": "a1299723dc2a45f1730cc74015cd3b7992a99da7aed78ea18f9cc16e2a4c7f27",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/08/21/5085086e-5053-401a-9f9c-826aabe8abcb.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-27.mp3",
+      "role": "conversation-audio",
+      "bytes": 1212099,
+      "mime": "audio/mpeg",
+      "sha256": "f8410bfacca90a88771626b91c6107294eb3c8b654d53e64332397d42e363166",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/08/30/4b0918a8-33b1-4b9d-8d88-f54d8a1be9ea.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-28.mp3",
+      "role": "conversation-audio",
+      "bytes": 1191410,
+      "mime": "audio/mpeg",
+      "sha256": "526a01ecac02e0baaaf864c5f57e07be0bd147727da59b1993059f868b233be2",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/09/08/a087a1f8-4939-4f40-8612-e99605e88caf.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-29.mp3",
+      "role": "conversation-audio",
+      "bytes": 1203322,
+      "mime": "audio/mpeg",
+      "sha256": "2a1f6673c0732aab187773ef328b1f6fb48ff1f1792f34ab44762225729fc5a8",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/09/15/e7c6ba11-8320-4bcc-8fc5-27fa4e385e23.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-30.mp3",
+      "role": "conversation-audio",
+      "bytes": 1196269,
+      "mime": "audio/mpeg",
+      "sha256": "7f8fa63f15c572419ab4be37c8d979b8d84dec26c41d1097631208739b0815f1",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/09/27/a8dbb32b-ada5-4441-a2d1-340924241a4b.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-31.mp3",
+      "role": "conversation-audio",
+      "bytes": 1259903,
+      "mime": "audio/mpeg",
+      "sha256": "4574fe925f1914d67ea14bc2651364fe48a0b69ee5d08df67f8dca9f4366c8ca",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/10/06/81890cf1-5a16-4426-87db-fdb240c750cc.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-32.mp3",
+      "role": "conversation-audio",
+      "bytes": 1370245,
+      "mime": "audio/mpeg",
+      "sha256": "c14d021f572890a8e8ef88ae5e8cfd6d981c1236acc21c117e3b43a2d4749467",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/10/13/054d9504-47b3-4cc2-80d1-cb66fff404e4.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-33.mp3",
+      "role": "conversation-audio",
+      "bytes": 1368834,
+      "mime": "audio/mpeg",
+      "sha256": "507c4daf829891f7046cce717c1146b4ce02093356f50ab988b03b950148e5dc",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/10/21/f7144253-3403-4acd-9e09-9c31443113f7.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-34.mp3",
+      "role": "conversation-audio",
+      "bytes": 1465226,
+      "mime": "audio/mpeg",
+      "sha256": "ce7c41ae00fb291a309406d314929d5bd956bec7e6cc12727e5c74c7a8d68bec",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/10/26/a9095f28-b489-4110-98fd-7ce6be485793.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-35.mp3",
+      "role": "conversation-audio",
+      "bytes": 1000508,
+      "mime": "audio/mpeg",
+      "sha256": "1fbd2aa6764afa9982ff6ef5078c14d11a9a67825a0e52eb0c63f4a927d4a120",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/11/02/0c67a47c-b66d-4d36-85f5-41dca2d12bde.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-36.mp3",
+      "role": "conversation-audio",
+      "bytes": 737350,
+      "mime": "audio/mpeg",
+      "sha256": "5311670d876ddf1ff5e2e5e6537feb2dbbfb942c5212e8bc43beaa9874002ca2",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/11/14/65b768cd-1b20-4074-beb4-3279d8f8e715.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-37.mp3",
+      "role": "conversation-audio",
+      "bytes": 1308021,
+      "mime": "audio/mpeg",
+      "sha256": "19ad8bbaa4c7232d90475c2274c8693e0b777b130de3b34eec20f618b6902bdd",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/11/17/a0f8f1e0-4d24-425c-8db5-0322d86f3de9.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-38.mp3",
+      "role": "conversation-audio",
+      "bytes": 1263665,
+      "mime": "audio/mpeg",
+      "sha256": "632fb2513df3b315d2b88345d863b2c6eed65b7e74f1a399a4c208e9e3e461dc",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/12/01/7b357de6-9247-45fd-8e49-77197599f6d5.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-39.mp3",
+      "role": "conversation-audio",
+      "bytes": 1244230,
+      "mime": "audio/mpeg",
+      "sha256": "4319d2b58e8782be5e53e080c1274fa714f1c5f4513fc84f4818ceb5bd64de9e",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/12/02/5fd0aa74-ef38-40c2-85fb-47f536c14e28.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-40.mp3",
+      "role": "conversation-audio",
+      "bytes": 1506761,
+      "mime": "audio/mpeg",
+      "sha256": "971f38e00e6307389bd49d080e8daf33c68f249d7af4697c46db35e2e7162b95",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2016/12/29/b24ae633-80a3-46e9-afc8-5e2719ed1fa7.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-41.mp3",
+      "role": "conversation-audio",
+      "bytes": 1273226,
+      "mime": "audio/mpeg",
+      "sha256": "44fcef738447a1718dc2d1cc0de5c31a7df77506af09c32e0c6b0c5110e64314",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/01/05/64e9d749-33ff-4b41-934d-9f44e81cfea0.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-42.mp3",
+      "role": "conversation-audio",
+      "bytes": 1086398,
+      "mime": "audio/mpeg",
+      "sha256": "5aa8ce72bdbb71317518761f1cd534b0232aa708ce3768dc36c6b98e2d9145bb",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/01/12/51393a0f-7412-4703-8f47-866cfd57955c.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-43.mp3",
+      "role": "conversation-audio",
+      "bytes": 1312880,
+      "mime": "audio/mpeg",
+      "sha256": "8025ceb84f4c2a038463a10ffbb4fda119a1b29b19ea88ee93bc7ab904499585",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/01/18/b97c84f3-f68d-4b35-bf71-9c369a107e82.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-44.mp3",
+      "role": "conversation-audio",
+      "bytes": 1285451,
+      "mime": "audio/mpeg",
+      "sha256": "61b9d34787910353b54c58555c9fb2ba433f3281a77e19622a4ad6ed6b5421df",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/01/30/e8edcdf8-a252-41eb-af50-d1337bbb614f.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-45.mp3",
+      "role": "conversation-audio",
+      "bytes": 1438581,
+      "mime": "audio/mpeg",
+      "sha256": "3777ed2e24dd1fea388453950e61922e1e8ad1279b2021e209dddc4861afd367",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/02/07/1fb535dc-77e2-4e0e-930e-b50fab4e45cd.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-46.mp3",
+      "role": "conversation-audio",
+      "bytes": 1077308,
+      "mime": "audio/mpeg",
+      "sha256": "c211efb424e0e9872dc781db8e312cd095279d729a9ac1bd447decbfe587f8ae",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/02/22/8e170a7e-dd5c-4c9b-b214-48b68bc68f47.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-47.mp3",
+      "role": "conversation-audio",
+      "bytes": 1150189,
+      "mime": "audio/mpeg",
+      "sha256": "cd3d08c910fd774e5a09ea228f19d6a5ae7ba1725017818c3f897f4ea04a0308",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/03/03/8511524b-9e6f-4e73-9fa1-cd3f6b32b495.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-48.mp3",
+      "role": "conversation-audio",
+      "bytes": 1304103,
+      "mime": "audio/mpeg",
+      "sha256": "c1bf70db1175ac42d7f96404b4682f47edf20135b140f2646f9fe0273293a886",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/03/09/d11896f1-be6c-47bf-acbc-968ebda02e96.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-49.mp3",
+      "role": "conversation-audio",
+      "bytes": 1226989,
+      "mime": "audio/mpeg",
+      "sha256": "8a603736172f58d14bd54f6c39531320fb9846aa084746e41018109d000cf091",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/03/16/fdd6be45-f44e-4a0d-8231-e9cc9e710f44.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-50.mp3",
+      "role": "conversation-audio",
+      "bytes": 1211472,
+      "mime": "audio/mpeg",
+      "sha256": "637809008acb22672cf077ec3ec464cc260d6259ff3b40e98f2c17726c6620c1",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/04/28/c26515f8-0d7c-4fb4-9646-4dfece722172.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-51.mp3",
+      "role": "conversation-audio",
+      "bytes": 1111946,
+      "mime": "audio/mpeg",
+      "sha256": "e3ea9a22ac3fe4bac3cc95dfe94bfa04f05a8bf20c7b4ec2003e8ed03528abfd",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/04/06/1f484880-f858-47b5-8e0d-37a063b34a07.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/audio/lle1-52.mp3",
+      "role": "conversation-audio",
+      "bytes": 1329964,
+      "mime": "audio/mpeg",
+      "sha256": "c8448ac38d7df6ca1eb9380a19d90e6f01bf149f5f12267d95e23b4c2af8a821",
+      "sourceUrl": "https://voa-audio.voanews.eu/vle/2017/04/14/8259e341-9066-4896-af3d-f62d738d0948.mp3",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/catalog.js",
+      "role": "browser-catalog",
+      "bytes": 42640,
+      "mime": "text/javascript",
+      "sha256": "f1a78cd9f44c565e0b3848407ebb6430d19f17b74aef3acf551e3f67aa293295",
+      "sourceUrl": "https://learningenglish.voanews.com/p/5644.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/catalog.json",
+      "role": "catalog",
+      "bytes": 42614,
+      "mime": "application/json",
+      "sha256": "b0b3ed1b0bb6d2b04fd8709a820c7e574ab6c6e3e16cead1b5e7d02a35baf926",
+      "sourceUrl": "https://learningenglish.voanews.com/p/5644.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-01.webp",
+      "role": "hero-image",
+      "bytes": 68814,
+      "mime": "image/webp",
+      "sha256": "7be5cb2801fb0af1d520f7613caa1cd244701ab8dc18c47c0fb32c592982c686",
+      "sourceUrl": "https://gdb.voanews.com/1e57f8a7-bd44-47a3-9a67-e2527c65ff93_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-02.webp",
+      "role": "hero-image",
+      "bytes": 66992,
+      "mime": "image/webp",
+      "sha256": "08fced40a5cdb6ab2428ad604c6a35dcefaa4ca6eca651413f5927cce6220194",
+      "sourceUrl": "https://gdb.voanews.com/12da8cda-b147-4168-ab4b-29e904b1a1cd_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-03.webp",
+      "role": "hero-image",
+      "bytes": 45022,
+      "mime": "image/webp",
+      "sha256": "eb70924761ed9656ee2a494a78034d0a8827bfaaf0b0beaf516521ea53ad7f63",
+      "sourceUrl": "https://gdb.voanews.com/3152256f-2e72-4825-8789-da8a46b6c55c_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-04.webp",
+      "role": "hero-image",
+      "bytes": 72384,
+      "mime": "image/webp",
+      "sha256": "368da53a27f3a243b06173e626bfc491583b0eda45d13a8ff61b135db0e18877",
+      "sourceUrl": "https://gdb.voanews.com/3aed35a9-94a4-478c-9e26-8f57d30a4be2_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-05.webp",
+      "role": "hero-image",
+      "bytes": 58426,
+      "mime": "image/webp",
+      "sha256": "55f1d3899c1a80ffe7f55c48d07d8b6b07258675af840ef88b27078998ec72b5",
+      "sourceUrl": "https://gdb.voanews.com/b519a7a9-6e70-4459-aeb7-26e8fc42315f_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-06.webp",
+      "role": "hero-image",
+      "bytes": 53182,
+      "mime": "image/webp",
+      "sha256": "94385f36d68c17252bb2c733b41d03823cf9b548d2aa0278c37fc99e70a88fdb",
+      "sourceUrl": "https://gdb.voanews.com/9170d1a5-cfaa-4d11-82f1-830c5082ba14_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-07.webp",
+      "role": "hero-image",
+      "bytes": 70762,
+      "mime": "image/webp",
+      "sha256": "e261ccd531d9db00aba3aa1f681578df3b8631d33fa6dc9b91fb8a63f01a1898",
+      "sourceUrl": "https://gdb.voanews.com/816bbc83-c5ad-469d-998c-4ed608051662_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-08.webp",
+      "role": "hero-image",
+      "bytes": 48448,
+      "mime": "image/webp",
+      "sha256": "9a5a8e1ddff0e064179a05f270042bf7bd80efbf91fd41fa17213c76a9d01db8",
+      "sourceUrl": "https://gdb.voanews.com/064481fe-e5f5-4a71-8862-49d0b4edf16f_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-09.webp",
+      "role": "hero-image",
+      "bytes": 66786,
+      "mime": "image/webp",
+      "sha256": "bcf321cc0ad63c4e9fab02c78a68236d14dcacf43c8907913b55ae6897b2bb42",
+      "sourceUrl": "https://gdb.voanews.com/683ebde2-f1ed-47bb-a5a7-09bcc34191bb_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-10.webp",
+      "role": "hero-image",
+      "bytes": 78218,
+      "mime": "image/webp",
+      "sha256": "52d85a10ab6698cc960f65916a644e0a1a8a5334fb1f3250c2cf206b338281a5",
+      "sourceUrl": "https://gdb.voanews.com/07d1c689-ceaf-45af-9ff6-a36850705a6c_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-11.webp",
+      "role": "hero-image",
+      "bytes": 120042,
+      "mime": "image/webp",
+      "sha256": "ab37ca57dd18e938c71376ada01ba59a4cc7b76123ab121efd23e74af1a627a8",
+      "sourceUrl": "https://gdb.voanews.com/1ad61aed-9d02-4ed8-879d-8007381309b3_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-12.webp",
+      "role": "hero-image",
+      "bytes": 89132,
+      "mime": "image/webp",
+      "sha256": "94e41ec97c9dfadf25de3d9ef98890dde4b95ca245d18216e6e131e7f190fdd4",
+      "sourceUrl": "https://gdb.voanews.com/73f835e2-1646-48c6-8f08-243d94490df0_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-13.webp",
+      "role": "hero-image",
+      "bytes": 98022,
+      "mime": "image/webp",
+      "sha256": "51c0cad8bff09c1049e6d10b425c435efea9be2eb4f625003461b563841a6607",
+      "sourceUrl": "https://gdb.voanews.com/383e3ae9-fbcf-47f7-b0fe-ddabc0dc83ab_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-14.webp",
+      "role": "hero-image",
+      "bytes": 60738,
+      "mime": "image/webp",
+      "sha256": "a6f242b11db6e25a29c9194db44d370a95d3ae3f432597a4a063cebf025e7de1",
+      "sourceUrl": "https://gdb.voanews.com/b722148d-cfe3-4925-bebc-5e4118efad65_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-15.webp",
+      "role": "hero-image",
+      "bytes": 102014,
+      "mime": "image/webp",
+      "sha256": "6233fe93200db80e50a0a94ec26174bd7ab4cf5f7921c583b6cdc46335d9c8e6",
+      "sourceUrl": "https://gdb.voanews.com/900367b3-8b74-40ef-a506-022d45732047_cx0_cy1_cw99_w1200_h630.png",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-16.webp",
+      "role": "hero-image",
+      "bytes": 74610,
+      "mime": "image/webp",
+      "sha256": "a19f50b71f457fb25baec5401e22210e333b622ac0d8e32a33bd9df927d9edfa",
+      "sourceUrl": "https://gdb.voanews.com/dc044df8-8a73-442d-a994-09165bd45921_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-17.webp",
+      "role": "hero-image",
+      "bytes": 36278,
+      "mime": "image/webp",
+      "sha256": "b3201e7cb4ac0562a2e81e00ed4957c64209a242592c1c480173695b1e39f950",
+      "sourceUrl": "https://gdb.voanews.com/ec143400-d318-45c4-afe3-1bf8c5ceddee_w1200_h630.png",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-18.webp",
+      "role": "hero-image",
+      "bytes": 47626,
+      "mime": "image/webp",
+      "sha256": "4bc8e9f05db2138214b620167756d70fadf25c4214210ea5cda27a475c5708e1",
+      "sourceUrl": "https://gdb.voanews.com/d94f63f2-9588-4caf-8143-03c257dc0357_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-19.webp",
+      "role": "hero-image",
+      "bytes": 49860,
+      "mime": "image/webp",
+      "sha256": "369a87ce7ca3110c275555530fc3576773ff40f50d6acb30d882b1295fe46d7e",
+      "sourceUrl": "https://gdb.voanews.com/1079041f-ec0f-400b-8820-d2141f231572_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-20.webp",
+      "role": "hero-image",
+      "bytes": 59160,
+      "mime": "image/webp",
+      "sha256": "317ab8117385490f11ccea6fd2e3a81375215771d49e67d1cbb6e0d989e0fd36",
+      "sourceUrl": "https://gdb.voanews.com/4651f7b6-ab85-415a-b7e1-64f9c8460c9b_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-21.webp",
+      "role": "hero-image",
+      "bytes": 38908,
+      "mime": "image/webp",
+      "sha256": "07b56673b3794ed49802cb5522fe861b0a9decb169a86e8ffadd030369095918",
+      "sourceUrl": "https://gdb.voanews.com/fa886630-938a-422f-b266-ac53c8652a78_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-22.webp",
+      "role": "hero-image",
+      "bytes": 66684,
+      "mime": "image/webp",
+      "sha256": "43e6c9be8946adae236c9890b5bfa853a7f34670bd3e3cb7f60bb8e76867f2bc",
+      "sourceUrl": "https://gdb.voanews.com/688c98d4-736c-4b85-a56d-47499ca1da91_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-23.webp",
+      "role": "hero-image",
+      "bytes": 74508,
+      "mime": "image/webp",
+      "sha256": "c572ef571b40c637b8e544e0c92ece192124d869a7b9bda7f12f1ef3920f501a",
+      "sourceUrl": "https://gdb.voanews.com/b621f099-4447-4736-906c-74723bef081b_cx13_cy2_cw87_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-24.webp",
+      "role": "hero-image",
+      "bytes": 98346,
+      "mime": "image/webp",
+      "sha256": "5def03c69ea843b453bbc175c3c1ea156cd8381c07c1efc8a1c8ba12337c2621",
+      "sourceUrl": "https://gdb.voanews.com/5b96ad6a-784a-45dd-8186-9a714faad2b1_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-25.webp",
+      "role": "hero-image",
+      "bytes": 59650,
+      "mime": "image/webp",
+      "sha256": "d9b47ce29bf65b3715110aac7ca880b61e7510a50328cb7ea0b80ab001636058",
+      "sourceUrl": "https://gdb.voanews.com/1ff1bd55-2db8-4c13-88b6-9f21af5ea607_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-26.webp",
+      "role": "hero-image",
+      "bytes": 66048,
+      "mime": "image/webp",
+      "sha256": "7d9e40a3989e9a144af910acaa94fa802b0543e49161cf03849c4e6bb94f7f26",
+      "sourceUrl": "https://gdb.voanews.com/4e98970e-2c12-427b-9f94-c28cf8f9568e_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-27.webp",
+      "role": "hero-image",
+      "bytes": 73570,
+      "mime": "image/webp",
+      "sha256": "e5cfc7606d19dc57d4e9bf9e15013325750ef0d3416d23d75e6dc657de8632bf",
+      "sourceUrl": "https://gdb.voanews.com/44773512-7487-4382-8565-04fc7359fbed_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-28.webp",
+      "role": "hero-image",
+      "bytes": 62888,
+      "mime": "image/webp",
+      "sha256": "1b07ec8f53092f234c79e39c724ca098807af2d3596e4e4b4c81b09f63c3bde9",
+      "sourceUrl": "https://gdb.voanews.com/b471b108-bd0e-4bd5-a259-800092f32271_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-29.webp",
+      "role": "hero-image",
+      "bytes": 52218,
+      "mime": "image/webp",
+      "sha256": "6247b560161a2d1e9427796bbfcf8bf94e32b2d6b2a496d602e5286a96fb788b",
+      "sourceUrl": "https://gdb.voanews.com/c160d09a-232f-4d88-89e6-ac8f755688ea_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-30.webp",
+      "role": "hero-image",
+      "bytes": 84706,
+      "mime": "image/webp",
+      "sha256": "08b2bcdc34ecac9455eb8bb5ce1e393b96ea7e340f416ed9d04571d4272c28c2",
+      "sourceUrl": "https://gdb.voanews.com/0a5cbb57-0fba-445d-a902-b47345ffb4c5_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-31.webp",
+      "role": "hero-image",
+      "bytes": 87752,
+      "mime": "image/webp",
+      "sha256": "d45fbe44ef69268c10921d9f374df5be3b68a3ae282a2ed32b40ca868fd84aba",
+      "sourceUrl": "https://gdb.voanews.com/bfb5c3f8-6024-4d19-94f7-d1bf4e2d2363_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-32.webp",
+      "role": "hero-image",
+      "bytes": 31754,
+      "mime": "image/webp",
+      "sha256": "371c7e8edf865413ac4ab8eeb5561c0088f766c4c6ea90fa1b568541f87cbf17",
+      "sourceUrl": "https://gdb.voanews.com/8110b26e-95c5-4e36-b947-12646f1b3fd2_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-33.webp",
+      "role": "hero-image",
+      "bytes": 47272,
+      "mime": "image/webp",
+      "sha256": "f84daa11f0743a329ce3f7728f3f4b19c41b5c331223259b76497a7390819b65",
+      "sourceUrl": "https://gdb.voanews.com/76fd24b1-af74-4523-9a19-1f73f56c330e_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-34.webp",
+      "role": "hero-image",
+      "bytes": 92176,
+      "mime": "image/webp",
+      "sha256": "c241f5e6236720616ac33f2042a718ded8b523b8a5724b03bbdb02c5337ff6aa",
+      "sourceUrl": "https://gdb.voanews.com/1a3f9e05-fbf7-4dd7-8867-0bcbe4455071_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-35.webp",
+      "role": "hero-image",
+      "bytes": 99750,
+      "mime": "image/webp",
+      "sha256": "4ba5cc65cf65bd3e1a42426beb78e8333e23dcc4d987680792ff74a86a137b4f",
+      "sourceUrl": "https://gdb.voanews.com/b50f4543-a480-4d3a-a600-0759323cb59c_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-36.webp",
+      "role": "hero-image",
+      "bytes": 52916,
+      "mime": "image/webp",
+      "sha256": "610ed6b0002abe78dd8b340679d9f791836dc7f3049281448b88e14bd4310715",
+      "sourceUrl": "https://gdb.voanews.com/1f535d7a-8ac9-408d-8983-9940782cd296_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-37.webp",
+      "role": "hero-image",
+      "bytes": 98734,
+      "mime": "image/webp",
+      "sha256": "9bde8873a8cfc8e22ae66b84abfb18cce7a6168f402164c79621ff3c25872c68",
+      "sourceUrl": "https://gdb.voanews.com/0b12980b-967a-44c5-b3d6-3251167cd8bd_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-38.webp",
+      "role": "hero-image",
+      "bytes": 55682,
+      "mime": "image/webp",
+      "sha256": "7621416d7f63096ae64bee36a952e52e0b0568121ebce87539564afa612b34fd",
+      "sourceUrl": "https://gdb.voanews.com/de96c7c5-06d3-4dcf-b84c-5d74f5af6632_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-39.webp",
+      "role": "hero-image",
+      "bytes": 41200,
+      "mime": "image/webp",
+      "sha256": "4dc1b7ae68844f8b740c63f6b155b18ec6cf5d4ff5e4527a32a42b7c10fac22f",
+      "sourceUrl": "https://gdb.voanews.com/7b654eae-13d8-440a-bf76-13f2a0798853_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-40.webp",
+      "role": "hero-image",
+      "bytes": 31506,
+      "mime": "image/webp",
+      "sha256": "7d5d27e9adac60624b78123caf476912a512ee844c83b4fb0bccc021cc11aa31",
+      "sourceUrl": "https://gdb.voanews.com/f8922642-0fd5-457b-bdca-bb52e8f5ab9b_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-41.webp",
+      "role": "hero-image",
+      "bytes": 37266,
+      "mime": "image/webp",
+      "sha256": "5516f43bb8d7c9d2796d052c48c998136198e00e08e616427af03698f9157a99",
+      "sourceUrl": "https://gdb.voanews.com/e6f0d328-a9a5-4c1a-bd9d-f061bf702042_w1200_h630.png",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-42.webp",
+      "role": "hero-image",
+      "bytes": 55478,
+      "mime": "image/webp",
+      "sha256": "0ea714a787544b6d83d66df09e31e788b9fef7de18b40600afbccbe5947f2f91",
+      "sourceUrl": "https://gdb.voanews.com/824b606c-4327-43e7-90a5-a8fdf7e20870_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-43.webp",
+      "role": "hero-image",
+      "bytes": 63302,
+      "mime": "image/webp",
+      "sha256": "377f29c02225b83d24c79ae75dfbb234776a5e731e55c0561185d61edecf6fd6",
+      "sourceUrl": "https://gdb.voanews.com/33274b8c-0f6d-46e9-8111-09b7e27bf7e1_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-44.webp",
+      "role": "hero-image",
+      "bytes": 62908,
+      "mime": "image/webp",
+      "sha256": "2d70261c5b6b15eabd0a0f6328f30b3f396fda5ad8d793ab97a281047b88d39e",
+      "sourceUrl": "https://gdb.voanews.com/d72975ce-2aa4-4f24-83eb-e95de94e5335_w1200_h630.png",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-45.webp",
+      "role": "hero-image",
+      "bytes": 89826,
+      "mime": "image/webp",
+      "sha256": "9a35d6d884aba7373eacb64041793e95b701ef211ac1be414f4a462f9790ac77",
+      "sourceUrl": "https://gdb.voanews.com/874b3da7-d5ab-430f-a9d5-bddd66f194c4_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-46.webp",
+      "role": "hero-image",
+      "bytes": 58380,
+      "mime": "image/webp",
+      "sha256": "50546d2a5e35202d6453574a5a9054e28db344c98968377391994db87360be7e",
+      "sourceUrl": "https://gdb.voanews.com/9aaa0997-fa4c-4f68-a521-596e74bbee6c_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-47.webp",
+      "role": "hero-image",
+      "bytes": 57672,
+      "mime": "image/webp",
+      "sha256": "dc6e23318a95c2b5f86b2438d737e9e1b257c2f753952397340964e58ef59a71",
+      "sourceUrl": "https://gdb.voanews.com/ebbc4a86-b4b9-4096-b8dc-d94021fdd4db_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-48.webp",
+      "role": "hero-image",
+      "bytes": 79500,
+      "mime": "image/webp",
+      "sha256": "f098cbe78959ec3a6013ceb911cfa0b88ed2babe2997247aac6ffafea1c480c0",
+      "sourceUrl": "https://gdb.voanews.com/e41989e1-6812-40a5-a030-dddfe0f05ac3_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-49.webp",
+      "role": "hero-image",
+      "bytes": 31492,
+      "mime": "image/webp",
+      "sha256": "7a2385de25f60d2a8c5f0ec16759fca9222615f877e7b828bf3f4db4450cf6da",
+      "sourceUrl": "https://gdb.voanews.com/439e3d2b-ff0a-4bd0-9f7a-eb3fd4442375_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-50.webp",
+      "role": "hero-image",
+      "bytes": 124610,
+      "mime": "image/webp",
+      "sha256": "2fce3c9d79f2ad6ded0ffdce5f10823e33e892166a0445d6fc0015b5de9db340",
+      "sourceUrl": "https://gdb.voanews.com/58859cab-5ebc-4bd9-82d2-bdd8f6be82c5_w1200_h630.png",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-51.webp",
+      "role": "hero-image",
+      "bytes": 76304,
+      "mime": "image/webp",
+      "sha256": "1893ed4b5b05adb7624a4e71c7a83614c0390a291f89d8e1f571d0a03fdde671",
+      "sourceUrl": "https://gdb.voanews.com/26cab0b6-f946-49c4-a33a-2168e0577101_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/images/lle1-52.webp",
+      "role": "hero-image",
+      "bytes": 48154,
+      "mime": "image/webp",
+      "sha256": "75b3467779fc08fddbce054891282e4813fa28fba81228be93d5d6c2225140c0",
+      "sourceUrl": "https://gdb.voanews.com/bf617f89-c9ce-4355-a1b0-1a1bd76a6732_w1200_h630.jpg",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-01.json",
+      "role": "normalized-lesson-data",
+      "bytes": 8226,
+      "mime": "application/json",
+      "sha256": "e80ef748d30cf34391da51455a1dfa26efd3b6e2b2735e90f167f701fa0ba259",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-one/3111026.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-02.json",
+      "role": "normalized-lesson-data",
+      "bytes": 8947,
+      "mime": "application/json",
+      "sha256": "81630e5b0cfe632a8d8fdb78bd3ae6b5d05009e4fdef3e6a580e79be75631fca",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-2-hello/3113733.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-03.json",
+      "role": "normalized-lesson-data",
+      "bytes": 9180,
+      "mime": "application/json",
+      "sha256": "20155ccb1ef3cb07c0256301eb9257a51881a3f1abe0bc503bb3adcec6d03336",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-3-i-am-here/3126527.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-04.json",
+      "role": "normalized-lesson-data",
+      "bytes": 9255,
+      "mime": "application/json",
+      "sha256": "dec2d3a5ee9107b52b35a704e51b14c8578b28bac35aea6f7db49ee7e7b23947",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-4/3168920.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-05.json",
+      "role": "normalized-lesson-data",
+      "bytes": 8431,
+      "mime": "application/json",
+      "sha256": "a0695156ef84b9f7a99f97e4735e8df7b6bfd104fb29a63d46e059fbbf208303",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-5-where-are-you/3168971.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-06.json",
+      "role": "normalized-lesson-data",
+      "bytes": 10012,
+      "mime": "application/json",
+      "sha256": "17eef459953dd8fd563b99f374f2a0a9adf99293df487dae9e1ab29c16d47356",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-6-where-is-the-gym/3225958.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-07.json",
+      "role": "normalized-lesson-data",
+      "bytes": 11438,
+      "mime": "application/json",
+      "sha256": "9c0975d60aa2759bbda4c8d3f9abbb32006465da79f1676c761d9629cc93e6f2",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-7-what-are-you-doing/3240468.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-08.json",
+      "role": "normalized-lesson-data",
+      "bytes": 10201,
+      "mime": "application/json",
+      "sha256": "d5f4ae5bb52d4a79244e1eff2a778dd39985303b118e49048e90a72331d426b3",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-8-are-you-busy/3253185.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-09.json",
+      "role": "normalized-lesson-data",
+      "bytes": 10011,
+      "mime": "application/json",
+      "sha256": "d36199c98f7522fbd0f71f70465fa50dc279886860d72857f5ac630897c0c634",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-9-is-it-cold/3261789.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-10.json",
+      "role": "normalized-lesson-data",
+      "bytes": 10110,
+      "mime": "application/json",
+      "sha256": "112515e4a421139f4a9bcb0ef88e0cf90e48f56b114e9728c6034655f6339e3e",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-10/3285228.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-11.json",
+      "role": "normalized-lesson-data",
+      "bytes": 11181,
+      "mime": "application/json",
+      "sha256": "c9f131decf2f7bd8bbbeab549be147a74d22219ff6eb0c0c4862ff37bf17eee4",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-11-this-is-my-neighborhood/3293986.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-12.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12643,
+      "mime": "application/json",
+      "sha256": "4c4942e68be7dba98ba352914797f56a04ffb8c20b17c26d5d55dd6c984e2489",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-12-meet-my-family/3301733.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-13.json",
+      "role": "normalized-lesson-data",
+      "bytes": 11098,
+      "mime": "application/json",
+      "sha256": "a9f75f28eb91b6c71cf0a3e061006de6c60f5b0051925f34c62645f19a16e725",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-13-happy-birthday-william-shakespeare/3312239.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-14.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12451,
+      "mime": "application/json",
+      "sha256": "647de6c31927bf78c521104339676ddc6a516a9497df45ce4ee84c1bee493285",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-14-how-about-this/3323771.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-15.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13473,
+      "mime": "application/json",
+      "sha256": "650b08d936854adfbf93f7e8143a3dde03aed549882ad28b1ff921249cea13cc",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-15-i-love-people-watching/3343720.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-16.json",
+      "role": "normalized-lesson-data",
+      "bytes": 14421,
+      "mime": "application/json",
+      "sha256": "540f24aaa9245e254cf9ba5adb5ead017fc06f10161cfa05a39eed5bb81a6a89",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-16-where-are-you-from/3355849.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-17.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12702,
+      "mime": "application/json",
+      "sha256": "4e3a16e363511fbe0663b4085e8d655e40ebff7db48c2899d93db54d3ef464ed",
+      "sourceUrl": "https://learningenglish.voanews.com/a/are-you-free-on-friday-lets-learn-english/3355785.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-18.json",
+      "role": "normalized-lesson-data",
+      "bytes": 14338,
+      "mime": "application/json",
+      "sha256": "e2d67aaa92b4a1c5bc28e87864cde9adde9852e78786bc105be7baa0c33d46fc",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-18-she-always-does-that/3357748.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-19.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12718,
+      "mime": "application/json",
+      "sha256": "3a062b6f5b6e158a0eaf11973d6353acf35721659f8ed90f6b10272906c655bf",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-19-when-do-you-start/3357760.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-20.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13079,
+      "mime": "application/json",
+      "sha256": "d10adf06e891248a61a48ed6e19795eef6d6e085b76ecdc1ffd599a3e375ee17",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-20-what-can-you-do/3384429.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-21.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13041,
+      "mime": "application/json",
+      "sha256": "220e90a9fb8d211a1066cbd2ed327278fa6be40f776bbeb89c8a87b15b61afcb",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-21-can-you-come-to-the-party/3406732.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-22.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13225,
+      "mime": "application/json",
+      "sha256": "71e28dad2a7ce3b6ecf3b03705c7b99a30ff369349cabdee607be012a1d39c31",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-22/3397314.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-23.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13154,
+      "mime": "application/json",
+      "sha256": "f627a5b966742745d51a37c592c92860f36d331d5fd79f8d470768c25aee96c8",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-23-what-do-you-want/3413753.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-24.json",
+      "role": "normalized-lesson-data",
+      "bytes": 11953,
+      "mime": "application/json",
+      "sha256": "31bef5bf7d100ffe68fc0e0de5407d9ac296b50ed066d908314c07ad04f18e9a",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-24-yesterday-was-amazing/3439164.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-25.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12687,
+      "mime": "application/json",
+      "sha256": "e9d8c4955abbbf7e0dfe80dcffdcb9491ea8257d084ff2452e169020723d936f",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-25-watch-out/3431138.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-26.json",
+      "role": "normalized-lesson-data",
+      "bytes": 11467,
+      "mime": "application/json",
+      "sha256": "b58dab6488b994416060f107d435f6475b589bd4473c2d9dbc99630b9e188a49",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-26-this-game-is-fun/3457248.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-27.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13770,
+      "mime": "application/json",
+      "sha256": "8c28904ee0ad15aa85ff95a175b6089714ef0bc99945473624b0b6c3e00d4db4",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-27-i-cant-come-in/3457316.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-28.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13210,
+      "mime": "application/json",
+      "sha256": "141030ab5104e14b710f01edc7e72fe4f333bd97ba939e473a7456e9ab5f230c",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-28-i-passed-it/3487865.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-29.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13390,
+      "mime": "application/json",
+      "sha256": "7942a36e6dd8645dbb54de0e5881055bd136d4b1cf7a7487a12e91760bc1f50f",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-29-a-long-time-ago/3509519.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-30.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12603,
+      "mime": "application/json",
+      "sha256": "4d918e659ce81bcff90e99d2b411afe8a649b15420c55dc57bdc218b505077cc",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-30-rolling-river/3522798.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-31.json",
+      "role": "normalized-lesson-data",
+      "bytes": 14261,
+      "mime": "application/json",
+      "sha256": "5e221d017e363859db929e09fb95f1614d049cdcf706c533789828d25c497b34",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-31-take-me-out-to-the-ball-game/3535235.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-32.json",
+      "role": "normalized-lesson-data",
+      "bytes": 14181,
+      "mime": "application/json",
+      "sha256": "890676b1cd6d19e3d1f4d28feb1df4f576a02fccb79ab33afa2ff6182f10d107",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-32-welcome-treehouse/3547306.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-33.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12754,
+      "mime": "application/json",
+      "sha256": "04d0ea58fcd089aa0a817ce499fe98d850f59772f143730a91874a104aa364c6",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lesson-33-learning-americas-sport/3555047.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-34.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13763,
+      "mime": "application/json",
+      "sha256": "a5e3c1ffd12c05d3307f1fab105f0b67895b9f8d4c36ce0cc9b2ed5306dac983",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-34-what-will-i-do/3566043.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-35.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12236,
+      "mime": "application/json",
+      "sha256": "9f39bf2de9e3e7c43defdb8f881e882def2ca3d034b1e1c9fb43bdc9975b5b67",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-35-lets-make-dinner/3571922.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-36.json",
+      "role": "normalized-lesson-data",
+      "bytes": 11140,
+      "mime": "application/json",
+      "sha256": "e2d40ebfef9060e2550836b39cc49a2c60e0b237bf686d7e6645d59e4c0d8f96",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-36-i-can-fix-this/3568962.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-37.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12874,
+      "mime": "application/json",
+      "sha256": "0fc9f7559392897827f91e0391a6686b803afd15f783b7a47e9f4de92134bee8",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-37-lets-agree-to-disagree/3574029.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-38.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13243,
+      "mime": "application/json",
+      "sha256": "5480bd79b74387bd5646255fea4aa6fec22fceb29d31d53c72636a581b604856",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-38-shes-my-best-friend/3591967.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-39.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13042,
+      "mime": "application/json",
+      "sha256": "5f1276ceb57263b028934db281992f4324ffb0fce2c6882e1ce23c1f082dbe29",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-39-its-unbelieveable/3598920.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-40.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13099,
+      "mime": "application/json",
+      "sha256": "ffa6a1fc8371ef29a393224860332ed721e0aeddd34b8e01d70129e40f48ee67",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-40-the-woods-are-alive/3630341.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-41.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13200,
+      "mime": "application/json",
+      "sha256": "7fcdaef0d6daf5902284402613ea770a746ddb99c26afec910a88ce1a7c65e42",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-41-teamwork/3635015.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-42.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13608,
+      "mime": "application/json",
+      "sha256": "914a6598c119ef19209a01cd46e612b1ad27796f3feecd248c5a8fea35f1d0ba",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-42-i-was-minding-my-own-business/3647264.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-43.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13248,
+      "mime": "application/json",
+      "sha256": "f5a74b5748d132d2cfd8d08780e2795ccc868447870dd72206042f672d588d4c",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-43-time-for-plan-b/3666458.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-44.json",
+      "role": "normalized-lesson-data",
+      "bytes": 14170,
+      "mime": "application/json",
+      "sha256": "09f636186278b2274e786f388875c36d0df77f298108280c332a01eacf5f7acd",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-44-making-healthy-choices/3688552.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-45.json",
+      "role": "normalized-lesson-data",
+      "bytes": 15415,
+      "mime": "application/json",
+      "sha256": "248bc27f2426d2c9f89385606b7e1f891ad33b08b12963c2b784191889955ac9",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lesson-45-this-land-is-your-land/3710209.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-46.json",
+      "role": "normalized-lesson-data",
+      "bytes": 12962,
+      "mime": "application/json",
+      "sha256": "53559b55da0c8a032790b5abfe5bcac171342dea0cfaf0a53a7ba973ef6868aa",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-46-may-i-borrow-that/3723588.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-47.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13773,
+      "mime": "application/json",
+      "sha256": "3cadc425ca078710d8e87af486a3efe3f66d36a8a9c6bc7e99dc945067ba42de",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-47-how-can-i-help/3737352.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-48.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13544,
+      "mime": "application/json",
+      "sha256": "cc9befa56311c7d081b0245c06b778ff08df3099947708230f7ebe55f3c6f6ed",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-48-have-you-ever/3753664.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-49.json",
+      "role": "normalized-lesson-data",
+      "bytes": 14024,
+      "mime": "application/json",
+      "sha256": "6216ba5b63e3f1a0c37f5c16b9e145186f3a47f7262e09fab9fffe656962fe49",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-49-operation-spy/3763537.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-50.json",
+      "role": "normalized-lesson-data",
+      "bytes": 14726,
+      "mime": "application/json",
+      "sha256": "63ecf63a57ee257b7eaa97db51b9654a302f54a29f4ccbae592777bca2c3c83b",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-50-back-to-school/3771173.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-51.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13676,
+      "mime": "application/json",
+      "sha256": "a3fb91c7df92b7a1e461c2ec611ed4d72432909ebebb2135af394391231fc075",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-51-a-good-habit/3773577.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/lessons/lle1-52.json",
+      "role": "normalized-lesson-data",
+      "bytes": 13828,
+      "mime": "application/json",
+      "sha256": "64a6d34864ab58523b09970b982f12191690591894831023b71a28be5cdfc30e",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-52-taking-chances/3805454.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-01.md",
+      "role": "conversation-transcript",
+      "bytes": 540,
+      "mime": "text/markdown",
+      "sha256": "1c69fabd3574cb80c1734512f16cb1a435048b2d808d46a5c8ee9e0435abd99e",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-one/3111026.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-02.md",
+      "role": "conversation-transcript",
+      "bytes": 796,
+      "mime": "text/markdown",
+      "sha256": "bd87afdef17f44121d4528403a3095372ebf4003888a2b549c426c9074048402",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-2-hello/3113733.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-03.md",
+      "role": "conversation-transcript",
+      "bytes": 1128,
+      "mime": "text/markdown",
+      "sha256": "670fc5cf171d190f3d0d472881e1f1c243c9402954e3e7e9d2a36d1dad14d867",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-3-i-am-here/3126527.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-04.md",
+      "role": "conversation-transcript",
+      "bytes": 1069,
+      "mime": "text/markdown",
+      "sha256": "7390ecc6a48c12e9ac6b522e4c05c8c6ab70e094f51eb50aa34f2fbc546944f3",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-4/3168920.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-05.md",
+      "role": "conversation-transcript",
+      "bytes": 798,
+      "mime": "text/markdown",
+      "sha256": "0d512e76d15453d9b941237b93cf2c356077f1faf04136fb6519b6f86dcdcf04",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-5-where-are-you/3168971.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-06.md",
+      "role": "conversation-transcript",
+      "bytes": 1411,
+      "mime": "text/markdown",
+      "sha256": "4bac1e526a39689af3cc474295744120d72b73761263614da55d51137b320d36",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-6-where-is-the-gym/3225958.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-07.md",
+      "role": "conversation-transcript",
+      "bytes": 1984,
+      "mime": "text/markdown",
+      "sha256": "edb8ea4db635854caa64349ff83e73a2e5edb24d33de7508f38191668baf2053",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-7-what-are-you-doing/3240468.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-08.md",
+      "role": "conversation-transcript",
+      "bytes": 1478,
+      "mime": "text/markdown",
+      "sha256": "2f5cd61c4de9e2977ee56503154f24852bd1fc39bd06fabdc7be926395742088",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-8-are-you-busy/3253185.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-09.md",
+      "role": "conversation-transcript",
+      "bytes": 1431,
+      "mime": "text/markdown",
+      "sha256": "ba616104bc2902fb6d4ce464b7a55805d3f78455a3c4c6a6dbaafdfafc5b66cf",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-9-is-it-cold/3261789.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-10.md",
+      "role": "conversation-transcript",
+      "bytes": 1204,
+      "mime": "text/markdown",
+      "sha256": "27cdf260d3a7a6c10c08b2b0dbc3e424803cb3acbb62bb24e86391e2134343b1",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-10/3285228.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-11.md",
+      "role": "conversation-transcript",
+      "bytes": 1605,
+      "mime": "text/markdown",
+      "sha256": "72c691dcbfe628bd1fcf6c068bd5d99d143ecdebbcb9e80d86273fca7c4618f9",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-11-this-is-my-neighborhood/3293986.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-12.md",
+      "role": "conversation-transcript",
+      "bytes": 2266,
+      "mime": "text/markdown",
+      "sha256": "d3c49d4fd80daeb1e4e0f9e29a9913eeaf436035afd3c1d4a8e9f3b30b184aba",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-12-meet-my-family/3301733.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-13.md",
+      "role": "conversation-transcript",
+      "bytes": 1487,
+      "mime": "text/markdown",
+      "sha256": "86f90e3407953683569893913213ac295ba7117cd5064d9d1437bdf5d08e55a7",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-13-happy-birthday-william-shakespeare/3312239.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-14.md",
+      "role": "conversation-transcript",
+      "bytes": 2043,
+      "mime": "text/markdown",
+      "sha256": "336f55049a7491a68134a81ea5b4a9ed12d0b556945bf6a1aa4fa1071773cd39",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-14-how-about-this/3323771.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-15.md",
+      "role": "conversation-transcript",
+      "bytes": 2450,
+      "mime": "text/markdown",
+      "sha256": "ef4baa004285e67e1d60197a2c3d237ea32cba0243ba775ca3b6ab6b82ac6215",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-15-i-love-people-watching/3343720.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-16.md",
+      "role": "conversation-transcript",
+      "bytes": 2914,
+      "mime": "text/markdown",
+      "sha256": "18476f35094300b03661ab3d94f4863e7270411e04904072d8064cc244dfeee8",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-16-where-are-you-from/3355849.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-17.md",
+      "role": "conversation-transcript",
+      "bytes": 2114,
+      "mime": "text/markdown",
+      "sha256": "4c75e02d623e27487727701965fd713ea9adf5b0a3d3e61cd636d293b2ff0ea8",
+      "sourceUrl": "https://learningenglish.voanews.com/a/are-you-free-on-friday-lets-learn-english/3355785.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-18.md",
+      "role": "conversation-transcript",
+      "bytes": 2891,
+      "mime": "text/markdown",
+      "sha256": "a03bd6e6c6a9e65b81fa1629fda41c126a88132962d759778f7daece366f4624",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-18-she-always-does-that/3357748.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-19.md",
+      "role": "conversation-transcript",
+      "bytes": 2208,
+      "mime": "text/markdown",
+      "sha256": "43c15f9a54ae4481f6f2186c8e296ec3dc76fb11a1cc87843b97eb115b750975",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-19-when-do-you-start/3357760.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-20.md",
+      "role": "conversation-transcript",
+      "bytes": 2441,
+      "mime": "text/markdown",
+      "sha256": "bbdd59d1e656a474d381a2a86e5084e69fdd6f74545d8063fdc30721333be395",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-20-what-can-you-do/3384429.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-21.md",
+      "role": "conversation-transcript",
+      "bytes": 2284,
+      "mime": "text/markdown",
+      "sha256": "a2dc89c49a7694f8528815b107d7cd0aae4b57fd6d38b2f13ca49963f15a32f5",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-21-can-you-come-to-the-party/3406732.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-22.md",
+      "role": "conversation-transcript",
+      "bytes": 2743,
+      "mime": "text/markdown",
+      "sha256": "479b94edb12328cc4b71a128f3cb1d6451a6080577f529005ab292dc9b725561",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-22/3397314.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-23.md",
+      "role": "conversation-transcript",
+      "bytes": 2285,
+      "mime": "text/markdown",
+      "sha256": "4e36c91a94c18e1c374e20c832a98b97214a41cd2742c3c71619f72404ff54ab",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-23-what-do-you-want/3413753.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-24.md",
+      "role": "conversation-transcript",
+      "bytes": 1865,
+      "mime": "text/markdown",
+      "sha256": "3d43be505b0788914600884c8b76eb4c5e8e04c307b4c7cd1246ced8e8e0464e",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-24-yesterday-was-amazing/3439164.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-25.md",
+      "role": "conversation-transcript",
+      "bytes": 2156,
+      "mime": "text/markdown",
+      "sha256": "961b60fb7bbdb73181246673b993214c57d08d7867ad7307195754f4596ca59a",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-25-watch-out/3431138.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-26.md",
+      "role": "conversation-transcript",
+      "bytes": 1669,
+      "mime": "text/markdown",
+      "sha256": "5df869f43390c029f0ad7c63e4569f11f4b30fcd664e0bcb443a4fbb00ac04d6",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-26-this-game-is-fun/3457248.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-27.md",
+      "role": "conversation-transcript",
+      "bytes": 2658,
+      "mime": "text/markdown",
+      "sha256": "9b510322816b0d1f43c836f8e2d38eb449ef25e5a10e816f10614a26b66d96b6",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-27-i-cant-come-in/3457316.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-28.md",
+      "role": "conversation-transcript",
+      "bytes": 2313,
+      "mime": "text/markdown",
+      "sha256": "a90fa4dca8b8ce2ba985599c9592e9827cd9f4d67aad22b531b1cda6d0a03a04",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-28-i-passed-it/3487865.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-29.md",
+      "role": "conversation-transcript",
+      "bytes": 2480,
+      "mime": "text/markdown",
+      "sha256": "edd936683c9ed5c3b36cc1f92d69e3f2ebfcee18a8dbec3d3f7910b1b857382f",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-29-a-long-time-ago/3509519.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-30.md",
+      "role": "conversation-transcript",
+      "bytes": 2250,
+      "mime": "text/markdown",
+      "sha256": "6ca56ace8f4ba7e2be9eff196398b76744b33264e1265e8469667c5e83c5b42e",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-30-rolling-river/3522798.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-31.md",
+      "role": "conversation-transcript",
+      "bytes": 2704,
+      "mime": "text/markdown",
+      "sha256": "30ac363f2841a720ff7b25fc995b26f59dec6f3424984d893f576cfd0022d4e1",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-31-take-me-out-to-the-ball-game/3535235.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-32.md",
+      "role": "conversation-transcript",
+      "bytes": 2812,
+      "mime": "text/markdown",
+      "sha256": "1abb424815aff80b2da263d8ad7e3f9a782b43ed0391d5182e45961003733d77",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-32-welcome-treehouse/3547306.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-33.md",
+      "role": "conversation-transcript",
+      "bytes": 2219,
+      "mime": "text/markdown",
+      "sha256": "b28709896c9a87b111fc021108ab27f676ec70fcd98b0e503d263ae61e0b10f2",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lesson-33-learning-americas-sport/3555047.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-34.md",
+      "role": "conversation-transcript",
+      "bytes": 2743,
+      "mime": "text/markdown",
+      "sha256": "e9bf57f6d98710c6f65c30ac528529dd696bdaddbbb5ec1469e108bace827d99",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-34-what-will-i-do/3566043.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-35.md",
+      "role": "conversation-transcript",
+      "bytes": 1964,
+      "mime": "text/markdown",
+      "sha256": "3580979620a3f070999fbecf932a106a87f34e1b919dd15708d726690cc9e7c2",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-35-lets-make-dinner/3571922.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-36.md",
+      "role": "conversation-transcript",
+      "bytes": 1460,
+      "mime": "text/markdown",
+      "sha256": "34f88da7bede787d4aba05c9e309eb42b404c68c25dba120a563667087fe1c95",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-36-i-can-fix-this/3568962.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-37.md",
+      "role": "conversation-transcript",
+      "bytes": 2453,
+      "mime": "text/markdown",
+      "sha256": "f929fb74d19a2ee1620a2cc202034b9d09814dcca677dd8801bb4a2d0cc8a071",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-37-lets-agree-to-disagree/3574029.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-38.md",
+      "role": "conversation-transcript",
+      "bytes": 2445,
+      "mime": "text/markdown",
+      "sha256": "17dad5118e1ee9687df86e2d1032586bd293baf477802eeee06bb433173a900d",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-38-shes-my-best-friend/3591967.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-39.md",
+      "role": "conversation-transcript",
+      "bytes": 2327,
+      "mime": "text/markdown",
+      "sha256": "ade05be613336b95a25939188350d559f0fcb7847bbe099071bdb6ba439612d9",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-39-its-unbelieveable/3598920.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-40.md",
+      "role": "conversation-transcript",
+      "bytes": 2373,
+      "mime": "text/markdown",
+      "sha256": "ea258ed12d6c45e1c487fe385cd04cf232d6b403014dd5b491e77b65ca7960ac",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-40-the-woods-are-alive/3630341.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-41.md",
+      "role": "conversation-transcript",
+      "bytes": 2360,
+      "mime": "text/markdown",
+      "sha256": "c4e5f418cb762255dc584219266f56bd63ccdc155a277a8a9cc70681bb04e370",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-41-teamwork/3635015.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-42.md",
+      "role": "conversation-transcript",
+      "bytes": 2561,
+      "mime": "text/markdown",
+      "sha256": "98db6c4db32b4f2c914d558ae02aa93c49b2f60d7e88aefc5d81804f6bd58fc0",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-42-i-was-minding-my-own-business/3647264.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-43.md",
+      "role": "conversation-transcript",
+      "bytes": 2417,
+      "mime": "text/markdown",
+      "sha256": "a413dd0ef4c617d9bce5e047bf5b92011235a99e609c817bf4d2fdd75d8304d5",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-43-time-for-plan-b/3666458.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-44.md",
+      "role": "conversation-transcript",
+      "bytes": 2803,
+      "mime": "text/markdown",
+      "sha256": "3c9339dfc0aa1ebb82030616303db5088085be36fd7ee795a22f6899fb903d69",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-44-making-healthy-choices/3688552.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-45.md",
+      "role": "conversation-transcript",
+      "bytes": 3375,
+      "mime": "text/markdown",
+      "sha256": "e29e52432b3306fcb2fa9db144d2f64a184ec9d1c778cd442b51c205ccab55e1",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lesson-45-this-land-is-your-land/3710209.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-46.md",
+      "role": "conversation-transcript",
+      "bytes": 2286,
+      "mime": "text/markdown",
+      "sha256": "5e332215180a9498e23759ade55846717705908dd3c14b40d3664d9127485005",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-46-may-i-borrow-that/3723588.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-47.md",
+      "role": "conversation-transcript",
+      "bytes": 2622,
+      "mime": "text/markdown",
+      "sha256": "3a1ce45423e8d25518f0d5a2d413da71299018630b132cebc7dc3d0e28ca69e2",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-47-how-can-i-help/3737352.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-48.md",
+      "role": "conversation-transcript",
+      "bytes": 2606,
+      "mime": "text/markdown",
+      "sha256": "8c1fcfb34ba444de0615b7da848ebe9d0296b939615a9c70805d2929fbd2fb65",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-48-have-you-ever/3753664.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-49.md",
+      "role": "conversation-transcript",
+      "bytes": 2818,
+      "mime": "text/markdown",
+      "sha256": "7c1b099dd157f68b9534fd31da1d1bd371debe6c1040109bfe0460b417af5271",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-49-operation-spy/3763537.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-50.md",
+      "role": "conversation-transcript",
+      "bytes": 3134,
+      "mime": "text/markdown",
+      "sha256": "7e18658d5ee32c4d23d9d2bfb5636858218b99c3a25e1af5d93d59925afd125d",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-50-back-to-school/3771173.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-51.md",
+      "role": "conversation-transcript",
+      "bytes": 2617,
+      "mime": "text/markdown",
+      "sha256": "969ec5633f8c32413c3e4a8ee3ba809b8cf8a9500f510673c4531f895aba99a8",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-51-a-good-habit/3773577.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/transcripts/lle1-52.md",
+      "role": "conversation-transcript",
+      "bytes": 2531,
+      "mime": "text/markdown",
+      "sha256": "309e81af022415ed3ef821eaf01507495be9b4a60f8de2578ce1ca10ba00ce5b",
+      "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-52-taking-chances/3805454.html",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-01.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1296215,
+      "mime": "application/pdf",
+      "sha256": "c34c28eb85478639402a6cfddb12ad0b57b2a448dd621472d010dc8b9621e0d9",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/28/a6b53eb2-060b-404f-88d7-f1b5c350c90d.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-02.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1916444,
+      "mime": "application/pdf",
+      "sha256": "f23333e072e49efc32c62eaf58231f73170b51d5ea4869343d5f0ab2c654068c",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/25/2224cdd0-1e24-4f6d-b458-58f1ddc51329.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-03.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1245767,
+      "mime": "application/pdf",
+      "sha256": "e99fbd0d97659e6013e67cf57510ba9326acea956962359facd63e86eb8db84f",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2021/01/26/0775d8da-8c8a-445f-8b2f-3f24d6801809.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-04.pdf",
+      "role": "lesson-pdf",
+      "bytes": 3990755,
+      "mime": "application/pdf",
+      "sha256": "66eed67a3c68b26738b2e81069aef875f1a99e025f197b08adbc5ead6d46f9d6",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/25/cfa0cabb-8b7e-4372-b064-531a2383857d.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-05.pdf",
+      "role": "lesson-pdf",
+      "bytes": 4001972,
+      "mime": "application/pdf",
+      "sha256": "9c64a531fe8a7ac85e06c1342f9caa419fdc6f91da08d0f360e7efd054cf1617",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/25/727b0821-329e-4f89-91b5-6e348186c530.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-06.pdf",
+      "role": "lesson-pdf",
+      "bytes": 4421497,
+      "mime": "application/pdf",
+      "sha256": "ef719eba8a14e4d3c3f14c270754a6050e759d7a66eb3a90b79c76e2691ae6f0",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/25/d249aee0-12bb-499f-9e10-ddff10b54cc0.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-07.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1667903,
+      "mime": "application/pdf",
+      "sha256": "afe0cc61fd5dc221e39dbce9552434301055450ffc89290c272cc06f263db5ab",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/25/33517f7a-9df3-4fe2-b4fe-11f582773997.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-08.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1555515,
+      "mime": "application/pdf",
+      "sha256": "88c9e61e77e5ccf12a9ba38f4fd7beb74419790162dd17f12b5604bedd045e78",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/27be8fba-80a4-4df2-b19e-0e8c3d80b8cb.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-09.pdf",
+      "role": "lesson-pdf",
+      "bytes": 990943,
+      "mime": "application/pdf",
+      "sha256": "0d2ad78f954ba878255a1979cea7e81338cc2798cfca242a526a426d611ca071",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/a9b078c0-880b-4d7a-8520-56687b74ad1e.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-10.pdf",
+      "role": "lesson-pdf",
+      "bytes": 2352128,
+      "mime": "application/pdf",
+      "sha256": "69c45a8886dcdcb57697e6af83ab2e793dea6ef4d19c90b72f843a020e107d8b",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/8a123cdf-1e26-4438-a288-7b7bedef7ed1.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-11.pdf",
+      "role": "lesson-pdf",
+      "bytes": 2803236,
+      "mime": "application/pdf",
+      "sha256": "245f774ab0562ff3dbbb5121bb7eb1f8aa6167f38bba92ab19d9f44706037192",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/6390a2e3-9556-424c-99d0-0b3f53d1102e.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-12.pdf",
+      "role": "lesson-pdf",
+      "bytes": 2980669,
+      "mime": "application/pdf",
+      "sha256": "6f3cfeaf22e9a0c6a9261f7b242c9f7a689e37ae9281ecdbb5db64727e3915c2",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2020/03/06/6f4cc7f0-273e-424b-8917-e89d1fa96b57.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-13.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1103908,
+      "mime": "application/pdf",
+      "sha256": "c5072074140e1016c2e34414f10944f7b5342b70a8afd691277364d1b4214073",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/cdc0141a-4ca6-42a1-ab49-90e2057e2b10.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-14.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1757064,
+      "mime": "application/pdf",
+      "sha256": "865593ccdb25c7423246c5d8b0931af3d605375064df1f119a8fa7e774c55e61",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/28/e41d84c4-52ae-44a1-8e2a-3276c7d00665.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-15.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1187721,
+      "mime": "application/pdf",
+      "sha256": "85e09f555374617d74d86b11251b53a76eabb72945d86695be9b5d104a04ebf2",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/99c67e82-1cbc-4996-a193-cd3aa9d5c42f.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-16.pdf",
+      "role": "lesson-pdf",
+      "bytes": 4138164,
+      "mime": "application/pdf",
+      "sha256": "f60f61fcebc60322e663b3db19875e0331ff99f023210fcbdfa4daae2000581e",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/409685bc-1b28-40fc-9caf-50834e11cc23.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-17.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1635309,
+      "mime": "application/pdf",
+      "sha256": "12d95cad54ab143a53cd64077633ea83e2e0a0ebfffbb50ecec4870b108672d3",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/eca33bb7-31f7-417d-acf7-b9c075e75bda.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-18.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1786353,
+      "mime": "application/pdf",
+      "sha256": "18fc1ae9c14a93cc32c1454c28fece90104180832762051bc5716220883b921e",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/906e8787-c913-48a8-9e0a-032573429639.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-19.pdf",
+      "role": "lesson-pdf",
+      "bytes": 4167746,
+      "mime": "application/pdf",
+      "sha256": "cbdb26b5ceea27316a80d9a7acde5ecc521139db56ef89af4c2604f52bb23104",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/7b315f48-1f82-430a-819e-ded693a68f2e.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-20.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1700945,
+      "mime": "application/pdf",
+      "sha256": "49d4c2aaed0472d0a166800d5579d3bf114b9c980b70da5f26166e0b5f088877",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/c01c998d-288a-4962-9d77-d9e3c63bb0b2.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-21.pdf",
+      "role": "lesson-pdf",
+      "bytes": 3523045,
+      "mime": "application/pdf",
+      "sha256": "a1e078342a93f24c57c744bd26026de9b80f96bbbb13e653983d68c20690c257",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/26/09ae4175-7e1d-4597-af25-51321d4429ee.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-22.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1780557,
+      "mime": "application/pdf",
+      "sha256": "3eee1737d35f7120d8511fe8639e0f2baaec13c1d21c9e91b9d5c302a66b864f",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/1e46cfad-4c4c-4003-8836-ccbce835446a.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-23.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1083282,
+      "mime": "application/pdf",
+      "sha256": "a57ad2ff94c7c14f64eabb39dd9e78c6378ff4467c3faffed4a9632f2dcd0f62",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/25d9e8d3-7613-45d2-96bc-4afd3ef1cc10.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-24.pdf",
+      "role": "lesson-pdf",
+      "bytes": 3430923,
+      "mime": "application/pdf",
+      "sha256": "f4e843d093e86da2fed7d9131db040f4fa7316cc9fc327f44f687d2c356c8db8",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/c140690f-cca6-40f0-a2cb-e68fdcbe5199.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-25.pdf",
+      "role": "lesson-pdf",
+      "bytes": 2155707,
+      "mime": "application/pdf",
+      "sha256": "d9c9f9289356f17a46f33e3192c13352f67fc91e71a9efe9e0c3c631196514f0",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/2b93faa3-4471-4c7f-8792-6671d369ca19.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-26.pdf",
+      "role": "lesson-pdf",
+      "bytes": 2038009,
+      "mime": "application/pdf",
+      "sha256": "e96fdd34cd5f0b8d755a3faedeffdef0c4368fdde9478c7866f6ea61845e01b3",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/28/acf0e59f-78b6-45b9-821c-2684b065861f.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-27.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1059678,
+      "mime": "application/pdf",
+      "sha256": "0df4e173fb3420c6b93f0a02e62e8673ff9ada633faf9b90e619dce0e0edfc98",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/28/f2a41a04-6628-4ae8-b2f9-246ee9f36922.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-28.pdf",
+      "role": "lesson-pdf",
+      "bytes": 2282275,
+      "mime": "application/pdf",
+      "sha256": "29b2ca967159592709a442036e035de8a029a4db6cece2efa968ff66ee45f702",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/d977bf2c-f6e5-4eda-b8fe-26620ef8061c.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-29.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1190703,
+      "mime": "application/pdf",
+      "sha256": "777cd8e5350486a3dea0336e0d07eec319ef040e1c7b19504c75f7b12566c24a",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/0854e995-7b73-4155-b2c5-e84824c90883.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-30.pdf",
+      "role": "lesson-pdf",
+      "bytes": 3474066,
+      "mime": "application/pdf",
+      "sha256": "b93ca49535054faaf8fe0c76f236efc8acfb8d8fdb56c9b715211bebcdd5a658",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/1eae9468-4df7-4177-8f13-7fe4d29008df.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-31.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1336896,
+      "mime": "application/pdf",
+      "sha256": "00338bbdd57f8b750ac221df76d23134de6b5f835912e02c22acab287940d985",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/b039b712-ce9d-419e-bc7a-a0c44dd81b53.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-32.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1912957,
+      "mime": "application/pdf",
+      "sha256": "2177e7e5dcecce911991074922a8ce49e25a50b4893d14bdbd4600ed2d2d978a",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2020/03/16/1950db18-cc52-467d-b377-ea26c4681a3e.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-33.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1249875,
+      "mime": "application/pdf",
+      "sha256": "1d2fb21b7e3af419444fce0fac76542b5b2c83489ee0a11dab28bda40ab57d1d",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/d6629931-5e55-41c4-882a-387a4433166e.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-34.pdf",
+      "role": "lesson-pdf",
+      "bytes": 2132259,
+      "mime": "application/pdf",
+      "sha256": "2596cfe7716ecea07b10b61f3d687bfd1fc16b268073a03b1fb62bcfc305a4e1",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/ac65a745-fdb5-4ad6-92c2-cd1726484201.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-35.pdf",
+      "role": "lesson-pdf",
+      "bytes": 3294229,
+      "mime": "application/pdf",
+      "sha256": "92685565a98568be7ae9371d25ecf2d5bc98d3751f1930e910cd269a1c8781f1",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/e6d53396-80aa-49cc-a514-b3a31c8951bb.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-36.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1280936,
+      "mime": "application/pdf",
+      "sha256": "1afb581882a3f9e5e579f19697f9eba32522c762f55b370de20d760f1b8c945a",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/c734a4f9-6d2e-4bf2-8856-33506843cdfa.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-37.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1790513,
+      "mime": "application/pdf",
+      "sha256": "8ab278cb5c8dcf4b4b567992bc95fcf80543b28a485a55b2612c67757bf5a62a",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/2d302934-1112-4314-9cdc-0ebd2b80bd33.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-38.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1366013,
+      "mime": "application/pdf",
+      "sha256": "5e88cce159f9aea66309f9eacdeb9c914e4e5d48dfbcfec4f123247d9c7b86ad",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/c4e60d2d-2fa1-4890-b4fa-d024c85613bf.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-39.pdf",
+      "role": "lesson-pdf",
+      "bytes": 2219307,
+      "mime": "application/pdf",
+      "sha256": "c5b875f801ec586f60a38cec45bc53460245f3ce1b4c0b9097fa251a48821f6f",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/30607c1a-9a81-46db-ba81-66de38137e57.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-40.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1240928,
+      "mime": "application/pdf",
+      "sha256": "3bf1b99e83f84a70d2ca73bb21bb15884e786ad4584cc5d8ddc38b32ea33fdd1",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/cd6b7cb7-eae5-4ef1-9c65-df7801ac86da.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-41.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1610259,
+      "mime": "application/pdf",
+      "sha256": "c08d755eddce43df63a3f5a708c45d34b208b8941fd9e0874adbda1e8467bf10",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/51e44846-e754-4fbd-a482-3203a73210da.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-42.pdf",
+      "role": "lesson-pdf",
+      "bytes": 3537404,
+      "mime": "application/pdf",
+      "sha256": "d3ab3ca30709de3c9301437215b55dae5d0f7a40f958b08232d5ecaf262d9cf0",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/049a7025-580e-4e3e-844e-6913f1b532c1.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-43.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1982672,
+      "mime": "application/pdf",
+      "sha256": "77857e409463c2860fdbfa17076a350427f0541eb56ffb47c855d9000e857ba5",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/f0be2804-6480-4356-a236-116754f3f3d1.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-44.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1027470,
+      "mime": "application/pdf",
+      "sha256": "9e0ba6d5446e0a1bae4f53d196b73d3c6a6e484ca9315535f571c3286ffb96b0",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/a8491f68-c490-41eb-9801-afa26b2ff4d6.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-45.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1560839,
+      "mime": "application/pdf",
+      "sha256": "41b49ebc53b2308c45fcb2011f9c6176192581158a14a6a1ce86d761254f024d",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/de0ef4cb-8d0c-4e68-9f6c-53515e6709f3.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-46.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1799693,
+      "mime": "application/pdf",
+      "sha256": "b7dc35c68e1517bf4512b13752022519f5c78a2f9aba0a2a27708c9135e81196",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/75dccaec-cc57-4f7d-be8d-ec8eb4d8ec11.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-47.pdf",
+      "role": "lesson-pdf",
+      "bytes": 756528,
+      "mime": "application/pdf",
+      "sha256": "82cb2a74ceb591e6753789a578b786f7f6fec97c18c4741f647971a935d6dae6",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/ce8bd75f-981d-4e19-be2d-87aceb0d185a.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-48.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1283891,
+      "mime": "application/pdf",
+      "sha256": "f542834419398f78e4dca5b89ff0c8cddbeb3b462fe8360042ecf84b2ec61337",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/58604825-c63a-47ef-90cb-901d3b7ad923.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-49.pdf",
+      "role": "lesson-pdf",
+      "bytes": 972856,
+      "mime": "application/pdf",
+      "sha256": "a17bc6f9ab5ffda2088eb8bc31a390d674669167f798f93d97d2b5c437277169",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/28466b78-c053-4e87-b239-1f96196b11ec.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-50.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1896078,
+      "mime": "application/pdf",
+      "sha256": "c4b06ded4492f6ad3bf1a50d6cec2100af82f056b5ecb389fd8845f5d4388802",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/9056e49f-95bd-4bce-8227-6a43cf5a99e2.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-51.pdf",
+      "role": "lesson-pdf",
+      "bytes": 391971,
+      "mime": "application/pdf",
+      "sha256": "8b771677049cb39e60dc548eee537ca0ca20fa40fc323c3e740f07e3f75c26da",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/3cac8ba3-eb38-4340-bfc3-5222b2049bdb.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    },
+    {
+      "path": "media/english/worksheets/lle1-52.pdf",
+      "role": "lesson-pdf",
+      "bytes": 1746418,
+      "mime": "application/pdf",
+      "sha256": "baaeafaf031aab4ddc86df68802e8ba1b40ba22c169fa0f695f9c531137d6ce9",
+      "sourceUrl": "https://docs.voanews.eu/en-us-learn/2019/11/27/6d30f2e2-418f-4b7f-b25f-24965780750e.pdf",
+      "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+    }
+  ]
+}

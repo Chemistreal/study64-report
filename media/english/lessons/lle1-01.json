@@ -1,0 +1,186 @@
+{
+  "title": "Lesson 1: Welcome!",
+  "published": "2019-09-10T00:01:11+00:00",
+  "heroImageOriginal": "https://gdb.voanews.com/1e57f8a7-bd44-47a3-9a67-e2527c65ff93_w1200_h630.jpg",
+  "downloadPage": "https://learningenglish.voanews.com/a/lets-learn-english-level-1-lesson-1/5184882.html",
+  "conversation": [
+    "Pete: Hi! Are you Anna?",
+    "Anna: Yes! Hi there! Are you Pete?",
+    "Pete: I am Pete.",
+    "Anna: Nice to meet you.",
+    "Anna: Let's try that again. I'm Anna. Nice to meet you.",
+    "Pete: I'm Pete. \"Anna\" Is that A-N-A?",
+    "Anna: No. A-N-N-A",
+    "Pete: Well, Anna with two \"n's\" ... Welcome to ... 1400 Irving Street!",
+    "Anna: My new apartment! Yes!"
+  ],
+  "sections": {
+    "Conversation": [
+      "Pete: Hi! Are you Anna?",
+      "Anna: Yes! Hi there! Are you Pete?",
+      "Pete: I am Pete.",
+      "Anna: Nice to meet you.",
+      "Anna: Let's try that again. I'm Anna. Nice to meet you.",
+      "Pete: I'm Pete. \"Anna\" Is that A-N-A?",
+      "Anna: No. A-N-N-A",
+      "Pete: Well, Anna with two \"n's\" ... Welcome to ... 1400 Irving Street!",
+      "Anna: My new apartment! Yes!"
+    ]
+  },
+  "audioSources": [
+    {
+      "title": "Lesson 1 - Welcome!",
+      "url": "https://voa-audio.voanews.eu/vle/2016/02/08/49485bf8-4277-47f6-9abe-617ee2473f8c.mp3"
+    }
+  ],
+  "videoSources": [
+    {
+      "title": "Let’s Learn English - Level 1 - Lesson 1: Welcome!",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_720p.mp4?cb=edc3e5eec",
+      "fallbackUrl": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50.mp4?cb=edc3e5eec",
+      "variants": [
+        {
+          "label": "240p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_240p.mp4?cb=edc3e5eec"
+        },
+        {
+          "label": "360p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50.mp4?cb=edc3e5eec"
+        },
+        {
+          "label": "480p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_480p.mp4?cb=edc3e5eec"
+        },
+        {
+          "label": "720p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_720p.mp4?cb=edc3e5eec"
+        },
+        {
+          "label": "1080p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_1080p.mp4?cb=edc3e5eec"
+        }
+      ]
+    },
+    {
+      "title": "Speaking Practice - Let's Learn English Lesson 1",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375_hq.mp4?cb=ed0a28778",
+      "fallbackUrl": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375.mp4?cb=ed0a28778",
+      "variants": [
+        {
+          "label": "270p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375_mobile.mp4?cb=ed0a28778"
+        },
+        {
+          "label": "360p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375.mp4?cb=ed0a28778"
+        },
+        {
+          "label": "720p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375_hq.mp4?cb=ed0a28778"
+        }
+      ]
+    },
+    {
+      "title": "Let's Learn English Lesson 1 Pronunciation Practice",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23_hq.mp4?cb=ed0a287cd",
+      "fallbackUrl": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23.mp4?cb=ed0a287cd",
+      "variants": [
+        {
+          "label": "270p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23_mobile.mp4?cb=ed0a287cd"
+        },
+        {
+          "label": "360p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23.mp4?cb=ed0a287cd"
+        },
+        {
+          "label": "720p",
+          "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23_hq.mp4?cb=ed0a287cd"
+        }
+      ]
+    }
+  ],
+  "videoDownloads": [
+    {
+      "label": "",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_720p.mp4?cb=edc3e5eec"
+    },
+    {
+      "label": "240p | 9.9MB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_240p.mp4?cb=edc3e5eec&download=1"
+    },
+    {
+      "label": "360p | 14.9MB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50.mp4?cb=edc3e5eec&download=1"
+    },
+    {
+      "label": "480p | 25.7MB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_480p.mp4?cb=edc3e5eec&download=1"
+    },
+    {
+      "label": "720p | 45.8MB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_720p.mp4?cb=edc3e5eec&download=1"
+    },
+    {
+      "label": "1080p | 69.7MB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2021/02/5/5f/5f00c78a-0f84-41e6-949d-bd808bcadf50_1080p.mp4?cb=edc3e5eec&download=1"
+    },
+    {
+      "label": "",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375_hq.mp4?cb=ed0a28778"
+    },
+    {
+      "label": "270p | 2.6MB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375_mobile.mp4?cb=ed0a28778&download=1"
+    },
+    {
+      "label": "360p | 3.3MB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375.mp4?cb=ed0a28778&download=1"
+    },
+    {
+      "label": "720p | 7.6MB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/9/95/95563cd7-fdac-421c-8e41-e7d85c25d375_hq.mp4?cb=ed0a28778&download=1"
+    },
+    {
+      "label": "",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23_hq.mp4?cb=ed0a287cd"
+    },
+    {
+      "label": "270p | 407.2kB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23_mobile.mp4?cb=ed0a287cd&download=1"
+    },
+    {
+      "label": "360p | 481.0kB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23.mp4?cb=ed0a287cd&download=1"
+    },
+    {
+      "label": "720p | 821.6kB",
+      "url": "https://voa-video-ns.akamaized.net/pangeavideo/2016/02/2/23/23242e5a-9c43-48c1-a8ef-7e963241bb23_hq.mp4?cb=ed0a287cd&download=1"
+    }
+  ],
+  "youtubeIds": [
+    "IpIhzFh0yw8"
+  ],
+  "articleImages": [
+    "https://gdb.voanews.com/318d35f8-e6b9-410c-ab0f-ed7494cba0ac_w100_r0.png",
+    "https://gdb.voanews.com/95563cd7-fdac-421c-8e41-e7d85c25d375_tv_w250_r1.jpg",
+    "https://gdb.voanews.com/23242e5a-9c43-48c1-a8ef-7e963241bb23_tv_w250_r1.jpg",
+    "https://gdb.voanews.com/a7edc185-d6e8-40fd-a21c-80ddbe30bcef_cx9_cy16_cw51_w250_r1.jpg"
+  ],
+  "pdfOriginals": [
+    "https://docs.voanews.eu/en-us-learn/2019/11/28/a6b53eb2-060b-404f-88d7-f1b5c350c90d.pdf",
+    "https://docs.voanews.eu/en-US-LEARN/2022/06/07/c4dbd6af-5f63-4f28-bc42-0bd175f4e4b4.pdf"
+  ],
+  "id": "lle1-01",
+  "lesson": 1,
+  "quarter": 1,
+  "page": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-one/3111026.html",
+  "fetched": "2026-08-07",
+  "local": {
+    "audio": "media/english/audio/lle1-01.mp3",
+    "image": "media/english/images/lle1-01.webp",
+    "transcript": "media/english/transcripts/lle1-01.md",
+    "worksheet": "media/english/worksheets/lle1-01.pdf"
+  },
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+}
