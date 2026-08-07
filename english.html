@@ -252,6 +252,35 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
 #mediaHost video{width:100%;max-height:230px;border-radius:12px;background:#000;display:block}
 #mediaHost audio{width:100%;display:block}
 
+/* 미디어 라이브러리 */
+.libstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.libstat{border:1px solid var(--edge);border-radius:14px;padding:14px;background:var(--card2)}
+.libstat b{display:block;font-family:var(--mono);font-size:23px;line-height:1.2}
+.libstat span{font-size:11.5px;color:var(--mut)}
+.libtoolbar{display:grid;grid-template-columns:minmax(220px,2fr) 1fr 1fr;gap:9px}
+.libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:10px;margin-top:10px}
+.mitem{border:1px solid var(--edge);border-radius:14px;padding:14px;background:var(--card2);transition:.18s;min-width:0}
+.mitem:hover{border-color:var(--a1);box-shadow:var(--glow)}
+.mitem.on{border-color:var(--a2);box-shadow:var(--glow)}
+.mitem.done{background:linear-gradient(135deg,var(--card2),rgba(15,118,110,.09))}
+.mitem h4{font-size:14px;line-height:1.4;margin:5px 0 8px;overflow-wrap:anywhere}
+.mitem .mnum{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:.04em}
+.mitem .macts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.mitem .macts button,.mitem .macts a{font:inherit;font-size:11.5px;padding:5px 9px;border-radius:8px}
+.mitem .macts a{color:var(--acc);border:1px solid var(--edge);text-decoration:none;background:var(--card2)}
+.libplayer{overflow:hidden}
+.libplayer h3{font-size:19px;margin:2px 0 5px}
+#libMediaHost{margin:14px 0 10px;min-height:54px}
+#libMediaHost audio{width:100%;display:block}
+#libMediaHost video{width:100%;max-height:440px;display:block;background:#000;border-radius:12px}
+.libmode{display:flex;gap:6px;flex-wrap:wrap}
+.libmode button{flex:1;min-width:108px}
+.licrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;color:var(--mut);font-size:11.5px}
+@media(max-width:620px){
+  .libtoolbar{grid-template-columns:1fr 1fr}.libtoolbar>div:first-child{grid-column:1/-1}
+  .libstats{grid-template-columns:1fr}.libstat{display:flex;align-items:center;gap:10px}.libstat b{font-size:19px}
+}
+
 /* 자료 카드 */
 .src{border:1px solid var(--edge);border-radius:14px;padding:16px;background:var(--card2);
   margin:10px 0;transition:.2s}
@@ -546,22 +575,89 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
   <div id="clipList"></div>
 </section>
 
+<!-- ========== 미디어 라이브러리 ========== -->
+<section id="t-media" role="tabpanel" hidden>
+  <h2>미디어 라이브러리</h2>
+  <p class="lede">VOA Learning English 초급 52개 레슨을 순서대로 듣고 본다. 전체 음성은 저장소에서 바로 재생되고, 영상과 대본은 공식 원본으로 이어진다.</p>
+
+  <div class="note">
+    <b>신뢰도 C 조준 자료</b>
+    <div class="small" style="margin-top:4px">
+      실제 음성을 새로 만들지 않고 확인된 외부 자료를 가져왔다. 또박또박한 학습용 대화이므로 자연 대화의 겹침과 중단을 대표하지는 않는다.
+      1회는 소리, 2회는 청크, 3회는 의미만 겨눈다.
+    </div>
+  </div>
+
+  <div class="libstats" id="libStats"></div>
+
+  <div class="card hero libplayer" id="libPlayerCard">
+    <div id="libEmpty" class="small mut">아래 레슨에서 음성 또는 영상을 고른다.</div>
+    <div id="libPlayer" hidden>
+      <div class="row">
+        <div style="flex:1;min-width:210px">
+          <div class="small mut mono" id="libMeta"></div>
+          <h3 id="libTitle"></h3>
+        </div>
+        <button class="g" id="libFav" type="button" aria-pressed="false">즐겨찾기</button>
+        <button class="g" id="libDone" type="button" aria-pressed="false">학습 완료</button>
+      </div>
+      <div id="libMediaHost"></div>
+      <div class="libmode noprint">
+        <button class="g" type="button" data-lib-mode="audio">저장 음성</button>
+        <button class="g" type="button" data-lib-mode="original">원본 음성</button>
+        <button class="g" type="button" data-lib-mode="video">전체 영상</button>
+      </div>
+      <div class="row noprint" style="margin-top:10px">
+        <button class="g" id="libPrev" type="button">이전 레슨</button>
+        <button class="g" id="libBack" type="button">3초 뒤로</button>
+        <div style="min-width:150px;flex:1"><label class="f">속도 <span class="mono" id="libRateN">1.00</span></label><input type="range" id="libRate" min="0.6" max="1.2" step="0.05" value="1"></div>
+        <button class="g" id="libNext" type="button">다음 레슨</button>
+      </div>
+      <div class="licrow">
+        <span class="tag o">VOA 자체 제작 · 퍼블릭 도메인</span>
+        <span>출처: VOA Learning English</span>
+        <a id="libPage" target="_blank" rel="noopener noreferrer">대본과 원문</a>
+        <a id="libDownload" download>MP3 직접 다운로드</a>
+      </div>
+    </div>
+  </div>
+
+  <h3>52개 연속 과정</h3>
+  <div class="card tight noprint">
+    <div class="libtoolbar">
+      <div><label class="f" for="libSearch">검색</label><input id="libSearch" type="search" placeholder="레슨 번호나 제목"></div>
+      <div><label class="f" for="libQ">분기</label><select id="libQ"><option value="all">전체 분기</option><option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option></select></div>
+      <div><label class="f" for="libFilter">상태</label><select id="libFilter"><option value="all">전체 상태</option><option value="todo">미완료</option><option value="done">완료</option><option value="fav">즐겨찾기</option></select></div>
+    </div>
+  </div>
+  <div class="small mut" id="libCount"></div>
+  <div class="libgrid" id="libList"></div>
+
+  <h3>이용 근거</h3>
+  <div class="note small">
+    이 목록은 VOA가 직접 제작한 <i>Let's Learn English Level 1</i> 자료만 사용한다.
+    VOA 공식 안내는 Learning English의 자체 제작 텍스트, MP3, 사진, 영상을 교육 및 상업 목적으로 재사용할 수 있다고 명시한다.
+    <a href="https://learningenglish.voanews.com/p/6861.html" target="_blank" rel="noopener noreferrer">VOA 이용 안내</a>
+    · <a href="https://learningenglish.voanews.com/p/5644.html" target="_blank" rel="noopener noreferrer">52개 원본 과정</a>
+  </div>
+</section>
+
 <!-- ========== 자료 ========== -->
 <section id="t-src" role="tabpanel" hidden>
   <h2>자료</h2>
   <p class="lede">조준표는 재료가 아니라 재료를 겨누는 방법이다. 주목 없는 입력은 통과할 뿐이다.</p>
 
   <div class="note w">
-    <b>클립을 잘라 저장소에 담지 않는다.</b>
+    <b>허가를 확인하지 않은 클립은 저장소에 담지 않는다.</b>
     <div class="small" style="margin-top:4px">
-      팟캐스트, 영상, 강의 음성을 잘라 올리면 저작권 침해다. 이 페이지는 공개 배포된다.
-      아래 자료도 마찬가지다. Santa Barbara Corpus 는 CC BY-ND 라서 가공 자체가 금지다.
-      링크로 겨누고, 재생은 원본에서 한다. 기준서 1.2가 음성 자료를 C등급으로 둔 이유가 이것이다.
+      미디어 탭의 52개 음성은 VOA 자체 제작 퍼블릭 도메인 자료라 저장소에 포함했다.
+      일반 팟캐스트와 영상은 원본 링크나 공식 임베드로 재생하고, 재배포 허가가 확인된 경우에만 파일로 둔다.
+      Santa Barbara Corpus 는 CC BY-ND 라서 자르거나 편집하지 않는다.
     </div>
   </div>
 
   <h3>확인된 출처</h3>
-  <p class="lede">라이선스를 실제로 확인한 것만 올린다. 셋 다 무료다.</p>
+  <p class="lede">라이선스를 실제로 확인한 것만 올린다. 무료와 재배포 가능은 따로 확인한다.</p>
   <div id="srcList"></div>
 
   <h3>확인이 필요한 후보</h3>
@@ -741,6 +837,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
 </footer>
 </div>
 
+<script src="media/english/catalog.js"></script>
 <script>
 "use strict";
 /* =========================================================================
@@ -845,7 +942,7 @@ var KEY="eng2p.v1";
 var S=load();
 
 function blank(){
-  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],theme:null,wk:0,onboarded:false};
+  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],media:{done:{},fav:{},last:null},theme:null,wk:0,onboarded:false};
 }
 function load(){
   try{
@@ -922,7 +1019,7 @@ function monday(d){ var x=parseISO(d); var w=(x.getDay()+6)%7; x.setDate(x.getDa
 /* =========================================================================
    탭
    ========================================================================= */
-var TABS=[["today","오늘"],["review","복습"],["sound","소리"],["clip","클립"],["src","자료"],["ledger","대장"],["verify","판정"],["quarter","분기"],
+var TABS=[["today","오늘"],["review","복습"],["sound","소리"],["clip","클립"],["media","미디어"],["src","자료"],["ledger","대장"],["verify","판정"],["quarter","분기"],
           ["SEP",""],["check","검사"],["rot","회전"],["SEP",""],["rules","규칙"]];
 function buildNav(){
   var n=$("#nav");
@@ -942,11 +1039,13 @@ function go(name){
     if(b) b.setAttribute("aria-selected",t[0]===name?"true":"false");
   });
   if(typeof ttsStop==="function") ttsStop();
+  if(name!=="media"&&typeof LIB!=="undefined"&&LIB.el) LIB.el.pause();
   if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
   if(name==="review") renderReview();
   if(name==="sound") renderSound();
   if(name==="src") renderSrc();
   if(name==="clip") renderClip();
+  if(name==="media") renderMedia();
   if(name==="ledger") renderLedger();
   if(name==="verify") renderVerify();
   if(name==="quarter") renderQuarter();
@@ -2160,8 +2259,124 @@ $("#cSave").onclick=function(){
 };
 
 /* =========================================================================
+   미디어 라이브러리. VOA 자체 제작 퍼블릭 도메인 52개 레슨.
+   음성은 저장소 사본, 영상은 공식 원본을 필요할 때만 불러온다.
+   ========================================================================= */
+var MEDIA=(window.ENG_MEDIA_CATALOG&&window.ENG_MEDIA_CATALOG.items)||[];
+var LIB={active:-1,mode:"audio",el:null,rate:1};
+
+function mediaRec(){
+  if(!S.media||typeof S.media!=="object") S.media={done:{},fav:{},last:null};
+  if(!S.media.done) S.media.done={};
+  if(!S.media.fav) S.media.fav={};
+  return S.media;
+}
+function mediaItem(i){ return i>=0&&i<MEDIA.length?MEDIA[i]:null; }
+function setMediaFlag(kind,id,on){
+  var r=mediaRec();
+  if(on) r[kind][id]=true; else delete r[kind][id];
+  save(); renderMediaStats(); renderMediaList(); paintMediaPlayer();
+}
+function renderMediaStats(){
+  var box=$("#libStats"); if(!box) return;
+  var r=mediaRec(), done=MEDIA.filter(function(x){return !!r.done[x.id];}).length;
+  box.innerHTML="";
+  [[MEDIA.length,"저장 음성"],[MEDIA.filter(function(x){return !!x.video;}).length,"전체 영상"],[done+" / "+MEDIA.length,"학습 완료"]].forEach(function(x){
+    var d=el("div","libstat"); d.appendChild(el("b",null,x[0])); d.appendChild(el("span",null,x[1])); box.appendChild(d);
+  });
+}
+function paintMediaPlayer(){
+  var it=mediaItem(LIB.active), p=$("#libPlayer"), empty=$("#libEmpty");
+  if(!p||!empty) return;
+  if(!it){ p.hidden=true; empty.hidden=false; return; }
+  p.hidden=false; empty.hidden=true;
+  $("#libTitle").textContent=it.title;
+  $("#libMeta").textContent="Q"+it.quarter+" · "+it.duration+" · "+it.focus+" 초점";
+  var r=mediaRec(), fav=!!r.fav[it.id], done=!!r.done[it.id];
+  $("#libFav").textContent=fav?"★ 즐겨찾기":"☆ 즐겨찾기";
+  $("#libFav").classList.toggle("on",fav); $("#libFav").setAttribute("aria-pressed",fav?"true":"false");
+  $("#libDone").textContent=done?"완료됨":"학습 완료";
+  $("#libDone").classList.toggle("on",done); $("#libDone").setAttribute("aria-pressed",done?"true":"false");
+  $("#libPage").href=it.page;
+  $("#libDownload").href=it.audio; $("#libDownload").setAttribute("download",it.id+".mp3");
+  $("#libPrev").disabled=LIB.active<=0; $("#libNext").disabled=LIB.active>=MEDIA.length-1;
+  document.querySelectorAll("[data-lib-mode]").forEach(function(b){ b.classList.toggle("on",b.dataset.libMode===LIB.mode); });
+}
+function openMedia(i,mode,play){
+  var it=mediaItem(i); if(!it) return;
+  LIB.active=i; LIB.mode=mode||"audio";
+  var r=mediaRec(); r.last=it.id; save();
+  if(LIB.el){ try{LIB.el.pause();}catch(e){} }
+  var host=$("#libMediaHost"); host.innerHTML="";
+  var isVideo=LIB.mode==="video";
+  var m=document.createElement(isVideo?"video":"audio");
+  m.controls=true; m.preload="metadata"; m.playsInline=true;
+  m.src=isVideo?it.video:(LIB.mode==="original"?it.originalAudio:it.audio);
+  m.setAttribute("aria-label",it.title+" "+(isVideo?"영상":"음성"));
+  try{m.preservesPitch=true;m.mozPreservesPitch=true;m.webkitPreservesPitch=true;}catch(e){}
+  m.playbackRate=LIB.rate; host.appendChild(m); LIB.el=m;
+  paintMediaPlayer(); renderMediaList();
+  if(play!==false){ var q=m.play(); if(q&&q.catch) q.catch(function(){}); }
+}
+function renderMediaList(){
+  var box=$("#libList"); if(!box) return;
+  if(!MEDIA.length){
+    box.innerHTML='<div class="note w small">미디어 목록을 불러오지 못했다. media/english/catalog.js 경로를 확인한다.</div>';
+    return;
+  }
+  var q=$("#libQ").value, state=$("#libFilter").value;
+  var needle=$("#libSearch").value.trim().toLowerCase(), r=mediaRec();
+  var shown=MEDIA.map(function(x,i){return {x:x,i:i};}).filter(function(o){
+    var x=o.x;
+    if(q!=="all"&&String(x.quarter)!==q) return false;
+    if(state==="done"&&!r.done[x.id]) return false;
+    if(state==="todo"&&r.done[x.id]) return false;
+    if(state==="fav"&&!r.fav[x.id]) return false;
+    return !needle||(x.title+" "+x.lesson+" "+x.focus).toLowerCase().indexOf(needle)>=0;
+  });
+  $("#libCount").textContent="전체 "+MEDIA.length+"개 중 "+shown.length+"개 표시";
+  box.innerHTML="";
+  shown.forEach(function(o){
+    var x=o.x, d=el("article","mitem"+(o.i===LIB.active?" on":"")+(r.done[x.id]?" done":""));
+    var top=el("div","row");
+    top.appendChild(el("span","mnum","Q"+x.quarter+" · "+x.id.toUpperCase()));
+    var grow=el("span"); grow.style.flex="1"; top.appendChild(grow);
+    if(r.fav[x.id]) top.appendChild(el("span","tag a","즐겨찾기"));
+    if(r.done[x.id]) top.appendChild(el("span","tag o","완료"));
+    d.appendChild(top); d.appendChild(el("h4",null,x.title));
+    d.appendChild(el("div","small mut",x.duration+" · 이번 초점: "+x.focus));
+    var acts=el("div","macts");
+    var ab=el("button","b","음성 듣기"); ab.type="button"; ab.onclick=function(){openMedia(o.i,"audio",true); $("#libPlayerCard").scrollIntoView({behavior:"smooth",block:"start"});};
+    var vb=el("button","g","영상 보기"); vb.type="button"; vb.onclick=function(){openMedia(o.i,"video",true); $("#libPlayerCard").scrollIntoView({behavior:"smooth",block:"start"});};
+    var fa=el("button","g",r.fav[x.id]?"★":"☆"); fa.type="button"; fa.title="즐겨찾기"; fa.setAttribute("aria-label",x.title+" 즐겨찾기");
+    fa.onclick=function(){setMediaFlag("fav",x.id,!r.fav[x.id]);};
+    var a=el("a",null,"원문"); a.href=x.page; a.target="_blank"; a.rel="noopener noreferrer";
+    acts.appendChild(ab); acts.appendChild(vb); acts.appendChild(fa); acts.appendChild(a); d.appendChild(acts); box.appendChild(d);
+  });
+  if(!shown.length) box.innerHTML='<div class="note small">조건에 맞는 레슨이 없다.</div>';
+}
+function renderMedia(){
+  mediaRec(); renderMediaStats(); renderMediaList();
+  if(LIB.active<0&&S.media.last){
+    var i=MEDIA.findIndex(function(x){return x.id===S.media.last;});
+    if(i>=0) openMedia(i,"audio",false);
+  }else paintMediaPlayer();
+}
+
+document.querySelectorAll("[data-lib-mode]").forEach(function(b){
+  b.onclick=function(){ if(LIB.active>=0) openMedia(LIB.active,b.dataset.libMode,true); };
+});
+$("#libFav").onclick=function(){ var x=mediaItem(LIB.active); if(x) setMediaFlag("fav",x.id,!mediaRec().fav[x.id]); };
+$("#libDone").onclick=function(){ var x=mediaItem(LIB.active); if(x) setMediaFlag("done",x.id,!mediaRec().done[x.id]); };
+$("#libPrev").onclick=function(){ if(LIB.active>0) openMedia(LIB.active-1,LIB.mode,true); };
+$("#libNext").onclick=function(){ if(LIB.active<MEDIA.length-1) openMedia(LIB.active+1,LIB.mode,true); };
+$("#libBack").onclick=function(){ if(LIB.el) LIB.el.currentTime=Math.max(0,LIB.el.currentTime-3); };
+$("#libRate").oninput=function(){ LIB.rate=+this.value; $("#libRateN").textContent=LIB.rate.toFixed(2); if(LIB.el) LIB.el.playbackRate=LIB.rate; };
+$("#libSearch").oninput=renderMediaList; $("#libQ").onchange=renderMediaList; $("#libFilter").onchange=renderMediaList;
+
+/* =========================================================================
    자료. 조준표.
-   음성은 만들지 않고 겨눈다. 라이선스를 확인한 것만 올린다.
+   음성은 만들지 않고 겨눈다. 저장 사본은 재배포 권리를 확인한 것만 올린다.
    ========================================================================= */
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
