@@ -805,8 +805,9 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     <div class="row end noprint"><button class="g" id="srcCopy">채집 양식 복사</button><span class="small mut" id="srcMsg"></span></div>
   </div>
 
-  <h3>Q1 교재</h3>
-  <p class="lede">저장소 안의 제작물이다. 눌러서 열고 종이로 쓸 때는 인쇄한다.</p>
+  <h3 id="srcDocsTitle">Q1 교재</h3>
+  <p class="lede">저장소 안의 제작물이다. 눌러서 열고 종이로 쓸 때는 인쇄한다. 위 분기 단추로 Q1과 Q2를 바꾼다.</p>
+  <div class="small mut" id="srcDocsNote"></div>
   <div id="srcDocs"></div>
 </section>
 
@@ -3013,9 +3014,37 @@ var DOCS=[
      {t:"Q1 점검 보고서",u:"out/manual/eng2p_q1_review.md"}]}
 ];
 
+var DOCS2=[
+ {g:"강의 24편", n:"25강부터 48강. 청크 9, 소리 4, 자동화 6, repair 3, 문법 2",
+  f:(function(){var a=[];for(var i=25;i<=48;i++){var s=("00"+i).slice(-3);
+    a.push({t:i+"강", u:"out/lectures/eng2p_q2_l"+s+".md"});}return a;})()},
+ {g:"드릴 카드 150장", n:"판정 35, 압박 40, 확장 40, 역할 15, repair 20",
+  f:[{t:"001-050",u:"out/cards/eng2p_card_q2_001_050.md"},
+     {t:"051-100",u:"out/cards/eng2p_card_q2_051_100.md"},
+     {t:"101-150",u:"out/cards/eng2p_card_q2_101_150.md"},
+     {t:"배정표",u:"out/cards/eng2p_card_plan_q2.md"}]},
+ {g:"대조 교차 세트 72개", n:"13주부터 24주. 20주와 24주에 관계 점검이 붙는다",
+  f:(function(){var a=[];for(var i=13;i<=24;i++){var s=("0"+i).slice(-2);
+    a.push({t:s+"주", u:"out/sets/eng2p_set_w"+s+".md"});}return a;})()},
+ {g:"3층 대조판 6장", n:"1층과 2층 병치. 2주에 한 장. 기준서 6.4",
+  f:(function(){var a=[];for(var i=1;i<=6;i++){var s=("00"+i).slice(-3);
+    a.push({t:s, u:"out/dialog/eng2p_dialog_q2_"+s+".md"});}
+    a.push({t:"운용 문서",u:"out/dialog/eng2p_dialog_manual.md"});return a;})()},
+ {g:"산출 과제집 12주분", n:"주 1개. 분량 250자",
+  f:(function(){var a=[];for(var i=13;i<=24;i++){var s=("0"+i).slice(-2);
+    a.push({t:s+"주", u:"out/tasks/eng2p_task_w"+s+".md"});}return a;})()},
+ {g:"그 밖", n:"조준표, 비상판, 점검 보고서",
+  f:[{t:"입력 조준표",u:"out/input/eng2p_input_q2.md"},
+     {t:"비상판 20개",u:"out/emergency/eng2p_emg_021_040.md"},
+     {t:"Q2 점검 보고서",u:"out/manual/eng2p_q2_review.md"}]}
+];
+
 function renderDocs(){
   var box=$("#srcDocs"); if(!box) return; box.innerHTML="";
-  DOCS.forEach(function(g){
+  var q=(typeof curSrcQ!=="undefined"&&curSrcQ)?curSrcQ:1;
+  var ttl=$("#srcDocsTitle"); if(ttl) ttl.textContent=(q>=2?"Q2":"Q1")+" 교재";
+  var nt=$("#srcDocsNote"); if(nt) nt.textContent=(q>=3?"Q3와 Q4 제작물은 아직 없다. Q2 것을 보여 준다.":"");
+  (q>=2?DOCS2:DOCS).forEach(function(g){
     var d=el("div","card");
     d.appendChild(el("h4",null,g.g));
     d.appendChild(el("div","small mut",g.n));
