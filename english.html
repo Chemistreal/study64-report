@@ -598,10 +598,12 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
   <p class="lede">VOA Learning English 초급 52개 레슨을 순서대로 듣고 본다. 전체 음성은 저장소에서 바로 재생되고, 영상과 대본은 공식 원본으로 이어진다.</p>
 
   <div class="note">
-    <b>신뢰도 C 조준 자료</b>
+    <b>신뢰도 C-real</b>
     <div class="small" style="margin-top:4px">
-      실제 음성을 새로 만들지 않고 확인된 외부 자료를 가져왔다. 또박또박한 학습용 대화이므로 자연 대화의 겹침과 중단을 대표하지는 않는다.
-      1회는 소리, 2회는 청크, 3회는 의미만 겨눈다.
+      사람이 실제로 말한 것을 녹음한 자료다. 만든 게 아니라 확인된 외부 자료를 가져왔다.
+      그래서 <b>Q1 소리 트랙의 통과 판정에 쓸 수 있다.</b> 생성 음성(C-gen)으로는 그 판정을 하지 않는다.
+      다만 또박또박한 학습용 대화라 자연 대화의 겹침과 중단은 대표하지 못한다. 2층 자료는 따로 채집한다.
+      1회는 소리, 2회는 청크, 3회는 의미만 겨눈다. 등급 규정은 eng2p/docs/audio_intake.md 에 있다.
     </div>
   </div>
 
@@ -627,6 +629,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
       <div class="row noprint" style="margin-top:10px">
         <button class="g" id="libPrev" type="button">이전 레슨</button>
         <button class="g" id="libBack" type="button">3초 뒤로</button>
+        <button class="b" id="libToClip" type="button">클립으로 보내기</button>
         <div style="min-width:150px;flex:1"><label class="f">속도 <span class="mono" id="libRateN">1.00</span></label><input type="range" id="libRate" min="0.6" max="1.2" step="0.05" value="1"></div>
         <button class="g" id="libNext" type="button">다음 레슨</button>
       </div>
@@ -2152,9 +2155,16 @@ function mmss(s){
   return m+":"+(r<10?"0":"")+r.toFixed(1);
 }
 function loadMedia(file){
-  if(CLIP.url) URL.revokeObjectURL(CLIP.url);
-  CLIP.file=file; CLIP.url=URL.createObjectURL(file);
-  var isVid=/^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name);
+  mountClip(file.name, URL.createObjectURL(file), true,
+    /^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name));
+}
+/* 미디어 라이브러리에서 온 레슨은 objectURL 이 아니라 경로다. 되돌릴 필요가 없다. */
+function loadClipUrl(name, url, isVid){ mountClip(name, url, false, isVid); }
+
+function mountClip(name, url, revocable, isVid){
+  if(CLIP.url&&CLIP.revocable) URL.revokeObjectURL(CLIP.url);
+  var file={name:name};
+  CLIP.file=file; CLIP.url=url; CLIP.revocable=!!revocable;
   var host=$("#mediaHost"); host.innerHTML="";
   var m=document.createElement(isVid?"video":"audio");
   m.src=CLIP.url; m.controls=true; m.preload="metadata";
@@ -2496,6 +2506,20 @@ $("#libDone").onclick=function(){ var x=mediaItem(LIB.active); if(x) setMediaFla
 $("#libPrev").onclick=function(){ if(LIB.active>0) openMedia(LIB.active-1,LIB.mode,true); };
 $("#libNext").onclick=function(){ if(LIB.active<MEDIA.length-1) openMedia(LIB.active+1,LIB.mode,true); };
 $("#libBack").onclick=function(){ if(LIB.el) LIB.el.currentTime=Math.max(0,LIB.el.currentTime-3); };
+
+/* 라이브러리와 클립 도구를 잇는다.
+   여기까지 와야 파이프라인이 하나로 돈다.
+   레슨 -> 구간 반복 -> 들린 표현 채집 -> 주간 판정 -> 간격 반복 복습. */
+$("#libToClip").onclick=function(){
+  var it=mediaItem(LIB.active); if(!it) return;
+  if(LIB.el){ try{ LIB.el.pause(); }catch(e){} }
+  var isVid=LIB.mode==="video";
+  var src=isVid?it.video:(LIB.mode==="original"?it.originalAudio:it.audio);
+  loadClipUrl(it.id+(isVid?".mp4":".mp3"), src, isVid);
+  var lab=$("#cLabel"); if(lab&&!lab.value) lab.value=it.title;
+  go("clip");
+  flash(it.title+" 를 클립으로 보냈다");
+};
 $("#libRate").oninput=function(){ LIB.rate=+this.value; $("#libRateN").textContent=LIB.rate.toFixed(2); if(LIB.el) LIB.el.playbackRate=LIB.rate; };
 $("#libSearch").oninput=renderMediaList; $("#libQ").onchange=renderMediaList; $("#libFilter").onchange=renderMediaList;
 
@@ -2506,7 +2530,7 @@ $("#libSearch").oninput=renderMediaList; $("#libQ").onchange=renderMediaList; $(
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
   u:"https://learningenglish.voanews.com",
-  good:"Q1 주력. Level One 은 어휘 1500단어에 속도가 느리고 대본이 같이 온다. 소리 트랙과 청크 트랙 둘 다 된다.",
+  good:"Q1 주력. Level One 은 어휘 1500단어에 속도가 느리고 대본이 같이 온다. 소리 트랙과 청크 트랙 둘 다 된다. Let's Learn English 52과는 이미 미디어 탭에 받아 두었다. C-real 이라 Q1 통과 판정에 쓸 수 있다.",
   bad:"낭독 뉴스라 실제 대화의 겹침과 중단이 없다. 2층 자료로는 못 쓴다."},
  {n:"LibriVox", lic:"퍼블릭 도메인 오디오북. 자원 봉사 녹음",
   u:"https://librivox.org",
