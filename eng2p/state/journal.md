@@ -76,6 +76,30 @@ state/verify_queue.md 가 자동 생성한다. `python3 scripts/collect_b.py` �
 검증은 Claude Code에서 하지 않는다. 대화 세션에서 웹 검색으로 한다.
 대량 생성 중에는 검증을 건너뛰기 쉽고, 그럴듯한 표현이 그대로 통과한다.
 
+### 완료된 검증
+
+english.html 소리 탭의 축약 20종 목록. 신뢰도 B.
+
+```
+검증일 2026-08-07 / 축약 20종 목록 / 결과 통과 / 조치 목록 유지
+```
+
+- 대상: gonna, wanna, gotta, hafta, hasta, oughta, kinda, sorta, lotta, outta,
+  gimme, lemme, dunno, cuz, whatcha, wouldya, couldya, shoulda, woulda, coulda
+- 확인한 것: 20종 모두 ESL 청취 교육에서 표준으로 다루는 reduced forms 다.
+  슬랭이나 유행어가 아니라 규칙적인 약형이라 13.2 슬랭 금지에 걸리지 않는다.
+  원어민은 약형을 대부분의 발화에서 쓰고, 교사는 강형으로 말하는 경향이 있어
+  학습자가 실제 발화를 못 알아듣는 원인이 된다는 지적이 있다.
+- 확인한 것 둘: 약형은 산출이 아니라 청취 이해를 위해 가르치라는 것이 정설이다.
+  이 과정 Q1 통과 조건이 "축약 20종 청취 식별"인 것과 방향이 같다.
+  학습자에게 약형을 말하라고 시키지 않는다.
+- 남은 불확실: 철자 표기가 자료마다 갈린다. wouldya/wouldja, couldya/couldja,
+  cuz/'cause 가 그렇다. 그래서 B등급을 유지한다. 강의에 실을 때 다시 검증한다.
+- 출처:
+  - https://www.proofreadingservices.com/blogs/esl/15345345-cheat-sheet-25-reduced-forms-you-need-to-know
+  - https://commonsense-esl.com/2020/09/01/teach-reduced-forms-for-comprehension-not-for-speaking/
+  - https://www.learnenglishsounds.com/en/blog/gonna-wanna-hafta-gotta-reductions-rule-connected-speech
+
 ---
 
 ## 5. 기준서 개정 대기 목록
@@ -89,6 +113,7 @@ docs/spec.md 는 사용자만 수정한다.
 | 1 | 4.5 / 4.7 | 4.7은 "도입 후 최소 4회 재등장"이라 총 5회를 뜻하는데 4.5 사다리는 4단계다 | state/rotation.md 2.5에 운용 해석을 둠. 영역당 최소 5회 등장, 5회차 이상은 추상도 4단계 유지 | 개정 대기 |
 | 2 | 15장 | 파일명 표에 매뉴얼, 대장, 과제집, 비상판 규칙이 없다 | 저장소 스캐폴드 배치를 따름. out/manual/, state/ 로 정함 | 개정 대기 |
 | 3 | 11.4 / 15장 | 매뉴얼류 목표가 3인데 회전 대장은 state/ 에 있어 update_status.py 집계에서 빠진다 | 집계는 2/3으로 표시됨. 회전 대장은 상태 파일이므로 state/ 유지 | 개정 대기 |
+| 5 | 1.2 C등급 | "음성 자료 전부"가 C등급이라 만들지 않는 것이 원칙인데, 기기에 내장된 음성 합성은 자료를 만드는 게 아니라 화면의 글자를 읽는 것이라 이 조항의 적용 범위가 애매하다 | english.html 소리 탭으로 넣되 화면에 "기계 음성이다. 실제 영어가 아니다"를 고정 표기하고, 판정형 카드의 정답 판정에는 쓰지 않는다고 명시했다. 6.2의 1층 인공물 표기와 같은 처리다 | 개정 대기 |
 | 4 | 1장 / 2.2 | 총 시간이 안 맞는다. "하루 2시간, 주 6일, 48주"는 576시간인데 총량은 730시간으로 적혀 있다. 730은 하루 2시간에 365일을 곱한 값이다 | english.html 누적 곡선에 730h 기준선과 576h 계획선을 같이 그린다. 분기 통과 누적(180/365/550/730)도 730 기준이라 주 6일로는 도달이 늦다 | 개정 대기. 시간 총량을 어느 쪽으로 고칠지 사용자 판단 필요 |
 
 ---
@@ -99,6 +124,7 @@ docs/spec.md 는 사용자만 수정한다.
 |---|---|---|---|
 | 2026-08-07 | 1 | 기준서 고정, 운영 매뉴얼, 진행 대장, 회전 대장 | 통과 |
 | 2026-08-07 | - | 저장소 스캐폴드 흡수, english.html 웹앱 | 통과 |
+| 2026-08-07 | - | english.html 소리 탭. 기기 음성 합성 낭독, 축약 20종 대조 | 통과. 축약 목록 검증 완료 |
 
 ### 2026-08-07 자체 점검 (docs/spec.md 18장 공통 항목)
 

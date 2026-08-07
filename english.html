@@ -240,6 +240,59 @@ footer{border-top:1px solid var(--line);margin-top:56px;padding:18px 0;color:var
   </div>
 </section>
 
+<!-- ========== 소리 ========== -->
+<section id="t-sound" role="tabpanel" hidden>
+  <h2>소리</h2>
+  <p class="lede">기기에 들어 있는 음성 합성으로 읽는다. 음성 파일을 내려받지 않는다.</p>
+
+  <div class="note w">
+    <b>기계 음성이다. 실제 영어가 아니다.</b>
+    <div class="small" style="margin-top:4px">
+      1층 대화에 "학습용 인공물"을 표기하는 것과 같은 이유로 여기에도 박아 둔다.
+      합성 음성은 또박또박 읽는다. 실제 대화의 속도 변이, 겹침, 중단, 자연 감소는 만들지 못한다.
+      그건 여전히 조준표를 따라 외부에서 채집한다.
+    </div>
+  </div>
+  <div class="note">
+    <b>쓰는 곳과 안 쓰는 곳</b>
+    <div class="small" style="margin-top:4px">
+      쓴다: A가 아직 못 읽는 재료의 발음 참조, 청크 반복 노출, 원형과 축약형 대조.<br>
+      안 쓴다: 판정형 카드의 정답 판정. 그건 A의 입과 B의 귀로 한다. 기준서 8.3이 그렇게 설계돼 있다.
+    </div>
+  </div>
+
+  <div id="ttsWarn"></div>
+
+  <div class="card">
+    <div class="grid g3">
+      <div><label class="f">음성</label><select id="vVoice"></select></div>
+      <div><label class="f">속도 <span class="mono" id="vRateN">0.85</span></label>
+        <input type="range" id="vRate" min="0.5" max="1.1" step="0.05" value="0.85"></div>
+      <div><label class="f">반복</label><select id="vRep"><option>1</option><option selected>2</option><option>3</option><option>5</option></select></div>
+    </div>
+    <div style="margin-top:12px">
+      <label class="f">읽을 내용 (한 줄에 하나)</label>
+      <textarea id="vText" rows="6" placeholder="I'm gonna call you back.&#10;What are you doing?"></textarea>
+    </div>
+    <div class="row end" style="margin-top:10px">
+      <button class="g" id="vStop">정지</button>
+      <button class="g" id="vLoad">목록 만들기</button>
+      <button class="b" id="vAll">전체 순차 재생</button>
+    </div>
+    <div id="vList"></div>
+  </div>
+
+  <h3>원형과 축약형 대조</h3>
+  <p class="lede">왼쪽을 듣고 오른쪽을 듣는다. 같은 뜻이 어떻게 줄어드는지가 Q1 소리 트랙의 과제다.</p>
+  <div class="row noprint" style="margin-bottom:8px">
+    <button class="g" id="vPairAll">20쌍 전체 재생</button>
+    <button class="g" id="vPairPush">읽을 내용으로 보내기</button>
+    <span class="tag a">신뢰도 B</span>
+  </div>
+  <div class="scroll"><table id="vPairs"></table></div>
+  <div class="note small" id="vLog"></div>
+</section>
+
 <!-- ========== 대장 ========== -->
 <section id="t-ledger" role="tabpanel" hidden>
   <h2>진행 대장</h2>
@@ -536,7 +589,7 @@ function monday(d){ var x=parseISO(d); var w=(x.getDay()+6)%7; x.setDate(x.getDa
 /* =========================================================================
    탭
    ========================================================================= */
-var TABS=[["today","오늘"],["ledger","대장"],["verify","판정"],["quarter","분기"],
+var TABS=[["today","오늘"],["sound","소리"],["ledger","대장"],["verify","판정"],["quarter","분기"],
           ["SEP",""],["check","검사"],["rot","회전"],["SEP",""],["rules","규칙"]];
 function buildNav(){
   var n=$("#nav");
@@ -555,7 +608,9 @@ function go(name){
     var b=$('nav button[data-t="'+t[0]+'"]');
     if(b) b.setAttribute("aria-selected",t[0]===name?"true":"false");
   });
+  if(typeof ttsStop==="function") ttsStop();
   if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
+  if(name==="sound") renderSound();
   if(name==="ledger") renderLedger();
   if(name==="verify") renderVerify();
   if(name==="quarter") renderQuarter();
@@ -609,8 +664,10 @@ function renderUnres(){
     var d=el("div","lreitem");
     var h=el("div","hd2");
     h.appendChild(el("b",null,u.t||"(문장 없음)"));
+    var acts=el("div","row"); acts.style.gap="8px";
+    acts.appendChild(spkBtn(u.t||""));
     var x=el("button","del","삭제"); x.onclick=function(){rec.unres.splice(i,1);save();renderUnres();};
-    h.appendChild(x); d.appendChild(h);
+    acts.appendChild(x); h.appendChild(acts); d.appendChild(h);
     if(u.i) d.appendChild(el("div","small mut","걸린 것: "+u.i));
     if(u.h) d.appendChild(el("div","small",S.names.a+": "+u.h));
     if(u.w) d.appendChild(el("div","small",S.names.b+": "+u.w));
@@ -629,8 +686,10 @@ function renderColl(){
   rec.coll.forEach(function(c,i){
     var d=el("div","lreitem");
     var h=el("div","hd2"); h.appendChild(el("b",null,c.e));
+    var acts=el("div","row"); acts.style.gap="8px";
+    acts.appendChild(spkBtn(c.e||""));
     var x=el("button","del","삭제"); x.onclick=function(){rec.coll.splice(i,1);save();renderColl();};
-    h.appendChild(x); d.appendChild(h);
+    acts.appendChild(x); h.appendChild(acts); d.appendChild(h);
     d.appendChild(el("div","small mut","출처: "+(c.s||"(없음)")+(c.q?" · "+c.q:"")));
     box.appendChild(d);
   });
@@ -905,7 +964,9 @@ function itemCard(d,title,lines,ref){
   var cb=el("input"); cb.type="checkbox"; cb.checked=!!ref.done;
   cb.onchange=function(){ ref.done=cb.checked; save(); renderVerify(); };
   lab.appendChild(cb); lab.appendChild(document.createTextNode(" 판정 완료"));
-  h.appendChild(lab); box.appendChild(h);
+  var acts=el("div","row"); acts.style.gap="8px";
+  acts.appendChild(spkBtn(title||"")); acts.appendChild(lab);
+  h.appendChild(acts); box.appendChild(h);
   lines.filter(Boolean).forEach(function(t){ box.appendChild(el("div","small mut",t)); });
   box.appendChild(el("div","small mut","기록일 "+d));
   return box;
@@ -1250,6 +1311,147 @@ $("#rRowCopy").onclick=function(){
 };
 
 /* =========================================================================
+   소리. 기기 내장 음성 합성만 쓴다. 외부 음성 파일을 받지 않는다.
+   ========================================================================= */
+var TTS={ok:(typeof window!=="undefined"&&"speechSynthesis" in window),voices:[],busy:false,stop:false};
+
+/* 축약 20종. 신뢰도 B.
+   약형은 슬랭이 아니라 규칙적인 음운 현상이라 목록 자체는 안정적이다.
+   다만 철자 표기가 자료마다 갈려서 B로 둔다. 검증 로그는 vLog 에 찍는다. */
+var PAIRS=[
+ ["going to","gonna"],["want to","wanna"],["got to","gotta"],["have to","hafta"],
+ ["has to","hasta"],["ought to","oughta"],["kind of","kinda"],["sort of","sorta"],
+ ["lot of","lotta"],["out of","outta"],["give me","gimme"],["let me","lemme"],
+ ["don't know","dunno"],["because","cuz"],["what are you","whatcha"],["would you","wouldya"],
+ ["could you","couldya"],["should have","shoulda"],["would have","woulda"],["could have","coulda"]
+];
+var PAIR_LOG="검증일 2026-08-07 / 축약 20종 목록 / 결과: 20종 모두 ESL 청취 교육의 표준 reduced forms 로 확인. 슬랭이 아니라 규칙적 약형이라 슬랭 금지에 걸리지 않는다 / 조치: 목록 유지, 철자 변이가 있는 항목(wouldya, couldya, cuz)은 B등급 유지. 출처는 state/journal.md 검증 로그에 기록";
+
+function wait(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+function ttsVoices(){
+  var s=$("#vVoice"); if(!s) return;
+  if(!TTS.ok){ s.innerHTML=""; s.appendChild(el("option",null,"지원 안 함")); return; }
+  var prev=s.value;
+  TTS.voices=(speechSynthesis.getVoices()||[]).filter(function(v){ return /^en/i.test(v.lang); });
+  s.innerHTML="";
+  if(!TTS.voices.length){ s.appendChild(el("option",null,"영어 음성 없음")); return; }
+  TTS.voices.forEach(function(v,i){
+    var o=el("option",null,v.name+" ("+v.lang+")"); o.value=i; s.appendChild(o);
+  });
+  if(prev!==""&&s.querySelector('option[value="'+prev+'"]')) s.value=prev;
+}
+function utter(text){
+  return new Promise(function(res){
+    if(!TTS.ok||TTS.stop||!text) return res();
+    var u=new SpeechSynthesisUtterance(text);
+    var vi=+($("#vVoice").value);
+    if(TTS.voices[vi]){ u.voice=TTS.voices[vi]; u.lang=TTS.voices[vi].lang; } else { u.lang="en-US"; }
+    u.rate=+$("#vRate").value||0.85;
+    var done=false;
+    function fin(){ if(done) return; done=true; res(); }
+    u.onend=fin; u.onerror=fin;
+    setTimeout(fin, Math.max(4000, text.length*260));  // 엔진이 onend 를 안 주는 경우 대비
+    try{ speechSynthesis.speak(u); }catch(e){ fin(); }
+  });
+}
+function spk(text){
+  if(!TTS.ok) return;
+  TTS.stop=false;
+  try{ speechSynthesis.cancel(); }catch(e){}
+  utter(text);
+}
+function spkBtn(text){
+  var b=el("button","g","소리");
+  b.style.padding="2px 9px"; b.style.fontSize="12px";
+  b.onclick=function(){ spk(text); };
+  if(!TTS.ok) b.disabled=true;
+  return b;
+}
+function ttsStop(){
+  TTS.stop=true; TTS.busy=false;
+  try{ speechSynthesis.cancel(); }catch(e){}
+  paintSeq(-1);
+}
+function paintSeq(i){
+  document.querySelectorAll("#vList .lreitem").forEach(function(n,k){
+    n.style.borderColor = (k===i) ? "var(--acc)" : "var(--line)";
+  });
+}
+function playSeq(items,times){
+  TTS.stop=false; TTS.busy=true;
+  var i=0,t=0;
+  function step(){
+    if(TTS.stop||i>=items.length){ TTS.busy=false; paintSeq(-1); return; }
+    paintSeq(i);
+    utter(items[i]).then(function(){
+      if(TTS.stop){ TTS.busy=false; paintSeq(-1); return; }
+      t++;
+      if(t>=times){ t=0; i++; }
+      return wait(280).then(step);
+    });
+  }
+  step();
+}
+function soundLines(){
+  return $("#vText").value.split("\n").map(function(x){return x.trim();}).filter(Boolean);
+}
+function renderSoundList(){
+  var box=$("#vList"); box.innerHTML="";
+  var lines=soundLines();
+  if(!lines.length){ box.innerHTML='<div class="note small">읽을 내용이 비어 있다.</div>'; return; }
+  lines.forEach(function(t){
+    var d=el("div","lreitem");
+    var h=el("div","hd2");
+    h.appendChild(el("span",null,t));
+    h.appendChild(spkBtn(t));
+    d.appendChild(h); box.appendChild(d);
+  });
+}
+function renderSound(){
+  var w=$("#ttsWarn");
+  if(!TTS.ok){
+    w.innerHTML='<div class="note w"><b>이 브라우저는 음성 합성을 지원하지 않는다.</b><div class="small">크롬, 사파리, 엣지 최신판에서 열면 된다. 소리가 없어도 나머지 탭은 그대로 쓴다.</div></div>';
+  } else if(!TTS.voices.length){
+    w.innerHTML='<div class="note w"><b>영어 음성이 하나도 없다.</b><div class="small">기기 설정에서 영어 음성을 받아야 한다. 안드로이드는 설정의 음성 합성, 윈도우는 설정의 음성에서 받는다.</div></div>';
+  } else { w.innerHTML=""; }
+
+  var rows=['<tr><th>원형</th><th></th><th>축약형</th><th></th></tr>'];
+  PAIRS.forEach(function(p,i){
+    rows.push('<tr><td>'+p[0]+'</td><td><button class="g pbtn" data-i="'+i+'" data-k="0" style="padding:1px 8px;font-size:12px">소리</button></td>'+
+              '<td><b>'+p[1]+'</b></td><td><button class="g pbtn" data-i="'+i+'" data-k="1" style="padding:1px 8px;font-size:12px">소리</button></td></tr>');
+  });
+  $("#vPairs").innerHTML=rows.join("");
+  $("#vPairs").querySelectorAll(".pbtn").forEach(function(b){
+    b.onclick=function(){ spk(PAIRS[+b.dataset.i][+b.dataset.k]); };
+    if(!TTS.ok) b.disabled=true;
+  });
+  $("#vLog").textContent="검증 로그 / "+PAIR_LOG;
+  renderSoundList();
+}
+if(TTS.ok){
+  try{ speechSynthesis.onvoiceschanged=function(){ ttsVoices(); renderSound(); }; }catch(e){}
+}
+$("#vRate").oninput=function(){ $("#vRateN").textContent=(+this.value).toFixed(2); };
+$("#vLoad").onclick=renderSoundList;
+$("#vStop").onclick=ttsStop;
+$("#vAll").onclick=function(){
+  var lines=soundLines();
+  if(!lines.length){ renderSoundList(); return; }
+  renderSoundList();
+  playSeq(lines, +$("#vRep").value||1);
+};
+$("#vPairAll").onclick=function(){
+  var seq=[];
+  PAIRS.forEach(function(p){ seq.push(p[0]); seq.push(p[1]); });
+  $("#vText").value=seq.join("\n"); renderSoundList();
+  playSeq(seq,1);
+};
+$("#vPairPush").onclick=function(){
+  $("#vText").value=PAIRS.map(function(p){return p[0]+" ... "+p[1];}).join("\n");
+  renderSoundList();
+};
+
+/* =========================================================================
    규칙 탭
    ========================================================================= */
 function renderRules(){
@@ -1299,6 +1501,7 @@ applyTheme();
 $("#themeBtn").textContent = S.theme==null ? "테마" : S.theme==="dark" ? "어두움" : "밝음";
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
 renderToday(); paintTimer(); renderRules(); paintKind();
+ttsVoices(); renderSound();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });
 </script>
