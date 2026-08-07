@@ -17,19 +17,21 @@
 앞으로 나오는 모든 제작물은 내가 직접 쓰고 내가 검사한다.
 `docs/collab.md` 는 그 기간의 기록으로 남긴다. 새 작업 지시는 나가지 않는다.
 
-검사는 매 턴 끝에 다섯 개를 돌린다. 하나라도 실패면 그 턴은 안 끝난 것이다.
+검사는 매 턴 끝에 여섯 개를 돌린다. 하나라도 실패면 그 턴은 안 끝난 것이다.
 
 ```bash
 python3 eng2p/scripts/check.py eng2p/out/
 python3 eng2p/scripts/check_media.py
 python3 eng2p/scripts/check_cards_plan.py
+python3 eng2p/scripts/check_blocks.py
 python3 eng2p/scripts/collect_b.py
 python3 eng2p/scripts/update_status.py
 ```
 
 검사기가 늘어난 것은 매번 사람이 못 본 것을 하나씩 잡았기 때문이다.
 check_media 는 조수가 화자 수를 낮춰 통과한 것을 잡았고,
-check_cards_plan 은 20편에 걸쳐 쌓인 카드 유형 편중을 잡았다.
+check_cards_plan 은 20편에 걸쳐 쌓인 카드 유형 편중을 잡았고
+check_blocks 는 Q1 24편이 기준서 7.4의 설명 비중에서 벗어난 것을 잡았다.
 검사기를 늘리는 쪽이 눈으로 다시 보는 쪽보다 언제나 싸다.
 
 ---
@@ -247,7 +249,7 @@ T9에서 have 를 네 장에서 똑같이 틀렸다. 조동사와 본동사를 �
 - 기준서 18장 자체 점검 체크리스트 전 항목
 - 회전 대장 편중 확인. 24건 등록 상태에서 5장 경보 7종
 - `english.html` 에 Q1 산출물 연결 확인
-- 기준서 개정 대기 7건을 사용자에게 정리해 올린다
+- 기준서 개정 대기 8건을 사용자에게 정리해 올린다
 - state/journal.md 에 Q1 종료 판정
 
 **여기서 멈춘다.** 기준서 16장 4단계다.
