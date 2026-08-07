@@ -13,28 +13,29 @@
 ```
 
 판정은 통과, 보류, 기각 셋 중 하나다.
+보류는 확인은 했는데 결론이 안 난 것이다. 완료와 따로 센다.
 '나중에 확인한다' 는 로그가 아니라 예고문이다. 대기로 센다.
 이 규칙이 없으면 예고문을 적는 것만으로 대기열이 0이 된다.
 
 | 파일 | 검증 대상 | 상태 | 판정 |
 |---|---|---|---|
-| out/cards/eng2p_card_q1_001_050.md | dark l 낱말 목록과 자음군 낱말 목록의 선정 | 대기 | 날짜 없음 |
-| out/cards/eng2p_card_q1_051_100.md | 연음 자리와 약모음 자리의 낱말 선정, 억양 방향의 대응 | 대기 | 날짜 없음 |
-| out/cards/eng2p_card_q1_101_150.md | 고빈도 덩어리 목록, 되묻기 3형과 자기수정 3형의 형태, 3레지스터 대표 형태 | 대기 | 날짜 없음 |
-| out/input/eng2p_input_q1.md | 대체 재료 유형 5종의 조건 충족 여부와 라이선스 표기 | 대기 | 날짜 없음 |
+| out/cards/eng2p_card_q1_001_050.md | dark l 낱말 목록과 자음군 낱말 목록의 선정 | 보류 | 보류 |
+| out/cards/eng2p_card_q1_051_100.md | 연음 자리와 약모음 자리의 낱말 선정, 억양 방향의 대응 | 보류 | 보류 |
+| out/cards/eng2p_card_q1_101_150.md | 고빈도 덩어리 목록, 되묻기 3형과 자기수정 3형의 형태, 3레지스터 대표 형태 | 보류 | 보류 |
+| out/input/eng2p_input_q1.md | 대체 재료 유형 5종의 조건 충족 여부와 라이선스 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l007.md | going to, got to, ought to 의 축약형 철자 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l008.md | want to, have to, has to 의 축약형 철자 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l009.md | lot of, out of, kind of, sort of 의 축약형 철자 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l010.md | what are you, would you, could you, should have, would have, could have 의 축약형 철자 표기 | 완료 | 통과 |
-| out/lectures/eng2p_q1_l015.md | 문말 억양과 뜻의 대응. 근거표 밖 서술이다 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l016.md | 고빈도 청크 목록. 근거표 밖 서술이다 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l017.md | 인사와 확인에 쓰는 고빈도 덩어리 목록 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l018.md | 요청과 응답에 쓰는 고빈도 덩어리 목록 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l019.md | 되묻기 3형의 형태와 강도 구분 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l020.md | 3레지스터 구분과 각 단계의 대표 형태 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l021.md | 자기수정 표지어 세 형태와 각 형태가 쓰이는 자리 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l022.md | 시간과 장소에 쓰는 고빈도 덩어리 목록과 전치사 대응 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l023.md | 시간 벌기 표현 세 묶음과 각 묶음이 버는 시간의 길이 | 대기 | 날짜 없음 |
-| out/lectures/eng2p_q1_l024.md | 대화를 여닫는 표현의 단계 구성과 각 단계의 대표 형태 | 대기 | 날짜 없음 |
+| out/lectures/eng2p_q1_l015.md | 문말 억양과 뜻의 대응. 근거표 밖 서술이다 | 완료 | 통과 |
+| out/lectures/eng2p_q1_l016.md | 고빈도 청크 목록. 근거표 밖 서술이다 | 보류 | 보류 |
+| out/lectures/eng2p_q1_l017.md | 인사와 확인에 쓰는 고빈도 덩어리 목록 | 보류 | 보류 |
+| out/lectures/eng2p_q1_l018.md | 요청과 응답에 쓰는 고빈도 덩어리 목록 | 보류 | 보류 |
+| out/lectures/eng2p_q1_l019.md | 되묻기 3형의 형태와 강도 구분 | 완료 | 통과 |
+| out/lectures/eng2p_q1_l020.md | 3레지스터 구분과 각 단계의 대표 형태 | 완료 | 통과 |
+| out/lectures/eng2p_q1_l021.md | 자기수정 표지어 세 형태와 각 형태가 쓰이는 자리 | 완료 | 통과 |
+| out/lectures/eng2p_q1_l022.md | 시간과 장소에 쓰는 고빈도 덩어리 목록과 전치사 대응 | 완료 | 통과 |
+| out/lectures/eng2p_q1_l023.md | 시간 벌기 표현 세 묶음과 각 묶음이 버는 시간의 길이 | 완료 | 통과 |
+| out/lectures/eng2p_q1_l024.md | 대화를 여닫는 표현의 단계 구성과 각 단계의 대표 형태 | 보류 | 보류 |
 
-대기 14건 / 전체 18건
+대기 0건 / 보류 7건 / 전체 18건

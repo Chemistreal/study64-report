@@ -1,7 +1,7 @@
 신뢰도: B
 분기: Q1
 검증대상: 대체 재료 유형 5종의 조건 충족 여부와 라이선스 표기
-검증로그: VOA Learning English 는 퍼블릭 도메인이고 저장소 안 52과가 그 자료다. LibriVox 와 Santa Barbara Corpus 의 조건은 T16 통합 점검에서 다시 확인한다
+검증로그: 2026-08-07 / 각 출처의 라이선스 표기 / 통과 / VOA Learning English 는 퍼블릭 도메인이고 출처 표기가 필요하다. LibriVox 는 퍼블릭 도메인이며 상업 이용과 개작에 제한이 없다. Santa Barbara Corpus 는 CC BY-ND 3.0 US 라 개작본 재배포가 안 된다. 자르지 않고 원본을 그대로 듣는다고 쓴 것이 맞다
 
 # Q1 입력 조준표
 

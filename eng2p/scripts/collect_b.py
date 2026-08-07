@@ -29,7 +29,9 @@ def state_of(log):
     m = VERDICT.search(log)
     if not m:
         return "대기", "판정 없음"
-    return "완료", m.group(1)
+    v = m.group(1)
+    # 보류는 확인은 했는데 결론이 안 난 것이다. 완료로 세면 남은 일이 안 보인다.
+    return ("보류" if v == "보류" else "완료"), v
 
 
 def main():
@@ -63,6 +65,7 @@ def main():
         "```",
         "",
         "판정은 통과, 보류, 기각 셋 중 하나다.",
+        "보류는 확인은 했는데 결론이 안 난 것이다. 완료와 따로 센다.",
         "'나중에 확인한다' 는 로그가 아니라 예고문이다. 대기로 센다.",
         "이 규칙이 없으면 예고문을 적는 것만으로 대기열이 0이 된다.",
         "",
@@ -75,11 +78,13 @@ def main():
         lines.append("| (없음) | | | |")
 
     pending = sum(1 for r in rows if r[2] == "대기")
-    lines += ["", "대기 %d건 / 전체 %d건" % (pending, len(rows))]
+    held = sum(1 for r in rows if r[2] == "보류")
+    lines += ["", "대기 %d건 / 보류 %d건 / 전체 %d건" % (pending, held, len(rows))]
 
     QUEUE.parent.mkdir(parents=True, exist_ok=True)
     QUEUE.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print("검증 대기열 갱신: 대기 %d건 / 전체 %d건" % (pending, len(rows)))
+    print("검증 대기열 갱신: 대기 %d건 / 보류 %d건 / 전체 %d건"
+          % (pending, held, len(rows)))
 
 
 if __name__ == "__main__":
