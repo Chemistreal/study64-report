@@ -149,6 +149,15 @@ tbody tr:hover td{background:var(--card2)}
   padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
 .rb.b{background:linear-gradient(96deg,var(--a3),#0ea5e9)}
+.cliproles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.roleunit{display:flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:12px;
+  padding:9px 11px;background:var(--card2);color:var(--mut);transition:.2s}
+.roleunit .small{line-height:1.35}
+.roleunit.active{color:var(--fg);border-color:var(--a1);background:var(--card);
+  box-shadow:0 0 0 3px rgba(99,102,241,.10),var(--glow);transform:translateY(-1px)}
+.roleunit.b.active{border-color:var(--a3);box-shadow:0 0 0 3px rgba(8,145,178,.11),var(--glow)}
+.rolehint{min-height:20px;color:var(--mut);font-size:12px;margin-bottom:10px}
+@media(max-width:520px){.cliproles{grid-template-columns:1fr}}
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
 .duo>div{border:1px solid var(--edge);border-radius:12px;padding:12px;background:var(--card2)}
 .duo .who{font-size:11.5px;font-weight:700;margin-bottom:6px}
@@ -173,6 +182,26 @@ tbody tr:hover td{background:var(--card2)}
 .steps div.now{background:linear-gradient(90deg,var(--a2),var(--a3));box-shadow:var(--glow);animation:pulse 1.9s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.55}}
 .slab{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-top:7px}
+#sessionCard{position:relative;transition:opacity .25s,transform .25s,box-shadow .25s}
+body.session-focus #t-today>*:not(#sessionCard){opacity:.24;filter:saturate(.65);transition:opacity .25s,filter .25s}
+body.session-focus #sessionCard{z-index:3;transform:translateY(-3px);
+  box-shadow:0 0 0 1px var(--a1),0 18px 60px rgba(79,70,229,.22)}
+.sessiondone{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;
+  border:1px solid rgba(15,118,110,.28);border-radius:14px;padding:13px 16px;
+  background:linear-gradient(120deg,rgba(15,118,110,.10),rgba(8,145,178,.08));animation:doneRise .35s ease-out}
+.sessiondone[hidden]{display:none}
+.duomark{width:78px;height:34px;position:relative;flex:none}
+.doneorb{position:absolute;top:5px;width:24px;height:24px;border-radius:50%;color:#fff;font-size:10px;
+  font-weight:800;display:grid;place-items:center;box-shadow:var(--glow)}
+.doneorb.a{left:4px;background:linear-gradient(96deg,var(--a1),var(--a2));animation:meetA .55s ease-out forwards}
+.doneorb.b{right:4px;background:linear-gradient(96deg,var(--a3),#0ea5e9);animation:meetB .55s ease-out forwards}
+.donering{position:absolute;left:25px;top:0;width:30px;height:30px;border:2px solid var(--ok);border-radius:50%;
+  opacity:0;animation:joinRing .65s .35s ease-out forwards}
+@keyframes meetA{to{transform:translateX(12px)}}
+@keyframes meetB{to{transform:translateX(-12px)}}
+@keyframes joinRing{0%{opacity:.7;transform:scale(.45)}100%{opacity:0;transform:scale(1.8)}}
+@keyframes doneRise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(max-width:620px){body.session-focus #t-today>*:not(#sessionCard){opacity:.14}}
 
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
@@ -241,10 +270,14 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
 .drop:hover,.drop.over{border-color:var(--a1);background:var(--card);box-shadow:var(--glow)}
 .scrub{position:relative;height:44px;border-radius:12px;background:var(--card2);
   border:1px solid var(--edge);overflow:hidden;cursor:pointer;margin:14px 0 6px}
-.scrub .rng{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,var(--au1),var(--au2));opacity:.55}
-.scrub .ph{position:absolute;top:0;bottom:0;width:2px;background:var(--fg)}
-.scrub .mk{position:absolute;top:0;bottom:0;width:2px;background:var(--a3)}
-.scrub .lb{position:absolute;bottom:3px;font-size:10px;font-family:var(--mono);color:var(--mut);padding:0 4px}
+.scrub canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.scrub .rng{position:absolute;top:0;bottom:0;z-index:1;background:linear-gradient(90deg,var(--au1),var(--au2));opacity:.55}
+.scrub.looping .rng{animation:loopRange 1.15s ease-in-out infinite alternate}
+.scrub .ph{position:absolute;top:0;bottom:0;z-index:4;width:2px;background:var(--fg)}
+.scrub .mk{position:absolute;top:0;bottom:0;z-index:3;width:2px;background:var(--a3)}
+.scrub .lb{position:absolute;bottom:3px;z-index:5;font-size:10px;font-family:var(--mono);color:var(--mut);padding:0 4px}
+.waveinfo{min-height:18px;color:var(--mut);font-size:11.5px;margin-bottom:8px}
+@keyframes loopRange{from{opacity:.42}to{opacity:.78}}
 .clip{border:1px solid var(--edge);border-radius:12px;padding:12px;margin:9px 0;background:var(--card2);transition:.18s}
 .clip:hover{border-color:var(--a1)}
 .clip.on{border-color:var(--a2);box-shadow:var(--glow)}
@@ -347,7 +380,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     <div class="note small" style="margin-bottom:0">역할은 날짜로 정해진다. 협의하지 않는다. 교대의 목적은 성향 교정이 아니라 관계 유형 고착 방지다.</div>
   </div>
 
-  <div class="card">
+  <div class="card" id="sessionCard">
     <div class="timer">
       <div class="ringwrap">
         <svg viewBox="0 0 200 200" aria-hidden="true">
@@ -369,6 +402,12 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
       <div class="bar"><i id="tBar" style="width:0%"></i></div>
       <div class="steps" id="tSteps"></div>
       <div class="slab"><span>0분</span><span>120분</span></div>
+    </div>
+    <div class="sessiondone" id="sessionDone" hidden aria-live="polite">
+      <div class="duomark" aria-hidden="true">
+        <i class="doneorb a">A</i><i class="doneorb b">B</i><i class="donering"></i>
+      </div>
+      <div><b>2인 세션 완료</b><div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div></div>
     </div>
     <div style="margin-top:20px"><button class="bigtap" id="tOne">세션 시작</button></div>
     <div class="row" style="justify-content:center;margin-top:12px">
@@ -525,11 +564,11 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
   </div>
 
   <div class="card">
-    <div class="row" style="margin-bottom:12px">
-      <span class="rb a" id="clipRa">A</span><span class="small mut">재생과 구간을 맡는다</span>
-      <span class="grow" style="flex:1"></span>
-      <span class="rb b" id="clipRb">B</span><span class="small mut">듣고 복원한다. 화면을 보지 않는다</span>
+    <div class="cliproles" id="clipRoles">
+      <div class="roleunit a active" id="clipRoleA"><span class="rb a" id="clipRa">A</span><span class="small">재생과 구간을 맡는다</span></div>
+      <div class="roleunit b" id="clipRoleB"><span class="rb b" id="clipRb">B</span><span class="small">듣고 복원한다. 화면을 보지 않는다</span></div>
     </div>
+    <div class="rolehint" id="clipRoleHint" aria-live="polite">A가 들을 구간을 정한다.</div>
     <div class="drop" id="drop">
       <div style="font-size:15px;font-weight:700">음성이나 영상 파일을 여기에 끌어다 놓는다</div>
       <div class="small mut" style="margin-top:4px">또는 눌러서 고른다. mp3, m4a, wav, mp4, webm</div>
@@ -538,6 +577,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     <div id="mediaHost" style="margin-top:14px"></div>
     <div id="clipCtl" hidden>
       <div class="scrub" id="scrub">
+        <canvas id="clipWave" aria-label="음성 파형과 반복 구간"></canvas>
         <div class="rng" id="scRng" style="left:0;width:0"></div>
         <div class="mk" id="scA" style="left:0;display:none"></div>
         <div class="mk" id="scB" style="left:0;display:none"></div>
@@ -545,6 +585,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
         <div class="lb" id="scLb" style="left:6px">0:00</div>
         <div class="lb" id="scLb2" style="right:6px">0:00</div>
       </div>
+      <div class="waveinfo" id="clipWaveInfo" aria-live="polite">파일을 열면 실제 음성 파형을 분석한다.</div>
       <div class="row">
         <button class="g" id="cPlay">재생</button>
         <button class="g" id="cSetA">A 찍기</button>
@@ -1198,6 +1239,23 @@ $("#cAdd").onclick=function(){
 var T={idx:0,left:BLOCKS[0].m*60,run:false,tick:null};
 function fmt(s){var m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");}
 var RINGC=552.9;
+function syncSessionFocus(){
+  document.body.classList.toggle("session-focus",T.run);
+  var card=$("#sessionCard");
+  if(card) card.setAttribute("aria-busy",T.run?"true":"false");
+}
+function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=true; }
+function finishSession(){
+  T.run=false; clearInterval(T.tick); T.left=0; relWake();
+  document.body.classList.remove("session-focus");
+  var done=$("#sessionDone"); if(done) done.hidden=false;
+  paintTimer();
+}
+function restartFinishedSession(){
+  if(T.idx===BLOCKS.length-1&&T.left<=0){
+    T.idx=0; T.left=BLOCKS[0].m*60; hideSessionDone();
+  }
+}
 function paintTimer(){
   var b=BLOCKS[T.idx];
   $("#tBlockName").textContent="블록 "+(T.idx+1)+" · "+b.n;
@@ -1224,6 +1282,7 @@ function paintTimer(){
   });
   $("#tStart").textContent=T.run?"일시정지":(T.left===b.m*60&&T.idx===0?"시작":"이어서");
   document.title=(T.run?fmt(Math.max(0,T.left))+" · ":"")+"eng2p 운영 콘솔";
+  syncSessionFocus();
 }
 function beep(){
   if(!$("#tSound").checked) return;
@@ -1246,23 +1305,24 @@ function tick(){
   if(T.left<=0){
     beep();
     if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; }
-    else { T.run=false; clearInterval(T.tick); T.left=0; relWake(); }
+    else { finishSession(); return; }
   }
   paintTimer();
 }
 $("#tStart").onclick=function(){
+  restartFinishedSession();
   T.run=!T.run;
   clearInterval(T.tick);
-  if(T.run){ T.tick=setInterval(tick,1000); reqWake(); } else { relWake(); }
+  if(T.run){ hideSessionDone(); T.tick=setInterval(tick,1000); reqWake(); } else { relWake(); }
   paintTimer();
 };
 $("#tSkip").onclick=function(){
   if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; }
-  else { T.left=0; T.run=false; clearInterval(T.tick); }
+  else { finishSession(); return; }
   paintTimer();
 };
 $("#tReset").onclick=function(){
-  T.idx=0; T.left=BLOCKS[0].m*60; T.run=false; clearInterval(T.tick); relWake(); paintTimer();
+  T.idx=0; T.left=BLOCKS[0].m*60; T.run=false; clearInterval(T.tick); relWake(); hideSessionDone(); paintTimer();
 };
 
 /* 화면 꺼짐 방지. 2시간짜리 타이머를 켜 두고 매번 화면을 깨우게 하지 않는다. */
@@ -1285,7 +1345,8 @@ document.addEventListener("visibilitychange",function(){
 $("#tOne").onclick=function(){
   var rec=day(today());
   if(!rec.status){ rec.status="normal"; save(); renderToday(); }
-  if(!T.run){ T.run=true; clearInterval(T.tick); T.tick=setInterval(tick,1000); reqWake(); }
+  restartFinishedSession();
+  if(!T.run){ hideSessionDone(); T.run=true; clearInterval(T.tick); T.tick=setInterval(tick,1000); reqWake(); }
   paintTimer();
   var c=$("#tClock"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
 };
@@ -2152,7 +2213,8 @@ $("#vPairPush").onclick=function(){
    파일은 objectURL 로만 다룬다. 업로드도 저장도 하지 않는다.
    남는 것은 파일 이름과 시각과 메모뿐이다.
    ========================================================================= */
-var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1};
+var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1,
+  peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare"};
 
 function mmss(s){
   if(s==null||isNaN(s)) return "-";
@@ -2160,14 +2222,108 @@ function mmss(s){
   var m=Math.floor(s/60), r=s-m*60;
   return m+":"+(r<10?"0":"")+r.toFixed(1);
 }
+function setClipPhase(phase){
+  CLIP.phase=phase;
+  var a=$("#clipRoleA"), b=$("#clipRoleB"), hint=$("#clipRoleHint");
+  if(a){ a.classList.toggle("active",phase==="prepare"); a.removeAttribute("aria-current"); }
+  if(b){ b.classList.toggle("active",phase!=="prepare"); b.removeAttribute("aria-current"); }
+  var current=phase==="prepare"?a:b;
+  if(current) current.setAttribute("aria-current","step");
+  if(!hint) return;
+  hint.textContent=phase==="prepare"?"A가 들을 구간을 정한다.":
+    phase==="listen"?"B가 화면을 보지 않고 소리만 듣는다.":
+    "B가 들은 것을 말한다. A는 답을 넘기지 않는다.";
+}
+function waveInfo(){
+  var info=$("#clipWaveInfo"); if(!info) return;
+  var msg;
+  if(CLIP.loop&&CLIP.a!=null&&CLIP.b!=null&&CLIP.b>CLIP.a){
+    msg="반복 중 · "+(CLIP.b-CLIP.a).toFixed(1)+"초 · "+mmss(CLIP.a)+"~"+mmss(CLIP.b);
+  }else if(CLIP.waveState==="ready"){
+    msg="실제 음성 파형 · A와 B 사이를 골라 반복한다.";
+  }else if(CLIP.waveState==="loading"){
+    msg="실제 음성 파형 분석 중";
+  }else if(CLIP.waveState==="failed"){
+    msg="이 파일은 파형을 읽을 수 없다. 구간 시각과 반복 기능은 그대로 쓴다.";
+  }else{
+    msg="파일을 열면 실제 음성 파형을 분석한다.";
+  }
+  if(info.textContent!==msg) info.textContent=msg;
+}
+function paintWave(){
+  var canvas=$("#clipWave"); if(!canvas) return;
+  var rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
+  if(!rect.width||!rect.height) return;
+  var w=Math.max(1,Math.round(rect.width*dpr)), h=Math.max(1,Math.round(rect.height*dpr));
+  if(canvas.width!==w||canvas.height!==h){ canvas.width=w; canvas.height=h; }
+  var ctx=canvas.getContext("2d");
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,rect.width,rect.height);
+  var css=getComputedStyle(document.documentElement), muted=css.getPropertyValue("--mut").trim()||"#94a3b8";
+  ctx.globalAlpha=.22; ctx.strokeStyle=muted; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(0,rect.height/2); ctx.lineTo(rect.width,rect.height/2); ctx.stroke();
+  if(!CLIP.peaks||!CLIP.peaks.length) return;
+  var now=CLIP.el&&dur()?CLIP.el.currentTime/dur():0;
+  var active=css.getPropertyValue("--a1").trim()||"#6366f1";
+  var future=css.getPropertyValue("--a3").trim()||"#0891b2";
+  var mid=rect.height/2, maxH=Math.max(3,mid-5), count=CLIP.peaks.length;
+  ctx.lineWidth=Math.max(1,rect.width/count*.7); ctx.lineCap="round";
+  CLIP.peaks.forEach(function(p,i){
+    var x=(i+.5)/count*rect.width, amp=Math.max(1.5,p*maxH);
+    ctx.globalAlpha=i/count<=now?.82:.34; ctx.strokeStyle=i/count<=now?active:future;
+    ctx.beginPath(); ctx.moveTo(x,mid-amp); ctx.lineTo(x,mid+amp); ctx.stroke();
+  });
+  ctx.globalAlpha=1;
+}
+function decodeClipAudio(ctx,buf){
+  return new Promise(function(resolve,reject){
+    var settled=false;
+    function ok(v){ if(!settled){ settled=true; resolve(v); } }
+    function no(e){ if(!settled){ settled=true; reject(e); } }
+    try{
+      var p=ctx.decodeAudioData(buf,ok,no);
+      if(p&&typeof p.then==="function") p.then(ok,no);
+    }catch(e){ no(e); }
+  });
+}
+function buildWaveform(source){
+  var token=++CLIP.waveToken, C=window.AudioContext||window.webkitAudioContext;
+  CLIP.peaks=null; CLIP.waveState="loading"; paintWave(); waveInfo();
+  if(!C){ CLIP.waveState="failed"; waveInfo(); return; }
+  var bytes=source&&typeof source.arrayBuffer==="function"?source.arrayBuffer():
+    fetch(CLIP.url).then(function(r){ if(!r.ok) throw new Error("media fetch"); return r.arrayBuffer(); });
+  bytes.then(function(buf){
+    if(token!==CLIP.waveToken) throw new Error("stale waveform");
+    var ctx=new C();
+    return decodeClipAudio(ctx,buf.slice(0)).then(function(audio){
+      if(token!==CLIP.waveToken){ ctx.close(); return null; }
+      var bins=320, len=audio.length, channels=audio.numberOfChannels, peaks=[];
+      for(var i=0;i<bins;i++){
+        var from=Math.floor(i*len/bins), to=Math.max(from+1,Math.floor((i+1)*len/bins));
+        var stride=Math.max(1,Math.floor((to-from)/64)), sum=0, n=0;
+        for(var ch=0;ch<channels;ch++){
+          var data=audio.getChannelData(ch);
+          for(var j=from;j<to;j+=stride){ var v=data[j]||0; sum+=v*v; n++; }
+        }
+        peaks.push(n?Math.min(1,Math.sqrt(sum/n)*2.8):0);
+      }
+      ctx.close(); return peaks;
+    });
+  }).then(function(peaks){
+    if(!peaks||token!==CLIP.waveToken) return;
+    CLIP.peaks=peaks; CLIP.waveState="ready"; paintWave(); waveInfo();
+  }).catch(function(){
+    if(token!==CLIP.waveToken) return;
+    CLIP.peaks=null; CLIP.waveState="failed"; paintWave(); waveInfo();
+  });
+}
 function loadMedia(file){
   mountClip(file.name, URL.createObjectURL(file), true,
-    /^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name));
+    /^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name),file);
 }
 /* 미디어 라이브러리에서 온 레슨은 objectURL 이 아니라 경로다. 되돌릴 필요가 없다. */
-function loadClipUrl(name, url, isVid){ mountClip(name, url, false, isVid); }
+function loadClipUrl(name, url, isVid){ mountClip(name, url, false, isVid,null); }
 
-function mountClip(name, url, revocable, isVid){
+function mountClip(name, url, revocable, isVid, source){
   if(CLIP.url&&CLIP.revocable) URL.revokeObjectURL(CLIP.url);
   var file={name:name};
   CLIP.file=file; CLIP.url=url; CLIP.revocable=!!revocable;
@@ -2176,6 +2332,7 @@ function mountClip(name, url, revocable, isVid){
   m.src=CLIP.url; m.controls=true; m.preload="metadata";
   try{ m.preservesPitch=true; m.mozPreservesPitch=true; m.webkitPreservesPitch=true; }catch(e){}
   host.appendChild(m); CLIP.el=m; CLIP.a=null; CLIP.b=null; CLIP.loop=false;
+  CLIP.peaks=null; CLIP.waveState="loading"; CLIP.heard=false;
   $("#cLoop").classList.remove("on");
   $("#clipCtl").hidden=false;
   m.addEventListener("loadedmetadata",function(){ paintScrub(); renderClip(); });
@@ -2183,11 +2340,13 @@ function mountClip(name, url, revocable, isVid){
     if(CLIP.loop&&CLIP.a!=null&&CLIP.b!=null&&m.currentTime>=CLIP.b){ m.currentTime=CLIP.a; }
     paintScrub();
   });
-  m.addEventListener("play",function(){ $("#cPlay").textContent="일시정지"; });
-  m.addEventListener("pause",function(){ $("#cPlay").textContent="재생"; });
+  m.addEventListener("play",function(){ CLIP.heard=true; $("#cPlay").textContent="일시정지"; setClipPhase("listen"); });
+  m.addEventListener("pause",function(){ $("#cPlay").textContent="재생"; setClipPhase(CLIP.heard?"recall":"prepare"); });
+  m.addEventListener("ended",function(){ setClipPhase("recall"); });
   m.playbackRate=+$("#cRate").value||1;
   var saved=S.scripts[file.name];
   $("#scText").value = saved ? saved.map(function(x){return x.line;}).join("\n") : "";
+  setClipPhase("prepare"); buildWaveform(source);
   paintScrub(); renderClip(); renderScript();
 }
 function dur(){ return (CLIP.el&&CLIP.el.duration&&isFinite(CLIP.el.duration))?CLIP.el.duration:0; }
@@ -2195,17 +2354,21 @@ function paintScrub(){
   var d=dur();
   var t2=CLIP.el?CLIP.el.currentTime:0;
   $("#cA").value=mmss(CLIP.a); $("#cB").value=mmss(CLIP.b);
-  if(!d) return;
+  var valid=CLIP.a!=null&&CLIP.b!=null&&CLIP.b>CLIP.a;
+  $("#scrub").classList.toggle("looping",!!(CLIP.loop&&valid));
+  if(!d){ paintWave(); waveInfo(); return; }
   $("#scPh").style.left=(t2/d*100)+"%";
   $("#scLb").textContent=mmss(t2);
   $("#scLb2").textContent=mmss(d);
   var A=$("#scA"), B=$("#scB"), R=$("#scRng");
   if(CLIP.a!=null){ A.style.display="block"; A.style.left=(CLIP.a/d*100)+"%"; } else A.style.display="none";
   if(CLIP.b!=null){ B.style.display="block"; B.style.left=(CLIP.b/d*100)+"%"; } else B.style.display="none";
-  if(CLIP.a!=null&&CLIP.b!=null&&CLIP.b>CLIP.a){
+  if(valid){
     R.style.left=(CLIP.a/d*100)+"%"; R.style.width=((CLIP.b-CLIP.a)/d*100)+"%";
   } else { R.style.width="0"; }
+  paintWave(); waveInfo();
 }
+window.addEventListener("resize",paintWave);
 function renderClip(){
   var box=$("#clipList"); if(!box) return;
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
@@ -2359,13 +2522,13 @@ $("#cSetA").onclick=function(){
   if(!CLIP.el) return;
   CLIP.a=+CLIP.el.currentTime.toFixed(1);
   if(CLIP.b!=null&&CLIP.b<=CLIP.a) CLIP.b=null;
-  paintScrub();
+  setClipPhase("prepare"); paintScrub();
 };
 $("#cSetB").onclick=function(){
   if(!CLIP.el) return;
   CLIP.b=+CLIP.el.currentTime.toFixed(1);
   if(CLIP.a!=null&&CLIP.a>=CLIP.b) CLIP.a=null;
-  paintScrub();
+  setClipPhase("prepare"); paintScrub();
 };
 $("#cLoop").onclick=function(){
   if(CLIP.a==null||CLIP.b==null){ flash("A와 B를 먼저 찍는다"); return; }
@@ -2382,21 +2545,21 @@ document.querySelectorAll("[data-nud]").forEach(function(b){
     var k=b.dataset.nud, d=+b.dataset.d;
     if(CLIP[k]==null) return;
     CLIP[k]=Math.max(0,+(CLIP[k]+d).toFixed(1));
-    paintScrub();
+    setClipPhase("prepare"); paintScrub();
   };
 });
 $("#scrub").onclick=function(e){
   if(!CLIP.el||!dur()) return;
   var r=this.getBoundingClientRect();
   CLIP.el.currentTime=(e.clientX-r.left)/r.width*dur();
-  paintScrub();
+  setClipPhase("prepare"); paintScrub();
 };
 $("#cSave").onclick=function(){
   if(!CLIP.file){ flash("파일을 먼저 연다"); return; }
   if(CLIP.a==null||CLIP.b==null||CLIP.b<=CLIP.a){ flash("A와 B를 찍는다"); return; }
   S.clips.push({f:CLIP.file.name,a:CLIP.a,b:CLIP.b,label:$("#cLabel").value.trim(),
     focus:+$("#cFocus").value,note:"",date:today()});
-  $("#cLabel").value=""; save(); renderClip(); flash("구간을 저장했다");
+  $("#cLabel").value=""; setClipPhase("prepare"); save(); renderClip(); flash("구간을 저장했다");
 };
 
 /* =========================================================================
