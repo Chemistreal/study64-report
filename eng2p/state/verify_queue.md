@@ -10,5 +10,7 @@
 |---|---|---|
 | out/lectures/eng2p_q1_l007.md | going to, got to, ought to 의 축약형 철자 표기 | 완료 |
 | out/lectures/eng2p_q1_l008.md | want to, have to, has to 의 축약형 철자 표기 | 완료 |
+| out/lectures/eng2p_q1_l009.md | lot of, out of, kind of, sort of 의 축약형 철자 표기 | 완료 |
+| out/lectures/eng2p_q1_l010.md | what are you, would you, could you, should have, would have, could have 의 축약형 철자 표기 | 완료 |
 
-대기 0건 / 전체 2건
+대기 0건 / 전체 4건
