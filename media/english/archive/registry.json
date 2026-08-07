@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-07T12:55:15+00:00",
+  "releaseTag": "english-media-v1",
+  "releaseBaseUrl": "https://github.com/Chemistreal/study64-report/releases/download/english-media-v1/",
+  "storagePolicy": {
+    "youtube": "embed-only",
+    "voa": "archive-from-official-origin",
+    "sbcsae": "unchanged-transcripts-only; audio kept at official source"
+  },
+  "licenses": {
+    "voa-public-domain": {
+      "name": "VOA-produced public-domain material",
+      "url": "https://learningenglish.voanews.com/p/6861.html",
+      "credit": "VOA Learning English, learningenglish.voanews.com",
+      "warning": "Exclude third-party AP, Reuters, AFP, and other agency material."
+    },
+    "cc-by-nd-3.0-us": {
+      "name": "Creative Commons Attribution-NoDerivs 3.0 United States",
+      "url": "https://creativecommons.org/licenses/by-nd/3.0/us/",
+      "credit": "Du Bois et al., Santa Barbara Corpus of Spoken American English, Parts 1-4.",
+      "warning": "Redistribute unchanged. Do not cut, remix, normalize, or transcode for redistribution."
+    },
+    "librivox-public-domain-us": {
+      "name": "LibriVox recordings public domain in the United States",
+      "url": "https://librivox.org/pages/public-domain/",
+      "warning": "Check the underlying text and translation status in the target country before publication."
+    },
+    "youtube-standard": {
+      "name": "YouTube Terms of Service",
+      "url": "https://www.youtube.com/static?template=terms",
+      "warning": "Do not automate scraping or download. Use the official embeddable player only."
+    }
+  },
+  "collections": [
+    {
+      "id": "voa-lle1",
+      "catalog": "voa-lle1-full.json",
+      "items": 52,
+      "storedConversationAudio": 52,
+      "storedBytes": 54447002,
+      "mainVideos": 52,
+      "practiceVideos": 104,
+      "transcripts": 52
+    },
+    {
+      "id": "voa-lle2",
+      "catalog": "voa-lle2-full.json",
+      "items": 30,
+      "mainVideos": 30,
+      "conversationAudio": 29,
+      "transcripts": 30
+    },
+    {
+      "id": "sbcsae",
+      "catalog": "sbcsae.json",
+      "items": 60,
+      "audioOriginalLinks": 60,
+      "transcriptPairs": 60
+    }
+  ],
+  "courseResources": [
+    {
+      "id": "voa-l1-how-to",
+      "title": "Let's Learn English Level 1 How-to Guide",
+      "url": "https://docs.voanews.eu/en-us-learn/2019/11/26/f44e8369-33f7-4924-9769-dd7a74c31165.pdf",
+      "filename": "voa-lle1-how-to-guide.pdf",
+      "license": "voa-public-domain"
+    },
+    {
+      "id": "voa-l1-lesson-plans",
+      "title": "Let's Learn English Level 1 Lesson Plans",
+      "url": "https://docs.voanews.eu/en-us-learn/2021/09/09/fccd8340-337b-4d24-a750-f90c6d2d5843.pdf",
+      "filename": "voa-lle1-lesson-plans.pdf",
+      "license": "voa-public-domain"
+    },
+    {
+      "id": "voa-l2-complete-book",
+      "title": "Let's Learn English Level 2 Complete Book",
+      "url": "https://docs.voanews.eu/en-us-learn/2021/05/21/9ac62777-32fb-4f7d-baff-71a07b37dc7d.pdf",
+      "filename": "voa-lle2-complete-book.pdf",
+      "license": "voa-public-domain"
+    },
+    {
+      "id": "voa-word-book",
+      "title": "VOA Learning English Word Book",
+      "url": "https://docs.voanews.eu/en-US-LEARN/2022/06/07/c4dbd6af-5f63-4f28-bc42-0bd175f4e4b4.pdf",
+      "filename": "voa-learning-english-word-book.pdf",
+      "license": "voa-public-domain"
+    }
+  ]
+}
