@@ -258,5 +258,7 @@
     "transcript": "media/english/transcripts/lle1-41.md",
     "worksheet": "media/english/worksheets/lle1-41.pdf"
   },
-  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
+  "speakerCount": 5,
+  "intakeWarnings": []
 }

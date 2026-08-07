@@ -30,6 +30,15 @@
 - B: 연어와 청크 목록, 레지스터, 화용 표현, 사어 판정, 난이도 등급
 - C: 음성 자료, 현행 구어 빈도, 슬랭, 시사 레퍼런스, 지역 변이
 
+음성은 C를 둘로 가른다. docs/audio_intake.md 를 따른다.
+
+- C-real: 사람이 실제로 말한 것의 녹음. 1층과 2층 둘 다 가능
+- C-gen: 기계가 생성한 음성. **1층 전용.** 2층을 대체하지 못한다
+
+외부에서 만든 음성은 대본 없이 받지 않는다.
+나는 음성을 검사할 수 없고 대본은 검사할 수 있다.
+Q1 소리 트랙의 통과 판정은 C-real 로만 한다. C-gen 은 연습에만 쓴다.
+
 B등급 항목은 `state/verify_queue.md` 에 자동으로 쌓는다.
 `python3 scripts/collect_b.py` 를 실행하면 큐가 갱신된다.
 C등급은 만들지 않는다. 조준표에 채집 지시만 쓴다.
@@ -70,12 +79,14 @@ python3 scripts/update_status.py
 
 ```
 docs/spec.md            상위 규격. 수정 금지. 개정은 사용자만
+docs/audio_intake.md    외부 제작 음성 반입 규격 (제안. 승격 전 임시)
 templates/              각 산출물 템플릿
 out/lectures/           eng2p_q1_l001.md
 out/cards/              eng2p_card_q1_001_050.md
 out/sets/               eng2p_set_w01.md
 out/input/              eng2p_input_q1.md
 out/manual/             운영 매뉴얼, 진행 대장
+out/audio/              eng2p_audio_q1_001.md (대본만. 음성 파일은 넣지 않는다)
 state/status.md         진행 상태 (자동 생성)
 state/journal.md        제작 일지 (수기). 단계 진척, 기준서 개정 대기
 state/rotation.md       주제 조합 회전 대장
@@ -168,3 +179,7 @@ repair는 되묻기, 자기수정, 끊김 처리, 이해 확인, 시간 벌기, 
 - 1인 수행 가능한 과제 쓰기
 - 슬랭, 유행어, 시사 레퍼런스
 - "말수 적으면 손해"라는 전제 깔기
+- 대본 없는 음성 반입
+- C-gen 음성을 2층 자료로 쓰기
+- C-gen 음성으로 Q1 소리 트랙 통과 판정하기
+- 음성 파일을 저장소에 넣기

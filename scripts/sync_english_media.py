@@ -39,6 +39,7 @@ MEDIA = ROOT / "media" / "english"
 CATALOG_PATH = MEDIA / "catalog.json"
 USER_AGENT = "study64-report-media-sync/1.0 (+https://chemistreal.github.io/study64-report/)"
 LICENSE = "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+SPEAKER_LIMITS = {1: 2, 2: 2, 3: 3, 4: 99}
 
 
 @dataclass
@@ -83,6 +84,7 @@ def write_bytes(path: Path, data: bytes) -> None:
 def clean_text(value: str) -> str:
     value = html_lib.unescape(value).replace("\xa0", " ")
     value = "".join(char for char in value if unicodedata.category(char) != "Cf")
+    value = value.replace("\u2014", "--").replace("\u2013", "-")
     return re.sub(r"\s+", " ", value).strip()
 
 
@@ -169,6 +171,22 @@ def conversation_lines(sections: dict[str, list[str]]) -> list[str]:
                 if part and part not in lines:
                     lines.append(part)
     return lines
+
+
+def speaker_count(lines: list[str]) -> int:
+    speakers: set[str] = set()
+    for line in lines:
+        match = re.match(r"^([^:]{1,40}):", line)
+        if match:
+            speakers.add(clean_text(match.group(1)).casefold())
+    return max(1, len(speakers))
+
+
+def intake_warnings(speakers: int, quarter: int) -> list[str]:
+    limit = SPEAKER_LIMITS[quarter]
+    if speakers > limit:
+        return [f"Q{quarter} 재료 조건의 화자 수 상한 {limit}명 초과 ({speakers}명)"]
+    return []
 
 
 def media_records(tree: Any, base_url: str, tag: str) -> list[dict[str, Any]]:
@@ -336,15 +354,31 @@ def optimize_large_pdf(path: Path, threshold: int = 20 * 1024 * 1024) -> None:
 
 
 def transcript_markdown(item: dict[str, Any], source: dict[str, Any]) -> str:
+    conversation = source.get("conversation") or []
+    speakers = item.get("speakerCount") or source.get("speakerCount") or speaker_count(conversation)
     header = [
-        f"# {item['title']}",
+        "신뢰도: C-real",
+        "종류: 실제 녹음",
+        f"음성 파일: {item['id']}.mp3",
+        f"화자 수: {speakers}",
+        "속도: 느림",
+        f"길이: {item['duration']}",
+        "트랙: 소리",
+        f"분기: Q{item['quarter']}",
+        "제작: VOA Learning English",
+        "학습용 인공물: 아니오",
+        f"회차 초점: {item['focus']}",
         f"Source: {item['page']}",
         "License: VOA Learning English public-domain material. Credit learningenglish.voanews.com.",
-        "## Conversation",
+        "",
+        f"# {item['title']}",
+        "",
+        "## 대본",
     ]
-    conversation = source.get("conversation") or []
-    body = conversation or ["(No standalone conversation transcript was found on the source page.)"]
-    return "\n\n".join(header + body).rstrip() + "\n"
+    body = [clean_text(line) for line in conversation] or [
+        "(No standalone conversation transcript was found on the source page.)"
+    ]
+    return "\n".join(header).rstrip() + "\n\n" + "\n\n".join(body).rstrip() + "\n"
 
 
 def sha256(path: Path) -> str:
@@ -388,8 +422,15 @@ def sync_one(item: dict[str, Any], refresh: bool) -> tuple[dict[str, Any], list[
     pdf_path = MEDIA / "worksheets" / f"{lesson_id}.pdf"
 
     item = dict(item)
+    parsed["speakerCount"] = speaker_count(parsed.get("conversation") or [])
+    parsed["intakeWarnings"] = intake_warnings(parsed["speakerCount"], item["quarter"])
     item.update(
         {
+            "grade": "C-real",
+            "speakerCount": parsed["speakerCount"],
+            "intakeWarnings": parsed["intakeWarnings"],
+            "speed": "느림",
+            "track": "소리",
             "image": image_path.relative_to(ROOT).as_posix(),
             "transcript": transcript_path.relative_to(ROOT).as_posix(),
             "lessonData": lesson_path.relative_to(ROOT).as_posix(),
@@ -601,6 +642,25 @@ def command_rebuild_index() -> int:
     for item in catalog["items"]:
         lesson_path = ROOT / item["lessonData"]
         lesson = json.loads(lesson_path.read_text(encoding="utf-8"))
+        lesson["conversation"] = [
+            clean_text(line) for line in (lesson.get("conversation") or [])
+        ]
+        lesson["speakerCount"] = speaker_count(lesson.get("conversation") or [])
+        lesson["intakeWarnings"] = intake_warnings(
+            lesson["speakerCount"], item["quarter"]
+        )
+        item.update(
+            {
+                "grade": "C-real",
+                "speakerCount": lesson["speakerCount"],
+                "intakeWarnings": lesson["intakeWarnings"],
+                "speed": "느림",
+                "track": "소리",
+            }
+        )
+        lesson_path.write_text(
+            json.dumps(lesson, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
         (ROOT / item["transcript"]).write_text(
             transcript_markdown(item, lesson), encoding="utf-8"
         )

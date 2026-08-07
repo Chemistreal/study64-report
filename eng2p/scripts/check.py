@@ -48,6 +48,10 @@ AI_CLICHE = ["결론적으로", "중요한 것은", "핵심은 바로", "요약�
 VAGUE_CRITERIA = ["자연스러워지면", "익숙해지면", "감이 오면", "편해지면", "어느 정도"]
 
 
+def is_audio(name):
+    return bool(re.search(r"_audio_", name) or re.fullmatch(r"lle1-\d{2}\.md", name))
+
+
 def check_common(path, text):
     if not re.fullmatch(r"[A-Za-z0-9_.\-]+", path.name):
         fail(path, "파일명이 ASCII가 아니다")
@@ -70,7 +74,8 @@ def check_common(path, text):
     if not re.search(r"^신뢰도:\s*[ABC]", text, re.M):
         fail(path, "신뢰도 등급 표시가 없다 (첫 줄에 '신뢰도: A')")
 
-    if re.search(r"^신뢰도:\s*C", text, re.M):
+    # 음성 대본은 C-real / C-gen 을 쓴다. docs/audio_intake.md 1장.
+    if re.search(r"^신뢰도:\s*C", text, re.M) and not is_audio(path.name):
         fail(path, "C등급은 제작하지 않는다. 조준표에 채집 지시만 쓴다")
 
     if re.search(r"^신뢰도:\s*B", text, re.M) and "검증로그:" not in text:
@@ -225,6 +230,60 @@ def check_dialogue(path, text):
         fail(path, "3층 대조판은 Q2부터다")
 
 
+# 음성 대본 검사 ------------------------------------------------------------
+# docs/audio_intake.md 규격. 외부에서 만들어진 음성의 대본을 검사한다.
+# 음성 자체는 검사할 수 없다. 그래서 대본 없는 음성은 반입하지 않는다.
+
+AUDIO_META = [
+    ("종류", r"^종류:\s*(생성 음성|실제 녹음)\s*$"),
+    ("음성 파일", r"^음성 파일:\s*[A-Za-z0-9_.\-]+\.(mp3|m4a|wav|mp4|webm)\s*$"),
+    ("화자 수", r"^화자 수:\s*\d+\s*$"),
+    ("속도", r"^속도:\s*\S+"),
+    ("길이", r"^길이:\s*.*\d"),
+    ("트랙", r"^트랙:\s*(소리|청크|자동화|문법|화용|repair)\s*$"),
+    ("분기", r"^분기:\s*Q[1-4]\s*$"),
+    ("학습용 인공물", r"^학습용 인공물:\s*(예|아니오)\s*$"),
+]
+
+# 분기별 화자 수 상한. 기준서 10.2 재료 조건에서 온다.
+SPK_MAX = {"Q1": 2, "Q2": 2, "Q3": 3, "Q4": 99}
+
+
+def check_audio(path, text):
+    grade = re.search(r"^신뢰도:\s*(C-gen|C-real)\s*$", text, re.M)
+    if not grade:
+        fail(path, "음성 대본은 신뢰도가 C-gen 또는 C-real 이어야 한다")
+        return
+    gen = grade.group(1) == "C-gen"
+
+    for label, pat in AUDIO_META:
+        if not re.search(pat, text, re.M):
+            fail(path, "메타 항목 누락 또는 형식 오류: %s" % label)
+
+    if gen:
+        if not re.search(r"^학습용 인공물:\s*예\s*$", text, re.M):
+            fail(path, "C-gen 인데 학습용 인공물 표기가 예가 아니다")
+        if "2층" in text:
+            fail(path, "C-gen 은 2층 자료가 될 수 없다. audio_intake.md 1장")
+        if re.search(r"^트랙:\s*소리\s*$", text, re.M):
+            warn(path, "C-gen 을 소리 트랙에 쓴다. 연습은 되지만 통과 판정에는 못 쓴다")
+
+    # 음성 파일명은 대본 파일명과 확장자만 달라야 한다
+    m = re.search(r"^음성 파일:\s*(\S+)$", text, re.M)
+    if m:
+        stem = m.group(1).rsplit(".", 1)[0]
+        if stem != path.stem:
+            fail(path, "음성 파일 이름이 대본과 다르다: %s vs %s" % (stem, path.stem))
+
+    q = re.search(r"^분기:\s*(Q[1-4])\s*$", text, re.M)
+    n = re.search(r"^화자 수:\s*(\d+)\s*$", text, re.M)
+    if q and n and int(n.group(1)) > SPK_MAX[q.group(1)]:
+        warn(path, "%s 재료 조건보다 화자가 많다 (%s명)" % (q.group(1), n.group(1)))
+
+    if "## 대본" not in text:
+        fail(path, "'## 대본' 절이 없다")
+
+
 # 라우팅 ---------------------------------------------------------------------
 
 def run(path):
@@ -239,6 +298,8 @@ def run(path):
         check_cards(path, text)
     if re.search(r"_set_", name):
         check_set(path, text)
+    if is_audio(name):
+        check_audio(path, text)
     if "dialog" in name or "[1층]" in text:
         check_dialogue(path, text)
 

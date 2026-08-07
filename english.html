@@ -575,6 +575,23 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
   <h3>저장한 구간</h3>
   <p class="lede">같은 파일을 다시 열면 그대로 이어서 쓴다. 파일 이름으로 맞춘다.</p>
   <div id="clipList"></div>
+
+  <h3>대본 동기화</h3>
+  <p class="lede">외부에서 받은 대본을 줄 단위로 음성에 맞춘다. 맞춰 두면 그 줄만 골라 반복할 수 있다.</p>
+  <div class="note small">
+    <b>대본 없는 음성은 반입하지 않는다.</b>
+    나는 음성을 들을 수 없고 대본은 검사할 수 있다.
+    받은 대본은 검사 탭에 먼저 넣는다. 파일명을 eng2p_audio_q1_001.md 형태로 주면 음성 대본 규격으로 검사한다.
+  </div>
+  <div class="card">
+    <label class="f">대본 붙여넣기 (한 줄에 한 발화)</label>
+    <textarea id="scText" rows="6" placeholder="A: Could you say that again?&#10;B: Sorry. I said I am going to be late."></textarea>
+    <div class="row end" style="margin-top:10px">
+      <button class="g" id="scClear">비우기</button>
+      <button class="b" id="scLoad">줄 나누기</button>
+    </div>
+    <div id="scList"></div>
+  </div>
 </section>
 
 <!-- ========== 미디어 라이브러리 ========== -->
@@ -583,10 +600,12 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
   <p class="lede">VOA Learning English 초급 52개 레슨을 순서대로 듣고 본다. 음성·대표 이미지·대본·수업 PDF는 저장소에서 바로 열리고, 영상은 공식 원본으로 이어진다.</p>
 
   <div class="note">
-    <b>신뢰도 C 조준 자료</b>
+    <b>신뢰도 C-real</b>
     <div class="small" style="margin-top:4px">
-      실제 음성을 새로 만들지 않고 확인된 외부 자료를 가져왔다. 또박또박한 학습용 대화이므로 자연 대화의 겹침과 중단을 대표하지는 않는다.
-      1회는 소리, 2회는 청크, 3회는 의미만 겨눈다.
+      사람이 실제로 말한 것을 녹음한 자료다. 만든 게 아니라 확인된 외부 자료를 가져왔다.
+      그래서 <b>Q1 소리 트랙의 통과 판정에 쓸 수 있다.</b> 생성 음성(C-gen)으로는 그 판정을 하지 않는다.
+      다만 또박또박한 학습용 대화라 자연 대화의 겹침과 중단은 대표하지 못한다. 2층 자료는 따로 채집한다.
+      1회는 소리, 2회는 청크, 3회는 의미만 겨눈다. 등급 규정은 eng2p/docs/audio_intake.md 에 있다.
     </div>
   </div>
 
@@ -612,6 +631,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
       <div class="row noprint" style="margin-top:10px">
         <button class="g" id="libPrev" type="button">이전 레슨</button>
         <button class="g" id="libBack" type="button">3초 뒤로</button>
+        <button class="b" id="libToClip" type="button">클립으로 보내기</button>
         <div style="min-width:150px;flex:1"><label class="f">속도 <span class="mono" id="libRateN">1.00</span></label><input type="range" id="libRate" min="0.6" max="1.2" step="0.05" value="1"></div>
         <button class="g" id="libNext" type="button">다음 레슨</button>
       </div>
@@ -946,7 +966,8 @@ var KEY="eng2p.v1";
 var S=load();
 
 function blank(){
-  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],media:{done:{},fav:{},last:null},theme:null,wk:0,onboarded:false};
+  return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
+          media:{done:{},fav:{},last:null},theme:null,wk:0,onboarded:false};
 }
 function load(){
   try{
@@ -1634,8 +1655,21 @@ function kindOf(name){
   if(/_q\d_l\d{3}\b/.test(name)) k.push("강의");
   if(name.indexOf("card")>=0) k.push("카드");
   if(/_set_/.test(name)) k.push("세트");
+  if(/_audio_/.test(name)) k.push("음성 대본");
   return k.length?k.join(", "):"공통만";
 }
+/* docs/audio_intake.md 규격. GPT 등 외부에서 만든 음성의 대본을 검사한다. */
+var AUDIO_META=[
+ ["종류",/^종류:\s*(생성 음성|실제 녹음)\s*$/m],
+ ["음성 파일",/^음성 파일:\s*[A-Za-z0-9_.\-]+\.(mp3|m4a|wav|mp4|webm)\s*$/m],
+ ["화자 수",/^화자 수:\s*\d+\s*$/m],
+ ["속도",/^속도:\s*\S+/m],
+ ["길이",/^길이:\s*.*\d/m],
+ ["트랙",/^트랙:\s*(소리|청크|자동화|문법|화용|repair)\s*$/m],
+ ["분기",/^분기:\s*Q[1-4]\s*$/m],
+ ["학습용 인공물",/^학습용 인공물:\s*(예|아니오)\s*$/m]
+];
+var SPK_MAX={Q1:2,Q2:2,Q3:3,Q4:99};
 function sect(t,a,b){
   var i=t.indexOf(a); if(i<0) return "";
   var j=t.indexOf(b,i+a.length);
@@ -1659,8 +1693,9 @@ function runCheck(name,text){
     }
   });
   CLICHE.forEach(function(c){ if(text.indexOf(c)>=0) w("AI 상투 표현: "+c); });
+  var isAudio=/_audio_/.test(name);
   if(!/^신뢰도:\s*[ABC]/m.test(text)) f("신뢰도 등급 표시가 없다 (첫 줄에 '신뢰도: A')");
-  if(/^신뢰도:\s*C/m.test(text)) f("C등급은 제작하지 않는다. 조준표에 채집 지시만 쓴다");
+  if(/^신뢰도:\s*C/m.test(text)&&!isAudio) f("C등급은 제작하지 않는다. 조준표에 채집 지시만 쓴다");
   if(/^신뢰도:\s*B/m.test(text)&&text.indexOf("검증로그:")<0) f("B등급인데 검증로그 항목이 없다");
   ["혼자","각자 알아서","스스로 만들어"].forEach(function(p){
     if(text.indexOf(p)>=0) w("1인 수행 지시 의심: "+p);
@@ -1727,6 +1762,29 @@ function runCheck(name,text){
   if(text.indexOf("[1층]")>=0&&text.indexOf("학습용 인공물")<0) f("1층 대화에 '학습용 인공물' 표기가 없다");
   if(text.indexOf("[2층]")>=0&&text.indexOf("출처:")<0) f("2층 자료에 출처 표기가 없다");
   if(text.indexOf("[3층]")>=0&&name.indexOf("_q1_")>=0) f("3층 대조판은 Q2부터다");
+
+  if(isAudio){
+    var g=text.match(/^신뢰도:\s*(C-gen|C-real)\s*$/m);
+    if(!g) f("음성 대본은 신뢰도가 C-gen 또는 C-real 이어야 한다");
+    else {
+      var gen=g[1]==="C-gen";
+      AUDIO_META.forEach(function(m){ if(!m[1].test(text)) f("메타 항목 누락 또는 형식 오류: "+m[0]); });
+      if(gen){
+        if(!/^학습용 인공물:\s*예\s*$/m.test(text)) f("C-gen 인데 학습용 인공물 표기가 예가 아니다");
+        if(text.indexOf("2층")>=0) f("C-gen 은 2층 자료가 될 수 없다. audio_intake.md 1장");
+        if(/^트랙:\s*소리\s*$/m.test(text)) w("C-gen 을 소리 트랙에 쓴다. 연습은 되지만 통과 판정에는 못 쓴다");
+      }
+      var mf=text.match(/^음성 파일:\s*(\S+)$/m);
+      if(mf){
+        var stem=mf[1].replace(/\.[^.]+$/,"");
+        var base=name.replace(/\.[^.]+$/,"");
+        if(stem!==base) f("음성 파일 이름이 대본과 다르다: "+stem+" vs "+base);
+      }
+      var q=text.match(/^분기:\s*(Q[1-4])\s*$/m), sn=text.match(/^화자 수:\s*(\d+)\s*$/m);
+      if(q&&sn&&+sn[1]>SPK_MAX[q[1]]) w(q[1]+" 재료 조건보다 화자가 많다 ("+sn[1]+"명)");
+      if(text.indexOf("## 대본")<0) f("'## 대본' 절이 없다");
+    }
+  }
 
   return {fail:F,warn:W,kind:kind,len:text.replace(/\s/g,"").length};
 }
@@ -2101,9 +2159,16 @@ function mmss(s){
   return m+":"+(r<10?"0":"")+r.toFixed(1);
 }
 function loadMedia(file){
-  if(CLIP.url) URL.revokeObjectURL(CLIP.url);
-  CLIP.file=file; CLIP.url=URL.createObjectURL(file);
-  var isVid=/^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name);
+  mountClip(file.name, URL.createObjectURL(file), true,
+    /^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name));
+}
+/* 미디어 라이브러리에서 온 레슨은 objectURL 이 아니라 경로다. 되돌릴 필요가 없다. */
+function loadClipUrl(name, url, isVid){ mountClip(name, url, false, isVid); }
+
+function mountClip(name, url, revocable, isVid){
+  if(CLIP.url&&CLIP.revocable) URL.revokeObjectURL(CLIP.url);
+  var file={name:name};
+  CLIP.file=file; CLIP.url=url; CLIP.revocable=!!revocable;
   var host=$("#mediaHost"); host.innerHTML="";
   var m=document.createElement(isVid?"video":"audio");
   m.src=CLIP.url; m.controls=true; m.preload="metadata";
@@ -2119,7 +2184,9 @@ function loadMedia(file){
   m.addEventListener("play",function(){ $("#cPlay").textContent="일시정지"; });
   m.addEventListener("pause",function(){ $("#cPlay").textContent="재생"; });
   m.playbackRate=+$("#cRate").value||1;
-  paintScrub(); renderClip();
+  var saved=S.scripts[file.name];
+  $("#scText").value = saved ? saved.map(function(x){return x.line;}).join("\n") : "";
+  paintScrub(); renderClip(); renderScript();
 }
 function dur(){ return (CLIP.el&&CLIP.el.duration&&isFinite(CLIP.el.duration))?CLIP.el.duration:0; }
 function paintScrub(){
@@ -2204,6 +2271,74 @@ function renderClip(){
     });
   });
 }
+
+/* 대본 동기화. 줄마다 시각을 찍어 두면 그 줄만 골라 반복할 수 있다.
+   대본은 텍스트라 저장한다. 음성은 저장하지 않는다. */
+function scKey(){ return CLIP.file ? CLIP.file.name : null; }
+function scLines(){
+  var k=scKey();
+  return (k && S.scripts[k]) ? S.scripts[k] : [];
+}
+function renderScript(){
+  var box=$("#scList"); if(!box) return;
+  box.innerHTML="";
+  var k=scKey();
+  if(!k){ box.innerHTML='<div class="note small">파일을 먼저 연다. 대본은 파일 이름에 붙는다.</div>'; return; }
+  var arr=scLines();
+  if(!arr.length){ box.innerHTML='<div class="note small">대본을 붙여넣고 줄 나누기를 누른다.</div>'; return; }
+  arr.forEach(function(ln,i){
+    var d=el("div","clip");
+    var top=el("div","hd2");
+    var left=el("div"); left.style.flex="1"; left.style.minWidth="140px";
+    left.appendChild(el("div",null,ln.line));
+    left.appendChild(el("div","small mut tc", ln.t==null ? "시각 미지정" : mmss(ln.t)));
+    top.appendChild(left);
+    var acts=el("div","row"); acts.style.gap="6px";
+    var mark=el("button","g","여기 찍기");
+    mark.style.padding="3px 10px"; mark.style.fontSize="12px";
+    mark.onclick=function(){
+      if(!CLIP.el) return;
+      ln.t=+CLIP.el.currentTime.toFixed(1); save(); renderScript();
+    };
+    acts.appendChild(mark);
+    if(ln.t!=null){
+      var play=el("button","g","이 줄 재생");
+      play.style.padding="3px 10px"; play.style.fontSize="12px";
+      play.onclick=function(){
+        if(!CLIP.el) return;
+        var nxt=null;
+        for(var j=i+1;j<arr.length;j++){ if(arr[j].t!=null){ nxt=arr[j].t; break; } }
+        CLIP.a=ln.t; CLIP.b=(nxt!=null?nxt:Math.min(dur(),ln.t+6));
+        CLIP.loop=true; $("#cLoop").classList.add("on");
+        CLIP.el.currentTime=ln.t; CLIP.el.play(); paintScrub();
+      };
+      acts.appendChild(play);
+    }
+    acts.appendChild(spkBtn(ln.line.replace(/^[A-Z]\s*:\s*/,"")));
+    top.appendChild(acts); d.appendChild(top);
+    box.appendChild(d);
+  });
+  var done=arr.filter(function(x){return x.t!=null;}).length;
+  box.appendChild(el("div","note small","시각 지정 "+done+" / "+arr.length+"줄. 앞줄부터 순서대로 찍는다. 다음 줄 시각이 그 줄의 끝이 된다."));
+}
+$("#scLoad").onclick=function(){
+  var k=scKey();
+  if(!k){ flash("파일을 먼저 연다"); return; }
+  var lines=$("#scText").value.split("\n").map(function(x){return x.trim();}).filter(Boolean);
+  if(!lines.length){ flash("대본이 비어 있다"); return; }
+  var old=S.scripts[k]||[];
+  S.scripts[k]=lines.map(function(L){
+    var hit=old.filter(function(o){return o.line===L;})[0];
+    return {line:L, t: hit?hit.t:null};
+  });
+  save(); renderScript(); flash(lines.length+"줄로 나눴다");
+};
+$("#scClear").onclick=function(){
+  var k=scKey(); if(!k) return;
+  var gone=S.scripts[k];
+  delete S.scripts[k]; save(); renderScript();
+  offerUndo("대본 1개 삭제",function(){ S.scripts[k]=gone; renderScript(); });
+};
 
 $("#drop").onclick=function(){ $("#clipFile").click(); };
 $("#clipFile").onchange=function(e){ if(e.target.files[0]) loadMedia(e.target.files[0]); };
@@ -2384,6 +2519,20 @@ $("#libDone").onclick=function(){ var x=mediaItem(LIB.active); if(x) setMediaFla
 $("#libPrev").onclick=function(){ if(LIB.active>0) openMedia(LIB.active-1,LIB.mode,true); };
 $("#libNext").onclick=function(){ if(LIB.active<MEDIA.length-1) openMedia(LIB.active+1,LIB.mode,true); };
 $("#libBack").onclick=function(){ if(LIB.el) LIB.el.currentTime=Math.max(0,LIB.el.currentTime-3); };
+
+/* 라이브러리와 클립 도구를 잇는다.
+   여기까지 와야 파이프라인이 하나로 돈다.
+   레슨 -> 구간 반복 -> 들린 표현 채집 -> 주간 판정 -> 간격 반복 복습. */
+$("#libToClip").onclick=function(){
+  var it=mediaItem(LIB.active); if(!it) return;
+  if(LIB.el){ try{ LIB.el.pause(); }catch(e){} }
+  var isVid=LIB.mode==="video";
+  var src=isVid?it.video:(LIB.mode==="original"?it.originalAudio:it.audio);
+  loadClipUrl(it.id+(isVid?".mp4":".mp3"), src, isVid);
+  var lab=$("#cLabel"); if(lab&&!lab.value) lab.value=it.title;
+  go("clip");
+  flash(it.title+" 를 클립으로 보냈다");
+};
 $("#libRate").oninput=function(){ LIB.rate=+this.value; $("#libRateN").textContent=LIB.rate.toFixed(2); if(LIB.el) LIB.el.playbackRate=LIB.rate; };
 $("#libSearch").oninput=renderMediaList; $("#libQ").onchange=renderMediaList; $("#libFilter").onchange=renderMediaList;
 
@@ -2394,7 +2543,7 @@ $("#libSearch").oninput=renderMediaList; $("#libQ").onchange=renderMediaList; $(
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
   u:"https://learningenglish.voanews.com",
-  good:"Q1 주력. Level One 은 어휘 1500단어에 속도가 느리고 대본이 같이 온다. 소리 트랙과 청크 트랙 둘 다 된다.",
+  good:"Q1 주력. Level One 은 어휘 1500단어에 속도가 느리고 대본이 같이 온다. 소리 트랙과 청크 트랙 둘 다 된다. Let's Learn English 52과는 이미 미디어 탭에 받아 두었다. C-real 이라 Q1 통과 판정에 쓸 수 있다.",
   bad:"낭독 뉴스라 실제 대화의 겹침과 중단이 없다. 2층 자료로는 못 쓴다."},
  {n:"LibriVox", lic:"퍼블릭 도메인 오디오북. 자원 봉사 녹음",
   u:"https://librivox.org",
@@ -2553,7 +2702,7 @@ applyTheme();
 $("#themeBtn").textContent = S.theme==null ? "테마" : S.theme==="dark" ? "어두움" : "밝음";
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
 renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind();
-ttsVoices(); renderSound(); renderClip();
+ttsVoices(); renderSound(); renderClip(); renderScript();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });
 </script>

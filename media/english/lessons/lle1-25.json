@@ -246,5 +246,9 @@
     "transcript": "media/english/transcripts/lle1-25.md",
     "worksheet": "media/english/worksheets/lle1-25.pdf"
   },
-  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
+  "speakerCount": 3,
+  "intakeWarnings": [
+    "Q2 재료 조건의 화자 수 상한 2명 초과 (3명)"
+  ]
 }

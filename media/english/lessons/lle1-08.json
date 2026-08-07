@@ -223,5 +223,9 @@
     "transcript": "media/english/transcripts/lle1-08.md",
     "worksheet": "media/english/worksheets/lle1-08.pdf"
   },
-  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
+  "speakerCount": 6,
+  "intakeWarnings": [
+    "Q1 재료 조건의 화자 수 상한 2명 초과 (6명)"
+  ]
 }

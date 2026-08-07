@@ -41,7 +41,7 @@
     "Anna: Yes! I mean, I don’t want to make my co-workers sick.",
     "Dr. Bennett: That’s right. Call me back in a couple of days.",
     "Anna: I will, Dr. Bennett. And thanks.",
-    "Anna: Well, you heard the doctor – no work for a couple of days. I need water, sleep and um … lots of movies! Well, the doctor didn’t say anything about movies. But it can’t hurt! Until next time!"
+    "Anna: Well, you heard the doctor - no work for a couple of days. I need water, sleep and um … lots of movies! Well, the doctor didn’t say anything about movies. But it can’t hurt! Until next time!"
   ],
   "sections": {
     "Speaking": [
@@ -263,5 +263,7 @@
     "transcript": "media/english/transcripts/lle1-27.md",
     "worksheet": "media/english/worksheets/lle1-27.pdf"
   },
-  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
+  "speakerCount": 3,
+  "intakeWarnings": []
 }

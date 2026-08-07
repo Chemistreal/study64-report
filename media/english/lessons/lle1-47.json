@@ -29,7 +29,7 @@
     "Anna: You can trust me.",
     "Pete: Okay.",
     "Anna: Great! But we need teamwork. You sit in the car. When I say “go,” you start the engine.",
-    "Anna: Okay, go! ​",
+    "Anna: Okay, go!",
     "Anna: Stop!",
     "Anna: Okay, go! Huh.",
     "Pete: It's not starting! It’s not starting!",
@@ -266,5 +266,7 @@
     "transcript": "media/english/transcripts/lle1-47.md",
     "worksheet": "media/english/worksheets/lle1-47.pdf"
   },
-  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
+  "speakerCount": 5,
+  "intakeWarnings": []
 }

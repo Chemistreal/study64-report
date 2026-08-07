@@ -21,7 +21,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-01.webp",
       "transcript": "media/english/transcripts/lle1-01.md",
       "lessonData": "media/english/lessons/lle1-01.json",
-      "worksheet": "media/english/worksheets/lle1-01.pdf"
+      "worksheet": "media/english/worksheets/lle1-01.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-02",
@@ -37,7 +42,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-02.webp",
       "transcript": "media/english/transcripts/lle1-02.md",
       "lessonData": "media/english/lessons/lle1-02.json",
-      "worksheet": "media/english/worksheets/lle1-02.pdf"
+      "worksheet": "media/english/worksheets/lle1-02.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-03",
@@ -53,7 +65,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-03.webp",
       "transcript": "media/english/transcripts/lle1-03.md",
       "lessonData": "media/english/lessons/lle1-03.json",
-      "worksheet": "media/english/worksheets/lle1-03.pdf"
+      "worksheet": "media/english/worksheets/lle1-03.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-04",
@@ -69,7 +88,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-04.webp",
       "transcript": "media/english/transcripts/lle1-04.md",
       "lessonData": "media/english/lessons/lle1-04.json",
-      "worksheet": "media/english/worksheets/lle1-04.pdf"
+      "worksheet": "media/english/worksheets/lle1-04.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-05",
@@ -85,7 +111,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-05.webp",
       "transcript": "media/english/transcripts/lle1-05.md",
       "lessonData": "media/english/lessons/lle1-05.json",
-      "worksheet": "media/english/worksheets/lle1-05.pdf"
+      "worksheet": "media/english/worksheets/lle1-05.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-06",
@@ -101,7 +132,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-06.webp",
       "transcript": "media/english/transcripts/lle1-06.md",
       "lessonData": "media/english/lessons/lle1-06.json",
-      "worksheet": "media/english/worksheets/lle1-06.pdf"
+      "worksheet": "media/english/worksheets/lle1-06.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-07",
@@ -117,7 +153,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-07.webp",
       "transcript": "media/english/transcripts/lle1-07.md",
       "lessonData": "media/english/lessons/lle1-07.json",
-      "worksheet": "media/english/worksheets/lle1-07.pdf"
+      "worksheet": "media/english/worksheets/lle1-07.pdf",
+      "grade": "C-real",
+      "speakerCount": 5,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (5명)"
+      ]
     },
     {
       "id": "lle1-08",
@@ -133,7 +176,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-08.webp",
       "transcript": "media/english/transcripts/lle1-08.md",
       "lessonData": "media/english/lessons/lle1-08.json",
-      "worksheet": "media/english/worksheets/lle1-08.pdf"
+      "worksheet": "media/english/worksheets/lle1-08.pdf",
+      "grade": "C-real",
+      "speakerCount": 6,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q1 재료 조건의 화자 수 상한 2명 초과 (6명)"
+      ]
     },
     {
       "id": "lle1-09",
@@ -149,7 +199,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-09.webp",
       "transcript": "media/english/transcripts/lle1-09.md",
       "lessonData": "media/english/lessons/lle1-09.json",
-      "worksheet": "media/english/worksheets/lle1-09.pdf"
+      "worksheet": "media/english/worksheets/lle1-09.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-10",
@@ -165,7 +220,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-10.webp",
       "transcript": "media/english/transcripts/lle1-10.md",
       "lessonData": "media/english/lessons/lle1-10.json",
-      "worksheet": "media/english/worksheets/lle1-10.pdf"
+      "worksheet": "media/english/worksheets/lle1-10.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-11",
@@ -181,7 +241,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-11.webp",
       "transcript": "media/english/transcripts/lle1-11.md",
       "lessonData": "media/english/lessons/lle1-11.json",
-      "worksheet": "media/english/worksheets/lle1-11.pdf"
+      "worksheet": "media/english/worksheets/lle1-11.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-12",
@@ -197,7 +262,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-12.webp",
       "transcript": "media/english/transcripts/lle1-12.md",
       "lessonData": "media/english/lessons/lle1-12.json",
-      "worksheet": "media/english/worksheets/lle1-12.pdf"
+      "worksheet": "media/english/worksheets/lle1-12.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-13",
@@ -213,7 +283,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-13.webp",
       "transcript": "media/english/transcripts/lle1-13.md",
       "lessonData": "media/english/lessons/lle1-13.json",
-      "worksheet": "media/english/worksheets/lle1-13.pdf"
+      "worksheet": "media/english/worksheets/lle1-13.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-14",
@@ -229,7 +304,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-14.webp",
       "transcript": "media/english/transcripts/lle1-14.md",
       "lessonData": "media/english/lessons/lle1-14.json",
-      "worksheet": "media/english/worksheets/lle1-14.pdf"
+      "worksheet": "media/english/worksheets/lle1-14.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-15",
@@ -245,7 +325,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-15.webp",
       "transcript": "media/english/transcripts/lle1-15.md",
       "lessonData": "media/english/lessons/lle1-15.json",
-      "worksheet": "media/english/worksheets/lle1-15.pdf"
+      "worksheet": "media/english/worksheets/lle1-15.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-16",
@@ -261,7 +348,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-16.webp",
       "transcript": "media/english/transcripts/lle1-16.md",
       "lessonData": "media/english/lessons/lle1-16.json",
-      "worksheet": "media/english/worksheets/lle1-16.pdf"
+      "worksheet": "media/english/worksheets/lle1-16.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-17",
@@ -277,7 +371,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-17.webp",
       "transcript": "media/english/transcripts/lle1-17.md",
       "lessonData": "media/english/lessons/lle1-17.json",
-      "worksheet": "media/english/worksheets/lle1-17.pdf"
+      "worksheet": "media/english/worksheets/lle1-17.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-18",
@@ -293,7 +392,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-18.webp",
       "transcript": "media/english/transcripts/lle1-18.md",
       "lessonData": "media/english/lessons/lle1-18.json",
-      "worksheet": "media/english/worksheets/lle1-18.pdf"
+      "worksheet": "media/english/worksheets/lle1-18.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-19",
@@ -309,7 +413,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-19.webp",
       "transcript": "media/english/transcripts/lle1-19.md",
       "lessonData": "media/english/lessons/lle1-19.json",
-      "worksheet": "media/english/worksheets/lle1-19.pdf"
+      "worksheet": "media/english/worksheets/lle1-19.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-20",
@@ -325,7 +434,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-20.webp",
       "transcript": "media/english/transcripts/lle1-20.md",
       "lessonData": "media/english/lessons/lle1-20.json",
-      "worksheet": "media/english/worksheets/lle1-20.pdf"
+      "worksheet": "media/english/worksheets/lle1-20.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-21",
@@ -341,7 +457,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-21.webp",
       "transcript": "media/english/transcripts/lle1-21.md",
       "lessonData": "media/english/lessons/lle1-21.json",
-      "worksheet": "media/english/worksheets/lle1-21.pdf"
+      "worksheet": "media/english/worksheets/lle1-21.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-22",
@@ -357,7 +478,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-22.webp",
       "transcript": "media/english/transcripts/lle1-22.md",
       "lessonData": "media/english/lessons/lle1-22.json",
-      "worksheet": "media/english/worksheets/lle1-22.pdf"
+      "worksheet": "media/english/worksheets/lle1-22.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-23",
@@ -373,7 +499,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-23.webp",
       "transcript": "media/english/transcripts/lle1-23.md",
       "lessonData": "media/english/lessons/lle1-23.json",
-      "worksheet": "media/english/worksheets/lle1-23.pdf"
+      "worksheet": "media/english/worksheets/lle1-23.pdf",
+      "grade": "C-real",
+      "speakerCount": 5,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (5명)"
+      ]
     },
     {
       "id": "lle1-24",
@@ -389,7 +522,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-24.webp",
       "transcript": "media/english/transcripts/lle1-24.md",
       "lessonData": "media/english/lessons/lle1-24.json",
-      "worksheet": "media/english/worksheets/lle1-24.pdf"
+      "worksheet": "media/english/worksheets/lle1-24.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-25",
@@ -405,7 +543,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-25.webp",
       "transcript": "media/english/transcripts/lle1-25.md",
       "lessonData": "media/english/lessons/lle1-25.json",
-      "worksheet": "media/english/worksheets/lle1-25.pdf"
+      "worksheet": "media/english/worksheets/lle1-25.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (3명)"
+      ]
     },
     {
       "id": "lle1-26",
@@ -421,7 +566,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-26.webp",
       "transcript": "media/english/transcripts/lle1-26.md",
       "lessonData": "media/english/lessons/lle1-26.json",
-      "worksheet": "media/english/worksheets/lle1-26.pdf"
+      "worksheet": "media/english/worksheets/lle1-26.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q2 재료 조건의 화자 수 상한 2명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-27",
@@ -437,7 +589,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-27.webp",
       "transcript": "media/english/transcripts/lle1-27.md",
       "lessonData": "media/english/lessons/lle1-27.json",
-      "worksheet": "media/english/worksheets/lle1-27.pdf"
+      "worksheet": "media/english/worksheets/lle1-27.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-28",
@@ -453,7 +610,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-28.webp",
       "transcript": "media/english/transcripts/lle1-28.md",
       "lessonData": "media/english/lessons/lle1-28.json",
-      "worksheet": "media/english/worksheets/lle1-28.pdf"
+      "worksheet": "media/english/worksheets/lle1-28.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-29",
@@ -469,7 +631,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-29.webp",
       "transcript": "media/english/transcripts/lle1-29.md",
       "lessonData": "media/english/lessons/lle1-29.json",
-      "worksheet": "media/english/worksheets/lle1-29.pdf"
+      "worksheet": "media/english/worksheets/lle1-29.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-30",
@@ -485,7 +654,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-30.webp",
       "transcript": "media/english/transcripts/lle1-30.md",
       "lessonData": "media/english/lessons/lle1-30.json",
-      "worksheet": "media/english/worksheets/lle1-30.pdf"
+      "worksheet": "media/english/worksheets/lle1-30.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-31",
@@ -501,7 +675,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-31.webp",
       "transcript": "media/english/transcripts/lle1-31.md",
       "lessonData": "media/english/lessons/lle1-31.json",
-      "worksheet": "media/english/worksheets/lle1-31.pdf"
+      "worksheet": "media/english/worksheets/lle1-31.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-32",
@@ -517,7 +698,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-32.webp",
       "transcript": "media/english/transcripts/lle1-32.md",
       "lessonData": "media/english/lessons/lle1-32.json",
-      "worksheet": "media/english/worksheets/lle1-32.pdf"
+      "worksheet": "media/english/worksheets/lle1-32.pdf",
+      "grade": "C-real",
+      "speakerCount": 9,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (9명)"
+      ]
     },
     {
       "id": "lle1-33",
@@ -533,7 +721,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-33.webp",
       "transcript": "media/english/transcripts/lle1-33.md",
       "lessonData": "media/english/lessons/lle1-33.json",
-      "worksheet": "media/english/worksheets/lle1-33.pdf"
+      "worksheet": "media/english/worksheets/lle1-33.pdf",
+      "grade": "C-real",
+      "speakerCount": 6,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (6명)"
+      ]
     },
     {
       "id": "lle1-34",
@@ -549,7 +744,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-34.webp",
       "transcript": "media/english/transcripts/lle1-34.md",
       "lessonData": "media/english/lessons/lle1-34.json",
-      "worksheet": "media/english/worksheets/lle1-34.pdf"
+      "worksheet": "media/english/worksheets/lle1-34.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-35",
@@ -565,7 +767,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-35.webp",
       "transcript": "media/english/transcripts/lle1-35.md",
       "lessonData": "media/english/lessons/lle1-35.json",
-      "worksheet": "media/english/worksheets/lle1-35.pdf"
+      "worksheet": "media/english/worksheets/lle1-35.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-36",
@@ -581,7 +788,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-36.webp",
       "transcript": "media/english/transcripts/lle1-36.md",
       "lessonData": "media/english/lessons/lle1-36.json",
-      "worksheet": "media/english/worksheets/lle1-36.pdf"
+      "worksheet": "media/english/worksheets/lle1-36.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-37",
@@ -597,7 +809,14 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-37.webp",
       "transcript": "media/english/transcripts/lle1-37.md",
       "lessonData": "media/english/lessons/lle1-37.json",
-      "worksheet": "media/english/worksheets/lle1-37.pdf"
+      "worksheet": "media/english/worksheets/lle1-37.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": [
+        "Q3 재료 조건의 화자 수 상한 3명 초과 (4명)"
+      ]
     },
     {
       "id": "lle1-38",
@@ -613,7 +832,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-38.webp",
       "transcript": "media/english/transcripts/lle1-38.md",
       "lessonData": "media/english/lessons/lle1-38.json",
-      "worksheet": "media/english/worksheets/lle1-38.pdf"
+      "worksheet": "media/english/worksheets/lle1-38.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-39",
@@ -629,7 +853,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-39.webp",
       "transcript": "media/english/transcripts/lle1-39.md",
       "lessonData": "media/english/lessons/lle1-39.json",
-      "worksheet": "media/english/worksheets/lle1-39.pdf"
+      "worksheet": "media/english/worksheets/lle1-39.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-40",
@@ -645,7 +874,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-40.webp",
       "transcript": "media/english/transcripts/lle1-40.md",
       "lessonData": "media/english/lessons/lle1-40.json",
-      "worksheet": "media/english/worksheets/lle1-40.pdf"
+      "worksheet": "media/english/worksheets/lle1-40.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-41",
@@ -661,7 +895,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-41.webp",
       "transcript": "media/english/transcripts/lle1-41.md",
       "lessonData": "media/english/lessons/lle1-41.json",
-      "worksheet": "media/english/worksheets/lle1-41.pdf"
+      "worksheet": "media/english/worksheets/lle1-41.pdf",
+      "grade": "C-real",
+      "speakerCount": 5,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-42",
@@ -677,7 +916,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-42.webp",
       "transcript": "media/english/transcripts/lle1-42.md",
       "lessonData": "media/english/lessons/lle1-42.json",
-      "worksheet": "media/english/worksheets/lle1-42.pdf"
+      "worksheet": "media/english/worksheets/lle1-42.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-43",
@@ -693,7 +937,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-43.webp",
       "transcript": "media/english/transcripts/lle1-43.md",
       "lessonData": "media/english/lessons/lle1-43.json",
-      "worksheet": "media/english/worksheets/lle1-43.pdf"
+      "worksheet": "media/english/worksheets/lle1-43.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-44",
@@ -709,7 +958,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-44.webp",
       "transcript": "media/english/transcripts/lle1-44.md",
       "lessonData": "media/english/lessons/lle1-44.json",
-      "worksheet": "media/english/worksheets/lle1-44.pdf"
+      "worksheet": "media/english/worksheets/lle1-44.pdf",
+      "grade": "C-real",
+      "speakerCount": 7,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-45",
@@ -725,7 +979,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-45.webp",
       "transcript": "media/english/transcripts/lle1-45.md",
       "lessonData": "media/english/lessons/lle1-45.json",
-      "worksheet": "media/english/worksheets/lle1-45.pdf"
+      "worksheet": "media/english/worksheets/lle1-45.pdf",
+      "grade": "C-real",
+      "speakerCount": 3,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-46",
@@ -741,7 +1000,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-46.webp",
       "transcript": "media/english/transcripts/lle1-46.md",
       "lessonData": "media/english/lessons/lle1-46.json",
-      "worksheet": "media/english/worksheets/lle1-46.pdf"
+      "worksheet": "media/english/worksheets/lle1-46.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-47",
@@ -757,7 +1021,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-47.webp",
       "transcript": "media/english/transcripts/lle1-47.md",
       "lessonData": "media/english/lessons/lle1-47.json",
-      "worksheet": "media/english/worksheets/lle1-47.pdf"
+      "worksheet": "media/english/worksheets/lle1-47.pdf",
+      "grade": "C-real",
+      "speakerCount": 5,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-48",
@@ -773,7 +1042,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-48.webp",
       "transcript": "media/english/transcripts/lle1-48.md",
       "lessonData": "media/english/lessons/lle1-48.json",
-      "worksheet": "media/english/worksheets/lle1-48.pdf"
+      "worksheet": "media/english/worksheets/lle1-48.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-49",
@@ -789,7 +1063,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-49.webp",
       "transcript": "media/english/transcripts/lle1-49.md",
       "lessonData": "media/english/lessons/lle1-49.json",
-      "worksheet": "media/english/worksheets/lle1-49.pdf"
+      "worksheet": "media/english/worksheets/lle1-49.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-50",
@@ -805,7 +1084,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-50.webp",
       "transcript": "media/english/transcripts/lle1-50.md",
       "lessonData": "media/english/lessons/lle1-50.json",
-      "worksheet": "media/english/worksheets/lle1-50.pdf"
+      "worksheet": "media/english/worksheets/lle1-50.pdf",
+      "grade": "C-real",
+      "speakerCount": 7,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-51",
@@ -821,7 +1105,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-51.webp",
       "transcript": "media/english/transcripts/lle1-51.md",
       "lessonData": "media/english/lessons/lle1-51.json",
-      "worksheet": "media/english/worksheets/lle1-51.pdf"
+      "worksheet": "media/english/worksheets/lle1-51.pdf",
+      "grade": "C-real",
+      "speakerCount": 4,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     },
     {
       "id": "lle1-52",
@@ -837,7 +1126,12 @@ window.ENG_MEDIA_CATALOG={
       "image": "media/english/images/lle1-52.webp",
       "transcript": "media/english/transcripts/lle1-52.md",
       "lessonData": "media/english/lessons/lle1-52.json",
-      "worksheet": "media/english/worksheets/lle1-52.pdf"
+      "worksheet": "media/english/worksheets/lle1-52.pdf",
+      "grade": "C-real",
+      "speakerCount": 2,
+      "speed": "느림",
+      "track": "소리",
+      "intakeWarnings": []
     }
   ],
   "localAssets": {

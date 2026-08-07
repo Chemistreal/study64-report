@@ -40,7 +40,7 @@
     "Anna: It’s a special boat, Pete. Well, thanks for your help. See you later!",
     "Pete: See you, Anna! Wow, Anna’s a sailor! Who knew?",
     "Anna: Yes, rivers are important to the history and culture of Washington, D.C. And now I am part of this city’s interesting waterfront culture. Until next time!",
-    "​"
+    ""
   ],
   "sections": {
     "Conversation": [
@@ -250,5 +250,7 @@
     "transcript": "media/english/transcripts/lle1-30.md",
     "worksheet": "media/english/worksheets/lle1-30.pdf"
   },
-  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
+  "speakerCount": 2,
+  "intakeWarnings": []
 }

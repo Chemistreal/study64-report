@@ -236,5 +236,9 @@
     "transcript": "media/english/transcripts/lle1-33.md",
     "worksheet": "media/english/worksheets/lle1-33.pdf"
   },
-  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com"
+  "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
+  "speakerCount": 6,
+  "intakeWarnings": [
+    "Q3 재료 조건의 화자 수 상한 3명 초과 (6명)"
+  ]
 }
