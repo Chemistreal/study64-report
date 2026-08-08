@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 열여덟 가지를 본다.
+ * 열아홉 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -23,7 +23,8 @@
  * 15. 시간이 흘러 블록이 저절로 넘어가고 그 자리가 저장되는가
  * 16. 블록 1과 4의 소리가 그 칸 안에서 나고 넘기면 꺼지는가
  * 17. 대본 줄을 누르면 그 자리로 가고 들으면 그 줄이 밝아지는가. **어림이라고 적는가**
- * 18. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
+ * 18. 어림을 찍어 바로잡을 수 있고 **못이 없으면 표가 어림 그대로인가**
+ * 19. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -561,6 +562,60 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   sync.slice(0, 6).forEach((m) => fails.push("대본 동기: " + m));
 
+  // 17. 어림 바로잡기. 두 사람이 그 줄이 나는 순간을 찍으면 그 자리가 못이 된다.
+  //     **못을 하나도 안 박았으면 표가 어림 그대로여야 한다.**
+  //     T129 에서 끝을 딴 값으로 어림해 못 없이도 표가 당겨진 적이 있다.
+  //     27.03초짜리 줄이 23.13초로 나왔다. 그것이 이 검사의 첫 항목이다.
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(0); });
+  await page.waitForTimeout(2200);
+  const fix = await page.evaluate(async () => {
+    const bad = [];
+    const id = plan().media;
+    const cue = ((DATA.cues || {}).items || {})[id] || [];
+    const dur = ((DATA.audiolen || {}).items || {})[id];
+    S.cues = {}; save();
+    const eff0 = effCues(id, cue, dur);
+    for (let i = 0; i < cue.length; i++)
+      if (Math.abs(eff0[i] - cue[i]) > 0.01) {
+        bad.push("못이 없는데 " + (i + 1) + "번째가 " + eff0[i] + "다. 어림은 " + cue[i] + "다");
+        break;
+      }
+    if (!SESS.el) { bad.push("재생기가 없다"); return bad; }
+    // 세 번째 줄을 지금 자리에 잡는다
+    const at = Math.min(cue[2] + 2, dur - 1);
+    SESS.el.currentTime = at;
+    await new Promise((r) => setTimeout(r, 400));
+    const rows = () => [...document.querySelectorAll("#sessScript .scline")];
+    const t4before = rows()[4].querySelector(".sct").textContent;
+    rows()[2].querySelector(".sca").click();
+    await new Promise((r) => setTimeout(r, 800));
+    const r2 = rows()[2];
+    if (!r2.classList.contains("fixed")) bad.push("잡았는데 잡힌 표시가 없다");
+    if (r2.querySelector(".sct").textContent.indexOf("~") >= 0)
+      bad.push("잡은 줄에 아직 물결표가 있다");
+    if (S.cues[id] === undefined || typeof S.cues[id][2] !== "number")
+      bad.push("잡은 값이 저장이 안 됐다");
+    if (rows()[4].querySelector(".sct").textContent === t4before)
+      bad.push("잡았는데 뒤쪽 어림이 안 따라 움직였다");
+    // 거꾸로 잡기를 거절한다
+    SESS.el.currentTime = 0.2;
+    await new Promise((r) => setTimeout(r, 300));
+    rows()[5].querySelector(".sca").click();
+    await new Promise((r) => setTimeout(r, 600));
+    if (Object.keys(S.cues[id]).length !== 1)
+      bad.push("앞선 못보다 이른 자리를 받아들였다");
+    // 지우면 어림으로 돌아온다
+    rows()[2].querySelector(".sca").click();
+    await new Promise((r) => setTimeout(r, 700));
+    if (Object.keys(S.cues[id] || {}).length !== 0) bad.push("지웠는데 값이 남았다");
+    const eff1 = effCues(id, cue, dur);
+    for (let i = 0; i < cue.length; i++)
+      if (Math.abs(eff1[i] - cue[i]) > 0.01) { bad.push("지웠는데 어림으로 안 돌아왔다"); break; }
+    T.run = false; clearInterval(T.tick); stopSessPlay();
+    return bad;
+  });
+  fix.slice(0, 6).forEach((m) => fails.push("어림 바로잡기: " + m));
+
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
   //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
@@ -610,7 +665,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   console.log("");
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
-              "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / 연속 30일 1판");
+              "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / 어림 바로잡기 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

@@ -294,6 +294,13 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 .syncscript .scline.cur{background:linear-gradient(96deg,rgba(79,70,229,.20),rgba(14,165,233,.12))}
 .syncscript .scline.cur .scl{font-weight:700}
 .syncscript .scline.cur .sct{color:var(--a3)}
+.syncscript .scline .scl{flex:1}
+/* 자리 잡기. 잡은 줄은 물결표가 사라지고 시각이 진해진다. */
+.syncscript .scline .sca{flex:none;font-size:11.5px;color:var(--mut);padding:2px 8px;
+  border:1px solid var(--edge);border-radius:7px;align-self:flex-start}
+.syncscript .scline .sca:hover{border-color:var(--a1);color:var(--fg)}
+.syncscript .scline.fixed .sct{color:var(--ok);font-weight:700}
+.syncscript .scline.fixed .sca{border-color:var(--ok);color:var(--ok)}
 /* 마무리. 다음 날 무엇을 하는지가 여기 있어야 내일 앉자마자 시작한다. */
 .nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:13.5px;line-height:1.65;text-align:left}
@@ -1270,7 +1277,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today"};
+          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{}};
 }
 function load(){
   try{
@@ -2295,23 +2302,67 @@ function fmtT(s){
   s=Math.max(0,Math.round(s));
   return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
 }
+/* 잡아 둔 자리. 두 사람이 들으면서 찍은 것이다. 기기에 남는다.
+   S.cues = { "lle1-01": { "4": 9.2 } } 꼴이다. 줄 번호는 문자열로 들어온다. */
+function cueRec(id){
+  if(!S.cues) S.cues={};
+  if(!S.cues[id]) S.cues[id]={};
+  return S.cues[id];
+}
+function cueFixed(id,i){
+  var r=(S.cues||{})[id]; var v=r&&r[i];
+  return (typeof v==="number") ? v : null;
+}
+/* 실제로 쓸 시각. **잡은 자리는 못이고 그 사이를 어림으로 편다.**
+   한 줄만 잡아도 그 앞뒤가 다 같이 맞아 든다. 어림의 모양은 그대로 두고
+   길이만 늘이고 줄이기 때문이다. 잡은 자리가 늘수록 표가 굳는다. */
+function effCues(id, cue, dur){
+  if(!cue||!cue.length) return null;
+  var n=cue.length, fix=(S.cues||{})[id]||{};
+  var anchors=[{i:0, t:(typeof fix[0]==="number")?fix[0]:0}];
+  for(var i=1;i<n;i++) if(typeof fix[i]==="number") anchors.push({i:i, t:fix[i]});
+  var end=(typeof dur==="number" && dur>0) ? dur : cue[n-1]+1;
+  anchors.push({i:n, t:end});          // 끝은 소리의 길이다. 늘 못이다
+  var out=new Array(n), k=0;
+  for(var a=0;a<anchors.length-1;a++){
+    var p=anchors[a], q=anchors[a+1];
+    /* 어림 자리도 소리 길이 위에 폈다. 그러니 마지막 줄 다음 자리는 곧 소리의 끝이다.
+       여기서 그 끝을 딴 값으로 어림하면 **못을 하나도 안 박았는데 표가 바뀐다.**
+       실제로 한 번 그렇게 만들었고 27.03초짜리 줄이 23.13초로 당겨졌다. T129 */
+    var cp=cue[p.i]==null?0:cue[p.i], cq=(q.i>=n)?end:cue[q.i];
+    var span=cq-cp;
+    for(k=p.i;k<Math.min(q.i,n);k++){
+      out[k]= (span>0) ? p.t+(q.t-p.t)*(cue[k]-cp)/span : p.t;
+      out[k]=Math.round(out[k]*100)/100;
+    }
+  }
+  return out;
+}
 function renderSyncScript(it){
-  var tr=DATA.transcripts, cu=DATA.cues;
-  if(!tr||!cu){
+  var tr=DATA.transcripts, cu=DATA.cues, al=DATA.audiolen;
+  if(!tr||!cu||!al){
     if(!tr) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderBlockPane(); });
     if(!cu) loadData("cues","ENG2P_CUES",function(){ renderBlockPane(); });
+    if(!al) loadData("audiolen","ENG2P_AUDIOLEN",function(){ renderBlockPane(); });
     return '<div class="n">대본을 여는 중이다.</div>';
   }
   var lines=(tr.items||{})[it.id], cue=(cu.items||{})[it.id];
   if(!lines||!lines.length) return '<div class="n">이 과는 대본이 없다.</div>';
+  var eff=effCues(it.id, cue, (al.items||{})[it.id]);
+  var nfix=Object.keys((S.cues||{})[it.id]||{}).length;
   var h='<div class="syncnote">대본 '+lines.length+'줄 · 줄을 누르면 그 자리로 간다.<br>'+
-    '<b>시각은 어림이다.</b> 글자 수로 나눈 것이고 쉼을 안 셌다. 물결표가 그 표시다.</div>'+
+    '<b>시각은 어림이다.</b> 글자 수로 나눈 것이고 쉼을 안 셌다. 물결표가 그 표시다.<br>'+
+    '그 줄이 나는 순간에 <b>여기</b> 를 누르면 그 자리가 잡힌다. '+
+    '잡은 줄은 물결표가 사라지고 <b>그 앞뒤 어림이 같이 맞아 든다.</b>'+
+    (nfix?' · 이 과에서 '+nfix+'줄 잡았다':'')+'</div>'+
     '<div class="syncscript" id="sessScript">';
   lines.forEach(function(s,i){
-    var t=cue?cue[i]:null;
-    h+='<button type="button" class="scline" data-cue="'+i+'">'+
-       '<span class="sct">'+(t==null?"—":"~"+fmtT(t))+'</span>'+
-       '<span class="scl">'+esc(s)+'</span></button>';
+    var t=eff?eff[i]:null, fixed=cueFixed(it.id,i)!=null;
+    h+='<button type="button" class="scline'+(fixed?" fixed":"")+'" data-cue="'+i+'">'+
+       '<span class="sct">'+(t==null?"—":(fixed?"":"~")+fmtT(t))+'</span>'+
+       '<span class="scl">'+esc(s)+'</span>'+
+       '<span class="sca" data-anchor="'+i+'" role="button" tabindex="0" '+
+       'title="지금 나는 자리를 이 줄로 잡는다">'+(fixed?"지움":"여기")+'</span></button>';
   });
   return h+'</div>';
 }
@@ -2330,14 +2381,39 @@ function syncCur(){
   /* 목록 안에서만 굴린다. 페이지를 굴리면 재생기가 화면 밖으로 나간다. */
   box.scrollTop=Math.max(0, now.offsetTop-box.clientHeight/2+now.offsetHeight/2);
 }
+/* 자리를 잡는다. **못을 아무 데나 박으면 표가 뒤집힌다.**
+   앞 줄보다 이르거나 뒷 줄보다 늦으면 거절한다. 그때는 안 잡느니만 못하다. */
+function anchorLine(it, i){
+  if(!SESS.el){ flash("소리를 먼저 튼다"); return; }
+  var cu=DATA.cues, al=DATA.audiolen;
+  var cue=(cu&&cu.items&&cu.items[it.id])||null; if(!cue) return;
+  var rec=cueRec(it.id);
+  if(cueFixed(it.id,i)!=null){ delete rec[i]; save(); renderBlockPane(); flash((i+1)+"번째 줄 자리를 지웠다"); return; }
+  var t=Math.round(SESS.el.currentTime*100)/100;
+  var dur=(al&&al.items||{})[it.id]||SESS.el.duration||0;
+  /* **이웃 어림과 견주지 않는다.** 어림이 통째로 밀려 있으면 그때 잡는 것이고
+     그런데 그 밀린 어림을 기준으로 거절하면 아무것도 못 잡는다.
+     견줄 것은 이미 잡아 둔 못뿐이다. 못 사이는 어림을 다시 펴서 채운다.
+     못들이 차례대로면 표는 반드시 차례대로다. 그것만 지키면 된다. */
+  var prev=0, next=dur, k, v;
+  for(k=i-1;k>=0;k--){ v=cueFixed(it.id,k); if(v!=null){ prev=v; break; } }
+  for(k=i+1;k<cue.length;k++){ v=cueFixed(it.id,k); if(v!=null){ next=v; break; } }
+  if(t<=prev){ flash("앞서 잡은 줄보다 이르다. 그 자리는 못 잡는다"); return; }
+  if(t>=next){ flash("뒤에 잡은 줄보다 늦다. 그 자리는 못 잡는다"); return; }
+  rec[i]=t; save(); renderBlockPane();
+  flash((i+1)+"번째 줄을 "+fmtT(t)+" 에 잡았다");
+}
 function bindSyncScript(it){
   var box=$("#sessScript"); if(!box) return;
-  var cu=DATA.cues;
-  SESS.cue=(cu&&cu.items&&cu.items[it.id])||null;
+  var cu=DATA.cues, al=DATA.audiolen;
+  SESS.cue=effCues(it.id,(cu&&cu.items&&cu.items[it.id])||null,
+                   (al&&al.items||{})[it.id]);
   SESS.line=-1;
   if(box.dataset.bound==="1"){ syncCur(); return; }
   box.dataset.bound="1";
   box.onclick=function(e){
+    var a=e.target.closest ? e.target.closest(".sca") : null;
+    if(a){ anchorLine(it, +a.dataset.anchor); return; }
     var b=e.target.closest ? e.target.closest(".scline") : null;
     if(!b||!SESS.cue) return;
     var i=+b.dataset.cue, t=SESS.cue[i];
