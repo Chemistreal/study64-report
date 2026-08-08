@@ -470,13 +470,56 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (auto.saved !== 1) fails.push("자동 넘김: 넘어간 자리가 저장이 안 됐다");
   await page.evaluate(() => { T.run = false; clearInterval(T.tick); });
 
+  // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
+  //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
+  //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
+  //     기준서와 매뉴얼 2.2: 비상판은 수행일이지만 진도가 아니다. 결석은 둘 다 아니다.
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.waitForTimeout(400);
+  const many = await page.evaluate(() => {
+    S.onboarded = true; S.device = "a"; S.start = "2026-08-10"; save();
+    const bad = [];
+    let d = "2026-08-10", normals = 0;
+    for (let i = 0; i < 30; i++) {
+      // 이레마다 비상판 하루와 결석 하루를 넣는다. 실제로 그렇게 산다.
+      const st = i % 7 === 2 ? "emg" : i % 7 === 5 ? "absent" : "normal";
+      window.today = () => d;                     // 날짜만 갈아 끼운다
+      const pre = plan();
+      if (st === "normal") { T.run = true; syncSessionFocus(); finishSession(); normals++; }
+      else { const r = day(d); r.status = st; save(); renderToday(); }
+      const post = plan();
+      if (doneSessions() !== normals)
+        bad.push(d + " " + st + ": 진도가 " + doneSessions() + " 다. " + normals + " 여야 한다");
+      if (post.session !== normals + 1)
+        bad.push(d + " " + st + ": 다음 배정이 " + post.session + "세션이다. " + (normals + 1) + " 여야 한다");
+      if (st === "normal" && pre.set === post.set)
+        bad.push(d + ": 정상 세션을 끝냈는데 세트가 " + pre.set + " 에 머물렀다");
+      if (st !== "normal" && pre.set !== post.set)
+        bad.push(d + " " + st + ": 진도가 아닌 날인데 세트가 넘어갔다");
+      if (S.session) bad.push(d + ": 세션 상태가 남았다");
+      d = addDays(d, 1);
+    }
+    // 대장의 수행일 셈이 상태별로 갈리는가. 빈 기록이 섞여도 안 흔들려야 한다.
+    let n = 0, e = 0, a = 0;
+    for (const k in S.days) {
+      const s = S.days[k].status;
+      if (s === "normal") n++; else if (s === "emg") e++; else if (s === "absent") a++;
+    }
+    // 30일에 i%7===2 가 넷(2,9,16,23), i%7===5 가 넷(5,12,19,26)이다. 나머지 스물둘이 정상이다.
+    if (n !== 22 || e !== 4 || a !== 4)
+      bad.push("30일 중 정상 " + n + " 비상판 " + e + " 결석 " + a + " 다. 22/4/4 여야 한다");
+    return bad;
+  });
+  many.slice(0, 6).forEach((m) => fails.push("연속 30일: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
-              "판 / 대본 52판 / 세션 리허설 1판");
+              "판 / 대본 52판 / 세션 리허설 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
