@@ -124,7 +124,8 @@ scripts/derive_transcripts.py 대본 52편을 script 한 파일로 묶는다 (fi
 scripts/derive_audiolen.py mp3 52개의 진짜 길이를 프레임으로 잰다
 scripts/derive_cues.py  대본 줄마다 어림 시각. **어림이다.** 쉼을 안 센다
 scripts/ground.py       제작물의 영어 재료가 52과 대본 어디에 있는지 찾는다
-scripts/check_ground.py 근거 없음 비율. G구간의 게이트. **절반을 넘으면 목록을 다시 짠다**
+scripts/check_ground.py 근거 없음 비율과 **대본 밖 낱말 목록**. G구간의 게이트
+docs/wordlist.md      대본에 없는데 내가 쓴 낱말. **여기 없는 낱말이 재료에 나오면 실패다**
 scripts/check_audio.py 길이가 적힌 세 자리(카탈로그·대본 머리말·mp3)가 같은 말을 하는지
 out/data/               파생된 자료. 손으로 안 고친다
 out/data/index.json     앱이 제일 먼저 읽는 한 장 (37KB). 48주 차림표와 파일 해시
@@ -149,6 +150,8 @@ out/cards/eng2p_card_plan_q1.md 카드 001~150 배정표. 강의보다 이쪽이
 | 문체 | 대치동 1타강사 반말. 한 문단 4문장 이내 |
 | 영어 예문 | 영어로만. 한글 음차 절대 금지 |
 | 슬랭 | 전면 금지 |
+| 구어 축약 철자 | gonna, wanna, gotta 셋만. 대본에 있는 것이 그 셋이다 |
+|  | 나머지는 원형으로 적고 줄여 읽으라고 지시문이 시킨다 |
 | 1인 지시 | 금지. 모든 과제는 2인 전제 |
 | 통과 기준 | 반드시 숫자. "자연스러워지면" 류 금지 |
 | 통과선 | 선언하지 않고 계획에서 파생시킨다. 누적 시간 144/288/432/576 이 그 예다 |

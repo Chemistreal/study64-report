@@ -1260,15 +1260,16 @@ window.ENG2P_CARDS={
       "seconds": null,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "아래 문장을 한 번씩 읽는다. 다시 읽어 주지 않는다.",
+        "instruction": "아래 문장을 한 번씩 읽되 want to 와 has to 와 have to 를 한 덩어리로 흘린다. 다시 읽어 주지 않는다.",
         "material": [
-          "I wanna see it.",
-          "She hasta go now.",
-          "We hafta wait here.",
-          "They wanna eat first.",
-          "He hasta call her."
+          "I want to see it.",
+          "She has to go now.",
+          "We have to wait here.",
+          "They want to eat first.",
+          "He has to call her."
         ],
         "answer": "1) want to  2) has to  3) have to  4) want to  5) has to",
+        "note": "재료는 원형 그대로 적는다. **줄이는 것은 A의 입이 하는 일이지 글자가 하는 일이 아니다.** 글로도 쓰는 축약은 gonna 와 wanna 와 gotta 셋뿐이다. 52과 대본에 그 셋만 있다.",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
       },
       "b": {
@@ -1337,16 +1338,17 @@ window.ENG2P_CARDS={
       "seconds": 8,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "8초를 재고 아래 여섯 형태에서 다섯 개를 예측할 수 없는 순서로 던진다. 중간에 멈추지 않는다.",
+        "instruction": "8초를 재고 아래 여섯 덩어리에서 다섯 개를 예측할 수 없는 순서로 흘려 던진다. 중간에 멈추지 않는다.",
         "material": [
-          "gonna",
-          "wanna",
-          "gotta",
-          "hafta",
-          "hasta",
-          "oughta"
+          "going to",
+          "want to",
+          "got to",
+          "have to",
+          "has to",
+          "ought to"
         ],
-        "answer": "1) going to  2) want to  3) got to  4) have to  5) has to  6) ought to",
+        "answer": "B는 A가 흘린 덩어리가 원래 어느 두 낱말인지 낸다. 재료 그대로다.",
+        "note": "앞의 셋은 글로도 gonna, wanna, gotta 로 적는다. 대본에 그렇게 나온다. **뒤의 셋은 글로 적는 꼴이 없다. 소리로만 있다.** 그래서 재료를 원형으로 적는다.",
         "pass": "B가 8초 안에 다섯 개의 원형을 다 내면 성공."
       },
       "b": {
@@ -1365,11 +1367,11 @@ window.ENG2P_CARDS={
       "a": {
         "instruction": "아래 문장을 흘려 읽되 표시된 자리에서 한 번 끊는다. 끊은 뒤 아무 말도 하지 않는다.",
         "material": [
-          "I hafta go to the / store today.",
-          "They wanna see the / new movie.",
-          "We gotta leave before / six o'clock.",
-          "He hasta finish the / work tonight.",
-          "They wanna meet at / the park."
+          "I have to go to the / store today.",
+          "They want to see the / new movie.",
+          "We got to leave before / six o'clock.",
+          "He has to finish the / work tonight.",
+          "They want to meet at / the park."
         ],
         "pass": "B가 5개 중 3개 이상에서 되묻기로 대응하면 성공. 실패가 정상이다."
       },
@@ -1387,15 +1389,16 @@ window.ENG2P_CARDS={
       "seconds": null,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "아래 축약형을 한 번씩 읽는다. 다시 읽어 주지 않는다.",
+        "instruction": "아래 덩어리를 한 번씩 **두 낱말 사이를 쉬지 않고 흘려** 읽는다. 다시 읽어 주지 않는다.",
         "material": [
-          "lotta",
-          "outta",
-          "kinda",
-          "sorta",
-          "gotta"
+          "a lot of",
+          "out of",
+          "kind of",
+          "sort of",
+          "got to"
         ],
-        "answer": "1) lot of  2) out of  3) kind of  4) sort of  5) got to",
+        "answer": "B는 A가 흘린 덩어리가 원래 어느 낱말들인지 낸다. 재료 그대로다.",
+        "note": "이 다섯 중 글로 적는 꼴이 있는 것은 gotta 하나뿐이다.",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
       },
       "b": {
@@ -1414,11 +1417,11 @@ window.ENG2P_CARDS={
       "a": {
         "instruction": "아래 문장을 한 번씩 읽는다. 줄어든 자리를 또박또박 읽지 않는다.",
         "material": [
-          "I have a lotta work.",
-          "Get outta here.",
-          "It is kinda cold.",
-          "She is sorta busy.",
-          "We are outta time."
+          "I have a lot of work.",
+          "Get out of here.",
+          "It is kind of cold.",
+          "She is sort of busy.",
+          "We are out of time."
         ],
         "answer": "1) lot of  2) out of  3) kind of  4) sort of  5) out of",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
@@ -1437,19 +1440,20 @@ window.ENG2P_CARDS={
       "seconds": null,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "아래 짝을 한 쌍씩 읽는다. 두 낱말 사이를 쉬지 않는다.",
+        "instruction": "아래 덩어리를 **한 번은 또박또박, 한 번은 흘려** 두 번씩 읽는다. 어느 쪽이 먼저인지 말하지 않는다.",
         "material": [
-          "a lot of / a lotta",
-          "out of / outta",
-          "kind of / kinda",
-          "sort of / sorta",
-          "want to / wanna"
+          "a lot of",
+          "out of",
+          "kind of",
+          "sort of",
+          "want to"
         ],
-        "answer": "다섯 쌍 모두 뒤쪽이 줄어든 형태다.",
-        "pass": "B가 5쌍 중 4쌍 이상에서 줄어든 쪽을 고르면 성공."
+        "answer": "다섯 개 모두 두 번 읽는다. B는 흘린 쪽이 첫 번째인지 두 번째인지 고른다.",
+        "note": "**짝을 글자로 보여 주지 않는다.** 줄어든 꼴은 글자가 아니라 소리다.",
+        "pass": "B가 5개 중 4개 이상에서 흘린 쪽을 고르면 성공."
       },
       "b": {
-        "instruction": "두 소리 중 줄어든 쪽이 어느 것인지 고른다. 낱말 수로 세지 않는다.",
+        "instruction": "같은 덩어리를 두 번 듣고 흘린 쪽이 몇 번째인지 고른다. 낱말 수로 세지 않는다.",
         "pass": "5쌍 중 4쌍 이상."
       }
     },
@@ -1464,11 +1468,11 @@ window.ENG2P_CARDS={
       "a": {
         "instruction": "아래 문장을 한 번씩 읽는다. 낱말 수를 알려 주지 않는다.",
         "material": [
-          "a lotta people",
-          "outta the room",
-          "kinda strange",
-          "sorta okay",
-          "gotta leave"
+          "a lot of people",
+          "out of the room",
+          "kind of strange",
+          "sort of okay",
+          "got to leave"
         ],
         "answer": "줄어들기 전 낱말 수는 1) 4  2) 4  3) 3  4) 3  5) 3",
         "pass": "B가 5개 중 3개 이상 낱말 수를 맞히면 성공."
@@ -1490,11 +1494,11 @@ window.ENG2P_CARDS={
         "instruction": "아래 짝을 나란히 읽는다. 두 덩어리 사이를 쉬지 않는다.",
         "axis": "길이",
         "material": [
-          "lotta / I have a lotta work.",
-          "outta / Get outta the room.",
-          "kinda / It is kinda cold today.",
-          "sorta / She is sorta busy now.",
-          "gotta / We gotta leave right now."
+          "a lot of / I have a lot of work.",
+          "out of / Get out of the room.",
+          "kind of / It is kind of cold today.",
+          "sort of / She is sort of busy now.",
+          "got to / We got to leave right now."
         ],
         "model": "덩어리에서 잡히던 것이 문장에서 안 잡히면 아직 소리가 안 잡힌 것이다. 유일한 정답은 아니다.",
         "pass": "덩어리와 문장에서 판정이 같은 것이 3개 이상이면 성공."
@@ -1514,20 +1518,20 @@ window.ENG2P_CARDS={
       "seconds": 8,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "8초를 재고 아래 열 형태에서 다섯 개를 예측할 수 없는 순서로 던진다. 중간에 멈추지 않는다.",
+        "instruction": "8초를 재고 아래 열 덩어리에서 다섯 개를 예측할 수 없는 순서로 흘려 던진다. 중간에 멈추지 않는다.",
         "material": [
-          "gonna",
-          "wanna",
-          "gotta",
-          "hafta",
-          "hasta",
-          "oughta",
-          "lotta",
-          "outta",
-          "kinda",
-          "sorta"
+          "going to",
+          "want to",
+          "got to",
+          "have to",
+          "has to",
+          "ought to",
+          "a lot of",
+          "out of",
+          "kind of",
+          "sort of"
         ],
-        "answer": "순서대로 going to, want to, got to, have to, has to, ought to, lot of, out of, kind of, sort of",
+        "answer": "B는 흘린 덩어리의 원형을 낸다. 재료 그대로다.",
         "pass": "B가 8초 안에 다섯 개의 원형을 다 내면 성공."
       },
       "b": {
@@ -1544,15 +1548,15 @@ window.ENG2P_CARDS={
       "seconds": null,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "061 과 같은 열 형태를 시간 제한 없이 하나씩 읽는다. B가 답할 때까지 기다린다.",
+        "instruction": "061 과 같은 열 덩어리를 시간 제한 없이 하나씩 흘려 읽는다. B가 답할 때까지 기다린다.",
         "material": [
-          "lotta",
-          "outta",
-          "kinda",
-          "sorta",
-          "hasta"
+          "a lot of",
+          "out of",
+          "kind of",
+          "sort of",
+          "has to"
         ],
-        "answer": "1) lot of  2) out of  3) kind of  4) sort of  5) has to",
+        "answer": "B는 흘린 덩어리의 원형을 낸다. 재료 그대로다.",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
       },
       "b": {
@@ -1593,15 +1597,16 @@ window.ENG2P_CARDS={
       "seconds": null,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "아래 축약형을 한 번씩 읽는다. 다시 읽어 주지 않는다.",
+        "instruction": "아래 덩어리를 한 번씩 **낱말 사이를 쉬지 않고 흘려** 읽는다. 다시 읽어 주지 않는다.",
         "material": [
-          "whatcha",
-          "wouldya",
-          "couldya",
-          "shoulda",
-          "woulda"
+          "what are you",
+          "would you",
+          "could you",
+          "should have",
+          "would have"
         ],
-        "answer": "1) what are you  2) would you  3) could you  4) should have  5) would have",
+        "answer": "B는 흘린 덩어리의 원형과 낱말 수를 낸다. 재료 그대로다.",
+        "note": "**이 다섯은 글로 적는 꼴이 없다.** 소리로만 있다. 그래서 원형으로 적는다.",
         "pass": "B가 5개 중 4개 이상 원형과 낱말 수를 내면 성공."
       },
       "b": {
@@ -1620,11 +1625,11 @@ window.ENG2P_CARDS={
       "a": {
         "instruction": "아래 문장을 한 번씩 읽는다. 줄어든 자리를 또박또박 읽지 않는다.",
         "material": [
-          "Whatcha doing?",
-          "Wouldya help me?",
-          "Couldya wait here?",
-          "I shoulda called her.",
-          "We woulda gone there."
+          "What are you doing?",
+          "Would you help me?",
+          "Could you wait here?",
+          "I should have called her.",
+          "We would have gone there."
         ],
         "answer": "1) what are you  2) would you  3) could you  4) should have  5) would have",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
@@ -1645,11 +1650,11 @@ window.ENG2P_CARDS={
       "a": {
         "instruction": "아래 짝을 한 쌍씩 읽는다. 두 문장 사이를 쉬지 않는다.",
         "material": [
-          "I should go. / I shoulda gone.",
-          "We could help. / We coulda helped.",
-          "She would call. / She woulda called.",
-          "They should wait. / They shoulda waited.",
-          "He could try. / He coulda tried."
+          "I should go. / I should have gone.",
+          "We could help. / We could have helped.",
+          "She would call. / She would have called.",
+          "They should wait. / They should have waited.",
+          "He could try. / He could have tried."
         ],
         "answer": "앞쪽은 지금이나 앞으로의 일이고 뒤쪽은 이미 지난 일이다.",
         "pass": "B가 5쌍 중 4쌍 이상에서 지난 일 쪽을 고르면 성공."
@@ -1671,11 +1676,11 @@ window.ENG2P_CARDS={
         "instruction": "아래 짝을 나란히 읽는다. 두 문장 사이를 쉬지 않는다.",
         "axis": "뜻",
         "material": [
-          "I should go. / I shoulda gone.",
-          "We could leave. / We coulda left.",
-          "She would help. / She woulda helped.",
-          "They should call. / They shoulda called.",
-          "He could wait. / He coulda waited."
+          "I should go. / I should have gone.",
+          "We could leave. / We could have left.",
+          "She would help. / She would have helped.",
+          "They should call. / They should have called.",
+          "He could wait. / He could have waited."
         ],
         "model": "소리 하나가 붙고 안 붙고로 시점이 갈린다. 유일한 정답은 아니다.",
         "pass": "B가 5쌍 중 4쌍 이상에서 두 문장의 시점 차이를 말하면 성공."
@@ -1695,26 +1700,27 @@ window.ENG2P_CARDS={
       "seconds": 8,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "8초를 재고 아래 열여섯 형태에서 다섯 개를 예측할 수 없는 순서로 던진다. 중간에 멈추지 않는다.",
+        "instruction": "8초를 재고 아래 열여섯 덩어리에서 다섯 개를 예측할 수 없는 순서로 흘려 던진다. 중간에 멈추지 않는다.",
         "material": [
-          "gonna",
-          "wanna",
-          "gotta",
-          "hafta",
-          "hasta",
-          "oughta",
-          "lotta",
-          "outta",
-          "kinda",
-          "sorta",
-          "whatcha",
-          "wouldya",
-          "couldya",
-          "shoulda",
-          "woulda",
-          "coulda"
+          "going to",
+          "want to",
+          "got to",
+          "have to",
+          "has to",
+          "ought to",
+          "a lot of",
+          "out of",
+          "kind of",
+          "sort of",
+          "what are you",
+          "would you",
+          "could you",
+          "should have",
+          "would have",
+          "could have"
         ],
-        "answer": "순서대로 going to, want to, got to, have to, has to, ought to, lot of, out of, kind of, sort of, what are you, would you, could you, should have, would have, could have",
+        "answer": "B는 흘린 덩어리의 원형을 낸다. 재료 그대로다.",
+        "note": "열여섯 중 글로 적는 꼴이 있는 것은 앞의 셋(gonna, wanna, gotta)뿐이다.",
         "pass": "B가 8초 안에 다섯 개의 원형을 다 내면 성공."
       },
       "b": {
@@ -1731,15 +1737,15 @@ window.ENG2P_CARDS={
       "seconds": null,
       "source": "out/cards/eng2p_card_q1_051_100.md",
       "a": {
-        "instruction": "068 과 같은 열여섯 형태를 시간 제한 없이 하나씩 읽는다. B가 답할 때까지 기다린다.",
+        "instruction": "068 과 같은 열여섯 덩어리를 시간 제한 없이 하나씩 흘려 읽는다. B가 답할 때까지 기다린다.",
         "material": [
-          "whatcha",
-          "wouldya",
-          "shoulda",
-          "coulda",
-          "oughta"
+          "what are you",
+          "would you",
+          "should have",
+          "could have",
+          "ought to"
         ],
-        "answer": "1) what are you  2) would you  3) should have  4) could have  5) ought to",
+        "answer": "B는 흘린 덩어리의 원형을 낸다. 재료 그대로다.",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
       },
       "b": {
@@ -1758,11 +1764,11 @@ window.ENG2P_CARDS={
       "a": {
         "instruction": "아래 문장을 아주 빠르게 흘려 읽는다. B가 되물어도 그대로 한 번 더 빠르게 읽는다.",
         "material": [
-          "Whatcha gonna do about it?",
-          "Wouldya wanna come with us?",
-          "I shoulda called her earlier.",
-          "Couldya wait until Monday?",
-          "We woulda been outta there by now."
+          "What are you going to do about it?",
+          "Would you want to come with us?",
+          "I should have called her earlier.",
+          "Could you wait until Monday?",
+          "We would have been out of there by now."
         ],
         "pass": "B가 5개 중 3개 이상에서 되묻기로 대응하면 성공. 실패가 정상이다."
       },
@@ -1888,9 +1894,10 @@ window.ENG2P_CARDS={
           "an apple",
           "wanna",
           "pick it up",
-          "outta"
+          "out of"
         ],
         "answer": "줄어든 것은 1번, 3번, 5번이고 옮겨 간 것은 2번과 4번이다.",
+        "note": "1번과 3번은 글로도 그렇게 적는다. 5번은 흘려 읽되 글로는 원형으로 적는다.",
         "pass": "B가 5개 중 4개 이상 어느 쪽인지 가르면 성공."
       },
       "b": {

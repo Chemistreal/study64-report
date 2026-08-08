@@ -8,7 +8,7 @@
 | 원본 | 재료 | 근거 있음 | 근거 없음 | 보고서 |
 |---|---|---|---|---|
 | eng2p_card_q1_001_050.md | 310 | 148 | 162 | eng2p_ground_card_q1_001_050.md |
-| eng2p_card_q1_051_100.md | 364 | 76 | 288 | eng2p_ground_card_q1_051_100.md |
+| eng2p_card_q1_051_100.md | 359 | 111 | 248 | eng2p_ground_card_q1_051_100.md |
 | eng2p_card_q1_101_150.md | 140 | 77 | 63 | eng2p_ground_card_q1_101_150.md |
 | eng2p_card_q2_001_050.md | 162 | 74 | 88 | eng2p_ground_card_q2_001_050.md |
 | eng2p_card_q2_051_100.md | 87 | 27 | 60 | eng2p_ground_card_q2_051_100.md |
@@ -20,5 +20,5 @@
 | eng2p_card_q4_051_100.md | 39 | 33 | 6 | eng2p_ground_card_q4_051_100.md |
 | eng2p_card_q4_101_150.md | 32 | 25 | 7 | eng2p_ground_card_q4_101_150.md |
 
-합계 재료 1577개 / 근거 있음 727개 / **근거 없음 850개 (54%)**
+합계 재료 1572개 / 근거 있음 762개 / **근거 없음 810개 (52%)**
 

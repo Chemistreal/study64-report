@@ -45,13 +45,13 @@ window.ENG2P_INDEX={
     },
     {
       "file": "cards.js",
-      "bytes": 575785,
-      "sha256": "06d32c9f9eeba1bbd06750be82f255faa51cffd73429a57bf8fdd4f6e298e5cc"
+      "bytes": 577248,
+      "sha256": "9d6163e6fc106bc2dd7591efe472c7080706873691d14f13888b943ed9b8baeb"
     },
     {
       "file": "cards.json",
-      "bytes": 575765,
-      "sha256": "72b8d10c41f7f49af8b86a36908ae45984cb57b1ffdbabefcb6fcf1cc69dfaa3"
+      "bytes": 577228,
+      "sha256": "22dbd76f58cbce57040d019d43733dac80e66e4bbfc37c8711348e4f118d874c"
     },
     {
       "file": "cues.js",

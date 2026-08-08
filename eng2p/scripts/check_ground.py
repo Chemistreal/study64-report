@@ -33,7 +33,7 @@ LINE = 0.50          # 로드맵 11.10. 근거 없음이 절반을 넘으면 목
 # 목록을 고칠 때마다 이 표를 같이 내린다. 표를 내리는 것이 이 구간의 일이다.
 BASELINE = {
     "eng2p_ground_card_q1_001_050.md": 0.53,
-    "eng2p_ground_card_q1_051_100.md": 0.80,
+    "eng2p_ground_card_q1_051_100.md": 0.70,   # T138 에 0.80 에서 내렸다
     "eng2p_ground_card_q1_101_150.md": 0.46,
     "eng2p_ground_card_q2_001_050.md": 0.55,
     "eng2p_ground_card_q2_051_100.md": 0.70,
@@ -46,6 +46,57 @@ BASELINE = {
     "eng2p_ground_card_q4_101_150.md": 0.23,
 }
 HEAD = re.compile(r"재료 (\d+)개 / 대본에 있음 (\d+)개")
+WORDLIST = ROOT / "docs" / "wordlist.md"
+CARDS = ROOT / "out" / "cards"
+TR = ROOT.parent / "media" / "english" / "transcripts"
+ITEM = re.compile(r"^\s{2,}(\d+)\.\s+(.+?)\s*$")
+HANGUL = re.compile(r"[가-힣]")
+
+
+def corpus_words():
+    """52과 대본에 나오는 낱말 종류."""
+    out = set()
+    for f in TR.glob("lle1-*.md"):
+        t = f.read_text(encoding="utf-8")
+        i = t.find("## 대본")
+        out.update(re.findall(r"[a-z]+", (t[i:] if i >= 0 else t).lower()))
+    return out
+
+
+def wordlist():
+    """docs/wordlist.md 의 세 칸을 읽는다. {낱말: 칸이름}."""
+    if not WORDLIST.exists():
+        return None
+    out, cur = {}, None
+    infence = False
+    for line in WORDLIST.read_text(encoding="utf-8").split("\n"):
+        m = re.match(r"^##\s*\d+\.\s*(\S+)", line)
+        if m:
+            cur = m.group(1)
+            continue
+        if line.strip().startswith("```"):
+            infence = not infence
+            continue
+        if infence and cur:
+            for w in re.findall(r"[a-z]+", line.lower()):
+                out[w] = cur
+    return out
+
+
+def outside_words(vocab):
+    """카드 재료에 나오는 낱말 중 대본에 없는 것. {낱말: 몇 번}."""
+    out = {}
+    for f in sorted(CARDS.glob("eng2p_card_q*.md")):
+        if "plan" in f.name:
+            continue
+        for line in f.read_text(encoding="utf-8").split("\n"):
+            m = ITEM.match(line)
+            if not m or HANGUL.search(m.group(2)):
+                continue
+            for w in re.findall(r"[a-z]+", m.group(2).lower()):
+                if w not in vocab:
+                    out[w] = out.get(w, 0) + 1
+    return out
 
 
 def main():
@@ -82,6 +133,26 @@ def main():
         if not (GROUND / name).exists():
             fails.append("%s 가 없어졌다" % name)
 
+    # **대본 밖 낱말은 목록에 적혀 있어야 한다.**
+    # 지어낸 철자를 하나 넣으려면 그 철자를 목록에 적어야 한다. 적히면 보인다.
+    # 비율은 말뭉치가 작아서 흔들린다. 이 검사는 안 흔들린다. 있거나 없거나다.
+    known = wordlist()
+    todo = []
+    if known is None:
+        fails.append("docs/wordlist.md 가 없다")
+    else:
+        vocab = corpus_words()
+        outs = outside_words(vocab)
+        unlisted = sorted(w for w in outs if w not in known)
+        if unlisted:
+            fails.append("대본에도 없고 목록에도 없는 낱말 %d개: %s"
+                         % (len(unlisted), " ".join(unlisted[:12])))
+        todo = sorted(w for w in outs if known.get(w) == "고칠")
+        gone = sorted(w for w, k in known.items() if k == "고칠" and w not in outs)
+        if gone:
+            fails.append("목록의 고칠 것 %s 가 재료에 없다. 다 고쳤으면 목록에서 뺀다"
+                         % " ".join(gone))
+
     for m in fails:
         print("[실패] " + m)
     print()
@@ -94,8 +165,10 @@ def main():
     if over:
         print("다시 짤 것: " + " ".join(n for n, _ in over))
     # 마지막 줄이 all.py 요약에 뜬다. **남은 개수가 거기 있어야 한다.**
-    print("되돌아간 파일 %d개 / **선을 넘는 목록 %d개. 0이 되어야 G구간이 끝난다**"
-          % (len(fails), len(over)))
+    if todo:
+        print("지어낸 철자 %d개가 남았다: %s" % (len(todo), " ".join(todo)))
+    print("되돌아간 파일 %d개 / 지어낸 철자 %d개 / **선을 넘는 목록 %d개. 셋 다 0이어야 G구간이 끝난다**"
+          % (len(fails), len(todo), len(over)))
     return 1 if fails else 0
 
 

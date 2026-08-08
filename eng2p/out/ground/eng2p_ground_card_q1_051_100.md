@@ -9,15 +9,15 @@
 찾는 규칙은 좁다. 낱말만 남겨 견주고 **대본 한 줄 안에 통째로** 들어 있어야 한다.
 줄을 넘겨 이으면 아무도 말한 적 없는 말이 만들어진다.
 
-재료 364개 / 대본에 있음 76개 / **근거 없음 288개 (79%)**
+재료 359개 / 대본에 있음 111개 / **근거 없음 248개 (69%)**
 
 | 자리 | 문장 | 근거 |
 |---|---|---|
-| 051-1 | I wanna see it. | **근거 없음** |
-| 051-2 | She hasta go now. | **근거 없음** |
-| 051-3 | We hafta wait here. | **근거 없음** |
-| 051-4 | They wanna eat first. | **근거 없음** |
-| 051-5 | He hasta call her. | **근거 없음** |
+| 051-1 | I want to see it. | **근거 없음** |
+| 051-2 | She has to go now. | **근거 없음** |
+| 051-3 | We have to wait here. | **근거 없음** |
+| 051-4 | They want to eat first. | **근거 없음** |
+| 051-5 | He has to call her. | **근거 없음** |
 | 052-1 | I have a car. | **근거 없음** |
 | 052-2 | I have to go. | lle1-02:10 / lle1-15:20 / lle1-20:38 / lle1-21:31 |
 | 052-3 | She has a dog. | **근거 없음** |
@@ -33,133 +33,128 @@
 | 053-4b | You want more time. | **근거 없음** |
 | 053-5a | I want to try. | **근거 없음** |
 | 053-5b | I want a new phone. | **근거 없음** |
-| 054-1 | gonna | lle1-17:28 / lle1-20:28 / lle1-21:30 |
-| 054-2 | wanna | lle1-17:3 |
-| 054-3 | gotta | lle1-46:7 |
-| 054-4 | hafta | **근거 없음** |
-| 054-5 | hasta | **근거 없음** |
-| 054-6 | oughta | **근거 없음** |
-| 055-1a | I hafta go to the | **근거 없음** |
+| 054-1 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
+| 054-2 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
+| 054-3 | got to | lle1-42:28 |
+| 054-4 | have to | lle1-02:10 / lle1-07:29 / lle1-14:30 / lle1-15:3 외 21 |
+| 054-5 | has to | lle1-21:14 |
+| 054-6 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
+| 055-1a | I have to go to the | **근거 없음** |
 | 055-1b | store today. | **근거 없음** |
-| 055-2a | They wanna see the | **근거 없음** |
+| 055-2a | They want to see the | **근거 없음** |
 | 055-2b | new movie. | **근거 없음** |
-| 055-3a | We gotta leave before | **근거 없음** |
+| 055-3a | We got to leave before | **근거 없음** |
 | 055-3b | six o'clock. | **근거 없음** |
-| 055-4a | He hasta finish the | **근거 없음** |
+| 055-4a | He has to finish the | **근거 없음** |
 | 055-4b | work tonight. | **근거 없음** |
-| 055-5a | They wanna meet at | **근거 없음** |
+| 055-5a | They want to meet at | **근거 없음** |
 | 055-5b | the park. | lle1-17:16 |
-| 056-1 | lotta | **근거 없음** |
-| 056-2 | outta | **근거 없음** |
-| 056-3 | kinda | **근거 없음** |
-| 056-4 | sorta | **근거 없음** |
-| 056-5 | gotta | lle1-46:7 |
-| 057-1 | I have a lotta work. | **근거 없음** |
-| 057-2 | Get outta here. | **근거 없음** |
-| 057-3 | It is kinda cold. | **근거 없음** |
-| 057-4 | She is sorta busy. | **근거 없음** |
-| 057-5 | We are outta time. | **근거 없음** |
-| 058-1a | a lot of | lle1-20:33 / lle1-22:7 / lle1-22:29 / lle1-24:12 외 10 |
-| 058-1b | a lotta | **근거 없음** |
-| 058-2a | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
-| 058-2b | outta | **근거 없음** |
-| 058-3a | kind of | lle1-24:13 / lle1-24:14 / lle1-25:8 / lle1-30:33 |
-| 058-3b | kinda | **근거 없음** |
-| 058-4a | sort of | **근거 없음** |
-| 058-4b | sorta | **근거 없음** |
-| 058-5a | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
-| 058-5b | wanna | lle1-17:3 |
-| 059-1 | a lotta people | **근거 없음** |
-| 059-2 | outta the room | **근거 없음** |
-| 059-3 | kinda strange | **근거 없음** |
-| 059-4 | sorta okay | **근거 없음** |
-| 059-5 | gotta leave | **근거 없음** |
-| 060-1a | lotta | **근거 없음** |
-| 060-1b | I have a lotta work. | **근거 없음** |
-| 060-2a | outta | **근거 없음** |
-| 060-2b | Get outta the room. | **근거 없음** |
-| 060-3a | kinda | **근거 없음** |
-| 060-3b | It is kinda cold today. | **근거 없음** |
-| 060-4a | sorta | **근거 없음** |
-| 060-4b | She is sorta busy now. | **근거 없음** |
-| 060-5a | gotta | lle1-46:7 |
-| 060-5b | We gotta leave right now. | **근거 없음** |
-| 061-1 | gonna | lle1-17:28 / lle1-20:28 / lle1-21:30 |
-| 061-2 | wanna | lle1-17:3 |
-| 061-3 | gotta | lle1-46:7 |
-| 061-4 | hafta | **근거 없음** |
-| 061-5 | hasta | **근거 없음** |
-| 061-6 | oughta | **근거 없음** |
-| 061-7 | lotta | **근거 없음** |
-| 061-8 | outta | **근거 없음** |
-| 061-9 | kinda | **근거 없음** |
-| 061-10 | sorta | **근거 없음** |
-| 062-1 | lotta | **근거 없음** |
-| 062-2 | outta | **근거 없음** |
-| 062-3 | kinda | **근거 없음** |
-| 062-4 | sorta | **근거 없음** |
-| 062-5 | hasta | **근거 없음** |
+| 056-1 | a lot of | lle1-20:33 / lle1-22:7 / lle1-22:29 / lle1-24:12 외 10 |
+| 056-2 | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
+| 056-3 | kind of | lle1-24:13 / lle1-24:14 / lle1-25:8 / lle1-30:33 |
+| 056-4 | sort of | **근거 없음** |
+| 056-5 | got to | lle1-42:28 |
+| 057-1 | I have a lot of work. | **근거 없음** |
+| 057-2 | Get out of here. | **근거 없음** |
+| 057-3 | It is kind of cold. | **근거 없음** |
+| 057-4 | She is sort of busy. | **근거 없음** |
+| 057-5 | We are out of time. | **근거 없음** |
+| 058-1 | a lot of | lle1-20:33 / lle1-22:7 / lle1-22:29 / lle1-24:12 외 10 |
+| 058-2 | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
+| 058-3 | kind of | lle1-24:13 / lle1-24:14 / lle1-25:8 / lle1-30:33 |
+| 058-4 | sort of | **근거 없음** |
+| 058-5 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
+| 059-1 | a lot of people | **근거 없음** |
+| 059-2 | out of the room | **근거 없음** |
+| 059-3 | kind of strange | **근거 없음** |
+| 059-4 | sort of okay | **근거 없음** |
+| 059-5 | got to leave | **근거 없음** |
+| 060-1a | a lot of | lle1-20:33 / lle1-22:7 / lle1-22:29 / lle1-24:12 외 10 |
+| 060-1b | I have a lot of work. | **근거 없음** |
+| 060-2a | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
+| 060-2b | Get out of the room. | **근거 없음** |
+| 060-3a | kind of | lle1-24:13 / lle1-24:14 / lle1-25:8 / lle1-30:33 |
+| 060-3b | It is kind of cold today. | **근거 없음** |
+| 060-4a | sort of | **근거 없음** |
+| 060-4b | She is sort of busy now. | **근거 없음** |
+| 060-5a | got to | lle1-42:28 |
+| 060-5b | We got to leave right now. | **근거 없음** |
+| 061-1 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
+| 061-2 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
+| 061-3 | got to | lle1-42:28 |
+| 061-4 | have to | lle1-02:10 / lle1-07:29 / lle1-14:30 / lle1-15:3 외 21 |
+| 061-5 | has to | lle1-21:14 |
+| 061-6 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
+| 061-7 | a lot of | lle1-20:33 / lle1-22:7 / lle1-22:29 / lle1-24:12 외 10 |
+| 061-8 | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
+| 061-9 | kind of | lle1-24:13 / lle1-24:14 / lle1-25:8 / lle1-30:33 |
+| 061-10 | sort of | **근거 없음** |
+| 062-1 | a lot of | lle1-20:33 / lle1-22:7 / lle1-22:29 / lle1-24:12 외 10 |
+| 062-2 | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
+| 062-3 | kind of | lle1-24:13 / lle1-24:14 / lle1-25:8 / lle1-30:33 |
+| 062-4 | sort of | **근거 없음** |
+| 062-5 | has to | lle1-21:14 |
 | 063-1 | a lot people | **근거 없음** |
 | 063-2 | get out the room | **근거 없음** |
 | 063-3 | a cup coffee | **근거 없음** |
 | 063-4 | two them | **근거 없음** |
 | 063-5 | most the time | **근거 없음** |
-| 064-1 | whatcha | **근거 없음** |
-| 064-2 | wouldya | **근거 없음** |
-| 064-3 | couldya | **근거 없음** |
-| 064-4 | shoulda | **근거 없음** |
-| 064-5 | woulda | **근거 없음** |
-| 065-1 | Whatcha doing? | **근거 없음** |
-| 065-2 | Wouldya help me? | **근거 없음** |
-| 065-3 | Couldya wait here? | **근거 없음** |
-| 065-4 | I shoulda called her. | **근거 없음** |
-| 065-5 | We woulda gone there. | **근거 없음** |
+| 064-1 | what are you | lle1-07:14 / lle1-07:26 / lle1-15:34 / lle1-17:21 외 6 |
+| 064-2 | would you | lle1-43:5 / lle1-43:23 / lle1-43:34 / lle1-51:33 |
+| 064-3 | could you | lle1-43:23 / lle1-43:34 |
+| 064-4 | should have | **근거 없음** |
+| 064-5 | would have | **근거 없음** |
+| 065-1 | What are you doing? | lle1-07:14 / lle1-07:26 / lle1-15:34 / lle1-17:21 외 3 |
+| 065-2 | Would you help me? | **근거 없음** |
+| 065-3 | Could you wait here? | **근거 없음** |
+| 065-4 | I should have called her. | **근거 없음** |
+| 065-5 | We would have gone there. | **근거 없음** |
 | 066-1a | I should go. | **근거 없음** |
-| 066-1b | I shoulda gone. | **근거 없음** |
+| 066-1b | I should have gone. | **근거 없음** |
 | 066-2a | We could help. | **근거 없음** |
-| 066-2b | We coulda helped. | **근거 없음** |
+| 066-2b | We could have helped. | **근거 없음** |
 | 066-3a | She would call. | **근거 없음** |
-| 066-3b | She woulda called. | **근거 없음** |
+| 066-3b | She would have called. | **근거 없음** |
 | 066-4a | They should wait. | **근거 없음** |
-| 066-4b | They shoulda waited. | **근거 없음** |
+| 066-4b | They should have waited. | **근거 없음** |
 | 066-5a | He could try. | **근거 없음** |
-| 066-5b | He coulda tried. | **근거 없음** |
+| 066-5b | He could have tried. | **근거 없음** |
 | 067-1a | I should go. | **근거 없음** |
-| 067-1b | I shoulda gone. | **근거 없음** |
+| 067-1b | I should have gone. | **근거 없음** |
 | 067-2a | We could leave. | **근거 없음** |
-| 067-2b | We coulda left. | **근거 없음** |
+| 067-2b | We could have left. | **근거 없음** |
 | 067-3a | She would help. | **근거 없음** |
-| 067-3b | She woulda helped. | **근거 없음** |
+| 067-3b | She would have helped. | **근거 없음** |
 | 067-4a | They should call. | **근거 없음** |
-| 067-4b | They shoulda called. | **근거 없음** |
+| 067-4b | They should have called. | **근거 없음** |
 | 067-5a | He could wait. | **근거 없음** |
-| 067-5b | He coulda waited. | **근거 없음** |
-| 068-1 | gonna | lle1-17:28 / lle1-20:28 / lle1-21:30 |
-| 068-2 | wanna | lle1-17:3 |
-| 068-3 | gotta | lle1-46:7 |
-| 068-4 | hafta | **근거 없음** |
-| 068-5 | hasta | **근거 없음** |
-| 068-6 | oughta | **근거 없음** |
-| 068-7 | lotta | **근거 없음** |
-| 068-8 | outta | **근거 없음** |
-| 068-9 | kinda | **근거 없음** |
-| 068-10 | sorta | **근거 없음** |
-| 068-11 | whatcha | **근거 없음** |
-| 068-12 | wouldya | **근거 없음** |
-| 068-13 | couldya | **근거 없음** |
-| 068-14 | shoulda | **근거 없음** |
-| 068-15 | woulda | **근거 없음** |
-| 068-16 | coulda | **근거 없음** |
-| 069-1 | whatcha | **근거 없음** |
-| 069-2 | wouldya | **근거 없음** |
-| 069-3 | shoulda | **근거 없음** |
-| 069-4 | coulda | **근거 없음** |
-| 069-5 | oughta | **근거 없음** |
-| 070-1 | Whatcha gonna do about it? | **근거 없음** |
-| 070-2 | Wouldya wanna come with us? | **근거 없음** |
-| 070-3 | I shoulda called her earlier. | **근거 없음** |
-| 070-4 | Couldya wait until Monday? | **근거 없음** |
-| 070-5 | We woulda been outta there by now. | **근거 없음** |
+| 067-5b | He could have waited. | **근거 없음** |
+| 068-1 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
+| 068-2 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
+| 068-3 | got to | lle1-42:28 |
+| 068-4 | have to | lle1-02:10 / lle1-07:29 / lle1-14:30 / lle1-15:3 외 21 |
+| 068-5 | has to | lle1-21:14 |
+| 068-6 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
+| 068-7 | a lot of | lle1-20:33 / lle1-22:7 / lle1-22:29 / lle1-24:12 외 10 |
+| 068-8 | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
+| 068-9 | kind of | lle1-24:13 / lle1-24:14 / lle1-25:8 / lle1-30:33 |
+| 068-10 | sort of | **근거 없음** |
+| 068-11 | what are you | lle1-07:14 / lle1-07:26 / lle1-15:34 / lle1-17:21 외 6 |
+| 068-12 | would you | lle1-43:5 / lle1-43:23 / lle1-43:34 / lle1-51:33 |
+| 068-13 | could you | lle1-43:23 / lle1-43:34 |
+| 068-14 | should have | **근거 없음** |
+| 068-15 | would have | **근거 없음** |
+| 068-16 | could have | **근거 없음** |
+| 069-1 | what are you | lle1-07:14 / lle1-07:26 / lle1-15:34 / lle1-17:21 외 6 |
+| 069-2 | would you | lle1-43:5 / lle1-43:23 / lle1-43:34 / lle1-51:33 |
+| 069-3 | should have | **근거 없음** |
+| 069-4 | could have | **근거 없음** |
+| 069-5 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
+| 070-1 | What are you going to do about it? | **근거 없음** |
+| 070-2 | Would you want to come with us? | **근거 없음** |
+| 070-3 | I should have called her earlier. | **근거 없음** |
+| 070-4 | Could you wait until Monday? | **근거 없음** |
+| 070-5 | We would have been out of there by now. | **근거 없음** |
 | 071-1 | an apple | lle1-45:22 |
 | 071-2 | pick it up | **근거 없음** |
 | 071-3 | turn it off | **근거 없음** |
@@ -194,7 +189,7 @@
 | 075-2 | an apple | lle1-45:22 |
 | 075-3 | wanna | lle1-17:3 |
 | 075-4 | pick it up | **근거 없음** |
-| 075-5 | outta | **근거 없음** |
+| 075-5 | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
 | 076-1 | an apple | lle1-45:22 |
 | 076-2 | pick it up | **근거 없음** |
 | 076-3 | turn it off | **근거 없음** |

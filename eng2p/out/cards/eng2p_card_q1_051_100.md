@@ -18,14 +18,16 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [051] 판정형 Q1 3분
 
 [A면]
-지시: 아래 문장을 한 번씩 읽는다. 다시 읽어 주지 않는다.
+지시: 아래 문장을 한 번씩 읽되 want to 와 has to 와 have to 를 한 덩어리로 흘린다. 다시 읽어 주지 않는다.
 재료:
-  1. I wanna see it.
-  2. She hasta go now.
-  3. We hafta wait here.
-  4. They wanna eat first.
-  5. He hasta call her.
+  1. I want to see it.
+  2. She has to go now.
+  3. We have to wait here.
+  4. They want to eat first.
+  5. He has to call her.
 정답: 1) want to  2) has to  3) have to  4) want to  5) has to
+비고: 재료는 원형 그대로 적는다. **줄이는 것은 A의 입이 하는 일이지 글자가 하는 일이 아니다.**
+글로도 쓰는 축약은 gonna 와 wanna 와 gotta 셋뿐이다. 52과 대본에 그 셋만 있다.
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
 [B면]
@@ -77,15 +79,17 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [054] 압박형 Q1 3분
 
 [A면]
-지시: 8초를 재고 아래 여섯 형태에서 다섯 개를 예측할 수 없는 순서로 던진다. 중간에 멈추지 않는다.
+지시: 8초를 재고 아래 여섯 덩어리에서 다섯 개를 예측할 수 없는 순서로 흘려 던진다. 중간에 멈추지 않는다.
 재료:
-  1. gonna
-  2. wanna
-  3. gotta
-  4. hafta
-  5. hasta
-  6. oughta
-정답: 1) going to  2) want to  3) got to  4) have to  5) has to  6) ought to
+  1. going to
+  2. want to
+  3. got to
+  4. have to
+  5. has to
+  6. ought to
+정답: B는 A가 흘린 덩어리가 원래 어느 두 낱말인지 낸다. 재료 그대로다.
+비고: 앞의 셋은 글로도 gonna, wanna, gotta 로 적는다. 대본에 그렇게 나온다.
+**뒤의 셋은 글로 적는 꼴이 없다. 소리로만 있다.** 그래서 재료를 원형으로 적는다.
 성공 기준: B가 8초 안에 다섯 개의 원형을 다 내면 성공.
 
 [B면]
@@ -99,11 +103,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 문장을 흘려 읽되 표시된 자리에서 한 번 끊는다. 끊은 뒤 아무 말도 하지 않는다.
 재료:
-  1. I hafta go to the / store today.
-  2. They wanna see the / new movie.
-  3. We gotta leave before / six o'clock.
-  4. He hasta finish the / work tonight.
-  5. They wanna meet at / the park.
+  1. I have to go to the / store today.
+  2. They want to see the / new movie.
+  3. We got to leave before / six o'clock.
+  4. He has to finish the / work tonight.
+  5. They want to meet at / the park.
 성공 기준: B가 5개 중 3개 이상에서 되묻기로 대응하면 성공. 실패가 정상이다.
 
 [B면]
@@ -115,14 +119,15 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [056] 판정형 Q1 3분
 
 [A면]
-지시: 아래 축약형을 한 번씩 읽는다. 다시 읽어 주지 않는다.
+지시: 아래 덩어리를 한 번씩 **두 낱말 사이를 쉬지 않고 흘려** 읽는다. 다시 읽어 주지 않는다.
 재료:
-  1. lotta
-  2. outta
-  3. kinda
-  4. sorta
-  5. gotta
-정답: 1) lot of  2) out of  3) kind of  4) sort of  5) got to
+  1. a lot of
+  2. out of
+  3. kind of
+  4. sort of
+  5. got to
+정답: B는 A가 흘린 덩어리가 원래 어느 낱말들인지 낸다. 재료 그대로다.
+비고: 이 다섯 중 글로 적는 꼴이 있는 것은 gotta 하나뿐이다.
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
 [B면]
@@ -136,11 +141,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 문장을 한 번씩 읽는다. 줄어든 자리를 또박또박 읽지 않는다.
 재료:
-  1. I have a lotta work.
-  2. Get outta here.
-  3. It is kinda cold.
-  4. She is sorta busy.
-  5. We are outta time.
+  1. I have a lot of work.
+  2. Get out of here.
+  3. It is kind of cold.
+  4. She is sort of busy.
+  5. We are out of time.
 정답: 1) lot of  2) out of  3) kind of  4) sort of  5) out of
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
@@ -153,18 +158,19 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [058] 판정형 Q1 3분
 
 [A면]
-지시: 아래 짝을 한 쌍씩 읽는다. 두 낱말 사이를 쉬지 않는다.
+지시: 아래 덩어리를 **한 번은 또박또박, 한 번은 흘려** 두 번씩 읽는다. 어느 쪽이 먼저인지 말하지 않는다.
 재료:
-  1. a lot of / a lotta
-  2. out of / outta
-  3. kind of / kinda
-  4. sort of / sorta
-  5. want to / wanna
-정답: 다섯 쌍 모두 뒤쪽이 줄어든 형태다.
-성공 기준: B가 5쌍 중 4쌍 이상에서 줄어든 쪽을 고르면 성공.
+  1. a lot of
+  2. out of
+  3. kind of
+  4. sort of
+  5. want to
+정답: 다섯 개 모두 두 번 읽는다. B는 흘린 쪽이 첫 번째인지 두 번째인지 고른다.
+비고: **짝을 글자로 보여 주지 않는다.** 줄어든 꼴은 글자가 아니라 소리다.
+성공 기준: B가 5개 중 4개 이상에서 흘린 쪽을 고르면 성공.
 
 [B면]
-지시: 두 소리 중 줄어든 쪽이 어느 것인지 고른다. 낱말 수로 세지 않는다.
+지시: 같은 덩어리를 두 번 듣고 흘린 쪽이 몇 번째인지 고른다. 낱말 수로 세지 않는다.
 성공 기준: 5쌍 중 4쌍 이상.
 
 ---
@@ -174,11 +180,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 문장을 한 번씩 읽는다. 낱말 수를 알려 주지 않는다.
 재료:
-  1. a lotta people
-  2. outta the room
-  3. kinda strange
-  4. sorta okay
-  5. gotta leave
+  1. a lot of people
+  2. out of the room
+  3. kind of strange
+  4. sort of okay
+  5. got to leave
 정답: 줄어들기 전 낱말 수는 1) 4  2) 4  3) 3  4) 3  5) 3
 성공 기준: B가 5개 중 3개 이상 낱말 수를 맞히면 성공.
 
@@ -194,11 +200,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 지시: 아래 짝을 나란히 읽는다. 두 덩어리 사이를 쉬지 않는다.
 변형축: 길이
 재료:
-  1. lotta / I have a lotta work.
-  2. outta / Get outta the room.
-  3. kinda / It is kinda cold today.
-  4. sorta / She is sorta busy now.
-  5. gotta / We gotta leave right now.
+  1. a lot of / I have a lot of work.
+  2. out of / Get out of the room.
+  3. kind of / It is kind of cold today.
+  4. sort of / She is sort of busy now.
+  5. got to / We got to leave right now.
 모범 답안: 덩어리에서 잡히던 것이 문장에서 안 잡히면 아직 소리가 안 잡힌 것이다. 유일한 정답은 아니다.
 성공 기준: 덩어리와 문장에서 판정이 같은 것이 3개 이상이면 성공.
 
@@ -212,19 +218,19 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [061] 압박형 Q1 3분
 
 [A면]
-지시: 8초를 재고 아래 열 형태에서 다섯 개를 예측할 수 없는 순서로 던진다. 중간에 멈추지 않는다.
+지시: 8초를 재고 아래 열 덩어리에서 다섯 개를 예측할 수 없는 순서로 흘려 던진다. 중간에 멈추지 않는다.
 재료:
-  1. gonna
-  2. wanna
-  3. gotta
-  4. hafta
-  5. hasta
-  6. oughta
-  7. lotta
-  8. outta
-  9. kinda
-  10. sorta
-정답: 순서대로 going to, want to, got to, have to, has to, ought to, lot of, out of, kind of, sort of
+  1. going to
+  2. want to
+  3. got to
+  4. have to
+  5. has to
+  6. ought to
+  7. a lot of
+  8. out of
+  9. kind of
+  10. sort of
+정답: B는 흘린 덩어리의 원형을 낸다. 재료 그대로다.
 성공 기준: B가 8초 안에 다섯 개의 원형을 다 내면 성공.
 
 [B면]
@@ -236,14 +242,14 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [062] 판정형 Q1 4분
 
 [A면]
-지시: 061 과 같은 열 형태를 시간 제한 없이 하나씩 읽는다. B가 답할 때까지 기다린다.
+지시: 061 과 같은 열 덩어리를 시간 제한 없이 하나씩 흘려 읽는다. B가 답할 때까지 기다린다.
 재료:
-  1. lotta
-  2. outta
-  3. kinda
-  4. sorta
-  5. hasta
-정답: 1) lot of  2) out of  3) kind of  4) sort of  5) has to
+  1. a lot of
+  2. out of
+  3. kind of
+  4. sort of
+  5. has to
+정답: B는 흘린 덩어리의 원형을 낸다. 재료 그대로다.
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
 [B면]
@@ -273,14 +279,15 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [064] 판정형 Q1 3분
 
 [A면]
-지시: 아래 축약형을 한 번씩 읽는다. 다시 읽어 주지 않는다.
+지시: 아래 덩어리를 한 번씩 **낱말 사이를 쉬지 않고 흘려** 읽는다. 다시 읽어 주지 않는다.
 재료:
-  1. whatcha
-  2. wouldya
-  3. couldya
-  4. shoulda
-  5. woulda
-정답: 1) what are you  2) would you  3) could you  4) should have  5) would have
+  1. what are you
+  2. would you
+  3. could you
+  4. should have
+  5. would have
+정답: B는 흘린 덩어리의 원형과 낱말 수를 낸다. 재료 그대로다.
+비고: **이 다섯은 글로 적는 꼴이 없다.** 소리로만 있다. 그래서 원형으로 적는다.
 성공 기준: B가 5개 중 4개 이상 원형과 낱말 수를 내면 성공.
 
 [B면]
@@ -294,11 +301,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 문장을 한 번씩 읽는다. 줄어든 자리를 또박또박 읽지 않는다.
 재료:
-  1. Whatcha doing?
-  2. Wouldya help me?
-  3. Couldya wait here?
-  4. I shoulda called her.
-  5. We woulda gone there.
+  1. What are you doing?
+  2. Would you help me?
+  3. Could you wait here?
+  4. I should have called her.
+  5. We would have gone there.
 정답: 1) what are you  2) would you  3) could you  4) should have  5) would have
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
@@ -313,11 +320,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 짝을 한 쌍씩 읽는다. 두 문장 사이를 쉬지 않는다.
 재료:
-  1. I should go. / I shoulda gone.
-  2. We could help. / We coulda helped.
-  3. She would call. / She woulda called.
-  4. They should wait. / They shoulda waited.
-  5. He could try. / He coulda tried.
+  1. I should go. / I should have gone.
+  2. We could help. / We could have helped.
+  3. She would call. / She would have called.
+  4. They should wait. / They should have waited.
+  5. He could try. / He could have tried.
 정답: 앞쪽은 지금이나 앞으로의 일이고 뒤쪽은 이미 지난 일이다.
 성공 기준: B가 5쌍 중 4쌍 이상에서 지난 일 쪽을 고르면 성공.
 
@@ -333,11 +340,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 지시: 아래 짝을 나란히 읽는다. 두 문장 사이를 쉬지 않는다.
 변형축: 뜻
 재료:
-  1. I should go. / I shoulda gone.
-  2. We could leave. / We coulda left.
-  3. She would help. / She woulda helped.
-  4. They should call. / They shoulda called.
-  5. He could wait. / He coulda waited.
+  1. I should go. / I should have gone.
+  2. We could leave. / We could have left.
+  3. She would help. / She would have helped.
+  4. They should call. / They should have called.
+  5. He could wait. / He could have waited.
 모범 답안: 소리 하나가 붙고 안 붙고로 시점이 갈린다. 유일한 정답은 아니다.
 성공 기준: B가 5쌍 중 4쌍 이상에서 두 문장의 시점 차이를 말하면 성공.
 
@@ -351,25 +358,26 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [068] 압박형 Q1 3분
 
 [A면]
-지시: 8초를 재고 아래 열여섯 형태에서 다섯 개를 예측할 수 없는 순서로 던진다. 중간에 멈추지 않는다.
+지시: 8초를 재고 아래 열여섯 덩어리에서 다섯 개를 예측할 수 없는 순서로 흘려 던진다. 중간에 멈추지 않는다.
 재료:
-  1. gonna
-  2. wanna
-  3. gotta
-  4. hafta
-  5. hasta
-  6. oughta
-  7. lotta
-  8. outta
-  9. kinda
-  10. sorta
-  11. whatcha
-  12. wouldya
-  13. couldya
-  14. shoulda
-  15. woulda
-  16. coulda
-정답: 순서대로 going to, want to, got to, have to, has to, ought to, lot of, out of, kind of, sort of, what are you, would you, could you, should have, would have, could have
+  1. going to
+  2. want to
+  3. got to
+  4. have to
+  5. has to
+  6. ought to
+  7. a lot of
+  8. out of
+  9. kind of
+  10. sort of
+  11. what are you
+  12. would you
+  13. could you
+  14. should have
+  15. would have
+  16. could have
+정답: B는 흘린 덩어리의 원형을 낸다. 재료 그대로다.
+비고: 열여섯 중 글로 적는 꼴이 있는 것은 앞의 셋(gonna, wanna, gotta)뿐이다.
 성공 기준: B가 8초 안에 다섯 개의 원형을 다 내면 성공.
 
 [B면]
@@ -381,14 +389,14 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [069] 판정형 Q1 4분
 
 [A면]
-지시: 068 과 같은 열여섯 형태를 시간 제한 없이 하나씩 읽는다. B가 답할 때까지 기다린다.
+지시: 068 과 같은 열여섯 덩어리를 시간 제한 없이 하나씩 흘려 읽는다. B가 답할 때까지 기다린다.
 재료:
-  1. whatcha
-  2. wouldya
-  3. shoulda
-  4. coulda
-  5. oughta
-정답: 1) what are you  2) would you  3) should have  4) could have  5) ought to
+  1. what are you
+  2. would you
+  3. should have
+  4. could have
+  5. ought to
+정답: B는 흘린 덩어리의 원형을 낸다. 재료 그대로다.
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
 [B면]
@@ -402,11 +410,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 문장을 아주 빠르게 흘려 읽는다. B가 되물어도 그대로 한 번 더 빠르게 읽는다.
 재료:
-  1. Whatcha gonna do about it?
-  2. Wouldya wanna come with us?
-  3. I shoulda called her earlier.
-  4. Couldya wait until Monday?
-  5. We woulda been outta there by now.
+  1. What are you going to do about it?
+  2. Would you want to come with us?
+  3. I should have called her earlier.
+  4. Could you wait until Monday?
+  5. We would have been out of there by now.
 성공 기준: B가 5개 중 3개 이상에서 되묻기로 대응하면 성공. 실패가 정상이다.
 
 [B면]
@@ -502,8 +510,9 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
   2. an apple
   3. wanna
   4. pick it up
-  5. outta
+  5. out of
 정답: 줄어든 것은 1번, 3번, 5번이고 옮겨 간 것은 2번과 4번이다.
+비고: 1번과 3번은 글로도 그렇게 적는다. 5번은 흘려 읽되 글로는 원형으로 적는다.
 성공 기준: B가 5개 중 4개 이상 어느 쪽인지 가르면 성공.
 
 [B면]

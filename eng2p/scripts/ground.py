@@ -128,7 +128,7 @@ def report(path, tr):
     name = "eng2p_ground_" + path.stem.replace("eng2p_", "") + ".md"
     lines = [
         "신뢰도: A 생성 (근거 대조)",
-        "원본: " + str(path.relative_to(ROOT)),
+        "원본: " + str(path.resolve().relative_to(ROOT)),
         "",
         "# 근거 대조 " + path.stem,
         "",
