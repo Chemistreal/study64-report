@@ -258,9 +258,12 @@ function seedScript() {
         if (!sec) return { small: [], top: null };
         const all = [...sec.querySelectorAll("button")].filter(vis);
         const prim = all.filter((e) => /(^|\s)(b|bigtap)(\s|$)/.test(e.className + ""));
+        /* **재는 값과 견주는 값을 같은 자리에서 자른다.**
+           화소는 소수로 나온다. 47.9999 를 48 이라고 적어 놓고 48 미만이라고
+           실패로 내면 사람은 왜 실패인지 알 수가 없다. */
         const small = prim.filter((e) => {
           const s = getComputedStyle(e), r = e.getBoundingClientRect();
-          return r.height < 48 || parseFloat(s.fontSize) < 13 ||
+          return Math.round(r.height) < 48 || Math.round(parseFloat(s.fontSize)) < 13 ||
                  parseInt(s.fontWeight, 10) < 650;
         }).map((e) => { const s = getComputedStyle(e), r = e.getBoundingClientRect();
           return (e.textContent || "").trim().slice(0, 12) + " " +

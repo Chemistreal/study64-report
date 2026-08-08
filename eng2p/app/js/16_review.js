@@ -19,16 +19,21 @@ function revDue(){
   });
   return out;
 }
-/* **잘못 누르면 간격이 날아간다.** 맞음과 틀림이 나란히 있고 둘 다 큰 단추다.
-   틀림을 누르면 상자가 1로 되돌아간다. 60일 뒤에 낼 것이 내일이 된다.
-   그것을 되돌릴 길이 없었다. T173 */
+/* **잘못 누르면 간격이 날아간다.** 두 단추가 나란히 있고 둘 다 크다.
+   한 번 더를 누르면 상자가 1로 되돌아간다. 60일 뒤에 낼 것이 내일이 된다.
+   그것을 되돌릴 길이 없었다. T173
+
+   말도 바꿨다. 전에는 "맞음" 과 "틀림" 이었다.
+   **판정하는 사람은 상대다.** 틀림이라고 적힌 단추를 누르는 것은
+   상대에게 틀렸다고 말하는 일이 된다. 기준서 2.4 가 막으려는 것이 그것이다.
+   넘어감과 한 번 더는 사람이 아니라 **그 항목이 언제 다시 오는가**를 말한다. T175 */
 function revGrade(it,ok){
   var was={box:it.box,due:it.due};
   if(ok){ it.box=(it.box||1)+1; }
   else { it.box=1; }
   it.due = it.box>IVL.length ? null : addDays(today(), IVL[it.box-1]);
   save();
-  offerUndo("복습 판정 "+(ok?"맞음":"틀림"),function(){
+  offerUndo("복습을 "+(ok?"넘어감":"한 번 더")+"로 표시",function(){
     it.box=was.box; it.due=was.due;
     REV.shown=false; if(REV.i>0) REV.i--;
     renderReview(); renderNudge();
@@ -79,7 +84,7 @@ function renderReview(){
   var slot=el("div"); slot.style.marginTop="18px"; c.appendChild(slot);
 
   if(!REV.shown){
-    var show=el("button","bigtap alt","정답 보기");
+    var show=el("button","bigtap alt","답 보기");
     show.onclick=function(){ REV.shown=true; renderReview(); };
     slot.appendChild(show);
   } else {
@@ -87,17 +92,17 @@ function renderReview(){
     var sp=el("div","row"); sp.style.justifyContent="center"; sp.appendChild(spkBtn(revAnswer(it)));
     slot.appendChild(sp);
     var row=el("div","row"); row.style.marginTop="16px"; row.style.gap="10px";
-    var no=el("button","bigtap alt","틀림"); no.style.flex="1";
-    var yes=el("button","bigtap","맞음"); yes.style.flex="1";
+    var no=el("button","bigtap alt","한 번 더"); no.style.flex="1";
+    var yes=el("button","bigtap","넘어감"); yes.style.flex="1";
     no.onclick=function(){ revGrade(it,false); step(); };
     yes.onclick=function(){ revGrade(it,true); step(); };
     row.appendChild(no); row.appendChild(yes); slot.appendChild(row);
   }
   body.innerHTML=""; body.appendChild(c);
 
-  var hint=el("div","note small","다음 간격: 맞으면 "+
+  var hint=el("div","note small","다음에 낼 때: 넘어가면 "+
     ((it.box||1)>=IVL.length ? "졸업. 큐에서 빠진다" : IVL[Math.min(it.box||1,IVL.length-1)]+"일 뒤")+
-    ", 틀리면 1일 뒤. 정답을 보기 전에 반드시 소리 내어 말한다.");
+    ", 한 번 더면 내일. 답을 보기 전에 반드시 소리 내어 말한다.");
   body.appendChild(hint);
 
   function step(){ REV.shown=false; REV.i++; renderReview(); renderNudge(); }

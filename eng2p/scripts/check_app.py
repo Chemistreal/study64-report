@@ -121,6 +121,43 @@ UNDO_OK = {
 }
 
 
+# **사람을 판정하는 말.** 화면에서 학습자의 수행을 가리키는 자리에 쓰면 안 된다.
+# 판정하는 사람이 상대이기 때문이다. "틀림" 이라고 적힌 단추를 누르는 것은
+# 상대에게 틀렸다고 말하는 일이 된다. 기준서 2.4 가 막으려는 것이 그것이다.
+# 그 항목이 언제 다시 오는가로 말한다. 넘어감과 한 번 더다. T175
+VERDICT_WORDS = ["틀림", "오답", "실패함"]
+# 이 조각은 이 말을 써도 된다. 학습자 수행이 아니라 검사 결과를 말하는 자리다.
+VERDICT_OK = {"14_check.js"}
+
+
+def verdict_words():
+    """학습자를 판정하는 말이 화면 글에 있는가. **주석은 안 본다.**"""
+    app = ROOT / "app" / "js"
+    bad = []
+    for f in sorted(app.glob("*.js")):
+        if f.name in VERDICT_OK:
+            continue
+        # **주석 안은 안 본다.** 없앤 말을 설명하려면 그 말을 적어야 한다.
+        # 줄 첫 글자만 보면 안 된다. 여러 줄 주석의 가운데 줄은 아무 글자로나 시작한다.
+        # T149 에 일지에서 같은 일을 겪었다. 그때는 문장을 고쳐 피했고 여기서는 제대로 가른다.
+        inblock = False
+        for i, line in enumerate(f.read_text(encoding="utf-8").split("\n")):
+            s = line.lstrip()
+            was = inblock
+            if not inblock and "/*" in line and "*/" not in line.split("/*")[1]:
+                inblock = True
+            elif inblock and "*/" in line:
+                inblock = False
+                was = True
+            if was or s.startswith("//"):
+                continue
+            for w in VERDICT_WORDS:
+                if '"' + w in line or "'" + w in line or w + '"' in line or w + "'" in line:
+                    bad.append("%s %d째 줄에 사람을 판정하는 말: %s"
+                               % (f.name, i + 1, s[:56]))
+    return bad
+
+
 def undo_gaps():
     """지우는 코드 옆에 되돌리기가 있는가. **소스를 읽는다.**
 
@@ -157,6 +194,8 @@ def undo_gaps():
 
 
 def main():
+    for m in verdict_words():
+        FAIL.append(m)
     for m in undo_gaps():
         FAIL.append(m)
     for m in pieces():
@@ -217,9 +256,9 @@ def main():
     npiece = sum(1 for l in (ROOT / "app" / "order.txt").read_text(encoding="utf-8").split("\n")
                  if l.strip() and not l.strip().startswith("#"))
     print("english.html 글자 %d개 / 조각 %d개 (한 조각 %d줄까지) / 되돌리기 면제 %d곳 / "
-          "건너뛴 규격 목록 %d곳 / 그리는 기호 %d개 / 실패 %d / 경고 %d"
-          % (len(raw), npiece, MAX_LINES, len(UNDO_OK), skipped, len(GLYPH),
-             len(FAIL), len(WARN)))
+          "판정하는 말 %d개 / 건너뛴 규격 목록 %d곳 / 그리는 기호 %d개 / 실패 %d / 경고 %d"
+          % (len(raw), npiece, MAX_LINES, len(UNDO_OK), len(VERDICT_WORDS), skipped,
+             len(GLYPH), len(FAIL), len(WARN)))
     return 1 if FAIL else 0
 
 

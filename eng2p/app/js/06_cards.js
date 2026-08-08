@@ -145,7 +145,7 @@ function renderCardView(pl){
   if(f.note) h+='<div class="meta"><b>비고</b> '+esc(f.note)+'</div>';
   if(f.model) h+='<div class="meta"><b>모범 답안</b> '+esc(f.model)+'</div>';
   if(f.answer) h+='<div class="ans"><b>정답</b> '+esc(f.answer)+'</div>';
-  if(f.pass) h+='<div class="meta"><b>성공 기준</b> '+esc(f.pass)+'</div>';
+  if(f.pass) h+='<div class="meta"><b>통과 기준</b> '+esc(f.pass)+'</div>';
   h+=renderGround(c);
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
