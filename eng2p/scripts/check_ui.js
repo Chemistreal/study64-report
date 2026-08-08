@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 스물한 가지를 본다.
+ * 스물두 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -26,7 +26,8 @@
  * 18. 어림을 찍어 바로잡을 수 있고 **못이 없으면 표가 어림 그대로인가**
  * 19. 대본 화면 52과가 다 그려지고 못을 박아도 차례가 지켜지는가
  * 20. 한 줄 되풀이가 구간 안에서 안 멎고 도는가
- * 21. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
+ * 21. 여러 줄 구간이 늘고 줄고, video 요소로도 같은 코드가 도는가
+ * 22. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -722,6 +723,75 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   loop.slice(0, 6).forEach((m) => fails.push("되풀이: " + m));
 
+  // 20. 여러 줄 구간과 video 요소. 3회차 초점은 의미다. 한 줄만 돌면 앞뒤가 없다.
+  //     **원격 영상은 이 상자에서 안 뜬다.** ERR_CONNECTION_RESET 이다.
+  //     curl 로는 받아진다. 상자의 제약이고 앱의 결함이 아니다. T131 에 적었다.
+  //     그래서 영상 주소는 못 본다. 대신 **video 요소 자체**를 걸고 같은 코드를 돌린다.
+  //     video 요소는 소리만 든 파일도 문다. 되풀이 코드는 SESS.el 하나만 보므로
+  //     여기서 도는 것과 영상에서 도는 것이 같은 길이다. 주소만 못 본 것이다.
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(0); });
+  await page.waitForTimeout(2200);
+  const multi = await page.evaluate(async () => {
+    const bad = [];
+    const rows = () => [...document.querySelectorAll("#sessScript .scline")];
+    const btn = (k) => [...document.querySelectorAll("#blockPane [data-media]")]
+      .find((x) => x.dataset.media === k);
+    rows()[1].click();
+    await new Promise((r) => setTimeout(r, 600));
+    btn("loop").click();
+    await new Promise((r) => setTimeout(r, 500));
+    if (SESS.loopN !== 1) bad.push("켜자마자 " + SESS.loopN + "줄이다. 한 줄이어야 한다");
+    const e1 = loopEnd();
+    btn("more").click(); await new Promise((r) => setTimeout(r, 350));
+    btn("more").click(); await new Promise((r) => setTimeout(r, 500));
+    if (SESS.loopN !== 3) bad.push("두 번 늘렸는데 " + SESS.loopN + "줄이다");
+    const e3 = loopEnd();
+    if (!(e3 > e1)) bad.push("구간을 늘렸는데 끝이 안 밀렸다");
+    if (rows().filter((x) => x.classList.contains("loop")).length !== 3)
+      bad.push("세 줄인데 표시된 줄이 " + rows().filter((x) => x.classList.contains("loop")).length + "개다");
+    const a = SESS.cue[SESS.loop], seen = [], paused = [];
+    for (let i = 0; i < 14; i++) {
+      await new Promise((r) => setTimeout(r, 500));
+      seen.push(SESS.el.currentTime); paused.push(SESS.el.paused);
+    }
+    if (seen.some((t) => t > e3 + 0.4 || t < a - 0.4)) bad.push("여러 줄 구간을 벗어났다");
+    if (paused.some((x) => x)) bad.push("여러 줄 되풀이 도중에 소리가 멎었다");
+    if (!SESS.laps) bad.push("여러 줄로 한 바퀴도 안 돌았다");
+    // 끝을 넘겨 늘리려 하면 마지막 줄에서 멈춘다
+    for (let i = 0; i < 20; i++) { btn("more").click(); await new Promise((r) => setTimeout(r, 60)); }
+    if (SESS.loop + SESS.loopN > SESS.cue.length)
+      bad.push("구간이 대본 끝을 넘었다: " + SESS.loop + "+" + SESS.loopN);
+    if (Math.abs(loopEnd() - ((DATA.audiolen.items || {})[SESS.id])) > 0.05)
+      bad.push("끝까지 늘렸는데 구간 끝이 소리 끝이 아니다: " + loopEnd());
+    // 한 줄 밑으로는 안 내려간다
+    for (let i = 0; i < 30; i++) { btn("less").click(); await new Promise((r) => setTimeout(r, 40)); }
+    if (SESS.loopN !== 1) bad.push("끝까지 줄였는데 " + SESS.loopN + "줄이다");
+    T.run = false; clearInterval(T.tick); stopSessPlay();
+
+    // video 요소로도 같은 코드가 도는가
+    const host = document.getElementById("sessPlayHost") ||
+      document.getElementById("blockPane").appendChild(
+        Object.assign(document.createElement("div"), { id: "sessPlayHost" }));
+    const it = MEDIA[MEDIA.findIndex((x) => x.id === plan().media)];
+    const v = mountPlayer(host, { title: it.title, video: it.audio }, "video",
+                          { play: true, noteId: "sessMediaNote" });
+    if (v.tagName !== "VIDEO") bad.push("video 요소가 아니다: " + v.tagName);
+    SESS.el = v; SESS.id = it.id; SESS.loop = 1; SESS.loopN = 2; SESS.laps = 0; SESS.line = -1;
+    v.ontimeupdate = syncCur;
+    await new Promise((r) => setTimeout(r, 500));
+    v.currentTime = SESS.cue[1];
+    const ve = loopEnd(), vseen = [];
+    for (let i = 0; i < 12; i++) { await new Promise((r) => setTimeout(r, 500)); vseen.push(v.currentTime); }
+    if (v.error) bad.push("video 요소가 소리를 못 물었다: " + v.error.code);
+    else {
+      if (vseen.some((t) => t > ve + 0.4)) bad.push("video 요소에서 구간을 벗어났다");
+      if (!SESS.laps) bad.push("video 요소에서 한 바퀴도 안 돌았다");
+    }
+    stopSessPlay();
+    return bad;
+  });
+  multi.slice(0, 6).forEach((m) => fails.push("여러 줄 되풀이: " + m));
+
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
   //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
@@ -772,7 +842,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
               "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
-              "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / 연속 30일 1판");
+              "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
+              "여러 줄 되풀이 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
