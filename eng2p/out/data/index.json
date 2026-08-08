@@ -1,6 +1,34 @@
 {
   "note": "앱이 제일 먼저 읽는 한 장이다. 마크다운에서 파생시킨 것이라 손으로 고치지 않는다. scripts/derive_data.py 를 다시 돌린다.",
   "generator": "scripts/derive_data.py",
+  "blocks": [
+    {
+      "no": 1,
+      "name": "병렬 침묵",
+      "minutes": 40,
+      "talk": false,
+      "uses": "media"
+    },
+    {
+      "no": 2,
+      "name": "대조 교차",
+      "minutes": 30,
+      "uses": "set"
+    },
+    {
+      "no": 3,
+      "name": "페어 드릴",
+      "minutes": 30,
+      "uses": "cards"
+    },
+    {
+      "no": 4,
+      "name": "공동 입력",
+      "minutes": 20,
+      "uses": "media"
+    }
+  ],
+  "roleRule": "짝수 날은 남편이 A, 홀수 날은 아내가 A다",
   "counts": {
     "lectures": 96,
     "cards": 600,
@@ -109,7 +137,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 1,
+          "set": "Q1-001"
+        },
+        {
+          "day": 2,
+          "lecture": 1,
+          "set": "Q1-002"
+        },
+        {
+          "day": 3,
+          "lecture": 1,
+          "set": "Q1-003"
+        },
+        {
+          "day": 4,
+          "lecture": 2,
+          "set": "Q1-004"
+        },
+        {
+          "day": 5,
+          "lecture": 2,
+          "set": "Q1-005"
+        },
+        {
+          "day": 6,
+          "lecture": 2,
+          "set": "Q1-006"
+        }
+      ]
     },
     {
       "week": 2,
@@ -148,7 +208,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 3,
+          "set": "Q1-007"
+        },
+        {
+          "day": 2,
+          "lecture": 3,
+          "set": "Q1-008"
+        },
+        {
+          "day": 3,
+          "lecture": 3,
+          "set": "Q1-009"
+        },
+        {
+          "day": 4,
+          "lecture": 4,
+          "set": "Q1-010"
+        },
+        {
+          "day": 5,
+          "lecture": 4,
+          "set": "Q1-011"
+        },
+        {
+          "day": 6,
+          "lecture": 4,
+          "set": "Q1-012"
+        }
+      ]
     },
     {
       "week": 3,
@@ -187,7 +279,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 5,
+          "set": "Q1-013"
+        },
+        {
+          "day": 2,
+          "lecture": 5,
+          "set": "Q1-014"
+        },
+        {
+          "day": 3,
+          "lecture": 5,
+          "set": "Q1-015"
+        },
+        {
+          "day": 4,
+          "lecture": 6,
+          "set": "Q1-016"
+        },
+        {
+          "day": 5,
+          "lecture": 6,
+          "set": "Q1-017"
+        },
+        {
+          "day": 6,
+          "lecture": 6,
+          "set": "Q1-018"
+        }
+      ]
     },
     {
       "week": 4,
@@ -226,7 +350,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 7,
+          "set": "Q1-019"
+        },
+        {
+          "day": 2,
+          "lecture": 7,
+          "set": "Q1-020"
+        },
+        {
+          "day": 3,
+          "lecture": 7,
+          "set": "Q1-021"
+        },
+        {
+          "day": 4,
+          "lecture": 8,
+          "set": "Q1-022"
+        },
+        {
+          "day": 5,
+          "lecture": 8,
+          "set": "Q1-023"
+        },
+        {
+          "day": 6,
+          "lecture": 8,
+          "set": "Q1-024"
+        }
+      ]
     },
     {
       "week": 5,
@@ -265,7 +421,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 9,
+          "set": "Q1-025"
+        },
+        {
+          "day": 2,
+          "lecture": 9,
+          "set": "Q1-026"
+        },
+        {
+          "day": 3,
+          "lecture": 9,
+          "set": "Q1-027"
+        },
+        {
+          "day": 4,
+          "lecture": 10,
+          "set": "Q1-028"
+        },
+        {
+          "day": 5,
+          "lecture": 10,
+          "set": "Q1-029"
+        },
+        {
+          "day": 6,
+          "lecture": 10,
+          "set": "Q1-030"
+        }
+      ]
     },
     {
       "week": 6,
@@ -304,7 +492,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 11,
+          "set": "Q1-031"
+        },
+        {
+          "day": 2,
+          "lecture": 11,
+          "set": "Q1-032"
+        },
+        {
+          "day": 3,
+          "lecture": 11,
+          "set": "Q1-033"
+        },
+        {
+          "day": 4,
+          "lecture": 12,
+          "set": "Q1-034"
+        },
+        {
+          "day": 5,
+          "lecture": 12,
+          "set": "Q1-035"
+        },
+        {
+          "day": 6,
+          "lecture": 12,
+          "set": "Q1-036"
+        }
+      ]
     },
     {
       "week": 7,
@@ -343,7 +563,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 13,
+          "set": "Q1-037"
+        },
+        {
+          "day": 2,
+          "lecture": 13,
+          "set": "Q1-038"
+        },
+        {
+          "day": 3,
+          "lecture": 13,
+          "set": "Q1-039"
+        },
+        {
+          "day": 4,
+          "lecture": 14,
+          "set": "Q1-040"
+        },
+        {
+          "day": 5,
+          "lecture": 14,
+          "set": "Q1-041"
+        },
+        {
+          "day": 6,
+          "lecture": 14,
+          "set": "Q1-042"
+        }
+      ]
     },
     {
       "week": 8,
@@ -382,7 +634,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 15,
+          "set": "Q1-043"
+        },
+        {
+          "day": 2,
+          "lecture": 15,
+          "set": "Q1-044"
+        },
+        {
+          "day": 3,
+          "lecture": 15,
+          "set": "Q1-045"
+        },
+        {
+          "day": 4,
+          "lecture": 16,
+          "set": "Q1-046"
+        },
+        {
+          "day": 5,
+          "lecture": 16,
+          "set": "Q1-047"
+        },
+        {
+          "day": 6,
+          "lecture": 16,
+          "set": "Q1-048"
+        }
+      ]
     },
     {
       "week": 9,
@@ -421,7 +705,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 17,
+          "set": "Q1-049"
+        },
+        {
+          "day": 2,
+          "lecture": 17,
+          "set": "Q1-050"
+        },
+        {
+          "day": 3,
+          "lecture": 17,
+          "set": "Q1-051"
+        },
+        {
+          "day": 4,
+          "lecture": 18,
+          "set": "Q1-052"
+        },
+        {
+          "day": 5,
+          "lecture": 18,
+          "set": "Q1-053"
+        },
+        {
+          "day": 6,
+          "lecture": 18,
+          "set": "Q1-054"
+        }
+      ]
     },
     {
       "week": 10,
@@ -460,7 +776,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 19,
+          "set": "Q1-055"
+        },
+        {
+          "day": 2,
+          "lecture": 19,
+          "set": "Q1-056"
+        },
+        {
+          "day": 3,
+          "lecture": 19,
+          "set": "Q1-057"
+        },
+        {
+          "day": 4,
+          "lecture": 20,
+          "set": "Q1-058"
+        },
+        {
+          "day": 5,
+          "lecture": 20,
+          "set": "Q1-059"
+        },
+        {
+          "day": 6,
+          "lecture": 20,
+          "set": "Q1-060"
+        }
+      ]
     },
     {
       "week": 11,
@@ -499,7 +847,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 21,
+          "set": "Q1-061"
+        },
+        {
+          "day": 2,
+          "lecture": 21,
+          "set": "Q1-062"
+        },
+        {
+          "day": 3,
+          "lecture": 21,
+          "set": "Q1-063"
+        },
+        {
+          "day": 4,
+          "lecture": 22,
+          "set": "Q1-064"
+        },
+        {
+          "day": 5,
+          "lecture": 22,
+          "set": "Q1-065"
+        },
+        {
+          "day": 6,
+          "lecture": 22,
+          "set": "Q1-066"
+        }
+      ]
     },
     {
       "week": 12,
@@ -538,7 +918,39 @@
       ],
       "task": {
         "minChars": 100
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 23,
+          "set": "Q1-067"
+        },
+        {
+          "day": 2,
+          "lecture": 23,
+          "set": "Q1-068"
+        },
+        {
+          "day": 3,
+          "lecture": 23,
+          "set": "Q1-069"
+        },
+        {
+          "day": 4,
+          "lecture": 24,
+          "set": "Q1-070"
+        },
+        {
+          "day": 5,
+          "lecture": 24,
+          "set": "Q1-071"
+        },
+        {
+          "day": 6,
+          "lecture": 24,
+          "set": "Q1-072"
+        }
+      ]
     },
     {
       "week": 13,
@@ -577,7 +989,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 25,
+          "set": "Q2-073"
+        },
+        {
+          "day": 2,
+          "lecture": 25,
+          "set": "Q2-074"
+        },
+        {
+          "day": 3,
+          "lecture": 25,
+          "set": "Q2-075"
+        },
+        {
+          "day": 4,
+          "lecture": 26,
+          "set": "Q2-076"
+        },
+        {
+          "day": 5,
+          "lecture": 26,
+          "set": "Q2-077"
+        },
+        {
+          "day": 6,
+          "lecture": 26,
+          "set": "Q2-078"
+        }
+      ]
     },
     {
       "week": 14,
@@ -616,7 +1060,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 27,
+          "set": "Q2-079"
+        },
+        {
+          "day": 2,
+          "lecture": 27,
+          "set": "Q2-080"
+        },
+        {
+          "day": 3,
+          "lecture": 27,
+          "set": "Q2-081"
+        },
+        {
+          "day": 4,
+          "lecture": 28,
+          "set": "Q2-082"
+        },
+        {
+          "day": 5,
+          "lecture": 28,
+          "set": "Q2-083"
+        },
+        {
+          "day": 6,
+          "lecture": 28,
+          "set": "Q2-084"
+        }
+      ]
     },
     {
       "week": 15,
@@ -655,7 +1131,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 29,
+          "set": "Q2-085"
+        },
+        {
+          "day": 2,
+          "lecture": 29,
+          "set": "Q2-086"
+        },
+        {
+          "day": 3,
+          "lecture": 29,
+          "set": "Q2-087"
+        },
+        {
+          "day": 4,
+          "lecture": 30,
+          "set": "Q2-088"
+        },
+        {
+          "day": 5,
+          "lecture": 30,
+          "set": "Q2-089"
+        },
+        {
+          "day": 6,
+          "lecture": 30,
+          "set": "Q2-090"
+        }
+      ]
     },
     {
       "week": 16,
@@ -694,7 +1202,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 31,
+          "set": "Q2-091"
+        },
+        {
+          "day": 2,
+          "lecture": 31,
+          "set": "Q2-092"
+        },
+        {
+          "day": 3,
+          "lecture": 31,
+          "set": "Q2-093"
+        },
+        {
+          "day": 4,
+          "lecture": 32,
+          "set": "Q2-094"
+        },
+        {
+          "day": 5,
+          "lecture": 32,
+          "set": "Q2-095"
+        },
+        {
+          "day": 6,
+          "lecture": 32,
+          "set": "Q2-096"
+        }
+      ]
     },
     {
       "week": 17,
@@ -733,7 +1273,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 33,
+          "set": "Q2-097"
+        },
+        {
+          "day": 2,
+          "lecture": 33,
+          "set": "Q2-098"
+        },
+        {
+          "day": 3,
+          "lecture": 33,
+          "set": "Q2-099"
+        },
+        {
+          "day": 4,
+          "lecture": 34,
+          "set": "Q2-100"
+        },
+        {
+          "day": 5,
+          "lecture": 34,
+          "set": "Q2-101"
+        },
+        {
+          "day": 6,
+          "lecture": 34,
+          "set": "Q2-102"
+        }
+      ]
     },
     {
       "week": 18,
@@ -772,7 +1344,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 35,
+          "set": "Q2-103"
+        },
+        {
+          "day": 2,
+          "lecture": 35,
+          "set": "Q2-104"
+        },
+        {
+          "day": 3,
+          "lecture": 35,
+          "set": "Q2-105"
+        },
+        {
+          "day": 4,
+          "lecture": 36,
+          "set": "Q2-106"
+        },
+        {
+          "day": 5,
+          "lecture": 36,
+          "set": "Q2-107"
+        },
+        {
+          "day": 6,
+          "lecture": 36,
+          "set": "Q2-108"
+        }
+      ]
     },
     {
       "week": 19,
@@ -811,7 +1415,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 37,
+          "set": "Q2-109"
+        },
+        {
+          "day": 2,
+          "lecture": 37,
+          "set": "Q2-110"
+        },
+        {
+          "day": 3,
+          "lecture": 37,
+          "set": "Q2-111"
+        },
+        {
+          "day": 4,
+          "lecture": 38,
+          "set": "Q2-112"
+        },
+        {
+          "day": 5,
+          "lecture": 38,
+          "set": "Q2-113"
+        },
+        {
+          "day": 6,
+          "lecture": 38,
+          "set": "Q2-114"
+        }
+      ]
     },
     {
       "week": 20,
@@ -850,7 +1486,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 39,
+          "set": "Q2-115"
+        },
+        {
+          "day": 2,
+          "lecture": 39,
+          "set": "Q2-116"
+        },
+        {
+          "day": 3,
+          "lecture": 39,
+          "set": "Q2-117"
+        },
+        {
+          "day": 4,
+          "lecture": 40,
+          "set": "Q2-118"
+        },
+        {
+          "day": 5,
+          "lecture": 40,
+          "set": "Q2-119"
+        },
+        {
+          "day": 6,
+          "lecture": 40,
+          "set": "Q2-120"
+        }
+      ]
     },
     {
       "week": 21,
@@ -889,7 +1557,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 41,
+          "set": "Q2-121"
+        },
+        {
+          "day": 2,
+          "lecture": 41,
+          "set": "Q2-122"
+        },
+        {
+          "day": 3,
+          "lecture": 41,
+          "set": "Q2-123"
+        },
+        {
+          "day": 4,
+          "lecture": 42,
+          "set": "Q2-124"
+        },
+        {
+          "day": 5,
+          "lecture": 42,
+          "set": "Q2-125"
+        },
+        {
+          "day": 6,
+          "lecture": 42,
+          "set": "Q2-126"
+        }
+      ]
     },
     {
       "week": 22,
@@ -928,7 +1628,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 43,
+          "set": "Q2-127"
+        },
+        {
+          "day": 2,
+          "lecture": 43,
+          "set": "Q2-128"
+        },
+        {
+          "day": 3,
+          "lecture": 43,
+          "set": "Q2-129"
+        },
+        {
+          "day": 4,
+          "lecture": 44,
+          "set": "Q2-130"
+        },
+        {
+          "day": 5,
+          "lecture": 44,
+          "set": "Q2-131"
+        },
+        {
+          "day": 6,
+          "lecture": 44,
+          "set": "Q2-132"
+        }
+      ]
     },
     {
       "week": 23,
@@ -967,7 +1699,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 45,
+          "set": "Q2-133"
+        },
+        {
+          "day": 2,
+          "lecture": 45,
+          "set": "Q2-134"
+        },
+        {
+          "day": 3,
+          "lecture": 45,
+          "set": "Q2-135"
+        },
+        {
+          "day": 4,
+          "lecture": 46,
+          "set": "Q2-136"
+        },
+        {
+          "day": 5,
+          "lecture": 46,
+          "set": "Q2-137"
+        },
+        {
+          "day": 6,
+          "lecture": 46,
+          "set": "Q2-138"
+        }
+      ]
     },
     {
       "week": 24,
@@ -1006,7 +1770,39 @@
       ],
       "task": {
         "minChars": 250
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 47,
+          "set": "Q2-139"
+        },
+        {
+          "day": 2,
+          "lecture": 47,
+          "set": "Q2-140"
+        },
+        {
+          "day": 3,
+          "lecture": 47,
+          "set": "Q2-141"
+        },
+        {
+          "day": 4,
+          "lecture": 48,
+          "set": "Q2-142"
+        },
+        {
+          "day": 5,
+          "lecture": 48,
+          "set": "Q2-143"
+        },
+        {
+          "day": 6,
+          "lecture": 48,
+          "set": "Q2-144"
+        }
+      ]
     },
     {
       "week": 25,
@@ -1045,7 +1841,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 49,
+          "set": "Q3-145"
+        },
+        {
+          "day": 2,
+          "lecture": 49,
+          "set": "Q3-146"
+        },
+        {
+          "day": 3,
+          "lecture": 49,
+          "set": "Q3-147"
+        },
+        {
+          "day": 4,
+          "lecture": 50,
+          "set": "Q3-148"
+        },
+        {
+          "day": 5,
+          "lecture": 50,
+          "set": "Q3-149"
+        },
+        {
+          "day": 6,
+          "lecture": 50,
+          "set": "Q3-150"
+        }
+      ]
     },
     {
       "week": 26,
@@ -1084,7 +1912,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 51,
+          "set": "Q3-151"
+        },
+        {
+          "day": 2,
+          "lecture": 51,
+          "set": "Q3-152"
+        },
+        {
+          "day": 3,
+          "lecture": 51,
+          "set": "Q3-153"
+        },
+        {
+          "day": 4,
+          "lecture": 52,
+          "set": "Q3-154"
+        },
+        {
+          "day": 5,
+          "lecture": 52,
+          "set": "Q3-155"
+        },
+        {
+          "day": 6,
+          "lecture": 52,
+          "set": "Q3-156"
+        }
+      ]
     },
     {
       "week": 27,
@@ -1123,7 +1983,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 53,
+          "set": "Q3-157"
+        },
+        {
+          "day": 2,
+          "lecture": 53,
+          "set": "Q3-158"
+        },
+        {
+          "day": 3,
+          "lecture": 53,
+          "set": "Q3-159"
+        },
+        {
+          "day": 4,
+          "lecture": 54,
+          "set": "Q3-160"
+        },
+        {
+          "day": 5,
+          "lecture": 54,
+          "set": "Q3-161"
+        },
+        {
+          "day": 6,
+          "lecture": 54,
+          "set": "Q3-162"
+        }
+      ]
     },
     {
       "week": 28,
@@ -1162,7 +2054,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 55,
+          "set": "Q3-163"
+        },
+        {
+          "day": 2,
+          "lecture": 55,
+          "set": "Q3-164"
+        },
+        {
+          "day": 3,
+          "lecture": 55,
+          "set": "Q3-165"
+        },
+        {
+          "day": 4,
+          "lecture": 56,
+          "set": "Q3-166"
+        },
+        {
+          "day": 5,
+          "lecture": 56,
+          "set": "Q3-167"
+        },
+        {
+          "day": 6,
+          "lecture": 56,
+          "set": "Q3-168"
+        }
+      ]
     },
     {
       "week": 29,
@@ -1201,7 +2125,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 57,
+          "set": "Q3-169"
+        },
+        {
+          "day": 2,
+          "lecture": 57,
+          "set": "Q3-170"
+        },
+        {
+          "day": 3,
+          "lecture": 57,
+          "set": "Q3-171"
+        },
+        {
+          "day": 4,
+          "lecture": 58,
+          "set": "Q3-172"
+        },
+        {
+          "day": 5,
+          "lecture": 58,
+          "set": "Q3-173"
+        },
+        {
+          "day": 6,
+          "lecture": 58,
+          "set": "Q3-174"
+        }
+      ]
     },
     {
       "week": 30,
@@ -1240,7 +2196,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 59,
+          "set": "Q3-175"
+        },
+        {
+          "day": 2,
+          "lecture": 59,
+          "set": "Q3-176"
+        },
+        {
+          "day": 3,
+          "lecture": 59,
+          "set": "Q3-177"
+        },
+        {
+          "day": 4,
+          "lecture": 60,
+          "set": "Q3-178"
+        },
+        {
+          "day": 5,
+          "lecture": 60,
+          "set": "Q3-179"
+        },
+        {
+          "day": 6,
+          "lecture": 60,
+          "set": "Q3-180"
+        }
+      ]
     },
     {
       "week": 31,
@@ -1279,7 +2267,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 61,
+          "set": "Q3-181"
+        },
+        {
+          "day": 2,
+          "lecture": 61,
+          "set": "Q3-182"
+        },
+        {
+          "day": 3,
+          "lecture": 61,
+          "set": "Q3-183"
+        },
+        {
+          "day": 4,
+          "lecture": 62,
+          "set": "Q3-184"
+        },
+        {
+          "day": 5,
+          "lecture": 62,
+          "set": "Q3-185"
+        },
+        {
+          "day": 6,
+          "lecture": 62,
+          "set": "Q3-186"
+        }
+      ]
     },
     {
       "week": 32,
@@ -1318,7 +2338,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 63,
+          "set": "Q3-187"
+        },
+        {
+          "day": 2,
+          "lecture": 63,
+          "set": "Q3-188"
+        },
+        {
+          "day": 3,
+          "lecture": 63,
+          "set": "Q3-189"
+        },
+        {
+          "day": 4,
+          "lecture": 64,
+          "set": "Q3-190"
+        },
+        {
+          "day": 5,
+          "lecture": 64,
+          "set": "Q3-191"
+        },
+        {
+          "day": 6,
+          "lecture": 64,
+          "set": "Q3-192"
+        }
+      ]
     },
     {
       "week": 33,
@@ -1357,7 +2409,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 65,
+          "set": "Q3-193"
+        },
+        {
+          "day": 2,
+          "lecture": 65,
+          "set": "Q3-194"
+        },
+        {
+          "day": 3,
+          "lecture": 65,
+          "set": "Q3-195"
+        },
+        {
+          "day": 4,
+          "lecture": 66,
+          "set": "Q3-196"
+        },
+        {
+          "day": 5,
+          "lecture": 66,
+          "set": "Q3-197"
+        },
+        {
+          "day": 6,
+          "lecture": 66,
+          "set": "Q3-198"
+        }
+      ]
     },
     {
       "week": 34,
@@ -1396,7 +2480,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 67,
+          "set": "Q3-199"
+        },
+        {
+          "day": 2,
+          "lecture": 67,
+          "set": "Q3-200"
+        },
+        {
+          "day": 3,
+          "lecture": 67,
+          "set": "Q3-201"
+        },
+        {
+          "day": 4,
+          "lecture": 68,
+          "set": "Q3-202"
+        },
+        {
+          "day": 5,
+          "lecture": 68,
+          "set": "Q3-203"
+        },
+        {
+          "day": 6,
+          "lecture": 68,
+          "set": "Q3-204"
+        }
+      ]
     },
     {
       "week": 35,
@@ -1435,7 +2551,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 69,
+          "set": "Q3-205"
+        },
+        {
+          "day": 2,
+          "lecture": 69,
+          "set": "Q3-206"
+        },
+        {
+          "day": 3,
+          "lecture": 69,
+          "set": "Q3-207"
+        },
+        {
+          "day": 4,
+          "lecture": 70,
+          "set": "Q3-208"
+        },
+        {
+          "day": 5,
+          "lecture": 70,
+          "set": "Q3-209"
+        },
+        {
+          "day": 6,
+          "lecture": 70,
+          "set": "Q3-210"
+        }
+      ]
     },
     {
       "week": 36,
@@ -1474,7 +2622,39 @@
       ],
       "task": {
         "minChars": 400
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 71,
+          "set": "Q3-211"
+        },
+        {
+          "day": 2,
+          "lecture": 71,
+          "set": "Q3-212"
+        },
+        {
+          "day": 3,
+          "lecture": 71,
+          "set": "Q3-213"
+        },
+        {
+          "day": 4,
+          "lecture": 72,
+          "set": "Q3-214"
+        },
+        {
+          "day": 5,
+          "lecture": 72,
+          "set": "Q3-215"
+        },
+        {
+          "day": 6,
+          "lecture": 72,
+          "set": "Q3-216"
+        }
+      ]
     },
     {
       "week": 37,
@@ -1513,7 +2693,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 73,
+          "set": "Q4-217"
+        },
+        {
+          "day": 2,
+          "lecture": 73,
+          "set": "Q4-218"
+        },
+        {
+          "day": 3,
+          "lecture": 73,
+          "set": "Q4-219"
+        },
+        {
+          "day": 4,
+          "lecture": 74,
+          "set": "Q4-220"
+        },
+        {
+          "day": 5,
+          "lecture": 74,
+          "set": "Q4-221"
+        },
+        {
+          "day": 6,
+          "lecture": 74,
+          "set": "Q4-222"
+        }
+      ]
     },
     {
       "week": 38,
@@ -1552,7 +2764,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 75,
+          "set": "Q4-223"
+        },
+        {
+          "day": 2,
+          "lecture": 75,
+          "set": "Q4-224"
+        },
+        {
+          "day": 3,
+          "lecture": 75,
+          "set": "Q4-225"
+        },
+        {
+          "day": 4,
+          "lecture": 76,
+          "set": "Q4-226"
+        },
+        {
+          "day": 5,
+          "lecture": 76,
+          "set": "Q4-227"
+        },
+        {
+          "day": 6,
+          "lecture": 76,
+          "set": "Q4-228"
+        }
+      ]
     },
     {
       "week": 39,
@@ -1591,7 +2835,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 77,
+          "set": "Q4-229"
+        },
+        {
+          "day": 2,
+          "lecture": 77,
+          "set": "Q4-230"
+        },
+        {
+          "day": 3,
+          "lecture": 77,
+          "set": "Q4-231"
+        },
+        {
+          "day": 4,
+          "lecture": 78,
+          "set": "Q4-232"
+        },
+        {
+          "day": 5,
+          "lecture": 78,
+          "set": "Q4-233"
+        },
+        {
+          "day": 6,
+          "lecture": 78,
+          "set": "Q4-234"
+        }
+      ]
     },
     {
       "week": 40,
@@ -1630,7 +2906,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 79,
+          "set": "Q4-235"
+        },
+        {
+          "day": 2,
+          "lecture": 79,
+          "set": "Q4-236"
+        },
+        {
+          "day": 3,
+          "lecture": 79,
+          "set": "Q4-237"
+        },
+        {
+          "day": 4,
+          "lecture": 80,
+          "set": "Q4-238"
+        },
+        {
+          "day": 5,
+          "lecture": 80,
+          "set": "Q4-239"
+        },
+        {
+          "day": 6,
+          "lecture": 80,
+          "set": "Q4-240"
+        }
+      ]
     },
     {
       "week": 41,
@@ -1669,7 +2977,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 81,
+          "set": "Q4-241"
+        },
+        {
+          "day": 2,
+          "lecture": 81,
+          "set": "Q4-242"
+        },
+        {
+          "day": 3,
+          "lecture": 81,
+          "set": "Q4-243"
+        },
+        {
+          "day": 4,
+          "lecture": 82,
+          "set": "Q4-244"
+        },
+        {
+          "day": 5,
+          "lecture": 82,
+          "set": "Q4-245"
+        },
+        {
+          "day": 6,
+          "lecture": 82,
+          "set": "Q4-246"
+        }
+      ]
     },
     {
       "week": 42,
@@ -1708,7 +3048,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 83,
+          "set": "Q4-247"
+        },
+        {
+          "day": 2,
+          "lecture": 83,
+          "set": "Q4-248"
+        },
+        {
+          "day": 3,
+          "lecture": 83,
+          "set": "Q4-249"
+        },
+        {
+          "day": 4,
+          "lecture": 84,
+          "set": "Q4-250"
+        },
+        {
+          "day": 5,
+          "lecture": 84,
+          "set": "Q4-251"
+        },
+        {
+          "day": 6,
+          "lecture": 84,
+          "set": "Q4-252"
+        }
+      ]
     },
     {
       "week": 43,
@@ -1747,7 +3119,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 85,
+          "set": "Q4-253"
+        },
+        {
+          "day": 2,
+          "lecture": 85,
+          "set": "Q4-254"
+        },
+        {
+          "day": 3,
+          "lecture": 85,
+          "set": "Q4-255"
+        },
+        {
+          "day": 4,
+          "lecture": 86,
+          "set": "Q4-256"
+        },
+        {
+          "day": 5,
+          "lecture": 86,
+          "set": "Q4-257"
+        },
+        {
+          "day": 6,
+          "lecture": 86,
+          "set": "Q4-258"
+        }
+      ]
     },
     {
       "week": 44,
@@ -1786,7 +3190,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 87,
+          "set": "Q4-259"
+        },
+        {
+          "day": 2,
+          "lecture": 87,
+          "set": "Q4-260"
+        },
+        {
+          "day": 3,
+          "lecture": 87,
+          "set": "Q4-261"
+        },
+        {
+          "day": 4,
+          "lecture": 88,
+          "set": "Q4-262"
+        },
+        {
+          "day": 5,
+          "lecture": 88,
+          "set": "Q4-263"
+        },
+        {
+          "day": 6,
+          "lecture": 88,
+          "set": "Q4-264"
+        }
+      ]
     },
     {
       "week": 45,
@@ -1825,7 +3261,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 89,
+          "set": "Q4-265"
+        },
+        {
+          "day": 2,
+          "lecture": 89,
+          "set": "Q4-266"
+        },
+        {
+          "day": 3,
+          "lecture": 89,
+          "set": "Q4-267"
+        },
+        {
+          "day": 4,
+          "lecture": 90,
+          "set": "Q4-268"
+        },
+        {
+          "day": 5,
+          "lecture": 90,
+          "set": "Q4-269"
+        },
+        {
+          "day": 6,
+          "lecture": 90,
+          "set": "Q4-270"
+        }
+      ]
     },
     {
       "week": 46,
@@ -1864,7 +3332,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 91,
+          "set": "Q4-271"
+        },
+        {
+          "day": 2,
+          "lecture": 91,
+          "set": "Q4-272"
+        },
+        {
+          "day": 3,
+          "lecture": 91,
+          "set": "Q4-273"
+        },
+        {
+          "day": 4,
+          "lecture": 92,
+          "set": "Q4-274"
+        },
+        {
+          "day": 5,
+          "lecture": 92,
+          "set": "Q4-275"
+        },
+        {
+          "day": 6,
+          "lecture": 92,
+          "set": "Q4-276"
+        }
+      ]
     },
     {
       "week": 47,
@@ -1903,7 +3403,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 93,
+          "set": "Q4-277"
+        },
+        {
+          "day": 2,
+          "lecture": 93,
+          "set": "Q4-278"
+        },
+        {
+          "day": 3,
+          "lecture": 93,
+          "set": "Q4-279"
+        },
+        {
+          "day": 4,
+          "lecture": 94,
+          "set": "Q4-280"
+        },
+        {
+          "day": 5,
+          "lecture": 94,
+          "set": "Q4-281"
+        },
+        {
+          "day": 6,
+          "lecture": 94,
+          "set": "Q4-282"
+        }
+      ]
     },
     {
       "week": 48,
@@ -1942,7 +3474,39 @@
       ],
       "task": {
         "minChars": 600
-      }
+      },
+      "days": [
+        {
+          "day": 1,
+          "lecture": 95,
+          "set": "Q4-283"
+        },
+        {
+          "day": 2,
+          "lecture": 95,
+          "set": "Q4-284"
+        },
+        {
+          "day": 3,
+          "lecture": 95,
+          "set": "Q4-285"
+        },
+        {
+          "day": 4,
+          "lecture": 96,
+          "set": "Q4-286"
+        },
+        {
+          "day": 5,
+          "lecture": 96,
+          "set": "Q4-287"
+        },
+        {
+          "day": 6,
+          "lecture": 96,
+          "set": "Q4-288"
+        }
+      ]
     }
   ]
 }

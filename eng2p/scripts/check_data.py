@@ -323,6 +323,27 @@ def check_index(lec):
                 FAIL.append("%d강 제목이나 미디어가 index.json 과 다르다" % x["no"])
         if not w["task"]:
             FAIL.append("%d주차 과제가 index.json 에 없다" % w["week"])
+        # 한 주가 여섯 세션이다. 앞 사흘이 앞 강이고 뒤 사흘이 뒤 강이다.
+        ds = w.get("days") or []
+        if [d["day"] for d in ds] != [1, 2, 3, 4, 5, 6]:
+            FAIL.append("%d주차 날이 1부터 6까지가 아니다" % w["week"])
+            continue
+        want = [w["week"] * 2 - 1] * 3 + [w["week"] * 2] * 3
+        if [d["lecture"] for d in ds] != want:
+            FAIL.append("%d주차 날별 강이 %r 이다. %r 이어야 한다"
+                        % (w["week"], [d["lecture"] for d in ds], want))
+        if sorted(d["set"] for d in ds) != sorted(w["sets"]):
+            FAIL.append("%d주차 날별 세트가 그 주 세트 여섯과 다르다" % w["week"])
+
+    # 블록 넷은 288세션이 다 같다. 매뉴얼 2.2 다. 합이 2시간이어야 한다.
+    bl = idx.get("blocks") or []
+    if [b["no"] for b in bl] != [1, 2, 3, 4]:
+        FAIL.append("index.json 블록이 1234가 아니다")
+    if sum(b["minutes"] for b in bl) != 120:
+        FAIL.append("블록 시간 합이 %d분이다. 120분이어야 한다"
+                    % sum(b["minutes"] for b in bl))
+    if not idx.get("roleRule"):
+        FAIL.append("index.json 에 역할 규칙이 없다")
 
 
 def main():

@@ -433,8 +433,23 @@ def manifest(lec, card, sett, hand, emg, task):
     set_by_week = {}
     for s in sett:
         set_by_week.setdefault(s["week"], []).append(s["id"])
+    lec_by_no = {x["no"]: x for x in lec}
+    set_by_id = {s["id"]: s for s in sett}
     for w in sorted(byweek):
         ls = sorted(byweek[w], key=lambda x: x["no"])
+        # 한 주가 여섯 세션이고 강이 둘이다. 앞 사흘이 앞 강이고 뒤 사흘이 뒤 강이다.
+        # 세트가 그렇게 붙어 있다. 48주 전수로 3/3 인 것을 T94 에서 확인했다.
+        # 역할은 여기서 안 정한다. 짝수 날 홀수 날이라 달력을 봐야 한다.
+        days = []
+        ids = sorted(set_by_week.get(w, []))
+        for d, sid in enumerate(ids, 1):
+            n = set_by_id[sid]["lecture"]
+            x = lec_by_no.get(n, {})
+            # 날에는 강 번호와 세트 번호만 둔다.
+            # 미디어와 카드와 진행표는 그 강의 것이고 위 lectures 배열에 이미 있다.
+            # 날마다 그것을 다시 적었더니 묶음이 37KB 에서 336KB 가 됐다.
+            # **같은 값을 여섯 번 적으면 여섯 번 어긋날 수 있다.** 한 번만 적는다.
+            days.append({"day": d, "lecture": n, "set": sid})
         weeks.append({
             "week": w,
             "quarter": ls[0]["quarter"],
@@ -448,8 +463,19 @@ def manifest(lec, card, sett, hand, emg, task):
             } for x in ls],
             "sets": sorted(set_by_week.get(w, [])),
             "task": {"minChars": task_by_week[w]["minChars"]} if w in task_by_week else None,
+            "days": days,
         })
     return {
+        # 블록 넷은 288세션이 다 같다. 매뉴얼 2.2다. 한 번만 적는다.
+        "blocks": [
+            {"no": 1, "name": "병렬 침묵", "minutes": 40, "talk": False,
+             "uses": "media"},
+            {"no": 2, "name": "대조 교차", "minutes": 30, "uses": "set"},
+            {"no": 3, "name": "페어 드릴", "minutes": 30, "uses": "cards"},
+            {"no": 4, "name": "공동 입력", "minutes": 20, "uses": "media"},
+        ],
+        # 역할은 달력을 봐야 정해진다. 규칙만 적는다.
+        "roleRule": "짝수 날은 남편이 A, 홀수 날은 아내가 A다",
         "weeks": weeks,
         "counts": {
             "lectures": len(lec), "cards": len(card), "sets": len(sett),
@@ -587,6 +613,8 @@ def main():
         "note": "앱이 제일 먼저 읽는 한 장이다. 마크다운에서 파생시킨 것이라 "
                 "손으로 고치지 않는다. scripts/derive_data.py 를 다시 돌린다.",
         "generator": "scripts/derive_data.py",
+        "blocks": idx["blocks"],
+        "roleRule": idx["roleRule"],
         "counts": idx["counts"],
         "files": idx["files"],
         "weeks": idx["weeks"],
