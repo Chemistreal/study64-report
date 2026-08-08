@@ -3,13 +3,23 @@
    전에는 넘김만 있었다. 잘못 눌러 넘어가면 되돌릴 방법이 없었다.
    40분짜리 블록을 실수로 넘기면 그 40분이 사라진다.
    ========================================================================= */
+/* 다음 그림이 어느 쪽에서 들어올지. 그린 뒤에 비운다. */
+var slideDir=null;
 function gotoBlock(i, opt){
   opt=opt||{};
   if(i<0) i=0;
   if(i>=BLOCKS.length){ finishSession(); return; }
   /* 블록을 넘기면 소리를 끈다. 안 끄면 블록 1의 소리가 블록 2 위로 계속 흐른다.
      블록 2는 두 사람이 서로 말하는 블록이다. */
-  if(T.idx!==i){ leaveSessPlay(); if(opt.announce) tone("next"); }
+  if(T.idx!==i){
+    leaveSessPlay();
+    if(opt.announce) tone("next");
+    /* **넘어가는 방향과 화면이 미는 방향이 같아야 한다.**
+       다음 블록으로 가는데 화면이 위에서 내려오면 앞으로 가는 것인지
+       처음으로 가는 것인지 몸이 모른다. 오른쪽에서 들어오면 앞으로 가는 것이고
+       왼쪽에서 들어오면 되돌아가는 것이다. 손가락으로 미는 방향과도 맞는다. T177 */
+    slideDir = (i>T.idx) ? "next" : "prev";
+  }
   T.idx=i;
   T.left=BLOCKS[i].m*60;
   hideSessionDone();

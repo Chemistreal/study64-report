@@ -375,6 +375,13 @@ function renderBlockPane(){
   if(SESS.el){ SESS.at=SESS.el.currentTime||0; SESS.was=!SESS.el.paused; }
   PANE.sig=h;
   box.innerHTML=h;
+  if(slideDir){
+    box.classList.remove("slide-next","slide-prev");
+    // 클래스를 떼고 바로 붙이면 브라우저가 같은 것으로 보고 안 움직인다.
+    void box.offsetWidth;
+    box.classList.add("slide-"+slideDir);
+    slideDir=null;
+  }
   var pc=$("#peekClose"); if(pc) pc.onclick=closePeek;
 }
 

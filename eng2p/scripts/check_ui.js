@@ -1436,6 +1436,53 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   tones.forEach((m) => fails.push("소리: " + m));
 
+  /* 32. **화면이 미는 방향이 진행 방향과 같은가.**
+     다음 블록으로 가는데 화면이 왼쪽에서 들어오면 앞으로 가는 것인지
+     되돌아가는 것인지 몸이 모른다. 손가락으로 미는 방향과도 어긋난다.
+     그리고 **움직임을 줄이라고 한 사람에게는 안 움직여야 한다.** */
+  const motion = await (async () => {
+    const bad = [];
+    for (const reduce of [false, true]) {
+      const ctx3 = await browser.newContext({ viewport: { width: 390, height: 844 },
+        reducedMotion: reduce ? "reduce" : "no-preference" });
+      const p5 = await ctx3.newPage();
+      await p5.goto(PAGE);
+      await p5.evaluate(() => localStorage.clear());
+      await p5.reload();
+      await p5.waitForTimeout(380);
+      await p5.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+      await p5.click("#tOne");
+      await p5.waitForTimeout(280);
+
+      await p5.evaluate(() => $("#tSkip").click());
+      await p5.waitForTimeout(60);
+      const n = await p5.evaluate(() => {
+        const e = document.querySelector("#blockPane");
+        return { cls: e.className, anim: getComputedStyle(e).animationName };
+      });
+      await p5.waitForTimeout(280);
+      await p5.evaluate(() => $("#tPrev").click());
+      await p5.waitForTimeout(60);
+      const b2 = await p5.evaluate(() => {
+        const e = document.querySelector("#blockPane");
+        return { cls: e.className, anim: getComputedStyle(e).animationName };
+      });
+
+      if (n.cls.indexOf("slide-next") < 0) bad.push("다음 블록인데 앞으로 미는 표시가 없다");
+      if (b2.cls.indexOf("slide-prev") < 0) bad.push("이전 블록인데 뒤로 미는 표시가 없다");
+      if (reduce) {
+        if (n.anim !== "none" || b2.anim !== "none")
+          bad.push("움직임을 줄이라고 했는데 움직인다: " + n.anim + " / " + b2.anim);
+      } else {
+        if (n.anim !== "slideNext") bad.push("다음 블록 움직임이 " + n.anim + " 이다");
+        if (b2.anim !== "slidePrev") bad.push("이전 블록 움직임이 " + b2.anim + " 이다");
+      }
+      await ctx3.close();
+    }
+    return bad;
+  })();
+  motion.forEach((m) => fails.push("움직임: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));

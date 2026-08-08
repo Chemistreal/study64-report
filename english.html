@@ -488,6 +488,17 @@ body.session-focus .rings{display:none}
    눈이 큰 것을 먼저 본다. 그러면 앉자마자 세트를 누른다.
    그 자리에서 할 일은 세션을 시작하는 것이다. */
 .sessionstart{min-height:62px;font-size:17px}
+
+/* 블록이 넘어가는 방향. **몸이 아는 방향으로 민다.**
+   앞으로 가면 오른쪽에서 들어오고 되돌아가면 왼쪽에서 들어온다.
+   손가락으로 미는 방향과 같다. 왼쪽으로 밀면 다음이 오른쪽에서 온다. */
+@keyframes slideNext{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes slidePrev{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+.blockpane.slide-next{animation:slideNext .22s ease-out}
+.blockpane.slide-prev{animation:slidePrev .22s ease-out}
+@media (prefers-reduced-motion:reduce){
+  .blockpane.slide-next,.blockpane.slide-prev{animation:none}
+}
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
@@ -3212,6 +3223,13 @@ function renderBlockPane(){
   if(SESS.el){ SESS.at=SESS.el.currentTime||0; SESS.was=!SESS.el.paused; }
   PANE.sig=h;
   box.innerHTML=h;
+  if(slideDir){
+    box.classList.remove("slide-next","slide-prev");
+    // 클래스를 떼고 바로 붙이면 브라우저가 같은 것으로 보고 안 움직인다.
+    void box.offsetWidth;
+    box.classList.add("slide-"+slideDir);
+    slideDir=null;
+  }
   var pc=$("#peekClose"); if(pc) pc.onclick=closePeek;
 }
 
@@ -3344,13 +3362,23 @@ function lecPara(body){
    전에는 넘김만 있었다. 잘못 눌러 넘어가면 되돌릴 방법이 없었다.
    40분짜리 블록을 실수로 넘기면 그 40분이 사라진다.
    ========================================================================= */
+/* 다음 그림이 어느 쪽에서 들어올지. 그린 뒤에 비운다. */
+var slideDir=null;
 function gotoBlock(i, opt){
   opt=opt||{};
   if(i<0) i=0;
   if(i>=BLOCKS.length){ finishSession(); return; }
   /* 블록을 넘기면 소리를 끈다. 안 끄면 블록 1의 소리가 블록 2 위로 계속 흐른다.
      블록 2는 두 사람이 서로 말하는 블록이다. */
-  if(T.idx!==i){ leaveSessPlay(); if(opt.announce) tone("next"); }
+  if(T.idx!==i){
+    leaveSessPlay();
+    if(opt.announce) tone("next");
+    /* **넘어가는 방향과 화면이 미는 방향이 같아야 한다.**
+       다음 블록으로 가는데 화면이 위에서 내려오면 앞으로 가는 것인지
+       처음으로 가는 것인지 몸이 모른다. 오른쪽에서 들어오면 앞으로 가는 것이고
+       왼쪽에서 들어오면 되돌아가는 것이다. 손가락으로 미는 방향과도 맞는다. T177 */
+    slideDir = (i>T.idx) ? "next" : "prev";
+  }
   T.idx=i;
   T.left=BLOCKS[i].m*60;
   hideSessionDone();
