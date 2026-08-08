@@ -36,21 +36,67 @@ OUT = ROOT.parent / "english.html"
 
 
 def order():
-    """합치는 차례. 이 파일이 곧 앱의 차례다."""
+    """합치는 차례와 조각 이름. 이 파일이 곧 앱의 차례다.
+
+    이름을 여기 둔다. 조각 안에 두면 CSS 와 HTML 조각에는 둘 자리가 없고,
+    합쳐지는 파일에 설명이 섞여 들어간다. **차례와 이름이 한 자리에 있어야
+    조각을 옮길 때 둘이 같이 움직인다.**
+    """
     rows = []
     for line in (APP / "order.txt").read_text(encoding="utf-8").split("\n"):
         line = line.strip()
         if not line or line.startswith("#"):
             continue
-        rows.append(line)
+        parts = line.split(None, 1)
+        if len(parts) < 2:
+            print("[실패] 차례에 이름이 없다: %s" % parts[0])
+            print("조각 이름 다음에 그 조각이 무엇인지를 적는다.")
+            sys.exit(1)
+        rows.append((parts[0], parts[1].strip()))
     return rows
+
+
+def write_map(rows, parts):
+    """조각 지도. **파생물이다.** 손으로 안 고친다.
+
+    이름은 `app/order.txt` 가 갖고 줄 수는 조각을 세서 낸다.
+    손으로 적은 지도는 조각을 옮기면 거짓말을 한다. 이 표는 못 그런다.
+    """
+    lines = [
+        "# 앱 조각 지도",
+        "",
+        "신뢰도: A 생성 (파생물)",
+        "상위 규격: docs/roadmap.md 12.10",
+        "",
+        "**손으로 안 고친다.** `python3 scripts/derive_app.py` 가 다시 뽑는다.",
+        "이름은 `app/order.txt` 에서 오고 줄 수는 조각을 세서 낸다.",
+        "",
+        "차례도 그 파일이 정한다. **그 차례가 곧 파일의 차례다.**",
+        "",
+        "| 조각 | 줄 | 무엇 |",
+        "|---|---|---|",
+    ]
+    tot = 0
+    for (n, what), body in zip(rows, parts):
+        k = body.count("\n") + 1
+        tot += k
+        lines.append("| `%s` | %d | %s |" % (n, k, what))
+    lines += [
+        "",
+        "조각 %d개 %d줄이다. **한 조각은 500줄을 안 넘는다.**" % (len(rows), tot),
+        "넘으면 `check_app.py` 가 실패로 낸다.",
+        "쪼갤 자리가 없으면 그 검사의 면제표에 이유를 적는다. 문턱은 안 올린다.",
+        "",
+    ]
+    (ROOT / "docs" / "app_map.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def main():
     if not APP.exists():
         print("[실패] %s 가 없다" % APP)
         return 1
-    names = order()
+    rows = order()
+    names = [n for n, _ in rows]
     missing = [n for n in names if not (APP / n).exists()]
     if missing:
         print("[실패] 차례에 적힌 조각이 없다: %s" % " ".join(missing))
@@ -73,6 +119,8 @@ def main():
             t = t[:-1]
         parts.append(t)
     body = "\n".join(parts) + "\n"
+
+    write_map(rows, parts)
 
     old = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
     OUT.write_text(body, encoding="utf-8")

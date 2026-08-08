@@ -30,6 +30,8 @@ DERIVERS = [
     # 앱이 제일 앞이다. app/ 조각에서 english.html 이 나온다.
     # 조각을 고치고 안 합치면 사는 앱이 옛 것이다. 그것이 제일 나쁜 어긋남이다.
     ("derive_app.py", ROOT.parent, "english.html", set()),
+    # 조각 지도도 그 파생기가 만든다. 자리가 달라서 줄이 따로다.
+    ("derive_app.py", ROOT / "docs", "app_map.md", set()),
     ("derive_handout.py", ROOT / "out" / "handouts", "eng2p_handout_l*.md", set()),
     ("derive_index.py", ROOT / "out" / "handouts", "eng2p_handout_index.md", set()),
     ("derive_bundle.py", ROOT / "out" / "bundles", "*.md", set()),
@@ -73,7 +75,7 @@ def main():
     for script, name, why in changed:
         print("[실패] %s: %s 로 다시 뽑으니 %s" % (name, script, why))
     print()
-    print("파생기 %d개 / 어긋난 파일 %d개" % (len(DERIVERS), len(changed)))
+    print("확인한 자리 %d곳 / 어긋난 파일 %d개" % (len(DERIVERS), len(changed)))
     if changed:
         print("고쳐 놓았다. 한 번 더 돌려서 통과하는지 본다.")
     return 1 if changed else 0

@@ -67,7 +67,46 @@ def where(text, i):
     return text.count("\n", 0, i) + 1
 
 
+# **조각 하나가 500줄을 안 넘는다.** 넘으면 한 화면에 안 들어오고
+# 한 화면에 안 들어오면 고칠 때 위아래를 오간다. 그러다 딴 데를 건드린다.
+# T161 에 4759줄 한 파일을 쪼갠 이유가 그것이다. 다시 뭉치면 도로 그 상태다.
+MAX_LINES = 500
+
+# 넘겨도 되는 조각. **문턱을 올리는 대신 이유를 적는다.** 지금은 비어 있다.
+BIG_OK = {}
+
+
+def pieces():
+    """조각을 본다. `english.html` 은 파생물이라 그것만 보면 늦다.
+
+    합쳐 놓고 보면 500줄 넘는 조각이 있어도 안 보인다. 조각을 봐야 보인다.
+    """
+    app = ROOT / "app"
+    bad = []
+    if not app.exists():
+        return ["app/ 이 없다"]
+    order = app / "order.txt"
+    if not order.exists():
+        return ["app/order.txt 가 없다"]
+    for line in order.read_text(encoding="utf-8").split("\n"):
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = line.split(None, 1)
+        name = parts[0]
+        f = app / name
+        if not f.exists():
+            bad.append("차례에 적힌 조각이 없다: " + name)
+            continue
+        n = f.read_text(encoding="utf-8").count("\n")
+        if n > MAX_LINES and name not in BIG_OK:
+            bad.append("%s 가 %d줄이다. %d줄을 넘는다" % (name, n, MAX_LINES))
+    return bad
+
+
 def main():
+    for m in pieces():
+        FAIL.append(m)
     if not APP.exists():
         print("[실패] %s 가 없다" % APP)
         return 1
@@ -121,8 +160,11 @@ def main():
     for f in FAIL:
         print("[실패] %s" % f)
     print()
-    print("english.html 글자 %d개 / 건너뛴 규격 목록 %d곳 / 그리는 기호 %d개 / 실패 %d / 경고 %d"
-          % (len(raw), skipped, len(GLYPH), len(FAIL), len(WARN)))
+    npiece = sum(1 for l in (ROOT / "app" / "order.txt").read_text(encoding="utf-8").split("\n")
+                 if l.strip() and not l.strip().startswith("#"))
+    print("english.html 글자 %d개 / 조각 %d개 (한 조각 %d줄까지) / 건너뛴 규격 목록 %d곳 / "
+          "그리는 기호 %d개 / 실패 %d / 경고 %d"
+          % (len(raw), npiece, MAX_LINES, skipped, len(GLYPH), len(FAIL), len(WARN)))
     return 1 if FAIL else 0
 
 
