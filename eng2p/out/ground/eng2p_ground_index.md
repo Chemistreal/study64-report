@@ -8,17 +8,17 @@
 | 원본 | 재료 | 근거 있음 | 근거 없음 | 보고서 |
 |---|---|---|---|---|
 | eng2p_card_q1_001_050.md | 310 | 155 | 155 | eng2p_ground_card_q1_001_050.md |
-| eng2p_card_q1_051_100.md | 359 | 111 | 248 | eng2p_ground_card_q1_051_100.md |
-| eng2p_card_q1_101_150.md | 140 | 77 | 63 | eng2p_ground_card_q1_101_150.md |
-| eng2p_card_q2_001_050.md | 162 | 76 | 86 | eng2p_ground_card_q2_001_050.md |
-| eng2p_card_q2_051_100.md | 87 | 27 | 60 | eng2p_ground_card_q2_051_100.md |
-| eng2p_card_q2_101_150.md | 65 | 14 | 51 | eng2p_ground_card_q2_101_150.md |
-| eng2p_card_q3_001_050.md | 135 | 71 | 64 | eng2p_ground_card_q3_001_050.md |
-| eng2p_card_q3_051_100.md | 107 | 73 | 34 | eng2p_ground_card_q3_051_100.md |
+| eng2p_card_q1_051_100.md | 369 | 119 | 250 | eng2p_ground_card_q1_051_100.md |
+| eng2p_card_q1_101_150.md | 142 | 79 | 63 | eng2p_ground_card_q1_101_150.md |
+| eng2p_card_q2_001_050.md | 163 | 77 | 86 | eng2p_ground_card_q2_001_050.md |
+| eng2p_card_q2_051_100.md | 102 | 52 | 50 | eng2p_ground_card_q2_051_100.md |
+| eng2p_card_q2_101_150.md | 66 | 26 | 40 | eng2p_ground_card_q2_101_150.md |
+| eng2p_card_q3_001_050.md | 135 | 75 | 60 | eng2p_ground_card_q3_001_050.md |
+| eng2p_card_q3_051_100.md | 108 | 74 | 34 | eng2p_ground_card_q3_051_100.md |
 | eng2p_card_q3_101_150.md | 75 | 54 | 21 | eng2p_ground_card_q3_101_150.md |
-| eng2p_card_q4_001_050.md | 61 | 55 | 6 | eng2p_ground_card_q4_001_050.md |
-| eng2p_card_q4_051_100.md | 39 | 33 | 6 | eng2p_ground_card_q4_051_100.md |
-| eng2p_card_q4_101_150.md | 32 | 25 | 7 | eng2p_ground_card_q4_101_150.md |
+| eng2p_card_q4_001_050.md | 62 | 56 | 6 | eng2p_ground_card_q4_001_050.md |
+| eng2p_card_q4_051_100.md | 40 | 34 | 6 | eng2p_ground_card_q4_051_100.md |
+| eng2p_card_q4_101_150.md | 33 | 26 | 7 | eng2p_ground_card_q4_101_150.md |
 
-합계 재료 1572개 / 근거 있음 771개 / **근거 없음 801개 (51%)**
+합계 재료 1605개 / 근거 있음 827개 / **근거 없음 778개 (48%)**
 

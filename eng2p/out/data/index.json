@@ -45,13 +45,13 @@
     },
     {
       "file": "cards.js",
-      "bytes": 577902,
-      "sha256": "9f5ca5248c7efbc4800591263aa1f8c3ce13c1c31444a36523d57ae347361f6a"
+      "bytes": 578625,
+      "sha256": "936d1eb5bfbe3a44b436e3073ae03fcc70d02d980040ca929edeabb17e4eca3b"
     },
     {
       "file": "cards.json",
-      "bytes": 577882,
-      "sha256": "e679bd9c75df7295833fded8f9c3b85e57a4550d1f4fa3e6d01e05bac82430dc"
+      "bytes": 578605,
+      "sha256": "751f42819a0f766419dd9b85da28798f6d84a05fadf46853194fbe6decc8bab0"
     },
     {
       "file": "cues.js",

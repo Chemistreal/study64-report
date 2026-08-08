@@ -9,7 +9,14 @@
 찾는 규칙은 좁다. 낱말만 남겨 견주고 **대본 한 줄 안에 통째로** 들어 있어야 한다.
 줄을 넘겨 이으면 아무도 말한 적 없는 말이 만들어진다.
 
-재료 135개 / 대본에 있음 71개 / **근거 없음 64개 (47%)**
+재료 135개 / 대본에 있음 75개 / **근거 없음 60개 (44%)**
+
+**갈래를 갈라 센다.** 로드맵 11.10 이 근거를 대라고 한 것은 목록이다.
+지어 쓴 드릴 문장이 151분짜리 말뭉치에 있을 리 없다. 그 비율은 말뭉치 크기를 잰다.
+
+목록 6개 / 근거 없음 0개 (0%)
+
+문장 129개 / 근거 없음 60개 (47%)
 
 | 자리 | 문장 | 근거 |
 |---|---|---|
@@ -87,11 +94,11 @@
 | 026-8 | When you get there, send me a message. | **근거 없음** |
 | 026-9 | When I was sick last week, I had the flu. | **근거 없음** |
 | 026-10 | If you want, we can stop now. | **근거 없음** |
-| 027-1 | If you want, | lle1-14:30 / lle1-28:44 |
-| 027-2 | If it works, | **근거 없음** |
-| 027-3 | If I can, | **근거 없음** |
-| 027-4 | When you get there, | **근거 없음** |
-| 027-5 | If you have time, | **근거 없음** |
+| 027-1 | If you want | lle1-14:30 / lle1-28:44 |
+| 027-2 | If you look at it | lle1-41:6 |
+| 027-3 | If I fix your car | lle1-47:15 |
+| 027-4 | When you arrive | lle1-19:5 |
+| 027-5 | If we say hello | lle1-37:23 |
 | 028-1 | If you want to see the White House, you need to walk. | lle1-28:44 |
 | 028-2 | If you want, we can stop now. | **근거 없음** |
 | 028-3 | When you get there, send me a message. | **근거 없음** |

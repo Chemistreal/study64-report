@@ -413,12 +413,13 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 지시: 아래 두 낱말을 붙여 읽고 B가 겹치는 자리가 있는지 말하게 한다.
 재료:
   1. want to
-  2. walk slowly
+  2. next time
   3. see you
-  4. black cat
-  5. go away
+  4. but today
+  5. to eat
 정답: 겹치는 것은 1번, 2번, 4번이다.
-비고: 1번은 같은 소리가 만나고 2번과 4번은 파열음 뒤에 자음이 온다.
+비고: 셋 다 앞 낱말 끝 자음과 뒤 낱말 첫 자음이 만난다. 3번과 5번은 모음이 온다.
+다섯 다 52과 대본에 있는 짝이다. 1번 lle1-03:3, 2번 lle1-03:23, 3번 lle1-06:17, 4번 lle1-13:1, 5번 lle1-30:29.
 성공 기준: B가 5개 중 4개 이상 맞히면 성공.
 
 [B면]
@@ -435,10 +436,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
   1. last scene
   2. next day
   3. first time
-  4. hold it
-  5. old man
-정답: 가운데가 빠지는 것은 1번, 2번, 3번, 5번이다.
-비고: 자음이 셋 이어지는 자리다. 4번은 자음 뒤에 모음이 와서 연음이 된다.
+  4. take it
+  5. look at
+정답: 가운데가 빠지는 것은 1번, 2번, 3번이다.
+비고: 앞 셋은 자음이 셋 이어지는 자리다. 4번과 5번은 자음 뒤에 모음이 와서 연음이 된다.
+다섯 다 52과 대본에 있는 짝이다. 1번 lle1-40:14, 2번 lle1-09:1, 3번 lle1-18:1, 4번 lle1-27:30, 5번 lle1-31:34.
 성공 기준: B가 5개 중 3개 이상 맞히면 성공.
 
 [B면]
@@ -453,11 +455,12 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 지시: 아래 두 낱말을 주고 B가 붙여 읽게 한다. 제한 시간 5초다.
 재료:
   1. want to
-  2. walk slowly
-  3. black cat
-  4. good day
-  5. big game
+  2. next time
+  3. start the
+  4. find the
+  5. should be
 비고: 앞 자음을 터뜨리면 그 항목은 실패다. 자리는 지키고 안 터뜨린다.
+다섯 다 52과 대본에 있는 짝이다. 3번 lle1-22:38, 4번 lle1-14:4, 5번 lle1-25:6.
 성공 기준: B가 5개 중 4개 이상에서 앞 자음을 안 터뜨리면 성공.
 
 [B면]
@@ -471,11 +474,13 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 세 낱말을 주고 B가 붙여 읽게 한다. 제한 시간 5초다.
 재료:
-  1. last scene here
-  2. next day out
-  3. first time back
-  4. old man there
-  5. good black cat
+  1. is going to
+  2. find things that
+  3. big department store
+  4. lesson start the
+  5. it should be
+비고: 다섯 다 52과 대본에 통째로 나오는 세 낱말이다.
+1번 lle1-18:43, 2번 lle1-25:9, 3번 lle1-10:14, 4번 lle1-22:38, 5번 lle1-25:19.
 성공 기준: B가 5개 중 3개 이상에서 겹치는 자리를 안 터뜨리면 성공.
 
 [B면]
@@ -489,11 +494,11 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 문장을 주고 B가 읽게 한다. 제한 시간 5초다.
 재료:
-  1. I want to walk slowly.
+  1. I want to find the store.
   2. The last scene was good.
-  3. Next day I came back.
-  4. That black cat came here.
-  5. The first time was hard.
+  3. The next day it should be sunny.
+  4. It is going to start the show.
+  5. The first time was a long time ago.
 비고: 겹치는 자리가 두 군데 이상 있는 문장이다. Q2 끝까지 돌린다.
 성공 기준: B가 5개 중 3개 이상에서 겹치는 자리를 다 안 터뜨리면 성공.
 

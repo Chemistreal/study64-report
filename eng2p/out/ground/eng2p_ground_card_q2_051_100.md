@@ -9,7 +9,14 @@
 찾는 규칙은 좁다. 낱말만 남겨 견주고 **대본 한 줄 안에 통째로** 들어 있어야 한다.
 줄을 넘겨 이으면 아무도 말한 적 없는 말이 만들어진다.
 
-재료 87개 / 대본에 있음 27개 / **근거 없음 60개 (69%)**
+재료 102개 / 대본에 있음 52개 / **근거 없음 50개 (49%)**
+
+**갈래를 갈라 센다.** 로드맵 11.10 이 근거를 대라고 한 것은 목록이다.
+지어 쓴 드릴 문장이 151분짜리 말뭉치에 있을 리 없다. 그 비율은 말뭉치 크기를 잰다.
+
+목록 45개 / 근거 없음 8개 (18%)
+
+문장 57개 / 근거 없음 42개 (74%)
 
 | 자리 | 문장 | 근거 |
 |---|---|---|
@@ -23,11 +30,21 @@
 | 053-3 | I put the flour inside the refrigerator. | lle1-36:3 |
 | 053-4 | You are walking quickly and loudly. | lle1-40:12 |
 | 053-5 | I have so much to tell you. | lle1-38:7 |
-| 054-1 | eat, free, seafood | **근거 없음** |
-| 054-2 | working, outdoors, nice | **근거 없음** |
-| 054-3 | put, flour, refrigerator | **근거 없음** |
-| 054-4 | walking, quickly, loudly | **근거 없음** |
-| 054-5 | have, much, tell | **근거 없음** |
+| 054-1a | eat | lle1-05:4 / lle1-17:12 / lle1-22:25 / lle1-30:8 외 12 |
+| 054-1b | free | lle1-16:28 / lle1-30:8 |
+| 054-1c | seafood | lle1-30:8 / lle1-30:9 / lle1-30:10 / lle1-30:25 외 1 |
+| 054-2a | working | lle1-07:10 / lle1-22:1 / lle1-29:2 / lle1-29:11 외 2 |
+| 054-2b | outdoors | lle1-22:20 / lle1-29:2 |
+| 054-2c | nice | lle1-01:4 / lle1-01:5 / lle1-02:9 / lle1-02:13 외 9 |
+| 054-3a | put | lle1-14:22 / lle1-14:25 / lle1-18:40 / lle1-36:3 외 5 |
+| 054-3b | flour | lle1-36:1 / lle1-36:2 / lle1-36:3 |
+| 054-3c | refrigerator | lle1-35:16 / lle1-35:17 / lle1-36:3 / lle1-36:5 |
+| 054-4a | walking | lle1-11:1 / lle1-15:1 / lle1-16:12 / lle1-19:1 외 4 |
+| 054-4b | quickly | lle1-40:12 / lle1-47:20 |
+| 054-4c | loudly | lle1-40:9 / lle1-40:12 / lle1-44:2 |
+| 054-5a | have | lle1-02:10 / lle1-03:7 / lle1-04:9 / lle1-04:10 외 150 |
+| 054-5b | much | lle1-17:2 / lle1-30:10 / lle1-30:14 / lle1-30:15 외 9 |
+| 054-5c | tell | lle1-02:12 / lle1-19:5 / lle1-22:13 / lle1-24:1 외 15 |
 | 055-1 | I saw her yesterday. | **근거 없음** |
 | 055-2 | I see him these days. | **근거 없음** |
 | 055-3 | Have you ever been there? | **근거 없음** |
@@ -95,9 +112,14 @@
 | 099-3 | I do like it. | **근거 없음** |
 | 099-4 | She was there. | **근거 없음** |
 | 099-5 | It is my favorite. | **근거 없음** |
-| 100-1 | today, yesterday | **근거 없음** |
-| 100-2 | coffee, tea | **근거 없음** |
-| 100-3 | hot, cold | **근거 없음** |
-| 100-4 | here, there | **근거 없음** |
-| 100-5 | morning, night | **근거 없음** |
+| 100-1a | today | lle1-05:1 / lle1-08:1 / lle1-09:1 / lle1-09:2 외 39 |
+| 100-1b | yesterday | lle1-08:1 / lle1-08:8 / lle1-08:16 / lle1-24:1 외 4 |
+| 100-2a | coffee | lle1-04:8 / lle1-04:23 / lle1-10:9 / lle1-10:13 외 5 |
+| 100-2b | tea | lle1-38:7 |
+| 100-3a | hot | lle1-08:30 / lle1-19:1 / lle1-19:3 / lle1-27:29 외 1 |
+| 100-3b | cold | lle1-09:1 / lle1-09:3 / lle1-09:17 / lle1-09:18 외 2 |
+| 100-4a | here | lle1-02:12 / lle1-02:15 / lle1-03:3 / lle1-03:16 외 63 |
+| 100-4b | there | lle1-01:2 / lle1-03:3 / lle1-03:17 / lle1-03:23 외 60 |
+| 100-5a | morning | lle1-08:3 / lle1-19:2 / lle1-27:6 / lle1-27:25 |
+| 100-5b | night | lle1-17:6 / lle1-17:9 / lle1-17:15 / lle1-17:16 외 7 |
 

@@ -539,12 +539,14 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [A면]
 지시: 아래 조건 조각을 하나씩 준다. 제한 시간 3초다
 재료:
-  1. If you want,
-  2. If it works,
-  3. If I can,
-  4. When you get there,
-  5. If you have time,
+  1. If you want
+  2. If you look at it
+  3. If I fix your car
+  4. When you arrive
+  5. If we say hello
 비고: 결과가 뜻에 맞는지는 안 본다. 조각이 3초 안에 붙었는지만 본다.
+다섯 다 52과 대본에서 그대로 가져왔다.
+1번 lle1-14:30, 2번 lle1-41:6, 3번 lle1-47:15, 4번 lle1-19:5, 5번 lle1-37:23.
 성공 기준: B가 5개 중 4개 이상에서 3초 안에 결과 조각을 붙이면 성공.
 
 [B면]

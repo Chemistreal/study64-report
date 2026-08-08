@@ -98,6 +98,17 @@ def materials(path):
         # 통째로 찾으면 둘 다 대본에 있어도 못 찾는다. **없는 것으로 세면 안 된다.**
         # 갈라서 조각마다 따로 본다. 조각 글도 표에 적으니 읽는 쪽이 헷갈릴 일이 없다.
         parts = [x.strip() for x in text.split(" / ") if x.strip()]
+        # `eat, free, seafood` 처럼 낱말을 쉼표로 늘어놓은 재료가 있다. 목록이지 문장이 아니다.
+        # 통째로 찾으면 셋 다 대본에 있어도 못 찾는다. **없는 것으로 세면 안 된다.**
+        # 쉼표로 가르되 **조각이 다 한두 낱말일 때만** 가른다. `So, yeah` 같은 것은 안 가른다.
+        split = []
+        for part in parts:
+            bits = [x.strip(" .") for x in part.split(",") if x.strip(" .")]
+            if len(bits) >= 2 and all(len(b.split()) <= 2 for b in bits):
+                split.extend(bits)
+            else:
+                split.append(part)
+        parts = split
         tag = (cur or "?") + "-" + m.group(1)
         if len(parts) == 1:
             out.append((tag, text))
@@ -120,10 +131,25 @@ def find(text, tr):
     return hits
 
 
+def is_list(text):
+    """목록인가 문장인가. **끝에 문장 부호가 있으면 문장이다.**
+
+    로드맵 11.10 이 근거를 대라고 한 것은 **목록**이다.
+    `a lot of` 나 `black cat` 은 목록이고 `I want to see it.` 은 내가 지어 쓴 드릴 문장이다.
+    52과는 151분 1681줄이라 지어 쓴 문장이 거기 있을 리 없다.
+    둘을 한 비율로 묶으면 그 비율은 내 잘못이 아니라 말뭉치 크기를 잰다. T138 에서 쟀다.
+    """
+    return text.strip()[-1:] not in ".?!"
+
+
 def report(path, tr):
     items = materials(path)
     rows = [(tag, text, find(text, tr)) for tag, text in items]
     got = [r for r in rows if r[2]]
+    lst = [r for r in rows if is_list(r[1])]
+    lst_got = [r for r in lst if r[2]]
+    sen = [r for r in rows if not is_list(r[1])]
+    sen_got = [r for r in sen if r[2]]
     OUT.mkdir(parents=True, exist_ok=True)
     name = "eng2p_ground_" + path.stem.replace("eng2p_", "") + ".md"
     lines = [
@@ -141,6 +167,17 @@ def report(path, tr):
         "재료 %d개 / 대본에 있음 %d개 / **근거 없음 %d개 (%.0f%%)**"
         % (len(rows), len(got), len(rows) - len(got),
            100.0 * (len(rows) - len(got)) / len(rows) if rows else 0),
+        "",
+        "**갈래를 갈라 센다.** 로드맵 11.10 이 근거를 대라고 한 것은 목록이다.",
+        "지어 쓴 드릴 문장이 151분짜리 말뭉치에 있을 리 없다. 그 비율은 말뭉치 크기를 잰다.",
+        "",
+        "목록 %d개 / 근거 없음 %d개 (%.0f%%)"
+        % (len(lst), len(lst) - len(lst_got),
+           100.0 * (len(lst) - len(lst_got)) / len(lst) if lst else 0),
+        "",
+        "문장 %d개 / 근거 없음 %d개 (%.0f%%)"
+        % (len(sen), len(sen) - len(sen_got),
+           100.0 * (len(sen) - len(sen_got)) / len(sen) if sen else 0),
         "",
         "| 자리 | 문장 | 근거 |",
         "|---|---|---|",

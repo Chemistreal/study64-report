@@ -6668,13 +6668,13 @@
         "instruction": "아래 두 낱말을 붙여 읽고 B가 겹치는 자리가 있는지 말하게 한다.",
         "material": [
           "want to",
-          "walk slowly",
+          "next time",
           "see you",
-          "black cat",
-          "go away"
+          "but today",
+          "to eat"
         ],
         "answer": "겹치는 것은 1번, 2번, 4번이다.",
-        "note": "1번은 같은 소리가 만나고 2번과 4번은 파열음 뒤에 자음이 온다.",
+        "note": "셋 다 앞 낱말 끝 자음과 뒤 낱말 첫 자음이 만난다. 3번과 5번은 모음이 온다. 다섯 다 52과 대본에 있는 짝이다. 1번 lle1-03:3, 2번 lle1-03:23, 3번 lle1-06:17, 4번 lle1-13:1, 5번 lle1-30:29.",
         "pass": "B가 5개 중 4개 이상 맞히면 성공."
       },
       "b": {
@@ -6696,11 +6696,11 @@
           "last scene",
           "next day",
           "first time",
-          "hold it",
-          "old man"
+          "take it",
+          "look at"
         ],
-        "answer": "가운데가 빠지는 것은 1번, 2번, 3번, 5번이다.",
-        "note": "자음이 셋 이어지는 자리다. 4번은 자음 뒤에 모음이 와서 연음이 된다.",
+        "answer": "가운데가 빠지는 것은 1번, 2번, 3번이다.",
+        "note": "앞 셋은 자음이 셋 이어지는 자리다. 4번과 5번은 자음 뒤에 모음이 와서 연음이 된다. 다섯 다 52과 대본에 있는 짝이다. 1번 lle1-40:14, 2번 lle1-09:1, 3번 lle1-18:1, 4번 lle1-27:30, 5번 lle1-31:34.",
         "pass": "B가 5개 중 3개 이상 맞히면 성공."
       },
       "b": {
@@ -6720,12 +6720,12 @@
         "instruction": "아래 두 낱말을 주고 B가 붙여 읽게 한다. 제한 시간 5초다.",
         "material": [
           "want to",
-          "walk slowly",
-          "black cat",
-          "good day",
-          "big game"
+          "next time",
+          "start the",
+          "find the",
+          "should be"
         ],
-        "note": "앞 자음을 터뜨리면 그 항목은 실패다. 자리는 지키고 안 터뜨린다.",
+        "note": "앞 자음을 터뜨리면 그 항목은 실패다. 자리는 지키고 안 터뜨린다. 다섯 다 52과 대본에 있는 짝이다. 3번 lle1-22:38, 4번 lle1-14:4, 5번 lle1-25:6.",
         "pass": "B가 5개 중 4개 이상에서 앞 자음을 안 터뜨리면 성공."
       },
       "b": {
@@ -6744,12 +6744,13 @@
       "a": {
         "instruction": "아래 세 낱말을 주고 B가 붙여 읽게 한다. 제한 시간 5초다.",
         "material": [
-          "last scene here",
-          "next day out",
-          "first time back",
-          "old man there",
-          "good black cat"
+          "is going to",
+          "find things that",
+          "big department store",
+          "lesson start the",
+          "it should be"
         ],
+        "note": "다섯 다 52과 대본에 통째로 나오는 세 낱말이다. 1번 lle1-18:43, 2번 lle1-25:9, 3번 lle1-10:14, 4번 lle1-22:38, 5번 lle1-25:19.",
         "pass": "B가 5개 중 3개 이상에서 겹치는 자리를 안 터뜨리면 성공."
       },
       "b": {
@@ -6768,11 +6769,11 @@
       "a": {
         "instruction": "아래 문장을 주고 B가 읽게 한다. 제한 시간 5초다.",
         "material": [
-          "I want to walk slowly.",
+          "I want to find the store.",
           "The last scene was good.",
-          "Next day I came back.",
-          "That black cat came here.",
-          "The first time was hard."
+          "The next day it should be sunny.",
+          "It is going to start the show.",
+          "The first time was a long time ago."
         ],
         "note": "겹치는 자리가 두 군데 이상 있는 문장이다. Q2 끝까지 돌린다.",
         "pass": "B가 5개 중 3개 이상에서 겹치는 자리를 다 안 터뜨리면 성공."
@@ -7926,13 +7927,13 @@
       "a": {
         "instruction": "아래 조건 조각을 하나씩 준다. 제한 시간 3초다",
         "material": [
-          "If you want,",
-          "If it works,",
-          "If I can,",
-          "When you get there,",
-          "If you have time,"
+          "If you want",
+          "If you look at it",
+          "If I fix your car",
+          "When you arrive",
+          "If we say hello"
         ],
-        "note": "결과가 뜻에 맞는지는 안 본다. 조각이 3초 안에 붙었는지만 본다.",
+        "note": "결과가 뜻에 맞는지는 안 본다. 조각이 3초 안에 붙었는지만 본다. 다섯 다 52과 대본에서 그대로 가져왔다. 1번 lle1-14:30, 2번 lle1-41:6, 3번 lle1-47:15, 4번 lle1-19:5, 5번 lle1-37:23.",
         "pass": "B가 5개 중 4개 이상에서 3초 안에 결과 조각을 붙이면 성공."
       },
       "b": {

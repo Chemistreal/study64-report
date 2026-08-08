@@ -9,7 +9,14 @@
 찾는 규칙은 좁다. 낱말만 남겨 견주고 **대본 한 줄 안에 통째로** 들어 있어야 한다.
 줄을 넘겨 이으면 아무도 말한 적 없는 말이 만들어진다.
 
-재료 65개 / 대본에 있음 14개 / **근거 없음 51개 (78%)**
+재료 66개 / 대본에 있음 26개 / **근거 없음 40개 (61%)**
+
+**갈래를 갈라 센다.** 로드맵 11.10 이 근거를 대라고 한 것은 목록이다.
+지어 쓴 드릴 문장이 151분짜리 말뭉치에 있을 리 없다. 그 비율은 말뭉치 크기를 잰다.
+
+목록 22개 / 근거 없음 2개 (9%)
+
+문장 44개 / 근거 없음 38개 (86%)
 
 | 자리 | 문장 | 근거 |
 |---|---|---|
@@ -36,7 +43,8 @@
 | 111-1 | You know what? | lle1-44:10 |
 | 111-2 | First, I went to the store. | **근거 없음** |
 | 111-3 | And then I saw something. | **근거 없음** |
-| 111-4 | So yeah, that's it. | **근거 없음** |
+| 111-4a | So yeah | **근거 없음** |
+| 111-4b | that's it | lle1-21:31 |
 | 111-5 | After that, I walked home. | **근거 없음** |
 | 112-1 | First I went out. Then I came back. So yeah, that's it. | **근거 없음** |
 | 112-2 | You know what? First I went out. Then I came back. | **근거 없음** |
@@ -44,30 +52,30 @@
 | 112-4 | First I went out. Then I came back. | **근거 없음** |
 | 112-5 | You know what? First I went out. And then it rained. So yeah, that's it. | **근거 없음** |
 | 124-1 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
-| 124-2 | walk slowly | lle1-40:12 |
+| 124-2 | next time | lle1-03:23 / lle1-08:29 / lle1-09:21 / lle1-09:23 외 35 |
 | 124-3 | see you | lle1-06:17 / lle1-06:18 / lle1-06:19 / lle1-06:20 외 20 |
-| 124-4 | black cat | **근거 없음** |
-| 124-5 | go away | **근거 없음** |
+| 124-4 | but today | lle1-13:1 / lle1-13:7 / lle1-13:8 / lle1-13:11 외 1 |
+| 124-5 | to eat | lle1-30:29 / lle1-35:1 / lle1-44:4 / lle1-44:17 외 1 |
 | 125-1 | last scene | lle1-40:14 |
 | 125-2 | next day | lle1-09:1 |
 | 125-3 | first time | lle1-18:1 / lle1-22:1 / lle1-28:7 |
-| 125-4 | hold it | **근거 없음** |
-| 125-5 | old man | **근거 없음** |
+| 125-4 | take it | lle1-27:30 |
+| 125-5 | look at | lle1-31:34 / lle1-37:19 / lle1-39:1 / lle1-41:6 외 3 |
 | 126-1 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
-| 126-2 | walk slowly | lle1-40:12 |
-| 126-3 | black cat | **근거 없음** |
-| 126-4 | good day | **근거 없음** |
-| 126-5 | big game | **근거 없음** |
-| 127-1 | last scene here | **근거 없음** |
-| 127-2 | next day out | **근거 없음** |
-| 127-3 | first time back | **근거 없음** |
-| 127-4 | old man there | **근거 없음** |
-| 127-5 | good black cat | **근거 없음** |
-| 128-1 | I want to walk slowly. | **근거 없음** |
+| 126-2 | next time | lle1-03:23 / lle1-08:29 / lle1-09:21 / lle1-09:23 외 35 |
+| 126-3 | start the | lle1-22:38 / lle1-26:20 / lle1-28:13 / lle1-28:14 외 2 |
+| 126-4 | find the | lle1-14:4 / lle1-26:10 / lle1-26:16 / lle1-32:37 외 1 |
+| 126-5 | should be | lle1-25:6 / lle1-25:7 / lle1-25:19 / lle1-26:11 외 2 |
+| 127-1 | is going to | lle1-18:43 / lle1-22:25 / lle1-22:29 / lle1-22:33 외 1 |
+| 127-2 | find things that | lle1-25:9 / lle1-25:10 / lle1-26:2 |
+| 127-3 | big department store | lle1-10:14 / lle1-10:15 |
+| 127-4 | lesson start the | **근거 없음** |
+| 127-5 | it should be | lle1-25:19 / lle1-49:1 |
+| 128-1 | I want to find the store. | **근거 없음** |
 | 128-2 | The last scene was good. | **근거 없음** |
-| 128-3 | Next day I came back. | **근거 없음** |
-| 128-4 | That black cat came here. | **근거 없음** |
-| 128-5 | The first time was hard. | **근거 없음** |
+| 128-3 | The next day it should be sunny. | **근거 없음** |
+| 128-4 | It is going to start the show. | **근거 없음** |
+| 128-5 | The first time was a long time ago. | **근거 없음** |
 | 130-1 | Okay then. | lle1-07:8 |
 | 130-2 | That's the plan. | lle1-34:25 |
 | 130-3 | See you then. | **근거 없음** |
