@@ -1745,6 +1745,13 @@ function renderSidePick(A,B){
   h+='<button data-dev="b" class="'+(who==="b"?"on":"")+'">'+esc(S.names.b)+'</button>';
   if(who) h+='<button data-dev="">지움</button>';
   else h+='<span class="mut">안 고르면 두 쪽을 다 보여 준다</span>';
+  /* 기기 둘을 쓰면 각 기기가 저장을 따로 한다. 브라우저 저장이 기기마다 따로이기 때문이다.
+     한쪽에서만 끝냈다를 누르면 다른 기기는 어제 강을 든 채로 남는다.
+     기기 사이를 잇는 길이 없으므로 규칙으로 정한다. **기록은 한 기기에만 남긴다.**
+     맞출 일이 생기면 운영 탭의 JSON 내보내기와 가져오기를 쓴다. */
+  if(who) h+='<span class="mut" style="flex-basis:100%;text-align:center">'+
+    '기록은 한 기기에만 남긴다. 다른 기기는 보기만 한다. '+
+    '어긋나면 운영 탭에서 JSON 을 내보내 가져온다.</span>';
   box.innerHTML=h;
   box.querySelectorAll("[data-dev]").forEach(function(btn){
     btn.onclick=function(){

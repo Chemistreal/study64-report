@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 열 가지를 본다.
+ * 열한 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -16,6 +16,7 @@
  * 8. 대본이 file:// 에서 뜨는가. 52편이 다 있는가
  * 9. C-gen 음성으로 Q1 소리 트랙 통과 판정을 못 하게 막는가
  * 10. 세션 한 벌이 시작부터 끝까지 어긋남 없이 도는가
+ * 11. 기기 둘이 각각 제 쪽을 보는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -286,6 +287,30 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (after.sess) fails.push("리허설: 끝냈는데 세션 상태가 남아 있다");
   if (!after.rec) fails.push("리허설: 끝냈는데 기록 칸이 안 펴졌다");
   if (errs.length) fails.push("리허설 중 오류: " + errs.slice(0, 3).join(" / "));
+
+  // 11. 두 기기. 한쪽은 A, 한쪽은 B 를 본다.
+  //     같은 페이지에서 기기 값만 바꿔 본다. 브라우저 맥락을 둘 띄우는 것과 결과가 같다.
+  const two = await page.evaluate(() => {
+    const bad = [];
+    const pl = plan();
+    const sid = pl.set, lec = pl.lectureNo;
+    S.device = "a"; const sa = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
+    S.device = "b"; const sb = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
+    if (sa.indexOf("B 화면에 안 띄운다") >= 0) bad.push("A 기기에 B용 안내가 떴다");
+    if (sb.indexOf("B 화면에 안 띄운다") < 0) bad.push("B 기기에 가림 안내가 없다");
+    S.device = "a"; const ca = renderCardView(pl);
+    S.device = "b"; const cb = renderCardView(pl);
+    if (ca.indexOf(">A면") < 0 && ca.indexOf("A면 ·") < 0) bad.push("A 기기가 A면을 안 본다");
+    if (cb.indexOf("B면 ·") < 0) bad.push("B 기기가 B면을 안 본다");
+    S.device = "a";
+    // 기기 고르면 기록을 한 기기에만 남기라는 말이 뜨는가
+    paintTimer();
+    const pick = document.getElementById("tSide");
+    if (!pick || pick.textContent.indexOf("한 기기에만") < 0)
+      bad.push("기기를 골랐는데 기록을 한 기기에만 남기라는 말이 없다");
+    return bad;
+  });
+  two.slice(0, 5).forEach((m) => fails.push("두 기기: " + m));
 
   const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
