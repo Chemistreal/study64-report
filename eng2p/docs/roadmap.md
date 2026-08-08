@@ -1209,7 +1209,8 @@ Paired 의 **따로 답하고 동시에 펴기**가 기준서 2.3 블록 1과 2 
 | 턴 | 산출 |
 |---|---|
 | T188 | **언어 앱 넷 (완료).** `docs/bench_lang.md`. Duolingo Babbel Busuu Memrise |
-| T189~T191 | 남은 열. Pimsleur Rosetta Anki Quizlet ELSA Speak LingQ Clozeaster Glossika Drops |
+| T189 | **넷 더 (완료).** Pimsleur Rosetta Anki Quizlet |
+| T190~T191 | 남은 여섯. ELSA Speak LingQ Clozeaster Glossika Drops |
 | T192~T193 | 습관 운동 명상 여덟 해부. `docs/bench_habit.md` |
 | T194 | 부부 2인 앱 넷 해부. **따로 답하고 동시에 펴기를 규격으로** |
 | T195~T196 | 같은 방 놀이 여덟 구조 해부. 정보 격차 성립 조건을 코드 요구사항으로 |
