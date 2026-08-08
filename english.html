@@ -1212,7 +1212,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{}};
+          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today"};
 }
 function load(){
   try{
@@ -1859,7 +1859,7 @@ function planPieces(line){
    한 기기에 A면과 B면을 같이 띄우면 그 규칙이 화면에서 깨진다.
    기기 쪽을 안 고르면 A면을 보여 준다. 블록 3에서 B 는 카드를 안 본다.
    ========================================================================= */
-function cardKey(){ var pl=plan(); return today()+"|"+(pl.cards?pl.cards.from:0); }
+function cardKey(){ var pl=plan(); return today()+"|"+(pl.cards?pl.cards.from:0)+"|"+(S.cardMode||"today"); }
 function cardIdx(){
   var k=cardKey();
   if(!S.card || S.card.k!==k) S.card={k:k, i:0};
@@ -1875,6 +1875,21 @@ function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
    **앱이 간격을 새로 정하지 않는다.** 강의가 정한 값을 그대로 쓴다.
    ========================================================================= */
 function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
+/* 카드 하나가 어느 강에 붙는지. 묶음의 주차 표에서 나온다.
+   다시 낼 카드는 오늘 강의 것이 아니므로 이 값이 있어야 간격을 맞게 올린다. */
+function cardLecture(id){
+  if(!IDX) return null;
+  var p=String(id).split("-"); if(p.length!==2) return null;
+  var q=p[0], no=+p[1];
+  for(var i=0;i<IDX.weeks.length;i++){
+    var w=IDX.weeks[i]; if(w.quarter!==q) continue;
+    for(var j=0;j<(w.lectures||[]).length;j++){
+      var L=w.lectures[j];
+      if(L.cards && no>=L.cards.from && no<=L.cards.to) return L.no;
+    }
+  }
+  return null;
+}
 function spacingDays(no){
   var lec=DATA.lectures; if(!lec) return null;
   var L=(lec.items||[]).filter(function(x){return x.no===no;})[0];
@@ -1902,9 +1917,21 @@ function renderCardView(pl){
     return '<div class="n">카드를 여는 중이다.</div>';
   }
   if(!pl.cards) return "";
-  var list=(cards.items||[]).filter(function(c){
-    return c.quarter===pl.quarter && c.no>=pl.cards.from && c.no<=pl.cards.to;
-  }).sort(function(a,b){return a.no-b.no;});
+  /* 두 벌을 돈다. 오늘 범위와 다시 낼 카드다.
+     다시 낼 카드는 오늘 범위 밖이라 이 화면이 없으면 영영 안 나온다.
+     간격 반복은 다시 내는 것이 전부인 장치이므로 그것이 곧 장치가 없는 것이 된다. */
+  var due=dueCards();
+  var mode=(S.cardMode==="due" && due.length) ? "due" : "today";
+  var list;
+  if(mode==="due"){
+    var set={}; due.forEach(function(k){ set[k]=1; });
+    list=(cards.items||[]).filter(function(c){ return set[c.id]; })
+         .sort(function(a,b){ return a.id<b.id?-1:1; });
+  }else{
+    list=(cards.items||[]).filter(function(c){
+      return c.quarter===pl.quarter && c.no>=pl.cards.from && c.no<=pl.cards.to;
+    }).sort(function(a,b){return a.no-b.no;});
+  }
   if(!list.length) return "";
   var i=Math.max(0,Math.min(list.length-1,cardIdx()));
   var c=list[i];
@@ -1932,10 +1959,15 @@ function renderCardView(pl){
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
   var m=cardDue()[c.id];
-  var sp=spacingDays(pl.lectureNo);
+  /* 다시 낼 카드는 오늘 강의 것이 아니다. 그 카드가 붙은 강의 간격을 써야 한다. */
+  var ownLec=cardLecture(c.id) || pl.lectureNo;
+  var sp=spacingDays(ownLec);
   if(sp) h+='<div class="meta"><b>간격</b> '+sp.join("일 · ")+'일'+
     (m&&m.due?' · 다음 '+esc(m.due):(m&&m.box?' · 다 돌았다':''))+'</div>';
   h+='</div><div class="cardnav">'+
+    (due.length ? '<button type="button" data-card="mode">'+
+      (mode==="due" ? "오늘 범위로 ("+(pl.cards.to-pl.cards.from+1)+"장)"
+                    : "다시 낼 카드로 ("+due.length+"장)")+'</button>' : "")+
     '<button type="button" data-card="prev">이전 카드</button>'+
     '<button type="button" data-card="run">'+
     (m&&m.ran===today()?'오늘 돌았다':'돌았다로 적기')+'</button>'+
@@ -1943,8 +1975,13 @@ function renderCardView(pl){
   setTimeout(function(){
     document.querySelectorAll("[data-card]").forEach(function(b){
       b.onclick=function(){
+        if(b.dataset.card==="mode"){
+          S.cardMode = (S.cardMode==="due") ? "today" : "due";
+          S.card=null; save(); renderBlockPane();
+          return;
+        }
         if(b.dataset.card==="run"){
-          markCardRun(c.id, pl.lectureNo);
+          markCardRun(c.id, ownLec);
           /* 적고 나면 다음 카드로 간다. 한 장씩 도는 자리라 손이 한 번만 나가야 한다. */
           setCardIdx(i+1>=list.length?0:i+1);
           return;

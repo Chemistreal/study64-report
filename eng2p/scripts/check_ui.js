@@ -4,13 +4,14 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 다섯 가지를 본다.
+ * 여섯 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
  * 3. 세트 뷰어 288개 × 기기 세 상태에서 B 화면에 1단계 목록이 안 새는가
  * 4. 블록 3 진행표가 96편 다 구간을 둘 이상 내는가
  * 5. 카드 뷰어 600장 × 기기 세 상태에서 판정형 정답이 B면에 안 새는가
+ * 6. 다시 낼 카드 600장이 다 어느 강에 붙는지 찾아지는가
  *
  * 셋째와 다섯째가 이 검사의 핵심이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -154,6 +155,27 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     return bad;
   });
   card.slice(0, 8).forEach((m) => fails.push("카드 뷰어: " + m));
+
+  // 6. 다시 낼 카드 화면. 600장을 다 밀린 상태로 두고 그려 본다.
+  //    다시 낼 카드는 오늘 강의 것이 아니므로 그 카드가 붙은 강을 찾아야 간격이 맞다.
+  const dueMode = await page.evaluate(() => {
+    const bad = [];
+    const cards = (DATA.cards && DATA.cards.items) || [];
+    S.cardDue = {};
+    cards.forEach((c) => { S.cardDue[c.id] = { box: 1, due: "2020-01-01" }; });
+    S.cardMode = "due"; S.card = null; S.device = "a";
+    let h;
+    try { h = renderCardView(plan()); }
+    catch (e) { return ["다시 낼 카드 화면 예외 " + e.message]; }
+    if (!h || h.indexOf("1 / " + cards.length) < 0) bad.push("600장이 다 안 들어왔다");
+    for (const c of cards) {
+      const n = cardLecture(c.id);
+      if (!n) bad.push(c.id + " 가 어느 강에 붙는지 못 찾았다");
+    }
+    S.cardDue = {}; S.cardMode = "today"; S.card = null;
+    return bad;
+  });
+  dueMode.slice(0, 6).forEach((m) => fails.push("다시 낼 카드: " + m));
 
   const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
