@@ -120,7 +120,8 @@ scripts/check_refs.py  카드 번호와 미디어 id 와 강 참조가 실제로
 scripts/derive_index.py 48주 96강 색인을 세트의 대응강의 줄에서 파생
 scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인쇄용)
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
-out/data/               파생된 JSON. 손으로 안 고친다
+out/data/               파생된 JSON 일곱. 손으로 안 고친다
+out/data/index.json     앱이 제일 먼저 읽는 한 장 (37KB). 48주 차림표와 파일 해시
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다

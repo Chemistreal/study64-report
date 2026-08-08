@@ -23,6 +23,7 @@
 종료 코드 0이면 통과다.
 규격: docs/roadmap.md 11.6
 """
+import hashlib
 import json
 import pathlib
 import re
@@ -35,6 +36,7 @@ SETDATA = ROOT / "out" / "data" / "sets.json"
 HANDDATA = ROOT / "out" / "data" / "handouts.json"
 EMGDATA = ROOT / "out" / "data" / "emergency.json"
 TASKDATA = ROOT / "out" / "data" / "tasks.json"
+INDEX = ROOT / "out" / "data" / "index.json"
 HAND = ROOT / "out" / "handouts"
 SETS = ROOT / "out" / "sets"
 
@@ -188,6 +190,8 @@ def check_handouts(lec):
 EMG_PER_QUARTER = 20
 # 산출 과제집 분량 계단. 기준서 9장.
 TASK_CHARS = {"Q1": 100, "Q2": 250, "Q3": 400, "Q4": 600}
+# 비상판이 안 붙는 강. 분기마다 넷이고 네 파일이 그 이유를 적고 있다.
+UNCOVERED = [21, 22, 23, 24, 44, 45, 47, 48, 69, 70, 71, 72, 83, 94, 95, 96]
 
 
 def check_emergency(lec):
@@ -214,6 +218,19 @@ def check_emergency(lec):
                         % (x["no"], x["quarter"], x["lecture"], q))
         if not x["chunks"]:
             FAIL.append("비상판 %03d 에 청크가 없다" % x["no"])
+    # 비상판이 없는 강 열여섯이다. 넷씩 네 분기다.
+    # Q3 와 Q4 는 상대가 있어야 하는 강이라 뺐고 Q1 과 Q2 는 총량에서 잘린 것이다.
+    # 어느 쪽이든 네 파일이 그 이유를 적고 있어야 한다. 안 적으면 빠뜨린 것으로 보인다.
+    uncovered = sorted(set(range(1, 97)) - set(seen))
+    if uncovered != UNCOVERED:
+        FAIL.append("비상판 없는 강이 %r 이다. 적어 둔 것은 %r 이다"
+                    % (uncovered, UNCOVERED))
+    src = "".join(f.read_text(encoding="utf-8")
+                  for f in sorted((ROOT / "out" / "emergency").glob("*.md")))
+    for n in uncovered:
+        if "%d강" % n not in src and "%03d" % n not in src:
+            FAIL.append("%d강에 비상판이 없는데 그 이유가 어디에도 없다" % n)
+
     for q, n in sorted(per.items()):
         if n != EMG_PER_QUARTER:
             FAIL.append("%s 비상판이 %d개다. %d개여야 한다"
@@ -239,6 +256,47 @@ def check_tasks(lec):
         for k in ("task", "condition", "how", "check"):
             if not x.get(k):
                 FAIL.append("%d주차 과제집에 %s 가 없다" % (x["week"], k))
+
+
+def check_index(lec):
+    """묶음 파일이 다른 파일들과 맞는가. 크기와 해시까지 본다."""
+    if not INDEX.exists():
+        FAIL.append("index.json 이 없다")
+        return
+    idx = json.loads(INDEX.read_text(encoding="utf-8"))
+
+    want = {"lectures": 96, "cards": 600, "sets": 288,
+            "handouts": 96, "emergency": 80, "tasks": 48}
+    if idx["counts"] != want:
+        FAIL.append("index.json 개수가 다르다: %r" % idx["counts"])
+
+    # 해시가 맞아야 앱이 받은 것이 이 저장소의 것이다.
+    for f in idx["files"]:
+        p = INDEX.parent / f["file"]
+        if not p.exists():
+            FAIL.append("index.json 이 없는 파일을 가리킨다: %s" % f["file"])
+            continue
+        b = p.read_bytes()
+        if len(b) != f["bytes"]:
+            FAIL.append("%s 크기가 index.json 과 다르다" % f["file"])
+        if hashlib.sha256(b).hexdigest() != f["sha256"]:
+            FAIL.append("%s 해시가 index.json 과 다르다" % f["file"])
+
+    ws = [w["week"] for w in idx["weeks"]]
+    if ws != list(range(1, 49)):
+        FAIL.append("index.json 주차가 1부터 48까지가 아니다")
+    for w in idx["weeks"]:
+        ns = [x["no"] for x in w["lectures"]]
+        if ns != [w["week"] * 2 - 1, w["week"] * 2]:
+            FAIL.append("%d주차 강이 %r 이다" % (w["week"], ns))
+        if len(w["sets"]) != 6:
+            FAIL.append("%d주차 세트가 %d개다" % (w["week"], len(w["sets"])))
+        for x in w["lectures"]:
+            src = lec.get(x["no"], {})
+            if x["title"] != src.get("title") or x["media"] != src.get("media"):
+                FAIL.append("%d강 제목이나 미디어가 index.json 과 다르다" % x["no"])
+        if not w["task"]:
+            FAIL.append("%d주차 과제가 index.json 에 없다" % w["week"])
 
 
 def main():
@@ -304,6 +362,7 @@ def main():
     check_handouts(items)
     check_emergency(items)
     check_tasks(items)
+    check_index(items)
 
     for m in FAIL:
         print("[실패] %s" % m)

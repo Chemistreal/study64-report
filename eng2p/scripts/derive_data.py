@@ -15,6 +15,7 @@
 종료 코드 0이면 다 뽑은 것이다.
 규격: docs/roadmap.md 11.6
 """
+import hashlib
 import json
 import pathlib
 import re
@@ -414,6 +415,64 @@ def tasks():
     return rows, bad
 
 
+def manifest(lec, card, sett, hand, emg, task):
+    """앱이 제일 먼저 읽는 한 장이다.
+
+    데이터 여섯 파일이 1.8MB 다. 첫 화면을 띄우자고 그것을 다 물릴 이유가 없다.
+    오늘 무엇을 하는지는 주차와 강 번호와 제목만 있으면 정해진다.
+    나머지는 그 화면에서 고른 뒤에 물린다.
+
+    파일마다 크기와 해시를 같이 적는다. 앱이 받은 것이 이 저장소의 것인지 본다.
+    """
+    weeks = []
+    byweek = {}
+    for x in lec:
+        byweek.setdefault(x["week"], []).append(x)
+    emg_by_lec = {x["lecture"]: x["no"] for x in emg}
+    task_by_week = {x["week"]: x for x in task}
+    set_by_week = {}
+    for s in sett:
+        set_by_week.setdefault(s["week"], []).append(s["id"])
+    for w in sorted(byweek):
+        ls = sorted(byweek[w], key=lambda x: x["no"])
+        weeks.append({
+            "week": w,
+            "quarter": ls[0]["quarter"],
+            "lectures": [{
+                "no": x["no"],
+                "title": x["title"],
+                "track": x["track"],
+                "cards": x["cards"],
+                "media": x["media"],
+                "emergency": emg_by_lec.get(x["no"]),
+            } for x in ls],
+            "sets": sorted(set_by_week.get(w, [])),
+            "task": {"minChars": task_by_week[w]["minChars"]} if w in task_by_week else None,
+        })
+    return {
+        "weeks": weeks,
+        "counts": {
+            "lectures": len(lec), "cards": len(card), "sets": len(sett),
+            "handouts": len(hand), "emergency": len(emg), "tasks": len(task),
+        },
+    }
+
+
+def stamp_files():
+    """파생된 파일마다 크기와 해시를 적는다."""
+    out = []
+    for f in sorted(OUT.glob("*.json")):
+        if f.name == "index.json":
+            continue
+        b = f.read_bytes()
+        out.append({
+            "file": f.name,
+            "bytes": len(b),
+            "sha256": hashlib.sha256(b).hexdigest(),
+        })
+    return out
+
+
 def write(name, payload):
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / name
@@ -495,6 +554,20 @@ def main():
         return 1
     p = write("tasks.json", trows)
     print("%s / 과제집 %d주" % (p.relative_to(ROOT), len(trows)))
+
+    idx = manifest(rows, crows, srows, hrows, erows, trows)
+    idx["files"] = stamp_files()
+    p = OUT / "index.json"
+    p.write_text(json.dumps({
+        "note": "앱이 제일 먼저 읽는 한 장이다. 마크다운에서 파생시킨 것이라 "
+                "손으로 고치지 않는다. scripts/derive_data.py 를 다시 돌린다.",
+        "generator": "scripts/derive_data.py",
+        "counts": idx["counts"],
+        "files": idx["files"],
+        "weeks": idx["weeks"],
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print("%s / %d주 (%.0fKB)"
+          % (p.relative_to(ROOT), len(idx["weeks"]), p.stat().st_size / 1024))
     return 0
 
 
