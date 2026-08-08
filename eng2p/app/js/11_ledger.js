@@ -162,6 +162,6 @@ $("#imFile").onchange=function(e){
 $("#wipe").onclick=function(){
   if(!confirm("전체 기록을 지운다. 되돌릴 수 없다.")) return;
   if(!confirm("정말 지울까. JSON 내려받기를 먼저 하는 게 낫다.")) return;
-  localStorage.removeItem(KEY); S=blank(); save(); renderToday(); renderLedger();
+  wipeStore(); renderToday(); renderLedger();
 };
 

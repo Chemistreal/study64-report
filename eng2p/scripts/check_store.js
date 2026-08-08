@@ -1,0 +1,158 @@
+/* 기록이 살아남는가. **이 앱에서 잃으면 제일 아픈 것이 기록이다.**
+ *
+ * 1년치 수행 기록이 브라우저 한 곳에만 있다. 서버가 없다.
+ * 그것이 이 설계의 값이고 동시에 이 설계의 유일한 큰 위험이다.
+ *
+ * 전에는 이런 구멍이 있었다.
+ *
+ *   1. JSON 이 깨지면 **조용히 빈 상태로 시작했다.** 기록은 아직 거기 있는데
+ *      화면에는 0회로 나온다. 두 사람은 사라졌다고 여기고 다시 시작하고
+ *      그 다음 저장이 옛 기록 위를 덮는다. 그때 진짜로 사라진다
+ *   2. `saveNow()` 가 오류를 조용히 삼켰다. 잃으면 안 되는 값을 쓰는 길인데 그랬다
+ *   3. `save()` 는 120밀리초를 미룬다. 그 사이에 창이 닫히면 마지막 한 번을 잃는다
+ *
+ * 셋 다 **눈으로는 안 보인다.** 화면은 멀쩡하다. 그래서 검사로 만든다.
+ *
+ * 사용법:
+ *     node scripts/check_store.js
+ *
+ * 규격: docs/roadmap.md 12.10
+ */
+const path = require("path");
+const fs = require("fs");
+
+const ROOT = path.resolve(__dirname, "..", "..");
+const PAGE = "file://" + path.join(ROOT, "english.html");
+const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
+const KEY = "eng2p.v1";
+
+function skip(why) {
+  console.log("[건너뜀] " + why);
+  console.log("저장소 검사를 안 돌렸다. 통과가 아니다.");
+  process.exit(0);
+}
+let chromium;
+try { chromium = require("playwright-core").chromium; }
+catch (e) { skip("playwright-core 가 없다"); }
+if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+
+(async () => {
+  const browser = await chromium.launch({ executablePath: CHROME });
+  const fails = [];
+  let n = 0;
+
+  async function fresh() {
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const page = await ctx.newPage();
+    await page.goto(PAGE);
+    await page.waitForTimeout(300);
+    return { ctx, page };
+  }
+
+  /* 1. 적은 것이 새로고침 뒤에도 있는가 */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    await page.evaluate(() => {
+      S.onboarded = true; S.names.a = "가람"; S.names.b = "나래";
+      day(today()).speak = 42; saveNow();
+    });
+    await page.reload();
+    await page.waitForTimeout(400);
+    const got = await page.evaluate(() => ({ a: S.names.a, s: day(today()).speak }));
+    if (got.a !== "가람" || got.s !== 42)
+      fails.push("적은 것이 새로고침 뒤에 안 남았다: " + JSON.stringify(got));
+    await ctx.close();
+  }
+
+  /* 2. **미뤄 둔 저장이 화면이 숨을 때 흘러가는가.**
+     save() 는 120밀리초를 미룬다. 그 안에 숨으면 잃는다. 그것을 막았는지 본다. */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    await page.evaluate(() => { S.onboarded = true; saveNow(); });
+    await page.evaluate(() => { S.names.a = "미뤄둔값"; save(); });
+    // 미뤄 둔 사이에 숨긴다. 120밀리초를 안 기다린다.
+    await page.evaluate(() => document.dispatchEvent(new Event("visibilitychange")));
+    await page.evaluate(() => {
+      Object.defineProperty(document, "visibilityState", { value: "hidden", configurable: true });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    const raw = await page.evaluate((k) => localStorage.getItem(k), KEY);
+    if (!raw || JSON.parse(raw).names.a !== "미뤄둔값")
+      fails.push("미뤄 둔 저장이 화면을 숨길 때 안 흘러갔다");
+    await ctx.close();
+  }
+
+  /* 3. **깨진 기록을 조용히 버리지 않는가.** 제일 중요한 줄이다. */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    await page.evaluate((k) => localStorage.setItem(k, "{이건 JSON 이 아니다"), KEY);
+    await page.reload();
+    await page.waitForTimeout(500);
+    const st = await page.evaluate((k) => {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i));
+      return { err: typeof LOAD_ERR !== "undefined" ? LOAD_ERR : null, keys: keys };
+    }, KEY);
+    if (!st.err) fails.push("깨진 기록을 읽고도 아무 말이 없다");
+    if (!st.keys.some((x) => x.indexOf(KEY + ".broken") === 0))
+      fails.push("깨진 기록을 따로 안 옮겨 뒀다: " + st.keys.join(" "));
+    await ctx.close();
+  }
+
+  /* 4. 깨진 기록을 옮겨 둔 뒤에 새로 적은 것이 그 위를 안 덮는가 */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    await page.evaluate((k) => localStorage.setItem(k, "{깨진 것"), KEY);
+    await page.reload();
+    await page.waitForTimeout(400);
+    await page.evaluate(() => { S.names.a = "새로"; saveNow(); });
+    const kept = await page.evaluate((k) => {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.indexOf(k + ".broken") === 0) return localStorage.getItem(key);
+      }
+      return null;
+    }, KEY);
+    if (kept !== "{깨진 것") fails.push("옮겨 둔 깨진 기록이 사라졌다: " + kept);
+    await ctx.close();
+  }
+
+  /* 5. **저장소를 직접 만지는 자리가 조각에 남아 있는가.**
+     화면이 아니라 소스를 본다. 흩어지면 어느 길로 쓴 값이 안 남았는지 모르게 된다. */
+  {
+    n++;
+    const app = path.join(__dirname, "..", "app", "js");
+    const allow = new Set(["02_store.js"]);
+    fs.readdirSync(app).forEach((f) => {
+      if (allow.has(f)) return;
+      const body = fs.readFileSync(path.join(app, f), "utf8");
+      const hits = (body.match(/localStorage\.(setItem|removeItem|clear)/g) || []);
+      if (hits.length)
+        fails.push(f + " 가 저장소를 직접 만진다: " + hits.join(" ") +
+                   " (02_store.js 의 save saveNow wipeStore 를 쓴다)");
+    });
+  }
+
+  /* 6. 전체 지우기가 정말 지우는가. 그리고 옛 값이 안 남는가 */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    await page.evaluate(() => { S.onboarded = true; S.names.a = "지울값"; saveNow(); });
+    await page.evaluate(() => wipeStore());
+    await page.reload();
+    await page.waitForTimeout(400);
+    const a = await page.evaluate(() => S.names.a);
+    if (a === "지울값") fails.push("전체 지우기 뒤에도 옛 이름이 남았다");
+    await ctx.close();
+  }
+
+  await browser.close();
+  fails.forEach((m) => console.log("[실패] " + m));
+  console.log("");
+  console.log("저장소 %d판 / 실패 %d", n, fails.length);
+  process.exit(fails.length ? 1 : 0);
+})().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
