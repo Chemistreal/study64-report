@@ -26,6 +26,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPO = ROOT.parent
 LEC = ROOT / "out" / "lectures"
+EMG = ROOT / "out" / "emergency"
 HAND = ROOT / "out" / "handouts"
 CARDS = ROOT / "out" / "cards"
 CATALOG = REPO / "media" / "english" / "catalog.json"
@@ -165,6 +166,42 @@ def card_types():
     return out
 
 
+def check_chunks():
+    """비상판 청크가 저장소 어딘가에 이미 있는가.
+
+    비상판은 인출 장치다. 안 배운 것을 꺼내라고 할 수 없다.
+    그리고 이 저장소의 1순위 규칙이 확신 없는 영어를 안 지어내는 것이다.
+    청크는 짧아서 그럴듯하게 지어내기가 제일 쉬운 자리다.
+    T82 에서 Q4 스무 개를 만들 때 내가 넷을 지어냈고 이 검사가 그것을 잡았다.
+    """
+    # 원본은 넷이다. 강의와 카드와 세트와 VOA 대본이다.
+    # 대본은 저작권이 없고 이 저장소 안에 있다. 지어낸 영어가 아니다.
+    src = ""
+    for d in (LEC, ROOT / "out" / "cards", ROOT / "out" / "sets"):
+        for f in d.glob("*.md"):
+            src += f.read_text(encoding="utf-8")
+    voa = REPO / "media" / "english"
+    if voa.exists():
+        for f in voa.rglob("*"):
+            if f.suffix in (".json", ".txt", ".md", ".vtt"):
+                src += f.read_text(encoding="utf-8", errors="ignore")
+    # 대본은 굽은 따옴표를 쓴다. 우리 자료는 곧은 것을 쓴다. 같은 낱말이 안 맞는다.
+    src = src.replace("\u2019", "'")
+    seen = {}
+    for f in sorted(EMG.glob("*.md")):
+        text = f.read_text(encoding="utf-8")
+        for m in re.finditer(r"^청크 5분: (.+)$", text, re.M):
+            for c in (x.strip() for x in m.group(1).split(" / ")):
+                if not c:
+                    continue
+                if c.replace("\u2019", "'") in src or c in seen:
+                    seen[c] = f.name
+                    continue
+                FAIL.append("%s: 청크 '%s' 가 강의에도 카드에도 세트에도 대본에도 없다"
+                            % (f.name, c))
+                seen[c] = f.name
+
+
 def check_lectures():
     for f in sorted(LEC.glob("*.md")):
         text = f.read_text(encoding="utf-8")
@@ -216,6 +253,7 @@ def main():
     check_handouts(cards, media)
     check_tiling(cards)
     check_pressure(card_types())
+    check_chunks()
     check_lectures()
     for m in FAIL:
         print("[실패] %s" % m)
