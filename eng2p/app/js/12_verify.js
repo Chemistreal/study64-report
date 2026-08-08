@@ -19,8 +19,14 @@ function renderVerify(){
       colBox.appendChild(itemCard(d,c.e,["출처: "+c.s,c.q?"궁금한 점: "+c.q:""],c));
     });
   });
-  if(!nL) lreBox.innerHTML='<div class="note small">'+(showDone?"해결 표시된 항목이 없다.":"미해결 LRE 없음.")+'</div>';
-  if(!nC) colBox.innerHTML='<div class="note small">'+(showDone?"해결 표시된 항목이 없다.":"채집 표현 없음.")+'</div>';
+  /* **빈 자리는 없다고만 말하면 안 된다.** 없는 것이 정상인지 빠뜨린 것인지를
+     두 사람이 모른다. 무엇을 하면 채워지는지를 같이 적는다. T183 */
+  if(!nL) lreBox.innerHTML='<div class="note small">'+(showDone?
+    "해결 표시된 항목이 없다.":
+    "<b>미해결 LRE 없음.</b> 오늘 탭 아래 미해결 LRE 칸에 적으면 여기로 온다.")+'</div>';
+  if(!nC) colBox.innerHTML='<div class="note small">'+(showDone?
+    "해결 표시된 항목이 없다.":
+    "<b>채집 표현 없음.</b> 블록 4에서 들은 것을 오늘 탭 채집 칸에 적으면 여기로 온다.")+'</div>';
 }
 function itemCard(d,title,lines,ref){
   var box=el("div","lreitem");

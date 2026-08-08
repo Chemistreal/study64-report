@@ -137,7 +137,8 @@ function renderAlerts(){
   else if(maxEmg>=2) out.push(["비상판 연속 2일","경고. 다음 날은 정규 세션으로 돌아온다."]);
   var withStatus=ds.filter(function(d){return S.days[d].status;});
   if(!withStatus.length) out.push(["기록 없음","오늘 탭에서 수행 여부부터 누른다."]);
-  if(!out.length){ box.innerHTML='<div class="note small">걸린 경보 없음.</div>'; return; }
+  if(!out.length){ box.innerHTML='<div class="note small"><b>걸린 경보 없음.</b> '+
+    '수행 기록이 쌓이면 밀림과 편중을 여기서 알린다.</div>'; return; }
   out.forEach(function(o){
     var d=el("div","note w");
     d.appendChild(el("b",null,o[0])); d.appendChild(el("div","small",o[1]));

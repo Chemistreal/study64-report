@@ -93,7 +93,8 @@ function renderSyncScript(it, round){
     return '<div class="n">대본을 여는 중이다.</div>';
   }
   var lines=(tr.items||{})[it.id], cue=(cu.items||{})[it.id];
-  if(!lines||!lines.length) return '<div class="n">이 과는 대본이 없다.</div>';
+  if(!lines||!lines.length) return '<div class="n"><b>이 과는 대본이 없다.</b> '+
+    '소리는 그대로 듣는다. 대본이 있는 과는 미디어 탭 목록에 표시가 붙는다.</div>';
   var eff=effCues(it.id, cue, (al.items||{})[it.id]);
   var nfix=cueCount(it.id);
   var veil=veilOf(round);

@@ -158,6 +158,74 @@ def verdict_words():
     return bad
 
 
+# **빈 자리는 없다고만 말하면 안 된다.**
+# 없는 것이 정상인지 내가 빠뜨린 것인지를 두 사람이 모른다.
+# 영어 제로라 화면 말고는 판단할 근거가 없다. 무엇을 하면 채워지는지를 같이 적는다.
+# **칸을 통째로 채우는 글만 본다.** 처음에는 "없다" 가 든 줄을 다 봤는데
+# 여섯이 걸렸고 여섯 다 빈 자리 말이 아니었다.
+# 값의 이름표("등급 없음"), 물음("되돌릴 수 없다"), 고르개 항목, 자료의 값,
+# 설명문("한국어에 치간 마찰음이 없다") 이다.
+# 빈 자리 말은 `innerHTML` 로 칸을 채우거나 칸을 통째로 돌려주는 자리에 있다.
+EMPTY_RE = re.compile(r'(?:없다|없음)\.')
+EMPTY_WHERE = ("innerHTML", "return '<div", 'return "<div')
+EMPTY_NOT = ("confirm(", "alert(", "prompt(", '"option"')
+# 칸을 비우는 줄은 빈 자리 말이 아니다. 그 다음 줄부터가 새 문장이다.
+EMPTY_BLANK = ('innerHTML="";', "innerHTML='';")
+# **낱말 목록으로 가리면 안 된다.** 처음에 그렇게 했더니 안내가 있는 자리 넷이
+# 걸렸다. "꺼내 쓴다", "등록해도 된다", "저장한다" 가 목록에 없어서다.
+# 목록을 늘리는 것은 끝이 없다. 짜임새로 본다.
+# **"없다." 다음에 문장이 하나 더 있으면 안내가 있는 것이다.**
+# 다섯 자다. "등록해도 된다" 가 여섯 자이고 "비상판 15분으로" 가 여섯 자다.
+# 여덟로 잡았더니 그 둘이 걸렸다. 안내가 있는데 짧을 뿐이었다.
+# 빈 자리 말은 뒤가 아예 비어 있다. 다섯이면 그 둘을 가른다.
+EMPTY_TAIL = 5
+# 빈 자리 말이 아닌 조각. 규칙을 적는 글이거나 판정 결과다.
+EMPTY_SKIP = {"14_check.js", "01_const.js"}
+
+
+def empty_states():
+    """빈 자리가 무엇을 하면 채워지는지 말하는가. **화면에 나가는 글만 본다.**"""
+    app = ROOT / "app" / "js"
+    bad = []
+    for f in sorted(app.glob("*.js")):
+        if f.name in EMPTY_SKIP:
+            continue
+        inblock = False
+        lines = f.read_text(encoding="utf-8").split("\n")
+        for i, line in enumerate(lines):
+            s = line.lstrip()
+            was = inblock
+            if not inblock and "/*" in line and "*/" not in line.split("/*")[1]:
+                inblock = True
+            elif inblock and "*/" in line:
+                inblock = False
+                was = True
+            if was or s.startswith("//"):
+                continue
+            if not any(w in line for w in EMPTY_WHERE):
+                continue
+            # 칸을 비우기만 하는 줄에서 시작하면 안 된다. 그 뒤 세 줄은 딴 문장이다.
+            if any(w in line for w in EMPTY_BLANK):
+                continue
+            # **한 줄만 보면 안 된다.** 칸을 채우는 글이 세 줄에 걸쳐 있으면
+            # 그 줄에는 innerHTML 이 없어서 아예 안 보게 된다.
+            # T183 에 일부러 안내를 지워 봤는데 검사가 조용했다. 그것 때문이었다.
+            near = "\n".join(lines[i:i + 3])
+            if any(w in near for w in EMPTY_NOT):
+                continue
+            m = EMPTY_RE.search(near)
+            if not m:
+                continue
+            tail = near[m.end():]
+            # 뒤에 남은 한글 글자를 센다. 태그와 따옴표는 안 센다.
+            rest = len([ch for ch in tail if "\uac00" <= ch <= "\ud7a3"])
+            if rest >= EMPTY_TAIL:
+                continue
+            bad.append("%s %d째 줄: 빈 자리가 없다고만 말한다: %s"
+                       % (f.name, i + 1, line.strip()[:60]))
+    return bad
+
+
 def undo_gaps():
     """지우는 코드 옆에 되돌리기가 있는가. **소스를 읽는다.**
 
@@ -194,6 +262,8 @@ def undo_gaps():
 
 
 def main():
+    for m in empty_states():
+        FAIL.append(m)
     for m in verdict_words():
         FAIL.append(m)
     for m in undo_gaps():
@@ -256,9 +326,9 @@ def main():
     npiece = sum(1 for l in (ROOT / "app" / "order.txt").read_text(encoding="utf-8").split("\n")
                  if l.strip() and not l.strip().startswith("#"))
     print("english.html 글자 %d개 / 조각 %d개 (한 조각 %d줄까지) / 되돌리기 면제 %d곳 / "
-          "판정하는 말 %d개 / 건너뛴 규격 목록 %d곳 / 그리는 기호 %d개 / 실패 %d / 경고 %d"
-          % (len(raw), npiece, MAX_LINES, len(UNDO_OK), len(VERDICT_WORDS), skipped,
-             len(GLYPH), len(FAIL), len(WARN)))
+          "판정하는 말 %d개 / 빈 자리 말 %d꼴 / 건너뛴 규격 목록 %d곳 / 그리는 기호 %d개 / 실패 %d / 경고 %d"
+          % (len(raw), npiece, MAX_LINES, len(UNDO_OK), len(VERDICT_WORDS),
+             EMPTY_TAIL, skipped, len(GLYPH), len(FAIL), len(WARN)))
     return 1 if FAIL else 0
 
 

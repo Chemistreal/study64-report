@@ -300,7 +300,8 @@ function renderMediaList(){
     res.appendChild(links);
     acts.appendChild(ab); acts.appendChild(fa); acts.appendChild(res); d.appendChild(acts); box.appendChild(d);
   });
-  if(!shown.length) box.innerHTML='<div class="note small">조건에 맞는 레슨이 없다.</div>';
+  if(!shown.length) box.innerHTML='<div class="note small"><b>조건에 맞는 레슨이 없다.</b> '+
+    '위 검색칸을 비우거나 분기를 전체로 바꾼다.</div>';
 }
 function renderMedia(){
   mediaRec(); renderMediaStats(); renderMediaList();

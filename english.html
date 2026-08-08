@@ -3038,7 +3038,8 @@ function renderSyncScript(it, round){
     return '<div class="n">대본을 여는 중이다.</div>';
   }
   var lines=(tr.items||{})[it.id], cue=(cu.items||{})[it.id];
-  if(!lines||!lines.length) return '<div class="n">이 과는 대본이 없다.</div>';
+  if(!lines||!lines.length) return '<div class="n"><b>이 과는 대본이 없다.</b> '+
+    '소리는 그대로 듣는다. 대본이 있는 과는 미디어 탭 목록에 표시가 붙는다.</div>';
   var eff=effCues(it.id, cue, (al.items||{})[it.id]);
   var nfix=cueCount(it.id);
   var veil=veilOf(round);
@@ -3883,7 +3884,8 @@ function renderAlerts(){
   else if(maxEmg>=2) out.push(["비상판 연속 2일","경고. 다음 날은 정규 세션으로 돌아온다."]);
   var withStatus=ds.filter(function(d){return S.days[d].status;});
   if(!withStatus.length) out.push(["기록 없음","오늘 탭에서 수행 여부부터 누른다."]);
-  if(!out.length){ box.innerHTML='<div class="note small">걸린 경보 없음.</div>'; return; }
+  if(!out.length){ box.innerHTML='<div class="note small"><b>걸린 경보 없음.</b> '+
+    '수행 기록이 쌓이면 밀림과 편중을 여기서 알린다.</div>'; return; }
   out.forEach(function(o){
     var d=el("div","note w");
     d.appendChild(el("b",null,o[0])); d.appendChild(el("div","small",o[1]));
@@ -3953,8 +3955,14 @@ function renderVerify(){
       colBox.appendChild(itemCard(d,c.e,["출처: "+c.s,c.q?"궁금한 점: "+c.q:""],c));
     });
   });
-  if(!nL) lreBox.innerHTML='<div class="note small">'+(showDone?"해결 표시된 항목이 없다.":"미해결 LRE 없음.")+'</div>';
-  if(!nC) colBox.innerHTML='<div class="note small">'+(showDone?"해결 표시된 항목이 없다.":"채집 표현 없음.")+'</div>';
+  /* **빈 자리는 없다고만 말하면 안 된다.** 없는 것이 정상인지 빠뜨린 것인지를
+     두 사람이 모른다. 무엇을 하면 채워지는지를 같이 적는다. T183 */
+  if(!nL) lreBox.innerHTML='<div class="note small">'+(showDone?
+    "해결 표시된 항목이 없다.":
+    "<b>미해결 LRE 없음.</b> 오늘 탭 아래 미해결 LRE 칸에 적으면 여기로 온다.")+'</div>';
+  if(!nC) colBox.innerHTML='<div class="note small">'+(showDone?
+    "해결 표시된 항목이 없다.":
+    "<b>채집 표현 없음.</b> 블록 4에서 들은 것을 오늘 탭 채집 칸에 적으면 여기로 온다.")+'</div>';
 }
 function itemCard(d,title,lines,ref){
   var box=el("div","lreitem");
@@ -5275,7 +5283,8 @@ function renderMediaList(){
     res.appendChild(links);
     acts.appendChild(ab); acts.appendChild(fa); acts.appendChild(res); d.appendChild(acts); box.appendChild(d);
   });
-  if(!shown.length) box.innerHTML='<div class="note small">조건에 맞는 레슨이 없다.</div>';
+  if(!shown.length) box.innerHTML='<div class="note small"><b>조건에 맞는 레슨이 없다.</b> '+
+    '위 검색칸을 비우거나 분기를 전체로 바꾼다.</div>';
 }
 function renderMedia(){
   mediaRec(); renderMediaStats(); renderMediaList();
