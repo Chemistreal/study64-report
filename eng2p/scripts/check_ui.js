@@ -1537,7 +1537,36 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     });
     if (!d.has) bad.push("주를 눌렀는데 안 펴진다");
     if (d.lec !== 2) bad.push("그 주 강의가 " + d.lec + "편이다. 둘이어야 한다");
-    if (d.txt.indexOf("Q2-120") < 0) bad.push("그 주 세트가 안 적혀 있다");
+    /* **그 주에 필요한 다섯이 다 나와야 한다.** 강의 세트 카드 소리 비상판이다.
+       하나만 빠져도 그것 하나 때문에 자료 탭으로 가게 된다. */
+    [["Q2-120", "세트"], ["092 ~ 097", "카드"], ["lle1-29", "소리"],
+     ["비상판 36", "비상판"], ["250자", "과제"]].forEach(function (p) {
+      if (d.txt.indexOf(p[0]) < 0) bad.push("그 주 " + p[1] + " 이 안 적혀 있다");
+    });
+    const med = await p6.$$(".wmed");
+    if (med.length !== 2) bad.push("소리로 가는 자리가 " + med.length + "개다. 둘이어야 한다");
+    else {
+      await med[1].click();
+      await p6.waitForTimeout(620);
+      const g = await p6.evaluate(() => ({
+        tab: !document.querySelector("#t-media").hidden,
+        el: !!document.querySelector("#libMediaHost audio,#libMediaHost video"),
+        idx: T.idx, sess: S.session,
+      }));
+      if (!g.tab) bad.push("소리를 눌렀는데 미디어 탭이 안 열린다");
+      if (!g.el) bad.push("소리를 눌렀는데 재생기가 안 붙는다");
+      if (g.idx !== 0 || g.sess) bad.push("지도에서 소리를 여니 세션이 바뀌었다");
+      /* 지도로 돌아온다. **편 주는 그대로 남아 있다.**
+         남아 있는데 또 누르면 접힌다. 접혔을 때만 누른다. */
+      await p6.evaluate(() => go("today"));
+      await p6.waitForTimeout(300);
+      await p6.click('[data-go="map"]');
+      await p6.waitForTimeout(340);
+      if (!(await p6.$(".wdetail"))) {
+        await p6.click('[data-w="20"]');
+        await p6.waitForTimeout(320);
+      }
+    }
 
     await p6.click(".wlec");
     await p6.waitForTimeout(820);
@@ -1560,7 +1589,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
-              "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 9판");
+              "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

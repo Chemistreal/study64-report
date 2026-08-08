@@ -765,6 +765,11 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .wlec:hover{border-color:var(--a1)}
 .wlec .wtrack{color:var(--mut);font-size:0.75rem;margin-left:6px}
 .wdetail .wsets{font-size:0.75rem;color:var(--mut);margin-top:4px;overflow-wrap:anywhere}
+.wdetail .wsub{font-size:0.75rem;color:var(--mut);margin:-3px 0 6px 2px;font-family:var(--mono)}
+.wmed{display:inline-block;font:inherit;font-size:0.75rem;border:1px solid var(--edge);
+  border-radius:9px;background:var(--bg2);color:var(--acc);padding:8px 11px;margin:0 0 8px;
+  cursor:pointer;min-height:44px}
+.wmed:hover{border-color:var(--a1)}
 /* 띠를 누를 수 있게. 단추지만 띠처럼 보인다. */
 .bandgo{display:block;width:100%;text-align:left;font:inherit;color:inherit;
   background:none;border:0;padding:0;cursor:pointer}
@@ -3452,6 +3457,7 @@ function lecPara(body){
    **누르면 그 주에 무엇이 있는지 펴진다.** 강의 둘과 세트 여섯이다.
    ========================================================================= */
 var MAPOPEN=null;
+function pad3(n){ return String(n).padStart(3,"0"); }
 function renderMapPane(){
   if(!IDX) return '<div class="peekbar"><b>길 지도</b> 차림표를 못 읽었다'+
     '<button class="g" id="peekClose" type="button">닫기</button></div>';
@@ -3489,6 +3495,15 @@ function weekCard(w){
     h+='<button type="button" class="wlec" data-go="l:'+L.no+'">'+
        '<b>'+L.no+'강</b> '+esc(L.title||"")+
        '<span class="wtrack">'+esc(L.track||"")+'</span></button>';
+    /* **그 주에 무엇이 있는지가 반만 나왔다.** 강의와 세트는 적었는데
+       그 강이 쓰는 소리와 그날 못 할 때 쓰는 비상판은 안 적었다.
+       매일 쓰는 넷 중 둘이 빠져 있었다. T180 */
+    var line=[];
+    if(L.cards) line.push("카드 "+pad3(L.cards.from)+" ~ "+pad3(L.cards.to));
+    if(L.emergency!=null) line.push("비상판 "+L.emergency);
+    if(line.length) h+='<div class="wsub">'+esc(line.join(" · "))+'</div>';
+    if(L.media) h+='<button type="button" class="wmed" data-go="m:'+esc(L.media)+'">'+
+      '소리 '+esc(L.media)+'</button>';
   });
   h+='<div class="wsets">세트 '+esc((wk.sets||[]).join(" "))+'</div>';
   if(wk.task) h+='<div class="wsets">과제 '+wk.task.minChars+'자</div>';
@@ -3506,7 +3521,13 @@ function bindMapPane(box){
   box.querySelectorAll("[data-go]").forEach(function(b){
     b.onclick=function(){
       var v=b.getAttribute("data-go");
-      if(v.indexOf("l:")===0) peekLecture(+v.slice(2));
+      if(v.indexOf("l:")===0){ peekLecture(+v.slice(2)); return; }
+      if(v.indexOf("m:")===0){
+        var id=v.slice(2);
+        var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
+        if(i<0){ flash("그 과를 못 찾았다"); return; }
+        openMedia(i,"audio",false); go("media");
+      }
     };
   });
 }

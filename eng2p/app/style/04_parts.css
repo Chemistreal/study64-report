@@ -248,6 +248,11 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .wlec:hover{border-color:var(--a1)}
 .wlec .wtrack{color:var(--mut);font-size:0.75rem;margin-left:6px}
 .wdetail .wsets{font-size:0.75rem;color:var(--mut);margin-top:4px;overflow-wrap:anywhere}
+.wdetail .wsub{font-size:0.75rem;color:var(--mut);margin:-3px 0 6px 2px;font-family:var(--mono)}
+.wmed{display:inline-block;font:inherit;font-size:0.75rem;border:1px solid var(--edge);
+  border-radius:9px;background:var(--bg2);color:var(--acc);padding:8px 11px;margin:0 0 8px;
+  cursor:pointer;min-height:44px}
+.wmed:hover{border-color:var(--a1)}
 /* 띠를 누를 수 있게. 단추지만 띠처럼 보인다. */
 .bandgo{display:block;width:100%;text-align:left;font:inherit;color:inherit;
   background:none;border:0;padding:0;cursor:pointer}
