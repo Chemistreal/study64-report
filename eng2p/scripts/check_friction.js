@@ -108,6 +108,13 @@ function seedScript() {
     await p.waitForTimeout(250);
     const run = await p.evaluate(() => !!(window.T && T.run));
     if (!run) fails.push("이튿날: 한 번 눌러도 세션이 안 돈다");
+    /* **접은 것이 다시 펴지는가.** 시작 전에는 시계를 접는다(T166).
+       접기만 하고 안 펴지면 세션을 못 돈다. 접는 쪽보다 펴는 쪽이 더 중요하다. */
+    const shown = await p.evaluate(() => {
+      const el = document.querySelector("#sessionCard .timer");
+      return !!el && el.getBoundingClientRect().height > 100;
+    });
+    if (!shown) fails.push("세션을 시작했는데 시계가 안 펴진다");
     got.tap_day2 = taps;
     await c.close();
   }
@@ -134,6 +141,11 @@ function seedScript() {
     const st = await p.evaluate(() => ({ run: !!(window.T && T.run), idx: window.T ? T.idx : -1 }));
     if (!st.run) fails.push("끊긴 데서 이어: 세션이 안 돈다");
     if (st.idx !== 1) fails.push("끊긴 데서 이어: 멈춘 블록이 아니라 " + (st.idx + 1) + "번으로 갔다");
+    const shown2 = await p.evaluate(() => {
+      const el = document.querySelector("#sessionCard .timer");
+      return !!el && el.getBoundingClientRect().height > 100;
+    });
+    if (!shown2) fails.push("끊긴 데서 이어: 시계가 안 펴진다");
     got.tap_resume = taps;
     await c0.close();
   }

@@ -31,8 +31,16 @@ function sessionLeftMin(){
 }
 function fmt(s){var m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");}
 var RINGC=552.9;
+/* **아직 안 시작한 세션의 시계는 자리만 먹는다.**
+   T159 에 재 보니 오늘 화면 4231px 중 1724px 이 시계 묶음과 조작줄이었다.
+   전체의 41%다. 그리고 그것은 세션이 돌 때만 쓴다.
+   시작 전에는 접는다. 시작하거나 중간에 멈춘 상태면 편다. */
+function sessionIdle(){
+  return !T.run && T.idx===0 && T.left===BLOCKS[0].m*60;
+}
 function syncSessionFocus(){
   document.body.classList.toggle("session-focus",T.run);
+  document.body.classList.toggle("session-idle",sessionIdle());
   var card=$("#sessionCard");
   if(card) card.setAttribute("aria-busy",T.run?"true":"false");
   var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");
@@ -41,6 +49,7 @@ function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=tru
 function finishSession(){
   T.run=false; clearInterval(T.tick); T.left=0; relWake(); leaveSessPlay();
   document.body.classList.remove("session-focus");
+  document.body.classList.remove("session-idle");
   var done=$("#sessionDone"); if(done) done.hidden=false;
   /* **여기서 정상으로 센다. 시작 버튼에서 세지 않는다.**
      T97 에서 진도를 정상 세션 수로 바꿨다. 시작만 눌러도 세면

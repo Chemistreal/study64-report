@@ -26,6 +26,10 @@
     </div>
     <div class="progline" id="todayProgress2"></div>
     <div id="resumeBox"></div>
+    <!-- **비워 두는 자리다.** 공동 연속일(F단계)과 오늘의 한 판(E단계)이 여기 들어온다.
+         자리를 지금 잡아 두는 이유는 나중에 첫 화면을 다시 짜지 않기 위해서다.
+         무엇이 들어올지는 docs/roadmap.md 12.9 와 12.15 에 이미 적혀 있다. -->
+    <div id="todaySlots" class="slots" hidden></div>
     <div class="todaysheet" id="todaySheet"></div>
     <div class="emgline" id="emgLine"></div>
     <div id="emgBox"></div>
@@ -61,7 +65,7 @@
       <div><b>2인 세션 완료</b><div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
         <div class="nextday" id="nextDay"></div></div>
     </div>
-    <div class="row" style="justify-content:center;margin-top:12px">
+    <div class="row sessctl" id="sessCtl" style="justify-content:center;margin-top:12px">
       <button class="g" id="tStart">시작</button>
       <button class="g" id="tPrev">이전 블록</button>
       <button class="g" id="tSkip">다음 블록</button>
