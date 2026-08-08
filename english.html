@@ -1098,7 +1098,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:null,wk:0,onboarded:false};
+          media:{done:{},fav:{},last:null,pass:{}},theme:null,wk:0,onboarded:false,session:null};
 }
 function load(){
   try{
@@ -1121,7 +1121,7 @@ function day(d){
   /* 칸이 빠진 기록이 들어올 수 있다. 예전 판이 남긴 것이거나 손으로 넣은 것이다.
      하나만 없어도 그 줄을 읽는 자리에서 앱 전체가 멈춘다.
      T98 에서 겪었다. status 만 든 기록을 넣었더니 첫 화면이 안 떴다. */
-  var b={status:null,speak:0,cards:0,lre:0,unres:[],coll:[]};
+  var b={status:null,started:null,speak:0,cards:0,lre:0,unres:[],coll:[]};
   var r=S.days[d];
   if(!r){ S.days[d]=b; return b; }
   for(var k in b) if(!(k in r)) r[k]=b[k];
@@ -1444,6 +1444,33 @@ $("#cAdd").onclick=function(){
    타이머
    ========================================================================= */
 var T={idx:0,left:BLOCKS[0].m*60,run:false,tick:null};
+
+/* =========================================================================
+   세션 상태 저장. 브라우저를 닫아도 어디서 멈췄는지 남는다.
+   전에는 T 가 메모리에만 있었다. 새로고침 한 번에 40분이 사라졌다.
+   ========================================================================= */
+function saveSession(){
+  S.session={date:today(), idx:T.idx, left:T.left, at:Date.now()};
+  /* 바로 쓴다. save() 는 120밀리초 미룬다.
+     세션 상태는 그 사이에 창이 닫히면 잃는 값이고, 잃으면 40분을 다시 한다. */
+  try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){}
+}
+function loadSession(){
+  var s=S.session;
+  if(!s || s.date!==today()) return false;   // 어제 것은 안 이어 간다
+  if(s.idx==null || s.left==null) return false;
+  T.idx=Math.max(0,Math.min(BLOCKS.length-1, s.idx));
+  T.left=Math.max(0, Math.min(BLOCKS[T.idx].m*60, s.left));
+  T.run=false;                                // 이어 가려면 눌러야 한다. 저절로 안 돈다
+  return true;
+}
+function clearSession(){ S.session=null; save(); }
+/* 남은 세션 시간. 이어서 하기 안내에 쓴다. */
+function sessionLeftMin(){
+  var s=T.left;
+  for(var i=T.idx+1;i<BLOCKS.length;i++) s+=BLOCKS[i].m*60;
+  return Math.ceil(s/60);
+}
 function fmt(s){var m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");}
 var RINGC=552.9;
 function syncSessionFocus(){
@@ -1457,6 +1484,13 @@ function finishSession(){
   T.run=false; clearInterval(T.tick); T.left=0; relWake();
   document.body.classList.remove("session-focus");
   var done=$("#sessionDone"); if(done) done.hidden=false;
+  /* **여기서 정상으로 센다. 시작 버튼에서 세지 않는다.**
+     T97 에서 진도를 정상 세션 수로 바꿨다. 시작만 눌러도 세면
+     2분 하고 덮은 날이 하루 진도로 나간다. 96강이 그만큼 앞당겨진다. */
+  var rec=day(today());
+  if(rec.status!=="normal"){ rec.status="normal"; }
+  clearSession();
+  renderToday();
   paintTimer();
 }
 function restartFinishedSession(){
@@ -1514,9 +1548,10 @@ function beep(){
 }
 function tick(){
   T.left--;
+  if(T.left%10===0) saveSession();   // 10초마다 남긴다. 매초 쓰면 저장이 잦다
   if(T.left<=0){
     beep();
-    if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; }
+    if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; saveSession(); }
     else { finishSession(); return; }
   }
   paintTimer();
@@ -1555,10 +1590,12 @@ document.addEventListener("visibilitychange",function(){
 
 /* 원탭 시작. 수행 표시와 타이머와 화면 유지를 한 번에 건다. */
 $("#tOne").onclick=function(){
+  /* 시작은 시작만 적는다. 정상 판정은 finishSession 이 한다. */
   var rec=day(today());
-  if(!rec.status){ rec.status="normal"; save(); renderToday(); }
+  if(!rec.started){ rec.started=today(); save(); }
   restartFinishedSession();
   if(!T.run){ hideSessionDone(); T.run=true; clearInterval(T.tick); T.tick=setInterval(tick,1000); reqWake(); }
+  saveSession();   // 누른 그 순간을 남긴다. 10초 뒤가 아니라
   paintTimer();
   var c=$("#tClock"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
 };
@@ -3324,6 +3361,8 @@ function renderRules(){
 buildNav();
 applyTheme();
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
+/* 끊긴 세션이 있으면 그 자리에서 다시 편다. 저절로 안 돈다. 누르면 이어 간다. */
+loadSession();
 renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind();
 ttsVoices(); renderSound(); renderClip(); renderScript();
 go((location.hash.slice(1)||"today"));
