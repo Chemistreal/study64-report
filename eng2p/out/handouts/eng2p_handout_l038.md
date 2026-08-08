@@ -1,0 +1,53 @@
+신뢰도: A 생성 (파생)
+분기: Q2
+트랙: 문법
+원본: out/lectures/eng2p_q2_l038.md
+검증대상:
+검증로그: 2026-08-08 / 원본 강의에서 기계로 뽑았다 / 통과 / 손으로 적은 줄이 없다. 원본이 바뀌면 다시 뽑는다
+
+# 38강 강의록. 시제 두 개의 소리와 형태
+
+**손으로 고치지 않는다.** 강의에서 파생시킨 것이다.
+고칠 것이 있으면 원본 강의를 고치고 다시 뽑는다.
+
+## 1. 오늘 하는 것
+
+문법 두 편 중 마지막이다. 32강에서 뽑는 절차를 배웠고 이번에 그 절차를 쓴다.
+
+## 2. 영어 재료
+
+    walked, asked, worked
+    played, showed, lived
+    wanted, started, needed
+    Anna's voice: I was at work. And I wanted a break. So, I walked and walked … and walked.
+    Anna's voice: At the festival, I danced a traditional Basque dance!
+    Amelia: That will be fun! Are you going on vacation this summer?
+    Anna: First, we're going to introduce the subject.
+
+## 3. 30분 진행표
+
+준비 3분, 소리 12분, 뽑기 12분, 기록 3분이다. 준비 3분에는 세 형에서 하나씩 골라 세 번 낸다. walked, played, wanted 다.
+
+- 앞 15분은 소리다. A가 지나간 일 표시가 든 낱말을 읽고 B가 세 형 중 하나로 답한다.
+- 뒤 15분은 뽑기다. A가 will 이 든 줄과 going to 가 든 줄을 셋씩 골라 준다.
+
+역할: 짝수 날은 남편이 A, 홀수 날은 아내가 A다.
+
+## 4. 카드
+
+카드 080 ~ 085
+미디어 lle1-22
+
+## 5. 기록 칸
+
+- 낱말 20개를 세 형으로 가른다. 15개 이상이면 통과다. 역할을 바꿔 한 번 더 하고 두 방향 모두 15개 이상이어야 한다.
+
+- 문장 안에서 가르는 문항을 10개 잰다. 6개 이상이면 통과다. 낱말 하나일 때보다 기준을 낮게 잡는다. 실제로 더 어렵다.
+
+- 네 단계를 다 지난 규칙을 3개 뽑는다. 앞일 표시에서 뽑는다. 반례를 못 찾은 것도 못 찾았다고 적었으면 지난 것으로 센다.
+
+- 문법 용어를 쓴 횟수를 센다. 세션당 3회 이하다. 32강과 같은 기준이다.
+
+## 6. 막혔을 때
+
+3형만 먼저 잡는다. 3형은 음절이 늘어서 제일 잘 들린다.

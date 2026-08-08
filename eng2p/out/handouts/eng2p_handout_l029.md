@@ -1,0 +1,62 @@
+신뢰도: A 생성 (파생)
+분기: Q2
+트랙: 청크
+원본: out/lectures/eng2p_q2_l029.md
+검증대상:
+검증로그: 2026-08-08 / 원본 강의에서 기계로 뽑았다 / 통과 / 손으로 적은 줄이 없다. 원본이 바뀌면 다시 뽑는다
+
+# 29강 강의록. 이어 붙이는 덩어리
+
+**손으로 고치지 않는다.** 강의에서 파생시킨 것이다.
+고칠 것이 있으면 원본 강의를 고치고 다시 뽑는다.
+
+## 1. 오늘 하는 것
+
+여덟 자리 중 두 번째다. 문장과 문장을 잇는 자리를 채운다.
+
+## 2. 영어 재료
+
+    And
+    So
+    That's why
+    Also
+    But
+    Though
+    Still
+    Even so
+    Like
+    For example
+    You know, like
+    Pete: But this job is great. I work outside by the river. And I can eat all the free seafood I want!
+    Anna: Washington, D.C. has many fun places to eat. But, sometimes it's more fun to cook. In fact, tonight Marsha and I are cooking for friends.
+
+## 3. 30분 진행표
+
+준비 3분, A가 계측 12분, 역할 바꿔 12분, 기록 3분이다.
+
+- 준비 3분
+- A가 계측 12분
+- 역할 바꿔 12분
+- 기록 3분이다
+
+역할: 짝수 날은 남편이 A, 홀수 날은 아내가 A다.
+
+## 4. 카드
+
+카드 025 ~ 030
+압박형 제한 시간 5초
+미디어 lle1-30
+
+## 5. 기록 칸
+
+- 첫 문장 20개에 이어 붙인다. 5초 안에 15개 이상이면 통과다. 역할을 바꿔 한 번 더 하고 두 방향 모두 15개 이상이어야 한다. 내용이 뜻이 통하는지는 안 따진다.
+
+- 방향을 알아듣는 문항을 10개 잰다. 8개 이상이어야 한다.
+
+- And 만 쓴 횟수를 따로 센다. 20개 중 8개 이하여야 한다. 셋 중 하나로 몰리면 나머지 둘이 안 잡힌 것이다.
+
+- 네 문장을 이어 붙이는 문항을 5개 잰다. 3개 이상이면 통과다. 잇는 덩어리 셋 중 둘 이상이 달라야 한 개로 센다.
+
+## 6. 막혔을 때
+
+5초에서 끊는다. 이어 붙이는 덩어리조차 안 나온 항목을 따로 센다.
