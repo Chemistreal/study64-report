@@ -54,6 +54,11 @@ window.ENG2P_INDEX={
       "sha256": "72b8d10c41f7f49af8b86a36908ae45984cb57b1ffdbabefcb6fcf1cc69dfaa3"
     },
     {
+      "file": "cues.js",
+      "bytes": 24004,
+      "sha256": "120e4d5873d557e1b517024272f1c7f8718982c899f404e302b6a54735a155a4"
+    },
+    {
       "file": "emergency.js",
       "bytes": 52118,
       "sha256": "209cf8c665c7a3524176bfbdfd039c943d9b75e382b2b5fbb1dcd1497f4c51eb"

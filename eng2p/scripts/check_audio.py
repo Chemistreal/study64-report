@@ -27,6 +27,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPO = ROOT.parent
 LEN = ROOT / "out" / "data" / "audiolen.js"
 CAT = REPO / "media" / "english" / "catalog.json"
+CUES = ROOT / "out" / "data" / "cues.js"
+TRJS = ROOT / "out" / "data" / "transcripts.js"
 TR = REPO / "media" / "english" / "transcripts"
 SLACK = 3.0     # 표기가 초 단위라 반올림으로 1초는 늘 어긋난다
 
@@ -88,13 +90,50 @@ def main():
         if mid not in real:
             warns.append("%s 는 카탈로그에 있는데 mp3 가 없다" % mid)
 
+    # 어림 구간표. **줄 차례가 대본과 같아야 한다.**
+    # 시각만 싣고 글은 안 싣는다. 차례가 한 칸 밀리면 표가 통째로
+    # 엉뚱한 줄을 가리키는데 **화면에서는 그냥 잘 도는 것처럼 보인다.**
+    if CUES.exists() and TRJS.exists():
+        cues = load_js(CUES, "ENG2P_CUES")
+        tr = load_js(TRJS, "ENG2P_TRANSCRIPTS")["items"]
+        if not cues.get("estimate"):
+            fails.append("구간표에 어림 표시가 없다. 어림을 실측처럼 내면 안 된다")
+        ci = cues["items"]
+        if len(ci) != len(tr):
+            fails.append("구간표가 %d과인데 대본은 %d과다" % (len(ci), len(tr)))
+        for mid in sorted(ci):
+            if mid not in tr:
+                fails.append("%s 구간표가 있는데 대본이 없다" % mid)
+                continue
+            if len(ci[mid]) != len(tr[mid]):
+                fails.append("%s 구간표가 %d줄인데 대본은 %d줄이다"
+                             % (mid, len(ci[mid]), len(tr[mid])))
+                continue
+            t = ci[mid]
+            if t[0] != 0:
+                fails.append("%s 구간표 첫 줄이 %s초다. 0이어야 한다" % (mid, t[0]))
+            for k in range(1, len(t)):
+                if t[k] <= t[k - 1]:
+                    fails.append("%s 구간표 %d번째가 앞줄보다 안 늦다 (%s <= %s)"
+                                 % (mid, k + 1, t[k], t[k - 1]))
+                    break
+            if mid in real and t[-1] >= real[mid]:
+                fails.append("%s 구간표 마지막이 %s초인데 소리는 %.1f초다"
+                             % (mid, t[-1], real[mid]))
+        for mid in sorted(tr):
+            if mid not in ci:
+                fails.append("%s 대본이 있는데 구간표가 없다" % mid)
+    else:
+        warns.append("구간표나 대본 묶음이 없어 어림 검사를 건너뛰었다")
+
     for m in fails:
         print("[실패] " + m)
     for m in warns:
         print("[경고] " + m)
     print()
-    print("소리 %d개 / 실패 %d / 경고 %d / 합계 %.1f분"
-          % (len(real), len(fails), len(warns), sum(real.values()) / 60))
+    ncue = sum(len(v) for v in load_js(CUES, "ENG2P_CUES")["items"].values()) if CUES.exists() else 0
+    print("소리 %d개 / 어림 %d줄 / 실패 %d / 경고 %d / 합계 %.1f분"
+          % (len(real), ncue, len(fails), len(warns), sum(real.values()) / 60))
     return 1 if fails else 0
 
 
