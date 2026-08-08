@@ -432,11 +432,33 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
 @media print{
-  header,nav,footer,.noprint,.aurora{display:none!important}
+  /* 종이와 같이 쓰는 물건이다. 인쇄가 되는 것이 부속 기능이 아니다.
+     어두운 바탕을 그대로 찍으면 잉크를 먹고 글씨가 안 읽힌다.
+     그래서 인쇄에서는 색 토큰을 밝은 값으로 되돌린다. 테마와 상관없이. */
+  :root, :root[data-theme="dark"], :root[data-theme="light"]{
+    --bg:#fff; --bg2:#fff; --fg:#000; --mut:#444; --line:#bbb;
+    --card:#fff; --card2:#fff; --edge:#999;
+    --a1:#000; --a2:#000; --a3:#000; --acc:#000; --glow:none;
+  }
+  header,nav,footer,.noprint,.aurora,.focusdock,.timer,.sessiondone,
+  #onboard,.sidepick,.recgate,.resume,.bigtap,.stp button{display:none!important}
+  /* 종이 위의 버튼은 누를 수 없다. 자리만 먹는다. */
+  button{display:none!important}
+  /* 빈 입력 칸은 손으로 적는 자리이므로 남긴다. 테두리만 남기고 배경을 없앤다. */
+  input,textarea,select{background:#fff;color:#000;border:1px solid #999}
   body{font-size:12px;background:#fff;color:#000}
-  .wrap{padding:0}
-  .card,.wallcard{background:#fff;box-shadow:none;backdrop-filter:none}
+  .wrap{padding:0;max-width:none}
+  .card,.wallcard{background:#fff;box-shadow:none;backdrop-filter:none;border-color:#999}
   section[hidden]{display:none}
+  /* 오늘 한 장은 종이에서 제일 큰 것이 강 제목이어야 한다. */
+  .todaysheet{border:1.5px solid #000;background:#fff;padding:14px 16px}
+  .todaysheet .lec{font-size:22px}
+  .todaysheet .lec b{color:#000}
+  .todaysheet .g{border-color:#999}
+  .weekband i{background:#ddd;height:6px}
+  .weekband i.done{background:#000}
+  .weekband i.now{background:#000;box-shadow:0 0 0 2px #fff,0 0 0 3px #000}
+  a[href]:after{content:""}
 }
 </style>
 </head>
