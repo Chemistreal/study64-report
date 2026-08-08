@@ -259,8 +259,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const it = MEDIA[0];
     const old = it.grade;
     it.grade = "C-gen";
-    const q1 = renderMediaPane({ media: it.id, quarter: "Q1", track: "소리" }, 1);
-    const q2 = renderMediaPane({ media: it.id, quarter: "Q2", track: "청크" }, 1);
+    // 둘째 자리는 회차가 아니라 **자리**다. T154 에 바뀌었다. 단추는 같이 듣는 자리에만 난다.
+    const q1 = renderMediaPane({ media: it.id, quarter: "Q1", track: "소리" }, "together");
+    const q2 = renderMediaPane({ media: it.id, quarter: "Q2", track: "청크" }, "together");
     it.grade = old;
     if (q1.indexOf("C-real 로만") < 0) bad.push("C-gen 인데 Q1 소리에서 안 막았다");
     if (q1.indexOf("끝냈다로 적기") >= 0) bad.push("C-gen 인데 Q1 소리에 판정 단추가 있다");
@@ -569,8 +570,14 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await new Promise((r) => setTimeout(r, 900));
     if (!document.querySelector("#sessPlayHost audio, #sessPlayHost video"))
       bad.push("블록 4에 재생기가 없다");
-    if ((document.getElementById("blockPane").textContent || "").indexOf("2회차") < 0)
-      bad.push("블록 4가 2회차라고 안 적는다");
+    /* **블록 4는 블록 1과 같은 회차다.** T154 에 그렇게 바꿨다.
+       전에는 이 검사가 "블록 4는 2회차" 를 굳혀 놨다. 그것이 T153 에 나온 결함이었다.
+       검사가 틀린 값을 지키고 있으면 고치는 쪽이 실패로 나온다. */
+    const seatTxt = document.getElementById("blockPane").textContent || "";
+    if (seatTxt.indexOf("1회차 초점은 소리다") < 0)
+      bad.push("블록 4가 블록 1과 같은 회차를 안 적는다");
+    if (seatTxt.indexOf("같이 듣는다") < 0)
+      bad.push("블록 4가 같이 듣는 자리라고 안 적는다");
     gotoBlock(0);
     await new Promise((r) => setTimeout(r, 400));
     T.run = false; clearInterval(T.tick); stopSessPlay();
@@ -886,11 +893,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const first = box().querySelector(".scl");
     if (!first.dataset.mask || first.dataset.mask.indexOf("낱말") < 0)
       bad.push("가릴 때 보여 줄 것이 없다: " + first.dataset.mask);
-    // 블록을 옮기면 회차 기본값으로 돌아간다
+    // 블록을 옮기면 회차 기본값으로 돌아간다.
+    // **회차가 정한다. 블록이 아니다.** 아직 한 회차도 안 끝냈으면 1회차라 가림이다. T154
     gotoBlock(3);
     await new Promise((r) => setTimeout(r, 2000));
-    if (!box().classList.contains("veil1"))
-      bad.push("블록 4가 덩어리만이 아니다: " + box().className);
+    if (!box().classList.contains("veil2"))
+      bad.push("블록 4가 1회차 가림이 아니다: " + box().className);
     if (SESS.veil !== null) bad.push("블록을 옮겼는데 손으로 고른 가림이 남았다");
     gotoBlock(0);
     await new Promise((r) => setTimeout(r, 1600));
@@ -1116,6 +1124,84 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   many.slice(0, 6).forEach((m) => fails.push("연속 30일: " + m));
 
+  // 15. 회차. **블록이 아니라 진행이 정한다.** T153 리허설에서 이것이 어긋나 있었다.
+  //     기준서 10.3: 같은 자료를 최소 3회, 회차마다 초점 변경, 1회 소리 2회 청크 3회 의미.
+  //     한 과를 사흘 도니 하루가 한 회차다. 하루에 자리가 둘(블록 1과 4)이고 둘은 같은 회차다.
+  //
+  //     **처음 판은 이 검사가 틀렸다.** 한 evaluate 안에서 눌렀더니 아무것도 안 적혔다.
+  //     단추에 onclick 을 다는 것이 setTimeout 안이라 그 틱이 오기 전에 누른 것이다.
+  //     리허설은 700밀리초씩 쉬어서 통과했다. 검사만 급했다. 그래서 걸음마다 쉰다.
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.waitForTimeout(400);
+  await page.evaluate(() => {
+    S.onboarded = true; S.device = "a"; S.start = "2026-09-07"; save();
+    window.today = () => "2026-09-07";
+  });
+  const WANT = ["소리", "청크", "의미"];
+  const rounds = [];
+  for (let r = 1; r <= 3; r++) {
+    for (const seat of [[0, "각자"], [3, "같이"]]) {
+      await page.evaluate((b) => { T.run = true; syncSessionFocus(); gotoBlock(b); }, seat[0]);
+      await page.waitForTimeout(700);
+      const got = await page.evaluate((s) => {
+        const txt = document.querySelector("#blockPane").innerText;
+        const btn = document.querySelector('#blockPane [data-media="pass"]');
+        return { r: roundNow(plan().media), txt: txt, btn: btn ? btn.textContent.trim() : null, seat: s };
+      }, seat[0]);
+      const m = got.txt.match(/([0-9])회차 초점은 ([가-힣]+)다/);
+      if (got.r !== r) rounds.push(r + "회차여야 하는데 roundNow 가 " + got.r + " 다");
+      if (!m) { rounds.push(r + "회차 " + seat[1] + " 자리에 초점 문장이 없다"); continue; }
+      if (m[1] !== String(r)) rounds.push(r + "회차인데 " + seat[1] + " 자리가 " + m[1] + "회차라 한다");
+      if (m[2] !== WANT[r - 1])
+        rounds.push(r + "회차 초점이 " + m[2] + " 다. " + WANT[r - 1] + " 여야 한다");
+      if (seat[0] === 0 && got.btn) rounds.push(r + "회차: 각자 듣는 자리에 끝냈다 단추가 있다");
+      if (seat[0] === 3 && !got.btn) rounds.push(r + "회차: 같이 듣는 자리에 끝냈다 단추가 없다");
+      if (got.btn && got.btn.indexOf(r + "회차") < 0)
+        rounds.push(r + "회차인데 단추가 " + got.btn + " 라 한다");
+    }
+    // 하루를 끝낸다. 회차가 딱 하나 올라야 한다. 지금 자리는 "같이" 다.
+    const step = await page.evaluate(() => {
+      const id = plan().media, before = mediaPass(id);
+      const b = document.querySelector('#blockPane [data-media="pass"]');
+      if (b) b.click();
+      return { before: before, after: mediaPass(id) };
+    });
+    await page.waitForTimeout(400);
+    if (step.after !== step.before + 1)
+      rounds.push(r + "회차를 적었는데 셈이 " + step.before + " 에서 " + step.after + " 다");
+  }
+  // 다 채우면 단추가 사라지고 오늘 무엇을 할지를 말해야 한다
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(3); });
+  await page.waitForTimeout(700);
+  const filled = await page.evaluate(() => ({
+    txt: document.querySelector("#blockPane").innerText,
+    btn: !!document.querySelector('#blockPane [data-media="pass"]'),
+    veil: (SESS.veil = null, [veilOf(1), veilOf(2), veilOf(3)]),
+  }));
+  if (filled.btn) rounds.push("세 회차를 다 채웠는데 끝냈다 단추가 남았다");
+  if (filled.txt.indexOf("다시 듣기") < 0)
+    rounds.push("세 회차를 다 채운 뒤 오늘 무엇을 하라는 말이 없다");
+  // 가림은 회차를 따른다. 1회차 가림, 2회차 덩어리만, 3회차 다 보임.
+  [2, 1, 0].forEach((want, i) => {
+    if (filled.veil[i] !== want)
+      rounds.push((i + 1) + "회차 가림이 " + filled.veil[i] + " 다. " + want + " 이어야 한다");
+  });
+  rounds.slice(0, 8).forEach((m) => fails.push("회차: " + m));
+
+  // 16. 강의록에 박힌 역할 이름을 두 사람의 이름으로 갈아 끼우는가
+  const named = await page.evaluate(() => {
+    const bad = [];
+    if (withNames("짝수 날은 남편이 A, 홀수 날은 아내가 A다.").indexOf("남편") < 0)
+      bad.push("기본값인데 글이 바뀌었다");
+    S.names = { a: "가람", b: "나래" };
+    const s = withNames("짝수 날은 남편이 A, 홀수 날은 아내가 A다.");
+    if (s.indexOf("가람") < 0 || s.indexOf("나래") < 0) bad.push("이름을 갈아 끼우지 않았다: " + s);
+    if (s.indexOf("남편") >= 0 || s.indexOf("아내") >= 0) bad.push("옛 이름이 남았다: " + s);
+    return bad;
+  });
+  named.forEach((m) => fails.push("이름: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
@@ -1126,7 +1212,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
               "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
-              "마지막 줄 되풀이 1판 / 연속 30일 1판");
+              "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 이름 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
