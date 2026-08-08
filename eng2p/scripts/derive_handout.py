@@ -138,14 +138,16 @@ def pick_plan(name, b):
     # 그때는 배분 문장 자체를 쉼표로 갈라 구간으로 쓴다. 정보는 그 안에 있다.
     if len(segs) < 2:
         segs = []
+    # 배분은 첫 문장까지다. 뒤에 붙는 설명 문장에도 분이 나와서 구간으로 섞인다.
+    plan_first = re.split(r"(?<=다)\.\s", re.sub(r"\s+", " ", split.group(1)).strip())[0]
     if not segs:
-        for part in re.split(r"[,\n]", split.group(1)):
+        for part in re.split(r"[,\n]", plan_first):
             p2 = part.strip().rstrip(".")
-            if re.search(r"\d+분", p2):
+            if re.search(r"\d+\s*분", p2) and len(p2) <= 20:
                 segs.append(p2)
     if not segs:
         miss(name, "30분 진행표", "블록 3에 구간 배분이 없다")
-    return re.sub(r"\s+", " ", split.group(1)).strip(), segs
+    return plan_first, segs
 
 
 def pick_cards(name, b):

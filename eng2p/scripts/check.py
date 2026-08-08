@@ -189,6 +189,40 @@ def check_lecture(path, text):
     seg = section(text, "## 3. 역할 지정", "## 4.")
     if seg and ("A" not in seg or "B" not in seg):
         fail(path, "블록 3에 A/B 역할이 모두 없다")
+    check_plan30(path, seg)
+
+
+# 블록 3의 30분 배분이다. 강의록 셋째 칸이 이 문장 하나에서 나온다.
+# 손으로 적은 숫자라 합이 안 맞아도 아무 데도 안 걸렸다.
+# T75 에서 61강이 36분, 95강이 32분이었다. 둘 다 한 해 내내 안 잡혔다.
+MULT = {"둘": 2, "셋": 3, "넷": 4, "다섯": 5, "여섯": 6}
+# 배분이 두 줄에 걸치는 강이 있다. 1강이 그렇다. 빈 줄까지 이어 붙이고 첫 문장만 센다.
+PLAN_LINE = re.compile(r"30분을 이렇게 쓴다\.\s*(.+?)(?:\n\s*\n|\Z)", re.S)
+
+
+def plan_minutes(line):
+    """배분 문장에서 분을 더한다. "8분씩 셋" 은 곱해서 센다."""
+    total = 0
+    for part in re.split(r"[,、]", line):
+        m = re.search(r"(\d+)\s*분", part)
+        if not m:
+            continue
+        n = int(m.group(1))
+        mm = re.search(r"분\s*씩\s*([가-힣]+)", part)
+        if mm and mm.group(1) in MULT:
+            n *= MULT[mm.group(1)]
+        total += n
+    return total
+
+
+def check_plan30(path, seg):
+    m = PLAN_LINE.search(seg or "")
+    if not m:
+        return
+    line = re.split(r"(?<=다)\.\s", re.sub(r"\s+", " ", m.group(1)).strip())[0]
+    got = plan_minutes(line)
+    if got != 30:
+        fail(path, "블록 3 배분 합이 %d분이다. 30분이어야 한다: %s" % (got, line))
 
 
 def section(text, start, end):
