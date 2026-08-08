@@ -22,7 +22,7 @@
     But
     How about
     What if we
-    Phil: Well, I agree. There is more culture in the city and there might be more jobs. But the country has more nature!
+    Phil: Well, I agree. There is more culture in the city and there might be more jobs. But the country has more nature! (뒤는 줄인다)
     Phil: That's a good point.
 
 ## 3. 30분 진행표

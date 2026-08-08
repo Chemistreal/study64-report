@@ -89,11 +89,13 @@ def english_lines(block):
         if not re.search(HAN, s):
             out.append(s)
             continue
-        # 한글이 든 괄호를 떼 본다
+        # 한글이 든 괄호를 떼 보고 나머지가 영어면 영어 줄로 센다.
+        # **떼어 낸 것을 출력하지 않는다.** 줄임 표시가 사라지면 줄인 인용이
+        # 온전한 인용으로 보인다. T47 부터 이 저장소가 계속 잡아 온 결함이다.
         s2 = re.sub(r"\([^)]*" + HAN + r"[^)]*\)", "", s).strip()
         s2 = re.sub(r"\s{2,}", " ", s2)
         if s2 and not re.search(HAN, s2) and re.search(r"[A-Za-z]", s2):
-            out.append(s2)
+            out.append(s)
             continue
         # 앞에 한글 라벨이 붙은 줄을 떼 본다
         m = re.match(r"^(" + HAN + r"{1,6})\s{1,}(.+)$", s2 or s)

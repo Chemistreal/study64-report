@@ -18,7 +18,7 @@
 
     Anna: In fact, I wanted to be a baseball player.
     Jonathan: Is this one of your memories? I'm really busy.
-    Anna: This won't take long. I can see it now... I am at home plate. I wait for the pitch.
+    Anna: This won't take long. I can see it now... I am at home plate. I wait for the pitch. (뒷부분 줄임)
 
 ## 3. 30분 진행표
 

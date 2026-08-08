@@ -16,7 +16,7 @@
 
 ## 2. 영어 재료
 
-    Anna: I am at home plate. I wait for the pitch. The ball comes. I swing. It's a hit! I run to first base, second base, third base, then home plate.
+    Anna: (앞 줄임) I am at home plate. I wait for the pitch. The ball comes. I swing. It's a hit! I run to first base, second base, third base, then home plate. (뒤 줄임)
 
 ## 3. 30분 진행표
 

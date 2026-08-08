@@ -16,7 +16,7 @@
 
 ## 2. 영어 재료
 
-    Anna: Excuse me. I'm Anna Matteo from The News. Do you have time for an interview?
+    Anna: (앞의 혼잣말은 줄인다) Excuse me. I'm Anna Matteo from The News. Do you have time for an interview?
     Sabrina: Sure, I have time.
     Anna: What is your name?
     Sabrina: My name is Sabrina.

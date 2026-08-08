@@ -19,7 +19,7 @@
     Anna: Two robbers were grabbing her bag like this. She was hitting them with her umbrella.
     Guy: Is that when you hurt your arm?
     Anna: No. At that time, I was not fighting the robbers.
-    Anna: I left work to get some lunch. Then suddenly, I heard a woman yelling.
+    Anna: I left work to get some lunch. Then suddenly, I heard a woman yelling. (뒷부분 줄임)
 
 ## 3. 30분 진행표
 
