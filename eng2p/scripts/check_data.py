@@ -31,6 +31,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "out" / "data" / "lectures.json"
 CARDDATA = ROOT / "out" / "data" / "cards.json"
+SETDATA = ROOT / "out" / "data" / "sets.json"
 HAND = ROOT / "out" / "handouts"
 SETS = ROOT / "out" / "sets"
 
@@ -112,6 +113,38 @@ def check_cards(lec):
                 FAIL.append("%s %s면에 지시나 성공 기준이 없다" % (c["id"], s.upper()))
 
 
+def check_sets(lec):
+    """세트 JSON 이 주차 배정 및 30분 구성과 맞는가."""
+    if not SETDATA.exists():
+        FAIL.append("sets.json 이 없다")
+        return
+    sets = json.loads(SETDATA.read_text(encoding="utf-8"))["items"]
+    if len(sets) != 288:
+        FAIL.append("세트가 %d개다. 288개여야 한다" % len(sets))
+
+    per = {}
+    for s in sets:
+        per.setdefault(s["week"], []).append(s)
+        # 한 세트가 30분이다. 네 단계의 분을 더해 본다.
+        got = sum(x["minutes"] for x in s["steps"])
+        if got != 30:
+            FAIL.append("세트 %s 의 분 합이 %d이다. 30이어야 한다" % (s["id"], got))
+        if [x["step"] for x in s["steps"]] != [1, 2, 3, 4]:
+            FAIL.append("세트 %s 의 단계가 1234가 아니다" % s["id"])
+        # 그 세트가 붙는 강이 그 주차의 두 강 중 하나여야 한다.
+        want = {s["week"] * 2 - 1, s["week"] * 2}
+        if s["lecture"] not in want:
+            FAIL.append("세트 %s 가 %r강에 붙는다. %d주차는 %s강이다"
+                        % (s["id"], s["lecture"], s["week"], sorted(want)))
+        if lec.get(s["lecture"], {}).get("quarter") != s["quarter"]:
+            FAIL.append("세트 %s 의 분기가 그 강의 분기와 다르다" % s["id"])
+
+    # 주 6세트다. 하루 하나씩 여섯 날이다.
+    for w, xs in sorted(per.items()):
+        if len(xs) != 6:
+            FAIL.append("%d주차 세트가 %d개다. 6개여야 한다" % (w, len(xs)))
+
+
 def main():
     if not DATA.exists():
         print("[실패] %s 가 없다. derive_data.py 를 먼저 돌린다" % DATA.name)
@@ -171,13 +204,14 @@ def main():
                             % (n, items.get(n, {}).get("week"), w))
 
     check_cards(items)
+    check_sets(items)
 
     for m in FAIL:
         print("[실패] %s" % m)
     print()
-    print("강의 %d편 / 견준 항목 9가지 / 카드 %d장"
-          % (len(items), len(json.loads(CARDDATA.read_text(encoding="utf-8"))["items"])
-             if CARDDATA.exists() else 0))
+    nc = len(json.loads(CARDDATA.read_text(encoding="utf-8"))["items"]) if CARDDATA.exists() else 0
+    ns = len(json.loads(SETDATA.read_text(encoding="utf-8"))["items"]) if SETDATA.exists() else 0
+    print("강의 %d편 / 카드 %d장 / 세트 %d개" % (len(items), nc, ns))
     print("실패 %d" % len(FAIL))
     return 1 if FAIL else 0
 

@@ -218,6 +218,71 @@ def cards():
     return rows, bad
 
 
+SET_HEAD = re.compile(r"^##\s*세트\s*(\d{3})\s*$", re.M)
+STEP = re.compile(r"^###\s*(\d)단계\s*(.+?)\s*\((\d+)분\)\s*$", re.M)
+
+
+def sets():
+    """대조 교차 세트 288개. 네 단계와 그 안의 칸을 담는다."""
+    rows, bad = [], []
+    for f in sorted(SETS.glob("eng2p_set_w*.md")):
+        w = int(re.search(r"_w(\d+)", f.name).group(1))
+        text = f.read_text(encoding="utf-8")
+        quarter = re.search(r"^분기:\s*(\S+)", text, re.M).group(1)
+        heads = list(SET_HEAD.finditer(text))
+        for i, m in enumerate(heads):
+            end = heads[i + 1].start() if i + 1 < len(heads) else len(text)
+            body = text[m.end():end]
+            lec = re.search(r"^대응강의:\s*(\S+)", body, re.M)
+            steps, marks = [], list(STEP.finditer(body))
+            if len(marks) != 4:
+                bad.append("%s 세트 %s: 단계가 %d개다" % (f.name, m.group(1), len(marks)))
+                continue
+            for j, sm in enumerate(marks):
+                e = marks[j + 1].start() if j + 1 < len(marks) else len(body)
+                chunk = body[sm.end():e]
+                # 가름줄 뒤는 다음 세트다. 여기서 끊는다.
+                chunk = chunk.split("\n---")[0]
+                fields, items = {}, []
+                cur = None
+                for line in chunk.split("\n"):
+                    s = line.rstrip()
+                    if not s.strip():
+                        continue
+                    # 4단계 기록 칸의 이름은 "LRE 발생 횟수" 처럼 로마자로 시작한다.
+                    # 한글로만 잡으면 그 셋이 한 덩어리 산문이 된다. 앱이 쓸 빈칸인데
+                    # 빈칸인 줄을 모르게 된다. 로마자도 받는다.
+                    fm = re.match(r"^([가-힣A-Za-z][가-힣A-Za-z ]{0,10}):\s*(.*)$", s)
+                    im = re.match(r"^\s+\d+\.\s+(.+)$", s)
+                    if im and cur:
+                        items.append(im.group(1).strip())
+                    elif fm:
+                        cur = fm.group(1)
+                        fields[cur] = fm.group(2).strip()
+                    elif cur and fields.get(cur) is not None:
+                        fields[cur] = (fields[cur] + " " + s.strip()).strip()
+                    else:
+                        fields.setdefault("본문", "")
+                        fields["본문"] = (fields["본문"] + " " + s.strip()).strip()
+                steps.append({
+                    "step": int(sm.group(1)),
+                    "name": sm.group(2),
+                    "minutes": int(sm.group(3)),
+                    "fields": fields,
+                    "items": items,
+                })
+            rows.append({
+                "no": int(m.group(1)),
+                "id": "%s-%03d" % (quarter, int(m.group(1))),
+                "week": w,
+                "quarter": quarter,
+                "lecture": int(lec.group(1)[-3:]) if lec else None,
+                "source": "out/sets/%s" % f.name,
+                "steps": steps,
+            })
+    return rows, bad
+
+
 def write(name, payload):
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / name
@@ -259,6 +324,17 @@ def main():
         return 1
     p = write("cards.json", crows)
     print("%s / 카드 %d장" % (p.relative_to(ROOT), len(crows)))
+
+    srows, bad = sets()
+    for m in bad:
+        print("[실패] %s" % m)
+    if bad:
+        return 1
+    if len(srows) != 288:
+        print("[실패] 세트가 %d개다. 288개여야 한다" % len(srows))
+        return 1
+    p = write("sets.json", srows)
+    print("%s / 세트 %d개" % (p.relative_to(ROOT), len(srows)))
     return 0
 
 
