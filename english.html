@@ -968,6 +968,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
 </div>
 
 <script src="media/english/catalog.js"></script>
+<script src="eng2p/out/data/index.js"></script>
 <script>
 "use strict";
 /* =========================================================================
@@ -1115,6 +1116,42 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
 function today(){return iso(new Date());}
 function roleOf(d){ return parseISO(d).getDate()%2===0 ? "a" : "b"; }
+
+/* =========================================================================
+   오늘 배정. eng2p/out/data/index.js 에서 온다. 손으로 적은 값이 없다.
+   ========================================================================= */
+var IDX=(window.ENG2P_INDEX)||null;
+
+/* 진도는 달력이 아니라 **수행한 정규 세션 수**로 센다.
+   전에는 시작일부터 지난 주 수로 셌다. 사흘 빠지면 안 한 주가 지나간 것으로 나온다.
+   두 사람은 12주차라고 듣고 실제로는 9주를 한 상태가 된다.
+   비상판은 진도로 안 센다. 15분 인출이고 새 재료가 없다. 매뉴얼 2.2가 그렇게 정한다.
+   빠진 것은 지워지는 것이 아니라 미뤄지는 것이다. 밀린 주 수를 따로 보여 준다. */
+function doneSessions(){
+  var n=0; for(var k in S.days){ if(S.days[k] && S.days[k].status==="normal") n++; }
+  return n;
+}
+function plan(){
+  var done=doneSessions();
+  var idx=Math.min(done, 287);              // 288세션이 마지막이다
+  var week=Math.floor(idx/6)+1, day=(idx%6)+1;
+  var calWeek=Math.floor((parseISO(today())-parseISO(S.start))/604800000)+1;
+  var out={done:done, session:idx+1, week:week, day:day,
+           behind:Math.max(0, Math.min(48,calWeek)-week), finished:done>=288};
+  if(IDX && IDX.weeks && IDX.weeks[week-1]){
+    var w=IDX.weeks[week-1];
+    var dd=(w.days||[])[day-1] || null;
+    out.quarter=w.quarter; out.task=w.task; out.sets=w.sets;
+    if(dd){
+      out.set=dd.set;
+      out.lectureNo=dd.lecture;
+      var L=(w.lectures||[]).filter(function(x){return x.no===dd.lecture;})[0];
+      if(L){ out.title=L.title; out.track=L.track; out.cards=L.cards;
+             out.media=L.media; out.emergency=L.emergency; }
+    }
+  }
+  return out;
+}
 function hoursOf(rec){ return !rec||!rec.status?0: rec.status==="normal"?2: rec.status==="emg"?0.25:0; }
 function toast(m){ var f=$("#fMsg"); if(f){f.textContent=m; setTimeout(function(){f.textContent="자동 저장된다";},2600);} }
 
@@ -1232,8 +1269,10 @@ function renderToday(){
   $("#todayRole").innerHTML = '<span class="rb a">A '+esc(A)+'</span> <span class="rb b" style="margin-left:6px">B '+esc(B)+'</span>';
   var weekStart=monday(d), weekDone=0;
   for(var wi=0;wi<7;wi++){ var wr=S.days[addDays(weekStart,wi)]; if(wr&&(wr.status==="normal"||wr.status==="emg")) weekDone++; }
-  var courseWeek=Math.max(1,Math.min(48,Math.floor((parseISO(d)-parseISO(S.start))/604800000)+1));
-  $("#todayProgress").textContent="이번 주 "+weekDone+" / 6일 · 과정 "+courseWeek+" / 48주 · A/B는 날짜로 자동 교대";
+  var pl=plan();
+  var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
+  if(pl.behind>0) msg+=" · 달력보다 "+pl.behind+"주 밀렸다";
+  $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
   $("#labU1").textContent=S.names.a+" 생각"; $("#labU2").textContent=S.names.b+" 생각";
   $("#fSpeak").value=rec.speak||""; $("#fCards").value=rec.cards||""; $("#fLre").value=rec.lre||"";
   document.querySelectorAll("[data-st]").forEach(function(b){
