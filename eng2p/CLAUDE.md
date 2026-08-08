@@ -81,11 +81,11 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 넷과 검사 아홉과 상태 갱신 둘을 정해진 순서로 돈다.
-2초쯤 걸린다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
+**한 줄이다.** 파생 여섯과 검사 열과 상태 갱신 둘, 열여덟을 정해진 순서로 돈다.
+35초쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
-검사가 열넷이 되고 나서 순서를 기억으로 돌리는 것을 그만뒀다.
+검사가 열이 되고 나서 순서를 기억으로 돌리는 것을 그만뒀다.
 **뺀 검사는 안 돌린 것이 아니라 통과한 것처럼 보인다.**
 
 하나라도 실패하면 종료 코드가 1이고 실패 줄만 따로 모아 보여 준다.
@@ -95,6 +95,7 @@ python3 scripts/all.py
 ```
 docs/spec.md            상위 규격. 수정 금지. 개정은 사용자만
 docs/audio_intake.md    외부 제작 음성 반입 규격 (승격 확정. 기준서 9장 부속)
+docs/audio_timing.md    소리 시간 표시 조사 (T126). 어림 표의 근거와 한계
 docs/spec_amendments.md 기준서 개정문 8건. 사용자가 spec.md 에 붙일 문안
 docs/roadmap.md         완료까지의 턴 단위 계획. 매 턴 갱신한다
 docs/collab.md          공동 개발 규약 (종료. 기록으로만 남긴다)
@@ -120,7 +121,9 @@ scripts/derive_index.py 48주 96강 색인을 세트의 대응강의 줄에서 �
 scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인쇄용)
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
 scripts/derive_transcripts.py 대본 52편을 script 한 파일로 묶는다 (file:// 대응)
-out/data/               파생된 JSON 일곱. 손으로 안 고친다
+scripts/derive_audiolen.py mp3 52개의 진짜 길이를 프레임으로 잰다
+scripts/check_audio.py 길이가 적힌 세 자리(카탈로그·대본 머리말·mp3)가 같은 말을 하는지
+out/data/               파생된 자료. 손으로 안 고친다
 out/data/index.json     앱이 제일 먼저 읽는 한 장 (37KB). 48주 차림표와 파일 해시
 out/data/*.js           같은 내용을 script 로 읽는 판. **앱은 이쪽을 읽는다**
                         file:// 에서 fetch 가 막히기 때문이다. 종이와 같이 쓰는 물건이라
