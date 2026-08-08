@@ -99,7 +99,8 @@ def lecture_materials(path):
 
 def materials(path):
     """그 파일의 영어 재료를 뽑는다. (표시, 문장) 목록."""
-    if "lectures" in str(path):
+    if "lectures" in str(path) or "dialog" in str(path):
+        # 3층 대화도 줄 통째로 적는다. `A: ...` 꼴이라 화자 이름표는 norm 이 뗀다.
         return lecture_materials(path)
     out, cur = [], None
     for raw in path.read_text(encoding="utf-8").split("\n"):
@@ -255,6 +256,11 @@ def main():
             g = sorted((ROOT / "out" / "lectures").glob("eng2p_%s_l*.md" % q))
             if g:
                 groups.append(("eng2p_ground_lectures_%s.md" % q, "out/lectures/%s 24편" % q, g))
+        # 3층 대화. **1층은 내가 지어 쓴 학습용 인공물이다.**
+        # 그것이 실제 녹음과 얼마나 겹치는지가 이 대조에서 나온다.
+        dg = sorted((ROOT / "out" / "dialog").glob("eng2p_dialog_q*.md"))
+        if dg:
+            groups.append(("eng2p_ground_dialog.md", "out/dialog %d편" % len(dg), dg))
 
     tot, hit, index = 0, 0, []
     for p in paths:

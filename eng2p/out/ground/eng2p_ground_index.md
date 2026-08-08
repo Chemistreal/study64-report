@@ -23,6 +23,7 @@
 | out/lectures/q2 24편 | 191 | 143 | 48 | eng2p_ground_lectures_q2.md |
 | out/lectures/q3 24편 | 108 | 87 | 21 | eng2p_ground_lectures_q3.md |
 | out/lectures/q4 24편 | 78 | 68 | 10 | eng2p_ground_lectures_q4.md |
+| out/dialog 18편 | 201 | 108 | 93 | eng2p_ground_dialog.md |
 
-합계 재료 2141개 / 근거 있음 1222개 / **근거 없음 919개 (43%)**
+합계 재료 2342개 / 근거 있음 1330개 / **근거 없음 1012개 (43%)**
 

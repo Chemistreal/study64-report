@@ -45,6 +45,7 @@ STEPS = [
     ("규격", "check_cards_plan.py", ["q4"], False),
     ("대조", "check_audio.py", [], True),
     ("대조", "check_ground.py", [], True),
+    ("대조", "check_layers.py", [], True),
     ("대조", "check_refs.py", [], True),
     ("대조", "check_data.py", [], True),
     ("화면", "check_ui.js", [], False),
