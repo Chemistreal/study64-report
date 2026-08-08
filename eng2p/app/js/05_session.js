@@ -82,9 +82,16 @@ function sessionIdle(){
 }
 function peekIdx(){ return PEEK!=null ? PEEK : T.idx; }
 function peeking(){ return PEEK!=null || PEEKLEC!=null || PEEKMAP; }
+var LASTIDLE=null;
 function syncSessionFocus(){
   document.body.classList.toggle("session-focus",T.run);
-  document.body.classList.toggle("session-idle",sessionIdle());
+  var idle=sessionIdle();
+  document.body.classList.toggle("session-idle",idle);
+  /* **접혔다 펴질 때 다시 만들어야 한다.**
+     T185 에 접힌 칸을 안 만들게 했더니, 세션을 시작해도 그 칸이 빈 채로 남았다.
+     접는 쪽만 손보고 펴는 쪽을 안 봤다. T166 에서 배운 것과 같은 자리다. */
+  if(LASTIDLE!==null && LASTIDLE!==idle){ PANE.sig=null; renderBlockPane(); }
+  LASTIDLE=idle;
   document.body.classList.toggle("peek",PEEK!=null||PEEKLEC!=null||PEEKMAP);
   var card=$("#sessionCard");
   if(card) card.setAttribute("aria-busy",T.run?"true":"false");

@@ -337,6 +337,16 @@ function renderBlockPane(){
   var box=$("#blockPane"); if(!box) return;
   var pl=plan();
   if(pl.finished || !pl.lectureNo){ box.hidden=true; PANE.sig=null; return; }
+  /* **접었으면 안에서도 안 만든다.**
+     T166 에 세션 시작 전 시계 묶음을 접었다. 그런데 접은 것은 화면뿐이었다.
+     블록 칸은 계속 만들어지고 있었고, 만들면서 대본과 구간표와 소리 길이를 읽었다.
+     열자마자 136KB 를 더 읽는다. 보이지도 않는 칸 때문에.
+     T185 에 처음 읽는 바이트를 재다가 나왔다. **화면에 없는 것은 값이 없는 것이 아니다.** */
+  if(sessionIdle() && !peeking()){
+    /* 감추기만 하면 안 된다. **안에 든 것이 그대로 남는다.**
+       미리 보기를 닫았을 때 띠가 남아 있는 것이 그래서 나왔다. */
+    box.hidden=true; box.innerHTML=""; PANE.sig=null; return;
+  }
   box.hidden=false;
   var i=peekIdx(), h="";
   if(PEEKMAP){
