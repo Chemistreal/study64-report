@@ -259,6 +259,22 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 .setstep .hid{font-size:13.5px;color:var(--mut);font-style:italic}
 .setstep .blank{display:block;margin-top:6px;padding:9px 11px;border:1px dashed var(--edge);
   border-radius:8px;font-size:13.5px;color:var(--mut)}
+/* 카드 뷰어. 한 장씩 본다. 여러 장을 한 화면에 놓으면 다음 것이 눈에 들어온다. */
+.cardview{margin-top:13px;padding:15px 17px;border:1px solid var(--a1);border-radius:13px;
+  background:var(--card2)}
+.cardview .top{display:flex;justify-content:space-between;align-items:center;gap:10px;
+  font-size:12px;color:var(--mut)}
+.cardview .side{font-weight:750;color:var(--a1)}
+.cardview .ins{margin-top:9px;font-size:16px;line-height:1.6;font-weight:600}
+.cardview ol{margin:10px 0 0;padding-left:22px;font-size:16px;line-height:1.85}
+.cardview .meta{margin-top:10px;font-size:13.5px;color:var(--mut);line-height:1.6}
+.cardview .ans{margin-top:10px;padding:10px 12px;border:1px dashed var(--a3);border-radius:9px;
+  font-size:14.5px}
+.cardnav{display:flex;gap:8px;justify-content:center;margin-top:11px;flex-wrap:wrap}
+.cardnav button{padding:10px 15px;border-radius:9px;border:1px solid var(--edge);
+  background:var(--card);color:var(--fg);font-size:14px;font-weight:650;cursor:pointer;min-height:42px}
+.cardnav button:hover{border-color:var(--a1)}
+.cardwarn{margin-top:9px;font-size:13px;color:var(--warn)}
 .sessionrole{font-size:21px;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
 .sessionprogress{font-size:12px;color:var(--mut)}
 /* 오늘 한 장. 책상에 놓고 흘끗 보는 자리라 멀리서 읽혀야 한다. */
@@ -1196,7 +1212,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false};
+          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null};
 }
 function load(){
   try{
@@ -1833,6 +1849,72 @@ function planPieces(line){
   });
   return out;
 }
+
+/* =========================================================================
+   카드 뷰어. 블록 3에서 그날 카드 범위를 한 장씩 돈다.
+   **기준서가 정한 것 하나가 여기서 화면 규칙이 된다. 판정형 정답은 A면에만 있다.**
+   한 기기에 A면과 B면을 같이 띄우면 그 규칙이 화면에서 깨진다.
+   기기 쪽을 안 고르면 A면을 보여 준다. 블록 3에서 B 는 카드를 안 본다.
+   ========================================================================= */
+function cardKey(){ var pl=plan(); return today()+"|"+(pl.cards?pl.cards.from:0); }
+function cardIdx(){
+  var k=cardKey();
+  if(!S.card || S.card.k!==k) S.card={k:k, i:0};
+  return S.card.i;
+}
+function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
+
+function renderCardView(pl){
+  var cards=DATA.cards;
+  if(!cards){
+    loadData("cards","ENG2P_CARDS",function(){ renderBlockPane(); });
+    return '<div class="n">카드를 여는 중이다.</div>';
+  }
+  if(!pl.cards) return "";
+  var list=(cards.items||[]).filter(function(c){
+    return c.quarter===pl.quarter && c.no>=pl.cards.from && c.no<=pl.cards.to;
+  }).sort(function(a,b){return a.no-b.no;});
+  if(!list.length) return "";
+  var i=Math.max(0,Math.min(list.length-1,cardIdx()));
+  var c=list[i];
+  var mine=deviceSide();
+  var side = mine==="b" ? "b" : "a";     // 안 고르면 A면. 블록 3에서 B 는 카드를 안 본다
+  var f=c[side]||{};
+
+  var h='<div class="cardview"><div class="top">'+
+    '<span>'+esc(c.id)+' · '+esc(c.type)+'형 · '+c.minutes+'분'+
+    (c.seconds?' · '+c.seconds+'초':'')+'</span>'+
+    '<span class="side">'+side.toUpperCase()+'면 · '+(i+1)+' / '+list.length+'</span></div>';
+  if(c.type==="역할"){
+    h+='<div class="meta">'+esc(f.situation||"")+'<br>'+
+       '관계 '+esc(f.relation||"")+' · 목적 '+esc(f.purpose||"")+
+       ' · 레지스터 '+esc(f.register||"")+'<br>종료 조건 '+esc(f.endCondition||"")+'</div>';
+  }
+  h+='<div class="ins">'+esc(f.instruction||"")+'</div>';
+  if(f.axis) h+='<div class="meta"><b>변형축</b> '+esc(f.axis)+'</div>';
+  if(f.material && f.material.length)
+    h+='<ol>'+f.material.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';
+  if(f.note) h+='<div class="meta"><b>비고</b> '+esc(f.note)+'</div>';
+  if(f.model) h+='<div class="meta"><b>모범 답안</b> '+esc(f.model)+'</div>';
+  if(f.answer) h+='<div class="ans"><b>정답</b> '+esc(f.answer)+'</div>';
+  if(f.pass) h+='<div class="meta"><b>성공 기준</b> '+esc(f.pass)+'</div>';
+  if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
+    'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
+  h+='</div><div class="cardnav">'+
+    '<button type="button" data-card="prev">이전 카드</button>'+
+    '<button type="button" data-card="next">다음 카드</button></div>';
+  setTimeout(function(){
+    document.querySelectorAll("[data-card]").forEach(function(b){
+      b.onclick=function(){
+        var n=b.dataset.card==="next"?i+1:i-1;
+        if(n<0) n=list.length-1; if(n>=list.length) n=0;
+        setCardIdx(n);
+      };
+    });
+  },0);
+  return h;
+}
+
 function renderDrillPane(pl){
   var lec=DATA.lectures;
   var c=pl.cards ? String(pl.cards.from).padStart(3,"0")+" ~ "+String(pl.cards.to).padStart(3,"0") : "(없음)";
@@ -1869,6 +1951,7 @@ function renderDrillPane(pl){
     h+='<div class="n"><b>구간 지시</b><br>'+segs.map(function(s){return esc(s);}).join("<br>")+'</div>';
   if(L.role) h+='<div class="n"><b>역할</b> '+esc(L.role)+'</div>';
   if(L.stuck) h+='<div class="n"><b>막혔을 때</b> '+esc(L.stuck)+'</div>';
+  h+=renderCardView(pl);
   return h;
 }
 

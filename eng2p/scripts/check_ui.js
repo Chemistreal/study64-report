@@ -4,14 +4,16 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 네 가지를 본다.
+ * 다섯 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
  * 3. 세트 뷰어 288개 × 기기 세 상태에서 B 화면에 1단계 목록이 안 새는가
  * 4. 블록 3 진행표가 96편 다 구간을 둘 이상 내는가
+ * 5. 카드 뷰어 600장 × 기기 세 상태에서 판정형 정답이 B면에 안 새는가
  *
- * 세 번째가 이 검사의 핵심이다. **B 가 목록을 보면 그 세트의 장치가 깨진다.**
+ * 셋째와 다섯째가 이 검사의 핵심이다.
+ * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
  * 한 세트를 눈으로 보고 넘어가면 나머지 287개는 안 본 것이다.
  *
  * 쓰는 법:
@@ -131,13 +133,36 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   drill.slice(0, 8).forEach((m) => fails.push("진행표: " + m));
 
+  // 5. 카드 뷰어 600장 × 기기 세 상태. **판정형 정답이 B면에 새면 안 된다.**
+  const card = await page.evaluate(() => {
+    const bad = [];
+    const cards = (DATA.cards && DATA.cards.items) || [];
+    if (!cards.length) return ["카드 자료를 못 읽었다"];
+    for (const c of cards) {
+      for (const side of ["a", "b", null]) {
+        S.device = side; S.card = { k: cardKey(), i: 0 };
+        const pl = { quarter: c.quarter, cards: { from: c.no, to: c.no }, lectureNo: 1 };
+        let h;
+        try { h = renderCardView(pl); }
+        catch (e) { bad.push(c.id + " " + side + " 예외 " + e.message); continue; }
+        if (!h) { bad.push(c.id + " " + side + " 빈 화면"); continue; }
+        if (h.indexOf("undefined") >= 0) bad.push(c.id + " " + side + " 빈 값이 찍혔다");
+        if (c.type === "판정" && side === "b" && h.indexOf("정답") >= 0)
+          bad.push(c.id + " B면에 정답이 떴다");
+      }
+    }
+    return bad;
+  });
+  card.slice(0, 8).forEach((m) => fails.push("카드 뷰어: " + m));
+
+  const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
-              "판 / 진행표 96판");
+              "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 + "판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
