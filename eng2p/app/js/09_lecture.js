@@ -75,6 +75,17 @@ function lecPara(body){
    ========================================================================= */
 var MAPOPEN=null;
 function pad3(n){ return String(n).padStart(3,"0"); }
+/* 어떤 날이 몇이었나. **진도가 아니라 앉은 날을 센다.** */
+function dayTally(){
+  var t={normal:0,emg:0,absent:0};
+  Object.keys(S.days||{}).forEach(function(d){
+    var s=(S.days[d]||{}).status;
+    if(s==="normal") t.normal++;
+    else if(s==="emg") t.emg++;
+    else if(s==="absent") t.absent++;
+  });
+  return t;
+}
 function renderMapPane(){
   if(!IDX) return '<div class="peekbar"><b>길 지도</b> 차림표를 못 읽었다'+
     '<button class="g" id="peekClose" type="button">닫기</button></div>';
@@ -82,11 +93,19 @@ function renderMapPane(){
   var h='<div class="peekbar"><b>48주 길</b> '+
         (pl.finished?"288세션을 다 했다":pl.week+"주 "+pl.day+"일째")+
         '<button class="g" id="peekClose" type="button">닫기</button></div>';
+  /* **계획만 있고 무슨 일이 있었는지가 없었다.**
+     칸이 채워지는 것은 세션 수로만 정해진다. 그래서 비상판으로 때운 날도
+     결석한 날도 지도에 안 나온다. 두 사람은 지도를 보고 순조롭다고 여긴다.
+
+     진도는 세션 수로 세고 달력은 날짜로 센다. **둘의 차이가 이 지도의 값이다.**
+     달력상 지금 있어야 할 주를 따로 표시한다. T181 */
+  var tally=dayTally();
   h+='<div class="wmap">';
   (IDX.weeks||[]).forEach(function(wk){
     var w=wk.week, cls=["wcell"];
     if(w<pl.week) cls.push("done");
     if(w===pl.week) cls.push("now");
+    if(w===pl.calWeek && w!==pl.week) cls.push("cal");
     if(w%12===1 && w>1) cls.push("qstart");
     h+='<button type="button" class="'+cls.join(" ")+'" data-w="'+w+'"'+
        ' aria-label="'+w+'주 '+esc(wk.quarter||"")+'">';
@@ -100,7 +119,19 @@ function renderMapPane(){
   h+='</div>';
   h+='<div class="wlegend"><span><i class="lg done"></i>지나온 주</span>'+
      '<span><i class="lg now"></i>이번 주</span>'+
+     (pl.behind>0?'<span><i class="lg cal"></i>달력상 이번 주</span>':"")+
      '<span><i class="lg"></i>남은 주</span></div>';
+  /* 지도 아래 한 줄. **채워진 칸이 안 말하는 것을 여기서 말한다.** */
+  h+='<div class="wtally">'+
+     '<span><b>'+tally.normal+'</b>일 정상</span>'+
+     '<span><b>'+tally.emg+'</b>일 비상판</span>'+
+     '<span><b>'+tally.absent+'</b>일 결석</span>'+
+     (pl.behind>0?'<span class="warn">달력보다 <b>'+pl.behind+'</b>주 밀렸다</span>':"")+
+     '</div>';
+  if(tally.emg||tally.absent){
+    h+='<div class="wnote">비상판과 결석은 칸을 안 채운다. '+
+       '진도는 정상 세션으로만 는다. 매뉴얼 2.2 가 그렇게 정한다.</div>';
+  }
   if(MAPOPEN) h+=weekCard(MAPOPEN);
   return h;
 }

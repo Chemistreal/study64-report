@@ -18,6 +18,7 @@ function plan(){
   var week=Math.floor(idx/6)+1, day=(idx%6)+1;
   var calWeek=Math.floor((parseISO(today())-parseISO(S.start))/604800000)+1;
   var out={done:done, session:idx+1, week:week, day:day,
+           calWeek:Math.max(1,Math.min(48,calWeek)),
            behind:Math.max(0, Math.min(48,calWeek)-week), finished:done>=288};
   if(IDX && IDX.weeks && IDX.weeks[week-1]){
     var w=IDX.weeks[week-1];

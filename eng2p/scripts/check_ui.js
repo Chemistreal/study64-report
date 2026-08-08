@@ -1577,6 +1577,60 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   wmap.forEach((m) => fails.push("길 지도: " + m));
 
+  /* 34. **지도가 무슨 일이 있었는지도 말하는가.**
+     칸이 채워지는 것은 세션 수로만 정해진다. 비상판으로 때운 날도 결석한 날도
+     칸에 안 나온다. 그것만 보면 순조로워 보인다.
+     진도는 세션 수로, 달력은 날짜로 센다. **둘의 차이가 이 지도의 값이다.** */
+  const tally = await (async () => {
+    const ctx5 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const p7 = await ctx5.newPage();
+    const bad = [];
+    await p7.goto(PAGE);
+    // 정상 100, 비상판 9, 결석 12. 달력은 훨씬 앞서 있다
+    await p7.evaluate(() => {
+      function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
+        return z.toISOString().slice(0,10);}
+      var now=new Date(), st=new Date(now.getTime()-160*86400000), days={};
+      var n=0,e=0,a=0;
+      for(var i=0;i<160;i++){var x=new Date(st.getTime()+i*86400000);
+        if(x.getDay()===0) continue;
+        var k=iso(x);
+        if(n<100){days[k]={status:"normal",h:2,speak:12,cards:30,lre:6};n++;}
+        else if(e<9){days[k]={status:"emg"};e++;}
+        else if(a<12){days[k]={status:"absent"};a++;}}
+      localStorage.setItem("eng2p.v1",JSON.stringify(
+        {v:1,names:{a:"남편",b:"아내"},start:iso(st),days:days,
+         media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:true,session:null,
+         device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},
+         cardMode:"today",cues:{},rate:1,fs:0}));
+    });
+    await p7.goto(PAGE);
+    await p7.waitForTimeout(520);
+    const pl = await p7.evaluate(() => plan());
+    if (pl.week !== 17) bad.push("정상 100회인데 진도가 " + pl.week + "주다. 17이어야 한다");
+    if (pl.behind <= 0) bad.push("비상판과 결석이 스물하나인데 밀림이 " + pl.behind + " 이다");
+
+    await p7.click('[data-go="map"]');
+    await p7.waitForTimeout(420);
+    const m = await p7.evaluate(() => ({
+      txt: (document.querySelector(".wtally") || { innerText: "" }).innerText,
+      note: !!document.querySelector(".wnote"),
+      cal: document.querySelectorAll(".wcell.cal").length,
+      now: document.querySelectorAll(".wcell.now").length,
+    }));
+    ["100", "9", "12"].forEach(function (v, i) {
+      const what = ["정상", "비상판", "결석"][i];
+      if (m.txt.indexOf(v) < 0) bad.push(what + " 날 수가 지도에 없다: " + m.txt);
+    });
+    if (m.txt.indexOf("밀렸다") < 0) bad.push("밀린 주 수가 지도에 없다");
+    if (!m.note) bad.push("비상판과 결석이 칸을 안 채운다는 설명이 없다");
+    if (m.cal !== 1) bad.push("달력상 이번 주 표시가 " + m.cal + "개다");
+    if (m.now !== 1) bad.push("진도상 이번 주 표시가 " + m.now + "개다");
+    await ctx5.close();
+    return bad;
+  })();
+  tally.forEach((m) => fails.push("지도 진행: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
@@ -1589,7 +1643,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
-              "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판");
+              "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
