@@ -25,8 +25,14 @@ section{animation:rise .32s cubic-bezier(.2,.7,.3,1)}
 .small{font-size:12.5px}
 hr{border:0;border-top:1px solid var(--edge);margin:28px 0}
 
+/* **주 단추 규격.** 한 화면에서 다음에 할 일을 가리키는 단추다.
+   책상에 놓고 흘끗 보고 누른다. 그 거리에서 보이고 눌려야 한다.
+
+   높이 48px, 글자 14px, 굵기 650. 셋 다 check_friction.js 가 지킨다.
+   전에는 44px 에 13.5px 이었다. 44는 손가락이 겨우 닿는 값이지
+   흘끗 보고 누르는 값이 아니다. */
 button.b{background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;border:0;font:inherit;
-  font-size:13.5px;font-weight:650;padding:9px 18px;border-radius:10px;cursor:pointer;
+  font-size:14px;font-weight:650;min-height:48px;padding:9px 18px;border-radius:10px;cursor:pointer;
   box-shadow:var(--glow);transition:.18s}
 button.b:hover{transform:translateY(-1px);filter:brightness(1.08)}
 button.g{background:var(--card2);color:var(--fg);border:1px solid var(--edge);font:inherit;
@@ -34,7 +40,11 @@ button.g{background:var(--card2);color:var(--fg);border:1px solid var(--edge);fo
 button.g:hover{border-color:var(--a1);color:var(--fg)}
 button.g.on{border-color:transparent;background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;font-weight:650}
 button:disabled{opacity:.38;cursor:not-allowed}
-button.b,button.g,.bigtap,.tbtn,nav button,.navmore summary,.stp button{min-height:44px}
+/* 누를 자리 최소치. 손가락 하나가 44px 이다.
+   **주 단추는 그보다 크다.** 44는 겨우 닿는 값이지 흘끗 보고 누르는 값이 아니다.
+   이 줄이 `button.b` 보다 뒤에 있어서 48을 44로 되돌리고 있었다. 갈라 적는다. */
+button.g,.tbtn,nav button,.navmore summary,.stp button{min-height:44px}
+button.b,.bigtap{min-height:48px}
 :focus-visible{outline:3px solid var(--a3);outline-offset:3px}
 input:focus-visible,select:focus-visible,textarea:focus-visible{outline:0;border-color:var(--a1);box-shadow:0 0 0 3px rgba(99,102,241,.22)}
 input,select,textarea{

@@ -96,7 +96,12 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
 .mitem h4{font-size:16px;line-height:1.4;margin:7px 0 8px;overflow-wrap:anywhere}
 .mitem .mnum{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:.04em}
 .mitem .macts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+/* **`font:inherit` 는 굵기까지 지운다.** 이 줄이 뒤에 와서
+   `button.b` 의 굵기 650 을 400 으로 되돌리고 있었다. 미디어 탭의 주 행동인
+   "음성 듣기" 가 그래서 옆 단추와 똑같아 보였다. T172 에 재다가 나왔다.
+   주 단추는 여기서 다시 세운다. */
 .mitem .macts button,.mitem .macts a,.mitem .macts summary{font:inherit;font-size:11.5px;padding:7px 10px;border-radius:8px;min-height:44px}
+.mitem .macts button.b{font-size:13px;font-weight:650;min-height:48px;padding-inline:14px}
 .mitem .macts a{color:var(--acc);border:1px solid var(--edge);text-decoration:none;background:var(--card2)}
 .mpasses{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
 .mpass{font-size:10.5px;padding:3px 8px;border:1px solid var(--edge);border-radius:99px;color:var(--mut);background:var(--card2)}

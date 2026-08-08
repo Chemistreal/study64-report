@@ -237,6 +237,47 @@ function seedScript() {
     await c.close();
   }
 
+  /* 4d. **주 단추 규격.** 한 화면에서 다음에 할 일을 가리키는 단추다.
+     책상에 놓고 흘끗 보고 누른다. 그 거리에서 보이고 눌려야 한다.
+     높이 48, 글자 14, 굵기 650. 탭 열둘을 다 본다.
+
+     그리고 오늘 화면에서 **제일 큰 단추는 세션 시작이어야 한다.**
+     눈이 큰 것을 먼저 본다. 다른 것이 더 크면 앉자마자 그것을 누른다. */
+  {
+    const { c, p } = await ctx(true);
+    const TABS = ["today", "review", "sound", "clip", "media", "src",
+                  "ledger", "verify", "quarter", "check", "rot", "rules"];
+    const bad = [];
+    for (const tab of TABS) {
+      await p.evaluate((x) => go(x), tab);
+      await p.waitForTimeout(260);
+      const r = await p.evaluate(() => {
+        const vis = (e) => { const r = e.getBoundingClientRect();
+          return e.offsetParent !== null && r.width > 0 && r.height > 0; };
+        const sec = document.querySelector("section:not([hidden])");
+        if (!sec) return { small: [], top: null };
+        const all = [...sec.querySelectorAll("button")].filter(vis);
+        const prim = all.filter((e) => /(^|\s)(b|bigtap)(\s|$)/.test(e.className + ""));
+        const small = prim.filter((e) => {
+          const s = getComputedStyle(e), r = e.getBoundingClientRect();
+          return r.height < 48 || parseFloat(s.fontSize) < 13 ||
+                 parseInt(s.fontWeight, 10) < 650;
+        }).map((e) => { const s = getComputedStyle(e), r = e.getBoundingClientRect();
+          return (e.textContent || "").trim().slice(0, 12) + " " +
+                 Math.round(r.height) + "px " + s.fontSize + " " + s.fontWeight; });
+        const top = all.slice().sort((a, b) => {
+          const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+          return rb.width * rb.height - ra.width * ra.height; })[0];
+        return { small: small, top: top ? (top.className + "") : null };
+      });
+      r.small.forEach((m) => bad.push(tab + " 주 단추가 규격 밖이다: " + m));
+      if (tab === "today" && r.top !== null && r.top.indexOf("sessionstart") < 0)
+        bad.push("오늘 화면에서 제일 큰 단추가 세션 시작이 아니다: " + r.top);
+    }
+    bad.forEach((m) => fails.push("주 단추: " + m));
+    await c.close();
+  }
+
   /* 5. 오늘 것 여섯 중 눌러서 닿는 것이 몇 개인가.
      **이 값만 방향이 반대다. 줄면 실패다.**
      오늘 칸 안에 그 항목으로 가는 누를 것이 있는지를 센다. */
