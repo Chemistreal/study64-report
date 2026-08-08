@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 스물다섯 가지를 본다.
+ * 스물일곱 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -30,7 +30,9 @@
  * 21. 여러 줄 구간이 늘고 줄고, video 요소로도 같은 코드가 도는가
  * 22. 회차가 대본 가림을 정하고 블록을 옮기면 그 기본값으로 돌아가는가
  * 23. 배속이 0.75~1.25 안에서만 움직이고 피치를 잡고 바로 저장되는가
- * 24. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
+ * 24. 소리 52개가 다 열리고 **내 프레임 세기가 브라우저 값과 맞는가**
+ * 25. 마지막 줄 되풀이가 도는가. 끝을 길게 알면 한 바퀴도 안 돈다
+ * 26. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -815,8 +817,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     for (let i = 0; i < 20; i++) { btn("more").click(); await new Promise((r) => setTimeout(r, 60)); }
     if (SESS.loop + SESS.loopN > SESS.cue.length)
       bad.push("구간이 대본 끝을 넘었다: " + SESS.loop + "+" + SESS.loopN);
-    if (Math.abs(loopEnd() - ((DATA.audiolen.items || {})[SESS.id])) > 0.05)
-      bad.push("끝까지 늘렸는데 구간 끝이 소리 끝이 아니다: " + loopEnd());
+    /* 소리의 끝은 **재생기가 아는 값**이다. audiolen.js 는 프레임을 세서 낸 값이라
+       0.1초쯤 길다. T136 에서 52과를 재 보고 알았다. 그 값으로 견주면 안 된다. */
+    if (Math.abs(loopEnd() - SESS.el.duration) > 0.05)
+      bad.push("끝까지 늘렸는데 구간 끝이 소리 끝이 아니다: " + loopEnd() +
+               " / 소리 " + SESS.el.duration.toFixed(2));
     // 한 줄 밑으로는 안 내려간다
     for (let i = 0; i < 30; i++) { btn("less").click(); await new Promise((r) => setTimeout(r, 40)); }
     if (SESS.loopN !== 1) bad.push("끝까지 줄였는데 " + SESS.loopN + "줄이다");
@@ -936,6 +941,69 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   rate.slice(0, 6).forEach((m) => fails.push("배속: " + m));
 
+  // 23. 52과 전수 재생. **소리 파일을 하나씩 브라우저에 물려 본다.**
+  //     여기서 두 가지가 한꺼번에 걸린다.
+  //     하나는 파일이 실제로 열리는가다. 53MB 를 받다가 하나가 빠질 수 있다.
+  //     또 하나는 **내가 만든 mp3 프레임 세기가 맞는가**다.
+  //     audiolen.js 는 파이썬으로 프레임을 세서 냈다. 그 위에 구간표가 얹혀 있다.
+  //     프레임 세기가 틀리면 52과의 모든 시각이 틀린다. 브라우저 값과 견준다.
+  const play52 = await page.evaluate(async () => {
+    const bad = [];
+    const al = (DATA.audiolen && DATA.audiolen.items) || {};
+    const cu = (DATA.cues && DATA.cues.items) || {};
+    let worst = 0;
+    for (const it of MEDIA) {
+      const a = document.createElement("audio");
+      a.preload = "metadata"; a.src = it.audio;
+      const got = await new Promise((res) => {
+        let done = false;
+        a.onloadedmetadata = () => { if (!done) { done = true; res({ d: a.duration }); } };
+        a.onerror = () => { if (!done) { done = true; res({ err: (a.error || {}).code }); } };
+        setTimeout(() => { if (!done) { done = true; res({ to: true }); } }, 8000);
+      });
+      a.src = "";
+      if (got.err != null) { bad.push(it.id + " 소리가 안 열린다 (오류 " + got.err + ")"); continue; }
+      if (got.to) { bad.push(it.id + " 소리가 8초 안에 안 열렸다"); continue; }
+      if (al[it.id] == null) { bad.push(it.id + " 길이가 audiolen 에 없다"); continue; }
+      const gap = Math.abs(got.d - al[it.id]);
+      if (gap > worst) worst = gap;
+      // 인코더가 앞뒤에 붙인 빈 자리 때문에 0.1초쯤은 늘 벌어진다. 그 이상은 세기가 틀린 것이다.
+      if (gap > 0.2)
+        bad.push(it.id + " 잰 값 " + al[it.id] + " 와 브라우저 값 " +
+                 got.d.toFixed(2) + " 가 " + gap.toFixed(2) + "초 다르다");
+      const c = cu[it.id] || [];
+      if (c.length && c[c.length - 1] >= got.d)
+        bad.push(it.id + " 마지막 구간이 " + c[c.length - 1] + " 인데 소리는 " + got.d.toFixed(2) + " 다");
+    }
+    if (worst > 0.2) bad.push("제일 큰 차이가 " + worst.toFixed(3) + "초다");
+    return bad;
+  });
+  play52.slice(0, 8).forEach((m) => fails.push("52과 전수 재생: " + m));
+
+  // 24. 마지막 줄 되풀이. **끝을 0.1초 길게 알고 있으면 한 바퀴도 안 돈다.**
+  //     끝에 못 닿으니 소리가 그냥 끝나 버린다. T136 에서 재 보고 알았다.
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(0); });
+  await page.waitForTimeout(2200);
+  const lastLoop = await page.evaluate(async () => {
+    const bad = [];
+    const rows = [...document.querySelectorAll("#sessScript .scline")];
+    if (!rows.length) { bad.push("대본 목록이 없다"); return bad; }
+    rows[rows.length - 1].click();
+    await new Promise((r) => setTimeout(r, 600));
+    [...document.querySelectorAll("#blockPane [data-media]")]
+      .find((x) => x.dataset.media === "loop").click();
+    await new Promise((r) => setTimeout(r, 600));
+    if (SESS.loop !== rows.length - 1) bad.push("마지막 줄이 안 잡혔다");
+    if (loopEnd() > SESS.el.duration + 0.001)
+      bad.push("구간 끝 " + loopEnd() + " 이 소리 끝 " + SESS.el.duration.toFixed(2) + " 보다 뒤다");
+    for (let i = 0; i < 10; i++) await new Promise((r) => setTimeout(r, 500));
+    if (!SESS.laps) bad.push("마지막 줄이 한 바퀴도 안 돌았다");
+    if (SESS.el.paused || SESS.el.ended) bad.push("마지막 줄에서 소리가 끝나 버렸다");
+    T.run = false; clearInterval(T.tick); leaveSessPlay();
+    return bad;
+  });
+  lastLoop.slice(0, 6).forEach((m) => fails.push("마지막 줄 되풀이: " + m));
+
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
   //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
@@ -988,7 +1056,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
               "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
               "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
-              "배속 1판 / 연속 30일 1판");
+              "배속 1판 / 52과 전수 재생 52판 / 마지막 줄 되풀이 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
