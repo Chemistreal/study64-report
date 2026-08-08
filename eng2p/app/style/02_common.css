@@ -133,3 +133,14 @@ tbody tr:hover td{background:var(--card2)}
   border-radius:11px;padding:8px 11px;margin-bottom:10px}
 .peekbar b{color:var(--fg)}
 .peekbar button{margin-left:auto}
+
+/* 강의 본문. **읽으라고 만든 글이다.** 줄 간격과 폭을 읽기에 맞춘다. */
+.lecbody{font-size:15px;line-height:1.72;max-width:44em}
+.lecbody h4{margin:20px 0 8px;font-size:16px;color:var(--a1)}
+.lecbody h4:first-child{margin-top:2px}
+.lecbody p{margin:0 0 9px}
+.lecbody .lecli{margin:0 0 6px;padding-left:15px;position:relative}
+.lecbody .lecli::before{content:"\00b7";position:absolute;left:4px;color:var(--mut)}
+.lecbody .lectab{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:14px}
+.lecbody .lectab th,.lecbody .lectab td{border:1px solid var(--line);padding:6px 9px;text-align:left}
+.lecbody .lectab th{background:var(--card2);font-weight:650}

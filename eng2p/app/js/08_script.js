@@ -327,6 +327,14 @@ function renderBlockPane(){
   if(pl.finished || !pl.lectureNo){ box.hidden=true; PANE.sig=null; return; }
   box.hidden=false;
   var i=peekIdx(), h="";
+  if(PEEKLEC!=null){
+    box.hidden=false;
+    h=renderLecturePane(PEEKLEC);
+    if(PANE.sig===h && box.firstChild) return;
+    PANE.sig=h; box.innerHTML=h;
+    var pc0=$("#peekClose"); if(pc0) pc0.onclick=closePeek;
+    return;
+  }
   function row(k,v,n){
     return '<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>'+
            (n?'<div class="n">'+esc(n)+'</div>':"");
@@ -436,3 +444,4 @@ $("#tStart").onclick=function(){
   if(T.run){ hideSessionDone(); T.tick=setInterval(tick,1000); reqWake(); } else { relWake(); }
   paintTimer();
 };
+

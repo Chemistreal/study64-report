@@ -214,6 +214,17 @@ tbody tr:hover td{background:var(--card2)}
   border-radius:11px;padding:8px 11px;margin-bottom:10px}
 .peekbar b{color:var(--fg)}
 .peekbar button{margin-left:auto}
+
+/* 강의 본문. **읽으라고 만든 글이다.** 줄 간격과 폭을 읽기에 맞춘다. */
+.lecbody{font-size:15px;line-height:1.72;max-width:44em}
+.lecbody h4{margin:20px 0 8px;font-size:16px;color:var(--a1)}
+.lecbody h4:first-child{margin-top:2px}
+.lecbody p{margin:0 0 9px}
+.lecbody .lecli{margin:0 0 6px;padding-left:15px;position:relative}
+.lecbody .lecli::before{content:"\00b7";position:absolute;left:4px;color:var(--mut)}
+.lecbody .lectab{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:14px}
+.lecbody .lectab th,.lecbody .lectab td{border:1px solid var(--line);padding:6px 9px;text-align:left}
+.lecbody .lectab th{background:var(--card2);font-weight:650}
 /* ---------- 타이머 ---------- */
 .timer{text-align:center;padding:12px 0 4px;position:relative}
 .ringwrap{position:relative;width:min(300px,72vw);margin:0 auto}
@@ -1722,7 +1733,7 @@ function renderSheet(pl){
   var dn=dueCards().length;
   if(dn) cell("다시 낼 카드", dn+"장", "due");
 
-  var h='<button type="button" class="lec gto" data-go="b:2"><b>'+pl.lectureNo+'강</b> '+
+  var h='<button type="button" class="lec gto" data-go="l:'+pl.lectureNo+'"><b>'+pl.lectureNo+'강</b> '+
         esc(pl.title||"")+'<span class="gmark" aria-hidden="true">\u2192</span></button>'+
         '<div class="tk">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
         pl.week+'주 '+pl.day+'일째 · 오늘이 '+pl.session+'번째 세션이다</div>'+
@@ -1740,6 +1751,7 @@ function bindSheetGo(box){
   box.querySelectorAll("[data-go]").forEach(function(b){
     b.onclick=function(){
       var v=b.getAttribute("data-go");
+      if(v.indexOf("l:")===0){ peekLecture(+v.slice(2)); return; }
       if(v.indexOf("b:")===0){ peekBlock(+v.slice(2)); return; }
       if(v==="due"){ S.cardMode="due"; save(); peekBlock(2); return; }
       if(v.indexOf("m:")===0){
@@ -2055,15 +2067,28 @@ var RINGC=552.9;
    재료를 한 번 봤을 뿐인데 "블록 2에서 멈췄다"가 되고 이어서 하기가 뜬다.
    **보는 것과 하는 것은 다르다.** 그래서 따로 둔다. */
 var PEEK=null;
+/* 강의 본문 미리 보기. **블록이 아니라 강의를 편다.**
+   본문 30만자는 처음부터 안 읽는다. 누른 그때 읽는다. */
+var PEEKLEC=null;
+function peekLecture(no){
+  loadData("lecturetext","ENG2P_LECTURETEXT",function(v){
+    if(!v || !v.items || !v.items[String(no)]){ flash("그 강의 본문을 못 찾았다"); return; }
+    PEEKLEC=no; PEEK=null; PANE.sig=null;
+    syncSessionFocus(); renderBlockPane(); paintTimer();
+    var box=$("#blockPane");
+    if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+}
 function peekBlock(k){
+  PEEKLEC=null;
   PEEK=k; PANE.sig=null;
   syncSessionFocus(); renderBlockPane(); paintTimer();
   var box=$("#blockPane");
   if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function closePeek(){
-  if(PEEK==null) return;
-  PEEK=null; PANE.sig=null;
+  if(PEEK==null && PEEKLEC==null) return;
+  PEEK=null; PEEKLEC=null; PANE.sig=null;
   syncSessionFocus(); renderBlockPane(); paintTimer();
   var c=$("#todaySheet"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
 }
@@ -2076,10 +2101,11 @@ function sessionIdle(){
   return !T.run && T.idx===0 && T.left===BLOCKS[0].m*60;
 }
 function peekIdx(){ return PEEK!=null ? PEEK : T.idx; }
+function peeking(){ return PEEK!=null || PEEKLEC!=null; }
 function syncSessionFocus(){
   document.body.classList.toggle("session-focus",T.run);
   document.body.classList.toggle("session-idle",sessionIdle());
-  document.body.classList.toggle("peek",PEEK!=null);
+  document.body.classList.toggle("peek",PEEK!=null||PEEKLEC!=null);
   var card=$("#sessionCard");
   if(card) card.setAttribute("aria-busy",T.run?"true":"false");
   var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");
@@ -2975,6 +3001,14 @@ function renderBlockPane(){
   if(pl.finished || !pl.lectureNo){ box.hidden=true; PANE.sig=null; return; }
   box.hidden=false;
   var i=peekIdx(), h="";
+  if(PEEKLEC!=null){
+    box.hidden=false;
+    h=renderLecturePane(PEEKLEC);
+    if(PANE.sig===h && box.firstChild) return;
+    PANE.sig=h; box.innerHTML=h;
+    var pc0=$("#peekClose"); if(pc0) pc0.onclick=closePeek;
+    return;
+  }
   function row(k,v,n){
     return '<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>'+
            (n?'<div class="n">'+esc(n)+'</div>':"");
@@ -3084,6 +3118,69 @@ $("#tStart").onclick=function(){
   if(T.run){ hideSessionDone(); T.tick=setInterval(tick,1000); reqWake(); } else { relWake(); }
   paintTimer();
 };
+
+/* =========================================================================
+   강의 본문. **앱에 없던 것이다.**
+
+   블록 3은 강의록 30분을 도는 자리인데 화면에는 구간 배분표만 나왔다.
+   "손뼉 속도를 맞추는 데 5분" 이라고 적혀 있고 그 손뼉이 무엇인지는 안 적혀 있다.
+   그것이 강의 1장에 있는데 화면에 없었다. 두 사람은 종이를 찾거나 저장소에 갔다.
+
+   여섯 블록을 그대로 편다. 접지 않는다. **읽으라고 만든 글이다.**
+   ========================================================================= */
+function renderLecturePane(no){
+  var v=DATA.lecturetext, it=v && v.items && v.items[String(no)];
+  if(!it) return '<div class="peekbar"><b>강의 본문</b> 못 읽었다'+
+    '<button class="g" id="peekClose" type="button">닫기</button></div>';
+  var h='<div class="peekbar"><b>'+no+'강</b> '+esc(it.title||"")+
+        ' · 읽는 자리다<button class="g" id="peekClose" type="button">닫기</button></div>';
+  h+='<div class="lecbody">';
+  it.blocks.forEach(function(b){
+    h+='<h4>'+b.no+". "+esc(b.name)+"</h4>";
+    h+=lecPara(b.body);
+  });
+  h+="</div>";
+  return h;
+}
+/* 마크다운을 다 옮기지 않는다. 강의가 쓰는 것만 옮긴다.
+   문단과 표와 목록이다. **안 쓰는 문법을 옮기면 안 쓰는 코드가 는다.**
+
+   강의 문체는 한 문장 한 줄이고 빈 줄이 문단을 가른다.
+   그래서 줄마다 문단으로 만들면 안 된다. 그러면 온 글이 뚝뚝 끊긴다.
+   **줄바꿈은 살리고 문단만 벌린다.** */
+function lecPara(body){
+  var out="", rows=null, para=[];
+  function flushPara(){
+    if(!para.length) return;
+    out+="<p>"+para.join("<br>")+"</p>";
+    para=[];
+  }
+  function flushRows(){
+    if(!rows) return;
+    out+='<table class="lectab">'+rows.join("")+"</table>";
+    rows=null;
+  }
+  body.split("\n").forEach(function(line){
+    var s=line.trim();
+    if(!s){ flushRows(); flushPara(); return; }
+    if(s.charAt(0)==="|"){
+      flushPara();
+      var cells=s.replace(/^\||\|$/g,"").split("|");
+      if(cells.every(function(c){ return /^\s*:?-{2,}:?\s*$/.test(c); })) return;
+      if(!rows) rows=[];
+      var tag=rows.length?"td":"th";
+      rows.push("<tr>"+cells.map(function(c){
+        return "<"+tag+">"+esc(c.trim())+"</"+tag+">"; }).join("")+"</tr>");
+      return;
+    }
+    flushRows();
+    if(/^[-*] /.test(s)){ flushPara(); out+='<div class="lecli">'+esc(s.slice(2))+"</div>"; return; }
+    if(/^\d+\. /.test(s)){ flushPara(); out+='<div class="lecli">'+esc(s)+"</div>"; return; }
+    para.push(esc(s));
+  });
+  flushRows(); flushPara();
+  return out;
+}
 /* =========================================================================
    블록 몰기. 넘김과 되돌림을 한 자리에서 한다.
    전에는 넘김만 있었다. 잘못 눌러 넘어가면 되돌릴 방법이 없었다.

@@ -1254,6 +1254,69 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   named.forEach((m) => fails.push("이름: " + m));
 
+  /* 29. **미리 보기가 세션 상태를 안 건드리는가.**
+     오늘 칸을 눌러 재료를 열었을 뿐인데 "블록 2에서 멈췄다"가 되면 안 된다.
+     보는 것과 하는 것은 다르다. T168 에서 그 갈래를 만들었으니 여기서 지킨다. */
+  const peek = await (async () => {
+    const p2 = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    const bad = [];
+    await p2.goto(PAGE);
+    await p2.evaluate(() => { localStorage.clear(); });
+    await p2.reload();
+    await p2.waitForTimeout(400);
+    await p2.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+    await p2.waitForTimeout(300);
+
+    const before = await p2.evaluate(() => ({ idx: T.idx, left: T.left, sess: S.session }));
+    // 세트 칸을 누른다. 블록 2가 펴져야 한다
+    const set = await p2.$('[data-go="b:1"]');
+    if (!set) bad.push("오늘 칸에 세트로 가는 자리가 없다");
+    else {
+      await set.click();
+      await p2.waitForTimeout(400);
+      const st = await p2.evaluate(() => ({
+        idx: T.idx, left: T.left, sess: S.session, peek: PEEK,
+        bar: !!document.querySelector(".peekbar"),
+        body: (document.querySelector("#blockPane") || {}).innerText || "",
+        resume: !!document.querySelector("#resumeGo"),
+      }));
+      if (st.peek !== 1) bad.push("세트를 눌렀는데 미리 보기가 블록 2가 아니다: " + st.peek);
+      if (!st.bar) bad.push("미리 보기 띠가 없다");
+      if (st.idx !== before.idx || st.left !== before.left)
+        bad.push("미리 보기가 시계를 건드렸다: " + st.idx + " / " + st.left);
+      if (st.sess) bad.push("미리 보기가 세션을 저장했다");
+      if (st.resume) bad.push("미리 보기 뒤에 이어서 하기가 떴다");
+      await p2.click("#peekClose");
+      await p2.waitForTimeout(300);
+      const af = await p2.evaluate(() => ({
+        peek: PEEK, bar: !!document.querySelector(".peekbar"),
+        timer: (document.querySelector("#sessionCard .timer") || {}).getBoundingClientRect
+          ? document.querySelector("#sessionCard .timer").getBoundingClientRect().height : -1,
+      }));
+      if (af.peek !== null || af.bar) bad.push("닫았는데 미리 보기가 남았다");
+      if (af.timer > 0) bad.push("닫았는데 시계가 펴진 채다");
+    }
+
+    // 강의 본문. 30만자라 누를 때 읽는다. 읽고 여섯 블록이 다 나오는지 본다
+    const lec = await p2.$('[data-go^="l:"]');
+    if (!lec) bad.push("오늘 칸에 강의 본문으로 가는 자리가 없다");
+    else {
+      await lec.click();
+      await p2.waitForTimeout(900);
+      const st = await p2.evaluate(() => ({
+        heads: [...document.querySelectorAll(".lecbody h4")].map((x) => x.textContent),
+        chars: (document.querySelector(".lecbody") || { innerText: "" }).innerText.length,
+        idx: T.idx, sess: S.session,
+      }));
+      if (st.heads.length !== 6) bad.push("강의 본문 블록이 " + st.heads.length + "개다");
+      if (st.chars < 1500) bad.push("강의 본문이 " + st.chars + "자다. 너무 짧다");
+      if (st.idx !== before.idx || st.sess) bad.push("강의 본문이 세션을 건드렸다");
+    }
+    await p2.close();
+    return bad;
+  })();
+  peek.forEach((m) => fails.push("미리 보기: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
@@ -1264,7 +1327,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
               "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
-              "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판");
+              "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
+              "미리 보기 1판 / 강의 본문 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

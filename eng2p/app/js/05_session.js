@@ -39,15 +39,28 @@ var RINGC=552.9;
    재료를 한 번 봤을 뿐인데 "블록 2에서 멈췄다"가 되고 이어서 하기가 뜬다.
    **보는 것과 하는 것은 다르다.** 그래서 따로 둔다. */
 var PEEK=null;
+/* 강의 본문 미리 보기. **블록이 아니라 강의를 편다.**
+   본문 30만자는 처음부터 안 읽는다. 누른 그때 읽는다. */
+var PEEKLEC=null;
+function peekLecture(no){
+  loadData("lecturetext","ENG2P_LECTURETEXT",function(v){
+    if(!v || !v.items || !v.items[String(no)]){ flash("그 강의 본문을 못 찾았다"); return; }
+    PEEKLEC=no; PEEK=null; PANE.sig=null;
+    syncSessionFocus(); renderBlockPane(); paintTimer();
+    var box=$("#blockPane");
+    if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+}
 function peekBlock(k){
+  PEEKLEC=null;
   PEEK=k; PANE.sig=null;
   syncSessionFocus(); renderBlockPane(); paintTimer();
   var box=$("#blockPane");
   if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function closePeek(){
-  if(PEEK==null) return;
-  PEEK=null; PANE.sig=null;
+  if(PEEK==null && PEEKLEC==null) return;
+  PEEK=null; PEEKLEC=null; PANE.sig=null;
   syncSessionFocus(); renderBlockPane(); paintTimer();
   var c=$("#todaySheet"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
 }
@@ -60,10 +73,11 @@ function sessionIdle(){
   return !T.run && T.idx===0 && T.left===BLOCKS[0].m*60;
 }
 function peekIdx(){ return PEEK!=null ? PEEK : T.idx; }
+function peeking(){ return PEEK!=null || PEEKLEC!=null; }
 function syncSessionFocus(){
   document.body.classList.toggle("session-focus",T.run);
   document.body.classList.toggle("session-idle",sessionIdle());
-  document.body.classList.toggle("peek",PEEK!=null);
+  document.body.classList.toggle("peek",PEEK!=null||PEEKLEC!=null);
   var card=$("#sessionCard");
   if(card) card.setAttribute("aria-busy",T.run?"true":"false");
   var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");

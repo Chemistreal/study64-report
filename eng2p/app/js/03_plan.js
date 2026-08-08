@@ -275,7 +275,7 @@ function renderSheet(pl){
   var dn=dueCards().length;
   if(dn) cell("다시 낼 카드", dn+"장", "due");
 
-  var h='<button type="button" class="lec gto" data-go="b:2"><b>'+pl.lectureNo+'강</b> '+
+  var h='<button type="button" class="lec gto" data-go="l:'+pl.lectureNo+'"><b>'+pl.lectureNo+'강</b> '+
         esc(pl.title||"")+'<span class="gmark" aria-hidden="true">\u2192</span></button>'+
         '<div class="tk">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
         pl.week+'주 '+pl.day+'일째 · 오늘이 '+pl.session+'번째 세션이다</div>'+
@@ -293,6 +293,7 @@ function bindSheetGo(box){
   box.querySelectorAll("[data-go]").forEach(function(b){
     b.onclick=function(){
       var v=b.getAttribute("data-go");
+      if(v.indexOf("l:")===0){ peekLecture(+v.slice(2)); return; }
       if(v.indexOf("b:")===0){ peekBlock(+v.slice(2)); return; }
       if(v==="due"){ S.cardMode="due"; save(); peekBlock(2); return; }
       if(v.indexOf("m:")===0){

@@ -38,12 +38,13 @@ DERIVERS = [
     # 데이터 파생기는 자기 것만 본다. 대본은 다른 파생기가 만든다.
     # 이름 첫 글자로 거르면 tasks.js 까지 빠진다. 뺄 것을 이름으로 적는다.
     ("derive_data.py", ROOT / "out" / "data", "*.js*", {"transcripts.js", "audiolen.js", "cues.js", "ground.js",
-                                          "manifest.js", "manifest.json"}),
+                                          "lecturetext.js", "manifest.js", "manifest.json"}),
     ("derive_transcripts.py", ROOT / "out" / "data", "transcripts.js", set()),
     ("derive_audiolen.py", ROOT / "out" / "data", "audiolen.js", set()),
     ("derive_cues.py", ROOT / "out" / "data", "cues.js", set()),
     ("ground.py", ROOT / "out" / "ground", "*.md", set()),
     ("derive_ground_data.py", ROOT / "out" / "data", "ground.js", set()),
+    ("derive_lecture_text.py", ROOT / "out" / "data", "lecturetext.js", set()),
     ("derive_manifest.py", ROOT / "out" / "data", "manifest.js*", set()),
     # 미디어 표는 저장소 밖 자리다. **낡아도 아무도 안 봤다.** T152 에 넣었다.
     ("derive_media_manifest.py", ROOT.parent / "media" / "english", "manifest.json", set()),
