@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 열다섯 가지를 본다.
+ * 열여덟 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -21,6 +21,9 @@
  * 13. 세션이 시작되면 오늘 한 장이 숨고 블록 칸이 주인공이 되는가
  * 14. 망을 끊어도 자료가 뜨고 영상이 못 뜰 때 그 말을 하는가
  * 15. 시간이 흘러 블록이 저절로 넘어가고 그 자리가 저장되는가
+ * 16. 블록 1과 4의 소리가 그 칸 안에서 나고 넘기면 꺼지는가
+ * 17. 대본 줄을 누르면 그 자리로 가고 들으면 그 줄이 밝아지는가. **어림이라고 적는가**
+ * 18. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -513,6 +516,51 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   sp.slice(0, 6).forEach((m) => fails.push("세션 안 재생: " + m));
 
+  // 16. 대본 동기. 줄을 누르면 그 자리로 가고 들으면 그 줄이 밝아진다.
+  //     **시각은 어림이다.** 화면이 그 말을 하는지가 이 검사의 첫 항목이다.
+  //     어림을 실측처럼 보여 주면 두 사람이 사실로 읽는다. 영어 제로라 못 가린다.
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(0); });
+  await page.waitForTimeout(2200);
+  const sync = await page.evaluate(async () => {
+    const bad = [];
+    const it = MEDIA[MEDIA.findIndex((x) => x.id === plan().media)];
+    const box = document.getElementById("sessScript");
+    if (!box) { bad.push("대본 목록이 없다"); return bad; }
+    const rows = [...box.querySelectorAll(".scline")];
+    const want = ((DATA.transcripts || {}).items || {})[it.id] || [];
+    if (rows.length !== want.length)
+      bad.push("목록이 " + rows.length + "줄인데 대본은 " + want.length + "줄이다");
+    // 어림 표시. 물결표와 머리말 둘 다 있어야 한다
+    const times = rows.map((r) => r.querySelector(".sct").textContent);
+    if (times.some((t) => t.indexOf("~") < 0))
+      bad.push("어림 표시(물결표)가 없는 줄이 있다");
+    const note = (document.querySelector(".syncnote") || {}).textContent || "";
+    if (note.indexOf("어림") < 0) bad.push("머리말이 어림이라고 안 적는다");
+    // 줄을 누르면 그 자리로 간다
+    const cue = ((DATA.cues || {}).items || {})[it.id] || [];
+    const k = Math.min(4, rows.length - 1);
+    rows[k].click();
+    await new Promise((r) => setTimeout(r, 700));
+    if (Math.abs(SESS.el.currentTime - cue[k]) > 1)
+      bad.push("줄을 눌렀는데 " + SESS.el.currentTime.toFixed(1) + "초다. " + cue[k] + "초여야 한다");
+    if (!box.querySelector(".scline.cur")) bad.push("누른 줄이 안 밝아졌다");
+    // 흘려 보내면 밝은 줄이 따라 바뀐다
+    const el0 = SESS.el;
+    SESS.el.currentTime = 0;
+    await SESS.el.play();
+    const seen = [];
+    for (let i = 0; i < 4; i++) {
+      await new Promise((r) => setTimeout(r, 800));
+      seen.push([...box.querySelectorAll(".scline")].findIndex((x) => x.classList.contains("cur")));
+    }
+    if (seen[seen.length - 1] <= seen[0])
+      bad.push("소리가 흐르는데 밝은 줄이 안 따라간다: " + seen.join(","));
+    if (SESS.el !== el0) bad.push("대본을 쓰는 동안 재생기가 바뀌었다");
+    T.run = false; clearInterval(T.tick); stopSessPlay();
+    return bad;
+  });
+  sync.slice(0, 6).forEach((m) => fails.push("대본 동기: " + m));
+
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
   //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
@@ -562,7 +610,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   console.log("");
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
-              "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 연속 30일 1판");
+              "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

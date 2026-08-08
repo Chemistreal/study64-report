@@ -280,6 +280,20 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 .sessplay{margin-top:12px;min-height:54px}
 .sessplay audio{width:100%;display:block}
 .sessplay video{width:100%;max-height:min(46vh,360px);display:block;background:#000;border-radius:11px}
+/* 대본 동기. 목록만 굴린다. 페이지를 굴리면 재생기가 화면 밖으로 나간다. */
+.syncnote{margin-top:11px;font-size:12.5px;color:var(--mut);line-height:1.6;text-align:left}
+.syncscript{margin-top:8px;max-height:min(42vh,320px);overflow-y:auto;
+  border:1px solid var(--edge);border-radius:11px;background:var(--card)}
+.syncscript .scline{display:flex;gap:9px;width:100%;text-align:left;padding:8px 11px;
+  border:0;border-bottom:1px solid var(--edge);background:none;color:var(--fg);
+  font-size:14px;line-height:1.55;cursor:pointer;font-family:inherit}
+.syncscript .scline:last-child{border-bottom:0}
+.syncscript .scline:hover{background:var(--card2)}
+.syncscript .scline .sct{flex:none;width:52px;font-family:var(--mono);font-size:12px;
+  color:var(--mut);padding-top:2px}
+.syncscript .scline.cur{background:linear-gradient(96deg,rgba(79,70,229,.20),rgba(14,165,233,.12))}
+.syncscript .scline.cur .scl{font-weight:700}
+.syncscript .scline.cur .sct{color:var(--a3)}
 /* 마무리. 다음 날 무엇을 하는지가 여기 있어야 내일 앉자마자 시작한다. */
 .nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:13.5px;line-height:1.65;text-align:left}
@@ -2230,6 +2244,7 @@ function renderMediaPane(pl, round){
      블록 1은 40분이고 블록 4는 20분이다. 그 시간 내내 다른 탭에 가 있으면
      지시와 회차와 남은 시간이 다 안 보인다. 여기서 튼다. T125 */
   h+='<div class="sessplay" id="sessPlayHost"></div>';
+  h+=renderSyncScript(it);
   h+='<div class="cardnav">'+
     '<button type="button" data-media="audio">소리</button>'+
     (it.video?'<button type="button" data-media="video">영상</button>':"")+
@@ -2240,6 +2255,7 @@ function renderMediaPane(pl, round){
   setTimeout(function(){
     var host=$("#sessPlayHost");
     if(host && !host.firstChild) sessPlay(it, SESS.mode||"audio", false);
+    bindSyncScript(it);
     document.querySelectorAll("#blockPane [data-media]").forEach(function(b){
       var k=b.dataset.media;
       if(k==="audio"||k==="video") b.className=(SESS.mode||"audio")===k?"on":"";
@@ -2265,9 +2281,77 @@ function renderMediaPane(pl, round){
   return h;
 }
 
+/* =========================================================================
+   대본 동기. 줄을 누르면 그 자리로 가고 들으면 그 줄이 밝아진다.
+
+   **시각은 어림이다.** T126 에서 확인했다. 줄별 시각은 lessonData 에도
+   자막 파일에도 없다. eng2p/out/data/cues.js 는 그 과의 실제 길이를
+   글자 수로 나눈 것이고 쉼을 안 셌다. docs/audio_timing.md 에 근거가 있다.
+
+   **어림이라고 화면에 적는다.** 시각 앞에 물결표를 붙이고 머리에 한 줄 쓴다.
+   그러지 않으면 두 사람이 이 숫자를 사실로 읽는다. 영어 제로라 가릴 수가 없다.
+   ========================================================================= */
+function fmtT(s){
+  s=Math.max(0,Math.round(s));
+  return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+}
+function renderSyncScript(it){
+  var tr=DATA.transcripts, cu=DATA.cues;
+  if(!tr||!cu){
+    if(!tr) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderBlockPane(); });
+    if(!cu) loadData("cues","ENG2P_CUES",function(){ renderBlockPane(); });
+    return '<div class="n">대본을 여는 중이다.</div>';
+  }
+  var lines=(tr.items||{})[it.id], cue=(cu.items||{})[it.id];
+  if(!lines||!lines.length) return '<div class="n">이 과는 대본이 없다.</div>';
+  var h='<div class="syncnote">대본 '+lines.length+'줄 · 줄을 누르면 그 자리로 간다.<br>'+
+    '<b>시각은 어림이다.</b> 글자 수로 나눈 것이고 쉼을 안 셌다. 물결표가 그 표시다.</div>'+
+    '<div class="syncscript" id="sessScript">';
+  lines.forEach(function(s,i){
+    var t=cue?cue[i]:null;
+    h+='<button type="button" class="scline" data-cue="'+i+'">'+
+       '<span class="sct">'+(t==null?"—":"~"+fmtT(t))+'</span>'+
+       '<span class="scl">'+esc(s)+'</span></button>';
+  });
+  return h+'</div>';
+}
+/* 지금 어느 줄인지를 **class 만 바꿔서** 칠한다.
+   다시 그리면 재생기가 죽는다. T125 에서 그것 때문에 칸을 안 그리게 만들었다.
+   여기서 innerHTML 을 건드리면 그 일을 도로 무른 것이 된다. */
+function syncCur(){
+  var box=$("#sessScript"); if(!box||!SESS.el||!SESS.cue) return;
+  var t=SESS.el.currentTime, c=SESS.cue, i=0;
+  for(var k=0;k<c.length;k++){ if(c[k]<=t) i=k; else break; }
+  if(i===SESS.line) return;
+  SESS.line=i;
+  var was=box.querySelector(".scline.cur"); if(was) was.classList.remove("cur");
+  var now=box.children[i]; if(!now) return;
+  now.classList.add("cur");
+  /* 목록 안에서만 굴린다. 페이지를 굴리면 재생기가 화면 밖으로 나간다. */
+  box.scrollTop=Math.max(0, now.offsetTop-box.clientHeight/2+now.offsetHeight/2);
+}
+function bindSyncScript(it){
+  var box=$("#sessScript"); if(!box) return;
+  var cu=DATA.cues;
+  SESS.cue=(cu&&cu.items&&cu.items[it.id])||null;
+  SESS.line=-1;
+  if(box.dataset.bound==="1"){ syncCur(); return; }
+  box.dataset.bound="1";
+  box.onclick=function(e){
+    var b=e.target.closest ? e.target.closest(".scline") : null;
+    if(!b||!SESS.cue) return;
+    var i=+b.dataset.cue, t=SESS.cue[i];
+    if(t==null||!SESS.el) return;
+    try{ SESS.el.currentTime=t; }catch(err){ return; }
+    var q=SESS.el.play(); if(q&&q.catch) q.catch(function(){});
+    SESS.line=-1; syncCur();
+  };
+  syncCur();
+}
+
 /* 세션 안 재생기. 블록 1과 4에서만 산다.
    블록 칸이 매초 다시 그려지던 것을 T125 에서 멈췄다. 그래서 여기 살 수 있다. */
-var SESS={id:null, mode:null, el:null};
+var SESS={id:null, mode:null, el:null, cue:null, line:-1};
 function sessPlay(it, mode, play){
   var host=$("#sessPlayHost"); if(!host) return;
   if(SESS.el && SESS.id===it.id && SESS.mode===mode && host.firstChild){
@@ -2292,6 +2376,10 @@ function sessPlay(it, mode, play){
     var seek=function(){ try{ m.currentTime=at; }catch(e){} };
     if(m.readyState>0) seek(); else m.addEventListener("loadedmetadata", seek, {once:true});
   }
+  /* 들으면 그 줄이 밝아진다. timeupdate 는 초에 네 번쯤 온다. */
+  SESS.line=-1;
+  SESS.el.ontimeupdate=syncCur;
+  SESS.el.onseeked=syncCur;
   /* 고른 것이 버튼에 보여야 한다. 다시 그리면 setTimeout 이 다시 칠한다. */
   document.querySelectorAll("#blockPane [data-media]").forEach(function(b){
     var k=b.dataset.media;
@@ -2299,9 +2387,14 @@ function sessPlay(it, mode, play){
   });
 }
 function stopSessPlay(){
-  if(SESS.el){ try{ SESS.el.pause(); }catch(e){} }
+  if(SESS.el){ try{ SESS.el.pause(); }catch(e){} SESS.el.ontimeupdate=null; SESS.el.onseeked=null; }
   var n=$("#sessMediaNote"); if(n) n.remove();
-  SESS.el=null; SESS.id=null;
+  /* **자리에서도 치운다.** 전에는 세우기만 하고 두었다. 그러면 화면에는
+     재생기가 남는데 SESS.el 은 비어 있다. 대본 줄을 눌러도 아무 일이 없고
+     다시 걸리지도 않는다. 다시 거는 조건이 "자리가 비었으면" 이기 때문이다.
+     **멈춘 재생기가 화면에 남아 있으면 두 사람은 고장 난 줄 안다.** T128 */
+  var host=$("#sessPlayHost"); if(host) host.innerHTML="";
+  SESS.el=null; SESS.id=null; SESS.line=-1;
 }
 
 /* 그려 놓은 것을 기억한다. 같으면 손대지 않는다.
