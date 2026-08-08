@@ -112,6 +112,7 @@ scripts/check_media.py  미디어 카탈로그 검사
 scripts/check_cards_plan.py 카드 유형 총량을 기준서 8.1과 대조
 scripts/derive_handout.py 강의에서 강의록을 파생. 강의의 검사기이기도 하다
 scripts/check_page.py  강의록이 A4 앞뒤 두 면에 들어가는지 잰다
+scripts/check_refs.py  카드 번호와 미디어 id 와 강 참조가 실제로 있는지 대조
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
 out/cards/eng2p_card_plan_q1.md 카드 001~150 배정표. 강의보다 이쪽이 기준
 ```
