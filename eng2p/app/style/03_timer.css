@@ -223,3 +223,8 @@ body.session-idle #sessionCard .sessctl{display:none}
 
 /* 비워 둔 자리. 공동 연속일과 오늘의 한 판이 여기 들어온다. */
 .slots{display:grid;gap:8px;margin-top:12px}
+
+/* **세션 중에는 고리를 접는다.** 시계 링이 같은 것을 이미 말한다.
+   T122 규칙이 껍데기 높이를 재는데 겹치는 그림이 그 자리를 먹으면
+   블록 칸이 화면 밖으로 밀린다. 세션 중에 제일 많이 보는 칸이 그것이다. */
+body.session-focus .rings{display:none}

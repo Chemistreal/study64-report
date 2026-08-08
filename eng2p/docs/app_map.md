@@ -12,12 +12,12 @@
 |---|---|---|
 | `page/00_head.html` | 9 | 문서 머리. 제목과 화면 규격 |
 | `style/01_tokens.css` | 72 | 색과 글꼴 토큰, 머리띠 |
-| `style/02_common.css` | 109 | 공통 자리. 카드와 단추와 표 |
-| `style/03_timer.css` | 225 | 시계와 블록 칸과 집중 화면 |
+| `style/02_common.css` | 119 | 공통 자리. 카드와 단추와 표 |
+| `style/03_timer.css` | 230 | 시계와 블록 칸과 집중 화면 |
 | `style/04_parts.css` | 179 | 차트와 규칙 카드와 인쇄 |
 | `page/01_open.html` | 3 | style 닫고 body 열기 |
 | `body/01_header.html` | 14 | 머리띠와 조작줄 |
-| `body/02_today.html` | 139 | 오늘 탭 |
+| `body/02_today.html` | 143 | 오늘 탭 |
 | `body/03_review.html` | 12 | 복습 탭 |
 | `body/04_sound.html` | 63 | 소리 탭 |
 | `body/05_clip.html` | 86 | 클립 탭 |
@@ -34,7 +34,7 @@
 | `js/01_const.js` | 102 | 상수. 기준서에서 온 값 |
 | `js/02_store.js` | 102 | 저장소와 유틸 |
 | `js/03_plan.js` | 327 | 오늘 배정과 오늘 한 장 |
-| `js/04_today.js` | 162 | 탭 몰기와 오늘 탭 그리기 |
+| `js/04_today.js` | 211 | 탭 몰기와 오늘 탭 그리기 |
 | `js/05_session.js` | 220 | 시계와 세션 상태와 기기 쪽 |
 | `js/06_cards.js` | 232 | 카드 뷰어와 간격 반복과 근거 |
 | `js/07_block14.js` | 157 | 블록 1과 4. 미디어를 그 자리에서 |
@@ -52,6 +52,6 @@
 | `js/20_docs.js` | 265 | 자료와 규칙과 시작 |
 | `page/03_close.html` | 3 | script 닫고 body 닫기 |
 
-조각 41개 4831줄이다. **한 조각은 500줄을 안 넘는다.**
+조각 41개 4899줄이다. **한 조각은 500줄을 안 넘는다.**
 넘으면 `check_app.py` 가 실패로 낸다.
 쪼갤 자리가 없으면 그 검사의 면제표에 이유를 적는다. 문턱은 안 올린다.

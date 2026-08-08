@@ -107,3 +107,13 @@ tbody tr:hover td{background:var(--card2)}
 .resume .small{font-size:12px;color:var(--mut)}
 @media(max-width:520px){.duo{grid-template-columns:1fr}}
 
+
+/* 고리 셋. 오늘과 이번 주와 1년. **글자 없이 한눈에 본다.** */
+.rings{display:flex;align-items:center;gap:13px;margin-top:8px}
+.rings svg{width:92px;height:92px;flex:none}
+.rings .rv{transition:stroke-dashoffset .5s ease}
+.rings .rlab{display:grid;gap:4px;font-size:12.5px;color:var(--mut)}
+.rings .rlab b{color:var(--fg);font-weight:650}
+.rings .rlab div{display:flex;align-items:center;gap:7px}
+.rings .rlab i{width:9px;height:9px;border-radius:99px;flex:none}
+@media (prefers-reduced-motion:reduce){ .rings .rv{transition:none} }

@@ -64,8 +64,11 @@ function renderToday(){
   var pl=plan();
   var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
   if(pl.behind>0) msg+=" · 달력보다 "+pl.behind+"주 밀렸다";
+  /* **고리와 겹치는 줄은 없앤다.** 역할 교대는 바로 위 lede 가 이미 말한다.
+     밀린 주 수는 고리 이름표로 옮겼다. 그러면 이 줄은 평소에 비어 있다. */
   $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
-  var p2=$("#todayProgress2"); if(p2) p2.textContent=msg+" · A/B는 날짜로 자동 교대";
+  var p2=$("#todayProgress2"); if(p2) p2.textContent="";
+  renderRings(pl,weekDone,rec);
   renderSheet(pl);
   renderResume(pl);
   renderRecGate(rec);
@@ -160,3 +163,49 @@ $("#cAdd").onclick=function(){
   save(); renderColl();
 };
 
+
+/* =========================================================================
+   고리 셋. 오늘과 이번 주와 1년.
+
+   **숫자를 읽게 하지 않는다.** 두 사람이 앉아서 제일 먼저 하는 것은
+   얼마나 남았는지를 아는 것이다. 그것을 글자로 적으면 읽어야 하고
+   읽으면 세 줄을 다 읽는다. 고리는 안 읽어도 보인다.
+
+   셋 다 **둘이 같이 쌓는 값이다.** 사람별 칸을 안 만든다. 2인 원칙 1이다.
+   ========================================================================= */
+var RING=[
+  {r:46,w:10,k:"오늘",c:"var(--a1)"},
+  {r:33,w:10,k:"이번 주",c:"var(--a2)"},
+  {r:20,w:10,k:"1년",c:"var(--a3)"}
+];
+function renderRings(pl,weekDone,rec){
+  var box=$("#todayRings"); if(!box) return;
+  /* 오늘은 블록 넷이다. 끝낸 블록 수로 센다.
+     안 시작했으면 0이고 끝냈으면 4다. 도는 중이면 지난 블록 수다. */
+  var today4=0;
+  if(rec && rec.status==="normal") today4=4;
+  else if(T.left===0) today4=4;
+  else today4=T.idx;
+  var v=[today4/4, weekDone/6, Math.min(1,(pl.done||0)/288)];
+  /* 이름표와 읽어 주는 글이 같아야 한다. 두 자리에 따로 적으면 갈라진다.
+     그래서 이름표를 먼저 짓고 그것을 읽어 주는 글에도 그대로 쓴다. */
+  var num=[today4+" / 4 블록", weekDone+" / 6일",
+           pl.week+" / 48주"+(pl.behind>0?" · "+pl.behind+"주 밀렸다":"")];
+  var say=RING.map(function(g,i){ return g.k+" "+num[i]; }).join(", ");
+  var s='<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(say)+'">';
+  RING.forEach(function(g,i){
+    var c=2*Math.PI*g.r;
+    s+='<circle cx="60" cy="60" r="'+g.r+'" fill="none" stroke="var(--line)" stroke-width="'+g.w+'"/>';
+    s+='<circle class="rv" cx="60" cy="60" r="'+g.r+'" fill="none" stroke="'+g.c+
+       '" stroke-width="'+g.w+'" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+
+       '" stroke-dashoffset="'+(c*(1-Math.max(0,Math.min(1,v[i])))).toFixed(1)+
+       '" transform="rotate(-90 60 60)"/>';
+  });
+  s+="</svg>";
+  s+='<div class="rlab">';
+  RING.forEach(function(g,i){
+    s+='<div><i style="background:'+g.c+'"></i><b>'+g.k+"</b> "+num[i]+"</div>";
+  });
+  s+="</div>";
+  box.innerHTML=s;
+}
