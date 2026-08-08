@@ -560,8 +560,22 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     --card:#fff; --card2:#fff; --edge:#999;
     --a1:#000; --a2:#000; --a3:#000; --acc:#000; --glow:none;
   }
-  header,nav,footer,.noprint,.aurora,.focusdock,.timer,.sessiondone,
+  header,nav,footer,.noprint,.aurora,.focusdock,.sessiondone,
   #onboard,.sidepick,.recgate,.resume,.bigtap,.stp button{display:none!important}
+  /* **시계와 링은 종이에서 뺀다. 블록 칸은 남긴다.**
+     전에는 `.timer` 를 통째로 숨겼는데 그 안에 블록 칸이 들어 있다.
+     그래서 세션 중에 인쇄하면 날짜와 이름표만 찍혔다. 빈 종이가 나온다.
+     블록 칸이 오늘 쓰는 카드와 진행표가 있는 자리다. T148 */
+  .ringwrap,.bar,.steps,.slab,.tleft,.sessplay,.syncscript{display:none!important}
+  /* 세션 중이어도 종이에는 다 찍는다. 화면에서 숨긴 것은 화면이 좁아서였다. */
+  body.session-focus #t-today>*,
+  body.session-focus .todaysheet,
+  body.session-focus #emgLine,
+  body.session-focus #emgBox,
+  body.session-focus #resumeBox,
+  body.session-focus .progline{display:revert!important}
+  /* 근거 인용은 종이에서도 쓴다. 어느 과를 들으면 되는지가 거기 있다. */
+  .ground .gat{display:inline!important;border:0;padding:0;color:#000;font-weight:700}
   /* 종이 위의 버튼은 누를 수 없다. 자리만 먹는다. */
   button{display:none!important}
   /* 빈 입력 칸은 손으로 적는 자리이므로 남긴다. 테두리만 남기고 배경을 없앤다. */
