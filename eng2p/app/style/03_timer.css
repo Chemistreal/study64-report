@@ -287,3 +287,10 @@ body.session-focus .rings{display:none}
 .blockpane .cntrow input{width:100%;min-height:44px;padding:6px 9px;
   border:1px solid var(--line);border-radius:9px;background:var(--bg);
   color:var(--fg);font:inherit}
+
+/* 카드 제한시간 시계. **세면서 말하면 세는 쪽이 심판이 된다.** T215 */
+.blockpane .ckrow{display:flex;align-items:center;gap:10px;margin:9px 0;
+  padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--sub)}
+.blockpane .ckrow .ckn{font-family:var(--mono);font-size:1.25rem;font-weight:750;
+  min-width:74px}
+.blockpane .ckrow button{min-height:44px}

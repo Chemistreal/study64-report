@@ -1805,6 +1805,31 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await pw.waitForTimeout(300);
     if ((await pw.textContent("#aimSay")).indexOf("다음으로 넘어간다") < 0)
       bad.push("겹친 것이 더 많은데 넘어가라고 안 한다");
+    /* **블록 3 제한시간을 사람이 세면 그 사람이 심판이 된다.**
+       초가 붙은 카드를 띄우고 시계가 도는지, 응답자 화면에 시작 단추가 없는지 본다. T215 */
+    await pw.evaluate(() => {
+      S.cardDue = { "Q1-005": { box: 1, due: "2020-01-01", ran: null } };
+      S.cardMode = "due"; S.card = null; S.device = null; save(); gotoBlock(2);
+    });
+    await pw.waitForTimeout(1600);
+    const ck = await pw.evaluate(() => ({
+      go: !!document.getElementById("ckGo"),
+      left: (document.getElementById("ckLeft") || {}).textContent }));
+    if (!ck.go) bad.push("초가 붙은 카드인데 재기 단추가 없다");
+    else {
+      await pw.click("#ckGo");
+      await pw.waitForTimeout(1300);
+      const after = await pw.textContent("#ckLeft");
+      if (after === ck.left) bad.push("재기를 눌렀는데 시계가 안 돈다: " + after);
+      await pw.evaluate(() => { S.device = "b"; save(); renderBlockPane(); });
+      await pw.waitForTimeout(700);
+      const bside = await pw.evaluate(() => ({
+        go: !!document.getElementById("ckGo"),
+        row: (document.querySelector(".ckrow") || {}).innerText || "" }));
+      if (bside.go) bad.push("응답자 화면에 재기 단추가 있다");
+      if (bside.row.indexOf("쪽이 시작한다") < 0)
+        bad.push("응답자 화면이 누가 시작하는지 말 안 한다");
+    }
     await ctxw.close();
     return bad;
   })();

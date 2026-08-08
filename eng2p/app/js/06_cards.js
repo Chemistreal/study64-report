@@ -103,6 +103,43 @@ function goGround(at){
   });
 }
 
+/* =========================================================================
+   카드 제한시간 시계.
+
+   **압박형 카드에 초가 붙어 있는데 화면은 그것을 글자로만 말했다.**
+   "압박형 제한 시간 3초" 라고 적혀 있고 그다음은 사람이 센다.
+   세면서 말하는 것은 안 된다. 세는 쪽이 곧 재는 쪽이고 그러면 출제자가 심판이 된다.
+
+   시계가 그 자리를 대신한다. **출제자가 시작을 누르고 둘 다 남은 것을 본다.**
+   시간이 되면 소리가 난다. 화면은 못 했다고 말하지 않는다.
+   기준서 8.1 이 정한 초는 카드마다 붙어 있다. T205 에서 확인했다. T215
+
+   숫자는 그리는 글에 안 넣는다. 넣으면 매초 칸이 갈린다. T211 규칙과 같다.
+   ========================================================================= */
+var CLK={t:null,left:0,id:null};
+function stopCardClock(){ if(CLK.t){ clearInterval(CLK.t); CLK.t=null; } }
+function paintCardClock(){
+  var e=document.getElementById("ckLeft");
+  if(!e){ stopCardClock(); return; }
+  e.textContent=CLK.left>0?CLK.left+"초":"시간이 됐다";
+}
+function startCardClock(sec){
+  stopCardClock();
+  CLK.left=sec; paintCardClock(); tone("start");
+  CLK.t=setInterval(function(){
+    CLK.left--;
+    if(CLK.left<=0){ stopCardClock(); CLK.left=0; paintCardClock(); tone("next"); return; }
+    paintCardClock();
+  },1000);
+}
+function renderCardClock(c, mine){
+  if(!c.seconds) return "";
+  var h='<div class="ckrow"><span class="ckn" id="ckLeft">'+c.seconds+'초</span>';
+  /* 응답자 화면에는 시작 단추를 안 낸다. 재는 쪽과 받는 쪽이 갈린다. */
+  if(mine==="b") h+='<span class="n">'+esc(S.names.a)+' 쪽이 시작한다</span>';
+  else h+='<button type="button" class="g" id="ckGo">'+c.seconds+'초 재기</button>';
+  return h+'</div>';
+}
 function renderCardView(pl){
   var cards=DATA.cards;
   if(!cards){
@@ -149,6 +186,7 @@ function renderCardView(pl){
   if(f.model) h+='<div class="meta"><b>모범 답안</b> '+esc(f.model)+'</div>';
   if(f.answer) h+='<div class="ans"><b>정답</b> '+esc(f.answer)+'</div>';
   if(f.pass) h+='<div class="meta"><b>통과 기준</b> '+esc(f.pass)+'</div>';
+  h+=renderCardClock(c, mine);
   h+=renderGround(c);
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
@@ -167,6 +205,8 @@ function renderCardView(pl){
     (m&&m.ran===today()?'오늘 돌았다':'돌았다로 적기')+'</button>'+
     '<button type="button" data-card="next">다음 카드</button></div>';
   setTimeout(function(){
+    var cg=document.getElementById("ckGo");
+    if(cg) cg.onclick=function(){ startCardClock(c.seconds); };
     document.querySelectorAll("[data-at]").forEach(function(b){
       b.onclick=function(){ goGround(b.dataset.at); };
     });
@@ -177,6 +217,7 @@ function renderCardView(pl){
           S.card=null; save(); renderBlockPane();
           return;
         }
+        stopCardClock();      // 카드를 넘기면 앞 카드의 시계는 끝난 것이다
         if(b.dataset.card==="run"){
           markCardRun(c.id, ownLec);
           /* 적고 나면 다음 카드로 간다. 한 장씩 도는 자리라 손이 한 번만 나가야 한다. */
