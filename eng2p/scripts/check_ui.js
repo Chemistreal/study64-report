@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 아홉 가지를 본다.
+ * 열 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -15,6 +15,7 @@
  * 7. 96편의 미디어가 카탈로그에 있고 다른 탭에서도 세션 조작줄이 떠 있는가
  * 8. 대본이 file:// 에서 뜨는가. 52편이 다 있는가
  * 9. C-gen 음성으로 Q1 소리 트랙 통과 판정을 못 하게 막는가
+ * 10. 세션 한 벌이 시작부터 끝까지 어긋남 없이 도는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -252,6 +253,40 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   lock.slice(0, 5).forEach((m) => fails.push("C-gen 잠금: " + m));
 
+  // 10. 세션 한 벌 리허설. **두 시간을 처음부터 끝까지 돌려 본다.**
+  //     앞의 아홉은 자리마다 본다. 이것은 자리 사이를 본다.
+  //     블록을 넘기고 탭을 옮기고 적고 끝내는 동안 값이 어긋나지 않는지가 여기서 나온다.
+  await page.evaluate(() => {
+    localStorage.clear();
+  });
+  await page.reload();
+  await page.waitForTimeout(500);
+  await page.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+  await page.waitForTimeout(300);
+  const before = await page.evaluate(() => ({ n: doneSessions(), lec: plan().lectureNo, set: plan().set }));
+  await page.click("#tOne");
+  await page.waitForTimeout(300);
+  if (await page.evaluate(() => doneSessions()) !== before.n)
+    fails.push("리허설: 시작만 눌렀는데 진도가 올랐다");
+  // 블록 1 -> 4 를 차례로 지난다
+  for (let bi = 0; bi < 4; bi++) {
+    await page.evaluate((k) => gotoBlock(k), bi);
+    await page.waitForTimeout(bi === 1 || bi === 2 ? 1400 : 400);
+    const pane = await page.textContent("#blockPane");
+    if (!pane || pane.length < 30) fails.push("리허설: 블록 " + (bi + 1) + " 칸이 비었다");
+  }
+  await page.evaluate(() => finishSession());
+  await page.waitForTimeout(400);
+  const after = await page.evaluate(() => ({
+    n: doneSessions(), lec: plan().lectureNo, set: plan().set,
+    sess: S.session, rec: !document.getElementById("recCard").hidden,
+  }));
+  if (after.n !== before.n + 1) fails.push("리허설: 끝냈는데 진도가 안 올랐다");
+  if (after.set === before.set) fails.push("리허설: 끝냈는데 다음 세트로 안 넘어갔다");
+  if (after.sess) fails.push("리허설: 끝냈는데 세션 상태가 남아 있다");
+  if (!after.rec) fails.push("리허설: 끝냈는데 기록 칸이 안 펴졌다");
+  if (errs.length) fails.push("리허설 중 오류: " + errs.slice(0, 3).join(" / "));
+
   const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
   await browser.close();
@@ -259,7 +294,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
-              "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 + "판");
+              "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
+              "판 / 대본 52판 / 세션 리허설 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
