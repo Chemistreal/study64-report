@@ -142,7 +142,10 @@ def pick_plan(name, b):
     if len(segs) < 2:
         segs = []
     # 배분은 첫 문장까지다. 뒤에 붙는 설명 문장에도 분이 나와서 구간으로 섞인다.
+    # 끝의 마침표는 문단 안 위치에 따라 붙었다 말았다 한다. 같은 배분 문장이
+    # 어떤 강에서는 마침표가 있고 어떤 강에서는 없어 보인다. 종이에서는 같아야 한다.
     plan_first = re.split(r"(?<=다)\.\s", re.sub(r"\s+", " ", split.group(1)).strip())[0]
+    plan_first = plan_first.rstrip(".")
     if not segs:
         for part in re.split(r"[,\n]", plan_first):
             p2 = part.strip().rstrip(".")
@@ -153,15 +156,49 @@ def pick_plan(name, b):
     return plan_first, segs
 
 
-def pick_cards(name, b):
-    """카드. 블록 4의 번호 범위와 제한시간."""
+# 기준서 8.1 이 정한 분기별 압박형 제한시간이다. Q1 은 트랙마다 달라 안 고정한다.
+# 강의가 이 값을 안 적고 아는 것으로 치고 넘어가는 자리가 있다. 72강이 그렇다.
+# 강의는 넘어가도 되지만 종이는 안 된다. 종이에는 그 값이 있어야 카드를 돌린다.
+QUARTER_SEC = {"Q2": "5", "Q3": "3", "Q4": "2"}
+
+
+def pick_cards(name, b, quarter):
+    """카드. 블록 4의 번호 범위와 시간과 미디어.
+
+    시간이 세 형태로 나온다.
+
+    1. 강 전체에 걸리는 제한시간. "제한 시간은 8초다"
+    2. 카드마다 다른 시간. 44강 118 은 40초, 119 는 50초다
+    3. 아무 말도 없고 분기 기본값을 아는 것으로 치는 것. 72강이 그렇다
+
+    셋을 다 낸다. 셋 다 안 내면 두 사람이 초를 모른 채 압박 카드를 돈다.
+    T80 에서 44강 48강 72강이 그 상태였다.
+    """
     rng = re.search(r"카드\s+(\d{3})\s*~\s*(\d{3})", b[3])
     if not rng:
         miss(name, "카드", "블록 4에 카드 번호 범위가 없다")
-        return None, None, None
+        return None, None, None, []
     sec = re.search(r"제한\s?시간(?:은)?\s*(\d+)\s*초", b[3])
+    sec = sec.group(1) if sec else None
+    # 카드마다 다른 시간. "118 은 40초다" 형태만 받는다. 번호가 앞에 와야 한다.
+    per = []
+    lo, hi = int(rng.group(1)), int(rng.group(2))
+    # 값을 매기는 문장만 받는다. "118 은 40초다" 는 매기는 것이고
+    # "118 과 119 는 60초가 안정되면 접는다" 는 매기는 것이 아니다.
+    # 뒤에 오는 조사로 가른다. 다/인데/로 는 매기는 것이고 가/를 은 아니다.
+    for m in re.finditer(r"(?:^|[.\s*])(\d{3})\s*[은는이가만]\s*[^.\n]{0,24}?(\d+)\s*초(?=다|인데|로)", b[3]):
+        num, s = int(m.group(1)), m.group(2)
+        if lo <= num <= hi and (num, s) not in per:
+            per.append((num, s))
+    # 카드별 시간이 둘 이상이면 그 강은 카드마다 값을 매긴 강이다. 기본값이 안 걸린다.
+    # 44강 48강이 그렇다. 넷에 40 50 60 60 초를 매겼다. 거기에 5초를 얹으면 거짓이 된다.
+    # 하나뿐이면 그것은 예외 표시다. 72강 147 이 그렇다. 나머지 셋은 분기 기본값이다.
+    # 압박형이 안 붙는 강에는 제한시간이 없다. 기본값을 얹으면 없는 규칙이 종이에 생긴다.
+    # 처음에 그것을 얹었다가 Q2~Q4 서른 편에 거짓 줄이 찍혔다. 검사기가 그것을 잡았다.
+    if not sec and len(per) < 2 and "압박형" in b[3]:
+        sec = QUARTER_SEC.get(quarter)
     med = re.search(r"미디어는\s+(lle1-\d+)\s*(?:\((\d)\s*회차\))?\s*[을를]?\s*쓴다", b[3])
-    return (rng.group(1), rng.group(2)), (sec.group(1) if sec else None), (med.group(1) if med else None)
+    return (rng.group(1), rng.group(2)), sec, (med.group(1) if med else None), per
 
 
 # 안 재는 것을 적어 둔 문단이 블록 5에 섞여 있다. "정확성은 재지 않는다" 가 그것이다.
@@ -253,7 +290,7 @@ def pick_role(b):
     return m.group(1).strip() if m else None
 
 
-def render(num, title, one, eng, engsrc, split, segs, cards, sec, med, rec, notes, stuck, role, track, quarter):
+def render(num, title, one, eng, engsrc, split, segs, cards, sec, med, per, rec, notes, stuck, role, track, quarter):
     L = []
     L.append("신뢰도: A 생성 (파생)")
     L.append("분기: %s" % quarter)
@@ -301,6 +338,8 @@ def render(num, title, one, eng, engsrc, split, segs, cards, sec, med, rec, note
         L.append("(못 뽑음)")
     if sec:
         L.append("압박형 제한 시간 %s초" % sec)
+    if per:
+        L.append("카드별 시간 " + " / ".join("%03d %s초" % x for x in per))
     if med:
         L.append("미디어 %s" % med)
     else:
@@ -364,14 +403,14 @@ def main():
         snum, title, one = pick_today(f.name, text, b)
         eng, engsrc = pick_english(f.name, b)
         split, segs = pick_plan(f.name, b)
-        cards, sec, med = pick_cards(f.name, b)
+        cards, sec, med, per = pick_cards(f.name, b, quarter)
         rec, notes = pick_record(f.name, b)
         stuck = pick_stuck(f.name, b)
         role = pick_role(b)
         if not check_only:
             OUT.mkdir(parents=True, exist_ok=True)
             body = render(snum, title, one, eng, engsrc, split, segs, cards, sec, med,
-                          rec, notes, stuck, role, track, quarter)
+                          per, rec, notes, stuck, role, track, quarter)
             (OUT / ("eng2p_handout_l%03d.md" % int(snum))).write_text(body, encoding="utf-8")
         n += 1
 

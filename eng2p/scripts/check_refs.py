@@ -121,6 +121,50 @@ def check_tiling(cards):
                         % (q, len(gaps), gaps[:8]))
 
 
+# 기준서 8.1 이 정한 분기별 압박형 제한시간이다.
+# Q1 은 고정하지 않는다. 소리 8~10초, 청크 3초, repair 2초로 트랙마다 다르다.
+# 재는 것이 다르기 때문이다. 소리는 판정 시간이고 청크는 인출 시간이다.
+PRESSURE_SEC = {"2": "5", "3": "3", "4": "2"}
+
+
+def check_pressure(types):
+    """압박형 카드가 붙은 강만 제한시간을 적었는가. 그 값이 분기 규정과 맞는가."""
+    for f in sorted(HAND.glob("eng2p_handout_l*.md")):
+        text = f.read_text(encoding="utf-8")
+        q = re.search(r"^분기: Q(\d)", text, re.M).group(1)
+        rng = re.search(r"카드 (\d{3}) ~ (\d{3})", text)
+        if not rng:
+            continue
+        n = sum(1 for i in range(int(rng.group(1)), int(rng.group(2)) + 1)
+                if types.get((q, i)) == "압박")
+        sec = re.search(r"^압박형 제한 시간 (\d+)초", text, re.M)
+        # 카드마다 값을 매긴 강이 있다. 39강 44강 48강이 그렇다. 계단을 오르는 카드다.
+        # 그때는 강 전체에 걸리는 제한시간이 없는 것이 맞다.
+        per = re.search(r"^카드별 시간 ", text, re.M)
+        if n and not sec and not per:
+            FAIL.append("%s: 압박형 %d장이 붙는데 시간이 한 줄도 없다" % (f.name, n))
+        elif not n and sec:
+            FAIL.append("%s: 압박형이 없는데 제한시간 %s초를 적었다" % (f.name, sec.group(1)))
+        elif sec and q in PRESSURE_SEC and sec.group(1) != PRESSURE_SEC[q]:
+            FAIL.append("%s: Q%s 압박형은 %s초다. %s초로 적혔다"
+                        % (f.name, q, PRESSURE_SEC[q], sec.group(1)))
+
+
+def card_types():
+    """(분기, 번호) 마다 유형을 모은다."""
+    out = {}
+    for f in CARDS.glob("*.md"):
+        if "plan" in f.name:
+            continue
+        q = re.search(r"_q(\d)_", f.name)
+        if not q:
+            continue
+        for m in re.finditer(r"^\[(\d{3})\]\s+(\S+?)형",
+                             f.read_text(encoding="utf-8"), re.M):
+            out[(q.group(1), int(m.group(1)))] = m.group(2)
+    return out
+
+
 def check_lectures():
     for f in sorted(LEC.glob("*.md")):
         text = f.read_text(encoding="utf-8")
@@ -171,6 +215,7 @@ def main():
     media = media_index()
     check_handouts(cards, media)
     check_tiling(cards)
+    check_pressure(card_types())
     check_lectures()
     for m in FAIL:
         print("[실패] %s" % m)
