@@ -1147,7 +1147,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       const got = await page.evaluate((s) => {
         const txt = document.querySelector("#blockPane").innerText;
         const btn = document.querySelector('#blockPane [data-media="pass"]');
-        return { r: roundNow(plan().media), txt: txt, btn: btn ? btn.textContent.trim() : null, seat: s };
+        return { r: roundNow(plan().lectureNo), txt: txt, btn: btn ? btn.textContent.trim() : null, seat: s };
       }, seat[0]);
       const m = got.txt.match(/([0-9])회차 초점은 ([가-힣]+)다/);
       if (got.r !== r) rounds.push(r + "회차여야 하는데 roundNow 가 " + got.r + " 다");
@@ -1162,10 +1162,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     }
     // 하루를 끝낸다. 회차가 딱 하나 올라야 한다. 지금 자리는 "같이" 다.
     const step = await page.evaluate(() => {
-      const id = plan().media, before = mediaPass(id);
+      const no = plan().lectureNo, before = lecPass(no);
       const b = document.querySelector('#blockPane [data-media="pass"]');
       if (b) b.click();
-      return { before: before, after: mediaPass(id) };
+      return { before: before, after: lecPass(no) };
     });
     await page.waitForTimeout(400);
     if (step.after !== step.before + 1)
@@ -1187,6 +1187,58 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (filled.veil[i] !== want)
       rounds.push((i + 1) + "회차 가림이 " + filled.veil[i] + " 다. " + want + " 이어야 한다");
   });
+  /* **회차는 강마다 센다.** 96강이 52과를 나눠 쓰고 44과는 두 강이 같이 쓴다.
+     과로 세면 뒤에 오는 강이 시작부터 다 찬 채로 뜬다. T156 에 나왔다.
+
+     **화면을 본다. 도우미 함수를 안 부른다.** 처음에는 roundNow 를 직접 불러서
+     되돌린 판으로 돌려도 안 걸렸다. 고친 자리가 칸을 그리는 쪽이었기 때문이다.
+     검사가 볼 자리는 두 사람이 읽는 자리다. */
+  const shared = await page.evaluate(() => {
+    const idx = window.ENG2P_INDEX, use = {};
+    let at = 0, want = null;
+    idx.weeks.forEach((w) => (w.lectures || []).forEach((L) => {
+      (use[L.media] = use[L.media] || []).push(L.no);
+    }));
+    const pair = Object.keys(use).filter((m) => use[m].length > 1)[0];
+    if (!pair) return { bad: ["한 과를 두 강이 쓰는 자리가 없다. 검사 전제가 틀렸다"] };
+    want = use[pair][1];
+    // 뒤 강의 첫날이 몇 번째 세션인가
+    let n = 0, found = -1;
+    idx.weeks.forEach((w) => (w.days || []).forEach((d) => {
+      if (found < 0 && d.lecture === want) found = n;
+      n++;
+    }));
+    if (found < 0) return { bad: [want + "강이 배정에 없다"] };
+    // 그 앞까지 정상으로 채운다. 진도는 정상 세션 수다.
+    S.days = {};
+    let day = S.start;
+    for (let k = 0; k < found; k++) { S.days[day] = { status: "normal" }; day = addDays(day, 1); }
+    window.today = () => day;
+    // 앞 강이 그 과를 세 회차 다 돈 상태로 만든다
+    const c = passRec()[pair] || (passRec()[pair] = {});
+    c[1] = c[2] = c[3] = true; syncMediaDone(pair); save();
+    at = plan().lectureNo;
+    T.run = true; syncSessionFocus(); gotoBlock(3);
+    return { pair: pair, want: want, at: at, found: found };
+  });
+  if (shared.bad) shared.bad.forEach((m) => rounds.push(m));
+  else {
+    await page.waitForTimeout(900);
+    const seen = await page.evaluate(() => ({
+      txt: document.querySelector("#blockPane").innerText,
+      btn: (document.querySelector('#blockPane [data-media="pass"]') || {}).textContent,
+      count: mediaPassCount(plan().media),
+    }));
+    if (shared.at !== shared.want)
+      rounds.push("배정을 " + shared.want + "강에 못 맞췄다. 지금 " + shared.at + "강이다");
+    else if (seen.txt.indexOf("1회차 초점은 소리다") < 0)
+      rounds.push(shared.pair + " 를 앞 강이 다 돌았더니 " + shared.want
+        + "강 화면이 1회차로 시작하지 않는다: " + seen.txt.slice(0, 90).replace(/\n/g, " "));
+    else if (!seen.btn || seen.btn.indexOf("1회차") < 0)
+      rounds.push(shared.want + "강 단추가 " + seen.btn + " 다. 1회차여야 한다");
+    if (seen.count !== 3)
+      rounds.push("미디어 탭의 과 회차가 " + seen.count + " 다. 3이어야 한다");
+  }
   rounds.slice(0, 8).forEach((m) => fails.push("회차: " + m));
 
   // 16. 강의록에 박힌 역할 이름을 두 사람의 이름으로 갈아 끼우는가
@@ -1212,7 +1264,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
               "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
-              "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 이름 1판");
+              "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

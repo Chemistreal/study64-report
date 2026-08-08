@@ -62,6 +62,20 @@ def main():
     for x in lines:
         bad.append("기준서에 모르는 실패가 났다: %s" % x)
 
+    # 개정문이 자기 개수를 맞게 말하는가. T149 에 여덟이라 적고 열한 건이던 적이 있다.
+    # **받는 사람이 제일 먼저 보는 줄이다.** 그래서 셈을 기계가 맡는다.
+    nums = sorted(int(m) for m in re.findall(r"^## (\d+)\. ", amend, re.M))
+    NAME = {8: "여덟", 9: "아홉", 10: "열", 11: "열한", 12: "열두", 13: "열세",
+            14: "열네", 15: "열다섯"}
+    if nums != list(range(1, len(nums) + 1)):
+        bad.append("개정문 번호가 1부터 이어지지 않는다: %s" % nums)
+    said = re.search(r"\*\*([가-힣]+) 건이다\.\*\*", amend)
+    if not said:
+        bad.append("개정문에 '**N 건이다.**' 문장이 없다")
+    elif said.group(1) != NAME.get(len(nums), ""):
+        bad.append("개정문이 %s 건이라 하는데 실제로 %d 건이다"
+                   % (said.group(1), len(nums)))
+
     for f, n in gone:
         print("[알림] 개정문 %d번이 붙은 것 같다. 실패가 없어졌다: %s" % (n, f))
         print("       KNOWN 에서 그 줄을 지운다. 안 지우면 다음에 이 알림이 또 난다")

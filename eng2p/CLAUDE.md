@@ -144,6 +144,7 @@ scripts/derive_media_manifest.py 미디어 표의 크기와 해시를 다시 잰
 scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 있는 실패 목록과 견준다**
 scripts/check_app.py   english.html 의 한국어를 규격 검사에 건다. 동작이 아니라 글자다
 scripts/check_manual.py 매뉴얼이 앱을 설명하는 자리를 앱과 견준다. 블록 회차 가림 단추
+scripts/check_rotation.py 회전 대장의 셈을 등록부에서 다시 세고 경보 다섯을 건다
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다
