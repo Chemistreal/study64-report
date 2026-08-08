@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 스물두 가지를 본다.
+ * 스물세 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -27,7 +27,8 @@
  * 19. 대본 화면 52과가 다 그려지고 못을 박아도 차례가 지켜지는가
  * 20. 한 줄 되풀이가 구간 안에서 안 멎고 도는가
  * 21. 여러 줄 구간이 늘고 줄고, video 요소로도 같은 코드가 도는가
- * 22. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
+ * 22. 회차가 대본 가림을 정하고 블록을 옮기면 그 기본값으로 돌아가는가
+ * 23. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -792,6 +793,53 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   multi.slice(0, 6).forEach((m) => fails.push("여러 줄 되풀이: " + m));
 
+  // 21. 대본 가리기. **1회차에 글을 보면 소리를 안 듣는다.**
+  //     기준서 10.3의 회차 초점이 소리 / 청크 / 의미다. 글이 다 보이면 세 회차가 다 의미가 된다.
+  //     블록 1은 1회차라 가림이고 블록 4는 2회차라 덩어리만이다. 회차가 기본값을 정한다.
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(0); });
+  await page.waitForTimeout(2200);
+  const veil = await page.evaluate(async () => {
+    const bad = [];
+    const box = () => document.getElementById("sessScript");
+    const btn = () => [...document.querySelectorAll("#blockPane [data-media]")]
+      .find((x) => x.dataset.media === "veil");
+    const shown = () => {
+      const e = box().querySelector(".scl");
+      return getComputedStyle(e).fontSize !== "0px";
+    };
+    if (!box()) { bad.push("대본 목록이 없다"); return bad; }
+    if (!box().classList.contains("veil2")) bad.push("블록 1이 가림이 아니다: " + box().className);
+    if (shown()) bad.push("블록 1인데 글자가 보인다");
+    // 다 보임까지 돌려 보고 다시 가림으로 돌아오는가
+    const seq = [];
+    for (let i = 0; i < 3; i++) {
+      btn().click();
+      await new Promise((r) => setTimeout(r, 700));
+      seq.push([...box().classList].find((c) => c.indexOf("veil") === 0));
+    }
+    if (seq.join(",") !== "veil1,veil0,veil2")
+      bad.push("가림 차례가 " + seq.join(",") + " 다. veil1,veil0,veil2 여야 한다");
+    // 다 보임에서는 진짜 글자가 보여야 한다
+    btn().click(); await new Promise((r) => setTimeout(r, 700));   // veil1
+    btn().click(); await new Promise((r) => setTimeout(r, 700));   // veil0
+    if (!shown()) bad.push("다 보임인데 글자가 안 보인다");
+    const first = box().querySelector(".scl");
+    if (!first.dataset.mask || first.dataset.mask.indexOf("낱말") < 0)
+      bad.push("가릴 때 보여 줄 것이 없다: " + first.dataset.mask);
+    // 블록을 옮기면 회차 기본값으로 돌아간다
+    gotoBlock(3);
+    await new Promise((r) => setTimeout(r, 2000));
+    if (!box().classList.contains("veil1"))
+      bad.push("블록 4가 덩어리만이 아니다: " + box().className);
+    if (SESS.veil !== null) bad.push("블록을 옮겼는데 손으로 고른 가림이 남았다");
+    gotoBlock(0);
+    await new Promise((r) => setTimeout(r, 1600));
+    if (!box().classList.contains("veil2")) bad.push("블록 1로 돌아왔는데 가림이 아니다");
+    T.run = false; clearInterval(T.tick); leaveSessPlay();
+    return bad;
+  });
+  veil.slice(0, 6).forEach((m) => fails.push("대본 가리기: " + m));
+
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
   //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
@@ -843,7 +891,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
               "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
               "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
-              "여러 줄 되풀이 1판 / 연속 30일 1판");
+              "여러 줄 되풀이 1판 / 대본 가리기 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

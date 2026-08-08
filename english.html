@@ -302,6 +302,11 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 .syncscript .scline.fixed .sct{color:var(--ok);font-weight:700}
 .syncscript .scline.fixed .sca{border-color:var(--ok);color:var(--ok)}
 .syncscript .scline.loop{box-shadow:inset 3px 0 0 var(--a3)}
+/* 가리기. 글자는 자리에 그대로 두고 화면에서만 지운다.
+   지울 때마다 칸을 다시 그리면 재생기가 죽는다. T125 규칙이다. */
+.syncscript.veil1 .scl,.syncscript.veil2 .scl{font-size:0}
+.syncscript.veil1 .scl::after,.syncscript.veil2 .scl::after{
+  content:attr(data-mask);font-size:13px;color:var(--mut);font-style:italic}
 .syncscript .scline.loop .scl::after{content:" \21BA";color:var(--a3)}
 /* 마무리. 다음 날 무엇을 하는지가 여기 있어야 내일 앉자마자 시작한다. */
 .nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
@@ -1873,7 +1878,7 @@ function syncSessionFocus(){
 }
 function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=true; }
 function finishSession(){
-  T.run=false; clearInterval(T.tick); T.left=0; relWake(); stopSessPlay();
+  T.run=false; clearInterval(T.tick); T.left=0; relWake(); leaveSessPlay();
   document.body.classList.remove("session-focus");
   var done=$("#sessionDone"); if(done) done.hidden=false;
   /* **여기서 정상으로 센다. 시작 버튼에서 세지 않는다.**
@@ -2253,7 +2258,8 @@ function renderMediaPane(pl, round){
      블록 1은 40분이고 블록 4는 20분이다. 그 시간 내내 다른 탭에 가 있으면
      지시와 회차와 남은 시간이 다 안 보인다. 여기서 튼다. T125 */
   h+='<div class="sessplay" id="sessPlayHost"></div>';
-  h+=renderSyncScript(it);
+  var veil=veilOf(round);
+  h+=renderSyncScript(it, round);
   h+='<div class="cardnav">'+
     '<button type="button" data-media="audio">소리</button>'+
     (it.video?'<button type="button" data-media="video">영상</button>':"")+
@@ -2262,7 +2268,7 @@ function renderMediaPane(pl, round){
     '<button type="button" data-media="loop" class="'+(SESS.loop!=null?"on":"")+'">'+
       (SESS.loop!=null?"되풀이 끄기":"이 줄 되풀이")+'</button>'+
     (SESS.loop!=null?'<button type="button" data-media="less">구간 &minus;</button>'+
-      '<button type="button" data-media="more">구간 &plus;</button>':"")+
+      '<button type="button" data-media="more">구간 &plus;</button>':"")+    '<button type="button" data-media="veil">대본 '+VEILNAME[veil]+'</button>'+
     '<button type="button" data-media="lib">미디어 탭에서</button>'+
     '</div>'+
     /* **돈 횟수는 여기 글자로 안 넣는다.** 넣으면 한 바퀴 돌 때마다 글자가 바뀌고
@@ -2300,6 +2306,13 @@ function renderMediaPane(pl, round){
           }
           renderBlockPane();
           flash(SESS.loop!=null?(SESS.loop+1)+"번째 줄을 되풀이한다":"되풀이를 껐다");
+          return;
+        }
+        if(k==="veil"){
+          /* 다 보임 -> 덩어리만 -> 가림 -> 다 보임 */
+          SESS.veil=((veilOf(round))+2)%3;
+          renderBlockPane();
+          flash("대본을 "+VEILNAME[SESS.veil]+" 로 바꿨다");
           return;
         }
         if(k==="more"||k==="less"){
@@ -2388,7 +2401,25 @@ function effCues(id, cue, dur){
   }
   return out;
 }
-function renderSyncScript(it){
+/* 대본 가리기. **1회차에 글을 보면 소리를 안 듣는다.**
+   기준서 10.3의 회차 초점이 소리 / 청크 / 의미다. 글이 다 보이면 세 회차가 다 의미가 된다.
+   그래서 회차가 기본값을 정한다. 두 사람이 바꿀 수 있지만 기본은 회차를 따른다.
+
+   0 다 보임 · 1 덩어리만 · 2 가림
+   블록 1은 1회차라 가림, 블록 4는 2회차라 덩어리만이다. */
+function veilOf(round){
+  if(SESS.veil!=null) return SESS.veil;
+  return round===1 ? 2 : 1;
+}
+var VEILNAME=["다 보임","덩어리만","가림"];
+function maskOf(line, veil){
+  var body=line.replace(/^[A-Z][A-Za-z .\'-]{0,20}:\s*/,"");
+  var w=body.split(/\s+/).filter(Boolean).length;
+  if(veil===2) return w+"낱말";
+  var first=(body.split(/\s+/).filter(Boolean)[0]||"");
+  return first+" ... "+w+"낱말";
+}
+function renderSyncScript(it, round){
   var tr=DATA.transcripts, cu=DATA.cues, al=DATA.audiolen;
   if(!tr||!cu||!al){
     if(!tr) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderBlockPane(); });
@@ -2400,18 +2431,22 @@ function renderSyncScript(it){
   if(!lines||!lines.length) return '<div class="n">이 과는 대본이 없다.</div>';
   var eff=effCues(it.id, cue, (al.items||{})[it.id]);
   var nfix=cueCount(it.id);
-  var h='<div class="syncnote">대본 '+lines.length+'줄 · 줄을 누르면 그 자리로 간다.<br>'+
-    '<b>시각은 어림이다.</b> 글자 수로 나눈 것이고 쉼을 안 셌다. 물결표가 그 표시다.<br>'+
-    '그 줄이 나는 순간에 <b>여기</b> 를 누르면 그 자리가 잡힌다. '+
-    '잡은 줄은 물결표가 사라지고 <b>그 앞뒤 어림이 같이 맞아 든다.</b>'+
-    (nfix?' · 이 과에서 '+nfix+'줄 잡았다':'')+'</div>'+
-    '<div class="syncscript" id="sessScript">';
+  var veil=veilOf(round);
+  /* 안내는 짧게. **긴 안내는 안 읽힌다.** 두 사람이 세션 중에 보는 칸이다.
+     어림이라는 것과 고칠 수 있다는 것 둘만 남긴다. T133 */
+  var h='<div class="syncnote">대본 '+lines.length+'줄 · 누르면 그 자리로 간다. '+
+    '<b>시각은 어림이다</b>(물결표). 그 줄이 날 때 <b>여기</b> 를 누르면 앞뒤가 같이 맞아 든다.'+
+    (nfix?' · '+nfix+'줄 잡았다':'')+'</div>'+
+    (veil?'<div class="syncnote"><b>'+VEILNAME[veil]+'.</b> '+
+      (veil===2?'1회차 초점은 소리다. 글을 보면 소리를 안 듣는다.'
+               :'2회차 초점은 청크다. 첫 낱말과 길이만 준다.')+'</div>':"")+
+    '<div class="syncscript veil'+veil+'" id="sessScript">';
   lines.forEach(function(s,i){
     var t=eff?eff[i]:null, fixed=cueFixed(it.id,i)!=null;
     h+='<button type="button" class="scline'+(fixed?" fixed":"")+
        (SESS.loop!=null&&i>=SESS.loop&&i<SESS.loop+loopSpan()?" loop":"")+'" data-cue="'+i+'">'+
        '<span class="sct">'+(t==null?"—":(fixed?"":"~")+fmtT(t))+'</span>'+
-       '<span class="scl">'+esc(s)+'</span>'+
+       '<span class="scl" data-mask="'+esc(maskOf(s,veil||1))+'">'+esc(s)+'</span>'+
        '<span class="sca" data-anchor="'+i+'" role="button" tabindex="0" '+
        'title="지금 나는 자리를 이 줄로 잡는다">'+(fixed?"지움":"여기")+'</span></button>';
   });
@@ -2512,7 +2547,7 @@ function bindSyncScript(it){
 
 /* 세션 안 재생기. 블록 1과 4에서만 산다.
    블록 칸이 매초 다시 그려지던 것을 T125 에서 멈췄다. 그래서 여기 살 수 있다. */
-var SESS={id:null, mode:null, el:null, cue:null, line:-1, loop:null, loopN:1, laps:0, at:null, was:null};
+var SESS={id:null, mode:null, el:null, cue:null, line:-1, loop:null, loopN:1, laps:0, at:null, was:null, veil:null};
 function sessPlay(it, mode, play){
   var host=$("#sessPlayHost"); if(!host) return;
   if(SESS.el && SESS.id===it.id && SESS.mode===mode && host.firstChild){
@@ -2522,21 +2557,15 @@ function sessPlay(it, mode, play){
   /* 회차를 적으면 칸의 글자가 바뀌고 칸이 다시 그려진다. 그때 재생기가 떨어져 나간다.
      **듣던 자리에서 처음으로 돌아가면 40분 블록에서 그 40분을 다시 듣는다.**
      같은 과 같은 방식이면 자리와 돌던 여부를 이어받는다. */
-  var at=0, was=false, keepLoop=null, keepLaps=0;
+  var at=0, was=false;
   if(SESS.el && SESS.id===it.id && SESS.mode===mode){
     /* 칸을 다시 그리기 직전에 적어 둔 값이 있으면 그것이 맞다. 위 설명을 본다. */
     at=(typeof SESS.at==="number")?SESS.at:(SESS.el.currentTime||0);
     was=(typeof SESS.was==="boolean")?SESS.was:!SESS.el.paused;
   }
   SESS.at=null; SESS.was=null;
-  /* **되풀이는 같은 과에서는 살려 둔다.** stopSessPlay 는 두 가지 일에 쓰인다.
-     이 과를 떠나는 것과 같은 과를 다시 거는 것이다. 앞은 끄는 것이 맞고
-     뒤는 아니다. 되풀이를 켜면 단추 글자가 바뀌어 칸이 다시 그려지는데
-     그때 다시 걸리면서 방금 켠 되풀이가 꺼졌다. T131 */
-  var keepN=1;
-  if(SESS.id===it.id){ keepLoop=SESS.loop; keepLaps=SESS.laps||0; keepN=SESS.loopN||1; }
   stopSessPlay();
-  SESS.id=it.id; SESS.mode=mode; SESS.loop=keepLoop; SESS.loopN=keepN; SESS.laps=keepLaps;
+  SESS.id=it.id; SESS.mode=mode;
   SESS.el=mountPlayer(host, it, mode, {
     rate: (typeof LIB!=="undefined" && LIB.rate) || 1, play: !!play||was, noteId: "sessMediaNote",
     onAudio: function(){ sessPlay(it,"audio",true); },
@@ -2556,6 +2585,11 @@ function sessPlay(it, mode, play){
     if(k==="audio"||k==="video") b.className=mode===k?"on":"";
   });
 }
+/* **재생기만 치운다.** 되풀이와 가림은 안 건드린다.
+   이 함수는 두 자리에서 쓴다. 블록을 떠날 때와 **같은 과를 다시 걸 때**다.
+   뒤에서 지우면 방금 켠 되풀이가 꺼지고 방금 바꾼 가림이 되돌아간다.
+   T131 에 되풀이로 겪고 여기서 가림으로 또 겪었다. 같은 결함이다.
+   블록을 떠나는 것은 gotoBlock 이 안다. 지우는 것은 거기서 한다. T133 */
 function stopSessPlay(){
   if(SESS.el){ try{ SESS.el.pause(); }catch(e){} SESS.el.ontimeupdate=null; SESS.el.onseeked=null; }
   var n=$("#sessMediaNote"); if(n) n.remove();
@@ -2564,7 +2598,13 @@ function stopSessPlay(){
      다시 걸리지도 않는다. 다시 거는 조건이 "자리가 비었으면" 이기 때문이다.
      **멈춘 재생기가 화면에 남아 있으면 두 사람은 고장 난 줄 안다.** T128 */
   var host=$("#sessPlayHost"); if(host) host.innerHTML="";
-  SESS.el=null; SESS.id=null; SESS.line=-1; SESS.loop=null; SESS.loopN=1; SESS.laps=0;
+  SESS.el=null; SESS.id=null; SESS.line=-1;
+}
+/* 블록을 떠난다. 재생기도 끄고 이 블록에서 켠 것도 다 되돌린다.
+   가림은 회차 기본값으로 돌아간다. 블록 1은 1회차고 블록 4는 2회차다. */
+function leaveSessPlay(){
+  stopSessPlay();
+  SESS.loop=null; SESS.loopN=1; SESS.laps=0; SESS.veil=null; SESS.at=null; SESS.was=null;
 }
 
 /* 그려 놓은 것을 기억한다. 같으면 손대지 않는다.
@@ -2691,7 +2731,7 @@ function gotoBlock(i, opt){
   if(i>=BLOCKS.length){ finishSession(); return; }
   /* 블록을 넘기면 소리를 끈다. 안 끄면 블록 1의 소리가 블록 2 위로 계속 흐른다.
      블록 2는 두 사람이 서로 말하는 블록이다. */
-  if(T.idx!==i) stopSessPlay();
+  if(T.idx!==i) leaveSessPlay();
   T.idx=i;
   T.left=BLOCKS[i].m*60;
   hideSessionDone();
