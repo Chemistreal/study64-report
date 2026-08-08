@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 스물세 가지를 본다.
+ * 스물네 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -20,6 +20,7 @@
  * 12. 통과 기준 458개가 다 그려지고 선이 있는 것은 값으로 갈리는가
  * 13. 세션이 시작되면 오늘 한 장이 숨고 블록 칸이 주인공이 되는가
  * 14. 망을 끊어도 자료가 뜨고 영상이 못 뜰 때 그 말을 하는가
+ * 14b. **세션 칸에서도** 망 없이 소리가 나고 영상이 죽으면 소리로 내려가는가
  * 15. 시간이 흘러 블록이 저절로 넘어가고 그 자리가 저장되는가
  * 16. 블록 1과 4의 소리가 그 칸 안에서 나고 넘기면 꺼지는가
  * 17. 대본 줄을 누르면 그 자리로 가고 들으면 그 줄이 밝아지는가. **어림이라고 적는가**
@@ -452,6 +453,57 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     fails.push("오프라인: 영상이 안 떴는데 아무 말이 없다");
   if (note.indexOf("저장된 소리로") < 0)
     fails.push("오프라인: 저장된 소리로 가는 길이 없다");
+  // 12.5b 오프라인에서 세션 칸. 위는 미디어 탭을 본 것이다.
+  //       **블록 1은 40분을 그 칸에서 듣는 블록이다.** 거기서 같은 길이 나야 한다.
+  //       망이 끊긴 채로 두 시간을 여는 것이 이 물건의 정상 사용이다.
+  //       종이와 같이 쓰는 물건이라 내려받아 열고, 그때 밖으로 나가는 것은 영상뿐이다.
+  const offSess = await off.evaluate(async () => {
+    const bad = [];
+    S.onboarded = true; S.device = "a"; save();
+    T.run = true; syncSessionFocus(); gotoBlock(0);
+    await new Promise((r) => setTimeout(r, 2500));
+    const el = document.querySelector("#sessPlayHost audio");
+    if (!el) { bad.push("망 없이 세션 칸에 재생기가 없다"); return bad; }
+    try { await el.play(); } catch (e) { bad.push("망 없이 소리가 안 난다: " + e.message); return bad; }
+    await new Promise((r) => setTimeout(r, 1500));
+    if (el.paused || el.currentTime < 0.5) bad.push("망 없이 소리가 안 흘렀다");
+    if (!document.querySelectorAll("#sessScript .scline").length)
+      bad.push("망 없이 대본이 안 떴다");
+    if (!(DATA.cues && DATA.cues.items)) bad.push("망 없이 구간표가 안 열렸다");
+    // 영상으로 바꾸면 왜 안 되는지 적고 소리로 가는 길을 낸다
+    [...document.querySelectorAll("#blockPane [data-media]")]
+      .find((x) => x.dataset.media === "video").click();
+    for (let i = 0; i < 24; i++) {
+      await new Promise((r) => setTimeout(r, 500));
+      if (document.getElementById("sessMediaNote")) break;
+    }
+    const note = document.getElementById("sessMediaNote");
+    if (!note) { bad.push("망 없이 영상이 안 뜨는데 세션 칸이 아무 말이 없다"); return bad; }
+    if (note.textContent.indexOf("영상을 못 불러왔다") < 0) bad.push("세션 칸 안내가 이상하다");
+    if (note.textContent.indexOf("저장된 소리로") < 0) bad.push("세션 칸에 소리로 가는 길이 없다");
+    const b2 = note.querySelector("button");
+    if (!b2) { bad.push("세션 칸에 저장된 소리로 가는 단추가 없다"); return bad; }
+    b2.click();
+    await new Promise((r) => setTimeout(r, 1800));
+    if (!document.querySelector("#sessPlayHost audio")) bad.push("저장된 소리로 안 돌아왔다");
+    if (SESS.mode !== "audio") bad.push("소리로 갔는데 방식이 " + SESS.mode + " 다");
+    if (document.getElementById("sessMediaNote")) bad.push("소리로 갔는데 안내가 안 사라졌다");
+    // 저장소를 덜 받은 경우. 소리 파일이 없으면 그 말을 해야 한다.
+    const host = document.getElementById("sessPlayHost");
+    const m2 = mountPlayer(host, { title: "x", audio: "media/english/audio/__none__.mp3" },
+                           "audio", { play: false, noteId: "sessMediaNote" });
+    for (let i = 0; i < 20; i++) {
+      await new Promise((r) => setTimeout(r, 300));
+      if (document.getElementById("sessMediaNote")) break;
+    }
+    const n2 = document.getElementById("sessMediaNote");
+    if (!n2 || n2.textContent.indexOf("소리를 못 불러왔다") < 0)
+      bad.push("소리 파일이 없는데 그 말을 안 한다");
+    T.run = false; clearInterval(T.tick); leaveSessPlay();
+    return bad;
+  });
+  offSess.slice(0, 6).forEach((m) => fails.push("망 없이 세션: " + m));
+
   await offCtx.close();
 
   // 13. 저절로 넘어가는 길. 지금까지 검사는 블록을 손으로 넘겼다.
