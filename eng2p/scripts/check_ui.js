@@ -287,6 +287,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (after.set === before.set) fails.push("리허설: 끝냈는데 다음 세트로 안 넘어갔다");
   if (after.sess) fails.push("리허설: 끝냈는데 세션 상태가 남아 있다");
   if (!after.rec) fails.push("리허설: 끝냈는데 기록 칸이 안 펴졌다");
+  // 마무리 칸이 다음 날을 알리는가
+  const nd = await page.textContent("#nextDay");
+  if (!nd || nd.indexOf("다음은") < 0) fails.push("리허설: 끝냈는데 다음 날 배정이 안 떴다");
+  if (nd && nd.indexOf(String(after.lec) + "강") < 0)
+    fails.push("리허설: 마무리 칸의 강이 다음 배정과 다르다");
   if (errs.length) fails.push("리허설 중 오류: " + errs.slice(0, 3).join(" / "));
 
   // 11. 두 기기. 한쪽은 A, 한쪽은 B 를 본다.

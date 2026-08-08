@@ -275,6 +275,11 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
   background:var(--card);color:var(--fg);font-size:14px;font-weight:650;cursor:pointer;min-height:42px}
 .cardnav button:hover{border-color:var(--a1)}
 .cardwarn{margin-top:9px;font-size:13px;color:var(--warn)}
+/* 마무리. 다음 날 무엇을 하는지가 여기 있어야 내일 앉자마자 시작한다. */
+.nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
+  background:var(--card);font-size:13.5px;line-height:1.65;text-align:left}
+.nextday b{font-size:15px}
+.nextday .m{color:var(--mut)}
 /* 블록 6 기록. 그날 값을 통과 기준 옆에 놓는다. 따로 놓으면 대조를 안 한다. */
 .critrow{display:grid;grid-template-columns:1fr 90px 74px;gap:9px;align-items:center;
   padding:10px 0;border-bottom:1px solid var(--edge)}
@@ -596,7 +601,8 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
       <div class="duomark" aria-hidden="true">
         <i class="doneorb a">A</i><i class="doneorb b">B</i><i class="donering"></i>
       </div>
-      <div><b>2인 세션 완료</b><div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div></div>
+      <div><b>2인 세션 완료</b><div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
+        <div class="nextday" id="nextDay"></div></div>
     </div>
     <div class="row" style="justify-content:center;margin-top:12px">
       <button class="g" id="tStart">시작</button>
@@ -1425,6 +1431,32 @@ function critJudge(th, v){
   if(th.op==="max") return n<=th.value;
   return n===th.value;
 }
+
+/* =========================================================================
+   블록 7 마무리. 다음 날 배정을 여기서 알린다.
+   끝난 자리에서 다음이 보이면 내일 앉자마자 시작한다.
+   **끝났다는 말만 있으면 내일 다시 찾는 일부터 한다.** D구간에서 고친 것과 같은 문제다.
+   진도가 이미 올랐으므로 plan() 이 곧 다음 날 것이다.
+   ========================================================================= */
+function renderNextDay(){
+  var box=$("#nextDay"); if(!box) return;
+  var pl=plan();
+  if(pl.finished){
+    box.innerHTML='<b>288세션을 다 했다.</b><div class="m">96강이 끝났다. 카드는 계속 돈다.</div>';
+    return;
+  }
+  var due=dueCards().length;
+  var bits=[];
+  if(pl.set) bits.push("세트 "+esc(pl.set));
+  if(pl.cards) bits.push("카드 "+String(pl.cards.from).padStart(3,"0")+" ~ "+
+                          String(pl.cards.to).padStart(3,"0"));
+  if(pl.media) bits.push("미디어 "+esc(pl.media));
+  box.innerHTML='<b>다음은 '+pl.lectureNo+'강 '+esc(pl.title||"")+'</b>'+
+    '<div class="m">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
+    pl.week+'주 '+pl.day+'일째 · '+bits.join(" · ")+'</div>'+
+    (due? '<div class="m">다시 낼 카드가 '+due+'장 밀려 있다.</div>' : "");
+}
+
 function renderCrit(){
   var box=$("#critBox"); if(!box) return;
   var rec=day(today());
@@ -1807,6 +1839,7 @@ function finishSession(){
   if(rec.status!=="normal"){ rec.status="normal"; }
   clearSession();
   renderToday();
+  renderNextDay();
   paintTimer();
 }
 function restartFinishedSession(){
