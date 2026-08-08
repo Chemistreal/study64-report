@@ -189,6 +189,15 @@ tbody tr:hover td{background:var(--card2)}
 .sidepick button.on{border-color:var(--a1);background:var(--a1);color:#fff}
 /* 링 안의 세션 남은 시간. 블록 시간만 보면 두 시간 중 어디인지 모른다. */
 .tleft{font-size:12px;color:var(--mut);margin-top:3px;font-family:var(--mono)}
+/* 기록 묶음. 세션 전에는 접어 둔다. 첫 화면은 오늘 할 것만 보여 준다. */
+.recgate{display:flex;gap:10px;align-items:center;justify-content:space-between;
+  padding:13px 16px;border:1px dashed var(--edge);border-radius:12px;margin:14px 0}
+/* 이어서 하기. 끊긴 세션이 있으면 오늘 한 장 위에 뜬다. */
+.resume{display:flex;gap:12px;align-items:center;justify-content:space-between;
+  padding:12px 15px;border:1px solid var(--a3);border-radius:12px;margin-top:12px;
+  background:var(--card2)}
+.resume b{font-size:14px}
+.resume .small{font-size:12px;color:var(--mut)}
 @media(max-width:520px){.duo{grid-template-columns:1fr}}
 
 /* ---------- 타이머 ---------- */
@@ -210,7 +219,10 @@ tbody tr:hover td{background:var(--card2)}
 @keyframes pulse{50%{opacity:.55}}
 .slab{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-top:7px}
 #sessionCard{position:relative;transition:opacity .25s,transform .25s,box-shadow .25s}
-.sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:4px}
+/* 진도 줄은 버튼 옆 좁은 칸에서 두 줄로 접혔다. 한 줄로 빼면 흘끗 보고 읽힌다. */
+.sessionhead .sessionprogress{display:none}
+.progline{font-size:12.5px;color:var(--mut);margin:2px 0 10px}
 .sessionrole{font-size:21px;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
 .sessionprogress{font-size:12px;color:var(--mut)}
 /* 오늘 한 장. 책상에 놓고 흘끗 보는 자리라 멀리서 읽혀야 한다. */
@@ -461,6 +473,8 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
       </div>
       <button class="bigtap sessionstart" id="tOne">세션 시작</button>
     </div>
+    <div class="progline" id="todayProgress2"></div>
+    <div id="resumeBox"></div>
     <div class="todaysheet" id="todaySheet"></div>
     <div class="timer">
       <div class="ringwrap">
@@ -509,9 +523,13 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     <button class="g" id="focusNext" type="button">다음 블록</button>
   </div>
 
-  <h3>세션 기록</h3>
+  <h3 id="recHead">세션 기록</h3>
   <p class="lede">세션이 끝난 직후 30초 안에 적는다. 나중에 적으면 안 적는다.</p>
-  <div class="card">
+  <div class="recgate" id="recGate">
+    <span class="small mut">세션이 끝나면 여기가 저절로 펴진다.</span>
+    <button class="g" id="recOpen" type="button">지금 적기</button>
+  </div>
+  <div class="card" id="recCard" hidden>
     <div class="row" style="margin-bottom:14px">
       <span class="small mut">수행</span>
       <button class="g" data-st="normal">정상 2시간</button>
@@ -1112,7 +1130,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:null,wk:0,onboarded:false,session:null,device:null};
+          media:{done:{},fav:{},last:null,pass:{}},theme:null,wk:0,onboarded:false,session:null,device:null,recOpen:false};
 }
 function load(){
   try{
@@ -1197,6 +1215,33 @@ function plan(){
    오늘 한 장. 두 사람이 앉아서 제일 먼저 보는 자리다.
    여기 없는 값은 앱 어디에도 없다. 전부 plan() 이 준 파생값이다.
    ========================================================================= */
+
+/* =========================================================================
+   이어서 하기. 끊긴 세션이 있으면 오늘 한 장 위에 뜬다.
+   어디서 멈췄는지와 얼마나 남았는지를 적는다. 그것을 모르면 다시 처음부터 하게 된다.
+   ========================================================================= */
+function renderResume(pl){
+  var box=$("#resumeBox"); if(!box) return;
+  var s=S.session, started=(T.idx>0||T.left<BLOCKS[0].m*60);
+  if(!s || s.date!==today() || !started){ box.innerHTML=""; return; }
+  var b=BLOCKS[T.idx];
+  box.innerHTML='<div class="resume"><div>'+
+    '<b>블록 '+(T.idx+1)+' '+esc(b.n)+'에서 멈췄다</b>'+
+    '<div class="small">이 블록에 '+Math.ceil(T.left/60)+'분, 세션 전체로 '+
+    sessionLeftMin()+'분 남았다</div></div>'+
+    '<button class="g" id="resumeGo" type="button">이어서 하기</button></div>';
+  var go=$("#resumeGo"); if(go) go.onclick=function(){ $("#tOne").click(); };
+}
+
+/* 기록 묶음. 세션이 끝났거나 손으로 펴면 보인다.
+   첫 화면은 오늘 할 것만 보여 준다. 앉자마자 입력 폼을 보면 적을 것을 찾게 된다. */
+function renderRecGate(rec){
+  var gate=$("#recGate"), card=$("#recCard");
+  if(!gate||!card) return;
+  var open = S.recOpen===true || (rec && rec.status);
+  gate.hidden=!!open; card.hidden=!open;
+}
+
 function renderSheet(pl){
   var box=$("#todaySheet"); if(!box) return;
   if(!IDX){
@@ -1364,7 +1409,10 @@ function renderToday(){
   var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
   if(pl.behind>0) msg+=" · 달력보다 "+pl.behind+"주 밀렸다";
   $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
+  var p2=$("#todayProgress2"); if(p2) p2.textContent=msg+" · A/B는 날짜로 자동 교대";
   renderSheet(pl);
+  renderResume(pl);
+  renderRecGate(rec);
   $("#labU1").textContent=S.names.a+" 생각"; $("#labU2").textContent=S.names.b+" 생각";
   $("#fSpeak").value=rec.speak||""; $("#fCards").value=rec.cards||""; $("#fLre").value=rec.lre||"";
   document.querySelectorAll("[data-st]").forEach(function(b){
@@ -1652,6 +1700,10 @@ $("#tOne").onclick=function(){
   paintTimer();
   var c=$("#tClock"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
 };
+(function(){ var b=$("#recOpen"); if(b) b.onclick=function(){
+  S.recOpen=true; save(); renderToday();
+  var c=$("#recCard"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
+}; })();
 $("#focusLre").onclick=function(){ $("#lrePlus").click(); flash("LRE +1"); };
 $("#focusToggle").onclick=function(){ $("#tStart").click(); };
 $("#focusNext").onclick=function(){ $("#tSkip").click(); };
