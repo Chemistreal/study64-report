@@ -65,6 +65,9 @@ STEPS = [
     ("대조", "check_refs.py", [], True),
     ("대조", "check_data.py", [], True),
     ("화면", "check_ui.js", [], False),
+    # **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 그대로 옮겨 적는다.
+    # 그 글을 사람이 읽는 것이 이 걸음의 값이다. T153 에 회차 어긋남 여덟이 여기서 나왔다.
+    ("화면", "rehearse.js", [], False),
     ("상태", "derive_verify_list.py", [], False),
     ("상태", "collect_b.py", [], False),
     ("상태", "update_status.py", [], False),
