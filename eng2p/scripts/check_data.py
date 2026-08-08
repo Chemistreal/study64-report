@@ -30,6 +30,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "out" / "data" / "lectures.json"
+CARDDATA = ROOT / "out" / "data" / "cards.json"
 HAND = ROOT / "out" / "handouts"
 SETS = ROOT / "out" / "sets"
 
@@ -39,6 +40,76 @@ FAIL = []
 def cmp(n, what, a, b):
     if a != b:
         FAIL.append("%d강 %s: JSON 은 %r 인데 강의록은 %r 이다" % (n, what, a, b))
+
+
+# 기준서 8.1 이 정한 분기별 유형 총량이다. JSON 이 그것을 담고 있는지 여기서 본다.
+# check_cards_plan.py 가 배정표와 견주고 여기서는 파생된 데이터와 견준다.
+TYPE_TOTALS = {
+    "Q1": {"판정": 75, "압박": 25, "확장": 20, "역할": 10, "repair": 20},
+    "Q4": {"판정": 10, "압박": 25, "확장": 30, "역할": 55, "repair": 30},
+}
+# 압박형 제한시간. 계단 카드는 발화 길이라 여기서 뺀다.
+# 10초부터가 계단이다. Q2 086 이 39강 첫 계단이고 그것이 10초다.
+# 반응 시간으로 10초를 주는 카드는 Q2 부터는 없다. Q1 만 소리 판정에 8초와 10초를 쓴다.
+QUARTER_SEC = {"Q2": 5, "Q3": 3, "Q4": 2}
+
+
+def check_cards(lec):
+    """카드 JSON 이 강의 JSON 및 기준서와 맞는가."""
+    if not CARDDATA.exists():
+        FAIL.append("cards.json 이 없다")
+        return
+    cards = json.loads(CARDDATA.read_text(encoding="utf-8"))["items"]
+    by = {}
+    for c in cards:
+        if c["id"] in by:
+            FAIL.append("카드 id 가 겹친다: %s" % c["id"])
+        by[c["id"]] = c
+
+    for q, want in TYPE_TOTALS.items():
+        got = {}
+        for c in cards:
+            if c["quarter"] == q:
+                got[c["type"]] = got.get(c["type"], 0) + 1
+        if got != want:
+            FAIL.append("%s 유형 총량이 기준서 8.1과 다르다: %r" % (q, got))
+
+    # 강의가 가리키는 카드가 그 분기 카드로 다 있는가
+    for n, it in sorted(lec.items()):
+        if not it["cards"]:
+            continue
+        for i in range(it["cards"]["from"], it["cards"]["to"] + 1):
+            key = "%s-%03d" % (it["quarter"], i)
+            if key not in by:
+                FAIL.append("%d강이 가리키는 카드 %s 가 cards.json 에 없다" % (n, key))
+
+    # 압박형 초가 분기 규정과 맞는가. 계단 카드(10초 넘음)는 발화 길이라 뺀다.
+    for c in cards:
+        if c["type"] != "압박" or c["quarter"] not in QUARTER_SEC:
+            continue
+        if c["seconds"] is None:
+            FAIL.append("압박형 %s 에 초가 없다" % c["id"])
+        elif c["seconds"] >= 10:
+            continue
+        elif c["seconds"] not in (QUARTER_SEC[c["quarter"]], 2):
+            FAIL.append("압박형 %s 가 %d초다. %s는 %d초다"
+                        % (c["id"], c["seconds"], c["quarter"],
+                           QUARTER_SEC[c["quarter"]]))
+
+    # 기준서가 정한 것 둘. 판정형 정답은 A면에만, 역할형은 5요소가 다 있어야 한다.
+    need = ["situation", "relation", "purpose", "register", "endCondition"]
+    for c in cards:
+        if c["type"] == "판정" and c["b"].get("answer"):
+            FAIL.append("판정형 %s 의 B면에 정답이 있다" % c["id"])
+        if c["type"] == "역할":
+            for s in ("a", "b"):
+                miss = [k for k in need if not c[s].get(k)]
+                if miss:
+                    FAIL.append("역할형 %s %s면에 %s 가 없다"
+                                % (c["id"], s.upper(), " ".join(miss)))
+        for s in ("a", "b"):
+            if not c[s].get("instruction") or not c[s].get("pass"):
+                FAIL.append("%s %s면에 지시나 성공 기준이 없다" % (c["id"], s.upper()))
 
 
 def main():
@@ -99,10 +170,14 @@ def main():
                 FAIL.append("%d강 주차: JSON 은 %r 인데 세트는 %d주차다"
                             % (n, items.get(n, {}).get("week"), w))
 
+    check_cards(items)
+
     for m in FAIL:
         print("[실패] %s" % m)
     print()
-    print("강의 %d편 / 견준 항목 9가지" % len(items))
+    print("강의 %d편 / 견준 항목 9가지 / 카드 %d장"
+          % (len(items), len(json.loads(CARDDATA.read_text(encoding="utf-8"))["items"])
+             if CARDDATA.exists() else 0))
     print("실패 %d" % len(FAIL))
     return 1 if FAIL else 0
 

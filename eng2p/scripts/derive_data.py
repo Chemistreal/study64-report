@@ -26,6 +26,7 @@ import derive_handout as H  # noqa: E402
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "out" / "data"
 SETS = ROOT / "out" / "sets"
+CARDS = ROOT / "out" / "cards"
 
 # 통과 기준의 숫자만 뽑는다. 문장은 강의록이 들고 있다.
 # 앱은 숫자로 진행을 재고 문장은 종이가 보여 준다. 같은 것을 두 곳에 안 적는다.
@@ -143,6 +144,80 @@ def lectures():
     return rows
 
 
+# 카드 한 장의 칸 이름이다. 이 밖의 이름이 나오면 새 칸이 생긴 것이라 실패로 낸다.
+CARD_FIELDS = {
+    "지시": "instruction", "성공 기준": "pass", "재료": "material",
+    "비고": "note", "정답": "answer", "변형축": "axis", "모범 답안": "model",
+    "상황": "situation", "관계": "relation", "목적": "purpose",
+    "레지스터": "register", "종료 조건": "endCondition",
+}
+CARD_HEAD = re.compile(r"^\[(\d{3})\]\s+(\S+?)형\s+(Q\d)\s+(\d+)분\s*$", re.M)
+SIDE = re.compile(r"^\[([AB])면\]\s*$", re.M)
+# 초를 적는 형태가 하나가 아니다. "제한 시간 2초" 도 있고 "8초 안에" 도 있고
+# "8초를 재고" 도 있다. 셋 다 같은 값이다. 하나만 보면 압박 카드 아홉 장이 초를 잃는다.
+SEC_IN = re.compile(r"제한\s?시간(?:은|이)?\s*(\d+)\s*초|(\d+)\s*초\s*(?:안에|를 재|씩)")
+
+
+def card_side(text):
+    """한 면의 칸을 이름별로 담는다. 재료는 번호 붙은 목록이라 따로 받는다."""
+    out, cur = {}, None
+    for line in text.split("\n"):
+        s = line.rstrip()
+        if not s.strip():
+            continue
+        # 카드 사이의 가름줄이다. 여기서 끊는다. 안 끊으면 마지막 칸 끝에 붙는다.
+        if s.strip().startswith("---"):
+            break
+        m = re.match(r"^([가-힣][가-힣 ]{0,6}):\s*(.*)$", s)
+        if m and m.group(1) in CARD_FIELDS:
+            cur = CARD_FIELDS[m.group(1)]
+            out[cur] = m.group(2).strip()
+            if cur == "material":
+                out[cur] = []
+            continue
+        mm = re.match(r"^\s+\d+\.\s+(.+)$", s)
+        if mm and cur == "material":
+            out["material"].append(mm.group(1).strip())
+            continue
+        # 칸 안에서 줄이 이어지는 자리가 있다. 앞 칸에 이어 붙인다.
+        if cur and isinstance(out.get(cur), str):
+            out[cur] = (out[cur] + " " + s.strip()).strip()
+    return out
+
+
+def cards():
+    rows, bad = [], []
+    for f in sorted(CARDS.glob("*.md")):
+        if "plan" in f.name:
+            continue
+        text = f.read_text(encoding="utf-8")
+        heads = list(CARD_HEAD.finditer(text))
+        for i, m in enumerate(heads):
+            end = heads[i + 1].start() if i + 1 < len(heads) else len(text)
+            body = text[m.end():end]
+            sides, marks = {}, list(SIDE.finditer(body))
+            for j, sm in enumerate(marks):
+                e = marks[j + 1].start() if j + 1 < len(marks) else len(body)
+                sides[sm.group(1)] = card_side(body[sm.end():e])
+            if set(sides) != {"A", "B"}:
+                bad.append("%s %s: 면이 %s 다" % (f.name, m.group(1), sorted(sides)))
+                continue
+            sec = SEC_IN.search(body)
+            secv = next((g for g in sec.groups() if g), None) if sec else None
+            rows.append({
+                "no": int(m.group(1)),
+                "type": m.group(2),
+                "quarter": m.group(3),
+                "minutes": int(m.group(4)),
+                "id": "%s-%s" % (m.group(3), m.group(1)),
+                "seconds": int(secv) if secv else None,
+                "source": "out/cards/%s" % f.name,
+                "a": sides["A"],
+                "b": sides["B"],
+            })
+    return rows, bad
+
+
 def write(name, payload):
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / name
@@ -173,6 +248,17 @@ def main():
     if empty:
         print("[실패] 통과 기준이 빈 강: %s" % empty)
         return 1
+
+    crows, bad = cards()
+    for m in bad:
+        print("[실패] %s" % m)
+    if bad:
+        return 1
+    if len(crows) != 600:
+        print("[실패] 카드가 %d장이다. 600장이어야 한다" % len(crows))
+        return 1
+    p = write("cards.json", crows)
+    print("%s / 카드 %d장" % (p.relative_to(ROOT), len(crows)))
     return 0
 
 

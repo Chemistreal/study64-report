@@ -655,8 +655,8 @@ A5 한 면은 10포인트로 40줄이고 A4 한 면도 57줄이다. 둘 다 안 
 |---|---|
 | T85 | **derive_data.py 신설. lectures.json 96편 완료.** 기록 항목 458개 중 446개 수치화 |
 | T86 | **check_data.py 신설.** JSON 과 강의록 아홉 가지를 96편 대조 |
-| T87 | 강의 JSON 마감. cards.json 착수 |
-| T88~T91 | cards.json 600장. 분기당 1턴 |
+| T87 | **cards.json 600장 완료.** 기준서 8.1 총량과 판정형 정답과 역할형 5요소 전수 검사 |
+| T88~T91 | sets.json 288개와 handouts.json. 남은 데이터 |
 | T92~T93 | sets.json 288개 |
 | T94 | handouts.json |
 | T95 | check_derived.py 완성. 넷 다 대조 |
@@ -851,7 +851,7 @@ python3 scripts/update_status.py
 |---|---|---|
 | A. Q4 마감 | T58~T68 | **완료** |
 | B. 강의록 96편 | T69~T84 | **완료** |
-| C. 자료 데이터화 | T85~T96 | T85~T86 완료. T87 진행 |
+| C. 자료 데이터화 | T85~T96 | T85~T87 완료. T88 진행 |
 | D. 첫 페이지 개편 | T97~T104 | 대기 |
 | E. 세션 러너 | T105~T124 | 대기 |
 | F. 영상과 소리 | T125~T136 | 대기 |
