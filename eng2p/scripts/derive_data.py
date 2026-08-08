@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+"""마크다운에서 앱이 읽는 JSON 을 파생시킨다.
+
+**마크다운이 원본이고 JSON 은 파생물이다.** 손으로 JSON 을 안 적는다.
+적으면 둘이 어긋나고 어긋난 것을 아무도 못 본다.
+앱은 옛 값을 보여 주고 두 사람은 그것을 맞는 값으로 읽는다.
+
+파서를 새로 안 짠다. `derive_handout.py` 의 것을 그대로 쓴다.
+파서가 둘이면 같은 마크다운에서 다른 값이 나오는 날이 온다.
+강의록과 JSON 이 다른 값을 들고 있으면 어느 쪽이 맞는지 알 방법이 없다.
+
+사용법:
+    python3 scripts/derive_data.py
+
+종료 코드 0이면 다 뽑은 것이다.
+규격: docs/roadmap.md 11.6
+"""
+import json
+import pathlib
+import re
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import derive_handout as H  # noqa: E402
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+OUT = ROOT / "out" / "data"
+SETS = ROOT / "out" / "sets"
+
+# 통과 기준의 숫자만 뽑는다. 문장은 강의록이 들고 있다.
+# 앱은 숫자로 진행을 재고 문장은 종이가 보여 준다. 같은 것을 두 곳에 안 적는다.
+UNITS = (r"개|번|판|묶음|문항|회|초|분|시간|퍼센트|할|문장|낱말|쌍|장|덩어리"
+         r"|자|쪽|줄|가지|곳|명|일|주|계단|층|칸|편|종|형")
+NUM = re.compile(r"(\d+)\s*(" + UNITS + r")")
+
+# 수를 한글로 적은 자리가 많다. "여섯 개를 채운다" 가 그것이다.
+# T76 에서 이것 때문에 기준 81개가 강의록에 안 실렸다. 같은 자리를 여기서도 만난다.
+# 앱이 진행을 재려면 이 수도 수여야 한다.
+HANGUL_NUM = {
+    "한": 1, "하나": 1, "두": 2, "둘": 2, "세": 3, "셋": 3, "네": 4, "넷": 4,
+    "다섯": 5, "여섯": 6, "일곱": 7, "여덟": 8, "아홉": 9, "열": 10,
+    "열한": 11, "열두": 12, "열다섯": 15, "스무": 20, "스물": 20,
+    "스물넷": 24, "서른": 30, "마흔": 40,
+}
+# 긴 것부터 본다. "열두" 를 "열" 로 읽으면 안 된다.
+HAN_KEYS = "|".join(sorted(HANGUL_NUM, key=len, reverse=True))
+HAN_NUM = re.compile(r"(" + HAN_KEYS + r")\s*(" + UNITS + r")")
+
+# 단위가 안 붙은 수도 있다. "넷 중 셋 이상" 과 "상태 낱말을 여섯 채운다" 가 그것이다.
+# 뒤에 오는 말로 그것이 수라는 것을 안다. 단위는 없으므로 null 로 둔다.
+BARE = re.compile(r"(?<![\d가-힣])(\d+|" + HAN_KEYS + r")\s*"
+                  r"(?=이상|이하|중|까지|씩|을 |를 |채|이어야|여야|에 못 미치)")
+# 절반처럼 비율로 적은 기준이 있다. "몰린 횟수의 절반 이상이어야 한다" 가 그것이다.
+# 세는 값이 아니라 다른 값에 걸리는 값이라 따로 담는다.
+RATIO = re.compile(r"(절반|(\d+)할)\s*(이상|이하)")
+
+
+def week_of():
+    """강 번호마다 주차를 낸다. 세트의 대응강의 줄이 원본이다."""
+    out = {}
+    for f in sorted(SETS.glob("eng2p_set_w*.md")):
+        w = int(re.search(r"_w(\d+)", f.name).group(1))
+        m = re.search(r"^대응강의:\s*(.+)$", f.read_text(encoding="utf-8"), re.M)
+        if m:
+            for x in m.group(1).split(","):
+                out[int(x.strip()[-3:])] = w
+    return out
+
+
+def numbers_in(text):
+    """항목 안의 수를 다 뽑는다. 아라비아 수와 한글 수와 단위 없는 수 셋을 본다."""
+    out = [{"value": int(v), "unit": u} for v, u in NUM.findall(text)]
+    out += [{"value": HANGUL_NUM[v], "unit": u, "hangul": True}
+            for v, u in HAN_NUM.findall(text)]
+    seen = {(x["value"], x["unit"]) for x in out}
+    for v in BARE.findall(text):
+        n = HANGUL_NUM.get(v, None)
+        n = int(v) if n is None and v.isdigit() else n
+        if n is not None and (n, None) not in seen:
+            out.append({"value": n, "unit": None})
+            seen.add((n, None))
+    return out
+
+
+def criteria(rec):
+    """기록 항목마다 이름과 그 안의 숫자를 낸다.
+
+    이름은 첫 문장이다. 앱의 목록에 한 줄로 놓을 것이라 짧아야 한다.
+    숫자는 항목 전체에서 뽑는다. **첫 문장에만 있는 것이 아니다.**
+    "침묵으로 멈춘 횟수를 따로 센다. 20번 중 3번 이하여야 한다" 가 그런 항목이다.
+    첫 문장만 훑었더니 458개 중 191개에서 숫자가 안 나왔다. T85 에서 셌다.
+    """
+    out = []
+    for i, r in enumerate(rec, 1):
+        out.append({
+            "no": i,
+            "text": re.split(r"(?<=다)\.\s", r)[0],
+            "numbers": numbers_in(r),
+            "ratios": [{"of": 0.5 if a == "절반" else int(b) / 10.0, "op": op}
+                       for a, b, op in RATIO.findall(r)],
+            # 수도 비율도 없는 항목이 있다. 값을 적기만 하고 선을 안 긋는 항목이다.
+            # 강의가 "통과 기준이 아니라 관찰 항목이다" 라고 적어 둔 자리들이다.
+            # 앱이 이것을 통과 판정에 쓰면 안 된다. 그래서 갈라 둔다.
+            "kind": ("measured" if numbers_in(r) or RATIO.search(r) else "observed"),
+        })
+    return out
+
+
+def lectures():
+    weeks = week_of()
+    rows = []
+    for f in sorted(H.LEC.glob("*.md")):
+        text = f.read_text(encoding="utf-8")
+        b = H.blocks_of(text)
+        if not b:
+            print("[실패] %s: 일곱 블록을 못 찾았다" % f.name)
+            return None
+        quarter = re.search(r"^분기:\s*(\S+)", text, re.M).group(1)
+        num, title, _ = H.pick_today(f.name, text, b)
+        n = int(num)
+        cards, sec, med, per = H.pick_cards(f.name, b, quarter)
+        rec, notes = H.pick_record(f.name, b)
+        plan, segs = H.pick_plan(f.name, b)
+        rows.append({
+            "no": n,
+            "title": title,
+            "quarter": quarter,
+            "track": re.search(r"^트랙:\s*(\S+)", text, re.M).group(1),
+            "grade": re.search(r"^신뢰도:\s*(\S+)", text, re.M).group(1),
+            "week": weeks.get(n),
+            "source": "out/lectures/%s" % f.name,
+            "handout": "out/handouts/eng2p_handout_l%03d.md" % n,
+            "cards": {"from": int(cards[0]), "to": int(cards[1])} if cards else None,
+            "pressureSeconds": int(sec) if sec else None,
+            "cardSeconds": [{"card": c, "seconds": int(s)} for c, s in per],
+            "media": med,
+            "plan": {"split": plan, "segments": segs},
+            "criteria": criteria(rec),
+            "notMeasured": [re.split(r"(?<=다)\.\s", x)[0] for x in notes],
+            "stuck": H.pick_stuck(f.name, b),
+            "role": H.pick_role(b),
+        })
+    return rows
+
+
+def write(name, payload):
+    OUT.mkdir(parents=True, exist_ok=True)
+    p = OUT / name
+    # 손으로 안 고친다는 것을 파일 안에도 적는다. 파일만 보고 여는 사람이 있다.
+    body = {
+        "note": "마크다운에서 파생시킨 것이다. 손으로 고치지 않는다. "
+                "고칠 것이 있으면 out/ 의 마크다운을 고치고 "
+                "scripts/derive_data.py 를 다시 돌린다.",
+        "generator": "scripts/derive_data.py",
+        "count": len(payload),
+        "items": payload,
+    }
+    p.write_text(json.dumps(body, ensure_ascii=False, indent=2) + "\n",
+                 encoding="utf-8")
+    return p
+
+
+def main():
+    rows = lectures()
+    if rows is None:
+        return 1
+    if len(rows) != 96:
+        print("[실패] 강의가 %d편이다. 96편이어야 한다" % len(rows))
+        return 1
+    p = write("lectures.json", rows)
+    print("%s / 강의 %d편" % (p.relative_to(ROOT), len(rows)))
+    empty = [r["no"] for r in rows if not r["criteria"]]
+    if empty:
+        print("[실패] 통과 기준이 빈 강: %s" % empty)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

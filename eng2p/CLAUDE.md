@@ -118,6 +118,8 @@ scripts/check_page.py  강의록이 A4 앞뒤 두 면에 들어가는지 잰다
 scripts/check_refs.py  카드 번호와 미디어 id 와 강 참조가 실제로 있는지 대조
 scripts/derive_index.py 48주 96강 색인을 세트의 대응강의 줄에서 파생
 scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인쇄용)
+scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
+out/data/               파생된 JSON. 손으로 안 고친다
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
 out/cards/eng2p_card_plan_q1.md 카드 001~150 배정표. 강의보다 이쪽이 기준

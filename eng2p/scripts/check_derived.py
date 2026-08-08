@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """파생물이 원본과 어긋나 있는지 본다.
 
-이 저장소에는 파생물이 셋 있다. 강의록 96편과 색인 한 장과 묶음 넷이다.
-셋 다 강의에서 나온다. 강의를 고치고 다시 안 뽑으면 종이가 옛 강의를 들고 있다.
+이 저장소에는 파생물이 넷 있다. 강의록 96편과 색인 한 장과 묶음 넷과 JSON 이다.
+넷 다 강의에서 나온다. 강의를 고치고 다시 안 뽑으면 종이와 앱이 옛 강의를 들고 있다.
 
 **그 어긋남은 파일을 봐서는 안 보인다.** 파생물만 보면 멀쩡하기 때문이다.
 다시 뽑아 보고 내용이 바뀌는지를 봐야 나온다.
@@ -30,6 +30,7 @@ DERIVERS = [
     ("derive_handout.py", ROOT / "out" / "handouts", "eng2p_handout_l*.md"),
     ("derive_index.py", ROOT / "out" / "handouts", "eng2p_handout_index.md"),
     ("derive_bundle.py", ROOT / "out" / "bundles", "*.md"),
+    ("derive_data.py", ROOT / "out" / "data", "*.json"),
 ]
 
 
