@@ -37,6 +37,7 @@ STEPS = [
     ("파생", "derive_audiolen.py", [], True),
     ("파생", "derive_cues.py", [], True),
     ("파생", "ground.py", ["--quiet"], True),
+    ("파생", "derive_ground_data.py", [], True),
     ("어긋남", "check_derived.py", [], True),
     ("규격", "check.py", ["out/"], False),
     ("규격", "check_blocks.py", [], False),

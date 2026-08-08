@@ -276,6 +276,14 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 .cardnav button:hover{border-color:var(--a1)}
 .cardnav button.on{border-color:var(--a1);background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff}
 .cardwarn{margin-top:9px;font-size:13px;color:var(--warn)}
+/* 근거. 카드 문장이 실제 녹음의 어디에 있는지. 눌러서 그 자리로 간다. */
+.ground{margin-top:11px;border-top:1px dashed var(--edge);padding-top:9px;text-align:left}
+.ground .gh{font-size:11.5px;color:var(--mut);letter-spacing:.02em}
+.ground .grow{display:flex;gap:8px;align-items:center;margin-top:5px}
+.ground .gt{flex:1;font-size:13px;line-height:1.5}
+.ground .gat{flex:none;font-family:var(--mono);font-size:11.5px;padding:3px 8px;
+  border:1px solid var(--edge);border-radius:7px;background:var(--card);color:var(--a3);cursor:pointer}
+.ground .gat:hover{border-color:var(--a1)}
 /* 세션 안 재생기. 블록 1은 40분, 블록 4는 20분을 이 자리에서 듣는다. */
 .sessplay{margin-top:12px;min-height:54px}
 .sessplay audio{width:100%;display:block}
@@ -2099,6 +2107,51 @@ function dueCards(){
   return out;
 }
 
+/* 근거. **이 카드의 문장이 실제 녹음의 어디에 있는지다.**
+
+   A는 영어 제로다. 자기 소리가 맞는지 스스로 못 고친다.
+   원본 소리가 있는 자리를 아는 것이 유일한 길이다.
+   눌러서 그 과 그 줄로 바로 간다.
+
+   **근거 없는 문장은 안 적는다.** 내가 쓴 문장이라는 뜻이고
+   카드에 그렇게 적어 봐야 두 사람이 할 일이 없다.
+   그 판단은 out/ground/ 보고서와 check_ground.py 가 맡는다. */
+function renderGround(c){
+  var g=DATA.ground;
+  if(!g){
+    loadData("ground","ENG2P_GROUND",function(){ renderBlockPane(); });
+    return "";
+  }
+  var rows=(g.items||{})[c.id];   // 카드 id 가 이미 Q1-001 꼴이다
+  if(!rows||!rows.length) return "";
+  var h='<div class="ground"><div class="gh">이 문장이 실제 녹음에 있다 · '+rows.length+'줄</div>';
+  rows.slice(0,6).forEach(function(r){
+    var at=(r.at||[])[0];
+    if(!at) return;
+    h+='<div class="grow"><span class="gt">'+esc(r.t)+'</span>'+
+       '<button type="button" class="gat" data-at="'+esc(at)+'">'+esc(at)+'</button></div>';
+  });
+  if(rows.length>6) h+='<div class="gh">외 '+(rows.length-6)+'줄</div>';
+  return h+'</div>';
+}
+/* 그 과 그 줄로 간다. 미디어 탭에서 연다. 블록 3은 카드를 도는 자리라
+   여기서 소리를 틀면 드릴이 끊긴다. 옮겨 가서 듣고 돌아온다. */
+function goGround(at){
+  var p=String(at).split(":"), id=p[0], line=+p[1]||1;
+  var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
+  if(i<0){ flash("그 과를 못 찾았다"); return; }
+  openMedia(i,"audio",true); go("media");
+  var seek=function(){
+    var cu=DATA.cues && DATA.cues.items && DATA.cues.items[id];
+    var t=cu && cu[line-1];
+    if(t==null || !LIB.el) return;
+    var go2=function(){ try{ LIB.el.currentTime=t; }catch(e){} };
+    if(LIB.el.readyState>0) go2(); else LIB.el.addEventListener("loadedmetadata",go2,{once:true});
+    flash(id+" "+line+"번째 줄로 갔다. 시각은 어림이다");
+  };
+  if(DATA.cues) seek(); else loadData("cues","ENG2P_CUES",seek);
+}
+
 function renderCardView(pl){
   var cards=DATA.cards;
   if(!cards){
@@ -2145,6 +2198,7 @@ function renderCardView(pl){
   if(f.model) h+='<div class="meta"><b>모범 답안</b> '+esc(f.model)+'</div>';
   if(f.answer) h+='<div class="ans"><b>정답</b> '+esc(f.answer)+'</div>';
   if(f.pass) h+='<div class="meta"><b>성공 기준</b> '+esc(f.pass)+'</div>';
+  h+=renderGround(c);
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
   var m=cardDue()[c.id];
@@ -2162,6 +2216,9 @@ function renderCardView(pl){
     (m&&m.ran===today()?'오늘 돌았다':'돌았다로 적기')+'</button>'+
     '<button type="button" data-card="next">다음 카드</button></div>';
   setTimeout(function(){
+    document.querySelectorAll("[data-at]").forEach(function(b){
+      b.onclick=function(){ goGround(b.dataset.at); };
+    });
     document.querySelectorAll("[data-card]").forEach(function(b){
       b.onclick=function(){
         if(b.dataset.card==="mode"){

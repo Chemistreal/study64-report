@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 스물일곱 가지를 본다.
+ * 스물여덟 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -32,7 +32,8 @@
  * 23. 배속이 0.75~1.25 안에서만 움직이고 피치를 잡고 바로 저장되는가
  * 24. 소리 52개가 다 열리고 **내 프레임 세기가 브라우저 값과 맞는가**
  * 25. 마지막 줄 되풀이가 도는가. 끝을 길게 알면 한 바퀴도 안 돈다
- * 26. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
+ * 26. 카드에 근거 줄이 뜨고 눌러서 그 과 그 줄로 가는가
+ * 27. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -941,6 +942,40 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   rate.slice(0, 6).forEach((m) => fails.push("배속: " + m));
 
+  // 25. 근거 줄. **카드 문장이 실제 녹음의 어디에 있는지가 카드에 보여야 한다.**
+  //     A는 영어 제로다. 자기 소리가 맞는지 스스로 못 고친다.
+  //     원본 소리가 있는 자리를 아는 것이 유일한 길이고, 눌러서 그 자리로 간다.
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(2); });
+  await page.waitForTimeout(2600);
+  const gnd = await page.evaluate(async () => {
+    const bad = [];
+    if (!DATA.ground) { bad.push("근거 자료가 안 열렸다"); return bad; }
+    const g = DATA.ground.items || {};
+    // 카드 자료와 열쇠가 맞는가. 안 맞으면 한 장도 안 뜬다
+    const cards = (DATA.cards && DATA.cards.items) || [];
+    const hit = cards.filter((c) => g[c.id]).length;
+    if (hit < 100) bad.push("근거가 붙은 카드가 " + hit + "장이다. 열쇠가 어긋났다");
+    const rows = [...document.querySelectorAll(".ground .grow")];
+    if (!rows.length) { bad.push("카드 화면에 근거 줄이 없다"); return bad; }
+    const btn = document.querySelector(".ground .gat");
+    if (!btn) { bad.push("근거 자리로 가는 단추가 없다"); return bad; }
+    const at = btn.dataset.at;
+    if (!/^lle1-\d+(:\d+| 제목)$/.test(at)) bad.push("근거 표시가 이상하다: " + at);
+    // 눌러서 그 과 그 줄로 가는가
+    btn.click();
+    await new Promise((r) => setTimeout(r, 2500));
+    const id = at.split(":")[0], line = +at.split(":")[1];
+    if (!MEDIA[LIB.active] || MEDIA[LIB.active].id !== id)
+      bad.push("눌렀는데 그 과가 안 열렸다");
+    const cue = ((DATA.cues || {}).items || {})[id] || [];
+    if (cue[line - 1] != null && LIB.el && LIB.el.currentTime < cue[line - 1] - 0.5)
+      bad.push("그 줄 앞에서 열렸다: " + LIB.el.currentTime.toFixed(1) + " / " + cue[line - 1]);
+    T.run = false; clearInterval(T.tick); leaveSessPlay();
+    if (LIB.el) { try { LIB.el.pause(); } catch (e) {} }
+    return bad;
+  });
+  gnd.slice(0, 6).forEach((m) => fails.push("근거 줄: " + m));
+
   // 23. 52과 전수 재생. **소리 파일을 하나씩 브라우저에 물려 본다.**
   //     여기서 두 가지가 한꺼번에 걸린다.
   //     하나는 파일이 실제로 열리는가다. 53MB 를 받다가 하나가 빠질 수 있다.
@@ -1056,7 +1091,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
               "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
               "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
-              "배속 1판 / 52과 전수 재생 52판 / 마지막 줄 되풀이 1판 / 연속 30일 1판");
+              "배속 1판 / 근거 줄 1판 / 52과 전수 재생 52판 / 마지막 줄 되풀이 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
