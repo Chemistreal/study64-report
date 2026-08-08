@@ -65,16 +65,23 @@ def main():
     # 개정문이 자기 개수를 맞게 말하는가. T149 에 여덟이라 적고 열한 건이던 적이 있다.
     # **받는 사람이 제일 먼저 보는 줄이다.** 그래서 셈을 기계가 맡는다.
     nums = sorted(int(m) for m in re.findall(r"^## (\d+)\. ", amend, re.M))
+    # T207 에 열여덟 건이 되면서 표가 모자랐다. **검사가 먼저 틀렸다.**
+    # 표를 스물까지 늘린다. 그 뒤로도 늘면 여기를 늘린다.
     NAME = {8: "여덟", 9: "아홉", 10: "열", 11: "열한", 12: "열두", 13: "열세",
-            14: "열네", 15: "열다섯"}
+            14: "열네", 15: "열다섯", 16: "열여섯", 17: "열일곱", 18: "열여덟",
+            19: "열아홉", 20: "스무"}
     if nums != list(range(1, len(nums) + 1)):
         bad.append("개정문 번호가 1부터 이어지지 않는다: %s" % nums)
     said = re.search(r"\*\*([가-힣]+) 건이다\.\*\*", amend)
     if not said:
         bad.append("개정문에 '**N 건이다.**' 문장이 없다")
-    elif said.group(1) != NAME.get(len(nums), ""):
-        bad.append("개정문이 %s 건이라 하는데 실제로 %d 건이다"
-                   % (said.group(1), len(nums)))
+    elif len(nums) not in NAME:
+        # **표에 없는 수를 틀렸다고 하면 안 된다.** 모르는 것과 틀린 것은 다르다.
+        bad.append("개정문이 %d 건인데 이 검사의 이름표가 %d까지밖에 없다"
+                   % (len(nums), max(NAME)))
+    elif said.group(1) != NAME[len(nums)]:
+        bad.append("개정문이 %s 건이라 하는데 실제로 %d 건이라 '%s' 여야 한다"
+                   % (said.group(1), len(nums), NAME[len(nums)]))
 
     for f, n in gone:
         print("[알림] 개정문 %d번이 붙은 것 같다. 실패가 없어졌다: %s" % (n, f))
