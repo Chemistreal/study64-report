@@ -60,7 +60,9 @@ def pick_today(name, text, b):
     one = re.search(r"\*\*(.+?)\*\*", b[0])
     if one:
         return num, title, one.group(1).strip()
-    first = next((l.strip() for l in b[0].split("\n") if l.strip()), "")
+    # 첫 줄만 쓰면 문장이 가운데서 잘린다. 첫 문단을 통째로 쓴다.
+    para = next((x for x in re.split(r"\n\s*\n", b[0]) if x.strip()), "")
+    first = re.sub(r"\s+", " ", para).strip()
     if not first:
         miss(name, "오늘 하는 것", "블록 1이 비어 있다")
         return num, title, None
