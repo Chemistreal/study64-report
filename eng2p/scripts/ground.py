@@ -74,8 +74,33 @@ def load_transcripts():
     return out
 
 
+def lecture_materials(path):
+    """강의의 영어 재료를 뽑는다. 카드와 꼴이 다르다.
+
+    강의는 영어를 **줄 통째로** 적는다. 번호를 안 붙인다.
+    한글이 섞인 줄은 설명이고 영어만 있는 줄이 재료다.
+    머리표와 표와 목록표는 뺀다. `->` 가 있으면 왼쪽만 본다. 그것이 원형이다.
+    """
+    out, n = [], 0
+    for raw in path.read_text(encoding="utf-8").split("\n"):
+        s = raw.strip()
+        n += 1
+        if not s or HANGUL.search(s) or not ASCIIWORD.search(s):
+            continue
+        if s[0] in "#|-*>" or s.startswith("검증") or s.startswith("신뢰도"):
+            continue
+        if "->" in s:
+            s = s.split("->")[0].strip()
+            if not s or not ASCIIWORD.search(s):
+                continue
+        out.append(("%d줄" % n, s))
+    return out
+
+
 def materials(path):
     """그 파일의 영어 재료를 뽑는다. (표시, 문장) 목록."""
+    if "lectures" in str(path):
+        return lecture_materials(path)
     out, cur = [], None
     for raw in path.read_text(encoding="utf-8").split("\n"):
         m = re.match(r"^\[(\d{3})\]", raw.strip())
@@ -143,7 +168,25 @@ def is_list(text):
 
 
 def report(path, tr):
-    items = materials(path)
+    """파일 한 장짜리 보고서."""
+    return report_items("eng2p_ground_" + path.stem.replace("eng2p_", "") + ".md",
+                        str(path.resolve().relative_to(ROOT)), materials(path), tr)
+
+
+def report_group(name, src, paths, tr):
+    """여러 파일을 한 장으로 묶는다.
+
+    강의는 96편이다. 한 편에 한 장이면 보고서가 96장이 되고 아무도 안 본다.
+    분기로 묶어 넷으로 낸다. 자리 표시에 파일 이름을 붙여 어느 강인지 남긴다.
+    """
+    items = []
+    for q in paths:
+        for tag, text in materials(q):
+            items.append((q.stem.replace("eng2p_", "") + " " + tag, text))
+    return report_items(name, src, items, tr)
+
+
+def report_items(name, src, items, tr):
     rows = [(tag, text, find(text, tr)) for tag, text in items]
     got = [r for r in rows if r[2]]
     lst = [r for r in rows if is_list(r[1])]
@@ -151,12 +194,11 @@ def report(path, tr):
     sen = [r for r in rows if not is_list(r[1])]
     sen_got = [r for r in sen if r[2]]
     OUT.mkdir(parents=True, exist_ok=True)
-    name = "eng2p_ground_" + path.stem.replace("eng2p_", "") + ".md"
     lines = [
         "신뢰도: A 생성 (근거 대조)",
-        "원본: " + str(path.resolve().relative_to(ROOT)),
+        "원본: " + src,
         "",
-        "# 근거 대조 " + path.stem,
+        "# 근거 대조 " + name[len("eng2p_ground_"):-3],
         "",
         "**이것은 검증이 아니다.** 그 문장이 52과 대본에 있는지만 본다.",
         "빈도도 자연스러움도 판정하지 않는다. 그것은 대화 세션의 일이다.",
@@ -207,6 +249,13 @@ def main():
         paths = sorted((ROOT / "out" / "cards").glob("eng2p_card_q*.md"))
         paths = [p for p in paths if "plan" not in p.name]
 
+    groups = []
+    if not args:
+        for q in ("q1", "q2", "q3", "q4"):
+            g = sorted((ROOT / "out" / "lectures").glob("eng2p_%s_l*.md" % q))
+            if g:
+                groups.append(("eng2p_ground_lectures_%s.md" % q, "out/lectures/%s 24편" % q, g))
+
     tot, hit, index = 0, 0, []
     for p in paths:
         if not p.exists():
@@ -219,6 +268,15 @@ def main():
         if not quiet:
             print("  %-34s 재료 %3d / 근거 %3d / 없음 %3d (%.0f%%)"
                   % (p.name, n, g, n - g, 100.0 * (n - g) / n if n else 0))
+
+    for name, src, gp in groups:
+        n, g, name2 = report_group(name, src, gp, tr)
+        tot += n
+        hit += g
+        index.append((src, n, g, name2))
+        if not quiet:
+            print("  %-34s 재료 %3d / 근거 %3d / 없음 %3d (%.0f%%)"
+                  % (src, n, g, n - g, 100.0 * (n - g) / n if n else 0))
 
     lines = [
         "신뢰도: A 생성 (근거 대조)",
