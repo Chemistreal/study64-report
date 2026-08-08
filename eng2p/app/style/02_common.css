@@ -126,7 +126,9 @@ tbody tr:hover td{background:var(--card2)}
 .todaysheet .gto .gmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);
   color:var(--mut);font-size:15px}
 .todaysheet .gto:hover .gmark{color:var(--a1)}
-.todaysheet .lec.gto{font-size:19px;font-weight:750;margin-bottom:2px}
+/* 누를 자리는 44px 아래로 안 내려간다. 손가락 하나가 그만큼이다. */
+.todaysheet .gto{min-height:44px}
+.todaysheet .lec.gto{font-size:19px;font-weight:750;margin-bottom:2px;padding-top:11px;padding-bottom:11px}
 /* 미리 보기 띠. 시계가 안 돈다는 것을 그 자리에서 말한다. */
 .peekbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:13px;
   color:var(--mut);background:var(--card2);border:1px solid var(--edge);

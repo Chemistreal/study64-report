@@ -186,6 +186,57 @@ function seedScript() {
     await c.close();
   }
 
+  /* 4b. **한 손으로 닿는가.** 손전화에서 제일 자주 누르는 것이 화면 위쪽에 있으면
+     두 손으로 들어야 한다. 두 사람이 마주 앉아 한 손으로 들고 쓰는 물건이다.
+     엄지가 닿는 자리를 아래 3분의 2로 잡는다. */
+  {
+    const { c, p } = await ctx(true);
+    const m = await p.evaluate(() => {
+      const vh = innerHeight, reach = vh / 3;
+      const vis = (e) => {
+        const r = e.getBoundingClientRect();
+        return e.offsetParent !== null && r.width > 0 && r.height > 0 && r.top < vh && r.bottom > 0;
+      };
+      const tabs = [...document.querySelectorAll("nav > button, nav summary")].filter(vis);
+      const high = tabs.filter((e) => {
+        const r = e.getBoundingClientRect();
+        return r.top + r.height / 2 < reach;
+      });
+      const small = [...document.querySelectorAll("button,summary,a[href]")].filter(vis)
+        .filter((e) => { const r = e.getBoundingClientRect();
+                         return r.height < 44 || r.width < 30; })
+        .map((e) => (e.textContent || e.id || "").trim().slice(0, 14) +
+                    " " + Math.round(e.getBoundingClientRect().width) +
+                    "x" + Math.round(e.getBoundingClientRect().height));
+      return { tabs: tabs.length, high: high.length, small: small };
+    });
+    if (m.tabs === 0) fails.push("한 손: 탭을 못 찾았다");
+    if (m.high > 0) fails.push("한 손: 탭 " + m.high + "개가 엄지 밖에 있다");
+    if (m.small.length) fails.push("한 손: 누를 자리가 작다 - " + m.small.slice(0, 4).join(", "));
+    await c.close();
+  }
+
+  /* 4c. **아래 띠가 마지막 줄을 덮지 않는가.** 띄워 놓고 자리를 안 비우면
+     제일 아래 단추가 띠 밑에 깔린다. 그 단추를 영영 못 누른다. */
+  {
+    const { c, p } = await ctx(true);
+    const bad = await p.evaluate(() => {
+      const nav = document.querySelector("nav");
+      const st = getComputedStyle(nav);
+      if (st.position !== "fixed") return null;   // 넓은 화면은 이 검사 대상이 아니다
+      window.scrollTo(0, document.documentElement.scrollHeight);
+      const nb = nav.getBoundingClientRect();
+      const hit = [...document.querySelectorAll("button,a[href],input")]
+        .filter((e) => e.offsetParent !== null && !nav.contains(e))
+        .filter((e) => { const r = e.getBoundingClientRect();
+                         return r.height > 0 && r.bottom > nb.top && r.top < innerHeight; })
+        .map((e) => (e.textContent || e.id || "").trim().slice(0, 14));
+      return hit;
+    });
+    if (bad && bad.length) fails.push("한 손: 아래 띠가 덮은 자리 - " + bad.slice(0, 4).join(", "));
+    await c.close();
+  }
+
   /* 5. 오늘 것 여섯 중 눌러서 닿는 것이 몇 개인가.
      **이 값만 방향이 반대다. 줄면 실패다.**
      오늘 칸 안에 그 항목으로 가는 누를 것이 있는지를 센다. */

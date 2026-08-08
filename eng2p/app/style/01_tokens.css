@@ -64,9 +64,13 @@ nav button[aria-current="page"]{
 .navmore[open] summary::after{transform:rotate(225deg);margin-top:2px}
 .navmore summary:hover,.navmore.active summary{color:var(--fg);background:var(--card2);border-color:var(--edge)}
 .navmore.active summary{box-shadow:0 0 0 2px rgba(99,102,241,.12)}
+/* **닫힌 메뉴는 자리를 안 차지한다.** `display:grid` 가 브라우저의 기본
+   숨김을 덮어서, 닫혀 있어도 메뉴가 그려지고 크기가 재졌다.
+   T164 에 대비를 잴 때 그 단추들이 섞여 들어와 값이 이상하게 나왔다.
+   눈에 안 보이는 것과 없는 것은 다르다. */
+.navmore:not([open]) .navmenu{display:none}
 .navmenu{position:absolute;right:0;top:calc(100% + 8px);z-index:45;width:min(310px,calc(100vw - 32px));padding:10px;
   display:grid;grid-template-columns:1fr 1fr;gap:6px;border:1px solid var(--edge);border-radius:14px;
   background:var(--bg2);box-shadow:0 18px 50px rgba(10,10,30,.22)}
 .navmenu button{text-align:left;border-radius:9px;width:100%;padding-inline:12px}
 .navmenu button[aria-current="page"]{background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff}
-
