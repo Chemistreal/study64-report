@@ -97,6 +97,11 @@ window.ENG2P_INDEX={
       "file": "tasks.json",
       "bytes": 148996,
       "sha256": "3859e064e74891fe239ea044190e59e2efd1f6b7c3cc3afafa00937b5108b9d8"
+    },
+    {
+      "file": "transcripts.js",
+      "bytes": 114887,
+      "sha256": "11055969c9d305baa7e8a17d2e1dcb4c902642bd0bb3877f3afe61f49ff64e8f"
     }
   ],
   "weeks": [

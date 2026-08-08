@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 일곱 가지를 본다.
+ * 여덟 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -13,6 +13,7 @@
  * 5. 카드 뷰어 600장 × 기기 세 상태에서 판정형 정답이 B면에 안 새는가
  * 6. 다시 낼 카드 600장이 다 어느 강에 붙는지 찾아지는가
  * 7. 96편의 미디어가 카탈로그에 있고 다른 탭에서도 세션 조작줄이 떠 있는가
+ * 8. 대본이 file:// 에서 뜨는가. 52편이 다 있는가
  *
  * 셋째와 다섯째가 이 검사의 핵심이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -205,6 +206,29 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   }
   await page.evaluate(() => { T.run = false; syncSessionFocus(); go("today"); gotoBlock(2); });
   await page.waitForTimeout(400);
+
+  // 8. 대본. file:// 에서 뜨는가. 52편이 다 있는가.
+  //    fetch 로 가져오면 로컬에서 막힌다. 블록 4는 대본을 보는 블록이다.
+  await page.evaluate(() => { go("today"); gotoBlock(3); });
+  await page.waitForTimeout(300);
+  const mb = await page.$("[data-media]");
+  if (mb) {
+    await mb.click();
+    await page.waitForTimeout(1500);
+    const scriptText = await page.textContent("#libScript");
+    if (scriptText.indexOf("못 연다") >= 0 || scriptText.indexOf("불러오는 중") >= 0)
+      fails.push("대본: file:// 에서 대본이 안 떴다");
+    const tr = await page.evaluate(() => {
+      const t = (window.ENG2P_TRANSCRIPTS && window.ENG2P_TRANSCRIPTS.items) || null;
+      if (!t) return ["대본 묶음을 못 읽었다"];
+      const miss = [];
+      for (const m of MEDIA) if (!t[m.id] || !t[m.id].length) miss.push(m.id);
+      return miss;
+    });
+    tr.slice(0, 5).forEach((m) => fails.push("대본: " + m + " 이 없다"));
+  }
+  await page.evaluate(() => { go("today"); gotoBlock(2); });
+  await page.waitForTimeout(300);
 
   const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);

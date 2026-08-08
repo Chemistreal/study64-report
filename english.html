@@ -3585,6 +3585,24 @@ function renderLibScript(it){
   box.innerHTML="";
   var tr=it&&it.transcript;
   if(typeof tr==="string"&&tr){
+    /* 묶어 둔 판을 먼저 본다. **fetch 는 file:// 에서 막힌다.**
+       이 물건은 내려받아 여는 것이 정상 사용이고 블록 4는 대본을 보는 블록이다.
+       T114 에서 대본 52편을 script 한 파일로 묶었다. 그것이 있으면 그것을 쓴다. */
+    var packed=(window.ENG2P_TRANSCRIPTS&&window.ENG2P_TRANSCRIPTS.items)||null;
+    if(packed && packed[it.id]){
+      paintLibScript(it, packed[it.id].map(function(s){return {t:null,line:s};}));
+      return;
+    }
+    if(!packed){
+      box.innerHTML='<div class="note small" style="margin-bottom:0">대본 불러오는 중</div>';
+      loadData("transcripts","ENG2P_TRANSCRIPTS",function(v){
+        if(mediaItem(LIB.active)!==it) return;
+        if(v&&v.items&&v.items[it.id])
+          paintLibScript(it, v.items[it.id].map(function(s){return {t:null,line:s};}));
+        else renderLibScript(it);
+      });
+      return;
+    }
     box.innerHTML='<div class="note small" style="margin-bottom:0">대본 불러오는 중</div>';
     fetch(tr).then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
       .then(function(txt){

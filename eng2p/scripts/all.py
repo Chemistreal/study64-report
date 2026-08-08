@@ -33,6 +33,7 @@ STEPS = [
     ("파생", "derive_index.py", [], True),
     ("파생", "derive_bundle.py", [], True),
     ("파생", "derive_data.py", [], True),
+    ("파생", "derive_transcripts.py", [], True),
     ("어긋남", "check_derived.py", [], True),
     ("규격", "check.py", ["out/"], False),
     ("규격", "check_blocks.py", [], False),
