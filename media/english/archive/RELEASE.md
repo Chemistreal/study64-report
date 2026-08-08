@@ -1,5 +1,7 @@
 # English media archive v1
 
+신뢰도: A 생성 (제작 관리)
+
 This release is the reusable media store for `english.html` and later coding.
 
 - VOA Let's Learn English Level 1: 52 lessons, conversation audio, low-resolution main video, speaking video, pronunciation video, and transcript.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """파생과 검사를 정해진 순서로 다 돌린다. 세션 종료 절차다.
 
-검사가 열한 개가 됐다. 순서도 있다. 그것을 기억으로 돌리면 언젠가 하나를 뺀다.
+걸음이 스물아홉이 됐다. 순서도 있다. 그것을 기억으로 돌리면 언젠가 하나를 뺀다.
 **뺀 검사는 안 돌린 것이 아니라 통과한 것처럼 보인다.** 그래서 한 자리에 모은다.
 
 순서에는 이유가 있다.
@@ -40,15 +40,20 @@ STEPS = [
     ("파생", "derive_ground_data.py", [], True),
     # **맨 뒤다.** 앞의 파생물을 다 세어 표를 만든다. 순서가 틀리면 스스로 실패한다.
     ("파생", "derive_manifest.py", [], True),
+    # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
+    ("파생", "derive_media_manifest.py", [], True),
     ("어긋남", "check_derived.py", [], True),
-    # **전수다.** 저장소의 마크다운 385편을 다 본다. T151 에 여기까지 넓혔다.
+    # **전수다.** 저장소의 마크다운 442편을 다 본다. T151 에 넓히고 T152 에 미디어까지 넣었다.
     # T149 에는 내 문서 여섯만 골라 넣었다. 고른다는 것은 안 고른 것이 있다는 뜻이다.
     # 실제로 본과 지침과 프롬프트 열여섯 편이 그때까지 한 번도 안 걸렸다.
     # docs/spec.md 한 편만 빠진다. 사용자 파일이라 내가 못 고친다.
     # 빼는 것이 아니라 check_spec.py 가 따로 맡는다. 바로 아랫줄이다.
     ("규격", "check.py", ["out/", "docs/", "state/", "templates/", "tasks/",
-                          "CLAUDE.md", "README.md"], False),
+                          "CLAUDE.md", "README.md", "../media/english/"], False),
     ("규격", "check_spec.py", [], False),
+    # **앱의 글도 본다.** T152 까지 english.html 은 규격 검사 밖이었다.
+    # check_ui.js 는 동작을 보지 글자를 안 본다. 둘은 다른 검사다.
+    ("규격", "check_app.py", [], False),
     ("규격", "check_blocks.py", [], False),
     ("규격", "check_page.py", [], False),
     ("규격", "check_media.py", [], False),

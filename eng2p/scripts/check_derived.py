@@ -40,6 +40,8 @@ DERIVERS = [
     ("ground.py", ROOT / "out" / "ground", "*.md", set()),
     ("derive_ground_data.py", ROOT / "out" / "data", "ground.js", set()),
     ("derive_manifest.py", ROOT / "out" / "data", "manifest.js*", set()),
+    # 미디어 표는 저장소 밖 자리다. **낡아도 아무도 안 봤다.** T152 에 넣었다.
+    ("derive_media_manifest.py", ROOT.parent / "media" / "english", "manifest.json", set()),
 ]
 
 

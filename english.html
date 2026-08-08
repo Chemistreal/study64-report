@@ -81,8 +81,11 @@ nav button[aria-current="page"]{
 .navmore summary{list-style:none;display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid transparent;
   border-radius:99px;color:var(--mut);font-size:13.5px;cursor:pointer;white-space:nowrap;transition:.18s}
 .navmore summary::-webkit-details-marker{display:none}
-.navmore summary::after{content:"⌄";font-size:12px;line-height:1;transition:transform .18s}
-.navmore[open] summary::after{transform:rotate(180deg)}
+/* 화살표를 글자로 안 쓰고 선으로 그린다. 글꼴에 없으면 네모로 나오기 때문이다. T152 */
+.navmore summary::after{content:"";width:7px;height:7px;margin-top:-3px;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:rotate(45deg);transition:transform .18s}
+.navmore[open] summary::after{transform:rotate(225deg);margin-top:2px}
 .navmore summary:hover,.navmore.active summary{color:var(--fg);background:var(--card2);border-color:var(--edge)}
 .navmore.active summary{box-shadow:0 0 0 2px rgba(99,102,241,.12)}
 .navmenu{position:absolute;right:0;top:calc(100% + 8px);z-index:45;width:min(310px,calc(100vw - 32px));padding:10px;
@@ -1285,6 +1288,7 @@ var BAN_A=[
  ["번역 경유","전 구간","자동화 직접 방해"],
  ["복습 읽기","전 구간","인출이 아니라 재인. 익숙함을 실력으로 오인"]
 ];
+/* 규격 목록 시작. check_app.py 가 이 사이를 안 본다 */
 var BAN_B=[
  ["슬랭 생성","수명이 지식 컷오프보다 짧음"],["1인 수행 가능 지시","2인 전제 위반"],
  ["측정 불가능한 통과 기준","진행 판정 불가"],["'자연스러워지면' 류","기준이 아니라 감상"],
@@ -1292,6 +1296,7 @@ var BAN_B=[
  ["판정형 정답의 B면 노출","판정 무의미화"],["인공물 표기 없는 1층 대화","실제 영어로 오인"],
  ["신뢰도 표시 누락","검증 대상 식별 불가"],["'말수 적으면 손해' 전제","연구와 배치. 내적 언어화 무시"]
 ];
+/* 규격 목록 끝 */
 var FAILPT=[
  ["10~14주","지루함","소리 훈련 중 어휘가 안 늘어 성장 체감 없음","화용 2편과 repair 3편을 이 구간에 배치. 처음 말이 통하는 경험"],
  ["20주 전후","관계 유형 고착","부부의 기존 대화 패턴이 학습에 전이","분기 점검, 역할 교대, 사전 고지"],
@@ -1556,8 +1561,9 @@ function renderCrit(){
              : ok===null ? '<span class="v hand">-</span>'
              : ok ? '<span class="v ok">통과</span>' : '<span class="v no">미달</span>';
     var line=esc(c.text);
-    if(c.threshold) line+=' <b>'+(c.threshold.op==="min"?"≥":c.threshold.op==="max"?"≤":"=")+
-      c.threshold.value+'</b>';
+    /* 부등호를 말로 쓴다. 기호가 글꼴에 없으면 네모로 나오고 뜻이 뒤집혀도 모른다. T152 */
+    if(c.threshold) line+=' <b>'+c.threshold.value+
+      (c.threshold.op==="min"?" 이상":c.threshold.op==="max"?" 이하":" 정확히")+'</b>';
     h+='<div class="critrow"><div class="t">'+line+'</div>'+
        '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'">'+
        mark+'</div>';
@@ -2530,7 +2536,8 @@ function renderSyncScript(it, round){
     var t=eff?eff[i]:null, fixed=cueFixed(it.id,i)!=null;
     h+='<button type="button" class="scline'+(fixed?" fixed":"")+
        (SESS.loop!=null&&i>=SESS.loop&&i<SESS.loop+loopSpan()?" loop":"")+'" data-cue="'+i+'">'+
-       '<span class="sct">'+(t==null?"—":(fixed?"":"~")+fmtT(t))+'</span>'+
+       /* 시각을 모르는 줄이다. em-dash 를 쓰고 있었다. 절대 규칙에 걸린다. T152 */
+       '<span class="sct">'+(t==null?"--":(fixed?"":"~")+fmtT(t))+'</span>'+
        '<span class="scl" data-mask="'+esc(maskOf(s,veil||1))+'">'+esc(s)+'</span>'+
        '<span class="sca" data-anchor="'+i+'" role="button" tabindex="0" '+
        'title="지금 나는 자리를 이 줄로 잡는다">'+(fixed?"지움":"여기")+'</span></button>';
@@ -3264,6 +3271,7 @@ function renderQuarter(){
 /* =========================================================================
    규격 검사 (scripts/check.py 이식)
    ========================================================================= */
+/* 규격 목록 시작. check_app.py 가 이 사이를 안 본다 */
 var TRANSLIT=["디스","왓","하우","웨어","쓰리","파이브","굿모닝","땡큐","쏘리","플리즈","아이엠"];
 var CLICHE=["결론적으로","중요한 것은","핵심은 바로","요약하자면"];
 var VAGUE=["자연스러워지면","익숙해지면","감이 오면","편해지면","어느 정도"];
@@ -3324,6 +3332,7 @@ function runCheck(name,text){
     if(text.indexOf(p)>=0) w("1인 수행 지시 의심: "+p);
   });
 
+/* 규격 목록 끝 */
   var kind=kindOf(name);
 
   if(kind.indexOf("강의")>=0){

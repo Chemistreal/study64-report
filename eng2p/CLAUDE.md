@@ -140,6 +140,9 @@ out/data/*.js           같은 내용을 script 로 읽는 판. **앱은 이쪽�
                         file:// 에서 fetch 가 막히기 때문이다. 종이와 같이 쓰는 물건이라
                         내려받아 여는 것이 정상이고 그때도 돌아야 한다
 scripts/derive_manifest.py 파생 자료의 크기와 해시. **맨 나중에 돈다.** 적어 둔 열여섯을 찾는다
+scripts/derive_media_manifest.py 미디어 표의 크기와 해시를 다시 잰다. 275개 157MB
+scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 있는 실패 목록과 견준다**
+scripts/check_app.py   english.html 의 한국어를 규격 검사에 건다. 동작이 아니라 글자다
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다

@@ -1,5 +1,7 @@
 # 영어 미디어 자산 라이브러리
 
+신뢰도: A 생성 (제작 관리)
+
 `english.html`과 이후 영어 학습 도구가 공통으로 쓰는 영어 자료 묶음이다. 기존 VOA Learning English Level 1 레슨 ID는 `lle1-01`부터 `lle1-52`까지 고정한다. `archive/`는 Level 2와 자연 발화 자료까지 확장하는 코드용 카탈로그와 GitHub Release 빌드 정의를 제공한다.
 
 ## 저장된 Level 1 자료
