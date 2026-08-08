@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 열아홉 가지를 본다.
+ * 스무 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -24,7 +24,8 @@
  * 16. 블록 1과 4의 소리가 그 칸 안에서 나고 넘기면 꺼지는가
  * 17. 대본 줄을 누르면 그 자리로 가고 들으면 그 줄이 밝아지는가. **어림이라고 적는가**
  * 18. 어림을 찍어 바로잡을 수 있고 **못이 없으면 표가 어림 그대로인가**
- * 19. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
+ * 19. 대본 화면 52과가 다 그려지고 못을 박아도 차례가 지켜지는가
+ * 20. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -602,12 +603,19 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await new Promise((r) => setTimeout(r, 300));
     rows()[5].querySelector(".sca").click();
     await new Promise((r) => setTimeout(r, 600));
-    if (Object.keys(S.cues[id]).length !== 1)
+    if (cueCount(id) !== 1)
       bad.push("앞선 못보다 이른 자리를 받아들였다");
     // 지우면 어림으로 돌아온다
     rows()[2].querySelector(".sca").click();
     await new Promise((r) => setTimeout(r, 700));
-    if (Object.keys(S.cues[id] || {}).length !== 0) bad.push("지웠는데 값이 남았다");
+    if (cueCount(id) !== 0) bad.push("지웠는데 값이 남았다");
+    // 대본 줄 수가 바뀌면 잡아 둔 자리는 딴 줄을 가리킨다. 그때는 버려야 한다.
+    // **밀린 채로 남으면 화면에서는 잘 도는 것처럼 보인다.** T130
+    S.cues = {}; S.cues[id] = { _n: cue.length, 2: 1.5 }; save();
+    if (cueFixed(id, 2) !== 1.5) bad.push("줄 수가 같은데 잡아 둔 자리를 못 읽는다");
+    cueRec(id, cue.length + 1);
+    if (cueCount(id) !== 0) bad.push("대본 줄 수가 바뀌었는데 잡아 둔 자리가 남았다");
+    S.cues = {}; save();
     const eff1 = effCues(id, cue, dur);
     for (let i = 0; i < cue.length; i++)
       if (Math.abs(eff1[i] - cue[i]) > 0.01) { bad.push("지웠는데 어림으로 안 돌아왔다"); break; }
@@ -615,6 +623,55 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     return bad;
   });
   fix.slice(0, 6).forEach((m) => fails.push("어림 바로잡기: " + m));
+
+  // 18. 대본 화면 52과 전수. 앞의 둘은 lle1-01 하나를 본 것이다.
+  //     **한 과를 보고 넘어가면 나머지 쉰한 과는 안 본 것이다.**
+  //     세트 뷰어와 카드 뷰어에서 같은 규칙을 썼다. 여기도 같게 한다.
+  //     못을 하나 박은 상태도 같이 본다. 다시 편 표가 차례를 안 지키면
+  //     줄을 눌렀을 때 뒤로 가는 일이 생긴다.
+  const all52 = await page.evaluate(() => {
+    const bad = [];
+    const tr = ((DATA.transcripts || {}).items) || {};
+    const cu = ((DATA.cues || {}).items) || {};
+    const al = ((DATA.audiolen || {}).items) || {};
+    const ids = Object.keys(tr);
+    if (ids.length !== 52) bad.push("대본이 " + ids.length + "과다. 52과여야 한다");
+    for (const id of ids) {
+      const it = MEDIA[MEDIA.findIndex((x) => x.id === id)];
+      if (!it) { bad.push(id + " 가 카탈로그에 없다"); continue; }
+      S.cues = {};
+      let h;
+      try { h = renderSyncScript(it); }
+      catch (e) { bad.push(id + " 그리다 죽었다: " + e.message); continue; }
+      const n = (h.match(/class="scline/g) || []).length;
+      if (n !== tr[id].length) bad.push(id + " 가 " + n + "줄인데 대본은 " + tr[id].length + "줄이다");
+      if (h.indexOf("undefined") >= 0) bad.push(id + " 에 빈 값이 찍혔다");
+      const anchors = (h.match(/data-anchor=/g) || []).length;
+      if (anchors !== n) bad.push(id + " 의 자리 잡기 단추가 " + anchors + "개다. " + n + "개여야 한다");
+      const tildes = (h.match(/~\d+:\d\d/g) || []).length;
+      if (tildes !== n) bad.push(id + " 에 어림 표시가 " + tildes + "개다. " + n + "개여야 한다");
+      // 못 없이 어림 그대로인가
+      const eff0 = effCues(id, cu[id], al[id]);
+      for (let i = 0; i < cu[id].length; i++)
+        if (Math.abs(eff0[i] - cu[id][i]) > 0.01) { bad.push(id + " 가 못 없이 어림과 다르다"); break; }
+      // 한가운데 줄에 못을 하나 박고 차례가 지켜지는지
+      const mid = Math.floor(cu[id].length / 2);
+      S.cues = {}; S.cues[id] = {};
+      S.cues[id][mid] = Math.round(((cu[id][mid] + cu[id][mid + 1 < cu[id].length
+        ? mid + 1 : mid]) / 2 + 0.5) * 100) / 100;
+      const eff1 = effCues(id, cu[id], al[id]);
+      for (let i = 1; i < eff1.length; i++)
+        if (!(eff1[i] > eff1[i - 1])) {
+          bad.push(id + " 못을 박으니 " + (i + 1) + "번째가 앞줄보다 안 늦다");
+          break;
+        }
+      if (eff1[eff1.length - 1] >= al[id])
+        bad.push(id + " 못을 박으니 마지막 줄이 소리 밖으로 나갔다");
+    }
+    S.cues = {}; save();
+    return bad;
+  });
+  all52.slice(0, 8).forEach((m) => fails.push("대본 화면 전수: " + m));
 
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
@@ -665,7 +722,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   console.log("");
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
-              "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / 어림 바로잡기 1판 / 연속 30일 1판");
+              "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
+              "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

@@ -2304,14 +2304,30 @@ function fmtT(s){
 }
 /* 잡아 둔 자리. 두 사람이 들으면서 찍은 것이다. 기기에 남는다.
    S.cues = { "lle1-01": { "4": 9.2 } } 꼴이다. 줄 번호는 문자열로 들어온다. */
-function cueRec(id){
+/* **줄 번호로 저장한다. 그러니 대본 줄 수가 바뀌면 그 번호가 딴 줄을 가리킨다.**
+   지금 대본은 고정이지만 파생기를 고치면 줄이 하나 늘거나 준다. 실제로 T126 에
+   머리말 읽는 자리를 건드렸다. 그때 잡아 둔 자리가 통째로 한 칸씩 밀리는데
+   **화면에서는 잘 도는 것처럼 보인다.** 잡았던 줄에 초록 표시가 그대로 있다.
+   줄 수를 같이 적어 두고 다르면 버린다. 버렸다고 말한다. */
+function cueRec(id, n){
   if(!S.cues) S.cues={};
-  if(!S.cues[id]) S.cues[id]={};
-  return S.cues[id];
+  var r=S.cues[id];
+  if(r && typeof n==="number" && typeof r._n==="number" && r._n!==n){
+    delete S.cues[id]; r=null; save();
+    flash("대본 줄 수가 바뀌어 잡아 둔 자리를 지웠다");
+  }
+  if(!r){ r=S.cues[id]={}; }
+  if(typeof n==="number") r._n=n;
+  return r;
 }
 function cueFixed(id,i){
   var r=(S.cues||{})[id]; var v=r&&r[i];
   return (typeof v==="number") ? v : null;
+}
+function cueCount(id){
+  var r=(S.cues||{})[id]; if(!r) return 0;
+  var n=0; for(var k in r) if(k!=="_n") n++;
+  return n;
 }
 /* 실제로 쓸 시각. **잡은 자리는 못이고 그 사이를 어림으로 편다.**
    한 줄만 잡아도 그 앞뒤가 다 같이 맞아 든다. 어림의 모양은 그대로 두고
@@ -2349,7 +2365,7 @@ function renderSyncScript(it){
   var lines=(tr.items||{})[it.id], cue=(cu.items||{})[it.id];
   if(!lines||!lines.length) return '<div class="n">이 과는 대본이 없다.</div>';
   var eff=effCues(it.id, cue, (al.items||{})[it.id]);
-  var nfix=Object.keys((S.cues||{})[it.id]||{}).length;
+  var nfix=cueCount(it.id);
   var h='<div class="syncnote">대본 '+lines.length+'줄 · 줄을 누르면 그 자리로 간다.<br>'+
     '<b>시각은 어림이다.</b> 글자 수로 나눈 것이고 쉼을 안 셌다. 물결표가 그 표시다.<br>'+
     '그 줄이 나는 순간에 <b>여기</b> 를 누르면 그 자리가 잡힌다. '+
@@ -2387,7 +2403,7 @@ function anchorLine(it, i){
   if(!SESS.el){ flash("소리를 먼저 튼다"); return; }
   var cu=DATA.cues, al=DATA.audiolen;
   var cue=(cu&&cu.items&&cu.items[it.id])||null; if(!cue) return;
-  var rec=cueRec(it.id);
+  var rec=cueRec(it.id, cue.length);
   if(cueFixed(it.id,i)!=null){ delete rec[i]; save(); renderBlockPane(); flash((i+1)+"번째 줄 자리를 지웠다"); return; }
   var t=Math.round(SESS.el.currentTime*100)/100;
   var dur=(al&&al.items||{})[it.id]||SESS.el.duration||0;
