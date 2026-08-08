@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 열셋과 검사 스물셋과 상태 갱신 셋, 서른아홉을 정해진 순서로 돈다.
+**한 줄이다.** 파생 열넷과 검사 스물셋과 상태 갱신 셋, 마흔을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 3분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -121,6 +121,8 @@ scripts/derive_handout.py 강의에서 강의록을 파생. 강의의 검사기�
 scripts/check_page.py  강의록이 A4 앞뒤 두 면에 들어가는지 잰다
 scripts/check_refs.py  카드 번호와 미디어 id 와 강 참조가 실제로 있는지 대조
 scripts/derive_index.py 48주 96강 색인을 세트의 대응강의 줄에서 파생
+scripts/derive_input.py 조준표 넷을 파생. **48주 과제가 빠짐없이 한 번씩 나오는지 본다**
+docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무엇이 종이에만 있나
 scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인쇄용)
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
 scripts/derive_transcripts.py 대본 52편을 script 한 파일로 묶는다 (file:// 대응)

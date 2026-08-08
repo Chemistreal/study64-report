@@ -8,7 +8,7 @@
 
 ```
 처음 뽑기   12개
-다시 뽑기   16개  (transcripts.js audiolen.js cues.js ground.js 가 더 있다)
+다시 뽑기   18개  (transcripts.js audiolen.js cues.js ground.js 가 더 있다)
 ```
 
 T150 에 파생물을 다 지우고 다시 뽑아 보다가 나왔다.
@@ -41,6 +41,7 @@ EXPECT = [
     "audiolen.js", "cards.js", "cards.json", "cues.js",
     "emergency.js", "emergency.json", "ground.js",
     "handouts.js", "handouts.json",
+    "input.js", "input.json",
     "lectures.js", "lectures.json", "lecturetext.js",
     "sets.js", "sets.json",
     "tasks.js", "tasks.json", "transcripts.js",
