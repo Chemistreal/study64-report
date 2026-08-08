@@ -46,7 +46,8 @@ def printed_lines(text):
 def main():
     fails = []
     front_max = back_max = 0
-    files = sorted(OUT.glob("*.md"))
+    # 색인은 세션 중에 펴는 한 장이 아니라 찾아보는 표다. 앞뒤로 안 가른다.
+    files = sorted(OUT.glob("eng2p_handout_l*.md"))
     for f in files:
         text = f.read_text(encoding="utf-8")
         # 머리 여섯 줄은 인쇄 대상이 아니다. 첫 빈 줄 뒤부터 센다.

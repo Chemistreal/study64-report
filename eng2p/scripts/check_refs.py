@@ -67,7 +67,8 @@ def media_index():
 
 
 def check_handouts(cards, media):
-    for f in sorted(HAND.glob("*.md")):
+    # 색인은 강 하나에 붙는 종이가 아니라 96편을 훑는 표다. 여기서 안 본다.
+    for f in sorted(HAND.glob("eng2p_handout_l*.md")):
         text = f.read_text(encoding="utf-8")
         q = re.search(r"^분기: Q(\d)", text, re.M)
         if not q:
@@ -91,6 +92,33 @@ def check_handouts(cards, media):
             elif media[mid] != int(q):
                 FAIL.append("%s: %s 는 Q%d 자료인데 Q%s 가 쓴다"
                             % (f.name, mid, media[mid], q))
+
+
+def check_tiling(cards):
+    """분기마다 강의록 24편의 카드 범위가 150장을 빈틈없이 한 번씩 덮는가.
+
+    한 장이 두 강에 붙으면 그 장은 두 번 돌고 다른 장이 밀린다.
+    빠진 장은 한 해 동안 한 번도 안 돈다. 둘 다 표로 보기 전에는 안 보인다.
+    색인을 뽑고 나서야 이 검사를 할 수 있게 됐다. T79 에서 붙였다.
+    """
+    for q in sorted(cards):
+        seen = {}
+        for f in sorted(HAND.glob("eng2p_handout_l*.md")):
+            text = f.read_text(encoding="utf-8")
+            if not re.search(r"^분기: Q%s" % q, text, re.M):
+                continue
+            rng = re.search(r"카드 (\d{3}) ~ (\d{3})", text)
+            if not rng:
+                continue
+            for i in range(int(rng.group(1)), int(rng.group(2)) + 1):
+                if i in seen:
+                    FAIL.append("Q%s 카드 %03d 이 %s 와 %s 에 겹친다"
+                                % (q, i, seen[i], f.name))
+                seen[i] = f.name
+        gaps = [i for i in range(1, 151) if i not in seen]
+        if gaps:
+            FAIL.append("Q%s 카드 %d장이 어느 강에도 안 붙는다: %s"
+                        % (q, len(gaps), gaps[:8]))
 
 
 def check_lectures():
@@ -142,6 +170,7 @@ def main():
     cards = card_index()
     media = media_index()
     check_handouts(cards, media)
+    check_tiling(cards)
     check_lectures()
     for m in FAIL:
         print("[실패] %s" % m)
@@ -149,7 +178,7 @@ def main():
         print("[경고] %s" % m)
     print()
     print("강의 %d편 / 강의록 %d편 / 카드 %d장 / 미디어 %d개"
-          % (len(list(LEC.glob("*.md"))), len(list(HAND.glob("*.md"))),
+          % (len(list(LEC.glob("*.md"))), len(list(HAND.glob("eng2p_handout_l*.md"))),
              sum(len(v) for v in cards.values()), len(media)))
     print("실패 %d / 경고 %d" % (len(FAIL), len(WARN)))
     return 1 if FAIL else 0
