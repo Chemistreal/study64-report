@@ -281,6 +281,49 @@ function seedScript() {
     await c.close();
   }
 
+  /* 4e. **글자 크기 세 단.** 마주 앉아 흘끗 보는 거리에서 읽혀야 한다.
+     그 거리는 사람마다 다르고 나이가 들면 더 다르다. 1년을 쓰는 물건이다.
+
+     보는 것은 셋이다. 크기가 정말 바뀌는가, 새로고침 뒤에도 남는가,
+     그리고 **제일 큰 단에서 화면이 가로로 안 밀리는가.**
+     마지막 것이 이 기능의 값을 정한다. 키웠는데 글이 잘리면 안 키운 것만 못하다.
+
+     칸 안에서 삐져나오는 것은 안 센다. 미끄럼대 손잡이가 그렇다.
+     **문서가 밀리는 것만 센다.** 그것이 사람이 겪는 일이다. */
+  {
+    const { c, p } = await ctx(true);
+    const TABS2 = ["today", "review", "sound", "clip", "media", "src",
+                   "ledger", "verify", "quarter", "check", "rot", "rules"];
+    const bad = [];
+    const seen = [];
+    for (const v of [0, 1, 2]) {
+      await p.evaluate((x) => { S.fs = x; saveNow(); applyFs(); }, v);
+      await p.waitForTimeout(220);
+      const root = await p.evaluate(() =>
+        parseFloat(getComputedStyle(document.documentElement).fontSize));
+      seen.push(root);
+      for (const tab of TABS2) {
+        await p.evaluate((x) => go(x), tab);
+        await p.waitForTimeout(200);
+        const o = await p.evaluate(() => ({
+          doc: document.documentElement.scrollWidth, win: innerWidth,
+        }));
+        if (o.doc > o.win + 1)
+          bad.push("단 " + v + " 에서 " + tab + " 이 가로로 밀린다 " + o.doc + "/" + o.win);
+      }
+    }
+    if (!(seen[0] < seen[1] && seen[1] < seen[2]))
+      bad.push("세 단이 다 다른 크기가 아니다: " + seen.join(" "));
+    await p.reload();
+    await p.waitForTimeout(420);
+    const kept = await p.evaluate(() =>
+      parseFloat(getComputedStyle(document.documentElement).fontSize));
+    if (Math.abs(kept - seen[2]) > 0.1)
+      bad.push("새로고침 뒤에 글자 크기가 안 남았다: " + kept);
+    bad.forEach((m) => fails.push("글자 크기: " + m));
+    await c.close();
+  }
+
   /* 5. 오늘 것 여섯 중 눌러서 닿는 것이 몇 개인가.
      **이 값만 방향이 반대다. 줄면 실패다.**
      오늘 칸 안에 그 항목으로 가는 누를 것이 있는지를 센다. */

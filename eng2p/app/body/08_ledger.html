@@ -8,6 +8,17 @@
       <div><label class="f">사람 1</label><input id="sNameA"></div>
       <div><label class="f">사람 2</label><input id="sNameB"></div>
     </div>
+    <!-- **마주 앉아 흘끗 보는 거리에서 읽혀야 한다.** 그 거리는 사람마다 다르고
+         나이가 들면 더 다르다. 1년을 쓰는 물건이라 한 번 정하면 그대로 간다. -->
+    <div style="margin-top:14px">
+      <label class="f">글자 크기</label>
+      <div class="sidepick" id="fsPick" role="group" aria-label="글자 크기">
+        <button type="button" data-fs="0">보통</button>
+        <button type="button" data-fs="1">크게</button>
+        <button type="button" data-fs="2">더 크게</button>
+      </div>
+      <div class="small mut" style="margin-top:6px">두 기기가 따로 정한다. 이 기기 것만 바뀐다.</div>
+    </div>
   </div>
 
   <div class="grid g3" id="statCards"></div>

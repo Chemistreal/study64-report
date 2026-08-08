@@ -1,4 +1,25 @@
 /* =========================================================================
+   글자 크기 세 단.
+
+   화면의 글자를 다 `rem` 으로 적어 뒀다. 여기서 뿌리 크기만 바꾸면 다 따라온다.
+   **기기마다 따로 정한다.** 두 사람의 눈이 다르고 기기도 다르다.
+   그래서 다른 기록과 달리 이 값은 주고받지 않는다.
+   ========================================================================= */
+function applyFs(){
+  var v=+(S.fs||0);
+  if(v) document.documentElement.setAttribute("data-fs",String(v));
+  else document.documentElement.removeAttribute("data-fs");
+  document.querySelectorAll("#fsPick button").forEach(function(b){
+    var on=(+b.dataset.fs===v);
+    b.classList.toggle("on",on);
+    b.setAttribute("aria-pressed",on?"true":"false");
+  });
+}
+document.querySelectorAll("#fsPick button").forEach(function(b){
+  b.onclick=function(){ S.fs=+b.dataset.fs; saveNow(); applyFs(); };
+});
+
+/* =========================================================================
    대장 탭
    ========================================================================= */
 function allDays(){ return Object.keys(S.days).sort(); }

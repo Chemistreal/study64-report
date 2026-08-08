@@ -12,12 +12,21 @@
   --mono:ui-monospace,SFMono-Regular,SF Mono,Menlo,monospace;
   --sans:-apple-system,BlinkMacSystemFont,Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
 }
+/* **글자 크기 세 단.** 마주 앉아 흘끗 보는 거리에서 읽혀야 한다.
+   그 거리는 사람마다 다르고 나이가 들면 더 다르다. 1년을 쓰는 물건이다.
+
+   그래서 화면의 글자 크기를 다 `rem` 으로 바꿨다. 이 한 줄이 그 기준이다.
+   16px 이 100% 다. 크게는 17.6px, 더 크게는 19.2px 이다.
+   px 로 적혀 있으면 이 줄을 바꿔도 아무것도 안 바뀐다. */
+html{font-size:16px}
+html[data-fs="1"]{font-size:17.6px}
+html[data-fs="2"]{font-size:19.2px}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 html{scroll-padding-top:112px}
 body{
   background:var(--bg); color:var(--fg); font-family:var(--sans);
-  font-size:15px; line-height:1.65; letter-spacing:-.011em;
+  font-size:0.9375rem; line-height:1.65; letter-spacing:-.011em;
   -webkit-font-smoothing:antialiased; word-break:keep-all; position:relative; min-height:100vh;
 }
 /* 배경 오로라 */
@@ -36,18 +45,18 @@ header{position:sticky;top:0;z-index:30;backdrop-filter:blur(18px) saturate(150%
   -webkit-backdrop-filter:blur(18px) saturate(150%);
   background:linear-gradient(180deg,var(--bg) 40%,transparent);border-bottom:1px solid var(--edge)}
 .hd{max-width:920px;margin:0 auto;padding:16px 20px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:15px;font-weight:800;letter-spacing:-.02em;
+.brand{font-size:0.9375rem;font-weight:800;letter-spacing:-.02em;
   background:linear-gradient(96deg,var(--a1),var(--a2) 45%,var(--a3t));
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .brand span{color:var(--mut);font-weight:500;-webkit-text-fill-color:var(--mut)}
 .hd .grow{flex:1}
-.tbtn{background:var(--card2);border:1px solid var(--edge);color:var(--mut);font:inherit;font-size:12px;
+.tbtn{background:var(--card2);border:1px solid var(--edge);color:var(--mut);font:inherit;font-size:0.75rem;
   padding:5px 12px;border-radius:99px;cursor:pointer;transition:.18s}
 .tbtn:hover{color:var(--fg);border-color:var(--a1);box-shadow:var(--glow)}
 nav{max-width:920px;margin:0 auto;padding:10px 20px 12px;display:flex;gap:4px;align-items:center;position:relative}
 nav button{
   background:none;border:1px solid transparent;color:var(--mut);border-radius:99px;
-  font:inherit;font-size:13.5px;padding:7px 14px;cursor:pointer;white-space:nowrap;transition:.18s;
+  font:inherit;font-size:0.84375rem;padding:7px 14px;cursor:pointer;white-space:nowrap;transition:.18s;
 }
 nav button:hover{color:var(--fg);background:var(--card2)}
 nav button[aria-current="page"]{
@@ -55,7 +64,7 @@ nav button[aria-current="page"]{
   background:linear-gradient(96deg,var(--a1),var(--a2));box-shadow:var(--glow)}
 .navmore{margin-left:auto;position:relative;flex:none}
 .navmore summary{list-style:none;display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid transparent;
-  border-radius:99px;color:var(--mut);font-size:13.5px;cursor:pointer;white-space:nowrap;transition:.18s}
+  border-radius:99px;color:var(--mut);font-size:0.84375rem;cursor:pointer;white-space:nowrap;transition:.18s}
 .navmore summary::-webkit-details-marker{display:none}
 /* 화살표를 글자로 안 쓰고 선으로 그린다. 글꼴에 없으면 네모로 나오기 때문이다. T152 */
 .navmore summary::after{content:"";width:7px;height:7px;margin-top:-3px;
