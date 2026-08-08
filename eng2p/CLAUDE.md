@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 열둘과 검사 열아홉과 상태 갱신 셋, 서른넷을 정해진 순서로 돈다.
+**한 줄이다.** 파생 열셋과 검사 스물셋과 상태 갱신 셋, 서른아홉을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 3분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -148,6 +148,12 @@ app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
 scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **앱을 손으로 안 고친다**
 scripts/check_manual.py 매뉴얼이 앱을 설명하는 자리를 앱과 견준다. 블록 회차 가림 단추
 scripts/check_rotation.py 회전 대장의 셈을 등록부에서 다시 세고 경보 다섯을 건다
+scripts/check_play.py 놀이 규칙서 스무 판. **판정은 사람이 하고 규칙은 기계가 본다**
+docs/play.md          2인 놀이 원칙 여섯 확정판. 부딪치는 자리와 검사 갈래
+docs/play_rules.md    스무 판 규칙서. 판마다 아홉 줄. 이 파일이 check_play.py 의 원본
+docs/play_data.md     판마다 쓸 자료를 out/data 와 대조. 없다고 적은 것을 찾은 표
+docs/bench_verdict.md 채용 열여섯과 기각 열. 다섯 문서와 12.7 을 합친 확정판
+docs/bench_axes.md    앱 서른둘을 열여섯 축에. **빈 자리가 이 과정의 자리다**
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다
