@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 열두 가지를 본다.
+ * 열세 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -18,6 +18,7 @@
  * 10. 세션 한 벌이 시작부터 끝까지 어긋남 없이 도는가
  * 11. 기기 둘이 각각 제 쪽을 보는가
  * 12. 통과 기준 458개가 다 그려지고 선이 있는 것은 값으로 갈리는가
+ * 13. 시간이 흘러 블록이 저절로 넘어가고 그 자리가 저장되는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -347,8 +348,38 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   crit.slice(0, 6).forEach((m) => fails.push("통과 기준: " + m));
 
+  // 개수는 여기서 잡는다. 아래 검사가 페이지를 다시 열면 DATA 가 비고
+  // 요약이 0판으로 나온다. **0판인데 통과로 보이면 안 돌린 것이 통과가 된다.**
   const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
+  if (!ncards) fails.push("카드 자료가 안 열렸다");
+  if (!nsets) fails.push("세트 자료가 안 열렸다");
+
+  // 13. 저절로 넘어가는 길. 지금까지 검사는 블록을 손으로 넘겼다.
+  //     시간이 흘러 넘어가는 길은 다른 코드다. tick 이 gotoBlock 을 부른다.
+  //     한 번만 본다. 네 번 다 보면 검사가 15초 느려진다.
+  await page.evaluate(() => {
+    localStorage.clear();
+  });
+  await page.reload();
+  await page.waitForTimeout(400);
+  await page.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+  await page.click("#tOne");
+  await page.waitForTimeout(200);
+  await page.evaluate(() => { const c = document.getElementById("tSound"); if (c) c.checked = false;
+                              T.left = 2; });
+  await page.waitForTimeout(2800);
+  const auto = await page.evaluate(() => ({
+    idx: T.idx, run: T.run,
+    pane: (document.getElementById("blockPane") || {}).textContent || "",
+    saved: S.session ? S.session.idx : null,
+  }));
+  if (auto.idx !== 1) fails.push("자동 넘김: 블록이 안 넘어갔다 (" + auto.idx + ")");
+  if (!auto.run) fails.push("자동 넘김: 넘어간 뒤 타이머가 멈췄다");
+  if (auto.pane.replace(/\s+/g, "").length < 60) fails.push("자동 넘김: 넘어간 블록 칸이 비었다");
+  if (auto.saved !== 1) fails.push("자동 넘김: 넘어간 자리가 저장이 안 됐다");
+  await page.evaluate(() => { T.run = false; clearInterval(T.tick); });
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
