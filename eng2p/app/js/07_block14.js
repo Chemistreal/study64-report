@@ -108,7 +108,7 @@ function renderAimPane(pl, seat, round){
   var h2='<div class="aim"><div class="k">같이 듣고 맞춰 보는 법 · '+round+'회차</div>';
   h2+='<div class="v">'+esc(x?x.how:"")+'</div>';
   h2+='<div class="n">누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.</div>';
-  return h2+aimWrite("together")+'</div>';
+  return h2+aimWrite("together",round)+'</div>';
 }
 
 /* 적는 칸. **적으라고 하는데 적을 칸이 없었다.** T208 진단이다.
@@ -121,36 +121,64 @@ function renderAimPane(pl, seat, round){
 
    기기가 하나면 가릴 수 없다. 그때는 두 칸을 다 보이고 그 사실을 말한다.
    D단계가 기기 둘을 만들면 그 말이 없어진다. */
-function aimWrite(seat){
+/* **회차마다 대조하는 것이 다르다.** 조준표 6장이 그렇게 정한다.
+   1회차는 표시한 지점을 세고, 2회차는 덩어리를 견주고, 3회차는 요약을 맞춘다.
+   같은 칸 두 개로 셋을 다 받되 **이름과 판정이 회차마다 다르다.** T214
+
+     1회차   겹친 지점과 안 겹친 지점을 센다. 안 겹친 것이 더 많으면 한 번 더 듣는다
+     2회차   덩어리를 견준다. 하나도 안 겹치면 덩어리 판정 기준이 아직 안 잡힌 것이다
+     3회차   한 사람이 요약하고 한 사람이 보탠다. 어긋난 것은 미해결 LRE 로 간다 */
+var AIMLABEL={1:["표시한 지점","표시한 지점"],
+              2:["끊어 들은 덩어리","끊어 들은 덩어리"],
+              3:["요약","보탤 것"]};
+function aimWrite(seat, round){
   var mine=deviceSide();
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
-  function box(side,name){
+  var lab=AIMLABEL[round]||AIMLABEL[1];
+  function box(side,name,what){
     /* 이름 뒤에 조사를 안 붙인다. 받침 있는 이름과 없는 이름이 다르게 읽힌다. */
-    return '<label class="blank aimw"><span>'+esc(name)+' · 찾은 자리</span>'+
+    return '<label class="blank aimw"><span>'+esc(name)+' · '+esc(what)+'</span>'+
            '<textarea id="aim'+side.toUpperCase()+'" rows="2" '+
            'placeholder="한 줄로 적는다"></textarea></label>';
   }
   if(seat==="alone"){
     var h='<div class="k">여기 적는다</div>';
-    if(mine==="a") h+=box("a",A)+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
-    else if(mine==="b") h+=box("b",B)+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
-    else h+=box("a",A)+box("b",B)+
+    if(mine==="a") h+=box("a",A,"찾은 자리")+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
+    else if(mine==="b") h+=box("b",B,"찾은 자리")+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
+    else h+=box("a",A,"찾은 자리")+box("b",B,"찾은 자리")+
       '<div class="n">이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. '+
       '따로 적는 자리라 서로 안 보는 것이 낫다.</div>';
     return h;
   }
-  return '<div class="k">따로 적은 것을 편다</div>'+box("a",A)+box("b",B)+
-    '<div class="cntrow">'+
-    '<label class="blank"><span>겹친 자리</span>'+
+  var h2='<div class="k">따로 적은 것을 편다</div>'+box("a",A,lab[0])+box("b",B,lab[1]);
+  /* 3회차는 세는 것이 아니라 맞추는 것이다. 셈 칸을 안 낸다. */
+  if(round===3)
+    return h2+'<div class="n" id="aimSay">어긋난 것은 미해결 LRE 로 적는다. '+
+           '누가 맞았는지는 정하지 않는다.</div>';
+  return h2+'<div class="cntrow">'+
+    '<label class="blank"><span>겹친 것</span>'+
     '<input type="number" min="0" step="1" id="aimSame"></label>'+
-    '<label class="blank"><span>안 겹친 자리</span>'+
+    '<label class="blank"><span>안 겹친 것</span>'+
     '<input type="number" min="0" step="1" id="aimDiff"></label></div>'+
-    '<div class="n">안 겹친 것이 겹친 것보다 많으면 그 자료를 한 번 더 듣는다. '+
-    '조준표 6장이 정한다.</div>';
+    '<div class="n" id="aimSay"></div>';
+}
+/* **판정을 화면이 말한다.** 조준표 6장에 적힌 조건을 사람이 매번 세어 볼 수는 없다.
+   숫자를 넣으면 그 자리에서 무엇을 해야 하는지가 나온다. 판정하는 사람은 없다. */
+function aimVerdict(round){
+  var e=document.getElementById("aimSay");
+  if(!e || round===3) return;
+  var a=(day(today()).aim)||{}, s=+a.same||0, d=+a.diff||0;
+  if(!s && !d){ e.textContent="센 것을 넣으면 무엇을 할지 여기서 말한다."; return; }
+  if(round===2 && s===0){
+    e.textContent="덩어리가 하나도 안 겹쳤다. 덩어리 판정 기준이 아직 안 잡힌 것이다. "+
+                  "그 강의 통과 기준을 다시 잰다."; return;
+  }
+  if(d>s) e.textContent="안 겹친 것이 더 많다. 그 자료를 한 번 더 듣는다. 조준표 6장이 정한다.";
+  else e.textContent="겹친 것이 더 많다. 다음으로 넘어간다.";
 }
 /* 값은 그린 뒤에 넣고 손이 올라가 있는 칸은 안 건드린다. `fillField` 를 본다. */
-function bindAimWrite(){
+function bindAimWrite(rd){
   var r=day(today()), a=r.aim||(r.aim={a:"",b:"",same:0,diff:0});
   [["aimA","a"],["aimB","b"]].forEach(function(x){
     fillField(x[0], a[x[1]]||"");
@@ -160,8 +188,9 @@ function bindAimWrite(){
   [["aimSame","same"],["aimDiff","diff"]].forEach(function(x){
     fillField(x[0], a[x[1]]?String(a[x[1]]):"");
     var el=document.getElementById(x[0]);
-    if(el) el.oninput=function(){ a[x[1]]=+el.value||0; save(); };
+    if(el) el.oninput=function(){ a[x[1]]=+el.value||0; save(); aimVerdict(rd); };
   });
+  aimVerdict(rd);
 }
 
 function renderMediaPane(pl, seat){
@@ -220,7 +249,7 @@ function renderMediaPane(pl, seat){
     '<div class="n"><span id="sessRate"></span>'+
     (SESS.loop!=null?' · <span id="sessLap"></span>':"")+'</div>';
   setTimeout(function(){
-    bindAimWrite();
+    bindAimWrite(round);
     var host=$("#sessPlayHost");
     if(host && !host.firstChild) sessPlay(it, SESS.mode||"audio", false);
     bindSyncScript(it);

@@ -1778,6 +1778,33 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const late = await pw.evaluate(() =>
       document.querySelector("#blockPane").innerText.indexOf("1단계에 들어갔어야 하는 것") >= 0);
     if (!late) bad.push("블록 2 3단계에 닿았는데 가린 목록을 안 편다");
+    /* **블록 4 는 회차마다 대조하는 것이 다르다.** 조준표 6장이 그렇게 정한다.
+       세 회차를 다 돌아 본다. 이름이 바뀌는지와 3회차에 셈 칸이 없어지는지다. T214 */
+    for (const r of [1, 2, 3]) {
+      await pw.evaluate((rr) => { const pl = plan();
+        lecRound()[pl.lectureNo] = rr - 1; save(); gotoBlock(3); }, r);
+      await pw.waitForTimeout(900);
+      const g = await pw.evaluate(() => ({
+        txt: document.querySelector("#blockPane").innerText,
+        cnt: !!document.getElementById("aimSame") }));
+      const want = { 1: "표시한 지점", 2: "끊어 들은 덩어리", 3: "요약" }[r];
+      if (g.txt.indexOf(want) < 0)
+        bad.push(r + "회차 블록 4 에 '" + want + "' 가 없다");
+      if (r === 3 && g.cnt) bad.push("3회차인데 셈 칸이 있다");
+      if (r !== 3 && !g.cnt) bad.push(r + "회차인데 셈 칸이 없다");
+    }
+    /* 숫자를 넣으면 무엇을 할지 화면이 말한다. 사람이 세어 판정하지 않는다. */
+    await pw.evaluate(() => { const pl = plan();
+      lecRound()[pl.lectureNo] = 0; save(); gotoBlock(3); });
+    await pw.waitForTimeout(800);
+    await pw.fill("#aimSame", "2"); await pw.fill("#aimDiff", "5");
+    await pw.waitForTimeout(300);
+    if ((await pw.textContent("#aimSay")).indexOf("한 번 더 듣는다") < 0)
+      bad.push("안 겹친 것이 더 많은데 한 번 더 들으라고 안 한다");
+    await pw.fill("#aimDiff", "1");
+    await pw.waitForTimeout(300);
+    if ((await pw.textContent("#aimSay")).indexOf("다음으로 넘어간다") < 0)
+      bad.push("겹친 것이 더 많은데 넘어가라고 안 한다");
     await ctxw.close();
     return bad;
   })();
@@ -1796,7 +1823,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
               "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
-              "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판");
+              "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
