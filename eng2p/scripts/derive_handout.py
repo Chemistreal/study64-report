@@ -161,18 +161,70 @@ def pick_cards(name, b):
     return (rng.group(1), rng.group(2)), (sec.group(1) if sec else None), (med.group(1) if med else None)
 
 
+# 안 재는 것을 적어 둔 문단이 블록 5에 섞여 있다. "정확성은 재지 않는다" 가 그것이다.
+# 종이에서는 필요한 말이다. 그것을 안 적으면 두 사람이 정확성을 재게 된다.
+# 그런데 번호를 붙여 표에 올리면 쓸 값이 없는 줄이 생긴다. 갈라서 표 밑에 둔다.
+NOT_MEASURED = re.compile(r"^[^.]*?(안 잰다|재지 않는다|안 센다|세지 않는다|정상이다)")
+
+# 재라는 말이 붙은 문장의 끝이다. 블록 5는 통과 기준 블록이라 대부분이 여기 걸린다.
+# 처음에는 "아라비아 숫자가 있고 동사 넷 중 하나가 있는 문단" 만 뽑았다.
+# 그 조건으로 블록 5의 문단 85개가 강의록에 안 실렸다. T76 에서 셌다.
+# 절반은 수를 한글로 적은 것이었다. "조건 칸에 여섯 개를 채운다" 가 그것이다.
+# 나머지는 동사가 목록 밖이었다. 통과시킨다, 허용한다, 기록한다, 겪는다가 그렇다.
+# 종이에 안 실린 기준은 두 사람에게 없는 기준이다. 그래서 끝으로 다시 짰다.
+ACTION = re.compile(
+    r"(센다|셌다|잰다|잽니다|돈다|채운다|적는다|기록한다|확인한다|판정한다|계산한다"
+    r"|통과시킨다|허용한다|겪는다|본다|펼쳐 본다|뺀다|넘긴다|한다|쓴다|모은다|둔다"
+    r"|이상이다|이하다|이상이어야 한다|이하여야 한다|이상이면 통과다|통과다|무효다"
+    r"|넘겨야 한다|채우면 통과다)\.?$")
+
+
+# 블록 5에서 재는 것이 아니라 왜 그 수인지를 적은 문단 넷이다.
+# 강의가 할 말이지 종이가 할 말이 아니라 강의록에 안 싣는다.
+# 첫머리로 잡는다. 이 넷 말고 다른 것이 떨어지면 실패로 낸다.
+RATIONALE = {
+    "이 세 항목은 성격이 다르다",
+    "이 항목이 Q1 통과 조건인 되묻기",
+    "기준을 14로 낮게 잡은 이유가 있다",
+    "이 항목이 90초 무중단의 예비 측정이다",
+}
+
+
 def pick_record(name, b):
-    """기록 칸. 블록 5의 숫자가 든 줄에서 셀 것을 뽑는다."""
+    """기록 칸. 블록 5에서 두 사람이 적을 것을 뽑는다.
+
+    블록 5는 통과 기준 블록이다. 그 안의 문단은 기본이 기준이고
+    까닭을 적은 문단만 아니다. 셋으로 가른다.
+
+    - out   재서 적는 것. 번호가 붙고 표에 줄이 생긴다
+    - notes 안 재는 것. 표 밑에 둔다. 이것을 빼면 두 사람이 그것을 재게 된다
+    - (버림) 왜 그 수인지를 적은 문단. 그것은 강의가 할 일이다
+    """
     out = []
+    notes = []
     for para in re.split(r"\n\s*\n", b[4]):
         s = re.sub(r"\s+", " ", para.replace("**", "")).strip()
-        if not s or s.startswith("이 항목"):
+        if not s:
             continue
-        if re.search(r"\d", s) and re.search(r"(센다|잰다|돈다|채운다|확인한다|판정한다|이상이면|이상이어야)", s):
-            out.append(s)
+        # 까닭을 적은 문단을 먼저 뺀다. 뒤로 미루면 "한 번 더 한다" 같은 끝을 가진
+        # 까닭 문단이 기록 항목으로 올라간다. 적을 값이 없는 줄이 표에 생긴다.
+        if any(s.startswith(r) for r in RATIONALE):
+            continue
+        # 안 재는 것을 가른다. "산출은 재지 않는다" 는 재는 말로 안 끝나므로
+        # 아래 검사에 걸려 버려진다. 그러면 종이에 안 실리고 두 사람이 그것을 재게 된다.
+        if NOT_MEASURED.match(s):
+            notes.append(s)
+            continue
+        # 문단 안의 어느 한 문장이라도 재는 말로 끝나면 기록 항목이다.
+        if not any(ACTION.search(x.strip()) for x in re.split(r"(?<=다)\.\s", s) if x.strip()):
+            # 여기 오는 문단은 명단에 없는데 재는 말로도 안 끝나는 것이다.
+            # 종이에 안 실리는 기준이라는 뜻이라 실패로 낸다.
+            miss(name, "기록 칸", "블록 5 문단이 기록 항목도 안 재는 것도 아니다: %s" % s[:40])
+            continue
+        out.append(s)
     if not out:
         miss(name, "기록 칸", "블록 5에 셀 것이 든 줄이 없다")
-    return out
+    return out, notes
 
 
 def pick_stuck(name, b):
@@ -198,7 +250,7 @@ def pick_role(b):
     return m.group(1).strip() if m else None
 
 
-def render(num, title, one, eng, engsrc, split, segs, cards, sec, med, rec, stuck, role, track, quarter):
+def render(num, title, one, eng, engsrc, split, segs, cards, sec, med, rec, notes, stuck, role, track, quarter):
     L = []
     L.append("신뢰도: A 생성 (파생)")
     L.append("분기: %s" % quarter)
@@ -253,8 +305,23 @@ def render(num, title, one, eng, engsrc, split, segs, cards, sec, med, rec, stuc
     L.append("")
     L.append("## 5. 기록 칸")
     L.append("")
-    for r in rec:
-        L.append("- %s" % r)
+    # 번호를 붙인다. 아래 표가 이 번호를 가리킨다.
+    # 항목마다 빈칸을 파생시키려면 분모를 문장에서 짐작해야 한다.
+    # 394개 중 145개가 첫 문장에 분모가 없고 아예 안 재는 항목도 섞여 있다.
+    # 짐작한 분모를 종이에 찍으면 그 숫자가 기준이 된다. 그래서 번호만 붙이고
+    # 재는 값은 두 사람이 쓴다. 표는 쓸 자리만 만든다.
+    for i, r in enumerate(rec, 1):
+        L.append("%d. %s" % (i, r))
+        L.append("")
+    L.append("날짜 ____ / ____   A ________  B ________")
+    L.append("")
+    L.append("| 항목 | 1회 | 역할 바꿔 | 통과 |")
+    L.append("|---|---|---|---|")
+    for i in range(1, len(rec) + 1):
+        L.append("| %d |  |  |  |" % i)
+    L.append("")
+    for nt in notes:
+        L.append("안 재는 것: %s" % nt)
         L.append("")
     L.append("## 6. 막혔을 때")
     L.append("")
@@ -290,13 +357,13 @@ def main():
         eng, engsrc = pick_english(f.name, b)
         split, segs = pick_plan(f.name, b)
         cards, sec, med = pick_cards(f.name, b)
-        rec = pick_record(f.name, b)
+        rec, notes = pick_record(f.name, b)
         stuck = pick_stuck(f.name, b)
         role = pick_role(b)
         if not check_only:
             OUT.mkdir(parents=True, exist_ok=True)
             body = render(snum, title, one, eng, engsrc, split, segs, cards, sec, med,
-                          rec, stuck, role, track, quarter)
+                          rec, notes, stuck, role, track, quarter)
             (OUT / ("eng2p_handout_l%03d.md" % int(snum))).write_text(body, encoding="utf-8")
         n += 1
 
