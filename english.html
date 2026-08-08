@@ -517,6 +517,19 @@ body.session-focus .rings{display:none}
 @media (prefers-reduced-motion:reduce){
   .blockpane.slide-next,.blockpane.slide-prev{animation:none}
 }
+
+/* 조준표를 그 자리에 편다. **40분 동안 이 한 줄을 본다.**
+   T208 진단에서 나왔다. 화면이 종이를 가리키기만 하고 있었다.
+
+   `.blockpane .v` 는 고정폭에 큰 글자다. 자료 이름과 카드 번호를 그리는 자리라 그렇다.
+   여기는 한국어 문장이 온다. 고정폭 19px 로 그리면 두 줄이 세 줄이 되고
+   칸이 밀린다. 그래서 이 자리만 보통 글꼴로 되돌린다. */
+.blockpane .aim{margin:10px 0;padding:11px 12px;border-radius:12px;
+  background:var(--sub);border:1px solid var(--line)}
+.blockpane .aim .v.big{font-family:inherit;font-size:1rem;font-weight:700;
+  line-height:1.55;letter-spacing:-.01em}
+.blockpane .aim .k{margin-top:9px}
+.blockpane .aim .k:first-child{margin-top:0}
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
@@ -2783,6 +2796,82 @@ function lecRound(){ var r=mediaRec(); if(!r.lec) r.lec={}; return r.lec; }
 function lecPass(no){ return no==null ? 0 : Math.min(lecRound()[no]||0, 3); }
 function roundNow(no){ return Math.min(lecPass(no)+1, 3); }
 
+/* =========================================================================
+   조준표를 그 자리에 편다.
+
+   **40분 동안 화면이 "조준표 과제대로 듣는다" 고만 말했다.** T208 진단이다.
+   어느 과제인지는 종이에 있었다. 종이를 펴면 화면과 종이가 둘 다 켜진다.
+
+   자리마다 펴는 것이 다르다. 블록 1은 각자 찾으며 듣는 자리라 **찾을 것**이고
+   블록 4는 같이 듣고 맞춰 보는 자리라 **대조하는 법**이다.
+   둘을 다 펴면 40분짜리 지시와 20분짜리 지시가 한 화면에 겹친다.
+   ========================================================================= */
+function aimWeek(pl){
+  var d=DATA.input; if(!d) return null;
+  var out=null;
+  (d.items||[]).forEach(function(q){
+    (q.weeks||[]).forEach(function(w){ if(w.week===pl.week) out=w; });
+  });
+  return out;
+}
+function aimCollect(pl){
+  var d=DATA.input; if(!d) return null;
+  var out=null;
+  (d.items||[]).forEach(function(q){
+    (q.collect||[]).forEach(function(c){ if(c.week===pl.week) out=c; });
+  });
+  return out;
+}
+function aimCross(pl, round){
+  var d=DATA.input; if(!d) return null;
+  var out=null;
+  (d.items||[]).forEach(function(q){
+    if(q.quarter!==pl.quarter) return;
+    (q.crosscheck||[]).forEach(function(c){ if(c.round===round) out=c; });
+  });
+  return out;
+}
+/* **과제가 둘인 주가 열둘이다.** 강의 둘이 서로 다른 과를 쓰는 주다.
+   한 대본에서 둘을 찾는 것이 아니라 강마다 자기 과에서 하나씩 한다.
+   그래서 오늘 강에 걸린 것 하나만 편다. 둘을 다 펴면 조준표 4장이 금지한
+   "한 번에 두 가지 찾기" 가 된다. */
+function aimTask(w, pl){
+  if(!w || !w.tasks || !w.tasks.length) return null;
+  if(w.tasks.length===1) return w.tasks[0];
+  var i=(w.lectures||[]).indexOf(pl.lectureNo);
+  return w.tasks[i>=0 && i<w.tasks.length ? i : 0];
+}
+function renderAimPane(pl, seat, round){
+  if(!DATA.input){
+    loadData("input","ENG2P_INPUT",function(){ renderBlockPane(); });
+    return '<div class="n">조준표를 여는 중이다.</div>';
+  }
+  var w=aimWeek(pl);
+  if(!w) return '<div class="n">'+pl.week+'주 조준표 과제를 못 찾았다.</div>';
+  if(seat==="alone"){
+    var task=aimTask(w,pl), c=aimCollect(pl);
+    /* **초점을 두 곳이 말하면 두 사람이 어느 쪽인지 모른다.**
+       위 줄이 회차 초점을 말한다. 기준서 10.3 이 정한 것이고 하루가 한 회차다.
+       조준표는 그 위에 더 좁은 것을 얹는다. 조준표 4장이 "강의가 지정하는 과제는
+       이보다 좁다" 고 적어 뒀다. **넓은 것과 좁은 것이지 둘 중 하나가 아니다.**
+       그래서 여기서 초점을 다시 말하지 않는다. 좁은 것만 말한다. T210 */
+    var h='<div class="aim"><div class="k">이 주에 찾을 것 · '+pl.week+'주</div>'+
+          '<div class="v big">'+esc(task||"")+'</div>'+
+          '<div class="n">회차 초점보다 좁다. 이것 하나만 한다.'+
+          ' 다른 것이 들려도 이번에는 안 센다.</div>';
+    if(w.tasks.length>1)
+      h+='<div class="n">이 주는 강마다 과제가 다르다. 위엣것이 '+pl.lectureNo+'강 것이다.</div>';
+    if(c) h+='<div class="k">주마다 적어 올 것</div><div class="v">'+esc(c.text)+'</div>'+
+            (c.layer2?'<div class="n">2층 채집이다. 지어내지 않고 본 것을 그대로 적는다.</div>':"");
+    return h+'</div>';
+  }
+  var x=aimCross(pl,round);
+  var h2='<div class="aim"><div class="k">같이 듣고 맞춰 보는 법 · '+round+'회차</div>';
+  h2+='<div class="v">'+esc(x?x.how:"")+'</div>';
+  h2+='<div class="n">누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.</div>';
+  return h2+'</div>';
+}
+
 function renderMediaPane(pl, seat){
   var head='<div class="k">이 블록에 쓰는 것 · 미디어</div><div class="v">'+
            esc(pl.media||"(없음)")+'</div>';
@@ -2811,6 +2900,7 @@ function renderMediaPane(pl, seat){
   /* **재생기가 이 칸 안에 있다.** 전에는 미디어 탭으로 보냈다.
      블록 1은 40분이고 블록 4는 20분이다. 그 시간 내내 다른 탭에 가 있으면
      지시와 회차와 남은 시간이 다 안 보인다. 여기서 튼다. T125 */
+  h+=renderAimPane(pl, seat, round);
   h+='<div class="sessplay" id="sessPlayHost"></div>';
   var veil=veilOf(round);
   h+=renderSyncScript(it, round);

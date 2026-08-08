@@ -258,3 +258,16 @@ body.session-focus .rings{display:none}
 @media (prefers-reduced-motion:reduce){
   .blockpane.slide-next,.blockpane.slide-prev{animation:none}
 }
+
+/* 조준표를 그 자리에 편다. **40분 동안 이 한 줄을 본다.**
+   T208 진단에서 나왔다. 화면이 종이를 가리키기만 하고 있었다.
+
+   `.blockpane .v` 는 고정폭에 큰 글자다. 자료 이름과 카드 번호를 그리는 자리라 그렇다.
+   여기는 한국어 문장이 온다. 고정폭 19px 로 그리면 두 줄이 세 줄이 되고
+   칸이 밀린다. 그래서 이 자리만 보통 글꼴로 되돌린다. */
+.blockpane .aim{margin:10px 0;padding:11px 12px;border-radius:12px;
+  background:var(--sub);border:1px solid var(--line)}
+.blockpane .aim .v.big{font-family:inherit;font-size:1rem;font-weight:700;
+  line-height:1.55;letter-spacing:-.01em}
+.blockpane .aim .k{margin-top:9px}
+.blockpane .aim .k:first-child{margin-top:0}
