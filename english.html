@@ -5023,7 +5023,7 @@ $("#cSave").onclick=function(){
    음성은 저장소 사본, 영상은 공식 원본을 필요할 때만 불러온다.
    ========================================================================= */
 var MEDIA=(window.ENG_MEDIA_CATALOG&&window.ENG_MEDIA_CATALOG.items)||[];
-var LIB={active:-1,mode:"audio",el:null,rate:1};
+var LIB={active:-1,mode:"audio",el:null,rate:1,sig:null};
 LIB.rate=(+S.rate>=0.75&&+S.rate<=1.25)?+S.rate:1;   /* 고른 속도는 남는다. T135 */
 
 function mediaRec(){
@@ -5290,6 +5290,15 @@ function renderMediaList(){
     return !needle||(x.title+" "+x.lesson+" "+x.focus).toLowerCase().indexOf(needle)>=0;
   });
   $("#libCount").textContent="전체 "+MEDIA.length+"개 중 "+shown.length+"개 표시";
+  /* **같은 목록이면 다시 안 만든다.**
+     52개 항목에 단추가 104개다. 넷 배 느린 기기에서 이 탭을 여는 데 224ms 였다.
+     그런데 블록 1은 매 세션 이 탭을 연다. 목록이 그대로인데 매번 새로 만들었다.
+     무엇이 그려질지를 한 줄로 적어 두고 그것이 같으면 넘어간다.
+     블록 칸이 쓰는 `PANE.sig` 와 같은 수다. T186 */
+  var sig=[q,state,needle,LIB.active,LIB.mode,shown.length,
+           shown.map(function(o){ return o.x.id+":"+mediaPassCount(o.x.id)+(r.fav[o.x.id]?"f":""); }).join(",")].join("|");
+  if(LIB.sig===sig && box.firstChild) return;
+  LIB.sig=sig;
   box.innerHTML="";
   shown.forEach(function(o){
     var x=o.x, passN=mediaPassCount(x.id), d=el("article","mitem"+(o.i===LIB.active?" on":"")+(passN===3?" done":""));

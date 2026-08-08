@@ -136,6 +136,33 @@ function eagerBytes() {
       fails.push(h + " 가 첫 그림에 붙었다. 눌렀을 때 읽어야 한다");
   });
 
+  /* **다시 열 때 목록을 새로 만들면 안 된다.**
+     미디어 탭은 52개 항목에 단추가 104개다. 블록 1은 매 세션 이 탭을 연다.
+     목록이 그대로인데 매번 새로 만들면 그 값을 매번 문다.
+
+     시간으로 재면 기계마다 다르다. 그래서 **자리를 표시해 두고 그 표시가
+     살아남는지**를 본다. 다시 만들었으면 표시가 사라진다. 기계와 상관없는 잣대다. */
+  await page.goto(PAGE);
+  await page.waitForTimeout(420);
+  await page.evaluate(() => go("media"));
+  await page.waitForTimeout(520);
+  const marked = await page.evaluate(() => {
+    const box = document.querySelector("#libList");
+    if (!box || !box.firstChild) return false;
+    box.firstChild.setAttribute("data-keep", "1");
+    return true;
+  });
+  if (!marked) fails.push("미디어 목록이 안 그려졌다");
+  else {
+    await page.evaluate(() => go("today"));
+    await page.waitForTimeout(240);
+    await page.evaluate(() => go("media"));
+    await page.waitForTimeout(420);
+    const kept = await page.evaluate(() =>
+      !!document.querySelector('#libList [data-keep="1"]'));
+    if (!kept) fails.push("미디어 탭을 다시 여니 목록을 새로 만들었다");
+  }
+
   await browser.close();
 
   /* node 의 console.log 는 자리 폭을 안 맞춰 준다. 손으로 맞춘다. */
@@ -146,7 +173,7 @@ function eagerBytes() {
   if (late.length) console.log("  열자마자 더 붙은 것: " + late.join(" "));
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("처음에 읽는 것 %d개 %dKB (기준선 %d개 %dKB) / 실패 %d",
-    rows.length, kb, B.eager_files, B.eager_kb, fails.length);
+  console.log("처음에 읽는 것 " + rows.length + "개 " + kb + "KB (기준선 " +
+    B.eager_files + "개 " + B.eager_kb + "KB) / 다시 열기 1판 / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
