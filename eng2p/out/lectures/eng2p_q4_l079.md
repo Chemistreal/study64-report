@@ -15,10 +15,9 @@
 
 대본에서 재료를 모은다. VOA 31과다.
 
-Anna: This won't take long. I can see it now... I am at home plate. I wait for the pitch. The ball comes. I swing. It's a hit! I run to first base, second base, third base, then home plate. It's a home run! The crowd cheers! Woo hoo!
+Anna: (앞 줄임) I am at home plate. I wait for the pitch. The ball comes. I swing. It's a hit! I run to first base, second base, third base, then home plate. (뒤 줄임)
 
-가운데 여섯 문장을 재료로 쓴다. I am at home plate 부터 home plate 로 돌아오는 데까지다.
-한 사람이 여섯 문장을 이어 낸다. 토막 하나다.
+한 줄 안에서 여섯 문장을 뽑았다. 한 사람이 이어 낸 토막 하나다.
 둘째 단계로 간다. 안 바뀌는 부분에 밑줄을 긋는다.
 
 **밑줄 그을 것이 거의 없다.** 문장을 잇는 낱말이 안 보인다.
@@ -30,7 +29,7 @@ and 도 so 도 없이 그냥 나열한다. 그것이 첫 발견이다.
 순서 표시를 앞에 붙인다. First, Then, After that
 앞 문장의 낱말을 다음 문장에 다시 쓴다
 
-31과 마지막 문장에 셋째가 있다. home plate 가 첫 문장과 마지막 문장에 다 나온다.
+뽑은 여섯에 셋째가 있다. home plate 가 첫 문장과 마지막 문장에 다 나온다.
 같은 낱말이 돌아오면 그 토막이 닫힌다.
 
 **여기서 규칙이 나온다. 순서 표시는 문장 앞에만 온다.**
@@ -40,13 +39,11 @@ and 도 so 도 없이 그냥 나열한다. 그것이 첫 발견이다.
 넷째 단계로 반례를 찾는다. 순서 표시가 문장 가운데 오는 자리가 있는가.
 **같은 문장 안에 있다.** then home plate 의 then 이 문장 가운데다.
 
-그런데 이것은 문장을 잇는 것이 아니라 목록 안을 잇는 것이다.
+그런데 이것은 목록 안을 잇는 것이다.
 first base, second base, third base, then home plate 가 한 목록이다.
-문장과 문장을 잇는 자리가 아니라 낱말과 낱말을 잇는 자리다.
+문장을 잇는 자리가 아니라 낱말을 잇는 자리다.
 
 **규칙이 안 깨지고 범위만 좁아졌다.** 문장을 이을 때만 앞에 온다.
-68강에서 진행 형태를 반례로 다룬 것과 같은 처리다.
-이런 자리를 안 짚으면 학습자가 세다가 걸린다.
 
 ## 2. 한국어 화자 함정
 

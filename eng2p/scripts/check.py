@@ -72,6 +72,12 @@ def check_common(path, text):
         fail(path, "쓰는 문자 범위 밖: %s" % " ".join(
             "%s(U+%04X)" % (c, ord(c)) for c in odd[:5]))
 
+    bad_reg = sorted({m for m in REGISTER_LABEL.findall(text)
+                      if m not in REGISTERS and not m.startswith("통과")})
+    if bad_reg:
+        fail(path, "레지스터 이름이 셋 밖이다: %s (격식 중립 친근만 쓴다)"
+             % " ".join(bad_reg))
+
     for ch, label in BANNED_CHARS.items():
         n = text.count(ch)
         if n:
@@ -197,6 +203,12 @@ def section(text, start, end):
 
 CARD_TYPES = ["판정형", "압박형", "확장형", "역할형", "repair형"]
 ROLE_ELEMS = ["상황", "관계", "목적", "레지스터", "종료"]
+
+# 기준서 8.3 이 세 칸으로 고정한다. 20강이 그 셋을 가르는 물음 셋을 준다.
+# 넷째 이름이 슬며시 늘어난 적이 있다. 정중 21건이 그것이고 T56 에서 격식으로 합쳤다.
+# 이름이 하나 늘면 학습자에게는 칸이 하나 느는 것이고 90강 규칙이 그 자리에서 깨진다.
+REGISTERS = ["격식", "중립", "친근"]
+REGISTER_LABEL = re.compile(r"레지스터[:는]\s*([가-힣]+)")
 
 
 def check_cards(path, text):
