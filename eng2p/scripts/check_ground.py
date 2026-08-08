@@ -41,7 +41,7 @@ EXEMPT = {
         "T141 에서 대본을 다 뒤져 보고 정했다. 이 목록의 근거는 대화 세션이 댄다.",
 }
 
-# T142 에 대조판을 더했다. T141 에 강의 넷을 더했다. T140 에 **목록만 세는 값**으로 갈아 끼웠다. 전에는 문장까지 섞어 세던 값이다.
+# T143 에 세트와 비상판과 조준표와 과제집을 더했다. T142 에 대조판을 더했다. T141 에 강의 넷을 더했다. T140 에 **목록만 세는 값**으로 갈아 끼웠다. 전에는 문장까지 섞어 세던 값이다.
 # 문장은 내가 지어 쓴 것이라 151분짜리 말뭉치에 있을 리 없다. 그 비율은 말뭉치 크기를 잰다. **통과 점수가 아니다.** 나빠지는 것만 막는다.
 # 목록을 고칠 때마다 이 표를 같이 내린다. 표를 내리는 것이 이 구간의 일이다.
 BASELINE = {
@@ -58,10 +58,14 @@ BASELINE = {
     "eng2p_ground_card_q4_051_100.md": 0.25,
     "eng2p_ground_card_q4_101_150.md": 0.00,
     "eng2p_ground_dialog.md": 0.00,
+    "eng2p_ground_emergency.md": 0.37,
+    "eng2p_ground_input.md": 0.15,
     "eng2p_ground_lectures_q1.md": 0.36,
-    "eng2p_ground_lectures_q2.md": 0.39,
+    "eng2p_ground_lectures_q2.md": 0.38,
     "eng2p_ground_lectures_q3.md": 0.54,
     "eng2p_ground_lectures_q4.md": 0.37,
+    "eng2p_ground_sets.md": 0.21,
+    "eng2p_ground_tasks.md": 0.37,
 }
 HEAD = re.compile(r"재료 (\d+)개 / 대본에 있음 (\d+)개")
 LST = re.compile(r"목록 (\d+)개 / 근거 없음 (\d+)개")

@@ -20,10 +20,14 @@
 | eng2p_card_q4_051_100.md | 40 | 34 | 6 | eng2p_ground_card_q4_051_100.md |
 | eng2p_card_q4_101_150.md | 33 | 26 | 7 | eng2p_ground_card_q4_101_150.md |
 | out/lectures/q1 24편 | 159 | 97 | 62 | eng2p_ground_lectures_q1.md |
-| out/lectures/q2 24편 | 191 | 143 | 48 | eng2p_ground_lectures_q2.md |
+| out/lectures/q2 24편 | 191 | 144 | 47 | eng2p_ground_lectures_q2.md |
 | out/lectures/q3 24편 | 108 | 87 | 21 | eng2p_ground_lectures_q3.md |
 | out/lectures/q4 24편 | 78 | 68 | 10 | eng2p_ground_lectures_q4.md |
 | out/dialog 18편 | 201 | 108 | 93 | eng2p_ground_dialog.md |
+| out/sets 48편 | 38 | 30 | 8 | eng2p_ground_sets.md |
+| out/emergency 4편 | 204 | 129 | 75 | eng2p_ground_emergency.md |
+| out/input 4편 | 61 | 52 | 9 | eng2p_ground_input.md |
+| out/tasks 48편 | 67 | 42 | 25 | eng2p_ground_tasks.md |
 
-합계 재료 2342개 / 근거 있음 1330개 / **근거 없음 1012개 (43%)**
+합계 재료 2712개 / 근거 있음 1584개 / **근거 없음 1128개 (42%)**
 

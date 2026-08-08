@@ -32,6 +32,7 @@
 **그 판단은 check_ground.py 가 한다.**
 규격: docs/roadmap.md 11.10
 """
+import json
 import pathlib
 import re
 import sys
@@ -97,8 +98,40 @@ def lecture_materials(path):
     return out
 
 
+SPAN = re.compile(r"[A-Za-z][A-Za-z'\u2019]*(?:\s+[A-Za-z][A-Za-z'\u2019]*)+")
+
+
+def inline_materials(path):
+    """한국어 줄 안에 박힌 영어를 뽑는다.
+
+    세트와 비상판과 조준표와 과제집은 영어를 홀로 안 적는다.
+    `Nice to meet you 를 세 번 말한다` 처럼 설명 안에 박아 둔다.
+    그래서 줄 단위로 뽑으면 하나도 안 나온다. **없는 것이 아니라 못 뽑은 것이다.**
+
+    낱말 둘 이상이 이어진 자리를 조각으로 본다. 한 파일 안에서 같은 조각은 한 번만 센다.
+    같은 말이 다섯 번 나온다고 근거가 다섯 배 없는 것이 아니다.
+    """
+    out, seen = [], set()
+    n = 0
+    for raw in path.read_text(encoding="utf-8").split("\n"):
+        n += 1
+        s = raw.strip()
+        if not s or s.startswith("검증") or s.startswith("신뢰도"):
+            continue
+        for m in SPAN.finditer(s):
+            x = m.group(0).strip()
+            if len(x.split()) < 2 or x.lower() in seen:
+                continue
+            seen.add(x.lower())
+            out.append(("%d줄" % n, x))
+    return out
+
+
 def materials(path):
     """그 파일의 영어 재료를 뽑는다. (표시, 문장) 목록."""
+    p = str(path)
+    if "/sets/" in p or "/emergency/" in p or "/input/" in p or "/tasks/" in p:
+        return inline_materials(path)
     if "lectures" in str(path) or "dialog" in str(path):
         # 3층 대화도 줄 통째로 적는다. `A: ...` 꼴이라 화자 이름표는 norm 이 뗀다.
         return lecture_materials(path)
@@ -144,8 +177,29 @@ def materials(path):
     return out
 
 
+def load_titles():
+    """52과의 제목. **조준표는 대본이 아니라 제목을 적는다.**
+
+    `Come Over to My Place` 는 lle1-10 의 제목이다. 대본 본문에는 안 나온다.
+    그것을 근거 없음으로 세면 조준표가 지어낸 이름을 쓴 것처럼 보인다. 아니다.
+    제목도 그 52과에서 온 것이므로 같이 본다. 다만 **제목이라고 적는다.**
+    """
+    f = REPO / "media" / "english" / "catalog.json"
+    if not f.exists():
+        return []
+    d = json.loads(f.read_text(encoding="utf-8"))
+    items = d if isinstance(d, list) else d.get("items", d.get("media", []))
+    return [(x.get("id", ""), norm(x.get("title", ""))) for x in items if x.get("title")]
+
+
+TITLES = None
+
+
 def find(text, tr):
     """그 문장이 든 대본 자리를 다 낸다. ['lle1-01:12', ...]"""
+    global TITLES
+    if TITLES is None:
+        TITLES = load_titles()
     needle = norm(text).strip()
     if not needle:
         return []
@@ -154,6 +208,10 @@ def find(text, tr):
         for n, _raw, hay in tr[mid]:
             if (" " + needle + " ") in hay:
                 hits.append("%s:%d" % (mid, n))
+    if not hits:
+        for mid, hay in TITLES:
+            if (" " + needle + " ") in hay:
+                hits.append("%s 제목" % mid)
     return hits
 
 
@@ -261,6 +319,11 @@ def main():
         dg = sorted((ROOT / "out" / "dialog").glob("eng2p_dialog_q*.md"))
         if dg:
             groups.append(("eng2p_ground_dialog.md", "out/dialog %d편" % len(dg), dg))
+        # 한국어 설명 안에 박힌 영어. 세트와 비상판과 조준표와 과제집이다.
+        for d in ("sets", "emergency", "input", "tasks"):
+            g = sorted((ROOT / "out" / d).glob("*.md"))
+            if g:
+                groups.append(("eng2p_ground_%s.md" % d, "out/%s %d편" % (d, len(g)), g))
 
     tot, hit, index = 0, 0, []
     for p in paths:
