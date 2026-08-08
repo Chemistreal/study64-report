@@ -328,6 +328,15 @@ body.session-focus #tOne{display:none}
 body.session-focus .focusdock{display:flex}
 /* 조작줄이 화면 아래에 떠 있다. 그만큼 자리를 비워야 진행 띠가 안 덮인다. */
 body.session-focus .wrap{padding-bottom:110px}
+/* 세션 전에는 오늘 한 장이 주인공이고 세션 중에는 블록 칸이 주인공이다.
+   시작한 뒤에도 오늘 한 장과 비상판 줄이 떠 있어서 세션 카드가 2100px 였다.
+   블록 칸이 화면 밖으로 밀리는데 그것이 세션 중에 제일 많이 보는 칸이다.
+   시작했으면 오늘 상대가 없다는 줄도 안 맞는다. T122 에서 찍어 보고 알았다. */
+body.session-focus .todaysheet,
+body.session-focus #emgLine,
+body.session-focus #emgBox,
+body.session-focus #resumeBox,
+body.session-focus .progline{display:none}
 .focusdock .fstate{min-width:130px;flex:1;padding:0 8px}
 .focusdock .fstate b{display:block;font-size:12px}
 .focusdock .fstate span{font-family:var(--mono);font-size:17px}

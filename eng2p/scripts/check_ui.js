@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 열네 가지를 본다.
+ * 열다섯 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -18,8 +18,9 @@
  * 10. 세션 한 벌이 시작부터 끝까지 어긋남 없이 도는가
  * 11. 기기 둘이 각각 제 쪽을 보는가
  * 12. 통과 기준 458개가 다 그려지고 선이 있는 것은 값으로 갈리는가
- * 13. 망을 끊어도 자료가 뜨고 영상이 못 뜰 때 그 말을 하는가
- * 14. 시간이 흘러 블록이 저절로 넘어가고 그 자리가 저장되는가
+ * 13. 세션이 시작되면 오늘 한 장이 숨고 블록 칸이 주인공이 되는가
+ * 14. 망을 끊어도 자료가 뜨고 영상이 못 뜰 때 그 말을 하는가
+ * 15. 시간이 흘러 블록이 저절로 넘어가고 그 자리가 저장되는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -355,6 +356,26 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
   if (!ncards) fails.push("카드 자료가 안 열렸다");
   if (!nsets) fails.push("세트 자료가 안 열렸다");
+
+  // 12.4 세션 중 화면. 오늘 한 장과 비상판 줄은 세션이 시작되면 숨는다.
+  //      세션 전에는 오늘 한 장이 주인공이고 세션 중에는 블록 칸이 주인공이다.
+  //      안 숨기면 블록 칸이 화면 밖으로 밀린다. 세션 중에 제일 많이 보는 칸이다.
+  await page.evaluate(() => { go("today"); T.run = true; syncSessionFocus(); gotoBlock(2); });
+  await page.waitForTimeout(1500);
+  const focus = await page.evaluate(() => ({
+    sheet: !!document.querySelector(".todaysheet") &&
+           getComputedStyle(document.querySelector(".todaysheet")).display !== "none",
+    emg: !!document.getElementById("emgLine") &&
+         getComputedStyle(document.getElementById("emgLine")).display !== "none",
+    pane: !!document.getElementById("blockPane") &&
+          getComputedStyle(document.getElementById("blockPane")).display !== "none",
+    h: document.getElementById("sessionCard").scrollHeight,
+  }));
+  if (focus.sheet) fails.push("세션 중 화면: 오늘 한 장이 안 숨었다");
+  if (focus.emg) fails.push("세션 중 화면: 비상판 줄이 안 숨었다");
+  if (!focus.pane) fails.push("세션 중 화면: 블록 칸이 안 보인다");
+  if (focus.h > 2000) fails.push("세션 중 화면: 세션 카드가 " + focus.h + "px 다. 너무 길다");
+  await page.evaluate(() => { T.run = false; syncSessionFocus(); });
 
   // 12.5 오프라인. 바깥 요청을 다 막고 자료가 뜨는지 본다.
   //      소리와 대본과 이미지는 저장소 안에 있고 영상만 원격이다.
