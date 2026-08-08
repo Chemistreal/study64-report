@@ -83,7 +83,16 @@ function renderToday(){
   paintTimer();  // 이름이 바뀌면 블록별 2인 지시도 같이 갱신한다
 }
 document.querySelectorAll("[data-st]").forEach(function(b){
-  b.onclick=function(){ day(today()).status=b.dataset.st; save(); renderToday(); };
+  b.onclick=function(){
+    var rec=day(today()), was=rec.status;
+    if(was===b.dataset.st) return;          // 같은 것을 다시 누르면 아무 일도 안 한다
+    rec.status=b.dataset.st; save(); renderToday();
+    /* **이 값이 진도를 정한다.** 정상을 결석으로 잘못 누르면 그날이 진도에서 빠진다.
+       96강 배정이 통째로 하루 밀린다. 그것을 되돌릴 길이 없었다. T173 */
+    offerUndo("수행 기록을 "+(b.textContent||"").trim()+"으로 바꿈",function(){
+      day(today()).status=was; renderToday();
+    });
+  };
 });
 function pullForm(){
   var rec=day(today());

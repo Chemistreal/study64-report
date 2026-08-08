@@ -19,11 +19,20 @@ function revDue(){
   });
   return out;
 }
+/* **잘못 누르면 간격이 날아간다.** 맞음과 틀림이 나란히 있고 둘 다 큰 단추다.
+   틀림을 누르면 상자가 1로 되돌아간다. 60일 뒤에 낼 것이 내일이 된다.
+   그것을 되돌릴 길이 없었다. T173 */
 function revGrade(it,ok){
+  var was={box:it.box,due:it.due};
   if(ok){ it.box=(it.box||1)+1; }
   else { it.box=1; }
   it.due = it.box>IVL.length ? null : addDays(today(), IVL[it.box-1]);
   save();
+  offerUndo("복습 판정 "+(ok?"맞음":"틀림"),function(){
+    it.box=was.box; it.due=was.due;
+    REV.shown=false; if(REV.i>0) REV.i--;
+    renderReview(); renderNudge();
+  });
 }
 function renderNudge(){
   var box=$("#revNudge"); if(!box) return;

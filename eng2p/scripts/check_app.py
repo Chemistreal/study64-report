@@ -104,7 +104,61 @@ def pieces():
     return bad
 
 
+# **되돌릴 수 있어야 하는 자리.** 지우거나 덮어쓰는 코드다.
+# 지운 것은 없어진 줄 알지만 **덮은 것은 맞는 줄 안다.** 그래서 덮는 쪽이 더 위험하다.
+UNDOABLE = re.compile(r"\.splice\([^)]*,\s*1\)|delete\s+\w+\[")
+
+# 줄 하나짜리 면제는 **그 줄 옆에 이유를 적는다.** 표에 모으면 코드에서 멀어지고
+# 코드를 옮길 때 표가 안 따라온다. 이 표시 뒤에 이유가 없으면 실패다.
+UNDO_MARK = "되돌리기 없어도 된다:"
+
+# 파일 통째로 면제되는 자리. 그 파일에서 지우는 코드가 다 같은 성격일 때만 쓴다.
+UNDO_OK = {
+    "02_store.js": "저장소 자체다. 전체 지우기는 물음을 두 번 하고 JSON 을 먼저 받으라고 말한다",
+    "05_session.js": "clearSession 은 어제 세션을 접는 것이다. 오늘 값을 안 건드린다",
+    "06_cards.js": "카드 자리 표시다. 다음 장으로 넘기면 다시 잡힌다",
+    "19_library.js": "미디어 회차 표시는 누르면 다시 켜진다. 켜고 끄는 자리다",
+}
+
+
+def undo_gaps():
+    """지우는 코드 옆에 되돌리기가 있는가. **소스를 읽는다.**
+
+    화면으로는 이것을 못 본다. 지우는 자리가 여럿이고 그중 하나만 빠져 있으면
+    그 하나를 누를 때까지 아무도 모른다. T173 에 넷을 찾았고 T174 에 둘을 더 찾았다.
+    """
+    app = ROOT / "app" / "js"
+    bad = []
+    for f in sorted(app.glob("*.js")):
+        if f.name in UNDO_OK:
+            continue
+        body = f.read_text(encoding="utf-8")
+        lines = body.split("\n")
+        for i, line in enumerate(lines):
+            if line.lstrip().startswith("/*") or line.lstrip().startswith("*"):
+                continue
+            if not UNDOABLE.search(line):
+                continue
+            # 그 둘레 열두 줄 안에 되돌리기가 있으면 된 것으로 본다
+            near = "\n".join(lines[max(0, i - 3):i + 12])
+            if "offerUndo" in near:
+                continue
+            # 줄 옆에 이유를 적어 뒀는가. 이유 없이 표시만 있으면 안 된다
+            around = "\n".join(lines[max(0, i - 3):i + 2])
+            if UNDO_MARK in around:
+                why = around.split(UNDO_MARK)[1].strip()
+                why = why.split("*/")[0].strip()
+                if len(why) < 8:
+                    bad.append("%s %d째 줄: 면제 표시는 있는데 이유가 없다" % (f.name, i + 1))
+                continue
+            bad.append("%s %d째 줄에 되돌리기가 없다: %s"
+                       % (f.name, i + 1, line.strip()[:60]))
+    return bad
+
+
 def main():
+    for m in undo_gaps():
+        FAIL.append(m)
     for m in pieces():
         FAIL.append(m)
     if not APP.exists():
@@ -162,9 +216,10 @@ def main():
     print()
     npiece = sum(1 for l in (ROOT / "app" / "order.txt").read_text(encoding="utf-8").split("\n")
                  if l.strip() and not l.strip().startswith("#"))
-    print("english.html 글자 %d개 / 조각 %d개 (한 조각 %d줄까지) / 건너뛴 규격 목록 %d곳 / "
-          "그리는 기호 %d개 / 실패 %d / 경고 %d"
-          % (len(raw), npiece, MAX_LINES, skipped, len(GLYPH), len(FAIL), len(WARN)))
+    print("english.html 글자 %d개 / 조각 %d개 (한 조각 %d줄까지) / 되돌리기 면제 %d곳 / "
+          "건너뛴 규격 목록 %d곳 / 그리는 기호 %d개 / 실패 %d / 경고 %d"
+          % (len(raw), npiece, MAX_LINES, len(UNDO_OK), skipped, len(GLYPH),
+             len(FAIL), len(WARN)))
     return 1 if FAIL else 0
 
 

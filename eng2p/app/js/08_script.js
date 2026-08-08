@@ -203,7 +203,15 @@ function anchorLine(it, i){
   var cu=DATA.cues, al=DATA.audiolen;
   var cue=(cu&&cu.items&&cu.items[it.id])||null; if(!cue) return;
   var rec=cueRec(it.id, cue.length);
-  if(cueFixed(it.id,i)!=null){ delete rec[i]; save(); renderBlockPane(); flash((i+1)+"번째 줄 자리를 지웠다"); return; }
+  if(cueFixed(it.id,i)!=null){
+    var gone=rec[i];
+    delete rec[i]; save(); renderBlockPane();
+    flash((i+1)+"번째 줄 자리를 지웠다");
+    /* 자리를 잡는 데는 그 줄까지 듣고 멈춰야 한다. 잘못 지우면 그것을 다시 한다. T174 */
+    offerUndo((i+1)+"번째 줄 자리 지움",function(){
+      cueRec(it.id)[i]=gone; PANE.sig=null; renderBlockPane(); });
+    return;
+  }
   var t=Math.round(SESS.el.currentTime*100)/100;
   var dur=(al&&al.items||{})[it.id]||SESS.el.duration||0;
   /* **이웃 어림과 견주지 않는다.** 어림이 통째로 밀려 있으면 그때 잡는 것이고

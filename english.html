@@ -1607,7 +1607,12 @@ function renderEmg(pl){
   var rec=day(today());
   if(rec.status==="emg"){
     line.innerHTML='<button type="button" id="emgClose">비상판을 쓴 날로 적었다. 되돌리기</button>';
-    $("#emgClose").onclick=function(){ rec.status=null; S.emgOpen=false; save(); renderToday(); };
+    $("#emgClose").onclick=function(){
+      var was=rec.status;
+      rec.status=null; S.emgOpen=false; save(); renderToday();
+      if(was) offerUndo("비상판 기록 지움",function(){
+        day(today()).status=was; S.emgOpen=true; renderToday(); });
+    };
   } else if(S.emgOpen){
     line.innerHTML='<button type="button" id="emgHide">접기</button>';
     $("#emgHide").onclick=function(){ S.emgOpen=false; save(); renderToday(); };
@@ -1751,6 +1756,8 @@ function renderCrit(){
   box.querySelectorAll("[data-crit]").forEach(function(el){
     el.oninput=function(){
       var r=critRec();
+      /* 되돌리기 없어도 된다: 칸을 비운 그 순간에 지운다. 다시 적으면 되돌아온다.
+         칸 자체가 되돌리기라서 띠를 띄우면 글자 칠 때마다 뜬다. */
       if(el.value==="") delete r[el.dataset.crit]; else r[el.dataset.crit]=+el.value;
       save();
       /* 다시 그리면 커서가 튄다. 그 줄의 판정만 바꾼다. */
@@ -1973,7 +1980,16 @@ function renderToday(){
   paintTimer();  // 이름이 바뀌면 블록별 2인 지시도 같이 갱신한다
 }
 document.querySelectorAll("[data-st]").forEach(function(b){
-  b.onclick=function(){ day(today()).status=b.dataset.st; save(); renderToday(); };
+  b.onclick=function(){
+    var rec=day(today()), was=rec.status;
+    if(was===b.dataset.st) return;          // 같은 것을 다시 누르면 아무 일도 안 한다
+    rec.status=b.dataset.st; save(); renderToday();
+    /* **이 값이 진도를 정한다.** 정상을 결석으로 잘못 누르면 그날이 진도에서 빠진다.
+       96강 배정이 통째로 하루 밀린다. 그것을 되돌릴 길이 없었다. T173 */
+    offerUndo("수행 기록을 "+(b.textContent||"").trim()+"으로 바꿈",function(){
+      day(today()).status=was; renderToday();
+    });
+  };
 });
 function pullForm(){
   var rec=day(today());
@@ -2950,7 +2966,15 @@ function anchorLine(it, i){
   var cu=DATA.cues, al=DATA.audiolen;
   var cue=(cu&&cu.items&&cu.items[it.id])||null; if(!cue) return;
   var rec=cueRec(it.id, cue.length);
-  if(cueFixed(it.id,i)!=null){ delete rec[i]; save(); renderBlockPane(); flash((i+1)+"번째 줄 자리를 지웠다"); return; }
+  if(cueFixed(it.id,i)!=null){
+    var gone=rec[i];
+    delete rec[i]; save(); renderBlockPane();
+    flash((i+1)+"번째 줄 자리를 지웠다");
+    /* 자리를 잡는 데는 그 줄까지 듣고 멈춰야 한다. 잘못 지우면 그것을 다시 한다. T174 */
+    offerUndo((i+1)+"번째 줄 자리 지움",function(){
+      cueRec(it.id)[i]=gone; PANE.sig=null; renderBlockPane(); });
+    return;
+  }
   var t=Math.round(SESS.el.currentTime*100)/100;
   var dur=(al&&al.items||{})[it.id]||SESS.el.duration||0;
   /* **이웃 어림과 견주지 않는다.** 어림이 통째로 밀려 있으면 그때 잡는 것이고
@@ -3281,8 +3305,18 @@ $("#tPrev").onclick=function(){
   gotoBlock(T.idx-1,{announce:true});
 };
 $("#tReset").onclick=function(){
+  /* **처음으로는 지금까지 온 자리를 버린다.** 블록 3에서 누르면 두 시간 중
+     한 시간 사십 분이 사라진다. 옆에 다음 블록이 있어서 잘못 누르기도 쉽다.
+     되돌릴 자리를 같이 준다. T173 */
+  var was={idx:T.idx,left:T.left,run:T.run};
   T.run=false; clearInterval(T.tick); relWake();
   gotoBlock(0,{announce:true});
+  if(was.idx!==0 || was.left!==BLOCKS[0].m*60){
+    offerUndo("세션을 처음으로 되돌림",function(){
+      T.idx=was.idx; T.left=was.left; T.run=false;
+      saveSession(); PANE.sig=null; renderBlockPane(); paintTimer();
+    });
+  }
 };
 
 /* 화면 꺼짐 방지. 2시간짜리 타이머를 켜 두고 매번 화면을 깨우게 하지 않는다. */
@@ -3959,7 +3993,13 @@ function renderRot(){
   });
   $("#rLog").innerHTML=lg.join("");
   $("#rLog").querySelectorAll(".del").forEach(function(b){
-    b.onclick=function(){ S.rot.splice(+b.dataset.i,1); save(); renderRot(); };
+    b.onclick=function(){
+      var i=+b.dataset.i, gone=S.rot.splice(i,1)[0];
+      save(); renderRot();
+      /* 회전 대장은 편중을 막는 장치다. 한 줄을 잘못 지우면 그 조합이
+         안 쓴 것으로 되돌아가고 다음 배정이 그쪽으로 쏠린다. T174 */
+      offerUndo("회전 등록 1건 삭제",function(){ S.rot.splice(i,0,gone); renderRot(); });
+    };
   });
 }
 ["#rD","#rR","#rF","#rQ"].forEach(function(s){ $(s).addEventListener("change",renderRot); });
@@ -3998,11 +4038,20 @@ function revDue(){
   });
   return out;
 }
+/* **잘못 누르면 간격이 날아간다.** 맞음과 틀림이 나란히 있고 둘 다 큰 단추다.
+   틀림을 누르면 상자가 1로 되돌아간다. 60일 뒤에 낼 것이 내일이 된다.
+   그것을 되돌릴 길이 없었다. T173 */
 function revGrade(it,ok){
+  var was={box:it.box,due:it.due};
   if(ok){ it.box=(it.box||1)+1; }
   else { it.box=1; }
   it.due = it.box>IVL.length ? null : addDays(today(), IVL[it.box-1]);
   save();
+  offerUndo("복습 판정 "+(ok?"맞음":"틀림"),function(){
+    it.box=was.box; it.due=was.due;
+    REV.shown=false; if(REV.i>0) REV.i--;
+    renderReview(); renderNudge();
+  });
 }
 function renderNudge(){
   var box=$("#revNudge"); if(!box) return;

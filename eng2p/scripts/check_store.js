@@ -150,9 +150,64 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await ctx.close();
   }
 
+  /* 7. **되돌릴 수 있는가.** 잘못 누른 것을 못 되돌리면 그 값은 영영 틀린 값이다.
+     이 앱에는 지우는 자리가 없다. 대신 **덮어쓰는 자리**가 있고 그것이 더 위험하다.
+     지운 것은 없어진 줄 알지만 덮은 것은 맞는 줄 안다. */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    await page.evaluate(() => {
+      S.onboarded = true; S.device = "a"; S.recOpen = true; save(); renderToday();
+    });
+    await page.waitForTimeout(300);
+
+    // 수행 기록. 이 값이 진도를 정한다
+    await page.click('[data-st="normal"]');
+    await page.waitForTimeout(180);
+    await page.click('[data-st="absent"]');
+    await page.waitForTimeout(220);
+    if (!(await page.isVisible(".undo"))) fails.push("수행 기록을 바꿨는데 되돌릴 자리가 없다");
+    else {
+      await page.click(".undo button");
+      await page.waitForTimeout(220);
+      const st = await page.evaluate(() => day(today()).status);
+      if (st !== "normal") fails.push("수행 기록을 되돌렸는데 " + st + " 다");
+    }
+
+    // 세션 처음으로. 블록 3에서 누르면 한 시간 사십 분이 사라진다
+    await page.click("#tOne");
+    await page.waitForTimeout(260);
+    await page.evaluate(() => gotoBlock(2));
+    await page.waitForTimeout(220);
+    await page.click("#tReset");
+    await page.waitForTimeout(260);
+    if (!(await page.isVisible(".undo"))) fails.push("세션을 처음으로 되돌렸는데 되돌릴 자리가 없다");
+    else {
+      await page.click(".undo button");
+      await page.waitForTimeout(260);
+      const i = await page.evaluate(() => T.idx);
+      if (i !== 2) fails.push("세션 자리를 되돌렸는데 블록 " + (i + 1) + " 이다");
+    }
+
+    // 복습 판정. 틀림을 잘못 누르면 60일 뒤 낼 것이 내일이 된다
+    await page.evaluate(() => {
+      window.__it = { id: "t1", q: "단서", a: "답", box: 5, due: today() };
+      revGrade(window.__it, false);
+    });
+    await page.waitForTimeout(220);
+    if (!(await page.isVisible(".undo"))) fails.push("복습 판정에 되돌릴 자리가 없다");
+    else {
+      await page.click(".undo button");
+      await page.waitForTimeout(220);
+      const box = await page.evaluate(() => window.__it.box);
+      if (box !== 5) fails.push("복습 판정을 되돌렸는데 상자가 " + box + " 다");
+    }
+    await ctx.close();
+  }
+
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("저장소 %d판 / 실패 %d", n, fails.length);
+  console.log("저장소 %d판 (되돌리기 3자리 포함) / 실패 %d", n, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

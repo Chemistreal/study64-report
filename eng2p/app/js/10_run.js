@@ -25,8 +25,18 @@ $("#tPrev").onclick=function(){
   gotoBlock(T.idx-1,{announce:true});
 };
 $("#tReset").onclick=function(){
+  /* **처음으로는 지금까지 온 자리를 버린다.** 블록 3에서 누르면 두 시간 중
+     한 시간 사십 분이 사라진다. 옆에 다음 블록이 있어서 잘못 누르기도 쉽다.
+     되돌릴 자리를 같이 준다. T173 */
+  var was={idx:T.idx,left:T.left,run:T.run};
   T.run=false; clearInterval(T.tick); relWake();
   gotoBlock(0,{announce:true});
+  if(was.idx!==0 || was.left!==BLOCKS[0].m*60){
+    offerUndo("세션을 처음으로 되돌림",function(){
+      T.idx=was.idx; T.left=was.left; T.run=false;
+      saveSession(); PANE.sig=null; renderBlockPane(); paintTimer();
+    });
+  }
 };
 
 /* 화면 꺼짐 방지. 2시간짜리 타이머를 켜 두고 매번 화면을 깨우게 하지 않는다. */

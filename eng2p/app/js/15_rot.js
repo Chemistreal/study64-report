@@ -68,7 +68,13 @@ function renderRot(){
   });
   $("#rLog").innerHTML=lg.join("");
   $("#rLog").querySelectorAll(".del").forEach(function(b){
-    b.onclick=function(){ S.rot.splice(+b.dataset.i,1); save(); renderRot(); };
+    b.onclick=function(){
+      var i=+b.dataset.i, gone=S.rot.splice(i,1)[0];
+      save(); renderRot();
+      /* 회전 대장은 편중을 막는 장치다. 한 줄을 잘못 지우면 그 조합이
+         안 쓴 것으로 되돌아가고 다음 배정이 그쪽으로 쏠린다. T174 */
+      offerUndo("회전 등록 1건 삭제",function(){ S.rot.splice(i,0,gone); renderRot(); });
+    };
   });
 }
 ["#rD","#rR","#rF","#rQ"].forEach(function(s){ $(s).addEventListener("change",renderRot); });

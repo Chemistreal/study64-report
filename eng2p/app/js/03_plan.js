@@ -76,7 +76,12 @@ function renderEmg(pl){
   var rec=day(today());
   if(rec.status==="emg"){
     line.innerHTML='<button type="button" id="emgClose">비상판을 쓴 날로 적었다. 되돌리기</button>';
-    $("#emgClose").onclick=function(){ rec.status=null; S.emgOpen=false; save(); renderToday(); };
+    $("#emgClose").onclick=function(){
+      var was=rec.status;
+      rec.status=null; S.emgOpen=false; save(); renderToday();
+      if(was) offerUndo("비상판 기록 지움",function(){
+        day(today()).status=was; S.emgOpen=true; renderToday(); });
+    };
   } else if(S.emgOpen){
     line.innerHTML='<button type="button" id="emgHide">접기</button>';
     $("#emgHide").onclick=function(){ S.emgOpen=false; save(); renderToday(); };
@@ -220,6 +225,8 @@ function renderCrit(){
   box.querySelectorAll("[data-crit]").forEach(function(el){
     el.oninput=function(){
       var r=critRec();
+      /* 되돌리기 없어도 된다: 칸을 비운 그 순간에 지운다. 다시 적으면 되돌아온다.
+         칸 자체가 되돌리기라서 띠를 띄우면 글자 칠 때마다 뜬다. */
       if(el.value==="") delete r[el.dataset.crit]; else r[el.dataset.crit]=+el.value;
       save();
       /* 다시 그리면 커서가 튄다. 그 줄의 판정만 바꾼다. */
