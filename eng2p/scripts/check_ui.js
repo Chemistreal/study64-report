@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 스무 가지를 본다.
+ * 스물한 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -25,7 +25,8 @@
  * 17. 대본 줄을 누르면 그 자리로 가고 들으면 그 줄이 밝아지는가. **어림이라고 적는가**
  * 18. 어림을 찍어 바로잡을 수 있고 **못이 없으면 표가 어림 그대로인가**
  * 19. 대본 화면 52과가 다 그려지고 못을 박아도 차례가 지켜지는가
- * 20. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
+ * 20. 한 줄 되풀이가 구간 안에서 안 멎고 도는가
+ * 21. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -673,6 +674,54 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   all52.slice(0, 8).forEach((m) => fails.push("대본 화면 전수: " + m));
 
+  // 19. 되풀이. **A-B 를 손으로 안 찍는다.** 줄의 시작과 끝이 이미 A 와 B 다.
+  //     한 바퀴 돌 때마다 숫자가 바뀌는데 그 숫자가 칸의 글자에 들어가면
+  //     칸이 다시 그려지고 재생기가 다시 걸린다. 실제로 그렇게 만들었더니
+  //     첫 바퀴에서 소리가 멎었다. **되풀이가 안 도는 되풀이였다.** T131
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(0); });
+  await page.waitForTimeout(2200);
+  const loop = await page.evaluate(async () => {
+    const bad = [];
+    const rows = () => [...document.querySelectorAll("#sessScript .scline")];
+    const btn = (k) => [...document.querySelectorAll("#blockPane [data-media]")]
+      .find((x) => x.dataset.media === k);
+    if (!rows().length) { bad.push("대본 목록이 없다"); return bad; }
+    rows()[1].click();
+    await new Promise((r) => setTimeout(r, 600));
+    btn("loop").click();
+    await new Promise((r) => setTimeout(r, 500));
+    if (SESS.loop !== 1) bad.push("되풀이를 켰는데 " + SESS.loop + "번째 줄이다");
+    const a = SESS.cue[SESS.loop], e = lineEnd(SESS.loop);
+    const seen = [], paused = [];
+    for (let i = 0; i < 14; i++) {
+      await new Promise((r) => setTimeout(r, 500));
+      seen.push(SESS.el.currentTime); paused.push(SESS.el.paused);
+    }
+    if (seen.some((t) => t > e + 0.4)) bad.push("구간 밖으로 나갔다: " + seen.map((x) => x.toFixed(1)).join(","));
+    if (seen.some((t) => t < a - 0.4)) bad.push("구간 앞으로 나갔다");
+    if (paused.some((x) => x)) bad.push("되풀이 도중에 소리가 멎었다");
+    if (!SESS.laps) bad.push("한 바퀴도 안 돌았다");
+    if (rows().findIndex((x) => x.classList.contains("loop")) !== 1)
+      bad.push("되풀이하는 줄에 표시가 없다");
+    // 딴 줄을 누르면 되풀이가 옮겨 간다. 안 옮기면 눌러도 곧바로 되돌아온다.
+    rows()[5].click();
+    await new Promise((r) => setTimeout(r, 900));
+    if (SESS.loop !== 5) bad.push("딴 줄을 눌렀는데 되풀이가 안 옮겨 갔다");
+    const a2 = SESS.cue[5], e2 = lineEnd(5), seen2 = [];
+    for (let i = 0; i < 6; i++) { await new Promise((r) => setTimeout(r, 400)); seen2.push(SESS.el.currentTime); }
+    if (seen2.some((t) => t > e2 + 0.4 || t < a2 - 0.4)) bad.push("옮긴 구간을 벗어났다");
+    // 끄면 그냥 흘러간다
+    btn("loop").click();
+    await new Promise((r) => setTimeout(r, 700));
+    if (SESS.loop !== null) bad.push("껐는데 되풀이가 남았다");
+    const t0 = SESS.el.currentTime;
+    await new Promise((r) => setTimeout(r, 2000));
+    if (SESS.el.currentTime <= t0) bad.push("껐는데 소리가 안 흘러간다");
+    T.run = false; clearInterval(T.tick); stopSessPlay();
+    return bad;
+  });
+  loop.slice(0, 6).forEach((m) => fails.push("되풀이: " + m));
+
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
   //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
@@ -723,7 +772,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
               "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
-              "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 연속 30일 1판");
+              "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

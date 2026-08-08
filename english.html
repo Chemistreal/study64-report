@@ -301,6 +301,8 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 .syncscript .scline .sca:hover{border-color:var(--a1);color:var(--fg)}
 .syncscript .scline.fixed .sct{color:var(--ok);font-weight:700}
 .syncscript .scline.fixed .sca{border-color:var(--ok);color:var(--ok)}
+.syncscript .scline.loop{box-shadow:inset 3px 0 0 var(--a3)}
+.syncscript .scline.loop .scl::after{content:" \21BA";color:var(--a3)}
 /* 마무리. 다음 날 무엇을 하는지가 여기 있어야 내일 앉자마자 시작한다. */
 .nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:13.5px;line-height:1.65;text-align:left}
@@ -2257,8 +2259,15 @@ function renderMediaPane(pl, round){
     (it.video?'<button type="button" data-media="video">영상</button>':"")+
     (done<3 && !locked ? '<button type="button" data-media="pass">'+
       (done+1)+'회차 끝냈다로 적기</button>' : "")+
-    '<button type="button" data-media="lib">미디어 탭에서 (대본·구간 반복)</button>'+
-    '</div>';
+    '<button type="button" data-media="loop" class="'+(SESS.loop!=null?"on":"")+'">'+
+      (SESS.loop!=null?"되풀이 끄기":"이 줄 되풀이")+'</button>'+
+    '<button type="button" data-media="lib">미디어 탭에서</button>'+
+    '</div>'+
+    /* **돈 횟수는 여기 글자로 안 넣는다.** 넣으면 한 바퀴 돌 때마다 글자가 바뀌고
+       칸이 다시 그려지고 재생기가 다시 걸린다. 그러면 되풀이가 한 바퀴에 한 번씩
+       끊긴다. 실제로 그렇게 만들었고 첫 바퀴에서 소리가 멎었다.
+       빈 칸만 두고 숫자는 syncCur 이 써 넣는다. T125 와 같은 규칙이다. */
+    (SESS.loop!=null?'<div class="n" id="sessLap"></div>':"");
   setTimeout(function(){
     var host=$("#sessPlayHost");
     if(host && !host.firstChild) sessPlay(it, SESS.mode||"audio", false);
@@ -2275,6 +2284,20 @@ function renderMediaPane(pl, round){
           c[next[0]]=true; syncMediaDone(it.id); save();
           renderBlockPane(); renderMediaStats && renderMediaStats();
           flash(next[0]+"회차를 적었다");
+          return;
+        }
+        if(k==="loop"){
+          if(SESS.loop!=null){ SESS.loop=null; SESS.laps=0; }
+          else{
+            if(!SESS.cue){ flash("대본이 아직 안 열렸다"); return; }
+            /* 지금 밝은 줄을 돈다. 밝은 줄이 없으면 첫 줄부터다. */
+            SESS.loop=Math.max(0, SESS.line);
+            SESS.laps=0;
+            if(SESS.el){ try{ SESS.el.currentTime=SESS.cue[SESS.loop]; }catch(e){}
+                         var q=SESS.el.play(); if(q&&q.catch) q.catch(function(){}); }
+          }
+          renderBlockPane();
+          flash(SESS.loop!=null?(SESS.loop+1)+"번째 줄을 되풀이한다":"되풀이를 껐다");
           return;
         }
         if(k==="lib"){
@@ -2374,7 +2397,8 @@ function renderSyncScript(it){
     '<div class="syncscript" id="sessScript">';
   lines.forEach(function(s,i){
     var t=eff?eff[i]:null, fixed=cueFixed(it.id,i)!=null;
-    h+='<button type="button" class="scline'+(fixed?" fixed":"")+'" data-cue="'+i+'">'+
+    h+='<button type="button" class="scline'+(fixed?" fixed":"")+
+       (SESS.loop===i?" loop":"")+'" data-cue="'+i+'">'+
        '<span class="sct">'+(t==null?"—":(fixed?"":"~")+fmtT(t))+'</span>'+
        '<span class="scl">'+esc(s)+'</span>'+
        '<span class="sca" data-anchor="'+i+'" role="button" tabindex="0" '+
@@ -2385,9 +2409,32 @@ function renderSyncScript(it){
 /* 지금 어느 줄인지를 **class 만 바꿔서** 칠한다.
    다시 그리면 재생기가 죽는다. T125 에서 그것 때문에 칸을 안 그리게 만들었다.
    여기서 innerHTML 을 건드리면 그 일을 도로 무른 것이 된다. */
+/* 그 줄이 끝나는 자리. 다음 줄의 시작이고 마지막 줄이면 소리의 끝이다. */
+function lineEnd(i){
+  var c=SESS.cue; if(!c) return null;
+  if(i+1<c.length) return c[i+1];
+  var al=DATA.audiolen;
+  return (al&&al.items&&al.items[SESS.id]) || (SESS.el&&SESS.el.duration) || null;
+}
+function paintLap(){
+  var lap=$("#sessLap"); if(lap) lap.textContent=(SESS.laps||0)+"번 돌았다";
+}
 function syncCur(){
+  paintLap();
   var box=$("#sessScript"); if(!box||!SESS.el||!SESS.cue) return;
   var t=SESS.el.currentTime, c=SESS.cue, i=0;
+  /* 되풀이. **A-B 를 손으로 안 찍는다.** 줄의 시작과 끝이 이미 A 와 B 다.
+     소리든 영상이든 같은 자리에서 돈다. 재생기가 하나이기 때문이다. */
+  if(SESS.loop!=null){
+    var a=c[SESS.loop], b=lineEnd(SESS.loop);
+    if(b!=null && t>=b-0.03){
+      SESS.laps=(SESS.laps||0)+1;
+      try{ SESS.el.currentTime=a; }catch(e){}
+      paintLap();
+      return;
+    }
+    if(t<a-0.5){ try{ SESS.el.currentTime=a; }catch(e){} return; }
+  }
   for(var k=0;k<c.length;k++){ if(c[k]<=t) i=k; else break; }
   if(i===SESS.line) return;
   SESS.line=i;
@@ -2434,6 +2481,9 @@ function bindSyncScript(it){
     if(!b||!SESS.cue) return;
     var i=+b.dataset.cue, t=SESS.cue[i];
     if(t==null||!SESS.el) return;
+    /* 되풀이 중에 딴 줄을 누르면 그 줄로 되풀이가 옮겨 간다.
+       안 옮기면 눌러도 곧바로 되돌아와서 앱이 말을 안 듣는 것처럼 보인다. */
+    if(SESS.loop!=null){ SESS.loop=i; SESS.laps=0; renderBlockPane(); }
     try{ SESS.el.currentTime=t; }catch(err){ return; }
     var q=SESS.el.play(); if(q&&q.catch) q.catch(function(){});
     SESS.line=-1; syncCur();
@@ -2443,7 +2493,7 @@ function bindSyncScript(it){
 
 /* 세션 안 재생기. 블록 1과 4에서만 산다.
    블록 칸이 매초 다시 그려지던 것을 T125 에서 멈췄다. 그래서 여기 살 수 있다. */
-var SESS={id:null, mode:null, el:null, cue:null, line:-1};
+var SESS={id:null, mode:null, el:null, cue:null, line:-1, loop:null, laps:0, at:null, was:null};
 function sessPlay(it, mode, play){
   var host=$("#sessPlayHost"); if(!host) return;
   if(SESS.el && SESS.id===it.id && SESS.mode===mode && host.firstChild){
@@ -2453,12 +2503,20 @@ function sessPlay(it, mode, play){
   /* 회차를 적으면 칸의 글자가 바뀌고 칸이 다시 그려진다. 그때 재생기가 떨어져 나간다.
      **듣던 자리에서 처음으로 돌아가면 40분 블록에서 그 40분을 다시 듣는다.**
      같은 과 같은 방식이면 자리와 돌던 여부를 이어받는다. */
-  var at=0, was=false;
+  var at=0, was=false, keepLoop=null, keepLaps=0;
   if(SESS.el && SESS.id===it.id && SESS.mode===mode){
-    at=SESS.el.currentTime||0; was=!SESS.el.paused;
+    /* 칸을 다시 그리기 직전에 적어 둔 값이 있으면 그것이 맞다. 위 설명을 본다. */
+    at=(typeof SESS.at==="number")?SESS.at:(SESS.el.currentTime||0);
+    was=(typeof SESS.was==="boolean")?SESS.was:!SESS.el.paused;
   }
+  SESS.at=null; SESS.was=null;
+  /* **되풀이는 같은 과에서는 살려 둔다.** stopSessPlay 는 두 가지 일에 쓰인다.
+     이 과를 떠나는 것과 같은 과를 다시 거는 것이다. 앞은 끄는 것이 맞고
+     뒤는 아니다. 되풀이를 켜면 단추 글자가 바뀌어 칸이 다시 그려지는데
+     그때 다시 걸리면서 방금 켠 되풀이가 꺼졌다. T131 */
+  if(SESS.id===it.id){ keepLoop=SESS.loop; keepLaps=SESS.laps||0; }
   stopSessPlay();
-  SESS.id=it.id; SESS.mode=mode;
+  SESS.id=it.id; SESS.mode=mode; SESS.loop=keepLoop; SESS.laps=keepLaps;
   SESS.el=mountPlayer(host, it, mode, {
     rate: (typeof LIB!=="undefined" && LIB.rate) || 1, play: !!play||was, noteId: "sessMediaNote",
     onAudio: function(){ sessPlay(it,"audio",true); },
@@ -2486,7 +2544,7 @@ function stopSessPlay(){
      다시 걸리지도 않는다. 다시 거는 조건이 "자리가 비었으면" 이기 때문이다.
      **멈춘 재생기가 화면에 남아 있으면 두 사람은 고장 난 줄 안다.** T128 */
   var host=$("#sessPlayHost"); if(host) host.innerHTML="";
-  SESS.el=null; SESS.id=null; SESS.line=-1;
+  SESS.el=null; SESS.id=null; SESS.line=-1; SESS.loop=null; SESS.laps=0;
 }
 
 /* 그려 놓은 것을 기억한다. 같으면 손대지 않는다.
@@ -2516,6 +2574,11 @@ function renderBlockPane(){
     h=renderMediaPane(pl,2);
   }
   if(PANE.sig===h && box.firstChild) return;
+  /* **여기서 재생기가 자리에서 떨어져 나간다.** 그리고 문서에서 떨어진 재생기는
+     브라우저가 세운다. 규격이 그렇게 정한다. 그것이 곧바로 일어나지 않아서
+     떨어진 뒤에 `paused` 를 읽으면 어떤 때는 참이고 어떤 때는 거짓이다.
+     **되풀이를 끄면 소리가 멎는 일이 그래서 났다.** 떼기 전에 적어 둔다. T131 */
+  if(SESS.el){ SESS.at=SESS.el.currentTime||0; SESS.was=!SESS.el.paused; }
   PANE.sig=h;
   box.innerHTML=h;
 }
