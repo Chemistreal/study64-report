@@ -1367,6 +1367,75 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   swipe.forEach((m) => fails.push("손가락: " + m));
 
+  /* 31. **소리 여섯이 제 자리에서 나는가.**
+     두 사람이 화면을 안 보고 있을 때가 많다. 마주 앉아 말하는 중이거나
+     헤드폰을 끼고 듣는 중이다. 그때 화면만 바뀌면 아무도 모른다.
+     소리는 귀로 듣는 것이라 눈으로 확인이 안 된다. 그래서 부른 자리를 적어 두고 본다. */
+  const tones = await (async () => {
+    const p4 = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    const bad = [];
+    await p4.goto(PAGE);
+    await p4.evaluate(() => localStorage.clear());
+    await p4.reload();
+    await p4.waitForTimeout(400);
+    await p4.evaluate(() => {
+      window.__t = [];
+      const o = window.tone;
+      window.tone = function (k) { window.__t.push(k); return o(k); };
+      S.onboarded = true; S.device = "a"; save(); renderToday();
+    });
+    const names = await p4.evaluate(() => Object.keys(TONE));
+    ["start", "next", "loop", "swap", "blockend", "done"].forEach((k) => {
+      if (names.indexOf(k) < 0) bad.push(k + " 소리가 없다");
+    });
+
+    await p4.click("#tOne");
+    await p4.waitForTimeout(280);
+    if ((await p4.evaluate(() => window.__t)).indexOf("start") < 0)
+      bad.push("세션을 시작했는데 시작 소리가 안 났다");
+
+    await p4.evaluate(() => $("#tSkip").click());
+    await p4.waitForTimeout(280);
+    if ((await p4.evaluate(() => window.__t)).indexOf("next") < 0)
+      bad.push("블록을 넘겼는데 넘김 소리가 안 났다");
+
+    // 블록 2 안에서 단계를 넘긴다. 그때 말하는 사람이 바뀐다
+    await p4.evaluate(() => { T.left = BLOCKS[1].m * 60 - 9 * 60; paintTimer(); });
+    await p4.waitForTimeout(380);
+    if ((await p4.evaluate(() => window.__t)).indexOf("swap") < 0)
+      bad.push("단계가 바뀌었는데 교대 소리가 안 났다");
+
+    await p4.evaluate(() => finishSession());
+    await p4.waitForTimeout(280);
+    if ((await p4.evaluate(() => window.__t)).indexOf("done") < 0)
+      bad.push("세션이 끝났는데 끝 소리가 안 났다");
+
+    /* **끄면 안 나야 한다.** 소리는 끌 수 있어야 하고 끄면 정말 꺼져야 한다.
+       밤에 아이가 자는 집도 있다. */
+    await p4.evaluate(() => {
+      window.__q = [];
+      const A = window.AudioContext || window.webkitAudioContext;
+      // 소리 상자를 안 건드리고 껐을 때 tone 이 일찍 돌아오는지만 본다
+      $("#tSound").checked = false;
+      window.__before = (window.AC && window.AC.state) || null;
+    });
+    const off = await p4.evaluate(() => {
+      let made = 0;
+      const a = window.AC;
+      if (!a) return "상자 없음";
+      const orig = a.createOscillator.bind(a);
+      a.createOscillator = function () { made++; return orig(); };
+      tone("done");
+      a.createOscillator = orig;
+      return made;
+    });
+    if (off !== 0 && off !== "상자 없음")
+      bad.push("종료음을 껐는데 소리가 " + off + "개 났다");
+    await p4.close();
+    return bad;
+  })();
+  tones.forEach((m) => fails.push("소리: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
@@ -1378,7 +1447,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
-              "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판");
+              "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / 소리 여섯 6판 / 소리 끄기 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

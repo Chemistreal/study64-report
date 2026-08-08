@@ -183,6 +183,9 @@ function syncCur(){
       SESS.laps=(SESS.laps||0)+1;
       try{ SESS.el.currentTime=a; }catch(e){}
       paintLap();
+      /* 한 바퀴 돌 때 아주 짧고 여린 소리. **듣던 것 위에 얹히는 소리다.**
+         크면 대본을 덮는다. 여기 소리는 알림이 아니라 표시다. */
+      tone("loop");
       return;
     }
     if(t<a-0.5){ try{ SESS.el.currentTime=a; }catch(e){} return; }
@@ -418,22 +421,6 @@ function paintTimer(){
   $("#focusToggle").textContent=T.run?"일시정지":"이어서";
   document.title=(T.run?fmt(Math.max(0,T.left))+" · ":"")+"eng2p 운영 콘솔";
   syncSessionFocus();
-}
-function beep(){
-  if(!$("#tSound").checked) return;
-  try{
-    var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
-    var a=new C(), t=a.currentTime;
-    [660,880].forEach(function(f,i){
-      var o=a.createOscillator(), g=a.createGain();
-      o.type="sine"; o.frequency.value=f;
-      g.gain.setValueAtTime(0.0001,t+i*0.28);
-      g.gain.exponentialRampToValueAtTime(0.12,t+i*0.28+0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001,t+i*0.28+0.26);
-      o.connect(g); g.connect(a.destination); o.start(t+i*0.28); o.stop(t+i*0.28+0.3);
-    });
-    setTimeout(function(){a.close();},1200);
-  }catch(e){}
 }
 function tick(){
   T.left--;

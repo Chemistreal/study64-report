@@ -30,6 +30,7 @@ js/04_today.js        탭 몰기와 오늘 탭 그리기
 js/05_session.js      시계와 세션 상태와 기기 쪽
 js/06_cards.js        카드 뷰어와 간격 반복과 근거
 js/07_block14.js      블록 1과 4. 미디어를 그 자리에서
+js/07b_tone.js   소리 여섯. 시작 넘김 되풀이 교대 판끝 세션끝
 js/08_script.js       대본 동기와 되풀이와 배속
 js/09_lecture.js 강의 본문 96편. 읽는 자리
 js/10_run.js          블록 몰기. 넘김과 되돌림

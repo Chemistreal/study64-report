@@ -9,7 +9,7 @@ function gotoBlock(i, opt){
   if(i>=BLOCKS.length){ finishSession(); return; }
   /* 블록을 넘기면 소리를 끈다. 안 끄면 블록 1의 소리가 블록 2 위로 계속 흐른다.
      블록 2는 두 사람이 서로 말하는 블록이다. */
-  if(T.idx!==i) leaveSessPlay();
+  if(T.idx!==i){ leaveSessPlay(); if(opt.announce) tone("next"); }
   T.idx=i;
   T.left=BLOCKS[i].m*60;
   hideSessionDone();
@@ -61,7 +61,10 @@ $("#tOne").onclick=function(){
   var rec=day(today());
   if(!rec.started){ rec.started=today(); save(); }
   restartFinishedSession();
-  if(!T.run){ hideSessionDone(); T.run=true; clearInterval(T.tick); T.tick=setInterval(tick,1000); reqWake(); }
+  if(!T.run){ hideSessionDone(); T.run=true; clearInterval(T.tick); T.tick=setInterval(tick,1000); reqWake();
+    /* 시작 소리는 여기서만 낸다. 이어서 누를 때도 같은 소리다.
+       두 사람이 화면을 안 보고 있을 때 시작한 것을 알리는 자리다. */
+    tone("start"); }
   saveSession();   // 누른 그 순간을 남긴다. 10초 뒤가 아니라
   paintTimer();
   var c=$("#tClock"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});

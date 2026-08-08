@@ -88,6 +88,7 @@ function finishSession(){
   document.body.classList.remove("session-focus");
   document.body.classList.remove("session-idle");
   var done=$("#sessionDone"); if(done) done.hidden=false;
+  tone("done");
   /* **여기서 정상으로 센다. 시작 버튼에서 세지 않는다.**
      T97 에서 진도를 정상 세션 수로 바꿨다. 시작만 눌러도 세면
      2분 하고 덮은 날이 하루 진도로 나간다. 96강이 그만큼 앞당겨진다. */
@@ -153,6 +154,8 @@ function renderSidePick(A,B){
    A 가 무엇을 빠뜨렸는지는 3단계 상호 검토에서 갈린다. 그것이 이 세트의 장치다.
    기기 쪽을 안 고르면 다 보여 준다. 기기가 하나인 날도 있다. 그때는 종이 규칙으로 돈다.
    ========================================================================= */
+/* 지금 몇 단계인지를 들고 있는 자리. 바뀔 때만 알리려면 앞 값이 있어야 한다. */
+var SWAP={step:null};
 function renderSetPane(pl){
   var sets=DATA.sets;
   if(!sets){
@@ -171,6 +174,16 @@ function renderSetPane(pl){
     if(used>=acc) curStep=i;
     acc+=st.minutes*60;
   });
+  /* **단계가 바뀌면 말하는 사람이 바뀐다.** 1단계는 A 가 설명하고 2단계는 B 가 재구성한다.
+     시간이 그 자리를 정하는데 화면만 바뀌고 아무 소리가 없었다.
+     두 사람은 서로를 보고 말하는 중이라 화면을 안 본다. 그래서 교대를 놓친다.
+     세션이 도는 중일 때만 알린다. 미리 보기에서는 안 울린다. T176 */
+  if(T.run && SWAP.step!==null && SWAP.step!==curStep){
+    tone("swap");
+    var who=(curStep===0||curStep===2)?"A":"B";
+    setTimeout(function(){ flash((curStep+1)+"단계 · 이제 "+who+" 차례다"); },0);
+  }
+  SWAP.step=T.run?curStep:null;
   var h='<div class="k">이 블록에 쓰는 것 · 대조 교차 세트</div><div class="v">'+esc(s.id)+'</div>';
   acc=0;
   s.steps.forEach(function(st,i){
