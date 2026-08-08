@@ -9,9 +9,12 @@
 <style>
 /* ---------- 토큰 ---------- */
 :root{
-  --bg:#f7f7fb; --bg2:#ffffff; --fg:#14141a; --mut:#61616e; --line:#e3e3ee;
+  --bg:#f7f7fb; --bg2:#ffffff; --fg:#14141a; --mut:#55555f; --line:#e3e3ee;
   --card:rgba(255,255,255,.72); --card2:rgba(255,255,255,.5); --edge:rgba(20,20,40,.07);
-  --a1:#4f46e5; --a2:#9333ea; --a3:#0891b2;
+  --a1:#4f46e5; --a2:#9333ea; --a3:#0e7490;
+  /* 글자에 쓰는 파랑. --a3 은 띠와 테두리 같은 꾸밈에 쓴다.
+     꾸밈은 흐려도 되지만 글자는 안 된다. check_contrast.js 가 그것을 가른다. */
+  --a3t:#155e75;
   --acc:#4f46e5; --warn:#c2185b; --ok:#0f766e;
   --glow:0 10px 40px rgba(79,70,229,.14);
   --au1:rgba(99,102,241,.30); --au2:rgba(168,85,247,.24); --au3:rgba(34,211,238,.22);
@@ -43,7 +46,7 @@ header{position:sticky;top:0;z-index:30;backdrop-filter:blur(18px) saturate(150%
   background:linear-gradient(180deg,var(--bg) 40%,transparent);border-bottom:1px solid var(--edge)}
 .hd{max-width:920px;margin:0 auto;padding:16px 20px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{font-size:15px;font-weight:800;letter-spacing:-.02em;
-  background:linear-gradient(96deg,var(--a1),var(--a2) 45%,var(--a3));
+  background:linear-gradient(96deg,var(--a1),var(--a2) 45%,var(--a3t));
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .brand span{color:var(--mut);font-weight:500;-webkit-text-fill-color:var(--mut)}
 .hd .grow{flex:1}
@@ -148,7 +151,7 @@ tbody tr:hover td{background:var(--card2)}
 .rb{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;
   padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
-.rb.b{background:linear-gradient(96deg,var(--a3),#0ea5e9)}
+.rb.b{background:linear-gradient(96deg,var(--a3t),#0369a1)}
 .cliproles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
 .roleunit{display:flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:12px;
   padding:9px 11px;background:var(--card2);color:var(--mut);transition:.2s}
@@ -286,7 +289,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
   color:var(--mut);padding-top:2px}
 .syncscript .scline.cur{background:linear-gradient(96deg,rgba(79,70,229,.20),rgba(14,165,233,.12))}
 .syncscript .scline.cur .scl{font-weight:700}
-.syncscript .scline.cur .sct{color:var(--a3)}
+.syncscript .scline.cur .sct{color:var(--a3t)}
 .syncscript .scline .scl{flex:1}
 /* 자리 잡기. 잡은 줄은 물결표가 사라지고 시각이 진해진다. */
 .syncscript .scline .sca{flex:none;font-size:11.5px;color:var(--mut);padding:2px 8px;

@@ -99,7 +99,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
   color:var(--mut);padding-top:2px}
 .syncscript .scline.cur{background:linear-gradient(96deg,rgba(79,70,229,.20),rgba(14,165,233,.12))}
 .syncscript .scline.cur .scl{font-weight:700}
-.syncscript .scline.cur .sct{color:var(--a3)}
+.syncscript .scline.cur .sct{color:var(--a3t)}
 .syncscript .scline .scl{flex:1}
 /* 자리 잡기. 잡은 줄은 물결표가 사라지고 시각이 진해진다. */
 .syncscript .scline .sca{flex:none;font-size:11.5px;color:var(--mut);padding:2px 8px;

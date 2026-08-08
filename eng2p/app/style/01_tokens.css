@@ -1,8 +1,11 @@
 /* ---------- 토큰 ---------- */
 :root{
-  --bg:#f7f7fb; --bg2:#ffffff; --fg:#14141a; --mut:#61616e; --line:#e3e3ee;
+  --bg:#f7f7fb; --bg2:#ffffff; --fg:#14141a; --mut:#55555f; --line:#e3e3ee;
   --card:rgba(255,255,255,.72); --card2:rgba(255,255,255,.5); --edge:rgba(20,20,40,.07);
-  --a1:#4f46e5; --a2:#9333ea; --a3:#0891b2;
+  --a1:#4f46e5; --a2:#9333ea; --a3:#0e7490;
+  /* 글자에 쓰는 파랑. --a3 은 띠와 테두리 같은 꾸밈에 쓴다.
+     꾸밈은 흐려도 되지만 글자는 안 된다. check_contrast.js 가 그것을 가른다. */
+  --a3t:#155e75;
   --acc:#4f46e5; --warn:#c2185b; --ok:#0f766e;
   --glow:0 10px 40px rgba(79,70,229,.14);
   --au1:rgba(99,102,241,.30); --au2:rgba(168,85,247,.24); --au3:rgba(34,211,238,.22);
@@ -34,7 +37,7 @@ header{position:sticky;top:0;z-index:30;backdrop-filter:blur(18px) saturate(150%
   background:linear-gradient(180deg,var(--bg) 40%,transparent);border-bottom:1px solid var(--edge)}
 .hd{max-width:920px;margin:0 auto;padding:16px 20px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .brand{font-size:15px;font-weight:800;letter-spacing:-.02em;
-  background:linear-gradient(96deg,var(--a1),var(--a2) 45%,var(--a3));
+  background:linear-gradient(96deg,var(--a1),var(--a2) 45%,var(--a3t));
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .brand span{color:var(--mut);font-weight:500;-webkit-text-fill-color:var(--mut)}
 .hd .grow{flex:1}

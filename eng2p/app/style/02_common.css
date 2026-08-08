@@ -70,7 +70,7 @@ tbody tr:hover td{background:var(--card2)}
 .rb{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;
   padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
-.rb.b{background:linear-gradient(96deg,var(--a3),#0ea5e9)}
+.rb.b{background:linear-gradient(96deg,var(--a3t),#0369a1)}
 .cliproles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
 .roleunit{display:flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:12px;
   padding:9px 11px;background:var(--card2);color:var(--mut);transition:.2s}
