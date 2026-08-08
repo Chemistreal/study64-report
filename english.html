@@ -242,10 +242,23 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
   background:var(--card);font-size:15px;line-height:1.8}
 /* 블록마다 쓰는 것. 세션 중에 이것을 찾으러 가면 그 블록이 무너진다. */
 .blockpane{margin-top:16px;padding:14px 16px;border:1px solid var(--edge);border-radius:12px;
-  background:var(--card)}
+  background:var(--card);text-align:left}
+/* 타이머 칸이 가운데 정렬이라 목록이 가운데로 붙었다. 읽는 글은 왼쪽에서 시작해야 한다. */
+.blockpane .k,.blockpane .v{text-align:center}
 .blockpane .k{font-size:11.5px;color:var(--mut);letter-spacing:.06em}
 .blockpane .v{font-size:19px;font-weight:750;font-family:var(--mono);margin-top:3px}
 .blockpane .n{font-size:13.5px;color:var(--mut);margin-top:7px;line-height:1.6}
+/* 세트 뷰어. 네 단계를 순서대로 편다. 지금 단계가 굵고 나머지는 흐리다. */
+.setstep{margin-top:12px;padding:12px 14px;border:1px solid var(--edge);border-radius:11px;
+  background:var(--card2)}
+.setstep.now{border-color:var(--a1);background:var(--card)}
+.setstep h5{margin:0;font-size:13px;font-weight:750;color:var(--mut);letter-spacing:.04em}
+.setstep.now h5{color:var(--a1)}
+.setstep .body{margin-top:7px;font-size:15px;line-height:1.65}
+.setstep ol{margin:7px 0 0;padding-left:20px;font-size:15px;line-height:1.7}
+.setstep .hid{font-size:13.5px;color:var(--mut);font-style:italic}
+.setstep .blank{display:block;margin-top:6px;padding:9px 11px;border:1px dashed var(--edge);
+  border-radius:8px;font-size:13.5px;color:var(--mut)}
 .sessionrole{font-size:21px;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
 .sessionprogress{font-size:12px;color:var(--mut)}
 /* 오늘 한 장. 책상에 놓고 흘끗 보는 자리라 멀리서 읽혀야 한다. */
@@ -1723,6 +1736,58 @@ function renderSidePick(A,B){
    블록 1과 4는 미디어, 2는 세트, 3은 카드와 진행표다.
    여기가 E구간에서 실제 뷰어로 바뀔 자리다. 지금은 무엇을 쓰는지만 적는다.
    ========================================================================= */
+
+/* =========================================================================
+   블록 2. 대조 교차 세트를 네 단계로 편다.
+   **B 는 1단계의 필수 포함 요소를 그 자리에서 안 본다.**
+   B 가 목록을 보면서 들으면 재구성이 아니라 목록 대조가 된다.
+   A 가 무엇을 빠뜨렸는지는 3단계 상호 검토에서 갈린다. 그것이 이 세트의 장치다.
+   기기 쪽을 안 고르면 다 보여 준다. 기기가 하나인 날도 있다. 그때는 종이 규칙으로 돈다.
+   ========================================================================= */
+function renderSetPane(pl){
+  var sets=DATA.sets;
+  if(!sets){
+    loadData("sets","ENG2P_SETS",function(){ renderBlockPane(); });
+    return '<div class="k">이 블록에 쓰는 것 · 대조 교차 세트</div>'+
+           '<div class="v">'+esc(pl.set||"(없음)")+'</div>'+
+           '<div class="n">세트를 여는 중이다.</div>';
+  }
+  var s=(sets.items||[]).filter(function(x){return x.id===pl.set;})[0];
+  if(!s) return '<div class="k">대조 교차 세트</div><div class="v">'+esc(pl.set||"(없음)")+'</div>';
+  var mine=deviceSide();
+  var h='<div class="k">이 블록에 쓰는 것 · 대조 교차 세트</div><div class="v">'+esc(s.id)+'</div>';
+  s.steps.forEach(function(st,i){
+    var f=st.fields||{};
+    var body="";
+    if(st.step===1){
+      body='<div class="body"><b>설명 대상</b> '+esc(f["설명 대상"]||"")+'</div>';
+      if(mine==="b"){
+        /* B 화면에서는 목록을 가린다. 이 한 줄이 이 세트의 장치를 지킨다. */
+        body+='<div class="hid">필수 포함 요소는 B 화면에 안 띄운다. '+
+              'A 의 설명만 듣고 재구성한다. 빠진 것은 3단계에서 갈린다.</div>';
+      }else if(st.items && st.items.length){
+        body+='<ol>'+st.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';
+      }
+    }else if(st.step===2){
+      body='<div class="body"><b>'+esc(f["재구성 방식"]||"")+'</b><br>'+esc(f["지시"]||"")+'</div>';
+    }else if(st.step===3){
+      body='<div class="body">'+esc(f["본문"]||"")+'</div>';
+      if(f["규칙"]) body+='<div class="body"><b>규칙</b> '+esc(f["규칙"])+'</div>';
+    }else{
+      body='<div class="body">';
+      ["LRE 발생 횟수","LRE 해결 여부","미해결 LRE 목록"].forEach(function(k){
+        body+='<span class="blank">'+esc(k)+'</span>';
+      });
+      body+='</div>';
+    }
+    h+='<div class="setstep'+(i===0?" now":"")+'"><h5>'+st.step+'단계 · '+
+       esc(st.name)+' · '+st.minutes+'분</h5>'+body+'</div>';
+  });
+  if(!mine) h+='<div class="n">이 기기를 쓰는 사람을 안 골랐다. '+
+               '두 쪽을 다 보여 주는 중이다. B 는 1단계 목록을 안 본다.</div>';
+  return h;
+}
+
 function renderBlockPane(){
   var box=$("#blockPane"); if(!box) return;
   var pl=plan();
@@ -1737,8 +1802,7 @@ function renderBlockPane(){
     h=row("이 블록에 쓰는 것 · 미디어", pl.media||"(없음)",
           "미디어 탭에서 그 과를 연다. 1회차 초점은 소리다. 말을 걸지 않는다.");
   }else if(i===1){
-    h=row("이 블록에 쓰는 것 · 대조 교차 세트", pl.set||"(없음)",
-          "세트 파일 out/sets/ 에 있다. 8분 설명, 8분 재구성, 10분 검토, 4분 기록이다.");
+    h=renderSetPane(pl);
   }else if(i===2){
     var c=pl.cards ? String(pl.cards.from).padStart(3,"0")+" ~ "+String(pl.cards.to).padStart(3,"0") : "(없음)";
     var n="강의록 "+pl.lectureNo+"강의 30분 진행표대로 돈다.";
