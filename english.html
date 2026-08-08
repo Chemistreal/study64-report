@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light">
 <title>eng2p 운영 콘솔</title>
 <meta name="description" content="2인 전용 영어 1년 과정 운영 도구. 세션 타이머, 진행 대장, 판정 큐, 분기 점검, 규격 검사, 회전 대장.">
 <style>
@@ -17,24 +17,6 @@
   --au1:rgba(99,102,241,.30); --au2:rgba(168,85,247,.24); --au3:rgba(34,211,238,.22);
   --mono:ui-monospace,SFMono-Regular,SF Mono,Menlo,monospace;
   --sans:-apple-system,BlinkMacSystemFont,Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#07070c; --bg2:#0d0d16; --fg:#f0f0f6; --mut:#9a9aae; --line:#232333;
-    --card:rgba(28,28,44,.55); --card2:rgba(28,28,44,.34); --edge:rgba(255,255,255,.09);
-    --a1:#818cf8; --a2:#c084fc; --a3:#22d3ee;
-    --acc:#a5b4fc; --warn:#ff7a9c; --ok:#5eead4;
-    --glow:0 10px 44px rgba(129,140,248,.20);
-    --au1:rgba(99,102,241,.46); --au2:rgba(168,85,247,.36); --au3:rgba(34,211,238,.30);
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#07070c; --bg2:#0d0d16; --fg:#f0f0f6; --mut:#9a9aae; --line:#232333;
-  --card:rgba(28,28,44,.55); --card2:rgba(28,28,44,.34); --edge:rgba(255,255,255,.09);
-  --a1:#818cf8; --a2:#c084fc; --a3:#22d3ee;
-  --acc:#a5b4fc; --warn:#ff7a9c; --ok:#5eead4;
-  --glow:0 10px 44px rgba(129,140,248,.20);
-  --au1:rgba(99,102,241,.46); --au2:rgba(168,85,247,.36); --au3:rgba(34,211,238,.30);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -556,9 +538,9 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
 }
 @media print{
   /* 종이와 같이 쓰는 물건이다. 인쇄가 되는 것이 부속 기능이 아니다.
-     어두운 바탕을 그대로 찍으면 잉크를 먹고 글씨가 안 읽힌다.
-     그래서 인쇄에서는 색 토큰을 밝은 값으로 되돌린다. 테마와 상관없이. */
-  :root, :root[data-theme="dark"], :root[data-theme="light"]{
+     화면 색을 그대로 찍으면 잉크를 먹고 글씨가 안 읽힌다.
+     그래서 인쇄에서는 색 토큰을 순백과 순흑으로 되돌린다. */
+  :root{
     --bg:#fff; --bg2:#fff; --fg:#000; --mut:#444; --line:#bbb;
     --card:#fff; --card2:#fff; --edge:#999;
     --a1:#000; --a2:#000; --a3:#000; --acc:#000; --glow:none;
@@ -607,7 +589,6 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
   <div class="hd">
     <div class="brand">eng2p <span>· 2인 전용 영어 1년 과정 운영 콘솔</span></div>
     <div class="grow"></div>
-    <button class="tbtn" id="themeBtn" type="button">테마</button>
   </div>
   <nav id="nav" aria-label="주요 화면"></nav>
 </header>
@@ -1311,7 +1292,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1};
+          media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1};
 }
 function load(){
   try{
@@ -1740,26 +1721,6 @@ function go(name){
 document.addEventListener("click",function(e){
   var more=$("#navMore"); if(more&&more.open&&!more.contains(e.target)) more.open=false;
 });
-
-/* =========================================================================
-   테마
-   ========================================================================= */
-/* 어두운 바탕이 기본이다. 저녁에 쓰는 물건이고 세션 중에는 책상에 놓고 흘끗 본다.
-   이미 고른 사람 것은 안 건드린다. load() 가 있는 칸을 안 덮는다. */
-function applyTheme(){
-  if(S.theme) document.documentElement.setAttribute("data-theme",S.theme);
-  else document.documentElement.removeAttribute("data-theme");
-  var b=$("#themeBtn");
-  if(b){
-    var current=S.theme==null?"시스템 설정":S.theme==="dark"?"어두운 테마":"밝은 테마";
-    b.textContent=S.theme==null?"테마 자동":S.theme==="dark"?"어두움":"밝음";
-    b.setAttribute("aria-label","현재 "+current+". 테마 바꾸기");
-  }
-}
-$("#themeBtn").onclick=function(){
-  S.theme = S.theme==="dark" ? "light" : S.theme==="light" ? null : "dark";
-  applyTheme(); save();
-};
 
 /* =========================================================================
    오늘 탭
@@ -3152,7 +3113,7 @@ $("#imFile").onchange=function(e){
       if(!o.days) throw 0;
       if(!confirm("현재 기록을 덮어쓴다. 진행할까.")) return;
       S=o; var b=blank(); for(var k in b) if(!(k in S)) S[k]=b[k];
-      save(); applyTheme(); renderToday(); renderLedger();
+      save(); renderToday(); renderLedger();
       alert("가져왔다.");
     }catch(err){ alert("JSON 형식이 아니다."); }
   };
@@ -3161,7 +3122,7 @@ $("#imFile").onchange=function(e){
 $("#wipe").onclick=function(){
   if(!confirm("전체 기록을 지운다. 되돌릴 수 없다.")) return;
   if(!confirm("정말 지울까. JSON 내려받기를 먼저 하는 게 낫다.")) return;
-  localStorage.removeItem(KEY); S=blank(); save(); applyTheme(); renderToday(); renderLedger();
+  localStorage.removeItem(KEY); S=blank(); save(); renderToday(); renderLedger();
 };
 
 /* =========================================================================
@@ -4786,7 +4747,6 @@ function renderRules(){
    시작
    ========================================================================= */
 buildNav();
-applyTheme();
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
 /* 끊긴 세션이 있으면 그 자리에서 다시 편다. 저절로 안 돈다. 누르면 이어 간다. */
 loadSession();
