@@ -1812,6 +1812,66 @@ function renderSetPane(pl){
   return h;
 }
 
+
+/* =========================================================================
+   블록 3. 강의록 30분 진행표를 구간 타이머로 돈다.
+   **시간은 배분 문장에서 온다.** 96편이 다 합 30분이고 check_plan30 이 그것을 지킨다.
+   구간 목록(앞 12분은 ... / 뒤 12분은 ...)은 지시문이고 준비와 기록을 빼고 적은 강이 38편이다.
+   그래서 둘을 짝지어 짐작하지 않는다. 타이머는 배분 문장으로 돌고 지시는 따로 편다.
+   ========================================================================= */
+var PLAN_MULT={"둘":2,"셋":3,"넷":4,"다섯":5,"여섯":6};
+function planPieces(line){
+  var out=[];
+  (line||"").split(",").forEach(function(part){
+    var p=part.trim().replace(/\.$/,"");
+    var m=/(\d+)\s*분/.exec(p); if(!m) return;
+    var n=+m[1];
+    var mm=/분\s*씩\s*([가-힣]+)/.exec(p);
+    if(mm && PLAN_MULT[mm[1]]){
+      for(var k=0;k<PLAN_MULT[mm[1]];k++) out.push({label:p+" ("+(k+1)+")", min:n});
+    }else out.push({label:p, min:n});
+  });
+  return out;
+}
+function renderDrillPane(pl){
+  var lec=DATA.lectures;
+  var c=pl.cards ? String(pl.cards.from).padStart(3,"0")+" ~ "+String(pl.cards.to).padStart(3,"0") : "(없음)";
+  var head='<div class="k">이 블록에 쓰는 것 · 카드</div><div class="v">'+esc(c)+'</div>';
+  if(!lec){
+    loadData("lectures","ENG2P_LECTURES",function(){ renderBlockPane(); });
+    return head+'<div class="n">진행표를 여는 중이다.</div>';
+  }
+  var L=(lec.items||[]).filter(function(x){return x.no===pl.lectureNo;})[0];
+  if(!L) return head;
+  var ps=planPieces(L.plan && L.plan.split);
+  if(!ps.length) return head+'<div class="n">'+esc(L.plan&&L.plan.split||"")+'</div>';
+
+  var used=BLOCKS[2].m*60-Math.max(0,T.left), acc=0, cur=0;
+  ps.forEach(function(x,i){ if(used>=acc) cur=i; acc+=x.min*60; });
+
+  var h=head;
+  if(L.pressureSeconds) h+='<div class="n">압박형 제한 시간 '+L.pressureSeconds+'초</div>';
+  if(L.cardSeconds && L.cardSeconds.length)
+    h+='<div class="n">카드별 시간 '+esc(L.cardSeconds.map(function(x){
+      return String(x.card).padStart(3,"0")+" "+x.seconds+"초"; }).join(" / "))+'</div>';
+  acc=0;
+  ps.forEach(function(x,i){
+    var left="";
+    if(i===cur) left=" · 남은 "+Math.max(0,Math.ceil((acc+x.min*60-used)/60))+"분";
+    acc+=x.min*60;
+    h+='<div class="setstep'+(i===cur?" now":"")+'"><h5>'+esc(x.label)+left+'</h5></div>';
+  });
+  /* 구간 지시가 타이머 칸과 글자까지 같은 강이 있다. 배분 문장과 구간 목록이 한 문장인 강들이다.
+     같은 것을 두 번 보여 주면 화면만 길어지고 읽을 것이 준다. 다를 때만 편다. */
+  var segs=(L.plan&&L.plan.segments)||[];
+  var labels=ps.map(function(x){return x.label;}).join("|");
+  if(segs.length && segs.join("|")!==labels)
+    h+='<div class="n"><b>구간 지시</b><br>'+segs.map(function(s){return esc(s);}).join("<br>")+'</div>';
+  if(L.role) h+='<div class="n"><b>역할</b> '+esc(L.role)+'</div>';
+  if(L.stuck) h+='<div class="n"><b>막혔을 때</b> '+esc(L.stuck)+'</div>';
+  return h;
+}
+
 function renderBlockPane(){
   var box=$("#blockPane"); if(!box) return;
   var pl=plan();
@@ -1828,18 +1888,7 @@ function renderBlockPane(){
   }else if(i===1){
     h=renderSetPane(pl);
   }else if(i===2){
-    var c=pl.cards ? String(pl.cards.from).padStart(3,"0")+" ~ "+String(pl.cards.to).padStart(3,"0") : "(없음)";
-    var n="강의록 "+pl.lectureNo+"강의 30분 진행표대로 돈다.";
-    var lec=DATA.lectures;
-    if(lec){
-      var L=(lec.items||[]).filter(function(x){return x.no===pl.lectureNo;})[0];
-      var segs=L && L.plan && L.plan.segments;
-      if(segs && segs.length) n=segs.join("  ·  ");
-    }else{
-      /* 진행표는 강의 자료에 있다. 묶음에는 없다. 이 블록에 올 때 가져온다. */
-      loadData("lectures","ENG2P_LECTURES",function(){ renderBlockPane(); });
-    }
-    h=row("이 블록에 쓰는 것 · 카드", c, n);
+    h=renderDrillPane(pl);
   }else{
     h=row("이 블록에 쓰는 것 · 미디어", pl.media||"(없음)",
           "같은 과를 같이 듣는다. 2회차 초점은 청크다. A가 재생을 맡는다.");
