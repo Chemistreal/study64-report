@@ -203,8 +203,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
   await page.evaluate(() => { gotoBlock(0); T.run = true; syncSessionFocus(); });
   await page.waitForTimeout(200);
-  const b1 = await page.$("[data-media]");
-  if (!b1) fails.push("블록 1에 미디어 여는 단추가 없다");
+  // 소리와 영상은 블록 칸 안에서 튼다. 미디어 탭으로 가는 것은 lib 단추다. T125
+  const b1 = await page.$("[data-media=\"lib\"]");
+  if (!b1) fails.push("블록 1에 미디어 탭으로 가는 단추가 없다");
   else {
     await b1.click();
     await page.waitForTimeout(500);
@@ -218,7 +219,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   //    fetch 로 가져오면 로컬에서 막힌다. 블록 4는 대본을 보는 블록이다.
   await page.evaluate(() => { go("today"); gotoBlock(3); });
   await page.waitForTimeout(300);
-  const mb = await page.$("[data-media]");
+  const mb = await page.$("[data-media=\"lib\"]");
   if (mb) {
     await mb.click();
     await page.waitForTimeout(1500);
@@ -470,6 +471,48 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (auto.saved !== 1) fails.push("자동 넘김: 넘어간 자리가 저장이 안 됐다");
   await page.evaluate(() => { T.run = false; clearInterval(T.tick); });
 
+  // 15. 세션 안 재생. 블록 1과 4의 소리가 **그 칸 안에서** 난다.
+  //     paintTimer 가 매초 돌고 그 안에서 블록 칸을 다시 그렸다. 심은 것이 1초를 못 살았다.
+  //     그래서 재생기를 미디어 탭에 두고 40분을 그 탭에서 보냈다.
+  //     이제 칸이 안 바뀌면 안 그린다. 그것이 유지되는지를 여기서 본다.
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.waitForTimeout(400);
+  await page.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+  await page.click("#tOne");
+  await page.waitForTimeout(900);
+  const sp = await page.evaluate(async () => {
+    const bad = [];
+    const want = plan().media;                       // 강의가 지목한 과
+    const a = document.querySelector("#sessPlayHost audio");
+    if (!a) { bad.push("블록 1에 재생기가 없다"); return bad; }
+    if (a.src.indexOf(want) < 0) bad.push("걸린 소리가 " + want + " 가 아니다: " + a.src);
+    // 매초 다시 그려지면 여기서 죽는다
+    try { await a.play(); } catch (e) { bad.push("재생이 안 된다: " + e.message); return bad; }
+    await new Promise((r) => setTimeout(r, 2600));
+    const a2 = document.querySelector("#sessPlayHost audio");
+    if (a2 !== a) bad.push("2초 만에 재생기가 다른 것으로 바뀌었다");
+    if (!a2 || a2.paused) bad.push("2초 만에 재생이 멈췄다");
+    if (a2 && a2.currentTime < 1) bad.push("2초를 틀었는데 " + a2.currentTime + "초다");
+    // 블록을 넘기면 꺼진다. 블록 2는 두 사람이 말하는 블록이다.
+    gotoBlock(1);
+    await new Promise((r) => setTimeout(r, 500));
+    if (SESS.el) bad.push("블록을 넘겼는데 재생기가 남아 있다");
+    if (a2 && !a2.paused) bad.push("블록을 넘겼는데 소리가 계속 난다");
+    // 블록 4로 가면 다시 걸린다
+    gotoBlock(3);
+    await new Promise((r) => setTimeout(r, 900));
+    if (!document.querySelector("#sessPlayHost audio, #sessPlayHost video"))
+      bad.push("블록 4에 재생기가 없다");
+    if ((document.getElementById("blockPane").textContent || "").indexOf("2회차") < 0)
+      bad.push("블록 4가 2회차라고 안 적는다");
+    gotoBlock(0);
+    await new Promise((r) => setTimeout(r, 400));
+    T.run = false; clearInterval(T.tick); stopSessPlay();
+    return bad;
+  });
+  sp.slice(0, 6).forEach((m) => fails.push("세션 안 재생: " + m));
+
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
   //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
@@ -519,7 +562,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   console.log("");
   console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
-              "판 / 대본 52판 / 세션 리허설 1판 / 연속 30일 1판");
+              "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

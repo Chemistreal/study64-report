@@ -274,7 +274,12 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 .cardnav button{padding:10px 15px;border-radius:9px;border:1px solid var(--edge);
   background:var(--card);color:var(--fg);font-size:14px;font-weight:650;cursor:pointer;min-height:42px}
 .cardnav button:hover{border-color:var(--a1)}
+.cardnav button.on{border-color:var(--a1);background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff}
 .cardwarn{margin-top:9px;font-size:13px;color:var(--warn)}
+/* 세션 안 재생기. 블록 1은 40분, 블록 4는 20분을 이 자리에서 듣는다. */
+.sessplay{margin-top:12px;min-height:54px}
+.sessplay audio{width:100%;display:block}
+.sessplay video{width:100%;max-height:min(46vh,360px);display:block;background:#000;border-radius:11px}
 /* 마무리. 다음 날 무엇을 하는지가 여기 있어야 내일 앉자마자 시작한다. */
 .nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:13.5px;line-height:1.65;text-align:left}
@@ -1845,7 +1850,7 @@ function syncSessionFocus(){
 }
 function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=true; }
 function finishSession(){
-  T.run=false; clearInterval(T.tick); T.left=0; relWake();
+  T.run=false; clearInterval(T.tick); T.left=0; relWake(); stopSessPlay();
   document.body.classList.remove("session-focus");
   var done=$("#sessionDone"); if(done) done.hidden=false;
   /* **여기서 정상으로 센다. 시작 버튼에서 세지 않는다.**
@@ -2221,16 +2226,25 @@ function renderMediaPane(pl, round){
     '<br>'+focus+'<br>회차 '+done+' / 3 끝냈다</div>';
   if(locked) h+='<div class="cardwarn">이 과는 '+esc(it.grade||"등급 없음")+
     ' 이다. Q1 소리 트랙 통과 판정은 C-real 로만 한다. 연습에는 쓴다.</div>';
+  /* **재생기가 이 칸 안에 있다.** 전에는 미디어 탭으로 보냈다.
+     블록 1은 40분이고 블록 4는 20분이다. 그 시간 내내 다른 탭에 가 있으면
+     지시와 회차와 남은 시간이 다 안 보인다. 여기서 튼다. T125 */
+  h+='<div class="sessplay" id="sessPlayHost"></div>';
   h+='<div class="cardnav">'+
-    '<button type="button" data-media="audio">소리 열기</button>'+
-    (it.video?'<button type="button" data-media="video">영상 열기</button>':"")+
+    '<button type="button" data-media="audio">소리</button>'+
+    (it.video?'<button type="button" data-media="video">영상</button>':"")+
     (done<3 && !locked ? '<button type="button" data-media="pass">'+
       (done+1)+'회차 끝냈다로 적기</button>' : "")+
+    '<button type="button" data-media="lib">미디어 탭에서 (대본·구간 반복)</button>'+
     '</div>';
   setTimeout(function(){
-    document.querySelectorAll("[data-media]").forEach(function(b){
+    var host=$("#sessPlayHost");
+    if(host && !host.firstChild) sessPlay(it, SESS.mode||"audio", false);
+    document.querySelectorAll("#blockPane [data-media]").forEach(function(b){
+      var k=b.dataset.media;
+      if(k==="audio"||k==="video") b.className=(SESS.mode||"audio")===k?"on":"";
       b.onclick=function(){
-        if(b.dataset.media==="pass"){
+        if(k==="pass"){
           if(locked){ flash("C-real 이 아니라 판정에 안 쓴다"); return; }
           var next=mediaNextPass(it.id);
           if(!next){ flash("세 회차를 다 끝냈다"); return; }
@@ -2240,19 +2254,67 @@ function renderMediaPane(pl, round){
           flash(next[0]+"회차를 적었다");
           return;
         }
-        /* 그 과를 열어 놓고 보낸다. 52과에서 고르게 하지 않는다. */
-        openMedia(i, b.dataset.media, true);
-        go("media");
+        if(k==="lib"){
+          /* 그 과를 열어 놓고 보낸다. 52과에서 고르게 하지 않는다. */
+          stopSessPlay(); openMedia(i, SESS.mode||"audio", true); go("media"); return;
+        }
+        sessPlay(it, k, true);
       };
     });
   },0);
   return h;
 }
 
+/* 세션 안 재생기. 블록 1과 4에서만 산다.
+   블록 칸이 매초 다시 그려지던 것을 T125 에서 멈췄다. 그래서 여기 살 수 있다. */
+var SESS={id:null, mode:null, el:null};
+function sessPlay(it, mode, play){
+  var host=$("#sessPlayHost"); if(!host) return;
+  if(SESS.el && SESS.id===it.id && SESS.mode===mode && host.firstChild){
+    if(play){ var q=SESS.el.play(); if(q&&q.catch) q.catch(function(){}); }
+    return;
+  }
+  /* 회차를 적으면 칸의 글자가 바뀌고 칸이 다시 그려진다. 그때 재생기가 떨어져 나간다.
+     **듣던 자리에서 처음으로 돌아가면 40분 블록에서 그 40분을 다시 듣는다.**
+     같은 과 같은 방식이면 자리와 돌던 여부를 이어받는다. */
+  var at=0, was=false;
+  if(SESS.el && SESS.id===it.id && SESS.mode===mode){
+    at=SESS.el.currentTime||0; was=!SESS.el.paused;
+  }
+  stopSessPlay();
+  SESS.id=it.id; SESS.mode=mode;
+  SESS.el=mountPlayer(host, it, mode, {
+    rate: (typeof LIB!=="undefined" && LIB.rate) || 1, play: !!play||was, noteId: "sessMediaNote",
+    onAudio: function(){ sessPlay(it,"audio",true); },
+  });
+  if(at>0){
+    var m=SESS.el;
+    var seek=function(){ try{ m.currentTime=at; }catch(e){} };
+    if(m.readyState>0) seek(); else m.addEventListener("loadedmetadata", seek, {once:true});
+  }
+  /* 고른 것이 버튼에 보여야 한다. 다시 그리면 setTimeout 이 다시 칠한다. */
+  document.querySelectorAll("#blockPane [data-media]").forEach(function(b){
+    var k=b.dataset.media;
+    if(k==="audio"||k==="video") b.className=mode===k?"on":"";
+  });
+}
+function stopSessPlay(){
+  if(SESS.el){ try{ SESS.el.pause(); }catch(e){} }
+  var n=$("#sessMediaNote"); if(n) n.remove();
+  SESS.el=null; SESS.id=null;
+}
+
+/* 그려 놓은 것을 기억한다. 같으면 손대지 않는다.
+   **paintTimer 가 매초 돌고 그 안에서 이 함수가 돈다.** 그래서 블록 칸이
+   매초 통째로 지워지고 다시 생겼다. 안에 심은 것은 1초를 못 산다.
+   T125 에서 재 봤다. 심어 둔 노드도 재생기도 1초 뒤에 없었다.
+   블록 칸의 내용은 매초 바뀌지 않는다. 구간이 넘어갈 때와 남은 분이 줄 때만 바뀐다.
+   글자가 같으면 안 그린다. 그러면 재생기가 그 안에서 살 수 있다. */
+var PANE={sig:null};
 function renderBlockPane(){
   var box=$("#blockPane"); if(!box) return;
   var pl=plan();
-  if(pl.finished || !pl.lectureNo){ box.hidden=true; return; }
+  if(pl.finished || !pl.lectureNo){ box.hidden=true; PANE.sig=null; return; }
   box.hidden=false;
   var i=T.idx, h="";
   function row(k,v,n){
@@ -2268,6 +2330,8 @@ function renderBlockPane(){
   }else{
     h=renderMediaPane(pl,2);
   }
+  if(PANE.sig===h && box.firstChild) return;
+  PANE.sig=h;
   box.innerHTML=h;
 }
 
@@ -2357,6 +2421,9 @@ function gotoBlock(i, opt){
   opt=opt||{};
   if(i<0) i=0;
   if(i>=BLOCKS.length){ finishSession(); return; }
+  /* 블록을 넘기면 소리를 끈다. 안 끄면 블록 1의 소리가 블록 2 위로 계속 흐른다.
+     블록 2는 두 사람이 서로 말하는 블록이다. */
+  if(T.idx!==i) stopSessPlay();
   T.idx=i;
   T.left=BLOCKS[i].m*60;
   hideSessionDone();
@@ -3828,43 +3895,55 @@ function paintLibScript(it, lines){
     box.appendChild(d);
   });
 }
-function openMedia(i,mode,play){
-  var it=mediaItem(i); if(!it) return;
-  LIB.active=i; LIB.mode=mode||"audio";
-  var r=mediaRec(); r.last=it.id; save();
-  if(LIB.el){ try{LIB.el.pause();}catch(e){} }
-  var host=$("#libMediaHost"); host.innerHTML="";
-  var isVideo=LIB.mode==="video";
+/* 재생기를 만들어 자리에 건다. 미디어 탭과 세션 블록이 이 하나를 같이 쓴다.
+   두 자리에 따로 만들면 T121 에서 낸 망 끊김 안내가 한 자리에만 생긴다.
+   **한 자리에만 있는 안내는 다른 자리에서는 없는 것이다.** */
+function mountPlayer(host, it, mode, opt){
+  opt=opt||{};
+  host.innerHTML="";
+  var isVideo=mode==="video";
   var m=document.createElement(isVideo?"video":"audio");
   m.controls=true; m.preload="metadata"; m.playsInline=true;
-  m.src=isVideo?it.video:(LIB.mode==="original"?it.originalAudio:it.audio);
+  m.src=isVideo?it.video:(mode==="original"?it.originalAudio:it.audio);
   m.setAttribute("aria-label",it.title+" "+(isVideo?"영상":"음성"));
   try{m.preservesPitch=true;m.mozPreservesPitch=true;m.webkitPreservesPitch=true;}catch(e){}
-  m.playbackRate=LIB.rate; host.appendChild(m); LIB.el=m;
+  m.playbackRate=opt.rate||1;
   /* 영상은 원격이다. 소리와 대본과 이미지는 저장소 안에 있다.
      망이 끊기면 영상만 죽는데 그것이 **아무 말 없이 죽는다.**
      화면에는 안 되는 재생기만 남는다. 두 사람은 앱이 고장 난 줄 안다.
      왜 안 되는지 적고 저장된 소리로 가는 길을 같이 낸다. T121 에서 재 봤다. */
   m.onerror=function(){
-    var box=$("#libMediaNote");
-    if(!box){ box=el("div"); box.id="libMediaNote"; box.className="note small w";
-              host.parentNode.insertBefore(box, host.nextSibling); }
+    var old=document.getElementById(opt.noteId); if(old) old.remove();
+    var box=el("div"); box.id=opt.noteId; box.className="note small w";
+    host.parentNode.insertBefore(box, host.nextSibling);
     if(isVideo){
       box.innerHTML='<b>영상을 못 불러왔다.</b> 영상은 VOA 서버에서 바로 받는다. '+
         '망이 끊겼거나 그 주소가 바뀐 것이다.<br>'+
         '<b>소리와 대본은 저장소 안에 있어 망 없이도 된다.</b> '+
-        '<button class="g" id="toAudio" type="button" style="margin-top:7px">저장된 소리로</button>';
-      var ta=$("#toAudio");
-      if(ta) ta.onclick=function(){ openMedia(LIB.active,"audio",true); };
+        '<button class="g" type="button" style="margin-top:7px">저장된 소리로</button>';
+      var ta=box.querySelector("button");
+      if(ta) ta.onclick=function(){ if(opt.onAudio) opt.onAudio(); };
     }else{
       box.innerHTML='<b>소리를 못 불러왔다.</b> '+
         '<span class="mono">'+esc(m.src)+'</span> 자리를 확인한다. '+
         '저장소를 통째로 내려받았는지 본다.';
     }
   };
+  host.appendChild(m);
+  if(opt.play){ var q=m.play(); if(q&&q.catch) q.catch(function(){}); }
+  return m;
+}
+function openMedia(i,mode,play){
+  var it=mediaItem(i); if(!it) return;
+  LIB.active=i; LIB.mode=mode||"audio";
+  var r=mediaRec(); r.last=it.id; save();
+  if(LIB.el){ try{LIB.el.pause();}catch(e){} }
   var oldNote=$("#libMediaNote"); if(oldNote) oldNote.remove();
+  LIB.el=mountPlayer($("#libMediaHost"), it, LIB.mode, {
+    rate: LIB.rate, play: play!==false, noteId: "libMediaNote",
+    onAudio: function(){ openMedia(LIB.active,"audio",true); },
+  });
   paintMediaPlayer(); renderMediaList();
-  if(play!==false){ var q=m.play(); if(q&&q.catch) q.catch(function(){}); }
 }
 function renderMediaList(){
   var box=$("#libList"); if(!box) return;
