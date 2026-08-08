@@ -50,6 +50,7 @@ STEPS = [
     ("대조", "check_refs.py", [], True),
     ("대조", "check_data.py", [], True),
     ("화면", "check_ui.js", [], False),
+    ("상태", "derive_verify_list.py", [], False),
     ("상태", "collect_b.py", [], False),
     ("상태", "update_status.py", [], False),
 ]

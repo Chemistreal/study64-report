@@ -111,6 +111,7 @@ state/status.md         진행 상태 (자동 생성)
 state/journal.md        제작 일지 (수기). 단계 진척, 기준서 개정 결정
 state/rotation.md       주제 조합 회전 대장
 state/verify_queue.md   B등급 검증 대기열
+state/verify_list.md    근거 없는 표현 목록. **무엇을 볼지가 여기 있다**
 scripts/check.py        제작물 규격 검사
 scripts/check_media.py  미디어 카탈로그 검사
 scripts/check_cards_plan.py 카드 유형 총량을 기준서 8.1과 대조
