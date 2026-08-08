@@ -129,8 +129,11 @@ def pick_plan(name, b):
         s = line.strip()
         if re.match(r"^(앞|가운데|뒤|먼저|이어서)\s", s) and re.search(r"\d+분", s):
             segs.append(s)
-    # 구간별 지시 줄이 따로 없는 강의가 있다. Q1 이 그렇다.
+    # 구간별 지시 줄이 따로 없거나 하나뿐인 강의가 있다.
+    # 앞 구간을 다른 말로 적은 강의가 그렇다. 41강 45강 46강 70강이 그것이다.
     # 그때는 배분 문장 자체를 쉼표로 갈라 구간으로 쓴다. 정보는 그 안에 있다.
+    if len(segs) < 2:
+        segs = []
     if not segs:
         for part in re.split(r"[,\n]", split.group(1)):
             p2 = part.strip().rstrip(".")
@@ -167,18 +170,19 @@ def pick_record(name, b):
 
 
 def pick_stuck(name, b):
-    # Q1 은 "막혔을 때의 처리도 정해 둔다" 로 열고 다음 문장에 내용이 온다.
-    # Q2 부터는 "막혔을 때는" 뒤에 바로 온다. 둘 다 받는다.
-    m = re.search(r"^막혔을 때는\s*(.+)$", b[2], flags=re.M)
-    if m:
-        return m.group(1).strip()
-    m = re.search(r"^막혔을 때.*?\n(.+)$", b[2], flags=re.M)
-    if m:
-        return m.group(1).strip()
-    # 줄 첫머리가 아닌 자리에 오는 강의가 있다. 19강이 그렇다.
-    m = re.search(r"^(.*막혔을 때.*)$", b[2], flags=re.M)
-    if m:
-        return m.group(1).strip()
+    """막혔을 때. 그 말이 든 문단을 통째로 가져온다.
+
+    줄 단위로 뽑으면 문장이 가운데서 잘린다. 종이에서 안 읽힌다.
+    Q1 은 "막혔을 때의 처리도 정해 둔다" 로 열고 다음 문장에 내용이 온다.
+    Q2 부터는 "막혔을 때는" 뒤에 바로 온다. 19강은 줄 첫머리가 아니다. 셋 다 받는다.
+    """
+    for para in re.split(r"\n\s*\n", b[2]):
+        if "막혔을 때" not in para:
+            continue
+        s = re.sub(r"\s+", " ", para.replace("**", "")).strip()
+        s = re.sub(r"^막혔을 때는\s*", "", s)
+        s = re.sub(r"^막혔을 때의 처리도 정해 둔다\.\s*", "", s)
+        return s
     miss(name, "막혔을 때", "블록 3에 막혔을 때 처리가 없다")
     return None
 
