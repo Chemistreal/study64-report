@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 스물네 가지를 본다.
+ * 스물다섯 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -29,7 +29,8 @@
  * 20. 한 줄 되풀이가 구간 안에서 안 멎고 도는가
  * 21. 여러 줄 구간이 늘고 줄고, video 요소로도 같은 코드가 도는가
  * 22. 회차가 대본 가림을 정하고 블록을 옮기면 그 기본값으로 돌아가는가
- * 23. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
+ * 23. 배속이 0.75~1.25 안에서만 움직이고 피치를 잡고 바로 저장되는가
+ * 24. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -892,6 +893,49 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   veil.slice(0, 6).forEach((m) => fails.push("대본 가리기: " + m));
 
+  // 22. 배속. **0.75에서 1.25까지다.** 피치는 유지한다.
+  //     피치를 안 잡으면 늦출 때 목소리가 낮아지고 그 낮아진 소리를 따라 하게 된다.
+  //     그것은 다른 소리를 익히는 것이다. 소리 트랙이 통째로 헛돈다.
+  //     고른 속도는 남는다. 두 사람이 정한 것을 다음 날 다시 정하게 하지 않는다.
+  await page.evaluate(() => { T.run = true; syncSessionFocus(); gotoBlock(0); });
+  await page.waitForTimeout(2200);
+  const rate = await page.evaluate(async () => {
+    const bad = [];
+    const btn = (k) => [...document.querySelectorAll("#blockPane [data-media]")]
+      .find((x) => x.dataset.media === k);
+    const el = () => document.querySelector("#sessPlayHost audio");
+    if (!el()) { bad.push("재생기가 없다"); return bad; }
+    if (!el().preservesPitch) bad.push("피치를 안 잡는다");
+    const first = el();
+    setRate(1);
+    btn("slow").click(); await new Promise((r) => setTimeout(r, 250));
+    btn("slow").click(); await new Promise((r) => setTimeout(r, 250));
+    if (Math.abs(el().playbackRate - 0.9) > 0.001)
+      bad.push("두 번 늦췄는데 " + el().playbackRate + " 배다. 0.9 여야 한다");
+    if (el() !== first) bad.push("속도를 바꾸니 재생기가 다시 걸렸다");
+    if (!el().preservesPitch) bad.push("속도를 바꾸니 피치를 놓쳤다");
+    if ((document.getElementById("sessRate") || {}).textContent.indexOf("0.90") < 0)
+      bad.push("화면에 지금 속도가 안 적힌다");
+    // 선을 넘지 않는다
+    for (let i = 0; i < 12; i++) { btn("slow").click(); await new Promise((r) => setTimeout(r, 50)); }
+    if (Math.abs(S.rate - 0.75) > 0.001) bad.push("바닥이 " + S.rate + " 다. 0.75 여야 한다");
+    for (let i = 0; i < 20; i++) { btn("fast").click(); await new Promise((r) => setTimeout(r, 50)); }
+    if (Math.abs(S.rate - 1.25) > 0.001) bad.push("천장이 " + S.rate + " 다. 1.25 여야 한다");
+    // 라이브러리 손잡이와 같은 선을 쓰는가. 두 자리가 다르게 자르면 안 된다.
+    const sl = document.getElementById("libRate");
+    if (+sl.min !== 0.75 || +sl.max !== 1.25)
+      bad.push("라이브러리 손잡이가 " + sl.min + "~" + sl.max + " 다. 세션과 다르다");
+    if (Math.abs(+sl.value - S.rate) > 0.001) bad.push("라이브러리 손잡이가 안 따라왔다");
+    // 미루지 않고 바로 쓰는가. 연달아 누르고 바로 닫으면 마지막 값이 안 남는다.
+    const raw = JSON.parse(localStorage.getItem("eng2p") || localStorage.getItem(KEY) || "{}");
+    if (Math.abs((raw.rate || 0) - 1.25) > 0.001)
+      bad.push("저장된 속도가 " + raw.rate + " 다. 미뤄 쓰고 있다");
+    setRate(1);
+    T.run = false; clearInterval(T.tick); leaveSessPlay();
+    return bad;
+  });
+  rate.slice(0, 6).forEach((m) => fails.push("배속: " + m));
+
   // 14. 연속 30일 몰기. 리허설(10)은 세션 **한 벌**을 본다. 이것은 세션 **사이**를 본다.
   //     한 벌은 늘 맞는다. 어긋나는 것은 스무 번째 세션이다.
   //     빠진 날과 비상판 날이 섞여야 진도와 배정이 갈리는 자리가 나온다.
@@ -943,7 +987,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
               "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
               "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
-              "여러 줄 되풀이 1판 / 대본 가리기 1판 / 연속 30일 1판");
+              "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
+              "배속 1판 / 연속 30일 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
