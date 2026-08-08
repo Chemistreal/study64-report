@@ -31,6 +31,17 @@ BANNED_CHARS = {
     "\u2013": "en-dash (U+2013)",
 }
 
+# 쓰는 문자 범위. 이 밖의 글자는 실수로 섞여 든 것이다.
+# Q4 86강 제목에 키릴 문자가 한 낱말 섞여 든 것을 블록 누락으로만 잡았다.
+# 그때는 제목이 깨져서 걸렸다. 본문 가운데였으면 안 걸렸을 것이다.
+ALLOWED_CHAR = re.compile(
+    "[ -~"                    # ASCII
+    "\uac00-\ud7a3"          # 한글 음절
+    "\u3131-\u318e"          # 한글 자모
+    "\n\r\t"
+    "\u2018\u2019\u201c\u201d\u2026\u00b7\u2192\u00b0]"
+)
+
 # 한글 음차 탐지: 영어 예문 근처에 나오는 가타카나식 한글 표기는 잡기 어렵다.
 # 대신 흔한 음차 패턴을 목록으로 관리한다.
 TRANSLITERATION = [
@@ -55,6 +66,11 @@ def is_audio(name):
 def check_common(path, text):
     if not re.fullmatch(r"[A-Za-z0-9_.\-]+", path.name):
         fail(path, "파일명이 ASCII가 아니다")
+
+    odd = sorted({c for c in text if not ALLOWED_CHAR.match(c)})
+    if odd:
+        fail(path, "쓰는 문자 범위 밖: %s" % " ".join(
+            "%s(U+%04X)" % (c, ord(c)) for c in odd[:5]))
 
     for ch, label in BANNED_CHARS.items():
         n = text.count(ch)

@@ -62,7 +62,9 @@ def main():
         "",
         "제작 순서는 CLAUDE.md 참조. 턴 단위 계획은 docs/roadmap.md 다.",
         "Q1은 끝났고 필수 정지 지점에서 사용자가 진행을 명시적으로 지시했다.",
-        "8주 실행 데이터는 아직 없다. 그 상태로 Q2를 만들고 있다.",
+        # 어느 분기를 만들고 있는지는 파일명에서 파생시킨다. 손으로 적으면 안 고치고 지나간다.
+        "8주 실행 데이터는 아직 없다. 그 상태로 %s를 만들고 있다."
+        % (last[6:8].upper() if last.startswith("eng2p_q") else "다음 분기"),
     ]
 
     STATUS.parent.mkdir(parents=True, exist_ok=True)
