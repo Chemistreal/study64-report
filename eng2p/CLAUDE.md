@@ -6,7 +6,7 @@
 ## 첫 3줄 요약
 
 1. 제작 전에 docs/spec.md 의 해당 규격 절을 읽는다.
-2. 제작 후 반드시 `python3 scripts/check.py <파일>` 을 돌린다. 통과 못 하면 미완성이다.
+2. 제작 후 반드시 `python3 scripts/all.py` 를 돌린다. 통과 못 하면 미완성이다.
 3. 확신 없는 영어 표현은 지어내지 말고 B등급으로 표시한다. 이것이 이 프로젝트의 1순위 규칙이다.
 
 ## 이 프로젝트의 구조적 위험
@@ -78,18 +78,17 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 ## 세션 종료 절차
 
 ```bash
-python3 scripts/check.py out/<만든파일>
-python3 scripts/check_media.py
-python3 scripts/check_cards_plan.py
-python3 scripts/check_derived.py
-python3 scripts/check_data.py
-python3 scripts/check_refs.py
-python3 scripts/check_page.py
-python3 scripts/collect_b.py
-python3 scripts/update_status.py
+python3 scripts/all.py
 ```
 
-다섯 개가 다 통과해야 세션이 끝난 것이다.
+**한 줄이다.** 파생 넷과 검사 아홉과 상태 갱신 둘을 정해진 순서로 돈다.
+2초쯤 걸린다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
+
+순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
+검사가 열넷이 되고 나서 순서를 기억으로 돌리는 것을 그만뒀다.
+**뺀 검사는 안 돌린 것이 아니라 통과한 것처럼 보인다.**
+
+하나라도 실패하면 종료 코드가 1이고 실패 줄만 따로 모아 보여 준다.
 
 ## 파일 배치
 
@@ -124,6 +123,7 @@ out/data/               파생된 JSON 일곱. 손으로 안 고친다
 out/data/index.json     앱이 제일 먼저 읽는 한 장 (37KB). 48주 차림표와 파일 해시
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
+scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
 out/cards/eng2p_card_plan_q1.md 카드 001~150 배정표. 강의보다 이쪽이 기준
 ```
