@@ -201,6 +201,25 @@ tbody tr:hover td{background:var(--card2)}
 .sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
 .sessionrole{font-size:21px;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
 .sessionprogress{font-size:12px;color:var(--mut)}
+/* 오늘 한 장. 책상에 놓고 흘끗 보는 자리라 멀리서 읽혀야 한다. */
+.todaysheet{margin:14px 0 0;padding:16px 18px;border:1px solid var(--edge);border-radius:14px;
+  background:var(--card2)}
+.todaysheet .lec{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.2}
+.todaysheet .lec b{color:var(--a1)}
+.todaysheet .tk{font-size:12px;color:var(--mut);margin-top:2px}
+.todaysheet .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));
+  gap:10px;margin-top:13px}
+.todaysheet .g{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;background:var(--card)}
+.todaysheet .g .k{font-size:11px;color:var(--mut)}
+.todaysheet .g .v{font-size:17px;font-weight:730;font-family:var(--mono);
+  font-variant-numeric:tabular-nums;margin-top:2px}
+/* 48주 띠. 한 줄로 1년이 다 보인다. */
+.weekband{display:flex;gap:2px;margin-top:13px}
+.weekband i{flex:1;height:7px;border-radius:2px;background:var(--edge)}
+.weekband i.done{background:var(--a1)}
+.weekband i.now{background:var(--a3);box-shadow:0 0 0 2px var(--card2),0 0 0 3px var(--a3)}
+.weekband i.qend{margin-right:9px}  /* 12주마다 틈. 분기가 눈으로 갈린다 */
+.bandnote{font-size:11px;color:var(--mut);margin-top:6px;display:flex;justify-content:space-between}
 .sessionstart{min-width:190px}
 body.session-focus header{position:fixed;inset:0 0 auto;transform:translateY(-110%);opacity:0;pointer-events:none}
 body.session-focus .aurora i{opacity:.18;animation-play-state:paused}
@@ -430,6 +449,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
       </div>
       <button class="bigtap sessionstart" id="tOne">세션 시작</button>
     </div>
+    <div class="todaysheet" id="todaySheet"></div>
     <div class="timer">
       <div class="ringwrap">
         <svg viewBox="0 0 200 200" aria-hidden="true">
@@ -1098,8 +1118,14 @@ function save(){
   },120);
 }
 function day(d){
-  if(!S.days[d]) S.days[d]={status:null,speak:0,cards:0,lre:0,unres:[],coll:[]};
-  return S.days[d];
+  /* 칸이 빠진 기록이 들어올 수 있다. 예전 판이 남긴 것이거나 손으로 넣은 것이다.
+     하나만 없어도 그 줄을 읽는 자리에서 앱 전체가 멈춘다.
+     T98 에서 겪었다. status 만 든 기록을 넣었더니 첫 화면이 안 떴다. */
+  var b={status:null,speak:0,cards:0,lre:0,unres:[],coll:[]};
+  var r=S.days[d];
+  if(!r){ S.days[d]=b; return b; }
+  for(var k in b) if(!(k in r)) r[k]=b[k];
+  return r;
 }
 
 /* =========================================================================
@@ -1152,6 +1178,57 @@ function plan(){
   }
   return out;
 }
+
+/* =========================================================================
+   오늘 한 장. 두 사람이 앉아서 제일 먼저 보는 자리다.
+   여기 없는 값은 앱 어디에도 없다. 전부 plan() 이 준 파생값이다.
+   ========================================================================= */
+function renderSheet(pl){
+  var box=$("#todaySheet"); if(!box) return;
+  if(!IDX){
+    box.innerHTML='<div class="small mut">차림표를 못 읽었다. '+
+      'eng2p/out/data/index.js 경로를 확인한다.</div>';
+    return;
+  }
+  if(pl.finished){
+    box.innerHTML='<div class="lec"><b>288세션을 다 했다.</b></div>'+
+      '<div class="tk">96강이 끝났다. 카드는 계속 돈다.</div>';
+    return;
+  }
+  var g=[];
+  function cell(k,v){ if(v==null||v==="") return;
+    g.push('<div class="g"><div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div></div>'); }
+  cell("세트", pl.set);
+  function pad3(n){ return String(n).padStart(3,"0"); }
+  // 카드는 자료에서 [041] 처럼 세 자리다. 화면이 41 이라고 하면 두 사람이 그것을 찾는다.
+  cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null);
+  cell("미디어", pl.media);
+  cell("과제 분량", pl.task ? pl.task.minChars+"자" : null);
+  cell("비상판", pl.emergency!=null ? String(pl.emergency) : "없는 강");
+
+  var h='<div class="lec"><b>'+pl.lectureNo+'강</b> '+esc(pl.title||"")+'</div>'+
+        '<div class="tk">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
+        pl.week+'주 '+pl.day+'일째 · 오늘이 '+pl.session+'번째 세션이다</div>'+
+        '<div class="grid">'+g.join("")+'</div>'+
+        band(pl);
+  box.innerHTML=h;
+}
+
+/* 48주 띠. 한 줄로 1년이 다 보인다. 분기마다 명암을 바꾼다. */
+function band(pl){
+  var s='<div class="weekband">';
+  for(var w=1;w<=48;w++){
+    var c=[]; if(w<pl.week) c.push("done"); if(w===pl.week) c.push("now");
+    if(w%12===0 && w<48) c.push("qend");
+    s+='<i class="'+c.join(" ")+'"></i>';
+  }
+  s+='</div><div class="bandnote"><span>1주</span>';
+  s+='<span>'+(pl.behind>0 ? "달력보다 "+pl.behind+"주 밀렸다" :
+                pl.week>1 ? (pl.week-1)+"주 마쳤다" : "시작 주다")+'</span>';
+  s+='<span>48주</span></div>';
+  return s;
+}
+
 function hoursOf(rec){ return !rec||!rec.status?0: rec.status==="normal"?2: rec.status==="emg"?0.25:0; }
 function toast(m){ var f=$("#fMsg"); if(f){f.textContent=m; setTimeout(function(){f.textContent="자동 저장된다";},2600);} }
 
@@ -1273,6 +1350,7 @@ function renderToday(){
   var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
   if(pl.behind>0) msg+=" · 달력보다 "+pl.behind+"주 밀렸다";
   $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
+  renderSheet(pl);
   $("#labU1").textContent=S.names.a+" 생각"; $("#labU2").textContent=S.names.b+" 생각";
   $("#fSpeak").value=rec.speak||""; $("#fCards").value=rec.cards||""; $("#fLre").value=rec.lre||"";
   document.querySelectorAll("[data-st]").forEach(function(b){
@@ -1691,12 +1769,12 @@ function renderVerify(){
   lreBox.innerHTML=""; colBox.innerHTML="";
   var nL=0,nC=0;
   allDays().forEach(function(d){
-    S.days[d].unres.forEach(function(u,i){
+    day(d).unres.forEach(function(u,i){
       if(!!u.done!==showDone) return;
       nL++;
       lreBox.appendChild(itemCard(d,u.t,[u.i?"걸린 것: "+u.i:"",u.h?S.names.a+": "+u.h:"",u.w?S.names.b+": "+u.w:""],u));
     });
-    S.days[d].coll.forEach(function(c){
+    day(d).coll.forEach(function(c){
       if(!!c.done!==showDone) return;
       nC++;
       colBox.appendChild(itemCard(d,c.e,["출처: "+c.s,c.q?"궁금한 점: "+c.q:""],c));
@@ -1732,14 +1810,14 @@ $("#vCopy").onclick=function(){
     "규칙: 채집 항목은 출처 없이 올리지 않는다. 출처가 없으면 판정이 안 된다.","",
     "## 미해결 LRE","","| 기록일 | 우리가 말한 문장 | 무엇이 걸렸나 | "+S.names.a+" | "+S.names.b+" |","|---|---|---|---|---|"];
   var n=0;
-  allDays().forEach(function(d){ S.days[d].unres.forEach(function(u){
+  allDays().forEach(function(d){ day(d).unres.forEach(function(u){
     if(u.done) return; n++;
     L.push("| "+d+" | "+u.t+" | "+(u.i||"")+" | "+(u.h||"")+" | "+(u.w||"")+" |");
   });});
   if(!n) L.push("| (없음) | | | | |");
   L.push("","## 채집 표현","","| 기록일 | 표현 | 출처 | 궁금한 점 |","|---|---|---|---|");
   var m=0;
-  allDays().forEach(function(d){ S.days[d].coll.forEach(function(c){
+  allDays().forEach(function(d){ day(d).coll.forEach(function(c){
     if(c.done) return; m++;
     L.push("| "+d+" | "+c.e+" | "+c.s+" | "+(c.q||"")+" |");
   });});
@@ -2116,7 +2194,8 @@ function revAnswer(it){ return it.t || it.e || ""; }
 function revDue(){
   var out=[], td=today();
   allDays().forEach(function(d){
-    S.days[d].unres.concat(S.days[d].coll).forEach(function(it){
+    var _r=day(d);
+    _r.unres.concat(_r.coll).forEach(function(it){
       if(it.done && it.box && it.box<=IVL.length && it.due && it.due<=td) out.push(it);
     });
   });
@@ -2143,7 +2222,8 @@ function renderReview(){
   if(!REV.queue.length){
     var waiting=0, td=today();
     allDays().forEach(function(d){
-      S.days[d].unres.concat(S.days[d].coll).forEach(function(it){
+      var _r=day(d);
+    _r.unres.concat(_r.coll).forEach(function(it){
         if(it.done && it.box && it.box<=IVL.length && it.due && it.due>td) waiting++;
       });
     });
