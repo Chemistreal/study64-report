@@ -59,8 +59,33 @@ AI_CLICHE = ["결론적으로", "중요한 것은", "핵심은 바로", "요약�
 VAGUE_CRITERIA = ["자연스러워지면", "익숙해지면", "감이 오면", "편해지면", "어느 정도"]
 
 
+def is_admin(path):
+    """만드는 쪽이 읽는 글인가. 두 사람이 세션에서 읽는 글이 아닌가.
+
+    `out/` 안이 제작물이고 `templates/` 는 그 본이다. 나머지는 제작 관리다.
+    지침과 일지와 계획과 개정문과 프롬프트가 거기 있다.
+
+    **글자 규칙은 여기에도 다 건다.** 문자 범위도 등급 표시도 em-dash 도 같다.
+    학습 지시에만 걸리는 규칙 하나만 뺀다. 그 규칙이 재는 것이 여기 없기 때문이다.
+    """
+    parts = path.resolve().parts
+    return "out" not in parts and "templates" not in parts
+
+
+def is_template(path):
+    """templates/ 안의 것은 제작물이 아니라 베끼는 틀이다.
+
+    틀에는 자리표가 들어 있다. 실물이라면 틀린 값이지만 틀에서는 맞는 값이다.
+    T151 에 전수 검사를 하면서 이 갈래가 필요해졌다. 그 전에는 틀을 안 봤다.
+    """
+    return path.parent.name == "templates"
+
+
 def is_audio(name):
-    return bool(re.search(r"_audio_", name) or re.fullmatch(r"lle1-\d{2}\.md", name))
+    # templates/audio.md 는 조준표의 본이다. C-gen 을 머리에 달고 있는 것이 맞다.
+    # 이름에 `_audio_` 가 없어서 T151 까지 실패로 나왔다. 규칙이 아니라 범위가 좁았다.
+    return bool(re.search(r"_audio_", name) or re.fullmatch(r"lle1-\d{2}\.md", name)
+                or name == "audio.md")
 
 
 def check_common(path, text):
@@ -93,11 +118,17 @@ def check_common(path, text):
         if w in text:
             warn(path, "AI 상투 표현: %s" % w)
 
-    if not re.search(r"^신뢰도:\s*[ABC]", text, re.M):
+    # 등급은 **머리에 한 번** 다는 값이다. 그래서 첫 줄만 본다.
+    # 아무 줄이나 보면 등급을 설명하는 문서가 자기 예문에 걸린다.
+    # docs/audio_intake.md 가 그랬다. 머리는 A인데 64째 줄 예시가 C-gen 이라
+    # T151 까지 실패로 나왔다. **규칙이 틀린 것이 아니라 보는 자리가 넓었다.**
+    head = re.search(r"^신뢰도:\s*(\S+)", text, re.M)
+    if not head:
         fail(path, "신뢰도 등급 표시가 없다 (첫 줄에 '신뢰도: A')")
-
+    elif head.group(1)[0] not in "ABC":
+        fail(path, "신뢰도 등급이 A B C 가 아니다: %s" % head.group(1))
     # 음성 대본은 C-real / C-gen 을 쓴다. docs/audio_intake.md 1장.
-    if re.search(r"^신뢰도:\s*C", text, re.M) and not is_audio(path.name):
+    elif head.group(1).startswith("C") and not is_audio(path.name):
         fail(path, "C등급은 제작하지 않는다. 조준표에 채집 지시만 쓴다")
 
     if re.search(r"^신뢰도:\s*B", text, re.M) and "검증로그:" not in text:
@@ -112,6 +143,14 @@ def check_common(path, text):
     # 비상판만 예외다. 기준서 11.2가 이 과정 유일한 1인 예외로 지정한다.
     # 결석의 동기화를 막는 장치이므로 1인 수행이 규격 그 자체다.
     if "emg" in path.name:
+        return
+
+    # **제작 관리 문서에는 이 선을 안 건다.** 두 사람이 읽는 글이 아니다.
+    # 이 규칙이 막는 것은 "학습자 한 사람에게 시키는 지시" 다.
+    # 제작 일지의 "혼자 만드는 지금" 이나 프롬프트의 "혼자 정하지 말고 보고한다" 는
+    # 만드는 사람 이야기다. T151 에 전수로 넓히면서 그런 경고가 스물여섯 났다.
+    # 다 한 갈래였다. **경고가 스물여섯이면 남은 일흔아홉을 안 보게 된다.**
+    if is_admin(path):
         return
 
     SAFE = re.compile(r"(없다|않는다|없고|아니다|아니라|아닌|각자|둘 다|서로)")
@@ -348,9 +387,11 @@ def check_audio(path, text):
         if re.search(r"^트랙:\s*소리\s*$", text, re.M):
             warn(path, "C-gen 을 소리 트랙에 쓴다. 연습은 되지만 통과 판정에는 못 쓴다")
 
-    # 음성 파일명은 대본 파일명과 확장자만 달라야 한다
+    # 음성 파일명은 대본 파일명과 확장자만 달라야 한다.
+    # **본은 뺀다.** templates/audio.md 는 제작물이 아니라 베끼는 틀이라
+    # 머리에 적힌 이름이 보기용 자리표다. 이름이 같을 수가 없다.
     m = re.search(r"^음성 파일:\s*(\S+)$", text, re.M)
-    if m:
+    if m and not is_template(path):
         stem = m.group(1).rsplit(".", 1)[0]
         if stem != path.stem:
             fail(path, "음성 파일 이름이 대본과 다르다: %s vs %s" % (stem, path.stem))
@@ -393,6 +434,12 @@ def main():
     for a in sys.argv[1:]:
         t = pathlib.Path(a)
         files += sorted(t.rglob("*.md")) if t.is_dir() else [t]
+    # docs/ 를 통째로 줄 때 기준서는 빠진다. 사용자 파일이라 내가 못 고치기 때문이다.
+    # **빼는 대신 따로 본다.** scripts/check_spec.py 가 그 파일만 맡는다.
+    # 그 검사는 실패 개수가 아니라 **알고 있는 실패와 같은지**를 본다.
+    # 이름으로 직접 주면 안 뺀다. 손으로 볼 때는 그대로 보인다.
+    if len(sys.argv) > 1 and any(pathlib.Path(a).is_dir() for a in sys.argv[1:]):
+        files = [f for f in files if f.name != "spec.md"]
     if not files:
         print("검사할 .md 파일이 없다")
         return 1

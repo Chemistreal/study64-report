@@ -41,15 +41,14 @@ STEPS = [
     # **맨 뒤다.** 앞의 파생물을 다 세어 표를 만든다. 순서가 틀리면 스스로 실패한다.
     ("파생", "derive_manifest.py", [], True),
     ("어긋남", "check_derived.py", [], True),
-    ("규격", "check.py", ["out/"], False),
-    # docs 와 state 도 본다. **내가 쓰는 문서에도 같은 선이 걸린다.**
-    # T149 에 audio_timing.md 에서 em-dash 셋과 신뢰도 표시 없음이 나왔다.
-    # out/ 만 보고 있어서 아홉 턴 동안 안 걸렸다.
-    # audio_intake.md 는 뺐다. 그 문서가 C등급 규칙을 **정의하는** 문서라
-    # 그 낱말을 쓰는 것만으로 규칙 위반으로 잡힌다. 검사가 못 가리는 자리다.
-    ("규격", "check.py", ["docs/audio_timing.md", "docs/spec_amendments.md",
-                          "docs/roadmap.md", "state/journal.md",
-                          "state/verify_list.md", "state/verify_queue.md"], False),
+    # **전수다.** 저장소의 마크다운 385편을 다 본다. T151 에 여기까지 넓혔다.
+    # T149 에는 내 문서 여섯만 골라 넣었다. 고른다는 것은 안 고른 것이 있다는 뜻이다.
+    # 실제로 본과 지침과 프롬프트 열여섯 편이 그때까지 한 번도 안 걸렸다.
+    # docs/spec.md 한 편만 빠진다. 사용자 파일이라 내가 못 고친다.
+    # 빼는 것이 아니라 check_spec.py 가 따로 맡는다. 바로 아랫줄이다.
+    ("규격", "check.py", ["out/", "docs/", "state/", "templates/", "tasks/",
+                          "CLAUDE.md", "README.md"], False),
+    ("규격", "check_spec.py", [], False),
     ("규격", "check_blocks.py", [], False),
     ("규격", "check_page.py", [], False),
     ("규격", "check_media.py", [], False),
