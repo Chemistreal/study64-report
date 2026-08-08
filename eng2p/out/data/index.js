@@ -1,4 +1,4 @@
-{
+window.ENG2P_INDEX={
   "note": "앱이 제일 먼저 읽는 한 장이다. 마크다운에서 파생시킨 것이라 손으로 고치지 않는다. scripts/derive_data.py 를 다시 돌린다.",
   "generator": "scripts/derive_data.py",
   "counts": {
@@ -1945,4 +1945,4 @@
       }
     }
   ]
-}
+};

@@ -121,6 +121,9 @@ scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인�
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
 out/data/               파생된 JSON 일곱. 손으로 안 고친다
 out/data/index.json     앱이 제일 먼저 읽는 한 장 (37KB). 48주 차림표와 파일 해시
+out/data/*.js           같은 내용을 script 로 읽는 판. **앱은 이쪽을 읽는다**
+                        file:// 에서 fetch 가 막히기 때문이다. 종이와 같이 쓰는 물건이라
+                        내려받아 여는 것이 정상이고 그때도 돌아야 한다
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다

@@ -258,6 +258,32 @@ def check_tasks(lec):
                 FAIL.append("%d주차 과제집에 %s 가 없다" % (x["week"], k))
 
 
+def check_js_pairs():
+    """.js 가 .json 과 같은 내용인가.
+
+    앱은 .js 쪽을 읽는다. file:// 에서 fetch 가 막히기 때문이다.
+    둘이 어긋나면 검사는 .json 을 보고 통과라고 하는데 앱은 다른 것을 보여 준다.
+    **검사하는 것과 쓰는 것이 다르면 검사가 아니다.**
+    """
+    for j in sorted((ROOT / "out" / "data").glob("*.json")):
+        js = j.with_suffix(".js")
+        if not js.exists():
+            FAIL.append("%s 에 짝이 되는 .js 가 없다" % j.name)
+            continue
+        body = js.read_text(encoding="utf-8")
+        i = body.find("=")
+        if i < 0 or not body.startswith("window."):
+            FAIL.append("%s 가 window.NAME= 형태가 아니다" % js.name)
+            continue
+        try:
+            a = json.loads(body[i + 1:].rstrip().rstrip(";"))
+        except ValueError:
+            FAIL.append("%s 안이 JSON 으로 안 읽힌다" % js.name)
+            continue
+        if a != json.loads(j.read_text(encoding="utf-8")):
+            FAIL.append("%s 와 %s 의 내용이 다르다" % (js.name, j.name))
+
+
 def check_index(lec):
     """묶음 파일이 다른 파일들과 맞는가. 크기와 해시까지 본다."""
     if not INDEX.exists():
@@ -363,6 +389,7 @@ def main():
     check_emergency(items)
     check_tasks(items)
     check_index(items)
+    check_js_pairs()
 
     for m in FAIL:
         print("[실패] %s" % m)

@@ -30,7 +30,7 @@ DERIVERS = [
     ("derive_handout.py", ROOT / "out" / "handouts", "eng2p_handout_l*.md"),
     ("derive_index.py", ROOT / "out" / "handouts", "eng2p_handout_index.md"),
     ("derive_bundle.py", ROOT / "out" / "bundles", "*.md"),
-    ("derive_data.py", ROOT / "out" / "data", "*.json"),
+    ("derive_data.py", ROOT / "out" / "data", "*.js*"),
 ]
 
 

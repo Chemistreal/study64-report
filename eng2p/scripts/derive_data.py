@@ -461,8 +461,10 @@ def manifest(lec, card, sett, hand, emg, task):
 def stamp_files():
     """파생된 파일마다 크기와 해시를 적는다."""
     out = []
-    for f in sorted(OUT.glob("*.json")):
-        if f.name == "index.json":
+    # 앱이 읽는 것은 .js 쪽이다. 해시가 그것도 덮어야 받은 것을 확인할 수 있다.
+    # index 자신은 뺀다. 자기 해시를 자기 안에 적을 수 없다.
+    for f in sorted(list(OUT.glob("*.json")) + list(OUT.glob("*.js"))):
+        if f.stem == "index":
             continue
         b = f.read_bytes()
         out.append({
@@ -471,6 +473,28 @@ def stamp_files():
             "sha256": hashlib.sha256(b).hexdigest(),
         })
     return out
+
+
+# 앱이 file:// 로 열릴 수 있다. 종이와 같이 쓰는 물건이라 내려받아 여는 것이 정상이다.
+# file:// 에서는 fetch 가 막힌다. 그래서 JSON 옆에 script 로 읽는 판을 같이 낸다.
+# media/english/catalog.js 가 이미 그 방식이다. 같은 모양을 쓴다.
+GLOBALS = {
+    "index.json": "ENG2P_INDEX",
+    "lectures.json": "ENG2P_LECTURES",
+    "cards.json": "ENG2P_CARDS",
+    "sets.json": "ENG2P_SETS",
+    "handouts.json": "ENG2P_HANDOUTS",
+    "emergency.json": "ENG2P_EMERGENCY",
+    "tasks.json": "ENG2P_TASKS",
+}
+
+
+def write_js(name, text):
+    """JSON 과 같은 내용을 script 로 읽는 판으로 낸다."""
+    g = GLOBALS[name]
+    p = OUT / name.replace(".json", ".js")
+    p.write_text("window.%s=%s;\n" % (g, text.rstrip("\n")), encoding="utf-8")
+    return p
 
 
 def write(name, payload):
@@ -485,8 +509,9 @@ def write(name, payload):
         "count": len(payload),
         "items": payload,
     }
-    p.write_text(json.dumps(body, ensure_ascii=False, indent=2) + "\n",
-                 encoding="utf-8")
+    text = json.dumps(body, ensure_ascii=False, indent=2) + "\n"
+    p.write_text(text, encoding="utf-8")
+    write_js(name, text)
     return p
 
 
@@ -558,14 +583,16 @@ def main():
     idx = manifest(rows, crows, srows, hrows, erows, trows)
     idx["files"] = stamp_files()
     p = OUT / "index.json"
-    p.write_text(json.dumps({
+    itext = json.dumps({
         "note": "앱이 제일 먼저 읽는 한 장이다. 마크다운에서 파생시킨 것이라 "
                 "손으로 고치지 않는다. scripts/derive_data.py 를 다시 돌린다.",
         "generator": "scripts/derive_data.py",
         "counts": idx["counts"],
         "files": idx["files"],
         "weeks": idx["weeks"],
-    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    }, ensure_ascii=False, indent=2) + "\n"
+    p.write_text(itext, encoding="utf-8")
+    write_js("index.json", itext)
     print("%s / %d주 (%.0fKB)"
           % (p.relative_to(ROOT), len(idx["weeks"]), p.stat().st_size / 1024))
     return 0
