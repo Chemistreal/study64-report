@@ -81,7 +81,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 일곱과 검사 열과 상태 갱신 둘, 열아홉을 정해진 순서로 돈다.
+**한 줄이다.** 파생 여덟과 검사 열하나와 상태 갱신 둘, 스물하나를 정해진 순서로 돈다.
 35초쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -123,6 +123,8 @@ scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이
 scripts/derive_transcripts.py 대본 52편을 script 한 파일로 묶는다 (file:// 대응)
 scripts/derive_audiolen.py mp3 52개의 진짜 길이를 프레임으로 잰다
 scripts/derive_cues.py  대본 줄마다 어림 시각. **어림이다.** 쉼을 안 센다
+scripts/ground.py       제작물의 영어 재료가 52과 대본 어디에 있는지 찾는다
+scripts/check_ground.py 근거 없음 비율. G구간의 게이트. **절반을 넘으면 목록을 다시 짠다**
 scripts/check_audio.py 길이가 적힌 세 자리(카탈로그·대본 머리말·mp3)가 같은 말을 하는지
 out/data/               파생된 자료. 손으로 안 고친다
 out/data/index.json     앱이 제일 먼저 읽는 한 장 (37KB). 48주 차림표와 파일 해시

@@ -36,6 +36,7 @@ DERIVERS = [
     ("derive_transcripts.py", ROOT / "out" / "data", "transcripts.js", set()),
     ("derive_audiolen.py", ROOT / "out" / "data", "audiolen.js", set()),
     ("derive_cues.py", ROOT / "out" / "data", "cues.js", set()),
+    ("ground.py", ROOT / "out" / "ground", "*.md", set()),
 ]
 
 
