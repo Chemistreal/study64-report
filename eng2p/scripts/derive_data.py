@@ -111,6 +111,23 @@ def criteria(rec):
     return out
 
 
+# 간격 반복은 블록 4에 산문으로 있다. 96편이 다 한 문장씩 적고 있다.
+# 88편이 1일 3일 7일이고 나머지가 30일이나 60일이나 없다다.
+# 앱이 카드를 다시 낼 날을 정하려면 이 값이 수여야 한다. T111 에서 뽑기 시작했다.
+SPACING = re.compile(r"간격 반복은?\s*([^.\n]{0,80})")
+
+
+def spacing_of(b):
+    m = SPACING.search(b[3])
+    if not m:
+        return None
+    text = m.group(1).strip()
+    days = [int(x) for x in re.findall(r"(\d+)\s*일", text)]
+    # 카드 번호가 섞이는 문장이 있다. "148 만 60일이다" 가 그것이다.
+    # 일 단위가 붙은 수만 센다. 위 정규식이 이미 그렇게 잡는다.
+    return {"text": text, "days": days}
+
+
 def lectures():
     weeks = week_of()
     rows = []
@@ -144,6 +161,7 @@ def lectures():
             "notMeasured": [re.split(r"(?<=다)\.\s", x)[0] for x in notes],
             "stuck": H.pick_stuck(f.name, b),
             "role": H.pick_role(b),
+            "spacing": spacing_of(b),
         })
     return rows
 

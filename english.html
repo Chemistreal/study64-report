@@ -1212,7 +1212,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null};
+          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{}};
 }
 function load(){
   try{
@@ -1418,6 +1418,9 @@ function renderSheet(pl){
   cell("미디어", pl.media);
   cell("과제 분량", pl.task ? pl.task.minChars+"자" : null);
   cell("비상판", pl.emergency!=null ? String(pl.emergency) : "없는 강");
+  /* 다시 낼 날이 된 카드. 오늘 범위 밖의 것도 있다. 그것을 안 보여 주면 간격이 무너진다. */
+  var dn=dueCards().length;
+  if(dn) cell("다시 낼 카드", dn+"장");
 
   var h='<div class="lec"><b>'+pl.lectureNo+'강</b> '+esc(pl.title||"")+'</div>'+
         '<div class="tk">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
@@ -1864,6 +1867,34 @@ function cardIdx(){
 }
 function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
 
+
+/* =========================================================================
+   카드 간격 반복. 강의가 정한 간격을 쓴다.
+   96편이 블록 4에 한 문장씩 적고 있다. 88편이 1일 3일 7일이고
+   86 90 92 95강이 30일, 96강이 60일, 48 70 72강은 다시 안 돈다.
+   **앱이 간격을 새로 정하지 않는다.** 강의가 정한 값을 그대로 쓴다.
+   ========================================================================= */
+function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
+function spacingDays(no){
+  var lec=DATA.lectures; if(!lec) return null;
+  var L=(lec.items||[]).filter(function(x){return x.no===no;})[0];
+  return (L && L.spacing && L.spacing.days && L.spacing.days.length) ? L.spacing.days : null;
+}
+function markCardRun(id, lectureNo){
+  var days=spacingDays(lectureNo);
+  var m=cardDue(), cur=m[id];
+  if(!days){ m[id]={box:0, due:null, ran:today()}; save(); return; }
+  var box=cur && cur.box ? cur.box : 0;
+  if(box>=days.length){ m[id]={box:box, due:null, ran:today()}; save(); return; }
+  m[id]={box:box+1, due:addDays(today(), days[box]), ran:today()};
+  save();
+}
+function dueCards(){
+  var m=cardDue(), td=today(), out=[];
+  for(var k in m) if(m[k] && m[k].due && m[k].due<=td) out.push(k);
+  return out;
+}
+
 function renderCardView(pl){
   var cards=DATA.cards;
   if(!cards){
@@ -1900,12 +1931,24 @@ function renderCardView(pl){
   if(f.pass) h+='<div class="meta"><b>성공 기준</b> '+esc(f.pass)+'</div>';
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
+  var m=cardDue()[c.id];
+  var sp=spacingDays(pl.lectureNo);
+  if(sp) h+='<div class="meta"><b>간격</b> '+sp.join("일 · ")+'일'+
+    (m&&m.due?' · 다음 '+esc(m.due):(m&&m.box?' · 다 돌았다':''))+'</div>';
   h+='</div><div class="cardnav">'+
     '<button type="button" data-card="prev">이전 카드</button>'+
+    '<button type="button" data-card="run">'+
+    (m&&m.ran===today()?'오늘 돌았다':'돌았다로 적기')+'</button>'+
     '<button type="button" data-card="next">다음 카드</button></div>';
   setTimeout(function(){
     document.querySelectorAll("[data-card]").forEach(function(b){
       b.onclick=function(){
+        if(b.dataset.card==="run"){
+          markCardRun(c.id, pl.lectureNo);
+          /* 적고 나면 다음 카드로 간다. 한 장씩 도는 자리라 손이 한 번만 나가야 한다. */
+          setCardIdx(i+1>=list.length?0:i+1);
+          return;
+        }
         var n=b.dataset.card==="next"?i+1:i-1;
         if(n<0) n=list.length-1; if(n>=list.length) n=0;
         setCardIdx(n);
