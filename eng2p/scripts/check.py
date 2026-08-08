@@ -388,8 +388,11 @@ def main():
     if len(sys.argv) < 2:
         print("사용법: check.py <파일 또는 디렉터리>")
         return 1
-    target = pathlib.Path(sys.argv[1])
-    files = sorted(target.rglob("*.md")) if target.is_dir() else [target]
+    # 자리를 여럿 받는다. 내가 쓰는 문서는 폴더가 갈려 있어 한 번에 못 준다. T149
+    files = []
+    for a in sys.argv[1:]:
+        t = pathlib.Path(a)
+        files += sorted(t.rglob("*.md")) if t.is_dir() else [t]
     if not files:
         print("검사할 .md 파일이 없다")
         return 1

@@ -40,6 +40,14 @@ STEPS = [
     ("파생", "derive_ground_data.py", [], True),
     ("어긋남", "check_derived.py", [], True),
     ("규격", "check.py", ["out/"], False),
+    # docs 와 state 도 본다. **내가 쓰는 문서에도 같은 선이 걸린다.**
+    # T149 에 audio_timing.md 에서 em-dash 셋과 신뢰도 표시 없음이 나왔다.
+    # out/ 만 보고 있어서 아홉 턴 동안 안 걸렸다.
+    # audio_intake.md 는 뺐다. 그 문서가 C등급 규칙을 **정의하는** 문서라
+    # 그 낱말을 쓰는 것만으로 규칙 위반으로 잡힌다. 검사가 못 가리는 자리다.
+    ("규격", "check.py", ["docs/audio_timing.md", "docs/spec_amendments.md",
+                          "docs/roadmap.md", "state/journal.md",
+                          "state/verify_list.md", "state/verify_queue.md"], False),
     ("규격", "check_blocks.py", [], False),
     ("규격", "check_page.py", [], False),
     ("규격", "check_media.py", [], False),
