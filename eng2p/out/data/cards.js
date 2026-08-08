@@ -3333,7 +3333,7 @@ window.ENG2P_CARDS={
         "relation": "서비스 상황",
         "purpose": "요청",
         "register": "중립",
-        "endCondition": "상대가 답을 하면 끝",
+        "endCondition": "상대가 빌려 주겠다거나 안 된다고 답하면 끝",
         "instruction": "중립 거리로 요청한다. 모르겠으면 Could you 를 쓴다.",
         "pass": "답을 받으면 성공."
       }
@@ -3459,7 +3459,7 @@ window.ENG2P_CARDS={
         "relation": "서비스 상황",
         "purpose": "요청",
         "register": "중립",
-        "endCondition": "점원이 답을 하면 끝",
+        "endCondition": "점원이 있다거나 없다고 답하면 끝",
         "instruction": "중립 거리로 요청한다. 말하다 막히면 처음부터 다시 시작하지 않고 그 자리에서 고친다.",
         "pass": "처음으로 안 돌아가고 답을 받으면 성공."
       }
@@ -3791,7 +3791,7 @@ window.ENG2P_CARDS={
         "relation": "서비스 상황",
         "purpose": "설명",
         "register": "중립",
-        "endCondition": "B가 닫는 신호를 알아채고 두 단계로 받으면 끝",
+        "endCondition": "닫는 신호를 알아채고 두 단계로 받으면 끝",
         "instruction": "접수 담당을 맡는다. 말을 짧게 줄이고 다음 일을 말해 닫는 신호를 낸다.",
         "pass": "B가 새 화제를 안 꺼내고 닫기 두 단계로 받으면 성공."
       },

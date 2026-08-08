@@ -40,13 +40,13 @@ window.ENG2P_INDEX={
   "files": [
     {
       "file": "cards.js",
-      "bytes": 575738,
-      "sha256": "a7935f139505784b423765fe114f2bd8d053e164ae91c7f9565366d12ec1cde2"
+      "bytes": 575785,
+      "sha256": "06d32c9f9eeba1bbd06750be82f255faa51cffd73429a57bf8fdd4f6e298e5cc"
     },
     {
       "file": "cards.json",
-      "bytes": 575718,
-      "sha256": "3800c4be5b2b60db1f6baa7e24be7dc560a9fcae7ace4f7f89013a36976ff83e"
+      "bytes": 575765,
+      "sha256": "72b8d10c41f7f49af8b86a36908ae45984cb57b1ffdbabefcb6fcf1cc69dfaa3"
     },
     {
       "file": "emergency.js",
@@ -80,13 +80,13 @@ window.ENG2P_INDEX={
     },
     {
       "file": "sets.js",
-      "bytes": 504525,
-      "sha256": "aa3c1e4cb8cfc4bb12e691016733eb2aceacb4ac00f06c35ad75c630d9b7f342"
+      "bytes": 504695,
+      "sha256": "a763a00346ab71b054b29b2256cc7f4c32998fcb55463307a952f1e5164158f6"
     },
     {
       "file": "sets.json",
-      "bytes": 504506,
-      "sha256": "36cfc4f6a948299089413cd747d198d99a3229e030dbc777b8a85d200be3ae18"
+      "bytes": 504676,
+      "sha256": "d940d9a632255c2fea5dc0b13ef15154d4943f0f54bcb6f8c395a18ca4509235"
     },
     {
       "file": "tasks.js",

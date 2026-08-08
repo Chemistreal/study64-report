@@ -113,6 +113,12 @@ def check_cards(lec):
                 if miss:
                     FAIL.append("역할형 %s %s면에 %s 가 없다"
                                 % (c["id"], s.upper(), " ".join(miss)))
+            # 다섯 요소는 두 면이 같아야 한다. 특히 종료 조건이다.
+            # 한쪽이 헐거우면 한 사람은 끝났다고 보고 한 사람은 아니라고 본다.
+            # T95 에서 Q1 세 장이 그 상태였다. 132 137 150 이다.
+            for k in need:
+                if c["a"].get(k) != c["b"].get(k):
+                    FAIL.append("역할형 %s 의 %s 가 두 면에서 다르다" % (c["id"], k))
         for s in ("a", "b"):
             if not c[s].get("instruction") or not c[s].get("pass"):
                 FAIL.append("%s %s면에 지시나 성공 기준이 없다" % (c["id"], s.upper()))
@@ -143,6 +149,29 @@ def check_sets(lec):
                         % (s["id"], s["lecture"], s["week"], sorted(want)))
         if lec.get(s["lecture"], {}).get("quarter") != s["quarter"]:
             FAIL.append("세트 %s 의 분기가 그 강의 분기와 다르다" % s["id"])
+
+    # 2단계 방식 넷이 연달아 같으면 안 된다. 세트 파일이 그렇게 적어 놓았다.
+    # 주 안에서만 보면 주 경계가 안 잡힌다. 288개를 한 줄로 놓고 본다.
+    # T95 에서 일곱 자리가 걸렸다. 주 안이 셋, 주 경계가 넷이다.
+    METHODS = {"예시 추가", "반례 제시", "요약 압축", "상황 적용"}
+    seq = sorted(sets, key=lambda y: (y["week"], y["no"]))
+    for i, x in enumerate(seq):
+        m = x["steps"][1]["fields"].get("재구성 방식")
+        if m not in METHODS:
+            FAIL.append("세트 %s 의 2단계 방식이 넷 밖이다: %r" % (x["id"], m))
+        if i and m == seq[i - 1]["steps"][1]["fields"].get("재구성 방식"):
+            FAIL.append("세트 %s 와 %s 가 연달아 같은 방식이다: %s"
+                        % (seq[i - 1]["id"], x["id"], m))
+
+    # 설명 대상이 288개 다 달라야 한다. 같은 제목이 둘이면 두 자리가 같은 것으로 보인다.
+    # T95 에서 하나 나왔다. 70강과 94강이 제목만 같고 안이 달랐다.
+    topics = {}
+    for x in sets:
+        k = x["steps"][0]["fields"].get("설명 대상")
+        if k in topics:
+            FAIL.append("세트 %s 와 %s 의 설명 대상이 같다: %s"
+                        % (topics[k], x["id"], k))
+        topics[k] = x["id"]
 
     # 주 6세트다. 하루 하나씩 여섯 날이다.
     for w, xs in sorted(per.items()):
