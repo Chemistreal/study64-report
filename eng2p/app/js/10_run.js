@@ -87,6 +87,12 @@ $("#focusLre").onclick=function(){ $("#lrePlus").click(); flash("LRE +1"); };
 $("#focusToggle").onclick=function(){ $("#tStart").click(); };
 $("#focusNext").onclick=function(){ $("#tSkip").click(); };
 $("#focusPrev").onclick=function(){ $("#tPrev").click(); };
+/* 오늘 화면으로 돌아간다. 블록 칸까지 데려다준다. 탭만 바꾸면 또 찾아야 한다. */
+$("#focusHome").onclick=function(){
+  go("today");
+  var box=$("#blockPane");
+  if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+};
 
 /* =========================================================================
    손가락 하나로 옮기기.

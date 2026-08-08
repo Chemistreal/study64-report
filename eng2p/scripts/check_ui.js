@@ -1631,6 +1631,66 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   tally.forEach((m) => fails.push("지도 진행: " + m));
 
+  /* 35. **세션 중에 딴 탭에 갔을 때 돌아올 길이 있는가.**
+     블록 1은 미디어 탭에서 듣는 블록이다. 그때 머리띠가 숨고 좁은 화면에서는 탭도 숨는다.
+     조작줄에는 블록을 옮기는 것만 있었다. **블록 칸으로 돌아올 길이 없었다.**
+     세션 중에 제일 많이 보는 자리가 그것이다. */
+  const back = await (async () => {
+    const bad = [];
+    for (const w of [390, 900]) {
+      const ctx6 = await browser.newContext({ viewport: { width: w, height: 844 } });
+      const p8 = await ctx6.newPage();
+      await p8.goto(PAGE);
+      await p8.evaluate(() => localStorage.clear());
+      await p8.reload();
+      await p8.waitForTimeout(380);
+      await p8.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+      await p8.click("#tOne");
+      await p8.waitForTimeout(280);
+
+      if (await p8.isVisible("#focusHome"))
+        bad.push(w + "px 오늘 탭인데 돌아갈 단추가 떠 있다");
+
+      await p8.evaluate(() => go("media"));
+      await p8.waitForTimeout(360);
+      const seen = await p8.evaluate(() => {
+        const nav = document.querySelector("nav");
+        const r = nav.getBoundingClientRect();
+        return { nav: getComputedStyle(nav).display !== "none" && r.height > 0 &&
+                      r.top < innerHeight && r.bottom > 0 &&
+                      +getComputedStyle(document.querySelector("header")).opacity > 0,
+                 dock: !document.querySelector("#focusHome").hidden };
+      });
+      if (!seen.nav && !seen.dock)
+        bad.push(w + "px 세션 중 미디어 탭에서 오늘로 돌아갈 길이 아예 없다");
+      if (!seen.dock) bad.push(w + "px 조작줄에 돌아갈 단추가 없다");
+      else {
+        await p8.click("#focusHome");
+        await p8.waitForTimeout(420);
+        const g = await p8.evaluate(() => {
+          const e = document.querySelector("#blockPane"), r = e.getBoundingClientRect();
+          return { today: !document.querySelector("#t-today").hidden,
+                   pane: r.top < innerHeight && r.bottom > 0, run: T.run };
+        });
+        if (!g.today) bad.push(w + "px 돌아갈 단추를 눌렀는데 오늘 탭이 안 열린다");
+        if (!g.pane) bad.push(w + "px 돌아왔는데 블록 칸이 화면 밖이다");
+        if (!g.run) bad.push(w + "px 돌아오면서 세션이 멎었다");
+      }
+      /* 조작줄 단추가 다섯이 됐다. 좁은 화면에서 안 넘치는지 본다. */
+      await p8.evaluate(() => go("media"));
+      await p8.waitForTimeout(300);
+      const fit = await p8.evaluate(() => {
+        const d = document.querySelector(".focusdock");
+        return { sw: d.scrollWidth, cw: d.clientWidth };
+      });
+      if (fit.sw > fit.cw + 1)
+        bad.push(w + "px 조작줄이 넘친다 " + fit.sw + "/" + fit.cw);
+      await ctx6.close();
+    }
+    return bad;
+  })();
+  back.forEach((m) => fails.push("돌아올 길: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
@@ -1643,7 +1703,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
-              "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판");
+              "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
+              "돌아올 길 2폭 x 6판 = 12판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

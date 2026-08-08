@@ -32,6 +32,10 @@ function go(name){
     if(sum) sum.textContent=current&&current[2]==="manage"?"운영 · "+current[1]:"운영";
     more.open=false;
   }
+  /* 조작줄의 돌아갈 자리. **오늘 탭에 있을 때는 안 보인다.**
+     거기 있는데 "오늘" 단추가 있으면 자리만 먹고 무엇을 가리키는지도 헷갈린다. */
+  var home=$("#focusHome");
+  if(home) home.hidden=(name==="today");
   if(typeof ttsStop==="function") ttsStop();
   if(name!=="media"&&typeof LIB!=="undefined"&&LIB.el) LIB.el.pause();
   if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);

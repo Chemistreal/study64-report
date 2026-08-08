@@ -31,6 +31,11 @@
      오늘 탭이 통째로 숨고 타이머도 같이 사라진다. T113 에서 겪었다.
      페이지 바닥에 두면 어느 탭에서도 떠 있다. -->
   <div class="focusdock noprint" id="focusDock" aria-label="세션 빠른 조작" aria-hidden="true">
+    <!-- **세션 중에 딴 탭에 가면 돌아올 길이 없었다.**
+         블록 1은 미디어 탭에서 듣는 블록이다. 그때 머리띠가 숨고 좁은 화면에서는
+         탭도 숨는다. 조작줄에는 블록을 옮기는 것만 있었다.
+         블록 칸은 세션 중에 제일 많이 보는 자리인데 그리로 못 돌아왔다. T182 -->
+    <button class="g" id="focusHome" type="button" hidden>오늘</button>
     <div class="fstate"><b id="focusBlock">블록 1</b><span id="focusClock">40:00</span></div>
     <button class="g" id="focusLre" type="button">LRE +1</button>
     <!-- **되돌릴 자리가 여기 없었다.** 잘못 밀거나 잘못 눌러 넘어가면

@@ -443,10 +443,12 @@ body.session-focus .progline{display:none}
 body.session-focus #tStart,
 body.session-focus #tSkip{display:none}
 .focusdock .fstate{min-width:104px;flex:1;padding:0 6px}
-/* 단추가 넷이다. 좁은 화면에서 글자를 줄이지 말고 여백을 줄인다. */
-@media (max-width:430px){ .focusdock{gap:6px;padding:9px 8px}
-  .focusdock button{padding:11px 10px}
-  .focusdock .fstate{min-width:78px;font-size:0.78125rem} }
+/* 단추가 다섯이다. 좁은 화면에서 글자를 줄이지 말고 여백을 줄인다.
+   **셈이 안 맞으면 마지막 단추가 밖으로 나간다.** T182 에 374/364 로 걸렸다.
+   글자를 줄이는 것이 아니라 여백을 줄이고 눌리는 높이는 지킨다. */
+@media (max-width:430px){ .focusdock{gap:4px;padding:9px 7px}
+  .focusdock button{padding:11px 7px;min-width:0;flex:1}
+  .focusdock .fstate{display:none} }
 .focusdock .fstate b{display:block;font-size:0.75rem}
 .focusdock .fstate span{font-family:var(--mono);font-size:1.0625rem}
 .sessiondone{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;
@@ -1390,6 +1392,11 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
      오늘 탭이 통째로 숨고 타이머도 같이 사라진다. T113 에서 겪었다.
      페이지 바닥에 두면 어느 탭에서도 떠 있다. -->
   <div class="focusdock noprint" id="focusDock" aria-label="세션 빠른 조작" aria-hidden="true">
+    <!-- **세션 중에 딴 탭에 가면 돌아올 길이 없었다.**
+         블록 1은 미디어 탭에서 듣는 블록이다. 그때 머리띠가 숨고 좁은 화면에서는
+         탭도 숨는다. 조작줄에는 블록을 옮기는 것만 있었다.
+         블록 칸은 세션 중에 제일 많이 보는 자리인데 그리로 못 돌아왔다. T182 -->
+    <button class="g" id="focusHome" type="button" hidden>오늘</button>
     <div class="fstate"><b id="focusBlock">블록 1</b><span id="focusClock">40:00</span></div>
     <button class="g" id="focusLre" type="button">LRE +1</button>
     <!-- **되돌릴 자리가 여기 없었다.** 잘못 밀거나 잘못 눌러 넘어가면
@@ -2018,6 +2025,10 @@ function go(name){
     if(sum) sum.textContent=current&&current[2]==="manage"?"운영 · "+current[1]:"운영";
     more.open=false;
   }
+  /* 조작줄의 돌아갈 자리. **오늘 탭에 있을 때는 안 보인다.**
+     거기 있는데 "오늘" 단추가 있으면 자리만 먹고 무엇을 가리키는지도 헷갈린다. */
+  var home=$("#focusHome");
+  if(home) home.hidden=(name==="today");
   if(typeof ttsStop==="function") ttsStop();
   if(name!=="media"&&typeof LIB!=="undefined"&&LIB.el) LIB.el.pause();
   if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
@@ -3660,6 +3671,12 @@ $("#focusLre").onclick=function(){ $("#lrePlus").click(); flash("LRE +1"); };
 $("#focusToggle").onclick=function(){ $("#tStart").click(); };
 $("#focusNext").onclick=function(){ $("#tSkip").click(); };
 $("#focusPrev").onclick=function(){ $("#tPrev").click(); };
+/* 오늘 화면으로 돌아간다. 블록 칸까지 데려다준다. 탭만 바꾸면 또 찾아야 한다. */
+$("#focusHome").onclick=function(){
+  go("today");
+  var box=$("#blockPane");
+  if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+};
 
 /* =========================================================================
    손가락 하나로 옮기기.
