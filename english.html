@@ -228,6 +228,18 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 /* 진도 줄은 버튼 옆 좁은 칸에서 두 줄로 접혔다. 한 줄로 빼면 흘끗 보고 읽힌다. */
 .sessionhead .sessionprogress{display:none}
 .progline{font-size:12.5px;color:var(--mut);margin:2px 0 10px}
+/* 오늘 못 하는 날. 첫 화면에서 한 번에 간다. 찾게 하면 그날은 그냥 쉰다. */
+.emgline{margin-top:12px;text-align:center}
+.emgline button{background:none;border:none;color:var(--mut);font-size:12.5px;
+  text-decoration:underline;cursor:pointer;padding:8px 10px}
+.emgline button:hover{color:var(--fg)}
+.emgbox{margin-top:12px;padding:16px 18px;border:1px solid var(--a3);border-radius:14px;
+  background:var(--card2)}
+.emgbox h4{margin:0 0 3px;font-size:19px;font-weight:780}
+.emgbox .k{font-size:11.5px;color:var(--mut);letter-spacing:.06em}
+.emgbox p{margin:9px 0 0;font-size:14.5px;line-height:1.65}
+.emgbox .ch{margin-top:11px;padding:11px 13px;border:1px solid var(--edge);border-radius:10px;
+  background:var(--card);font-size:15px;line-height:1.8}
 .sessionrole{font-size:21px;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
 .sessionprogress{font-size:12px;color:var(--mut)}
 /* 오늘 한 장. 책상에 놓고 흘끗 보는 자리라 멀리서 읽혀야 한다. */
@@ -507,6 +519,8 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     <div class="progline" id="todayProgress2"></div>
     <div id="resumeBox"></div>
     <div class="todaysheet" id="todaySheet"></div>
+    <div class="emgline" id="emgLine"></div>
+    <div id="emgBox"></div>
     <div class="timer">
       <div class="ringwrap">
         <svg viewBox="0 0 200 200" aria-hidden="true">
@@ -1161,7 +1175,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false};
+          media:{done:{},fav:{},last:null,pass:{}},theme:"dark",wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false};
 }
 function load(){
   try{
@@ -1251,6 +1265,70 @@ function plan(){
    이어서 하기. 끊긴 세션이 있으면 오늘 한 장 위에 뜬다.
    어디서 멈췄는지와 얼마나 남았는지를 적는다. 그것을 모르면 다시 처음부터 하게 된다.
    ========================================================================= */
+
+/* =========================================================================
+   오늘 못 하는 날. 비상판 15분으로 바로 간다.
+   기준서 11.2. 이 과정 유일한 1인 예외이고 학습 장치가 아니라 연속성 장치다.
+   **찾게 하면 그날은 그냥 쉰다.** 그래서 첫 화면에서 한 번에 간다.
+   ========================================================================= */
+var EMG=null, emgLoading=false;
+/* 비상판 자료는 51KB 다. 첫 화면에 안 물린다. 누를 때 가져온다.
+   fetch 를 안 쓴다. file:// 에서 막힌다. script 를 꽂는 방식은 양쪽에서 다 된다. */
+function loadEmg(cb){
+  if(window.ENG2P_EMERGENCY){ EMG=window.ENG2P_EMERGENCY; return cb(true); }
+  if(emgLoading) return;
+  emgLoading=true;
+  var s=document.createElement("script");
+  s.src="eng2p/out/data/emergency.js";
+  s.onload=function(){ EMG=window.ENG2P_EMERGENCY; emgLoading=false; cb(!!EMG); };
+  s.onerror=function(){ emgLoading=false; cb(false); };
+  document.head.appendChild(s);
+}
+function renderEmg(pl){
+  var line=$("#emgLine"), box=$("#emgBox");
+  if(!line||!box) return;
+  var rec=day(today());
+  if(rec.status==="emg"){
+    line.innerHTML='<button type="button" id="emgClose">비상판을 쓴 날로 적었다. 되돌리기</button>';
+    $("#emgClose").onclick=function(){ rec.status=null; S.emgOpen=false; save(); renderToday(); };
+  } else if(S.emgOpen){
+    line.innerHTML='<button type="button" id="emgHide">접기</button>';
+    $("#emgHide").onclick=function(){ S.emgOpen=false; save(); renderToday(); };
+  } else {
+    box.innerHTML="";
+    if(pl.emergency==null){
+      line.innerHTML='<span class="small mut">이 강에는 비상판이 없다. '+
+        '상대가 없으면 앞 번호를 하나 꺼내 쓴다.</span>';
+      return;
+    }
+    line.innerHTML='<button type="button" id="emgOpen">오늘 상대가 없다. 비상판 15분으로</button>';
+    $("#emgOpen").onclick=function(){ S.emgOpen=true; save(); renderToday(); };
+    return;
+  }
+  if(pl.emergency==null){ box.innerHTML=""; return; }
+  box.innerHTML='<div class="small mut">비상판을 여는 중이다.</div>';
+  loadEmg(function(ok){
+    if(!ok){
+      box.innerHTML='<div class="emgbox"><div class="small mut">'+
+        '비상판 자료를 못 읽었다. eng2p/out/data/emergency.js 경로를 확인한다.</div></div>';
+      return;
+    }
+    var it=(EMG.items||[]).filter(function(x){return x.no===pl.emergency;})[0];
+    if(!it){ box.innerHTML=""; return; }
+    box.innerHTML='<div class="emgbox">'+
+      '<div class="k">비상판 '+String(it.no).padStart(3,"0")+' · 15분 · 혼자 한다</div>'+
+      '<h4>'+esc(it.title)+'</h4>'+
+      '<p><b>인출 10분.</b> '+esc(it.pull)+'</p>'+
+      '<div class="ch"><b>청크 5분</b><br>'+esc((it.chunks||[]).join("  /  "))+'</div>'+
+      '<p class="small mut">쓴 날도 수행일로 센다. 다만 진도는 안 나간다. '+
+      '새 재료가 없기 때문이다.</p>'+
+      '<div style="margin-top:12px"><button class="g" id="emgMark" type="button">'+
+      (day(today()).status==="emg"?"적음":"비상판을 쓴 날로 적기")+'</button></div></div>';
+    var mk=$("#emgMark");
+    if(mk) mk.onclick=function(){ day(today()).status="emg"; save(); renderToday(); };
+  });
+}
+
 function renderResume(pl){
   var box=$("#resumeBox"); if(!box) return;
   var s=S.session, started=(T.idx>0||T.left<BLOCKS[0].m*60);
@@ -1446,6 +1524,7 @@ function renderToday(){
   renderSheet(pl);
   renderResume(pl);
   renderRecGate(rec);
+  renderEmg(pl);
   $("#labU1").textContent=S.names.a+" 생각"; $("#labU2").textContent=S.names.b+" 생각";
   $("#fSpeak").value=rec.speak||""; $("#fCards").value=rec.cards||""; $("#fLre").value=rec.lre||"";
   document.querySelectorAll("[data-st]").forEach(function(b){
