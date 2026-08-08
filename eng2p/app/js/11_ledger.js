@@ -174,9 +174,15 @@ $("#imFile").onchange=function(e){
       var o=JSON.parse(r.result);
       if(!o.days) throw 0;
       if(!confirm("현재 기록을 덮어쓴다. 진행할까.")) return;
+      /* **덮어쓰기 전 것을 들고 있는다.** 물음을 하나 두는 것으로는 모자란다.
+         엉뚱한 파일을 골랐어도 물음은 똑같이 뜨고 똑같이 예를 누른다.
+         무엇이 덮였는지는 덮은 뒤에야 보인다. T184 */
+      var before=JSON.stringify(S);
       S=o; var b=blank(); for(var k in b) if(!(k in S)) S[k]=b[k];
-      save(); renderToday(); renderLedger();
-      alert("가져왔다.");
+      saveNow(); renderToday(); renderLedger();
+      offerUndo("기록을 가져왔다",function(){
+        S=JSON.parse(before); saveNow(); renderToday(); renderLedger();
+      });
     }catch(err){ alert("JSON 형식이 아니다."); }
   };
   r.readAsText(f); e.target.value="";

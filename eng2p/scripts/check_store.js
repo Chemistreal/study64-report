@@ -205,9 +205,80 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await ctx.close();
   }
 
+  /* 8. **밀기 하나로 되돌릴 수 없는 일이 일어나면 안 된다.**
+     T170 에 손가락으로 밀어 블록을 옮기게 했다. 블록 4에서 왼쪽으로 밀면
+     세션이 끝나고 그날이 정상으로 적히고 진도가 하나 는다.
+     96강 배정이 통째로 하루 당겨진다. 그것이 되돌아오는지 본다. */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    await page.evaluate(() => {
+      S.onboarded = true; S.device = "a"; save(); renderToday();
+    });
+    await page.click("#tOne");
+    await page.waitForTimeout(260);
+    await page.evaluate(() => gotoBlock(3));
+    await page.waitForTimeout(220);
+    const b0 = await page.evaluate(() => ({ done: doneSessions(), st: day(today()).status }));
+    await page.evaluate(() => $("#tSkip").click());
+    await page.waitForTimeout(320);
+    const b1 = await page.evaluate(() => ({ done: doneSessions(), st: day(today()).status }));
+    if (b1.done !== b0.done + 1) fails.push("세션을 끝냈는데 진도가 안 늘었다");
+    if (!(await page.isVisible(".undo"))) fails.push("세션을 끝냈는데 되돌릴 자리가 없다");
+    else {
+      await page.click(".undo button");
+      await page.waitForTimeout(360);
+      const b2 = await page.evaluate(() => ({
+        done: doneSessions(), st: day(today()).status,
+        panel: !document.querySelector("#sessionDone").hidden,
+      }));
+      if (b2.done !== b0.done) fails.push("세션 끝냄을 되돌렸는데 진도가 " + b2.done + " 이다");
+      if (b2.st !== b0.st) fails.push("세션 끝냄을 되돌렸는데 수행 기록이 " + b2.st + " 다");
+      if (b2.panel) fails.push("되돌렸는데 끝난 판이 그대로 떠 있다");
+    }
+    await ctx.close();
+  }
+
+  /* 9. **덮어쓰기는 물음 하나로 안 된다.** 엉뚱한 파일을 골랐어도 물음은
+     똑같이 뜨고 똑같이 예를 누른다. 무엇이 덮였는지는 덮은 뒤에야 보인다. */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    await page.evaluate(() => {
+      S.onboarded = true; S.names.a = "원래이름"; day(today()).speak = 77; saveNow();
+    });
+    const src = await fs.promises.readFile(
+      path.join(__dirname, "..", "app", "js", "11_ledger.js"), "utf8");
+    if (src.indexOf("offerUndo(\"기록을 가져왔다\"") < 0)
+      fails.push("들여오기에 되돌릴 자리가 없다");
+    // 들여오기와 같은 길을 실제로 밟아 본다
+    await page.evaluate(() => {
+      var o = { v: 1, names: { a: "딴것", b: "딴것" }, start: today(), days: {},
+                media: { done: {}, fav: {}, last: null, pass: {} } };
+      var before = JSON.stringify(S);
+      S = o; var bb = blank(); for (var k in bb) if (!(k in S)) S[k] = bb[k];
+      saveNow(); renderToday(); renderLedger();
+      offerUndo("기록을 가져왔다", function () {
+        S = JSON.parse(before); saveNow(); renderToday(); renderLedger();
+      });
+    });
+    await page.waitForTimeout(280);
+    if (!(await page.isVisible(".undo"))) fails.push("들여온 뒤 되돌릴 자리가 안 뜬다");
+    else {
+      await page.click(".undo button");
+      await page.waitForTimeout(280);
+      await page.reload();
+      await page.waitForTimeout(400);
+      const g = await page.evaluate(() => ({ a: S.names.a, speak: day(today()).speak }));
+      if (g.a !== "원래이름" || g.speak !== 77)
+        fails.push("들여오기를 되돌렸는데 옛 기록이 안 돌아왔다: " + JSON.stringify(g));
+    }
+    await ctx.close();
+  }
+
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("저장소 %d판 (되돌리기 3자리 포함) / 실패 %d", n, fails.length);
+  console.log("저장소 %d판 (되돌리기 5자리 포함) / 실패 %d", n, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

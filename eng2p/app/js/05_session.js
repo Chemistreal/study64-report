@@ -92,6 +92,12 @@ function syncSessionFocus(){
 }
 function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=true; }
 function finishSession(){
+  /* **밀기 하나로 되돌릴 수 없는 일이 일어난다.**
+     T170 에 손가락으로 밀어 블록을 옮기게 했다. 블록 4에서 왼쪽으로 밀면
+     여기로 온다. 그러면 그날이 정상으로 적히고 진도가 하나 는다.
+     96강 배정이 통째로 하루 당겨진다. 그것을 되돌릴 길이 없었다. T184 */
+  var was={idx:T.idx, left:T.left, status:day(today()).status,
+           sess:S.session ? {date:S.session.date, idx:S.session.idx, left:S.session.left} : null};
   T.run=false; clearInterval(T.tick); T.left=0; relWake(); leaveSessPlay();
   document.body.classList.remove("session-focus");
   document.body.classList.remove("session-idle");
@@ -106,6 +112,14 @@ function finishSession(){
   renderToday();
   renderNextDay();
   paintTimer();
+  offerUndo("세션을 끝냈다",function(){
+    T.idx=was.idx; T.left=was.left; T.run=false;
+    day(today()).status=was.status;
+    S.session=was.sess;
+    hideSessionDone();
+    PANE.sig=null;
+    saveNow(); renderToday(); paintTimer(); renderBlockPane();
+  });
 }
 function restartFinishedSession(){
   if(T.idx===BLOCKS.length-1&&T.left<=0){
