@@ -47,6 +47,7 @@ STEPS = [
     ("대조", "check_audio.py", [], True),
     ("대조", "check_ground.py", [], True),
     ("대조", "check_layers.py", [], True),
+    ("대조", "check_ground_cite.py", [], True),
     ("대조", "check_refs.py", [], True),
     ("대조", "check_data.py", [], True),
     ("화면", "check_ui.js", [], False),
