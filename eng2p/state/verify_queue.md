@@ -45,9 +45,16 @@
 | out/dialog/eng2p_dialog_q3_004.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
 | out/dialog/eng2p_dialog_q3_005.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
 | out/dialog/eng2p_dialog_q3_006.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q4_001.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q4_002.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q4_003.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q4_004.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q4_005.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
+| out/dialog/eng2p_dialog_q4_006.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 |
 | out/input/eng2p_input_q1.md | 대체 재료 유형 5종의 조건 충족 여부와 라이선스 표기 | 완료 | 통과 |
 | out/input/eng2p_input_q2.md | 대체 재료 유형 5종의 조건 충족 여부 | 보류 | 보류 |
 | out/input/eng2p_input_q3.md | 대체 재료 유형 5종의 조건 충족 여부와 3인 자료 확보 가능성 | 보류 | 보류 |
+| out/input/eng2p_input_q4.md | 대체 재료 유형 5종의 조건 충족 여부와 넷 이상 자료 확보 가능성 | 보류 | 보류 |
 | out/lectures/eng2p_q1_l007.md | going to, got to, ought to 의 축약형 철자 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l008.md | want to, have to, has to 의 축약형 철자 표기 | 완료 | 통과 |
 | out/lectures/eng2p_q1_l009.md | lot of, out of, kind of, sort of 의 축약형 철자 표기 | 완료 | 통과 |
@@ -135,4 +142,4 @@
 | out/lectures/eng2p_q4_l095.md | 화용 넷을 동시에 지키는 것이 종합이라는 정의와 넷 사이의 순서 | 보류 | 보류 |
 | out/lectures/eng2p_q4_l096.md | 마감 측정의 두 번 재기와 낮은 쪽 판정, 그리고 남은 것을 적는 절차 | 보류 | 보류 |
 
-대기 0건 / 보류 99건 / 전체 113건
+대기 0건 / 보류 106건 / 전체 120건
