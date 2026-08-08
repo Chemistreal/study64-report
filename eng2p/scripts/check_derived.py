@@ -27,6 +27,9 @@ SCRIPTS = ROOT / "scripts"
 
 # 파생기와 그것이 쓰는 자리. 순서가 있다. 묶음은 강의록에서 나오므로 뒤에 온다.
 DERIVERS = [
+    # 앱이 제일 앞이다. app/ 조각에서 english.html 이 나온다.
+    # 조각을 고치고 안 합치면 사는 앱이 옛 것이다. 그것이 제일 나쁜 어긋남이다.
+    ("derive_app.py", ROOT.parent, "english.html", set()),
     ("derive_handout.py", ROOT / "out" / "handouts", "eng2p_handout_l*.md", set()),
     ("derive_index.py", ROOT / "out" / "handouts", "eng2p_handout_index.md", set()),
     ("derive_bundle.py", ROOT / "out" / "bundles", "*.md", set()),

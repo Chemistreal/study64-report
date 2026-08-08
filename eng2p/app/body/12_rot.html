@@ -1,0 +1,27 @@
+<section id="t-rot" role="tabpanel" hidden>
+  <h2>회전 대장</h2>
+  <p class="lede">관리하지 않으면 익숙한 조합(일상 x 친구 x 잡담)에 몰린다. 제작자 편향이라 의식적으로 막는다.</p>
+
+  <div class="card">
+    <div class="grid g2">
+      <div><label class="f">제작물 ID</label><input id="rId" placeholder="eng2p_q1_l001"></div>
+      <div><label class="f">분기</label><select id="rQ"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+    </div>
+    <div class="grid g3" style="margin-top:10px">
+      <div><label class="f">영역</label><select id="rD"></select></div>
+      <div><label class="f">관계</label><select id="rR"></select></div>
+      <div><label class="f">기능</label><select id="rF"></select></div>
+    </div>
+    <div id="rLadder" class="note small"></div>
+    <div id="rAlerts"></div>
+    <div class="row end"><button class="g" id="rRowCopy">표 한 줄 복사</button><button class="b" id="rAdd">등록</button></div>
+  </div>
+
+  <h3>카운터</h3>
+  <div class="scroll"><table id="rCount"></table></div>
+
+  <h3>등록 내역</h3>
+  <div class="scroll"><table id="rLog"></table></div>
+</section>
+
+<!-- ========== 규칙 ========== -->

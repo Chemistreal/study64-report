@@ -1,0 +1,162 @@
+/* =========================================================================
+   탭
+   ========================================================================= */
+var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],
+          ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
+          ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
+function navButton(t){
+  var b=el("button",null,t[1]);
+  b.type="button"; b.dataset.t=t[0]; b.setAttribute("aria-controls","t-"+t[0]);
+  b.onclick=function(){ go(t[0]); };
+  return b;
+}
+function buildNav(){
+  var n=$("#nav");
+  TABS.filter(function(t){return t[2]==="learn";}).forEach(function(t){ n.appendChild(navButton(t)); });
+  var more=document.createElement("details"); more.className="navmore"; more.id="navMore";
+  var sum=document.createElement("summary"); sum.textContent="운영"; more.appendChild(sum);
+  var menu=el("div","navmenu"); menu.setAttribute("aria-label","운영 화면");
+  TABS.filter(function(t){return t[2]==="manage";}).forEach(function(t){ menu.appendChild(navButton(t)); });
+  more.appendChild(menu); n.appendChild(more);
+}
+function go(name){
+  TABS.forEach(function(t){
+    var sec=$("#t-"+t[0]); if(sec) sec.hidden=(t[0]!==name);
+    var b=$('nav button[data-t="'+t[0]+'"]');
+    if(b){ if(t[0]===name) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); }
+  });
+  var current=TABS.filter(function(t){return t[0]===name;})[0], more=$("#navMore");
+  if(more){
+    more.classList.toggle("active",!!current&&current[2]==="manage");
+    var sum=more.querySelector("summary");
+    if(sum) sum.textContent=current&&current[2]==="manage"?"운영 · "+current[1]:"운영";
+    more.open=false;
+  }
+  if(typeof ttsStop==="function") ttsStop();
+  if(name!=="media"&&typeof LIB!=="undefined"&&LIB.el) LIB.el.pause();
+  if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
+  if(name==="review") renderReview();
+  if(name==="sound") renderSound();
+  if(name==="src") renderSrc();
+  if(name==="clip") renderClip();
+  if(name==="media") renderMedia();
+  if(name==="ledger") renderLedger();
+  if(name==="verify") renderVerify();
+  if(name==="quarter") renderQuarter();
+  if(name==="rot") renderRot();
+  window.scrollTo(0,0);
+}
+document.addEventListener("click",function(e){
+  var more=$("#navMore"); if(more&&more.open&&!more.contains(e.target)) more.open=false;
+});
+
+/* =========================================================================
+   오늘 탭
+   ========================================================================= */
+function renderToday(){
+  var d=today(), r=roleOf(d), rec=day(d);
+  $("#todayDate").textContent=d;
+  var A = r==="a" ? S.names.a : S.names.b;
+  var B = r==="a" ? S.names.b : S.names.a;
+  $("#todayRole").innerHTML = '<span class="rb a">A '+esc(A)+'</span> <span class="rb b" style="margin-left:6px">B '+esc(B)+'</span>';
+  var weekStart=monday(d), weekDone=0;
+  for(var wi=0;wi<7;wi++){ var wr=S.days[addDays(weekStart,wi)]; if(wr&&(wr.status==="normal"||wr.status==="emg")) weekDone++; }
+  var pl=plan();
+  var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
+  if(pl.behind>0) msg+=" · 달력보다 "+pl.behind+"주 밀렸다";
+  $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
+  var p2=$("#todayProgress2"); if(p2) p2.textContent=msg+" · A/B는 날짜로 자동 교대";
+  renderSheet(pl);
+  renderResume(pl);
+  renderRecGate(rec);
+  renderCrit();
+  renderEmg(pl);
+  $("#labU1").textContent=S.names.a+" 생각"; $("#labU2").textContent=S.names.b+" 생각";
+  $("#fSpeak").value=rec.speak||""; $("#fCards").value=rec.cards||""; $("#fLre").value=rec.lre||"";
+  document.querySelectorAll("[data-st]").forEach(function(b){
+    b.classList.toggle("on", rec.status===b.dataset.st);
+  });
+  renderUnres(); renderColl(); renderNudge();
+  paintTimer();  // 이름이 바뀌면 블록별 2인 지시도 같이 갱신한다
+}
+document.querySelectorAll("[data-st]").forEach(function(b){
+  b.onclick=function(){ day(today()).status=b.dataset.st; save(); renderToday(); };
+});
+function pullForm(){
+  var rec=day(today());
+  rec.speak=+$("#fSpeak").value||0; rec.cards=+$("#fCards").value||0; rec.lre=+$("#fLre").value||0;
+  save(); flash("저장됨");
+}
+function flash(m){
+  var f=$("#fMsg"); if(!f) return;
+  f.textContent=m; clearTimeout(flash.t);
+  flash.t=setTimeout(function(){ f.textContent="자동 저장된다"; },1600);
+}
+["#fSpeak","#fCards","#fLre"].forEach(function(s){ $(s).addEventListener("input",pullForm); });
+document.querySelectorAll("[data-stp]").forEach(function(b){
+  b.onclick=function(){
+    var inp=$("#"+b.dataset.stp);
+    inp.value=Math.max(0,(+inp.value||0)+(+b.dataset.d));
+    pullForm();
+  };
+});
+$("#lrePlus").onclick=function(){
+  var inp=$("#fLre"); inp.value=(+inp.value||0)+1;
+  var rec=day(today()); if(!rec.status) rec.status="normal";
+  pullForm(); renderToday();
+};
+function renderUnres(){
+  var box=$("#uList"); box.innerHTML="";
+  var rec=day(today());
+  rec.unres.forEach(function(u,i){
+    var d=el("div","lreitem");
+    var h=el("div","hd2");
+    h.appendChild(el("b",null,u.t||"(문장 없음)"));
+    var acts=el("div","row"); acts.style.gap="8px";
+    acts.appendChild(spkBtn(u.t||""));
+    var x=el("button","del","삭제");
+    x.onclick=function(){
+      var gone=rec.unres.splice(i,1)[0]; save(); renderUnres();
+      offerUndo("미해결 LRE 1건 삭제",function(){ rec.unres.splice(i,0,gone); renderUnres(); });
+    };
+    acts.appendChild(x); h.appendChild(acts); d.appendChild(h);
+    if(u.i) d.appendChild(el("div","small mut","걸린 것: "+u.i));
+    if(u.h) d.appendChild(el("div","small",S.names.a+": "+u.h));
+    if(u.w) d.appendChild(el("div","small",S.names.b+": "+u.w));
+    box.appendChild(d);
+  });
+}
+$("#uAdd").onclick=function(){
+  var t=$("#uT").value.trim(); if(!t){ $("#uT").focus(); return; }
+  day(today()).unres.push({t:t,i:$("#uI").value.trim(),k:$("#uK").value.trim(),
+    h:$("#uH").value.trim(),w:$("#uW").value.trim(),done:false});
+  ["#uT","#uI","#uK","#uH","#uW"].forEach(function(s){$(s).value="";});
+  save(); renderUnres();
+};
+function renderColl(){
+  var box=$("#cList"); box.innerHTML="";
+  var rec=day(today());
+  rec.coll.forEach(function(c,i){
+    var d=el("div","lreitem");
+    var h=el("div","hd2"); h.appendChild(el("b",null,c.e));
+    var acts=el("div","row"); acts.style.gap="8px";
+    acts.appendChild(spkBtn(c.e||""));
+    var x=el("button","del","삭제");
+    x.onclick=function(){
+      var gone=rec.coll.splice(i,1)[0]; save(); renderColl();
+      offerUndo("채집 표현 1건 삭제",function(){ rec.coll.splice(i,0,gone); renderColl(); });
+    };
+    acts.appendChild(x); h.appendChild(acts); d.appendChild(h);
+    d.appendChild(el("div","small mut","출처: "+(c.s||"(없음)")+(c.q?" · "+c.q:"")));
+    box.appendChild(d);
+  });
+}
+$("#cAdd").onclick=function(){
+  var e=$("#cE").value.trim(); if(!e){ $("#cE").focus(); return; }
+  var s=$("#cS").value.trim();
+  if(!s){ toast("출처 없이 올리지 않는다."); $("#cS").focus(); return; }
+  day(today()).coll.push({e:e,s:s,q:$("#cQ").value.trim(),k:$("#cK").value.trim(),done:false});
+  ["#cE","#cS","#cQ","#cK"].forEach(function(x){$(x).value="";});
+  save(); renderColl();
+};
+

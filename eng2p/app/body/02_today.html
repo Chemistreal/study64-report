@@ -1,0 +1,135 @@
+<section id="t-today" role="tabpanel">
+  <h2>오늘</h2>
+  <p class="lede">날짜만 보고 역할을 정한다. 협의하면 편중된다.</p>
+
+  <div class="card" id="onboard" hidden>
+    <b>두 사람과 시작일만 정하면 바로 시작할 수 있다.</b>
+    <div class="small mut" style="margin-top:3px">사람 1과 사람 2는 고정이고, 세션 역할 A와 B는 날짜에 따라 자동으로 바뀐다.</div>
+    <div class="grid g3" style="margin-top:12px">
+      <div><label class="f">사람 1</label><input id="obA" placeholder="남편" autocomplete="name"></div>
+      <div><label class="f">사람 2</label><input id="obB" placeholder="아내" autocomplete="name"></div>
+      <div><label class="f">시작일</label><input type="date" id="obD"></div>
+    </div>
+    <div class="row end" style="margin-top:12px"><button class="b" id="obGo">설정 저장</button></div>
+  </div>
+
+  <div id="revNudge"></div>
+
+  <div class="card hero" id="sessionCard">
+    <div class="sessionhead">
+      <div style="flex:1;min-width:190px">
+        <div class="small mut">오늘 <span class="mono" id="todayDate"></span></div>
+        <div class="sessionrole" id="todayRole"></div>
+        <div class="sessionprogress" id="todayProgress"></div>
+      </div>
+      <button class="bigtap sessionstart" id="tOne">세션 시작</button>
+    </div>
+    <div class="progline" id="todayProgress2"></div>
+    <div id="resumeBox"></div>
+    <div class="todaysheet" id="todaySheet"></div>
+    <div class="emgline" id="emgLine"></div>
+    <div id="emgBox"></div>
+    <div class="timer">
+      <div class="ringwrap">
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs><linearGradient id="ringg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="var(--a1)"/><stop offset=".55" stop-color="var(--a2)"/><stop offset="1" stop-color="var(--a3)"/>
+          </linearGradient></defs>
+          <circle cx="100" cy="100" r="88" fill="none" stroke="var(--edge)" stroke-width="9"/>
+          <circle id="tRing" cx="100" cy="100" r="88" fill="none" stroke="url(#ringg)" stroke-width="9"
+                  stroke-linecap="round" stroke-dasharray="552.9" stroke-dashoffset="552.9"
+                  style="transition:stroke-dashoffset .35s linear"/>
+        </svg>
+        <div class="inner">
+          <div class="tblock" id="tBlockName">블록 1</div>
+          <div class="tbig" id="tClock">40:00</div>
+          <div class="tleft" id="tSessLeft"></div>
+        </div>
+      </div>
+      <div class="tdesc" id="tDesc"></div>
+      <div class="blockpane" id="blockPane"></div>
+      <div class="duo" id="tDuo" style="margin-top:16px"></div>
+      <div class="sidepick" id="tSide"></div>
+      <div class="bar"><i id="tBar" style="width:0%"></i></div>
+      <div class="steps" id="tSteps"></div>
+      <div class="slab"><span>0분</span><span>120분</span></div>
+    </div>
+    <div class="sessiondone" id="sessionDone" hidden aria-live="polite">
+      <div class="duomark" aria-hidden="true">
+        <i class="doneorb a">A</i><i class="doneorb b">B</i><i class="donering"></i>
+      </div>
+      <div><b>2인 세션 완료</b><div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
+        <div class="nextday" id="nextDay"></div></div>
+    </div>
+    <div class="row" style="justify-content:center;margin-top:12px">
+      <button class="g" id="tStart">시작</button>
+      <button class="g" id="tPrev">이전 블록</button>
+      <button class="g" id="tSkip">다음 블록</button>
+      <button class="g" id="tReset">처음으로</button>
+      <label class="small mut" style="display:flex;align-items:center;gap:5px;margin-left:6px">
+        <input type="checkbox" id="tSound" checked> 종료음
+      </label>
+    </div>
+  </div>
+
+
+  <h3 id="recHead">세션 기록</h3>
+  <p class="lede">세션이 끝난 직후 30초 안에 적는다. 나중에 적으면 안 적는다.</p>
+  <div class="recgate" id="recGate">
+    <span class="small mut">세션이 끝나면 여기가 저절로 펴진다.</span>
+    <button class="g" id="recOpen" type="button">지금 적기</button>
+  </div>
+  <div id="critBox"></div>
+  <div class="card" id="recCard" hidden>
+    <div class="row" style="margin-bottom:14px">
+      <span class="small mut">수행</span>
+      <button class="g" data-st="normal">정상 2시간</button>
+      <button class="g" data-st="emg">비상판 15분</button>
+      <button class="g" data-st="absent">결석</button>
+    </div>
+    <div class="grid g3">
+      <div><label class="f">발화 시간 (분)</label>
+        <div class="stp"><button data-stp="fSpeak" data-d="-5">-</button><input type="number" id="fSpeak" min="0" step="1"><button data-stp="fSpeak" data-d="5">+</button></div></div>
+      <div><label class="f">드릴 소화량 (장)</label>
+        <div class="stp"><button data-stp="fCards" data-d="-1">-</button><input type="number" id="fCards" min="0" step="1"><button data-stp="fCards" data-d="1">+</button></div></div>
+      <div><label class="f">LRE 발생 (회)</label>
+        <div class="stp"><button data-stp="fLre" data-d="-1">-</button><input type="number" id="fLre" min="0" step="1"><button data-stp="fLre" data-d="1">+</button></div></div>
+    </div>
+    <div style="margin-top:12px"><button class="bigtap alt" id="lrePlus">LRE +1</button></div>
+    <div class="note small">LRE는 둘이 <b>지금 쓰는 영어 자체</b>에 대해 얘기한 순간이다. 한 덩어리 이야기가 한 항목을 다루면 1회다. 횟수를 채우려고 억지로 만들지 않는다.</div>
+    <div class="row end"><span class="small mut" id="fMsg">자동 저장된다</span></div>
+  </div>
+
+  <h3>미해결 LRE</h3>
+  <p class="lede">반드시 문장으로 적는다. 이게 주간 판정 세션의 입력이 된다.</p>
+  <div class="card">
+    <div class="grid g2">
+      <div><label class="f">우리가 말한 문장</label><input id="uT" placeholder="I have went there yesterday"></div>
+      <div><label class="f">무엇이 걸렸나</label><input id="uI" placeholder="시제를 어떻게 잡는지"></div>
+    </div>
+    <div style="margin-top:10px"><label class="f">한국어 단서 (복습 때 이것만 보고 영어를 꺼낸다)</label>
+      <input id="uK" placeholder="나 어제 거기 갔었어"></div>
+    <div class="grid g2" style="margin-top:10px">
+      <div><label class="f" id="labU1">남편 생각</label><input id="uH"></div>
+      <div><label class="f" id="labU2">아내 생각</label><input id="uW"></div>
+    </div>
+    <div class="row end" style="margin-top:10px"><button class="g" id="uAdd">추가</button></div>
+    <div id="uList"></div>
+  </div>
+
+  <h3>채집 표현</h3>
+  <p class="lede">출처 없이 올리지 않는다. 출처가 없으면 판정이 안 된다.</p>
+  <div class="card">
+    <div class="grid g3">
+      <div><label class="f">표현</label><input id="cE"></div>
+      <div><label class="f">어디서 봤나</label><input id="cS"></div>
+      <div><label class="f">궁금한 점</label><input id="cQ"></div>
+    </div>
+    <div style="margin-top:10px"><label class="f">한국어 단서 (복습 때 이것만 보고 영어를 꺼낸다)</label>
+      <input id="cK" placeholder="신경 쓰지 마"></div>
+    <div class="row end" style="margin-top:10px"><button class="g" id="cAdd">추가</button></div>
+    <div id="cList"></div>
+  </div>
+</section>
+
+<!-- ========== 복습 ========== -->

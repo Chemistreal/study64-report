@@ -1,0 +1,45 @@
+<section id="t-ledger" role="tabpanel" hidden>
+  <h2>진행 대장</h2>
+  <p class="lede">매일 칸은 활동량이다. 실력 판정은 분기 탭에서만 한다.</p>
+
+  <div class="card tight">
+    <div class="grid g3">
+      <div><label class="f">시작일</label><input type="date" id="sStart"></div>
+      <div><label class="f">사람 1</label><input id="sNameA"></div>
+      <div><label class="f">사람 2</label><input id="sNameB"></div>
+    </div>
+  </div>
+
+  <div class="grid g3" id="statCards"></div>
+
+  <h3>누적 시간</h3>
+  <div class="card"><div id="chart"></div>
+    <div class="small mut" style="margin-top:8px">
+      실선 누적 · 점선 576h 총량선(주 6일 x 2시간 x 48주) · 눈금 144 / 288 / 432 / 576 이 분기 통과선
+    </div>
+    <div class="note w small">총량을 576시간으로 확정했다. 주 6일 x 2시간 x 48주에서 나오는 파생값이다. 분기 통과 누적도 같은 방식으로 144 / 288 / 432 / 576 이 된다. 730시간은 하루 2시간에 365일을 곱한 값이라 주 6일 설계와 안 맞아 내렸다. 개정 결정 4번이고 문안은 docs/spec_amendments.md 에 있다.</div>
+  </div>
+
+  <h3>이번 주</h3>
+  <div class="row noprint" style="margin-bottom:6px">
+    <button class="g" id="wPrev">이전 주</button>
+    <span class="mono small" id="wLabel"></span>
+    <button class="g" id="wNext">다음 주</button>
+  </div>
+  <div class="scroll"><table id="weekTable"></table></div>
+  <div id="alerts"></div>
+
+  <h3>내보내기</h3>
+  <div class="card tight">
+    <div class="row">
+      <button class="g" id="exJson">JSON 내려받기</button>
+      <button class="g" id="exMd">대장 마크다운 복사</button>
+      <button class="g" id="imBtn">JSON 가져오기</button>
+      <input type="file" id="imFile" accept="application/json" hidden>
+      <button class="g" id="wipe" style="color:var(--warn)">전체 삭제</button>
+    </div>
+    <div class="small mut" style="margin-top:8px">기록은 이 브라우저에만 저장된다. 기기를 바꾸면 JSON으로 옮긴다.</div>
+  </div>
+</section>
+
+<!-- ========== 판정 ========== -->

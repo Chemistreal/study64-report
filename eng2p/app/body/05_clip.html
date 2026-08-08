@@ -1,0 +1,86 @@
+<section id="t-clip" role="tabpanel" hidden>
+  <h2>클립</h2>
+  <p class="lede">가진 파일을 이 기기에서 직접 자른다. 구간과 메모만 저장되고 파일은 어디로도 올라가지 않는다.</p>
+
+  <div class="note">
+    <b>파일은 이 브라우저 밖으로 나가지 않는다.</b>
+    <div class="small" style="margin-top:4px">
+      저장되는 건 파일 이름, 시작과 끝 시각, 라벨, 메모뿐이다. 음성 자체는 저장소에도 서버에도 올라가지 않는다.
+      그래서 저작권 있는 자료도 개인 학습용으로 쓸 수 있다. 대신 그 파일을 저장소에 넣지는 않는다.
+      이 페이지는 공개 주소로 열려 있고 GitHub Pages 에는 비밀번호를 걸 수 없다.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cliproles" id="clipRoles">
+      <div class="roleunit a active" id="clipRoleA"><span class="rb a" id="clipRa">A</span><span class="small">재생과 구간을 맡는다</span></div>
+      <div class="roleunit b" id="clipRoleB"><span class="rb b" id="clipRb">B</span><span class="small">듣고 복원한다. 화면을 보지 않는다</span></div>
+    </div>
+    <div class="rolehint" id="clipRoleHint" aria-live="polite">A가 들을 구간을 정한다.</div>
+    <div class="drop" id="drop">
+      <div style="font-size:15px;font-weight:700">음성이나 영상 파일을 여기에 끌어다 놓는다</div>
+      <div class="small mut" style="margin-top:4px">또는 눌러서 고른다. mp3, m4a, wav, mp4, webm</div>
+      <input type="file" id="clipFile" accept="audio/*,video/*" hidden>
+    </div>
+    <div id="mediaHost" style="margin-top:14px"></div>
+    <div id="clipCtl" hidden>
+      <div class="scrub" id="scrub">
+        <canvas id="clipWave" aria-label="음성 파형과 반복 구간"></canvas>
+        <div class="rng" id="scRng" style="left:0;width:0"></div>
+        <div class="mk" id="scA" style="left:0;display:none"></div>
+        <div class="mk" id="scB" style="left:0;display:none"></div>
+        <div class="ph" id="scPh" style="left:0"></div>
+        <div class="lb" id="scLb" style="left:6px">0:00</div>
+        <div class="lb" id="scLb2" style="right:6px">0:00</div>
+      </div>
+      <div class="waveinfo" id="clipWaveInfo" aria-live="polite">파일을 열면 실제 음성 파형을 분석한다.</div>
+      <div class="row">
+        <button class="g" id="cPlay">재생</button>
+        <button class="g" id="cSetA">A 찍기</button>
+        <button class="g" id="cSetB">B 찍기</button>
+        <button class="g" id="cLoop">구간 반복</button>
+        <button class="g" id="cBack">3초 뒤로</button>
+      </div>
+      <div class="grid g3" style="margin-top:12px">
+        <div><label class="f">속도 <span class="mono" id="cRateN">1.00</span></label>
+          <input type="range" id="cRate" min="0.5" max="1" step="0.05" value="1"></div>
+        <div><label class="f">A 시각</label>
+          <div class="stp"><button data-nud="a" data-d="-0.5">-</button><input id="cA" class="tc" readonly><button data-nud="a" data-d="0.5">+</button></div></div>
+        <div><label class="f">B 시각</label>
+          <div class="stp"><button data-nud="b" data-d="-0.5">-</button><input id="cB" class="tc" readonly><button data-nud="b" data-d="0.5">+</button></div></div>
+      </div>
+      <div class="grid g2" style="margin-top:12px">
+        <div><label class="f">라벨</label><input id="cLabel" placeholder="되묻기 나오는 구간"></div>
+        <div><label class="f">회차 초점</label><select id="cFocus">
+          <option value="1">1회 소리. 어디가 줄었는지</option>
+          <option value="2">2회 청크. 통째로 굴러가는 덩어리</option>
+          <option value="3">3회 의미. 이제 내용을 잡는다</option>
+        </select></div>
+      </div>
+      <div class="row end" style="margin-top:12px"><button class="b" id="cSave">구간 저장</button></div>
+    </div>
+  </div>
+
+  <h3>저장한 구간</h3>
+  <p class="lede">같은 파일을 다시 열면 그대로 이어서 쓴다. 파일 이름으로 맞춘다.</p>
+  <div id="clipList"></div>
+
+  <h3>대본 동기화</h3>
+  <p class="lede">외부에서 받은 대본을 줄 단위로 음성에 맞춘다. 맞춰 두면 그 줄만 골라 반복할 수 있다.</p>
+  <div class="note small">
+    <b>대본 없는 음성은 반입하지 않는다.</b>
+    나는 음성을 들을 수 없고 대본은 검사할 수 있다.
+    받은 대본은 검사 탭에 먼저 넣는다. 파일명을 eng2p_audio_q1_001.md 형태로 주면 음성 대본 규격으로 검사한다.
+  </div>
+  <div class="card">
+    <label class="f">대본 붙여넣기 (한 줄에 한 발화)</label>
+    <textarea id="scText" rows="6" placeholder="A: Could you say that again?&#10;B: Sorry. I said I am going to be late."></textarea>
+    <div class="row end" style="margin-top:10px">
+      <button class="g" id="scClear">비우기</button>
+      <button class="b" id="scLoad">줄 나누기</button>
+    </div>
+    <div id="scList"></div>
+  </div>
+</section>
+
+<!-- ========== 미디어 라이브러리 ========== -->

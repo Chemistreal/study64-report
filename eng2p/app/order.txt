@@ -1,0 +1,35 @@
+# english.html 을 합치는 차례다. 이 차례가 곧 파일의 차례다.
+# 줄 하나가 조각 하나다. # 로 시작하는 줄은 건너뛴다.
+page/00_head.html
+style/01_tokens.css
+style/02_common.css
+style/03_timer.css
+style/04_parts.css
+page/01_open.html
+body/01_header.html
+body/02_today.html
+body/03_review.html
+body/04_sound.html
+body/05_clip.html
+body/06_media.html
+body/07_src.html
+body/08_ledger.html
+body/09_verify.html
+body/10_quarter.html
+body/11_check.html
+body/12_rot.html
+body/13_rules.html
+body/14_footer.html
+page/02_script.html
+js/01_const.js
+js/02_store.js
+js/03_plan.js
+js/04_today.js
+js/05_session.js
+js/06_cards.js
+js/07_media.js
+js/08_run.js
+js/09_ledger.js
+js/10_review.js
+js/11_docs.js
+page/03_close.html

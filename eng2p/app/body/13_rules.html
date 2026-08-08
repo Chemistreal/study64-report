@@ -1,0 +1,39 @@
+<section id="t-rules" role="tabpanel" hidden>
+  <h2>세션 규칙 카드</h2>
+  <p class="lede noprint">이 장만 인쇄해서 공부하는 자리 벽에 붙인다. 세션 중에 규칙이 헷갈리면 매뉴얼을 뒤지지 말고 벽을 본다.</p>
+  <div class="row noprint"><button class="g" onclick="window.print()">인쇄</button></div>
+  <div class="wallcard" id="wall"></div>
+
+  <h2>단축키</h2>
+  <div class="card tight small">
+    <div class="row" style="gap:18px">
+      <span><kbd>Space</kbd> 타이머 시작과 정지</span>
+      <span><kbd>N</kbd> 다음 블록</span>
+      <span><kbd>L</kbd> LRE +1</span>
+      <span><kbd>1</kbd>~<kbd>9</kbd> 탭 이동</span>
+    </div>
+    <div class="mut" style="margin-top:8px">입력칸에 커서가 있을 때는 동작하지 않는다.</div>
+  </div>
+
+  <h2>금지 목록</h2>
+  <h3>학습자 행위 금지</h3>
+  <div class="scroll"><table id="banA"></table></div>
+  <h3>제작물 작성 금지</h3>
+  <div class="scroll"><table id="banB"></table></div>
+
+  <h2>실패 지점</h2>
+  <div class="scroll"><table id="failTbl"></table></div>
+  <div class="note">예고된 어려움은 이탈 사유가 되지 않는다. 미리 읽어 둔다.</div>
+</section>
+
+<!-- 세션 조작줄. **오늘 탭 안에 있으면 안 된다.**
+     블록 1은 미디어 탭으로 가서 40분을 듣는 블록이다. 그때 탭이 바뀌면
+     오늘 탭이 통째로 숨고 타이머도 같이 사라진다. T113 에서 겪었다.
+     페이지 바닥에 두면 어느 탭에서도 떠 있다. -->
+  <div class="focusdock noprint" id="focusDock" aria-label="세션 빠른 조작" aria-hidden="true">
+    <div class="fstate"><b id="focusBlock">블록 1</b><span id="focusClock">40:00</span></div>
+    <button class="g" id="focusLre" type="button">LRE +1</button>
+    <button class="b" id="focusToggle" type="button">일시정지</button>
+    <button class="g" id="focusNext" type="button">다음 블록</button>
+  </div>
+

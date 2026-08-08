@@ -1,0 +1,179 @@
+/* ---------- 차트 ---------- */
+svg.chart{width:100%;height:auto;display:block}
+svg .ax{stroke:var(--edge);stroke-width:1}
+svg .tgt{stroke:var(--mut);stroke-width:1.2;stroke-dasharray:4 4;fill:none;opacity:.7}
+svg .plan{stroke:var(--a3);stroke-width:1.2;stroke-dasharray:1 4;fill:none}
+svg .act{stroke:url(#actg);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+svg text{fill:var(--mut);font-size:10px;font-family:var(--mono)}
+
+/* ---------- 규칙 카드 ---------- */
+.wallcard{border:1px solid var(--edge);border-radius:18px;padding:24px;background:var(--card);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--glow)}
+.wallcard h4{margin:0 0 2px;font-size:15px;font-weight:750}
+.wallcard ul{margin:6px 0 0;padding-left:18px}
+.wallcard li{margin:4px 0;font-size:13.5px}
+.wc-sec{border-top:1px solid var(--edge);margin-top:16px;padding-top:14px}
+
+.lreitem{border:1px solid var(--edge);border-radius:12px;padding:13px;margin:9px 0;font-size:13.5px;
+  background:var(--card2);transition:.18s}
+.lreitem:hover{border-color:var(--line)}
+.lreitem .hd2{display:flex;gap:10px;align-items:baseline;justify-content:space-between}
+.del{background:none;border:0;color:var(--mut);cursor:pointer;font:inherit;font-size:12px;padding:0}
+.del:hover{color:var(--warn)}
+
+.res{font-family:var(--mono);font-size:12.5px;line-height:1.8;white-space:pre-wrap}
+.res .f{color:var(--warn);font-weight:600}
+.res .w2{color:var(--acc)}
+
+footer{border-top:1px solid var(--edge);margin-top:60px;padding:20px 0;color:var(--mut);font-size:12px}
+
+/* 스테퍼 */
+.stp{display:flex;gap:6px;align-items:stretch}
+.stp input{text-align:center}
+.stp button{flex:none;width:42px;background:var(--card2);border:1px solid var(--edge);color:var(--fg);
+  font:inherit;font-size:18px;border-radius:10px;cursor:pointer;line-height:1;transition:.16s}
+.stp button:hover{border-color:var(--a1)}
+.bigtap{width:100%;padding:17px;font-size:16px;font-weight:750;border-radius:14px;
+  background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;border:0;cursor:pointer;
+  font-family:inherit;box-shadow:var(--glow);transition:.18s;letter-spacing:-.01em}
+.bigtap:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.bigtap.alt{background:var(--card2);color:var(--fg);border:1px solid var(--edge);box-shadow:none}
+.bigtap.alt:hover{border-color:var(--a1)}
+
+/* 복습 */
+.revcard{border:1px solid var(--edge);border-radius:18px;padding:30px 22px;text-align:center;
+  background:linear-gradient(155deg,var(--card),var(--card2));backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);box-shadow:var(--glow)}
+.revq{font-size:21px;font-weight:750;margin:12px 0 4px;line-height:1.4;letter-spacing:-.02em}
+.revmeta{font-size:12.5px;color:var(--mut)}
+.reva{font-size:24px;font-weight:800;margin:16px 0 6px;letter-spacing:-.025em;
+  background:linear-gradient(96deg,var(--a1),var(--a2) 60%,var(--a3));
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:rise .3s}
+.revbox{display:flex;gap:4px;justify-content:center;margin:16px 0 0}
+.revbox i{width:28px;height:4px;background:var(--edge);display:block;border-radius:99px}
+.revbox i.on{background:linear-gradient(90deg,var(--a1),var(--a2))}
+.undo{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:60;
+  background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;border-radius:12px;padding:11px 16px;
+  font-size:13px;display:flex;gap:14px;align-items:center;box-shadow:0 10px 34px rgba(0,0,0,.3);animation:rise .25s}
+.undo button{background:none;border:0;color:#fff;font:inherit;font-weight:750;text-decoration:underline;cursor:pointer}
+kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-radius:5px;
+  padding:2px 6px;color:var(--fg);background:var(--card2)}
+
+/* 클립 */
+.drop{border:2px dashed var(--edge);border-radius:16px;padding:34px 18px;text-align:center;
+  background:var(--card2);transition:.2s;cursor:pointer}
+.drop:hover,.drop.over{border-color:var(--a1);background:var(--card);box-shadow:var(--glow)}
+.scrub{position:relative;height:44px;border-radius:12px;background:var(--card2);
+  border:1px solid var(--edge);overflow:hidden;cursor:pointer;margin:14px 0 6px}
+.scrub canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.scrub .rng{position:absolute;top:0;bottom:0;z-index:1;background:linear-gradient(90deg,var(--au1),var(--au2));opacity:.55}
+.scrub.looping .rng{animation:loopRange 1.15s ease-in-out infinite alternate}
+.scrub .ph{position:absolute;top:0;bottom:0;z-index:4;width:2px;background:var(--fg)}
+.scrub .mk{position:absolute;top:0;bottom:0;z-index:3;width:2px;background:var(--a3)}
+.scrub .lb{position:absolute;bottom:3px;z-index:5;font-size:10px;font-family:var(--mono);color:var(--mut);padding:0 4px}
+.waveinfo{min-height:18px;color:var(--mut);font-size:11.5px;margin-bottom:8px}
+@keyframes loopRange{from{opacity:.42}to{opacity:.78}}
+.clip{border:1px solid var(--edge);border-radius:12px;padding:12px;margin:9px 0;background:var(--card2);transition:.18s}
+.clip:hover{border-color:var(--a1)}
+.clip.on{border-color:var(--a2);box-shadow:var(--glow)}
+.tc{font-family:var(--mono);font-variant-numeric:tabular-nums}
+#mediaHost video{width:100%;max-height:230px;border-radius:12px;background:#000;display:block}
+#mediaHost audio{width:100%;display:block}
+
+/* 미디어 라이브러리 */
+.libstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.libstat{border:1px solid var(--edge);border-radius:14px;padding:14px;background:var(--card2)}
+.libstat b{display:block;font-family:var(--mono);font-size:23px;line-height:1.2}
+.libstat span{font-size:11.5px;color:var(--mut)}
+.libtoolbar{display:grid;grid-template-columns:minmax(220px,2fr) 1fr 1fr;gap:9px}
+.libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:10px;margin-top:10px}
+.mitem{border:1px solid var(--edge);border-radius:14px;padding:14px;background:var(--card2);transition:.18s;min-width:0}
+.mitem:hover{border-color:var(--a1);box-shadow:var(--glow)}
+.mitem.on{border-color:var(--a2);box-shadow:var(--glow)}
+.mitem.done{background:linear-gradient(135deg,var(--card2),rgba(15,118,110,.09))}
+.mthumb{display:block;width:100%;aspect-ratio:1200/630;object-fit:cover;border-radius:10px;
+  margin-bottom:11px;background:var(--edge)}
+.mitem h4{font-size:16px;line-height:1.4;margin:7px 0 8px;overflow-wrap:anywhere}
+.mitem .mnum{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:.04em}
+.mitem .macts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.mitem .macts button,.mitem .macts a,.mitem .macts summary{font:inherit;font-size:11.5px;padding:7px 10px;border-radius:8px;min-height:44px}
+.mitem .macts a{color:var(--acc);border:1px solid var(--edge);text-decoration:none;background:var(--card2)}
+.mpasses{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
+.mpass{font-size:10.5px;padding:3px 8px;border:1px solid var(--edge);border-radius:99px;color:var(--mut);background:var(--card2)}
+.mpass.done{color:var(--ok);border-color:rgba(15,118,110,.28);font-weight:700}
+.mresources{position:relative}
+.mresources summary{list-style:none;display:flex;align-items:center;cursor:pointer;color:var(--acc);border:1px solid var(--edge);background:var(--card2)}
+.mresources summary::-webkit-details-marker{display:none}
+.mresourcebox{position:absolute;right:0;bottom:calc(100% + 7px);z-index:8;min-width:160px;padding:7px;display:grid;gap:4px;
+  border:1px solid var(--edge);border-radius:11px;background:var(--bg2);box-shadow:0 12px 34px rgba(10,10,30,.22)}
+.mresourcebox a{display:flex;align-items:center}
+.libplayer{overflow:hidden}
+.libplayer h3{font-size:19px;margin:2px 0 5px}
+#libMediaHost{margin:14px 0 10px;min-height:54px}
+#libMediaHost audio{width:100%;display:block}
+#libMediaHost video{width:100%;max-height:440px;display:block;background:#000;border-radius:12px}
+.libmode{display:flex;gap:6px;flex-wrap:wrap}
+.libmode button{flex:1;min-width:108px}
+.licrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;color:var(--mut);font-size:11.5px}
+.libresources{margin-top:12px;border-top:1px solid var(--edge);padding-top:10px}
+.libresources summary{cursor:pointer;color:var(--acc);font-size:12.5px;min-height:44px;display:flex;align-items:center}
+@media(max-width:620px){
+  .libtoolbar{grid-template-columns:1fr 1fr}.libtoolbar>div:first-child{grid-column:1/-1}
+  .libstats{grid-template-columns:1fr}.libstat{display:flex;align-items:center;gap:10px}.libstat b{font-size:19px}
+}
+
+/* 자료 카드 */
+.src{border:1px solid var(--edge);border-radius:14px;padding:16px;background:var(--card2);
+  margin:10px 0;transition:.2s}
+.src:hover{border-color:var(--a1);box-shadow:var(--glow)}
+.src h4{margin:0 0 2px;font-size:15px;font-weight:750}
+.src a{color:var(--acc);text-decoration:none;font-size:13px;word-break:break-all}
+.src a:hover{text-decoration:underline}
+.src .lic{font-size:11.5px;color:var(--mut);margin:6px 0}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+@media print{
+  /* 종이와 같이 쓰는 물건이다. 인쇄가 되는 것이 부속 기능이 아니다.
+     화면 색을 그대로 찍으면 잉크를 먹고 글씨가 안 읽힌다.
+     그래서 인쇄에서는 색 토큰을 순백과 순흑으로 되돌린다. */
+  :root{
+    --bg:#fff; --bg2:#fff; --fg:#000; --mut:#444; --line:#bbb;
+    --card:#fff; --card2:#fff; --edge:#999;
+    --a1:#000; --a2:#000; --a3:#000; --acc:#000; --glow:none;
+  }
+  header,nav,footer,.noprint,.aurora,.focusdock,.sessiondone,
+  #onboard,.sidepick,.recgate,.resume,.bigtap,.stp button{display:none!important}
+  /* **시계와 링은 종이에서 뺀다. 블록 칸은 남긴다.**
+     전에는 `.timer` 를 통째로 숨겼는데 그 안에 블록 칸이 들어 있다.
+     그래서 세션 중에 인쇄하면 날짜와 이름표만 찍혔다. 빈 종이가 나온다.
+     블록 칸이 오늘 쓰는 카드와 진행표가 있는 자리다. T148 */
+  .ringwrap,.bar,.steps,.slab,.tleft,.sessplay,.syncscript{display:none!important}
+  /* 세션 중이어도 종이에는 다 찍는다. 화면에서 숨긴 것은 화면이 좁아서였다. */
+  body.session-focus #t-today>*,
+  body.session-focus .todaysheet,
+  body.session-focus #emgLine,
+  body.session-focus #emgBox,
+  body.session-focus #resumeBox,
+  body.session-focus .progline{display:revert!important}
+  /* 근거 인용은 종이에서도 쓴다. 어느 과를 들으면 되는지가 거기 있다. */
+  .ground .gat{display:inline!important;border:0;padding:0;color:#000;font-weight:700}
+  /* 종이 위의 버튼은 누를 수 없다. 자리만 먹는다. */
+  button{display:none!important}
+  /* 빈 입력 칸은 손으로 적는 자리이므로 남긴다. 테두리만 남기고 배경을 없앤다. */
+  input,textarea,select{background:#fff;color:#000;border:1px solid #999}
+  body{font-size:12px;background:#fff;color:#000}
+  .wrap{padding:0;max-width:none}
+  .card,.wallcard{background:#fff;box-shadow:none;backdrop-filter:none;border-color:#999}
+  section[hidden]{display:none}
+  /* 오늘 한 장은 종이에서 제일 큰 것이 강 제목이어야 한다. */
+  .todaysheet{border:1.5px solid #000;background:#fff;padding:14px 16px}
+  .todaysheet .lec{font-size:22px}
+  .todaysheet .lec b{color:#000}
+  .todaysheet .g{border-color:#999}
+  .weekband i{background:#ddd;height:6px}
+  .weekband i.done{background:#000}
+  .weekband i.now{background:#000;box-shadow:0 0 0 2px #fff,0 0 0 3px #000}
+  a[href]:after{content:""}
+}
