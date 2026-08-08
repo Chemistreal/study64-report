@@ -2064,15 +2064,37 @@ function renderMediaPane(pl, round){
   var focus = round===1 ? "1회차 초점은 소리다. 말을 걸지 않는다."
                         : "2회차 초점은 청크다. A가 재생을 맡는다.";
   var done=mediaPass(it.id);
+  /* 기준서와 CLAUDE.md 가 금지한 것 하나가 여기서 화면 규칙이 된다.
+     **C-gen 음성으로 Q1 소리 트랙 통과 판정을 하지 않는다.**
+     오늘 자료 52과는 다 C-real 이라 지금은 어긋남이 없다.
+     그런데 그것은 자료가 우연히 맞는 것이지 앱이 규칙을 지키는 것이 아니다.
+     C-gen 이 하나라도 들어오면 그날부터 판정이 잘못된다. 여기서 막는다. */
+  var soundQ1 = (pl.quarter==="Q1" && pl.track==="소리");
+  var locked = soundQ1 && it.grade!=="C-real";
   var h=head+'<div class="n"><b>'+esc(it.title)+'</b> · '+esc(it.duration||"")+
-    '<br>'+focus+'<br>회차 '+done+' / 3 끝냈다</div>'+
-    '<div class="cardnav">'+
+    ' · '+esc(it.grade||"등급 없음")+
+    '<br>'+focus+'<br>회차 '+done+' / 3 끝냈다</div>';
+  if(locked) h+='<div class="cardwarn">이 과는 '+esc(it.grade||"등급 없음")+
+    ' 이다. Q1 소리 트랙 통과 판정은 C-real 로만 한다. 연습에는 쓴다.</div>';
+  h+='<div class="cardnav">'+
     '<button type="button" data-media="audio">소리 열기</button>'+
     (it.video?'<button type="button" data-media="video">영상 열기</button>':"")+
+    (done<3 && !locked ? '<button type="button" data-media="pass">'+
+      (done+1)+'회차 끝냈다로 적기</button>' : "")+
     '</div>';
   setTimeout(function(){
     document.querySelectorAll("[data-media]").forEach(function(b){
       b.onclick=function(){
+        if(b.dataset.media==="pass"){
+          if(locked){ flash("C-real 이 아니라 판정에 안 쓴다"); return; }
+          var next=mediaNextPass(it.id);
+          if(!next){ flash("세 회차를 다 끝냈다"); return; }
+          var c=passRec()[it.id]||(passRec()[it.id]={});
+          c[next[0]]=true; syncMediaDone(it.id); save();
+          renderBlockPane(); renderMediaStats && renderMediaStats();
+          flash(next[0]+"회차를 적었다");
+          return;
+        }
         /* 그 과를 열어 놓고 보낸다. 52과에서 고르게 하지 않는다. */
         openMedia(i, b.dataset.media, true);
         go("media");

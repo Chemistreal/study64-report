@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 여덟 가지를 본다.
+ * 아홉 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -14,8 +14,9 @@
  * 6. 다시 낼 카드 600장이 다 어느 강에 붙는지 찾아지는가
  * 7. 96편의 미디어가 카탈로그에 있고 다른 탭에서도 세션 조작줄이 떠 있는가
  * 8. 대본이 file:// 에서 뜨는가. 52편이 다 있는가
+ * 9. C-gen 음성으로 Q1 소리 트랙 통과 판정을 못 하게 막는가
  *
- * 셋째와 다섯째가 이 검사의 핵심이다.
+ * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
  * 한 세트를 눈으로 보고 넘어가면 나머지 287개는 안 본 것이다.
  *
@@ -229,6 +230,27 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   }
   await page.evaluate(() => { go("today"); gotoBlock(2); });
   await page.waitForTimeout(300);
+
+  // 9. C-gen 잠금. **C-gen 음성으로 Q1 소리 트랙 통과 판정을 하지 않는다.**
+  //    오늘 52과는 다 C-real 이라 자료로는 안 걸린다. 규칙을 지키는지는 흉내 내서 본다.
+  const lock = await page.evaluate(() => {
+    const bad = [];
+    const it = MEDIA[0];
+    const old = it.grade;
+    it.grade = "C-gen";
+    const q1 = renderMediaPane({ media: it.id, quarter: "Q1", track: "소리" }, 1);
+    const q2 = renderMediaPane({ media: it.id, quarter: "Q2", track: "청크" }, 1);
+    it.grade = old;
+    if (q1.indexOf("C-real 로만") < 0) bad.push("C-gen 인데 Q1 소리에서 안 막았다");
+    if (q1.indexOf("끝냈다로 적기") >= 0) bad.push("C-gen 인데 Q1 소리에 판정 단추가 있다");
+    if (q2.indexOf("끝냈다로 적기") < 0) bad.push("Q1 소리가 아닌데 판정 단추가 없다");
+    // 자료 쪽도 본다. 지금 C-real 이 아닌 과가 있으면 그것부터 알아야 한다
+    MEDIA.filter((x) => x.grade !== "C-real").forEach((x) => {
+      bad.push(x.id + " 가 " + x.grade + " 다. Q1 소리 트랙에 쓰이는지 확인이 필요하다");
+    });
+    return bad;
+  });
+  lock.slice(0, 5).forEach((m) => fails.push("C-gen 잠금: " + m));
 
   const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
