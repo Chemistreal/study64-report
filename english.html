@@ -1755,7 +1755,15 @@ function renderSetPane(pl){
   var s=(sets.items||[]).filter(function(x){return x.id===pl.set;})[0];
   if(!s) return '<div class="k">대조 교차 세트</div><div class="v">'+esc(pl.set||"(없음)")+'</div>';
   var mine=deviceSide();
+  /* 30분 안에서 지금 몇 단계인지는 시간이 이미 알고 있다. 8 8 10 4 로 나뉜다.
+     화면이 그것을 안 쓰면 두 사람이 시계를 따로 본다. 블록 타이머가 있는데 그렇다. */
+  var used=BLOCKS[1].m*60-Math.max(0,T.left), acc=0, curStep=0;
+  s.steps.forEach(function(st,i){
+    if(used>=acc) curStep=i;
+    acc+=st.minutes*60;
+  });
   var h='<div class="k">이 블록에 쓰는 것 · 대조 교차 세트</div><div class="v">'+esc(s.id)+'</div>';
+  acc=0;
   s.steps.forEach(function(st,i){
     var f=st.fields||{};
     var body="";
@@ -1774,15 +1782,31 @@ function renderSetPane(pl){
       body='<div class="body">'+esc(f["본문"]||"")+'</div>';
       if(f["규칙"]) body+='<div class="body"><b>규칙</b> '+esc(f["규칙"])+'</div>';
     }else{
-      body='<div class="body">';
-      ["LRE 발생 횟수","LRE 해결 여부","미해결 LRE 목록"].forEach(function(k){
-        body+='<span class="blank">'+esc(k)+'</span>';
-      });
-      body+='</div>';
+      /* 적는 자리는 적을 수 있어야 한다. 보여 주기만 하면 종이를 따로 꺼내게 된다.
+         값은 그날 기록에 바로 들어간다. LRE 횟수는 이미 있는 칸을 쓴다. */
+      var rec=day(today());
+      body='<div class="body">'+
+        '<label class="blank">LRE 발생 횟수'+
+        '<input type="number" min="0" step="1" id="setLre" value="'+(rec.lre||"")+'"'+
+        ' style="width:80px;margin-left:8px"></label>'+
+        '<label class="blank">미해결 LRE 목록은 아래 미해결 LRE 칸에 문장으로 적는다.'+
+        ' 지금 '+(rec.unres||[]).length+'건 있다.</label>'+
+        '</div>';
     }
-    h+='<div class="setstep'+(i===0?" now":"")+'"><h5>'+st.step+'단계 · '+
-       esc(st.name)+' · '+st.minutes+'분</h5>'+body+'</div>';
+    var left="";
+    if(i===curStep){
+      var end=acc+st.minutes*60;
+      left=" · 남은 "+Math.max(0,Math.ceil((end-used)/60))+"분";
+    }
+    acc+=st.minutes*60;
+    h+='<div class="setstep'+(i===curStep?" now":"")+'"><h5>'+st.step+'단계 · '+
+       esc(st.name)+' · '+st.minutes+'분'+left+'</h5>'+body+'</div>';
   });
+  setTimeout(function(){
+    var el=document.getElementById("setLre");
+    if(el) el.oninput=function(){ day(today()).lre=+el.value||0; save();
+      var f=document.getElementById("fLre"); if(f) f.value=el.value; };
+  },0);
   if(!mine) h+='<div class="n">이 기기를 쓰는 사람을 안 골랐다. '+
                '두 쪽을 다 보여 주는 중이다. B 는 1단계 목록을 안 본다.</div>';
   return h;
