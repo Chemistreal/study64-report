@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 열한 가지를 본다.
+ * 열두 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -17,6 +17,7 @@
  * 9. C-gen 음성으로 Q1 소리 트랙 통과 판정을 못 하게 막는가
  * 10. 세션 한 벌이 시작부터 끝까지 어긋남 없이 도는가
  * 11. 기기 둘이 각각 제 쪽을 보는가
+ * 12. 통과 기준 458개가 다 그려지고 선이 있는 것은 값으로 갈리는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -311,6 +312,35 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     return bad;
   });
   two.slice(0, 5).forEach((m) => fails.push("두 기기: " + m));
+
+  // 12. 블록 6 기록. 통과 기준이 96편 다 그려지고 선이 있으면 갈리는가.
+  const crit = await page.evaluate(() => {
+    const bad = [];
+    const lec = (DATA.lectures && DATA.lectures.items) || [];
+    let tot = 0, th = 0;
+    for (const L of lec) {
+      if (!L.criteria || !L.criteria.length) { bad.push(L.no + "강 통과 기준이 없다"); continue; }
+      tot += L.criteria.length;
+      th += L.criteria.filter((c) => c.threshold).length;
+      for (const c of L.criteria) {
+        if (!c.threshold) continue;
+        const t2 = c.threshold;
+        if (["min", "max", "eq"].indexOf(t2.op) < 0) bad.push(L.no + "강 선 부호가 이상하다");
+        if (typeof t2.value !== "number") bad.push(L.no + "강 선 값이 수가 아니다");
+        // 선 위아래를 넣어 보고 갈리는지.
+        // eq 는 선 그 자체가 통과 값이다. 6강 "0건이어야 한다" 가 그것이다.
+        // min 은 선보다 크면 통과, max 는 선보다 작으면 통과다.
+        const hi = t2.op === "min" ? t2.value + 1 : t2.value;
+        const lo = t2.op === "max" || t2.op === "eq" ? t2.value + 1 : t2.value - 1;
+        if (critJudge(t2, hi) !== true) bad.push(L.no + "강 통과 값이 통과로 안 갈린다");
+        if (critJudge(t2, lo) !== false) bad.push(L.no + "강 미달 값이 미달로 안 갈린다");
+      }
+    }
+    if (tot < 400) bad.push("통과 기준이 " + tot + "개다. 458개여야 한다");
+    if (th < 350) bad.push("선이 있는 항목이 " + th + "개다. 너무 적다");
+    return bad;
+  });
+  crit.slice(0, 6).forEach((m) => fails.push("통과 기준: " + m));
 
   const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);

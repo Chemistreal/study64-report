@@ -70,13 +70,13 @@ window.ENG2P_INDEX={
     },
     {
       "file": "lectures.js",
-      "bytes": 320521,
-      "sha256": "9f516aeaaa0eb1b3344741f8b2a2fa066f38cfbd73ca917a1117f3b71c10921e"
+      "bytes": 356626,
+      "sha256": "5dd4d69b3f976fe0cef63f506c11ce4932def0c58a976bf1a2f6dc6ae4159ddc"
     },
     {
       "file": "lectures.json",
-      "bytes": 320498,
-      "sha256": "c0b72b00e96887683d8092d2bebaff615efe969dd8343a1f1d653e971d77ac82"
+      "bytes": 356603,
+      "sha256": "a0f0c8049bb989b63041387444e783164f65c48d29f60cba3282dc74b3649ba2"
     },
     {
       "file": "sets.js",

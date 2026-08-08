@@ -52,7 +52,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 2,
@@ -73,7 +77,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 3,
@@ -94,7 +102,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         }
       ],
       "notMeasured": [],
@@ -158,7 +170,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -184,7 +200,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 1
+          }
         },
         {
           "no": 3,
@@ -200,7 +220,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         }
       ],
       "notMeasured": [],
@@ -264,7 +288,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -280,7 +308,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 3,
@@ -306,7 +338,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 1
+          }
         },
         {
           "no": 4,
@@ -327,7 +363,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -391,7 +431,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -407,7 +451,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 3,
@@ -433,7 +481,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 1
+          }
         },
         {
           "no": 4,
@@ -454,7 +506,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         }
       ],
       "notMeasured": [],
@@ -518,7 +574,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -534,7 +594,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -550,7 +614,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [
@@ -616,7 +684,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -629,7 +701,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "eq",
+            "value": 0
+          }
         },
         {
           "no": 3,
@@ -650,7 +726,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         }
       ],
       "notMeasured": [],
@@ -714,7 +794,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -730,7 +814,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         }
       ],
       "notMeasured": [
@@ -796,7 +884,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -812,7 +904,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         }
       ],
       "notMeasured": [
@@ -878,7 +974,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -894,7 +994,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 3,
@@ -915,7 +1019,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 17
+          }
         }
       ],
       "notMeasured": [
@@ -981,7 +1089,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -997,7 +1109,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 3,
@@ -1022,7 +1138,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         }
       ],
       "notMeasured": [],
@@ -1086,7 +1206,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -1102,7 +1226,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 3,
@@ -1118,7 +1246,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -1134,7 +1266,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 17
+          }
         }
       ],
       "notMeasured": [
@@ -1205,7 +1341,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -1226,7 +1366,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 3,
@@ -1247,7 +1391,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -1263,7 +1411,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [
@@ -1329,7 +1481,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -1350,7 +1506,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -1379,7 +1539,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 4,
@@ -1400,7 +1564,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -1469,7 +1637,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 17
+          }
         },
         {
           "no": 2,
@@ -1498,7 +1670,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -1519,7 +1695,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [
@@ -1585,7 +1765,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -1601,7 +1785,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 3,
@@ -1617,7 +1805,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 4,
@@ -1633,7 +1825,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [
@@ -1703,7 +1899,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -1715,7 +1915,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -1731,7 +1935,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -1752,7 +1960,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -1824,7 +2036,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -1840,7 +2056,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -1856,7 +2076,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -1924,7 +2148,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -1940,7 +2168,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -1960,7 +2192,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -2028,7 +2264,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -2049,7 +2289,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -2098,7 +2342,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -2166,7 +2414,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -2190,7 +2442,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -2211,7 +2467,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -2275,7 +2535,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -2296,7 +2560,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -2312,7 +2580,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -2376,7 +2648,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -2397,7 +2673,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 3,
@@ -2413,7 +2693,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         }
       ],
       "notMeasured": [],
@@ -2481,7 +2765,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -2497,7 +2785,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 3,
@@ -2517,7 +2809,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -2538,7 +2834,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -2602,7 +2902,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 2,
@@ -2618,7 +2922,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -2639,7 +2947,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         }
       ],
       "notMeasured": [],
@@ -2711,7 +3023,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -2727,7 +3043,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         }
       ],
       "notMeasured": [
@@ -2793,7 +3113,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -2815,7 +3139,11 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -2847,7 +3175,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [
@@ -2917,7 +3246,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -2933,7 +3266,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 3,
@@ -2954,7 +3291,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -2970,7 +3311,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         }
       ],
       "notMeasured": [
@@ -3045,7 +3390,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 17
+          }
         },
         {
           "no": 2,
@@ -3061,7 +3410,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -3081,7 +3434,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         }
       ],
       "notMeasured": [],
@@ -3149,7 +3506,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -3165,7 +3526,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -3185,7 +3550,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -3219,7 +3588,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -3283,7 +3656,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -3299,7 +3676,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 3,
@@ -3315,7 +3696,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [
@@ -3386,7 +3771,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 2,
@@ -3407,7 +3796,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -3432,7 +3825,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 10
+          }
         },
         {
           "no": 4,
@@ -3449,7 +3846,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -3514,7 +3915,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 2,
@@ -3530,7 +3935,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 3,
@@ -3546,7 +3955,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 4,
@@ -3558,7 +3971,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -3627,7 +4044,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -3648,7 +4069,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -3664,7 +4089,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 4,
@@ -3686,7 +4115,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -3750,7 +4183,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -3771,7 +4208,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -3787,7 +4228,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -3816,7 +4261,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         }
       ],
       "notMeasured": [],
@@ -3876,7 +4325,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -3892,7 +4345,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -3910,7 +4367,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 6
+          }
         },
         {
           "no": 4,
@@ -3926,7 +4387,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         }
       ],
       "notMeasured": [
@@ -3992,7 +4457,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -4008,7 +4477,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -4024,7 +4497,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 4,
@@ -4040,7 +4517,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 14
+          }
         }
       ],
       "notMeasured": [],
@@ -4104,7 +4585,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -4129,7 +4614,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 3,
@@ -4153,7 +4642,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -4194,7 +4687,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         }
       ],
       "notMeasured": [],
@@ -4261,7 +4758,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -4282,7 +4783,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -4294,7 +4799,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 4,
@@ -4306,7 +4812,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -4396,7 +4906,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 2,
@@ -4421,7 +4935,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 2
+          }
         },
         {
           "no": 3,
@@ -4442,7 +4960,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -4474,7 +4996,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         }
       ],
       "notMeasured": [
@@ -4550,7 +5076,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -4566,7 +5096,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 3,
@@ -4587,7 +5121,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -4599,7 +5137,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 5,
@@ -4623,7 +5165,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         }
       ],
       "notMeasured": [],
@@ -4692,7 +5238,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -4708,7 +5258,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -4724,7 +5278,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 4,
@@ -4745,7 +5303,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -4809,7 +5371,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -4833,7 +5399,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -4849,7 +5419,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 4,
@@ -4870,14 +5444,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 5,
           "text": "못 찾은 항목 수를 주마다 기록한다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         },
         {
           "no": 6,
@@ -4894,7 +5473,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -4963,7 +5543,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 2,
@@ -4992,7 +5576,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -5013,7 +5601,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 2
+          }
         },
         {
           "no": 4,
@@ -5034,7 +5626,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 5,
@@ -5050,7 +5646,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         }
       ],
       "notMeasured": [],
@@ -5140,7 +5740,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 2,
@@ -5156,7 +5760,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 3,
@@ -5176,7 +5784,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 30
+          }
         },
         {
           "no": 4,
@@ -5192,7 +5804,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 5,
@@ -5220,7 +5836,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         }
       ],
       "notMeasured": [
@@ -5286,7 +5906,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -5307,7 +5931,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -5328,7 +5956,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 4,
@@ -5344,14 +5976,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 5,
           "text": "판정이 갈린 짝의 수를 따로 적는다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -5415,7 +6052,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -5435,7 +6076,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 3,
@@ -5456,7 +6101,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -5472,7 +6121,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 5,
@@ -5495,7 +6148,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         }
       ],
       "notMeasured": [],
@@ -5563,7 +6220,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -5583,7 +6244,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 3,
@@ -5599,7 +6264,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 4,
@@ -5619,7 +6288,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 8
+          }
         },
         {
           "no": 5,
@@ -5631,7 +6304,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         }
       ],
       "notMeasured": [],
@@ -5721,7 +6398,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 2,
@@ -5737,7 +6418,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 3,
@@ -5757,7 +6442,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -5773,7 +6462,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 5,
@@ -5797,7 +6490,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 6,
@@ -5827,7 +6524,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -5891,7 +6589,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -5907,7 +6609,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 3,
@@ -5927,7 +6633,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 4,
@@ -5947,14 +6657,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 5,
           "text": "항목별 초를 다 기록한다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -6023,7 +6738,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -6049,7 +6768,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -6070,7 +6793,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -6091,14 +6818,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 4
+          }
         },
         {
           "no": 5,
           "text": "거절 뒤 기분을 매번 적는다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -6172,7 +6904,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 2
+          }
         },
         {
           "no": 2,
@@ -6188,7 +6924,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -6204,7 +6944,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 4,
@@ -6221,14 +6965,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 5,
           "text": "거절 뒤 기분을 50강과 같이 적는다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -6281,7 +7030,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -6297,7 +7050,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -6315,7 +7072,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 6
+          }
         },
         {
           "no": 4,
@@ -6331,7 +7092,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 5,
@@ -6347,7 +7112,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         }
       ],
       "notMeasured": [
@@ -6411,7 +7180,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -6427,7 +7200,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -6447,7 +7224,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 4,
@@ -6463,7 +7244,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 5,
@@ -6475,7 +7260,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -6487,7 +7273,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -6551,7 +7341,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -6568,7 +7362,11 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -6584,7 +7382,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 4,
@@ -6596,7 +7398,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 8
+          }
         },
         {
           "no": 5,
@@ -6617,7 +7423,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -6687,7 +7494,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -6715,7 +7526,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -6731,7 +7546,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -6751,14 +7570,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 5,
           "text": "계단별 초를 따로 기록한다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -6822,7 +7646,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -6842,7 +7670,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 3,
@@ -6858,7 +7690,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 4
+          }
         },
         {
           "no": 4,
@@ -6874,7 +7710,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 5,
@@ -6890,14 +7730,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 6,
           "text": "불동의 뒤 기분을 매번 적는다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -6959,7 +7804,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -6979,7 +7828,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -7000,7 +7853,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 4,
@@ -7016,7 +7873,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 12
+          }
         },
         {
           "no": 5,
@@ -7028,7 +7889,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -7040,7 +7902,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -7106,7 +7972,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -7122,7 +7992,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 3,
@@ -7138,7 +8012,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -7158,7 +8036,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 5,
@@ -7174,7 +8056,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 6,
@@ -7198,7 +8084,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 1
+          }
         }
       ],
       "notMeasured": [],
@@ -7267,7 +8157,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 2,
@@ -7283,7 +8177,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -7304,7 +8202,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 4,
@@ -7320,7 +8222,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 5,
@@ -7332,7 +8238,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -7396,7 +8303,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -7412,7 +8323,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 3,
@@ -7428,7 +8343,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -7444,7 +8363,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 5,
@@ -7460,7 +8383,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 6
+          }
         },
         {
           "no": 6,
@@ -7477,7 +8404,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -7530,7 +8458,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 2,
@@ -7547,7 +8479,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 3,
@@ -7567,7 +8500,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 4,
@@ -7580,7 +8517,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 2
+          }
         },
         {
           "no": 5,
@@ -7600,7 +8541,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 6,
@@ -7616,7 +8561,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         }
       ],
       "notMeasured": [],
@@ -7678,7 +8627,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -7698,7 +8651,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -7728,7 +8685,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 4,
@@ -7744,7 +8705,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 5,
@@ -7756,7 +8721,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -7768,7 +8734,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -7836,7 +8806,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -7856,7 +8830,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -7874,7 +8852,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -7890,7 +8872,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 12
+          }
         },
         {
           "no": 5,
@@ -7902,7 +8888,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -7920,7 +8907,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -7986,7 +8974,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -8002,7 +8994,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 3,
@@ -8023,7 +9019,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -8039,7 +9039,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 5,
@@ -8051,7 +9055,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [
@@ -8115,7 +9120,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -8135,7 +9144,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 13
+          }
         },
         {
           "no": 3,
@@ -8161,7 +9174,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 2
+          }
         },
         {
           "no": 4,
@@ -8177,7 +9194,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 13
+          }
         },
         {
           "no": 5,
@@ -8205,7 +9226,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         }
       ],
       "notMeasured": [],
@@ -8267,7 +9292,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 11
+          }
         },
         {
           "no": 2,
@@ -8283,7 +9312,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 3,
@@ -8299,7 +9332,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 4,
@@ -8315,7 +9352,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 5,
@@ -8327,7 +9368,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -8344,7 +9386,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -8411,7 +9454,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 2,
@@ -8427,7 +9474,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 3,
@@ -8443,7 +9494,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -8463,7 +9518,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 5,
@@ -8479,7 +9538,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 6,
@@ -8491,7 +9554,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -8553,7 +9617,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -8573,7 +9641,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 13
+          }
         },
         {
           "no": 3,
@@ -8594,7 +9666,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -8610,7 +9686,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 5,
@@ -8622,7 +9702,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -8634,7 +9715,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 7,
@@ -8646,7 +9728,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -8708,7 +9794,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -8724,7 +9814,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 4
+          }
         },
         {
           "no": 3,
@@ -8744,7 +9838,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 4,
@@ -8757,7 +9855,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 5,
@@ -8773,7 +9875,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 6,
@@ -8789,7 +9895,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 7,
@@ -8811,7 +9921,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -8879,7 +9990,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 2,
@@ -8895,14 +10010,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 3,
           "text": "통과선을 재기 전에 적었는지 확인한다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         },
         {
           "no": 4,
@@ -8919,7 +10039,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "eq",
+            "value": 0
+          }
         },
         {
           "no": 5,
@@ -8935,14 +10059,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 6,
           "text": "다섯 항목 중 통과 못 한 것을 적는다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -8991,7 +10120,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 240
+          }
         },
         {
           "no": 2,
@@ -9029,7 +10162,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 3,
@@ -9046,7 +10180,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 600
+          }
         },
         {
           "no": 4,
@@ -9062,14 +10200,19 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 5,
           "text": "조각내 낸 것을 목록에서 뺀 횟수를 센다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         },
         {
           "no": 6,
@@ -9081,7 +10224,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -9135,7 +10279,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 2,
@@ -9159,7 +10304,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 3,
@@ -9171,7 +10320,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 8
+          }
         },
         {
           "no": 4,
@@ -9187,7 +10340,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 5,
@@ -9199,7 +10356,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 432
+          }
         },
         {
           "no": 6,
@@ -9211,7 +10372,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 7,
@@ -9232,7 +10394,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 8,
@@ -9244,7 +10410,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 9,
@@ -9265,7 +10432,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -9305,7 +10473,8 @@ window.ENG2P_LECTURES={
           "text": "화제 하나로 갈 수 있는 데까지 간다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         },
         {
           "no": 2,
@@ -9317,7 +10486,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 2
+          }
         },
         {
           "no": 3,
@@ -9330,7 +10503,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 4,
@@ -9358,7 +10532,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 5,
@@ -9378,7 +10556,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 6,
@@ -9398,7 +10580,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 4
+          }
         }
       ],
       "notMeasured": [],
@@ -9460,7 +10646,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -9476,7 +10666,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 3,
@@ -9492,7 +10686,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 4,
@@ -9508,7 +10706,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 5,
@@ -9525,7 +10727,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "eq",
+            "value": 0
+          }
         },
         {
           "no": 6,
@@ -9538,7 +10744,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -9611,7 +10818,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -9632,7 +10843,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 3,
@@ -9652,7 +10867,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 4,
@@ -9668,7 +10887,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 4
+          }
         },
         {
           "no": 5,
@@ -9684,7 +10907,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 6,
@@ -9697,7 +10924,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 7,
@@ -9722,7 +10950,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -9789,7 +11018,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 16
+          }
         },
         {
           "no": 2,
@@ -9809,7 +11042,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -9829,7 +11066,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 11
+          }
         },
         {
           "no": 4,
@@ -9845,7 +11086,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 5,
@@ -9869,7 +11114,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         }
       ],
       "notMeasured": [],
@@ -9931,7 +11180,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 2,
@@ -9947,7 +11200,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 11
+          }
         },
         {
           "no": 3,
@@ -9968,7 +11225,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -9984,7 +11245,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 4
+          }
         },
         {
           "no": 5,
@@ -10000,7 +11265,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 6,
@@ -10013,7 +11282,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -10081,7 +11351,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 2,
@@ -10097,7 +11371,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 3,
@@ -10117,7 +11395,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -10137,7 +11419,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 5,
@@ -10157,7 +11443,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         }
       ],
       "notMeasured": [],
@@ -10219,7 +11509,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -10240,7 +11534,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -10261,7 +11559,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 4,
@@ -10277,7 +11579,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 5,
@@ -10293,7 +11599,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 6,
@@ -10305,7 +11615,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 7,
@@ -10317,7 +11628,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -10394,7 +11709,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 2,
@@ -10418,7 +11737,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 3,
@@ -10438,7 +11761,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -10454,7 +11781,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 5,
@@ -10471,7 +11802,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "eq",
+            "value": 0
+          }
         }
       ],
       "notMeasured": [],
@@ -10537,7 +11872,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 2,
@@ -10557,7 +11896,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 3,
@@ -10573,7 +11916,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 4,
@@ -10586,7 +11933,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 5,
@@ -10614,7 +11965,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 70
+          }
         }
       ],
       "notMeasured": [],
@@ -10676,7 +12031,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -10697,7 +12056,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 3,
@@ -10713,7 +12076,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 4
+          }
         },
         {
           "no": 4,
@@ -10729,7 +12096,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 4
+          }
         },
         {
           "no": 5,
@@ -10742,7 +12113,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -10758,7 +12130,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -10818,7 +12194,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 2,
@@ -10834,7 +12214,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -10867,7 +12251,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 4,
@@ -10883,7 +12271,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 5,
@@ -10901,7 +12293,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -10914,7 +12307,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -10980,7 +12374,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 2,
@@ -10993,7 +12391,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 3,
@@ -11009,7 +12411,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 4,
@@ -11029,7 +12435,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 9
+          }
         },
         {
           "no": 5,
@@ -11049,7 +12459,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 2
+          }
         }
       ],
       "notMeasured": [],
@@ -11112,7 +12526,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 2,
@@ -11128,7 +12546,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 3,
@@ -11148,7 +12570,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 4,
@@ -11164,7 +12590,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 7
+          }
         },
         {
           "no": 5,
@@ -11180,7 +12610,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 6,
@@ -11200,7 +12634,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         }
       ],
       "notMeasured": [],
@@ -11271,7 +12709,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -11287,7 +12729,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -11307,7 +12753,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -11323,7 +12773,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 5,
@@ -11335,7 +12789,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "eq",
+            "value": 0
+          }
         },
         {
           "no": 6,
@@ -11357,7 +12815,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -11417,7 +12876,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -11433,7 +12896,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 3,
@@ -11449,7 +12916,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 11
+          }
         },
         {
           "no": 4,
@@ -11465,7 +12936,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 5,
@@ -11477,14 +12952,16 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
           "text": "낱말 위험 목록을 펴고 셌는지 확인한다",
           "numbers": [],
           "ratios": [],
-          "kind": "observed"
+          "kind": "observed",
+          "threshold": null
         },
         {
           "no": 7,
@@ -11496,7 +12973,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -11564,7 +13045,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -11580,7 +13065,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 20
+          }
         },
         {
           "no": 3,
@@ -11596,7 +13085,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 4,
@@ -11612,7 +13105,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 5,
@@ -11624,7 +13121,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 6,
@@ -11637,7 +13135,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -11707,7 +13206,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 2,
@@ -11723,7 +13226,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 3,
@@ -11756,7 +13263,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 4,
@@ -11768,7 +13279,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 5,
@@ -11790,7 +13302,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -11863,7 +13376,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 2,
@@ -11888,7 +13405,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -11904,7 +13425,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -11917,7 +13442,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -11978,7 +13504,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -12002,7 +13532,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 3,
@@ -12018,7 +13552,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 5
+          }
         },
         {
           "no": 4,
@@ -12030,7 +13568,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 5,
@@ -12050,7 +13589,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 14
+          }
         },
         {
           "no": 6,
@@ -12067,7 +13610,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -12130,7 +13674,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -12146,7 +13694,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 3,
@@ -12162,7 +13714,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 4,
@@ -12178,7 +13734,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         },
         {
           "no": 5,
@@ -12194,7 +13754,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 6,
@@ -12207,7 +13771,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -12267,7 +13832,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -12283,7 +13852,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 2
+          }
         },
         {
           "no": 3,
@@ -12296,7 +13869,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 4,
@@ -12308,7 +13885,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 5,
@@ -12320,7 +13898,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 6,
@@ -12332,7 +13914,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "max",
+            "value": 3
+          }
         }
       ],
       "notMeasured": [],
@@ -12402,7 +13988,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 15
+          }
         },
         {
           "no": 2,
@@ -12422,7 +14012,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -12438,7 +14032,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 10
+          }
         },
         {
           "no": 4,
@@ -12471,7 +14069,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 26
+          }
         },
         {
           "no": 5,
@@ -12487,7 +14089,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 6
+          }
         },
         {
           "no": 6,
@@ -12507,7 +14113,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 7,
@@ -12519,7 +14129,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "eq",
+            "value": 0
+          }
         }
       ],
       "notMeasured": [],
@@ -12581,7 +14195,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 18
+          }
         },
         {
           "no": 2,
@@ -12611,7 +14229,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 3,
@@ -12634,7 +14256,8 @@ window.ENG2P_LECTURES={
               "op": "이상"
             }
           ],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         },
         {
           "no": 4,
@@ -12650,7 +14273,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 5
+          }
         },
         {
           "no": 5,
@@ -12667,7 +14294,8 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": null
         }
       ],
       "notMeasured": [],
@@ -12730,7 +14358,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 2,
@@ -12742,7 +14374,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 576
+          }
         },
         {
           "no": 3,
@@ -12758,7 +14394,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 12
+          }
         },
         {
           "no": 4,
@@ -12778,7 +14418,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 4
+          }
         },
         {
           "no": 5,
@@ -12794,7 +14438,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 3
+          }
         },
         {
           "no": 6,
@@ -12811,7 +14459,11 @@ window.ENG2P_LECTURES={
             }
           ],
           "ratios": [],
-          "kind": "measured"
+          "kind": "measured",
+          "threshold": {
+            "op": "min",
+            "value": 1
+          }
         }
       ],
       "notMeasured": [],

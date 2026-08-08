@@ -87,6 +87,37 @@ def numbers_in(text):
     return out
 
 
+# 통과선. "8개 이상 일치하면 통과다" 의 8이다.
+# 첫 문장에는 스무 개밖에 없다. 선은 대개 둘째 문장에 온다. 항목 전체를 훑는다.
+# 형태가 여섯이다. 이상, 이하, 까지 허용, 이어야 한다, 넘으면, 넘지 않는다.
+# 한글로 적은 수도 받는다. T76 과 T85 에서 같은 자리를 두 번 놓쳤다.
+_NU = r"(?:개|번|판|묶음|문항|회|초|분|시간|장|쌍|낱말|문장|칸|자|건|퍼센트|할)?"
+
+
+def _num(tok):
+    return int(tok) if tok.isdigit() else HANGUL_NUM.get(tok)
+
+
+def threshold_of(text):
+    keys = "|".join(sorted(HANGUL_NUM, key=len, reverse=True))
+    num = r"(\d+|" + keys + r")"
+    pats = [
+        (num + r"\s*" + _NU + r"\s*이상", "min"),
+        (num + r"\s*" + _NU + r"\s*이하", "max"),
+        (num + r"\s*" + _NU + r"\s*까지 허용", "max"),
+        (num + r"\s*" + _NU + r"\s*이어야 한다", "eq"),
+        (num + r"\s*" + _NU + r"\s*[을를]? ?넘으면", "max"),
+        (num + r"\s*" + _NU + r"\s*[을를]? ?넘지", "max"),
+    ]
+    for pat, op in pats:
+        m = re.search(pat, text)
+        if m:
+            v = _num(m.group(1))
+            if v is not None:
+                return {"op": op, "value": v}
+    return None
+
+
 def criteria(rec):
     """기록 항목마다 이름과 그 안의 숫자를 낸다.
 
@@ -107,6 +138,8 @@ def criteria(rec):
             # 강의가 "통과 기준이 아니라 관찰 항목이다" 라고 적어 둔 자리들이다.
             # 앱이 이것을 통과 판정에 쓰면 안 된다. 그래서 갈라 둔다.
             "kind": ("measured" if numbers_in(r) or RATIO.search(r) else "observed"),
+            # 통과선. 없으면 손으로 판정하는 항목이다.
+            "threshold": threshold_of(r),
         })
     return out
 
