@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 여섯 가지를 본다.
+ * 일곱 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -12,6 +12,7 @@
  * 4. 블록 3 진행표가 96편 다 구간을 둘 이상 내는가
  * 5. 카드 뷰어 600장 × 기기 세 상태에서 판정형 정답이 B면에 안 새는가
  * 6. 다시 낼 카드 600장이 다 어느 강에 붙는지 찾아지는가
+ * 7. 96편의 미디어가 카탈로그에 있고 다른 탭에서도 세션 조작줄이 떠 있는가
  *
  * 셋째와 다섯째가 이 검사의 핵심이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -176,6 +177,34 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     return bad;
   });
   dueMode.slice(0, 6).forEach((m) => fails.push("다시 낼 카드: " + m));
+
+  // 7. 미디어. 96편의 과가 다 카탈로그에 있는가.
+  //    그리고 미디어 탭으로 가도 세션 조작줄이 떠 있는가.
+  //    블록 1은 40분을 다른 탭에서 듣는 블록이다. 거기서 타이머가 사라지면 안 된다.
+  const media = await page.evaluate(() => {
+    const bad = [];
+    const idx = window.ENG2P_INDEX;
+    for (const w of idx.weeks) for (const L of w.lectures) {
+      if (typeof MEDIA === "undefined") { bad.push("카탈로그가 없다"); break; }
+      if (MEDIA.findIndex((x) => x.id === L.media) < 0)
+        bad.push(L.no + "강 미디어 " + L.media + " 가 카탈로그에 없다");
+    }
+    return bad;
+  });
+  media.slice(0, 5).forEach((m) => fails.push("미디어: " + m));
+
+  await page.evaluate(() => { gotoBlock(0); T.run = true; syncSessionFocus(); });
+  await page.waitForTimeout(200);
+  const b1 = await page.$("[data-media]");
+  if (!b1) fails.push("블록 1에 미디어 여는 단추가 없다");
+  else {
+    await b1.click();
+    await page.waitForTimeout(500);
+    if (!(await page.isVisible("#focusDock")))
+      fails.push("미디어 탭에서 세션 조작줄이 사라졌다");
+  }
+  await page.evaluate(() => { T.run = false; syncSessionFocus(); go("today"); gotoBlock(2); });
+  await page.waitForTimeout(400);
 
   const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
