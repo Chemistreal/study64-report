@@ -220,6 +220,13 @@ body.session-focus #tSkip{display:none}
    중간에 멈춘 상태면 접지 않는다. 그때는 어디서 멈췄는지가 제일 중요하다. */
 body.session-idle #sessionCard .timer,
 body.session-idle #sessionCard .sessctl{display:none}
+/* 미리 보기에서는 블록 칸만 편다. 시계와 조작줄은 계속 접혀 있다. */
+body.peek #sessionCard .timer{display:block}
+body.peek #sessionCard .ringwrap,
+body.peek #sessionCard .bar,
+body.peek #sessionCard .steps,
+body.peek #sessionCard .slab,
+body.peek #sessionCard .sessctl{display:none}
 
 /* 비워 둔 자리. 공동 연속일과 오늘의 한 판이 여기 들어온다. */
 .slots{display:grid;gap:8px;margin-top:12px}

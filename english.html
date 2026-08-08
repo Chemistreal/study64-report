@@ -198,6 +198,22 @@ tbody tr:hover td{background:var(--card2)}
 .rings .rlab div{display:flex;align-items:center;gap:7px}
 .rings .rlab i{width:9px;height:9px;border-radius:99px;flex:none}
 @media (prefers-reduced-motion:reduce){ .rings .rv{transition:none} }
+
+/* 오늘 칸에서 그 재료로 가는 자리. **누를 수 있다는 것이 보여야 한다.** */
+.todaysheet .gto{position:relative;display:block;width:100%;text-align:left;font:inherit;
+  cursor:pointer;border:1px solid var(--edge);background:var(--card2);color:var(--fg);
+  border-radius:12px;padding:9px 30px 9px 12px;transition:.15s}
+.todaysheet .gto:hover{border-color:var(--a1);background:var(--bg2)}
+.todaysheet .gto .gmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  color:var(--mut);font-size:15px}
+.todaysheet .gto:hover .gmark{color:var(--a1)}
+.todaysheet .lec.gto{font-size:19px;font-weight:750;margin-bottom:2px}
+/* 미리 보기 띠. 시계가 안 돈다는 것을 그 자리에서 말한다. */
+.peekbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:13px;
+  color:var(--mut);background:var(--card2);border:1px solid var(--edge);
+  border-radius:11px;padding:8px 11px;margin-bottom:10px}
+.peekbar b{color:var(--fg)}
+.peekbar button{margin-left:auto}
 /* ---------- 타이머 ---------- */
 .timer{text-align:center;padding:12px 0 4px;position:relative}
 .ringwrap{position:relative;width:min(300px,72vw);margin:0 auto}
@@ -420,6 +436,13 @@ body.session-focus #tSkip{display:none}
    중간에 멈춘 상태면 접지 않는다. 그때는 어디서 멈췄는지가 제일 중요하다. */
 body.session-idle #sessionCard .timer,
 body.session-idle #sessionCard .sessctl{display:none}
+/* 미리 보기에서는 블록 칸만 편다. 시계와 조작줄은 계속 접혀 있다. */
+body.peek #sessionCard .timer{display:block}
+body.peek #sessionCard .ringwrap,
+body.peek #sessionCard .bar,
+body.peek #sessionCard .steps,
+body.peek #sessionCard .slab,
+body.peek #sessionCard .sessctl{display:none}
 
 /* 비워 둔 자리. 공동 연속일과 오늘의 한 판이 여기 들어온다. */
 .slots{display:grid;gap:8px;margin-top:12px}
@@ -1676,26 +1699,57 @@ function renderSheet(pl){
       '<div class="tk">96강이 끝났다. 카드는 계속 돈다.</div>';
     return;
   }
+  /* **누를 수 있어야 한다.** T159 에 재 보니 이 칸이 여섯 가지를 알려 주는데
+     눌러서 닿는 것이 하나뿐이었다. 앱이 오늘 무엇인지 알면서
+     사람에게 그것을 찾아오라고 시키고 있었다. 하루 이 분이면 1년에 열여섯 시간이다.
+
+     누르면 그 재료가 있는 블록을 편다. **시계는 안 돈다.** 보는 것과 하는 것은 다르다. */
   var g=[];
-  function cell(k,v){ if(v==null||v==="") return;
-    g.push('<div class="g"><div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div></div>'); }
-  cell("세트", pl.set);
+  function cell(k,v,go){ if(v==null||v==="") return;
+    var body='<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>';
+    if(!go){ g.push('<div class="g">'+body+'</div>'); return; }
+    g.push('<button type="button" class="g gto" data-go="'+esc(go)+'">'+body+
+           '<span class="gmark" aria-hidden="true">\u2192</span></button>');
+  }
+  cell("세트", pl.set, "b:1");
   function pad3(n){ return String(n).padStart(3,"0"); }
   // 카드는 자료에서 [041] 처럼 세 자리다. 화면이 41 이라고 하면 두 사람이 그것을 찾는다.
-  cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null);
-  cell("미디어", pl.media);
+  cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null, "b:2");
+  cell("미디어", pl.media, pl.media ? "m:"+pl.media : null);
   cell("과제 분량", pl.task ? pl.task.minChars+"자" : null);
   cell("비상판", pl.emergency!=null ? String(pl.emergency) : "없는 강");
   /* 다시 낼 날이 된 카드. 오늘 범위 밖의 것도 있다. 그것을 안 보여 주면 간격이 무너진다. */
   var dn=dueCards().length;
-  if(dn) cell("다시 낼 카드", dn+"장");
+  if(dn) cell("다시 낼 카드", dn+"장", "due");
 
-  var h='<div class="lec"><b>'+pl.lectureNo+'강</b> '+esc(pl.title||"")+'</div>'+
+  var h='<button type="button" class="lec gto" data-go="b:2"><b>'+pl.lectureNo+'강</b> '+
+        esc(pl.title||"")+'<span class="gmark" aria-hidden="true">\u2192</span></button>'+
         '<div class="tk">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
         pl.week+'주 '+pl.day+'일째 · 오늘이 '+pl.session+'번째 세션이다</div>'+
         '<div class="grid">'+g.join("")+'</div>'+
         band(pl);
   box.innerHTML=h;
+  bindSheetGo(box);
+}
+
+/* 오늘 칸에서 그 재료로 간다. **누른 자리마다 가는 데가 다르다.**
+   b:N  그 블록을 편다. 시계는 안 돈다
+   m:id 미디어 탭에서 그 과를 연다
+   due  다시 낼 카드를 도는 판으로 블록 3을 편다 */
+function bindSheetGo(box){
+  box.querySelectorAll("[data-go]").forEach(function(b){
+    b.onclick=function(){
+      var v=b.getAttribute("data-go");
+      if(v.indexOf("b:")===0){ peekBlock(+v.slice(2)); return; }
+      if(v==="due"){ S.cardMode="due"; save(); peekBlock(2); return; }
+      if(v.indexOf("m:")===0){
+        var id=v.slice(2);
+        var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
+        if(i<0){ flash("그 과를 못 찾았다"); return; }
+        openMedia(i,"audio",false); go("media");
+      }
+    };
+  });
 }
 
 /* 48주 띠. 한 줄로 1년이 다 보인다. 분기마다 명암을 바꾼다. */
@@ -1993,6 +2047,27 @@ function sessionLeftMin(){
 }
 function fmt(s){var m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");}
 var RINGC=552.9;
+/* 미리 보기. **시계를 안 건드리고 그 블록의 재료만 편다.**
+   T159 에 재 보니 오늘 칸이 여섯 가지를 알려 주는데 눌러서 닿는 것이 하나였다.
+   앱이 오늘 무엇인지 알면서 사람에게 찾아오라고 시키고 있었다.
+
+   그렇다고 눌렀을 때 `gotoBlock` 을 부르면 안 된다. 그것은 세션 상태를 바꾼다.
+   재료를 한 번 봤을 뿐인데 "블록 2에서 멈췄다"가 되고 이어서 하기가 뜬다.
+   **보는 것과 하는 것은 다르다.** 그래서 따로 둔다. */
+var PEEK=null;
+function peekBlock(k){
+  PEEK=k; PANE.sig=null;
+  syncSessionFocus(); renderBlockPane(); paintTimer();
+  var box=$("#blockPane");
+  if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function closePeek(){
+  if(PEEK==null) return;
+  PEEK=null; PANE.sig=null;
+  syncSessionFocus(); renderBlockPane(); paintTimer();
+  var c=$("#todaySheet"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
 /* **아직 안 시작한 세션의 시계는 자리만 먹는다.**
    T159 에 재 보니 오늘 화면 4231px 중 1724px 이 시계 묶음과 조작줄이었다.
    전체의 41%다. 그리고 그것은 세션이 돌 때만 쓴다.
@@ -2000,9 +2075,11 @@ var RINGC=552.9;
 function sessionIdle(){
   return !T.run && T.idx===0 && T.left===BLOCKS[0].m*60;
 }
+function peekIdx(){ return PEEK!=null ? PEEK : T.idx; }
 function syncSessionFocus(){
   document.body.classList.toggle("session-focus",T.run);
   document.body.classList.toggle("session-idle",sessionIdle());
+  document.body.classList.toggle("peek",PEEK!=null);
   var card=$("#sessionCard");
   if(card) card.setAttribute("aria-busy",T.run?"true":"false");
   var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");
@@ -2897,7 +2974,7 @@ function renderBlockPane(){
   var pl=plan();
   if(pl.finished || !pl.lectureNo){ box.hidden=true; PANE.sig=null; return; }
   box.hidden=false;
-  var i=T.idx, h="";
+  var i=peekIdx(), h="";
   function row(k,v,n){
     return '<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>'+
            (n?'<div class="n">'+esc(n)+'</div>':"");
@@ -2915,6 +2992,10 @@ function renderBlockPane(){
   }else{
     h=renderMediaPane(pl,"together");
   }
+  if(PEEK!=null){
+    h='<div class="peekbar"><b>미리 보기</b> 블록 '+(PEEK+1)+" "+esc(BLOCKS[PEEK].n)+
+      ' · 시계는 안 돈다<button class="g" id="peekClose" type="button">닫기</button></div>'+h;
+  }
   if(PANE.sig===h && box.firstChild) return;
   /* **여기서 재생기가 자리에서 떨어져 나간다.** 그리고 문서에서 떨어진 재생기는
      브라우저가 세운다. 규격이 그렇게 정한다. 그것이 곧바로 일어나지 않아서
@@ -2923,6 +3004,7 @@ function renderBlockPane(){
   if(SESS.el){ SESS.at=SESS.el.currentTime||0; SESS.was=!SESS.el.paused; }
   PANE.sig=h;
   box.innerHTML=h;
+  var pc=$("#peekClose"); if(pc) pc.onclick=closePeek;
 }
 
 function paintTimer(){

@@ -31,6 +31,27 @@ function sessionLeftMin(){
 }
 function fmt(s){var m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");}
 var RINGC=552.9;
+/* 미리 보기. **시계를 안 건드리고 그 블록의 재료만 편다.**
+   T159 에 재 보니 오늘 칸이 여섯 가지를 알려 주는데 눌러서 닿는 것이 하나였다.
+   앱이 오늘 무엇인지 알면서 사람에게 찾아오라고 시키고 있었다.
+
+   그렇다고 눌렀을 때 `gotoBlock` 을 부르면 안 된다. 그것은 세션 상태를 바꾼다.
+   재료를 한 번 봤을 뿐인데 "블록 2에서 멈췄다"가 되고 이어서 하기가 뜬다.
+   **보는 것과 하는 것은 다르다.** 그래서 따로 둔다. */
+var PEEK=null;
+function peekBlock(k){
+  PEEK=k; PANE.sig=null;
+  syncSessionFocus(); renderBlockPane(); paintTimer();
+  var box=$("#blockPane");
+  if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function closePeek(){
+  if(PEEK==null) return;
+  PEEK=null; PANE.sig=null;
+  syncSessionFocus(); renderBlockPane(); paintTimer();
+  var c=$("#todaySheet"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
 /* **아직 안 시작한 세션의 시계는 자리만 먹는다.**
    T159 에 재 보니 오늘 화면 4231px 중 1724px 이 시계 묶음과 조작줄이었다.
    전체의 41%다. 그리고 그것은 세션이 돌 때만 쓴다.
@@ -38,9 +59,11 @@ var RINGC=552.9;
 function sessionIdle(){
   return !T.run && T.idx===0 && T.left===BLOCKS[0].m*60;
 }
+function peekIdx(){ return PEEK!=null ? PEEK : T.idx; }
 function syncSessionFocus(){
   document.body.classList.toggle("session-focus",T.run);
   document.body.classList.toggle("session-idle",sessionIdle());
+  document.body.classList.toggle("peek",PEEK!=null);
   var card=$("#sessionCard");
   if(card) card.setAttribute("aria-busy",T.run?"true":"false");
   var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");

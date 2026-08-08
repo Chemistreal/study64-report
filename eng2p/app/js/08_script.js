@@ -326,7 +326,7 @@ function renderBlockPane(){
   var pl=plan();
   if(pl.finished || !pl.lectureNo){ box.hidden=true; PANE.sig=null; return; }
   box.hidden=false;
-  var i=T.idx, h="";
+  var i=peekIdx(), h="";
   function row(k,v,n){
     return '<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>'+
            (n?'<div class="n">'+esc(n)+'</div>':"");
@@ -344,6 +344,10 @@ function renderBlockPane(){
   }else{
     h=renderMediaPane(pl,"together");
   }
+  if(PEEK!=null){
+    h='<div class="peekbar"><b>미리 보기</b> 블록 '+(PEEK+1)+" "+esc(BLOCKS[PEEK].n)+
+      ' · 시계는 안 돈다<button class="g" id="peekClose" type="button">닫기</button></div>'+h;
+  }
   if(PANE.sig===h && box.firstChild) return;
   /* **여기서 재생기가 자리에서 떨어져 나간다.** 그리고 문서에서 떨어진 재생기는
      브라우저가 세운다. 규격이 그렇게 정한다. 그것이 곧바로 일어나지 않아서
@@ -352,6 +356,7 @@ function renderBlockPane(){
   if(SESS.el){ SESS.at=SESS.el.currentTime||0; SESS.was=!SESS.el.paused; }
   PANE.sig=h;
   box.innerHTML=h;
+  var pc=$("#peekClose"); if(pc) pc.onclick=closePeek;
 }
 
 function paintTimer(){

@@ -252,26 +252,57 @@ function renderSheet(pl){
       '<div class="tk">96강이 끝났다. 카드는 계속 돈다.</div>';
     return;
   }
+  /* **누를 수 있어야 한다.** T159 에 재 보니 이 칸이 여섯 가지를 알려 주는데
+     눌러서 닿는 것이 하나뿐이었다. 앱이 오늘 무엇인지 알면서
+     사람에게 그것을 찾아오라고 시키고 있었다. 하루 이 분이면 1년에 열여섯 시간이다.
+
+     누르면 그 재료가 있는 블록을 편다. **시계는 안 돈다.** 보는 것과 하는 것은 다르다. */
   var g=[];
-  function cell(k,v){ if(v==null||v==="") return;
-    g.push('<div class="g"><div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div></div>'); }
-  cell("세트", pl.set);
+  function cell(k,v,go){ if(v==null||v==="") return;
+    var body='<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>';
+    if(!go){ g.push('<div class="g">'+body+'</div>'); return; }
+    g.push('<button type="button" class="g gto" data-go="'+esc(go)+'">'+body+
+           '<span class="gmark" aria-hidden="true">\u2192</span></button>');
+  }
+  cell("세트", pl.set, "b:1");
   function pad3(n){ return String(n).padStart(3,"0"); }
   // 카드는 자료에서 [041] 처럼 세 자리다. 화면이 41 이라고 하면 두 사람이 그것을 찾는다.
-  cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null);
-  cell("미디어", pl.media);
+  cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null, "b:2");
+  cell("미디어", pl.media, pl.media ? "m:"+pl.media : null);
   cell("과제 분량", pl.task ? pl.task.minChars+"자" : null);
   cell("비상판", pl.emergency!=null ? String(pl.emergency) : "없는 강");
   /* 다시 낼 날이 된 카드. 오늘 범위 밖의 것도 있다. 그것을 안 보여 주면 간격이 무너진다. */
   var dn=dueCards().length;
-  if(dn) cell("다시 낼 카드", dn+"장");
+  if(dn) cell("다시 낼 카드", dn+"장", "due");
 
-  var h='<div class="lec"><b>'+pl.lectureNo+'강</b> '+esc(pl.title||"")+'</div>'+
+  var h='<button type="button" class="lec gto" data-go="b:2"><b>'+pl.lectureNo+'강</b> '+
+        esc(pl.title||"")+'<span class="gmark" aria-hidden="true">\u2192</span></button>'+
         '<div class="tk">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
         pl.week+'주 '+pl.day+'일째 · 오늘이 '+pl.session+'번째 세션이다</div>'+
         '<div class="grid">'+g.join("")+'</div>'+
         band(pl);
   box.innerHTML=h;
+  bindSheetGo(box);
+}
+
+/* 오늘 칸에서 그 재료로 간다. **누른 자리마다 가는 데가 다르다.**
+   b:N  그 블록을 편다. 시계는 안 돈다
+   m:id 미디어 탭에서 그 과를 연다
+   due  다시 낼 카드를 도는 판으로 블록 3을 편다 */
+function bindSheetGo(box){
+  box.querySelectorAll("[data-go]").forEach(function(b){
+    b.onclick=function(){
+      var v=b.getAttribute("data-go");
+      if(v.indexOf("b:")===0){ peekBlock(+v.slice(2)); return; }
+      if(v==="due"){ S.cardMode="due"; save(); peekBlock(2); return; }
+      if(v.indexOf("m:")===0){
+        var id=v.slice(2);
+        var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
+        if(i<0){ flash("그 과를 못 찾았다"); return; }
+        openMedia(i,"audio",false); go("media");
+      }
+    };
+  });
 }
 
 /* 48주 띠. 한 줄로 1년이 다 보인다. 분기마다 명암을 바꾼다. */
