@@ -127,6 +127,7 @@ out/data/*.js           같은 내용을 script 로 읽는 판. **앱은 이쪽�
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다
+scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다. 없으면 건너뛴다 (통과 아님)
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
 out/cards/eng2p_card_plan_q1.md 카드 001~150 배정표. 강의보다 이쪽이 기준
 ```

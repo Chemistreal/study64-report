@@ -41,6 +41,7 @@ STEPS = [
     ("규격", "check_cards_plan.py", ["q4"], False),
     ("대조", "check_refs.py", [], True),
     ("대조", "check_data.py", [], True),
+    ("화면", "check_ui.js", [], False),
     ("상태", "collect_b.py", [], False),
     ("상태", "update_status.py", [], False),
 ]
@@ -53,32 +54,40 @@ def main():
     for group, script, args, in_quick in STEPS:
         if quick and not in_quick:
             continue
-        r = subprocess.run([sys.executable, str(S / script)] + args,
-                           capture_output=True, text=True, cwd=str(ROOT))
+        # 화면 검사만 node 로 돈다. 브라우저가 없으면 스스로 건너뛰고 0을 낸다.
+        cmd = (["node", str(S / script)] if script.endswith(".js")
+               else [sys.executable, str(S / script)]) + args
+        r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(ROOT))
         # 마지막 뜻있는 줄이 그 검사의 판정이다.
         lines = [x for x in r.stdout.strip().split("\n") if x.strip()]
         last = lines[-1] if lines else "(출력 없음)"
-        rows.append((group, script, r.returncode, last))
+        # 건너뛴 것과 통과한 것을 가른다. 둘 다 종료 코드가 0이라 그것만으로는 안 갈린다.
+        skipped = "[건너뜀]" in r.stdout
+        rows.append((group, script, r.returncode, last, skipped))
         if r.returncode != 0:
             # 실패 줄만 보여 준다. 경고가 일흔아홉이라 그대로 쏟으면 실패가 묻힌다.
             bad = [x for x in lines if "[실패]" in x or "실패" in x and "0개" not in x]
             failed.append((script, "\n".join(bad[:40]) or r.stdout.strip()[-800:]))
 
-    w = max(len(s) for _, s, _, _ in rows)
+    w = max(len(s) for _, s, _, _, _ in rows)
     cur = None
-    for group, script, code, last in rows:
+    for group, script, code, last, skipped in rows:
         if group != cur:
             print("\n[%s]" % group)
             cur = group
-        print("  %s %-*s  %s" % ("OK  " if code == 0 else "실패", w, script, last))
+        mark = "건너뜀" if skipped else ("OK  " if code == 0 else "실패")
+        print("  %s %-*s  %s" % (mark, w, script, last))
 
     if failed:
         print("\n" + "=" * 60)
         for script, out in failed:
             print("\n### %s 가 실패했다\n%s" % (script, out))
 
-    print("\n%.1f초 / %d개 중 실패 %d개%s"
-          % (time.time() - t0, len(rows), len(failed), " (빠른 판)" if quick else ""))
+    nskip = sum(1 for r in rows if r[4])
+    print("\n%.1f초 / %d개 중 실패 %d개%s%s"
+          % (time.time() - t0, len(rows), len(failed),
+             " / 건너뜀 %d개" % nskip if nskip else "",
+             " (빠른 판)" if quick else ""))
     return 1 if failed else 0
 
 
