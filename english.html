@@ -337,6 +337,13 @@ body.session-focus #emgLine,
 body.session-focus #emgBox,
 body.session-focus #resumeBox,
 body.session-focus .progline{display:none}
+/* 같은 버튼이 두 자리에 있다. 조작줄의 일시정지는 #tStart 를 누르고
+   다음 블록은 #tSkip 을 누른다. 코드가 그렇게 적혀 있다.
+   휴대폰 너비에서 카드 안 줄이 두 줄로 접혀 65px 을 먹는데
+   그 65px 이 사는 일이 없다. 조작줄이 늘 떠 있기 때문이다.
+   세션 중에만 감춘다. 감춰도 눌리는 데는 지장이 없다. T123 */
+body.session-focus #tStart,
+body.session-focus #tSkip{display:none}
 .focusdock .fstate{min-width:130px;flex:1;padding:0 8px}
 .focusdock .fstate b{display:block;font-size:12px}
 .focusdock .fstate span{font-family:var(--mono);font-size:17px}

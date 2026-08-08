@@ -370,12 +370,50 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     pane: !!document.getElementById("blockPane") &&
           getComputedStyle(document.getElementById("blockPane")).display !== "none",
     h: document.getElementById("sessionCard").scrollHeight,
+    pane_h: document.getElementById("blockPane").scrollHeight,
   }));
   if (focus.sheet) fails.push("세션 중 화면: 오늘 한 장이 안 숨었다");
   if (focus.emg) fails.push("세션 중 화면: 비상판 줄이 안 숨었다");
   if (!focus.pane) fails.push("세션 중 화면: 블록 칸이 안 보인다");
-  if (focus.h > 2000) fails.push("세션 중 화면: 세션 카드가 " + focus.h + "px 다. 너무 길다");
+  // 카드 전체 높이를 재면 블록 칸이 길어질 때마다 걸린다. 블록 칸은 본문이고
+  // 길어야 할 자리다. 내가 얹는 것은 그 위아래의 껍데기다. **껍데기만 잰다.**
+  // T122 는 900px 에서 카드 1713px 을 재고 선을 2000 에 뒀다. 그 선은
+  // 휴대폰 너비를 안 본 선이었다. T123 에서 390px 로 재니 2019px 이었다.
+  if (focus.h - focus.pane_h > 950)
+    fails.push("세션 중 화면: 블록 칸 뺀 껍데기가 " + (focus.h - focus.pane_h) + "px 다. 너무 길다");
   await page.evaluate(() => { T.run = false; syncSessionFocus(); });
+
+  // 12.4b 휴대폰 너비. 두 사람이 각자 기기를 보는 자리라 한쪽은 휴대폰일 것이다.
+  //       같은 화면이 390px 에서는 다르게 접힌다. 900px 에서 한 줄인 것이
+  //       390px 에서 두 줄이 되고 그 두 줄이 껍데기로 쌓인다.
+  //       **넓은 창에서만 재면 좁은 창의 결함이 통과로 나온다.**
+  const mob = await browser.newContext({
+    viewport: { width: 390, height: 844 }, deviceScaleFactor: 2,
+    isMobile: true, hasTouch: true,
+  });
+  const mp = await mob.newPage();
+  await mp.goto(PAGE);
+  await mp.evaluate(() => localStorage.clear());
+  await mp.reload();
+  await mp.waitForTimeout(600);
+  await mp.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday();
+                            go("today"); T.run = true; syncSessionFocus(); gotoBlock(2); });
+  await mp.waitForTimeout(1600);
+  const m = await mp.evaluate(() => ({
+    h: document.getElementById("sessionCard").scrollHeight,
+    pane_h: document.getElementById("blockPane").scrollHeight,
+    dock: !!document.getElementById("focusDock") &&
+          getComputedStyle(document.getElementById("focusDock")).display !== "none",
+    sw: document.documentElement.scrollWidth,
+    cw: document.documentElement.clientWidth,
+  }));
+  if (!m.pane_h) fails.push("휴대폰 너비: 블록 칸이 안 열렸다");
+  if (m.h - m.pane_h > 950)
+    fails.push("휴대폰 너비: 블록 칸 뺀 껍데기가 " + (m.h - m.pane_h) + "px 다. 너무 길다");
+  if (!m.dock) fails.push("휴대폰 너비: 세션 조작줄이 안 보인다");
+  // 가로로 넘치면 두 손가락으로 밀어야 글이 다 보인다. 세션 중에 그럴 짬이 없다.
+  if (m.sw > m.cw) fails.push("휴대폰 너비: 가로로 " + (m.sw - m.cw) + "px 넘친다");
+  await mob.close();
 
   // 12.5 오프라인. 바깥 요청을 다 막고 자료가 뜨는지 본다.
   //      소리와 대본과 이미지는 저장소 안에 있고 영상만 원격이다.
