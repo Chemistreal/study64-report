@@ -240,6 +240,12 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:14px;min-height:
 .emgbox p{margin:9px 0 0;font-size:14.5px;line-height:1.65}
 .emgbox .ch{margin-top:11px;padding:11px 13px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:15px;line-height:1.8}
+/* 블록마다 쓰는 것. 세션 중에 이것을 찾으러 가면 그 블록이 무너진다. */
+.blockpane{margin-top:16px;padding:14px 16px;border:1px solid var(--edge);border-radius:12px;
+  background:var(--card)}
+.blockpane .k{font-size:11.5px;color:var(--mut);letter-spacing:.06em}
+.blockpane .v{font-size:19px;font-weight:750;font-family:var(--mono);margin-top:3px}
+.blockpane .n{font-size:13.5px;color:var(--mut);margin-top:7px;line-height:1.6}
 .sessionrole{font-size:21px;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
 .sessionprogress{font-size:12px;color:var(--mut)}
 /* 오늘 한 장. 책상에 놓고 흘끗 보는 자리라 멀리서 읽혀야 한다. */
@@ -539,6 +545,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
         </div>
       </div>
       <div class="tdesc" id="tDesc"></div>
+      <div class="blockpane" id="blockPane"></div>
       <div class="duo" id="tDuo" style="margin-top:16px"></div>
       <div class="sidepick" id="tSide"></div>
       <div class="bar"><i id="tBar" style="width:0%"></i></div>
@@ -553,6 +560,7 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
     </div>
     <div class="row" style="justify-content:center;margin-top:12px">
       <button class="g" id="tStart">시작</button>
+      <button class="g" id="tPrev">이전 블록</button>
       <button class="g" id="tSkip">다음 블록</button>
       <button class="g" id="tReset">처음으로</button>
       <label class="small mut" style="display:flex;align-items:center;gap:5px;margin-left:6px">
@@ -1271,19 +1279,27 @@ function plan(){
    기준서 11.2. 이 과정 유일한 1인 예외이고 학습 장치가 아니라 연속성 장치다.
    **찾게 하면 그날은 그냥 쉰다.** 그래서 첫 화면에서 한 번에 간다.
    ========================================================================= */
-var EMG=null, emgLoading=false;
-/* 비상판 자료는 51KB 다. 첫 화면에 안 물린다. 누를 때 가져온다.
-   fetch 를 안 쓴다. file:// 에서 막힌다. script 를 꽂는 방식은 양쪽에서 다 된다. */
-function loadEmg(cb){
-  if(window.ENG2P_EMERGENCY){ EMG=window.ENG2P_EMERGENCY; return cb(true); }
-  if(emgLoading) return;
-  emgLoading=true;
+/* 큰 자료는 첫 화면에 안 물린다. 카드 562KB, 세트 493KB, 강의 301KB 다.
+   쓸 때 가져온다. fetch 를 안 쓴다. file:// 에서 막힌다.
+   script 를 꽂는 방식은 Pages 에서도 file:// 에서도 된다. */
+var DATA={}, loading={};
+function loadData(name, global, cb){
+  if(window[global]){ DATA[name]=window[global]; return cb(DATA[name]); }
+  if(loading[name]){ loading[name].push(cb); return; }
+  loading[name]=[cb];
   var s=document.createElement("script");
-  s.src="eng2p/out/data/emergency.js";
-  s.onload=function(){ EMG=window.ENG2P_EMERGENCY; emgLoading=false; cb(!!EMG); };
-  s.onerror=function(){ emgLoading=false; cb(false); };
+  s.src="eng2p/out/data/"+name+".js";
+  function done(ok){
+    var v=ok?window[global]:null; DATA[name]=v;
+    var qs=loading[name]||[]; loading[name]=null;
+    qs.forEach(function(f){ f(v); });
+  }
+  s.onload=function(){ done(true); };
+  s.onerror=function(){ done(false); };
   document.head.appendChild(s);
 }
+var EMG=null;
+function loadEmg(cb){ loadData("emergency","ENG2P_EMERGENCY",function(v){ EMG=v; cb(!!v); }); }
 function renderEmg(pl){
   var line=$("#emgLine"), box=$("#emgBox");
   if(!line||!box) return;
@@ -1700,6 +1716,49 @@ function renderSidePick(A,B){
   });
 }
 
+
+/* =========================================================================
+   블록마다 쓰는 것. 오늘 배정에서 그대로 나온다.
+   **세션 중에 이것을 찾으러 가면 그 블록이 무너진다.**
+   블록 1과 4는 미디어, 2는 세트, 3은 카드와 진행표다.
+   여기가 E구간에서 실제 뷰어로 바뀔 자리다. 지금은 무엇을 쓰는지만 적는다.
+   ========================================================================= */
+function renderBlockPane(){
+  var box=$("#blockPane"); if(!box) return;
+  var pl=plan();
+  if(pl.finished || !pl.lectureNo){ box.hidden=true; return; }
+  box.hidden=false;
+  var i=T.idx, h="";
+  function row(k,v,n){
+    return '<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>'+
+           (n?'<div class="n">'+esc(n)+'</div>':"");
+  }
+  if(i===0){
+    h=row("이 블록에 쓰는 것 · 미디어", pl.media||"(없음)",
+          "미디어 탭에서 그 과를 연다. 1회차 초점은 소리다. 말을 걸지 않는다.");
+  }else if(i===1){
+    h=row("이 블록에 쓰는 것 · 대조 교차 세트", pl.set||"(없음)",
+          "세트 파일 out/sets/ 에 있다. 8분 설명, 8분 재구성, 10분 검토, 4분 기록이다.");
+  }else if(i===2){
+    var c=pl.cards ? String(pl.cards.from).padStart(3,"0")+" ~ "+String(pl.cards.to).padStart(3,"0") : "(없음)";
+    var n="강의록 "+pl.lectureNo+"강의 30분 진행표대로 돈다.";
+    var lec=DATA.lectures;
+    if(lec){
+      var L=(lec.items||[]).filter(function(x){return x.no===pl.lectureNo;})[0];
+      var segs=L && L.plan && L.plan.segments;
+      if(segs && segs.length) n=segs.join("  ·  ");
+    }else{
+      /* 진행표는 강의 자료에 있다. 묶음에는 없다. 이 블록에 올 때 가져온다. */
+      loadData("lectures","ENG2P_LECTURES",function(){ renderBlockPane(); });
+    }
+    h=row("이 블록에 쓰는 것 · 카드", c, n);
+  }else{
+    h=row("이 블록에 쓰는 것 · 미디어", pl.media||"(없음)",
+          "같은 과를 같이 듣는다. 2회차 초점은 청크다. A가 재생을 맡는다.");
+  }
+  box.innerHTML=h;
+}
+
 function paintTimer(){
   var b=BLOCKS[T.idx];
   $("#tBlockName").textContent="블록 "+(T.idx+1)+" · "+b.n;
@@ -1722,6 +1781,7 @@ function paintTimer(){
     duo.innerHTML=pane("a","A",A,b.da)+pane("b","B",B,b.db);
   }
   renderSidePick(A,B);
+  renderBlockPane();
   $("#tClock").textContent=fmt(Math.max(0,T.left));
   var sl=$("#tSessLeft");
   if(sl) sl.textContent="세션 남은 "+sessionLeftMin()+"분 · 블록 "+(T.idx+1)+" / "+BLOCKS.length;
@@ -1764,8 +1824,8 @@ function tick(){
   if(T.left%10===0) saveSession();   // 10초마다 남긴다. 매초 쓰면 저장이 잦다
   if(T.left<=0){
     beep();
-    if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; saveSession(); }
-    else { finishSession(); return; }
+    if(T.idx<BLOCKS.length-1){ gotoBlock(T.idx+1); return; }
+    finishSession(); return;
   }
   paintTimer();
 }
@@ -1776,13 +1836,32 @@ $("#tStart").onclick=function(){
   if(T.run){ hideSessionDone(); T.tick=setInterval(tick,1000); reqWake(); } else { relWake(); }
   paintTimer();
 };
-$("#tSkip").onclick=function(){
-  if(T.idx<BLOCKS.length-1){ T.idx++; T.left=BLOCKS[T.idx].m*60; }
-  else { finishSession(); return; }
+/* =========================================================================
+   블록 몰기. 넘김과 되돌림을 한 자리에서 한다.
+   전에는 넘김만 있었다. 잘못 눌러 넘어가면 되돌릴 방법이 없었다.
+   40분짜리 블록을 실수로 넘기면 그 40분이 사라진다.
+   ========================================================================= */
+function gotoBlock(i, opt){
+  opt=opt||{};
+  if(i<0) i=0;
+  if(i>=BLOCKS.length){ finishSession(); return; }
+  T.idx=i;
+  T.left=BLOCKS[i].m*60;
+  hideSessionDone();
+  saveSession();
   paintTimer();
+  if(opt.announce) flash("블록 "+(i+1)+" "+BLOCKS[i].n);
+}
+$("#tSkip").onclick=function(){ gotoBlock(T.idx+1,{announce:true}); };
+$("#tPrev").onclick=function(){
+  /* 되돌리면 그 블록을 처음부터 다시 잰다. 남은 시간을 이어받지 않는다.
+     블록은 시간이 아니라 하는 일이다. 되돌린다는 것은 그 일을 다시 한다는 뜻이다. */
+  if(T.idx===0){ flash("첫 블록이다"); return; }
+  gotoBlock(T.idx-1,{announce:true});
 };
 $("#tReset").onclick=function(){
-  T.idx=0; T.left=BLOCKS[0].m*60; T.run=false; clearInterval(T.tick); relWake(); hideSessionDone(); paintTimer();
+  T.run=false; clearInterval(T.tick); relWake();
+  gotoBlock(0,{announce:true});
 };
 
 /* 화면 꺼짐 방지. 2시간짜리 타이머를 켜 두고 매번 화면을 깨우게 하지 않는다. */
@@ -1827,6 +1906,7 @@ document.addEventListener("keydown",function(e){
   var vis=TABS.filter(function(x){return x[0]!=="SEP";});
   if(e.key===" "){ e.preventDefault(); $("#tStart").click(); return; }
   if(e.key==="n"||e.key==="N"){ $("#tSkip").click(); return; }
+  if(e.key==="p"||e.key==="P"){ $("#tPrev").click(); return; }
   if(e.key==="l"||e.key==="L"){ var b=$("#lrePlus"); if(b){ b.click(); flash("LRE +1"); } return; }
   var n=parseInt(e.key,10);
   if(n>=1&&n<=vis.length){ go(vis[n-1][0]); }
