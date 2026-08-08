@@ -81,7 +81,7 @@ function eagerBytes() {
 
 (async () => {
   const B = baseline();
-  const need = ["eager_kb", "eager_files"];
+  const need = ["eager_kb", "eager_files", "eager_ceiling"];
   const miss = need.filter((k) => B[k] === undefined);
   if (miss.length) {
     console.log("[실패] friction.md 8장에 기준선이 없다: " + miss.join(" "));
@@ -89,6 +89,12 @@ function eagerBytes() {
   }
 
   const fails = [];
+  /* **기준선을 올리는 것으로 이 검사를 끌 수 있다.** T210 과 T211 에 두 번 올렸다.
+     한 번에 크게 올리면 눈에 띄는데 4KB 씩 올리면 안 띈다. 그래서 천장을 둔다.
+     천장에 닿으면 올리는 길이 막히고 줄이는 쪽을 만들어야 한다. */
+  if (B.eager_kb > B.eager_ceiling)
+    fails.push("기준선 " + B.eager_kb + "KB 가 천장 " + B.eager_ceiling +
+               "KB 를 넘었다. 올리지 말고 줄인다 (friction.md 8장)");
   const rows = eagerBytes();
   const kb = Math.round(rows.reduce((a, r) => a + r.b, 0) / 1024);
   if (rows.length > B.eager_files)

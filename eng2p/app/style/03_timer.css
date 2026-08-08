@@ -271,3 +271,19 @@ body.session-focus .rings{display:none}
   line-height:1.55;letter-spacing:-.01em}
 .blockpane .aim .k{margin-top:9px}
 .blockpane .aim .k:first-child{margin-top:0}
+
+/* 적는 칸. **손을 멈추지 않고 남긴다.**
+   블록 1은 각자 적고 블록 4는 둘 것을 펴고 겹친 수를 센다. T211 */
+.blockpane .aimw{display:block;margin-top:8px;text-align:left}
+.blockpane .aimw span{display:block;font-size:0.71875rem;color:var(--mut);
+  letter-spacing:.06em;margin-bottom:4px}
+.blockpane .aimw textarea{width:100%;min-height:48px;padding:8px 9px;
+  border:1px solid var(--line);border-radius:9px;background:var(--bg);
+  color:var(--fg);font:inherit;font-size:0.9375rem;line-height:1.5;resize:vertical}
+.blockpane .cntrow{display:flex;gap:10px;margin-top:9px}
+.blockpane .cntrow .blank{flex:1;text-align:left}
+.blockpane .cntrow span{display:block;font-size:0.71875rem;color:var(--mut);
+  letter-spacing:.06em;margin-bottom:4px}
+.blockpane .cntrow input{width:100%;min-height:44px;padding:6px 9px;
+  border:1px solid var(--line);border-radius:9px;background:var(--bg);
+  color:var(--fg);font:inherit}

@@ -238,7 +238,8 @@ function renderSetPane(pl){
       var rec=day(today());
       body='<div class="body">'+
         '<label class="blank">LRE 발생 횟수'+
-        '<input type="number" min="0" step="1" id="setLre" value="'+(rec.lre||"")+'"'+
+        /* 값을 여기 안 넣는다. 그린 뒤에 넣는다. 위 fillField 설명을 본다 */
+        '<input type="number" min="0" step="1" id="setLre"'+
         ' style="width:80px;margin-left:8px"></label>'+
         '<label class="blank">미해결 LRE 목록은 아래 미해결 LRE 칸에 문장으로 적는다.'+
         ' 지금 '+(rec.unres||[]).length+'건 있다.</label>'+
@@ -255,6 +256,10 @@ function renderSetPane(pl){
   });
   setTimeout(function(){
     var el=document.getElementById("setLre");
+    /* rec 은 4단계 칸 안에서 잡은 값이다. 그 단계가 없는 세트면 안 잡힌다.
+       여기서 다시 읽는다. 없는 것을 읽어 세션이 멎으면 안 된다. */
+    var rc=day(today());
+    fillField("setLre", rc.lre?String(rc.lre):"");
     if(el) el.oninput=function(){ day(today()).lre=+el.value||0; save();
       var f=document.getElementById("fLre"); if(f) f.value=el.value; };
   },0);

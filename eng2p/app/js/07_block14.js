@@ -102,13 +102,65 @@ function renderAimPane(pl, seat, round){
       h+='<div class="n">이 주는 강마다 과제가 다르다. 위엣것이 '+pl.lectureNo+'강 것이다.</div>';
     if(c) h+='<div class="k">주마다 적어 올 것</div><div class="v">'+esc(c.text)+'</div>'+
             (c.layer2?'<div class="n">2층 채집이다. 지어내지 않고 본 것을 그대로 적는다.</div>':"");
-    return h+'</div>';
+    return h+aimWrite("alone")+'</div>';
   }
   var x=aimCross(pl,round);
   var h2='<div class="aim"><div class="k">같이 듣고 맞춰 보는 법 · '+round+'회차</div>';
   h2+='<div class="v">'+esc(x?x.how:"")+'</div>';
   h2+='<div class="n">누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.</div>';
-  return h2+'</div>';
+  return h2+aimWrite("together")+'</div>';
+}
+
+/* 적는 칸. **적으라고 하는데 적을 칸이 없었다.** T208 진단이다.
+   그래서 두 사람이 종이를 꺼냈고 그 종이가 40분 내내 화면 옆에 켜져 있었다.
+
+   자리마다 다르다.
+
+     블록 1   각자 적는다. **서로 안 보인다.** 그것이 이 자리의 장치다
+     블록 4   둘 것을 펴고 겹친 수와 안 겹친 수를 같이 센다
+
+   기기가 하나면 가릴 수 없다. 그때는 두 칸을 다 보이고 그 사실을 말한다.
+   D단계가 기기 둘을 만들면 그 말이 없어진다. */
+function aimWrite(seat){
+  var mine=deviceSide();
+  var A=roleOf(today())==="a"?S.names.a:S.names.b;
+  var B=roleOf(today())==="a"?S.names.b:S.names.a;
+  function box(side,name){
+    return '<label class="blank aimw"><span>'+esc(name)+' 가 찾은 자리</span>'+
+           '<textarea id="aim'+side.toUpperCase()+'" rows="2" '+
+           'placeholder="한 줄로 적는다"></textarea></label>';
+  }
+  if(seat==="alone"){
+    var h='<div class="k">여기 적는다</div>';
+    if(mine==="a") h+=box("a",A)+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
+    else if(mine==="b") h+=box("b",B)+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
+    else h+=box("a",A)+box("b",B)+
+      '<div class="n">이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. '+
+      '따로 적는 자리라 서로 안 보는 것이 낫다.</div>';
+    return h;
+  }
+  return '<div class="k">따로 적은 것을 편다</div>'+box("a",A)+box("b",B)+
+    '<div class="cntrow">'+
+    '<label class="blank"><span>겹친 자리</span>'+
+    '<input type="number" min="0" step="1" id="aimSame"></label>'+
+    '<label class="blank"><span>안 겹친 자리</span>'+
+    '<input type="number" min="0" step="1" id="aimDiff"></label></div>'+
+    '<div class="n">안 겹친 것이 겹친 것보다 많으면 그 자료를 한 번 더 듣는다. '+
+    '조준표 6장이 정한다.</div>';
+}
+/* 값은 그린 뒤에 넣고 손이 올라가 있는 칸은 안 건드린다. `fillField` 를 본다. */
+function bindAimWrite(){
+  var r=day(today()), a=r.aim||(r.aim={a:"",b:"",same:0,diff:0});
+  [["aimA","a"],["aimB","b"]].forEach(function(x){
+    fillField(x[0], a[x[1]]||"");
+    var el=document.getElementById(x[0]);
+    if(el) el.oninput=function(){ a[x[1]]=el.value; save(); };
+  });
+  [["aimSame","same"],["aimDiff","diff"]].forEach(function(x){
+    fillField(x[0], a[x[1]]?String(a[x[1]]):"");
+    var el=document.getElementById(x[0]);
+    if(el) el.oninput=function(){ a[x[1]]=+el.value||0; save(); };
+  });
 }
 
 function renderMediaPane(pl, seat){
@@ -163,6 +215,7 @@ function renderMediaPane(pl, seat){
     '<div class="n"><span id="sessRate"></span>'+
     (SESS.loop!=null?' · <span id="sessLap"></span>':"")+'</div>';
   setTimeout(function(){
+    bindAimWrite();
     var host=$("#sessPlayHost");
     if(host && !host.firstChild) sessPlay(it, SESS.mode||"audio", false);
     bindSyncScript(it);

@@ -1691,6 +1691,67 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   back.forEach((m) => fails.push("돌아올 길: " + m));
 
+  /* **적는 칸에서 손이 안 끊기는가.**
+     블록 칸은 세션이 도는 동안 매초 다시 그려진다. 값이 그리는 글 안에 있으면
+     한 글자 칠 때마다 글이 달라지고 칸이 통째로 갈린다. 그러면 치던 글이 사라진다.
+     화면을 열어 보는 것으로는 안 보인다. **1초를 기다려 봐야 보인다.** T211 */
+  const write = await (async () => {
+    const bad = [];
+    const ctxw = await browser.newContext({ viewport: { width: 390, height: 844 },
+                                            reducedMotion: "reduce" });
+    const pw = await ctxw.newPage();
+    await pw.goto(PAGE);
+    await pw.evaluate(() => {
+      function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
+        return z.toISOString().slice(0,10);}
+      var now=new Date(), st=new Date(now.getTime()-138*86400000), days={};
+      for(var i=0;i<138;i++){var x=new Date(st.getTime()+i*86400000);
+        if(x.getDay()===0) continue;
+        days[iso(x)]={status:"normal",h:2,speak:12,cards:30,lre:6};}
+      localStorage.setItem("eng2p.v1",JSON.stringify(
+        {v:1,names:{a:"남편",b:"아내"},start:iso(st),days:days,
+         media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:true,session:null,
+         device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},
+         cardMode:"today",cues:{},rate:1,fs:0}));
+    });
+    await pw.goto(PAGE);
+    await pw.waitForTimeout(500);
+    await pw.click("#tOne");            // 블록 1 로 들어가고 시계가 돈다
+    await pw.waitForTimeout(700);
+    if (!(await pw.evaluate(() => T.run))) bad.push("세션이 안 돈다");
+    const has = await pw.evaluate(() => !!document.getElementById("aimA"));
+    if (!has) { bad.push("블록 1 에 적는 칸이 없다"); await ctxw.close(); return bad; }
+    await pw.click("#aimA");
+    await pw.type("#aimA", "앞", { delay: 60 });
+    await pw.waitForTimeout(1500);      // 매초 다시 그리는 자리를 한 바퀴 넘긴다
+    await pw.type("#aimA", "뒤", { delay: 60 });
+    await pw.waitForTimeout(900);
+    const got = await pw.evaluate(() => ({
+      val: document.getElementById("aimA").value,
+      on: document.activeElement.id,
+      saved: (function () {
+        const S = JSON.parse(localStorage.getItem("eng2p.v1"));
+        const k = Object.keys(S.days).sort().pop();
+        return (S.days[k].aim || {}).a || "";
+      })() }));
+    if (got.val !== "앞뒤") bad.push("치던 글이 끊겼다: " + JSON.stringify(got.val));
+    if (got.on !== "aimA") bad.push("손이 칸에서 밀려났다: " + got.on);
+    if (got.saved !== "앞뒤") bad.push("적은 것이 안 남았다: " + JSON.stringify(got.saved));
+    /* 블록 4 는 둘 것을 펴고 겹친 수를 센다 */
+    await pw.evaluate(() => { gotoBlock(3); });
+    await pw.waitForTimeout(700);
+    const four = await pw.evaluate(() => ({
+      a: !!document.getElementById("aimA"), b: !!document.getElementById("aimB"),
+      same: !!document.getElementById("aimSame"), diff: !!document.getElementById("aimDiff"),
+      shown: (document.getElementById("aimA") || {}).value }));
+    if (!four.a || !four.b) bad.push("블록 4 에 두 칸이 다 안 뜬다");
+    if (!four.same || !four.diff) bad.push("블록 4 에 겹친 수 세는 칸이 없다");
+    if (four.shown !== "앞뒤") bad.push("블록 1 에 적은 것이 블록 4 에 안 뜬다: " + four.shown);
+    await ctxw.close();
+    return bad;
+  })();
+  write.forEach((m) => fails.push("적는 칸: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
@@ -1704,7 +1765,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
               "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
-              "돌아올 길 2폭 x 6판 = 12판");
+              "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 6판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

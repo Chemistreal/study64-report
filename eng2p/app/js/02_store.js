@@ -78,7 +78,8 @@ function day(d){
   /* 칸이 빠진 기록이 들어올 수 있다. 예전 판이 남긴 것이거나 손으로 넣은 것이다.
      하나만 없어도 그 줄을 읽는 자리에서 앱 전체가 멈춘다.
      T98 에서 겪었다. status 만 든 기록을 넣었더니 첫 화면이 안 떴다. */
-  var b={status:null,started:null,speak:0,cards:0,lre:0,unres:[],coll:[]};
+  var b={status:null,started:null,speak:0,cards:0,lre:0,unres:[],coll:[],
+          aim:{a:"",b:"",same:0,diff:0}};
   var r=S.days[d];
   if(!r){ S.days[d]=b; return b; }
   for(var k in b) if(!(k in r)) r[k]=b[k];
@@ -88,6 +89,18 @@ function day(d){
 /* =========================================================================
    유틸
    ========================================================================= */
+/* **적는 칸의 값을 그리는 글에 넣지 않는다.**
+   블록 칸은 세션이 도는 동안 매초 다시 그려진다. 값이 그리는 글 안에 있으면
+   한 글자 칠 때마다 글이 달라지고 칸이 통째로 갈린다. 그러면 손이 끊긴다.
+   그래서 값은 그린 뒤에 넣는다. 그리는 글은 늘 같으니 칸이 안 갈린다.
+
+   그리고 **손이 올라가 있는 칸은 안 건드린다.** 매초 값을 다시 넣으면
+   글자는 같아도 자리가 끝으로 튄다. 가운데를 고치던 손이 끝으로 밀린다. T211 */
+function fillField(id, val){
+  var el=document.getElementById(id);
+  if(!el || el===document.activeElement) return;
+  if(el.value!==val) el.value=val;
+}
 function $(s,r){return (r||document).querySelector(s);}
 function el(t,c,x){var e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;}
 function iso(d){

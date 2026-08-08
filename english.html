@@ -530,6 +530,22 @@ body.session-focus .rings{display:none}
   line-height:1.55;letter-spacing:-.01em}
 .blockpane .aim .k{margin-top:9px}
 .blockpane .aim .k:first-child{margin-top:0}
+
+/* 적는 칸. **손을 멈추지 않고 남긴다.**
+   블록 1은 각자 적고 블록 4는 둘 것을 펴고 겹친 수를 센다. T211 */
+.blockpane .aimw{display:block;margin-top:8px;text-align:left}
+.blockpane .aimw span{display:block;font-size:0.71875rem;color:var(--mut);
+  letter-spacing:.06em;margin-bottom:4px}
+.blockpane .aimw textarea{width:100%;min-height:48px;padding:8px 9px;
+  border:1px solid var(--line);border-radius:9px;background:var(--bg);
+  color:var(--fg);font:inherit;font-size:0.9375rem;line-height:1.5;resize:vertical}
+.blockpane .cntrow{display:flex;gap:10px;margin-top:9px}
+.blockpane .cntrow .blank{flex:1;text-align:left}
+.blockpane .cntrow span{display:block;font-size:0.71875rem;color:var(--mut);
+  letter-spacing:.06em;margin-bottom:4px}
+.blockpane .cntrow input{width:100%;min-height:44px;padding:6px 9px;
+  border:1px solid var(--line);border-radius:9px;background:var(--bg);
+  color:var(--fg);font:inherit}
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
@@ -1610,7 +1626,8 @@ function day(d){
   /* 칸이 빠진 기록이 들어올 수 있다. 예전 판이 남긴 것이거나 손으로 넣은 것이다.
      하나만 없어도 그 줄을 읽는 자리에서 앱 전체가 멈춘다.
      T98 에서 겪었다. status 만 든 기록을 넣었더니 첫 화면이 안 떴다. */
-  var b={status:null,started:null,speak:0,cards:0,lre:0,unres:[],coll:[]};
+  var b={status:null,started:null,speak:0,cards:0,lre:0,unres:[],coll:[],
+          aim:{a:"",b:"",same:0,diff:0}};
   var r=S.days[d];
   if(!r){ S.days[d]=b; return b; }
   for(var k in b) if(!(k in r)) r[k]=b[k];
@@ -1620,6 +1637,18 @@ function day(d){
 /* =========================================================================
    유틸
    ========================================================================= */
+/* **적는 칸의 값을 그리는 글에 넣지 않는다.**
+   블록 칸은 세션이 도는 동안 매초 다시 그려진다. 값이 그리는 글 안에 있으면
+   한 글자 칠 때마다 글이 달라지고 칸이 통째로 갈린다. 그러면 손이 끊긴다.
+   그래서 값은 그린 뒤에 넣는다. 그리는 글은 늘 같으니 칸이 안 갈린다.
+
+   그리고 **손이 올라가 있는 칸은 안 건드린다.** 매초 값을 다시 넣으면
+   글자는 같아도 자리가 끝으로 튄다. 가운데를 고치던 손이 끝으로 밀린다. T211 */
+function fillField(id, val){
+  var el=document.getElementById(id);
+  if(!el || el===document.activeElement) return;
+  if(el.value!==val) el.value=val;
+}
 function $(s,r){return (r||document).querySelector(s);}
 function el(t,c,x){var e=document.createElement(t); if(c)e.className=c; if(x!=null)e.textContent=x; return e;}
 function iso(d){
@@ -2468,7 +2497,8 @@ function renderSetPane(pl){
       var rec=day(today());
       body='<div class="body">'+
         '<label class="blank">LRE 발생 횟수'+
-        '<input type="number" min="0" step="1" id="setLre" value="'+(rec.lre||"")+'"'+
+        /* 값을 여기 안 넣는다. 그린 뒤에 넣는다. 위 fillField 설명을 본다 */
+        '<input type="number" min="0" step="1" id="setLre"'+
         ' style="width:80px;margin-left:8px"></label>'+
         '<label class="blank">미해결 LRE 목록은 아래 미해결 LRE 칸에 문장으로 적는다.'+
         ' 지금 '+(rec.unres||[]).length+'건 있다.</label>'+
@@ -2485,6 +2515,10 @@ function renderSetPane(pl){
   });
   setTimeout(function(){
     var el=document.getElementById("setLre");
+    /* rec 은 4단계 칸 안에서 잡은 값이다. 그 단계가 없는 세트면 안 잡힌다.
+       여기서 다시 읽는다. 없는 것을 읽어 세션이 멎으면 안 된다. */
+    var rc=day(today());
+    fillField("setLre", rc.lre?String(rc.lre):"");
     if(el) el.oninput=function(){ day(today()).lre=+el.value||0; save();
       var f=document.getElementById("fLre"); if(f) f.value=el.value; };
   },0);
@@ -2863,13 +2897,65 @@ function renderAimPane(pl, seat, round){
       h+='<div class="n">이 주는 강마다 과제가 다르다. 위엣것이 '+pl.lectureNo+'강 것이다.</div>';
     if(c) h+='<div class="k">주마다 적어 올 것</div><div class="v">'+esc(c.text)+'</div>'+
             (c.layer2?'<div class="n">2층 채집이다. 지어내지 않고 본 것을 그대로 적는다.</div>':"");
-    return h+'</div>';
+    return h+aimWrite("alone")+'</div>';
   }
   var x=aimCross(pl,round);
   var h2='<div class="aim"><div class="k">같이 듣고 맞춰 보는 법 · '+round+'회차</div>';
   h2+='<div class="v">'+esc(x?x.how:"")+'</div>';
   h2+='<div class="n">누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.</div>';
-  return h2+'</div>';
+  return h2+aimWrite("together")+'</div>';
+}
+
+/* 적는 칸. **적으라고 하는데 적을 칸이 없었다.** T208 진단이다.
+   그래서 두 사람이 종이를 꺼냈고 그 종이가 40분 내내 화면 옆에 켜져 있었다.
+
+   자리마다 다르다.
+
+     블록 1   각자 적는다. **서로 안 보인다.** 그것이 이 자리의 장치다
+     블록 4   둘 것을 펴고 겹친 수와 안 겹친 수를 같이 센다
+
+   기기가 하나면 가릴 수 없다. 그때는 두 칸을 다 보이고 그 사실을 말한다.
+   D단계가 기기 둘을 만들면 그 말이 없어진다. */
+function aimWrite(seat){
+  var mine=deviceSide();
+  var A=roleOf(today())==="a"?S.names.a:S.names.b;
+  var B=roleOf(today())==="a"?S.names.b:S.names.a;
+  function box(side,name){
+    return '<label class="blank aimw"><span>'+esc(name)+' 가 찾은 자리</span>'+
+           '<textarea id="aim'+side.toUpperCase()+'" rows="2" '+
+           'placeholder="한 줄로 적는다"></textarea></label>';
+  }
+  if(seat==="alone"){
+    var h='<div class="k">여기 적는다</div>';
+    if(mine==="a") h+=box("a",A)+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
+    else if(mine==="b") h+=box("b",B)+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
+    else h+=box("a",A)+box("b",B)+
+      '<div class="n">이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. '+
+      '따로 적는 자리라 서로 안 보는 것이 낫다.</div>';
+    return h;
+  }
+  return '<div class="k">따로 적은 것을 편다</div>'+box("a",A)+box("b",B)+
+    '<div class="cntrow">'+
+    '<label class="blank"><span>겹친 자리</span>'+
+    '<input type="number" min="0" step="1" id="aimSame"></label>'+
+    '<label class="blank"><span>안 겹친 자리</span>'+
+    '<input type="number" min="0" step="1" id="aimDiff"></label></div>'+
+    '<div class="n">안 겹친 것이 겹친 것보다 많으면 그 자료를 한 번 더 듣는다. '+
+    '조준표 6장이 정한다.</div>';
+}
+/* 값은 그린 뒤에 넣고 손이 올라가 있는 칸은 안 건드린다. `fillField` 를 본다. */
+function bindAimWrite(){
+  var r=day(today()), a=r.aim||(r.aim={a:"",b:"",same:0,diff:0});
+  [["aimA","a"],["aimB","b"]].forEach(function(x){
+    fillField(x[0], a[x[1]]||"");
+    var el=document.getElementById(x[0]);
+    if(el) el.oninput=function(){ a[x[1]]=el.value; save(); };
+  });
+  [["aimSame","same"],["aimDiff","diff"]].forEach(function(x){
+    fillField(x[0], a[x[1]]?String(a[x[1]]):"");
+    var el=document.getElementById(x[0]);
+    if(el) el.oninput=function(){ a[x[1]]=+el.value||0; save(); };
+  });
 }
 
 function renderMediaPane(pl, seat){
@@ -2924,6 +3010,7 @@ function renderMediaPane(pl, seat){
     '<div class="n"><span id="sessRate"></span>'+
     (SESS.loop!=null?' · <span id="sessLap"></span>':"")+'</div>';
   setTimeout(function(){
+    bindAimWrite();
     var host=$("#sessPlayHost");
     if(host && !host.firstChild) sessPlay(it, SESS.mode||"audio", false);
     bindSyncScript(it);
