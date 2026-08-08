@@ -32,6 +32,8 @@ TARGETS = [
 
 def main():
     lines = [
+        "신뢰도: A 생성 (제작 관리)",
+        "",
         "# eng2p 진행 상태",
         "",
         "갱신일: %s" % datetime.date.today().isoformat(),

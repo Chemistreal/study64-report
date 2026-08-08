@@ -50,6 +50,8 @@ def main():
 
     today = datetime.date.today().isoformat()
     lines = [
+        "신뢰도: A 생성 (제작 관리)",
+        "",
         "# B등급 검증 대기열",
         "",
         "갱신일: %s" % today,
