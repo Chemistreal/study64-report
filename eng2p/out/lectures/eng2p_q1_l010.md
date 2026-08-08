@@ -17,11 +17,8 @@ what are you
 would you
 could you
 
-줄어든 형태를 글자로 적으면 이렇다.
-
-what are you  ->  whatcha
-would you     ->  wouldya
-could you     ->  couldya
+세 형태 다 소리로만 줄고 정해진 철자가 없다.
+9강의 of 계열과 같다. 글로는 원형을 적고 입으로만 줄인다.
 
 what are you 는 가운데 are 가 통째로 눌리고 what 의 끝과 you 가 붙는다.
 세 낱말이 두 음절로 줄어든다. 이 과정에서 제일 많이 줄어드는 형태다.
@@ -32,11 +29,7 @@ should have
 would have
 could have
 
-줄어든 형태를 글자로 적으면 이렇다.
-
-should have  ->  shoulda
-would have   ->  woulda
-could have   ->  coulda
+이 셋도 철자가 없다. 글로는 should have 와 would have 와 could have 라고 적는다.
 
 여기서 have 는 9강의 of 처럼 모음 하나만 남기고 사라진다.
 조동사 끝에 약한 소리가 붙은 형태로 굴러간다.
@@ -96,7 +89,7 @@ A는 카드 A면의 축약형을 한 번만 읽는다. 원형을 알려 주지 �
 카드에 적힌 철자대로 읽으면 된다.
 
 B는 그 소리를 듣고 원형을 말한다. 몇 낱말이었는지도 같이 말한다.
-whatcha 를 들었으면 세 낱말이라고 말하고 what are you 를 낸다.
+what are you 가 줄어든 소리를 들었으면 세 낱말이라고 말하고 원형을 낸다.
 낱말 수를 먼저 말하는 이유는 그게 복원의 첫 단서이기 때문이다.
 
 대조는 A가 카드 A면의 원형을 보여 주는 것으로 한다.
@@ -109,7 +102,7 @@ whatcha 를 들었으면 세 낱말이라고 말하고 what are you 를 낸다.
 준비 3분에 열여섯 개를 순서대로 한 번 훑는다. 맞히려 하지 않고 듣기만 한다.
 
 막혔을 때는 낱말 수만 낸다. 원형을 못 내도 몇 낱말이었는지 맞히면 통과로 센다.
-shoulda 계열은 낱말 수가 셋이라 그것만 맞혀도 후보가 크게 줄어든다.
+should have 계열은 낱말 수가 셋이라 그것만 맞혀도 후보가 크게 줄어든다.
 
 ## 4. 드릴 연결
 

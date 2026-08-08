@@ -20,10 +20,6 @@ of 는 붙는 게 아니라 자기가 거의 사라진다. 자음 하나만 남�
     out of
     kind of
     sort of
-    lot of   ->  lotta
-    out of   ->  outta
-    kind of  ->  kinda
-    sort of  ->  sorta
     a lot of them
     out of here
     kind of hard

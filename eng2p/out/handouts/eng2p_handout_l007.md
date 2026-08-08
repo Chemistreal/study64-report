@@ -21,7 +21,6 @@
     ought to
     going to  ->  gonna
     got to    ->  gotta
-    ought to  ->  oughta
 
 ## 3. 30분 진행표
 

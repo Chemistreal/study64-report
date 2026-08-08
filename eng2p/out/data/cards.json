@@ -1009,15 +1009,16 @@
       "seconds": null,
       "source": "out/cards/eng2p_card_q1_001_050.md",
       "a": {
-        "instruction": "아래 축약형을 한 번씩 읽는다. 다시 읽어 주지 않는다.",
+        "instruction": "아래 덩어리를 한 번씩 낱말 사이를 쉬지 않고 흘려 읽는다. 다시 읽어 주지 않는다.",
         "material": [
-          "gonna",
-          "wanna",
-          "gotta",
-          "hafta",
-          "oughta"
+          "going to",
+          "want to",
+          "got to",
+          "have to",
+          "ought to"
         ],
-        "answer": "1) going to  2) want to  3) got to  4) have to  5) ought to",
+        "answer": "B는 A가 흘린 덩어리의 원형을 낸다. 재료 그대로다.",
+        "note": "앞의 셋은 글로도 gonna, wanna, gotta 로 적는다. 52과 대본에 그렇게 나온다. **뒤의 둘은 글로 적는 꼴이 없다. 소리로만 있다.** 그래서 원형으로 적는다.",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
       },
       "b": {
@@ -1062,10 +1063,10 @@
         "instruction": "아래 문장을 한 번씩 읽는다. 축약된 자리를 특별히 또박또박 읽지 않는다.",
         "material": [
           "I gotta go now.",
-          "You hafta wait.",
-          "She oughta know.",
+          "You have to wait.",
+          "She ought to know.",
           "We gotta leave.",
-          "He hasta work today."
+          "He has to work today."
         ],
         "answer": "1) got to  2) have to  3) ought to  4) got to  5) has to",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
@@ -1090,7 +1091,7 @@
           "She's gonna school. / She's going to school.",
           "We gotta go. / We have got to go.",
           "He wanna eat. / He wants to eat.",
-          "They hafta wait. / They have to wait."
+          "They gotta wait. / They have got to wait."
         ],
         "answer": "2번과 4번은 줄어든 쪽이 실제로 안 쓰이는 자리다.",
         "pass": "B가 두 자리를 다 짚으면 성공."
@@ -1136,15 +1137,15 @@
       "seconds": 8,
       "source": "out/cards/eng2p_card_q1_001_050.md",
       "a": {
-        "instruction": "8초를 재고 축약형 다섯 개를 예측할 수 없는 순서로 던진다. 중간에 멈추지 않는다.",
+        "instruction": "8초를 재고 아래 덩어리 다섯 개를 예측할 수 없는 순서로 흘려 던진다. 중간에 멈추지 않는다.",
         "material": [
-          "gonna",
-          "wanna",
-          "gotta",
-          "hafta",
-          "oughta"
+          "going to",
+          "want to",
+          "got to",
+          "have to",
+          "ought to"
         ],
-        "answer": "1) going to  2) want to  3) got to  4) have to  5) ought to",
+        "answer": "B는 A가 흘린 덩어리의 원형을 낸다. 재료 그대로다.",
         "pass": "B가 8초 안에 다섯 개의 원형을 다 내면 성공."
       },
       "b": {
@@ -1164,8 +1165,8 @@
         "instruction": "8초를 재고 아래 문장 다섯 개를 순서를 섞어 던진다. 중간에 멈추지 않는다.",
         "material": [
           "I'm gonna go.",
-          "You hafta wait.",
-          "She oughta know.",
+          "You have to wait.",
+          "She ought to know.",
           "We gotta leave.",
           "He's gonna help."
         ],
@@ -1190,8 +1191,8 @@
         "material": [
           "I'm gonna go to the store now.",
           "She's gotta leave before six.",
-          "We hafta wait for the bus.",
-          "He oughta call her today.",
+          "We have to wait for the bus.",
+          "He ought to call her today.",
           "They're gonna eat at home."
         ],
         "pass": "B가 5개 중 3개 이상에서 되묻기로 대응하면 성공. 실패가 정상이다."
@@ -1210,15 +1211,15 @@
       "seconds": null,
       "source": "out/cards/eng2p_card_q1_001_050.md",
       "a": {
-        "instruction": "아래 축약형을 한 번씩 읽는다. 다시 읽어 주지 않는다.",
+        "instruction": "아래 덩어리를 한 번씩 낱말 사이를 쉬지 않고 흘려 읽는다. 다시 읽어 주지 않는다.",
         "material": [
-          "wanna",
-          "hafta",
-          "hasta",
-          "gotta",
-          "oughta"
+          "want to",
+          "have to",
+          "has to",
+          "got to",
+          "ought to"
         ],
-        "answer": "1) want to  2) have to  3) has to  4) got to  5) ought to",
+        "answer": "B는 A가 흘린 덩어리의 원형을 낸다. 재료 그대로다.",
         "pass": "B가 5개 중 4개 이상 원형을 복원하면 성공."
       },
       "b": {
@@ -1238,8 +1239,8 @@
         "instruction": "아래 문장을 한 번씩 읽는다. 줄어든 자리를 또박또박 읽지 않는다.",
         "material": [
           "I wanna go home.",
-          "She hasta work today.",
-          "We hafta leave now.",
+          "She has to work today.",
+          "We have to leave now.",
           "He wanna eat something.",
           "They gotta wait here."
         ],
@@ -4253,16 +4254,16 @@
       "seconds": null,
       "source": "out/cards/eng2p_card_q2_001_050.md",
       "a": {
-        "instruction": "아래 축약을 하나씩 읽는다. B가 원래 형태를 말한다.",
+        "instruction": "아래 덩어리를 하나씩 낱말 사이를 쉬지 않고 흘려 읽는다. B가 원래 형태를 말한다.",
         "material": [
-          "gimme",
-          "lemme",
-          "dunno",
-          "gonna",
-          "wanna"
+          "give me",
+          "let me",
+          "do not know",
+          "going to",
+          "want to"
         ],
-        "answer": "1) give me  2) let me  3) do not know  4) going to  5) want to",
-        "note": "앞의 셋이 28강에서 새로 나온 것이고 뒤의 둘은 Q1 것이다.",
+        "answer": "B는 A가 흘린 덩어리의 원형을 낸다. 재료 그대로다.",
+        "note": "앞의 셋이 28강에서 새로 나온 것이고 뒤의 둘은 Q1 것이다. **뒤의 둘만 글로도 gonna, wanna 로 적는다.** 52과 대본에 그 둘이 나온다. 앞의 셋은 글로 적는 꼴이 없다. 소리로만 있다.",
         "pass": "B가 5개 중 4개 이상 복원하면 성공."
       },
       "b": {
@@ -4279,13 +4280,13 @@
       "seconds": null,
       "source": "out/cards/eng2p_card_q2_001_050.md",
       "a": {
-        "instruction": "아래 문장을 하나씩 읽는다. 축약이 몇 개 들어 있는지 세게 한다.",
+        "instruction": "아래 문장을 하나씩 읽되 줄일 수 있는 자리를 다 흘린다. 몇 군데를 흘렸는지 B가 센다.",
         "material": [
-          "Lemme know if you wanna go.",
-          "I dunno what he is gonna do.",
-          "Gimme a minute.",
+          "Let me know if you wanna go.",
+          "I do not know what he is gonna do.",
+          "Give me a minute.",
           "She is gonna wanna see it.",
-          "I dunno."
+          "I do not know."
         ],
         "answer": "1) 2개  2) 2개  3) 1개  4) 2개  5) 1개",
         "pass": "B가 5개 중 4개 이상 맞히면 성공."
@@ -4304,7 +4305,7 @@
       "seconds": 5,
       "source": "out/cards/eng2p_card_q2_001_050.md",
       "a": {
-        "instruction": "아래 원래 형태를 하나씩 주고 B가 줄인 형태로 내게 한다. 제한 시간 5초다.",
+        "instruction": "아래 원래 형태를 하나씩 주고 B가 흘려 낸 소리로 되받게 한다. 제한 시간 5초다.",
         "material": [
           "give me",
           "let me",

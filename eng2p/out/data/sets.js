@@ -1177,7 +1177,7 @@ window.ENG2P_SETS={
           "items": [
             "뒤에 to 가 오면 의무다",
             "뒤에 명사가 오면 소유다",
-            "의무 쪽만 줄어들어 hafta 로 나온다"
+            "의무 쪽만 한 덩어리로 줄어 나온다"
           ]
         },
         {
@@ -1250,7 +1250,7 @@ window.ENG2P_SETS={
           "name": "상호 검토",
           "minutes": 10,
           "fields": {
-            "본문": "합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다. 같은 규칙이 hasta 와 hafta 에도 걸리는지 같이 본다.",
+            "본문": "합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다. 같은 규칙이 has to 와 have to 에도 걸리는지 같이 본다.",
             "규칙": "\"틀렸다\"고 말하지 않는다. \"나는 이렇게 이해했다\" 형식만 쓴다."
           },
           "items": []
@@ -1285,7 +1285,7 @@ window.ENG2P_SETS={
             "필수 포함 요소": ""
           },
           "items": [
-            "gonna, wanna, gotta, hafta, hasta, oughta 는 같은 자리에서 나온다",
+            "gonna, wanna, gotta, have to, has to, ought to 는 같은 자리에서 나온다",
             "낱개로 저장하면 들을 때마다 하나씩 뒤져야 한다",
             "묶음으로 저장하면 여섯 중 하나로 좁혀 놓고 듣게 된다"
           ]
@@ -1505,7 +1505,7 @@ window.ENG2P_SETS={
             "필수 포함 요소": ""
           },
           "items": [
-            "should go 와 shoulda gone 은 시점이 다르다",
+            "should go 와 should have gone 은 시점이 다르다",
             "차이는 have 가 줄어든 소리 하나다",
             "그 소리를 놓치면 지난 일과 앞으로의 일이 뒤집힌다"
           ]
@@ -4471,7 +4471,7 @@ window.ENG2P_SETS={
           "name": "A 설명",
           "minutes": 8,
           "fields": {
-            "설명 대상": "gimme, lemme, dunno 가 Q1 축약과 무엇이 다른가",
+            "설명 대상": "give me, let me, don't know 가 Q1 축약과 무엇이 다른가",
             "필수 포함 요소": ""
           },
           "items": [

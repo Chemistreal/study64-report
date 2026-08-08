@@ -9,7 +9,7 @@
 찾는 규칙은 좁다. 낱말만 남겨 견주고 **대본 한 줄 안에 통째로** 들어 있어야 한다.
 줄을 넘겨 이으면 아무도 말한 적 없는 말이 만들어진다.
 
-재료 310개 / 대본에 있음 148개 / **근거 없음 162개 (52%)**
+재료 310개 / 대본에 있음 155개 / **근거 없음 155개 (50%)**
 
 | 자리 | 문장 | 근거 |
 |---|---|---|
@@ -263,21 +263,21 @@
 | 040-3 | comfortable | **근거 없음** |
 | 040-4 | business | lle1-11:28 / lle1-42:6 / lle1-44:35 |
 | 040-5 | vegetable | **근거 없음** |
-| 041-1 | gonna | lle1-17:28 / lle1-20:28 / lle1-21:30 |
-| 041-2 | wanna | lle1-17:3 |
-| 041-3 | gotta | lle1-46:7 |
-| 041-4 | hafta | **근거 없음** |
-| 041-5 | oughta | **근거 없음** |
+| 041-1 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
+| 041-2 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
+| 041-3 | got to | lle1-42:28 |
+| 041-4 | have to | lle1-02:10 / lle1-07:29 / lle1-14:30 / lle1-15:3 외 21 |
+| 041-5 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
 | 042-1 | I'm gonna go. | **근거 없음** |
 | 042-2 | She's gonna work. | **근거 없음** |
 | 042-3 | We're gonna eat. | **근거 없음** |
 | 042-4 | They're gonna leave. | **근거 없음** |
 | 042-5 | He's gonna help. | **근거 없음** |
 | 043-1 | I gotta go now. | **근거 없음** |
-| 043-2 | You hafta wait. | **근거 없음** |
-| 043-3 | She oughta know. | **근거 없음** |
+| 043-2 | You have to wait. | **근거 없음** |
+| 043-3 | She ought to know. | **근거 없음** |
 | 043-4 | We gotta leave. | **근거 없음** |
-| 043-5 | He hasta work today. | **근거 없음** |
+| 043-5 | He has to work today. | **근거 없음** |
 | 044-1a | I'm gonna work. | **근거 없음** |
 | 044-1b | I'm going to work. | **근거 없음** |
 | 044-2a | She's gonna school. | **근거 없음** |
@@ -286,8 +286,8 @@
 | 044-3b | We have got to go. | **근거 없음** |
 | 044-4a | He wanna eat. | **근거 없음** |
 | 044-4b | He wants to eat. | **근거 없음** |
-| 044-5a | They hafta wait. | **근거 없음** |
-| 044-5b | They have to wait. | **근거 없음** |
+| 044-5a | They gotta wait. | **근거 없음** |
+| 044-5b | They have got to wait. | **근거 없음** |
 | 045-1a | I am going to eat. | **근거 없음** |
 | 045-1b | I am going to Boston. | **근거 없음** |
 | 045-2a | She is going to study. | **근거 없음** |
@@ -298,29 +298,29 @@
 | 045-4b | He is going to school. | **근거 없음** |
 | 045-5a | They are going to wait. | **근거 없음** |
 | 045-5b | They are going to New York. | **근거 없음** |
-| 046-1 | gonna | lle1-17:28 / lle1-20:28 / lle1-21:30 |
-| 046-2 | wanna | lle1-17:3 |
-| 046-3 | gotta | lle1-46:7 |
-| 046-4 | hafta | **근거 없음** |
-| 046-5 | oughta | **근거 없음** |
+| 046-1 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
+| 046-2 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
+| 046-3 | got to | lle1-42:28 |
+| 046-4 | have to | lle1-02:10 / lle1-07:29 / lle1-14:30 / lle1-15:3 외 21 |
+| 046-5 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
 | 047-1 | I'm gonna go. | **근거 없음** |
-| 047-2 | You hafta wait. | **근거 없음** |
-| 047-3 | She oughta know. | **근거 없음** |
+| 047-2 | You have to wait. | **근거 없음** |
+| 047-3 | She ought to know. | **근거 없음** |
 | 047-4 | We gotta leave. | **근거 없음** |
 | 047-5 | He's gonna help. | **근거 없음** |
 | 048-1 | I'm gonna go to the store now. | **근거 없음** |
 | 048-2 | She's gotta leave before six. | **근거 없음** |
-| 048-3 | We hafta wait for the bus. | **근거 없음** |
-| 048-4 | He oughta call her today. | **근거 없음** |
+| 048-3 | We have to wait for the bus. | **근거 없음** |
+| 048-4 | He ought to call her today. | **근거 없음** |
 | 048-5 | They're gonna eat at home. | **근거 없음** |
-| 049-1 | wanna | lle1-17:3 |
-| 049-2 | hafta | **근거 없음** |
-| 049-3 | hasta | **근거 없음** |
-| 049-4 | gotta | lle1-46:7 |
-| 049-5 | oughta | **근거 없음** |
+| 049-1 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
+| 049-2 | have to | lle1-02:10 / lle1-07:29 / lle1-14:30 / lle1-15:3 외 21 |
+| 049-3 | has to | lle1-21:14 |
+| 049-4 | got to | lle1-42:28 |
+| 049-5 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
 | 050-1 | I wanna go home. | **근거 없음** |
-| 050-2 | She hasta work today. | **근거 없음** |
-| 050-3 | We hafta leave now. | **근거 없음** |
+| 050-2 | She has to work today. | **근거 없음** |
+| 050-3 | We have to leave now. | **근거 없음** |
 | 050-4 | He wanna eat something. | **근거 없음** |
 | 050-5 | They gotta wait here. | **근거 없음** |
 

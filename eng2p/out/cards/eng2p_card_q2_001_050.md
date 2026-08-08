@@ -350,15 +350,17 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [019] 판정형 Q2 3분
 
 [A면]
-지시: 아래 축약을 하나씩 읽는다. B가 원래 형태를 말한다.
+지시: 아래 덩어리를 하나씩 낱말 사이를 쉬지 않고 흘려 읽는다. B가 원래 형태를 말한다.
 재료:
-  1. gimme
-  2. lemme
-  3. dunno
-  4. gonna
-  5. wanna
-정답: 1) give me  2) let me  3) do not know  4) going to  5) want to
+  1. give me
+  2. let me
+  3. do not know
+  4. going to
+  5. want to
+정답: B는 A가 흘린 덩어리의 원형을 낸다. 재료 그대로다.
 비고: 앞의 셋이 28강에서 새로 나온 것이고 뒤의 둘은 Q1 것이다.
+**뒤의 둘만 글로도 gonna, wanna 로 적는다.** 52과 대본에 그 둘이 나온다.
+앞의 셋은 글로 적는 꼴이 없다. 소리로만 있다.
 성공 기준: B가 5개 중 4개 이상 복원하면 성공.
 
 [B면]
@@ -370,13 +372,13 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [020] 판정형 Q2 3분
 
 [A면]
-지시: 아래 문장을 하나씩 읽는다. 축약이 몇 개 들어 있는지 세게 한다.
+지시: 아래 문장을 하나씩 읽되 줄일 수 있는 자리를 다 흘린다. 몇 군데를 흘렸는지 B가 센다.
 재료:
-  1. Lemme know if you wanna go.
-  2. I dunno what he is gonna do.
-  3. Gimme a minute.
+  1. Let me know if you wanna go.
+  2. I do not know what he is gonna do.
+  3. Give me a minute.
   4. She is gonna wanna see it.
-  5. I dunno.
+  5. I do not know.
 정답: 1) 2개  2) 2개  3) 1개  4) 2개  5) 1개
 성공 기준: B가 5개 중 4개 이상 맞히면 성공.
 
@@ -389,7 +391,7 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [021] 압박형 Q2 3분
 
 [A면]
-지시: 아래 원래 형태를 하나씩 주고 B가 줄인 형태로 내게 한다. 제한 시간 5초다.
+지시: 아래 원래 형태를 하나씩 주고 B가 흘려 낸 소리로 되받게 한다. 제한 시간 5초다.
 재료:
   1. give me
   2. let me

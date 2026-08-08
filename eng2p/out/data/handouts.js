@@ -270,8 +270,7 @@ window.ENG2P_HANDOUTS={
           "got to",
           "ought to",
           "going to  ->  gonna",
-          "got to    ->  gotta",
-          "ought to  ->  oughta"
+          "got to    ->  gotta"
         ],
         "englishNote": [],
         "plan": "준비 3분, A가 출제 12분, 역할 바꿔 12분, 기록 3분이다\n\n- 준비 3분\n- A가 출제 12분\n- 역할 바꿔 12분\n- 기록 3분이다\n\n역할: 짝수 날은 남편이 A, 홀수 날은 아내가 A다.",
@@ -307,9 +306,7 @@ window.ENG2P_HANDOUTS={
           "want to",
           "have to",
           "has to",
-          "want to  ->  wanna",
-          "have to  ->  hafta",
-          "has to   ->  hasta"
+          "want to  ->  wanna"
         ],
         "englishNote": [],
         "plan": "준비 3분, A가 출제 12분, 역할 바꿔 12분, 기록 3분이다\n\n- 준비 3분\n- A가 출제 12분\n- 역할 바꿔 12분\n- 기록 3분이다\n\n역할: 짝수 날은 남편이 A, 홀수 날은 아내가 A다.",
@@ -346,10 +343,6 @@ window.ENG2P_HANDOUTS={
           "out of",
           "kind of",
           "sort of",
-          "lot of   ->  lotta",
-          "out of   ->  outta",
-          "kind of  ->  kinda",
-          "sort of  ->  sorta",
           "a lot of them",
           "out of here",
           "kind of hard",
@@ -393,15 +386,9 @@ window.ENG2P_HANDOUTS={
           "what are you",
           "would you",
           "could you",
-          "what are you  ->  whatcha",
-          "would you     ->  wouldya",
-          "could you     ->  couldya",
           "should have",
           "would have",
-          "could have",
-          "should have  ->  shoulda",
-          "would have   ->  woulda",
-          "could have   ->  coulda"
+          "could have"
         ],
         "englishNote": [],
         "plan": "준비 3분, A가 출제 12분, 역할 바꿔 12분, 기록 3분이다\n\n- 준비 3분\n- A가 출제 12분\n- 역할 바꿔 12분\n- 기록 3분이다\n\n역할: 짝수 날은 남편이 A, 홀수 날은 아내가 A다.",
@@ -423,7 +410,7 @@ window.ENG2P_HANDOUTS={
           }
         ],
         "notMeasured": [],
-        "stuck": "낱말 수만 낸다. 원형을 못 내도 몇 낱말이었는지 맞히면 통과로 센다. shoulda 계열은 낱말 수가 셋이라 그것만 맞혀도 후보가 크게 줄어든다."
+        "stuck": "낱말 수만 낸다. 원형을 못 내도 몇 낱말이었는지 맞히면 통과로 센다. should have 계열은 낱말 수가 셋이라 그것만 맞혀도 후보가 크게 줄어든다."
       }
     },
     {
@@ -1176,10 +1163,6 @@ window.ENG2P_HANDOUTS={
       "front": {
         "today": "축약 20종 중 남은 넷을 여기서 정리하고 맞장구 소리를 하나 더 붙인다.",
         "english": [
-          "give me   ->  gimme",
-          "let me    ->  lemme",
-          "don't know -> dunno",
-          "because   ->  cuz",
           "Marsha: Um-hum, it is.",
           "Marsha: Hmm, that's too bad.",
           "Marsha: Yeah, it's a working theater and a museum."
@@ -1204,7 +1187,7 @@ window.ENG2P_HANDOUTS={
           }
         ],
         "notMeasured": [],
-        "stuck": "낱말 수만 낸다. dunno 를 못 풀어도 세 낱말이라고만 하면 통과다. 맞장구 자리에서는 안 넘어간다. 소리가 나올 때까지 그 자리를 다시 한다. 2초 안에 소리가 나오는 것 자체가 훈련 대상이기 때문이다."
+        "stuck": "낱말 수만 낸다. don't know 를 못 풀어도 세 낱말이라고만 하면 통과다. 맞장구 자리에서는 안 넘어간다. 소리가 나올 때까지 그 자리를 다시 한다. 2초 안에 소리가 나오는 것 자체가 훈련 대상이기 때문이다."
       }
     },
     {

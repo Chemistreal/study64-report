@@ -121,7 +121,7 @@ LRE 해결 여부:
 
 설명 대상: 소리 하나가 시점을 가르는 자리
 필수 포함 요소:
-  1. should go 와 shoulda gone 은 시점이 다르다
+  1. should go 와 should have gone 은 시점이 다르다
   2. 차이는 have 가 줄어든 소리 하나다
   3. 그 소리를 놓치면 지난 일과 앞으로의 일이 뒤집힌다
 

@@ -775,14 +775,16 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [041] 판정형 Q1 3분
 
 [A면]
-지시: 아래 축약형을 한 번씩 읽는다. 다시 읽어 주지 않는다.
+지시: 아래 덩어리를 한 번씩 낱말 사이를 쉬지 않고 흘려 읽는다. 다시 읽어 주지 않는다.
 재료:
-  1. gonna
-  2. wanna
-  3. gotta
-  4. hafta
-  5. oughta
-정답: 1) going to  2) want to  3) got to  4) have to  5) ought to
+  1. going to
+  2. want to
+  3. got to
+  4. have to
+  5. ought to
+정답: B는 A가 흘린 덩어리의 원형을 낸다. 재료 그대로다.
+비고: 앞의 셋은 글로도 gonna, wanna, gotta 로 적는다. 52과 대본에 그렇게 나온다.
+**뒤의 둘은 글로 적는 꼴이 없다. 소리로만 있다.** 그래서 원형으로 적는다.
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
 [B면]
@@ -816,10 +818,10 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 지시: 아래 문장을 한 번씩 읽는다. 축약된 자리를 특별히 또박또박 읽지 않는다.
 재료:
   1. I gotta go now.
-  2. You hafta wait.
-  3. She oughta know.
+  2. You have to wait.
+  3. She ought to know.
   4. We gotta leave.
-  5. He hasta work today.
+  5. He has to work today.
 정답: 1) got to  2) have to  3) ought to  4) got to  5) has to
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
@@ -838,7 +840,7 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
   2. She's gonna school. / She's going to school.
   3. We gotta go. / We have got to go.
   4. He wanna eat. / He wants to eat.
-  5. They hafta wait. / They have to wait.
+  5. They gotta wait. / They have got to wait.
 정답: 2번과 4번은 줄어든 쪽이 실제로 안 쓰이는 자리다.
 성공 기준: B가 두 자리를 다 짚으면 성공.
 
@@ -872,14 +874,14 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [046] 압박형 Q1 3분
 
 [A면]
-지시: 8초를 재고 축약형 다섯 개를 예측할 수 없는 순서로 던진다. 중간에 멈추지 않는다.
+지시: 8초를 재고 아래 덩어리 다섯 개를 예측할 수 없는 순서로 흘려 던진다. 중간에 멈추지 않는다.
 재료:
-  1. gonna
-  2. wanna
-  3. gotta
-  4. hafta
-  5. oughta
-정답: 1) going to  2) want to  3) got to  4) have to  5) ought to
+  1. going to
+  2. want to
+  3. got to
+  4. have to
+  5. ought to
+정답: B는 A가 흘린 덩어리의 원형을 낸다. 재료 그대로다.
 성공 기준: B가 8초 안에 다섯 개의 원형을 다 내면 성공.
 
 [B면]
@@ -894,8 +896,8 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 지시: 8초를 재고 아래 문장 다섯 개를 순서를 섞어 던진다. 중간에 멈추지 않는다.
 재료:
   1. I'm gonna go.
-  2. You hafta wait.
-  3. She oughta know.
+  2. You have to wait.
+  3. She ought to know.
   4. We gotta leave.
   5. He's gonna help.
 정답: 1) going to  2) have to  3) ought to  4) got to  5) going to
@@ -914,8 +916,8 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 재료:
   1. I'm gonna go to the store now.
   2. She's gotta leave before six.
-  3. We hafta wait for the bus.
-  4. He oughta call her today.
+  3. We have to wait for the bus.
+  4. He ought to call her today.
   5. They're gonna eat at home.
 성공 기준: B가 5개 중 3개 이상에서 되묻기로 대응하면 성공. 실패가 정상이다.
 
@@ -928,14 +930,14 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 [049] 판정형 Q1 3분
 
 [A면]
-지시: 아래 축약형을 한 번씩 읽는다. 다시 읽어 주지 않는다.
+지시: 아래 덩어리를 한 번씩 낱말 사이를 쉬지 않고 흘려 읽는다. 다시 읽어 주지 않는다.
 재료:
-  1. wanna
-  2. hafta
-  3. hasta
-  4. gotta
-  5. oughta
-정답: 1) want to  2) have to  3) has to  4) got to  5) ought to
+  1. want to
+  2. have to
+  3. has to
+  4. got to
+  5. ought to
+정답: B는 A가 흘린 덩어리의 원형을 낸다. 재료 그대로다.
 성공 기준: B가 5개 중 4개 이상 원형을 복원하면 성공.
 
 [B면]
@@ -950,8 +952,8 @@ A면은 A만 본다. B면은 B만 본다. 한 장을 양쪽에서 본다.
 지시: 아래 문장을 한 번씩 읽는다. 줄어든 자리를 또박또박 읽지 않는다.
 재료:
   1. I wanna go home.
-  2. She hasta work today.
-  3. We hafta leave now.
+  2. She has to work today.
+  3. We have to leave now.
   4. He wanna eat something.
   5. They gotta wait here.
 정답: 1) want to  2) has to  3) have to  4) wants to  5) got to

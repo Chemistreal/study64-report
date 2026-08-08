@@ -16,10 +16,6 @@
 
 ## 2. 영어 재료
 
-    give me   ->  gimme
-    let me    ->  lemme
-    don't know -> dunno
-    because   ->  cuz
     Marsha: Um-hum, it is.
     Marsha: Hmm, that's too bad.
     Marsha: Yeah, it's a working theater and a museum.
@@ -63,4 +59,4 @@
 
 ## 6. 막혔을 때
 
-낱말 수만 낸다. dunno 를 못 풀어도 세 낱말이라고만 하면 통과다. 맞장구 자리에서는 안 넘어간다. 소리가 나올 때까지 그 자리를 다시 한다. 2초 안에 소리가 나오는 것 자체가 훈련 대상이기 때문이다.
+낱말 수만 낸다. don't know 를 못 풀어도 세 낱말이라고만 하면 통과다. 맞장구 자리에서는 안 넘어간다. 소리가 나올 때까지 그 자리를 다시 한다. 2초 안에 소리가 나오는 것 자체가 훈련 대상이기 때문이다.

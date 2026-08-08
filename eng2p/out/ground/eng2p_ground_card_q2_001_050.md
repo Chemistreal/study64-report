@@ -9,7 +9,7 @@
 찾는 규칙은 좁다. 낱말만 남겨 견주고 **대본 한 줄 안에 통째로** 들어 있어야 한다.
 줄을 넘겨 이으면 아무도 말한 적 없는 말이 만들어진다.
 
-재료 162개 / 대본에 있음 74개 / **근거 없음 88개 (54%)**
+재료 162개 / 대본에 있음 76개 / **근거 없음 86개 (53%)**
 
 | 자리 | 문장 | 근거 |
 |---|---|---|
@@ -71,16 +71,16 @@
 | 018-3 | We are going to the park later. | **근거 없음** |
 | 018-4 | He works at the same place now. | **근거 없음** |
 | 018-5 | That was the last one on the list. | **근거 없음** |
-| 019-1 | gimme | **근거 없음** |
-| 019-2 | lemme | **근거 없음** |
-| 019-3 | dunno | **근거 없음** |
-| 019-4 | gonna | lle1-17:28 / lle1-20:28 / lle1-21:30 |
-| 019-5 | wanna | lle1-17:3 |
-| 020-1 | Lemme know if you wanna go. | **근거 없음** |
-| 020-2 | I dunno what he is gonna do. | **근거 없음** |
-| 020-3 | Gimme a minute. | **근거 없음** |
+| 019-1 | give me | lle1-26:7 / lle1-32:14 / lle1-33:9 / lle1-43:12 외 3 |
+| 019-2 | let me | lle1-14:19 / lle1-18:13 / lle1-20:13 / lle1-20:15 외 6 |
+| 019-3 | do not know | **근거 없음** |
+| 019-4 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
+| 019-5 | want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 37 |
+| 020-1 | Let me know if you wanna go. | **근거 없음** |
+| 020-2 | I do not know what he is gonna do. | **근거 없음** |
+| 020-3 | Give me a minute. | **근거 없음** |
 | 020-4 | She is gonna wanna see it. | **근거 없음** |
-| 020-5 | I dunno. | **근거 없음** |
+| 020-5 | I do not know. | **근거 없음** |
 | 021-1 | give me | lle1-26:7 / lle1-32:14 / lle1-33:9 / lle1-43:12 외 3 |
 | 021-2 | let me | lle1-14:19 / lle1-18:13 / lle1-20:13 / lle1-20:15 외 6 |
 | 021-3 | do not know | **근거 없음** |

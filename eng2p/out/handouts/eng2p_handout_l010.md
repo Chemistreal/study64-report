@@ -19,15 +19,9 @@
     what are you
     would you
     could you
-    what are you  ->  whatcha
-    would you     ->  wouldya
-    could you     ->  couldya
     should have
     would have
     could have
-    should have  ->  shoulda
-    would have   ->  woulda
-    could have   ->  coulda
 
 ## 3. 30분 진행표
 
@@ -68,4 +62,4 @@
 
 ## 6. 막혔을 때
 
-낱말 수만 낸다. 원형을 못 내도 몇 낱말이었는지 맞히면 통과로 센다. shoulda 계열은 낱말 수가 셋이라 그것만 맞혀도 후보가 크게 줄어든다.
+낱말 수만 낸다. 원형을 못 내도 몇 낱말이었는지 맞히면 통과로 센다. should have 계열은 낱말 수가 셋이라 그것만 맞혀도 후보가 크게 줄어든다.

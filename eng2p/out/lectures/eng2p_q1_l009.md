@@ -21,12 +21,9 @@ out of
 kind of
 sort of
 
-줄어든 형태를 글자로 적으면 이렇다.
-
-lot of   ->  lotta
-out of   ->  outta
-kind of  ->  kinda
-sort of  ->  sorta
+네 형태 다 소리로만 줄고 정해진 철자가 없다.
+52과 대본에 나오는 줄임 철자는 gonna 와 wanna 와 gotta 셋뿐이다.
+그러니 글로는 lot of 와 out of 와 kind of 와 sort of 라고 적고 입으로만 줄인다.
 
 네 형태 다 of 의 앞 모음이 사라지고 끝 자음도 흐려진다.
 남는 것은 앞 낱말 끝에 붙은 약한 소리 하나다.

@@ -127,7 +127,7 @@
         "pull": 10,
         "chunk": 5
       },
-      "pull": "gonna, wanna, gotta, hafta, oughta 를 듣고 원형을 말한다. 그다음 원형을 보고 줄인 소리를 낸다. 두 방향을 다 돈다.",
+      "pull": "gonna, wanna, gotta, have to, ought to 를 듣고 원형을 말한다. 그다음 원형을 보고 줄인 소리를 낸다. 두 방향을 다 돈다.",
       "chunks": [
         "I am walking to work",
         "Where are you from",
@@ -146,7 +146,7 @@
         "pull": 10,
         "chunk": 5
       },
-      "pull": "wanna, hafta, hasta 를 원형으로 복원한다. 그다음 have 가 의무인 문장과 소유인 문장을 각각 세 개씩 만들어 읽는다.",
+      "pull": "A가 want to, have to, has to 를 흘려 읽고 B가 원형을 복원한다. 그다음 have 가 의무인 문장과 소유인 문장을 각각 세 개씩 만들어 읽는다.",
       "chunks": [
         "I have to go now",
         "She has a car",
@@ -165,7 +165,7 @@
         "pull": 10,
         "chunk": 5
       },
-      "pull": "lotta, outta, kinda, sorta 를 원형으로 복원한다. 그다음 줄어들기 전 낱말 수를 각각 센다.",
+      "pull": "A가 a lot of, out of, kind of, sort of 를 흘려 읽고 B가 원형을 복원한다. 그다음 줄어들기 전 낱말 수를 각각 센다.",
       "chunks": [
         "people walking by",
         "out of the room",
@@ -184,7 +184,7 @@
         "pull": 10,
         "chunk": 5
       },
-      "pull": "whatcha, wouldya, couldya, shoulda, woulda, coulda 를 복원한다. should go 와 shoulda gone 의 시점 차이를 소리로 확인한다.",
+      "pull": "what are you, would you, could you, should have 를 흘려 읽고 원형을 되짚는다. should go 와 should have gone 의 시점 차이를 소리로 확인한다.",
       "chunks": [
         "Can you help me",
         "Would you mind waiting",
@@ -452,9 +452,9 @@
       },
       "pull": "강의 28의 원리를 소리 내어 설명한다. 듣는 사람이 없어도 말로 한다. 그다음 카드 019 의 다섯 축약을 원래 형태로 되돌린다. 꺼낸 것을 종이에 적어 둔다. 다음 2인 세션에서 상대와 대조한다.",
       "chunks": [
-        "gimme",
-        "lemme",
-        "dunno",
+        "give me",
+        "let me",
+        "don't know",
         "gonna",
         "wanna"
       ]

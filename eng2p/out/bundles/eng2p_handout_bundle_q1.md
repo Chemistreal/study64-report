@@ -406,7 +406,6 @@
     ought to
     going to  ->  gonna
     got to    ->  gotta
-    ought to  ->  oughta
 
 ## 3. 30분 진행표
 
@@ -465,8 +464,6 @@
     have to
     has to
     want to  ->  wanna
-    have to  ->  hafta
-    has to   ->  hasta
 
 ## 3. 30분 진행표
 
@@ -525,10 +522,6 @@ of 는 붙는 게 아니라 자기가 거의 사라진다. 자음 하나만 남�
     out of
     kind of
     sort of
-    lot of   ->  lotta
-    out of   ->  outta
-    kind of  ->  kinda
-    sort of  ->  sorta
     a lot of them
     out of here
     kind of hard
@@ -593,15 +586,9 @@ of 는 붙는 게 아니라 자기가 거의 사라진다. 자음 하나만 남�
     what are you
     would you
     could you
-    what are you  ->  whatcha
-    would you     ->  wouldya
-    could you     ->  couldya
     should have
     would have
     could have
-    should have  ->  shoulda
-    would have   ->  woulda
-    could have   ->  coulda
 
 ## 3. 30분 진행표
 
@@ -642,7 +629,7 @@ of 는 붙는 게 아니라 자기가 거의 사라진다. 자음 하나만 남�
 
 ## 6. 막혔을 때
 
-낱말 수만 낸다. 원형을 못 내도 몇 낱말이었는지 맞히면 통과로 센다. shoulda 계열은 낱말 수가 셋이라 그것만 맞혀도 후보가 크게 줄어든다.
+낱말 수만 낸다. 원형을 못 내도 몇 낱말이었는지 맞히면 통과로 센다. should have 계열은 낱말 수가 셋이라 그것만 맞혀도 후보가 크게 줄어든다.
 
 ---
 

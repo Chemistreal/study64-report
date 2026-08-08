@@ -15,11 +15,12 @@ want to
 have to
 has to
 
-줄어든 형태를 글자로 적으면 이렇다.
+줄어든 형태를 글자로도 적는 것은 하나뿐이다.
 
 want to  ->  wanna
-have to  ->  hafta
-has to   ->  hasta
+
+have to 와 has to 도 똑같이 준다. 그런데 그것을 적는 철자는 없다.
+글로는 have to 와 has to 라고 적고 입으로만 줄인다.
 
 want to 는 가운데 자음이 통째로 사라진다. 남은 것은 앞뒤가 붙은 두 음절이다.
 have to 와 has to 는 다르다. 앞 낱말 끝의 유성음이 무성음으로 바뀐다.

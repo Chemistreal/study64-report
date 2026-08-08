@@ -20,8 +20,6 @@
     have to
     has to
     want to  ->  wanna
-    have to  ->  hafta
-    has to   ->  hasta
 
 ## 3. 30분 진행표
 

@@ -72,7 +72,7 @@
 | out/lectures/eng2p_q2_l025.md | 선언 지식과 절차 지식의 구분, 자동화된 상태를 학습자가 스스로 못 알아본다는 서술 | 완료 | 통과 |
 | out/lectures/eng2p_q2_l026.md | 600 목록을 여덟 자리로 나누는 구분과 자리별 배분 수 | 보류 | 보류 |
 | out/lectures/eng2p_q2_l027.md | 시작 덩어리 목록과 자리별 쓰임 | 보류 | 보류 |
-| out/lectures/eng2p_q2_l028.md | gimme, lemme, dunno, cuz 의 철자 표기와 맞장구 소리의 형태 | 완료 | 통과 |
+| out/lectures/eng2p_q2_l028.md | give me, let me, don't know, because 가 줄어드는 폭과 맞장구 소리의 형태 | 완료 | 통과 |
 | out/lectures/eng2p_q2_l029.md | 이어 붙이는 덩어리 목록과 세 묶음 구분 | 보류 | 보류 |
 | out/lectures/eng2p_q2_l030.md | 0.5초를 빈자리 유무로 바꿔 재는 방식 | 보류 | 보류 |
 | out/lectures/eng2p_q2_l031.md | 되돌리는 덩어리 목록과 네 묶음 구분 | 보류 | 보류 |
