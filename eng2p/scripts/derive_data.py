@@ -536,20 +536,16 @@ def manifest(lec, card, sett, hand, emg, task):
 
 
 def stamp_files():
-    """파생된 파일마다 크기와 해시를 적는다."""
-    out = []
-    # 앱이 읽는 것은 .js 쪽이다. 해시가 그것도 덮어야 받은 것을 확인할 수 있다.
-    # index 자신은 뺀다. 자기 해시를 자기 안에 적을 수 없다.
-    for f in sorted(list(OUT.glob("*.json")) + list(OUT.glob("*.js"))):
-        if f.stem == "index":
-            continue
-        b = f.read_bytes()
-        out.append({
-            "file": f.name,
-            "bytes": len(b),
-            "sha256": hashlib.sha256(b).hexdigest(),
-        })
-    return out
+    """**여기서 안 만든다.** scripts/derive_manifest.py 가 맨 뒤에서 만든다.
+
+    이 파생기는 넷째로 돈다. 대본과 소리 길이와 구간표와 근거는 그 뒤에 생긴다.
+    여기서 자리를 훑으면 그때 있는 것만 잡힌다.
+    처음 뽑을 때 12개, 다시 뽑을 때 16개가 나왔다. T150 에서 재 봤다.
+
+    받은 것이 온전한지 보라고 만든 표가 넷을 빼놓고 온전하다고 말했다.
+    **없는 표보다 나쁘다.** 없으면 확인을 안 하고 있으면 확인했다고 여긴다.
+    """
+    return []
 
 
 # 앱이 file:// 로 열릴 수 있다. 종이와 같이 쓰는 물건이라 내려받아 여는 것이 정상이다.

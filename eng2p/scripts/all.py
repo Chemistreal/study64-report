@@ -38,6 +38,8 @@ STEPS = [
     ("파생", "derive_cues.py", [], True),
     ("파생", "ground.py", ["--quiet"], True),
     ("파생", "derive_ground_data.py", [], True),
+    # **맨 뒤다.** 앞의 파생물을 다 세어 표를 만든다. 순서가 틀리면 스스로 실패한다.
+    ("파생", "derive_manifest.py", [], True),
     ("어긋남", "check_derived.py", [], True),
     ("규격", "check.py", ["out/"], False),
     # docs 와 state 도 본다. **내가 쓰는 문서에도 같은 선이 걸린다.**
