@@ -4,7 +4,7 @@
  * D구간 여덟 턴에서 화면에서만 나오는 결함이 일곱 번 나왔다.
  * 검사기 열넷이 다 통과하는 상태에서 앱이 안 뜨거나 값이 접히거나 인쇄가 깨져 있었다.
  *
- * 열세 가지를 본다.
+ * 열네 가지를 본다.
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
@@ -18,7 +18,8 @@
  * 10. 세션 한 벌이 시작부터 끝까지 어긋남 없이 도는가
  * 11. 기기 둘이 각각 제 쪽을 보는가
  * 12. 통과 기준 458개가 다 그려지고 선이 있는 것은 값으로 갈리는가
- * 13. 시간이 흘러 블록이 저절로 넘어가고 그 자리가 저장되는가
+ * 13. 망을 끊어도 자료가 뜨고 영상이 못 뜰 때 그 말을 하는가
+ * 14. 시간이 흘러 블록이 저절로 넘어가고 그 자리가 저장되는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
  * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
@@ -354,6 +355,36 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
   if (!ncards) fails.push("카드 자료가 안 열렸다");
   if (!nsets) fails.push("세트 자료가 안 열렸다");
+
+  // 12.5 오프라인. 바깥 요청을 다 막고 자료가 뜨는지 본다.
+  //      소리와 대본과 이미지는 저장소 안에 있고 영상만 원격이다.
+  //      영상이 못 뜨면 왜 못 뜨는지 적고 저장된 소리로 가는 길을 낸다.
+  const offCtx = await browser.newContext({ viewport: { width: 880, height: 800 } });
+  await offCtx.route((u) => /^https?:/.test(u.href), (r) => r.abort());
+  const off = await offCtx.newPage();
+  await off.goto(PAGE);
+  await off.evaluate(() => localStorage.clear());
+  await off.reload();
+  await off.waitForTimeout(600);
+  await off.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+  await off.waitForTimeout(500);
+  const sheetOff = await off.textContent("#todaySheet");
+  if (!sheetOff || sheetOff.indexOf("세트") < 0) fails.push("오프라인: 첫 화면이 안 떴다");
+  await off.evaluate(() => gotoBlock(2));
+  await off.waitForTimeout(1600);
+  if (!(await off.evaluate(() => !!document.querySelector(".cardview"))))
+    fails.push("오프라인: 카드가 안 떴다");
+  await off.evaluate(() => { const i = MEDIA.findIndex((x) => x.id === "lle1-01");
+                             openMedia(i, "video", false); });
+  await off.waitForTimeout(1800);
+  const note = await off.evaluate(() => {
+    const e = document.getElementById("libMediaNote"); return e ? e.textContent : "";
+  });
+  if (note.indexOf("영상을 못 불러왔다") < 0)
+    fails.push("오프라인: 영상이 안 떴는데 아무 말이 없다");
+  if (note.indexOf("저장된 소리로") < 0)
+    fails.push("오프라인: 저장된 소리로 가는 길이 없다");
+  await offCtx.close();
 
   // 13. 저절로 넘어가는 길. 지금까지 검사는 블록을 손으로 넘겼다.
   //     시간이 흘러 넘어가는 길은 다른 코드다. tick 이 gotoBlock 을 부른다.

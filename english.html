@@ -3825,6 +3825,28 @@ function openMedia(i,mode,play){
   m.setAttribute("aria-label",it.title+" "+(isVideo?"영상":"음성"));
   try{m.preservesPitch=true;m.mozPreservesPitch=true;m.webkitPreservesPitch=true;}catch(e){}
   m.playbackRate=LIB.rate; host.appendChild(m); LIB.el=m;
+  /* 영상은 원격이다. 소리와 대본과 이미지는 저장소 안에 있다.
+     망이 끊기면 영상만 죽는데 그것이 **아무 말 없이 죽는다.**
+     화면에는 안 되는 재생기만 남는다. 두 사람은 앱이 고장 난 줄 안다.
+     왜 안 되는지 적고 저장된 소리로 가는 길을 같이 낸다. T121 에서 재 봤다. */
+  m.onerror=function(){
+    var box=$("#libMediaNote");
+    if(!box){ box=el("div"); box.id="libMediaNote"; box.className="note small w";
+              host.parentNode.insertBefore(box, host.nextSibling); }
+    if(isVideo){
+      box.innerHTML='<b>영상을 못 불러왔다.</b> 영상은 VOA 서버에서 바로 받는다. '+
+        '망이 끊겼거나 그 주소가 바뀐 것이다.<br>'+
+        '<b>소리와 대본은 저장소 안에 있어 망 없이도 된다.</b> '+
+        '<button class="g" id="toAudio" type="button" style="margin-top:7px">저장된 소리로</button>';
+      var ta=$("#toAudio");
+      if(ta) ta.onclick=function(){ openMedia(LIB.active,"audio",true); };
+    }else{
+      box.innerHTML='<b>소리를 못 불러왔다.</b> '+
+        '<span class="mono">'+esc(m.src)+'</span> 자리를 확인한다. '+
+        '저장소를 통째로 내려받았는지 본다.';
+    }
+  };
+  var oldNote=$("#libMediaNote"); if(oldNote) oldNote.remove();
   paintMediaPlayer(); renderMediaList();
   if(play!==false){ var q=m.play(); if(q&&q.catch) q.catch(function(){}); }
 }
