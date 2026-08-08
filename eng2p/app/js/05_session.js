@@ -42,25 +42,33 @@ var PEEK=null;
 /* 강의 본문 미리 보기. **블록이 아니라 강의를 편다.**
    본문 30만자는 처음부터 안 읽는다. 누른 그때 읽는다. */
 var PEEKLEC=null;
+/* 길 지도. 48주가 어디까지 왔고 어느 주에 무엇이 있는지를 한 장에 편다. */
+var PEEKMAP=false;
+function peekMap(){
+  PEEKMAP=true; PEEK=null; PEEKLEC=null; PANE.sig=null;
+  syncSessionFocus(); renderBlockPane(); paintTimer();
+  var box=$("#blockPane");
+  if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+}
 function peekLecture(no){
   loadData("lecturetext","ENG2P_LECTURETEXT",function(v){
     if(!v || !v.items || !v.items[String(no)]){ flash("그 강의 본문을 못 찾았다"); return; }
-    PEEKLEC=no; PEEK=null; PANE.sig=null;
+    PEEKLEC=no; PEEK=null; PEEKMAP=false; PANE.sig=null;
     syncSessionFocus(); renderBlockPane(); paintTimer();
     var box=$("#blockPane");
     if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
   });
 }
 function peekBlock(k){
-  PEEKLEC=null;
+  PEEKLEC=null; PEEKMAP=false;
   PEEK=k; PANE.sig=null;
   syncSessionFocus(); renderBlockPane(); paintTimer();
   var box=$("#blockPane");
   if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function closePeek(){
-  if(PEEK==null && PEEKLEC==null) return;
-  PEEK=null; PEEKLEC=null; PANE.sig=null;
+  if(PEEK==null && PEEKLEC==null && !PEEKMAP) return;
+  PEEK=null; PEEKLEC=null; PEEKMAP=false; PANE.sig=null;
   syncSessionFocus(); renderBlockPane(); paintTimer();
   var c=$("#todaySheet"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
 }
@@ -73,11 +81,11 @@ function sessionIdle(){
   return !T.run && T.idx===0 && T.left===BLOCKS[0].m*60;
 }
 function peekIdx(){ return PEEK!=null ? PEEK : T.idx; }
-function peeking(){ return PEEK!=null || PEEKLEC!=null; }
+function peeking(){ return PEEK!=null || PEEKLEC!=null || PEEKMAP; }
 function syncSessionFocus(){
   document.body.classList.toggle("session-focus",T.run);
   document.body.classList.toggle("session-idle",sessionIdle());
-  document.body.classList.toggle("peek",PEEK!=null||PEEKLEC!=null);
+  document.body.classList.toggle("peek",PEEK!=null||PEEKLEC!=null||PEEKMAP);
   var card=$("#sessionCard");
   if(card) card.setAttribute("aria-busy",T.run?"true":"false");
   var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");

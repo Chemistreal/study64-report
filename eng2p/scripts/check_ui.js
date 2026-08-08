@@ -1483,6 +1483,71 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   motion.forEach((m) => fails.push("움직임: " + m));
 
+  /* 33. **길 지도.** 48주가 어디까지 왔고 어느 주에 무엇이 있는지를 한 장에 편다.
+     띠는 어디까지 왔는지만 말했다. 어느 주에 무엇이 있는지는 안 말했다.
+     그것을 알려면 자료 탭에서 96편 중에 찾아야 했다.
+     **여기서도 시계를 안 건드린다.** 보는 자리다. */
+  const wmap = await (async () => {
+    const ctx4 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const p6 = await ctx4.newPage();
+    const bad = [];
+    await p6.goto(PAGE);
+    await p6.evaluate(() => {
+      function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
+        return z.toISOString().slice(0,10);}
+      var now=new Date(), st=new Date(now.getTime()-138*86400000), days={};
+      for(var i=0;i<138;i++){var x=new Date(st.getTime()+i*86400000);
+        if(x.getDay()===0) continue;
+        days[iso(x)]={status:"normal",h:2,speak:12,cards:30,lre:6};}
+      localStorage.setItem("eng2p.v1",JSON.stringify(
+        {v:1,names:{a:"남편",b:"아내"},start:iso(st),days:days,
+         media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:true,session:null,
+         device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},
+         cardMode:"today",cues:{},rate:1,fs:0}));
+    });
+    await p6.goto(PAGE);
+    await p6.waitForTimeout(520);
+
+    const open = await p6.$('[data-go="map"]');
+    if (!open) { bad.push("48주 띠를 누를 수가 없다"); await ctx4.close(); return bad; }
+    await open.click();
+    await p6.waitForTimeout(420);
+
+    const m = await p6.evaluate(() => ({
+      cells: document.querySelectorAll(".wcell").length,
+      done: document.querySelectorAll(".wcell.done").length,
+      now: document.querySelectorAll(".wcell.now").length,
+      q: document.querySelectorAll(".wcell.qstart").length,
+      lit: document.querySelectorAll(".wcell .wdots i.on").length,
+      idx: T.idx, sess: S.session,
+    }));
+    if (m.cells !== 48) bad.push("주 칸이 " + m.cells + "개다. 48이어야 한다");
+    if (m.now !== 1) bad.push("이번 주 표시가 " + m.now + "개다");
+    if (m.done !== 19) bad.push("지나온 주가 " + m.done + "개다. 19여야 한다");
+    if (m.q !== 3) bad.push("분기 금이 " + m.q + "개다. 셋이어야 한다");
+    if (m.lit !== 120) bad.push("채운 날이 " + m.lit + "개다. 120이어야 한다");
+    if (m.idx !== 0 || m.sess) bad.push("길 지도가 세션을 건드렸다");
+
+    await p6.click('[data-w="20"]');
+    await p6.waitForTimeout(360);
+    const d = await p6.evaluate(() => {
+      const e = document.querySelector(".wdetail");
+      return { has: !!e, lec: document.querySelectorAll(".wlec").length,
+               txt: e ? e.innerText : "" };
+    });
+    if (!d.has) bad.push("주를 눌렀는데 안 펴진다");
+    if (d.lec !== 2) bad.push("그 주 강의가 " + d.lec + "편이다. 둘이어야 한다");
+    if (d.txt.indexOf("Q2-120") < 0) bad.push("그 주 세트가 안 적혀 있다");
+
+    await p6.click(".wlec");
+    await p6.waitForTimeout(820);
+    const n = await p6.evaluate(() => document.querySelectorAll(".lecbody h4").length);
+    if (n !== 6) bad.push("지도에서 연 강의 본문이 " + n + "블록이다");
+    await ctx4.close();
+    return bad;
+  })();
+  wmap.forEach((m) => fails.push("길 지도: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
@@ -1494,7 +1559,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
-              "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / 소리 여섯 6판 / 소리 끄기 1판");
+              "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
+              "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 9판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

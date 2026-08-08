@@ -60,3 +60,75 @@ function lecPara(body){
   flushRows(); flushPara();
   return out;
 }
+
+
+/* =========================================================================
+   48주 길 지도.
+
+   띠는 어디까지 왔는지만 말했다. **어느 주에 무엇이 있는지는 안 말했다.**
+   그것을 알려면 자료 탭으로 가서 96편 중에 찾아야 했다.
+
+   한 장에 편다. 주마다 칸 하나, 칸 안에 여섯 날이다.
+   지나온 날은 채우고 오늘은 테두리를 두른다. 분기가 바뀌는 자리에 금을 긋는다.
+
+   **누르면 그 주에 무엇이 있는지 펴진다.** 강의 둘과 세트 여섯이다.
+   ========================================================================= */
+var MAPOPEN=null;
+function renderMapPane(){
+  if(!IDX) return '<div class="peekbar"><b>길 지도</b> 차림표를 못 읽었다'+
+    '<button class="g" id="peekClose" type="button">닫기</button></div>';
+  var pl=plan();
+  var h='<div class="peekbar"><b>48주 길</b> '+
+        (pl.finished?"288세션을 다 했다":pl.week+"주 "+pl.day+"일째")+
+        '<button class="g" id="peekClose" type="button">닫기</button></div>';
+  h+='<div class="wmap">';
+  (IDX.weeks||[]).forEach(function(wk){
+    var w=wk.week, cls=["wcell"];
+    if(w<pl.week) cls.push("done");
+    if(w===pl.week) cls.push("now");
+    if(w%12===1 && w>1) cls.push("qstart");
+    h+='<button type="button" class="'+cls.join(" ")+'" data-w="'+w+'"'+
+       ' aria-label="'+w+'주 '+esc(wk.quarter||"")+'">';
+    h+='<span class="wno">'+w+'</span><span class="wdots">';
+    for(var d=1;d<=6;d++){
+      var on=(w<pl.week)||(w===pl.week&&d<=(pl.day||0));
+      h+='<i class="'+(on?"on":"")+'"></i>';
+    }
+    h+='</span></button>';
+  });
+  h+='</div>';
+  h+='<div class="wlegend"><span><i class="lg done"></i>지나온 주</span>'+
+     '<span><i class="lg now"></i>이번 주</span>'+
+     '<span><i class="lg"></i>남은 주</span></div>';
+  if(MAPOPEN) h+=weekCard(MAPOPEN);
+  return h;
+}
+function weekCard(w){
+  var wk=(IDX.weeks||[]).filter(function(x){return x.week===w;})[0];
+  if(!wk) return "";
+  var h='<div class="wdetail"><h4>'+w+'주 · '+esc(wk.quarter||"")+'</h4>';
+  (wk.lectures||[]).forEach(function(L){
+    h+='<button type="button" class="wlec" data-go="l:'+L.no+'">'+
+       '<b>'+L.no+'강</b> '+esc(L.title||"")+
+       '<span class="wtrack">'+esc(L.track||"")+'</span></button>';
+  });
+  h+='<div class="wsets">세트 '+esc((wk.sets||[]).join(" "))+'</div>';
+  if(wk.task) h+='<div class="wsets">과제 '+wk.task.minChars+'자</div>';
+  h+='</div>';
+  return h;
+}
+function bindMapPane(box){
+  box.querySelectorAll("[data-w]").forEach(function(b){
+    b.onclick=function(){
+      var w=+b.dataset.w;
+      MAPOPEN=(MAPOPEN===w)?null:w;
+      PANE.sig=null; renderBlockPane();
+    };
+  });
+  box.querySelectorAll("[data-go]").forEach(function(b){
+    b.onclick=function(){
+      var v=b.getAttribute("data-go");
+      if(v.indexOf("l:")===0) peekLecture(+v.slice(2));
+    };
+  });
+}

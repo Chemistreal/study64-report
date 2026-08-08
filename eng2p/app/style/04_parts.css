@@ -220,3 +220,35 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   body.session-focus .wrap{padding-bottom:110px}
 }
 @media print{ nav{position:static;display:none} }
+
+/* 48주 길 지도. 주마다 칸 하나, 칸 안에 여섯 날. */
+.wmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin-top:4px}
+.wcell{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 3px;
+  border:1px solid var(--edge);border-radius:10px;background:var(--card2);
+  font:inherit;color:var(--mut);cursor:pointer;min-height:52px;transition:.15s}
+.wcell:hover{border-color:var(--a1);color:var(--fg)}
+.wcell .wno{font-family:var(--mono);font-size:0.6875rem}
+.wcell .wdots{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.wcell .wdots i{width:5px;height:5px;border-radius:99px;background:var(--edge)}
+.wcell .wdots i.on{background:var(--a1)}
+.wcell.done{background:var(--bg2)}
+.wcell.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(8,145,178,.16);color:var(--fg)}
+/* 분기가 바뀌는 자리에 금을 긋는다. 열두 주마다다. */
+.wcell.qstart{border-left:3px solid var(--a2)}
+.wlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:0.75rem;color:var(--mut)}
+.wlegend span{display:flex;align-items:center;gap:5px}
+.wlegend i.lg{width:11px;height:11px;border-radius:3px;border:1px solid var(--edge);background:var(--card2)}
+.wlegend i.lg.done{background:var(--bg2)}
+.wlegend i.lg.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(8,145,178,.16)}
+.wdetail{margin-top:12px;padding:12px;border:1px solid var(--edge);border-radius:12px;background:var(--card2)}
+.wdetail h4{margin:0 0 8px;font-size:0.9375rem}
+.wlec{display:block;width:100%;text-align:left;font:inherit;font-size:0.875rem;
+  border:1px solid var(--edge);border-radius:10px;background:var(--bg2);color:var(--fg);
+  padding:9px 11px;margin-bottom:6px;cursor:pointer;min-height:44px}
+.wlec:hover{border-color:var(--a1)}
+.wlec .wtrack{color:var(--mut);font-size:0.75rem;margin-left:6px}
+.wdetail .wsets{font-size:0.75rem;color:var(--mut);margin-top:4px;overflow-wrap:anywhere}
+/* 띠를 누를 수 있게. 단추지만 띠처럼 보인다. */
+.bandgo{display:block;width:100%;text-align:left;font:inherit;color:inherit;
+  background:none;border:0;padding:0;cursor:pointer}
+.bandgo:hover .weekband i{opacity:.85}

@@ -300,6 +300,7 @@ function bindSheetGo(box){
   box.querySelectorAll("[data-go]").forEach(function(b){
     b.onclick=function(){
       var v=b.getAttribute("data-go");
+      if(v==="map"){ peekMap(); return; }
       if(v.indexOf("l:")===0){ peekLecture(+v.slice(2)); return; }
       if(v.indexOf("b:")===0){ peekBlock(+v.slice(2)); return; }
       if(v==="due"){ S.cardMode="due"; save(); peekBlock(2); return; }
@@ -314,8 +315,12 @@ function bindSheetGo(box){
 }
 
 /* 48주 띠. 한 줄로 1년이 다 보인다. 분기마다 명암을 바꾼다. */
+/* 48주 띠. **누르면 길 지도가 열린다.**
+   띠는 어디까지 왔는지만 말한다. 어느 주에 무엇이 있는지는 안 말한다.
+   그것을 알려면 자료 탭에 가서 96편에서 찾아야 했다. T179 */
 function band(pl){
-  var s='<div class="weekband">';
+  var s='<button type="button" class="bandgo" data-go="map" aria-label="48주 길 지도 열기">';
+  s+='<div class="weekband">';
   for(var w=1;w<=48;w++){
     var c=[]; if(w<pl.week) c.push("done"); if(w===pl.week) c.push("now");
     if(w%12===0 && w<48) c.push("qend");
@@ -324,7 +329,7 @@ function band(pl){
   s+='</div><div class="bandnote"><span>1주</span>';
   s+='<span>'+(pl.behind>0 ? "달력보다 "+pl.behind+"주 밀렸다" :
                 pl.week>1 ? (pl.week-1)+"주 마쳤다" : "시작 주다")+'</span>';
-  s+='<span>48주</span></div>';
+  s+='<span>48주</span></div></button>';
   return s;
 }
 

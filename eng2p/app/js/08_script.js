@@ -338,6 +338,15 @@ function renderBlockPane(){
   if(pl.finished || !pl.lectureNo){ box.hidden=true; PANE.sig=null; return; }
   box.hidden=false;
   var i=peekIdx(), h="";
+  if(PEEKMAP){
+    box.hidden=false;
+    h=renderMapPane();
+    if(PANE.sig===h && box.firstChild) return;
+    PANE.sig=h; box.innerHTML=h;
+    bindMapPane(box);
+    var pcm=$("#peekClose"); if(pcm) pcm.onclick=closePeek;
+    return;
+  }
   if(PEEKLEC!=null){
     box.hidden=false;
     h=renderLecturePane(PEEKLEC);
