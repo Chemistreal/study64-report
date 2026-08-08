@@ -32,6 +32,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "out" / "data" / "lectures.json"
 CARDDATA = ROOT / "out" / "data" / "cards.json"
 SETDATA = ROOT / "out" / "data" / "sets.json"
+HANDDATA = ROOT / "out" / "data" / "handouts.json"
 HAND = ROOT / "out" / "handouts"
 SETS = ROOT / "out" / "sets"
 
@@ -145,6 +146,42 @@ def check_sets(lec):
             FAIL.append("%d주차 세트가 %d개다. 6개여야 한다" % (w, len(xs)))
 
 
+def check_handouts(lec):
+    """강의록 JSON 이 강의 JSON 과 같은 값을 드는가.
+
+    둘은 파생 경로가 다르다. 강의록 JSON 은 강의록 마크다운을 읽고
+    강의 JSON 은 강의 마크다운을 읽는다. 그래서 견줄 값이 된다.
+    """
+    if not HANDDATA.exists():
+        FAIL.append("handouts.json 이 없다")
+        return
+    hs = {h["no"]: h for h in json.loads(
+        HANDDATA.read_text(encoding="utf-8"))["items"]}
+    if sorted(hs) != list(range(1, 97)):
+        FAIL.append("handouts.json 번호가 1부터 96까지가 아니다")
+    for n, it in sorted(lec.items()):
+        h = hs.get(n)
+        if not h:
+            continue
+        if h["title"] != it["title"]:
+            FAIL.append("%d강 제목: 강의록 JSON 은 %r 인데 강의 JSON 은 %r 이다"
+                        % (n, h["title"], it["title"]))
+        if h["quarter"] != it["quarter"] or h["track"] != it["track"]:
+            FAIL.append("%d강 분기나 트랙이 두 JSON 에서 다르다" % n)
+        if len(h["back"]["record"]) != len(it["criteria"]):
+            FAIL.append("%d강 기록 항목 수: 강의록 %d개 강의 %d개"
+                        % (n, len(h["back"]["record"]), len(it["criteria"])))
+        if len(h["back"]["notMeasured"]) != len(it["notMeasured"]):
+            FAIL.append("%d강 안 재는 것 수가 두 JSON 에서 다르다" % n)
+        if h["back"]["stuck"] != it["stuck"]:
+            FAIL.append("%d강 막혔을 때가 두 JSON 에서 다르다" % n)
+        # 카드 칸은 종이 문구다. 그 안의 번호가 강의 JSON 의 범위와 맞아야 한다.
+        m = re.search(r"카드 (\d{3}) ~ (\d{3})", h["front"]["cards"] or "")
+        want = {"from": int(m.group(1)), "to": int(m.group(2))} if m else None
+        if want != it["cards"]:
+            FAIL.append("%d강 카드 범위가 두 JSON 에서 다르다" % n)
+
+
 def main():
     if not DATA.exists():
         print("[실패] %s 가 없다. derive_data.py 를 먼저 돌린다" % DATA.name)
@@ -205,13 +242,16 @@ def main():
 
     check_cards(items)
     check_sets(items)
+    check_handouts(items)
 
     for m in FAIL:
         print("[실패] %s" % m)
     print()
     nc = len(json.loads(CARDDATA.read_text(encoding="utf-8"))["items"]) if CARDDATA.exists() else 0
     ns = len(json.loads(SETDATA.read_text(encoding="utf-8"))["items"]) if SETDATA.exists() else 0
-    print("강의 %d편 / 카드 %d장 / 세트 %d개" % (len(items), nc, ns))
+    nh = len(json.loads(HANDDATA.read_text(encoding="utf-8"))["items"]) if HANDDATA.exists() else 0
+    print("강의 %d편 / 카드 %d장 / 세트 %d개 / 강의록 %d편"
+          % (len(items), nc, ns, nh))
     print("실패 %d" % len(FAIL))
     return 1 if FAIL else 0
 

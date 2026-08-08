@@ -27,6 +27,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / "out" / "data"
 SETS = ROOT / "out" / "sets"
 CARDS = ROOT / "out" / "cards"
+HAND = ROOT / "out" / "handouts"
 
 # 통과 기준의 숫자만 뽑는다. 문장은 강의록이 들고 있다.
 # 앱은 숫자로 진행을 재고 문장은 종이가 보여 준다. 같은 것을 두 곳에 안 적는다.
@@ -283,6 +284,66 @@ def sets():
     return rows, bad
 
 
+def handouts():
+    """강의록 96편. 여섯 칸을 앞면 넷과 뒷면 둘로 갈라 담는다.
+
+    강의에서 다시 뽑지 않고 강의록 마크다운을 읽는다.
+    **강의에서 또 뽑으면 파생 경로가 둘이 된다.** 둘이 어긋나면 어느 쪽이 종이인지 모른다.
+    앱이 보여 주는 것은 종이와 같아야 하므로 종이를 읽는다.
+    """
+    rows, bad = [], []
+    for f in sorted(HAND.glob("eng2p_handout_l*.md")):
+        text = f.read_text(encoding="utf-8")
+        n = int(f.stem[-3:])
+        m = re.search(r"^# (\d+)강 강의록\. (.+)$", text, re.M)
+        if not m:
+            bad.append("%s: 제목 줄이 없다" % f.name)
+            continue
+
+        def cell(num, name):
+            mm = re.search(r"## %d\. %s\n(.*?)(?=\n## |\n---\n|\Z)"
+                           % (num, name), text, re.S)
+            # 줄 앞의 빈칸을 안 지운다. 영어 재료 칸은 네 칸 들여쓰기가 표시다.
+            # strip() 을 걸면 첫 줄의 들여쓰기가 사라지고 영어 줄이 안 잡힌다.
+            return mm.group(1).strip("\n") if mm else None
+
+        eng = [x.strip() for x in (cell(2, "영어 재료") or "").split("\n")
+               if x.startswith("    ")]
+        note = [x.strip() for x in (cell(2, "영어 재료") or "").split("\n")
+                if x.strip() and not x.startswith("    ")]
+        rec = cell(5, "기록 칸") or ""
+        items = re.findall(r"^(\d+)\. (.+)$", rec, re.M)
+        rows.append({
+            "no": n,
+            "lecture": int(m.group(1)),
+            "title": m.group(2).strip(),
+            "quarter": re.search(r"^분기:\s*(\S+)", text, re.M).group(1),
+            "track": re.search(r"^트랙:\s*(\S+)", text, re.M).group(1),
+            "source": "out/handouts/%s" % f.name,
+            "front": {
+                "today": cell(1, "오늘 하는 것"),
+                "english": eng,
+                "englishNote": note,
+                "plan": cell(3, "30분 진행표"),
+                "cards": cell(4, "카드"),
+            },
+            "back": {
+                "record": [{"no": int(a), "text": b} for a, b in items],
+                "notMeasured": re.findall(r"^안 재는 것: (.+)$", rec, re.M),
+                "stuck": cell(6, "막혔을 때"),
+            },
+        })
+        for side, key in (("front", "today"), ("front", "plan"),
+                          ("front", "cards"), ("back", "stuck")):
+            if not rows[-1][side][key]:
+                bad.append("%s: %s 칸이 비었다" % (f.name, key))
+        if not rows[-1]["front"]["english"]:
+            bad.append("%s: 영어 재료가 없다" % f.name)
+        if not rows[-1]["back"]["record"]:
+            bad.append("%s: 기록 항목이 없다" % f.name)
+    return rows, bad
+
+
 def write(name, payload):
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / name
@@ -335,6 +396,17 @@ def main():
         return 1
     p = write("sets.json", srows)
     print("%s / 세트 %d개" % (p.relative_to(ROOT), len(srows)))
+
+    hrows, bad = handouts()
+    for m in bad:
+        print("[실패] %s" % m)
+    if bad:
+        return 1
+    if len(hrows) != 96:
+        print("[실패] 강의록이 %d편이다. 96편이어야 한다" % len(hrows))
+        return 1
+    p = write("handouts.json", hrows)
+    print("%s / 강의록 %d편" % (p.relative_to(ROOT), len(hrows)))
     return 0
 
 
