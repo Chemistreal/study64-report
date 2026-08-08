@@ -62,7 +62,24 @@ def pick_today(name, text, b):
     # 없으면 블록 1의 첫 문장을 쓴다. 정보가 없는 것이 아니라 표시가 없는 것이다.
     one = re.search(r"\*\*(.+?)\*\*", b[0])
     if one:
-        return num, title, one.group(1).strip()
+        lead = one.group(1).strip()
+        # 굵은 줄이 가리키는 말로 시작하면 그것만으로는 종이에서 안 읽힌다.
+        # "셋째가 한국어 화자에게 제일 안 들린다" 는 셋이 무엇인지 없이는 못 읽는다.
+        # 앞 문단이 그 셋을 적고 있다. 앞 문단을 붙인다. T81 에서 열 편을 셌다.
+        # 표는 안 붙인다. 종이 한 칸에 표를 넣으면 칸이 표로 채워진다.
+        if POINTER.match(lead):
+            paras = [re.sub(r"\s+", " ", x.replace("**", "")).strip()
+                     for x in re.split(r"\n\s*\n", b[0]) if x.strip()]
+            head = lead.split(".")[0]
+            i = next((j for j, x in enumerate(paras) if head in x), 0)
+            if i > 0 and not paras[i - 1].startswith("|"):
+                lead = "%s %s" % (paras[i - 1], lead)
+        if POINTER.match(lead):
+            # 앞 문단을 붙여도 안 서는 자리다. 앞 문단이 없거나 표다.
+            # 강의의 굵은 줄을 혼자 서는 문장으로 옮겨야 한다. 28강 52강 57강이 그랬다.
+            miss(name, "오늘 하는 것",
+                 "굵은 줄이 앞말을 받아야 서는 문장이다: %s" % lead[:40])
+        return num, title, lead
     # 첫 줄만 쓰면 문장이 가운데서 잘린다. 첫 문단을 통째로 쓴다.
     para = next((x for x in re.split(r"\n\s*\n", b[0]) if x.strip()), "")
     first = re.sub(r"\s+", " ", para).strip()
@@ -71,6 +88,11 @@ def pick_today(name, text, b):
         return num, title, None
     return num, title, first
 
+
+# 앞말을 받아야 뜻이 서는 말이다. 이것으로 시작하는 문장은 혼자 못 선다.
+POINTER = re.compile(
+    r"^(첫째|둘째|셋째|넷째|다섯째|둘 다|셋 다|넷 다|둘이|셋이|넷이"
+    r"|그것|이것|그 |이 |여기|거기|그래서|그러면|그런데|나머지|앞의|뒤의|버리는 것이)")
 
 HAN = r"[\uac00-\ud7a3]"
 
