@@ -177,6 +177,18 @@ tbody tr:hover td{background:var(--card2)}
 .duo>div{border:1px solid var(--edge);border-radius:12px;padding:12px;background:var(--card2)}
 .duo .who{font-size:11.5px;font-weight:700;margin-bottom:6px}
 .duo .what{font-size:13px;color:var(--mut);line-height:1.55}
+/* 이 기기가 어느 쪽인지. 두 사람이 각자 기기를 보는 자리라 자기 것이 커야 한다. */
+.duo>div{padding:11px 13px;border:1px solid var(--edge);border-radius:12px;background:var(--card)}
+.duo>div.mine{border-color:var(--a1);background:var(--card2);box-shadow:var(--glow)}
+.duo>div.mine .what{color:var(--fg);font-size:15px}
+.duo>div.other{opacity:.62}
+.sidepick{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px;
+  font-size:12px;color:var(--mut);flex-wrap:wrap}
+.sidepick button{padding:7px 13px;border-radius:9px;border:1px solid var(--edge);
+  background:var(--card);color:var(--fg);font-size:12.5px;font-weight:650;cursor:pointer}
+.sidepick button.on{border-color:var(--a1);background:var(--a1);color:#fff}
+/* 링 안의 세션 남은 시간. 블록 시간만 보면 두 시간 중 어디인지 모른다. */
+.tleft{font-size:12px;color:var(--mut);margin-top:3px;font-family:var(--mono)}
 @media(max-width:520px){.duo{grid-template-columns:1fr}}
 
 /* ---------- 타이머 ---------- */
@@ -464,10 +476,12 @@ kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--edge);border-r
         <div class="inner">
           <div class="tblock" id="tBlockName">블록 1</div>
           <div class="tbig" id="tClock">40:00</div>
+          <div class="tleft" id="tSessLeft"></div>
         </div>
       </div>
       <div class="tdesc" id="tDesc"></div>
       <div class="duo" id="tDuo" style="margin-top:16px"></div>
+      <div class="sidepick" id="tSide"></div>
       <div class="bar"><i id="tBar" style="width:0%"></i></div>
       <div class="steps" id="tSteps"></div>
       <div class="slab"><span>0분</span><span>120분</span></div>
@@ -1098,7 +1112,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},theme:null,wk:0,onboarded:false,session:null};
+          media:{done:{},fav:{},last:null,pass:{}},theme:null,wk:0,onboarded:false,session:null,device:null};
 }
 function load(){
   try{
@@ -1498,6 +1512,34 @@ function restartFinishedSession(){
     T.idx=0; T.left=BLOCKS[0].m*60; hideSessionDone();
   }
 }
+
+/* =========================================================================
+   이 기기의 쪽. A 인가 B 인가.
+   역할 자체는 날짜가 정한다. 기기는 "이 화면을 보는 사람이 누구인가" 만 고른다.
+   그래서 사람 이름으로 고르고 A/B 는 날짜에서 나온다.
+   ========================================================================= */
+function devicePerson(){ return S.device || null; }        // "a"=사람1, "b"=사람2
+function deviceSide(){
+  var who=devicePerson(); if(!who) return null;
+  /* 사람1이 A인 날이면 사람1 기기는 A쪽이다. */
+  return roleOf(today())==="a" ? (who==="a"?"a":"b") : (who==="a"?"b":"a");
+}
+function renderSidePick(A,B){
+  var box=$("#tSide"); if(!box) return;
+  var who=devicePerson();
+  var h='<span>이 기기를 쓰는 사람</span>';
+  h+='<button data-dev="a" class="'+(who==="a"?"on":"")+'">'+esc(S.names.a)+'</button>';
+  h+='<button data-dev="b" class="'+(who==="b"?"on":"")+'">'+esc(S.names.b)+'</button>';
+  if(who) h+='<button data-dev="">지움</button>';
+  else h+='<span class="mut">안 고르면 두 쪽을 다 보여 준다</span>';
+  box.innerHTML=h;
+  box.querySelectorAll("[data-dev]").forEach(function(btn){
+    btn.onclick=function(){
+      S.device=btn.dataset.dev||null; save(); paintTimer();
+    };
+  });
+}
+
 function paintTimer(){
   var b=BLOCKS[T.idx];
   $("#tBlockName").textContent="블록 "+(T.idx+1)+" · "+b.n;
@@ -1508,10 +1550,21 @@ function paintTimer(){
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
   var duo=$("#tDuo");
   if(duo){
-    duo.innerHTML='<div><div class="who"><span class="rb a">A '+esc(A)+'</span></div><div class="what">'+esc(b.da)+'</div></div>'+
-                  '<div><div class="who"><span class="rb b">B '+esc(B)+'</span></div><div class="what">'+esc(b.db)+'</div></div>';
+    /* 이 기기가 어느 쪽인지 골라 두면 자기 것이 커지고 상대 것이 흐려진다.
+       두 사람이 각자 기기를 보는 자리라 자기 지시를 찾는 데 시간이 들면 안 된다.
+       E구간에서 카드 A면 B면을 기기로 가를 때 이 값을 그대로 쓴다. */
+    var mine=deviceSide();
+    function pane(side,label,name,what){
+      var c=!mine?"":(mine===side?"mine":"other");
+      return '<div class="'+c+'"><div class="who"><span class="rb '+side+'">'+label+' '+esc(name)+
+             (mine===side?' · 이 기기':'')+'</span></div><div class="what">'+esc(what)+'</div></div>';
+    }
+    duo.innerHTML=pane("a","A",A,b.da)+pane("b","B",B,b.db);
   }
+  renderSidePick(A,B);
   $("#tClock").textContent=fmt(Math.max(0,T.left));
+  var sl=$("#tSessLeft");
+  if(sl) sl.textContent="세션 남은 "+sessionLeftMin()+"분 · 블록 "+(T.idx+1)+" / "+BLOCKS.length;
   $("#tDesc").textContent=b.d;
   var doneMin=BLOCKS.slice(0,T.idx).reduce(function(a,x){return a+x.m;},0);
   var pct=(doneMin+(b.m-T.left/60))/TOTAL_MIN*100;
