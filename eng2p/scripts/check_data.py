@@ -33,6 +33,8 @@ DATA = ROOT / "out" / "data" / "lectures.json"
 CARDDATA = ROOT / "out" / "data" / "cards.json"
 SETDATA = ROOT / "out" / "data" / "sets.json"
 HANDDATA = ROOT / "out" / "data" / "handouts.json"
+EMGDATA = ROOT / "out" / "data" / "emergency.json"
+TASKDATA = ROOT / "out" / "data" / "tasks.json"
 HAND = ROOT / "out" / "handouts"
 SETS = ROOT / "out" / "sets"
 
@@ -182,6 +184,63 @@ def check_handouts(lec):
             FAIL.append("%d강 카드 범위가 두 JSON 에서 다르다" % n)
 
 
+# 기준서 개정 10번. 분기마다 스무 개다.
+EMG_PER_QUARTER = 20
+# 산출 과제집 분량 계단. 기준서 9장.
+TASK_CHARS = {"Q1": 100, "Q2": 250, "Q3": 400, "Q4": 600}
+
+
+def check_emergency(lec):
+    if not EMGDATA.exists():
+        FAIL.append("emergency.json 이 없다")
+        return
+    es = json.loads(EMGDATA.read_text(encoding="utf-8"))["items"]
+    if sorted(x["no"] for x in es) != list(range(1, 81)):
+        FAIL.append("비상판 번호가 1부터 80까지가 아니다")
+    per = {}
+    seen = {}
+    for x in es:
+        per[x["quarter"]] = per.get(x["quarter"], 0) + 1
+        if not x["lecture"]:
+            FAIL.append("비상판 %03d 에 대응강의가 없다" % x["no"])
+            continue
+        if x["lecture"] in seen:
+            FAIL.append("비상판 %03d 과 %03d 이 같은 %d강에 붙는다"
+                        % (seen[x["lecture"]], x["no"], x["lecture"]))
+        seen[x["lecture"]] = x["no"]
+        q = lec.get(x["lecture"], {}).get("quarter")
+        if q != x["quarter"]:
+            FAIL.append("비상판 %03d 은 %s인데 %d강은 %s다"
+                        % (x["no"], x["quarter"], x["lecture"], q))
+        if not x["chunks"]:
+            FAIL.append("비상판 %03d 에 청크가 없다" % x["no"])
+    for q, n in sorted(per.items()):
+        if n != EMG_PER_QUARTER:
+            FAIL.append("%s 비상판이 %d개다. %d개여야 한다"
+                        % (q, n, EMG_PER_QUARTER))
+
+
+def check_tasks(lec):
+    if not TASKDATA.exists():
+        FAIL.append("tasks.json 이 없다")
+        return
+    ts = json.loads(TASKDATA.read_text(encoding="utf-8"))["items"]
+    if sorted(x["week"] for x in ts) != list(range(1, 49)):
+        FAIL.append("과제집 주차가 1부터 48까지가 아니다")
+    for x in ts:
+        want = TASK_CHARS.get(x["quarter"])
+        if want and x["minChars"] != want:
+            FAIL.append("%d주차 분량이 %d자다. %s는 %d자다"
+                        % (x["week"], x["minChars"], x["quarter"], want))
+        for n in x["lectures"]:
+            if lec.get(n, {}).get("quarter") != x["quarter"]:
+                FAIL.append("%d주차 과제가 %d강에 붙는데 분기가 다르다"
+                            % (x["week"], n))
+        for k in ("task", "condition", "how", "check"):
+            if not x.get(k):
+                FAIL.append("%d주차 과제집에 %s 가 없다" % (x["week"], k))
+
+
 def main():
     if not DATA.exists():
         print("[실패] %s 가 없다. derive_data.py 를 먼저 돌린다" % DATA.name)
@@ -243,6 +302,8 @@ def main():
     check_cards(items)
     check_sets(items)
     check_handouts(items)
+    check_emergency(items)
+    check_tasks(items)
 
     for m in FAIL:
         print("[실패] %s" % m)
@@ -250,8 +311,10 @@ def main():
     nc = len(json.loads(CARDDATA.read_text(encoding="utf-8"))["items"]) if CARDDATA.exists() else 0
     ns = len(json.loads(SETDATA.read_text(encoding="utf-8"))["items"]) if SETDATA.exists() else 0
     nh = len(json.loads(HANDDATA.read_text(encoding="utf-8"))["items"]) if HANDDATA.exists() else 0
-    print("강의 %d편 / 카드 %d장 / 세트 %d개 / 강의록 %d편"
-          % (len(items), nc, ns, nh))
+    def cnt(p):
+        return len(json.loads(p.read_text(encoding="utf-8"))["items"]) if p.exists() else 0
+    print("강의 %d편 / 카드 %d장 / 세트 %d개 / 강의록 %d편 / 비상판 %d개 / 과제집 %d주"
+          % (len(items), nc, ns, nh, cnt(EMGDATA), cnt(TASKDATA)))
     print("실패 %d" % len(FAIL))
     return 1 if FAIL else 0
 

@@ -28,6 +28,8 @@ OUT = ROOT / "out" / "data"
 SETS = ROOT / "out" / "sets"
 CARDS = ROOT / "out" / "cards"
 HAND = ROOT / "out" / "handouts"
+EMG = ROOT / "out" / "emergency"
+TASKS = ROOT / "out" / "tasks"
 
 # 통과 기준의 숫자만 뽑는다. 문장은 강의록이 들고 있다.
 # 앱은 숫자로 진행을 재고 문장은 종이가 보여 준다. 같은 것을 두 곳에 안 적는다.
@@ -344,6 +346,74 @@ def handouts():
     return rows, bad
 
 
+EMG_HEAD = re.compile(r"^##\s*(\d{3})\s+(.+?인출)\s*$", re.M)
+
+
+def emergency():
+    """비상판 80개. 인출 지시와 청크 목록과 붙는 강이다."""
+    rows, bad = [], []
+    for f in sorted(EMG.glob("*.md")):
+        text = f.read_text(encoding="utf-8")
+        quarter = re.search(r"^분기:\s*(\S+)", text, re.M).group(1)
+        heads = list(EMG_HEAD.finditer(text))
+        for i, m in enumerate(heads):
+            end = heads[i + 1].start() if i + 1 < len(heads) else len(text)
+            body = text[m.end():end].split("\n---")[0]
+            pull = re.search(r"^인출 10분: (.+?)(?=\n청크 5분:|\Z)", body, re.S | re.M)
+            chunk = re.search(r"^청크 5분: (.+)$", body, re.M)
+            # 대응강의 줄이 원본이다. 본문의 "강의 NN" 은 설명 문장이라 없는 항목이 있다.
+            # Q1 스무 개가 그 상태였다. 제목이 강과 1:1 인데 데이터에는 안 나왔다.
+            lec = re.search(r"^대응강의:\s*(\d+)강", body, re.M)
+            if not pull or not chunk:
+                bad.append("%s %s: 인출이나 청크가 없다" % (f.name, m.group(1)))
+                continue
+            rows.append({
+                "no": int(m.group(1)),
+                "title": m.group(2).strip(),
+                "quarter": quarter,
+                "lecture": int(lec.group(1)) if lec else None,
+                "source": "out/emergency/%s" % f.name,
+                "minutes": {"pull": 10, "chunk": 5},
+                "pull": re.sub(r"\s+", " ", pull.group(1)).strip(),
+                "chunks": [c.strip() for c in chunk.group(1).split(" / ")],
+            })
+    return rows, bad
+
+
+def tasks():
+    """산출 과제집 48주. 분량과 조건과 만드는 방법이다."""
+    rows, bad = [], []
+    for f in sorted(TASKS.glob("eng2p_task_w*.md")):
+        text = f.read_text(encoding="utf-8")
+        w = int(re.search(r"_w(\d+)", f.name).group(1))
+
+        def sec(name):
+            m = re.search(r"^## %s\n(.*?)(?=\n## |\Z)" % name, text, re.S | re.M)
+            return re.sub(r"\n{3,}", "\n\n", m.group(1)).strip() if m else None
+
+        length = re.search(r"^분량:\s*(\d+)자", text, re.M)
+        lec = re.search(r"^대응강의:\s*(.+)$", text, re.M)
+        cond = re.search(r"^조건:\s*(.+)$", text, re.M)
+        if not length:
+            bad.append("%s: 분량이 없다" % f.name)
+            continue
+        rows.append({
+            "week": w,
+            "quarter": re.search(r"^분기:\s*(\S+)", text, re.M).group(1),
+            "lectures": [w * 2 - 1, w * 2],
+            "lectureLine": lec.group(1).strip() if lec else None,
+            "minChars": int(length.group(1)),
+            "source": "out/tasks/%s" % f.name,
+            "task": sec("과제"),
+            "condition": cond.group(1).strip() if cond else None,
+            "how": sec("만드는 방법"),
+            "check": sec("확인"),
+            "prompt": sec("교정 요청 프롬프트"),
+            "keep": sec("보관"),
+        })
+    return rows, bad
+
+
 def write(name, payload):
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / name
@@ -407,6 +477,24 @@ def main():
         return 1
     p = write("handouts.json", hrows)
     print("%s / 강의록 %d편" % (p.relative_to(ROOT), len(hrows)))
+
+    erows, bad = emergency()
+    for m in bad:
+        print("[실패] %s" % m)
+    if bad or len(erows) != 80:
+        print("[실패] 비상판이 %d개다. 80개여야 한다" % len(erows))
+        return 1
+    p = write("emergency.json", erows)
+    print("%s / 비상판 %d개" % (p.relative_to(ROOT), len(erows)))
+
+    trows, bad = tasks()
+    for m in bad:
+        print("[실패] %s" % m)
+    if bad or len(trows) != 48:
+        print("[실패] 과제집이 %d주다. 48주여야 한다" % len(trows))
+        return 1
+    p = write("tasks.json", trows)
+    print("%s / 과제집 %d주" % (p.relative_to(ROOT), len(trows)))
     return 0
 
 
