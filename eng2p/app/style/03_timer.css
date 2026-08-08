@@ -183,7 +183,11 @@ body.session-focus .progline{display:none}
    세션 중에만 감춘다. 감춰도 눌리는 데는 지장이 없다. T123 */
 body.session-focus #tStart,
 body.session-focus #tSkip{display:none}
-.focusdock .fstate{min-width:130px;flex:1;padding:0 8px}
+.focusdock .fstate{min-width:104px;flex:1;padding:0 6px}
+/* 단추가 넷이다. 좁은 화면에서 글자를 줄이지 말고 여백을 줄인다. */
+@media (max-width:430px){ .focusdock{gap:6px;padding:9px 8px}
+  .focusdock button{padding:11px 10px}
+  .focusdock .fstate{min-width:78px;font-size:12.5px} }
 .focusdock .fstate b{display:block;font-size:12px}
 .focusdock .fstate span{font-family:var(--mono);font-size:17px}
 .sessiondone{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;

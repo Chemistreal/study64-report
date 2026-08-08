@@ -63,6 +63,46 @@ $("#tOne").onclick=function(){
 $("#focusLre").onclick=function(){ $("#lrePlus").click(); flash("LRE +1"); };
 $("#focusToggle").onclick=function(){ $("#tStart").click(); };
 $("#focusNext").onclick=function(){ $("#tSkip").click(); };
+$("#focusPrev").onclick=function(){ $("#tPrev").click(); };
+
+/* =========================================================================
+   손가락 하나로 옮기기.
+
+   블록을 옮기려면 화면을 위로 올려 조작줄을 찾아야 했다.
+   세션 중에는 조작줄이 아래에 떠 있지만 그것도 눌러야 한다.
+   **밀면 옮겨진다.**
+
+   조심할 것이 셋이다.
+
+   1. 안에 가로로 넘기는 것이 있다. 표와 대본이 그렇다. 그 위에서 시작한 밀기는 안 센다
+   2. 위아래로 넘기는 것과 헷갈리면 안 된다. 가로가 세로보다 뚜렷할 때만 센다
+   3. **잘못 밀면 40분이 날아간다.** 그래서 조작줄에 이전을 같이 넣었다
+   ========================================================================= */
+var SWIPE={x:0,y:0,on:false};
+function swipeHost(){ return $("#blockPane"); }
+function scrollsX(el){
+  for(var e=el; e && e!==document.body; e=e.parentElement){
+    if(e.scrollWidth>e.clientWidth+4) return true;
+  }
+  return false;
+}
+document.addEventListener("touchstart",function(e){
+  var host=swipeHost();
+  if(!host || !host.contains(e.target) || e.touches.length!==1){ SWIPE.on=false; return; }
+  if(scrollsX(e.target)){ SWIPE.on=false; return; }
+  SWIPE.on=true; SWIPE.x=e.touches[0].clientX; SWIPE.y=e.touches[0].clientY;
+},{passive:true});
+document.addEventListener("touchend",function(e){
+  if(!SWIPE.on) return;
+  SWIPE.on=false;
+  var t0=e.changedTouches&&e.changedTouches[0]; if(!t0) return;
+  var dx=t0.clientX-SWIPE.x, dy=t0.clientY-SWIPE.y;
+  if(Math.abs(dx)<70 || Math.abs(dy)>45 || Math.abs(dy)>Math.abs(dx)*0.6) return;
+  /* 미리 보기 중에는 블록을 안 옮긴다. 보는 자리지 하는 자리가 아니다. */
+  if(peeking()) return;
+  if(dx<0) $("#tSkip").click(); else $("#tPrev").click();
+},{passive:true});
+
 
 /* 키보드 단축키. 데스크톱에서 세션 중 마우스를 안 잡게 한다. */
 document.addEventListener("keydown",function(e){
@@ -70,8 +110,8 @@ document.addEventListener("keydown",function(e){
   if(tag==="input"||tag==="textarea"||tag==="select"||e.metaKey||e.ctrlKey||e.altKey) return;
   var vis=TABS.filter(function(x){return x[0]!=="SEP";});
   if(e.key===" "){ e.preventDefault(); $("#tStart").click(); return; }
-  if(e.key==="n"||e.key==="N"){ $("#tSkip").click(); return; }
-  if(e.key==="p"||e.key==="P"){ $("#tPrev").click(); return; }
+  if(e.key==="n"||e.key==="N"||e.key==="ArrowRight"){ $("#tSkip").click(); return; }
+  if(e.key==="p"||e.key==="P"||e.key==="ArrowLeft"){ $("#tPrev").click(); return; }
   if(e.key==="l"||e.key==="L"){ var b=$("#lrePlus"); if(b){ b.click(); flash("LRE +1"); } return; }
   var n=parseInt(e.key,10);
   if(n>=1&&n<=vis.length){ go(vis[n-1][0]); }

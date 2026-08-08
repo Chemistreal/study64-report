@@ -1317,6 +1317,56 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   peek.forEach((m) => fails.push("미리 보기: " + m));
 
+  /* 30. **손가락 하나로 블록을 옮기는가. 그리고 잘못 민 것이 안 넘어가는가.**
+     넘김이 쉬워지면 잘못 넘김도 쉬워진다. 40분짜리 블록이다.
+     그래서 넘어가는 것만 보지 않고 **안 넘어가야 할 것이 안 넘어가는지**도 본다. */
+  const swipe = await (async () => {
+    const ctx2 = await browser.newContext({ viewport: { width: 390, height: 844 },
+                                            hasTouch: true });
+    const p3 = await ctx2.newPage();
+    const bad = [];
+    await p3.goto(PAGE);
+    await p3.evaluate(() => localStorage.clear());
+    await p3.reload();
+    await p3.waitForTimeout(400);
+    await p3.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+    await p3.click("#tOne");
+    await p3.waitForTimeout(450);
+
+    async function slide(dx, dy) {
+      await p3.evaluate(([dx, dy]) => {
+        const host = document.querySelector("#blockPane");
+        const r = host.getBoundingClientRect();
+        const x = r.x + r.width / 2, y = r.y + Math.min(60, r.height / 2);
+        const mk = (t, cx, cy) => new TouchEvent(t, {
+          bubbles: true, cancelable: true,
+          touches: t === "touchend" ? [] :
+            [new Touch({ identifier: 1, target: host, clientX: cx, clientY: cy })],
+          changedTouches: [new Touch({ identifier: 1, target: host, clientX: cx, clientY: cy })],
+        });
+        host.dispatchEvent(mk("touchstart", x, y));
+        host.dispatchEvent(mk("touchend", x + dx, y + dy));
+      }, [dx, dy]);
+      await p3.waitForTimeout(320);
+      return p3.evaluate(() => T.idx);
+    }
+
+    if (await p3.evaluate(() => T.idx) !== 0) bad.push("세션이 블록 1에서 안 시작했다");
+    if (await slide(-140, 5) !== 1) bad.push("왼쪽으로 밀었는데 다음 블록으로 안 갔다");
+    if (await slide(140, 5) !== 0) bad.push("오른쪽으로 밀었는데 이전 블록으로 안 갔다");
+    if (await slide(-30, 5) !== 0) bad.push("조금 민 것이 넘어갔다. 잘못 밀기가 넘어간다");
+    if (await slide(-140, 90) !== 0) bad.push("비스듬히 민 것이 넘어갔다. 위아래 넘기기와 헷갈린다");
+
+    if (!(await p3.isVisible("#focusPrev"))) bad.push("조작줄에 이전 블록이 없다");
+    await p3.click("#focusNext"); await p3.waitForTimeout(280);
+    if (await p3.evaluate(() => T.idx) !== 1) bad.push("조작줄 다음이 안 먹는다");
+    await p3.click("#focusPrev"); await p3.waitForTimeout(280);
+    if (await p3.evaluate(() => T.idx) !== 0) bad.push("조작줄 이전이 안 먹는다");
+    await ctx2.close();
+    return bad;
+  })();
+  swipe.forEach((m) => fails.push("손가락: " + m));
+
   await browser.close();
 
   fails.forEach((m) => console.log("[실패] " + m));
@@ -1328,7 +1378,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
-              "미리 보기 1판 / 강의 본문 1판");
+              "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
