@@ -82,6 +82,7 @@ python3 scripts/check.py out/<만든파일>
 python3 scripts/check_media.py
 python3 scripts/check_cards_plan.py
 python3 scripts/check_derived.py
+python3 scripts/check_data.py
 python3 scripts/check_refs.py
 python3 scripts/check_page.py
 python3 scripts/collect_b.py
@@ -121,6 +122,7 @@ scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인�
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
 out/data/               파생된 JSON. 손으로 안 고친다
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
+scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
 out/cards/eng2p_card_plan_q1.md 카드 001~150 배정표. 강의보다 이쪽이 기준
 ```
