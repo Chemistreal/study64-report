@@ -53,21 +53,29 @@ function plan(){
 /* 큰 자료는 첫 화면에 안 물린다. 카드 562KB, 세트 493KB, 강의 301KB 다.
    쓸 때 가져온다. fetch 를 안 쓴다. file:// 에서 막힌다.
    script 를 꽂는 방식은 Pages 에서도 file:// 에서도 된다. */
-var DATA={}, loading={};
-function loadData(name, global, cb){
-  if(window[global]){ DATA[name]=window[global]; return cb(DATA[name]); }
-  if(loading[name]){ loading[name].push(cb); return; }
-  loading[name]=[cb];
+var DATA={};
+/* **읽는 것을 뒤로 미루는 자리가 둘이 됐다.**
+   하나는 `out/data` 의 파생 자료고 하나는 미디어 차림표다. 경로가 다르다.
+   그래서 붙이는 일만 떼어 둔다. 같은 것을 두 번 붙이지 않는 것이 이 함수의 일이다. */
+var pending={};
+function loadScript(key, src, cb){
+  if(pending[key]){ pending[key].push(cb); return; }
+  pending[key]=[cb];
   var s=document.createElement("script");
-  s.src="eng2p/out/data/"+name+".js";
+  s.src=src;
   function done(ok){
-    var v=ok?window[global]:null; DATA[name]=v;
-    var qs=loading[name]||[]; loading[name]=null;
-    qs.forEach(function(f){ f(v); });
+    var qs=pending[key]||[]; pending[key]=null;
+    qs.forEach(function(f){ f(ok); });
   }
   s.onload=function(){ done(true); };
   s.onerror=function(){ done(false); };
   document.head.appendChild(s);
+}
+function loadData(name, global, cb){
+  if(window[global]){ DATA[name]=window[global]; return cb(DATA[name]); }
+  loadScript(name, "eng2p/out/data/"+name+".js", function(ok){
+    DATA[name]=ok?window[global]:null; cb(DATA[name]);
+  });
 }
 var EMG=null;
 function loadEmg(cb){ loadData("emergency","ENG2P_EMERGENCY",function(v){ EMG=v; cb(!!v); }); }
@@ -307,9 +315,11 @@ function bindSheetGo(box){
       if(v==="due"){ S.cardMode="due"; save(); peekBlock(2); return; }
       if(v.indexOf("m:")===0){
         var id=v.slice(2);
-        var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
-        if(i<0){ flash("그 과를 못 찾았다"); return; }
-        openMedia(i,"audio",false); go("media");
+        needMedia(function(){
+          var i=MEDIA.findIndex(function(x){return x.id===id;});
+          if(i<0){ flash("그 과를 못 찾았다"); return; }
+          openMedia(i,"audio",false); go("media");
+        });
       }
     };
   });

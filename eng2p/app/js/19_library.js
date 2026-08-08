@@ -2,7 +2,21 @@
    미디어 라이브러리. VOA 자체 제작 퍼블릭 도메인 52개 레슨.
    음성은 저장소 사본, 영상은 공식 원본을 필요할 때만 불러온다.
    ========================================================================= */
+/* **차림표 47KB 를 열자마자 안 읽는다.**
+   첫 그림에 쓰는 것이 하나도 없었다. 과 이름을 찾는 자리가 넷인데 넷 다
+   누르고 나서 도는 자리다. 블록 칸도 세션에 들어가야 그린다.
+   그런데도 열 때마다 47KB 를 읽고 있었다.
+
+   C단계가 블록 화면을 만들면서 열자마자 읽는 것이 두 턴에 9KB 늘었다.
+   `docs/friction.md` 8장에 천장을 박고 그 천장에 닿아 여기를 줄인다. T213 */
 var MEDIA=(window.ENG_MEDIA_CATALOG&&window.ENG_MEDIA_CATALOG.items)||[];
+function needMedia(cb){
+  if(MEDIA.length) return cb(MEDIA);
+  loadScript("catalog","media/english/catalog.js",function(){
+    MEDIA=(window.ENG_MEDIA_CATALOG&&window.ENG_MEDIA_CATALOG.items)||[];
+    cb(MEDIA);
+  });
+}
 var LIB={active:-1,mode:"audio",el:null,rate:1,sig:null};
 LIB.rate=(+S.rate>=0.75&&+S.rate<=1.25)?+S.rate:1;   /* 고른 속도는 남는다. T135 */
 
@@ -313,6 +327,8 @@ function renderMediaList(){
     '위 검색칸을 비우거나 분기를 전체로 바꾼다.</div>';
 }
 function renderMedia(){
+  /* 미디어 탭을 여는 것이 차림표를 읽는 자리다. 아직 없으면 읽고 다시 그린다. */
+  if(!MEDIA.length){ needMedia(function(){ renderMedia(); }); }
   mediaRec(); renderMediaStats(); renderMediaList();
   if(LIB.active<0&&S.media.last){
     var i=MEDIA.findIndex(function(x){return x.id===S.media.last;});

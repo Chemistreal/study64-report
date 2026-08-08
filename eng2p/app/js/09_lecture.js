@@ -172,9 +172,11 @@ function bindMapPane(box){
       if(v.indexOf("l:")===0){ peekLecture(+v.slice(2)); return; }
       if(v.indexOf("m:")===0){
         var id=v.slice(2);
-        var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
-        if(i<0){ flash("그 과를 못 찾았다"); return; }
-        openMedia(i,"audio",false); go("media");
+        needMedia(function(){
+          var i=MEDIA.findIndex(function(x){return x.id===id;});
+          if(i<0){ flash("그 과를 못 찾았다"); return; }
+          openMedia(i,"audio",false); go("media");
+        });
       }
     };
   });

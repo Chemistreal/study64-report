@@ -203,7 +203,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   // 7. 미디어. 96편의 과가 다 카탈로그에 있는가.
   //    그리고 미디어 탭으로 가도 세션 조작줄이 떠 있는가.
   //    블록 1은 40분을 다른 탭에서 듣는 블록이다. 거기서 타이머가 사라지면 안 된다.
-  const media = await page.evaluate(() => {
+  /* **차림표를 늦게 읽는다 (T213).** 첫 그림에는 안 붙는다.
+     검사가 그것을 모르고 바로 읽으면 96편이 다 없다고 나온다.
+     읽히고 나서 본다. 보는 것은 그대로다. */
+  const media = await page.evaluate(async () => {
+    await new Promise((r) => needMedia(r));
     const bad = [];
     const idx = window.ENG2P_INDEX;
     for (const w of idx.weeks) for (const L of w.lectures) {
@@ -449,8 +453,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   await off.waitForTimeout(1600);
   if (!(await off.evaluate(() => !!document.querySelector(".cardview"))))
     fails.push("오프라인: 카드가 안 떴다");
-  await off.evaluate(() => { const i = MEDIA.findIndex((x) => x.id === "lle1-01");
-                             openMedia(i, "video", false); });
+  await off.evaluate(async () => {
+    await new Promise((r) => needMedia(r));      // 차림표를 늦게 읽는다 (T213)
+    const i = MEDIA.findIndex((x) => x.id === "lle1-01");
+    openMedia(i, "video", false);
+  });
   await off.waitForTimeout(1800);
   const note = await off.evaluate(() => {
     const e = document.getElementById("libMediaNote"); return e ? e.textContent : "";

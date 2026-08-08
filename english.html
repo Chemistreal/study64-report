@@ -1441,7 +1441,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 </footer>
 </div>
 
-<script src="media/english/catalog.js"></script>
 <script src="eng2p/out/data/index.js"></script>
 <script>
 "use strict";
@@ -1716,21 +1715,29 @@ function plan(){
 /* 큰 자료는 첫 화면에 안 물린다. 카드 562KB, 세트 493KB, 강의 301KB 다.
    쓸 때 가져온다. fetch 를 안 쓴다. file:// 에서 막힌다.
    script 를 꽂는 방식은 Pages 에서도 file:// 에서도 된다. */
-var DATA={}, loading={};
-function loadData(name, global, cb){
-  if(window[global]){ DATA[name]=window[global]; return cb(DATA[name]); }
-  if(loading[name]){ loading[name].push(cb); return; }
-  loading[name]=[cb];
+var DATA={};
+/* **읽는 것을 뒤로 미루는 자리가 둘이 됐다.**
+   하나는 `out/data` 의 파생 자료고 하나는 미디어 차림표다. 경로가 다르다.
+   그래서 붙이는 일만 떼어 둔다. 같은 것을 두 번 붙이지 않는 것이 이 함수의 일이다. */
+var pending={};
+function loadScript(key, src, cb){
+  if(pending[key]){ pending[key].push(cb); return; }
+  pending[key]=[cb];
   var s=document.createElement("script");
-  s.src="eng2p/out/data/"+name+".js";
+  s.src=src;
   function done(ok){
-    var v=ok?window[global]:null; DATA[name]=v;
-    var qs=loading[name]||[]; loading[name]=null;
-    qs.forEach(function(f){ f(v); });
+    var qs=pending[key]||[]; pending[key]=null;
+    qs.forEach(function(f){ f(ok); });
   }
   s.onload=function(){ done(true); };
   s.onerror=function(){ done(false); };
   document.head.appendChild(s);
+}
+function loadData(name, global, cb){
+  if(window[global]){ DATA[name]=window[global]; return cb(DATA[name]); }
+  loadScript(name, "eng2p/out/data/"+name+".js", function(ok){
+    DATA[name]=ok?window[global]:null; cb(DATA[name]);
+  });
 }
 var EMG=null;
 function loadEmg(cb){ loadData("emergency","ENG2P_EMERGENCY",function(v){ EMG=v; cb(!!v); }); }
@@ -1970,9 +1977,11 @@ function bindSheetGo(box){
       if(v==="due"){ S.cardMode="due"; save(); peekBlock(2); return; }
       if(v.indexOf("m:")===0){
         var id=v.slice(2);
-        var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
-        if(i<0){ flash("그 과를 못 찾았다"); return; }
-        openMedia(i,"audio",false); go("media");
+        needMedia(function(){
+          var i=MEDIA.findIndex(function(x){return x.id===id;});
+          if(i<0){ flash("그 과를 못 찾았다"); return; }
+          openMedia(i,"audio",false); go("media");
+        });
       }
     };
   });
@@ -2694,18 +2703,21 @@ function renderGround(c){
    여기서 소리를 틀면 드릴이 끊긴다. 옮겨 가서 듣고 돌아온다. */
 function goGround(at){
   var p=String(at).split(":"), id=p[0], line=+p[1]||1;
-  var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
-  if(i<0){ flash("그 과를 못 찾았다"); return; }
-  openMedia(i,"audio",true); go("media");
-  var seek=function(){
+  function seek(){
     var cu=DATA.cues && DATA.cues.items && DATA.cues.items[id];
     var t=cu && cu[line-1];
     if(t==null || !LIB.el) return;
     var go2=function(){ try{ LIB.el.currentTime=t; }catch(e){} };
     if(LIB.el.readyState>0) go2(); else LIB.el.addEventListener("loadedmetadata",go2,{once:true});
     flash(id+" "+line+"번째 줄로 갔다. 시각은 어림이다");
-  };
-  if(DATA.cues) seek(); else loadData("cues","ENG2P_CUES",seek);
+  }
+  /* 차림표를 늦게 읽는다. 그 과가 몇 번째인지는 차림표가 있어야 안다. T213 */
+  needMedia(function(){
+    var i=MEDIA.findIndex(function(x){return x.id===id;});
+    if(i<0){ flash("그 과를 못 찾았다"); return; }
+    openMedia(i,"audio",true); go("media");
+    if(DATA.cues) seek(); else loadData("cues","ENG2P_CUES",seek);
+  });
 }
 
 function renderCardView(pl){
@@ -3008,8 +3020,12 @@ function renderMediaPane(pl, seat){
   var head='<div class="k">이 블록에 쓰는 것 · 미디어</div><div class="v">'+
            esc(pl.media||"(없음)")+'</div>';
   if(!pl.media) return head;
-  var i=(typeof MEDIA!=="undefined") ?
-        MEDIA.findIndex(function(x){return x.id===pl.media;}) : -1;
+  /* 차림표를 늦게 읽는다. 블록 칸은 세션에 들어가야 그린다. T213 */
+  if(!MEDIA.length){
+    needMedia(function(){ renderBlockPane(); });
+    return head+'<div class="n">차림표를 여는 중이다.</div>';
+  }
+  var i=MEDIA.findIndex(function(x){return x.id===pl.media;});
   var it=i>=0?MEDIA[i]:null;
   if(!it) return head+'<div class="n">카탈로그에서 그 과를 못 찾았다.</div>';
   var done=lecPass(pl.lectureNo);
@@ -3830,9 +3846,11 @@ function bindMapPane(box){
       if(v.indexOf("l:")===0){ peekLecture(+v.slice(2)); return; }
       if(v.indexOf("m:")===0){
         var id=v.slice(2);
-        var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
-        if(i<0){ flash("그 과를 못 찾았다"); return; }
-        openMedia(i,"audio",false); go("media");
+        needMedia(function(){
+          var i=MEDIA.findIndex(function(x){return x.id===id;});
+          if(i<0){ flash("그 과를 못 찾았다"); return; }
+          openMedia(i,"audio",false); go("media");
+        });
       }
     };
   });
@@ -5245,7 +5263,21 @@ $("#cSave").onclick=function(){
    미디어 라이브러리. VOA 자체 제작 퍼블릭 도메인 52개 레슨.
    음성은 저장소 사본, 영상은 공식 원본을 필요할 때만 불러온다.
    ========================================================================= */
+/* **차림표 47KB 를 열자마자 안 읽는다.**
+   첫 그림에 쓰는 것이 하나도 없었다. 과 이름을 찾는 자리가 넷인데 넷 다
+   누르고 나서 도는 자리다. 블록 칸도 세션에 들어가야 그린다.
+   그런데도 열 때마다 47KB 를 읽고 있었다.
+
+   C단계가 블록 화면을 만들면서 열자마자 읽는 것이 두 턴에 9KB 늘었다.
+   `docs/friction.md` 8장에 천장을 박고 그 천장에 닿아 여기를 줄인다. T213 */
 var MEDIA=(window.ENG_MEDIA_CATALOG&&window.ENG_MEDIA_CATALOG.items)||[];
+function needMedia(cb){
+  if(MEDIA.length) return cb(MEDIA);
+  loadScript("catalog","media/english/catalog.js",function(){
+    MEDIA=(window.ENG_MEDIA_CATALOG&&window.ENG_MEDIA_CATALOG.items)||[];
+    cb(MEDIA);
+  });
+}
 var LIB={active:-1,mode:"audio",el:null,rate:1,sig:null};
 LIB.rate=(+S.rate>=0.75&&+S.rate<=1.25)?+S.rate:1;   /* 고른 속도는 남는다. T135 */
 
@@ -5556,6 +5588,8 @@ function renderMediaList(){
     '위 검색칸을 비우거나 분기를 전체로 바꾼다.</div>';
 }
 function renderMedia(){
+  /* 미디어 탭을 여는 것이 차림표를 읽는 자리다. 아직 없으면 읽고 다시 그린다. */
+  if(!MEDIA.length){ needMedia(function(){ renderMedia(); }); }
   mediaRec(); renderMediaStats(); renderMediaList();
   if(LIB.active<0&&S.media.last){
     var i=MEDIA.findIndex(function(x){return x.id===S.media.last;});

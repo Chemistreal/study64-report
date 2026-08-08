@@ -86,18 +86,21 @@ function renderGround(c){
    여기서 소리를 틀면 드릴이 끊긴다. 옮겨 가서 듣고 돌아온다. */
 function goGround(at){
   var p=String(at).split(":"), id=p[0], line=+p[1]||1;
-  var i=(typeof MEDIA!=="undefined")?MEDIA.findIndex(function(x){return x.id===id;}):-1;
-  if(i<0){ flash("그 과를 못 찾았다"); return; }
-  openMedia(i,"audio",true); go("media");
-  var seek=function(){
+  function seek(){
     var cu=DATA.cues && DATA.cues.items && DATA.cues.items[id];
     var t=cu && cu[line-1];
     if(t==null || !LIB.el) return;
     var go2=function(){ try{ LIB.el.currentTime=t; }catch(e){} };
     if(LIB.el.readyState>0) go2(); else LIB.el.addEventListener("loadedmetadata",go2,{once:true});
     flash(id+" "+line+"번째 줄로 갔다. 시각은 어림이다");
-  };
-  if(DATA.cues) seek(); else loadData("cues","ENG2P_CUES",seek);
+  }
+  /* 차림표를 늦게 읽는다. 그 과가 몇 번째인지는 차림표가 있어야 안다. T213 */
+  needMedia(function(){
+    var i=MEDIA.findIndex(function(x){return x.id===id;});
+    if(i<0){ flash("그 과를 못 찾았다"); return; }
+    openMedia(i,"audio",true); go("media");
+    if(DATA.cues) seek(); else loadData("cues","ENG2P_CUES",seek);
+  });
 }
 
 function renderCardView(pl){

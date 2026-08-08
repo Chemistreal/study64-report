@@ -168,8 +168,12 @@ function renderMediaPane(pl, seat){
   var head='<div class="k">이 블록에 쓰는 것 · 미디어</div><div class="v">'+
            esc(pl.media||"(없음)")+'</div>';
   if(!pl.media) return head;
-  var i=(typeof MEDIA!=="undefined") ?
-        MEDIA.findIndex(function(x){return x.id===pl.media;}) : -1;
+  /* 차림표를 늦게 읽는다. 블록 칸은 세션에 들어가야 그린다. T213 */
+  if(!MEDIA.length){
+    needMedia(function(){ renderBlockPane(); });
+    return head+'<div class="n">차림표를 여는 중이다.</div>';
+  }
+  var i=MEDIA.findIndex(function(x){return x.id===pl.media;});
   var it=i>=0?MEDIA[i]:null;
   if(!it) return head+'<div class="n">카탈로그에서 그 과를 못 찾았다.</div>';
   var done=lecPass(pl.lectureNo);
