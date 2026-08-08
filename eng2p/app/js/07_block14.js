@@ -126,7 +126,8 @@ function aimWrite(seat){
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
   function box(side,name){
-    return '<label class="blank aimw"><span>'+esc(name)+' 가 찾은 자리</span>'+
+    /* 이름 뒤에 조사를 안 붙인다. 받침 있는 이름과 없는 이름이 다르게 읽힌다. */
+    return '<label class="blank aimw"><span>'+esc(name)+' · 찾은 자리</span>'+
            '<textarea id="aim'+side.toUpperCase()+'" rows="2" '+
            'placeholder="한 줄로 적는다"></textarea></label>';
   }

@@ -1747,6 +1747,30 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!four.a || !four.b) bad.push("블록 4 에 두 칸이 다 안 뜬다");
     if (!four.same || !four.diff) bad.push("블록 4 에 겹친 수 세는 칸이 없다");
     if (four.shown !== "앞뒤") bad.push("블록 1 에 적은 것이 블록 4 에 안 뜬다: " + four.shown);
+    /* **블록 2 3단계가 1단계에서 가린 목록을 펴는가.**
+       1단계 코드가 "빠진 것은 3단계에서 갈린다" 고 적어 놓고 안 폈다.
+       B 는 그 목록을 세션 내내 한 번도 못 봤다. T212 */
+    await pw.evaluate(() => { S.device = "b"; save(); gotoBlock(1); });
+    await pw.waitForTimeout(800);
+    /* **1단계 동안에는 아직 안 보여야 한다.** 네 단계가 한 칸에 다 그려지므로
+       그려 두기만 하면 아래로 밀어 볼 수 있다. 시간이 닿아야 편다. */
+    const early = await pw.evaluate(() =>
+      document.querySelector("#blockPane").innerText.indexOf("1단계에 들어갔어야 하는 것") >= 0);
+    if (early) bad.push("블록 2 1단계인데 3단계 목록이 벌써 그려져 있다");
+    const two = await pw.evaluate(() => {
+      const txt = document.querySelector("#blockPane").innerText;
+      return { hid: txt.indexOf("필수 포함 요소는 B 화면에 안 띄운다") >= 0,
+               wa: !!document.getElementById("xchA"),
+               wb: !!document.getElementById("xchB") };
+    });
+    if (!two.hid) bad.push("블록 2 1단계가 B 화면에서 목록을 안 가린다");
+    if (!two.wa || !two.wb) bad.push("블록 2 3단계에 각자 적는 칸이 없다");
+    /* 시간을 3단계로 밀어 놓고 다시 본다. 8 + 8 분이 지나야 3단계다. */
+    await pw.evaluate(() => { T.left = 30 * 60 - 17 * 60; paintTimer(); });
+    await pw.waitForTimeout(600);
+    const late = await pw.evaluate(() =>
+      document.querySelector("#blockPane").innerText.indexOf("1단계에 들어갔어야 하는 것") >= 0);
+    if (!late) bad.push("블록 2 3단계에 닿았는데 가린 목록을 안 편다");
     await ctxw.close();
     return bad;
   })();
@@ -1765,7 +1789,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
               "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
-              "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 6판");
+              "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

@@ -79,7 +79,7 @@ function day(d){
      하나만 없어도 그 줄을 읽는 자리에서 앱 전체가 멈춘다.
      T98 에서 겪었다. status 만 든 기록을 넣었더니 첫 화면이 안 떴다. */
   var b={status:null,started:null,speak:0,cards:0,lre:0,unres:[],coll:[],
-          aim:{a:"",b:"",same:0,diff:0}};
+          aim:{a:"",b:"",same:0,diff:0},xchk:{a:"",b:""}};
   var r=S.days[d];
   if(!r){ S.days[d]=b; return b; }
   for(var k in b) if(!(k in r)) r[k]=b[k];

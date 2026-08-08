@@ -1627,7 +1627,7 @@ function day(d){
      하나만 없어도 그 줄을 읽는 자리에서 앱 전체가 멈춘다.
      T98 에서 겪었다. status 만 든 기록을 넣었더니 첫 화면이 안 떴다. */
   var b={status:null,started:null,speak:0,cards:0,lre:0,unres:[],coll:[],
-          aim:{a:"",b:"",same:0,diff:0}};
+          aim:{a:"",b:"",same:0,diff:0},xchk:{a:"",b:""}};
   var r=S.days[d];
   if(!r){ S.days[d]=b; return b; }
   for(var k in b) if(!(k in r)) r[k]=b[k];
@@ -2444,6 +2444,32 @@ function renderSidePick(A,B){
    ========================================================================= */
 /* 지금 몇 단계인지를 들고 있는 자리. 바뀔 때만 알리려면 앞 값이 있어야 한다. */
 var SWAP={step:null};
+/* 3단계 상호 검토에서 각자 적는 칸.
+   본문이 "합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다" 고 시킨다.
+   **시키는데 적을 자리가 없었다.** 블록 1과 다른 점이 하나 있다.
+   여기는 서로 보는 자리다. 같이 검토하는 10분이라 가리면 검토가 안 된다. T212 */
+function xchkWrite(){
+  var A=roleOf(today())==="a"?S.names.a:S.names.b;
+  var B=roleOf(today())==="a"?S.names.b:S.names.a;
+  function one(side,name){
+    /* 이름 뒤에 조사를 안 붙인다. 이름은 두 사람이 정한다.
+       받침이 있는 이름과 없는 이름에 같은 조사를 붙이면 한쪽이 어색해진다. */
+    return '<label class="blank aimw"><span>'+esc(name)+' · 합의와 불일치</span>'+
+           '<textarea id="xch'+side.toUpperCase()+'" rows="2" '+
+           'placeholder="합의 하나, 불일치 하나"></textarea></label>';
+  }
+  return '<div class="k">각자 적는다</div>'+one("a",A)+one("b",B)+
+         '<div class="n">틀렸다고 말하지 않는다. 나는 이렇게 이해했다 꼴로 적는다.</div>';
+}
+function bindXchkWrite(){
+  var r=day(today()), x=r.xchk||(r.xchk={a:"",b:""});
+  [["xchA","a"],["xchB","b"]].forEach(function(k){
+    fillField(k[0], x[k[1]]||"");
+    var el=document.getElementById(k[0]);
+    if(el) el.oninput=function(){ x[k[1]]=el.value; save(); };
+  });
+}
+
 function renderSetPane(pl){
   var sets=DATA.sets;
   if(!sets){
@@ -2491,6 +2517,24 @@ function renderSetPane(pl){
     }else if(st.step===3){
       body='<div class="body">'+esc(f["본문"]||"")+'</div>';
       if(f["규칙"]) body+='<div class="body"><b>규칙</b> '+esc(f["규칙"])+'</div>';
+      /* **1단계에서 가린 것을 여기서 편다.**
+         1단계 코드에 "빠진 것은 3단계에서 갈린다" 고 적어 놓고 안 폈다.
+         B 는 그 목록을 세션 내내 한 번도 못 봤다. 그러면 무엇이 빠졌는지를
+         A 가 말해 줘야 하고, 그것은 A 가 채점하는 자리가 된다.
+         **목록을 펴면 둘이 같은 것을 보고 갈린다.** T212 */
+      /* **3단계에 그려 두기만 하면 새어 나간다.** 네 단계가 한 칸에 다 그려진다.
+         B 가 1단계에서 아래로 밀면 3단계 목록이 그대로 보인다. 그러면 격차가 없다.
+         `check_ui.js` 가 그것을 잡았다. 세트 288개 중 셋에서 났다.
+         **시간이 3단계에 닿아야 편다.** 그 전에는 아예 안 그린다. */
+      var s1=(s.steps||[]).filter(function(x){return x.step===1;})[0];
+      if(curStep>=2 && s1 && s1.items && s1.items.length){
+        body+='<div class="body"><b>1단계에 들어갔어야 하는 것</b>'+
+          '<ol>'+s1.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>'+
+          '<div class="n">2단계까지 B 화면에서 가려 뒀던 것이다. '+
+          '빠진 것이 있으면 그것이 불일치 지점이다.</div></div>';
+      }
+      /* 각자 적는다. 본문이 "각자 적는다" 고 시키는데 적을 자리가 없었다. */
+      body+='<div class="body">'+xchkWrite()+'</div>';
     }else{
       /* 적는 자리는 적을 수 있어야 한다. 보여 주기만 하면 종이를 따로 꺼내게 된다.
          값은 그날 기록에 바로 들어간다. LRE 횟수는 이미 있는 칸을 쓴다. */
@@ -2514,6 +2558,7 @@ function renderSetPane(pl){
        esc(st.name)+' · '+st.minutes+'분'+left+'</h5>'+body+'</div>';
   });
   setTimeout(function(){
+    bindXchkWrite();
     var el=document.getElementById("setLre");
     /* rec 은 4단계 칸 안에서 잡은 값이다. 그 단계가 없는 세트면 안 잡힌다.
        여기서 다시 읽는다. 없는 것을 읽어 세션이 멎으면 안 된다. */
@@ -2921,7 +2966,8 @@ function aimWrite(seat){
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
   function box(side,name){
-    return '<label class="blank aimw"><span>'+esc(name)+' 가 찾은 자리</span>'+
+    /* 이름 뒤에 조사를 안 붙인다. 받침 있는 이름과 없는 이름이 다르게 읽힌다. */
+    return '<label class="blank aimw"><span>'+esc(name)+' · 찾은 자리</span>'+
            '<textarea id="aim'+side.toUpperCase()+'" rows="2" '+
            'placeholder="한 줄로 적는다"></textarea></label>';
   }
