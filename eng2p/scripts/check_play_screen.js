@@ -47,6 +47,13 @@
  *     못 찾으면 **알려 주고 다시 읽는다.** 다시 판정하지 않는다
  *     다섯을 못 채우는 과가 있다. 있는 만큼 돌고 몇 줄인지 적는다
  *
+ * ## 판정이 자리를 바꿨다 (T266)
+ *
+ * 내 소리는 네가를 붙였다. **판정 단추가 듣는 쪽에 있다.** 앞의 둘은 읽는 쪽이었다.
+ * 그래서 이 판에서는 **누를 것이 없는 쪽**이 어디인지를 따로 잰다.
+ * 규칙서가 판마다 판정하는 사람을 정해 뒀고 (원칙 3) 화면이 그것을 어기면
+ * 자기 발음을 자기가 판정하게 된다. 그것이 이 판이 막으려던 바로 그 일이다.
+ *
  * 쓰는 법:
  *     node scripts/check_play_screen.js
  *
@@ -411,15 +418,137 @@ const RESET = () => {
   if (!(await text(A)).includes("5분이 됐다"))
     no("한 줄 바꾸기: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
+  /* =====================================================================
+     내 소리는 네가 (T266). **판정이 듣는 쪽에 있다.**
+     ===================================================================== */
+  const HRRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; S.soloHand = false;
+    save();
+    if (typeof turnForget === "function") turnForget("hearme");
+    HRMCLK.left = 0; HRMCLK.over = false;
+    renderHearme();
+  };
+  for (const p of [A, B]) {
+    await p.evaluate(() => { S.device = null; save(); });
+    await openPlay(p, "hearme", "renderHearme");
+  }
+  /* ---- 17. 기기 쪽을 안 골라도 **안 막는다** -------------------------
+     앞의 둘과 반대다. 시작 조건이 "기기 수는 상관없다" 이다.
+     같은 조건에 같은 답을 주면 그 둘 중 하나가 틀린 것이다.            */
+  const offHr = await text(A);
+  if (offHr.includes("이대로 안 돈다"))
+    no("내 소리는 네가: 기기 쪽을 안 골랐다고 판을 막는다. 이 판은 종이로도 돈다");
+  if (!offHr.includes("기기가 하나여도 돈다"))
+    no("내 소리는 네가: 기기가 하나여도 돈다는 말이 화면에 없다");
+
+  await A.evaluate(() => { S.device = "a"; save(); });
+  await B.evaluate(() => { S.device = "b"; save(); });
+  await A.evaluate(HRRESET); await B.evaluate(HRRESET);
+
+  /* ---- 18. 지시가 말하는 쪽 화면에 없다 ------------------------------- */
+  const withKind = async (p, k) => {
+    await p.evaluate((k) => {
+      if (!window.__hi) window.__hi = hrmItems;
+      window.hrmItems = function () {
+        var xs = window.__hi(); if (!xs) return xs;
+        return xs.map(function (x) {
+          var y = {}; for (var n in x) y[n] = x[n]; y.kind = k; return y;
+        });
+      };
+      renderHearme();
+    }, k);
+    const h = await pane(p);
+    await p.evaluate(() => { window.hrmItems = window.__hi; renderHearme(); });
+    return h;
+  };
+  const isListener = (p) => p.evaluate(() => !!document.querySelector(".hrmsay"));
+  let lis = (await isListener(A)) ? A : B, spk = (await isListener(A)) ? B : A;
+  if ((await isListener(A)) === (await isListener(B)))
+    no("내 소리는 네가: 두 기기가 같은 자리다");
+  let hrLeak = 0, hrBlind = 0, judgeWrong = 0, star = 0;
+  const hrSeats = [];
+  for (let ln = 0; ln < 6; ln++) {
+    const s0 = await withKind(spk, "cluster"), s1 = await withKind(spk, "darkl");
+    if (s0 !== s1) hrLeak++;
+    const l0 = await withKind(lis, "cluster"), l1 = await withKind(lis, "darkl");
+    if (l0 === l1) hrBlind++;
+    /* **판정 단추가 듣는 쪽에만 있다.** 이 판의 뼈대다. */
+    if ((await spk.$$("#hrmNone")).length || (await spk.$$("#hrmSome")).length)
+      judgeWrong++;
+    if (!(await lis.$$("#hrmNone")).length) judgeWrong++;
+    /* 자료에 마크다운이 남았으면 화면에 별표가 그대로 뜬다 (T265) */
+    if ((await text(lis)).includes("**")) star++;
+    hrSeats.push((await isListener(A)) ? "듣는 쪽" : "말하는 쪽");
+    for (const p of [A, B])
+      await p.evaluate(() => { roundStepSet("hearme", roundStep("hearme") + 1);
+                               renderHearme(); });
+    if (ln === 2) { const t = lis; lis = spk; spk = t; }
+  }
+  if (hrLeak) no("말하는 쪽 화면이 듣는 쪽 지시에 따라 달라진다: " + hrLeak + "줄");
+  if (hrBlind) no("듣는 쪽 화면이 지시에 따라 안 달라진다: " + hrBlind + "줄");
+  if (judgeWrong) no("판정 단추가 있어야 할 쪽에 없거나 없어야 할 쪽에 있다: " +
+                     judgeWrong + "곳. 이 판은 듣는 사람이 판정한다");
+  if (star) no("듣는 쪽 화면에 별표 두 개가 그대로 떴다: " + star +
+               "줄. 자료에 마크다운이 남았다");
+
+  /* ---- 19. 자리가 세 줄마다 바뀐다 ------------------------------------- */
+  const hrFlips = [];
+  for (let i = 1; i < hrSeats.length; i++)
+    if (hrSeats[i] !== hrSeats[i - 1]) hrFlips.push(i);
+  if (hrFlips.length !== 1 || hrFlips[0] !== 3)
+    no("내 소리는 네가: 자리가 바뀐 줄이 [" + hrFlips.join(",") +
+       "] 이다. [3] 이어야 한다 (세 줄마다)");
+
+  /* ---- 20. 세는 것이 깨끗한 줄이다 ------------------------------------- */
+  await A.evaluate(HRRESET); await B.evaluate(HRRESET);
+  let ls = (await isListener(A)) ? A : B;
+  const hrRec = () => ls.evaluate(() => S.rhit["hearme|" + today()] || {});
+  await tap(ls, "#hrmNone", "짚을 것이 없었다");
+  let hr = await hrRec();
+  if (hr.none !== 1 || hr.judged !== 1)
+    no("짚을 것이 없었다를 눌렀는데 셈이 없음 " + hr.none + " 판정 " + hr.judged + " 이다");
+  ls = (await isListener(A)) ? A : B;
+  await tap(ls, "#hrmSome", "짚어 줬다");
+  hr = await ls.evaluate(() => S.rhit["hearme|" + today()] || {});
+  if (hr.none !== 1)
+    no("짚어 줬다를 눌렀는데 없음 셈이 " + hr.none + " 로 바뀌었다. 안 늘어야 한다");
+
+  /* ---- 21. 마감 화면이 무엇을 센 숫자인지 적는다 ----------------------- */
+  await A.evaluate(HRRESET); await B.evaluate(HRRESET);
+  await A.evaluate(() => { roundStepSet("hearme", 99); renderHearme(); });
+  const hrDone = await text(A);
+  if (!hrDone.includes("짚을 것이 없었던 줄") || !hrDone.includes("틀린 줄이 아니다"))
+    no("마감 화면이 무엇을 센 숫자인지 안 적는다. 두 사람이 거꾸로 읽는다");
+  if (!hrDone.includes("B등급") || !hrDone.includes("통과 판정에는 안 쓴다"))
+    no("내 소리는 네가: 자료 등급이 화면에 없다");
+
+  /* ---- 22. 기기가 하나면 건네지 않는다 --------------------------------- */
+  await A.evaluate(() => { S.rstep = {}; S.rhit = {}; S.solo = true; save();
+                           renderHearme(); });
+  const hrSolo = await text(A);
+  if (!hrSolo.includes("건네지 않는다"))
+    no("기기가 하나인데 건네라고 하거나 아무 말도 안 한다. 이 판은 돌려 보기가 안 된다");
+  if (!(await A.$$("#hrmNone")).length)
+    no("기기가 하나인데 이 화면이 듣는 쪽이 아니다. 대본은 종이에 있다");
+  await A.evaluate(() => { S.solo = false; save(); renderHearme(); });
+
+  /* ---- 23. 5분 시계 ---------------------------------------------------- */
+  await A.evaluate(HRRESET);
+  await tap(A, "#hrmGo", "5분 시계");
+  await A.evaluate(() => { HRMCLK.left = 1; });
+  await A.waitForTimeout(1500);
+  if (!(await text(A)).includes("5분이 됐다"))
+    no("내 소리는 네가: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 2개 / 거울: 답 새기 8줄 x 2자리, 자리와 판 표시 8줄, 못 짚기 2판, " +
-              "셈 1판, 안 고른 날 1판, 건네기 1판, 시계 1판 / " +
-              "한 줄 바꾸기: 낱말 새기 5줄 x 2자리, 한 줄마다 바뀜 5줄, 알려 주기 4판, " +
-              "모자란 과 1판, 절반과 등급과 시계 3판 / 실패 " + fails.length);
+  console.log("판 3개 / 거울 10자리 / 한 줄 바꾸기 6자리 / " +
+              "내 소리는 네가: 지시 새기 6줄 x 2자리, 판정 자리 6줄 x 2, " +
+              "세 줄마다 바뀜 6줄, 깨끗한 줄 2판, 마감 글 2판, 한 기기 2판, 시계 1판 / " +
+              "실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
