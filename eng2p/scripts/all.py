@@ -51,6 +51,8 @@ STEPS = [
     ("파생", "derive_pairs.py", [], True),
     # 한 줄 바꾸기 판의 바꿀 낱말. **대본 낱말끼리만 바꾼다.** T261
     ("파생", "derive_swaps.py", [], True),
+    # 내 소리는 네가 판의 듣는 쪽 지시. **알맹이는 블록 2 근거표에서 온다.** T264
+    ("파생", "derive_listen.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
