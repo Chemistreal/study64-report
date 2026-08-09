@@ -74,6 +74,13 @@
  * 넷째가 중요하다. 앞의 넷을 베껴 `playHalf` 를 붙이면 두 사람이
  * 온 수를 절반으로 읽고 두 배로 더한다.
  *
+ * ## 등급이 A인 자료가 처음 왔다 (T275)
+ *
+ * 둘이 한 문장이다. 여기서 잴 것이 하나 는다.
+ * **A등급 자료에 "통과 판정에 안 쓴다" 가 붙으면 안 된다.**
+ * 그것은 없는 금지고 두 사람이 쓸 수 있는 것을 못 쓰는 것으로 읽는다.
+ * B등급 판에서는 그 말이 있어야 하고 A등급 판에서는 없어야 한다. 둘 다 잰다.
+ *
  * 쓰는 법:
  *     node scripts/check_play_screen.js
  *
@@ -798,15 +805,130 @@ const RESET = () => {
     no("마감 화면이 누가 끊었는지 안 센다는 말을 안 한다 (R32)");
   if (!chDone.includes("B등급")) no("이어달리기: 자료 등급이 화면에 없다");
 
+  /* =====================================================================
+     둘이 한 문장 (T275). **가리는데 셈은 절반이 아니다.**
+     ===================================================================== */
+  const TWRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("twohalf");
+    TWH.open = null; TWHCLK.left = 0; TWHCLK.over = false;
+    renderTwohalf();
+  };
+  for (const p of [A, B]) {
+    await p.evaluate(() => { S.device = null; save(); });
+    await openPlay(p, "twohalf", "renderTwohalf");
+  }
+  /* ---- 39. 기기 쪽을 안 골랐으면 안 돈다 (격차 판이다) ----------------- */
+  if (!(await text(A)).includes("이대로 안 돈다"))
+    no("둘이 한 문장: 기기 쪽을 안 골랐는데 판이 그대로 돈다. 각자 절반씩 봐야 한다");
+
+  await A.evaluate(() => { S.device = "a"; save(); });
+  await B.evaluate(() => { S.device = "b"; save(); });
+  await A.evaluate(TWRESET); await B.evaluate(TWRESET);
+
+  /* ---- 40. 각자 자기 토막만 본다 ---------------------------------------
+     앞 토막을 흔들면 앞을 받는 쪽만 바뀌고 뒤를 받는 쪽은 안 바뀐다.     */
+  const withHalf = async (p, side, v) => {
+    await p.evaluate((arg) => {
+      if (!window.__ti) window.__ti = twhItems;
+      window.twhItems = function () {
+        var xs = window.__ti(); if (!xs) return xs;
+        return xs.map(function (x) {
+          var y = {}; for (var k in x) y[k] = x[k]; y[arg.side] = arg.v; return y;
+        });
+      };
+      renderTwohalf();
+    }, { side: side, v: v });
+    const h = await pane(p);
+    await p.evaluate(() => { window.twhItems = window.__ti; renderTwohalf(); });
+    return h;
+  };
+  const isFront = (p) => p.evaluate(() =>
+    /앞을 받는 쪽<\/b>/.test(document.querySelector("#playPane").innerHTML));
+  let fr = (await isFront(A)) ? A : B, bk = (await isFront(A)) ? B : A;
+  if ((await isFront(A)) === (await isFront(B)))
+    no("둘이 한 문장: 두 기기가 같은 토막을 받았다");
+  let twLeak = 0, twBlind = 0;
+  const twSeats = [];
+  for (let ln = 0; ln < 6; ln++) {
+    /* 뒤 토막을 흔든다. **앞을 받는 쪽은 한 글자도 안 달라야 한다.** */
+    const f0 = await withHalf(fr, "b", "zzzz aaaa");
+    const f1 = await withHalf(fr, "b", "qqqq bbbb");
+    if (f0 !== f1) twLeak++;
+    /* 앞 토막을 흔든다. **앞을 받는 쪽은 달라야 한다.** */
+    const g0 = await withHalf(fr, "a", "zzzz aaaa");
+    const g1 = await withHalf(fr, "a", "qqqq bbbb");
+    if (g0 === g1) twBlind++;
+    twSeats.push((await isFront(A)) ? "앞" : "뒤");
+    for (const p of [A, B])
+      await p.evaluate(() => { roundStepSet("twohalf", roundStep("twohalf") + 1);
+                               renderTwohalf(); });
+    const t = fr; fr = bk; bk = t;          // 문장마다 바뀐다
+  }
+  if (twLeak) no("앞을 받는 쪽 화면이 뒤 토막에 따라 달라진다: " + twLeak + "문장");
+  if (twBlind) no("앞을 받는 쪽 화면이 앞 토막에 따라 안 달라진다: " + twBlind + "문장");
+
+  /* ---- 41. 자리가 문장마다 바뀐다 --------------------------------------- */
+  const twFlips = [];
+  for (let i = 1; i < twSeats.length; i++)
+    if (twSeats[i] !== twSeats[i - 1]) twFlips.push(i);
+  if (twFlips.length !== twSeats.length - 1)
+    no("둘이 한 문장: 자리가 바뀐 문장이 [" + twFlips.join(",") +
+       "] 이다. 문장마다 바뀌어야 한다");
+
+  /* ---- 42. 붙었다와 못 붙었다. **펴 보는 것이 벌이 아니다** ------------- */
+  await A.evaluate(TWRESET); await B.evaluate(TWRESET);
+  const twRec = () => A.evaluate(() => S.rhit["twohalf|" + today()] || {});
+  await tap(A, "#twhYes", "붙었다");
+  let tw = await twRec();
+  if (tw.joined !== 1 || tw.done !== 1)
+    no("붙었다를 눌렀는데 셈이 붙음 " + tw.joined + " 돈 것 " + tw.done + " 이다");
+  await tap(A, "#twhNo", "안 붙는다. 펴 본다");
+  tw = await twRec();
+  if (tw.joined !== 1) no("펴 봤는데 붙은 셈이 " + tw.joined + " 로 늘었다");
+  if (tw.done !== 2) no("펴 봤는데 돈 셈이 " + tw.done + " 이다");
+  const opened = await text(A);
+  if (!opened.includes("펴 보는 것이 벌이 아니다"))
+    no("펴 본 자리에 벌이 아니라는 말이 없다 (원칙 4)");
+  /* 편 화면에는 두 토막이 붙어 있어야 한다. */
+  const whole = await A.evaluate(() => {
+    var xs = twhItems(); var x = xs[roundStep("twohalf")];
+    return document.querySelector("#playPane").innerText.indexOf(x.a + " " + x.b) >= 0;
+  });
+  if (!whole) no("편 화면에 원래 문장이 통째로 없다");
+
+  /* ---- 43. 마감 화면. **절반이 아니다** --------------------------------- */
+  await A.evaluate(TWRESET);
+  await A.evaluate(() => { roundStepSet("twohalf", 99); renderTwohalf(); });
+  const twDone = await text(A);
+  if (twDone.includes("이 기기 숫자는 그 절반이다"))
+    no("마감 화면이 이 수를 절반이라고 적는다. 둘이 같이 판정하는 판이다");
+  if (!twDone.includes("절반이 아니다"))
+    no("절반이 아니라는 말이 마감 화면에 없다");
+
+  /* ---- 44. A등급에는 없는 금지를 안 붙인다 ------------------------------ */
+  if (!twDone.includes("A등급"))
+    no("둘이 한 문장: 자료가 A등급이라고 화면이 말하지 않는다");
+  if (twDone.includes("통과 판정에는 안 쓴다"))
+    no("A등급 자료에 통과 판정 금지가 붙었다. 없는 금지다");
+
+  /* ---- 45. 4분 시계 ----------------------------------------------------- */
+  await A.evaluate(TWRESET);
+  await tap(A, "#twhGo", "4분 시계");
+  await A.evaluate(() => { TWHCLK.left = 1; });
+  await A.waitForTimeout(1500);
+  if (!(await text(A)).includes("4분이 됐다"))
+    no("둘이 한 문장: 4분 시계가 다 됐는데 끝났다는 말을 안 한다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 5개 / 거울 10자리 / 한 줄 바꾸기 6자리 / 내 소리는 네가 7자리 / " +
-              "전달 놀이 8자리 / 이어달리기: 안 고른 날 3판, 가린 자리 2판, " +
-              "같은 것과 다른 차례 3판, 마디 세기 5판, 접기 1판, 안 묻기 1판, " +
-              "마감 6판 / 실패 " + fails.length);
+  console.log("판 6개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+              "이어달리기 15 / 둘이 한 문장: 토막 새기 6문장 x 2쪽, 문장마다 바뀜 6, " +
+              "붙기와 펴기 5판, 마감 2판, **A등급 금지 없음 2판**, 시계 1판 / " +
+              "실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
