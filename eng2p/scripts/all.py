@@ -57,6 +57,8 @@ STEPS = [
     ("파생", "derive_relay.py", [], True),
     # 이어달리기 판이 쓸 청크. **대본에서 세었다.** 청크 목록은 B등급이다. T270
     ("파생", "derive_chunks.py", [], True),
+    # 둘이 한 문장이 쓸 앞뒤 토막. **붙이면 원문이다.** 지어낸 영어가 없다. T273
+    ("파생", "derive_halves.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
