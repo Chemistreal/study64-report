@@ -28,7 +28,8 @@ var PLAYS=[
   {id:"swapline", name:"한 줄 바꾸기", track:"소리", min:5},
   {id:"hearme", name:"내 소리는 네가", track:"소리", min:5},
   {id:"relay", name:"전달 놀이", track:"소리", min:5},
-  {id:"chain", name:"이어달리기", track:"청크", min:5}
+  {id:"chain", name:"이어달리기", track:"청크", min:5},
+  {id:"twohalf", name:"둘이 한 문장", track:"청크", min:4}
 ];
 /* 판을 그리는 자리. **`app/play/` 조각이 여기에 자기를 넣는다.**
    목록에 있는데 여기 없으면 아직 안 읽은 것이다. 읽고 나서 다시 그린다. */
@@ -110,10 +111,18 @@ function playHalf(all){
 }
 /* **자료 등급을 화면이 말한다.** 파일이 스스로 적은 것을 그대로 옮긴다.
    내가 다시 안 적는다. 자료가 A등급이 되는 날 화면도 같이 바뀌어야 하고
-   옮겨 적으면 안 바뀐다. B등급 자료는 Q1 소리 트랙 통과 판정에 안 쓴다. */
+   옮겨 적으면 안 바뀐다.
+
+   **통과 판정에 안 쓴다는 말은 B등급에만 붙인다.** T273 에 A등급 자료가 처음
+   나왔는데 이 줄이 거기에도 "Q1 소리 트랙 통과 판정에는 안 쓴다" 를 붙이고 있었다.
+   그것은 없는 금지다. 지어낸 영어가 없는 자료에 그 말을 붙이면
+   **두 사람이 쓸 수 있는 것을 못 쓰는 것으로 읽는다.**
+   CLAUDE.md 가 막은 것은 확신 없는 것으로 통과를 정하는 일이지 A등급이 아니다. */
 function playGrade(d){
   if(!d) return "";
+  var g=d.grade||"B";
   return '<div class="small mut" style="margin-top:10px">쓰는 자료는 <b>'+
-    esc(d.grade||"B")+'등급</b>이다. '+esc(d.gradeWhy||"")+
-    ' <b>Q1 소리 트랙 통과 판정에는 안 쓴다.</b> 연습에만 쓴다.</div>';
+    esc(g)+'등급</b>이다. '+esc(d.gradeWhy||"")+
+    (g==="A" ? "" : ' <b>Q1 소리 트랙 통과 판정에는 안 쓴다.</b> 연습에만 쓴다.')+
+    '</div>';
 }

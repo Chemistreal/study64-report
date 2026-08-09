@@ -6244,7 +6244,8 @@ var PLAYS=[
   {id:"swapline", name:"한 줄 바꾸기", track:"소리", min:5},
   {id:"hearme", name:"내 소리는 네가", track:"소리", min:5},
   {id:"relay", name:"전달 놀이", track:"소리", min:5},
-  {id:"chain", name:"이어달리기", track:"청크", min:5}
+  {id:"chain", name:"이어달리기", track:"청크", min:5},
+  {id:"twohalf", name:"둘이 한 문장", track:"청크", min:4}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};
@@ -6312,9 +6313,11 @@ function playHalf(all){
 }
 function playGrade(d){
   if(!d) return "";
+  var g=d.grade||"B";
   return '<div class="small mut" style="margin-top:10px">쓰는 자료는 <b>'+
-    esc(d.grade||"B")+'등급</b>이다. '+esc(d.gradeWhy||"")+
-    ' <b>Q1 소리 트랙 통과 판정에는 안 쓴다.</b> 연습에만 쓴다.</div>';
+    esc(g)+'등급</b>이다. '+esc(d.gradeWhy||"")+
+    (g==="A" ? "" : ' <b>Q1 소리 트랙 통과 판정에는 안 쓴다.</b> 연습에만 쓴다.')+
+    '</div>';
 }
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
