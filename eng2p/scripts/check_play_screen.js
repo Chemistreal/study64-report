@@ -54,6 +54,13 @@
  * 규칙서가 판마다 판정하는 사람을 정해 뒀고 (원칙 3) 화면이 그것을 어기면
  * 자기 발음을 자기가 판정하게 된다. 그것이 이 판이 막으려던 바로 그 일이다.
  *
+ * ## 기계가 판정하는 판이 하나 있다 (T269)
+ *
+ * 전달 놀이다. 재는 것이 소리가 아니라 **적은 글과 원문이 몇 군데 다른가** 라서
+ * 기계가 셀 수 있다. 그러면 **그 셈이 맞는지를 검사가 봐야 한다.**
+ * 앞의 셋은 사람이 판정해서 검사가 볼 것이 화면뿐이었다. 여기는 셈도 본다.
+ * 아는 답을 넣고 아는 수가 나오는지 본다.
+ *
  * 쓰는 법:
  *     node scripts/check_play_screen.js
  *
@@ -540,15 +547,150 @@ const RESET = () => {
   if (!(await text(A)).includes("5분이 됐다"))
     no("내 소리는 네가: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
+  /* =====================================================================
+     전달 놀이 (T269). **소리와 되짚기.**
+     ===================================================================== */
+  const RLRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; S.soloHand = false;
+    save();
+    if (typeof turnForget === "function") turnForget("relay");
+    RLY.said = null; RLY.ready = false;
+    REVEAL.open = {};
+    RLYCLK.left = 0; RLYCLK.over = false;
+    renderRelay();
+  };
+  for (const p of [A, B]) {
+    await p.evaluate(() => { S.device = null; save(); });
+    await openPlay(p, "relay", "renderRelay");
+  }
+  /* ---- 24. 기기 쪽을 안 골랐으면 안 돈다 ------------------------------
+     한 기기만 소리를 내야 하는 판이라 앞의 격차 판들과 같다.           */
+  if (!(await text(A)).includes("이대로 안 돈다"))
+    no("전달 놀이: 기기 쪽을 안 골랐는데 판이 그대로 돈다. 한 기기만 소리를 내야 한다");
+
+  await A.evaluate(() => { S.device = "a"; save(); });
+  await B.evaluate(() => { S.device = "b"; save(); });
+  await A.evaluate(RLRESET); await B.evaluate(RLRESET);
+
+  /* ---- 25. 되짚기 셈. **아는 답을 넣고 아는 수를 본다** ---------------- */
+  const diffs = await A.evaluate(() => {
+    function n(a, b) { return rlyDiff(a, b).off; }
+    return {
+      same: n("one two three four", "one two three four"),
+      one: n("one two three four", "one X three four"),
+      two: n("one two three four five six", "one X three four Y six"),
+      run: n("one two three four five", "one X Y Z five"),
+      empty: n("one two three four", ""),
+      caps: n("One, two! THREE four.", "one two three four"),
+    };
+  });
+  if (diffs.same !== 0) no("같은 글인데 틀어진 자리가 " + diffs.same + "군데다");
+  if (diffs.one !== 1) no("한 낱말만 다른데 " + diffs.one + "군데로 센다");
+  if (diffs.two !== 2) no("떨어진 두 자리가 다른데 " + diffs.two + "군데로 센다");
+  if (diffs.run !== 1)
+    no("이어 붙은 세 낱말이 " + diffs.run + "군데로 센다. 이어 붙은 것은 한 군데다");
+  if (diffs.empty !== 1) no("빈 칸인데 " + diffs.empty + "군데다");
+  if (diffs.caps !== 0)
+    no("대소문자와 문장부호만 다른데 " + diffs.caps + "군데다. 그것은 안 본다");
+
+  /* ---- 26. 원문이 펴기 전에 두 화면 어디에도 없다 ---------------------- */
+  const withLine = async (p, v) => {
+    await p.evaluate((v) => {
+      if (!window.__rl) window.__rl = rlyLine;
+      window.rlyLine = function () { return v; };
+      renderRelay();
+    }, v);
+    const h = await pane(p);
+    await p.evaluate(() => { window.rlyLine = window.__rl; renderRelay(); });
+    return h;
+  };
+  let rlyLeak = 0;
+  for (const p of [A, B]) {
+    const a0 = await withLine(p, "aaaa bbbb cccc dddd eeee ffff");
+    const a1 = await withLine(p, "gggg hhhh iiii jjjj kkkk llll");
+    if (a0 !== a1) rlyLeak++;
+  }
+  if (rlyLeak) no("펴기 전인데 원문이 화면에 있다: " + rlyLeak + "곳");
+
+  /* ---- 27. 소리를 내는 기기가 하나다 ----------------------------------- */
+  const wr = (await A.$$("#rlyIn")).length ? A : B;
+  const snd = wr === A ? B : A;
+  if (!(await snd.$$("#rlySound")).length)
+    no("처음 듣는 쪽에 소리 단추가 없다");
+  if ((await wr.$$("#rlySound")).length)
+    no("옮기는 쪽에 소리 단추가 있다. 소리는 한 기기에서만 난다");
+  if (!(await text(snd)).includes("이어폰"))
+    no("소리를 내는 기기가 이어폰을 안 묻는다 (round.md 13장)");
+  if (!(await text(wr)).includes("상대 기기에 끼운다"))
+    no("소리를 안 내는 기기가 왜 조용한지를 안 적는다");
+
+  /* ---- 28. 펴기가 빈 칸에서 잠기고 적으면 켜진다 (T268 에 안 켜졌다) --- */
+  if ((await wr.$$("[data-reveal]")).length)
+    no("빈 칸인데 펴는 단추가 켜져 있다");
+  await wr.click("#rlyIn");
+  await wr.type("#rlyIn", "one X three four", { delay: 4 });
+  await wr.waitForTimeout(250);
+  if (!(await wr.$$("[data-reveal]")).length)
+    no("다 적었는데 펴는 단추가 안 켜졌다. 두 사람이 펴지를 못한다");
+
+  /* ---- 29. 펴면 되짚기가 뜨고 셈이 남는다 ------------------------------ */
+  await wr.evaluate(() => {
+    window.__rl2 = rlyLine;
+    window.rlyLine = function () { return "one two three four"; };
+    renderRelay();
+  });
+  await tap(wr, "[data-reveal]", "펴기");
+  const shown = await text(wr);
+  if (!/틀어진 자리 1군데/.test(shown))
+    no("편 뒤에 틀어진 자리 수가 안 뜨거나 하나가 아니다");
+  if (!shown.includes("다음에 들을 자리"))
+    no("틀어진 것이 벌이 아니라는 말이 화면에 없다");
+  await tap(wr, "#rlyNext", "다음 바퀴");
+  const rr = await wr.evaluate(() => S.rhit["relay|" + today()] || {});
+  await wr.evaluate(() => { window.rlyLine = window.__rl2; });
+  if (rr.off !== 1 || rr.done !== 1)
+    no("한 바퀴를 돌았는데 셈이 틀어짐 " + rr.off + " 바퀴 " + rr.done + " 이다");
+
+  /* ---- 30. 자리가 한 바퀴마다 바뀐다 ----------------------------------- */
+  await A.evaluate(RLRESET); await B.evaluate(RLRESET);
+  const rlySeats = [];
+  for (let ln = 0; ln < 3; ln++) {
+    rlySeats.push((await A.$$("#rlyIn")).length ? "옮기는 쪽" : "처음 듣는 쪽");
+    for (const p of [A, B])
+      await p.evaluate(() => { roundStepSet("relay", roundStep("relay") + 1);
+                               renderRelay(); });
+  }
+  const rlyFlips = [];
+  for (let i = 1; i < rlySeats.length; i++)
+    if (rlySeats[i] !== rlySeats[i - 1]) rlyFlips.push(i);
+  if (rlyFlips.length !== rlySeats.length - 1)
+    no("전달 놀이: 자리가 바뀐 바퀴가 [" + rlyFlips.join(",") +
+       "] 이다. 한 바퀴마다 바뀌어야 한다");
+
+  /* ---- 31. 마감 화면과 등급과 시계 ------------------------------------- */
+  await A.evaluate(RLRESET);
+  await A.evaluate(() => { roundStepSet("relay", 99); renderRelay(); });
+  const rlyDone = await text(A);
+  if (!rlyDone.includes("안 들리는 자리"))
+    no("마감 화면이 틀어진 자리가 무엇인지 안 적는다");
+  if (!rlyDone.includes("B등급") || !rlyDone.includes("통과 판정에는 안 쓴다"))
+    no("전달 놀이: 자료 등급이 화면에 없다");
+  await A.evaluate(RLRESET);
+  await tap(A, "#rlyGo", "5분 시계");
+  await A.evaluate(() => { RLYCLK.left = 1; });
+  await A.waitForTimeout(1500);
+  if (!(await text(A)).includes("5분이 됐다"))
+    no("전달 놀이: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 3개 / 거울 10자리 / 한 줄 바꾸기 6자리 / " +
-              "내 소리는 네가: 지시 새기 6줄 x 2자리, 판정 자리 6줄 x 2, " +
-              "세 줄마다 바뀜 6줄, 깨끗한 줄 2판, 마감 글 2판, 한 기기 2판, 시계 1판 / " +
+  console.log("판 4개 / 거울 10자리 / 한 줄 바꾸기 6자리 / 내 소리는 네가 7자리 / " +
+              "전달 놀이: 되짚기 셈 6판, 원문 새기 2자리, 소리 자리 4판, " +
+              "펴기 2판, 셈 1판, 한 바퀴마다 3바퀴, 마감과 등급과 시계 3판 / " +
               "실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
