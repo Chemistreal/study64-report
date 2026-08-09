@@ -231,6 +231,26 @@ function bindAimWrite(rd){
   aimVerdict(rd);
 }
 
+/* **조준표 8장이 안 하는 것을 정해 놓았는데 앱이 그것을 한 번도 안 말했다.**
+   자막 켜고 듣기, 대본 먼저 읽고 듣기, 속도 낮춰 두 번 이상 듣기다.
+   앱에 그 단추가 다 있다. 대본 가림 단추와 느리게 단추다.
+
+   막지는 않는다. **막으면 종이로 하게 된다.** 그 자리에서 규칙을 말한다.
+   그리고 늘 말하지 않는다. **그 자리에 갔을 때만** 말한다.
+   늘 떠 있으면 안 읽는다. T220 */
+/* 찾는 차례가 있다. **이 앱에는 자막이 없고 대본이 있다.**
+   자막 줄이 목록에서 먼저 나오는데 그것을 집으면 안 한 일을 했다고 말하게 된다.
+   그래서 규칙을 하나로 안 찾고 차례대로 찾는다. */
+function aimAvoid(pl, res){
+  var d=DATA.input; if(!d) return null;
+  var q=(d.items||[]).filter(function(x){return x.quarter===pl.quarter;})[0];
+  if(!q) return null;
+  for(var i=0;i<res.length;i++){
+    var hit=(q.avoid||[]).filter(function(a){return res[i].test(a.what);})[0];
+    if(hit) return hit.what+(hit.why?" · "+hit.why:"");
+  }
+  return null;
+}
 function renderMediaPane(pl, seat){
   var head='<div class="k">이 블록에 쓰는 것 · 미디어</div><div class="v">'+
            esc(pl.media||"(없음)")+'</div>';
@@ -293,6 +313,16 @@ function renderMediaPane(pl, seat){
        빈 칸만 두고 숫자는 syncCur 이 써 넣는다. T125 와 같은 규칙이다. */
     '<div class="n"><span id="sessRate"></span>'+
     (SESS.loop!=null?' · <span id="sessLap"></span>':"")+'</div>';
+  /* 지금 어긴 것만 말한다. 대본을 회차 기본보다 더 보이게 했거나 속도를 낮췄을 때다. */
+  var deft=(round===1?2:round===2?1:0);
+  if(veil<deft){
+    var sc=aimAvoid(pl,[/대본/,/자막/]);
+    if(sc) h+='<div class="cardwarn">조준표가 안 하기로 한 것이다. '+esc(sc)+'</div>';
+  }
+  if(rateOf()<1){
+    var rt=aimAvoid(pl,[/속도/]);
+    if(rt) h+='<div class="cardwarn">조준표가 안 하기로 한 것이다. '+esc(rt)+'</div>';
+  }
   setTimeout(function(){
     bindAimWrite(round);
     var host=$("#sessPlayHost");

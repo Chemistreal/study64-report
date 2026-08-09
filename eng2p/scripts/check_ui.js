@@ -1939,6 +1939,31 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         .indexOf("세 회차를 다 돌았다") < 0)
       bad.push("세 회차를 다 돌았는데 그 뒤를 말 안 한다");
     await pw.evaluate(() => { lecRound()[plan().lectureNo] = 0; save(); });
+    /* **조준표 8장이 안 하기로 한 것을 앱이 한 번도 안 말했다.**
+       대본 가림 단추와 느리게 단추가 바로 그 자리다. 막지 않고 그 자리에서 말한다.
+       그리고 늘 말하지 않는다. 그 자리에 갔을 때만 말한다. T220 */
+    await pw.evaluate(() => { SESS.veil = null; setRate(1); gotoBlock(0); });
+    await pw.waitForTimeout(1400);
+    const warn0 = await pw.evaluate(() =>
+      [...document.querySelectorAll("#blockPane .cardwarn")].map((x) => x.innerText).join(" | "));
+    if (warn0.indexOf("조준표가 안 하기로 한 것이다") >= 0)
+      bad.push("아무것도 안 어겼는데 조준표 말이 떠 있다: " + warn0);
+    for (let k = 0; k < 2; k++) {
+      await pw.evaluate(() => {
+        const b = [...document.querySelectorAll("#blockPane [data-media]")]
+          .find((x) => x.dataset.media === "veil");
+        if (b) b.click();
+      });
+      await pw.waitForTimeout(450);
+    }
+    const warn1 = await pw.evaluate(() =>
+      [...document.querySelectorAll("#blockPane .cardwarn")].map((x) => x.innerText).join(" | "));
+    if (warn1.indexOf("대본") < 0)
+      bad.push("대본을 회차 기본보다 열었는데 조준표 말이 없다: " + warn1);
+    if (warn1.indexOf("자막") >= 0)
+      bad.push("이 앱에 없는 자막 규칙을 집었다: " + warn1);
+    await pw.evaluate(() => { SESS.veil = null; setRate(1); renderBlockPane(); });
+    await pw.waitForTimeout(500);
     await ctxw.close();
     return bad;
   })();
