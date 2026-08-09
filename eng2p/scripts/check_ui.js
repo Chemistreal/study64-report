@@ -1910,6 +1910,35 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (ph2.indexOf("맞춰 보는 자리") < 0) bad.push("블록 4 가 맞춰 보는 자리로 안 넘어간다: " + ph2);
     if ((await pw.textContent("#fMsg")).indexOf("따로 적은 것을 편다") < 0)
       bad.push("블록 4 자리가 바뀌는데 아무 말이 없다");
+    /* **회차는 사흘에 하나씩 오르는 값이다.** 잘못 누르면 그날 것이 사라지고
+       그것이 눈에 안 띈다. 올리는 자리인데도 되돌릴 수 있어야 한다. T219 */
+    await pw.evaluate(() => { lecRound()[plan().lectureNo] = 0; save(); gotoBlock(3); });
+    await pw.waitForTimeout(900);
+    const was = await pw.evaluate(() => lecPass(plan().lectureNo));
+    await pw.evaluate(() => {
+      const b = [...document.querySelectorAll("#blockPane [data-media]")]
+        .find((x) => x.dataset.media === "pass");
+      if (b) b.click();
+    });
+    await pw.waitForTimeout(700);
+    const up = await pw.evaluate(() => ({
+      n: lecPass(plan().lectureNo),
+      undo: !!document.querySelector(".undo button") }));
+    if (up.n !== was + 1) bad.push("회차 끝냈다를 눌렀는데 안 올랐다: " + up.n);
+    if (!up.undo) bad.push("회차를 올렸는데 되돌릴 자리가 없다");
+    else {
+      await pw.evaluate(() => document.querySelector(".undo button").click());
+      await pw.waitForTimeout(600);
+      const back2 = await pw.evaluate(() => lecPass(plan().lectureNo));
+      if (back2 !== was) bad.push("회차를 되돌렸는데 안 돌아왔다: " + back2);
+    }
+    /* 세 회차를 다 돌면 그 뒤에 무엇을 하는지 말하는가 */
+    await pw.evaluate(() => { lecRound()[plan().lectureNo] = 3; save(); renderBlockPane(); });
+    await pw.waitForTimeout(800);
+    if ((await pw.evaluate(() => document.querySelector("#blockPane").innerText))
+        .indexOf("세 회차를 다 돌았다") < 0)
+      bad.push("세 회차를 다 돌았는데 그 뒤를 말 안 한다");
+    await pw.evaluate(() => { lecRound()[plan().lectureNo] = 0; save(); });
     await ctxw.close();
     return bad;
   })();
