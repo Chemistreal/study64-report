@@ -191,6 +191,21 @@ def check_merge(app, man):
     if "JSON 합치기" in man and 'id="mgBtn"' not in app:
         FAIL.append("매뉴얼이 말하는 JSON 합치기 단추가 앱에 없다")
 
+    # `docs/pair.md` 10장이 안 건너가는 것이 몇인지를 말로 적었다. T257
+    # **말로 적은 수는 코드가 늘 때 안 따라 는다.** 세어서 견준다.
+    pairdoc = PAIR.read_text(encoding="utf-8") if PAIR.exists() else ""
+    m2 = re.search(r"첫째가 여섯에서 (\S+?)이 됐다", pairdoc)
+    KO = {"열": 10, "열하나": 11, "열둘": 12, "열셋": 13, "열넷": 14,
+          "열다섯": 15, "열여섯": 16, "열일곱": 17, "열여덟": 18,
+          "열아홉": 19, "스물": 20}
+    if m2:
+        want = KO.get(m2.group(1))
+        if want is None:
+            FAIL.append("docs/pair.md 10장의 '%s' 를 셈으로 못 읽는다" % m2.group(1))
+        elif want != len(code):
+            FAIL.append("안 건너가는 것이 %d개인데 docs/pair.md 10장은 '%s' 이라고 적었다"
+                        % (len(code), m2.group(1)))
+
 
 def main():
     if not MAN.exists() or not APP.exists():
