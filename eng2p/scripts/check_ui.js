@@ -1977,6 +1977,30 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (pre.at0.sets) bad.push("블록 1 에 들어가자마자 세트를 읽는다");
     if (!pre.later.sets) bad.push("블록 1 에 있는 동안 다음 블록 세트를 안 읽는다");
     if (pre.later.cards) bad.push("블록 1 인데 두 블록 뒤 카드까지 읽는다");
+    /* **시계가 다섯이 됐다. 지금 세는 것 하나만 크다.** T222
+       3초를 재는 중에 30분 남은 것은 안 중요하다. 재는 동안 크기가 뒤집히는지 본다. */
+    await pw.evaluate(() => {
+      S.cardDue = { "Q1-005": { box: 1, due: "2020-01-01", ran: null } };
+      S.cardMode = "due"; S.card = null; S.device = null; save(); gotoBlock(2);
+    });
+    await pw.waitForTimeout(1500);
+    const size = () => pw.evaluate(() => ({
+      big: parseFloat(getComputedStyle(document.querySelector(".tbig")).fontSize),
+      ck: (() => { const e = document.getElementById("ckLeft");
+        return e ? parseFloat(getComputedStyle(e).fontSize) : null; })() }));
+    const s0 = await size();
+    if (s0.ck === null) { bad.push("초가 붙은 카드가 안 떴다"); }
+    else {
+      if (!(s0.big > s0.ck)) bad.push("재기 전에 블록 시계가 안 크다 " + JSON.stringify(s0));
+      await pw.click("#ckGo");
+      await pw.waitForTimeout(600);
+      const s1 = await size();
+      if (!(s1.ck > s1.big)) bad.push("재는 중에 카드 시계가 안 크다 " + JSON.stringify(s1));
+      await pw.waitForTimeout(9500);
+      const s2 = await size();
+      if (!(s2.big > s2.ck)) bad.push("다 세고 나서 블록 시계로 안 돌아왔다 " + JSON.stringify(s2));
+    }
+    await pw.evaluate(() => { S.cardDue = {}; S.cardMode = "today"; S.card = null; save(); });
     await ctxw.close();
     return bad;
   })();

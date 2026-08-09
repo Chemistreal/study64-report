@@ -564,6 +564,24 @@ body.session-focus .rings{display:none}
   background:var(--sub);border:1px solid var(--line);font-weight:700}
 .blockpane .phase.chk{border-color:var(--a1)}
 .blockpane .phase .n{display:block;margin-top:3px;font-weight:400}
+
+/* =========================================================================
+   시계가 다섯이 됐다. **지금 세는 것 하나만 크다.**
+
+   블록 남은 시간, 세션 남은 시간, 블록 2 단계 남은 분, 블록 3 구간 남은 분,
+   블록 4 자리 남은 분, 그리고 T215 에 넣은 카드 제한시간이다.
+   로드맵 12.12 가 "셋이다. 하나만 크게" 라고 적어 뒀는데 그 사이에 둘이 늘었다.
+
+   평소에는 블록 시계가 크다. **카드 시계가 도는 3초 동안은 그것이 크다.**
+   3초를 재는 중에 30분 남은 것은 안 중요하다. T222
+   ========================================================================= */
+body.card-clock .tbig{font-size:clamp(22px,7vw,32px);color:var(--mut)}
+body.card-clock .blockpane .ckrow{border-color:var(--a1);background:var(--bg)}
+body.card-clock .blockpane .ckrow .ckn{font-size:clamp(30px,10vw,44px);
+  font-variant-numeric:tabular-nums}
+/* 도는 동안에는 다른 남은 분들을 흐린다. 없애지는 않는다. */
+body.card-clock .blockpane .setstep h5,
+body.card-clock .blockpane .phase{opacity:.55}
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
@@ -2772,7 +2790,10 @@ function goGround(at){
    숫자는 그리는 글에 안 넣는다. 넣으면 매초 칸이 갈린다. T211 규칙과 같다.
    ========================================================================= */
 var CLK={t:null,left:0,id:null};
-function stopCardClock(){ if(CLK.t){ clearInterval(CLK.t); CLK.t=null; } }
+/* **지금 세는 것 하나만 크다.** 도는 동안 카드 시계가 커지고 블록 시계가 작아진다.
+   시계가 다섯인데 다 같은 크기면 어느 것을 보는지 두 사람이 서로 다르게 고른다. T222 */
+function markCardClock(on){ document.body.classList.toggle("card-clock",!!on); }
+function stopCardClock(){ if(CLK.t){ clearInterval(CLK.t); CLK.t=null; } markCardClock(false); }
 function paintCardClock(){
   var e=document.getElementById("ckLeft");
   if(!e){ stopCardClock(); return; }
@@ -2780,10 +2801,14 @@ function paintCardClock(){
 }
 function startCardClock(sec){
   stopCardClock();
-  CLK.left=sec; paintCardClock(); tone("start");
+  CLK.left=sec; markCardClock(true); paintCardClock(); tone("start");
   CLK.t=setInterval(function(){
     CLK.left--;
-    if(CLK.left<=0){ stopCardClock(); CLK.left=0; paintCardClock(); tone("next"); return; }
+    if(CLK.left<=0){ clearInterval(CLK.t); CLK.t=null; CLK.left=0; paintCardClock();
+                     tone("next");
+                     /* 다 세고 나서 바로 줄이지 않는다. 끝난 것을 보고 나서 줄인다. */
+                     setTimeout(function(){ markCardClock(false); },1500);
+                     return; }
     paintCardClock();
   },1000);
 }

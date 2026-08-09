@@ -132,7 +132,10 @@ function goGround(at){
    숫자는 그리는 글에 안 넣는다. 넣으면 매초 칸이 갈린다. T211 규칙과 같다.
    ========================================================================= */
 var CLK={t:null,left:0,id:null};
-function stopCardClock(){ if(CLK.t){ clearInterval(CLK.t); CLK.t=null; } }
+/* **지금 세는 것 하나만 크다.** 도는 동안 카드 시계가 커지고 블록 시계가 작아진다.
+   시계가 다섯인데 다 같은 크기면 어느 것을 보는지 두 사람이 서로 다르게 고른다. T222 */
+function markCardClock(on){ document.body.classList.toggle("card-clock",!!on); }
+function stopCardClock(){ if(CLK.t){ clearInterval(CLK.t); CLK.t=null; } markCardClock(false); }
 function paintCardClock(){
   var e=document.getElementById("ckLeft");
   if(!e){ stopCardClock(); return; }
@@ -140,10 +143,14 @@ function paintCardClock(){
 }
 function startCardClock(sec){
   stopCardClock();
-  CLK.left=sec; paintCardClock(); tone("start");
+  CLK.left=sec; markCardClock(true); paintCardClock(); tone("start");
   CLK.t=setInterval(function(){
     CLK.left--;
-    if(CLK.left<=0){ stopCardClock(); CLK.left=0; paintCardClock(); tone("next"); return; }
+    if(CLK.left<=0){ clearInterval(CLK.t); CLK.t=null; CLK.left=0; paintCardClock();
+                     tone("next");
+                     /* 다 세고 나서 바로 줄이지 않는다. 끝난 것을 보고 나서 줄인다. */
+                     setTimeout(function(){ markCardClock(false); },1500);
+                     return; }
     paintCardClock();
   },1000);
 }
