@@ -194,7 +194,7 @@ function renderSplit(){
   }
   var h='<div class="small mut">두 기기를 나란히 놓고 이 자리를 편다. '+
         '<b>같아야 하는 것과 달라야 하는 것이 아래에 갈려 있다.</b></div>';
-  h+='<table class="pairtab"><tr><th>무엇</th><th>이 기기</th><th>두 기기가</th></tr>'+
+  h+='<table class="pairtab"><tr><th scope="col">무엇</th><th scope="col">이 기기</th><th scope="col">두 기기가</th></tr>'+
      '<tr><td>판 표시</td><td class="mono">'+esc(roundTag("check",s))+
      '</td><td>같아야 한다</td></tr>'+
      '<tr><td>회</td><td class="mono">'+s+'</td><td>같아야 한다</td></tr>'+

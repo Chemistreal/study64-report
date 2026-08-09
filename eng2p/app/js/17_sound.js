@@ -110,7 +110,7 @@ function renderSound(){
     w.innerHTML='<div class="note w"><b>영어 음성이 하나도 없다.</b><div class="small">기기 설정에서 영어 음성을 받아야 한다. 안드로이드는 설정의 음성 합성, 윈도우는 설정의 음성에서 받는다.</div></div>';
   } else { w.innerHTML=""; }
 
-  var rows=['<tr><th>원형</th><th></th><th>축약형</th><th></th></tr>'];
+  var rows=['<tr><th scope="col">원형</th><th scope="col"></th><th scope="col">축약형</th><th scope="col"></th></tr>'];
   PAIRS.forEach(function(p,i){
     rows.push('<tr><td>'+p[0]+'</td><td><button class="g pbtn" data-i="'+i+'" data-k="0" style="padding:1px 8px;font-size:12px">소리</button></td>'+
               '<td><b>'+p[1]+'</b></td><td><button class="g pbtn" data-i="'+i+'" data-k="1" style="padding:1px 8px;font-size:12px">소리</button></td></tr>');

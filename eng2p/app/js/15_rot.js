@@ -42,7 +42,7 @@ function renderRot(){
     var x=el("div","note w"); x.appendChild(el("b",null,o[0])); x.appendChild(el("div","small",o[1])); ab.appendChild(x);
   });
 
-  var rows=['<tr><th>축</th><th>코드</th><th>이름</th><th class="n">등장</th><th class="n">비중</th><th>비고</th></tr>'];
+  var rows=['<tr><th scope="col">축</th><th scope="col">코드</th><th scope="col">이름</th><th scope="col" class="n">등장</th><th scope="col" class="n">비중</th><th scope="col">비고</th></tr>'];
   DOM.forEach(function(x){
     var k=c.d[x[0]]||0;
     rows.push('<tr><td>영역</td><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="n">'+k+
@@ -60,7 +60,7 @@ function renderRot(){
   });
   $("#rCount").innerHTML=rows.join("");
 
-  var lg=['<tr><th>제작물</th><th>분기</th><th>영역</th><th>관계</th><th>기능</th><th class="n">회차</th><th></th></tr>'];
+  var lg=['<tr><th scope="col">제작물</th><th scope="col">분기</th><th scope="col">영역</th><th scope="col">관계</th><th scope="col">기능</th><th scope="col" class="n">회차</th><th scope="col"></th></tr>'];
   if(!S.rot.length) lg.push('<tr><td colspan="7" class="mut">등록 없음. 첫 등록은 Q1 강의 1편에서 발생한다.</td></tr>');
   S.rot.forEach(function(x,i){
     lg.push('<tr><td class="mono">'+esc(x.id)+'</td><td>Q'+x.q+'</td><td class="mono">'+x.d+'</td><td class="mono">'+x.r+

@@ -210,8 +210,8 @@ function pairCompare(){
   var d=pairDiff(mine, got.v);
   var A=S.names.a, B=S.names.b, meIs=devicePerson();
   var meName=meIs==="b"?B:(meIs==="a"?A:"이 기기");
-  var h='<table class="pairtab"><tr><th>항목</th><th>'+esc(meName)+
-        '</th><th>상대</th></tr>';
+  var h='<table class="pairtab"><tr><th scope="col">항목</th><th scope="col">'+esc(meName)+
+        '</th><th scope="col">상대</th></tr>';
   d.rows.forEach(function(r){
     h+='<tr class="'+(r.same?"":(r.heavy?"pd-heavy":"pd-light"))+'">'+
        '<td>'+esc(PC_LABEL[r.k]||r.k)+'</td>'+

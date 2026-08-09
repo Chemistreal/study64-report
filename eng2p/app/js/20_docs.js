@@ -163,7 +163,7 @@ function renderSrc(){
     '<div class="small mut" style="margin-top:12px">조건을 채우는 재료 유형 5종</div><ul style="margin:6px 0 0;padding-left:18px">'+
     c.types.map(function(x){return '<li class="small">'+esc(x)+'</li>';}).join("")+'</ul></div>';
 
-  $("#srcPass").innerHTML='<tr><th>회차</th><th>초점</th><th>찾을 것</th><th>상호 확인</th></tr>'+
+  $("#srcPass").innerHTML='<tr><th scope="col">회차</th><th scope="col">초점</th><th scope="col">찾을 것</th><th scope="col">상호 확인</th></tr>'+
     SRC_PASS.map(function(r){
       return '<tr><td class="mono">'+r[0]+'</td><td><span class="tag a">'+r[1]+'</span></td><td>'+r[2]+'</td><td class="mut">'+r[3]+'</td></tr>';
     }).join("");
@@ -218,7 +218,7 @@ function renderRules(){
   w.appendChild(h);
   var s1=el("div","wc-sec");
   var t=el("table");
-  t.innerHTML='<tr><th>블록</th><th>시간</th><th>형태</th></tr>'+
+  t.innerHTML='<tr><th scope="col">블록</th><th scope="col">시간</th><th scope="col">형태</th></tr>'+
     BLOCKS.map(function(b,i){return '<tr><td>'+(i+1)+' '+b.n+'</td><td class="n">'+b.m+'분</td><td>'+b.d+'</td></tr>';}).join("");
   s1.appendChild(t); w.appendChild(s1);
 
@@ -241,11 +241,11 @@ function renderRules(){
   s4.appendChild(el("div","small mut","하루 빠졌으면 다음 날은 무조건 한다. 안 되면 비상판 15분. 비상판도 수행일이다."));
   w.appendChild(s4);
 
-  $("#banA").innerHTML='<tr><th>항목</th><th>구간</th><th>이유</th></tr>'+
+  $("#banA").innerHTML='<tr><th scope="col">항목</th><th scope="col">구간</th><th scope="col">이유</th></tr>'+
     BAN_A.map(function(x){return '<tr><td>'+x[0]+'</td><td class="mut">'+x[1]+'</td><td class="mut">'+x[2]+'</td></tr>';}).join("");
-  $("#banB").innerHTML='<tr><th>항목</th><th>이유</th></tr>'+
+  $("#banB").innerHTML='<tr><th scope="col">항목</th><th scope="col">이유</th></tr>'+
     BAN_B.map(function(x){return '<tr><td>'+x[0]+'</td><td class="mut">'+x[1]+'</td></tr>';}).join("");
-  $("#failTbl").innerHTML='<tr><th>시점</th><th>현상</th><th>원인</th><th>대응</th></tr>'+
+  $("#failTbl").innerHTML='<tr><th scope="col">시점</th><th scope="col">현상</th><th scope="col">원인</th><th scope="col">대응</th></tr>'+
     FAILPT.map(function(x){return '<tr><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="mut">'+x[2]+'</td><td class="mut">'+x[3]+'</td></tr>';}).join("");
 }
 

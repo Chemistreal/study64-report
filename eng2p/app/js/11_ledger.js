@@ -98,7 +98,7 @@ function renderWeek(){
   var start=addDays(base, S.wk*7);
   $("#wLabel").textContent=start+" ~ "+addDays(start,6);
   var names=["월","화","수","목","금","토","일"];
-  var rows=['<tr><th>일자</th><th>요일</th><th>오늘 A</th><th>수행</th><th class="n">발화</th><th class="n">드릴</th><th class="n">LRE</th><th class="n">미해결</th></tr>'];
+  var rows=['<tr><th scope="col">일자</th><th scope="col">요일</th><th scope="col">오늘 A</th><th scope="col">수행</th><th scope="col" class="n">발화</th><th scope="col" class="n">드릴</th><th scope="col" class="n">LRE</th><th scope="col" class="n">미해결</th></tr>'];
   var sp=0,cd=0,lr=0,hh=0;
   for(var i=0;i<7;i++){
     var d=addDays(start,i), r=S.days[d];

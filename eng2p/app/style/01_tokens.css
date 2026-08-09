@@ -51,7 +51,14 @@ header{position:sticky;top:0;z-index:30;backdrop-filter:blur(18px) saturate(150%
   -webkit-backdrop-filter:blur(18px) saturate(150%);
   background:linear-gradient(180deg,var(--bg) 40%,transparent);border-bottom:1px solid var(--edge)}
 .hd{max-width:920px;margin:0 auto;padding:16px 20px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:0.9375rem;font-weight:800;letter-spacing:-.02em;
+/* **`margin:0` 이 뜻이 있다.** PR #9 가 이 자리를 `div` 에서 `h1` 으로 바꿨다.
+   낭독기가 무엇에 관한 화면인지를 읽게 하려는 것이고 그것은 맞다.
+   그런데 `h1` 에는 브라우저가 주는 위아래 여백이 붙는다. 글자 크기는
+   아래에서 다시 정해 안 흔들렸는데 여백은 아무도 안 정해서 그대로 들어왔다.
+   **오늘 화면이 20px 자랐다.** 3% 여유 안이라 검사는 통과했다.
+   `docs/friction.md` 가 T167 에 그 여유를 그렇게 쓰지 말라고 적어 뒀다.
+   여백을 0으로 두면 보이는 것은 그대로고 낭독기만 달라진다. T260 */
+.brand{margin:0;font-size:0.9375rem;font-weight:800;letter-spacing:-.02em;
   background:linear-gradient(96deg,var(--a1),var(--a2) 45%,var(--a3t));
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .brand span{color:var(--mut);font-weight:500;-webkit-text-fill-color:var(--mut)}

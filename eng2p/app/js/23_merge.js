@@ -332,7 +332,7 @@ function renderMerge(){
     h+='<div class="note w" style="margin-top:8px"><b>고를 것이 '+p.ask.length+
        '개다.</b> 둘 다 값이 있고 서로 다른 자리다. '+
        '기계가 어느 쪽이 맞는지 모른다. <b>다 고르기 전에는 안 바뀐다.</b></div>';
-    h+='<table class="mgtab"><tr><th>무엇</th><th>이 기기</th><th>가져온 것</th></tr>';
+    h+='<table class="mgtab"><tr><th scope="col">무엇</th><th scope="col">이 기기</th><th scope="col">가져온 것</th></tr>';
     p.ask.forEach(function(q,i){
       var mk=MG.pick[q.path]==="mine", tk=MG.pick[q.path]==="theirs";
       h+='<tr><td>'+esc(q.what)+'</td>'+

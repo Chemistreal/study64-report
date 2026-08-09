@@ -10,13 +10,13 @@
 
 | 조각 | 줄 | 무엇 |
 |---|---|---|
-| `page/00_head.html` | 9 | 문서 머리. 제목과 화면 규격 |
-| `style/01_tokens.css` | 91 | 색과 글꼴 토큰, 머리띠 |
+| `page/00_head.html` | 13 | 문서 머리. 제목과 화면 규격 |
+| `style/01_tokens.css` | 98 | 색과 글꼴 토큰, 머리띠 |
 | `style/02_common.css` | 166 | 공통 자리. 카드와 단추와 표 |
 | `style/03_timer.css` | 389 | 시계와 블록 칸과 집중 화면 |
 | `style/04_parts.css` | 393 | 차트와 규칙 카드와 인쇄 |
 | `page/01_open.html` | 6 | style 닫고 body 열기 |
-| `body/01_header.html` | 14 | 머리띠와 조작줄 |
+| `body/01_header.html` | 16 | 머리띠와 조작줄 |
 | `body/02_today.html` | 143 | 오늘 탭 |
 | `body/03_review.html` | 12 | 복습 탭 |
 | `body/04_sound.html` | 63 | 소리 탭 |
@@ -63,6 +63,6 @@
 | `page/03_close.html` | 3 | script 닫고 body 닫기 |
 | `play/mirror.js` | 237 | 거울. 최소대립쌍 여덟. **읽은 사람이 판정한다** |
 
-조각 52개 8393줄이다. **한 조각은 500줄을 안 넘는다.**
+조각 52개 8406줄이다. **한 조각은 500줄을 안 넘는다.**
 넘으면 `check_app.py` 가 실패로 낸다.
 쪼갤 자리가 없으면 그 검사의 면제표에 이유를 적는다. 문턱은 안 올린다.

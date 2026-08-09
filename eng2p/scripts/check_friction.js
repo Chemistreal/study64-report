@@ -361,7 +361,14 @@ function seedScript() {
     if (k === "today_px") slack = Math.round(b.v * 0.03);
     if (b.up) bad = v < b.v;                 // 올라가야 하는 값
     else bad = v > b.v + slack;              // 늘면 안 되는 값
-    rows.push({ k: k, v: v, b: b.v, up: b.up, bad: bad });
+    // **여유 안에서 늘어난 것을 눈에 띄게 적는다.** 통과인데 안 같은 자리다.
+    // T260 에 그 자리가 실제로 났다. `div` 를 `h1` 으로 바꾸면서 브라우저가 주는
+    // 여백이 딸려 들어와 오늘 화면이 20px 자랐다. 백에 셋 안이라 "OK" 로 지나갔다.
+    // `docs/friction.md` 가 T167 에 그 여유를 그렇게 쓰지 말라고 적어 뒀는데
+    // **적어 둔 것을 지키는 것은 사람이 하고 사람은 OK 를 안 읽는다.**
+    // 자를 못 조인다. 글꼴 흔들림에 걸려 헛실패가 난다. 대신 눈에 띄게 한다.
+    const drift = !b.up && slack && v !== b.v && !bad;
+    rows.push({ k: k, v: v, b: b.v, up: b.up, bad: bad, drift: drift });
     if (bad) {
       fails.push(k + ": 기준선 " + b.v + " 인데 " + v + " 다" +
                  (b.up ? " (줄면 실패다)" : " (늘면 실패다)"));
@@ -372,7 +379,9 @@ function seedScript() {
     console.log("  " + (r.bad ? "실패" : "OK  ") + " " + r.k.padEnd(13) +
                 " 잰 값 " + String(r.v).padStart(6) +
                 " / 기준선 " + String(r.b).padStart(6) +
-                (r.up ? "  (올라가야 한다)" : ""));
+                (r.up ? "  (올라가야 한다)" : "") +
+                (r.drift ? "  **여유 안에서 " + (r.v - r.b) +
+                           " 늘었다. 여유는 늘어난 것을 숨기라고 둔 것이 아니다**" : ""));
   });
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
