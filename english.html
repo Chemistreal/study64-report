@@ -645,6 +645,14 @@ body.session-focus .blockpane .drec input{background:var(--bg2);color:var(--fg)}
   color:var(--fg);font:inherit;font-size:0.9375rem;line-height:1.5;resize:vertical}
 #weekCheck .aimw span{display:block;font-size:0.71875rem;color:var(--mut);
   letter-spacing:.06em;margin-bottom:4px}
+
+/* 비상판 15분 시계. 두 토막이고 혼자 한다. T227 */
+.emgclock{display:flex;align-items:center;gap:10px;margin:10px 0;padding:9px 11px;
+  border:1px solid var(--line);border-radius:10px;background:var(--sub)}
+.emgclock .ecn{font-family:var(--mono);font-size:1.5rem;font-weight:750;
+  font-variant-numeric:tabular-nums;min-width:88px}
+.emgclock .ecw{font-size:0.8125rem;color:var(--mut);flex:1}
+.emgclock button{min-height:44px}
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
@@ -1850,6 +1858,46 @@ function loadData(name, global, cb){
 }
 var EMG=null;
 function loadEmg(cb){ loadData("emergency","ENG2P_EMERGENCY",function(v){ EMG=v; cb(!!v); }); }
+/* 비상판 15분 시계. 인출 10분과 청크 5분 두 토막이다.
+   **한 토막이 끝나면 소리로 알린다.** 이 자리에는 넘겨 줄 상대가 없다.
+   기준서가 비상판을 그렇게 정해 뒀다. 상대가 없는 날에만 연다. */
+var EMGCLK={t:null,left:0,at:null};
+function stopEmgClock(){ if(EMGCLK.t){ clearInterval(EMGCLK.t); EMGCLK.t=null; } }
+function paintEmgClock(){
+  var e=document.getElementById("emgLeft"), w=document.getElementById("emgWhat");
+  if(!e){ stopEmgClock(); return; }
+  var s=Math.max(0,EMGCLK.left);
+  e.textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+  if(w) w.textContent=EMGCLK.at==="pull"?"인출":EMGCLK.at==="chunk"?"청크":"끝";
+}
+function bindEmgClock(mm){
+  var go=document.getElementById("emgGo");
+  if(!go) return;
+  go.onclick=function(){
+    if(EMGCLK.t){ stopEmgClock(); go.textContent="이어서"; return; }
+    if(!EMGCLK.at){ EMGCLK.at="pull"; EMGCLK.left=mm.pull*60; tone("start"); }
+    go.textContent="일시정지";
+    paintEmgClock();
+    EMGCLK.t=setInterval(function(){
+      EMGCLK.left--;
+      if(EMGCLK.left<=0){
+        if(EMGCLK.at==="pull"){
+          EMGCLK.at="chunk"; EMGCLK.left=mm.chunk*60; tone("swap");
+          flash("인출 끝. 이제 청크 "+mm.chunk+"분");
+        }else{
+          stopEmgClock(); EMGCLK.at="done"; EMGCLK.left=0; tone("done");
+          flash("비상판 15분을 마쳤다");
+          var g=document.getElementById("emgGo"); if(g) g.textContent="다시";
+          EMGCLK.at=null;
+        }
+      }
+      paintEmgClock();
+    },1000);
+  };
+  /* 아직 안 시작했으면 그리지 않는다. 그리면 10:00 이 00:00 으로 덮인다.
+     처음 글자는 그리는 글이 이미 갖고 있다. */
+  if(EMGCLK.at) paintEmgClock();
+}
 function renderEmg(pl){
   var line=$("#emgLine"), box=$("#emgBox");
   if(!line||!box) return;
@@ -1886,17 +1934,31 @@ function renderEmg(pl){
     }
     var it=(EMG.items||[]).filter(function(x){return x.no===pl.emergency;})[0];
     if(!it){ box.innerHTML=""; return; }
+    var mm=it.minutes||{pull:10,chunk:5};
     box.innerHTML='<div class="emgbox">'+
       '<div class="k">비상판 '+String(it.no).padStart(3,"0")+' · 15분 · 혼자 한다</div>'+
       '<h4>'+esc(it.title)+'</h4>'+
-      '<p><b>인출 10분.</b> '+esc(it.pull)+'</p>'+
-      '<div class="ch"><b>청크 5분</b><br>'+esc((it.chunks||[]).join("  /  "))+'</div>'+
+      /* **15분이 두 토막인데 재는 것이 없었다.** 인출 10분과 청크 5분이 글자로만 있었다.
+         이 자리에는 넘겨 줄 상대가 없다. 그러면 10분이 15분이 되고
+         청크는 안 한다. 세션에는 시계가 넷인데 여기만 없었다. T227 */
+      '<div class="emgclock"><span class="ecn" id="emgLeft">'+mm.pull+':00</span>'+
+      '<span class="ecw" id="emgWhat">인출 '+mm.pull+'분</span>'+
+      '<button type="button" class="g" id="emgGo">시작</button></div>'+
+      '<p><b>인출 '+mm.pull+'분.</b> '+esc(it.pull)+'</p>'+
+      '<div class="ch"><b>청크 '+mm.chunk+'분</b><br>'+esc((it.chunks||[]).join("  /  "))+'</div>'+
       '<p class="small mut">쓴 날도 수행일로 센다. 다만 진도는 안 나간다. '+
       '새 재료가 없기 때문이다.</p>'+
       '<div style="margin-top:12px"><button class="g" id="emgMark" type="button">'+
       (day(today()).status==="emg"?"적음":"비상판을 쓴 날로 적기")+'</button></div></div>';
     var mk=$("#emgMark");
-    if(mk) mk.onclick=function(){ day(today()).status="emg"; save(); renderToday(); };
+    if(mk) mk.onclick=function(){
+      var was=day(today()).status;
+      day(today()).status="emg"; save(); renderToday();
+      /* 잘못 누르면 그날이 비상판으로 남는다. 진도가 안 나간 날로 센다. */
+      if(was!=="emg") offerUndo("비상판을 쓴 날로 적음",function(){
+        day(today()).status=was||null; renderToday(); });
+    };
+    bindEmgClock(mm);
   });
 }
 

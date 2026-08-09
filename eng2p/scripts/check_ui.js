@@ -2094,6 +2094,33 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (kept !== "월요일 저녁 8시에 헤드폰부터") bad.push("주간 점검에 적은 것이 안 남는다: " + kept);
     await pw.evaluate(() => go("today"));
     await pw.waitForTimeout(300);
+    /* **비상판 15분이 두 토막인데 재는 것이 없었다.** 인출 10분과 청크 5분이
+       글자로만 있었다. 이 자리에는 넘겨 줄 상대가 없다. T227 */
+    await pw.evaluate(() => { S.emgOpen = true; day(today()).status = null; save(); renderToday(); });
+    await pw.waitForTimeout(1200);
+    const eg = await pw.evaluate(() => ({
+      has: !!document.getElementById("emgLeft"),
+      left: (document.getElementById("emgLeft") || {}).textContent,
+      what: (document.getElementById("emgWhat") || {}).textContent }));
+    if (!eg.has) bad.push("비상판에 시계가 없다");
+    else {
+      if (eg.left !== "10:00") bad.push("비상판 시계가 인출 10분으로 안 뜬다: " + eg.left);
+      await pw.click("#emgGo");
+      await pw.waitForTimeout(1300);
+      const run = await pw.evaluate(() => ({
+        left: document.getElementById("emgLeft").textContent,
+        go: document.getElementById("emgGo").textContent }));
+      if (run.left === "10:00") bad.push("비상판 시계가 안 돈다");
+      if (run.go.indexOf("일시정지") < 0) bad.push("도는 중인데 단추가 시작 그대로다: " + run.go);
+      await pw.evaluate(() => { EMGCLK.left = 1; });
+      await pw.waitForTimeout(1500);
+      const nx = await pw.evaluate(() => ({
+        what: document.getElementById("emgWhat").textContent,
+        left: document.getElementById("emgLeft").textContent }));
+      if (nx.what.indexOf("청크") < 0) bad.push("인출이 끝났는데 청크로 안 넘어간다: " + nx.what);
+      if (nx.left !== "05:00") bad.push("청크가 5분으로 안 뜬다: " + nx.left);
+      await pw.evaluate(() => { stopEmgClock(); EMGCLK.at = null; S.emgOpen = false; save(); });
+    }
     await ctxw.close();
     return bad;
   })();

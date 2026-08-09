@@ -13,7 +13,7 @@
 | `page/00_head.html` | 9 | 문서 머리. 제목과 화면 규격 |
 | `style/01_tokens.css` | 91 | 색과 글꼴 토큰, 머리띠 |
 | `style/02_common.css` | 166 | 공통 자리. 카드와 단추와 표 |
-| `style/03_timer.css` | 381 | 시계와 블록 칸과 집중 화면 |
+| `style/03_timer.css` | 389 | 시계와 블록 칸과 집중 화면 |
 | `style/04_parts.css` | 273 | 차트와 규칙 카드와 인쇄 |
 | `page/01_open.html` | 3 | style 닫고 body 열기 |
 | `body/01_header.html` | 14 | 머리띠와 조작줄 |
@@ -33,7 +33,7 @@
 | `page/02_script.html` | 2 | 자료 script 태그와 script 열기 |
 | `js/01_const.js` | 102 | 상수. 기준서에서 온 값 |
 | `js/02_store.js` | 115 | 저장소와 유틸 |
-| `js/03_plan.js` | 422 | 오늘 배정과 오늘 한 장 |
+| `js/03_plan.js` | 476 | 오늘 배정과 오늘 한 장 |
 | `js/04_today.js` | 229 | 탭 몰기와 오늘 탭 그리기 |
 | `js/05_session.js` | 371 | 시계와 세션 상태와 기기 쪽 |
 | `js/06_cards.js` | 337 | 카드 뷰어와 간격 반복과 근거 |
@@ -55,6 +55,6 @@
 | `js/20_docs.js` | 265 | 자료와 규칙과 시작 |
 | `page/03_close.html` | 3 | script 닫고 body 닫기 |
 
-조각 44개 6461줄이다. **한 조각은 500줄을 안 넘는다.**
+조각 44개 6523줄이다. **한 조각은 500줄을 안 넘는다.**
 넘으면 `check_app.py` 가 실패로 낸다.
 쪼갤 자리가 없으면 그 검사의 면제표에 이유를 적는다. 문턱은 안 올린다.
