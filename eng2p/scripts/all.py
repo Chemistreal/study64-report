@@ -99,6 +99,9 @@ STEPS = [
     # 그날 자료로 안 걸리는 것이 있다. 여덟 주를 골라 서른두 판을 돈다.
     ("화면", "check_session.js", [], False),
     ("화면", "rehearse.js", [], False),
+    # **블록 안에서 시간이 가며 바뀌는 것**은 하루 한 장면으로는 안 보인다.
+    # 두 시간을 시계를 밀어 가며 돌고 바뀌는 자리마다 화면 글을 받아 적는다.
+    ("화면", "rehearse_session.js", [], False),
     ("상태", "derive_verify_list.py", [], False),
     ("상태", "collect_b.py", [], False),
     ("상태", "update_status.py", [], False),

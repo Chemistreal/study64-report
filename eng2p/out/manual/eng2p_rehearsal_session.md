@@ -1,0 +1,844 @@
+신뢰도: A 생성 (리허설 기록)
+상위 규격: docs/blocks.md / docs/roadmap.md 12.12
+
+검증로그: 2026-08-09 / 한 세션 두 시간을 시계를 밀어 가며 돌았다 / 통과 / 블록 안에서 바뀌는 자리마다 화면 글을 받아 적었다
+
+# 한 세션 통째 리허설
+
+**검사가 아니라 리허설이다.** 화면에 뜨는 글을 그대로 받아 적은 것이다.
+블록 안에서 시간이 가며 바뀌는 자리를 골라 열넷을 떴다.
+
+| | |
+|---|---|
+| 주차 | 20주 6일째 |
+| 강의 | 40강 확인하는 덩어리 (Q2 · 청크 트랙) |
+| 세트 | Q2-120 |
+| 과 | lle1-29 |
+| A | 아내 |
+| B | 남편 |
+
+---
+
+## 블록 1. 병렬 침묵 40분
+
+### 0분 지난 자리
+
+```
+시계 40:00   세션 남은 120분 · 블록 1 / 4
+
+A 아내
+조준표 과제대로 듣는다. 찾을 것은 한 번에 하나뿐이다.
+B 남편
+같은 방에서 각자 듣는다. 말을 걸지 않는다. 같이 있는 것 자체가 장치다.
+
+이 블록에 쓰는 것 · 미디어
+lle1-29
+Lesson 29: A Long Time Ago · 03:21 · C-real
+1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다. 각자 헤드폰이다. 말을 걸지 않는다.
+회차 0 / 3 끝냈다
+이 주에 찾을 것 · 20주
+확인 덩어리가 나온 자리를 센다
+회차 초점보다 좁다. 이것 하나만 한다. 다른 것이 들려도 이번에는 안 센다.
+주마다 적어 올 것
+맞장구를 친 자리
+여기 적는다
+아내 · 찾은 자리
+남편 · 찾은 자리
+이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. 따로 적는 자리라 서로 안 보는 것이 낫다.
+대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
+가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+~0:00
+Marsha: Hi, Anna! Have a seat.
+여기
+~0:02
+Anna: Thanks. This was a good idea. Working outdoors is nice.
+여기
+~0:08
+Marsha: Um-hum, it is.
+여기
+~0:10
+Anna: I am tired. Today was a busy day at work. And I still have work to do!
+여기
+~0:17
+Marsha: Hmm, that’s too bad.
+여기
+~0:20
+Anna: How are you these days?
+여기
+~0:22
+Marsha: I'm really busy too, Anna. Let’s get to work.
+여기
+~0:27
+Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
+여기
+~0:33
+Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
+여기
+~0:40
+Anna: They have shows where Abraham Lincoln died?
+여기
+~0:44
+Marsha: Yeah, it’s a working theater and a museum.
+여기
+~0:49
+Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
+여기
+~0:57
+Marsha: Um-hum. What’s that?
+여기
+~0:59
+Anna: When I was a little girl … When I was a little girl … I was not like other children.
+여기
+~1:09
+Marsha: Um-hum, I can believe that.
+여기
+~1:12
+Anna's voice: I was a tall, serious child. At
+```
+
+### 20분 지난 자리
+
+```
+시계 20:00   세션 남은 100분 · 블록 1 / 4
+
+A 아내
+조준표 과제대로 듣는다. 찾을 것은 한 번에 하나뿐이다.
+B 남편
+같은 방에서 각자 듣는다. 말을 걸지 않는다. 같이 있는 것 자체가 장치다.
+
+이 블록에 쓰는 것 · 미디어
+lle1-29
+Lesson 29: A Long Time Ago · 03:21 · C-real
+1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다. 각자 헤드폰이다. 말을 걸지 않는다.
+회차 0 / 3 끝냈다
+이 주에 찾을 것 · 20주
+확인 덩어리가 나온 자리를 센다
+회차 초점보다 좁다. 이것 하나만 한다. 다른 것이 들려도 이번에는 안 센다.
+주마다 적어 올 것
+맞장구를 친 자리
+여기 적는다
+아내 · 찾은 자리
+남편 · 찾은 자리
+이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. 따로 적는 자리라 서로 안 보는 것이 낫다.
+대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
+가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+~0:00
+Marsha: Hi, Anna! Have a seat.
+여기
+~0:02
+Anna: Thanks. This was a good idea. Working outdoors is nice.
+여기
+~0:08
+Marsha: Um-hum, it is.
+여기
+~0:10
+Anna: I am tired. Today was a busy day at work. And I still have work to do!
+여기
+~0:17
+Marsha: Hmm, that’s too bad.
+여기
+~0:20
+Anna: How are you these days?
+여기
+~0:22
+Marsha: I'm really busy too, Anna. Let’s get to work.
+여기
+~0:27
+Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
+여기
+~0:33
+Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
+여기
+~0:40
+Anna: They have shows where Abraham Lincoln died?
+여기
+~0:44
+Marsha: Yeah, it’s a working theater and a museum.
+여기
+~0:49
+Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
+여기
+~0:57
+Marsha: Um-hum. What’s that?
+여기
+~0:59
+Anna: When I was a little girl … When I was a little girl … I was not like other children.
+여기
+~1:09
+Marsha: Um-hum, I can believe that.
+여기
+~1:12
+Anna's voice: I was a tall, serious child. At
+```
+
+### 39분 지난 자리
+
+```
+시계 01:00   세션 남은 81분 · 블록 1 / 4
+
+A 아내
+조준표 과제대로 듣는다. 찾을 것은 한 번에 하나뿐이다.
+B 남편
+같은 방에서 각자 듣는다. 말을 걸지 않는다. 같이 있는 것 자체가 장치다.
+
+이 블록에 쓰는 것 · 미디어
+lle1-29
+Lesson 29: A Long Time Ago · 03:21 · C-real
+1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다. 각자 헤드폰이다. 말을 걸지 않는다.
+회차 0 / 3 끝냈다
+이 주에 찾을 것 · 20주
+확인 덩어리가 나온 자리를 센다
+회차 초점보다 좁다. 이것 하나만 한다. 다른 것이 들려도 이번에는 안 센다.
+주마다 적어 올 것
+맞장구를 친 자리
+여기 적는다
+아내 · 찾은 자리
+남편 · 찾은 자리
+이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. 따로 적는 자리라 서로 안 보는 것이 낫다.
+대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
+가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+~0:00
+Marsha: Hi, Anna! Have a seat.
+여기
+~0:02
+Anna: Thanks. This was a good idea. Working outdoors is nice.
+여기
+~0:08
+Marsha: Um-hum, it is.
+여기
+~0:10
+Anna: I am tired. Today was a busy day at work. And I still have work to do!
+여기
+~0:17
+Marsha: Hmm, that’s too bad.
+여기
+~0:20
+Anna: How are you these days?
+여기
+~0:22
+Marsha: I'm really busy too, Anna. Let’s get to work.
+여기
+~0:27
+Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
+여기
+~0:33
+Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
+여기
+~0:40
+Anna: They have shows where Abraham Lincoln died?
+여기
+~0:44
+Marsha: Yeah, it’s a working theater and a museum.
+여기
+~0:49
+Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
+여기
+~0:57
+Marsha: Um-hum. What’s that?
+여기
+~0:59
+Anna: When I was a little girl … When I was a little girl … I was not like other children.
+여기
+~1:09
+Marsha: Um-hum, I can believe that.
+여기
+~1:12
+Anna's voice: I was a tall, serious child. At
+```
+
+---
+
+## 블록 2. 대조 교차 30분
+
+### 0분 지난 자리
+
+```
+시계 30:00   세션 남은 80분 · 블록 2 / 4
+
+A 아내
+8분 설명한다. 그다음 8분은 말하지 않는다. 질문에도 답하지 않는다.
+B 남편
+8분 재구성한다. 예시 추가, 반례 제시, 상황 적용, 요약 압축 중 하나로.
+
+이 블록에 쓰는 것 · 대조 교차 세트
+Q2-120
+1단계 · A 설명 · 8분 · 남은 8분
+설명 대상 한국어 확인 소리를 왜 따로 세는가
+어와 음과 네가 영어 대화 중에 나온다
+2인 세션은 둘 다 한국어 화자라 그것이 통해 버린다
+통하니까 안 고쳐진다
+2단계 · B 재구성 · 8분
+요약 압축
+따로 세는 이유를 한 줄로 줄인다. 한국어 소리를 안 세면 무엇을 못 보게 되는지가 그 줄에 들어가야 한다.
+3단계 · 상호 검토 · 10분
+합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다. 자기 것보다 상대 것이 더 잘 들린다. 그 차이도 적어 둔다.
+규칙 "틀렸다"고 말하지 않는다. "나는 이렇게 이해했다" 형식만 쓴다.
+각자 적는다
+아내 · 합의와 불일치
+남편 · 합의와 불일치
+틀렸다고 말하지 않는다. 나는 이렇게 이해했다 꼴로 적는다.
+4단계 · 기록 · 4분
+LRE 발생 횟수
+미해결 LRE · 어긋난 문장을 그대로 적는다
+이 문장을 남긴다
+지금 0건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.
+이 기기를 쓰는 사람을 안 골랐다. 두 쪽을 다 보여 주는 중이다. B 는 1단계 목록을 안 본다.
+```
+
+### 9분 지난 자리
+
+```
+시계 21:00   세션 남은 71분 · 블록 2 / 4
+
+A 아내
+8분 설명한다. 그다음 8분은 말하지 않는다. 질문에도 답하지 않는다.
+B 남편
+8분 재구성한다. 예시 추가, 반례 제시, 상황 적용, 요약 압축 중 하나로.
+
+이 블록에 쓰는 것 · 대조 교차 세트
+Q2-120
+1단계 · A 설명 · 8분
+설명 대상 한국어 확인 소리를 왜 따로 세는가
+어와 음과 네가 영어 대화 중에 나온다
+2인 세션은 둘 다 한국어 화자라 그것이 통해 버린다
+통하니까 안 고쳐진다
+2단계 · B 재구성 · 8분 · 남은 7분
+요약 압축
+따로 세는 이유를 한 줄로 줄인다. 한국어 소리를 안 세면 무엇을 못 보게 되는지가 그 줄에 들어가야 한다.
+3단계 · 상호 검토 · 10분
+합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다. 자기 것보다 상대 것이 더 잘 들린다. 그 차이도 적어 둔다.
+규칙 "틀렸다"고 말하지 않는다. "나는 이렇게 이해했다" 형식만 쓴다.
+각자 적는다
+아내 · 합의와 불일치
+남편 · 합의와 불일치
+틀렸다고 말하지 않는다. 나는 이렇게 이해했다 꼴로 적는다.
+4단계 · 기록 · 4분
+LRE 발생 횟수
+미해결 LRE · 어긋난 문장을 그대로 적는다
+이 문장을 남긴다
+지금 0건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.
+이 기기를 쓰는 사람을 안 골랐다. 두 쪽을 다 보여 주는 중이다. B 는 1단계 목록을 안 본다.
+
+알림: 2단계 · 이제 B 차례다
+```
+
+### 17분 지난 자리
+
+```
+시계 13:00   세션 남은 63분 · 블록 2 / 4
+
+A 아내
+8분 설명한다. 그다음 8분은 말하지 않는다. 질문에도 답하지 않는다.
+B 남편
+8분 재구성한다. 예시 추가, 반례 제시, 상황 적용, 요약 압축 중 하나로.
+
+이 블록에 쓰는 것 · 대조 교차 세트
+Q2-120
+1단계 · A 설명 · 8분
+설명 대상 한국어 확인 소리를 왜 따로 세는가
+어와 음과 네가 영어 대화 중에 나온다
+2인 세션은 둘 다 한국어 화자라 그것이 통해 버린다
+통하니까 안 고쳐진다
+2단계 · B 재구성 · 8분
+요약 압축
+따로 세는 이유를 한 줄로 줄인다. 한국어 소리를 안 세면 무엇을 못 보게 되는지가 그 줄에 들어가야 한다.
+3단계 · 상호 검토 · 10분 · 남은 9분
+합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다. 자기 것보다 상대 것이 더 잘 들린다. 그 차이도 적어 둔다.
+규칙 "틀렸다"고 말하지 않는다. "나는 이렇게 이해했다" 형식만 쓴다.
+1단계에 들어갔어야 하는 것
+어와 음과 네가 영어 대화 중에 나온다
+2인 세션은 둘 다 한국어 화자라 그것이 통해 버린다
+통하니까 안 고쳐진다
+2단계까지 B 화면에서 가려 뒀던 것이다. 빠진 것이 있으면 그것이 불일치 지점이다.
+각자 적는다
+아내 · 합의와 불일치
+남편 · 합의와 불일치
+틀렸다고 말하지 않는다. 나는 이렇게 이해했다 꼴로 적는다.
+4단계 · 기록 · 4분
+LRE 발생 횟수
+미해결 LRE · 어긋난 문장을 그대로 적는다
+이 문장을 남긴다
+지금 0건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.
+이 기기를 쓰는 사람을 안 골랐다. 두 쪽을 다 보여 주는 중이다. B 는 1단계 목록을 안 본다.
+
+알림: 3단계 · 이제 A 차례다
+```
+
+### 27분 지난 자리
+
+```
+시계 03:00   세션 남은 53분 · 블록 2 / 4
+
+A 아내
+8분 설명한다. 그다음 8분은 말하지 않는다. 질문에도 답하지 않는다.
+B 남편
+8분 재구성한다. 예시 추가, 반례 제시, 상황 적용, 요약 압축 중 하나로.
+
+이 블록에 쓰는 것 · 대조 교차 세트
+Q2-120
+1단계 · A 설명 · 8분
+설명 대상 한국어 확인 소리를 왜 따로 세는가
+어와 음과 네가 영어 대화 중에 나온다
+2인 세션은 둘 다 한국어 화자라 그것이 통해 버린다
+통하니까 안 고쳐진다
+2단계 · B 재구성 · 8분
+요약 압축
+따로 세는 이유를 한 줄로 줄인다. 한국어 소리를 안 세면 무엇을 못 보게 되는지가 그 줄에 들어가야 한다.
+3단계 · 상호 검토 · 10분
+합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다. 자기 것보다 상대 것이 더 잘 들린다. 그 차이도 적어 둔다.
+규칙 "틀렸다"고 말하지 않는다. "나는 이렇게 이해했다" 형식만 쓴다.
+1단계에 들어갔어야 하는 것
+어와 음과 네가 영어 대화 중에 나온다
+2인 세션은 둘 다 한국어 화자라 그것이 통해 버린다
+통하니까 안 고쳐진다
+2단계까지 B 화면에서 가려 뒀던 것이다. 빠진 것이 있으면 그것이 불일치 지점이다.
+각자 적는다
+아내 · 합의와 불일치
+남편 · 합의와 불일치
+틀렸다고 말하지 않는다. 나는 이렇게 이해했다 꼴로 적는다.
+4단계 · 기록 · 4분 · 남은 3분
+LRE 발생 횟수
+미해결 LRE · 어긋난 문장을 그대로 적는다
+이 문장을 남긴다
+지금 0건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.
+이 기기를 쓰는 사람을 안 골랐다. 두 쪽을 다 보여 주는 중이다. B 는 1단계 목록을 안 본다.
+
+알림: 4단계 · 이제 B 차례다
+```
+
+---
+
+## 블록 3. 페어 드릴 30분
+
+### 0분 지난 자리
+
+```
+시계 30:00   세션 남은 50분 · 블록 3 / 4
+
+A 아내
+카드 A면만 본다. 예측 불가능한 순서로 던진다. 정답은 넘기지 않는다.
+B 남편
+카드를 보지 않는다. 제한 시간 안에 반응한다. 정확성보다 속도가 먼저다.
+
+이 블록에 쓰는 것 · 카드
+092 ~ 097
+준비 3분 · 남은 3분
+A가 말하기 12분
+역할 바꿔 12분
+기록 3분이다
+이 블록이 남기는 것
+오늘 돈 카드
+발화 분
+장수는 돌았다로 적기를 누른 수다. 앱이 센다. 발화 분은 둘이 실제로 말한 시간이다.
+역할 짝수 날은 남편이 A, 홀수 날은 아내가 A다.
+막혔을 때 2묶음을 쓴다. 상대 말끝을 그대로 되풀이하면 언제나 된다. 1묶음보다 2묶음을 기본으로 잡는 이유가 있다. 1묶음은 안 듣고도 낼 수 있다. 2묶음은 들어야 낼 수 있다.
+Q2-092 · 판정형 · 3분
+A면 · 1 / 6
+아래 확인 표현을 하나씩 읽는다. 네 묶음 중 어느 것인지 말하게 한다.
+Um-hum
+You mean the red one
+Sorry
+So you're saying it is closed
+Say that again
+비고 2묶음 되풀이는 이 카드에 안 넣었다. 093 에서 다룬다.
+정답 1) 소리로 2) 되물어 3) 못 알아들었다고 4) 되물어 5) 못 알아들었다고
+통과 기준 B가 5개 중 4개 이상 맞히면 성공.
+이 문장이 실제 녹음에 있다 · 2줄
+Um-hum
+lle1-29:3
+Sorry
+lle1-03:7
+이 기기를 쓰는 사람을 안 골랐다. A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.
+간격 1일 · 3일 · 7일
+이전 카드
+돌았다로 적기
+다음 카드
+```
+
+### 8분 지난 자리
+
+```
+시계 22:00   세션 남은 42분 · 블록 3 / 4
+
+A 아내
+카드 A면만 본다. 예측 불가능한 순서로 던진다. 정답은 넘기지 않는다.
+B 남편
+카드를 보지 않는다. 제한 시간 안에 반응한다. 정확성보다 속도가 먼저다.
+
+이 블록에 쓰는 것 · 카드
+092 ~ 097
+준비 3분
+A가 말하기 12분 · 남은 7분
+역할 바꿔 12분
+기록 3분이다
+이 블록이 남기는 것
+오늘 돈 카드
+발화 분
+장수는 돌았다로 적기를 누른 수다. 앱이 센다. 발화 분은 둘이 실제로 말한 시간이다.
+역할 짝수 날은 남편이 A, 홀수 날은 아내가 A다.
+막혔을 때 2묶음을 쓴다. 상대 말끝을 그대로 되풀이하면 언제나 된다. 1묶음보다 2묶음을 기본으로 잡는 이유가 있다. 1묶음은 안 듣고도 낼 수 있다. 2묶음은 들어야 낼 수 있다.
+Q2-092 · 판정형 · 3분
+A면 · 1 / 6
+아래 확인 표현을 하나씩 읽는다. 네 묶음 중 어느 것인지 말하게 한다.
+Um-hum
+You mean the red one
+Sorry
+So you're saying it is closed
+Say that again
+비고 2묶음 되풀이는 이 카드에 안 넣었다. 093 에서 다룬다.
+정답 1) 소리로 2) 되물어 3) 못 알아들었다고 4) 되물어 5) 못 알아들었다고
+통과 기준 B가 5개 중 4개 이상 맞히면 성공.
+이 문장이 실제 녹음에 있다 · 2줄
+Um-hum
+lle1-29:3
+Sorry
+lle1-03:7
+이 기기를 쓰는 사람을 안 골랐다. A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.
+간격 1일 · 3일 · 7일
+이전 카드
+돌았다로 적기
+다음 카드
+
+알림: 2번째 구간 · A가 말하기 12분
+```
+
+### 20분 지난 자리
+
+```
+시계 10:00   세션 남은 30분 · 블록 3 / 4
+
+A 아내
+카드 A면만 본다. 예측 불가능한 순서로 던진다. 정답은 넘기지 않는다.
+B 남편
+카드를 보지 않는다. 제한 시간 안에 반응한다. 정확성보다 속도가 먼저다.
+
+이 블록에 쓰는 것 · 카드
+092 ~ 097
+준비 3분
+A가 말하기 12분
+역할 바꿔 12분 · 남은 7분
+기록 3분이다
+이 블록이 남기는 것
+오늘 돈 카드
+발화 분
+장수는 돌았다로 적기를 누른 수다. 앱이 센다. 발화 분은 둘이 실제로 말한 시간이다.
+역할 짝수 날은 남편이 A, 홀수 날은 아내가 A다.
+막혔을 때 2묶음을 쓴다. 상대 말끝을 그대로 되풀이하면 언제나 된다. 1묶음보다 2묶음을 기본으로 잡는 이유가 있다. 1묶음은 안 듣고도 낼 수 있다. 2묶음은 들어야 낼 수 있다.
+Q2-092 · 판정형 · 3분
+A면 · 1 / 6
+아래 확인 표현을 하나씩 읽는다. 네 묶음 중 어느 것인지 말하게 한다.
+Um-hum
+You mean the red one
+Sorry
+So you're saying it is closed
+Say that again
+비고 2묶음 되풀이는 이 카드에 안 넣었다. 093 에서 다룬다.
+정답 1) 소리로 2) 되물어 3) 못 알아들었다고 4) 되물어 5) 못 알아들었다고
+통과 기준 B가 5개 중 4개 이상 맞히면 성공.
+이 문장이 실제 녹음에 있다 · 2줄
+Um-hum
+lle1-29:3
+Sorry
+lle1-03:7
+이 기기를 쓰는 사람을 안 골랐다. A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.
+간격 1일 · 3일 · 7일
+이전 카드
+돌았다로 적기
+다음 카드
+
+알림: 이제 역할을 바꾼다 · 역할 바꿔 12분
+```
+
+### 29분 지난 자리
+
+```
+시계 01:00   세션 남은 21분 · 블록 3 / 4
+
+A 아내
+카드 A면만 본다. 예측 불가능한 순서로 던진다. 정답은 넘기지 않는다.
+B 남편
+카드를 보지 않는다. 제한 시간 안에 반응한다. 정확성보다 속도가 먼저다.
+
+이 블록에 쓰는 것 · 카드
+092 ~ 097
+준비 3분
+A가 말하기 12분
+역할 바꿔 12분
+기록 3분이다 · 남은 1분
+이 블록이 남기는 것
+오늘 돈 카드
+발화 분
+장수는 돌았다로 적기를 누른 수다. 앱이 센다. 발화 분은 둘이 실제로 말한 시간이다.
+역할 짝수 날은 남편이 A, 홀수 날은 아내가 A다.
+막혔을 때 2묶음을 쓴다. 상대 말끝을 그대로 되풀이하면 언제나 된다. 1묶음보다 2묶음을 기본으로 잡는 이유가 있다. 1묶음은 안 듣고도 낼 수 있다. 2묶음은 들어야 낼 수 있다.
+Q2-092 · 판정형 · 3분
+A면 · 1 / 6
+아래 확인 표현을 하나씩 읽는다. 네 묶음 중 어느 것인지 말하게 한다.
+Um-hum
+You mean the red one
+Sorry
+So you're saying it is closed
+Say that again
+비고 2묶음 되풀이는 이 카드에 안 넣었다. 093 에서 다룬다.
+정답 1) 소리로 2) 되물어 3) 못 알아들었다고 4) 되물어 5) 못 알아들었다고
+통과 기준 B가 5개 중 4개 이상 맞히면 성공.
+이 문장이 실제 녹음에 있다 · 2줄
+Um-hum
+lle1-29:3
+Sorry
+lle1-03:7
+이 기기를 쓰는 사람을 안 골랐다. A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.
+간격 1일 · 3일 · 7일
+이전 카드
+돌았다로 적기
+다음 카드
+
+알림: 4번째 구간 · 기록 3분이다
+```
+
+---
+
+## 블록 4. 공동 입력 20분
+
+### 0분 지난 자리
+
+```
+시계 20:00   세션 남은 20분 · 블록 4 / 4
+
+A 아내
+재생과 구간 반복을 맡는다. 1회 소리, 2회 청크, 3회 의미.
+B 남편
+들은 것을 회차마다 한 줄로 적는다. 끝나고 서로 대조한다.
+
+이 블록에 쓰는 것 · 미디어
+lle1-29
+Lesson 29: A Long Time Ago · 03:21 · C-real
+1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다. 같은 자료를 같이 듣는다. A가 재생을 맡는다.
+회차 0 / 3 끝냈다
+같이 듣는 자리 · 남은 7분
+이 과는 03:21 다. 두 번 듣는 데 7분이고 남는 것이 맞춰 보는 시간이다.
+같이 듣고 맞춰 보는 법 · 1회차
+각자 표시한 지점을 대조한다. 겹치는 지점과 안 겹치는 지점을 센다
+누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.
+따로 적은 것을 편다
+아내 · 표시한 지점
+남편 · 표시한 지점
+겹친 것
+안 겹친 것
+센 것을 넣으면 무엇을 할지 여기서 말한다.
+대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
+가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+~0:00
+Marsha: Hi, Anna! Have a seat.
+여기
+~0:02
+Anna: Thanks. This was a good idea. Working outdoors is nice.
+여기
+~0:08
+Marsha: Um-hum, it is.
+여기
+~0:10
+Anna: I am tired. Today was a busy day at work. And I still have work to do!
+여기
+~0:17
+Marsha: Hmm, that’s too bad.
+여기
+~0:20
+Anna: How are you these days?
+여기
+~0:22
+Marsha: I'm really busy too, Anna. Let’s get to work.
+여기
+~0:27
+Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
+여기
+~0:33
+Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
+여기
+~0:40
+Anna: They have shows where Abraham Lincoln died?
+여기
+~0:44
+Marsha: Yeah, it’s a working theater and a museum.
+여기
+~0:49
+Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
+여기
+~0:57
+Marsha: Um-hum. What’s that?
+여기
+~0:59
+Anna: When I was a little girl … When I was a little girl … I was not like other children.
+여기
+~1:09
+Marsha: Um-hum, I can believe that.
+여기
+~1:12
+Anna'
+```
+
+### 8분 지난 자리
+
+```
+시계 12:00   세션 남은 12분 · 블록 4 / 4
+
+A 아내
+재생과 구간 반복을 맡는다. 1회 소리, 2회 청크, 3회 의미.
+B 남편
+들은 것을 회차마다 한 줄로 적는다. 끝나고 서로 대조한다.
+
+이 블록에 쓰는 것 · 미디어
+lle1-29
+Lesson 29: A Long Time Ago · 03:21 · C-real
+1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다. 같은 자료를 같이 듣는다. A가 재생을 맡는다.
+회차 0 / 3 끝냈다
+맞춰 보는 자리 · 남은 12분
+이 과는 03:21 다. 두 번 듣는 데 7분이고 남는 것이 맞춰 보는 시간이다.
+같이 듣고 맞춰 보는 법 · 1회차
+각자 표시한 지점을 대조한다. 겹치는 지점과 안 겹치는 지점을 센다
+누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.
+따로 적은 것을 편다
+아내 · 표시한 지점
+남편 · 표시한 지점
+겹친 것
+안 겹친 것
+센 것을 넣으면 무엇을 할지 여기서 말한다.
+대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
+가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+~0:00
+Marsha: Hi, Anna! Have a seat.
+여기
+~0:02
+Anna: Thanks. This was a good idea. Working outdoors is nice.
+여기
+~0:08
+Marsha: Um-hum, it is.
+여기
+~0:10
+Anna: I am tired. Today was a busy day at work. And I still have work to do!
+여기
+~0:17
+Marsha: Hmm, that’s too bad.
+여기
+~0:20
+Anna: How are you these days?
+여기
+~0:22
+Marsha: I'm really busy too, Anna. Let’s get to work.
+여기
+~0:27
+Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
+여기
+~0:33
+Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
+여기
+~0:40
+Anna: They have shows where Abraham Lincoln died?
+여기
+~0:44
+Marsha: Yeah, it’s a working theater and a museum.
+여기
+~0:49
+Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
+여기
+~0:57
+Marsha: Um-hum. What’s that?
+여기
+~0:59
+Anna: When I was a little girl … When I was a little girl … I was not like other children.
+여기
+~1:09
+Marsha: Um-hum, I can believe that.
+여기
+~1:12
+Anna
+
+알림: 이제 따로 적은 것을 편다
+```
+
+### 19분 지난 자리
+
+```
+시계 01:00   세션 남은 1분 · 블록 4 / 4
+
+A 아내
+재생과 구간 반복을 맡는다. 1회 소리, 2회 청크, 3회 의미.
+B 남편
+들은 것을 회차마다 한 줄로 적는다. 끝나고 서로 대조한다.
+
+이 블록에 쓰는 것 · 미디어
+lle1-29
+Lesson 29: A Long Time Ago · 03:21 · C-real
+1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다. 같은 자료를 같이 듣는다. A가 재생을 맡는다.
+회차 0 / 3 끝냈다
+맞춰 보는 자리 · 남은 1분
+이 과는 03:21 다. 두 번 듣는 데 7분이고 남는 것이 맞춰 보는 시간이다.
+같이 듣고 맞춰 보는 법 · 1회차
+각자 표시한 지점을 대조한다. 겹치는 지점과 안 겹치는 지점을 센다
+누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.
+따로 적은 것을 편다
+아내 · 표시한 지점
+남편 · 표시한 지점
+겹친 것
+안 겹친 것
+센 것을 넣으면 무엇을 할지 여기서 말한다.
+대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
+가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+~0:00
+Marsha: Hi, Anna! Have a seat.
+여기
+~0:02
+Anna: Thanks. This was a good idea. Working outdoors is nice.
+여기
+~0:08
+Marsha: Um-hum, it is.
+여기
+~0:10
+Anna: I am tired. Today was a busy day at work. And I still have work to do!
+여기
+~0:17
+Marsha: Hmm, that’s too bad.
+여기
+~0:20
+Anna: How are you these days?
+여기
+~0:22
+Marsha: I'm really busy too, Anna. Let’s get to work.
+여기
+~0:27
+Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
+여기
+~0:33
+Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
+여기
+~0:40
+Anna: They have shows where Abraham Lincoln died?
+여기
+~0:44
+Marsha: Yeah, it’s a working theater and a museum.
+여기
+~0:49
+Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
+여기
+~0:57
+Marsha: Um-hum. What’s that?
+여기
+~0:59
+Anna: When I was a little girl … When I was a little girl … I was not like other children.
+여기
+~1:09
+Marsha: Um-hum, I can believe that.
+여기
+~1:12
+Anna'
+
+알림: 이제 따로 적은 것을 편다
+```
+
+---
+
+## 읽고 나서
+
+이 자리는 사람이 채운다. **화면 글을 이어서 읽었을 때 걸리는 곳**을 적는다.
+검사가 잡는 것은 값이 어긋난 것이고 여기서 잡는 것은 말이 안 이어지는 것이다.
+
