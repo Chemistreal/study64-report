@@ -2375,6 +2375,29 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* 숫자가 뛰는 것은 늘어나는 것이 아니다. **바뀌는 것으로 세야 보인다.** */
     if (!edge.jump.some((x) => x.indexOf("발화 분:12>99") >= 0))
       bad.push("셈이 뛰는 것을 안 보인다: " + edge.jump.join(" / "));
+    /* **빈 자리가 채워지는 것도 바뀌는 것이다.** 안 묻는 것과 안 보이는 것은 다르다.
+       그날 상태는 진도를 정하는 값인데 기록 없음에서 정상으로 조용히 바뀌고 있었다.
+       두 화면을 나란히 읽다가 보였다. 합치기 칸이 "부딪치는 자리가 없다" 라고만
+       적고 넘어갔다. T255 */
+    const fill = await pw.evaluate(() => {
+      const base = { names: { a: "남편", b: "아내" }, start: "2026-01-05",
+        media: { done: {}, fav: {}, pass: {} }, cardDue: {}, rot: [], clips: [],
+        scripts: {}, wchk: {}, q: {}, cues: {} };
+      const me = Object.assign({}, base, { days: { "2026-01-05":
+        { status: null, h: 0, speak: 0, cards: 0, lre: 0, unres: [], coll: [],
+          aim: { a: "", b: "" } } } });
+      const them = Object.assign({}, base, { days: { "2026-01-05":
+        { status: "normal", h: 2, speak: 9, cards: 8, lre: 1, unres: [], coll: [],
+          aim: { a: "상대가 적은 것", b: "" } } } });
+      const pl = mergePlan(me, them);
+      return { chg: pl.chg.map((c) => c.what + ": " + c.from + " > " + c.to),
+               ask: pl.ask.length };
+    });
+    if (fill.ask) bad.push("빈 자리를 채우는데 묻는다: " + fill.ask + "개");
+    if (!fill.chg.some((x) => /그날 상태/.test(x)))
+      bad.push("그날 상태가 조용히 바뀐다: " + fill.chg.join(" / "));
+    if (!fill.chg.some((x) => /적은 것|블록 1과 4/.test(x)))
+      bad.push("빈 칸이 글로 채워지는 것을 안 보인다: " + fill.chg.join(" / "));
     /* 화면. 안 바뀌는 판과 세션 중을 가려 말하는가 */
     const mgs = await pw.evaluate(async () => {
       go("ledger");

@@ -115,14 +115,27 @@ function mergePlan(mine, theirs){
       o[k]=mgBag(m[k],t[k]);
       add[k]+=o[k].length-was;
     });
-    if(mgHas(t.status) && !mgHas(m.status)) o.status=t.status;
+    /* **상태가 조용히 바뀌고 있었다.** 빈 자리를 채우는 것은 안 묻는 것이 맞는데
+       (`docs/merge.md` 3.4) 안 묻는 것과 안 보이는 것은 다르다.
+       그날 상태는 진도를 정하는 값이다. 그것이 바뀌는데 화면이 아무 말도 안 했다.
+       두 화면을 나란히 읽다가 보였다. 합치기 칸이 "부딪치는 자리가 없다" 라고만
+       적고 넘어갔고 실제로는 기록 없음이 정상으로 바뀌고 있었다. T255 */
+    if(mgHas(t.status) && !mgHas(m.status)){
+      o.status=t.status;
+      note(d+" 그날 상태", "기록 없음", mgKo(t.status));
+    }
     else if(mgHas(t.status) && mgHas(m.status) && t.status!==m.status)
       mgAsk(ask,["days",d,"status"],d+" 그날 상태",mgKo(m.status),mgKo(t.status));
     MG_ASKDAY.forEach(function(k){
       var tv=t[k]||{}, mv=m[k]||{};
       for(var c in tv){
         if(!mgHas(tv[c])) continue;
-        if(!mgHas(mv[c])){ o[k]=o[k]||{}; o[k][c]=tv[c]; continue; }
+        if(!mgHas(mv[c])){
+          o[k]=o[k]||{}; o[k][c]=tv[c];
+          /* 빈 칸이 글로 채워지는 것도 바뀌는 것이다. 안 적으면 조용히 들어온다. */
+          note(d+" "+mgKo(k)+" ("+c.toUpperCase()+")", "(빈 칸)", "채워진다");
+          continue;
+        }
         if(String(mv[c])!==String(tv[c]))
           mgAsk(ask,["days",d,k,c],d+" "+mgKo(k)+" ("+c.toUpperCase()+")",mv[c],tv[c]);
       }
