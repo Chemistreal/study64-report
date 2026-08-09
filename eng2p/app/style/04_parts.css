@@ -379,3 +379,9 @@ body.veil-on>*:not(.veilcover){display:none}
   border-radius:12px;padding:10px 12px;box-shadow:var(--glow)}
 .wheredock .row{margin-top:8px;gap:8px}
 #focusWhere{font-size:0.75rem;letter-spacing:.02em}
+
+/* 줄 번호 (T248). **둘이 같은 것을 가리키려면 이름이 있어야 한다.**
+   번호는 원본 차례에서 나온다. 보이는 것만 세면 두 기기가 다르게 센다. */
+.lno{flex:none;display:inline-block;min-width:1.6em;text-align:right;
+  font-family:var(--mono);font-size:0.75rem;color:var(--mut);margin-right:7px}
+.syncscript .scline .lno{width:1.8em}

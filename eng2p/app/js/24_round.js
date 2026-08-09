@@ -86,11 +86,14 @@ function roundPart(step, every, parts){
   /* 건네는 중이면 아무것도 안 돌려준다. **덮는 화면이 그 위에 있다.**
      그래도 밑에 몫을 그려 두면 덮개가 한 칸이라도 어긋나는 날 그것이 보인다. */
   if(typeof soloHanding==="function" && soloHanding())
-    return {both:false, handing:true, mine:[], hidden:parts};
+    return {both:false, handing:true, mine:[], hidden:parts, at:[], hidAt:[1,2]};
   var f=roundFirst(step, every);
-  if(f===null) return {both:true, mine:parts, hidden:[]};
-  return f ? {both:false, mine:[parts[0]], hidden:[parts[1]]}
-           : {both:false, mine:[parts[1]], hidden:[parts[0]]};
+  /* **몫마다 원본 자리를 같이 준다.** 안 주면 각 기기가 보이는 것만 세고
+     "둘째 것" 이 서로 다른 것을 가리킨다. 그것이 이 판을 무너뜨린다. T248 */
+  if(f===null) return {both:true, mine:parts, hidden:[],
+                       at:parts.map(function(_,i){return i+1;}), hidAt:[]};
+  return f ? {both:false, mine:[parts[0]], hidden:[parts[1]], at:[1], hidAt:[2]}
+           : {both:false, mine:[parts[1]], hidden:[parts[0]], at:[2], hidAt:[1]};
 }
 
 /* 두 기기가 같은 판에 있는지를 사람이 견줄 수 있게 만든 짧은 표시.
@@ -116,9 +119,15 @@ function roundTag(playId, step){
 
 /* 가리는 자리. **없는 것처럼 만들지 않는다.** 자리를 남기고 왜 안 보이는지를 적는다.
    빈 자리로 두면 두 사람이 앱이 고장 난 줄 안다. 가린 것과 없는 것은 다르다. */
-function veilPane(mine, hidden, who){
+function veilPane(mine, hidden, who, at){
+  /* **번호는 원본 차례에서 나온다.** 이 기기에 보이는 것만 세면
+     상대가 "둘째 것" 이라고 말할 때 서로 다른 것을 본다.
+     이 기기에 첫째가 안 보이면 이 기기는 둘째부터 센다. T248 */
   var h='<div class="vpane"><div class="vmine">'+
-        mine.map(function(x){ return '<div>'+esc(x)+'</div>'; }).join("")+'</div>';
+        mine.map(function(x,i){
+          var n=(at&&at[i]!=null)?at[i]:(i+1);
+          return '<div><span class="lno">'+n+'</span>'+esc(x)+'</div>';
+        }).join("")+'</div>';
   if(hidden && hidden.length)
     h+='<div class="vhid" aria-hidden="true"><span>'+
        esc((who||"상대")+(who==="돌려받은 뒤에" ? " 보인다" : " 화면에만 있다"))+
@@ -200,7 +209,7 @@ function renderSplit(){
   /* **한 기기인 날에 "상대 화면" 이라고 하면 안 된다.** 화면이 하나뿐이다.
      그 자리는 상대 화면이 아니라 돌려받은 뒤에 보이는 자리다. T241 */
   h+='<div style="margin-top:12px">'+
-     veilPane(p.mine, p.hidden, soloOn()?"돌려받은 뒤에":"상대")+'</div>';
+     veilPane(p.mine, p.hidden, soloOn()?"돌려받은 뒤에":"상대", p.at)+'</div>';
   if(soloOn())
     h+='<div class="note">돌려 보기다. 이 자리 몫만 뜬다. 다 봤으면 건넨다를 누른다. '+
        '<b>누르는 순간 화면이 덮인다.</b></div>';

@@ -804,6 +804,10 @@ body.veil-on>*:not(.veilcover){display:none}
   border-radius:12px;padding:10px 12px;box-shadow:var(--glow)}
 .wheredock .row{margin-top:8px;gap:8px}
 #focusWhere{font-size:0.75rem;letter-spacing:.02em}
+
+.lno{flex:none;display:inline-block;min-width:1.6em;text-align:right;
+  font-family:var(--mono);font-size:0.75rem;color:var(--mut);margin-right:7px}
+.syncscript .scline .lno{width:1.8em}
 </style>
 </head>
 <body class="side-none">
@@ -3205,6 +3209,8 @@ function renderSyncScript(it, round){
     var t=eff?eff[i]:null, fixed=cueFixed(it.id,i)!=null;
     h+='<button type="button" class="scline'+(fixed?" fixed":"")+
        (SESS.loop!=null&&i>=SESS.loop&&i<SESS.loop+loopSpan()?" loop":"")+'" data-cue="'+i+'">'+
+
+       '<span class="lno">'+(i+1)+'</span>'+
        '<span class="sct">'+(t==null?"--":(fixed?"":"~")+fmtT(t))+'</span>'+
        '<span class="scl" data-mask="'+esc(maskOf(s,veil||1))+'">'+esc(s)+'</span>'+
        '<span class="sca" data-anchor="'+i+'" role="button" tabindex="0" '+
@@ -5890,11 +5896,12 @@ function roundNextTurn(step, every){
 
 function roundPart(step, every, parts){
   if(typeof soloHanding==="function" && soloHanding())
-    return {both:false, handing:true, mine:[], hidden:parts};
+    return {both:false, handing:true, mine:[], hidden:parts, at:[], hidAt:[1,2]};
   var f=roundFirst(step, every);
-  if(f===null) return {both:true, mine:parts, hidden:[]};
-  return f ? {both:false, mine:[parts[0]], hidden:[parts[1]]}
-           : {both:false, mine:[parts[1]], hidden:[parts[0]]};
+  if(f===null) return {both:true, mine:parts, hidden:[],
+                       at:parts.map(function(_,i){return i+1;}), hidAt:[]};
+  return f ? {both:false, mine:[parts[0]], hidden:[parts[1]], at:[1], hidAt:[2]}
+           : {both:false, mine:[parts[1]], hidden:[parts[0]], at:[2], hidAt:[1]};
 }
 
 function roundTag(playId, step){
@@ -5904,9 +5911,12 @@ function roundTag(playId, step){
 }
 
 
-function veilPane(mine, hidden, who){
+function veilPane(mine, hidden, who, at){
   var h='<div class="vpane"><div class="vmine">'+
-        mine.map(function(x){ return '<div>'+esc(x)+'</div>'; }).join("")+'</div>';
+        mine.map(function(x,i){
+          var n=(at&&at[i]!=null)?at[i]:(i+1);
+          return '<div><span class="lno">'+n+'</span>'+esc(x)+'</div>';
+        }).join("")+'</div>';
   if(hidden && hidden.length)
     h+='<div class="vhid" aria-hidden="true"><span>'+
        esc((who||"상대")+(who==="돌려받은 뒤에" ? " 보인다" : " 화면에만 있다"))+
@@ -5965,7 +5975,7 @@ function renderSplit(){
      '</td><td><b>달라야 한다</b></td></tr></table>';
   var p=roundPart(s,2,["왼쪽 몫","오른쪽 몫"]);
   h+='<div style="margin-top:12px">'+
-     veilPane(p.mine, p.hidden, soloOn()?"돌려받은 뒤에":"상대")+'</div>';
+     veilPane(p.mine, p.hidden, soloOn()?"돌려받은 뒤에":"상대", p.at)+'</div>';
   if(soloOn())
     h+='<div class="note">돌려 보기다. 이 자리 몫만 뜬다. 다 봤으면 건넨다를 누른다. '+
        '<b>누르는 순간 화면이 덮인다.</b></div>';

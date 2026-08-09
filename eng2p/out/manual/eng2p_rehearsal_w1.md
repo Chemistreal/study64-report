@@ -70,30 +70,39 @@ Lesson 1: Welcome! · 00:30 · C-real
 상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.
 대본 9줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+1
 ~0:00
 Pete: Hi! Are you Anna?
 여기
+2
 ~0:02
 Anna: Yes! Hi there! Are you Pete?
 여기
+3
 ~0:05
 Pete: I am Pete.
 여기
+4
 ~0:07
 Anna: Nice to meet you.
 여기
+5
 ~0:09
 Anna: Let's try that again. I'm Anna. Nice to meet you.
 여기
+6
 ~0:14
 Pete: I'm Pete. "Anna" Is that A-N-A?
 여기
+7
 ~0:18
 Anna: No. A-N-N-A
 여기
+8
 ~0:19
 Pete: Well, Anna with two "n's" ... Welcome to ... 1400 Irving Street!
 여기
+9
 ~0:27
 Anna: My new apartment! Yes!
 여기
@@ -189,30 +198,39 @@ Lesson 1: Welcome! · 00:30 · C-real
 센 것을 넣으면 무엇을 할지 여기서 말한다.
 대본 9줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+1
 ~0:00
 Pete: Hi! Are you Anna?
 여기
+2
 ~0:02
 Anna: Yes! Hi there! Are you Pete?
 여기
+3
 ~0:05
 Pete: I am Pete.
 여기
+4
 ~0:07
 Anna: Nice to meet you.
 여기
+5
 ~0:09
 Anna: Let's try that again. I'm Anna. Nice to meet you.
 여기
+6
 ~0:14
 Pete: I'm Pete. "Anna" Is that A-N-A?
 여기
+7
 ~0:18
 Anna: No. A-N-N-A
 여기
+8
 ~0:19
 Pete: Well, Anna with two "n's" ... Welcome to ... 1400 Irving Street!
 여기
+9
 ~0:27
 Anna: My new apartment! Yes!
 여기
@@ -272,30 +290,39 @@ Lesson 1: Welcome! · 00:30 · C-real
 상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.
 대본 9줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 덩어리만. 첫 낱말과 길이만 준다. 덩어리로 끊어 듣는 자리다.
+1
 ~0:00
 Pete: Hi! Are you Anna?
 여기
+2
 ~0:02
 Anna: Yes! Hi there! Are you Pete?
 여기
+3
 ~0:05
 Pete: I am Pete.
 여기
+4
 ~0:07
 Anna: Nice to meet you.
 여기
+5
 ~0:09
 Anna: Let's try that again. I'm Anna. Nice to meet you.
 여기
+6
 ~0:14
 Pete: I'm Pete. "Anna" Is that A-N-A?
 여기
+7
 ~0:18
 Anna: No. A-N-N-A
 여기
+8
 ~0:19
 Pete: Well, Anna with two "n's" ... Welcome to ... 1400 Irving Street!
 여기
+9
 ~0:27
 Anna: My new apartment! Yes!
 여기
@@ -400,30 +427,39 @@ Lesson 1: Welcome! · 00:30 · C-real
 센 것을 넣으면 무엇을 할지 여기서 말한다.
 대본 9줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 덩어리만. 첫 낱말과 길이만 준다. 덩어리로 끊어 듣는 자리다.
+1
 ~0:00
 Pete: Hi! Are you Anna?
 여기
+2
 ~0:02
 Anna: Yes! Hi there! Are you Pete?
 여기
+3
 ~0:05
 Pete: I am Pete.
 여기
+4
 ~0:07
 Anna: Nice to meet you.
 여기
+5
 ~0:09
 Anna: Let's try that again. I'm Anna. Nice to meet you.
 여기
+6
 ~0:14
 Pete: I'm Pete. "Anna" Is that A-N-A?
 여기
+7
 ~0:18
 Anna: No. A-N-N-A
 여기
+8
 ~0:19
 Pete: Well, Anna with two "n's" ... Welcome to ... 1400 Irving Street!
 여기
+9
 ~0:27
 Anna: My new apartment! Yes!
 여기
@@ -483,30 +519,39 @@ Lesson 1: Welcome! · 00:30 · C-real
 상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.
 대본 9줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 다 보임. 이제 무슨 말인지를 본다.
+1
 ~0:00
 Pete: Hi! Are you Anna?
 여기
+2
 ~0:02
 Anna: Yes! Hi there! Are you Pete?
 여기
+3
 ~0:05
 Pete: I am Pete.
 여기
+4
 ~0:07
 Anna: Nice to meet you.
 여기
+5
 ~0:09
 Anna: Let's try that again. I'm Anna. Nice to meet you.
 여기
+6
 ~0:14
 Pete: I'm Pete. "Anna" Is that A-N-A?
 여기
+7
 ~0:18
 Anna: No. A-N-N-A
 여기
+8
 ~0:19
 Pete: Well, Anna with two "n's" ... Welcome to ... 1400 Irving Street!
 여기
+9
 ~0:27
 Anna: My new apartment! Yes!
 여기
@@ -600,30 +645,39 @@ Lesson 1: Welcome! · 00:30 · C-real
 어긋난 것은 미해결 LRE 로 적는다. 누가 맞았는지는 정하지 않는다.
 대본 9줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 다 보임. 이제 무슨 말인지를 본다.
+1
 ~0:00
 Pete: Hi! Are you Anna?
 여기
+2
 ~0:02
 Anna: Yes! Hi there! Are you Pete?
 여기
+3
 ~0:05
 Pete: I am Pete.
 여기
+4
 ~0:07
 Anna: Nice to meet you.
 여기
+5
 ~0:09
 Anna: Let's try that again. I'm Anna. Nice to meet you.
 여기
+6
 ~0:14
 Pete: I'm Pete. "Anna" Is that A-N-A?
 여기
+7
 ~0:18
 Anna: No. A-N-N-A
 여기
+8
 ~0:19
 Pete: Well, Anna with two "n's" ... Welcome to ... 1400 Irving Street!
 여기
+9
 ~0:27
 Anna: My new apartment! Yes!
 여기
@@ -683,39 +737,51 @@ Lesson 5: Where Are You? · 01:01 · C-real
 상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.
 대본 12줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+1
 ~0:00
 Anna: Hello, everyone! Today my friend Marsha is at her friend's house. She says it is beautiful. I want to see this house! Here we are!
 여기
+2
 ~0:17
 Anna: Marsha, I am in the kitchen! It is a beautiful kitchen!
 여기
+3
 ~0:24
 Marsha: It is beautiful. We cook in the kitchen.
 여기
+4
 ~0:29
 Anna: I eat in the kitchen.
 여기
+5
 ~0:32
 Marsha: We relax in the living room.
 여기
+6
 ~0:35
 Anna: I relax in the living room.
 여기
+7
 ~0:39
 Marsha, let’s go upstairs!
 여기
+8
 ~0:42
 Marsha:
 여기
+9
 ~0:42
 Anna? Where are you?
 여기
+10
 ~0:45
 Anna: Marsha, I am in the bathroom! I wash in the bathroom.
 여기
+11
 ~0:52
 Marsha: I am in the bedroom. We sleep in the bedroom.
 여기
+12
 ~0:58
 Anna: I sleep in the bedroom!
 여기
@@ -821,39 +887,51 @@ Lesson 5: Where Are You? · 01:01 · C-real
 센 것을 넣으면 무엇을 할지 여기서 말한다.
 대본 12줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
+1
 ~0:00
 Anna: Hello, everyone! Today my friend Marsha is at her friend's house. She says it is beautiful. I want to see this house! Here we are!
 여기
+2
 ~0:17
 Anna: Marsha, I am in the kitchen! It is a beautiful kitchen!
 여기
+3
 ~0:24
 Marsha: It is beautiful. We cook in the kitchen.
 여기
+4
 ~0:29
 Anna: I eat in the kitchen.
 여기
+5
 ~0:32
 Marsha: We relax in the living room.
 여기
+6
 ~0:35
 Anna: I relax in the living room.
 여기
+7
 ~0:39
 Marsha, let’s go upstairs!
 여기
+8
 ~0:42
 Marsha:
 여기
+9
 ~0:42
 Anna? Where are you?
 여기
+10
 ~0:45
 Anna: Marsha, I am in the bathroom! I wash in the bathroom.
 여기
+11
 ~0:52
 Marsha: I am in the bedroom. We sleep in the bedroom.
 여기
+12
 ~0:58
 Anna: I sleep in the bedroom!
 여기
@@ -913,39 +991,51 @@ Lesson 5: Where Are You? · 01:01 · C-real
 상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.
 대본 12줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 덩어리만. 첫 낱말과 길이만 준다. 덩어리로 끊어 듣는 자리다.
+1
 ~0:00
 Anna: Hello, everyone! Today my friend Marsha is at her friend's house. She says it is beautiful. I want to see this house! Here we are!
 여기
+2
 ~0:17
 Anna: Marsha, I am in the kitchen! It is a beautiful kitchen!
 여기
+3
 ~0:24
 Marsha: It is beautiful. We cook in the kitchen.
 여기
+4
 ~0:29
 Anna: I eat in the kitchen.
 여기
+5
 ~0:32
 Marsha: We relax in the living room.
 여기
+6
 ~0:35
 Anna: I relax in the living room.
 여기
+7
 ~0:39
 Marsha, let’s go upstairs!
 여기
+8
 ~0:42
 Marsha:
 여기
+9
 ~0:42
 Anna? Where are you?
 여기
+10
 ~0:45
 Anna: Marsha, I am in the bathroom! I wash in the bathroom.
 여기
+11
 ~0:52
 Marsha: I am in the bedroom. We sleep in the bedroom.
 여기
+12
 ~0:58
 Anna: I sleep in the bedroom!
 여기
@@ -1043,39 +1133,51 @@ Lesson 5: Where Are You? · 01:01 · C-real
 센 것을 넣으면 무엇을 할지 여기서 말한다.
 대본 12줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 덩어리만. 첫 낱말과 길이만 준다. 덩어리로 끊어 듣는 자리다.
+1
 ~0:00
 Anna: Hello, everyone! Today my friend Marsha is at her friend's house. She says it is beautiful. I want to see this house! Here we are!
 여기
+2
 ~0:17
 Anna: Marsha, I am in the kitchen! It is a beautiful kitchen!
 여기
+3
 ~0:24
 Marsha: It is beautiful. We cook in the kitchen.
 여기
+4
 ~0:29
 Anna: I eat in the kitchen.
 여기
+5
 ~0:32
 Marsha: We relax in the living room.
 여기
+6
 ~0:35
 Anna: I relax in the living room.
 여기
+7
 ~0:39
 Marsha, let’s go upstairs!
 여기
+8
 ~0:42
 Marsha:
 여기
+9
 ~0:42
 Anna? Where are you?
 여기
+10
 ~0:45
 Anna: Marsha, I am in the bathroom! I wash in the bathroom.
 여기
+11
 ~0:52
 Marsha: I am in the bedroom. We sleep in the bedroom.
 여기
+12
 ~0:58
 Anna: I sleep in the bedroom!
 여기
@@ -1135,39 +1237,51 @@ Lesson 5: Where Are You? · 01:01 · C-real
 상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.
 대본 12줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 다 보임. 이제 무슨 말인지를 본다.
+1
 ~0:00
 Anna: Hello, everyone! Today my friend Marsha is at her friend's house. She says it is beautiful. I want to see this house! Here we are!
 여기
+2
 ~0:17
 Anna: Marsha, I am in the kitchen! It is a beautiful kitchen!
 여기
+3
 ~0:24
 Marsha: It is beautiful. We cook in the kitchen.
 여기
+4
 ~0:29
 Anna: I eat in the kitchen.
 여기
+5
 ~0:32
 Marsha: We relax in the living room.
 여기
+6
 ~0:35
 Anna: I relax in the living room.
 여기
+7
 ~0:39
 Marsha, let’s go upstairs!
 여기
+8
 ~0:42
 Marsha:
 여기
+9
 ~0:42
 Anna? Where are you?
 여기
+10
 ~0:45
 Anna: Marsha, I am in the bathroom! I wash in the bathroom.
 여기
+11
 ~0:52
 Marsha: I am in the bedroom. We sleep in the bedroom.
 여기
+12
 ~0:58
 Anna: I sleep in the bedroom!
 여기
@@ -1271,39 +1385,51 @@ Lesson 5: Where Are You? · 01:01 · C-real
 어긋난 것은 미해결 LRE 로 적는다. 누가 맞았는지는 정하지 않는다.
 대본 12줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 다 보임. 이제 무슨 말인지를 본다.
+1
 ~0:00
 Anna: Hello, everyone! Today my friend Marsha is at her friend's house. She says it is beautiful. I want to see this house! Here we are!
 여기
+2
 ~0:17
 Anna: Marsha, I am in the kitchen! It is a beautiful kitchen!
 여기
+3
 ~0:24
 Marsha: It is beautiful. We cook in the kitchen.
 여기
+4
 ~0:29
 Anna: I eat in the kitchen.
 여기
+5
 ~0:32
 Marsha: We relax in the living room.
 여기
+6
 ~0:35
 Anna: I relax in the living room.
 여기
+7
 ~0:39
 Marsha, let’s go upstairs!
 여기
+8
 ~0:42
 Marsha:
 여기
+9
 ~0:42
 Anna? Where are you?
 여기
+10
 ~0:45
 Anna: Marsha, I am in the bathroom! I wash in the bathroom.
 여기
+11
 ~0:52
 Marsha: I am in the bedroom. We sleep in the bedroom.
 여기
+12
 ~0:58
 Anna: I sleep in the bedroom!
 여기

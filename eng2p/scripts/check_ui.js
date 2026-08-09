@@ -3052,6 +3052,91 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* **끊긴 것이 없으면 데려오지 않는다.** 늘 오늘로 끌면 보던 자리를 잃는다. */
     if (cut.free !== "#rot") bad.push("끊긴 것이 없는데 보던 자리를 잃는다: " + cut.free);
 
+    /* **둘이 같은 것을 가리키려면 이름이 있어야 한다.** 번호를 붙인다.
+       번호는 **원본 차례**에서 나온다. 이 기기에 보이는 것만 세면
+       첫째가 안 보이는 기기는 둘째부터 세고 "둘째 것" 이 서로 다른 것을 가리킨다.
+       고치기 전에는 두 기기가 다 1번을 보이고 있었다. T248 */
+    const nums = await (async () => {
+      const seen = {};
+      for (const who of ["a", "b"]) {
+        const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+        const q = await c.newPage();
+        q.on("pageerror", (e) => bad.push("줄 번호 화면 오류: " + e.message));
+        await q.goto(PAGE);
+        await q.evaluate((w) => { localStorage.setItem("eng2p.v1", JSON.stringify(
+          { v: 1, names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
+            media: { done: {}, fav: {}, pass: {} }, wk: 0, onboarded: true, device: w,
+            cardDue: {}, cues: {}, rate: 1, fs: 0, wchk: {}, q: {}, rot: [],
+            clips: [], scripts: {}, rstep: {}, rseat: {} })); }, who);
+        await q.goto(PAGE);
+        await q.waitForTimeout(400);
+        await q.evaluate(() => go("rules"));
+        await q.waitForTimeout(250);
+        seen[who] = await q.evaluate(() => [...document.querySelectorAll("#splitCheck .vmine>div")]
+          .map((x) => ({ n: (x.querySelector(".lno") || {}).textContent,
+                         t: (x.querySelector(".lno") || {}).nextSibling ?
+                            x.textContent.replace((x.querySelector(".lno") || {}).textContent, "") : x.textContent })));
+        await c.close();
+      }
+      return seen;
+    })();
+    ["a", "b"].forEach((k) => {
+      if (!nums[k].length) bad.push(k + " 기기에 몫이 안 뜬다");
+      else if (!nums[k][0].n) bad.push(k + " 기기 몫에 번호가 없다");
+    });
+    if (nums.a.length && nums.b.length) {
+      if (nums.a[0].n === nums.b[0].n)
+        bad.push("두 기기가 서로 다른 것을 보는데 번호가 같다: " + nums.a[0].n);
+      if (nums.a[0].t === nums.b[0].t)
+        bad.push("두 기기가 같은 몫을 본다: " + nums.a[0].t);
+    }
+    /* 대본 줄에도 번호가 있어야 한다. 그것도 원본 차례에서 나온다. */
+    const scn = await (async () => {
+      const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const q = await c.newPage();
+      q.on("pageerror", (e) => bad.push("대본 번호 화면 오류: " + e.message));
+      await q.goto(PAGE);
+      await q.evaluate(() => {
+        function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
+          return z.toISOString().slice(0,10);}
+        var now=new Date(), st=new Date(now.getTime()-138*86400000), days={};
+        for(var i=0;i<138;i++){var x=new Date(st.getTime()+i*86400000);
+          if(x.getDay()===0) continue;
+          days[iso(x)]={status:"normal",h:2,speak:12,cards:30,lre:2,unres:[],coll:[]};}
+        localStorage.setItem("eng2p.v1",JSON.stringify(
+          {v:1,names:{a:"남편",b:"아내"},start:iso(st),days:days,
+           media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:true,session:null,
+           device:"a",recOpen:false,emgOpen:false,card:null,cardDue:{},
+           cardMode:"today",cues:{},rate:1,fs:0,wchk:{},q:{},rot:[],clips:[],scripts:{}}));
+      });
+      await q.goto(PAGE);
+      await q.waitForTimeout(500);
+      await q.evaluate(() => { T.run = true; gotoBlock(0); });
+      for (let k = 0; k < 12; k++) {
+        await q.waitForTimeout(300);
+        const n = await q.evaluate(() => document.querySelectorAll(".scline").length);
+        if (n) break;
+      }
+      const got = await q.evaluate(() => {
+        const rows = [...document.querySelectorAll(".scline")];
+        return { n: rows.length,
+                 nos: rows.slice(0, 4).map((r) => (r.querySelector(".lno") || {}).textContent),
+                 cue: rows.slice(0, 4).map((r) => r.dataset.cue) };
+      });
+      await q.evaluate(() => { T.run = false; clearInterval(T.tick); });
+      await c.close();
+      return got;
+    })();
+    if (!scn.n) bad.push("대본 줄이 안 뜬다");
+    else {
+      if (scn.nos.some((x) => !x)) bad.push("대본 줄에 번호가 없다: " + scn.nos.join(","));
+      /* **번호가 원본 차례와 같아야 한다.** `data-cue` 가 원본 자리다. */
+      scn.nos.forEach((x, i) => {
+        if (String(+scn.cue[i] + 1) !== x)
+          bad.push("대본 번호가 원본 차례와 다르다: " + x + " vs " + scn.cue[i]);
+      });
+    }
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

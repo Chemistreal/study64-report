@@ -113,6 +113,16 @@ function renderSyncScript(it, round){
     h+='<button type="button" class="scline'+(fixed?" fixed":"")+
        (SESS.loop!=null&&i>=SESS.loop&&i<SESS.loop+loopSpan()?" loop":"")+'" data-cue="'+i+'">'+
        /* 시각을 모르는 줄이다. em-dash 를 쓰고 있었다. 절대 규칙에 걸린다. T152 */
+       /* **줄 번호는 원본 차례에서 나온다.** 보이는 것만 세면 안 된다.
+          가리기 회차에서는 글이 마스크로 덮이는데 줄은 그대로 있다.
+          그래도 두 기기가 서로 다른 것을 가리는 판이 오면 (T240) 보이는 것만
+          세는 순간 "위에서 세 번째" 가 서로 다른 줄이 된다. T248 */
+
+       /* **줄 번호는 원본 차례에서 나온다.** 보이는 것만 세면 안 된다.
+          가리기 회차에서는 글이 마스크로 덮이는데 줄은 그대로 있다.
+          그래도 두 기기가 서로 다른 것을 가리는 판이 오면 (T240) 보이는 것만
+          세는 순간 "위에서 세 번째" 가 서로 다른 줄이 된다. T248 */
+       '<span class="lno">'+(i+1)+'</span>'+
        '<span class="sct">'+(t==null?"--":(fixed?"":"~")+fmtT(t))+'</span>'+
        '<span class="scl" data-mask="'+esc(maskOf(s,veil||1))+'">'+esc(s)+'</span>'+
        '<span class="sca" data-anchor="'+i+'" role="button" tabindex="0" '+
