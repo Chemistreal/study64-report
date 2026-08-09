@@ -15,7 +15,7 @@
 사용법:
     python3 scripts/check_play.py
 
-규격: docs/play.md, docs/play_rules.md, docs/roadmap.md 12.9
+규격: docs/play.md, docs/play_rules.md, docs/roadmap.md 12.9, docs/solo_plays.md
 """
 import io
 import os
@@ -27,6 +27,10 @@ ROOT = os.path.dirname(HERE)
 RULES = os.path.join(ROOT, "docs", "play_rules.md")
 ROADMAP = os.path.join(ROOT, "docs", "roadmap.md")
 DATA = os.path.join(ROOT, "docs", "play_data.md")
+SOLO = os.path.join(ROOT, "docs", "solo_plays.md")
+
+# 한 기기로 도는 갈래 셋. `docs/solo_plays.md` 2장이 정했다. T249
+SOLO_KINDS = ["그대로", "돌려 보기", "종이", "고른 판을 따른다"]
 
 # 판마다 이 아홉 줄이 이 차례로 있어야 한다. docs/play_rules.md 1장이 규격이다.
 ROWS = ["트랙 구조 분", "쓰는 것", "시작 조건", "역할",
@@ -93,6 +97,46 @@ def missing_data():
         if line.startswith("| ") and "---" not in line and "어느 판" not in line:
             n += 1
     return n
+
+
+def check_solo(books, fails):
+    """스무 판이 한 기기로 어떻게 도는지가 판마다 적혀 있는가. T249
+
+    **판이 늘거나 이름이 바뀌면 이 표가 먼저 낡는다.** 그러면 기기가 하나인 날에
+    이 판은 어떻게 도느냐를 그 자리에서 정하게 되고, 그 자리에서 정하면
+    가리기가 필요한 판을 그냥 둘이 같이 보게 된다.
+
+    규칙서가 원본이고 이 표는 규칙서를 따라간다. 하나라도 빠지면 실패다.
+    """
+    if not os.path.exists(SOLO):
+        fails.append("docs/solo_plays.md 가 없다")
+        return 0
+    doc = io.open(SOLO, encoding="utf-8").read()
+    rows = {}
+    for m in re.finditer(r"^\| (\d+) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|$", doc, re.M):
+        rows[m.group(2).strip()] = m.group(3).strip().replace("**", "")
+    # **이름을 손대지 않는다.** `rulebook()` 이 이미 절 번호를 뗀 이름을 준다.
+    # 여기서 또 앞의 숫자를 떼려다 "3초 벽" 이 "초 벽" 이 됐다. T249
+    for name, _rows in books:
+        short = name.strip()
+        if short not in rows:
+            fails.append("docs/solo_plays.md 에 '%s' 판이 없다" % short)
+            continue
+        if rows[short] not in SOLO_KINDS:
+            fails.append("'%s' 의 한 기기 갈래가 '%s' 다. 셋 중 하나여야 한다"
+                         % (short, rows[short]))
+    shorts = [n.strip() for n, _ in books]
+    for got in rows:
+        if got not in shorts:
+            fails.append("docs/solo_plays.md 의 '%s' 가 규칙서에 없다" % got)
+    # 못 도는 판은 몇인가. 세어 둔 수와 실제가 같아야 한다.
+    n_paper = sum(1 for v in rows.values() if v == "종이")
+    m = re.search(r"^\| \*\*종이\*\* \|[^|]*\| (\d+) \|$", doc, re.M)
+    if not m:
+        fails.append("docs/solo_plays.md 2장에 종이 판 수가 없다")
+    elif int(m.group(1)) != n_paper:
+        fails.append("종이 판이 %d개인데 2장은 %s개라고 적었다" % (n_paper, m.group(1)))
+    return len(rows)
 
 
 def main():
@@ -192,10 +236,13 @@ def main():
           (len(judges) - len(by_app), len(by_app)))
     print("  역할이 없다고 적은 판 %d / 자료가 없는 판 %d" % (roleless, len(none_here)))
     print("  **기계가 안 보는 것: 재미, 판정의 옳고 그름, 자료의 질**")
+    # **찍기 전에 부른다.** 뒤에 두면 세기만 하고 안 보여 준다. 실제로 그랬다.
+    nsolo = check_solo(books, fails)
     for m in fails:
         print("[실패] " + m)
     print("")
-    print("놀이 규칙서 %d판 / 실패 %d" % (len(books), len(fails)))
+    print("놀이 규칙서 %d판 / 한 기기 갈래 %d판 / 실패 %d"
+          % (len(books), nsolo, len(fails)))
     return 1 if fails else 0
 
 

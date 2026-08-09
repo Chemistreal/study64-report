@@ -157,6 +157,7 @@ scripts/check_play.py 놀이 규칙서 스무 판. **판정은 사람이 하고 
 docs/play.md          2인 놀이 원칙 여섯 확정판. 부딪치는 자리와 검사 갈래
 docs/play_rules.md    스무 판 규칙서. 판마다 아홉 줄. 이 파일이 check_play.py 의 원본
 docs/play_data.md     판마다 쓸 자료를 out/data 와 대조. 없다고 적은 것을 찾은 표
+docs/solo_plays.md    기기가 하나인 날 스무 판이 어떻게 도는가. **셋은 종이가 있어야 한다**
 docs/bench_verdict.md 채용 열여섯과 기각 열. 다섯 문서와 12.7 을 합친 확정판
 docs/bench_axes.md    앱 서른둘을 열여섯 축에. **빈 자리가 이 과정의 자리다**
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
