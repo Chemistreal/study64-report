@@ -53,6 +53,8 @@ STEPS = [
     ("파생", "derive_swaps.py", [], True),
     # 내 소리는 네가 판의 듣는 쪽 지시. **알맹이는 블록 2 근거표에서 온다.** T264
     ("파생", "derive_listen.py", [], True),
+    # 전달 놀이가 쓸 줄. **소리 자리는 어림이다.** 되감기를 화면이 준다. T267
+    ("파생", "derive_relay.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
