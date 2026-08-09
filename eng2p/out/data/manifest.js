@@ -10,8 +10,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "cards.js",
-      "bytes": 578625,
-      "sha256": "936d1eb5bfbe3a44b436e3073ae03fcc70d02d980040ca929edeabb17e4eca3b"
+      "bytes": 450461,
+      "sha256": "4a59311c34ba0b422b33f3b3528cba8aee484028dd3109ddcd1e67502eebe0cd"
     },
     {
       "file": "cards.json",
@@ -25,8 +25,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "emergency.js",
-      "bytes": 52210,
-      "sha256": "2869f16d294316e0d092e14fd1037d33f1a1669ccc5885c5317fae6ddfebfb5c"
+      "bytes": 40076,
+      "sha256": "78d1334a0710a3724823442757044d704d6ecfa5ec7c66e57dd4da70d0a13e25"
     },
     {
       "file": "emergency.json",
@@ -40,8 +40,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "handouts.js",
-      "bytes": 222479,
-      "sha256": "64b697e20ff9fe9034539549dfb5c59f06cbeb809e412e873e08c3ed132397dc"
+      "bytes": 175328,
+      "sha256": "a1c8804b65b0510ce2e659dc7b646f0565e4bde787f0119be65a235c3f1d98bf"
     },
     {
       "file": "handouts.json",
@@ -60,8 +60,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "lectures.js",
-      "bytes": 356635,
-      "sha256": "0a2a0fc8275e82c470f824823d3bef4bcaa830cb3d1df6397de373b91f4a16f7"
+      "bytes": 183825,
+      "sha256": "fe4b8e815bb55afb906550bd87ec0c427bf661f1c1f3218fac13827207e8609f"
     },
     {
       "file": "lectures.json",
@@ -75,8 +75,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "sets.js",
-      "bytes": 504716,
-      "sha256": "2fd387acff6fb3ec2606c1e0e19667e185cad25449946cd48c746af34daa7571"
+      "bytes": 330456,
+      "sha256": "aecc9da01d5b2cbc34f3f12bb27a6beb170121e9203ca5ea8435910e18020bac"
     },
     {
       "file": "sets.json",
@@ -85,8 +85,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "tasks.js",
-      "bytes": 149016,
-      "sha256": "ebfb7467c1c2d374a91b7f8049b3ec9868aa3694165308d47956f264953081e5"
+      "bytes": 142708,
+      "sha256": "1a79694aceab0af8e892dec4fd80caaa8d3e893c5e64c63019d7c8ed7a1d6268"
     },
     {
       "file": "tasks.json",

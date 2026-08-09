@@ -2023,6 +2023,31 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!(lumOf(inSess.bg) < lumOf(outSess.bg)))
       bad.push("세션 중이 더 안 짙다 " + inSess.bg + " / " + outSess.bg);
     if (lumOf(outSess.bg) < 0.5) bad.push("세션 밖이 짙다. 테마가 두 벌이 됐다 " + outSess.bg);
+    /* **아래 칸에 적으라고 시키는데 아래는 오늘 탭이었다.**
+       4분짜리 기록 단계에서 탭을 옮겨 가서 적고 돌아와야 했다. 그 자리에서 남긴다. T224 */
+    await pw.evaluate(() => { T.run = true; gotoBlock(1); });
+    await pw.waitForTimeout(1400);
+    const un0 = await pw.evaluate(() => ({
+      n: day(today()).unres.length, box: !!document.getElementById("setUn") }));
+    if (!un0.box) { bad.push("블록 2 에 미해결 LRE 를 남길 칸이 없다"); }
+    else {
+      await pw.fill("#setUn", "갈린 문장 하나");
+      await pw.click("#setUnAdd");
+      await pw.waitForTimeout(500);
+      const un1 = await pw.evaluate(() => ({
+        n: day(today()).unres.length,
+        last: (day(today()).unres.slice(-1)[0] || {}).t,
+        undo: !!document.querySelector(".undo button") }));
+      if (un1.n !== un0.n + 1) bad.push("세션 중에 남긴 미해결 LRE 가 안 쌓였다");
+      if (un1.last !== "갈린 문장 하나") bad.push("남긴 문장이 다르다: " + un1.last);
+      if (!un1.undo) bad.push("세션 중에 남긴 것을 되돌릴 자리가 없다");
+      else {
+        await pw.evaluate(() => document.querySelector(".undo button").click());
+        await pw.waitForTimeout(400);
+        if ((await pw.evaluate(() => day(today()).unres.length)) !== un0.n)
+          bad.push("되돌렸는데 안 돌아왔다");
+      }
+    }
     await ctxw.close();
     return bad;
   })();

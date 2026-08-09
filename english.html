@@ -630,6 +630,10 @@ body.session-focus .brand{background:none;color:var(--fg);-webkit-text-fill-colo
 body.session-focus .blockpane .aimw textarea,
 body.session-focus .blockpane .cntrow input,
 body.session-focus .blockpane .drec input{background:var(--bg2);color:var(--fg)}
+
+/* 세션 중에 미해결 LRE 를 그 자리에서 남긴다. T224 */
+.blockpane .unresbox{margin-top:9px}
+.blockpane .unresbox button{margin-top:7px;min-height:44px;width:100%}
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
@@ -2643,13 +2647,20 @@ function renderSetPane(pl){
       /* 적는 자리는 적을 수 있어야 한다. 보여 주기만 하면 종이를 따로 꺼내게 된다.
          값은 그날 기록에 바로 들어간다. LRE 횟수는 이미 있는 칸을 쓴다. */
       var rec=day(today());
+      /* **아래 칸에 적으라고 시키는데 아래는 오늘 탭이다.**
+         4분짜리 기록 단계에서 탭을 옮겨 가서 적고 돌아와야 했다.
+         세션 중에 다른 탭에 가면 시계는 도는데 두 사람은 그것을 안 본다.
+         **여기서 적는다.** 오늘 탭의 그 칸과 같은 자리에 쌓인다. T224 */
       body='<div class="body">'+
         '<label class="blank">LRE 발생 횟수'+
         /* 값을 여기 안 넣는다. 그린 뒤에 넣는다. 위 fillField 설명을 본다 */
         '<input type="number" min="0" step="1" id="setLre"'+
         ' style="width:80px;margin-left:8px"></label>'+
-        '<label class="blank">미해결 LRE 목록은 아래 미해결 LRE 칸에 문장으로 적는다.'+
-        ' 지금 '+(rec.unres||[]).length+'건 있다.</label>'+
+        '<div class="unresbox">'+
+        '<label class="blank aimw"><span>미해결 LRE · 어긋난 문장을 그대로 적는다</span>'+
+        '<textarea id="setUn" rows="2" placeholder="누가 맞았는지는 안 적는다"></textarea></label>'+
+        '<button type="button" class="g" id="setUnAdd">이 문장을 남긴다</button>'+
+        '<div class="n" id="setUnCnt"></div></div>'+
         '</div>';
     }
     var left="";
@@ -2668,6 +2679,21 @@ function renderSetPane(pl){
        여기서 다시 읽는다. 없는 것을 읽어 세션이 멎으면 안 된다. */
     var rc=day(today());
     fillField("setLre", rc.lre?String(rc.lre):"");
+    var uc=document.getElementById("setUnCnt");
+    if(uc) uc.textContent="지금 "+(rc.unres||[]).length+"건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.";
+    var ua=document.getElementById("setUnAdd"), ut=document.getElementById("setUn");
+    if(ua&&ut) ua.onclick=function(){
+      var v=ut.value.trim(); if(!v){ ut.focus(); return; }
+      day(today()).unres.push({t:v,i:"",k:"",h:"",w:"",done:false});
+      ut.value=""; save(); renderUnres && renderUnres();
+      if(uc) uc.textContent="지금 "+day(today()).unres.length+"건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.";
+      flash("미해결 LRE 를 남겼다");
+      /* 남긴 것을 잘못 남길 수 있다. 세션 중이라 더 급하게 누른다. */
+      offerUndo("미해결 LRE 1건 남김",function(){
+        day(today()).unres.pop(); renderUnres && renderUnres();
+        if(uc) uc.textContent="지금 "+day(today()).unres.length+"건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.";
+      });
+    };
     if(el) el.oninput=function(){ day(today()).lre=+el.value||0; save();
       var f=document.getElementById("fLre"); if(f) f.value=el.value; };
   },0);

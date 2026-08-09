@@ -364,3 +364,7 @@ body.session-focus .brand{background:none;color:var(--fg);-webkit-text-fill-colo
 body.session-focus .blockpane .aimw textarea,
 body.session-focus .blockpane .cntrow input,
 body.session-focus .blockpane .drec input{background:var(--bg2);color:var(--fg)}
+
+/* 세션 중에 미해결 LRE 를 그 자리에서 남긴다. T224 */
+.blockpane .unresbox{margin-top:9px}
+.blockpane .unresbox button{margin-top:7px;min-height:44px;width:100%}

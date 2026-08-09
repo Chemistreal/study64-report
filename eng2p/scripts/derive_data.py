@@ -563,10 +563,18 @@ GLOBALS = {
 
 
 def write_js(name, text):
-    """JSON 과 같은 내용을 script 로 읽는 판으로 낸다."""
+    """JSON 과 같은 내용을 script 로 읽는 판으로 낸다.
+
+    **읽는 쪽은 사람이 아니라 브라우저다.** 그래서 여기서는 여백을 안 넣는다.
+    `.json` 은 사람이 읽는 판이고 그쪽은 그대로 들여쓴다. 내용은 같다.
+
+    `index.js` 가 열자마자 읽는 둘 중 하나다. 64KB 에서 30KB 가 된다.
+    T223 에 열자마자 읽는 것이 천장에 닿았고 그것을 여기서 갚는다. T224
+    """
     g = GLOBALS[name]
     p = OUT / name.replace(".json", ".js")
-    p.write_text("window.%s=%s;\n" % (g, text.rstrip("\n")), encoding="utf-8")
+    tight = json.dumps(json.loads(text), ensure_ascii=False, separators=(",", ":"))
+    p.write_text("window.%s=%s;\n" % (g, tight), encoding="utf-8")
     return p
 
 
