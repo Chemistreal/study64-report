@@ -2121,6 +2121,38 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       if (nx.left !== "05:00") bad.push("청크가 5분으로 안 뜬다: " + nx.left);
       await pw.evaluate(() => { stopEmgClock(); EMGCLK.at = null; S.emgOpen = false; save(); });
     }
+    /* **짝 코드는 사람이 손으로 친다.** 잘못 치는 것이 정상이다.
+       담은 값이 그대로 나오는지, 한 글자 틀린 것과 두 글자 바뀐 것을 잡는지 본다.
+       그리고 헷갈리는 글자를 친 것은 잘못이 아니라 손이 아는 대로 친 것이라 받아 준다. T234 */
+    const pc = await pw.evaluate(() => {
+      const d = addDays(today(), -1);          // 일요일에는 그날 기록이 없다
+      const vals = pairValues(d);
+      const body = pcEncode(vals), code = body + pcSum(body);
+      const back = pairRead(code);
+      let i = -1;
+      for (let k = 0; k + 1 < code.length - 1; k++)
+        if (code[k] !== code[k + 1]) { i = k; break; }
+      const swap = i < 0 ? code : code.slice(0, i) + code[i + 1] + code[i] + code.slice(i + 2);
+      const bad = code.slice(0, 2) + (code[2] === "0" ? "1" : "0") + code.slice(3);
+      return { code, len: code.length, vals, got: back.v, ok: back.ok,
+               swap: pairRead(swap).err || "", bad: pairRead(bad).err || "",
+               lower: pairRead(code.toLowerCase()).ok === true,
+               spaced: pairRead(code.slice(0, 5) + " " + code.slice(5)).ok === true };
+    });
+    if (!pc.ok) bad.push("짝 코드를 다시 못 읽는다");
+    else {
+      const names = ["session", "status", "speak", "cards", "lre",
+                     "unres", "coll", "round", "same", "diff"];
+      names.forEach((k, i) => {
+        if (pc.got[k] !== pc.vals[i])
+          bad.push("짝 코드에서 " + k + " 가 " + pc.vals[i] + " → " + pc.got[k]);
+      });
+    }
+    if (pc.len > 20) bad.push("짝 코드가 " + pc.len + "글자다. 손으로 치기에 길다");
+    if (!pc.bad) bad.push("한 글자 잘못 친 것을 안 잡는다");
+    if (!pc.swap) bad.push("두 글자 바꿔 친 것을 안 잡는다");
+    if (!pc.lower) bad.push("소문자로 친 것을 안 받는다");
+    if (!pc.spaced) bad.push("띄어 친 것을 안 받는다");
     await ctxw.close();
     return bad;
   })();
