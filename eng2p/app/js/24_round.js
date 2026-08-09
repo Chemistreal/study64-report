@@ -219,8 +219,7 @@ function renderSplit(){
   h+='<div id="splitTurn"></div>';
   /* 소리 나누기. 이 판은 한쪽만 듣는다고 치고 물어본다. T245 */
   h+='<div id="splitEar" style="margin-top:10px"></div>';
-  var sn=soundNote(s,2,["읽는 쪽","짚는 쪽"]);
-  if(sn) h+='<div class="note" style="margin-top:8px">'+esc(sn)+'</div>';
+  /* 소리 안 내는 기기에 할 말은 이어폰 칸이 다 한다 (T254). 여기서 또 안 적는다. */
   h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
      '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
   h+='<div class="row" style="margin-top:8px">'+
@@ -231,7 +230,7 @@ function renderSplit(){
   if(soloOn()) h+='<button class="g" id="soHand">건넨다</button>';
   h+='</div>';
   box.innerHTML=h;
-  earAsk("check", "splitEar");
+  earAsk("check", "splitEar", null, s, 2);
   /* 회를 넘길 때 자리가 바뀌면 알린다. **바뀐 그 순간에 알려야 한다.** */
   function stepTo(n){
     SPLIT.step=Math.max(0,n); roundStepSet("check", SPLIT.step); renderSplit();

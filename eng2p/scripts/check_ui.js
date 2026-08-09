@@ -2878,34 +2878,51 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
           mine: soundMine(SPLIT.step, 2),
           note: soundNote(SPLIT.step, 2, ["읽는 쪽", "짚는 쪽"]),
           asked: !!document.querySelector("[data-ear]") }));
-        await q.click("[data-ear]"); await q.waitForTimeout(150);
-        const after = await q.evaluate(() => ({
-          ear: document.getElementById("splitEar").innerText,
-          asked: !!document.querySelector("[data-ear]"),
-          /* **판마다 따로 묻는다.** 한 번 묻고 그날 내내 안 물으면
-             다음 판에서 이어폰을 뺀 채로 돈다. */
-          other: earOk("another") }));
+        /* **묻는 쪽이 정해져 있다.** 소리를 내는 기기에만 묻는다 (T254).
+           없는 단추를 누르러 가면 서른 초를 기다린다 (T241, T247 에 겪었다). */
+        let after = null;
+        if (before.asked) {
+          await q.click("[data-ear]", { timeout: 3000 }); await q.waitForTimeout(150);
+          after = await q.evaluate(() => ({
+            ear: document.getElementById("splitEar").innerText,
+            asked: !!document.querySelector("[data-ear]"),
+            /* **판마다 따로 묻는다.** 한 번 묻고 그날 내내 안 물으면
+               다음 판에서 이어폰을 뺀 채로 돈다. */
+            other: earOk("another") }));
+        }
         out[String(who)] = { before, after };
         await c.close();
       }
       return out;
     })();
     ["a", "b", "null"].forEach((k) => {
-      if (!snd[k].before.asked) bad.push(k + " 기기가 이어폰을 안 묻는다");
-      if (!/이어폰/.test(snd[k].before.ear)) bad.push(k + " 기기 물음에 이어폰 말이 없다");
-      if (snd[k].after.asked) bad.push(k + " 기기가 답을 받고도 또 묻는다");
-      if (!/끼웠다/.test(snd[k].after.ear)) bad.push(k + " 기기가 답을 받은 것을 안 보인다");
-      if (snd[k].after.other) bad.push(k + " 기기가 한 판의 답을 다른 판에도 쓴다");
+      const g = snd[k];
+      if (!/이어폰/.test(g.before.ear)) bad.push(k + " 기기 칸에 이어폰 말이 없다");
+      if (g.before.mine) {
+        /* 소리를 내는 기기. 묻고 답을 받는다. */
+        if (!g.before.asked) bad.push(k + " 기기가 소리를 내는데 이어폰을 안 묻는다");
+        else {
+          if (g.after.asked) bad.push(k + " 기기가 답을 받고도 또 묻는다");
+          if (!/끼웠다/.test(g.after.ear)) bad.push(k + " 기기가 답을 받은 것을 안 보인다");
+          if (g.after.other) bad.push(k + " 기기가 한 판의 답을 다른 판에도 쓴다");
+        }
+      } else {
+        /* 소리를 안 내는 기기. **묻지 않는다.** 엉뚱한 사람이 끼우면
+           정작 소리가 나는 기기는 안 끼운 채로 돈다. T254 */
+        if (g.before.asked) bad.push(k + " 기기는 소리를 안 내는데 이어폰을 묻는다");
+        if (!/상대 기기에 끼운다/.test(g.before.ear))
+          bad.push(k + " 기기가 이어폰을 어느 쪽에 끼우는지 안 말한다: " + g.before.ear);
+      }
     });
     if (snd.a.before.mine === snd.b.before.mine)
       bad.push("두 기기가 같이 소리를 낸다: " + snd.a.before.mine);
     if (snd["null"].before.mine !== true)
       bad.push("기기가 하나인데 소리를 안 낸다");
-    /* 소리를 안 내는 기기가 조용히 있으면 고장 난 줄 안다. */
+    /* 소리를 안 내는 기기가 왜 조용한지를 말한다. 이어폰 칸이 그 말을 한다.
+       **같은 말을 두 자리에 두지 않는다.** 두 화면을 나란히 읽다가 겹친 것이 보였다. */
     const quiet = snd.a.before.mine ? snd.b : snd.a;
-    const loud = snd.a.before.mine ? snd.a : snd.b;
-    if (!quiet.before.note) bad.push("소리를 안 내는 기기가 왜 조용한지를 안 적는다");
-    if (loud.before.note) bad.push("소리를 내는 기기에 안 낸다는 말이 뜬다");
+    if (!/소리를 안 낸다/.test(quiet.before.ear))
+      bad.push("소리를 안 내는 기기가 왜 조용한지를 안 적는다");
     /* **자리 이름 뒤에 조사를 안 붙인다.** 이름은 판이 주고 받침이 섞인다. */
     if (/쪽[가이]\s/.test(quiet.before.note))
       bad.push("자리 이름 뒤에 조사를 붙였다: " + quiet.before.note);

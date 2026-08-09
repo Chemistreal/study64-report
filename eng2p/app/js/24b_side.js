@@ -186,9 +186,20 @@ function soundMine(step, every){
    한 번 묻고 그날 내내 안 물으면 다음 판에서 이어폰을 뺀 채로 돈다. */
 var EAR={ok:{}};
 function earOk(playId){ return !!EAR.ok[String(playId)]; }
-function earAsk(playId, into, after){
+/* **묻는 쪽이 정해져 있다.** 이어폰은 소리를 내는 기기에 끼운다.
+   소리를 안 내는 기기에 물으면 엉뚱한 사람이 끼우고, 정작 소리가 나는 기기는
+   안 끼운 채로 돈다. 두 화면을 나란히 읽다가 보였다 (T254).
+   `step` 과 `every` 를 받으면 그것으로 가르고 안 받으면 그냥 묻는다. */
+function earAsk(playId, into, after, step, every){
   var box=(typeof into==="string")?$("#"+into):into;
   if(!box) return;
+  if(step!=null && typeof soundMine==="function" && !soundMine(step, every||1)){
+    /* 한 줄로 다 말한다. 옆에 같은 말을 또 두면 두 줄이 겹쳐 읽힌다.
+       실제로 "이 기기는 소리를 안 낸다" 가 두 줄 연달아 떴다 (T254). */
+    box.innerHTML='<div class="note">이 기기는 소리를 안 낸다. '+
+      '<b>이어폰은 상대 기기에 끼운다.</b> 듣는 자리는 위 표의 자리 줄에 있다.</div>';
+    return;
+  }
   if(earOk(playId)){
     box.innerHTML='<div class="note g">이어폰을 끼웠다. 이 기기 소리는 '+
       '<b>듣는 쪽 귀에만</b> 간다.</div>';
