@@ -78,9 +78,14 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
   const errs = [];
   page.on("pageerror", (e) => errs.push(e.message));
 
-  /* 48주를 다 도는 것이 제일 좋지만 한 주에 4분이면 못 돈다.
-     **주마다 하루씩 여덟 주를 고른다.** 분기마다 둘이고 첫 주와 끝 주가 들어간다. */
-  const WEEKS = [1, 7, 13, 19, 25, 31, 37, 48];
+  /* 48주를 다 도는 것이 제일 좋지만 매 세션 돌기에는 길다.
+     **주마다 하루씩 여덟 주를 고른다.** 분기마다 둘이고 첫 주와 끝 주가 들어간다.
+
+     전수는 따로 돈다. `ENG2P_ALL_WEEKS=1` 을 붙이면 48주를 다 본다.
+     T229 에 한 번 돌려 그날 자료로만 걸리는 것을 찾는다. 그 뒤로는 필요할 때만. */
+  const ALL = process.env.ENG2P_ALL_WEEKS === "1";
+  const WEEKS = ALL ? Array.from({ length: 48 }, (_, i) => i + 1)
+                    : [1, 7, 13, 19, 25, 31, 37, 48];
   let panes = 0;
 
   for (const wk of WEEKS) {
@@ -96,6 +101,13 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
 
     /* B 쪽이 되는 사람을 골라 넣는다. 화면 쪽은 날마다 뒤집힌다 (T216). */
     await page.evaluate(() => { S.device = roleOf(today()) === "a" ? "b" : "a"; save(); });
+    /* **회차를 주마다 돌린다.** 안 그러면 늘 1회차만 본다.
+       블록 4는 회차마다 다른 것을 묻는다 (T214). 1회차는 지점, 2회차는 덩어리,
+       3회차는 요약이고 3회차에는 셈 칸이 없다.
+       48주를 다 돌고도 실패가 0으로 나와서 **왜 안 걸렸나**를 물었다.
+       그때 이 자리가 늘 같은 값이라는 것이 보였다. T229 */
+    const rnd = wk % 3;                            // 0, 1, 2 를 돌린다
+    await page.evaluate((r) => { lecRound()[plan().lectureNo] = r; save(); }, rnd);
 
     for (let i = 0; i < 4; i++) {
       await page.evaluate((n) => { T.run = true; gotoBlock(n); }, i);
@@ -126,6 +138,15 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
         ["이 블록이 남기는 것", "drCards"],
         ["맞춰 보는 법", "aimA"],
       ][i];
+      /* 블록 4는 회차마다 묻는 것이 다르다. 그 주 회차에 맞는 말이 있는지 본다. */
+      if (i === 3) {
+        const want = { 1: "표시한 지점", 2: "끊어 들은 덩어리", 3: "요약" }[rnd + 1];
+        if (txt.indexOf(want) < 0)
+          fails.push(wk + "주 블록 4 (" + (rnd + 1) + "회차) 에 '" + want + "' 이 없다");
+        const cnt = await page.evaluate(() => !!document.getElementById("aimSame"));
+        if (rnd + 1 === 3 && cnt) fails.push(wk + "주 블록 4 가 3회차인데 셈 칸이 있다");
+        if (rnd + 1 !== 3 && !cnt) fails.push(wk + "주 블록 4 가 " + (rnd + 1) + "회차인데 셈 칸이 없다");
+      }
       if (txt.indexOf(need[0]) < 0)
         fails.push(wk + "주 블록 " + (i + 1) + " 에 '" + need[0] + "' 이 없다");
       const has = await page.evaluate((id) => !!document.getElementById(id), need[1]);
@@ -142,6 +163,6 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
   errs.slice(0, 5).forEach((m) => fails.push("화면 오류: " + m));
   fails.slice(0, 20).forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("주 " + WEEKS.length + "개 x 블록 4 = " + panes + "판 / 실패 " + fails.length);
+  console.log("주 " + WEEKS.length + "개 x 블록 4 = " + panes + "판 (회차 셋을 돌려 본다) / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
