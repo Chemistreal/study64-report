@@ -38,7 +38,7 @@ OUT = ROOT / "out" / "data"
 # **여기 적힌 것이 다 있어야 한다.** 있는 것을 훑는 것이 아니라 적어 둔 것을 찾는다.
 # 훑으면 빠진 것이 안 보인다. 적어 두면 빠진 것이 실패로 나온다.
 EXPECT = [
-    "audiolen.js", "cards.js", "cards.json", "cues.js",
+    "audiolen.js", "cards.js", "cards.json", "chunks.js", "chunks.json", "cues.js",
     "emergency.js", "emergency.json", "ground.js",
     "handouts.js", "handouts.json",
     # 차림표를 분기 넷으로 쪼갰다. 머리만 열자마자 읽는다. T245
