@@ -337,6 +337,13 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   overflow-wrap:anywhere}
 .rlyoff{background:var(--sub);border-bottom:2px solid var(--warn);
   padding:0 3px;border-radius:3px}
+/* 이어달리기 (T271). 마디 수가 이 판의 전부다. 상 건너에서 둘이 같이 본다. */
+.chnbig{font-size:2.2rem;font-weight:750;letter-spacing:-.02em;margin:10px 0 2px}
+.chnbig b{font-family:var(--mono)}
+.chnpool{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.chnpool .small{flex:1 0 100%;margin-bottom:2px}
+.chnk{border:1px solid var(--edge);border-radius:99px;background:var(--card2);
+  padding:5px 11px;font-size:0.84375rem}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
