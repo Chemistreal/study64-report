@@ -1,0 +1,69 @@
+# 화면 전수 검수. 어긋나면 빨간불.
+#
+# 이 저장소는 여태 **한 번도 자로 재어진 적이 없었다.** 처음 재어 보니
+# (2026-08-09) 여섯 장 가운데 다섯 장이 걸렸다 —
+#
+#     학부모가 휴대폰으로 읽는 화면에 9px 글씨가 70곳
+#     흐린 글씨 --muted 3.64:1 (본문 기준 4.5:1 미달)
+#     표 머리에 scope 없음 70곳 · <h1> 없는 화면 한 장
+#
+# 눈으로는 셋 다 안 보인다. 그래서 기계가 매번 본다.
+# 자는 exam·DT 저장소와 **같은 판**을 쓴다 — 갈라지면 한쪽만 고쳐진다.
+name: 화면 검수
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      # ⚠ `--check` 를 빼면 자는 재기만 하고 아무것도 막지 않는다.
+      #   DT 저장소에서 그 상태로 여섯 달 동안 152장이 걸린 채 초록불이었다.
+      - name: 화면 전수 검수 (대비 · 글씨 · 뼈대)
+        timeout-minutes: 5
+        run: python3 tools/audit_pages.py --check
+      # 이 리포트에는 성적보다 사적인 것이 실린다 — 이름, 성향 프로필, 오개념,
+      # 학부모용 종합 해설. 링크는 문자로만 보내지만 링크가 새는 길은 여럿이고,
+      # 그러면 남는 보호막은 "주소를 남이 모른다" 하나뿐이다. 검색에서 뺀다.
+      - name: 개인 리포트가 검색에 열려 있지 않다
+        timeout-minutes: 5
+        run: python3 tools/noindex.py --check
+      # 화면 안에 박아 넣은 자바스크립트가 깨지면 화면은 통째로 아무 일도
+      # 안 한다. 파일만 보면 멀쩡하고 검사도 통과한다 — 아무도 안 열어 보니까.
+      - name: 화면 안 자바스크립트가 안 깨졌다
+        timeout-minutes: 5
+        run: |
+          python3 - <<'PY'
+          import glob, re, sys, subprocess, os, json
+          bad = 0
+          for f in sorted(glob.glob('*.html')):
+              s = open(f, encoding='utf-8', errors='ignore').read()
+              for i, m in enumerate(re.findall(r'<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)</script>', s)):
+                  p = '/tmp/chk_%s_%d.js' % (os.path.basename(f)[:-5], i)
+                  open(p, 'w', encoding='utf-8').write(m)
+                  r = subprocess.run(['node', '--check', p], capture_output=True, text=True)
+                  if r.returncode:
+                      bad += 1
+                      print('FAIL %s 덩이 %d — %s' % (f, i, r.stderr.strip().splitlines()[-1:]))
+          print('깨진 덩이 %d개' % bad)
+          sys.exit(1 if bad else 0)
+          PY
