@@ -32,6 +32,9 @@ SOLO = os.path.join(ROOT, "docs", "solo_plays.md")
 # 한 기기로 도는 갈래 셋. `docs/solo_plays.md` 2장이 정했다. T249
 SOLO_KINDS = ["그대로", "돌려 보기", "종이", "고른 판을 따른다"]
 
+# 기기가 아예 없는 날. `docs/solo_plays.md` 7장이 정했다. T250
+PAPER_KINDS = ["돈다", "안 돈다", "바뀐 꼴로", "고른 판을 따른다"]
+
 # 판마다 이 아홉 줄이 이 차례로 있어야 한다. docs/play_rules.md 1장이 규격이다.
 ROWS = ["트랙 구조 분", "쓰는 것", "시작 조건", "역할",
         "도는 차례", "판정", "끝 조건", "못 했을 때", "기록할 값"]
@@ -112,9 +115,20 @@ def check_solo(books, fails):
         fails.append("docs/solo_plays.md 가 없다")
         return 0
     doc = io.open(SOLO, encoding="utf-8").read()
-    rows = {}
-    for m in re.finditer(r"^\| (\d+) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|$", doc, re.M):
-        rows[m.group(2).strip()] = m.group(3).strip().replace("**", "")
+    shorts = [n.strip() for n, _ in books]
+
+    def table(head, tail):
+        """그 장의 표만 읽는다. **문서 전체를 긁으면 뒤 표가 앞 표를 덮는다.**
+        3장과 7.3 이 꼴이 같은 표라 실제로 덮였다. 스무 판이 다 틀린 갈래로 나왔다."""
+        a = doc.find(head)
+        b = doc.find(tail, a if a >= 0 else 0)
+        seg = doc[a:b] if a >= 0 else ""
+        out = {}
+        for m in re.finditer(r"^\| (\d+) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|$", seg, re.M):
+            out[m.group(2).strip()] = m.group(3).strip().replace("**", "")
+        return out
+
+    rows = table("## 3. 판마다", "## 4.")
     # **이름을 손대지 않는다.** `rulebook()` 이 이미 절 번호를 뗀 이름을 준다.
     # 여기서 또 앞의 숫자를 떼려다 "3초 벽" 이 "초 벽" 이 됐다. T249
     for name, _rows in books:
@@ -125,10 +139,25 @@ def check_solo(books, fails):
         if rows[short] not in SOLO_KINDS:
             fails.append("'%s' 의 한 기기 갈래가 '%s' 다. 셋 중 하나여야 한다"
                          % (short, rows[short]))
-    shorts = [n.strip() for n, _ in books]
     for got in rows:
         if got not in shorts:
             fails.append("docs/solo_plays.md 의 '%s' 가 규칙서에 없다" % got)
+    # 기기가 아예 없는 날의 표도 같은 스무 판을 덮어야 한다 (7.3).
+    prows = table("### 7.3", "### 7.4")
+    for short in shorts:
+        if short not in prows:
+            fails.append("docs/solo_plays.md 7.3 에 '%s' 판이 없다" % short)
+        elif prows[short] not in PAPER_KINDS:
+            fails.append("'%s' 의 종이 갈래가 '%s' 다. 넷 중 하나여야 한다"
+                         % (short, prows[short]))
+    n_no = sum(1 for v in prows.values() if v == "안 돈다")
+    m = re.search(r"\*\*안 도는 것이 (둘|셋|넷|다섯)이다\.\*\*", doc)
+    KO = {"둘": 2, "셋": 3, "넷": 4, "다섯": 5}
+    if not m:
+        fails.append("docs/solo_plays.md 7.3 에 안 도는 판 수가 없다")
+    elif KO[m.group(1)] != n_no:
+        fails.append("종이로 안 도는 판이 %d개인데 '%s' 이라고 적었다" % (n_no, m.group(1)))
+
     # 못 도는 판은 몇인가. 세어 둔 수와 실제가 같아야 한다.
     n_paper = sum(1 for v in rows.values() if v == "종이")
     m = re.search(r"^\| \*\*종이\*\* \|[^|]*\| (\d+) \|$", doc, re.M)
