@@ -145,7 +145,7 @@ scripts/derive_manifest.py 파생 자료의 크기와 해시. **맨 나중에 �
 scripts/derive_media_manifest.py 미디어 표의 크기와 해시를 다시 잰다. 275개 157MB
 scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 있는 실패 목록과 견준다**
 scripts/check_app.py   english.html 의 한국어를 규격 검사에 건다. 동작이 아니라 글자다
-app/                   **앱의 원본.** 조각 서른셋이다. english.html 은 이것에서 나온다
+app/                   **앱의 원본.** 조각 마흔넷이다. english.html 은 이것에서 나온다
 app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
 scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **앱을 손으로 안 고친다**
 scripts/check_manual.py 매뉴얼이 앱을 설명하는 자리를 앱과 견준다. 블록 회차 가림 단추

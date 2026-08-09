@@ -43,5 +43,6 @@ js/16_review.js       복습. 간격 반복
 js/17_sound.js        소리. 기기 내장 음성 합성
 js/18_clip.js         클립. 로컬 파일 구간 반복
 js/19_library.js      미디어 라이브러리 52과
+js/21_weekcheck.js    주간 점검 30분. 앱이 세고 사람은 왜 그랬는지를 적는다
 js/20_docs.js         자료와 규칙과 시작
 page/03_close.html    script 닫고 body 닫기

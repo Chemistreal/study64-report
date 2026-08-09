@@ -2072,6 +2072,28 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       bad.push("두 시간 쉬었는데 처음부터가 없다: " + far.slice(0, 80));
     await pw.evaluate(() => { S.session = null; save(); T.idx = 0;
       T.left = BLOCKS[0].m * 60; renderToday(); });
+    /* **주간 점검 30분이 종이에만 있었다.** 그 표의 첫 세 단계는 앱이 이미 아는 숫자다.
+       사람이 다시 세어 적고 있었다. 앱이 세고 사람은 왜 그랬는지를 적는다. T226 */
+    await pw.evaluate(() => go("ledger"));
+    await pw.waitForTimeout(900);
+    const wc = await pw.evaluate(() => {
+      const e = document.getElementById("weekCheck");
+      return { txt: e ? e.innerText.replace(/\s+/g, " ") : "",
+               fields: ["wcCause", "wcLre", "wcColl", "wcFirst", "wcBlock", "wcOdd", "wcAsk"]
+                 .filter((k) => document.getElementById(k)).length };
+    });
+    if (wc.txt.indexOf("주간 점검 30분") < 0) bad.push("대장 탭에 주간 점검이 없다");
+    if (!/수행 \d+ \/ 6/.test(wc.txt)) bad.push("주간 점검이 수행일을 안 센다: " + wc.txt.slice(0, 80));
+    if (wc.fields !== 7) bad.push("주간 점검 칸이 " + wc.fields + "개다. 일곱이어야 한다");
+    await pw.fill("#wcFirst", "월요일 저녁 8시에 헤드폰부터");
+    await pw.waitForTimeout(400);
+    const kept = await pw.evaluate(() => {
+      const S2 = JSON.parse(localStorage.getItem("eng2p.v1"));
+      const k = Object.keys(S2.wchk || {})[0];
+      return k ? S2.wchk[k].first : ""; });
+    if (kept !== "월요일 저녁 8시에 헤드폰부터") bad.push("주간 점검에 적은 것이 안 남는다: " + kept);
+    await pw.evaluate(() => go("today"));
+    await pw.waitForTimeout(300);
     await ctxw.close();
     return bad;
   })();

@@ -368,3 +368,14 @@ body.session-focus .blockpane .drec input{background:var(--bg2);color:var(--fg)}
 /* 세션 중에 미해결 LRE 를 그 자리에서 남긴다. T224 */
 .blockpane .unresbox{margin-top:9px}
 .blockpane .unresbox button{margin-top:7px;min-height:44px;width:100%}
+
+/* 주간 점검. 앱이 센 숫자를 한 줄에 편다. T226 */
+.wcnum{display:flex;flex-wrap:wrap;gap:8px;margin:9px 0}
+.wcnum span{padding:5px 10px;border:1px solid var(--line);border-radius:8px;
+  background:var(--sub);font-family:var(--mono);font-size:0.8125rem}
+#weekCheck .aimw{margin-top:10px}
+#weekCheck .aimw textarea{width:100%;min-height:46px;padding:8px 9px;
+  border:1px solid var(--line);border-radius:9px;background:var(--bg2);
+  color:var(--fg);font:inherit;font-size:0.9375rem;line-height:1.5;resize:vertical}
+#weekCheck .aimw span{display:block;font-size:0.71875rem;color:var(--mut);
+  letter-spacing:.06em;margin-bottom:4px}
