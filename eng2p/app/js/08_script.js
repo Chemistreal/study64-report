@@ -448,6 +448,8 @@ function paintTimer(){
   $("#focusToggle").textContent=T.run?"일시정지":"이어서";
   document.title=(T.run?fmt(Math.max(0,T.left))+" · ":"")+"eng2p 운영 콘솔";
   syncSessionFocus();
+  /* 세션이 도는 동안 다음 블록 자료를 미리 읽어 둔다. 한 블록에 한 번만 건다. T221 */
+  if(typeof prefetchNext==="function" && !sessionIdle()) prefetchNext();
 }
 function tick(){
   T.left--;

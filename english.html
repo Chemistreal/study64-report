@@ -3887,6 +3887,8 @@ function paintTimer(){
   $("#focusToggle").textContent=T.run?"일시정지":"이어서";
   document.title=(T.run?fmt(Math.max(0,T.left))+" · ":"")+"eng2p 운영 콘솔";
   syncSessionFocus();
+  /* 세션이 도는 동안 다음 블록 자료를 미리 읽어 둔다. 한 블록에 한 번만 건다. T221 */
+  if(typeof prefetchNext==="function" && !sessionIdle()) prefetchNext();
 }
 function tick(){
   T.left--;
@@ -4116,7 +4118,37 @@ function gotoBlock(i, opt){
   hideSessionDone();
   saveSession();
   paintTimer();
+  prefetchNext();
   if(opt.announce) flash("블록 "+(i+1)+" "+BLOCKS[i].n);
+}
+
+/* =========================================================================
+   다음 블록이 쓸 자료를 미리 읽어 둔다.
+
+   **블록이 바뀌는 순간에 읽기 시작하면 그 순간이 빈다.**
+   블록 2로 넘어가면 세트 493KB 를 그때부터 읽고 화면은 "세트를 여는 중이다" 를
+   띄운다. 블록 3은 카드 565KB 다. 두 사람은 넘어가자마자 시작하려는 참인데
+   화면이 아직 준비가 안 됐다고 말한다.
+
+   **지금 블록에 40분이 있다.** 그 안에 다음 것을 읽으면 넘어갈 때 이미 있다.
+   읽는 양은 같다. 읽는 때만 옮긴다. 열자마자 읽는 것은 안 는다.
+
+   지금 블록이 그리고 나서 읽는다. 넘어가자마자 읽으면 지금 그림과 다툰다. T221
+   ========================================================================= */
+var PRE={t:null,at:null};
+var PRE_NEED=[["sets","ENG2P_SETS"],["cards","ENG2P_CARDS"],null,null];
+function prefetchNext(){
+  /* **한 블록에 한 번만 건다.** 이 함수는 시계가 매초 부르는 자리에서도 온다.
+     매번 다시 걸면 타이머가 계속 밀려 영영 안 읽는다. */
+  if(PRE.at===T.idx) return;
+  PRE.at=T.idx;
+  clearTimeout(PRE.t);
+  var need=PRE_NEED[T.idx];
+  if(!need || DATA[need[0]]) return;
+  PRE.t=setTimeout(function(){
+    if(DATA[need[0]]) return;
+    loadData(need[0], need[1], function(){});
+  }, 2500);
 }
 $("#tSkip").onclick=function(){ gotoBlock(T.idx+1,{announce:true}); };
 $("#tPrev").onclick=function(){

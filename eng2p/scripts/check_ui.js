@@ -1964,6 +1964,19 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       bad.push("이 앱에 없는 자막 규칙을 집었다: " + warn1);
     await pw.evaluate(() => { SESS.veil = null; setRate(1); renderBlockPane(); });
     await pw.waitForTimeout(500);
+    /* **블록이 바뀌는 순간에 읽기 시작하면 그 순간이 빈다.**
+       지금 블록에 시간이 있다. 그 안에 다음 것을 읽으면 넘어갈 때 이미 있다.
+       읽는 양은 같고 읽는 때만 옮긴다. 열자마자 읽는 것은 안 는다. T221 */
+    const pre = await pw.evaluate(async () => {
+      DATA.sets = null; DATA.cards = null; PRE.at = null;
+      T.run = true; gotoBlock(0);
+      const at0 = { sets: !!DATA.sets, cards: !!DATA.cards };
+      await new Promise((r) => setTimeout(r, 3000));
+      return { at0, later: { sets: !!DATA.sets, cards: !!DATA.cards } };
+    });
+    if (pre.at0.sets) bad.push("블록 1 에 들어가자마자 세트를 읽는다");
+    if (!pre.later.sets) bad.push("블록 1 에 있는 동안 다음 블록 세트를 안 읽는다");
+    if (pre.later.cards) bad.push("블록 1 인데 두 블록 뒤 카드까지 읽는다");
     await ctxw.close();
     return bad;
   })();
