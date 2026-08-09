@@ -49,6 +49,8 @@ STEPS = [
     ("파생", "derive_input.py", [], True),
     # 거울 판의 최소대립쌍. **대본에 있는 낱말끼리만 짝짓는다.** T258
     ("파생", "derive_pairs.py", [], True),
+    # 한 줄 바꾸기 판의 바꿀 낱말. **대본 낱말끼리만 바꾼다.** T261
+    ("파생", "derive_swaps.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),

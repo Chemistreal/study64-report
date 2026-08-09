@@ -46,7 +46,7 @@ EXPECT = [
     "input.js", "input.json",
     "lectures.js", "lectures.json", "lecturetext.js",
     "pairs.js", "pairs.json",
-    "sets.js", "sets.json",
+    "sets.js", "sets.json", "swaps.js", "swaps.json",
     "tasks.js", "tasks.json", "transcripts.js",
 ]
 
