@@ -38,6 +38,15 @@
  *     4분         시계가 다 되면 끝났다고 적는다
  *     등급        B등급이라고 화면이 말한다
  *
+ * ## 판이 늘면 이 파일도 는다 (T263)
+ *
+ * 한 줄 바꾸기를 붙였다. 뼈대는 같고 **다른 자리만 따로 잰다.**
+ *
+ *     자리가 **한 줄마다** 바뀐다 (거울은 넉 줄)
+ *     찾는 쪽이 **원문을 본다.** 없는 것은 바꿀 낱말 하나다
+ *     못 찾으면 **알려 주고 다시 읽는다.** 다시 판정하지 않는다
+ *     다섯을 못 채우는 과가 있다. 있는 만큼 돌고 몇 줄인지 적는다
+ *
  * 쓰는 법:
  *     node scripts/check_play_screen.js
  *
@@ -172,6 +181,7 @@ const RESET = () => {
   const seatOf = (p) => p.evaluate(() =>
     (document.querySelector(".mirword") ? "읽는 쪽" : "짚는 쪽"));
   const tagOf = (p) => p.evaluate(() => roundTag("mirror", roundStep("mirror")));
+  const tagOf2 = (p) => p.evaluate(() => roundTag("swapline", roundStep("swapline")));
   let same = 0, difftag = 0;
   const seats = [];
   for (let ln = 0; ln < 8; ln++) {
@@ -276,13 +286,140 @@ const RESET = () => {
   if (!over.includes("4분이 됐다"))
     no("4분 시계가 다 됐는데 화면이 끝났다는 말을 안 한다");
 
+  /* =====================================================================
+     한 줄 바꾸기 (T263). 두 창을 그대로 옮겨 이 판으로 몬다.
+     ===================================================================== */
+  const openPlay = async (p, id, fn) => {
+    await p.evaluate((id) => { PLAY.at = id; renderPlayTab(); }, id);
+    await p.waitForFunction((f) => typeof window[f] === "function", fn,
+                            { timeout: 8000 });
+    await p.waitForTimeout(400);
+  };
+  const SWRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; S.soloHand = false;
+    S.device = S.device || "a"; save();
+    if (typeof turnForget === "function") turnForget("swapline");
+    SWPCLK.left = 0; SWPCLK.over = false;
+    renderSwapline();
+  };
+  for (const p of [A, B]) {
+    await p.evaluate(() => { S.device = null; save(); });
+    await openPlay(p, "swapline", "renderSwapline");
+  }
+  /* ---- 11. 기기 쪽을 안 골랐으면 이 판도 안 돈다 ----------------------- */
+  const offSw = await text(A);
+  if (!offSw.includes("이대로 안 돈다"))
+    no("한 줄 바꾸기: 기기 쪽을 안 골랐는데 판이 그대로 돈다");
+
+  await A.evaluate(() => { S.device = "a"; save(); });
+  await B.evaluate(() => { S.device = "b"; save(); });
+  await A.evaluate(SWRESET); await B.evaluate(SWRESET);
+
+  /* ---- 12. 바꿀 낱말이 찾는 쪽 화면에 없다 -----------------------------
+     `swpItems` 가 내는 `to` 를 바꿔 끼우고 두 번 그린다.
+     **찾는 쪽은 한 글자도 안 달라야 하고 읽는 쪽은 달라야 한다.**       */
+  const withTo = async (p, v) => {
+    await p.evaluate((v) => {
+      if (!window.__si) window.__si = swpItems;
+      window.swpItems = function () {
+        var xs = window.__si(); if (!xs) return xs;
+        return xs.map(function (x) {
+          var y = {}; for (var k in x) y[k] = x[k]; y.to = v; return y;
+        });
+      };
+      renderSwapline();
+    }, v);
+    const h = await pane(p);
+    await p.evaluate(() => { window.swpItems = window.__si; renderSwapline(); });
+    return h;
+  };
+  const swReader = (p) => p.evaluate(() => !!document.querySelector(".swpswap"));
+  let rdr = (await swReader(A)) ? A : B, fnd = (await swReader(A)) ? B : A;
+  if ((await swReader(A)) === (await swReader(B)))
+    no("한 줄 바꾸기: 두 기기가 같은 자리다");
+  let swLeak = 0, swBlind = 0;
+  const swSeats = [];
+  for (let ln = 0; ln < 5; ln++) {
+    const f0 = await withTo(fnd, "zzzaaa"), f1 = await withTo(fnd, "qqqbbb");
+    if (f0 !== f1) swLeak++;
+    const r0 = await withTo(rdr, "zzzaaa"), r1 = await withTo(rdr, "qqqbbb");
+    if (r0 === r1) swBlind++;
+    if ((await tagOf2(A)) !== (await tagOf2(B))) no("한 줄 바꾸기: 판 표시가 다르다");
+    swSeats.push((await swReader(A)) ? "읽는 쪽" : "찾는 쪽");
+    for (const p of [A, B])
+      await p.evaluate(() => { roundStepSet("swapline", roundStep("swapline") + 1);
+                               renderSwapline(); });
+    const t = rdr; rdr = fnd; fnd = t;          // 한 줄마다 바뀐다
+  }
+  if (swLeak) no("찾는 쪽 화면이 바꿀 낱말에 따라 달라진다: " + swLeak + "줄");
+  if (swBlind) no("읽는 쪽 화면이 바꿀 낱말에 따라 안 달라진다: " + swBlind +
+                  "줄. 안 그리는 것이 아니라 아무것도 안 그리는 것이다");
+
+  /* ---- 13. 자리가 한 줄마다 바뀐다 ------------------------------------- */
+  const swFlips = [];
+  for (let i = 1; i < swSeats.length; i++)
+    if (swSeats[i] !== swSeats[i - 1]) swFlips.push(i);
+  if (swFlips.length !== swSeats.length - 1)
+    no("한 줄 바꾸기: 자리가 바뀐 줄이 [" + swFlips.join(",") +
+       "] 이다. 한 줄마다 바뀌어야 한다");
+
+  /* ---- 14. 못 찾았을 때. 알려 주고 다시 읽는다 -------------------------
+     **거울과 다르다.** 알려 준 뒤에는 다시 판정하지 않는다.            */
+  await A.evaluate(SWRESET); await B.evaluate(SWRESET);
+  let sr = (await swReader(A)) ? A : B;
+  const swStep = () => sr.evaluate(() => roundStep("swapline"));
+  const swRec = () => sr.evaluate(() => S.rhit["swapline|" + today()] || {});
+  await tap(sr, "#swpNo", "못 찾았다");
+  if ((await swStep()) !== 0)
+    no("한 줄 바꾸기: 못 찾았다를 눌렀는데 바로 넘어갔다. 알려 주고 다시 읽는다");
+  if (!(await text(sr)).includes("알려 주고 다시 읽는다"))
+    no("한 줄 바꾸기: 어디였는지 알려 주라는 말이 화면에 없다");
+  if ((await sr.$$("#swpYes")).length)
+    no("한 줄 바꾸기: 알려 준 뒤에도 찾았다 단추가 남아 있다. 다시 판정하면 안 된다");
+  await tap(sr, "#swpNext", "다음 줄");
+  if ((await swStep()) !== 1) no("한 줄 바꾸기: 다음 줄을 눌렀는데 안 넘어갔다");
+  let swr = await swRec();
+  if (swr.judged !== 1 || swr.hit !== 0)
+    no("한 줄 바꾸기: 못 찾은 줄의 셈이 판정 " + swr.judged + " 찾음 " + swr.hit +
+       " 이다. 판정 1 찾음 0 이어야 한다");
+
+  /* ---- 15. 다섯을 못 채우는 과. 있는 만큼 돌고 몇 줄인지 적는다 -------- */
+  await sr.evaluate(() => {
+    window.__st = swpToday; window.swpToday = function () { return "lle1-01"; };
+    S.rstep = {}; S.rhit = {}; save(); renderSwapline();
+  });
+  const thin = await text(sr);
+  const nrow = await sr.evaluate(() => (swpItems() || []).length);
+  if (nrow >= 5) no("1과가 다섯 줄 이상이다. 이 자리는 셋이어야 한다 (T261)");
+  else if (!thin.includes(nrow + "줄") || !thin.includes("있는 만큼 돈다"))
+    no("다섯을 못 채우는 과인데 화면이 몇 줄인지를 안 적는다");
+  await sr.evaluate(() => { window.swpToday = window.__st; });
+
+  /* ---- 16. 절반과 등급과 5분 ------------------------------------------- */
+  await A.evaluate(SWRESET); await B.evaluate(SWRESET);
+  sr = (await swReader(A)) ? A : B;
+  await sr.evaluate(() => { roundStepSet("swapline", 99); renderSwapline(); });
+  const swDone = await text(sr);
+  if (!swDone.includes("절반"))
+    no("한 줄 바꾸기: 마감 화면이 이 숫자가 절반이라고 안 적는다");
+  if (!swDone.includes("B등급") || !swDone.includes("통과 판정에는 안 쓴다"))
+    no("한 줄 바꾸기: 자료 등급과 통과 판정에 안 쓴다는 것이 화면에 없다");
+  await A.evaluate(SWRESET);
+  await tap(A, "#swpGo", "5분 시계");
+  await A.evaluate(() => { SWPCLK.left = 1; });
+  await A.waitForTimeout(1500);
+  if (!(await text(A)).includes("5분이 됐다"))
+    no("한 줄 바꾸기: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("거울 판 / 답 새기 8줄 x 2자리 / 자리와 판 표시 8줄 / 못 짚기 2판 / " +
-              "셈 1판 / 안 고른 날 1판 / 건네기 1판 / 시계 1판 / 실패 " + fails.length);
+  console.log("판 2개 / 거울: 답 새기 8줄 x 2자리, 자리와 판 표시 8줄, 못 짚기 2판, " +
+              "셈 1판, 안 고른 날 1판, 건네기 1판, 시계 1판 / " +
+              "한 줄 바꾸기: 낱말 새기 5줄 x 2자리, 한 줄마다 바뀜 5줄, 알려 주기 4판, " +
+              "모자란 과 1판, 절반과 등급과 시계 3판 / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
