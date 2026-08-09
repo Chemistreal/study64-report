@@ -141,6 +141,49 @@ def check_pair_manual(app, man):
         FAIL.append("매뉴얼에 활동량은 맞추지 않는다는 말이 없다")
 
 
+MERGE = ROOT / "docs" / "merge.md"
+
+
+def check_merge(app, man):
+    """합치기가 규격과 매뉴얼과 같은 말을 하는가. T238
+
+    **안 건너가는 목록이 제일 위험하다.** 여기에 하나를 빠뜨리면 그 값이
+    조용히 상대 기기 것으로 바뀐다. 화면에서 안 보이고 검사에서도 안 보인다.
+    목록이 세 자리에 있다. `docs/pair.md` 3장, `docs/merge.md` 3.1, 앱의 MG_LOCAL 이다.
+    """
+    if not MERGE.exists():
+        FAIL.append("docs/merge.md 가 없다")
+        return
+    doc = MERGE.read_text(encoding="utf-8")
+    m = re.search(r"var MG_LOCAL=\[([^\]]*)\]", app)
+    if not m:
+        FAIL.append("앱에서 MG_LOCAL 을 못 읽었다")
+        return
+    code = set(re.findall(r'"(\w+)"', m.group(1)))
+    # 3.1 **표에서만** 줍는다. 줄글에도 백틱이 있다.
+    # 3.1 이 "`veil` 은 저장소에 없다" 고 적어 두고 있는데 그것을 목록으로 읽었다.
+    # **목록을 읽으려면 목록만 읽어야 한다.** 같은 문단에 있다고 같은 목록이 아니다.
+    at = doc.find("### 3.1")
+    end = doc.find("### 3.2", at if at >= 0 else 0)
+    rows = [l for l in (doc[at:end] if at >= 0 else "").split("\n")
+            if l.startswith("| `")]
+    said = set()
+    for l in rows:
+        said |= set(re.findall(r"`(\w+)`", l.split("|")[1]))
+    for k in sorted(code - said):
+        FAIL.append("앱은 %s 를 안 건너가는 것으로 두는데 docs/merge.md 3.1 에 없다" % k)
+    for k in sorted(said - code):
+        FAIL.append("docs/merge.md 3.1 은 %s 가 안 건너간다는데 앱의 MG_LOCAL 에 없다" % k)
+    # 세션 중 막기. 매뉴얼이 그렇게 적어 뒀으면 앱에 그 자리가 있어야 한다.
+    if "세션 중에는 안 합친다" in man and "function mergeBusy" not in app:
+        FAIL.append("매뉴얼은 세션 중에 안 합친다는데 앱에 그 자리가 없다")
+    if "function mergeBusy" in app and "세션 중에는 안 합친다" not in man:
+        FAIL.append("앱이 세션 중에 막는데 매뉴얼이 그 말을 안 한다")
+    # 합치기가 기본이라고 적었으면 화면에 그 단추가 있어야 한다.
+    if "JSON 합치기" in man and 'id="mgBtn"' not in app:
+        FAIL.append("매뉴얼이 말하는 JSON 합치기 단추가 앱에 없다")
+
+
 def main():
     if not MAN.exists() or not APP.exists():
         print("[실패] 매뉴얼이나 앱이 없다")
@@ -197,6 +240,7 @@ def main():
 
     nfield = check_pair(app)
     check_pair_manual(app, man)
+    check_merge(app, man)
 
     for f in FAIL:
         print("[실패] %s" % f)

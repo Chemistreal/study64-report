@@ -2298,6 +2298,115 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       if (/\b(aim|xchk|status|names)\b/.test(w))
         bad.push("합치기 물음이 키 이름을 그대로 보인다: " + w);
     });
+    /* 넷. 가장자리. **아무것도 안 바뀌는 판과 숫자가 뛰는 판이 같은 말을 하면 안 된다.**
+       전에는 둘 다 "셈만 맞춰진다" 였다. 늘어나는 것만 세고 바뀌는 것을 안 셌기 때문이다.
+       그리고 낡은 파일과 빈 파일과 세 번 합치기에서 안 깨지는지도 본다. T238 */
+    const edge = await pw.evaluate(() => {
+      const me = { names: { a: "남편", b: "아내" }, start: "2026-01-05",
+        days: { "2026-01-05": { status: "normal", h: 2, speak: 12, cards: 30, lre: 2,
+                  unres: [{ t: "내 것" }], coll: [], aim: { a: "내 것", b: "" } } },
+        media: { done: {}, fav: {}, pass: { "lle1-01": 2 }, lec: { 1: 2 } },
+        cardDue: { "Q1-001": "2026-02-01" }, rot: [], clips: [], scripts: {},
+        wchk: {}, q: {}, cues: {}, device: "a", fs: 2, wk: 3, rate: 1.5,
+        card: null, cardMode: "today" };
+      const copy = () => JSON.parse(JSON.stringify(me));
+      const self = mergePlan(me, copy());
+      const stale = mergePlan(me, { names: me.names, start: me.start,
+        days: { "2026-01-05": { status: "normal", h: 2, speak: 3, cards: 5, lre: 0,
+                  unres: [], coll: [] } },
+        media: { done: {}, fav: {}, pass: { "lle1-01": 1 }, lec: { 1: 1 } },
+        cardDue: { "Q1-001": "2026-01-01" }, rot: [], clips: [], scripts: {},
+        wchk: {}, q: {}, cues: {} });
+      let old = null, empty = null;
+      try { old = mergePlan(me, { days: { "2026-01-04": { status: "normal", speak: 5 } } }); }
+      catch (e) { old = { err: e.message }; }
+      try { empty = mergePlan(me, { days: {} }); } catch (e) { empty = { err: e.message }; }
+      const jump = mergePlan(me, { names: me.names, start: me.start,
+        days: { "2026-01-05": { status: "normal", h: 2, speak: 99, cards: 30, lre: 2,
+                  unres: [{ t: "내 것" }], coll: [] } },
+        media: { done: {}, fav: {}, pass: {}, lec: {} }, cardDue: {},
+        rot: [], clips: [], scripts: {}, wchk: {}, q: {}, cues: {} });
+      /* 회차 켜짐표. A 는 1회차, B 는 2회차를 켰다. 합치면 둘 다 켜져 있어야 한다. */
+      const rounds = mergePlan(
+        { names: me.names, start: me.start, days: {},
+          media: { done: {}, fav: {}, pass: { "lle1-01": { 1: true } }, lec: {} },
+          cardDue: {}, rot: [], clips: [], scripts: {}, wchk: {}, q: {}, cues: {} },
+        { names: me.names, start: me.start, days: {},
+          media: { done: {}, fav: {}, pass: { "lle1-01": { 2: true } }, lec: {} },
+          cardDue: {}, rot: [], clips: [], scripts: {}, wchk: {}, q: {}, cues: {} });
+      let cur = me;
+      for (let i = 0; i < 3; i++) cur = mergePlan(cur, { names: me.names, start: me.start,
+        days: { "2026-01-05": { status: "normal", h: 2, speak: 0, cards: 0, lre: 0,
+                  unres: [{ t: "상대 것" }], coll: [] } },
+        media: { done: {}, fav: {}, pass: {}, lec: {} }, cardDue: {},
+        rot: [], clips: [], scripts: {}, wchk: {}, q: {}, cues: {} }).out;
+      return { selfChg: self.chg.length, selfAsk: self.ask.length,
+               selfSame: JSON.stringify(self.out) === JSON.stringify(me),
+               staleChg: stale.chg.length, staleSpeak: stale.out.days["2026-01-05"].speak,
+               staleDue: stale.out.cardDue["Q1-001"],
+               oldErr: old.err || "", oldHas: old.out ? !!old.out.days["2026-01-04"] : false,
+               oldStart: old.out ? old.out.start : null,
+               emptyErr: empty.err || "",
+               emptySame: empty.out ? JSON.stringify(empty.out) === JSON.stringify(me) : false,
+               jump: jump.chg.map((c) => c.what + ":" + c.from + ">" + c.to),
+               thrice: cur.days["2026-01-05"].unres.length,
+               rounds: rounds.out.media.pass["lle1-01"],
+               roundChg: rounds.chg.length };
+    });
+    if (edge.selfChg || edge.selfAsk || !edge.selfSame)
+      bad.push("자기 파일을 다시 합쳤는데 무엇인가 바뀐다");
+    if (edge.staleChg) bad.push("낡은 파일이 내 값을 바꾼다: " + edge.staleChg + "곳");
+    if (edge.staleSpeak !== 12 || edge.staleDue !== "2026-02-01")
+      bad.push("낡은 파일이 이겼다");
+    if (edge.oldErr) bad.push("키가 거의 없는 낡은 판에서 깨진다: " + edge.oldErr);
+    if (!edge.oldHas) bad.push("낡은 판의 날을 안 가져온다");
+    if (edge.oldStart !== "2026-01-05") bad.push("시작일 없는 파일이 시작일을 지운다");
+    if (edge.emptyErr) bad.push("빈 파일에서 깨진다: " + edge.emptyErr);
+    if (!edge.emptySame) bad.push("빈 파일을 합쳤는데 무엇인가 바뀐다");
+    if (edge.thrice !== 2) bad.push("세 번 합쳤더니 미해결이 " + edge.thrice + "개다");
+    /* 회차 켜짐표는 셈이 아니다. 한쪽에서 켠 것이 합친 뒤에도 켜져 있어야 한다. */
+    if (!edge.rounds || !edge.rounds["1"] || !edge.rounds["2"])
+      bad.push("합치기가 회차 켜짐을 안 모은다: " + JSON.stringify(edge.rounds));
+    if (!edge.roundChg) bad.push("회차가 켜졌는데 바뀐다고 안 적는다");
+    /* 숫자가 뛰는 것은 늘어나는 것이 아니다. **바뀌는 것으로 세야 보인다.** */
+    if (!edge.jump.some((x) => x.indexOf("발화 분:12>99") >= 0))
+      bad.push("셈이 뛰는 것을 안 보인다: " + edge.jump.join(" / "));
+    /* 화면. 안 바뀌는 판과 세션 중을 가려 말하는가 */
+    const mgs = await pw.evaluate(async () => {
+      go("ledger");
+      await new Promise((r) => setTimeout(r, 300));
+      const box = document.getElementById("mgBox");
+      const show = (o) => { MG.plan = mergePlan(S, o); MG.pick = {}; MG.name = "x.json";
+                            renderMerge(); return box.innerText; };
+      const selfPlan = mergePlan(S, JSON.parse(JSON.stringify(S)));
+      const same = show(JSON.parse(JSON.stringify(S)));
+      const other = JSON.parse(JSON.stringify(S));
+      other.days[today()] = { status: "normal", h: 2, speak: 99, cards: 99, lre: 9,
+                              unres: [], coll: [] };
+      const diff = show(other);
+      const wasRun = T.run;
+      T.run = true;
+      const busy = show(other);
+      const wentThrough = (function () { const g = document.getElementById("mgGo");
+        return !!g; })();
+      T.run = wasRun;
+      MG.plan = null; MG.pick = {}; renderMerge();
+      return { same, diff, busy, wentThrough, closed: box.hidden,
+               selfWhy: JSON.stringify({ ask: selfPlan.ask.map((q) => q.path),
+                                         chg: selfPlan.chg.slice(0, 4),
+                                         add: selfPlan.add }) };
+    });
+    /* **무엇이 떴는지를 같이 적는다.** "안 한다" 만 적으면 왜 그런지를 또 재야 한다. */
+    if (mgs.same.indexOf("바뀌는 것이 없다") < 0)
+      bad.push("같은 파일을 합칠 때 바뀔 것이 없다고 안 한다: " + mgs.selfWhy);
+    if (mgs.diff.indexOf("바뀌는 것이 없다") >= 0)
+      bad.push("셈이 뛰는데 바뀔 것이 없다고 한다");
+    if (mgs.diff.indexOf("99") < 0) bad.push("바뀌는 셈을 화면에 안 적는다");
+    if (mgs.busy.indexOf("세션 중에는 안 합친다") < 0)
+      bad.push("세션 중에 합치기가 열린다");
+    if (mgs.wentThrough) bad.push("세션 중인데 합친다 단추가 있다");
+    if (!mgs.closed) bad.push("그만둔 뒤에 합치기 칸이 안 닫힌다");
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {
@@ -2323,7 +2432,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
               "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
               "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
-              "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판");
+              "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판 / 합치기 가장자리 16판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

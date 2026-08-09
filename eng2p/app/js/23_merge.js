@@ -61,7 +61,9 @@ function mgAsk(list,at,what,mine,theirs){
 /* 사람에게 보이는 이름. **키 이름을 그대로 보이면 안 된다.**
    두 사람은 영어 제로고 `aim` 이 무엇인지 알 길이 없다. */
 var MG_KO={aim:"블록 1과 4에 적은 것", xchk:"블록 2 상호 검토",
-           normal:"정상", emg:"비상판", absent:"결석"};
+           normal:"정상", emg:"비상판", absent:"결석",
+           speak:"발화 분", cards:"드릴 장수", lre:"LRE 횟수", h:"시간",
+           pass:"통과 회차", done:"돈 횟수", fav:"즐겨찾기"};
 function mgKo(v){ return MG_KO[v]||v; }
 /* 보인 말을 저장소 말로 되돌린다. **보인 것을 그대로 넣으면 상태가 한국어가 된다.** */
 function mgBack(v){
@@ -73,7 +75,12 @@ function mgBack(v){
    저장은 안 한다. 부르는 쪽이 사람에게 보이고 나서 정한다. */
 function mergePlan(mine, theirs){
   var out=JSON.parse(JSON.stringify(mine));
-  var ask=[], add={days:0, unres:0, coll:0, rot:0, clips:0};
+  var ask=[], chg=[], add={days:0, unres:0, coll:0, rot:0, clips:0};
+  /* **늘어나는 것만 보이면 모자란다.** 발화 분이 12에서 99로 뛰는 것은
+     아무것도 안 늘어나지만 대장이 통째로 달라진다.
+     늘어나는 것과 바뀌는 것은 다른 일이라 따로 센다.
+     안 세면 화면이 "바뀔 것이 없다" 와 "숫자가 뛴다" 를 같은 말로 한다. T238 */
+  function note(what,from,to){ if(from!==to) chg.push({what:what, from:from, to:to}); }
 
   /* 안 건너가는 것은 손대지 않는다. out 이 mine 을 베낀 것이라 그대로다. */
 
@@ -94,7 +101,10 @@ function mergePlan(mine, theirs){
     if(!m){ out.days[d]=JSON.parse(JSON.stringify(t)); add.days++; continue; }
     var o=out.days[d];
     MG_MAXDAY.forEach(function(k){
-      if(t[k]!=null || m[k]!=null) o[k]=mgBig(m[k],t[k]);
+      if(t[k]==null && m[k]==null) return;
+      var was=o[k];
+      o[k]=mgBig(m[k],t[k]);
+      note(d+" "+(MG_KO[k]||k), mgNum(was), o[k]);
     });
     MG_BAGDAY.forEach(function(k){
       var was=(m[k]||[]).length;
@@ -117,18 +127,36 @@ function mergePlan(mine, theirs){
 
   /* 과와 회차. 진도는 뒤로 안 간다. */
   var tm=theirs.media||{};
+  /* **`pass` 는 셈이 아니라 회차 켜짐표다.** `{1:true,2:true,3:true}` 꼴이다.
+     셈으로 다루면 빈 표를 빈 표로 덮으면서 "바뀐다" 고 적는다. 실제로 그랬다. T238
+     회차마다 켜짐을 모은다. 한쪽에서 켰으면 켜진 것이다. 진도는 뒤로 안 간다. */
   ["done","pass","fav"].forEach(function(k){
     var s=tm[k]||{}; out.media[k]=out.media[k]||{};
     for(var id in s){
-      var a=out.media[k][id], b=s[id];
-      if(typeof b==="number"||typeof a==="number") out.media[k][id]=mgBig(a,b);
-      else if(!mgHas(a)) out.media[k][id]=b;
+      var a=out.media[k][id], b=s[id], ko=id+" "+(MG_KO[k]||k);
+      if(typeof b==="number"||typeof a==="number"){
+        var was=mgNum(a); out.media[k][id]=mgBig(a,b); note(ko, was, out.media[k][id]);
+      }else if(b && typeof b==="object"){
+        /* 회차 켜짐표. 켠 것을 끄지 않는다. */
+        var cur=(a&&typeof a==="object")?a:{}, on=[];
+        out.media[k][id]=cur;
+        for(var rk in b){
+          if(b[rk] && !cur[rk]){ cur[rk]=b[rk]; on.push(rk); }
+        }
+        if(on.length) note(ko, "안 켜짐 "+on.join(","), "켜짐 "+on.join(","));
+      }else if(!mgHas(a) && mgHas(b)){
+        out.media[k][id]=b; note(ko, "(없음)", String(b));
+      }
     }
   });
   /* 강의 회차는 media.lec 안에 있다. 같은 규칙이다. */
   if(tm.lec){
     out.media.lec=out.media.lec||{};
-    for(var no in tm.lec) out.media.lec[no]=mgBig(out.media.lec[no], tm.lec[no]);
+    for(var no in tm.lec){
+      var was=mgNum(out.media.lec[no]);
+      out.media.lec[no]=mgBig(was, tm.lec[no]);
+      note(no+"강 끝낸 회차", was, out.media.lec[no]);
+    }
   }
 
   /* 카드 간격. **늦은 날짜를 남긴다.** 늦다는 것은 누군가 그 카드를 돌렸다는 뜻이다. */
@@ -136,7 +164,10 @@ function mergePlan(mine, theirs){
   out.cardDue=out.cardDue||{};
   for(var cid in tc){
     var was=out.cardDue[cid];
-    if(!was || String(tc[cid])>String(was)) out.cardDue[cid]=tc[cid];
+    if(!was || String(tc[cid])>String(was)){
+      out.cardDue[cid]=tc[cid];
+      note(cid+" 다음 차례", was||"(없음)", String(tc[cid]));
+    }
   }
 
   /* 모으는 것들 */
@@ -185,7 +216,7 @@ function mergePlan(mine, theirs){
      보태면 깨진다. 목록으로 못 박는다. 목록이 있는데 안 쓰면 목록이 아니라 주석이다. */
   MG_LOCAL.forEach(function(k){ out[k]=mine[k]; });
 
-  return {out:out, ask:ask, add:add};
+  return {out:out, ask:ask, chg:chg, add:add};
 }
 
 /* 사람이 고른 것을 적용한다. `pick` 은 {path:"mine"|"theirs"} 다.
@@ -220,10 +251,27 @@ function mgText(v){
   if(typeof v==="object") return JSON.stringify(v);
   return String(v);
 }
+/* **세션 중에는 안 합친다.**
+
+   블록 칸이 그날 기록을 들고 있다. 합치면 그 기록이 밑에서 바뀌는데
+   블록 칸은 다시 안 그려진다. 그 상태에서 블록 3이 돈 카드 수를 적으면
+   화면에 남아 있던 옛 값이 합친 값 위에 덮인다. T216 에 겪은 그 자리다.
+
+   두 시간 중에 합칠 이유도 없다. 짝을 맞추는 자리는 세션이 끝난 뒤다 (10.11). */
+function mergeBusy(){ return typeof T!=="undefined" && T.run; }
+
 function renderMerge(){
   var box=$("#mgBox"); if(!box) return;
   if(!MG.plan){ box.hidden=true; box.innerHTML=""; return; }
   box.hidden=false;
+  if(mergeBusy()){
+    box.innerHTML='<div class="note w"><b>세션 중에는 안 합친다.</b> '+
+      '블록 칸이 오늘 기록을 들고 있어서 밑에서 바꾸면 그 칸이 옛 값을 되쓴다. '+
+      '세션을 끝내고 합친다.</div>'+
+      '<div class="row" style="margin-top:12px"><button class="g" id="mgNo">닫는다</button></div>';
+    $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
+    return;
+  }
   var p=MG.plan, a=p.add;
   var h='<h4 style="margin:0 0 8px">합치기: '+esc(MG.name)+'</h4>';
   h+='<div class="small mut">아직 안 바꿨다. 아래를 보고 정한다.</div>';
@@ -231,9 +279,31 @@ function renderMerge(){
   var got=[["날",a.days],["미해결",a.unres],["채집",a.coll],
            ["회전 등록",a.rot],["클립 구간",a.clips]]
           .filter(function(x){ return x[1]>0; });
-  h+='<div class="note g" style="margin-top:10px">'+
-     (got.length ? "늘어난다: "+got.map(function(x){return x[0]+" "+x[1];}).join(", ")
-                 : "상대에게만 있는 것이 없다. 셈만 맞춰진다")+'</div>';
+  /* **바뀌는 것이 없으면 없다고 말한다.** 전에는 이 자리가 "셈만 맞춰진다" 였는데
+     그것은 아무것도 안 바뀌는 판과 숫자가 뛰는 판에 똑같이 나왔다. T238 */
+  if(!got.length && !p.chg.length && !p.ask.length){
+    h+='<div class="note g" style="margin-top:10px">'+
+       '바뀌는 것이 없다. 두 기기가 이미 같다.</div>';
+    h+='<div class="row" style="margin-top:12px">'+
+       '<button class="g" id="mgNo">닫는다</button></div>';
+    h+='<div id="mgMsg" class="small mut"></div>';
+    box.innerHTML=h;
+    $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
+    return;
+  }
+  if(got.length)
+    h+='<div class="note g" style="margin-top:10px">늘어난다: '+
+       esc(got.map(function(x){return x[0]+" "+x[1];}).join(", "))+'</div>';
+  /* 바뀌는 셈. **열 줄까지만 적고 나머지는 몇 개인지만 말한다.**
+     48주를 합치면 수백 줄이 되고 그러면 아무도 안 읽는다. */
+  if(p.chg.length){
+    h+='<div class="note" style="margin-top:8px"><b>바뀐다.</b><br>'+
+       p.chg.slice(0,10).map(function(c){
+         return esc(c.what)+": "+esc(String(c.from))+" \u2192 "+esc(String(c.to));
+       }).join("<br>");
+    if(p.chg.length>10) h+='<br>그리고 '+(p.chg.length-10)+'개 더';
+    h+='</div>';
+  }
   if(!p.ask.length){
     h+='<div class="note" style="margin-top:8px">고를 것이 없다. 부딪치는 자리가 없다.</div>';
   }else{
@@ -264,6 +334,8 @@ function renderMerge(){
   });
   $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
   $("#mgGo").onclick=function(){
+    /* 화면을 띄운 뒤에 세션이 시작될 수 있다. **누르는 그 순간에 다시 본다.** */
+    if(mergeBusy()){ renderMerge(); return; }
     var r=mergeApply(MG.plan, MG.pick);
     if(!r.ok){ $("#mgMsg").textContent=r.err+". 그 줄에서 한쪽을 누른다"; return; }
     /* 되돌릴 수 있게 해 둔다. T184 가 가져오기에 붙인 것과 같은 장치다. */

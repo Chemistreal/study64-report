@@ -5485,7 +5485,9 @@ function mgAsk(list,at,what,mine,theirs){
   list.push({path:at.join("."), at:at, what:what, mine:mine, theirs:theirs});
 }
 var MG_KO={aim:"블록 1과 4에 적은 것", xchk:"블록 2 상호 검토",
-           normal:"정상", emg:"비상판", absent:"결석"};
+           normal:"정상", emg:"비상판", absent:"결석",
+           speak:"발화 분", cards:"드릴 장수", lre:"LRE 횟수", h:"시간",
+           pass:"통과 회차", done:"돈 횟수", fav:"즐겨찾기"};
 function mgKo(v){ return MG_KO[v]||v; }
 function mgBack(v){
   for(var k in MG_KO) if(MG_KO[k]===v && (k==="normal"||k==="emg"||k==="absent")) return k;
@@ -5494,7 +5496,8 @@ function mgBack(v){
 
 function mergePlan(mine, theirs){
   var out=JSON.parse(JSON.stringify(mine));
-  var ask=[], add={days:0, unres:0, coll:0, rot:0, clips:0};
+  var ask=[], chg=[], add={days:0, unres:0, coll:0, rot:0, clips:0};
+  function note(what,from,to){ if(from!==to) chg.push({what:what, from:from, to:to}); }
 
 
   if(mgHas(theirs.start) && theirs.start!==mine.start)
@@ -5512,7 +5515,10 @@ function mergePlan(mine, theirs){
     if(!m){ out.days[d]=JSON.parse(JSON.stringify(t)); add.days++; continue; }
     var o=out.days[d];
     MG_MAXDAY.forEach(function(k){
-      if(t[k]!=null || m[k]!=null) o[k]=mgBig(m[k],t[k]);
+      if(t[k]==null && m[k]==null) return;
+      var was=o[k];
+      o[k]=mgBig(m[k],t[k]);
+      note(d+" "+(MG_KO[k]||k), mgNum(was), o[k]);
     });
     MG_BAGDAY.forEach(function(k){
       var was=(m[k]||[]).length;
@@ -5537,21 +5543,38 @@ function mergePlan(mine, theirs){
   ["done","pass","fav"].forEach(function(k){
     var s=tm[k]||{}; out.media[k]=out.media[k]||{};
     for(var id in s){
-      var a=out.media[k][id], b=s[id];
-      if(typeof b==="number"||typeof a==="number") out.media[k][id]=mgBig(a,b);
-      else if(!mgHas(a)) out.media[k][id]=b;
+      var a=out.media[k][id], b=s[id], ko=id+" "+(MG_KO[k]||k);
+      if(typeof b==="number"||typeof a==="number"){
+        var was=mgNum(a); out.media[k][id]=mgBig(a,b); note(ko, was, out.media[k][id]);
+      }else if(b && typeof b==="object"){
+        var cur=(a&&typeof a==="object")?a:{}, on=[];
+        out.media[k][id]=cur;
+        for(var rk in b){
+          if(b[rk] && !cur[rk]){ cur[rk]=b[rk]; on.push(rk); }
+        }
+        if(on.length) note(ko, "안 켜짐 "+on.join(","), "켜짐 "+on.join(","));
+      }else if(!mgHas(a) && mgHas(b)){
+        out.media[k][id]=b; note(ko, "(없음)", String(b));
+      }
     }
   });
   if(tm.lec){
     out.media.lec=out.media.lec||{};
-    for(var no in tm.lec) out.media.lec[no]=mgBig(out.media.lec[no], tm.lec[no]);
+    for(var no in tm.lec){
+      var was=mgNum(out.media.lec[no]);
+      out.media.lec[no]=mgBig(was, tm.lec[no]);
+      note(no+"강 끝낸 회차", was, out.media.lec[no]);
+    }
   }
 
   var tc=theirs.cardDue||{};
   out.cardDue=out.cardDue||{};
   for(var cid in tc){
     var was=out.cardDue[cid];
-    if(!was || String(tc[cid])>String(was)) out.cardDue[cid]=tc[cid];
+    if(!was || String(tc[cid])>String(was)){
+      out.cardDue[cid]=tc[cid];
+      note(cid+" 다음 차례", was||"(없음)", String(tc[cid]));
+    }
   }
 
   var n0=(out.rot||[]).length;
@@ -5595,7 +5618,7 @@ function mergePlan(mine, theirs){
 
   MG_LOCAL.forEach(function(k){ out[k]=mine[k]; });
 
-  return {out:out, ask:ask, add:add};
+  return {out:out, ask:ask, chg:chg, add:add};
 }
 
 function mergeApply(plan, pick){
@@ -5621,19 +5644,47 @@ function mgText(v){
   if(typeof v==="object") return JSON.stringify(v);
   return String(v);
 }
+function mergeBusy(){ return typeof T!=="undefined" && T.run; }
+
 function renderMerge(){
   var box=$("#mgBox"); if(!box) return;
   if(!MG.plan){ box.hidden=true; box.innerHTML=""; return; }
   box.hidden=false;
+  if(mergeBusy()){
+    box.innerHTML='<div class="note w"><b>세션 중에는 안 합친다.</b> '+
+      '블록 칸이 오늘 기록을 들고 있어서 밑에서 바꾸면 그 칸이 옛 값을 되쓴다. '+
+      '세션을 끝내고 합친다.</div>'+
+      '<div class="row" style="margin-top:12px"><button class="g" id="mgNo">닫는다</button></div>';
+    $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
+    return;
+  }
   var p=MG.plan, a=p.add;
   var h='<h4 style="margin:0 0 8px">합치기: '+esc(MG.name)+'</h4>';
   h+='<div class="small mut">아직 안 바꿨다. 아래를 보고 정한다.</div>';
   var got=[["날",a.days],["미해결",a.unres],["채집",a.coll],
            ["회전 등록",a.rot],["클립 구간",a.clips]]
           .filter(function(x){ return x[1]>0; });
-  h+='<div class="note g" style="margin-top:10px">'+
-     (got.length ? "늘어난다: "+got.map(function(x){return x[0]+" "+x[1];}).join(", ")
-                 : "상대에게만 있는 것이 없다. 셈만 맞춰진다")+'</div>';
+  if(!got.length && !p.chg.length && !p.ask.length){
+    h+='<div class="note g" style="margin-top:10px">'+
+       '바뀌는 것이 없다. 두 기기가 이미 같다.</div>';
+    h+='<div class="row" style="margin-top:12px">'+
+       '<button class="g" id="mgNo">닫는다</button></div>';
+    h+='<div id="mgMsg" class="small mut"></div>';
+    box.innerHTML=h;
+    $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
+    return;
+  }
+  if(got.length)
+    h+='<div class="note g" style="margin-top:10px">늘어난다: '+
+       esc(got.map(function(x){return x[0]+" "+x[1];}).join(", "))+'</div>';
+  if(p.chg.length){
+    h+='<div class="note" style="margin-top:8px"><b>바뀐다.</b><br>'+
+       p.chg.slice(0,10).map(function(c){
+         return esc(c.what)+": "+esc(String(c.from))+" \u2192 "+esc(String(c.to));
+       }).join("<br>");
+    if(p.chg.length>10) h+='<br>그리고 '+(p.chg.length-10)+'개 더';
+    h+='</div>';
+  }
   if(!p.ask.length){
     h+='<div class="note" style="margin-top:8px">고를 것이 없다. 부딪치는 자리가 없다.</div>';
   }else{
@@ -5664,6 +5715,7 @@ function renderMerge(){
   });
   $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
   $("#mgGo").onclick=function(){
+    if(mergeBusy()){ renderMerge(); return; }
     var r=mergeApply(MG.plan, MG.pick);
     if(!r.ok){ $("#mgMsg").textContent=r.err+". 그 줄에서 한쪽을 누른다"; return; }
     var before=JSON.stringify(S);
