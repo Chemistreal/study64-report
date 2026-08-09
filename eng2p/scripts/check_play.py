@@ -28,6 +28,7 @@ RULES = os.path.join(ROOT, "docs", "play_rules.md")
 ROADMAP = os.path.join(ROOT, "docs", "roadmap.md")
 DATA = os.path.join(ROOT, "docs", "play_data.md")
 SOLO = os.path.join(ROOT, "docs", "solo_plays.md")
+MANUAL = os.path.join(ROOT, "out", "manual", "eng2p_manual.md")
 
 # 한 기기로 도는 갈래 셋. `docs/solo_plays.md` 2장이 정했다. T249
 SOLO_KINDS = ["그대로", "돌려 보기", "종이", "고른 판을 따른다"]
@@ -157,6 +158,34 @@ def check_solo(books, fails):
         fails.append("docs/solo_plays.md 7.3 에 안 도는 판 수가 없다")
     elif KO[m.group(1)] != n_no:
         fails.append("종이로 안 도는 판이 %d개인데 '%s' 이라고 적었다" % (n_no, m.group(1)))
+
+    # **두 사람이 읽는 것은 매뉴얼이다.** 규격 문서가 아니다. T251
+    # 매뉴얼 10.14 가 같은 스무 판을 같은 갈래로 적고 있어야 한다.
+    # 두 자리에 같은 표가 있으면 한쪽이 먼저 낡는다. 그 자리를 여기서 막는다.
+    if os.path.exists(MANUAL):
+        man = io.open(MANUAL, encoding="utf-8").read()
+        a = man.find("### 10.14")
+        b = man.find("## 11장", a if a >= 0 else 0)
+        seg = man[a:b] if a >= 0 else ""
+        if not seg:
+            fails.append("매뉴얼에 10.14 판 고르기 자리가 없다")
+        else:
+            mrows = {}
+            for m in re.finditer(r"^\| (\d+) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|$",
+                                 seg, re.M):
+                mrows[m.group(2).strip()] = (m.group(3).strip().replace("**", ""),
+                                             m.group(4).strip().replace("**", ""))
+            for short in shorts:
+                if short not in mrows:
+                    fails.append("매뉴얼 10.14 에 '%s' 판이 없다" % short)
+                    continue
+                one, pap = mrows[short]
+                if one != rows.get(short):
+                    fails.append("'%s' 한 기기 갈래가 매뉴얼은 '%s' 규격은 '%s' 다"
+                                 % (short, one, rows.get(short)))
+                if pap != prows.get(short):
+                    fails.append("'%s' 종이 갈래가 매뉴얼은 '%s' 규격은 '%s' 다"
+                                 % (short, pap, prows.get(short)))
 
     # 못 도는 판은 몇인가. 세어 둔 수와 실제가 같아야 한다.
     n_paper = sum(1 for v in rows.values() if v == "종이")
