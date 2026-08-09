@@ -348,3 +348,9 @@ body.side-none .sidetag{background:var(--mut)}
 /* 세션 중에는 머리띠가 접힌다. 그때 이 둘이 유일한 표시가 된다. */
 body.session-focus .sideband{height:6px}
 @media print{ .sideband, .sidetag{display:none} }
+
+/* 자리가 바뀌었다는 알림 (T243). **소리만으로 안 알린다.**
+   소리를 끌 수 있고 끈 사람에게는 아무 일도 안 난다. 띠가 잠깐 굵어진다. */
+body.turn-flash .sideband{height:14px;transition:height .12s}
+body.turn-flash .sidetag{transform:scale(1.12)}
+.turnnote{margin-top:10px}

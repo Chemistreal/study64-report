@@ -207,6 +207,7 @@ function renderSplit(){
   else if(!mine)
     h+='<div class="note w">기기 쪽을 안 골랐다. 대장 탭에서 고르면 화면이 갈린다. '+
        '안 고르면 둘 다 보인다. 기기가 하나면 돌려 보기를 켠다.</div>';
+  h+='<div id="splitTurn"></div>';
   h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
      '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
   h+='<div class="row" style="margin-top:8px">'+
@@ -217,8 +218,14 @@ function renderSplit(){
   if(soloOn()) h+='<button class="g" id="soHand">건넨다</button>';
   h+='</div>';
   box.innerHTML=h;
-  $("#splitPrev").onclick=function(){ SPLIT.step=Math.max(0,SPLIT.step-1); renderSplit(); };
-  $("#splitNext").onclick=function(){ SPLIT.step++; renderSplit(); };
+  /* 회를 넘길 때 자리가 바뀌면 알린다. **바뀐 그 순간에 알려야 한다.** */
+  function stepTo(n){
+    SPLIT.step=Math.max(0,n); renderSplit();
+    if(turnCheck("check",SPLIT.step,2))
+      turnAlert(SPLIT.step,2,["읽는 쪽","짚는 쪽"],"splitTurn");
+  }
+  $("#splitPrev").onclick=function(){ stepTo(SPLIT.step-1); };
+  $("#splitNext").onclick=function(){ stepTo(SPLIT.step+1); };
   $("#soloTog").onclick=function(){
     var was=soloOn();
     S.solo=!was; S.soloHand=false; save(); renderSplit(); paintSide();
@@ -313,4 +320,53 @@ function paintSide(){
   b.classList.remove("side-a","side-b","side-none");
   b.classList.add(s.cls);
   var t=$("#sideTag"); if(t) t.textContent=s.tag;
+}
+
+/* =========================================================================
+   자리가 바뀌었다고 알리기 (T243).
+
+   `roundNextTurn` 이 언제 바뀌는지를 세 주기는 하는데 **바뀐 그 순간에 아무 일도
+   안 났다.** 규칙서가 "넉 줄마다 바뀐다" 고 적어 놓았고 화면은 조용했다.
+   그러면 두 사람이 세면서 돈다. 세다가 어긋나면 둘이 같은 자리를 맡는다.
+
+   알리는 것에 셋이 붙는다.
+
+     소리    `tone("swap")`. 같은 음 둘. 주고받는 꼴
+     글      **누가 무엇을 하는지**를 적는다. 바뀌었다고만 하면 모른다
+     띠      화면 위 띠가 잠깐 굵어진다. 소리를 껐을 수도 있다
+
+   소리만으로 안 알린다. 소리를 끌 수 있고 (T222) 끈 사람에게는 아무 일도 안 난다.
+   ========================================================================= */
+var TURN={at:{}};
+/* 지난번에 본 자리와 견준다. **처음 보는 판은 안 알린다.**
+   판을 처음 열 때 알리면 아직 아무것도 안 바뀌었는데 바뀌었다고 하는 것이다. */
+function turnCheck(playId, step, every){
+  var f=roundFirst(step, every), k=String(playId), was=TURN.at[k];
+  TURN.at[k]=f;
+  if(was==null || was===f || f===null) return null;
+  return {step:step, next:roundNextTurn(step, every)};
+}
+function turnForget(playId){ delete TURN.at[String(playId)]; }
+/* **바뀌었다고만 하면 모른다.** 이제 이 사람이 무엇을 하는지를 적는다.
+   `names` 는 판이 주는 두 자리 이름이다. */
+function turnSay(step, every, names){
+  var f=roundFirst(step, every);
+  if(f===null) return "";
+  return "자리가 바뀌었다. 이제 "+(f?names[0]:names[1])+"이다.";
+}
+/* 띠를 잠깐 굵게. 소리를 껐어도 이것은 보인다. */
+function turnFlash(){
+  document.body.classList.add("turn-flash");
+  clearTimeout(turnFlash.t);
+  turnFlash.t=setTimeout(function(){
+    document.body.classList.remove("turn-flash");
+  },1400);
+}
+function turnAlert(step, every, names, into){
+  var say=turnSay(step, every, names);
+  if(typeof tone==="function") tone("swap");
+  turnFlash();
+  var box=(typeof into==="string")?$("#"+into):into;
+  if(box) box.innerHTML='<div class="note w turnnote"><b>'+esc(say)+'</b></div>';
+  return say;
 }

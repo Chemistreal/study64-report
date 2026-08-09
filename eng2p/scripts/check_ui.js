@@ -2705,6 +2705,81 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (band.solo[0] === band.solo[1]) bad.push("돌려 보기에서 자리가 바뀌어도 표시가 같다");
     if (!/돌려/.test(band.solo[0])) bad.push("돌려 보기라는 것을 표시가 안 말한다: " + band.solo[0]);
 
+    /* **자리가 바뀐 그 순간에 알린다.** `roundNextTurn` 이 언제 바뀌는지를 세 주기는
+       했는데 바뀌는 그 순간에 아무 일도 안 났다. 그러면 두 사람이 세면서 돈다.
+       소리만으로 안 알린다. 소리를 끌 수 있고 끈 사람에게는 아무 일도 안 난다. T243 */
+    const turn = await (async () => {
+      const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const q = await c.newPage();
+      q.on("pageerror", (e) => bad.push("교대 알림 화면 오류: " + e.message));
+      await q.goto(PAGE);
+      await q.evaluate(() => { localStorage.setItem("eng2p.v1", JSON.stringify(
+        { v: 1, names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
+          media: { done: {}, fav: {}, pass: {} }, wk: 0, onboarded: true, device: "a",
+          cardDue: {}, cues: {}, rate: 1, fs: 0, wchk: {}, q: {}, rot: [],
+          clips: [], scripts: {} })); });
+      await q.goto(PAGE);
+      await q.waitForTimeout(400);
+      await q.evaluate(() => go("rules"));
+      await q.waitForTimeout(250);
+      const read = () => q.evaluate(() => ({
+        note: (document.getElementById("splitTurn") || {}).innerText || "",
+        flash: document.body.classList.contains("turn-flash"),
+        mine: [...document.querySelectorAll("#splitCheck .vmine>div")].map((x) => x.textContent) }));
+      const steps = [await read()];
+      for (let i = 0; i < 4; i++) {
+        await q.click("#splitNext"); await q.waitForTimeout(150);
+        steps.push(await read());
+      }
+      /* 띠는 잠깐만 굵다. 남아 있으면 다음 알림이 안 보인다. */
+      await q.waitForTimeout(1700);
+      const cooled = (await read()).flash;
+      /* 소리를 꺼도 글과 띠는 남는가. **자리가 정말 바뀌는 두 회로 잰다.** */
+      const mute = await q.evaluate(() => {
+        S.soundOff = true; save();
+        document.getElementById("splitTurn").innerHTML = "";
+        document.body.classList.remove("turn-flash");
+        TURN.at = {};
+        turnCheck("mute", 0, 2);
+        const got = turnCheck("mute", 2, 2);
+        if (got) turnAlert(2, 2, ["읽는 쪽", "짚는 쪽"], "splitTurn");
+        return { fired: !!got, note: document.getElementById("splitTurn").innerText,
+                 flash: document.body.classList.contains("turn-flash") };
+      });
+      /* 처음 여는 판은 안 알린다. 아직 아무것도 안 바뀌었다. */
+      const fresh = await q.evaluate(() => {
+        turnForget("np");
+        return [turnCheck("np", 0, 2), turnCheck("np", 1, 2), turnCheck("np", 2, 2)]
+          .map((x) => !!x);
+      });
+      await c.close();
+      return { steps, cooled, mute, fresh };
+    })();
+    if (turn.steps[0].note) bad.push("판을 처음 열었는데 자리가 바뀌었다고 한다");
+    const fired = turn.steps.map((s) => (s.note ? 1 : 0)).join("");
+    if (fired !== "00101") bad.push("자리가 바뀌는 회에 안 알린다: " + fired);
+    /* **바뀌었다고만 하면 모른다.** 이제 무엇을 하는지가 있어야 한다. */
+    const said = turn.steps.filter((s) => s.note).map((s) => s.note);
+    said.forEach((s) => {
+      if (!/읽는 쪽|짚는 쪽/.test(s)) bad.push("알림이 무슨 자리인지를 안 말한다: " + s);
+    });
+    if (said.length === 2 && said[0] === said[1])
+      bad.push("두 번 바뀌었는데 같은 자리라고 한다: " + said[0]);
+    /* 몫이 실제로 바뀐 회에서만 알려야 한다. */
+    turn.steps.forEach((s, i) => {
+      if (!i) return;
+      const moved = s.mine.join("") !== turn.steps[i - 1].mine.join("");
+      if (moved !== !!s.note)
+        bad.push(i + "회에서 몫은 " + (moved ? "바뀌었는데" : "그대로인데") +
+                 " 알림은 " + (s.note ? "떴다" : "안 떴다"));
+    });
+    if (turn.cooled) bad.push("띠가 계속 굵다. 다음 알림이 안 보인다");
+    if (!turn.mute.fired) bad.push("소리를 껐더니 알림 자체가 안 난다");
+    if (!turn.mute.note) bad.push("소리를 껐더니 글이 안 뜬다");
+    if (!turn.mute.flash) bad.push("소리를 껐더니 띠도 안 움직인다");
+    if (turn.fresh.join(",") !== "false,false,true")
+      bad.push("새 판에서 알리는 자리가 틀렸다: " + turn.fresh.join(","));
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

@@ -785,6 +785,10 @@ body.side-b .sidetag{background:#155e75}
 body.side-none .sidetag{background:var(--mut)}
 body.session-focus .sideband{height:6px}
 @media print{ .sideband, .sidetag{display:none} }
+
+body.turn-flash .sideband{height:14px;transition:height .12s}
+body.turn-flash .sidetag{transform:scale(1.12)}
+.turnnote{margin-top:10px}
 </style>
 </head>
 <body class="side-none">
@@ -5895,6 +5899,7 @@ function renderSplit(){
   else if(!mine)
     h+='<div class="note w">기기 쪽을 안 골랐다. 대장 탭에서 고르면 화면이 갈린다. '+
        '안 고르면 둘 다 보인다. 기기가 하나면 돌려 보기를 켠다.</div>';
+  h+='<div id="splitTurn"></div>';
   h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
      '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
   h+='<div class="row" style="margin-top:8px">'+
@@ -5905,8 +5910,13 @@ function renderSplit(){
   if(soloOn()) h+='<button class="g" id="soHand">건넨다</button>';
   h+='</div>';
   box.innerHTML=h;
-  $("#splitPrev").onclick=function(){ SPLIT.step=Math.max(0,SPLIT.step-1); renderSplit(); };
-  $("#splitNext").onclick=function(){ SPLIT.step++; renderSplit(); };
+  function stepTo(n){
+    SPLIT.step=Math.max(0,n); renderSplit();
+    if(turnCheck("check",SPLIT.step,2))
+      turnAlert(SPLIT.step,2,["읽는 쪽","짚는 쪽"],"splitTurn");
+  }
+  $("#splitPrev").onclick=function(){ stepTo(SPLIT.step-1); };
+  $("#splitNext").onclick=function(){ stepTo(SPLIT.step+1); };
   $("#soloTog").onclick=function(){
     var was=soloOn();
     S.solo=!was; S.soloHand=false; save(); renderSplit(); paintSide();
@@ -5957,6 +5967,35 @@ function paintSide(){
   b.classList.remove("side-a","side-b","side-none");
   b.classList.add(s.cls);
   var t=$("#sideTag"); if(t) t.textContent=s.tag;
+}
+
+var TURN={at:{}};
+function turnCheck(playId, step, every){
+  var f=roundFirst(step, every), k=String(playId), was=TURN.at[k];
+  TURN.at[k]=f;
+  if(was==null || was===f || f===null) return null;
+  return {step:step, next:roundNextTurn(step, every)};
+}
+function turnForget(playId){ delete TURN.at[String(playId)]; }
+function turnSay(step, every, names){
+  var f=roundFirst(step, every);
+  if(f===null) return "";
+  return "자리가 바뀌었다. 이제 "+(f?names[0]:names[1])+"이다.";
+}
+function turnFlash(){
+  document.body.classList.add("turn-flash");
+  clearTimeout(turnFlash.t);
+  turnFlash.t=setTimeout(function(){
+    document.body.classList.remove("turn-flash");
+  },1400);
+}
+function turnAlert(step, every, names, into){
+  var say=turnSay(step, every, names);
+  if(typeof tone==="function") tone("swap");
+  turnFlash();
+  var box=(typeof into==="string")?$("#"+into):into;
+  if(box) box.innerHTML='<div class="note w turnnote"><b>'+esc(say)+'</b></div>';
+  return say;
 }
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
