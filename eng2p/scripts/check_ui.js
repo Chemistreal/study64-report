@@ -2048,6 +2048,30 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
           bad.push("되돌렸는데 안 돌아왔다");
       }
     }
+    /* **끊긴 세션이 조용히 사라지고 있었다.** 어제 것은 안 이어 가는 것이 맞지만
+       아무 말도 없이 사라지면 앱이 잃어버린 것인지 원래 그런 것인지 모른다.
+       그리고 오래 쉬고 온 자리는 이어 가는 것이 아니라 다시 하는 자리다. T225 */
+    const resumeCase = async (sess) => {
+      await pw.evaluate((s) => {
+        S.session = s; save();
+        T.idx = s.idx; T.left = s.left; T.run = false;
+        clearInterval(T.tick); syncSessionFocus(); renderToday();
+      }, sess);
+      await pw.waitForTimeout(400);
+      return (await pw.textContent("#resumeBox")).replace(/\s+/g, " ");
+    };
+    const td = await pw.evaluate(() => today());
+    const old2 = await resumeCase({ date: "2020-01-01", idx: 2, left: 600, at: Date.now() - 86400000 });
+    if (old2.indexOf("이어 가지 않는다") < 0)
+      bad.push("어제 세션이 조용히 사라진다: " + old2.slice(0, 60));
+    const near = await resumeCase({ date: td, idx: 1, left: 600, at: Date.now() - 5 * 60000 });
+    if (near.indexOf("멈춘 지 5분") < 0) bad.push("멈춘 지 얼마인지 안 말한다: " + near.slice(0, 60));
+    if (near.indexOf("처음부터") >= 0) bad.push("5분 쉬었는데 처음부터를 권한다");
+    const far = await resumeCase({ date: td, idx: 1, left: 600, at: Date.now() - 120 * 60000 });
+    if (far.indexOf("이 블록 처음부터") < 0)
+      bad.push("두 시간 쉬었는데 처음부터가 없다: " + far.slice(0, 80));
+    await pw.evaluate(() => { S.session = null; save(); T.idx = 0;
+      T.left = BLOCKS[0].m * 60; renderToday(); });
     await ctxw.close();
     return bad;
   })();

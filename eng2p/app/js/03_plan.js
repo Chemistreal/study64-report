@@ -129,17 +129,57 @@ function renderEmg(pl){
   });
 }
 
+/* **끊긴 세션이 조용히 사라지고 있었다.**
+   어제 것은 안 이어 가는 것이 맞다. 그런데 아무 말도 없이 사라진다.
+   두 사람은 어제 블록 3에서 멈춘 것을 기억하는데 화면은 처음부터라고 말한다.
+   그러면 앱이 잃어버린 것인지 원래 그런 것인지 모른다. T225 */
+function staleSession(){
+  var s=S.session;
+  if(!s || !s.date || s.date===today()) return null;
+  if(s.idx==null || s.left==null) return null;
+  if(!(s.idx>0 || s.left<BLOCKS[0].m*60)) return null;   // 시작도 안 한 것은 안 말한다
+  return s;
+}
+/* 얼마나 쉬었는지. **블록은 시간이 아니라 하는 일이다.**
+   한 시간 반을 쉬고 돌아와 남은 12분을 이어 가면 그 블록은 두 토막이 된다.
+   T177 에 되돌리기를 만들 때 정한 규칙이 여기 그대로 걸린다. */
+var LONG_GAP=90*60*1000;
+function gapMin(s){ return (s&&s.at) ? Math.floor((Date.now()-s.at)/60000) : null; }
 function renderResume(pl){
   var box=$("#resumeBox"); if(!box) return;
+  var st=staleSession();
+  if(st){
+    box.innerHTML='<div class="resume"><div>'+
+      '<b>'+esc(st.date)+' 세션이 블록 '+(st.idx+1)+'에서 멈춰 있었다</b>'+
+      '<div class="small">날이 바뀌어 이어 가지 않는다. 오늘 것은 처음부터 돈다. '+
+      '그날 적은 것은 그대로 남아 있다.</div></div>'+
+      '<button class="g" id="resumeDrop" type="button">알겠다</button></div>';
+    var dr=$("#resumeDrop");
+    if(dr) dr.onclick=function(){ clearSession(); renderToday(); };
+    return;
+  }
   var s=S.session, started=(T.idx>0||T.left<BLOCKS[0].m*60);
   if(!s || s.date!==today() || !started){ box.innerHTML=""; return; }
   var b=BLOCKS[T.idx];
+  var g=gapMin(s), longGap=(s.at && (Date.now()-s.at)>LONG_GAP);
   box.innerHTML='<div class="resume"><div>'+
     '<b>블록 '+(T.idx+1)+' '+esc(b.n)+'에서 멈췄다</b>'+
     '<div class="small">이 블록에 '+Math.ceil(T.left/60)+'분, 세션 전체로 '+
-    sessionLeftMin()+'분 남았다</div></div>'+
-    '<button class="g" id="resumeGo" type="button">이어서 하기</button></div>';
+    sessionLeftMin()+'분 남았다'+(g!=null?' · 멈춘 지 '+g+'분':'')+'</div>'+
+    (longGap?'<div class="small">한 시간 반 넘게 쉬었다. '+
+      '<b>블록은 시간이 아니라 하는 일이다.</b> 이 블록을 처음부터 도는 쪽이 낫다.</div>':'')+
+    '</div><button class="g" id="resumeGo" type="button">이어서 하기</button>'+
+    (longGap?'<button class="g" id="resumeAgain" type="button">이 블록 처음부터</button>':'')+
+    '</div>';
   var go=$("#resumeGo"); if(go) go.onclick=function(){ $("#tOne").click(); };
+  var ag=$("#resumeAgain");
+  if(ag) ag.onclick=function(){
+    var was={idx:T.idx,left:T.left};
+    T.left=BLOCKS[T.idx].m*60; saveSession(); paintTimer(); renderToday();
+    offerUndo("블록 "+(T.idx+1)+"을 처음부터로 되돌림",function(){
+      T.idx=was.idx; T.left=was.left; saveSession(); paintTimer(); renderToday();
+    });
+  };
 }
 
 /* 기록 묶음. 세션이 끝났거나 손으로 펴면 보인다.
