@@ -372,3 +372,10 @@ body.turn-flash .sidetag{transform:scale(1.12)}
    `display:none` 은 그 자리에서 통째로 안 그린다. 밑에서 되살릴 수가 없다. */
 body.veil-on>*:not(.veilcover){display:none}
 @media print{ .veilcover{display:none} }
+
+/* 자리 맞추기 (T246). 조작줄 밑에 붙는다. 세션 중에만 쓴다. */
+.wheredock{position:fixed;left:0;right:0;bottom:64px;z-index:59;margin:0 auto;
+  max-width:420px;background:var(--card);border:1px solid var(--edge);
+  border-radius:12px;padding:10px 12px;box-shadow:var(--glow)}
+.wheredock .row{margin-top:8px;gap:8px}
+#focusWhere{font-size:0.75rem;letter-spacing:.02em}

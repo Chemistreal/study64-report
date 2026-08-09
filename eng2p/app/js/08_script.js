@@ -445,6 +445,8 @@ function paintTimer(){
   $("#tOne").textContent=T.left===BLOCKS[0].m*60&&T.idx===0?"세션 시작":"세션 이어서";
   $("#focusBlock").textContent="블록 "+(T.idx+1)+" · "+b.n;
   $("#focusClock").textContent=fmt(Math.max(0,T.left));
+  /* 짝과 견줄 짧은 표시. 상대가 지금 어디인지는 이 기기가 모른다 (T246). */
+  if(typeof renderWhere==="function") renderWhere();
   $("#focusToggle").textContent=T.run?"일시정지":"이어서";
   document.title=(T.run?fmt(Math.max(0,T.left))+" · ":"")+"eng2p 운영 콘솔";
   syncSessionFocus();

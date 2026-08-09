@@ -2910,6 +2910,68 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (/쪽[가이]\s/.test(quiet.before.note))
       bad.push("자리 이름 뒤에 조사를 붙였다: " + quiet.before.note);
 
+    /* **상대가 지금 어디인지는 이 기기가 모른다.** 망이 없다.
+       대신 둘이 흘끗 견줄 짧은 표시를 늘 띄우고 갈렸으면 맞춘다.
+       어긋난 줄을 모르고 두 시간을 가는 것이 제일 나쁘다. T246 */
+    const where = await (async () => {
+      const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const q = await c.newPage();
+      q.on("pageerror", (e) => bad.push("자리 맞추기 화면 오류: " + e.message));
+      await q.goto(PAGE);
+      await q.evaluate(() => {
+        function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
+          return z.toISOString().slice(0,10);}
+        var now=new Date(), st=new Date(now.getTime()-138*86400000), days={};
+        for(var i=0;i<138;i++){var x=new Date(st.getTime()+i*86400000);
+          if(x.getDay()===0) continue;
+          days[iso(x)]={status:"normal",h:2,speak:12,cards:30,lre:2,unres:[],coll:[]};}
+        localStorage.setItem("eng2p.v1",JSON.stringify(
+          {v:1,names:{a:"남편",b:"아내"},start:iso(st),days:days,
+           media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:true,session:null,
+           device:"a",recOpen:false,emgOpen:false,card:null,cardDue:{},
+           cardMode:"today",cues:{},rate:1,fs:0,wchk:{},q:{},rot:[],clips:[],scripts:{}}));
+      });
+      await q.goto(PAGE);
+      await q.waitForTimeout(500);
+      await q.evaluate(() => { T.run = true; gotoBlock(2); });
+      await q.waitForTimeout(900);
+      const read = () => q.evaluate(() => ({
+        tag: document.getElementById("focusWhere").textContent,
+        idx: T.idx, left: T.left,
+        shut: document.getElementById("whereDock").hidden,
+        msg: (document.getElementById("whereMsg") || {}).textContent || "" }));
+      const at3 = await read();
+      await q.click("#focusWhere"); await q.waitForTimeout(200);
+      const open = await read();
+      const typed = async (v) => {
+        await q.fill("#whereIn", v); await q.click("#whereGo");
+        await q.waitForTimeout(200); return read();
+      };
+      const back = await typed("2-8");
+      const junk = await typed("응?");
+      const nope = await typed("9-8");
+      const loose = await typed("1 : 12");
+      await q.evaluate(() => { T.run = false; clearInterval(T.tick); });
+      await c.close();
+      return { at3, open, back, junk, nope, loose };
+    })();
+    if (where.at3.tag !== "3-30")
+      bad.push("블록 3을 열었는데 자리 표시가 " + where.at3.tag + " 다");
+    if (!where.at3.shut) bad.push("안 눌렀는데 맞추기 칸이 열려 있다");
+    if (where.open.shut) bad.push("표시를 눌렀는데 맞추기 칸이 안 열린다");
+    /* **뒤로도 간다.** 둘이 다른 블록에 있으면 같이 있는 것이 아니다. */
+    if (where.back.idx !== 1 || where.back.left !== 480)
+      bad.push("뒤 블록으로 못 맞춘다: " + where.back.tag);
+    if (!/맞췄다/.test(where.back.msg))
+      bad.push("맞췄는데 화면이 아무 말도 안 한다: " + JSON.stringify(where.back.msg));
+    if (!/블록-분/.test(where.junk.msg)) bad.push("아무 글이나 쳤는데 안 짚는다");
+    if (where.junk.idx !== 1) bad.push("아무 글이나 쳤는데 자리가 움직였다");
+    if (!/블록-분/.test(where.nope.msg)) bad.push("없는 블록을 쳤는데 안 짚는다");
+    if (where.nope.idx !== 1) bad.push("없는 블록을 쳤는데 자리가 움직였다");
+    /* 사람이 읽어 주는 것을 받아 적는다. 사이에 무엇이 있어도 받는다. */
+    if (where.loose.idx !== 0 || where.loose.left !== 720)
+      bad.push("띄어 친 것을 안 받는다: " + where.loose.tag);
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

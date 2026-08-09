@@ -55,5 +55,11 @@
     <button class="g" id="focusPrev" type="button" aria-label="이전 블록">이전</button>
     <button class="b" id="focusToggle" type="button">일시정지</button>
     <button class="g" id="focusNext" type="button">다음</button>
+    <!-- **상대가 지금 어디인지는 이 기기가 모른다.** 망이 없다.
+         대신 둘이 흘끗 견줄 수 있는 짧은 표시를 늘 띄운다. 어긋나면 맞춘다. T246 -->
+    <button class="g mono" id="focusWhere" type="button"
+            aria-label="이 기기 자리. 눌러서 상대와 맞춘다">1-40</button>
   </div>
+  <!-- 자리 맞추기. 조작줄 밑에 붙는다. 세션 중에만 쓴다. -->
+  <div class="wheredock noprint" id="whereDock" hidden></div>
 
