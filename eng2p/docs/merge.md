@@ -59,6 +59,7 @@
 | `cardMode` | 카드 고르는 꼴 |
 | `rate` | 배속 |
 | `recOpen` `emgOpen` `onboarded` | 화면 여닫이 |
+| `solo` `soloSeat` `soloHand` | **돌려 보기.** 기기가 하나인 날의 절차 (T241) |
 
 `veil` 은 저장소에 없다. 세션 안에서만 산다. 그래서 여기 안 적는다.
 

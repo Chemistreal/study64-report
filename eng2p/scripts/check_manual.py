@@ -126,7 +126,15 @@ def check_pair_manual(app, man):
             FAIL.append("짝 코드 글자표가 %d글자다. 다섯 비트라 서른둘이어야 한다" % len(table))
         if len(set(table)) != len(table):
             FAIL.append("짝 코드 글자표에 같은 글자가 두 번 있다")
-        tail = man.split("### 10.11")[-1]
+        # **머리말을 접두로 자르면 안 된다.** `### 10.11` 로 자르면 `### 10.12` 는
+        # 안 물지만 `### 10.11b` 같은 것이 생기면 문다. 실제로 T241 에 물렸다.
+        # 그 머리말에서 다음 머리말까지로 자른다.
+        tail = ""
+        m2 = re.search(r"^### 10\.11 .*?(?=^### )", man, re.S | re.M)
+        if m2:
+            tail = m2.group(0)
+        else:
+            FAIL.append("매뉴얼에 10.11 짝 코드 자리가 없다")
         # 와 과 를 번갈아 쓴다. 받침 때문이다. 이음말로 잡지 말고 글자만 줍는다.
         said = re.search(r"\*\*([^*]*?) 가 안 나온다", tail)
         said = re.findall(r"[A-Z]", said.group(1)) if said else []

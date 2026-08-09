@@ -765,6 +765,14 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
+
+.socover{border:1px solid var(--edge);border-radius:12px;background:var(--sub);
+  padding:24px 18px;text-align:center}
+.sotitle{font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:8px}
+.somsg{color:var(--mut);font-size:0.875rem;margin-bottom:14px}
+.socover button{min-height:48px;padding:12px 22px;font-size:1rem}
+.soflag{display:inline-block;font-size:0.75rem;color:var(--a1t);
+  border:1px solid var(--edge);border-radius:8px;padding:3px 8px;margin-left:6px}
 </style>
 </head>
 <body>
@@ -1488,7 +1496,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{}};
+          media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{},solo:false,soloSeat:0,soloHand:false};
 }
 function load(){
   var raw=null;
@@ -5471,7 +5479,8 @@ function pairCompare(){
 }
 
 var MG_LOCAL=["device","fs","session","card","wk","cardMode","rate",
-              "recOpen","emgOpen","onboarded"];
+              "recOpen","emgOpen","onboarded",
+              "solo","soloSeat","soloHand"];
 var MG_MAXDAY=["speak","cards","lre","h"];
 var MG_BAGDAY=["unres","coll"];
 var MG_ASKDAY=["aim","xchk"];
@@ -5771,6 +5780,7 @@ function roundTurn(step, every){
   return Math.floor((step|0)/every)%2;
 }
 function roundFirst(step, every){
+  if(typeof soloOn==="function" && soloOn()) return soloFirst(step, every);
   var mine=(typeof deviceSide==="function")?deviceSide():null;
   if(!mine) return null;
   return (mine==="a") === (roundTurn(step, every)===0);
@@ -5786,6 +5796,8 @@ function roundNextTurn(step, every){
 }
 
 function roundPart(step, every, parts){
+  if(typeof soloHanding==="function" && soloHanding())
+    return {both:false, handing:true, mine:[], hidden:parts};
   var f=roundFirst(step, every);
   if(f===null) return {both:true, mine:parts, hidden:[]};
   return f ? {both:false, mine:[parts[0]], hidden:[parts[1]]}
@@ -5804,7 +5816,8 @@ function veilPane(mine, hidden, who){
         mine.map(function(x){ return '<div>'+esc(x)+'</div>'; }).join("")+'</div>';
   if(hidden && hidden.length)
     h+='<div class="vhid" aria-hidden="true"><span>'+
-       esc((who||"상대")+" 화면에만 있다")+'</span></div>';
+       esc((who||"상대")+(who==="돌려받은 뒤에" ? " 보인다" : " 화면에만 있다"))+
+       '</span></div>';
   return h+'</div>';
 }
 
@@ -5839,30 +5852,73 @@ var SPLIT={step:0};
 function renderSplit(){
   var box=$("#splitCheck"); if(!box) return;
   var s=SPLIT.step, mine=(typeof deviceSide==="function")?deviceSide():null;
+  if(soloOn() && soloHanding()){
+    box.innerHTML=soloCover([S.names.a, S.names.b]);
+    $("#soTake").onclick=function(){ soloTake(renderSplit); };
+    return;
+  }
   var h='<div class="small mut">두 기기를 나란히 놓고 이 자리를 편다. '+
         '<b>같아야 하는 것과 달라야 하는 것이 아래에 갈려 있다.</b></div>';
   h+='<table class="pairtab"><tr><th>무엇</th><th>이 기기</th><th>두 기기가</th></tr>'+
      '<tr><td>판 표시</td><td class="mono">'+esc(roundTag("check",s))+
      '</td><td>같아야 한다</td></tr>'+
      '<tr><td>회</td><td class="mono">'+s+'</td><td>같아야 한다</td></tr>'+
-     '<tr><td>이 기기 쪽</td><td class="mono">'+esc(mine?mine.toUpperCase():"안 고름")+
-     '</td><td><b>달라야 한다</b></td></tr>'+
+     '<tr><td>이 기기 쪽</td><td class="mono">'+
+     esc(soloOn() ? "돌려 보기 "+(soloSeat()===0?"첫째":"둘째")
+                  : (mine?mine.toUpperCase():"안 고름"))+
+     '</td><td><b>'+(soloOn()?"기기가 하나다":"달라야 한다")+'</b></td></tr>'+
      '<tr><td>자리</td><td class="mono">'+
      esc(roundRole(s,2,["읽는 쪽","짚는 쪽"])||"둘 다")+
      '</td><td><b>달라야 한다</b></td></tr></table>';
   var p=roundPart(s,2,["왼쪽 몫","오른쪽 몫"]);
-  h+='<div style="margin-top:12px">'+veilPane(p.mine,p.hidden,"상대")+'</div>';
-  if(!mine)
+  h+='<div style="margin-top:12px">'+
+     veilPane(p.mine, p.hidden, soloOn()?"돌려받은 뒤에":"상대")+'</div>';
+  if(soloOn())
+    h+='<div class="note">돌려 보기다. 이 자리 몫만 뜬다. 다 봤으면 건넨다를 누른다. '+
+       '<b>누르는 순간 화면이 덮인다.</b></div>';
+  else if(!mine)
     h+='<div class="note w">기기 쪽을 안 골랐다. 대장 탭에서 고르면 화면이 갈린다. '+
-       '안 고르면 한 기기로 도는 날이라 둘 다 보인다.</div>';
+       '안 고르면 둘 다 보인다. 기기가 하나면 돌려 보기를 켠다.</div>';
   h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
      '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
   h+='<div class="row" style="margin-top:8px">'+
      '<button class="g" id="splitPrev">이전 회</button>'+
-     '<button class="g" id="splitNext">다음 회</button></div>';
+     '<button class="g" id="splitNext">다음 회</button>'+
+     '<button class="g" id="soloTog">'+(soloOn()?"돌려 보기 끔":"기기 하나. 돌려 본다")+
+     '</button>';
+  if(soloOn()) h+='<button class="g" id="soHand">건넨다</button>';
+  h+='</div>';
   box.innerHTML=h;
   $("#splitPrev").onclick=function(){ SPLIT.step=Math.max(0,SPLIT.step-1); renderSplit(); };
   $("#splitNext").onclick=function(){ SPLIT.step++; renderSplit(); };
+  $("#soloTog").onclick=function(){
+    var was=soloOn();
+    S.solo=!was; S.soloHand=false; save(); renderSplit();
+    offerUndo(was?"돌려 보기를 껐다":"돌려 보기를 켰다",function(){
+      S.solo=was; S.soloHand=false; save(); renderSplit();
+    });
+  };
+  if($("#soHand")) $("#soHand").onclick=function(){ soloHandOff(renderSplit); };
+}
+
+function soloOn(){ return !!(S && S.solo); }
+function soloSeat(){ return (S && S.soloSeat===1) ? 1 : 0; }
+function soloHanding(){ return !!(S && S.soloHand); }
+function soloFirst(step, every){
+  return (soloSeat()===0) === (roundTurn(step, every)===0);
+}
+function soloHandOff(after){
+  S.soloHand=true; save(); if(after) after();
+}
+function soloTake(after){
+  S.soloHand=false; S.soloSeat=(soloSeat()===0)?1:0; save(); if(after) after();
+}
+function soloCover(names){
+  var next=(soloSeat()===0)?1:0;
+  return '<div class="socover"><div class="sotitle">건넨다</div>'+
+         '<div class="somsg">'+esc((names&&names[next])||"상대")+
+         '에게 기기를 넘긴다. 넘기고 나서 받았다를 누른다.</div>'+
+         '<button class="g" id="soTake">받았다</button></div>';
 }
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",

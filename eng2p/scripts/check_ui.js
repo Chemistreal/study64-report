@@ -2560,6 +2560,78 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       if (d.gate.after.indexOf("폈다") < 0) bad.push(d.who + " 기기가 눌러도 안 펴진다");
     });
 
+    /* **기기가 하나인 날.** 돌려 본다. `docs/round.md` 9장이다.
+       건네는 1초에 화면이 켜져 있다. **덮지 않으면 그 1초에 다 보인다.**
+       덮개 안에 앞 사람 몫이 한 글자도 없어야 한다. T241 */
+    const solo = await (async () => {
+      const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const q = await c.newPage();
+      q.on("pageerror", (e) => bad.push("돌려 보기 화면 오류: " + e.message));
+      await q.goto(PAGE);
+      await q.evaluate(() => { localStorage.setItem("eng2p.v1", JSON.stringify(
+        { v: 1, names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
+          media: { done: {}, fav: {}, pass: {} }, wk: 0, onboarded: true, device: null,
+          cardDue: {}, cues: {}, rate: 1, fs: 0, wchk: {}, q: {}, rot: [],
+          clips: [], scripts: {} })); });
+      await q.goto(PAGE);
+      await q.waitForTimeout(400);
+      await q.evaluate(() => go("rules"));
+      await q.waitForTimeout(250);
+      const read = () => q.evaluate(() => ({
+        mine: [...document.querySelectorAll("#splitCheck .vmine>div")].map((x) => x.textContent),
+        hid: [...document.querySelectorAll("#splitCheck .vhid")].map((x) => x.textContent),
+        cover: !!document.querySelector("#splitCheck .socover"),
+        html: document.getElementById("splitCheck").innerHTML }));
+      const off = await read();
+      await q.click("#soloTog"); await q.waitForTimeout(200);
+      const on = await read();
+      await q.click("#soHand"); await q.waitForTimeout(200);
+      const hand = await read();
+      /* 건네는 중에 기기가 잠들거나 다시 열릴 수 있다. **그때도 덮여 있어야 한다.** */
+      await q.reload(); await q.waitForTimeout(400);
+      await q.evaluate(() => go("rules")); await q.waitForTimeout(250);
+      const again = await read();
+      /* **없는 단추를 누르러 가지 않는다.** 덮개가 없으면 이 단추도 없고
+         기다리다 서른 초 뒤에 "Timeout" 만 남는다. 그 글로는 무엇이 없는지 모른다.
+         일부러 덮개를 없애 보고 알았다. 검사가 무엇이 없는지를 말해야 한다. T241 */
+      let took = null;
+      if (again.cover) {
+        await q.click("#soTake"); await q.waitForTimeout(200);
+        took = await read();
+      }
+      await c.close();
+      return { off, on, hand, again, took };
+    })();
+    if (solo.off.mine.length !== 2)
+      bad.push("기기 쪽을 안 골랐는데 둘 다 안 보인다: " + solo.off.mine.join(","));
+    if (solo.on.mine.length !== 1)
+      bad.push("돌려 보기인데 몫이 " + solo.on.mine.length + "개 보인다");
+    /* 화면이 하나뿐인 날에 "상대 화면" 이라고 하면 안 된다. */
+    if (solo.on.hid.length && /상대 화면/.test(solo.on.hid[0]))
+      bad.push("한 기기인데 상대 화면이라고 한다: " + solo.on.hid[0]);
+    if (!solo.hand.cover) bad.push("건넨다를 눌렀는데 안 덮인다");
+    if (solo.hand.html.indexOf(solo.on.mine[0]) >= 0)
+      bad.push("덮개 밑에 앞 사람 몫이 남아 있다: " + solo.on.mine[0]);
+    if (!solo.again.cover) bad.push("건네는 중에 다시 열었더니 덮개가 없어진다");
+    if (!solo.took) bad.push("덮개가 없어서 받았다를 못 눌렀다");
+    else {
+      if (!solo.took.mine.length) bad.push("받았다를 눌렀는데 몫이 안 뜬다");
+      if (solo.took.mine[0] === solo.on.mine[0])
+        bad.push("건넸는데 앞 사람 몫이 그대로다: " + solo.took.mine[0]);
+    }
+    /* 돌려 보기 값 셋은 안 건너간다. 기기가 둘인 쪽 파일을 받아도 이 기기 것이다. */
+    const soloLocal = await pw.evaluate(() => {
+      const me = { names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
+        media: { done: {}, fav: {}, pass: {} }, cardDue: {}, rot: [], clips: [],
+        scripts: {}, wchk: {}, q: {}, cues: {}, solo: true, soloSeat: 1, soloHand: false };
+      const them = JSON.parse(JSON.stringify(me));
+      them.solo = false; them.soloSeat = 0; them.soloHand = true;
+      const o = mergePlan(me, them).out;
+      return [o.solo, o.soloSeat, o.soloHand];
+    });
+    if (soloLocal.join(",") !== "true,1,false")
+      bad.push("합치기가 돌려 보기 값을 건드린다: " + soloLocal.join(","));
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

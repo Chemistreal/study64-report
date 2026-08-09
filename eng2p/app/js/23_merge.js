@@ -17,7 +17,9 @@
 
 /* 안 건너가는 것. `docs/pair.md` 3장이 정했다. **여기에 안 늘린다.** */
 var MG_LOCAL=["device","fs","session","card","wk","cardMode","rate",
-              "recOpen","emgOpen","onboarded"];
+              "recOpen","emgOpen","onboarded",
+              /* 돌려 보기는 이 기기의 일이다. 기기가 둘인 쪽 파일을 받아도 안 바뀐다. T241 */
+              "solo","soloSeat","soloHand"];
 /* 그날 기록 안에서 큰 것을 남기는 자리 */
 var MG_MAXDAY=["speak","cards","lre","h"];
 /* 그날 기록 안에서 모으는 자리 */

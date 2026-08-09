@@ -59,6 +59,9 @@ function roundTurn(step, every){
    기기 쪽을 안 골랐으면 null 이다. 그때는 한 기기로 도는 날이고
    화면이 둘을 다 보인다. 가려 봐야 볼 사람이 하나다. */
 function roundFirst(step, every){
+  /* 돌려 보기가 켜져 있으면 지금 보는 사람이 자리를 정한다.
+     **기기 쪽보다 먼저 본다.** 기기가 하나인 날은 기기 쪽이 뜻이 없다. T241 */
+  if(typeof soloOn==="function" && soloOn()) return soloFirst(step, every);
   var mine=(typeof deviceSide==="function")?deviceSide():null;
   if(!mine) return null;
   return (mine==="a") === (roundTurn(step, every)===0);
@@ -80,6 +83,10 @@ function roundNextTurn(step, every){
 /* 이 기기가 볼 몫. `parts` 는 두 몫이다. 첫째 자리가 첫 몫을 본다.
    기기 쪽을 안 골랐으면 둘 다 돌려준다. */
 function roundPart(step, every, parts){
+  /* 건네는 중이면 아무것도 안 돌려준다. **덮는 화면이 그 위에 있다.**
+     그래도 밑에 몫을 그려 두면 덮개가 한 칸이라도 어긋나는 날 그것이 보인다. */
+  if(typeof soloHanding==="function" && soloHanding())
+    return {both:false, handing:true, mine:[], hidden:parts};
   var f=roundFirst(step, every);
   if(f===null) return {both:true, mine:parts, hidden:[]};
   return f ? {both:false, mine:[parts[0]], hidden:[parts[1]]}
@@ -114,7 +121,8 @@ function veilPane(mine, hidden, who){
         mine.map(function(x){ return '<div>'+esc(x)+'</div>'; }).join("")+'</div>';
   if(hidden && hidden.length)
     h+='<div class="vhid" aria-hidden="true"><span>'+
-       esc((who||"상대")+" 화면에만 있다")+'</span></div>';
+       esc((who||"상대")+(who==="돌려받은 뒤에" ? " 보인다" : " 화면에만 있다"))+
+       '</span></div>';
   return h+'</div>';
 }
 
@@ -169,28 +177,102 @@ var SPLIT={step:0};
 function renderSplit(){
   var box=$("#splitCheck"); if(!box) return;
   var s=SPLIT.step, mine=(typeof deviceSide==="function")?deviceSide():null;
+  /* 건네는 중이면 덮개만 그린다. **밑에 아무것도 안 그린다.** */
+  if(soloOn() && soloHanding()){
+    box.innerHTML=soloCover([S.names.a, S.names.b]);
+    $("#soTake").onclick=function(){ soloTake(renderSplit); };
+    return;
+  }
   var h='<div class="small mut">두 기기를 나란히 놓고 이 자리를 편다. '+
         '<b>같아야 하는 것과 달라야 하는 것이 아래에 갈려 있다.</b></div>';
   h+='<table class="pairtab"><tr><th>무엇</th><th>이 기기</th><th>두 기기가</th></tr>'+
      '<tr><td>판 표시</td><td class="mono">'+esc(roundTag("check",s))+
      '</td><td>같아야 한다</td></tr>'+
      '<tr><td>회</td><td class="mono">'+s+'</td><td>같아야 한다</td></tr>'+
-     '<tr><td>이 기기 쪽</td><td class="mono">'+esc(mine?mine.toUpperCase():"안 고름")+
-     '</td><td><b>달라야 한다</b></td></tr>'+
+     '<tr><td>이 기기 쪽</td><td class="mono">'+
+     esc(soloOn() ? "돌려 보기 "+(soloSeat()===0?"첫째":"둘째")
+                  : (mine?mine.toUpperCase():"안 고름"))+
+     '</td><td><b>'+(soloOn()?"기기가 하나다":"달라야 한다")+'</b></td></tr>'+
      '<tr><td>자리</td><td class="mono">'+
      esc(roundRole(s,2,["읽는 쪽","짚는 쪽"])||"둘 다")+
      '</td><td><b>달라야 한다</b></td></tr></table>';
   var p=roundPart(s,2,["왼쪽 몫","오른쪽 몫"]);
-  h+='<div style="margin-top:12px">'+veilPane(p.mine,p.hidden,"상대")+'</div>';
-  if(!mine)
+  /* **한 기기인 날에 "상대 화면" 이라고 하면 안 된다.** 화면이 하나뿐이다.
+     그 자리는 상대 화면이 아니라 돌려받은 뒤에 보이는 자리다. T241 */
+  h+='<div style="margin-top:12px">'+
+     veilPane(p.mine, p.hidden, soloOn()?"돌려받은 뒤에":"상대")+'</div>';
+  if(soloOn())
+    h+='<div class="note">돌려 보기다. 이 자리 몫만 뜬다. 다 봤으면 건넨다를 누른다. '+
+       '<b>누르는 순간 화면이 덮인다.</b></div>';
+  else if(!mine)
     h+='<div class="note w">기기 쪽을 안 골랐다. 대장 탭에서 고르면 화면이 갈린다. '+
-       '안 고르면 한 기기로 도는 날이라 둘 다 보인다.</div>';
+       '안 고르면 둘 다 보인다. 기기가 하나면 돌려 보기를 켠다.</div>';
   h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
      '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
   h+='<div class="row" style="margin-top:8px">'+
      '<button class="g" id="splitPrev">이전 회</button>'+
-     '<button class="g" id="splitNext">다음 회</button></div>';
+     '<button class="g" id="splitNext">다음 회</button>'+
+     '<button class="g" id="soloTog">'+(soloOn()?"돌려 보기 끔":"기기 하나. 돌려 본다")+
+     '</button>';
+  if(soloOn()) h+='<button class="g" id="soHand">건넨다</button>';
+  h+='</div>';
   box.innerHTML=h;
   $("#splitPrev").onclick=function(){ SPLIT.step=Math.max(0,SPLIT.step-1); renderSplit(); };
   $("#splitNext").onclick=function(){ SPLIT.step++; renderSplit(); };
+  $("#soloTog").onclick=function(){
+    var was=soloOn();
+    S.solo=!was; S.soloHand=false; save(); renderSplit();
+    offerUndo(was?"돌려 보기를 껐다":"돌려 보기를 켰다",function(){
+      S.solo=was; S.soloHand=false; save(); renderSplit();
+    });
+  };
+  if($("#soHand")) $("#soHand").onclick=function(){ soloHandOff(renderSplit); };
+}
+
+/* =========================================================================
+   기기가 하나인 날. **돌려 본다.**
+
+   기기 쪽을 안 고르면 지금까지는 둘 다 보였다. 그러면 격차가 없어진다.
+   한 기기로도 격차 판이 돌아야 한다. 기기가 하나뿐인 날이 온다 (매뉴얼 0장).
+
+   돌려 보기는 이렇게 돈다.
+
+     1. 이 자리 사람 몫만 뜬다
+     2. 다 봤으면 건넨다를 누른다
+     3. **가림 화면이 통째로 덮는다.** 이 사이에 앞 사람 몫이 보이면 안 된다
+     4. 받은 사람이 받았다를 누른다
+     5. 그 사람 몫이 뜬다
+
+   3이 이 물건의 전부다. 덮지 않으면 건네는 동안 다 보인다.
+   건네는 것은 1초쯤이고 그 1초에 화면이 켜져 있다.
+
+   `solo` 는 기기마다 다른 값이다. `docs/pair.md` 3장의 안 건너가는 갈래다.
+   기기가 둘인 사람의 파일을 받아도 이 기기가 돌려 보기이면 그대로다.
+   ========================================================================= */
+function soloOn(){ return !!(S && S.solo); }
+function soloSeat(){ return (S && S.soloSeat===1) ? 1 : 0; }
+function soloHanding(){ return !!(S && S.soloHand); }
+/* 돌려 보기에서는 지금 보는 사람이 첫 자리인가를 `soloSeat` 가 정한다.
+   자리 돌기는 그대로 얹는다. 두 사람이 판 안에서 자리를 바꾸는 것은 같은 일이다. */
+function soloFirst(step, every){
+  return (soloSeat()===0) === (roundTurn(step, every)===0);
+}
+/* 건네기. **누른 그 순간에 덮는다.** 덮고 나서 저장한다.
+   저장을 먼저 하면 저장이 느린 기기에서 한 칸 먼저 그려진다. */
+function soloHandOff(after){
+  S.soloHand=true; save(); if(after) after();
+}
+function soloTake(after){
+  S.soloHand=false; S.soloSeat=(soloSeat()===0)?1:0; save(); if(after) after();
+}
+/* 덮는 화면. **이 안에 몫이 한 글자도 없다.** 누가 받는지만 적는다. */
+function soloCover(names){
+  var next=(soloSeat()===0)?1:0;
+  /* 이름 뒤에 붙는 조사를 고른다. **에게 는 받침을 안 탄다.** 그래서 붙여 쓴다.
+     이 뒤에 조사가 바뀌는 말을 붙이지 않는다. 이름은 두 사람이 정하는 것이라
+     받침이 있는 이름과 없는 이름에 같은 조사를 붙이면 한쪽이 어색해진다. */
+  return '<div class="socover"><div class="sotitle">건넨다</div>'+
+         '<div class="somsg">'+esc((names&&names[next])||"상대")+
+         '에게 기기를 넘긴다. 넘기고 나서 받았다를 누른다.</div>'+
+         '<button class="g" id="soTake">받았다</button></div>';
 }

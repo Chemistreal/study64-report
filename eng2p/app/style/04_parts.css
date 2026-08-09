@@ -316,3 +316,13 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
+
+/* 돌려 보기 가림 화면 (T241). **이 안에 몫이 한 글자도 없다.**
+   건네는 1초에 화면이 켜져 있다. 덮지 않으면 그 1초에 다 보인다. */
+.socover{border:1px solid var(--edge);border-radius:12px;background:var(--sub);
+  padding:24px 18px;text-align:center}
+.sotitle{font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:8px}
+.somsg{color:var(--mut);font-size:0.875rem;margin-bottom:14px}
+.socover button{min-height:48px;padding:12px 22px;font-size:1rem}
+.soflag{display:inline-block;font-size:0.75rem;color:var(--a1t);
+  border:1px solid var(--edge);border-radius:8px;padding:3px 8px;margin-left:6px}
