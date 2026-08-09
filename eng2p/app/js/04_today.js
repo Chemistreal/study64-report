@@ -49,7 +49,7 @@ function go(name){
      `pullForm` 이 옛 값을 그대로 다시 써 넣는다. **센 것이 지워진다.** T216 */
   if(name==="today") renderToday();
   if(name==="media") renderMedia();
-  if(name==="ledger"){ renderLedger(); renderWeekCheck(); }
+  if(name==="ledger"){ renderLedger(); renderWeekCheck(); renderPair(); }
   if(name==="verify") renderVerify();
   if(name==="quarter") renderQuarter();
   if(name==="rot") renderRot();

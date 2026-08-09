@@ -2124,35 +2124,97 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* **짝 코드는 사람이 손으로 친다.** 잘못 치는 것이 정상이다.
        담은 값이 그대로 나오는지, 한 글자 틀린 것과 두 글자 바뀐 것을 잡는지 본다.
        그리고 헷갈리는 글자를 친 것은 잘못이 아니라 손이 아는 대로 친 것이라 받아 준다. T234 */
+    /* **그날 기록으로 재면 자리가 다 작다.** 여덟 비트 자리에 한 자리 수가 들어간다.
+       그래서 자리마다 그 폭의 끝값을 넣어 지어낸 값으로도 잰다.
+
+       다만 이것으로 **폭이 규격과 같은지는 못 본다.** 기댓값을 코드 자신에게서
+       뽑기 때문이다. 폭을 8에서 4로 바꿔 보니 그대로 통과했다.
+       **코드가 자기를 채점하면 늘 백 점이다.** 폭은 `check_manual.py` 가
+       `docs/pair.md` 7.1 과 견준다. 여기서 보는 것은 코덱이 스스로 어긋나는가다. T235 */
     const pc = await pw.evaluate(() => {
-      const d = addDays(today(), -1);          // 일요일에는 그날 기록이 없다
-      const vals = pairValues(d);
-      const body = pcEncode(vals), code = body + pcSum(body);
-      const back = pairRead(code);
+      const wide = PC_FIELDS.map((f) => Math.pow(2, f[1]) - 1);   // 자리마다 최대
+      const mid = PC_FIELDS.map((f, i) => (i * 7 + 3) % Math.pow(2, f[1]));
+      function trip(vals) {
+        const b = pcEncode(vals), c = b + pcSum(b), r = pairRead(c);
+        return { code: c, ok: r.ok === true,
+                 got: r.ok ? PC_FIELDS.map((f) => r.v[f[0]]) : null };
+      }
+      const real = pairCode(), back = pairRead(real);
       let i = -1;
-      for (let k = 0; k + 1 < code.length - 1; k++)
-        if (code[k] !== code[k + 1]) { i = k; break; }
-      const swap = i < 0 ? code : code.slice(0, i) + code[i + 1] + code[i] + code.slice(i + 2);
-      const bad = code.slice(0, 2) + (code[2] === "0" ? "1" : "0") + code.slice(3);
-      return { code, len: code.length, vals, got: back.v, ok: back.ok,
-               swap: pairRead(swap).err || "", bad: pairRead(bad).err || "",
-               lower: pairRead(code.toLowerCase()).ok === true,
-               spaced: pairRead(code.slice(0, 5) + " " + code.slice(5)).ok === true };
+      for (let k = 0; k + 1 < real.length - 1; k++)
+        if (real[k] !== real[k + 1]) { i = k; break; }
+      const swap = i < 0 ? real : real.slice(0, i) + real[i + 1] + real[i] + real.slice(i + 2);
+      const one = real.slice(0, 2) + (real[2] === "0" ? "1" : "0") + real.slice(3);
+      return { real, realOk: back.ok === true, PC_LEN,
+               names: PC_FIELDS.map((f) => f[0]), w: PC_FIELDS.map((f) => f[1]),
+               wideWant: wide, midWant: mid,
+               vals: pairValues(), got: back.ok ? back.v : {},
+               wide: trip(wide), mid: trip(mid),
+               swap: pairRead(swap).err || "", bad: pairRead(one).err || "",
+               short: pairRead(real.slice(0, -1)).err || "",
+               long: pairRead(real + "7").err || "",
+               lower: pairRead(real.toLowerCase()).ok === true,
+               spaced: pairRead(real.slice(0, 5) + " " + real.slice(5)).ok === true };
     });
-    if (!pc.ok) bad.push("짝 코드를 다시 못 읽는다");
-    else {
-      const names = ["session", "status", "speak", "cards", "lre",
-                     "unres", "coll", "round", "same", "diff"];
-      names.forEach((k, i) => {
-        if (pc.got[k] !== pc.vals[i])
-          bad.push("짝 코드에서 " + k + " 가 " + pc.vals[i] + " → " + pc.got[k]);
+    if (!pc.realOk) bad.push("짝 코드를 다시 못 읽는다");
+    else pc.names.forEach((k, i) => {
+      if (pc.got[k] !== pc.vals[i])
+        bad.push("짝 코드에서 " + k + " 가 " + pc.vals[i] + " → " + pc.got[k]);
+    });
+    [["자리 끝값", pc.wide, pc.wideWant], ["섞은 값", pc.mid, pc.midWant]].forEach((x) => {
+      if (!x[1].ok) { bad.push("짝 코드 " + x[0] + "을 다시 못 읽는다"); return; }
+      x[2].forEach((want, i) => {
+        if (x[1].got[i] !== want)
+          bad.push("짝 코드 " + x[0] + " 에서 " + pc.names[i] + " 가 " +
+                   want + " → " + x[1].got[i] + " (폭 " + pc.w[i] + ")");
       });
-    }
-    if (pc.len > 20) bad.push("짝 코드가 " + pc.len + "글자다. 손으로 치기에 길다");
+    });
+    if (pc.real.length !== pc.PC_LEN)
+      bad.push("짝 코드가 " + pc.real.length + "글자다. " + pc.PC_LEN + "글자여야 한다");
+    if (pc.real.length > 20) bad.push("짝 코드가 손으로 치기에 길다");
     if (!pc.bad) bad.push("한 글자 잘못 친 것을 안 잡는다");
     if (!pc.swap) bad.push("두 글자 바꿔 친 것을 안 잡는다");
+    /* 길이가 틀린 것은 **길이로** 말해야 한다. 빠뜨린 자리를 다시 찾을 수 있게. */
+    if (pc.short.indexOf("글자다") < 0) bad.push("한 글자 뺀 것을 길이로 안 말한다: " + pc.short);
+    if (pc.long.indexOf("글자다") < 0) bad.push("한 글자 더 친 것을 길이로 안 말한다: " + pc.long);
     if (!pc.lower) bad.push("소문자로 친 것을 안 받는다");
     if (!pc.spaced) bad.push("띄어 친 것을 안 받는다");
+    /* **화면이 그 코덱을 실제로 쓰는지**는 따로 본다. 코덱만 맞고 화면이 안 부르면
+       사람에게는 아무것도 없는 것이다. 대장 탭을 열어 눈에 보이는 것을 읽는다. T235 */
+    const ps = await pw.evaluate(async () => {
+      go("ledger");
+      await new Promise((r) => setTimeout(r, 400));
+      const mineEl = document.getElementById("pairMine");
+      const inEl = document.getElementById("pairIn");
+      if (!mineEl || !inEl) return { miss: true };
+      const shown = mineEl.textContent.replace(/\s+/g, "");
+      function type(v) {
+        inEl.value = v; inEl.dispatchEvent(new Event("input"));
+        return document.getElementById("pairOut").innerText;
+      }
+      const same = type(pairCode());
+      const v = pairValues();
+      const hv = v.slice(); hv[0] = hv[0] + 1;               // done 이 다르다
+      const lt = v.slice(); lt[2] = (lt[2] + 9) % 256;       // 발화 분만 다르다
+      const mk = (a) => { const b = pcEncode(a); return b + pcSum(b); };
+      return { shown, code: pairCode(), same,
+               heavy: type(mk(hv)), light: type(mk(lt)),
+               half: type(pairCode().slice(0, -1)), empty: type("") };
+    });
+    if (ps.miss) bad.push("대장 탭에 짝 코드 자리가 없다");
+    else {
+      if (ps.shown !== ps.code) bad.push("화면에 뜬 코드가 다르다: " + ps.shown);
+      if (ps.same.indexOf("다 같다") < 0) bad.push("같은 코드를 같다고 안 한다");
+      if (ps.heavy.indexOf("진도가 갈렸다") < 0) bad.push("진도가 갈린 것을 안 짚는다");
+      if (ps.heavy.indexOf("끝낸 세션") < 0) bad.push("갈린 자리를 이름으로 안 적는다");
+      if (ps.light.indexOf("진도는 같다") < 0) bad.push("활동량만 다른 것을 진도 문제로 본다");
+      if (ps.half.indexOf("/ " + pc.PC_LEN) < 0) bad.push("덜 친 동안 글자 수를 안 센다");
+      if (ps.half.indexOf("잘못") >= 0) bad.push("치는 중에 틀렸다고 한다");
+      if (ps.empty.trim()) bad.push("빈 칸에 무엇인가 뜬다: " + ps.empty);
+      /* **읽기만 한다.** 상대 코드를 읽었다고 이 기기 기록이 바뀌면 안 된다. */
+      const after = await pw.evaluate(() => pairCode());
+      if (after !== ps.code) bad.push("상대 코드를 읽었더니 이 기기 기록이 바뀌었다");
+    }
     await ctxw.close();
     return bad;
   })();
@@ -2171,7 +2233,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
               "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
-              "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판");
+              "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
+              "짝 코드 코덱 10판 / 짝 코드 화면 9판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

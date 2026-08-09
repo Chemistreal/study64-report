@@ -28,11 +28,46 @@
 """
 import hashlib
 import pathlib
+import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 APP = ROOT / "app"
 OUT = ROOT.parent / "english.html"
+
+# 조각 안에서만 사는 것. 합칠 때 뗀다. **주석은 조각에 남고 파생물에서만 빠진다.**
+#
+# 왜 떼는가. `check_perf.js` 의 천장에 닿았다 (T235). 처음에 읽는 것이 390KB 고
+# 천장이 390 이다. 천장은 "기준선을 올려 검사를 끄는 길" 을 막으려고 둔 것이라
+# 닿으면 **줄이는 쪽을 만들어야 한다.** 앱의 29%가 주석이었다.
+#
+# 두 사람은 주석을 안 읽는다. 읽는 것은 나고 나는 `app/` 을 읽는다.
+# 그러니 파생물에서 빼도 잃는 것이 없다. 원본은 조각이다.
+#
+# **줄에 걸린 것만 뗀다.** 이유가 있다.
+#
+#     accept="audio/*,video/*"        HTML 속성 안에 /* 가 있다
+#     replace(/^[A-Z]\s*:\s*/,"")     정규식 리터럴 안에 */ 가 있다
+#
+# 아무 데서나 `/*` 를 찾으면 저것들을 문다. 줄 첫머리에서 열고 줄 끝에서 닫는 것만
+# 주석으로 본다. 그것이 이 저장소가 주석을 적는 꼴이고 저 둘은 그 꼴이 아니다.
+# 줄 끝에 붙은 짧은 주석은 안 뗀다. 뗄 값도 0.9KB 고 무는 위험만 는다.
+CUT_BLOCK = re.compile(r"^[ \t]*/\*(?:(?!\*/).)*?\*/[ \t]*\n", re.S | re.M)
+CUT_LINE = re.compile(r"^[ \t]*//.*\n", re.M)
+CUT_HTML = re.compile(r"^[ \t]*<!--(?:(?!-->).)*?-->[ \t]*\n", re.S | re.M)
+
+
+def strip_notes(text, name):
+    """조각 하나에서 줄에 걸린 주석을 뗀다. 줄 수는 안 지킨다.
+
+    `english.html` 의 줄 번호를 쓰는 자리가 없다. 검사는 조각을 보고
+    조각의 줄 번호로 말한다 (T235). 그래서 빈 줄로 채울 이유가 없다.
+    """
+    out = CUT_BLOCK.sub("", text)
+    out = CUT_HTML.sub("", out)
+    if name.endswith(".js"):
+        out = CUT_LINE.sub("", out)
+    return out
 
 
 def order():
@@ -111,22 +146,27 @@ def main():
         print("새로 만든 것이면 app/order.txt 에 넣는다. 자리가 곧 차례다.")
         return 1
 
-    parts = []
+    parts, slim = [], []
     for n in names:
         t = (APP / n).read_text(encoding="utf-8")
         # 조각마다 끝 줄바꿈을 하나 붙여 뒀다. 이을 때 그 하나를 뗀다.
         if t.endswith("\n"):
             t = t[:-1]
         parts.append(t)
-    body = "\n".join(parts) + "\n"
+        slim.append(strip_notes(t, n).rstrip("\n"))
+    body = "\n".join(slim) + "\n"
 
+    # 지도는 **조각의 줄 수**를 적는다. 파생물의 줄 수가 아니다.
+    # 500줄 문턱은 조각을 재는 것이라 뗀 뒤의 수를 적으면 문턱이 저절로 헐거워진다.
     write_map(rows, parts)
 
+    raw = len("\n".join(parts).encode()) + 1
     old = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
     OUT.write_text(body, encoding="utf-8")
     same = hashlib.sha256(old.encode()).hexdigest() == hashlib.sha256(body.encode()).hexdigest()
-    print("english.html / 조각 %d개 %d줄 %.0fKB%s"
-          % (len(names), body.count("\n"), len(body.encode()) / 1024,
+    kb = len(body.encode()) / 1024
+    print("english.html / 조각 %d개 %d줄 %.0fKB (주석 %.0fKB 를 뗐다)%s"
+          % (len(names), body.count("\n"), kb, raw / 1024 - kb,
              "" if same else "  (내용이 바뀌었다)"))
     return 0
 

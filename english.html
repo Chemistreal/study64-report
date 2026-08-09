@@ -7,19 +7,12 @@
 <title>eng2p 운영 콘솔</title>
 <meta name="description" content="2인 전용 영어 1년 과정 운영 도구. 세션 타이머, 진행 대장, 판정 큐, 분기 점검, 규격 검사, 회전 대장.">
 <style>
-/* ---------- 토큰 ---------- */
 :root{
   --bg:#f7f7fb; --bg2:#ffffff; --fg:#14141a; --mut:#55555f; --line:#e3e3ee;
   --card:rgba(255,255,255,.72); --card2:rgba(255,255,255,.5); --edge:rgba(20,20,40,.07);
   --a1:#4f46e5; --a2:#9333ea; --a3:#0e7490;
-  /* 글자에 쓰는 파랑. --a3 은 띠와 테두리 같은 꾸밈에 쓴다.
-     꾸밈은 흐려도 되지만 글자는 안 된다. check_contrast.js 가 그것을 가른다. */
   --a3t:#155e75;
-  /* 같은 규칙을 보라에도 둔다. `--a1` 은 흰 글자를 얹는 바탕으로도 쓰인다.
-     그래서 밝게 못 바꾼다. 글자로 쓰는 자리는 이 토큰을 쓴다. T223 */
   --a1t:#4f46e5;
-  /* 칸 바탕. T210 부터 `var(--sub)` 를 다섯 자리에 썼는데 **정의가 없었다.**
-     없는 토큰은 조용히 비어서 바탕이 없는 것으로 그려진다. T223 에 세면서 찾았다. */
   --sub:#eeeef6;
   --acc:#4f46e5; --warn:#c2185b; --ok:#0f766e;
   --glow:0 10px 40px rgba(79,70,229,.14);
@@ -27,12 +20,6 @@
   --mono:ui-monospace,SFMono-Regular,SF Mono,Menlo,monospace;
   --sans:-apple-system,BlinkMacSystemFont,Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
 }
-/* **글자 크기 세 단.** 마주 앉아 흘끗 보는 거리에서 읽혀야 한다.
-   그 거리는 사람마다 다르고 나이가 들면 더 다르다. 1년을 쓰는 물건이다.
-
-   그래서 화면의 글자 크기를 다 `rem` 으로 바꿨다. 이 한 줄이 그 기준이다.
-   16px 이 100% 다. 크게는 17.6px, 더 크게는 19.2px 이다.
-   px 로 적혀 있으면 이 줄을 바꿔도 아무것도 안 바뀐다. */
 html{font-size:16px}
 html[data-fs="1"]{font-size:17.6px}
 html[data-fs="2"]{font-size:19.2px}
@@ -44,7 +31,6 @@ body{
   font-size:0.9375rem; line-height:1.65; letter-spacing:-.011em;
   -webkit-font-smoothing:antialiased; word-break:keep-all; position:relative; min-height:100vh;
 }
-/* 배경 오로라 */
 .aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .aurora i{position:absolute;display:block;border-radius:50%;filter:blur(70px);opacity:.9}
 .aurora i:nth-child(1){width:58vw;height:58vw;left:-14vw;top:-18vw;background:var(--au1);animation:fl1 26s ease-in-out infinite alternate}
@@ -55,7 +41,6 @@ body{
 @keyframes fl3{to{transform:translate3d(7vw,-9vh,0) scale(1.2)}}
 .wrap{max-width:920px;margin:0 auto;padding:0 20px 110px;position:relative}
 
-/* ---------- 헤더 ---------- */
 header{position:sticky;top:0;z-index:30;backdrop-filter:blur(18px) saturate(150%);transition:transform .22s,opacity .22s;
   -webkit-backdrop-filter:blur(18px) saturate(150%);
   background:linear-gradient(180deg,var(--bg) 40%,transparent);border-bottom:1px solid var(--edge)}
@@ -81,24 +66,18 @@ nav button[aria-current="page"]{
 .navmore summary{list-style:none;display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid transparent;
   border-radius:99px;color:var(--mut);font-size:0.84375rem;cursor:pointer;white-space:nowrap;transition:.18s}
 .navmore summary::-webkit-details-marker{display:none}
-/* 화살표를 글자로 안 쓰고 선으로 그린다. 글꼴에 없으면 네모로 나오기 때문이다. T152 */
 .navmore summary::after{content:"";width:7px;height:7px;margin-top:-3px;
   border-right:2px solid currentColor;border-bottom:2px solid currentColor;
   transform:rotate(45deg);transition:transform .18s}
 .navmore[open] summary::after{transform:rotate(225deg);margin-top:2px}
 .navmore summary:hover,.navmore.active summary{color:var(--fg);background:var(--card2);border-color:var(--edge)}
 .navmore.active summary{box-shadow:0 0 0 2px rgba(99,102,241,.12)}
-/* **닫힌 메뉴는 자리를 안 차지한다.** `display:grid` 가 브라우저의 기본
-   숨김을 덮어서, 닫혀 있어도 메뉴가 그려지고 크기가 재졌다.
-   T164 에 대비를 잴 때 그 단추들이 섞여 들어와 값이 이상하게 나왔다.
-   눈에 안 보이는 것과 없는 것은 다르다. */
 .navmore:not([open]) .navmenu{display:none}
 .navmenu{position:absolute;right:0;top:calc(100% + 8px);z-index:45;width:min(310px,calc(100vw - 32px));padding:10px;
   display:grid;grid-template-columns:1fr 1fr;gap:6px;border:1px solid var(--edge);border-radius:14px;
   background:var(--bg2);box-shadow:0 18px 50px rgba(10,10,30,.22)}
 .navmenu button{text-align:left;border-radius:9px;width:100%;padding-inline:12px}
 .navmenu button[aria-current="page"]{background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff}
-/* ---------- 공통 ---------- */
 h2{font-size:clamp(24px,4.2vw,32px);font-weight:820;letter-spacing:-.035em;margin:40px 0 6px;line-height:1.15;
   background:linear-gradient(96deg,var(--fg),var(--a2) 130%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
@@ -119,12 +98,7 @@ section{animation:rise .32s cubic-bezier(.2,.7,.3,1)}
 .row.end{justify-content:flex-end}
 .grid{display:grid;gap:12px}
 .g2{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
-/* 148px 짜리 칸 셋이면 좁은 화면에서 넘친다. 글자를 키우면 더 그렇다.
-   **칸 수를 줄이는 것이 넘치는 것보다 낫다.** T178 */
 .g3{grid-template-columns:repeat(auto-fit,minmax(min(148px,100%),1fr))}
-/* **칸은 안의 것을 밀어내지 못한다.** 격자 칸의 기본 최소 너비가 내용 너비라
-   안에 든 것이 칸보다 넓으면 칸이 늘어나 옆으로 넘친다.
-   미끄럼대가 그렇다. 기본 너비가 있어서 148px 칸을 152px 로 밀었다. T178 */
 .grid>*{min-width:0}
 input[type=range]{width:100%;min-width:0}
 .mut{color:var(--mut)}
@@ -132,12 +106,6 @@ input[type=range]{width:100%;min-width:0}
 .small{font-size:0.78125rem;overflow-wrap:anywhere}
 hr{border:0;border-top:1px solid var(--edge);margin:28px 0}
 
-/* **주 단추 규격.** 한 화면에서 다음에 할 일을 가리키는 단추다.
-   책상에 놓고 흘끗 보고 누른다. 그 거리에서 보이고 눌려야 한다.
-
-   높이 48px, 글자 14px, 굵기 650. 셋 다 check_friction.js 가 지킨다.
-   전에는 44px 에 13.5px 이었다. 44는 손가락이 겨우 닿는 값이지
-   흘끗 보고 누르는 값이 아니다. */
 button.b{background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;border:0;font:inherit;
   font-size:0.875rem;font-weight:650;min-height:48px;padding:9px 18px;border-radius:10px;cursor:pointer;
   box-shadow:var(--glow);transition:.18s}
@@ -147,9 +115,6 @@ button.g{background:var(--card2);color:var(--fg);border:1px solid var(--edge);fo
 button.g:hover{border-color:var(--a1);color:var(--fg)}
 button.g.on{border-color:transparent;background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;font-weight:650}
 button:disabled{opacity:.38;cursor:not-allowed}
-/* 누를 자리 최소치. 손가락 하나가 44px 이다.
-   **주 단추는 그보다 크다.** 44는 겨우 닿는 값이지 흘끗 보고 누르는 값이 아니다.
-   이 줄이 `button.b` 보다 뒤에 있어서 48을 44로 되돌리고 있었다. 갈라 적는다. */
 button.g,.tbtn,nav button,.navmore summary,.stp button{min-height:44px}
 button.b,.bigtap{min-height:48px}
 :focus-visible{outline:3px solid var(--a3);outline-offset:3px}
@@ -183,11 +148,9 @@ tbody tr:hover td{background:var(--card2)}
 .note b{color:var(--fg)}
 .note.w b{color:var(--warn)}
 
-/* 역할 배지. 2인 전제를 화면 어디서나 보이게 한다. */
 .rb{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:700;
   padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
-/* 흰 글자를 얹는 바탕이라 밝게 못 간다. `--a3t` 는 글자용이라 여기 안 쓴다. T223 */
 .rb.b{background:linear-gradient(96deg,#155e75,#0369a1)}
 .cliproles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
 .roleunit{display:flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:12px;
@@ -202,7 +165,6 @@ tbody tr:hover td{background:var(--card2)}
 .duo>div{border:1px solid var(--edge);border-radius:12px;padding:12px;background:var(--card2)}
 .duo .who{font-size:0.8125rem;font-weight:700;margin-bottom:7px}
 .duo .what{font-size:0.9375rem;color:var(--mut);line-height:1.6}
-/* 이 기기가 어느 쪽인지. 두 사람이 각자 기기를 보는 자리라 자기 것이 커야 한다. */
 .duo>div{padding:11px 13px;border:1px solid var(--edge);border-radius:12px;background:var(--card)}
 .duo>div.mine{border-color:var(--a1);background:var(--card2);box-shadow:var(--glow)}
 .duo>div.mine .what{color:var(--fg);font-size:1.0625rem}
@@ -212,12 +174,9 @@ tbody tr:hover td{background:var(--card2)}
 .sidepick button{padding:7px 13px;border-radius:9px;border:1px solid var(--edge);
   background:var(--card);color:var(--fg);font-size:0.78125rem;font-weight:650;cursor:pointer}
 .sidepick button.on{border-color:var(--a1);background:var(--a1);color:#fff}
-/* 링 안의 세션 남은 시간. 블록 시간만 보면 두 시간 중 어디인지 모른다. */
 .tleft{font-size:0.875rem;color:var(--mut);margin-top:5px;font-family:var(--mono)}
-/* 기록 묶음. 세션 전에는 접어 둔다. 첫 화면은 오늘 할 것만 보여 준다. */
 .recgate{display:flex;gap:10px;align-items:center;justify-content:space-between;
   padding:13px 16px;border:1px dashed var(--edge);border-radius:12px;margin:14px 0}
-/* 이어서 하기. 끊긴 세션이 있으면 오늘 한 장 위에 뜬다. */
 .resume{display:flex;gap:12px;align-items:center;justify-content:space-between;
   padding:12px 15px;border:1px solid var(--a3);border-radius:12px;margin-top:12px;
   background:var(--card2)}
@@ -226,7 +185,6 @@ tbody tr:hover td{background:var(--card2)}
 @media(max-width:520px){.duo{grid-template-columns:1fr}}
 
 
-/* 고리 셋. 오늘과 이번 주와 1년. **글자 없이 한눈에 본다.** */
 .rings{display:flex;align-items:center;gap:13px;margin-top:8px}
 .rings svg{width:92px;height:92px;flex:none}
 .rings .rv{transition:stroke-dashoffset .5s ease}
@@ -236,7 +194,6 @@ tbody tr:hover td{background:var(--card2)}
 .rings .rlab i{width:9px;height:9px;border-radius:99px;flex:none}
 @media (prefers-reduced-motion:reduce){ .rings .rv{transition:none} }
 
-/* 오늘 칸에서 그 재료로 가는 자리. **누를 수 있다는 것이 보여야 한다.** */
 .todaysheet .gto{position:relative;display:block;width:100%;text-align:left;font:inherit;
   cursor:pointer;border:1px solid var(--edge);background:var(--card2);color:var(--fg);
   border-radius:12px;padding:9px 30px 9px 12px;transition:.15s}
@@ -244,17 +201,14 @@ tbody tr:hover td{background:var(--card2)}
 .todaysheet .gto .gmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);
   color:var(--mut);font-size:0.9375rem}
 .todaysheet .gto:hover .gmark{color:var(--a1t)}
-/* 누를 자리는 44px 아래로 안 내려간다. 손가락 하나가 그만큼이다. */
 .todaysheet .gto{min-height:44px}
 .todaysheet .lec.gto{font-size:1.1875rem;font-weight:750;margin-bottom:2px;padding-top:11px;padding-bottom:11px}
-/* 미리 보기 띠. 시계가 안 돈다는 것을 그 자리에서 말한다. */
 .peekbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:0.8125rem;
   color:var(--mut);background:var(--card2);border:1px solid var(--edge);
   border-radius:11px;padding:8px 11px;margin-bottom:10px}
 .peekbar b{color:var(--fg)}
 .peekbar button{margin-left:auto}
 
-/* 강의 본문. **읽으라고 만든 글이다.** 줄 간격과 폭을 읽기에 맞춘다. */
 .lecbody{font-size:0.9375rem;line-height:1.72;max-width:44em}
 .lecbody h4{margin:20px 0 8px;font-size:1rem;color:var(--a1t)}
 .lecbody h4:first-child{margin-top:2px}
@@ -264,13 +218,10 @@ tbody tr:hover td{background:var(--card2)}
 .lecbody .lectab{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:0.875rem}
 .lecbody .lectab th,.lecbody .lectab td{border:1px solid var(--line);padding:6px 9px;text-align:left}
 .lecbody .lectab th{background:var(--card2);font-weight:650}
-/* ---------- 타이머 ---------- */
 .timer{text-align:center;padding:12px 0 4px;position:relative}
 .ringwrap{position:relative;width:min(300px,72vw);margin:0 auto}
 .ringwrap svg{display:block;width:100%;height:auto;transform:rotate(-90deg)}
 .ringwrap .inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-/* 세션 화면은 손에 안 들려 있다. 책상에 놓고 말하면서 흘끗 본다.
-   멀리서 읽히는 크기가 아니면 두 사람이 화면을 집어 든다. 그러면 대화가 끊긴다. */
 .tblock{font-size:0.9375rem;color:var(--fg);letter-spacing:.06em;font-weight:700}
 .tbig{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:clamp(38px,12vw,58px);
   line-height:1;letter-spacing:-.05em;margin:6px 0 2px;font-weight:600}
@@ -279,7 +230,6 @@ tbody tr:hover td{background:var(--card2)}
 .bar i{position:absolute;left:0;top:0;height:100%;border-radius:99px;
   background:linear-gradient(90deg,var(--a1),var(--a2),var(--a3));transition:width .3s linear}
 .steps{display:flex;gap:3px;margin-top:16px}
-/* 세션 중 누를 것. 말하다가 손이 나가는 자리라 정확히 못 누른다. */
 body.session-focus .g{padding:14px 18px;font-size:0.9375rem;min-height:48px}
 body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-height:44px}
 .steps div{flex:var(--w,1);height:4px;background:var(--edge);border-radius:99px;transition:.3s}
@@ -289,10 +239,8 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .slab{display:flex;justify-content:space-between;font-size:0.6875rem;color:var(--mut);margin-top:7px}
 #sessionCard{position:relative;transition:opacity .25s,transform .25s,box-shadow .25s}
 .sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:4px}
-/* 진도 줄은 버튼 옆 좁은 칸에서 두 줄로 접혔다. 한 줄로 빼면 흘끗 보고 읽힌다. */
 .sessionhead .sessionprogress{display:none}
 .progline{font-size:0.78125rem;color:var(--mut);margin:2px 0 10px}
-/* 오늘 못 하는 날. 첫 화면에서 한 번에 간다. 찾게 하면 그날은 그냥 쉰다. */
 .emgline{margin-top:12px;text-align:center}
 .emgline button{background:none;border:none;color:var(--mut);font-size:0.78125rem;
   text-decoration:underline;cursor:pointer;padding:8px 10px}
@@ -304,15 +252,12 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .emgbox p{margin:9px 0 0;font-size:0.90625rem;line-height:1.65}
 .emgbox .ch{margin-top:11px;padding:11px 13px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:0.9375rem;line-height:1.8}
-/* 블록마다 쓰는 것. 세션 중에 이것을 찾으러 가면 그 블록이 무너진다. */
 .blockpane{margin-top:16px;padding:14px 16px;border:1px solid var(--edge);border-radius:12px;
   background:var(--card);text-align:left}
-/* 타이머 칸이 가운데 정렬이라 목록이 가운데로 붙었다. 읽는 글은 왼쪽에서 시작해야 한다. */
 .blockpane .k,.blockpane .v{text-align:center}
 .blockpane .k{font-size:0.71875rem;color:var(--mut);letter-spacing:.06em}
 .blockpane .v{font-size:1.1875rem;font-weight:750;font-family:var(--mono);margin-top:3px}
 .blockpane .n{font-size:0.84375rem;color:var(--mut);margin-top:7px;line-height:1.6}
-/* 세트 뷰어. 네 단계를 순서대로 편다. 지금 단계가 굵고 나머지는 흐리다. */
 .setstep{margin-top:12px;padding:12px 14px;border:1px solid var(--edge);border-radius:11px;
   background:var(--card2)}
 .setstep.now{border-color:var(--a1);background:var(--card)}
@@ -323,7 +268,6 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .setstep .hid{font-size:0.84375rem;color:var(--mut);font-style:italic}
 .setstep .blank{display:block;margin-top:6px;padding:9px 11px;border:1px dashed var(--edge);
   border-radius:8px;font-size:0.84375rem;color:var(--mut)}
-/* 카드 뷰어. 한 장씩 본다. 여러 장을 한 화면에 놓으면 다음 것이 눈에 들어온다. */
 .cardview{margin-top:13px;padding:15px 17px;border:1px solid var(--a1);border-radius:13px;
   background:var(--card2)}
 .cardview .top{display:flex;justify-content:space-between;align-items:center;gap:10px;
@@ -340,7 +284,6 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .cardnav button:hover{border-color:var(--a1)}
 .cardnav button.on{border-color:var(--a1);background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff}
 .cardwarn{margin-top:9px;font-size:0.8125rem;color:var(--warn)}
-/* 근거. 카드 문장이 실제 녹음의 어디에 있는지. 눌러서 그 자리로 간다. */
 .ground{margin-top:11px;border-top:1px dashed var(--edge);padding-top:9px;text-align:left}
 .ground .gh{font-size:0.71875rem;color:var(--mut);letter-spacing:.02em}
 .ground .grow{display:flex;gap:8px;align-items:center;margin-top:5px}
@@ -348,11 +291,9 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .ground .gat{flex:none;font-family:var(--mono);font-size:0.71875rem;padding:3px 8px;
   border:1px solid var(--edge);border-radius:7px;background:var(--card);color:var(--a3t);cursor:pointer}
 .ground .gat:hover{border-color:var(--a1)}
-/* 세션 안 재생기. 블록 1은 40분, 블록 4는 20분을 이 자리에서 듣는다. */
 .sessplay{margin-top:12px;min-height:54px}
 .sessplay audio{width:100%;display:block}
 .sessplay video{width:100%;max-height:min(46vh,360px);display:block;background:#000;border-radius:11px}
-/* 대본 동기. 목록만 굴린다. 페이지를 굴리면 재생기가 화면 밖으로 나간다. */
 .syncnote{margin-top:11px;font-size:0.78125rem;color:var(--mut);line-height:1.6;text-align:left}
 .syncscript{margin-top:8px;max-height:min(42vh,320px);overflow-y:auto;
   border:1px solid var(--edge);border-radius:11px;background:var(--card)}
@@ -367,25 +308,20 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .syncscript .scline.cur .scl{font-weight:700}
 .syncscript .scline.cur .sct{color:var(--a3t)}
 .syncscript .scline .scl{flex:1}
-/* 자리 잡기. 잡은 줄은 물결표가 사라지고 시각이 진해진다. */
 .syncscript .scline .sca{flex:none;font-size:0.71875rem;color:var(--mut);padding:2px 8px;
   border:1px solid var(--edge);border-radius:7px;align-self:flex-start}
 .syncscript .scline .sca:hover{border-color:var(--a1);color:var(--fg)}
 .syncscript .scline.fixed .sct{color:var(--ok);font-weight:700}
 .syncscript .scline.fixed .sca{border-color:var(--ok);color:var(--ok)}
 .syncscript .scline.loop{box-shadow:inset 3px 0 0 var(--a3)}
-/* 가리기. 글자는 자리에 그대로 두고 화면에서만 지운다.
-   지울 때마다 칸을 다시 그리면 재생기가 죽는다. T125 규칙이다. */
 .syncscript.veil1 .scl,.syncscript.veil2 .scl{font-size:0}
 .syncscript.veil1 .scl::after,.syncscript.veil2 .scl::after{
   content:attr(data-mask);font-size:0.8125rem;color:var(--mut);font-style:italic}
 .syncscript .scline.loop .scl::after{content:" \21BA";color:var(--a3)}
-/* 마무리. 다음 날 무엇을 하는지가 여기 있어야 내일 앉자마자 시작한다. */
 .nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:0.84375rem;line-height:1.65;text-align:left}
 .nextday b{font-size:0.9375rem}
 .nextday .m{color:var(--mut)}
-/* 블록 6 기록. 그날 값을 통과 기준 옆에 놓는다. 따로 놓으면 대조를 안 한다. */
 .critrow{display:grid;grid-template-columns:1fr 90px 74px;gap:9px;align-items:center;
   padding:10px 0;border-bottom:1px solid var(--edge)}
 .critrow:last-child{border-bottom:none}
@@ -398,7 +334,6 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .critrow .v.hand{color:var(--mut)}
 .sessionrole{font-size:1.3125rem;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
 .sessionprogress{font-size:0.75rem;color:var(--mut)}
-/* 오늘 한 장. 책상에 놓고 흘끗 보는 자리라 멀리서 읽혀야 한다. */
 .todaysheet{margin:14px 0 0;padding:16px 18px;border:1px solid var(--edge);border-radius:14px;
   background:var(--card2)}
 .todaysheet .lec{font-size:1.625rem;font-weight:800;letter-spacing:-.03em;line-height:1.2}
@@ -410,9 +345,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .todaysheet .g .k{font-size:0.6875rem;color:var(--mut)}
 .todaysheet .g .v{font-size:1.0625rem;font-weight:730;font-family:var(--mono);
   font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap}
-/* 값이 접히면 흘끗 보고 못 읽는다. 칸을 값에 맞춘다. */
 .todaysheet .grid{grid-template-columns:repeat(auto-fit,minmax(132px,1fr))}
-/* 48주 띠. 한 줄로 1년이 다 보인다. */
 .weekband{display:flex;gap:2px;margin-top:13px}
 .weekband i{flex:1;height:7px;border-radius:2px;background:var(--edge)}
 .weekband i.done{background:var(--a1)}
@@ -431,28 +364,15 @@ body.session-focus #tOne{display:none}
   z-index:55;width:min(680px,calc(100% - 24px));padding:10px;border:1px solid var(--edge);border-radius:16px;
   background:var(--bg2);box-shadow:0 16px 48px rgba(10,10,30,.28);align-items:center;gap:8px}
 body.session-focus .focusdock{display:flex}
-/* 조작줄이 화면 아래에 떠 있다. 그만큼 자리를 비워야 진행 띠가 안 덮인다. */
 body.session-focus .wrap{padding-bottom:110px}
-/* 세션 전에는 오늘 한 장이 주인공이고 세션 중에는 블록 칸이 주인공이다.
-   시작한 뒤에도 오늘 한 장과 비상판 줄이 떠 있어서 세션 카드가 2100px 였다.
-   블록 칸이 화면 밖으로 밀리는데 그것이 세션 중에 제일 많이 보는 칸이다.
-   시작했으면 오늘 상대가 없다는 줄도 안 맞는다. T122 에서 찍어 보고 알았다. */
 body.session-focus .todaysheet,
 body.session-focus #emgLine,
 body.session-focus #emgBox,
 body.session-focus #resumeBox,
 body.session-focus .progline{display:none}
-/* 같은 버튼이 두 자리에 있다. 조작줄의 일시정지는 #tStart 를 누르고
-   다음 블록은 #tSkip 을 누른다. 코드가 그렇게 적혀 있다.
-   휴대폰 너비에서 카드 안 줄이 두 줄로 접혀 65px 을 먹는데
-   그 65px 이 사는 일이 없다. 조작줄이 늘 떠 있기 때문이다.
-   세션 중에만 감춘다. 감춰도 눌리는 데는 지장이 없다. T123 */
 body.session-focus #tStart,
 body.session-focus #tSkip{display:none}
 .focusdock .fstate{min-width:104px;flex:1;padding:0 6px}
-/* 단추가 다섯이다. 좁은 화면에서 글자를 줄이지 말고 여백을 줄인다.
-   **셈이 안 맞으면 마지막 단추가 밖으로 나간다.** T182 에 374/364 로 걸렸다.
-   글자를 줄이는 것이 아니라 여백을 줄이고 눌리는 높이는 지킨다. */
 @media (max-width:430px){ .focusdock{gap:4px;padding:9px 7px}
   .focusdock button{padding:11px 7px;min-width:0;flex:1}
   .focusdock .fstate{display:none} }
@@ -486,13 +406,8 @@ body.session-focus #tSkip{display:none}
 }
 
 
-/* **안 시작한 세션의 시계는 접는다.**
-   T159 에 오늘 화면 4231px 중 1724px 이 시계 묶음과 조작줄이었다. 41%다.
-   그것은 세션이 돌 때만 쓴다. 시작 전에는 큰 단추 하나만 있으면 된다.
-   중간에 멈춘 상태면 접지 않는다. 그때는 어디서 멈췄는지가 제일 중요하다. */
 body.session-idle #sessionCard .timer,
 body.session-idle #sessionCard .sessctl{display:none}
-/* 미리 보기에서는 블록 칸만 편다. 시계와 조작줄은 계속 접혀 있다. */
 body.peek #sessionCard .timer{display:block}
 body.peek #sessionCard .ringwrap,
 body.peek #sessionCard .bar,
@@ -500,23 +415,12 @@ body.peek #sessionCard .steps,
 body.peek #sessionCard .slab,
 body.peek #sessionCard .sessctl{display:none}
 
-/* 비워 둔 자리. 공동 연속일과 오늘의 한 판이 여기 들어온다. */
 .slots{display:grid;gap:8px;margin-top:12px}
 
-/* **세션 중에는 고리를 접는다.** 시계 링이 같은 것을 이미 말한다.
-   T122 규칙이 껍데기 높이를 재는데 겹치는 그림이 그 자리를 먹으면
-   블록 칸이 화면 밖으로 밀린다. 세션 중에 제일 많이 보는 칸이 그것이다. */
 body.session-focus .rings{display:none}
 
-/* **오늘 화면에서 제일 큰 단추는 세션 시작이어야 한다.**
-   T172 에 재 보니 오늘 칸의 세트 단추(270x68)가 세션 시작(308x55)보다 컸다.
-   눈이 큰 것을 먼저 본다. 그러면 앉자마자 세트를 누른다.
-   그 자리에서 할 일은 세션을 시작하는 것이다. */
 .sessionstart{min-height:62px;font-size:1.0625rem}
 
-/* 블록이 넘어가는 방향. **몸이 아는 방향으로 민다.**
-   앞으로 가면 오른쪽에서 들어오고 되돌아가면 왼쪽에서 들어온다.
-   손가락으로 미는 방향과 같다. 왼쪽으로 밀면 다음이 오른쪽에서 온다. */
 @keyframes slideNext{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
 @keyframes slidePrev{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
 .blockpane.slide-next{animation:slideNext .22s ease-out}
@@ -525,12 +429,6 @@ body.session-focus .rings{display:none}
   .blockpane.slide-next,.blockpane.slide-prev{animation:none}
 }
 
-/* 조준표를 그 자리에 편다. **40분 동안 이 한 줄을 본다.**
-   T208 진단에서 나왔다. 화면이 종이를 가리키기만 하고 있었다.
-
-   `.blockpane .v` 는 고정폭에 큰 글자다. 자료 이름과 카드 번호를 그리는 자리라 그렇다.
-   여기는 한국어 문장이 온다. 고정폭 19px 로 그리면 두 줄이 세 줄이 되고
-   칸이 밀린다. 그래서 이 자리만 보통 글꼴로 되돌린다. */
 .blockpane .aim{margin:10px 0;padding:11px 12px;border-radius:12px;
   background:var(--sub);border:1px solid var(--line)}
 .blockpane .aim .v.big{font-family:inherit;font-size:1rem;font-weight:700;
@@ -538,8 +436,6 @@ body.session-focus .rings{display:none}
 .blockpane .aim .k{margin-top:9px}
 .blockpane .aim .k:first-child{margin-top:0}
 
-/* 적는 칸. **손을 멈추지 않고 남긴다.**
-   블록 1은 각자 적고 블록 4는 둘 것을 펴고 겹친 수를 센다. T211 */
 .blockpane .aimw{display:block;margin-top:8px;text-align:left}
 .blockpane .aimw span{display:block;font-size:0.71875rem;color:var(--mut);
   letter-spacing:.06em;margin-bottom:4px}
@@ -554,88 +450,46 @@ body.session-focus .rings{display:none}
   border:1px solid var(--line);border-radius:9px;background:var(--bg);
   color:var(--fg);font:inherit}
 
-/* 카드 제한시간 시계. **세면서 말하면 세는 쪽이 심판이 된다.** T215 */
 .blockpane .ckrow{display:flex;align-items:center;gap:10px;margin:9px 0;
   padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--sub)}
 .blockpane .ckrow .ckn{font-family:var(--mono);font-size:1.25rem;font-weight:750;
   min-width:74px}
 .blockpane .ckrow button{min-height:44px}
 
-/* 블록 3이 남기는 것. **이 블록이 남기는 것을 이 블록에서 받는다.** T216 */
 .blockpane .drec{margin:9px 0;padding:9px 10px;border:1px solid var(--line);
   border-radius:10px;background:var(--sub)}
 .blockpane .drec input[readonly]{background:var(--sub);color:var(--mut)}
 
-/* 블록 4의 두 자리. **자료 길이가 그 숫자를 이미 갖고 있다.** T218 */
 .blockpane .phase{margin-bottom:9px;padding:8px 10px;border-radius:9px;
   background:var(--sub);border:1px solid var(--line);font-weight:700}
 .blockpane .phase.chk{border-color:var(--a1)}
 .blockpane .phase .n{display:block;margin-top:3px;font-weight:400}
 
-/* =========================================================================
-   시계가 다섯이 됐다. **지금 세는 것 하나만 크다.**
-
-   블록 남은 시간, 세션 남은 시간, 블록 2 단계 남은 분, 블록 3 구간 남은 분,
-   블록 4 자리 남은 분, 그리고 T215 에 넣은 카드 제한시간이다.
-   로드맵 12.12 가 "셋이다. 하나만 크게" 라고 적어 뒀는데 그 사이에 둘이 늘었다.
-
-   평소에는 블록 시계가 크다. **카드 시계가 도는 3초 동안은 그것이 크다.**
-   3초를 재는 중에 30분 남은 것은 안 중요하다. T222
-   ========================================================================= */
 body.card-clock .tbig{font-size:clamp(22px,7vw,32px);color:var(--mut)}
 body.card-clock .blockpane .ckrow{border-color:var(--a1);background:var(--bg)}
 body.card-clock .blockpane .ckrow .ckn{font-size:clamp(30px,10vw,44px);
   font-variant-numeric:tabular-nums}
-/* 도는 동안에는 다른 남은 분들을 흐린다. 없애지는 않는다. */
 body.card-clock .blockpane .setstep h5,
 body.card-clock .blockpane .phase{opacity:.55}
 
-/* =========================================================================
-   세션 중에만 짙게. **테마가 아니라 그 화면의 색이다.**
-
-   12.4 에 다크모드를 없앤 이유가 넷이다. 그중 셋은 여기 안 걸린다.
-
-     색이 두 벌이라 두 번 확인한다   → 세션 화면 넷은 `check_contrast.js` 가 이미 본다
-     인쇄가 깨진다                   → 세션 중 화면은 인쇄 대상이 아니다
-     접근성 판정이 두 벌이 된다      → 위와 같다. 검사가 한 번에 돈다
-
-   넷째만 남는다. **두 기기가 서로 다른 판을 들고 있으면 같은 화면을 못 가리킨다.**
-   그런데 세션 중에는 **둘 다 세션 중이다.** 한쪽만 짙어지는 일이 없다.
-
-   짙게 하는 이유는 하나다. 두 시간 동안 화면을 켜 두고 서로를 본다.
-   흰 화면이 두 사람 사이에 있으면 그 밝기가 계속 눈에 들어온다. T223
-   ========================================================================= */
 body.session-focus{
   --bg:#141420; --bg2:#1b1b2a; --fg:#f2f2f7; --mut:#a8a8b8; --line:#2e2e42;
   --card:rgba(32,32,50,.72); --card2:rgba(32,32,50,.5); --edge:rgba(0,0,0,.35);
-  /* **강조색은 안 바꾼다.** 그 색들은 흰 글자를 얹는 바탕으로도 쓰인다.
-     밝게 바꾸면 그 위의 흰 글자가 안 읽힌다. `check_contrast.js` 가 넷을 잡았다.
-     글자로 쓰는 자리만 밝게 둔다. `--a3t` 가 그 자리다. */
   --a3t:#67e8f9; --a1t:#a5a0ff; --sub:#20202e;
   --warn:#f472b6; --ok:#2dd4bf;
   --glow:0 10px 40px rgba(0,0,0,.45);
   --au1:rgba(99,102,241,.16); --au2:rgba(168,85,247,.12); --au3:rgba(34,211,238,.10);
   background:var(--bg); color:var(--fg);
 }
-/* 머리띠 이름은 그림물감을 글자에 부어 쓴다. 그 물감이 짙은 판에서 안 읽힌다.
-   세션 중에는 머리띠가 위로 접혀 안 보이지만 **글자는 거기 있다.**
-   보이지 않는 글자도 화면에 있는 글자다. `check_contrast.js` 가 그것을 잡았다.
-
-   짙은 판에서는 물감을 안 붓는다. 한 색으로 적는다.
-   그라디언트를 짙은 판에 맞춰 다시 고르면 색이 또 한 벌 는다.
-   **12.4 가 없앤 것이 색 두 벌이다.** 여기서 다시 늘리지 않는다. */
 body.session-focus .brand{background:none;color:var(--fg);-webkit-text-fill-color:var(--fg)}
 
-/* 적는 칸과 셈 칸은 바탕이 따로 있다. 짙은 판에서 흰 칸이 남으면 그것만 튄다. */
 body.session-focus .blockpane .aimw textarea,
 body.session-focus .blockpane .cntrow input,
 body.session-focus .blockpane .drec input{background:var(--bg2);color:var(--fg)}
 
-/* 세션 중에 미해결 LRE 를 그 자리에서 남긴다. T224 */
 .blockpane .unresbox{margin-top:9px}
 .blockpane .unresbox button{margin-top:7px;min-height:44px;width:100%}
 
-/* 주간 점검. 앱이 센 숫자를 한 줄에 편다. T226 */
 .wcnum{display:flex;flex-wrap:wrap;gap:8px;margin:9px 0}
 .wcnum span{padding:5px 10px;border:1px solid var(--line);border-radius:8px;
   background:var(--sub);font-family:var(--mono);font-size:0.8125rem}
@@ -646,14 +500,12 @@ body.session-focus .blockpane .drec input{background:var(--bg2);color:var(--fg)}
 #weekCheck .aimw span{display:block;font-size:0.71875rem;color:var(--mut);
   letter-spacing:.06em;margin-bottom:4px}
 
-/* 비상판 15분 시계. 두 토막이고 혼자 한다. T227 */
 .emgclock{display:flex;align-items:center;gap:10px;margin:10px 0;padding:9px 11px;
   border:1px solid var(--line);border-radius:10px;background:var(--sub)}
 .emgclock .ecn{font-family:var(--mono);font-size:1.5rem;font-weight:750;
   font-variant-numeric:tabular-nums;min-width:88px}
 .emgclock .ecw{font-size:0.8125rem;color:var(--mut);flex:1}
 .emgclock button{min-height:44px}
-/* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
 svg .tgt{stroke:var(--mut);stroke-width:1.2;stroke-dasharray:4 4;fill:none;opacity:.7}
@@ -661,7 +513,6 @@ svg .plan{stroke:var(--a3);stroke-width:1.2;stroke-dasharray:1 4;fill:none}
 svg .act{stroke:url(#actg);stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
 svg text{fill:var(--mut);font-size:0.625rem;font-family:var(--mono)}
 
-/* ---------- 규칙 카드 ---------- */
 .wallcard{border:1px solid var(--edge);border-radius:18px;padding:24px;background:var(--card);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--glow)}
 .wallcard h4{margin:0 0 2px;font-size:0.9375rem;font-weight:750}
@@ -682,7 +533,6 @@ svg text{fill:var(--mut);font-size:0.625rem;font-family:var(--mono)}
 
 footer{border-top:1px solid var(--edge);margin-top:60px;padding:20px 0;color:var(--mut);font-size:0.75rem}
 
-/* 스테퍼 */
 .stp{display:flex;gap:6px;align-items:stretch}
 .stp input{text-align:center}
 .stp button{flex:none;width:42px;background:var(--card2);border:1px solid var(--edge);color:var(--fg);
@@ -695,7 +545,6 @@ footer{border-top:1px solid var(--edge);margin-top:60px;padding:20px 0;color:var
 .bigtap.alt{background:var(--card2);color:var(--fg);border:1px solid var(--edge);box-shadow:none}
 .bigtap.alt:hover{border-color:var(--a1)}
 
-/* 복습 */
 .revcard{border:1px solid var(--edge);border-radius:18px;padding:30px 22px;text-align:center;
   background:linear-gradient(155deg,var(--card),var(--card2));backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);box-shadow:var(--glow)}
@@ -714,7 +563,6 @@ footer{border-top:1px solid var(--edge);margin-top:60px;padding:20px 0;color:var
 kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);border-radius:5px;
   padding:2px 6px;color:var(--fg);background:var(--card2)}
 
-/* 클립 */
 .drop{border:2px dashed var(--edge);border-radius:16px;padding:34px 18px;text-align:center;
   background:var(--card2);transition:.2s;cursor:pointer}
 .drop:hover,.drop.over{border-color:var(--a1);background:var(--card);box-shadow:var(--glow)}
@@ -735,7 +583,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 #mediaHost video{width:100%;max-height:230px;border-radius:12px;background:#000;display:block}
 #mediaHost audio{width:100%;display:block}
 
-/* 미디어 라이브러리 */
 .libstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
 .libstat{border:1px solid var(--edge);border-radius:14px;padding:14px;background:var(--card2)}
 .libstat b{display:block;font-family:var(--mono);font-size:1.4375rem;line-height:1.2}
@@ -751,10 +598,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .mitem h4{font-size:1rem;line-height:1.4;margin:7px 0 8px;overflow-wrap:anywhere}
 .mitem .mnum{font-family:var(--mono);font-size:0.6875rem;color:var(--mut);letter-spacing:.04em}
 .mitem .macts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-/* **`font:inherit` 는 굵기까지 지운다.** 이 줄이 뒤에 와서
-   `button.b` 의 굵기 650 을 400 으로 되돌리고 있었다. 미디어 탭의 주 행동인
-   "음성 듣기" 가 그래서 옆 단추와 똑같아 보였다. T172 에 재다가 나왔다.
-   주 단추는 여기서 다시 세운다. */
 .mitem .macts button,.mitem .macts a,.mitem .macts summary{font:inherit;font-size:0.71875rem;padding:7px 10px;border-radius:8px;min-height:44px}
 .mitem .macts button.b{font-size:0.8125rem;font-weight:650;min-height:48px;padding-inline:14px}
 .mitem .macts a{color:var(--acc);border:1px solid var(--edge);text-decoration:none;background:var(--card2)}
@@ -782,7 +625,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   .libstats{grid-template-columns:1fr}.libstat{display:flex;align-items:center;gap:10px}.libstat b{font-size:1.1875rem}
 }
 
-/* 자료 카드 */
 .src{border:1px solid var(--edge);border-radius:14px;padding:16px;background:var(--card2);min-width:0;overflow-wrap:anywhere;
   margin:10px 0;transition:.2s}
 .src:hover{border-color:var(--a1);box-shadow:var(--glow)}
@@ -795,13 +637,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
 @media print{
-  /* 종이와 같이 쓰는 물건이다. 인쇄가 되는 것이 부속 기능이 아니다.
-     화면 색을 그대로 찍으면 잉크를 먹고 글씨가 안 읽힌다.
-     그래서 인쇄에서는 색 토큰을 순백과 순흑으로 되돌린다. */
-  /* **세션 중 짙은 판도 여기서 되돌린다.** T223 에 그 판을 만들었는데
-     인쇄는 그 판을 안 따라간다. 12.4 가 다크모드를 없앤 이유 둘째가 이것이었다.
-     `body.session-focus` 가 `:root` 보다 뒤에 오므로 그 자리에도 같이 적는다.
-     안 적으면 세션 중에 인쇄를 눌렀을 때 검은 종이가 나온다. */
   :root, body.session-focus{
     --bg:#fff; --bg2:#fff; --fg:#000; --mut:#444; --line:#bbb;
     --card:#fff; --card2:#fff; --edge:#999; --sub:#fff;
@@ -811,29 +646,20 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   body.session-focus .brand{color:#000;-webkit-text-fill-color:#000}
   header,nav,footer,.noprint,.aurora,.focusdock,.sessiondone,
   #onboard,.sidepick,.recgate,.resume,.bigtap,.stp button{display:none!important}
-  /* **시계와 링은 종이에서 뺀다. 블록 칸은 남긴다.**
-     전에는 `.timer` 를 통째로 숨겼는데 그 안에 블록 칸이 들어 있다.
-     그래서 세션 중에 인쇄하면 날짜와 이름표만 찍혔다. 빈 종이가 나온다.
-     블록 칸이 오늘 쓰는 카드와 진행표가 있는 자리다. T148 */
   .ringwrap,.bar,.steps,.slab,.tleft,.sessplay,.syncscript{display:none!important}
-  /* 세션 중이어도 종이에는 다 찍는다. 화면에서 숨긴 것은 화면이 좁아서였다. */
   body.session-focus #t-today>*,
   body.session-focus .todaysheet,
   body.session-focus #emgLine,
   body.session-focus #emgBox,
   body.session-focus #resumeBox,
   body.session-focus .progline{display:revert!important}
-  /* 근거 인용은 종이에서도 쓴다. 어느 과를 들으면 되는지가 거기 있다. */
   .ground .gat{display:inline!important;border:0;padding:0;color:#000;font-weight:700}
-  /* 종이 위의 버튼은 누를 수 없다. 자리만 먹는다. */
   button{display:none!important}
-  /* 빈 입력 칸은 손으로 적는 자리이므로 남긴다. 테두리만 남기고 배경을 없앤다. */
   input,textarea,select{background:#fff;color:#000;border:1px solid #999}
   body{font-size:0.75rem;background:#fff;color:#000}
   .wrap{padding:0;max-width:none}
   .card,.wallcard{background:#fff;box-shadow:none;backdrop-filter:none;border-color:#999}
   section[hidden]{display:none}
-  /* 오늘 한 장은 종이에서 제일 큰 것이 강 제목이어야 한다. */
   .todaysheet{border:1.5px solid #000;background:#fff;padding:14px 16px}
   .todaysheet .lec{font-size:1.375rem}
   .todaysheet .lec b{color:#000}
@@ -844,17 +670,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   a[href]:after{content:""}
 }
 
-/* =========================================================================
-   한 손 조작. **손전화에서는 탭을 아래로 내린다.**
-
-   T171 에 재 보니 탭 여섯이 다 화면 위쪽 64px 에 있었다.
-   844px 짜리 화면에서 엄지가 닿는 자리는 아래 3분의 2다.
-   두 사람이 마주 앉아 한 손으로 들고 쓰는 물건인데 제일 자주 누르는 것이
-   제일 안 닿는 자리에 있었다.
-
-   **이 묶음은 마지막 style 조각에 둔다.** 03_timer.css 에 620px 짜리
-   자리 규칙이 이미 있어서 앞에 두면 그것에 덮인다. T171 에 그렇게 해 보고 알았다.
-   ========================================================================= */
 @media (max-width:560px){
   header{position:static;backdrop-filter:none}
   .hd{padding:12px 16px 0}
@@ -865,24 +680,15 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
       justify-content:space-between;gap:2px}
   nav>button,.navmore summary{flex:1;min-width:0;padding:11px 4px;font-size:0.75rem;
       min-height:46px;justify-content:center}
-  /* **띠를 기준으로 잡게 하려면 이 자리가 기준이 되면 안 된다.**
-     `.navmore` 가 relative 라 메뉴가 그 좁은 폭 안에 갇혔다. */
   nav .navmore{flex:1;min-width:0;display:flex;position:static}
-  /* 메뉴는 위로 편다. 아래로 펴면 화면 밖이다.
-     **fixed 로 두면 안 된다.** 그때 100% 는 띠 높이가 아니라 화면 높이라
-     메뉴가 화면 위로 226px 벗어난다. T171 에 그렇게 해 보고 알았다.
-     띠가 fixed 라 그 안에서 absolute 를 쓰면 띠를 기준으로 잡는다. */
   .navmenu{position:absolute;left:12px;right:12px;width:auto;top:auto;
       bottom:calc(100% + 10px);grid-template-columns:1fr 1fr}
-  /* 탭이 아래에 떠 있다. 그만큼 자리를 비워야 마지막 줄이 안 덮인다. */
   .wrap{padding-bottom:82px}
-  /* 세션 중에는 조작줄이 그 자리를 쓴다. 둘이 겹치면 안 된다. */
   body.session-focus nav{display:none}
   body.session-focus .wrap{padding-bottom:110px}
 }
 @media print{ nav{position:static;display:none} }
 
-/* 48주 길 지도. 주마다 칸 하나, 칸 안에 여섯 날. */
 .wmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin-top:4px}
 .wcell{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 3px;
   border:1px solid var(--edge);border-radius:10px;background:var(--card2);
@@ -894,9 +700,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .wcell .wdots i.on{background:var(--a1)}
 .wcell.done{background:var(--bg2)}
 .wcell.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(8,145,178,.16);color:var(--fg)}
-/* 분기가 바뀌는 자리에 금을 긋는다. 열두 주마다다. */
 .wcell.qstart{border-left:3px solid var(--a2)}
-/* 달력상 지금 있어야 할 주. 진도 주와 다를 때만 나온다. */
 .wcell.cal{border-style:dashed;border-color:var(--warn);color:var(--warn)}
 .wlegend i.lg.cal{border-style:dashed;border-color:var(--warn)}
 .wtally{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:0.78125rem;color:var(--mut)}
@@ -922,10 +726,23 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   border-radius:9px;background:var(--bg2);color:var(--acc);padding:8px 11px;margin:0 0 8px;
   cursor:pointer;min-height:44px}
 .wmed:hover{border-color:var(--a1)}
-/* 띠를 누를 수 있게. 단추지만 띠처럼 보인다. */
 .bandgo{display:block;width:100%;text-align:left;font:inherit;color:inherit;
   background:none;border:0;padding:0;cursor:pointer}
 .bandgo:hover .weekband i{opacity:.85}
+
+.paircode{font-size:1.5rem;font-weight:650;letter-spacing:.16em;
+  margin:10px 0 6px;padding:12px 14px;text-align:center;
+  border:1px solid var(--edge);border-radius:12px;background:var(--sub);
+  color:var(--fg);overflow-wrap:anywhere}
+.pairtab{width:100%;border-collapse:collapse;margin-top:12px;font-size:0.875rem}
+.pairtab th,.pairtab td{border-bottom:1px solid var(--line);padding:7px 9px;text-align:left}
+.pairtab th{color:var(--mut);font-weight:600;font-size:0.75rem}
+.pairtab tr.pd-heavy td{color:var(--warn);font-weight:650}
+.pairtab tr.pd-heavy td:first-child{border-left:3px solid var(--warn);padding-left:6px}
+.pairtab tr.pd-light td{color:var(--mut)}
+.pairtab tr.pd-light td:first-child{border-left:3px solid var(--line);padding-left:6px}
+.note.g{border-color:var(--ok);color:var(--ok)}
+.note.g b{color:var(--ok)}
 </style>
 </head>
 <body>
@@ -969,15 +786,9 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
       </div>
       <button class="bigtap sessionstart" id="tOne">세션 시작</button>
     </div>
-    <!-- **글자 없이 한눈에.** 오늘과 이번 주와 1년이 고리 셋이다.
-         숫자는 아래 한 줄에만 적는다. 두 사람이 앉자마자 보는 것은 고리다.
-         셋 다 둘이 같이 쌓는 값이다. 사람별 칸이 없다. -->
     <div class="rings" id="todayRings"></div>
     <div class="progline" id="todayProgress2"></div>
     <div id="resumeBox"></div>
-    <!-- **비워 두는 자리다.** 공동 연속일(F단계)과 오늘의 한 판(E단계)이 여기 들어온다.
-         자리를 지금 잡아 두는 이유는 나중에 첫 화면을 다시 짜지 않기 위해서다.
-         무엇이 들어올지는 docs/roadmap.md 12.9 와 12.15 에 이미 적혀 있다. -->
     <div id="todaySlots" class="slots" hidden></div>
     <div class="todaysheet" id="todaySheet"></div>
     <div class="emgline" id="emgLine"></div>
@@ -1378,8 +1189,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
       <div><label class="f">사람 1</label><input id="sNameA"></div>
       <div><label class="f">사람 2</label><input id="sNameB"></div>
     </div>
-    <!-- **마주 앉아 흘끗 보는 거리에서 읽혀야 한다.** 그 거리는 사람마다 다르고
-         나이가 들면 더 다르다. 1년을 쓰는 물건이라 한 번 정하면 그대로 간다. -->
     <div style="margin-top:14px">
       <label class="f">글자 크기</label>
       <div class="sidepick" id="fsPick" role="group" aria-label="글자 크기">
@@ -1410,6 +1219,9 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   <div class="scroll"><table id="weekTable"></table></div>
   <div id="alerts"></div>
 
+  <h3>짝 맞추기</h3>
+  <div class="card tight" id="pairBox"></div>
+
   <h3>내보내기</h3>
   <div class="card tight">
     <div class="row">
@@ -1422,8 +1234,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
     <div class="small mut" style="margin-top:8px">기록은 이 브라우저에만 저장된다. 기기를 바꾸면 JSON으로 옮긴다.</div>
   </div>
 
-  <!-- 주간 점검 30분. 매뉴얼 대장 3장의 다섯 단계를 그대로 화면에 둔다.
-       종이 기록표가 있는데 앱이 아는 숫자를 사람이 다시 세어 적고 있었다. T226 -->
   <div class="card" id="weekCheck"></div>
 </section>
 
@@ -1533,43 +1343,24 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   <div class="note">예고된 어려움은 이탈 사유가 되지 않는다. 미리 읽어 둔다.</div>
 </section>
 
-<!-- 세션 조작줄. **오늘 탭 안에 있으면 안 된다.**
-     블록 1은 미디어 탭으로 가서 40분을 듣는 블록이다. 그때 탭이 바뀌면
-     오늘 탭이 통째로 숨고 타이머도 같이 사라진다. T113 에서 겪었다.
-     페이지 바닥에 두면 어느 탭에서도 떠 있다. -->
   <div class="focusdock noprint" id="focusDock" aria-label="세션 빠른 조작" aria-hidden="true">
-    <!-- **세션 중에 딴 탭에 가면 돌아올 길이 없었다.**
-         블록 1은 미디어 탭에서 듣는 블록이다. 그때 머리띠가 숨고 좁은 화면에서는
-         탭도 숨는다. 조작줄에는 블록을 옮기는 것만 있었다.
-         블록 칸은 세션 중에 제일 많이 보는 자리인데 그리로 못 돌아왔다. T182 -->
     <button class="g" id="focusHome" type="button" hidden>오늘</button>
     <div class="fstate"><b id="focusBlock">블록 1</b><span id="focusClock">40:00</span></div>
     <button class="g" id="focusLre" type="button">LRE +1</button>
-    <!-- **되돌릴 자리가 여기 없었다.** 잘못 밀거나 잘못 눌러 넘어가면
-         화면을 위로 올려 조작줄을 찾아야 했다. 40분짜리 블록이다.
-         넘김이 손가락 하나로 되면 되돌림도 손가락 하나로 돼야 한다. -->
     <button class="g" id="focusPrev" type="button" aria-label="이전 블록">이전</button>
     <button class="b" id="focusToggle" type="button">일시정지</button>
     <button class="g" id="focusNext" type="button">다음</button>
   </div>
-
 <footer>
   eng2p 운영 콘솔 · 상위 규격 eng2p/docs/spec.md · 기록은 이 브라우저의 localStorage 에만 남는다
 </footer>
 </div>
-
 <script src="eng2p/out/data/index.js"></script>
 <script>
 "use strict";
-/* =========================================================================
-   상수. 전부 eng2p/docs/spec.md 와 out/manual/ 에서 온 값이다.
-   ========================================================================= */
 
 var BLOCKS=[
  {n:"병렬 침묵",m:40,d:"같은 공간, 각자 헤드폰. 말 걸지 않는다.",
-  /* **T210 부터 조준표 과제가 이 칸 바로 아래에 뜬다.** 그런데 여기는 아직
-     "조준표대로 하라" 고 말한다. 종이를 가리키던 말이 화면을 가리게 됐다.
-     T231 에 한 세션을 통째로 읽다가 보였다. A가 하는 일로 바꾼다. */
   da:"시간을 본다. 40분이 되면 다음 블록으로 넘긴다.",
   db:"같은 방에서 각자 듣는다. 말을 걸지 않는다. 같이 있는 것 자체가 장치다."},
  {n:"대조 교차",m:30,d:"설명 8분, 재구성 8분, 상호 검토 10분, 기록 4분.",
@@ -1609,7 +1400,6 @@ var LADDER={
 };
 var LEVELS=["A1","A2","A2+","B1"];
 
-/* 통과 조건. 기준서에 숫자가 있는 것은 [기준서], 운용상 정한 것은 [운용]으로 표시한다. */
 var PASS={
 1:[{k:"red",l:"축약 20종 청취 식별",u:"20개 중",need:18,src:"기준서 90%"},
    {k:"str",l:"강세 박자 재현",u:"10문장 중",need:8,src:"운용"},
@@ -1650,7 +1440,6 @@ var BAN_A=[
  ["번역 경유","전 구간","자동화 직접 방해"],
  ["복습 읽기","전 구간","인출이 아니라 재인. 익숙함을 실력으로 오인"]
 ];
-/* 규격 목록 시작. check_app.py 가 이 사이를 안 본다 */
 var BAN_B=[
  ["슬랭 생성","수명이 지식 컷오프보다 짧음"],["1인 수행 가능 지시","2인 전제 위반"],
  ["측정 불가능한 통과 기준","진행 판정 불가"],["'자연스러워지면' 류","기준이 아니라 감상"],
@@ -1658,20 +1447,12 @@ var BAN_B=[
  ["판정형 정답의 B면 노출","판정 무의미화"],["인공물 표기 없는 1층 대화","실제 영어로 오인"],
  ["신뢰도 표시 누락","검증 대상 식별 불가"],["'말수 적으면 손해' 전제","연구와 배치. 내적 언어화 무시"]
 ];
-/* 규격 목록 끝 */
 var FAILPT=[
  ["10~14주","지루함","소리 훈련 중 어휘가 안 늘어 성장 체감 없음","화용 2편과 repair 3편을 이 구간에 배치. 처음 말이 통하는 경험"],
  ["20주 전후","관계 유형 고착","부부의 기존 대화 패턴이 학습에 전이","분기 점검, 역할 교대, 사전 고지"],
  ["24~28주","방법론 재설계 욕구","성향적 충동","매뉴얼 1항. 고치지 말고 적는다. 12개월 후 개봉"]
 ];
-
-/* =========================================================================
-   저장소
-   ========================================================================= */
 var KEY="eng2p.v1";
-/* **이 줄이 load() 호출보다 위에 있어야 한다.**
-   var 는 끌어올려지지만 대입은 안 그렇다. 아래에 두면 load() 가 넣은 값을
-   그 다음 줄이 null 로 도로 지운다. T165 에 검사가 그것을 잡았다. */
 var LOAD_ERR=null;
 var S=load();
 
@@ -1679,11 +1460,6 @@ function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
           media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{}};
 }
-/* **못 읽은 기록을 지우지 않는다.**
-   전에는 JSON 이 깨지면 조용히 빈 상태로 시작했다. 1년치 기록이 아직 거기 있는데
-   화면에는 0회로 나온다. 두 사람은 그것이 사라졌다고 여기고 다시 시작한다.
-   그리고 다음 저장이 그 위를 덮는다. **그때 진짜로 사라진다.**
-   그래서 못 읽은 글자는 따로 옮겨 두고 그 사실을 화면에 말한다. */
 function load(){
   var raw=null;
   try{ raw=localStorage.getItem(KEY); }
@@ -1700,8 +1476,6 @@ function load(){
   }
 }
 
-/* 저장은 이 세 함수만 한다. **다른 자리에서 localStorage 를 직접 안 만진다.**
-   흩어지면 어느 길로 쓴 값이 안 남았는지 알 수 없게 된다. */
 var saveTimer=null;
 function writeNow(){
   var text=JSON.stringify(S);
@@ -1711,7 +1485,6 @@ function writeNow(){
     toast("저장 실패. 브라우저 저장 공간을 확인한다.");
     return false;
   }
-  /* 쓴 뒤에 읽어 본다. 저장소가 꽉 차면 오류 없이 잘려 들어가는 브라우저가 있다. */
   try{
     if(localStorage.getItem(KEY)!==text){
       toast("저장이 온전하지 않다. 대장 탭에서 JSON 을 내려받아 둔다.");
@@ -1720,31 +1493,22 @@ function writeNow(){
   }catch(e){}
   return true;
 }
-/* 미루지 않고 바로 쓴다. **연달아 누르고 바로 닫으면 마지막 값이 안 남는다.**
-   save() 는 120밀리초를 미루는데 100밀리초 간격으로 누르면 그 타이머가 계속 밀린다.
-   T101 에서 세션 상태로 같은 것을 겪었다. 잃으면 안 되는 값은 여기로 쓴다. */
 function saveNow(){ clearTimeout(saveTimer); saveTimer=null; return writeNow(); }
 function save(){
   clearTimeout(saveTimer);
   saveTimer=setTimeout(function(){ saveTimer=null; writeNow(); },120);
 }
-/* 창이 닫히거나 화면이 숨을 때 미뤄 둔 저장을 흘려 보낸다.
-   **120밀리초는 짧아 보이지만 마지막 한 번을 잃기에는 넉넉하다.** */
 function flushSave(){ if(saveTimer) saveNow(); }
 window.addEventListener("pagehide",flushSave);
 document.addEventListener("visibilitychange",function(){
   if(document.visibilityState==="hidden") flushSave();
 });
-/* 전체 지우기. 이것도 저장소 일이라 여기 둔다. */
 function wipeStore(){
   try{ localStorage.removeItem(KEY); }catch(e){}
   S=blank();
   return saveNow();
 }
 function day(d){
-  /* 칸이 빠진 기록이 들어올 수 있다. 예전 판이 남긴 것이거나 손으로 넣은 것이다.
-     하나만 없어도 그 줄을 읽는 자리에서 앱 전체가 멈춘다.
-     T98 에서 겪었다. status 만 든 기록을 넣었더니 첫 화면이 안 떴다. */
   var b={status:null,started:null,speak:0,cards:0,lre:0,unres:[],coll:[],
           aim:{a:"",b:"",same:0,diff:0},xchk:{a:"",b:""}};
   var r=S.days[d];
@@ -1753,16 +1517,6 @@ function day(d){
   return r;
 }
 
-/* =========================================================================
-   유틸
-   ========================================================================= */
-/* **적는 칸의 값을 그리는 글에 넣지 않는다.**
-   블록 칸은 세션이 도는 동안 매초 다시 그려진다. 값이 그리는 글 안에 있으면
-   한 글자 칠 때마다 글이 달라지고 칸이 통째로 갈린다. 그러면 손이 끊긴다.
-   그래서 값은 그린 뒤에 넣는다. 그리는 글은 늘 같으니 칸이 안 갈린다.
-
-   그리고 **손이 올라가 있는 칸은 안 건드린다.** 매초 값을 다시 넣으면
-   글자는 같아도 자리가 끝으로 튄다. 가운데를 고치던 손이 끝으로 밀린다. T211 */
 function fillField(id, val){
   var el=document.getElementById(id);
   if(!el || el===document.activeElement) return;
@@ -1779,17 +1533,8 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
 function today(){return iso(new Date());}
 function roleOf(d){ return parseISO(d).getDate()%2===0 ? "a" : "b"; }
-
-/* =========================================================================
-   오늘 배정. eng2p/out/data/index.js 에서 온다. 손으로 적은 값이 없다.
-   ========================================================================= */
 var IDX=(window.ENG2P_INDEX)||null;
 
-/* 진도는 달력이 아니라 **수행한 정규 세션 수**로 센다.
-   전에는 시작일부터 지난 주 수로 셌다. 사흘 빠지면 안 한 주가 지나간 것으로 나온다.
-   두 사람은 12주차라고 듣고 실제로는 9주를 한 상태가 된다.
-   비상판은 진도로 안 센다. 15분 인출이고 새 재료가 없다. 매뉴얼 2.2가 그렇게 정한다.
-   빠진 것은 지워지는 것이 아니라 미뤄지는 것이다. 밀린 주 수를 따로 보여 준다. */
 function doneSessions(){
   var n=0; for(var k in S.days){ if(S.days[k] && S.days[k].status==="normal") n++; }
   return n;
@@ -1817,28 +1562,9 @@ function plan(){
   return out;
 }
 
-/* =========================================================================
-   오늘 한 장. 두 사람이 앉아서 제일 먼저 보는 자리다.
-   여기 없는 값은 앱 어디에도 없다. 전부 plan() 이 준 파생값이다.
-   ========================================================================= */
 
-/* =========================================================================
-   이어서 하기. 끊긴 세션이 있으면 오늘 한 장 위에 뜬다.
-   어디서 멈췄는지와 얼마나 남았는지를 적는다. 그것을 모르면 다시 처음부터 하게 된다.
-   ========================================================================= */
 
-/* =========================================================================
-   오늘 못 하는 날. 비상판 15분으로 바로 간다.
-   기준서 11.2. 이 과정 유일한 1인 예외이고 학습 장치가 아니라 연속성 장치다.
-   **찾게 하면 그날은 그냥 쉰다.** 그래서 첫 화면에서 한 번에 간다.
-   ========================================================================= */
-/* 큰 자료는 첫 화면에 안 물린다. 카드 562KB, 세트 493KB, 강의 301KB 다.
-   쓸 때 가져온다. fetch 를 안 쓴다. file:// 에서 막힌다.
-   script 를 꽂는 방식은 Pages 에서도 file:// 에서도 된다. */
 var DATA={};
-/* **읽는 것을 뒤로 미루는 자리가 둘이 됐다.**
-   하나는 `out/data` 의 파생 자료고 하나는 미디어 차림표다. 경로가 다르다.
-   그래서 붙이는 일만 떼어 둔다. 같은 것을 두 번 붙이지 않는 것이 이 함수의 일이다. */
 var pending={};
 function loadScript(key, src, cb){
   if(pending[key]){ pending[key].push(cb); return; }
@@ -1861,9 +1587,6 @@ function loadData(name, global, cb){
 }
 var EMG=null;
 function loadEmg(cb){ loadData("emergency","ENG2P_EMERGENCY",function(v){ EMG=v; cb(!!v); }); }
-/* 비상판 15분 시계. 인출 10분과 청크 5분 두 토막이다.
-   **한 토막이 끝나면 소리로 알린다.** 이 자리에는 넘겨 줄 상대가 없다.
-   기준서가 비상판을 그렇게 정해 뒀다. 상대가 없는 날에만 연다. */
 var EMGCLK={t:null,left:0,at:null};
 function stopEmgClock(){ if(EMGCLK.t){ clearInterval(EMGCLK.t); EMGCLK.t=null; } }
 function paintEmgClock(){
@@ -1897,8 +1620,6 @@ function bindEmgClock(mm){
       paintEmgClock();
     },1000);
   };
-  /* 아직 안 시작했으면 그리지 않는다. 그리면 10:00 이 00:00 으로 덮인다.
-     처음 글자는 그리는 글이 이미 갖고 있다. */
   if(EMGCLK.at) paintEmgClock();
 }
 function renderEmg(pl){
@@ -1941,9 +1662,6 @@ function renderEmg(pl){
     box.innerHTML='<div class="emgbox">'+
       '<div class="k">비상판 '+String(it.no).padStart(3,"0")+' · 15분 · 혼자 한다</div>'+
       '<h4>'+esc(it.title)+'</h4>'+
-      /* **15분이 두 토막인데 재는 것이 없었다.** 인출 10분과 청크 5분이 글자로만 있었다.
-         이 자리에는 넘겨 줄 상대가 없다. 그러면 10분이 15분이 되고
-         청크는 안 한다. 세션에는 시계가 넷인데 여기만 없었다. T227 */
       '<div class="emgclock"><span class="ecn" id="emgLeft">'+mm.pull+':00</span>'+
       '<span class="ecw" id="emgWhat">인출 '+mm.pull+'분</span>'+
       '<button type="button" class="g" id="emgGo">시작</button></div>'+
@@ -1957,7 +1675,6 @@ function renderEmg(pl){
     if(mk) mk.onclick=function(){
       var was=day(today()).status;
       day(today()).status="emg"; save(); renderToday();
-      /* 잘못 누르면 그날이 비상판으로 남는다. 진도가 안 나간 날로 센다. */
       if(was!=="emg") offerUndo("비상판을 쓴 날로 적음",function(){
         day(today()).status=was||null; renderToday(); });
     };
@@ -1965,10 +1682,6 @@ function renderEmg(pl){
   });
 }
 
-/* **끊긴 세션이 조용히 사라지고 있었다.**
-   어제 것은 안 이어 가는 것이 맞다. 그런데 아무 말도 없이 사라진다.
-   두 사람은 어제 블록 3에서 멈춘 것을 기억하는데 화면은 처음부터라고 말한다.
-   그러면 앱이 잃어버린 것인지 원래 그런 것인지 모른다. T225 */
 function staleSession(){
   var s=S.session;
   if(!s || !s.date || s.date===today()) return null;
@@ -1976,9 +1689,6 @@ function staleSession(){
   if(!(s.idx>0 || s.left<BLOCKS[0].m*60)) return null;   // 시작도 안 한 것은 안 말한다
   return s;
 }
-/* 얼마나 쉬었는지. **블록은 시간이 아니라 하는 일이다.**
-   한 시간 반을 쉬고 돌아와 남은 12분을 이어 가면 그 블록은 두 토막이 된다.
-   T177 에 되돌리기를 만들 때 정한 규칙이 여기 그대로 걸린다. */
 var LONG_GAP=90*60*1000;
 function gapMin(s){ return (s&&s.at) ? Math.floor((Date.now()-s.at)/60000) : null; }
 function renderResume(pl){
@@ -2018,15 +1728,7 @@ function renderResume(pl){
   };
 }
 
-/* 기록 묶음. 세션이 끝났거나 손으로 펴면 보인다.
-   첫 화면은 오늘 할 것만 보여 준다. 앉자마자 입력 폼을 보면 적을 것을 찾게 된다. */
 
-/* =========================================================================
-   블록 6 기록. 그날 값을 그 강의 통과 기준 옆에 놓는다.
-   **따로 놓으면 대조를 안 한다.** 숫자를 적어 놓고 기준은 종이에서 찾아야 하면
-   그 자리에서 안 찾고 나중에도 안 찾는다.
-   통과선이 있는 항목은 넣는 즉시 갈린다. 없는 항목은 손으로 판정한다고 적는다.
-   ========================================================================= */
 function critRec(){
   var r=day(today());
   if(!r.crit) r.crit={};
@@ -2040,12 +1742,6 @@ function critJudge(th, v){
   return n===th.value;
 }
 
-/* =========================================================================
-   블록 7 마무리. 다음 날 배정을 여기서 알린다.
-   끝난 자리에서 다음이 보이면 내일 앉자마자 시작한다.
-   **끝났다는 말만 있으면 내일 다시 찾는 일부터 한다.** D구간에서 고친 것과 같은 문제다.
-   진도가 이미 올랐으므로 plan() 이 곧 다음 날 것이다.
-   ========================================================================= */
 function renderNextDay(){
   var box=$("#nextDay"); if(!box) return;
   var pl=plan();
@@ -2087,7 +1783,6 @@ function renderCrit(){
              : ok===null ? '<span class="v hand">-</span>'
              : ok ? '<span class="v ok">통과</span>' : '<span class="v no">미달</span>';
     var line=esc(c.text);
-    /* 부등호를 말로 쓴다. 기호가 글꼴에 없으면 네모로 나오고 뜻이 뒤집혀도 모른다. T152 */
     if(c.threshold) line+=' <b>'+c.threshold.value+
       (c.threshold.op==="min"?" 이상":c.threshold.op==="max"?" 이하":" 정확히")+'</b>';
     h+='<div class="critrow"><div class="t">'+line+'</div>'+
@@ -2098,7 +1793,6 @@ function renderCrit(){
   var pass=judged.filter(function(c){return critJudge(c.threshold,m[c.no])===true;}).length;
   h+='<div class="small mut" id="critSum" style="margin-top:10px"></div></div>';
   box.innerHTML=h;
-  /* 요약은 따로 갱신한다. 값을 넣을 때마다 전체를 다시 그리면 커서가 튄다. */
   function sum(){
     var m2=critRec();
     var ok=judged.filter(function(c){return critJudge(c.threshold,m2[c.no])===true;}).length;
@@ -2110,11 +1804,8 @@ function renderCrit(){
   box.querySelectorAll("[data-crit]").forEach(function(el){
     el.oninput=function(){
       var r=critRec();
-      /* 되돌리기 없어도 된다: 칸을 비운 그 순간에 지운다. 다시 적으면 되돌아온다.
-         칸 자체가 되돌리기라서 띠를 띄우면 글자 칠 때마다 뜬다. */
       if(el.value==="") delete r[el.dataset.crit]; else r[el.dataset.crit]=+el.value;
       save();
-      /* 다시 그리면 커서가 튄다. 그 줄의 판정만 바꾼다. */
       var c=L.criteria.filter(function(x){return String(x.no)===el.dataset.crit;})[0];
       var v=el.parentNode.querySelector(".v");
       var ok=critJudge(c.threshold, el.value);
@@ -2144,11 +1835,6 @@ function renderSheet(pl){
       '<div class="tk">96강이 끝났다. 카드는 계속 돈다.</div>';
     return;
   }
-  /* **누를 수 있어야 한다.** T159 에 재 보니 이 칸이 여섯 가지를 알려 주는데
-     눌러서 닿는 것이 하나뿐이었다. 앱이 오늘 무엇인지 알면서
-     사람에게 그것을 찾아오라고 시키고 있었다. 하루 이 분이면 1년에 열여섯 시간이다.
-
-     누르면 그 재료가 있는 블록을 편다. **시계는 안 돈다.** 보는 것과 하는 것은 다르다. */
   var g=[];
   function cell(k,v,go){ if(v==null||v==="") return;
     var body='<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>';
@@ -2158,12 +1844,10 @@ function renderSheet(pl){
   }
   cell("세트", pl.set, "b:1");
   function pad3(n){ return String(n).padStart(3,"0"); }
-  // 카드는 자료에서 [041] 처럼 세 자리다. 화면이 41 이라고 하면 두 사람이 그것을 찾는다.
   cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null, "b:2");
   cell("미디어", pl.media, pl.media ? "m:"+pl.media : null);
   cell("과제 분량", pl.task ? pl.task.minChars+"자" : null);
   cell("비상판", pl.emergency!=null ? String(pl.emergency) : "없는 강");
-  /* 다시 낼 날이 된 카드. 오늘 범위 밖의 것도 있다. 그것을 안 보여 주면 간격이 무너진다. */
   var dn=dueCards().length;
   if(dn) cell("다시 낼 카드", dn+"장", "due");
 
@@ -2177,10 +1861,6 @@ function renderSheet(pl){
   bindSheetGo(box);
 }
 
-/* 오늘 칸에서 그 재료로 간다. **누른 자리마다 가는 데가 다르다.**
-   b:N  그 블록을 편다. 시계는 안 돈다
-   m:id 미디어 탭에서 그 과를 연다
-   due  다시 낼 카드를 도는 판으로 블록 3을 편다 */
 function bindSheetGo(box){
   box.querySelectorAll("[data-go]").forEach(function(b){
     b.onclick=function(){
@@ -2201,10 +1881,6 @@ function bindSheetGo(box){
   });
 }
 
-/* 48주 띠. 한 줄로 1년이 다 보인다. 분기마다 명암을 바꾼다. */
-/* 48주 띠. **누르면 길 지도가 열린다.**
-   띠는 어디까지 왔는지만 말한다. 어느 주에 무엇이 있는지는 안 말한다.
-   그것을 알려면 자료 탭에 가서 96편에서 찾아야 했다. T179 */
 function band(pl){
   var s='<button type="button" class="bandgo" data-go="map" aria-label="48주 길 지도 열기">';
   s+='<div class="weekband">';
@@ -2223,7 +1899,6 @@ function band(pl){
 function hoursOf(rec){ return !rec||!rec.status?0: rec.status==="normal"?2: rec.status==="emg"?0.25:0; }
 function toast(m){ var f=$("#fMsg"); if(f){f.textContent=m; setTimeout(function(){f.textContent="자동 저장된다";},2600);} }
 
-/* 삭제 되돌리기. 실수로 지운 기록을 다시 적게 하지 않는다. */
 var UNDO={box:null,t:null};
 function offerUndo(label,restore){
   if(UNDO.box) UNDO.box.remove();
@@ -2246,7 +1921,6 @@ function copy(text,msgEl){
     t.select(); try{document.execCommand("copy"); ok();}catch(e){} document.body.removeChild(t);
   }
 }
-/* 이름 뒤 조사. 받침이 있으면 이/은/을, 없으면 가/는/를. */
 function jo(name,withJ,without){
   var s=String(name||"");
   if(!s) return s+without;
@@ -2255,10 +1929,6 @@ function jo(name,withJ,without){
   return s+(has?withJ:without);
 }
 function monday(d){ var x=parseISO(d); var w=(x.getDay()+6)%7; x.setDate(x.getDate()-w); return iso(x); }
-
-/* =========================================================================
-   탭
-   ========================================================================= */
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
           ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
@@ -2290,8 +1960,6 @@ function go(name){
     if(sum) sum.textContent=current&&current[2]==="manage"?"운영 · "+current[1]:"운영";
     more.open=false;
   }
-  /* 조작줄의 돌아갈 자리. **오늘 탭에 있을 때는 안 보인다.**
-     거기 있는데 "오늘" 단추가 있으면 자리만 먹고 무엇을 가리키는지도 헷갈린다. */
   var home=$("#focusHome");
   if(home) home.hidden=(name==="today");
   if(typeof ttsStop==="function") ttsStop();
@@ -2301,13 +1969,9 @@ function go(name){
   if(name==="sound") renderSound();
   if(name==="src") renderSrc();
   if(name==="clip") renderClip();
-  /* **오늘 탭으로 돌아오면 다시 그린다.** 다른 탭은 다 다시 그리는데 이것만 아니었다.
-     세션 중에 값이 바뀐다. 블록 3이 오늘 돈 카드 수를 세고 블록 2가 LRE 를 받는다.
-     안 다시 그리면 옛 값이 칸에 남고, 그 상태에서 옆 칸을 고치면
-     `pullForm` 이 옛 값을 그대로 다시 써 넣는다. **센 것이 지워진다.** T216 */
   if(name==="today") renderToday();
   if(name==="media") renderMedia();
-  if(name==="ledger"){ renderLedger(); renderWeekCheck(); }
+  if(name==="ledger"){ renderLedger(); renderWeekCheck(); renderPair(); }
   if(name==="verify") renderVerify();
   if(name==="quarter") renderQuarter();
   if(name==="rot") renderRot();
@@ -2317,9 +1981,6 @@ document.addEventListener("click",function(e){
   var more=$("#navMore"); if(more&&more.open&&!more.contains(e.target)) more.open=false;
 });
 
-/* =========================================================================
-   오늘 탭
-   ========================================================================= */
 function renderToday(){
   var d=today(), r=roleOf(d), rec=day(d);
   $("#todayDate").textContent=d;
@@ -2331,8 +1992,6 @@ function renderToday(){
   var pl=plan();
   var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
   if(pl.behind>0) msg+=" · 달력보다 "+pl.behind+"주 밀렸다";
-  /* **고리와 겹치는 줄은 없앤다.** 역할 교대는 바로 위 lede 가 이미 말한다.
-     밀린 주 수는 고리 이름표로 옮겼다. 그러면 이 줄은 평소에 비어 있다. */
   $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
   var p2=$("#todayProgress2"); if(p2) p2.textContent="";
   renderRings(pl,weekDone,rec);
@@ -2354,8 +2013,6 @@ document.querySelectorAll("[data-st]").forEach(function(b){
     var rec=day(today()), was=rec.status;
     if(was===b.dataset.st) return;          // 같은 것을 다시 누르면 아무 일도 안 한다
     rec.status=b.dataset.st; save(); renderToday();
-    /* **이 값이 진도를 정한다.** 정상을 결석으로 잘못 누르면 그날이 진도에서 빠진다.
-       96강 배정이 통째로 하루 밀린다. 그것을 되돌릴 길이 없었다. T173 */
     offerUndo("수행 기록을 "+(b.textContent||"").trim()+"으로 바꿈",function(){
       day(today()).status=was; renderToday();
     });
@@ -2440,15 +2097,6 @@ $("#cAdd").onclick=function(){
 };
 
 
-/* =========================================================================
-   고리 셋. 오늘과 이번 주와 1년.
-
-   **숫자를 읽게 하지 않는다.** 두 사람이 앉아서 제일 먼저 하는 것은
-   얼마나 남았는지를 아는 것이다. 그것을 글자로 적으면 읽어야 하고
-   읽으면 세 줄을 다 읽는다. 고리는 안 읽어도 보인다.
-
-   셋 다 **둘이 같이 쌓는 값이다.** 사람별 칸을 안 만든다. 2인 원칙 1이다.
-   ========================================================================= */
 var RING=[
   {r:46,w:10,k:"오늘",c:"var(--a1)"},
   {r:33,w:10,k:"이번 주",c:"var(--a2)"},
@@ -2456,15 +2104,11 @@ var RING=[
 ];
 function renderRings(pl,weekDone,rec){
   var box=$("#todayRings"); if(!box) return;
-  /* 오늘은 블록 넷이다. 끝낸 블록 수로 센다.
-     안 시작했으면 0이고 끝냈으면 4다. 도는 중이면 지난 블록 수다. */
   var today4=0;
   if(rec && rec.status==="normal") today4=4;
   else if(T.left===0) today4=4;
   else today4=T.idx;
   var v=[today4/4, weekDone/6, Math.min(1,(pl.done||0)/288)];
-  /* 이름표와 읽어 주는 글이 같아야 한다. 두 자리에 따로 적으면 갈라진다.
-     그래서 이름표를 먼저 짓고 그것을 읽어 주는 글에도 그대로 쓴다. */
   var num=[today4+" / 4 블록", weekDone+" / 6일",
            pl.week+" / 48주"+(pl.behind>0?" · "+pl.behind+"주 밀렸다":"")];
   var say=RING.map(function(g,i){ return g.k+" "+num[i]; }).join(", ");
@@ -2485,19 +2129,10 @@ function renderRings(pl,weekDone,rec){
   s+="</div>";
   box.innerHTML=s;
 }
-/* =========================================================================
-   타이머
-   ========================================================================= */
 var T={idx:0,left:BLOCKS[0].m*60,run:false,tick:null};
 
-/* =========================================================================
-   세션 상태 저장. 브라우저를 닫아도 어디서 멈췄는지 남는다.
-   전에는 T 가 메모리에만 있었다. 새로고침 한 번에 40분이 사라졌다.
-   ========================================================================= */
 function saveSession(){
   S.session={date:today(), idx:T.idx, left:T.left, at:Date.now()};
-  /* 바로 쓴다. save() 는 120밀리초 미룬다.
-     세션 상태는 그 사이에 창이 닫히면 잃는 값이고, 잃으면 40분을 다시 한다. */
   saveNow();
 }
 function loadSession(){
@@ -2510,7 +2145,6 @@ function loadSession(){
   return true;
 }
 function clearSession(){ S.session=null; save(); }
-/* 남은 세션 시간. 이어서 하기 안내에 쓴다. */
 function sessionLeftMin(){
   var s=T.left;
   for(var i=T.idx+1;i<BLOCKS.length;i++) s+=BLOCKS[i].m*60;
@@ -2518,18 +2152,8 @@ function sessionLeftMin(){
 }
 function fmt(s){var m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0");}
 var RINGC=552.9;
-/* 미리 보기. **시계를 안 건드리고 그 블록의 재료만 편다.**
-   T159 에 재 보니 오늘 칸이 여섯 가지를 알려 주는데 눌러서 닿는 것이 하나였다.
-   앱이 오늘 무엇인지 알면서 사람에게 찾아오라고 시키고 있었다.
-
-   그렇다고 눌렀을 때 `gotoBlock` 을 부르면 안 된다. 그것은 세션 상태를 바꾼다.
-   재료를 한 번 봤을 뿐인데 "블록 2에서 멈췄다"가 되고 이어서 하기가 뜬다.
-   **보는 것과 하는 것은 다르다.** 그래서 따로 둔다. */
 var PEEK=null;
-/* 강의 본문 미리 보기. **블록이 아니라 강의를 편다.**
-   본문 30만자는 처음부터 안 읽는다. 누른 그때 읽는다. */
 var PEEKLEC=null;
-/* 길 지도. 48주가 어디까지 왔고 어느 주에 무엇이 있는지를 한 장에 편다. */
 var PEEKMAP=false;
 function peekMap(){
   PEEKMAP=true; PEEK=null; PEEKLEC=null; PANE.sig=null;
@@ -2560,10 +2184,6 @@ function closePeek(){
   var c=$("#todaySheet"); if(c) c.scrollIntoView({behavior:"smooth",block:"center"});
 }
 
-/* **아직 안 시작한 세션의 시계는 자리만 먹는다.**
-   T159 에 재 보니 오늘 화면 4231px 중 1724px 이 시계 묶음과 조작줄이었다.
-   전체의 41%다. 그리고 그것은 세션이 돌 때만 쓴다.
-   시작 전에는 접는다. 시작하거나 중간에 멈춘 상태면 편다. */
 function sessionIdle(){
   return !T.run && T.idx===0 && T.left===BLOCKS[0].m*60;
 }
@@ -2574,9 +2194,6 @@ function syncSessionFocus(){
   document.body.classList.toggle("session-focus",T.run);
   var idle=sessionIdle();
   document.body.classList.toggle("session-idle",idle);
-  /* **접혔다 펴질 때 다시 만들어야 한다.**
-     T185 에 접힌 칸을 안 만들게 했더니, 세션을 시작해도 그 칸이 빈 채로 남았다.
-     접는 쪽만 손보고 펴는 쪽을 안 봤다. T166 에서 배운 것과 같은 자리다. */
   if(LASTIDLE!==null && LASTIDLE!==idle){ PANE.sig=null; renderBlockPane(); }
   LASTIDLE=idle;
   document.body.classList.toggle("peek",PEEK!=null||PEEKLEC!=null||PEEKMAP);
@@ -2586,10 +2203,6 @@ function syncSessionFocus(){
 }
 function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=true; }
 function finishSession(){
-  /* **밀기 하나로 되돌릴 수 없는 일이 일어난다.**
-     T170 에 손가락으로 밀어 블록을 옮기게 했다. 블록 4에서 왼쪽으로 밀면
-     여기로 온다. 그러면 그날이 정상으로 적히고 진도가 하나 는다.
-     96강 배정이 통째로 하루 당겨진다. 그것을 되돌릴 길이 없었다. T184 */
   var was={idx:T.idx, left:T.left, status:day(today()).status,
            sess:S.session ? {date:S.session.date, idx:S.session.idx, left:S.session.left} : null};
   T.run=false; clearInterval(T.tick); T.left=0; relWake(); leaveSessPlay();
@@ -2597,9 +2210,6 @@ function finishSession(){
   document.body.classList.remove("session-idle");
   var done=$("#sessionDone"); if(done) done.hidden=false;
   tone("done");
-  /* **여기서 정상으로 센다. 시작 버튼에서 세지 않는다.**
-     T97 에서 진도를 정상 세션 수로 바꿨다. 시작만 눌러도 세면
-     2분 하고 덮은 날이 하루 진도로 나간다. 96강이 그만큼 앞당겨진다. */
   var rec=day(today());
   if(rec.status!=="normal"){ rec.status="normal"; }
   clearSession();
@@ -2621,15 +2231,9 @@ function restartFinishedSession(){
   }
 }
 
-/* =========================================================================
-   이 기기의 쪽. A 인가 B 인가.
-   역할 자체는 날짜가 정한다. 기기는 "이 화면을 보는 사람이 누구인가" 만 고른다.
-   그래서 사람 이름으로 고르고 A/B 는 날짜에서 나온다.
-   ========================================================================= */
 function devicePerson(){ return S.device || null; }        // "a"=사람1, "b"=사람2
 function deviceSide(){
   var who=devicePerson(); if(!who) return null;
-  /* 사람1이 A인 날이면 사람1 기기는 A쪽이다. */
   return roleOf(today())==="a" ? (who==="a"?"a":"b") : (who==="a"?"b":"a");
 }
 function renderSidePick(A,B){
@@ -2640,10 +2244,6 @@ function renderSidePick(A,B){
   h+='<button data-dev="b" class="'+(who==="b"?"on":"")+'">'+esc(S.names.b)+'</button>';
   if(who) h+='<button data-dev="">지움</button>';
   else h+='<span class="mut">안 고르면 두 쪽을 다 보여 준다</span>';
-  /* 기기 둘을 쓰면 각 기기가 저장을 따로 한다. 브라우저 저장이 기기마다 따로이기 때문이다.
-     한쪽에서만 끝냈다를 누르면 다른 기기는 어제 강을 든 채로 남는다.
-     기기 사이를 잇는 길이 없으므로 규칙으로 정한다. **기록은 한 기기에만 남긴다.**
-     맞출 일이 생기면 운영 탭의 JSON 내보내기와 가져오기를 쓴다. */
   if(who) h+='<span class="mut" style="flex-basis:100%;text-align:center">'+
     '기록은 한 기기에만 남긴다. 다른 기기는 보기만 한다. '+
     '어긋나면 운영 탭에서 JSON 을 내보내 가져온다.</span>';
@@ -2656,32 +2256,12 @@ function renderSidePick(A,B){
 }
 
 
-/* =========================================================================
-   블록마다 쓰는 것. 오늘 배정에서 그대로 나온다.
-   **세션 중에 이것을 찾으러 가면 그 블록이 무너진다.**
-   블록 1과 4는 미디어, 2는 세트, 3은 카드와 진행표다.
-   여기가 E구간에서 실제 뷰어로 바뀔 자리다. 지금은 무엇을 쓰는지만 적는다.
-   ========================================================================= */
 
-/* =========================================================================
-   블록 2. 대조 교차 세트를 네 단계로 편다.
-   **B 는 1단계의 필수 포함 요소를 그 자리에서 안 본다.**
-   B 가 목록을 보면서 들으면 재구성이 아니라 목록 대조가 된다.
-   A 가 무엇을 빠뜨렸는지는 3단계 상호 검토에서 갈린다. 그것이 이 세트의 장치다.
-   기기 쪽을 안 고르면 다 보여 준다. 기기가 하나인 날도 있다. 그때는 종이 규칙으로 돈다.
-   ========================================================================= */
-/* 지금 몇 단계인지를 들고 있는 자리. 바뀔 때만 알리려면 앞 값이 있어야 한다. */
 var SWAP={step:null};
-/* 3단계 상호 검토에서 각자 적는 칸.
-   본문이 "합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다" 고 시킨다.
-   **시키는데 적을 자리가 없었다.** 블록 1과 다른 점이 하나 있다.
-   여기는 서로 보는 자리다. 같이 검토하는 10분이라 가리면 검토가 안 된다. T212 */
 function xchkWrite(){
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
   function one(side,name){
-    /* 이름 뒤에 조사를 안 붙인다. 이름은 두 사람이 정한다.
-       받침이 있는 이름과 없는 이름에 같은 조사를 붙이면 한쪽이 어색해진다. */
     return '<label class="blank aimw"><span>'+esc(name)+' · 합의와 불일치</span>'+
            '<textarea id="xch'+side.toUpperCase()+'" rows="2" '+
            'placeholder="합의 하나, 불일치 하나"></textarea></label>';
@@ -2709,17 +2289,11 @@ function renderSetPane(pl){
   var s=(sets.items||[]).filter(function(x){return x.id===pl.set;})[0];
   if(!s) return '<div class="k">대조 교차 세트</div><div class="v">'+esc(pl.set||"(없음)")+'</div>';
   var mine=deviceSide();
-  /* 30분 안에서 지금 몇 단계인지는 시간이 이미 알고 있다. 8 8 10 4 로 나뉜다.
-     화면이 그것을 안 쓰면 두 사람이 시계를 따로 본다. 블록 타이머가 있는데 그렇다. */
   var used=BLOCKS[1].m*60-Math.max(0,T.left), acc=0, curStep=0;
   s.steps.forEach(function(st,i){
     if(used>=acc) curStep=i;
     acc+=st.minutes*60;
   });
-  /* **단계가 바뀌면 말하는 사람이 바뀐다.** 1단계는 A 가 설명하고 2단계는 B 가 재구성한다.
-     시간이 그 자리를 정하는데 화면만 바뀌고 아무 소리가 없었다.
-     두 사람은 서로를 보고 말하는 중이라 화면을 안 본다. 그래서 교대를 놓친다.
-     세션이 도는 중일 때만 알린다. 미리 보기에서는 안 울린다. T176 */
   if(T.run && SWAP.step!==null && SWAP.step!==curStep){
     tone("swap");
     var who=(curStep===0||curStep===2)?"A":"B";
@@ -2734,7 +2308,6 @@ function renderSetPane(pl){
     if(st.step===1){
       body='<div class="body"><b>설명 대상</b> '+esc(f["설명 대상"]||"")+'</div>';
       if(mine==="b"){
-        /* B 화면에서는 목록을 가린다. 이 한 줄이 이 세트의 장치를 지킨다. */
         body+='<div class="hid">필수 포함 요소는 B 화면에 안 띄운다. '+
               'A 의 설명만 듣고 재구성한다. 빠진 것은 3단계에서 갈린다.</div>';
       }else if(st.items && st.items.length){
@@ -2745,15 +2318,6 @@ function renderSetPane(pl){
     }else if(st.step===3){
       body='<div class="body">'+esc(f["본문"]||"")+'</div>';
       if(f["규칙"]) body+='<div class="body"><b>규칙</b> '+esc(f["규칙"])+'</div>';
-      /* **1단계에서 가린 것을 여기서 편다.**
-         1단계 코드에 "빠진 것은 3단계에서 갈린다" 고 적어 놓고 안 폈다.
-         B 는 그 목록을 세션 내내 한 번도 못 봤다. 그러면 무엇이 빠졌는지를
-         A 가 말해 줘야 하고, 그것은 A 가 채점하는 자리가 된다.
-         **목록을 펴면 둘이 같은 것을 보고 갈린다.** T212 */
-      /* **3단계에 그려 두기만 하면 새어 나간다.** 네 단계가 한 칸에 다 그려진다.
-         B 가 1단계에서 아래로 밀면 3단계 목록이 그대로 보인다. 그러면 격차가 없다.
-         `check_ui.js` 가 그것을 잡았다. 세트 288개 중 셋에서 났다.
-         **시간이 3단계에 닿아야 편다.** 그 전에는 아예 안 그린다. */
       var s1=(s.steps||[]).filter(function(x){return x.step===1;})[0];
       if(curStep>=2 && s1 && s1.items && s1.items.length){
         body+='<div class="body"><b>1단계에 들어갔어야 하는 것</b>'+
@@ -2761,19 +2325,11 @@ function renderSetPane(pl){
           '<div class="n">2단계까지 B 화면에서 가려 뒀던 것이다. '+
           '빠진 것이 있으면 그것이 불일치 지점이다.</div></div>';
       }
-      /* 각자 적는다. 본문이 "각자 적는다" 고 시키는데 적을 자리가 없었다. */
       body+='<div class="body">'+xchkWrite()+'</div>';
     }else{
-      /* 적는 자리는 적을 수 있어야 한다. 보여 주기만 하면 종이를 따로 꺼내게 된다.
-         값은 그날 기록에 바로 들어간다. LRE 횟수는 이미 있는 칸을 쓴다. */
       var rec=day(today());
-      /* **아래 칸에 적으라고 시키는데 아래는 오늘 탭이다.**
-         4분짜리 기록 단계에서 탭을 옮겨 가서 적고 돌아와야 했다.
-         세션 중에 다른 탭에 가면 시계는 도는데 두 사람은 그것을 안 본다.
-         **여기서 적는다.** 오늘 탭의 그 칸과 같은 자리에 쌓인다. T224 */
       body='<div class="body">'+
         '<label class="blank">LRE 발생 횟수'+
-        /* 값을 여기 안 넣는다. 그린 뒤에 넣는다. 위 fillField 설명을 본다 */
         '<input type="number" min="0" step="1" id="setLre"'+
         ' style="width:80px;margin-left:8px"></label>'+
         '<div class="unresbox">'+
@@ -2795,8 +2351,6 @@ function renderSetPane(pl){
   setTimeout(function(){
     bindXchkWrite();
     var el=document.getElementById("setLre");
-    /* rec 은 4단계 칸 안에서 잡은 값이다. 그 단계가 없는 세트면 안 잡힌다.
-       여기서 다시 읽는다. 없는 것을 읽어 세션이 멎으면 안 된다. */
     var rc=day(today());
     fillField("setLre", rc.lre?String(rc.lre):"");
     var uc=document.getElementById("setUnCnt");
@@ -2808,7 +2362,6 @@ function renderSetPane(pl){
       ut.value=""; save(); renderUnres && renderUnres();
       if(uc) uc.textContent="지금 "+day(today()).unres.length+"건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.";
       flash("미해결 LRE 를 남겼다");
-      /* 남긴 것을 잘못 남길 수 있다. 세션 중이라 더 급하게 누른다. */
       offerUndo("미해결 LRE 1건 남김",function(){
         day(today()).unres.pop(); renderUnres && renderUnres();
         if(uc) uc.textContent="지금 "+day(today()).unres.length+"건 있다. 오늘 탭의 미해결 LRE 칸과 같은 자리다.";
@@ -2823,18 +2376,7 @@ function renderSetPane(pl){
 }
 
 
-/* =========================================================================
-   블록 3. 강의록 30분 진행표를 구간 타이머로 돈다.
-   **시간은 배분 문장에서 온다.** 96편이 다 합 30분이고 check_plan30 이 그것을 지킨다.
-   구간 목록(앞 12분은 ... / 뒤 12분은 ...)은 지시문이고 준비와 기록을 빼고 적은 강이 38편이다.
-   그래서 둘을 짝지어 짐작하지 않는다. 타이머는 배분 문장으로 돌고 지시는 따로 편다.
-   ========================================================================= */
 var PLAN_MULT={"둘":2,"셋":3,"넷":4,"다섯":5,"여섯":6};
-/* 강의록에서 온 글에는 역할이 "남편" 과 "아내" 로 박혀 있다. 기준서 4장의 말이다.
-   그런데 두 사람은 첫 화면에서 자기들 이름을 적어 넣을 수 있다.
-   **적어 넣으면 한 화면에 부른 이름과 안 부른 이름이 같이 뜬다.** T153 리허설에서 나왔다.
-   그래서 화면에 낼 때 갈아 끼운다. 기본값 그대로면 아무것도 안 바뀐다.
-   원본은 안 고친다. 종이는 기준서의 말을 그대로 들고 있는 것이 맞다. */
 function withNames(s){
   if(!s) return s;
   var A=(S.names&&S.names.a)||"남편", B=(S.names&&S.names.b)||"아내";
@@ -2845,9 +2387,6 @@ function withNames(s){
 function planPieces(line){
   var out=[];
   (line||"").split(",").forEach(function(part){
-    /* 배분 문장을 쉼표로 자른 것이라 **마지막 토막에 문장 끝이 붙어 온다.**
-       "기록 3분이다" 가 그대로 구간 이름이 되고 알림이 그것을 읽는다.
-       T231 에 한 세션 기록을 읽다가 보였다. 끝의 서술만 떼고 뜻은 안 건드린다. */
     var p=part.trim().replace(/\.$/,"").replace(/이다$/,"").trim();
     var m=/(\d+)\s*분/.exec(p); if(!m) return;
     var n=+m[1];
@@ -2858,13 +2397,6 @@ function planPieces(line){
   });
   return out;
 }
-
-/* =========================================================================
-   카드 뷰어. 블록 3에서 그날 카드 범위를 한 장씩 돈다.
-   **기준서가 정한 것 하나가 여기서 화면 규칙이 된다. 판정형 정답은 A면에만 있다.**
-   한 기기에 A면과 B면을 같이 띄우면 그 규칙이 화면에서 깨진다.
-   기기 쪽을 안 고르면 A면을 보여 준다. 블록 3에서 B 는 카드를 안 본다.
-   ========================================================================= */
 function cardKey(){ var pl=plan(); return today()+"|"+(pl.cards?pl.cards.from:0)+"|"+(S.cardMode||"today"); }
 function cardIdx(){
   var k=cardKey();
@@ -2874,15 +2406,7 @@ function cardIdx(){
 function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
 
 
-/* =========================================================================
-   카드 간격 반복. 강의가 정한 간격을 쓴다.
-   96편이 블록 4에 한 문장씩 적고 있다. 88편이 1일 3일 7일이고
-   86 90 92 95강이 30일, 96강이 60일, 48 70 72강은 다시 안 돈다.
-   **앱이 간격을 새로 정하지 않는다.** 강의가 정한 값을 그대로 쓴다.
-   ========================================================================= */
 function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
-/* 카드 하나가 어느 강에 붙는지. 묶음의 주차 표에서 나온다.
-   다시 낼 카드는 오늘 강의 것이 아니므로 이 값이 있어야 간격을 맞게 올린다. */
 function cardLecture(id){
   if(!IDX) return null;
   var p=String(id).split("-"); if(p.length!==2) return null;
@@ -2910,11 +2434,6 @@ function markCardRun(id, lectureNo){
   m[id]={box:box+1, due:addDays(today(), days[box]), ran:today()};
   save(); syncCardCount();
 }
-/* **오늘 돈 카드 수를 앱이 이미 알고 있다.** 그런데 대장은 손으로 받았다.
-   `markCardRun` 이 카드마다 돈 날을 적어 두는데 그 수를 아무도 안 셌다.
-   손으로 올리는 숫자는 언젠가 안 올라간다. 회전 대장에서 겪은 것과 같다.
-
-   센 것보다 적게 적히는 일만 막는다. **종이로 더 돌았을 수 있어서 위로는 안 막는다.** T216 */
 function ranToday(){
   var m=cardDue(), td=today(), n=0;
   for(var k in m) if(m[k] && m[k].ran===td) n++;
@@ -2931,15 +2450,6 @@ function dueCards(){
   return out;
 }
 
-/* 근거. **이 카드의 문장이 실제 녹음의 어디에 있는지다.**
-
-   A는 영어 제로다. 자기 소리가 맞는지 스스로 못 고친다.
-   원본 소리가 있는 자리를 아는 것이 유일한 길이다.
-   눌러서 그 과 그 줄로 바로 간다.
-
-   **근거 없는 문장은 안 적는다.** 내가 쓴 문장이라는 뜻이고
-   카드에 그렇게 적어 봐야 두 사람이 할 일이 없다.
-   그 판단은 out/ground/ 보고서와 check_ground.py 가 맡는다. */
 function renderGround(c){
   var g=DATA.ground;
   if(!g){
@@ -2958,8 +2468,6 @@ function renderGround(c){
   if(rows.length>6) h+='<div class="gh">외 '+(rows.length-6)+'줄</div>';
   return h+'</div>';
 }
-/* 그 과 그 줄로 간다. 미디어 탭에서 연다. 블록 3은 카드를 도는 자리라
-   여기서 소리를 틀면 드릴이 끊긴다. 옮겨 가서 듣고 돌아온다. */
 function goGround(at){
   var p=String(at).split(":"), id=p[0], line=+p[1]||1;
   function seek(){
@@ -2970,7 +2478,6 @@ function goGround(at){
     if(LIB.el.readyState>0) go2(); else LIB.el.addEventListener("loadedmetadata",go2,{once:true});
     flash(id+" "+line+"번째 줄로 갔다. 시각은 어림이다");
   }
-  /* 차림표를 늦게 읽는다. 그 과가 몇 번째인지는 차림표가 있어야 안다. T213 */
   needMedia(function(){
     var i=MEDIA.findIndex(function(x){return x.id===id;});
     if(i<0){ flash("그 과를 못 찾았다"); return; }
@@ -2979,22 +2486,7 @@ function goGround(at){
   });
 }
 
-/* =========================================================================
-   카드 제한시간 시계.
-
-   **압박형 카드에 초가 붙어 있는데 화면은 그것을 글자로만 말했다.**
-   "압박형 제한 시간 3초" 라고 적혀 있고 그다음은 사람이 센다.
-   세면서 말하는 것은 안 된다. 세는 쪽이 곧 재는 쪽이고 그러면 출제자가 심판이 된다.
-
-   시계가 그 자리를 대신한다. **출제자가 시작을 누르고 둘 다 남은 것을 본다.**
-   시간이 되면 소리가 난다. 화면은 못 했다고 말하지 않는다.
-   기준서 8.1 이 정한 초는 카드마다 붙어 있다. T205 에서 확인했다. T215
-
-   숫자는 그리는 글에 안 넣는다. 넣으면 매초 칸이 갈린다. T211 규칙과 같다.
-   ========================================================================= */
 var CLK={t:null,left:0,id:null};
-/* **지금 세는 것 하나만 크다.** 도는 동안 카드 시계가 커지고 블록 시계가 작아진다.
-   시계가 다섯인데 다 같은 크기면 어느 것을 보는지 두 사람이 서로 다르게 고른다. T222 */
 function markCardClock(on){ document.body.classList.toggle("card-clock",!!on); }
 function stopCardClock(){ if(CLK.t){ clearInterval(CLK.t); CLK.t=null; } markCardClock(false); }
 function paintCardClock(){
@@ -3009,7 +2501,6 @@ function startCardClock(sec){
     CLK.left--;
     if(CLK.left<=0){ clearInterval(CLK.t); CLK.t=null; CLK.left=0; paintCardClock();
                      tone("next");
-                     /* 다 세고 나서 바로 줄이지 않는다. 끝난 것을 보고 나서 줄인다. */
                      setTimeout(function(){ markCardClock(false); },1500);
                      return; }
     paintCardClock();
@@ -3018,7 +2509,6 @@ function startCardClock(sec){
 function renderCardClock(c, mine){
   if(!c.seconds) return "";
   var h='<div class="ckrow"><span class="ckn" id="ckLeft">'+c.seconds+'초</span>';
-  /* 응답자 화면에는 시작 단추를 안 낸다. 재는 쪽과 받는 쪽이 갈린다. */
   if(mine==="b") h+='<span class="n">'+esc(S.names.a)+' 쪽이 시작한다</span>';
   else h+='<button type="button" class="g" id="ckGo">'+c.seconds+'초 재기</button>';
   return h+'</div>';
@@ -3030,9 +2520,6 @@ function renderCardView(pl){
     return '<div class="n">카드를 여는 중이다.</div>';
   }
   if(!pl.cards) return "";
-  /* 두 벌을 돈다. 오늘 범위와 다시 낼 카드다.
-     다시 낼 카드는 오늘 범위 밖이라 이 화면이 없으면 영영 안 나온다.
-     간격 반복은 다시 내는 것이 전부인 장치이므로 그것이 곧 장치가 없는 것이 된다. */
   var due=dueCards();
   var mode=(S.cardMode==="due" && due.length) ? "due" : "today";
   var list;
@@ -3074,7 +2561,6 @@ function renderCardView(pl){
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
   var m=cardDue()[c.id];
-  /* 다시 낼 카드는 오늘 강의 것이 아니다. 그 카드가 붙은 강의 간격을 써야 한다. */
   var ownLec=cardLecture(c.id) || pl.lectureNo;
   var sp=spacingDays(ownLec);
   if(sp) h+='<div class="meta"><b>간격</b> '+sp.join("일 · ")+'일'+
@@ -3103,7 +2589,6 @@ function renderCardView(pl){
         stopCardClock();      // 카드를 넘기면 앞 카드의 시계는 끝난 것이다
         if(b.dataset.card==="run"){
           markCardRun(c.id, ownLec);
-          /* 적고 나면 다음 카드로 간다. 한 장씩 도는 자리라 손이 한 번만 나가야 한다. */
           setCardIdx(i+1>=list.length?0:i+1);
           return;
         }
@@ -3116,7 +2601,6 @@ function renderCardView(pl){
   return h;
 }
 
-/* 블록 3 구간이 어디까지 왔는지. 블록 2의 `SWAP` 과 같은 자리다. */
 var DRILL={step:null};
 function renderDrillPane(pl){
   var lec=DATA.lectures;
@@ -3134,15 +2618,6 @@ function renderDrillPane(pl){
   var used=BLOCKS[2].m*60-Math.max(0,T.left), acc=0, cur=0;
   ps.forEach(function(x,i){ if(used>=acc) cur=i; acc+=x.min*60; });
 
-  /* **구간이 바뀌면 하는 일이 바뀌는데 아무 소리가 안 났다.**
-     블록 2는 단계가 바뀔 때 소리로 알린다. 블록 3은 30분을 서너 구간으로 나누고
-     그중 하나가 역할을 바꾸는 자리인데 화면만 바뀌었다.
-
-     두 사람은 카드를 주고받는 중이라 화면을 안 본다. 그래서 교대를 놓친다.
-     블록 2에서 T176 에 겪은 것과 같은 자리다. **같은 병을 두 번째로 고친다.** T217
-
-     역할을 바꾸는 구간이면 다른 소리를 낸다. 그 구간이 이 블록의 중심이다.
-     기준서 2.4 가 요구하는 교대가 실제로 일어나는 자리가 여기다. */
   if(T.run && DRILL.step!==null && DRILL.step!==cur){
     var lab=(ps[cur]||{}).label||"";
     var swap=/역할.*(바꿔|바꾸|교대)/.test(lab);
@@ -3165,14 +2640,10 @@ function renderDrillPane(pl){
     acc+=x.min*60;
     h+='<div class="setstep'+(i===cur?" now":"")+'"><h5>'+esc(x.label)+left+'</h5></div>';
   });
-  /* 구간 지시가 타이머 칸과 글자까지 같은 강이 있다. 배분 문장과 구간 목록이 한 문장인 강들이다.
-     같은 것을 두 번 보여 주면 화면만 길어지고 읽을 것이 준다. 다를 때만 편다. */
   var segs=(L.plan&&L.plan.segments)||[];
   var labels=ps.map(function(x){return x.label;}).join("|");
   if(segs.length && segs.join("|")!==labels)
     h+='<div class="n"><b>구간 지시</b><br>'+segs.map(function(s){return esc(s);}).join("<br>")+'</div>';
-  /* **이 블록이 남기는 것을 이 블록에서 받는다.** 오늘 탭까지 가서 적으면
-     30분 드릴이 끊긴다. 장수는 앱이 세고 발화 분만 사람이 적는다. T216 */
   h+='<div class="drec"><div class="k">이 블록이 남기는 것</div>'+
      '<div class="cntrow">'+
      '<label class="blank"><span>오늘 돈 카드</span>'+
@@ -3194,55 +2665,22 @@ function renderDrillPane(pl){
   },0);
   return h;
 }
-
-
-/* =========================================================================
-   블록 1과 4. 미디어를 그 자리에서 연다.
-   전에는 "미디어 탭에서 그 과를 연다" 라고 적기만 했다.
-   **적어 놓은 지시는 찾는 일을 사람에게 넘긴 것이다.** 52과 중에서 골라야 한다.
-   재생기를 여기 새로 안 만든다. 미디어 탭에 이미 있고 배속과 구간 반복과 대본이 붙어 있다.
-   같은 것을 두 벌 만들면 두 벌이 어긋난다. 그 탭으로 보내되 그 과를 열어 놓고 보낸다.
-   ========================================================================= */
 function mediaPass(id){
   try{ var c=(S.media&&S.media.pass&&S.media.pass[id])||{};
        return ["1","2","3"].filter(function(k){return c[k];}).length; }
   catch(e){ return 0; }
 }
-/* 회차마다 초점이 다르다. 기준서 10.3 이 셋으로 정한다.
-   **앱은 T153 까지 둘만 돌았다.** 블록 1이 소리이고 블록 4가 청크였다.
-   의미 회차는 화면에 한 번도 안 떴다. 하루에 자리가 둘뿐이라
-   세션 한 벌만 보면 둘로도 차서 안 보인다. 사흘을 이어 돌아야 셋째가 빈 것이 보인다. */
 var ROUND_FOCUS = [null,
   "1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다.",
   "2회차 초점은 청크다. 낱말이 아니라 덩어리로 끊어 듣는다.",
   "3회차 초점은 의미다. 이제 무슨 말인지를 듣는다."];
-/* 자리마다 하는 것이 다르다. 회차와 따로다. */
 var SEAT_NOTE = {alone: "각자 헤드폰이다. 말을 걸지 않는다.",
                  together: "같은 자료를 같이 듣는다. A가 재생을 맡는다."};
 
-/* 오늘 도는 회차. **한 과를 사흘 돈다. 하루가 한 회차다.**
-   하루에 자리가 둘(블록 1과 4)인데 그 둘은 같은 회차다.
-   그래서 끝냈다 단추는 그날 마지막 자리에만 둔다. 두 자리에 다 두면
-   하루에 회차가 둘씩 올라 이틀 반이면 셋이 다 찬다. T153 에서 실제로 그랬다.
-
-   **회차는 강마다 센다. 과마다 세지 않는다.** 96강이 52과를 나눠 쓴다.
-   44과는 두 강이 같이 쓴다. 과로 세면 뒤에 오는 강이 시작부터 다 찬 채로 뜬다.
-   T156 에 48주를 훑어 보고 나왔다. 96묶음이 다 사흘인 것도 거기서 확인했다.
-   미디어 탭의 3회차 표시는 과마다 그대로 둔다. 그것은 그 과를 들었는가를 보는 자리다. */
 function lecRound(){ var r=mediaRec(); if(!r.lec) r.lec={}; return r.lec; }
 function lecPass(no){ return no==null ? 0 : Math.min(lecRound()[no]||0, 3); }
 function roundNow(no){ return Math.min(lecPass(no)+1, 3); }
 
-/* =========================================================================
-   조준표를 그 자리에 편다.
-
-   **40분 동안 화면이 "조준표 과제대로 듣는다" 고만 말했다.** T208 진단이다.
-   어느 과제인지는 종이에 있었다. 종이를 펴면 화면과 종이가 둘 다 켜진다.
-
-   자리마다 펴는 것이 다르다. 블록 1은 각자 찾으며 듣는 자리라 **찾을 것**이고
-   블록 4는 같이 듣고 맞춰 보는 자리라 **대조하는 법**이다.
-   둘을 다 펴면 40분짜리 지시와 20분짜리 지시가 한 화면에 겹친다.
-   ========================================================================= */
 function aimWeek(pl){
   var d=DATA.input; if(!d) return null;
   var out=null;
@@ -3268,27 +2706,12 @@ function aimCross(pl, round){
   });
   return out;
 }
-/* **과제가 둘인 주가 열둘이다.** 강의 둘이 서로 다른 과를 쓰는 주다.
-   한 대본에서 둘을 찾는 것이 아니라 강마다 자기 과에서 하나씩 한다.
-   그래서 오늘 강에 걸린 것 하나만 편다. 둘을 다 펴면 조준표 4장이 금지한
-   "한 번에 두 가지 찾기" 가 된다. */
 function aimTask(w, pl){
   if(!w || !w.tasks || !w.tasks.length) return null;
   if(w.tasks.length===1) return w.tasks[0];
   var i=(w.lectures||[]).indexOf(pl.lectureNo);
   return w.tasks[i>=0 && i<w.tasks.length ? i : 0];
 }
-/* =========================================================================
-   블록 4의 20분을 자료 길이에서 파생시킨다.
-
-   블록 2와 3은 시간이 구간으로 갈린다. 강의록에 배분이 적혀 있기 때문이다.
-   **블록 4는 20분이 통째로 있다.** 같이 듣기와 맞춰 보기가 한 덩어리다.
-   그러면 듣다가 시간이 다 가고 맞춰 보는 자리가 없어진다.
-
-   숫자를 새로 선언하지 않는다. **자료 길이가 그 숫자를 이미 갖고 있다.**
-   조준표 1장이 자료를 2분에서 4분으로 정했고 카탈로그에 그 길이가 적혀 있다.
-   두 번 트는 데 걸리는 시간이 듣는 자리고 남는 것이 맞춰 보는 자리다. T218
-   ========================================================================= */
 var PHASE={at:null};
 function mmssSec(s){
   var m=/(\d+):(\d+)/.exec(String(s||"")); if(!m) return 0;
@@ -3310,7 +2733,6 @@ function aimPhase(pl){
   return '<div class="phase'+(on==="check"?" chk":"")+'">'+
     (on==="listen" ? "같이 듣는 자리 · 남은 "+left+"분"
                    : "맞춰 보는 자리 · 남은 "+left+"분")+
-    /* 시각 뒤에 조사를 안 붙인다. 03:21 과 04:00 이 다르게 읽힌다. */
     '<span class="n">이 과는 '+esc(MEDIA[i].duration||"")+' 다. 두 번 듣는 데 '+
     Math.round(listen/60)+'분이고 남는 것이 맞춰 보는 시간이다.</span></div>';
 }
@@ -3324,11 +2746,6 @@ function renderAimPane(pl, seat, round){
   if(!w) return '<div class="n">'+pl.week+'주 조준표 과제를 못 찾았다.</div>';
   if(seat==="alone"){
     var task=aimTask(w,pl), c=aimCollect(pl);
-    /* **초점을 두 곳이 말하면 두 사람이 어느 쪽인지 모른다.**
-       위 줄이 회차 초점을 말한다. 기준서 10.3 이 정한 것이고 하루가 한 회차다.
-       조준표는 그 위에 더 좁은 것을 얹는다. 조준표 4장이 "강의가 지정하는 과제는
-       이보다 좁다" 고 적어 뒀다. **넓은 것과 좁은 것이지 둘 중 하나가 아니다.**
-       그래서 여기서 초점을 다시 말하지 않는다. 좁은 것만 말한다. T210 */
     var h='<div class="aim"><div class="k">이 주에 찾을 것 · '+pl.week+'주</div>'+
           '<div class="v big">'+esc(task||"")+'</div>'+
           '<div class="n">회차 초점보다 좁다. 이것 하나만 한다.'+
@@ -3347,23 +2764,6 @@ function renderAimPane(pl, seat, round){
   return h2+aimWrite("together",round)+'</div>';
 }
 
-/* 적는 칸. **적으라고 하는데 적을 칸이 없었다.** T208 진단이다.
-   그래서 두 사람이 종이를 꺼냈고 그 종이가 40분 내내 화면 옆에 켜져 있었다.
-
-   자리마다 다르다.
-
-     블록 1   각자 적는다. **서로 안 보인다.** 그것이 이 자리의 장치다
-     블록 4   둘 것을 펴고 겹친 수와 안 겹친 수를 같이 센다
-
-   기기가 하나면 가릴 수 없다. 그때는 두 칸을 다 보이고 그 사실을 말한다.
-   D단계가 기기 둘을 만들면 그 말이 없어진다. */
-/* **회차마다 대조하는 것이 다르다.** 조준표 6장이 그렇게 정한다.
-   1회차는 표시한 지점을 세고, 2회차는 덩어리를 견주고, 3회차는 요약을 맞춘다.
-   같은 칸 두 개로 셋을 다 받되 **이름과 판정이 회차마다 다르다.** T214
-
-     1회차   겹친 지점과 안 겹친 지점을 센다. 안 겹친 것이 더 많으면 한 번 더 듣는다
-     2회차   덩어리를 견준다. 하나도 안 겹치면 덩어리 판정 기준이 아직 안 잡힌 것이다
-     3회차   한 사람이 요약하고 한 사람이 보탠다. 어긋난 것은 미해결 LRE 로 간다 */
 var AIMLABEL={1:["표시한 지점","표시한 지점"],
               2:["끊어 들은 덩어리","끊어 들은 덩어리"],
               3:["요약","보탤 것"]};
@@ -3373,7 +2773,6 @@ function aimWrite(seat, round){
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
   var lab=AIMLABEL[round]||AIMLABEL[1];
   function box(side,name,what){
-    /* 이름 뒤에 조사를 안 붙인다. 받침 있는 이름과 없는 이름이 다르게 읽힌다. */
     return '<label class="blank aimw"><span>'+esc(name)+' · '+esc(what)+'</span>'+
            '<textarea id="aim'+side.toUpperCase()+'" rows="2" '+
            'placeholder="한 줄로 적는다"></textarea></label>';
@@ -3388,7 +2787,6 @@ function aimWrite(seat, round){
     return h;
   }
   var h2='<div class="k">따로 적은 것을 편다</div>'+box("a",A,lab[0])+box("b",B,lab[1]);
-  /* 3회차는 세는 것이 아니라 맞추는 것이다. 셈 칸을 안 낸다. */
   if(round===3)
     return h2+'<div class="n" id="aimSay">어긋난 것은 미해결 LRE 로 적는다. '+
            '누가 맞았는지는 정하지 않는다.</div>';
@@ -3399,8 +2797,6 @@ function aimWrite(seat, round){
     '<input type="number" min="0" step="1" id="aimDiff"></label></div>'+
     '<div class="n" id="aimSay"></div>';
 }
-/* **판정을 화면이 말한다.** 조준표 6장에 적힌 조건을 사람이 매번 세어 볼 수는 없다.
-   숫자를 넣으면 그 자리에서 무엇을 해야 하는지가 나온다. 판정하는 사람은 없다. */
 function aimVerdict(round){
   var e=document.getElementById("aimSay");
   if(!e || round===3) return;
@@ -3413,7 +2809,6 @@ function aimVerdict(round){
   if(d>s) e.textContent="안 겹친 것이 더 많다. 그 자료를 한 번 더 듣는다. 조준표 6장이 정한다.";
   else e.textContent="겹친 것이 더 많다. 다음으로 넘어간다.";
 }
-/* 값은 그린 뒤에 넣고 손이 올라가 있는 칸은 안 건드린다. `fillField` 를 본다. */
 function bindAimWrite(rd){
   var r=day(today()), a=r.aim||(r.aim={a:"",b:"",same:0,diff:0});
   [["aimA","a"],["aimB","b"]].forEach(function(x){
@@ -3429,16 +2824,6 @@ function bindAimWrite(rd){
   aimVerdict(rd);
 }
 
-/* **조준표 8장이 안 하는 것을 정해 놓았는데 앱이 그것을 한 번도 안 말했다.**
-   자막 켜고 듣기, 대본 먼저 읽고 듣기, 속도 낮춰 두 번 이상 듣기다.
-   앱에 그 단추가 다 있다. 대본 가림 단추와 느리게 단추다.
-
-   막지는 않는다. **막으면 종이로 하게 된다.** 그 자리에서 규칙을 말한다.
-   그리고 늘 말하지 않는다. **그 자리에 갔을 때만** 말한다.
-   늘 떠 있으면 안 읽는다. T220 */
-/* 찾는 차례가 있다. **이 앱에는 자막이 없고 대본이 있다.**
-   자막 줄이 목록에서 먼저 나오는데 그것을 집으면 안 한 일을 했다고 말하게 된다.
-   그래서 규칙을 하나로 안 찾고 차례대로 찾는다. */
 function aimAvoid(pl, res){
   var d=DATA.input; if(!d) return null;
   var q=(d.items||[]).filter(function(x){return x.quarter===pl.quarter;})[0];
@@ -3453,7 +2838,6 @@ function renderMediaPane(pl, seat){
   var head='<div class="k">이 블록에 쓰는 것 · 미디어</div><div class="v">'+
            esc(pl.media||"(없음)")+'</div>';
   if(!pl.media) return head;
-  /* 차림표를 늦게 읽는다. 블록 칸은 세션에 들어가야 그린다. T213 */
   if(!MEDIA.length){
     needMedia(function(){ renderBlockPane(); });
     return head+'<div class="n">차림표를 여는 중이다.</div>';
@@ -3466,17 +2850,9 @@ function renderMediaPane(pl, seat){
   var full=done>=3;
   var focus = (full ? "세 회차를 다 끝냈다. 오늘은 다시 듣기다. 초점은 의미다."
                     : ROUND_FOCUS[round]) + " " + SEAT_NOTE[seat];
-  /* **다 끝내고 나서 무엇을 하는지가 화면에 없었다.** 세 회차를 마치면
-     그 과는 끝인데 화면은 다시 듣기라고만 했다. 그 과가 끝났다는 것과
-     다음이 무엇인지는 회전 탭에 있고 세션 중에는 거기까지 안 간다. T219 */
   var after = full && seat==="together"
     ? '<div class="n">이 과는 세 회차를 다 돌았다. 다음 강의 과는 다음 세션에 뜬다. '+
       '지금 남은 시간은 다시 듣기와 대조에 쓴다.</div>' : "";
-  /* 기준서와 CLAUDE.md 가 금지한 것 하나가 여기서 화면 규칙이 된다.
-     **C-gen 음성으로 Q1 소리 트랙 통과 판정을 하지 않는다.**
-     오늘 자료 52과는 다 C-real 이라 지금은 어긋남이 없다.
-     그런데 그것은 자료가 우연히 맞는 것이지 앱이 규칙을 지키는 것이 아니다.
-     C-gen 이 하나라도 들어오면 그날부터 판정이 잘못된다. 여기서 막는다. */
   var soundQ1 = (pl.quarter==="Q1" && pl.track==="소리");
   var locked = soundQ1 && it.grade!=="C-real";
   var h=head+'<div class="n"><b>'+esc(it.title)+'</b> · '+esc(it.duration||"")+
@@ -3484,9 +2860,6 @@ function renderMediaPane(pl, seat){
     '<br>'+focus+'<br>회차 '+done+' / 3 끝냈다</div>';
   if(locked) h+='<div class="cardwarn">이 과는 '+esc(it.grade||"등급 없음")+
     ' 이다. Q1 소리 트랙 통과 판정은 C-real 로만 한다. 연습에는 쓴다.</div>';
-  /* **재생기가 이 칸 안에 있다.** 전에는 미디어 탭으로 보냈다.
-     블록 1은 40분이고 블록 4는 20분이다. 그 시간 내내 다른 탭에 가 있으면
-     지시와 회차와 남은 시간이 다 안 보인다. 여기서 튼다. T125 */
   h+=after;
   h+=renderAimPane(pl, seat, round);
   h+='<div class="sessplay" id="sessPlayHost"></div>';
@@ -3495,7 +2868,6 @@ function renderMediaPane(pl, seat){
   h+='<div class="cardnav">'+
     '<button type="button" data-media="audio">소리</button>'+
     (it.video?'<button type="button" data-media="video">영상</button>':"")+
-    /* **그날 마지막 자리에만 둔다.** 각자 듣는 자리에도 두면 하루에 둘씩 오른다. */
     (done<3 && !locked && seat==="together" ?
       '<button type="button" data-media="pass">'+round+'회차 끝냈다로 적기</button>' : "")+
     '<button type="button" data-media="loop" class="'+(SESS.loop!=null?"on":"")+'">'+
@@ -3505,13 +2877,8 @@ function renderMediaPane(pl, seat){
     '<button type="button" data-media="fast">빠르게</button>'+
     '<button type="button" data-media="lib">미디어 탭에서</button>'+
     '</div>'+
-    /* **돈 횟수는 여기 글자로 안 넣는다.** 넣으면 한 바퀴 돌 때마다 글자가 바뀌고
-       칸이 다시 그려지고 재생기가 다시 걸린다. 그러면 되풀이가 한 바퀴에 한 번씩
-       끊긴다. 실제로 그렇게 만들었고 첫 바퀴에서 소리가 멎었다.
-       빈 칸만 두고 숫자는 syncCur 이 써 넣는다. T125 와 같은 규칙이다. */
     '<div class="n"><span id="sessRate"></span>'+
     (SESS.loop!=null?' · <span id="sessLap"></span>':"")+'</div>';
-  /* 지금 어긴 것만 말한다. 대본을 회차 기본보다 더 보이게 했거나 속도를 낮췄을 때다. */
   var deft=(round===1?2:round===2?1:0);
   if(veil<deft){
     var sc=aimAvoid(pl,[/대본/,/자막/]);
@@ -3534,8 +2901,6 @@ function renderMediaPane(pl, seat){
           if(locked){ flash("C-real 이 아니라 판정에 안 쓴다"); return; }
           var no=pl.lectureNo, cur=lecPass(no);
           if(cur>=3){ flash("세 회차를 다 끝냈다"); return; }
-          /* **강 회차가 진짜 값이다.** 과 회차는 미디어 탭이 쓰는 딸린 값이다.
-             과를 두 강이 나눠 쓰면 과 회차는 먼저 차고 강 회차는 강마다 새로 센다. */
           lecRound()[no]=cur+1;
           var next=mediaNextPass(it.id);
           var addedPass=null;
@@ -3544,10 +2909,6 @@ function renderMediaPane(pl, seat){
           save();
           renderBlockPane(); renderMediaStats && renderMediaStats();
           flash((cur+1)+"회차를 적었다");
-          /* **회차는 사흘에 하나씩 오르는 값이다.** 잘못 누르면 그날 것이 사라지고
-             그 과가 하루 일찍 끝난 것으로 남는다. 그리고 그것이 눈에 안 띈다.
-             다음 세션에 초점이 한 칸 건너뛴 채로 뜰 뿐이다.
-             기록을 지우는 자리가 아니라 **올리는 자리인데도 되돌릴 수 있어야 한다.** T219 */
           offerUndo((cur+1)+"회차로 적었다",function(){
             lecRound()[no]=cur;
             if(addedPass){ var pc=passRec()[it.id];
@@ -3561,7 +2922,6 @@ function renderMediaPane(pl, seat){
           if(SESS.loop!=null){ SESS.loop=null; SESS.laps=0; }
           else{
             if(!SESS.cue){ flash("대본이 아직 안 열렸다"); return; }
-            /* 지금 밝은 줄을 돈다. 밝은 줄이 없으면 첫 줄부터다. */
             SESS.loop=Math.max(0, SESS.line);
             SESS.loopN=1; SESS.laps=0;
             if(SESS.el){ try{ SESS.el.currentTime=SESS.cue[SESS.loop]; }catch(e){}
@@ -3578,7 +2938,6 @@ function renderMediaPane(pl, seat){
           return;
         }
         if(k==="veil"){
-          /* 다 보임 -> 덩어리만 -> 가림 -> 다 보임 */
           SESS.veil=((veilOf(round))+2)%3;
           renderBlockPane();
           flash("대본을 "+VEILNAME[SESS.veil]+" 로 바꿨다");
@@ -3594,7 +2953,6 @@ function renderMediaPane(pl, seat){
           return;
         }
         if(k==="lib"){
-          /* 그 과를 열어 놓고 보낸다. 52과에서 고르게 하지 않는다. */
           stopSessPlay(); openMedia(i, SESS.mode||"audio", true); go("media"); return;
         }
         sessPlay(it, k, true);
@@ -3603,28 +2961,6 @@ function renderMediaPane(pl, seat){
   },0);
   return h;
 }
-
-/* =========================================================================
-   소리 여섯.
-
-   전에는 하나였다. 블록이 끝날 때 나는 소리다.
-   그런데 이 앱에서 소리로 알려야 하는 일이 여섯이다.
-   **두 사람이 화면을 안 보고 있을 때가 많다.** 마주 앉아 말하는 중이거나
-   헤드폰을 끼고 듣는 중이다. 그때 화면만 바뀌면 아무도 모른다.
-
-   | 소리 | 언제 | 어떤 소리 |
-   |---|---|---|
-   | 시작 | 세션을 시작할 때 | 낮은 데서 높은 데로 둘 |
-   | 넘김 | 블록이 바뀔 때 | 짧게 하나 |
-   | 되풀이 | 구간이 한 바퀴 돌 때 | 아주 짧고 여린 하나 |
-   | 교대 | 역할이 바뀔 때 | 같은 음 둘. 주고받는 꼴 |
-   | 판 끝 | 블록 시간이 다 됐을 때 | 둘. 전에 쓰던 그 소리 |
-   | 세션 끝 | 두 시간이 다 됐을 때 | 셋. 올라가는 꼴 |
-
-   **소리는 규칙이 있어야 한다.** 아무 소리나 여섯이면 여섯을 외워야 한다.
-   올라가면 시작하는 것이고 내려가면 끝나는 것이다. 짧으면 지나가는 것이고
-   길면 멈추는 것이다. 그 둘만 알면 나머지는 안 외워도 된다.
-   ========================================================================= */
 var TONE={
   start:  {n:[523,784],       gap:0.16, len:0.30, vol:0.13},
   next:   {n:[698],           gap:0.00, len:0.16, vol:0.10},
@@ -3633,8 +2969,6 @@ var TONE={
   blockend:{n:[660,880],      gap:0.28, len:0.30, vol:0.12},
   done:   {n:[523,659,784],   gap:0.18, len:0.34, vol:0.13}
 };
-/* 소리를 낼 때마다 소리 상자를 새로 만들지 않는다. 되풀이는 한 바퀴마다 난다.
-   상자를 계속 만들면 브라우저가 어느 순간 더 안 만들어 준다. */
 var AC=null;
 function actx(){
   try{
@@ -3662,30 +2996,11 @@ function tone(kind){
     });
   }catch(e){}
 }
-/* 옛 이름. 블록이 끝날 때 나던 소리다. 부르는 자리가 남아 있어 그대로 둔다. */
 function beep(){ tone("blockend"); }
-
-/* =========================================================================
-   대본 동기. 줄을 누르면 그 자리로 가고 들으면 그 줄이 밝아진다.
-
-   **시각은 어림이다.** T126 에서 확인했다. 줄별 시각은 lessonData 에도
-   자막 파일에도 없다. eng2p/out/data/cues.js 는 그 과의 실제 길이를
-   글자 수로 나눈 것이고 쉼을 안 셌다. docs/audio_timing.md 에 근거가 있다.
-
-   **어림이라고 화면에 적는다.** 시각 앞에 물결표를 붙이고 머리에 한 줄 쓴다.
-   그러지 않으면 두 사람이 이 숫자를 사실로 읽는다. 영어 제로라 가릴 수가 없다.
-   ========================================================================= */
 function fmtT(s){
   s=Math.max(0,Math.round(s));
   return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
 }
-/* 잡아 둔 자리. 두 사람이 들으면서 찍은 것이다. 기기에 남는다.
-   S.cues = { "lle1-01": { "4": 9.2 } } 꼴이다. 줄 번호는 문자열로 들어온다. */
-/* **줄 번호로 저장한다. 그러니 대본 줄 수가 바뀌면 그 번호가 딴 줄을 가리킨다.**
-   지금 대본은 고정이지만 파생기를 고치면 줄이 하나 늘거나 준다. 실제로 T126 에
-   머리말 읽는 자리를 건드렸다. 그때 잡아 둔 자리가 통째로 한 칸씩 밀리는데
-   **화면에서는 잘 도는 것처럼 보인다.** 잡았던 줄에 초록 표시가 그대로 있다.
-   줄 수를 같이 적어 두고 다르면 버린다. 버렸다고 말한다. */
 function cueRec(id, n){
   if(!S.cues) S.cues={};
   var r=S.cues[id];
@@ -3706,9 +3021,6 @@ function cueCount(id){
   var n=0; for(var k in r) if(k!=="_n") n++;
   return n;
 }
-/* 실제로 쓸 시각. **잡은 자리는 못이고 그 사이를 어림으로 편다.**
-   한 줄만 잡아도 그 앞뒤가 다 같이 맞아 든다. 어림의 모양은 그대로 두고
-   길이만 늘이고 줄이기 때문이다. 잡은 자리가 늘수록 표가 굳는다. */
 function effCues(id, cue, dur){
   if(!cue||!cue.length) return null;
   var n=cue.length, fix=(S.cues||{})[id]||{};
@@ -3719,9 +3031,6 @@ function effCues(id, cue, dur){
   var out=new Array(n), k=0;
   for(var a=0;a<anchors.length-1;a++){
     var p=anchors[a], q=anchors[a+1];
-    /* 어림 자리도 소리 길이 위에 폈다. 그러니 마지막 줄 다음 자리는 곧 소리의 끝이다.
-       여기서 그 끝을 딴 값으로 어림하면 **못을 하나도 안 박았는데 표가 바뀐다.**
-       실제로 한 번 그렇게 만들었고 27.03초짜리 줄이 23.13초로 당겨졌다. T129 */
     var cp=cue[p.i]==null?0:cue[p.i], cq=(q.i>=n)?end:cue[q.i];
     var span=cq-cp;
     for(k=p.i;k<Math.min(q.i,n);k++){
@@ -3731,14 +3040,6 @@ function effCues(id, cue, dur){
   }
   return out;
 }
-/* 대본 가리기. **1회차에 글을 보면 소리를 안 듣는다.**
-   기준서 10.3의 회차 초점이 소리 / 청크 / 의미다. 글이 다 보이면 세 회차가 다 의미가 된다.
-   그래서 회차가 기본값을 정한다. 두 사람이 바꿀 수 있지만 기본은 회차를 따른다.
-
-   0 다 보임 · 1 덩어리만 · 2 가림
-   블록 1은 1회차라 가림, 블록 4는 2회차라 덩어리만이다. */
-/* 가림도 회차를 따른다. 1회차는 소리라 다 가리고, 2회차는 덩어리만 주고,
-   **3회차는 의미라 다 보여 준다.** 글을 봐야 무슨 말인지를 듣는다. */
 function veilOf(round){
   if(SESS.veil!=null) return SESS.veil;
   return round===1 ? 2 : round===2 ? 1 : 0;
@@ -3765,8 +3066,6 @@ function renderSyncScript(it, round){
   var eff=effCues(it.id, cue, (al.items||{})[it.id]);
   var nfix=cueCount(it.id);
   var veil=veilOf(round);
-  /* 안내는 짧게. **긴 안내는 안 읽힌다.** 두 사람이 세션 중에 보는 칸이다.
-     어림이라는 것과 고칠 수 있다는 것 둘만 남긴다. T133 */
   var h='<div class="syncnote">대본 '+lines.length+'줄 · 누르면 그 자리로 간다. '+
     '<b>시각은 어림이다</b>(물결표). 그 줄이 날 때 <b>여기</b> 를 누르면 앞뒤가 같이 맞아 든다.'+
     (nfix?' · '+nfix+'줄 잡았다':'')+'</div>'+
@@ -3779,7 +3078,6 @@ function renderSyncScript(it, round){
     var t=eff?eff[i]:null, fixed=cueFixed(it.id,i)!=null;
     h+='<button type="button" class="scline'+(fixed?" fixed":"")+
        (SESS.loop!=null&&i>=SESS.loop&&i<SESS.loop+loopSpan()?" loop":"")+'" data-cue="'+i+'">'+
-       /* 시각을 모르는 줄이다. em-dash 를 쓰고 있었다. 절대 규칙에 걸린다. T152 */
        '<span class="sct">'+(t==null?"--":(fixed?"":"~")+fmtT(t))+'</span>'+
        '<span class="scl" data-mask="'+esc(maskOf(s,veil||1))+'">'+esc(s)+'</span>'+
        '<span class="sca" data-anchor="'+i+'" role="button" tabindex="0" '+
@@ -3787,26 +3085,13 @@ function renderSyncScript(it, round){
   });
   return h+'</div>';
 }
-/* 지금 어느 줄인지를 **class 만 바꿔서** 칠한다.
-   다시 그리면 재생기가 죽는다. T125 에서 그것 때문에 칸을 안 그리게 만들었다.
-   여기서 innerHTML 을 건드리면 그 일을 도로 무른 것이 된다. */
-/* 그 줄이 끝나는 자리. 다음 줄의 시작이고 마지막 줄이면 소리의 끝이다. */
 function lineEnd(i){
   var c=SESS.cue; if(!c) return null;
   if(i+1<c.length) return c[i+1];
-  /* 마지막 줄의 끝은 소리의 끝이다. **재생기가 아는 값을 먼저 쓴다.**
-     audiolen.js 는 mp3 프레임을 세서 낸 값이라 브라우저보다 0.1초쯤 길다.
-     인코더가 앞뒤에 붙인 빈 자리를 브라우저는 빼고 프레임 세기는 못 뺀다.
-     T136 에 52과를 다 재 봤고 -0.08 에서 -0.107초로 늘 같은 쪽이었다.
-     그 0.1초 때문에 **마지막 줄 되풀이가 한 바퀴도 안 돌았다.**
-     끝에 못 닿으니 소리가 그냥 끝나 버린다. 재 보기 전에는 몰랐다. */
   if(SESS.el && SESS.el.duration > 0) return SESS.el.duration;
   var al=DATA.audiolen;
   return (al&&al.items&&al.items[SESS.id]) || null;
 }
-/* 되풀이하는 구간의 끝. 한 줄이면 그 줄의 끝이고 여러 줄이면 마지막 줄의 끝이다.
-   **여러 줄이 필요한 이유가 있다.** 3회차 초점은 의미다. 한 줄만 돌면
-   앞뒤가 없어서 무슨 말인지 모른다. 주고받는 두세 줄이 한 덩어리다. */
 function loopEnd(){
   if(SESS.loop==null) return null;
   return lineEnd(SESS.loop+(SESS.loopN||1)-1);
@@ -3816,15 +3101,6 @@ function paintLap(){
   var lap=$("#sessLap"); if(lap) lap.textContent=(SESS.laps||0)+"번 돌았다";
   var r=$("#sessRate"); if(r) r.textContent="속도 "+rateOf().toFixed(2)+"배";
 }
-/* 배속. **0.75에서 1.25까지다.** 그 밖은 못 고른다.
-   더 늦추면 소리가 늘어져서 이어 말하기의 리듬이 없어진다.
-   더 빠르게 하면 두 사람이 못 따라간다. 기준서 10.3의 회차 구조가 무너진다.
-
-   피치는 유지한다. `preservesPitch` 를 재생기 만들 때 켠다.
-   안 켜면 늦출 때 목소리가 낮아지고 **그 낮아진 소리를 따라 하게 된다.**
-   그것은 다른 소리를 익히는 것이다.
-
-   **고른 속도는 남는다.** 두 사람이 정한 것을 다음 날 다시 정하게 하지 않는다. */
 var RATE_MIN=0.75, RATE_MAX=1.25, RATE_STEP=0.05;
 function rateOf(){
   var v=+(S.rate||1);
@@ -3843,16 +3119,12 @@ function syncCur(){
   paintLap();
   var box=$("#sessScript"); if(!box||!SESS.el||!SESS.cue) return;
   var t=SESS.el.currentTime, c=SESS.cue, i=0;
-  /* 되풀이. **A-B 를 손으로 안 찍는다.** 줄의 시작과 끝이 이미 A 와 B 다.
-     소리든 영상이든 같은 자리에서 돈다. 재생기가 하나이기 때문이다. */
   if(SESS.loop!=null){
     var a=c[SESS.loop], b=loopEnd();
     if(b!=null && t>=b-0.03){
       SESS.laps=(SESS.laps||0)+1;
       try{ SESS.el.currentTime=a; }catch(e){}
       paintLap();
-      /* 한 바퀴 돌 때 아주 짧고 여린 소리. **듣던 것 위에 얹히는 소리다.**
-         크면 대본을 덮는다. 여기 소리는 알림이 아니라 표시다. */
       tone("loop");
       return;
     }
@@ -3864,11 +3136,8 @@ function syncCur(){
   var was=box.querySelector(".scline.cur"); if(was) was.classList.remove("cur");
   var now=box.children[i]; if(!now) return;
   now.classList.add("cur");
-  /* 목록 안에서만 굴린다. 페이지를 굴리면 재생기가 화면 밖으로 나간다. */
   box.scrollTop=Math.max(0, now.offsetTop-box.clientHeight/2+now.offsetHeight/2);
 }
-/* 자리를 잡는다. **못을 아무 데나 박으면 표가 뒤집힌다.**
-   앞 줄보다 이르거나 뒷 줄보다 늦으면 거절한다. 그때는 안 잡느니만 못하다. */
 function anchorLine(it, i){
   if(!SESS.el){ flash("소리를 먼저 튼다"); return; }
   var cu=DATA.cues, al=DATA.audiolen;
@@ -3878,17 +3147,12 @@ function anchorLine(it, i){
     var gone=rec[i];
     delete rec[i]; save(); renderBlockPane();
     flash((i+1)+"번째 줄 자리를 지웠다");
-    /* 자리를 잡는 데는 그 줄까지 듣고 멈춰야 한다. 잘못 지우면 그것을 다시 한다. T174 */
     offerUndo((i+1)+"번째 줄 자리 지움",function(){
       cueRec(it.id)[i]=gone; PANE.sig=null; renderBlockPane(); });
     return;
   }
   var t=Math.round(SESS.el.currentTime*100)/100;
   var dur=(al&&al.items||{})[it.id]||SESS.el.duration||0;
-  /* **이웃 어림과 견주지 않는다.** 어림이 통째로 밀려 있으면 그때 잡는 것이고
-     그런데 그 밀린 어림을 기준으로 거절하면 아무것도 못 잡는다.
-     견줄 것은 이미 잡아 둔 못뿐이다. 못 사이는 어림을 다시 펴서 채운다.
-     못들이 차례대로면 표는 반드시 차례대로다. 그것만 지키면 된다. */
   var prev=0, next=dur, k, v;
   for(k=i-1;k>=0;k--){ v=cueFixed(it.id,k); if(v!=null){ prev=v; break; } }
   for(k=i+1;k<cue.length;k++){ v=cueFixed(it.id,k); if(v!=null){ next=v; break; } }
@@ -3912,8 +3176,6 @@ function bindSyncScript(it){
     if(!b||!SESS.cue) return;
     var i=+b.dataset.cue, t=SESS.cue[i];
     if(t==null||!SESS.el) return;
-    /* 되풀이 중에 딴 줄을 누르면 그 줄로 되풀이가 옮겨 간다.
-       안 옮기면 눌러도 곧바로 되돌아와서 앱이 말을 안 듣는 것처럼 보인다. */
     if(SESS.loop!=null){ SESS.loop=i; SESS.loopN=1; SESS.laps=0; renderBlockPane(); }
     try{ SESS.el.currentTime=t; }catch(err){ return; }
     var q=SESS.el.play(); if(q&&q.catch) q.catch(function(){});
@@ -3922,8 +3184,6 @@ function bindSyncScript(it){
   syncCur();
 }
 
-/* 세션 안 재생기. 블록 1과 4에서만 산다.
-   블록 칸이 매초 다시 그려지던 것을 T125 에서 멈췄다. 그래서 여기 살 수 있다. */
 var SESS={id:null, mode:null, el:null, cue:null, line:-1, loop:null, loopN:1, laps:0, at:null, was:null, veil:null};
 function sessPlay(it, mode, play){
   var host=$("#sessPlayHost"); if(!host) return;
@@ -3931,12 +3191,8 @@ function sessPlay(it, mode, play){
     if(play){ var q=SESS.el.play(); if(q&&q.catch) q.catch(function(){}); }
     return;
   }
-  /* 회차를 적으면 칸의 글자가 바뀌고 칸이 다시 그려진다. 그때 재생기가 떨어져 나간다.
-     **듣던 자리에서 처음으로 돌아가면 40분 블록에서 그 40분을 다시 듣는다.**
-     같은 과 같은 방식이면 자리와 돌던 여부를 이어받는다. */
   var at=0, was=false;
   if(SESS.el && SESS.id===it.id && SESS.mode===mode){
-    /* 칸을 다시 그리기 직전에 적어 둔 값이 있으면 그것이 맞다. 위 설명을 본다. */
     at=(typeof SESS.at==="number")?SESS.at:(SESS.el.currentTime||0);
     was=(typeof SESS.was==="boolean")?SESS.was:!SESS.el.paused;
   }
@@ -3952,66 +3208,37 @@ function sessPlay(it, mode, play){
     var seek=function(){ try{ m.currentTime=at; }catch(e){} };
     if(m.readyState>0) seek(); else m.addEventListener("loadedmetadata", seek, {once:true});
   }
-  /* 들으면 그 줄이 밝아진다. timeupdate 는 초에 네 번쯤 온다. */
   SESS.line=-1;
   SESS.el.ontimeupdate=syncCur;
   SESS.el.onseeked=syncCur;
-  /* 끝까지 갔는데 되풀이 중이면 처음으로 되돌린다. **마지막 보루다.**
-     끝이 몇 초인지 잘못 알고 있어도 여기서는 안 틀린다. 소리가 끝났다는
-     사실 하나만 보기 때문이다. T136 */
   SESS.el.onended=function(){
     if(SESS.loop==null||!SESS.cue) return;
     SESS.laps=(SESS.laps||0)+1; paintLap();
     try{ SESS.el.currentTime=SESS.cue[SESS.loop]; }catch(e){}
     var q=SESS.el.play(); if(q&&q.catch) q.catch(function(){});
   };
-  /* 고른 것이 버튼에 보여야 한다. 다시 그리면 setTimeout 이 다시 칠한다. */
   document.querySelectorAll("#blockPane [data-media]").forEach(function(b){
     var k=b.dataset.media;
     if(k==="audio"||k==="video") b.className=mode===k?"on":"";
   });
 }
-/* **재생기만 치운다.** 되풀이와 가림은 안 건드린다.
-   이 함수는 두 자리에서 쓴다. 블록을 떠날 때와 **같은 과를 다시 걸 때**다.
-   뒤에서 지우면 방금 켠 되풀이가 꺼지고 방금 바꾼 가림이 되돌아간다.
-   T131 에 되풀이로 겪고 여기서 가림으로 또 겪었다. 같은 결함이다.
-   블록을 떠나는 것은 gotoBlock 이 안다. 지우는 것은 거기서 한다. T133 */
 function stopSessPlay(){
   if(SESS.el){ try{ SESS.el.pause(); }catch(e){} SESS.el.ontimeupdate=null; SESS.el.onseeked=null; SESS.el.onended=null; }
   var n=$("#sessMediaNote"); if(n) n.remove();
-  /* **자리에서도 치운다.** 전에는 세우기만 하고 두었다. 그러면 화면에는
-     재생기가 남는데 SESS.el 은 비어 있다. 대본 줄을 눌러도 아무 일이 없고
-     다시 걸리지도 않는다. 다시 거는 조건이 "자리가 비었으면" 이기 때문이다.
-     **멈춘 재생기가 화면에 남아 있으면 두 사람은 고장 난 줄 안다.** T128 */
   var host=$("#sessPlayHost"); if(host) host.innerHTML="";
   SESS.el=null; SESS.id=null; SESS.line=-1;
 }
-/* 블록을 떠난다. 재생기도 끄고 이 블록에서 켠 것도 다 되돌린다.
-   가림은 회차 기본값으로 돌아간다. 블록 1은 1회차고 블록 4는 2회차다. */
 function leaveSessPlay(){
   stopSessPlay();
   SESS.loop=null; SESS.loopN=1; SESS.laps=0; SESS.veil=null; SESS.at=null; SESS.was=null;
 }
 
-/* 그려 놓은 것을 기억한다. 같으면 손대지 않는다.
-   **paintTimer 가 매초 돌고 그 안에서 이 함수가 돈다.** 그래서 블록 칸이
-   매초 통째로 지워지고 다시 생겼다. 안에 심은 것은 1초를 못 산다.
-   T125 에서 재 봤다. 심어 둔 노드도 재생기도 1초 뒤에 없었다.
-   블록 칸의 내용은 매초 바뀌지 않는다. 구간이 넘어갈 때와 남은 분이 줄 때만 바뀐다.
-   글자가 같으면 안 그린다. 그러면 재생기가 그 안에서 살 수 있다. */
 var PANE={sig:null};
 function renderBlockPane(){
   var box=$("#blockPane"); if(!box) return;
   var pl=plan();
   if(pl.finished || !pl.lectureNo){ box.hidden=true; PANE.sig=null; return; }
-  /* **접었으면 안에서도 안 만든다.**
-     T166 에 세션 시작 전 시계 묶음을 접었다. 그런데 접은 것은 화면뿐이었다.
-     블록 칸은 계속 만들어지고 있었고, 만들면서 대본과 구간표와 소리 길이를 읽었다.
-     열자마자 136KB 를 더 읽는다. 보이지도 않는 칸 때문에.
-     T185 에 처음 읽는 바이트를 재다가 나왔다. **화면에 없는 것은 값이 없는 것이 아니다.** */
   if(sessionIdle() && !peeking()){
-    /* 감추기만 하면 안 된다. **안에 든 것이 그대로 남는다.**
-       미리 보기를 닫았을 때 띠가 남아 있는 것이 그래서 나왔다. */
     box.hidden=true; box.innerHTML=""; PANE.sig=null; return;
   }
   box.hidden=false;
@@ -4037,10 +3264,6 @@ function renderBlockPane(){
     return '<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>'+
            (n?'<div class="n">'+esc(n)+'</div>':"");
   }
-  /* **블록은 회차를 안 정한다.** 자리만 정한다. 블록 1은 각자 듣는 자리이고
-     블록 4는 같이 듣는 자리다. 회차는 그 과를 몇 번 돌았는가가 정한다.
-     T153 리허설에서 블록이 회차를 정하고 있었고, 이튿날부터 화면이
-     "1회차" 라고 하는데 버튼은 "3회차" 라고 했다. 스물넷 중 여덟 칸이 그랬다. */
   if(i===0){
     h=renderMediaPane(pl,"alone");
   }else if(i===1){
@@ -4055,16 +3278,11 @@ function renderBlockPane(){
       ' · 시계는 안 돈다<button class="g" id="peekClose" type="button">닫기</button></div>'+h;
   }
   if(PANE.sig===h && box.firstChild) return;
-  /* **여기서 재생기가 자리에서 떨어져 나간다.** 그리고 문서에서 떨어진 재생기는
-     브라우저가 세운다. 규격이 그렇게 정한다. 그것이 곧바로 일어나지 않아서
-     떨어진 뒤에 `paused` 를 읽으면 어떤 때는 참이고 어떤 때는 거짓이다.
-     **되풀이를 끄면 소리가 멎는 일이 그래서 났다.** 떼기 전에 적어 둔다. T131 */
   if(SESS.el){ SESS.at=SESS.el.currentTime||0; SESS.was=!SESS.el.paused; }
   PANE.sig=h;
   box.innerHTML=h;
   if(slideDir){
     box.classList.remove("slide-next","slide-prev");
-    // 클래스를 떼고 바로 붙이면 브라우저가 같은 것으로 보고 안 움직인다.
     void box.offsetWidth;
     box.classList.add("slide-"+slideDir);
     slideDir=null;
@@ -4082,9 +3300,6 @@ function paintTimer(){
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
   var duo=$("#tDuo");
   if(duo){
-    /* 이 기기가 어느 쪽인지 골라 두면 자기 것이 커지고 상대 것이 흐려진다.
-       두 사람이 각자 기기를 보는 자리라 자기 지시를 찾는 데 시간이 들면 안 된다.
-       E구간에서 카드 A면 B면을 기기로 가를 때 이 값을 그대로 쓴다. */
     var mine=deviceSide();
     function pane(side,label,name,what){
       var c=!mine?"":(mine===side?"mine":"other");
@@ -4115,7 +3330,6 @@ function paintTimer(){
   $("#focusToggle").textContent=T.run?"일시정지":"이어서";
   document.title=(T.run?fmt(Math.max(0,T.left))+" · ":"")+"eng2p 운영 콘솔";
   syncSessionFocus();
-  /* 세션이 도는 동안 다음 블록 자료를 미리 읽어 둔다. 한 블록에 한 번만 건다. T221 */
   if(typeof prefetchNext==="function" && !sessionIdle()) prefetchNext();
 }
 function tick(){
@@ -4135,16 +3349,6 @@ $("#tStart").onclick=function(){
   if(T.run){ hideSessionDone(); T.tick=setInterval(tick,1000); reqWake(); } else { relWake(); }
   paintTimer();
 };
-
-/* =========================================================================
-   강의 본문. **앱에 없던 것이다.**
-
-   블록 3은 강의록 30분을 도는 자리인데 화면에는 구간 배분표만 나왔다.
-   "손뼉 속도를 맞추는 데 5분" 이라고 적혀 있고 그 손뼉이 무엇인지는 안 적혀 있다.
-   그것이 강의 1장에 있는데 화면에 없었다. 두 사람은 종이를 찾거나 저장소에 갔다.
-
-   여섯 블록을 그대로 편다. 접지 않는다. **읽으라고 만든 글이다.**
-   ========================================================================= */
 function renderLecturePane(no){
   var v=DATA.lecturetext, it=v && v.items && v.items[String(no)];
   if(!it) return '<div class="peekbar"><b>강의 본문</b> 못 읽었다'+
@@ -4159,12 +3363,6 @@ function renderLecturePane(no){
   h+="</div>";
   return h;
 }
-/* 마크다운을 다 옮기지 않는다. 강의가 쓰는 것만 옮긴다.
-   문단과 표와 목록이다. **안 쓰는 문법을 옮기면 안 쓰는 코드가 는다.**
-
-   강의 문체는 한 문장 한 줄이고 빈 줄이 문단을 가른다.
-   그래서 줄마다 문단으로 만들면 안 된다. 그러면 온 글이 뚝뚝 끊긴다.
-   **줄바꿈은 살리고 문단만 벌린다.** */
 function lecPara(body){
   var out="", rows=null, para=[];
   function flushPara(){
@@ -4200,20 +3398,8 @@ function lecPara(body){
 }
 
 
-/* =========================================================================
-   48주 길 지도.
-
-   띠는 어디까지 왔는지만 말했다. **어느 주에 무엇이 있는지는 안 말했다.**
-   그것을 알려면 자료 탭으로 가서 96편 중에 찾아야 했다.
-
-   한 장에 편다. 주마다 칸 하나, 칸 안에 여섯 날이다.
-   지나온 날은 채우고 오늘은 테두리를 두른다. 분기가 바뀌는 자리에 금을 긋는다.
-
-   **누르면 그 주에 무엇이 있는지 펴진다.** 강의 둘과 세트 여섯이다.
-   ========================================================================= */
 var MAPOPEN=null;
 function pad3(n){ return String(n).padStart(3,"0"); }
-/* 어떤 날이 몇이었나. **진도가 아니라 앉은 날을 센다.** */
 function dayTally(){
   var t={normal:0,emg:0,absent:0};
   Object.keys(S.days||{}).forEach(function(d){
@@ -4231,12 +3417,6 @@ function renderMapPane(){
   var h='<div class="peekbar"><b>48주 길</b> '+
         (pl.finished?"288세션을 다 했다":pl.week+"주 "+pl.day+"일째")+
         '<button class="g" id="peekClose" type="button">닫기</button></div>';
-  /* **계획만 있고 무슨 일이 있었는지가 없었다.**
-     칸이 채워지는 것은 세션 수로만 정해진다. 그래서 비상판으로 때운 날도
-     결석한 날도 지도에 안 나온다. 두 사람은 지도를 보고 순조롭다고 여긴다.
-
-     진도는 세션 수로 세고 달력은 날짜로 센다. **둘의 차이가 이 지도의 값이다.**
-     달력상 지금 있어야 할 주를 따로 표시한다. T181 */
   var tally=dayTally();
   h+='<div class="wmap">';
   (IDX.weeks||[]).forEach(function(wk){
@@ -4259,7 +3439,6 @@ function renderMapPane(){
      '<span><i class="lg now"></i>이번 주</span>'+
      (pl.behind>0?'<span><i class="lg cal"></i>달력상 이번 주</span>':"")+
      '<span><i class="lg"></i>남은 주</span></div>';
-  /* 지도 아래 한 줄. **채워진 칸이 안 말하는 것을 여기서 말한다.** */
   h+='<div class="wtally">'+
      '<span><b>'+tally.normal+'</b>일 정상</span>'+
      '<span><b>'+tally.emg+'</b>일 비상판</span>'+
@@ -4281,9 +3460,6 @@ function weekCard(w){
     h+='<button type="button" class="wlec" data-go="l:'+L.no+'">'+
        '<b>'+L.no+'강</b> '+esc(L.title||"")+
        '<span class="wtrack">'+esc(L.track||"")+'</span></button>';
-    /* **그 주에 무엇이 있는지가 반만 나왔다.** 강의와 세트는 적었는데
-       그 강이 쓰는 소리와 그날 못 할 때 쓰는 비상판은 안 적었다.
-       매일 쓰는 넷 중 둘이 빠져 있었다. T180 */
     var line=[];
     if(L.cards) line.push("카드 "+pad3(L.cards.from)+" ~ "+pad3(L.cards.to));
     if(L.emergency!=null) line.push("비상판 "+L.emergency);
@@ -4319,26 +3495,14 @@ function bindMapPane(box){
     };
   });
 }
-/* =========================================================================
-   블록 몰기. 넘김과 되돌림을 한 자리에서 한다.
-   전에는 넘김만 있었다. 잘못 눌러 넘어가면 되돌릴 방법이 없었다.
-   40분짜리 블록을 실수로 넘기면 그 40분이 사라진다.
-   ========================================================================= */
-/* 다음 그림이 어느 쪽에서 들어올지. 그린 뒤에 비운다. */
 var slideDir=null;
 function gotoBlock(i, opt){
   opt=opt||{};
   if(i<0) i=0;
   if(i>=BLOCKS.length){ finishSession(); return; }
-  /* 블록을 넘기면 소리를 끈다. 안 끄면 블록 1의 소리가 블록 2 위로 계속 흐른다.
-     블록 2는 두 사람이 서로 말하는 블록이다. */
   if(T.idx!==i){
     leaveSessPlay();
     if(opt.announce) tone("next");
-    /* **넘어가는 방향과 화면이 미는 방향이 같아야 한다.**
-       다음 블록으로 가는데 화면이 위에서 내려오면 앞으로 가는 것인지
-       처음으로 가는 것인지 몸이 모른다. 오른쪽에서 들어오면 앞으로 가는 것이고
-       왼쪽에서 들어오면 되돌아가는 것이다. 손가락으로 미는 방향과도 맞는다. T177 */
     slideDir = (i>T.idx) ? "next" : "prev";
   }
   T.idx=i;
@@ -4350,24 +3514,9 @@ function gotoBlock(i, opt){
   if(opt.announce) flash("블록 "+(i+1)+" "+BLOCKS[i].n);
 }
 
-/* =========================================================================
-   다음 블록이 쓸 자료를 미리 읽어 둔다.
-
-   **블록이 바뀌는 순간에 읽기 시작하면 그 순간이 빈다.**
-   블록 2로 넘어가면 세트 493KB 를 그때부터 읽고 화면은 "세트를 여는 중이다" 를
-   띄운다. 블록 3은 카드 565KB 다. 두 사람은 넘어가자마자 시작하려는 참인데
-   화면이 아직 준비가 안 됐다고 말한다.
-
-   **지금 블록에 40분이 있다.** 그 안에 다음 것을 읽으면 넘어갈 때 이미 있다.
-   읽는 양은 같다. 읽는 때만 옮긴다. 열자마자 읽는 것은 안 는다.
-
-   지금 블록이 그리고 나서 읽는다. 넘어가자마자 읽으면 지금 그림과 다툰다. T221
-   ========================================================================= */
 var PRE={t:null,at:null};
 var PRE_NEED=[["sets","ENG2P_SETS"],["cards","ENG2P_CARDS"],null,null];
 function prefetchNext(){
-  /* **한 블록에 한 번만 건다.** 이 함수는 시계가 매초 부르는 자리에서도 온다.
-     매번 다시 걸면 타이머가 계속 밀려 영영 안 읽는다. */
   if(PRE.at===T.idx) return;
   PRE.at=T.idx;
   clearTimeout(PRE.t);
@@ -4380,15 +3529,10 @@ function prefetchNext(){
 }
 $("#tSkip").onclick=function(){ gotoBlock(T.idx+1,{announce:true}); };
 $("#tPrev").onclick=function(){
-  /* 되돌리면 그 블록을 처음부터 다시 잰다. 남은 시간을 이어받지 않는다.
-     블록은 시간이 아니라 하는 일이다. 되돌린다는 것은 그 일을 다시 한다는 뜻이다. */
   if(T.idx===0){ flash("첫 블록이다"); return; }
   gotoBlock(T.idx-1,{announce:true});
 };
 $("#tReset").onclick=function(){
-  /* **처음으로는 지금까지 온 자리를 버린다.** 블록 3에서 누르면 두 시간 중
-     한 시간 사십 분이 사라진다. 옆에 다음 블록이 있어서 잘못 누르기도 쉽다.
-     되돌릴 자리를 같이 준다. T173 */
   var was={idx:T.idx,left:T.left,run:T.run};
   T.run=false; clearInterval(T.tick); relWake();
   gotoBlock(0,{announce:true});
@@ -4400,7 +3544,6 @@ $("#tReset").onclick=function(){
   }
 };
 
-/* 화면 꺼짐 방지. 2시간짜리 타이머를 켜 두고 매번 화면을 깨우게 하지 않는다. */
 var wakeLock=null;
 function reqWake(){
   try{
@@ -4416,15 +3559,11 @@ document.addEventListener("visibilitychange",function(){
   if(document.visibilityState==="visible" && T.run && !wakeLock) reqWake();
 });
 
-/* 원탭 시작. 수행 표시와 타이머와 화면 유지를 한 번에 건다. */
 $("#tOne").onclick=function(){
-  /* 시작은 시작만 적는다. 정상 판정은 finishSession 이 한다. */
   var rec=day(today());
   if(!rec.started){ rec.started=today(); save(); }
   restartFinishedSession();
   if(!T.run){ hideSessionDone(); T.run=true; clearInterval(T.tick); T.tick=setInterval(tick,1000); reqWake();
-    /* 시작 소리는 여기서만 낸다. 이어서 누를 때도 같은 소리다.
-       두 사람이 화면을 안 보고 있을 때 시작한 것을 알리는 자리다. */
     tone("start"); }
   saveSession();   // 누른 그 순간을 남긴다. 10초 뒤가 아니라
   paintTimer();
@@ -4438,26 +3577,12 @@ $("#focusLre").onclick=function(){ $("#lrePlus").click(); flash("LRE +1"); };
 $("#focusToggle").onclick=function(){ $("#tStart").click(); };
 $("#focusNext").onclick=function(){ $("#tSkip").click(); };
 $("#focusPrev").onclick=function(){ $("#tPrev").click(); };
-/* 오늘 화면으로 돌아간다. 블록 칸까지 데려다준다. 탭만 바꾸면 또 찾아야 한다. */
 $("#focusHome").onclick=function(){
   go("today");
   var box=$("#blockPane");
   if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
 };
 
-/* =========================================================================
-   손가락 하나로 옮기기.
-
-   블록을 옮기려면 화면을 위로 올려 조작줄을 찾아야 했다.
-   세션 중에는 조작줄이 아래에 떠 있지만 그것도 눌러야 한다.
-   **밀면 옮겨진다.**
-
-   조심할 것이 셋이다.
-
-   1. 안에 가로로 넘기는 것이 있다. 표와 대본이 그렇다. 그 위에서 시작한 밀기는 안 센다
-   2. 위아래로 넘기는 것과 헷갈리면 안 된다. 가로가 세로보다 뚜렷할 때만 센다
-   3. **잘못 밀면 40분이 날아간다.** 그래서 조작줄에 이전을 같이 넣었다
-   ========================================================================= */
 var SWIPE={x:0,y:0,on:false};
 function swipeHost(){ return $("#blockPane"); }
 function scrollsX(el){
@@ -4478,13 +3603,11 @@ document.addEventListener("touchend",function(e){
   var t0=e.changedTouches&&e.changedTouches[0]; if(!t0) return;
   var dx=t0.clientX-SWIPE.x, dy=t0.clientY-SWIPE.y;
   if(Math.abs(dx)<70 || Math.abs(dy)>45 || Math.abs(dy)>Math.abs(dx)*0.6) return;
-  /* 미리 보기 중에는 블록을 안 옮긴다. 보는 자리지 하는 자리가 아니다. */
   if(peeking()) return;
   if(dx<0) $("#tSkip").click(); else $("#tPrev").click();
 },{passive:true});
 
 
-/* 키보드 단축키. 데스크톱에서 세션 중 마우스를 안 잡게 한다. */
 document.addEventListener("keydown",function(e){
   var tag=(e.target.tagName||"").toLowerCase();
   if(tag==="input"||tag==="textarea"||tag==="select"||e.metaKey||e.ctrlKey||e.altKey) return;
@@ -4497,7 +3620,6 @@ document.addEventListener("keydown",function(e){
   if(n>=1&&n<=vis.length){ go(vis[n-1][0]); }
 });
 
-/* 첫 실행 온보딩. 물어보는 것은 세 개뿐이다. */
 function renderOnboard(){
   var card=$("#onboard");
   if(S.onboarded){ card.hidden=true; return; }
@@ -4510,14 +3632,6 @@ $("#obGo").onclick=function(){
   S.start=$("#obD").value||today();
   S.onboarded=true; save(); renderOnboard(); renderToday();
 };
-
-/* =========================================================================
-   글자 크기 세 단.
-
-   화면의 글자를 다 `rem` 으로 적어 뒀다. 여기서 뿌리 크기만 바꾸면 다 따라온다.
-   **기기마다 따로 정한다.** 두 사람의 눈이 다르고 기기도 다르다.
-   그래서 다른 기록과 달리 이 값은 주고받지 않는다.
-   ========================================================================= */
 function applyFs(){
   var v=+(S.fs||0);
   if(v) document.documentElement.setAttribute("data-fs",String(v));
@@ -4532,9 +3646,6 @@ document.querySelectorAll("#fsPick button").forEach(function(b){
   b.onclick=function(){ S.fs=+b.dataset.fs; saveNow(); applyFs(); };
 });
 
-/* =========================================================================
-   대장 탭
-   ========================================================================= */
 function allDays(){ return Object.keys(S.days).sort(); }
 function totalHours(){ return allDays().reduce(function(a,d){return a+hoursOf(S.days[d]);},0); }
 
@@ -4634,7 +3745,6 @@ function renderAlerts(){
   var box=$("#alerts"); box.innerHTML="";
   var ds=allDays(); var out=[];
   var runAbs=0,runEmg=0,maxAbs=0,maxEmg=0;
-  // 실제 달력 연속으로 센다. 기록이 없는 날은 끊긴 것으로 보지 않는다.
   if(ds.length){
     var cur=ds[0], end=today();
     while(cur<=end){
@@ -4687,9 +3797,6 @@ $("#imFile").onchange=function(e){
       var o=JSON.parse(r.result);
       if(!o.days) throw 0;
       if(!confirm("현재 기록을 덮어쓴다. 진행할까.")) return;
-      /* **덮어쓰기 전 것을 들고 있는다.** 물음을 하나 두는 것으로는 모자란다.
-         엉뚱한 파일을 골랐어도 물음은 똑같이 뜨고 똑같이 예를 누른다.
-         무엇이 덮였는지는 덮은 뒤에야 보인다. T184 */
       var before=JSON.stringify(S);
       S=o; var b=blank(); for(var k in b) if(!(k in S)) S[k]=b[k];
       saveNow(); renderToday(); renderLedger();
@@ -4705,10 +3812,6 @@ $("#wipe").onclick=function(){
   if(!confirm("정말 지울까. JSON 내려받기를 먼저 하는 게 낫다.")) return;
   wipeStore(); renderToday(); renderLedger();
 };
-
-/* =========================================================================
-   판정 탭
-   ========================================================================= */
 var showDone=false;
 function renderVerify(){
   $("#vFilter").textContent = showDone?"미해결만 보기":"해결된 항목 보기";
@@ -4727,8 +3830,6 @@ function renderVerify(){
       colBox.appendChild(itemCard(d,c.e,["출처: "+c.s,c.q?"궁금한 점: "+c.q:""],c));
     });
   });
-  /* **빈 자리는 없다고만 말하면 안 된다.** 없는 것이 정상인지 빠뜨린 것인지를
-     두 사람이 모른다. 무엇을 하면 채워지는지를 같이 적는다. T183 */
   if(!nL) lreBox.innerHTML='<div class="note small">'+(showDone?
     "해결 표시된 항목이 없다.":
     "<b>미해결 LRE 없음.</b> 오늘 탭 아래 미해결 LRE 칸에 적으면 여기로 온다.")+'</div>';
@@ -4778,10 +3879,6 @@ $("#vCopy").onclick=function(){
   L.push("","미해결 LRE "+n+"건 / 채집 "+m+"건");
   copy(L.join("\n"), $("#vMsg"));
 };
-
-/* =========================================================================
-   분기 탭
-   ========================================================================= */
 var curQ=1;
 function qs(q){ if(!S.q["Q"+q]) S.q["Q"+q]={pass:{},rel:{a:{},b:{}}};
   if(!S.q["Q"+q].rel) S.q["Q"+q].rel={a:{},b:{}}; return S.q["Q"+q]; }
@@ -4867,11 +3964,6 @@ function renderQuarter(){
     out.appendChild(el("div","note small","이 신호는 '말수가 적다'가 아니라 '고착됐다'를 잡는 장치다. 조용한 사람을 말하게 만드는 게 목적이 아니다."));
   }
 }
-
-/* =========================================================================
-   규격 검사 (scripts/check.py 이식)
-   ========================================================================= */
-/* 규격 목록 시작. check_app.py 가 이 사이를 안 본다 */
 var TRANSLIT=["디스","왓","하우","웨어","쓰리","파이브","굿모닝","땡큐","쏘리","플리즈","아이엠"];
 var CLICHE=["결론적으로","중요한 것은","핵심은 바로","요약하자면"];
 var VAGUE=["자연스러워지면","익숙해지면","감이 오면","편해지면","어느 정도"];
@@ -4889,7 +3981,6 @@ function kindOf(name){
   if(/_audio_/.test(name)) k.push("음성 대본");
   return k.length?k.join(", "):"공통만";
 }
-/* docs/audio_intake.md 규격. GPT 등 외부에서 만든 음성의 대본을 검사한다. */
 var AUDIO_META=[
  ["종류",/^종류:\s*(생성 음성|실제 녹음)\s*$/m],
  ["음성 파일",/^음성 파일:\s*[A-Za-z0-9_.\-]+\.(mp3|m4a|wav|mp4|webm)\s*$/m],
@@ -4911,7 +4002,6 @@ function runCheck(name,text){
   function f(m){F.push(m);} function w(m){W.push(m);}
 
   if(!/^[A-Za-z0-9_.\-]+$/.test(name)) f("파일명이 ASCII가 아니다");
-  // 금지 문자는 이스케이프로 적는다. 이 파일 자체가 금지 문자를 품지 않게 한다.
   [["\u2014","em-dash (U+2014)"],["\uFFFD","U+FFFD"],["\u2013","en-dash (U+2013)"]].forEach(function(p){
     var n=text.split(p[0]).length-1; if(n) f(p[1]+" "+n+"개");
   });
@@ -4932,7 +4022,6 @@ function runCheck(name,text){
     if(text.indexOf(p)>=0) w("1인 수행 지시 의심: "+p);
   });
 
-/* 규격 목록 끝 */
   var kind=kindOf(name);
 
   if(kind.indexOf("강의")>=0){
@@ -5046,10 +4135,6 @@ $("#kRun").onclick=function(){
   h.push('</div>');
   $("#kOut").innerHTML=h.join("");
 };
-
-/* =========================================================================
-   회전 대장
-   ========================================================================= */
 function fillSel(id,arr){
   var s=$(id); s.innerHTML="";
   arr.forEach(function(x){
@@ -5120,8 +4205,6 @@ function renderRot(){
     b.onclick=function(){
       var i=+b.dataset.i, gone=S.rot.splice(i,1)[0];
       save(); renderRot();
-      /* 회전 대장은 편중을 막는 장치다. 한 줄을 잘못 지우면 그 조합이
-         안 쓴 것으로 되돌아가고 다음 배정이 그쪽으로 쏠린다. T174 */
       offerUndo("회전 등록 1건 삭제",function(){ S.rot.splice(i,0,gone); renderRot(); });
     };
   });
@@ -5140,13 +4223,6 @@ $("#rRowCopy").onclick=function(){
   copy("| "+($("#rId").value.trim()||"(ID)")+" | Q"+$("#rQ").value+" | 강의 | "+nm(DOM,d)+" | "+nm(REL,r)+" | "+nm(FUN,f)+" | "+rotRound(d)+" | "+today()+" |",null);
   alert("state/rotation.md 3장에 붙일 한 줄을 복사했다.");
 };
-
-/* =========================================================================
-   복습. 간격 반복.
-   간격은 널리 쓰이는 1/3/7/14/30/60일 일정을 따른다.
-   읽어서 넘기는 형태로 만들지 않는다. 13.1이 복습 읽기를 금지하기 때문이다.
-   단서만 보여주고 입으로 꺼내게 하고, 판정은 상대가 한다.
-   ========================================================================= */
 var IVL=[1,3,7,14,30,60];
 var REV={queue:[],i:0,shown:false};
 
@@ -5162,14 +4238,6 @@ function revDue(){
   });
   return out;
 }
-/* **잘못 누르면 간격이 날아간다.** 두 단추가 나란히 있고 둘 다 크다.
-   한 번 더를 누르면 상자가 1로 되돌아간다. 60일 뒤에 낼 것이 내일이 된다.
-   그것을 되돌릴 길이 없었다. T173
-
-   말도 바꿨다. 전에는 "맞음" 과 "틀림" 이었다.
-   **판정하는 사람은 상대다.** 틀림이라고 적힌 단추를 누르는 것은
-   상대에게 틀렸다고 말하는 일이 된다. 기준서 2.4 가 막으려는 것이 그것이다.
-   넘어감과 한 번 더는 사람이 아니라 **그 항목이 언제 다시 오는가**를 말한다. T175 */
 function revGrade(it,ok){
   var was={box:it.box,due:it.due};
   if(ok){ it.box=(it.box||1)+1; }
@@ -5250,15 +4318,8 @@ function renderReview(){
 
   function step(){ REV.shown=false; REV.i++; renderReview(); renderNudge(); }
 }
-
-/* =========================================================================
-   소리. 기기 내장 음성 합성만 쓴다. 외부 음성 파일을 받지 않는다.
-   ========================================================================= */
 var TTS={ok:(typeof window!=="undefined"&&"speechSynthesis" in window),voices:[],busy:false,stop:false};
 
-/* 축약 20종. 신뢰도 B.
-   약형은 슬랭이 아니라 규칙적인 음운 현상이라 목록 자체는 안정적이다.
-   다만 철자 표기가 자료마다 갈려서 B로 둔다. 검증 로그는 vLog 에 찍는다. */
 var PAIRS=[
  ["going to","gonna"],["want to","wanna"],["got to","gotta"],["have to","hafta"],
  ["has to","hasta"],["ought to","oughta"],["kind of","kinda"],["sort of","sorta"],
@@ -5322,7 +4383,6 @@ function playSeq(items,times){
   TTS.stop=false; TTS.busy=true;
   var i=0,t=0;
   function gap(text){
-    // 섀도잉은 따라 말할 틈이 있어야 성립한다. 글자 수와 속도로 추정한다.
     if($("#vMode").value!=="shadow") return 280;
     var rate=+$("#vRate").value||0.85;
     return Math.max(1200, Math.round(text.length*75/rate));
@@ -5398,12 +4458,6 @@ $("#vPairPush").onclick=function(){
   $("#vText").value=PAIRS.map(function(p){return p[0]+" ... "+p[1];}).join("\n");
   renderSoundList();
 };
-
-/* =========================================================================
-   클립. 로컬 파일 구간 반복.
-   파일은 objectURL 로만 다룬다. 업로드도 저장도 하지 않는다.
-   남는 것은 파일 이름과 시각과 메모뿐이다.
-   ========================================================================= */
 var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1,
   peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare"};
 
@@ -5511,7 +4565,6 @@ function loadMedia(file){
   mountClip(file.name, URL.createObjectURL(file), true,
     /^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name),file);
 }
-/* 미디어 라이브러리에서 온 레슨은 objectURL 이 아니라 경로다. 되돌릴 필요가 없다. */
 function loadClipUrl(name, url, isVid){ mountClip(name, url, false, isVid,null); }
 
 function mountClip(name, url, revocable, isVid, source){
@@ -5628,8 +4681,6 @@ function renderClip(){
   });
 }
 
-/* 대본 동기화. 줄마다 시각을 찍어 두면 그 줄만 골라 반복할 수 있다.
-   대본은 텍스트라 저장한다. 음성은 저장하지 않는다. */
 function scKey(){ return CLIP.file ? CLIP.file.name : null; }
 function scLines(){
   var k=scKey();
@@ -5752,18 +4803,6 @@ $("#cSave").onclick=function(){
     focus:+$("#cFocus").value,note:"",date:today()});
   $("#cLabel").value=""; setClipPhase("prepare"); save(); renderClip(); flash("구간을 저장했다");
 };
-
-/* =========================================================================
-   미디어 라이브러리. VOA 자체 제작 퍼블릭 도메인 52개 레슨.
-   음성은 저장소 사본, 영상은 공식 원본을 필요할 때만 불러온다.
-   ========================================================================= */
-/* **차림표 47KB 를 열자마자 안 읽는다.**
-   첫 그림에 쓰는 것이 하나도 없었다. 과 이름을 찾는 자리가 넷인데 넷 다
-   누르고 나서 도는 자리다. 블록 칸도 세션에 들어가야 그린다.
-   그런데도 열 때마다 47KB 를 읽고 있었다.
-
-   C단계가 블록 화면을 만들면서 열자마자 읽는 것이 두 턴에 9KB 늘었다.
-   `docs/friction.md` 8장에 천장을 박고 그 천장에 닿아 여기를 줄인다. T213 */
 var MEDIA=(window.ENG_MEDIA_CATALOG&&window.ENG_MEDIA_CATALOG.items)||[];
 function needMedia(cb){
   if(MEDIA.length) return cb(MEDIA);
@@ -5821,8 +4860,6 @@ function paintMediaPlayer(){
   renderLibPass(it); renderLibScript(it);
 }
 
-/* 3회차 진행. 기준서 10.3은 같은 자료를 최소 3회 듣되 회차마다 초점을 바꾸라고 한다.
-   카탈로그의 focus 는 1회차 권장값일 뿐이고 진행은 여기서 관리한다. */
 var PASSES=[[1,"소리","어디가 줄었는지만 찾는다. 무슨 말인지는 묻지 않는다"],
             [2,"청크","통째로 굴러가는 덩어리를 찾는다. 단어로 쪼개지 않는다"],
             [3,"의미","이제 내용을 잡는다. 앞의 두 회차가 먼저다"]];
@@ -5874,8 +4911,6 @@ function renderLibPass(it){
     n+" / 3 회차 완료"+(next?".  다음: "+next[0]+"회 "+next[1]+". "+next[2]:".  세 회차를 다 돌았다")));
 }
 
-/* 대본. 조수가 catalog 의 transcript 를 채우면 코드 수정 없이 여기로 흐른다.
-   문자열 배열과 {t, line} 객체 배열을 둘 다 받는다. */
 function trLines(it){
   var tr=it&&it.transcript;
   if(!Array.isArray(tr)||!tr.length) return null;
@@ -5883,7 +4918,6 @@ function trLines(it){
     return (typeof x==="string") ? {t:null,line:x} : {t:(typeof x.t==="number"?x.t:null),line:String(x.line||"")};
   }).filter(function(x){ return x.line; });
 }
-/* 대본 파일(.md)에서 본문만 뽑는다. 머리말 메타는 버린다. */
 function parseTranscriptMd(txt){
   var i=txt.indexOf("## 대본");
   var body=(i>=0)?txt.slice(i+"## 대본".length):txt;
@@ -5896,9 +4930,6 @@ function renderLibScript(it){
   box.innerHTML="";
   var tr=it&&it.transcript;
   if(typeof tr==="string"&&tr){
-    /* 묶어 둔 판을 먼저 본다. **fetch 는 file:// 에서 막힌다.**
-       이 물건은 내려받아 여는 것이 정상 사용이고 블록 4는 대본을 보는 블록이다.
-       T114 에서 대본 52편을 script 한 파일로 묶었다. 그것이 있으면 그것을 쓴다. */
     var packed=(window.ENG2P_TRANSCRIPTS&&window.ENG2P_TRANSCRIPTS.items)||null;
     if(packed && packed[it.id]){
       paintLibScript(it, packed[it.id].map(function(s){return {t:null,line:s};}));
@@ -5972,9 +5003,6 @@ function paintLibScript(it, lines){
     box.appendChild(d);
   });
 }
-/* 재생기를 만들어 자리에 건다. 미디어 탭과 세션 블록이 이 하나를 같이 쓴다.
-   두 자리에 따로 만들면 T121 에서 낸 망 끊김 안내가 한 자리에만 생긴다.
-   **한 자리에만 있는 안내는 다른 자리에서는 없는 것이다.** */
 function mountPlayer(host, it, mode, opt){
   opt=opt||{};
   host.innerHTML="";
@@ -5985,10 +5013,6 @@ function mountPlayer(host, it, mode, opt){
   m.setAttribute("aria-label",it.title+" "+(isVideo?"영상":"음성"));
   try{m.preservesPitch=true;m.mozPreservesPitch=true;m.webkitPreservesPitch=true;}catch(e){}
   m.playbackRate=opt.rate||1;
-  /* 영상은 원격이다. 소리와 대본과 이미지는 저장소 안에 있다.
-     망이 끊기면 영상만 죽는데 그것이 **아무 말 없이 죽는다.**
-     화면에는 안 되는 재생기만 남는다. 두 사람은 앱이 고장 난 줄 안다.
-     왜 안 되는지 적고 저장된 소리로 가는 길을 같이 낸다. T121 에서 재 봤다. */
   m.onerror=function(){
     var old=document.getElementById(opt.noteId); if(old) old.remove();
     var box=el("div"); box.id=opt.noteId; box.className="note small w";
@@ -6039,11 +5063,6 @@ function renderMediaList(){
     return !needle||(x.title+" "+x.lesson+" "+x.focus).toLowerCase().indexOf(needle)>=0;
   });
   $("#libCount").textContent="전체 "+MEDIA.length+"개 중 "+shown.length+"개 표시";
-  /* **같은 목록이면 다시 안 만든다.**
-     52개 항목에 단추가 104개다. 넷 배 느린 기기에서 이 탭을 여는 데 224ms 였다.
-     그런데 블록 1은 매 세션 이 탭을 연다. 목록이 그대로인데 매번 새로 만들었다.
-     무엇이 그려질지를 한 줄로 적어 두고 그것이 같으면 넘어간다.
-     블록 칸이 쓰는 `PANE.sig` 와 같은 수다. T186 */
   var sig=[q,state,needle,LIB.active,LIB.mode,shown.length,
            shown.map(function(o){ return o.x.id+":"+mediaPassCount(o.x.id)+(r.fav[o.x.id]?"f":""); }).join(",")].join("|");
   if(LIB.sig===sig && box.firstChild) return;
@@ -6082,7 +5101,6 @@ function renderMediaList(){
     '위 검색칸을 비우거나 분기를 전체로 바꾼다.</div>';
 }
 function renderMedia(){
-  /* 미디어 탭을 여는 것이 차림표를 읽는 자리다. 아직 없으면 읽고 다시 그린다. */
   if(!MEDIA.length){ needMedia(function(){ renderMedia(); }); }
   mediaRec(); renderMediaStats(); renderMediaList();
   if(LIB.active<0&&S.media.last){
@@ -6105,9 +5123,6 @@ $("#libPrev").onclick=function(){ if(LIB.active>0) openMedia(LIB.active-1,LIB.mo
 $("#libNext").onclick=function(){ if(LIB.active<MEDIA.length-1) openMedia(LIB.active+1,LIB.mode,true); };
 $("#libBack").onclick=function(){ if(LIB.el) LIB.el.currentTime=Math.max(0,LIB.el.currentTime-3); };
 
-/* 라이브러리와 클립 도구를 잇는다.
-   여기까지 와야 파이프라인이 하나로 돈다.
-   레슨 -> 구간 반복 -> 들린 표현 채집 -> 주간 판정 -> 간격 반복 복습. */
 $("#libToClip").onclick=function(){
   var it=mediaItem(LIB.active); if(!it) return;
   if(LIB.el){ try{ LIB.el.pause(); }catch(e){} }
@@ -6118,25 +5133,9 @@ $("#libToClip").onclick=function(){
   go("clip");
   flash(it.title+" 를 클립으로 보냈다");
 };
-/* **선을 두 자리에서 다르게 두면 안 된다.** 전에는 여기가 0.6~1.2 였고
-   세션 칸은 0.75~1.25 였다. 같은 값을 두 자리가 다르게 잘랐다. 로드맵 11.9의
-   0.75~1.25 로 맞췄다. setRate 가 그 선을 지키는 한 자리다. T135 */
 $("#libRate").oninput=function(){ setRate(+this.value); };
 setRate(rateOf());   /* 저장해 둔 속도를 화면에 올린다 */
 $("#libSearch").oninput=renderMediaList; $("#libQ").onchange=renderMediaList; $("#libFilter").onchange=renderMediaList;
-
-/* =========================================================================
-   주간 점검 30분.
-
-   매뉴얼 대장 3장에 다섯 단계가 있다. 5 5 5 10 5 분이고 합이 30분이다.
-   **학습은 하지 않는다.** 주 7일째의 그 30분이 이 화면이다.
-
-   종이 기록표가 이미 있다. 그런데 그 표의 첫 세 단계는 **앱이 이미 아는 숫자**다.
-   수행일과 비상판과 결석과 경보와 미해결 LRE 건수와 채집 건수다.
-   사람이 그것을 다시 세어 적고 있었다. 세다가 틀리면 그 주가 틀리게 남는다.
-
-   앱이 세고 사람은 **왜 그랬는지**를 적는다. 그것은 앱이 모른다. T226
-   ========================================================================= */
 var WCHK_STEPS=[
   {n:1,t:"수행 대조",m:5},
   {n:2,t:"미해결 LRE 정리",m:5},
@@ -6149,7 +5148,6 @@ function wchkRec(w){
   if(!S.wchk[w]) S.wchk[w]={cause:"",lre:"",coll:"",first:"",block:"",odd:"",ask:"",done:false};
   return S.wchk[w];
 }
-/* 그 주 엿새를 센다. **주는 6일이다.** 이레째는 점검이라 배정이 없다. */
 function wchkDays(w){
   var out=[], start=S.start;
   if(!start) return out;
@@ -6180,7 +5178,6 @@ function wchkCount(w){
   o.days=ds;
   return o;
 }
-/* 경보는 대장 탭이 이미 거는 것과 같은 규칙이다. 그 주 것만 본다. */
 function wchkAlerts(c){
   var out=[];
   if(c.abs>=2) out.push("결석 "+c.abs+"일");
@@ -6223,7 +5220,6 @@ function renderWeekCheck(){
      '<button type="button" class="g" id="wcCopy">종이 기록표 꼴로 복사</button></div>';
   h+='<div class="n">개정 요청은 12개월차에 연다. 그 자리에서 논의하면 그것이 이탈의 입구다.</div>';
   box.innerHTML=h;
-  /* 값은 그린 뒤에 넣는다. 손이 올라가 있는 칸은 안 건드린다. T211 규칙과 같다. */
   var map=[["wcCause","cause"],["wcLre","lre"],["wcColl","coll"],["wcFirst","first"],
            ["wcBlock","block"],["wcOdd","odd"],["wcAsk","ask"]];
   map.forEach(function(k){
@@ -6259,30 +5255,10 @@ function renderWeekCheck(){
     flash("종이 기록표 꼴로 복사했다");
   };
 }
-/* =========================================================================
-   짝 코드. **셈만 건너간다.** 글은 안 담는다.
-
-   `docs/pair.md` 가 정한 것이 셋이다.
-   안 건너가는 여섯은 안 담고, 셈은 코드로 글은 파일로, 그리고 합치기는 따로다.
-
-   왜 이런 꼴인가.
-
-     서버 없음     이 물건은 파일 하나다. 1년을 쓰는데 남의 서버에 안 매단다
-     망 없음       세션 두 시간 중에 밖으로 나가는 것은 영상뿐이다
-     카메라 없음   `file://` 은 안전한 자리가 아니라 브라우저가 카메라를 안 준다
-
-   그래서 **사람이 눈으로 보고 손으로 친다.** 452글자는 못 치고 열아홉은 친다.
-   담는 것을 숫자로만 두고 서른두 글자꼴로 적는다.
-
-   글자를 고를 때 헷갈리는 것을 뺀다. I 와 1, O 와 0, L 과 1, U 는 안 쓴다.
-   **손으로 치는 것이라 잘못 치는 것이 정상이다.** 그래서 검사 글자를 하나 붙인다.
-   ========================================================================= */
 var PC_ABC="0123456789ABCDEFGHJKMNPQRSTVWXYZ";   /* I L O U 를 뺐다. 서른둘 */
 
-/* 담는 자리와 그 자리의 폭. **폭을 넘으면 그 자리에서 자른다.**
-   자르는 것이 맞다. 발화 분이 255를 넘는 날은 두 시간 세션에서 안 나온다. */
 var PC_FIELDS=[
-  ["session", 9],   /* 몇 번째 세션인가. 1부터 288 */
+  ["done",    9],   /* 끝낸 세션 수. 0에서 288. **이것이 진도다** */
   ["status",  2],   /* 0 없음 1 정상 2 비상판 3 결석 */
   ["speak",   8],   /* 발화 분 */
   ["cards",   8],   /* 드릴 장수 */
@@ -6295,6 +5271,8 @@ var PC_FIELDS=[
 ];
 var PC_STATUS={normal:1, emg:2, absent:3};
 var PC_STATUS_BACK=[null,"normal","emg","absent"];
+var PC_BITS=0; PC_FIELDS.forEach(function(f){ PC_BITS+=f[1]; });
+var PC_CHARS=Math.ceil(PC_BITS/5), PC_LEN=PC_CHARS+1;
 
 function pcClamp(v,bits){
   var max=Math.pow(2,bits)-1;
@@ -6302,8 +5280,6 @@ function pcClamp(v,bits){
   if(v<0) v=0;
   return v>max?max:v;
 }
-/* 자릿수를 이어 붙여 하나의 수로 만든다. 59비트라 곱셈으로 쌓으면 정밀도를 넘는다.
-   그래서 **글자 다섯 비트씩 잘라 쌓는다.** 자바스크립트 수는 53비트까지만 정확하다. */
 function pcEncode(vals){
   var bits="";
   PC_FIELDS.forEach(function(f,i){
@@ -6334,35 +5310,30 @@ function pcDecode(s){
   }
   return out;
 }
-/* 검사 글자. 잘못 친 한 글자를 잡는다. 자리마다 무게를 달리 줘서
-   **두 글자를 바꿔 친 것도** 잡는다. 사람이 제일 흔히 하는 실수가 그것이다. */
 function pcSum(s){
   var n=0;
   for(var i=0;i<s.length;i++) n=(n*3+PC_ABC.indexOf(s[i])+1)%32;
   return PC_ABC[n];
 }
 
-/* 그날 기록에서 셈만 뽑는다. **글은 안 담는다.** */
-function pairValues(d){
-  var r=day(d), a=r.aim||{};
+function pairValues(){
+  var r=day(today()), a=r.aim||{};
   var pl=(typeof plan==="function")?plan():null;
-  var sess=(pl&&pl.session)||1;
   var lec=(pl&&pl.lectureNo)||null;
-  return [sess, PC_STATUS[r.status]||0, r.speak||0, r.cards||0, r.lre||0,
+  return [(pl&&pl.done)||0, PC_STATUS[r.status]||0, r.speak||0, r.cards||0, r.lre||0,
           (r.unres||[]).length, (r.coll||[]).length,
           lec!=null&&typeof lecPass==="function"?lecPass(lec):0,
           a.same||0, a.diff||0];
 }
-function pairCode(d){
-  var body=pcEncode(pairValues(d||today()));
+function pairCode(){
+  var body=pcEncode(pairValues());
   return body+pcSum(body);
 }
-/* 읽는다. 못 읽으면 왜 못 읽었는지를 말한다. **틀렸다고만 하면 다시 칠 수가 없다.** */
 function pairRead(code){
   var s=String(code||"").toUpperCase().replace(/[^0-9A-Z]/g,"");
-  /* 헷갈리는 글자를 친 것은 잘못이 아니라 손이 아는 대로 친 것이다. 받아 준다. */
   s=s.replace(/I/g,"1").replace(/L/g,"1").replace(/O/g,"0").replace(/U/g,"V");
-  if(s.length<2) return {err:"코드가 너무 짧다"};
+  if(s.length!==PC_LEN)
+    return {err:PC_LEN+"글자여야 하는데 "+s.length+"글자다"};
   var body=s.slice(0,-1), sum=s.slice(-1);
   if(pcSum(body)!==sum) return {err:"코드를 잘못 쳤다. 마지막 글자가 안 맞는다"};
   var v=pcDecode(body);
@@ -6372,10 +5343,86 @@ function pairRead(code){
   o.statusName=PC_STATUS_BACK[o.status]||null;
   return {ok:true, v:o};
 }
-/* =========================================================================
-   자료. 조준표.
-   음성은 만들지 않고 겨눈다. 저장 사본은 재배포 권리를 확인한 것만 올린다.
-   ========================================================================= */
+
+var PC_LABEL={done:"끝낸 세션", status:"오늘 상태", speak:"발화 분", cards:"드릴 장수",
+              lre:"LRE 횟수", unres:"미해결 건수", coll:"채집 건수",
+              round:"오늘 강의 회차", same:"블록 4 겹침", diff:"블록 4 안 겹침"};
+var PC_STATUS_KO=["기록 없음","정상","비상판","결석"];
+function pcShow(k,v){
+  if(k==="status") return PC_STATUS_KO[v]||String(v);
+  if(k==="round") return v===0?"아직 없음":v+"회차";
+  return String(v);
+}
+function pcGroup(code){
+  var b=code.slice(0,-1), out=[];
+  for(var i=0;i<b.length;i+=4) out.push(b.substr(i,4));
+  return out.join(" ")+"  "+code.slice(-1);
+}
+var PC_HEAVY=["done","status","round"];
+function pairDiff(mine,theirs){
+  var rows=[], heavy=[], light=0;
+  PC_FIELDS.forEach(function(f){
+    var k=f[0], a=mine[k], b=theirs[k], same=a===b, hv=PC_HEAVY.indexOf(k)>=0;
+    if(!same){ if(hv) heavy.push(PC_LABEL[k]||k); else light++; }
+    rows.push({k:k, a:a, b:b, same:same, heavy:hv});
+  });
+  return {rows:rows, heavy:heavy, light:light};
+}
+function renderPair(){
+  var box=$("#pairBox"); if(!box) return;
+  var keep=($("#pairIn")||{}).value||"";
+  var mine=pairCode();
+  var h='<div class="small mut">셈만 건너간다. 적은 글은 안 담는다. '+
+        '그것은 운영 탭의 JSON 으로 옮긴다.</div>';
+  h+='<div class="paircode mono" id="pairMine">'+esc(pcGroup(mine))+'</div>';
+  h+='<div class="small mut">오늘 '+today()+' 것이다. 이 '+PC_LEN+
+     '글자를 상대에게 읽어 준다. 끝의 한 글자는 잘못 친 것을 잡는 검사 글자다.</div>';
+  h+='<label class="blank" style="margin-top:12px"><span>상대가 읽어 준 코드</span>'+
+     '<input id="pairIn" class="mono" autocomplete="off" autocapitalize="characters" '+
+     'spellcheck="false" placeholder="'+esc(new Array(PC_CHARS+1).join("X"))+'X"></label>';
+  h+='<div class="row"><button class="g" id="pairGo">견줘 보기</button>'+
+     '<button class="g" id="pairClr">지움</button></div>';
+  h+='<div id="pairOut"></div>';
+  box.innerHTML=h;
+  fillField("pairIn", keep);
+  $("#pairGo").onclick=pairCompare;
+  $("#pairClr").onclick=function(){ $("#pairIn").value=""; $("#pairOut").innerHTML=""; };
+  $("#pairIn").oninput=function(){
+    var s=this.value.replace(/[^0-9A-Za-z]/g,"");
+    if(s.length>=PC_LEN) pairCompare();
+    else if(!s.length) $("#pairOut").innerHTML="";
+    else $("#pairOut").innerHTML='<div class="small mut">'+s.length+" / "+
+      PC_LEN+" 글자</div>";
+  };
+}
+function pairCompare(){
+  var out=$("#pairOut"); if(!out) return;
+  var got=pairRead(($("#pairIn")||{}).value||"");
+  if(!got.ok){ out.innerHTML='<div class="note w">'+esc(got.err)+'</div>'; return; }
+  var mine=pairRead(pairCode()).v;
+  var d=pairDiff(mine, got.v);
+  var A=S.names.a, B=S.names.b, meIs=devicePerson();
+  var meName=meIs==="b"?B:(meIs==="a"?A:"이 기기");
+  var h='<table class="pairtab"><tr><th>항목</th><th>'+esc(meName)+
+        '</th><th>상대</th></tr>';
+  d.rows.forEach(function(r){
+    h+='<tr class="'+(r.same?"":(r.heavy?"pd-heavy":"pd-light"))+'">'+
+       '<td>'+esc(PC_LABEL[r.k]||r.k)+'</td>'+
+       '<td class="mono">'+esc(pcShow(r.k,r.a))+'</td>'+
+       '<td class="mono">'+esc(pcShow(r.k,r.b))+'</td></tr>';
+  });
+  h+='</table>';
+  if(!d.heavy.length&&!d.light)
+    h+='<div class="note g">다 같다. 두 기기가 같은 자리에 있다.</div>';
+  else if(d.heavy.length)
+    h+='<div class="note w"><b>진도가 갈렸다.</b> 갈린 자리: '+
+       esc(d.heavy.join(", "))+'. 어느 쪽이 맞는지 둘이 정하고 맞는 쪽 기기에서 '+
+       'JSON 을 내보내 다른 기기로 가져간다. 활동량은 원래 서로 다르다.</div>';
+  else
+    h+='<div class="note">진도는 같다. 다른 것은 활동량뿐이고 '+
+       '그것은 둘이 같을 이유가 없다. 각자 자기 것을 적으면 된다.</div>';
+  out.innerHTML=h;
+}
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
   u:"https://learningenglish.voanews.com",
@@ -6581,9 +5628,6 @@ $("#srcCopy").onclick=function(){
   copy(L.join("\n"), $("#srcMsg"));
 };
 
-/* =========================================================================
-   규칙 탭
-   ========================================================================= */
 function renderRules(){
   var w=$("#wall"); w.innerHTML="";
   var h=el("div");
@@ -6623,15 +5667,9 @@ function renderRules(){
     FAILPT.map(function(x){return '<tr><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="mut">'+x[2]+'</td><td class="mut">'+x[3]+'</td></tr>';}).join("");
 }
 
-/* =========================================================================
-   시작
-   ========================================================================= */
 buildNav();
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
-/* 끊긴 세션이 있으면 그 자리에서 다시 편다. 저절로 안 돈다. 누르면 이어 간다. */
 loadSession();
-/* **못 읽은 기록이 있으면 제일 먼저 말한다.** 조용히 넘어가면 두 사람이
-   빈 화면을 보고 다시 시작하고 그 다음 저장이 옛 기록 위를 덮는다. */
 if(typeof LOAD_ERR!=="undefined" && LOAD_ERR) toast(LOAD_ERR);
 applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind();
 ttsVoices(); renderSound(); renderClip(); renderScript();

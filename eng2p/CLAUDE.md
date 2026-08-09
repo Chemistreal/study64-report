@@ -145,11 +145,11 @@ out/data/*.js           같은 내용을 script 로 읽는 판. **앱은 이쪽�
 scripts/derive_manifest.py 파생 자료의 크기와 해시. **맨 나중에 돈다.** 적어 둔 열여섯을 찾는다
 scripts/derive_media_manifest.py 미디어 표의 크기와 해시를 다시 잰다. 275개 157MB
 scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 있는 실패 목록과 견준다**
-scripts/check_app.py   english.html 의 한국어를 규격 검사에 건다. 동작이 아니라 글자다
-app/                   **앱의 원본.** 조각 마흔넷이다. english.html 은 이것에서 나온다
+scripts/check_app.py   앱의 한국어를 규격 검사에 건다. **조각을 본다.** 파생물은 주석이 빠져 있다
+app/                   **앱의 원본.** 조각 마흔다섯이다. english.html 은 이것에서 나온다
 app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
-scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **앱을 손으로 안 고친다**
-scripts/check_manual.py 매뉴얼이 앱을 설명하는 자리를 앱과 견준다. 블록 회차 가림 단추
+scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **주석은 조각에만 남는다**
+scripts/check_manual.py 설명하는 글과 앱을 견준다. 매뉴얼 넷과 짝 코드 자리 폭
 scripts/check_rotation.py 회전 대장의 셈을 등록부에서 다시 세고 경보 다섯을 건다
 scripts/check_play.py 놀이 규칙서 스무 판. **판정은 사람이 하고 규칙은 기계가 본다**
 docs/play.md          2인 놀이 원칙 여섯 확정판. 부딪치는 자리와 검사 갈래

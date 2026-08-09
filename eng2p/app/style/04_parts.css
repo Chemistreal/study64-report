@@ -271,3 +271,21 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .bandgo{display:block;width:100%;text-align:left;font:inherit;color:inherit;
   background:none;border:0;padding:0;cursor:pointer}
 .bandgo:hover .weekband i{opacity:.85}
+
+/* 짝 맞추기. 사람이 눈으로 읽고 손으로 치는 자리다 (T235).
+   **읽는 거리가 다르다.** 자기 화면을 보는 것이 아니라 상대에게 읽어 주는 것이라
+   한 칸 크게 두고 자간을 벌린다. 글자 하나를 잘못 읽으면 그것으로 끝이다. */
+.paircode{font-size:1.5rem;font-weight:650;letter-spacing:.16em;
+  margin:10px 0 6px;padding:12px 14px;text-align:center;
+  border:1px solid var(--edge);border-radius:12px;background:var(--sub);
+  color:var(--fg);overflow-wrap:anywhere}
+.pairtab{width:100%;border-collapse:collapse;margin-top:12px;font-size:0.875rem}
+.pairtab th,.pairtab td{border-bottom:1px solid var(--line);padding:7px 9px;text-align:left}
+.pairtab th{color:var(--mut);font-weight:600;font-size:0.75rem}
+/* 색으로만 가르지 않는다. 왼쪽에 띠를 세워 색을 못 보는 눈에도 갈리게 한다. */
+.pairtab tr.pd-heavy td{color:var(--warn);font-weight:650}
+.pairtab tr.pd-heavy td:first-child{border-left:3px solid var(--warn);padding-left:6px}
+.pairtab tr.pd-light td{color:var(--mut)}
+.pairtab tr.pd-light td:first-child{border-left:3px solid var(--line);padding-left:6px}
+.note.g{border-color:var(--ok);color:var(--ok)}
+.note.g b{color:var(--ok)}

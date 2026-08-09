@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 """앱의 한국어를 규격 검사에 건다. **앱은 검사 밖에 있었다.**
 
-`english.html` 은 글자 21만이다. 두 사람이 제일 오래 보는 화면이다.
+앱은 글자 30만이다. 두 사람이 제일 오래 보는 화면이다.
 그런데 규격 검사는 마크다운만 봤다. 그 화면의 글은 한 번도 안 걸렸다.
+
+**보는 것은 `app/` 조각이다. `english.html` 이 아니다.** T235 부터 파생물에서
+주석이 빠지기 때문이다. 파생물을 보면 주석이 검사 밖으로 나가고, 그러면
+이 검사가 조용한 것이 **깨끗해서인지 안 봐서인지**를 구별할 길이 없다.
+자리도 조각의 줄 번호로 말한다. 합친 파일의 5680째 줄보다 찾기 쉽다.
+파생물은 마지막에 한 번만 본다. 뗀 것이 뗄 것만 뗐는지를 거기서 본다.
 
 `check_ui.js` 가 있지만 그것은 **동작**을 본다. 눌리는지 나오는지를 본다.
 글자 규칙은 안 본다. em-dash 도 문자 범위도 음차도 안 본다.
@@ -261,6 +267,51 @@ def undo_gaps():
     return bad
 
 
+def sources():
+    """조각을 차례대로 돌려준다. **원본은 조각이고 앱은 파생물이다.**"""
+    app = ROOT / "app"
+    out = []
+    order = app / "order.txt"
+    if not order.exists():
+        return out
+    for line in order.read_text(encoding="utf-8").split("\n"):
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        f = app / line.split(None, 1)[0]
+        if f.exists():
+            out.append((line.split(None, 1)[0], f.read_text(encoding="utf-8")))
+    return out
+
+
+# 파생물에 남아 있어야 하는 것. **뗀 것이 뗄 것만 뗐는가**를 본다.
+# 주석을 뗄 때 정규식 리터럴이나 HTML 속성을 같이 물면 앱이 조용히 망가진다.
+# 화면 검사가 잡기는 하겠지만 **왜 망가졌는지는 여기서만 보인다.** T235
+DERIVED_KEEP = [
+    ('accept="audio/*,video/*"', "클립 탭이 받는 파일 꼴. 속성 안에 /* 가 있다"),
+    ("replace(/^[A-Z]", "대본 화자표 떼는 정규식. 리터럴 안에 */ 가 있다"),
+    ("<script", "자료를 붙이는 자리"),
+]
+
+
+def derived_ok():
+    """파생물이 조각보다 작되 알맹이는 그대로인가."""
+    bad = []
+    if not APP.exists():
+        return ["%s 가 없다" % APP]
+    got = APP.read_text(encoding="utf-8")
+    for s, why in DERIVED_KEEP:
+        if s not in got:
+            bad.append("english.html 에서 '%s' 가 사라졌다. 주석을 떼며 물었다 (%s)" % (s, why))
+    # 주석 안에만 있던 말이 파생물에 남아 있으면 뗀 것이 아니다.
+    if "========================================================" in got:
+        bad.append("english.html 에 주석 띠가 남아 있다. 안 뗀 것이 있다")
+    src = sum(len(t) for _, t in sources())
+    if len(got) >= src:
+        bad.append("english.html 이 조각 합보다 안 작다. 주석이 안 떼졌다")
+    return bad
+
+
 def main():
     for m in empty_states():
         FAIL.append(m)
@@ -273,50 +324,64 @@ def main():
     if not APP.exists():
         print("[실패] %s 가 없다" % APP)
         return 1
-    raw = APP.read_text(encoding="utf-8")
 
-    # 규칙 선언 구간을 지운다. 줄 수는 지키려고 줄바꿈만 남긴다.
-    body, skipped = raw, 0
-    while True:
-        a = body.find(SKIP_OPEN)
-        if a < 0:
-            break
-        b = body.find(SKIP_CLOSE, a)
-        if b < 0:
-            FAIL.append("규격 목록 시작 표시는 있는데 끝 표시가 없다 (%d째 줄)" % where(body, a))
-            break
-        cut = body[a:b + len(SKIP_CLOSE)]
-        body = body[:a] + "\n" * cut.count("\n") + body[b + len(SKIP_CLOSE):]
-        skipped += 1
+    # **조각을 본다. 파생물을 안 본다.** T235 부터 `english.html` 에서 주석이 빠진다.
+    # 파생물을 보면 주석이 검사 밖으로 나간다. T227 에 내 주석 하나가 1인 지시로
+    # 걸렸다. 그 검사가 조용해지는 것이 **주석이 깨끗해져서인지 안 보게 돼서인지**를
+    # 구별할 길이 없어진다. 원본을 보면 그 물음이 안 생긴다.
+    # 자리도 조각의 줄 번호로 말한다. 파생물의 5680째 줄보다 찾기 쉽다.
+    raw, skipped = 0, 0
+    for name, text in sources():
+        raw += len(text)
+        body = text
+        while True:
+            a = body.find(SKIP_OPEN)
+            if a < 0:
+                break
+            b = body.find(SKIP_CLOSE, a)
+            if b < 0:
+                FAIL.append("%s: 규격 목록 시작 표시는 있는데 끝 표시가 없다 (%d째 줄)"
+                            % (name, where(body, a)))
+                break
+            cut = body[a:b + len(SKIP_CLOSE)]
+            body = body[:a] + "\n" * cut.count("\n") + body[b + len(SKIP_CLOSE):]
+            skipped += 1
 
-    for ch, name in BANNED.items():
-        for m in re.finditer(re.escape(ch), body):
-            FAIL.append("%s (%d째 줄)" % (name, where(body, m.start())))
+        def at(i, n=name, t=body):
+            return "%s %d째 줄" % (n, where(t, i))
 
-    seen = {}
-    for i, c in enumerate(body):
-        if ALLOWED.match(c) or c in GLYPH:
-            continue
-        seen.setdefault(c, where(body, i))
-    for c, ln in sorted(seen.items()):
-        FAIL.append("쓰는 문자 범위 밖: %s(U+%04X) (%d째 줄). "
-                    "화면에 그리는 기호면 check_app.py 의 GLYPH 에 이유를 적어 넣는다"
-                    % (c, ord(c), ln))
+        for ch, nm in BANNED.items():
+            for m in re.finditer(re.escape(ch), body):
+                FAIL.append("%s (%s)" % (nm, at(m.start())))
 
-    for m in TRANSLIT_RE.finditer(body):
-        FAIL.append("한글 음차: %s (%d째 줄)" % (m.group(1), where(body, m.start())))
-    for w in CLICHE + VAGUE:
-        for m in re.finditer(re.escape(w), body):
-            WARN.append("%s (%d째 줄)" % (w, where(body, m.start())))
+        seen = {}
+        for i, c in enumerate(body):
+            if ALLOWED.match(c) or c in GLYPH:
+                continue
+            seen.setdefault(c, i)
+        for c, i in sorted(seen.items()):
+            FAIL.append("쓰는 문자 범위 밖: %s(U+%04X) (%s). "
+                        "화면에 그리는 기호면 check_app.py 의 GLYPH 에 이유를 적어 넣는다"
+                        % (c, ord(c), at(i)))
 
-    # 1인 지시. 비상판 화면만 예외다. 기준서 11.2 다.
-    for m in re.finditer("혼자", body):
-        s = body.rfind("\n", 0, m.start()) + 1
-        e = body.find("\n", m.end())
-        line = body[s:e if e > 0 else len(body)]
-        if "비상판" in line or re.search(r"(없다|않는다|아니다|각자)", line):
-            continue
-        WARN.append("1인 수행 지시 의심 (%d째 줄): %s" % (where(body, m.start()), line.strip()[:60]))
+        for m in TRANSLIT_RE.finditer(body):
+            FAIL.append("한글 음차: %s (%s)" % (m.group(1), at(m.start())))
+        for w in CLICHE + VAGUE:
+            for m in re.finditer(re.escape(w), body):
+                WARN.append("%s (%s)" % (w, at(m.start())))
+
+        # 1인 지시. 비상판 화면만 예외다. 기준서 11.2 다.
+        for m in re.finditer("혼자", body):
+            s = body.rfind("\n", 0, m.start()) + 1
+            e = body.find("\n", m.end())
+            line = body[s:e if e > 0 else len(body)]
+            if "비상판" in line or re.search(r"(없다|않는다|아니다|각자)", line):
+                continue
+            WARN.append("1인 수행 지시 의심 (%s): %s" % (at(m.start()), line.strip()[:60]))
+
+    # 파생물도 한 번 본다. 뗀 것이 뗄 것만 뗐는지는 **뗀 뒤의 파일**로 봐야 안다.
+    for m in derived_ok():
+        FAIL.append(m)
 
     for w in WARN:
         print("[경고] %s" % w)
@@ -325,9 +390,10 @@ def main():
     print()
     npiece = sum(1 for l in (ROOT / "app" / "order.txt").read_text(encoding="utf-8").split("\n")
                  if l.strip() and not l.strip().startswith("#"))
-    print("english.html 글자 %d개 / 조각 %d개 (한 조각 %d줄까지) / 되돌리기 면제 %d곳 / "
+    print("조각 글자 %d개 / 앱 %d개 / 조각 %d개 (한 조각 %d줄까지) / 되돌리기 면제 %d곳 / "
           "판정하는 말 %d개 / 빈 자리 말 %d꼴 / 건너뛴 규격 목록 %d곳 / 그리는 기호 %d개 / 실패 %d / 경고 %d"
-          % (len(raw), npiece, MAX_LINES, len(UNDO_OK), len(VERDICT_WORDS),
+          % (raw, len(APP.read_text(encoding="utf-8")), npiece, MAX_LINES,
+             len(UNDO_OK), len(VERDICT_WORDS),
              EMPTY_TAIL, skipped, len(GLYPH), len(FAIL), len(WARN)))
     return 1 if FAIL else 0
 
