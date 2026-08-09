@@ -61,6 +61,19 @@
  * 앞의 셋은 사람이 판정해서 검사가 볼 것이 화면뿐이었다. 여기는 셈도 본다.
  * 아는 답을 넣고 아는 수가 나오는지 본다.
  *
+ * ## 가릴 것이 없는 판도 잰다 (T272)
+ *
+ * 이어달리기다. 앞의 넷은 "한쪽에만 있는 것이 정말 한쪽에만 있는가" 를 쟀다.
+ * 이 판은 **가릴 것이 없는 것이 맞다.** 그러면 무엇을 재나.
+ *
+ *     감춘 자리가 **없는가**. `.vhid` 가 뜨면 안 가릴 것을 가린 것이다
+ *     두 기기가 **같은 것**을 보이는가. 청크 목록과 마디 수
+ *     두 기기가 **다른 차례**를 말하는가. 자리는 갈린다
+ *     셈이 **절반이 아닌가**. 이 판은 두 기기에 같은 수가 남는다
+ *
+ * 넷째가 중요하다. 앞의 넷을 베껴 `playHalf` 를 붙이면 두 사람이
+ * 온 수를 절반으로 읽고 두 배로 더한다.
+ *
  * 쓰는 법:
  *     node scripts/check_play_screen.js
  *
@@ -682,15 +695,118 @@ const RESET = () => {
   if (!(await text(A)).includes("5분이 됐다"))
     no("전달 놀이: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
+  /* =====================================================================
+     이어달리기 (T272). **가릴 것이 없는 판.**
+     ===================================================================== */
+  const CHRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("chain");
+    CHN.n = 0; CHNCLK.left = 0; CHNCLK.over = false;
+    renderChain();
+  };
+  for (const p of [A, B]) {
+    await p.evaluate(() => { S.device = null; save(); });
+    await openPlay(p, "chain", "renderChain");
+  }
+  /* ---- 32. 기기 쪽을 안 골라도 돈다. 차례만 못 말한다 ------------------ */
+  const offCh = await text(A);
+  if (offCh.includes("이대로 안 돈다"))
+    no("이어달리기: 기기 쪽을 안 골랐다고 판을 막는다. 이 판은 가릴 것이 없다");
+  if (!offCh.includes("누구 차례인지는 못 말한다"))
+    no("이어달리기: 차례를 못 말한다는 것을 화면이 안 적는다");
+  if (!(await A.$$("#chnAdd")).length)
+    no("이어달리기: 기기 쪽을 안 골랐다고 마디 단추가 없어졌다");
+
+  await A.evaluate(() => { S.device = "a"; save(); });
+  await B.evaluate(() => { S.device = "b"; save(); });
+  await A.evaluate(CHRESET); await B.evaluate(CHRESET);
+
+  /* ---- 33. 감춘 자리가 없다 -------------------------------------------- */
+  for (const [p, who] of [[A, "A"], [B, "B"]])
+    if ((await p.$$("#playPane .vhid")).length)
+      no("이어달리기(" + who + "): 가린 자리가 있다. 이 판은 가릴 것이 없다");
+
+  /* ---- 34. 두 기기가 같은 것을 보이고 다른 차례를 말한다 ---------------- */
+  const chunksOf = (p) => p.$$eval("#playPane .chnk", (n) => n.map((x) => x.textContent));
+  const ca = await chunksOf(A), cb = await chunksOf(B);
+  if (!ca.length) no("이어달리기: 청크가 화면에 없다");
+  if (JSON.stringify(ca) !== JSON.stringify(cb))
+    no("두 기기의 청크 목록이 다르다. 이 판은 둘이 같은 것을 본다");
+  const turnOf = (p) => p.evaluate(() => {
+    var m = /지금 (던지는 쪽|붙이는 쪽)/.exec(document.querySelector("#playPane").innerText);
+    return m ? m[1] : null;
+  });
+  if ((await turnOf(A)) === (await turnOf(B)))
+    no("두 기기가 같은 차례를 말한다. 자리는 갈려야 한다");
+
+  /* ---- 35. 마디 세기. **제일 긴 것은 줄지 않는다** --------------------- */
+  const chRec = () => A.evaluate(() => S.rhit["chain|" + today()] || {});
+  const marks = () => A.evaluate(() => CHN.n);
+  for (let i = 0; i < 3; i++) { await tap(A, "#chnAdd", "이었다"); }
+  let ch = await chRec();
+  if ((await marks()) !== 3 || ch.best !== 3)
+    no("세 마디를 이었는데 마디 " + (await marks()) + " 제일 긴 것 " + ch.best + " 이다");
+  await tap(A, "#chnFold", "접는다");
+  ch = await chRec();
+  if ((await marks()) !== 0) no("접었는데 마디가 0으로 안 돌아갔다");
+  if (ch.best !== 3 || ch.folds !== 1)
+    no("접은 뒤 제일 긴 것 " + ch.best + " 접은 횟수 " + ch.folds + " 이다");
+  /* 더 짧은 사슬을 하나 돌린다. **제일 긴 것이 줄면 안 된다.** */
+  await tap(A, "#chnAdd", "이었다");
+  await tap(A, "#chnFold", "접는다");
+  ch = await chRec();
+  if (ch.best !== 3)
+    no("짧은 사슬 뒤에 제일 긴 것이 " + ch.best + " 로 줄었다. 줄면 안 된다");
+
+  /* ---- 36. 접으면 자리가 바뀐다 ----------------------------------------- */
+  await A.evaluate(CHRESET); await B.evaluate(CHRESET);
+  const t0 = await turnOf(A);
+  await tap(A, "#chnFold", "접는다");
+  if ((await turnOf(A)) === t0)
+    no("접었는데 자리가 안 바뀌었다. 한 번 접힐 때마다 바뀐다 (R34)");
+
+  /* ---- 37. 누가 끊었는지 묻는 칸이 없다 (R32) --------------------------- */
+  const asks = await A.evaluate(() => {
+    var names = [S.names.a, S.names.b];
+    return Array.prototype.slice.call(
+      document.querySelectorAll("#playPane button, #playPane select, #playPane input"))
+      .filter(function (b) {
+        var s = (b.textContent || "") + " " + (b.value || "");
+        return names.some(function (n) { return n && s.indexOf(n) >= 0; });
+      }).length;
+  });
+  if (asks) no("접은 뒤에 누가 끊었는지 고르는 자리가 " + asks +
+               "개 있다. 물으면 그것이 곧 셈이 된다 (R32)");
+
+  /* ---- 38. 마감 화면. **절반이라고 하면 안 된다** ----------------------- */
+  await A.evaluate(CHRESET);
+  await tap(A, "#chnAdd", "이었다");
+  await tap(A, "#chnAdd", "이었다");
+  await tap(A, "#chnGo", "5분 시계");
+  await A.evaluate(() => { CHNCLK.left = 1; });
+  await A.waitForTimeout(1500);
+  const chDone = await text(A);
+  if (!chDone.includes("5분이 됐다"))
+    no("이어달리기: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
+  if (!/제일 길게 간 것이 2마디/.test(chDone))
+    no("마감 화면이 제일 길게 간 마디 수를 안 적거나 둘이 아니다");
+  if (chDone.includes("절반"))
+    no("마감 화면이 이 수를 절반이라고 적는다. 이 판은 두 기기에 같은 수가 남는다");
+  if (!chDone.includes("같은 수"))
+    no("두 기기에 같은 수가 있어야 한다는 말이 마감 화면에 없다");
+  if (!chDone.includes("누가 끊었는지는 안 센다"))
+    no("마감 화면이 누가 끊었는지 안 센다는 말을 안 한다 (R32)");
+  if (!chDone.includes("B등급")) no("이어달리기: 자료 등급이 화면에 없다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 4개 / 거울 10자리 / 한 줄 바꾸기 6자리 / 내 소리는 네가 7자리 / " +
-              "전달 놀이: 되짚기 셈 6판, 원문 새기 2자리, 소리 자리 4판, " +
-              "펴기 2판, 셈 1판, 한 바퀴마다 3바퀴, 마감과 등급과 시계 3판 / " +
-              "실패 " + fails.length);
+  console.log("판 5개 / 거울 10자리 / 한 줄 바꾸기 6자리 / 내 소리는 네가 7자리 / " +
+              "전달 놀이 8자리 / 이어달리기: 안 고른 날 3판, 가린 자리 2판, " +
+              "같은 것과 다른 차례 3판, 마디 세기 5판, 접기 1판, 안 묻기 1판, " +
+              "마감 6판 / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
