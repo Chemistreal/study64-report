@@ -26,7 +26,8 @@
 var PLAYS=[
   {id:"mirror", name:"거울", track:"소리", min:4},
   {id:"swapline", name:"한 줄 바꾸기", track:"소리", min:5},
-  {id:"hearme", name:"내 소리는 네가", track:"소리", min:5}
+  {id:"hearme", name:"내 소리는 네가", track:"소리", min:5},
+  {id:"relay", name:"전달 놀이", track:"소리", min:5}
 ];
 /* 판을 그리는 자리. **`app/play/` 조각이 여기에 자기를 넣는다.**
    목록에 있는데 여기 없으면 아직 안 읽은 것이다. 읽고 나서 다시 그린다. */
