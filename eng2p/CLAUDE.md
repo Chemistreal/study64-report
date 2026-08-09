@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 열넷과 검사 스물다섯과 상태 갱신 셋, 마흔둘을 정해진 순서로 돈다.
+**한 줄이다.** 파생 열넷과 검사 스물여섯과 상태 갱신 셋, 마흔셋을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 3분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -165,6 +165,7 @@ scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (
 scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다
 scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다. 없으면 건너뛴다 (통과 아님)
 scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = 서른두 판
+scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
 scripts/rehearse_session.js 한 세션 두 시간. 블록 안에서 바뀌는 자리 열넷을 뜬다
 scripts/derive_speakers.py 화자 수를 대본에서 파생. 손으로 적지 않는다
