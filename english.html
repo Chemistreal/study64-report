@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <title>eng2p 운영 콘솔</title>
@@ -820,7 +821,7 @@ body.veil-on>*:not(.veilcover){display:none}
 
 <header>
   <div class="hd">
-    <div class="brand">eng2p <span>· 2인 전용 영어 1년 과정 운영 콘솔</span></div>
+    <h1 class="brand">eng2p <span>· 2인 전용 영어 1년 과정 운영 콘솔</span></h1>
     <div class="grow"></div>
   </div>
   <nav id="nav" aria-label="주요 화면"></nav>
@@ -3869,7 +3870,7 @@ function renderWeek(){
   var start=addDays(base, S.wk*7);
   $("#wLabel").textContent=start+" ~ "+addDays(start,6);
   var names=["월","화","수","목","금","토","일"];
-  var rows=['<tr><th>일자</th><th>요일</th><th>오늘 A</th><th>수행</th><th class="n">발화</th><th class="n">드릴</th><th class="n">LRE</th><th class="n">미해결</th></tr>'];
+  var rows=['<tr><th scope="col">일자</th><th scope="col">요일</th><th scope="col">오늘 A</th><th scope="col">수행</th><th scope="col" class="n">발화</th><th scope="col" class="n">드릴</th><th scope="col" class="n">LRE</th><th scope="col" class="n">미해결</th></tr>'];
   var sp=0,cd=0,lr=0,hh=0;
   for(var i=0;i<7;i++){
     var d=addDays(start,i), r=S.days[d];
@@ -4338,7 +4339,7 @@ function renderRot(){
     var x=el("div","note w"); x.appendChild(el("b",null,o[0])); x.appendChild(el("div","small",o[1])); ab.appendChild(x);
   });
 
-  var rows=['<tr><th>축</th><th>코드</th><th>이름</th><th class="n">등장</th><th class="n">비중</th><th>비고</th></tr>'];
+  var rows=['<tr><th scope="col">축</th><th scope="col">코드</th><th scope="col">이름</th><th scope="col" class="n">등장</th><th scope="col" class="n">비중</th><th scope="col">비고</th></tr>'];
   DOM.forEach(function(x){
     var k=c.d[x[0]]||0;
     rows.push('<tr><td>영역</td><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="n">'+k+
@@ -4356,7 +4357,7 @@ function renderRot(){
   });
   $("#rCount").innerHTML=rows.join("");
 
-  var lg=['<tr><th>제작물</th><th>분기</th><th>영역</th><th>관계</th><th>기능</th><th class="n">회차</th><th></th></tr>'];
+  var lg=['<tr><th scope="col">제작물</th><th scope="col">분기</th><th scope="col">영역</th><th scope="col">관계</th><th scope="col">기능</th><th scope="col" class="n">회차</th><th scope="col"></th></tr>'];
   if(!S.rot.length) lg.push('<tr><td colspan="7" class="mut">등록 없음. 첫 등록은 Q1 강의 1편에서 발생한다.</td></tr>');
   S.rot.forEach(function(x,i){
     lg.push('<tr><td class="mono">'+esc(x.id)+'</td><td>Q'+x.q+'</td><td class="mono">'+x.d+'</td><td class="mono">'+x.r+
@@ -4585,7 +4586,7 @@ function renderSound(){
     w.innerHTML='<div class="note w"><b>영어 음성이 하나도 없다.</b><div class="small">기기 설정에서 영어 음성을 받아야 한다. 안드로이드는 설정의 음성 합성, 윈도우는 설정의 음성에서 받는다.</div></div>';
   } else { w.innerHTML=""; }
 
-  var rows=['<tr><th>원형</th><th></th><th>축약형</th><th></th></tr>'];
+  var rows=['<tr><th scope="col">원형</th><th scope="col"></th><th scope="col">축약형</th><th scope="col"></th></tr>'];
   PAIRS.forEach(function(p,i){
     rows.push('<tr><td>'+p[0]+'</td><td><button class="g pbtn" data-i="'+i+'" data-k="0" style="padding:1px 8px;font-size:12px">소리</button></td>'+
               '<td><b>'+p[1]+'</b></td><td><button class="g pbtn" data-i="'+i+'" data-k="1" style="padding:1px 8px;font-size:12px">소리</button></td></tr>');
@@ -5568,8 +5569,8 @@ function pairCompare(){
   var d=pairDiff(mine, got.v);
   var A=S.names.a, B=S.names.b, meIs=devicePerson();
   var meName=meIs==="b"?B:(meIs==="a"?A:"이 기기");
-  var h='<table class="pairtab"><tr><th>항목</th><th>'+esc(meName)+
-        '</th><th>상대</th></tr>';
+  var h='<table class="pairtab"><tr><th scope="col">항목</th><th scope="col">'+esc(meName)+
+        '</th><th scope="col">상대</th></tr>';
   d.rows.forEach(function(r){
     h+='<tr class="'+(r.same?"":(r.heavy?"pd-heavy":"pd-light"))+'">'+
        '<td>'+esc(PC_LABEL[r.k]||r.k)+'</td>'+
@@ -5835,7 +5836,7 @@ function renderMerge(){
     h+='<div class="note w" style="margin-top:8px"><b>고를 것이 '+p.ask.length+
        '개다.</b> 둘 다 값이 있고 서로 다른 자리다. '+
        '기계가 어느 쪽이 맞는지 모른다. <b>다 고르기 전에는 안 바뀐다.</b></div>';
-    h+='<table class="mgtab"><tr><th>무엇</th><th>이 기기</th><th>가져온 것</th></tr>';
+    h+='<table class="mgtab"><tr><th scope="col">무엇</th><th scope="col">이 기기</th><th scope="col">가져온 것</th></tr>';
     p.ask.forEach(function(q,i){
       var mk=MG.pick[q.path]==="mine", tk=MG.pick[q.path]==="theirs";
       h+='<tr><td>'+esc(q.what)+'</td>'+
@@ -5983,7 +5984,7 @@ function renderSplit(){
   }
   var h='<div class="small mut">두 기기를 나란히 놓고 이 자리를 편다. '+
         '<b>같아야 하는 것과 달라야 하는 것이 아래에 갈려 있다.</b></div>';
-  h+='<table class="pairtab"><tr><th>무엇</th><th>이 기기</th><th>두 기기가</th></tr>'+
+  h+='<table class="pairtab"><tr><th scope="col">무엇</th><th scope="col">이 기기</th><th scope="col">두 기기가</th></tr>'+
      '<tr><td>판 표시</td><td class="mono">'+esc(roundTag("check",s))+
      '</td><td>같아야 한다</td></tr>'+
      '<tr><td>회</td><td class="mono">'+s+'</td><td>같아야 한다</td></tr>'+
@@ -6454,7 +6455,7 @@ function renderSrc(){
     '<div class="small mut" style="margin-top:12px">조건을 채우는 재료 유형 5종</div><ul style="margin:6px 0 0;padding-left:18px">'+
     c.types.map(function(x){return '<li class="small">'+esc(x)+'</li>';}).join("")+'</ul></div>';
 
-  $("#srcPass").innerHTML='<tr><th>회차</th><th>초점</th><th>찾을 것</th><th>상호 확인</th></tr>'+
+  $("#srcPass").innerHTML='<tr><th scope="col">회차</th><th scope="col">초점</th><th scope="col">찾을 것</th><th scope="col">상호 확인</th></tr>'+
     SRC_PASS.map(function(r){
       return '<tr><td class="mono">'+r[0]+'</td><td><span class="tag a">'+r[1]+'</span></td><td>'+r[2]+'</td><td class="mut">'+r[3]+'</td></tr>';
     }).join("");
@@ -6506,7 +6507,7 @@ function renderRules(){
   w.appendChild(h);
   var s1=el("div","wc-sec");
   var t=el("table");
-  t.innerHTML='<tr><th>블록</th><th>시간</th><th>형태</th></tr>'+
+  t.innerHTML='<tr><th scope="col">블록</th><th scope="col">시간</th><th scope="col">형태</th></tr>'+
     BLOCKS.map(function(b,i){return '<tr><td>'+(i+1)+' '+b.n+'</td><td class="n">'+b.m+'분</td><td>'+b.d+'</td></tr>';}).join("");
   s1.appendChild(t); w.appendChild(s1);
 
@@ -6529,11 +6530,11 @@ function renderRules(){
   s4.appendChild(el("div","small mut","하루 빠졌으면 다음 날은 무조건 한다. 안 되면 비상판 15분. 비상판도 수행일이다."));
   w.appendChild(s4);
 
-  $("#banA").innerHTML='<tr><th>항목</th><th>구간</th><th>이유</th></tr>'+
+  $("#banA").innerHTML='<tr><th scope="col">항목</th><th scope="col">구간</th><th scope="col">이유</th></tr>'+
     BAN_A.map(function(x){return '<tr><td>'+x[0]+'</td><td class="mut">'+x[1]+'</td><td class="mut">'+x[2]+'</td></tr>';}).join("");
-  $("#banB").innerHTML='<tr><th>항목</th><th>이유</th></tr>'+
+  $("#banB").innerHTML='<tr><th scope="col">항목</th><th scope="col">이유</th></tr>'+
     BAN_B.map(function(x){return '<tr><td>'+x[0]+'</td><td class="mut">'+x[1]+'</td></tr>';}).join("");
-  $("#failTbl").innerHTML='<tr><th>시점</th><th>현상</th><th>원인</th><th>대응</th></tr>'+
+  $("#failTbl").innerHTML='<tr><th scope="col">시점</th><th scope="col">현상</th><th scope="col">원인</th><th scope="col">대응</th></tr>'+
     FAILPT.map(function(x){return '<tr><td class="mono">'+x[0]+'</td><td>'+x[1]+'</td><td class="mut">'+x[2]+'</td><td class="mut">'+x[3]+'</td></tr>';}).join("");
 }
 
