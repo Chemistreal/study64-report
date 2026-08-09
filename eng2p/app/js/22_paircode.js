@@ -171,6 +171,13 @@ function renderPair(){
   h+='<div class="paircode mono" id="pairMine">'+esc(pcGroup(mine))+'</div>';
   h+='<div class="small mut">오늘 '+today()+' 것이다. 이 '+PC_LEN+
      '글자를 상대에게 읽어 준다. 끝의 한 글자는 잘못 친 것을 잡는 검사 글자다.</div>';
+  /* **코드가 시작일을 안 담는다.** 진도는 끝낸 세션 수로 세고 시작일은 거기 안 든다.
+     그래서 시작일이 갈려도 코드는 같게 나온다. 그런데 판 씨앗에는 시작일이 든다
+     (`docs/round.md` 3장). 코드만 견주면 다 같다고 나오고 다음 판에서 갈린다.
+     코드가 못 잡는 것을 화면이 말한다. **날짜 하나는 사람이 읽으면 된다.** T253 */
+  h+='<div class="note" style="margin-top:8px">시작일 <b class="mono">'+
+     esc(S.start)+'</b> 도 같이 읽는다. <b>이것이 다르면 코드가 같아도 갈린 것이다.</b> '+
+     '판이 서로 다른 차례로 뜬다.</div>';
   h+='<label class="blank" style="margin-top:12px"><span>상대가 읽어 준 코드</span>'+
      '<input id="pairIn" class="mono" autocomplete="off" autocapitalize="characters" '+
      'spellcheck="false" placeholder="'+esc(new Array(PC_CHARS+1).join("X"))+'X"></label>';
