@@ -370,3 +370,51 @@ function turnAlert(step, every, names, into){
   if(box) box.innerHTML='<div class="note w turnnote"><b>'+esc(say)+'</b></div>';
   return say;
 }
+
+/* =========================================================================
+   즉시 가리기 (T244).
+
+   T240 이 몫을 갈랐다. 이 기기 것만 보이고 상대 몫은 자리만 남는다.
+   그것으로 안 되는 자리가 하나 있다. **상대가 이 화면 쪽으로 올 때다.**
+
+   둘이 한 상에 마주 앉아 있다 (기준서 2.1). 기기가 둘이어도 상 하나다.
+   몸을 기울이면 상대 화면이 보인다. 격차 판에서 그것이 판을 무너뜨린다.
+   그리고 그것은 상대가 나쁜 것이 아니라 **눈이 하는 일**이다.
+
+   그래서 그 자리에서 덮는 것을 하나 둔다.
+
+     누른다      화면이 통째로 덮인다. 밑에 아무것도 안 그린다
+     H 를 친다   같은 일. 손이 화면에서 멀 때
+     다시 누른다 이 기기 사람이 푼다
+
+   **덮개를 걷는 것을 상대가 못 하게 막지 않는다.** 그것은 자물쇠고
+   자물쇠는 이 과정에 없다. 둘이 같이 하는 일이고 규칙으로 도는 것이다.
+   화면은 규칙을 지키기 쉽게만 만든다.
+
+   `veiled` 는 이 기기의 값이다. 안 건너간다.
+   ========================================================================= */
+function veiled(){ return !!(S && S.veiled); }
+function veilToggle(after){
+  S.veiled=!veiled(); save();
+  if(typeof paintVeil==="function") paintVeil();
+  if(after) after();
+}
+/* 덮개. **이 안에 판의 글이 한 글자도 없다.** 왜 덮였는지만 적는다. */
+function paintVeil(){
+  var on=veiled(), box=$("#veilCover");
+  if(!box){
+    if(!on) return;
+    box=document.createElement("div");
+    box.id="veilCover"; box.className="veilcover";
+    document.body.appendChild(box);
+  }
+  box.hidden=!on;
+  document.body.classList.toggle("veil-on", on);
+  if(!on) return;
+  box.innerHTML='<div class="veilbox"><div class="sotitle">가렸다</div>'+
+    '<div class="somsg">이 기기를 보는 사람이 푼다. 상대가 지나갈 때 누른다.</div>'+
+    '<button class="g" id="veilOff">푼다</button></div>';
+  $("#veilOff").onclick=function(){ veilToggle(); };
+}
+/* 조작줄의 가림 단추. 세션 중에 늘 떠 있는 유일한 자리다. */
+if($("#focusVeil")) $("#focusVeil").onclick=function(){ veilToggle(); };

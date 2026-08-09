@@ -2780,6 +2780,75 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (turn.fresh.join(",") !== "false,false,true")
       bad.push("새 판에서 알리는 자리가 틀렸다: " + turn.fresh.join(","));
 
+    /* **즉시 가리기.** 상대가 이 화면 쪽으로 올 때 그 자리에서 덮는다 (T244).
+
+       **화면에 남은 글자를 센다.** `visibility` 가 hidden 인지를 보지 않는다.
+       처음에 그렇게 쟀는데 `.wrap` 이 hidden 인데 그 안 `.card` 가 visible 로 나왔다.
+       그리고 그 재는 법으로는 **푼 뒤에 덮개가 안 걷히는 것**을 못 봤다.
+       사람이 읽을 수 있는 글자가 몇 자인가. 그것이 상대 눈이 보는 것이다. */
+    const veil = await (async () => {
+      const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const q = await c.newPage();
+      q.on("pageerror", (e) => bad.push("가리기 화면 오류: " + e.message));
+      await q.goto(PAGE);
+      await q.evaluate(() => { localStorage.setItem("eng2p.v1", JSON.stringify(
+        { v: 1, names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
+          media: { done: {}, fav: {}, pass: {} }, wk: 0, onboarded: true, device: "a",
+          cardDue: {}, cues: {}, rate: 1, fs: 0, wchk: {}, q: {}, rot: [],
+          clips: [], scripts: {} })); });
+      await q.goto(PAGE);
+      await q.waitForTimeout(400);
+      await q.evaluate(() => go("rules"));
+      await q.waitForTimeout(250);
+      const txt = () => q.evaluate(() => document.body.innerText);
+      const before = await txt();
+      await q.keyboard.press("h"); await q.waitForTimeout(200);
+      const on = await txt();
+      const stored = await q.evaluate(() => !!S.veiled);
+      /* 덮인 채로 다른 키가 들으면 안 된다. 더듬다가 탭이 바뀐다. */
+      const keyed = await q.evaluate(() => {
+        const was = location.hash;
+        document.dispatchEvent(new KeyboardEvent("keydown", { key: "2", bubbles: true }));
+        return was === location.hash;
+      });
+      /* 가린 채로 기기가 잠기거나 다시 열릴 수 있다. 그때도 덮여 있어야 한다. */
+      await q.reload(); await q.waitForTimeout(400);
+      const kept = await q.evaluate(() => !!S.veiled &&
+        document.body.innerText.indexOf("가렸다") >= 0);
+      await q.evaluate(() => veilToggle()); await q.waitForTimeout(200);
+      await q.evaluate(() => go("rules")); await q.waitForTimeout(250);
+      const off = await txt();
+      /* 푼 뒤에 진짜 눌리는가. 덮개가 남아 있으면 손가락이 안 닿는다. */
+      let clickable = true;
+      try { await q.click("#splitNext", { timeout: 3000 }); }
+      catch (e) { clickable = false; }
+      /* 조작줄 단추. 세션 중에 늘 떠 있는 유일한 자리다. */
+      const dock = await q.evaluate(() => {
+        const b2 = document.getElementById("focusVeil");
+        if (!b2) return null;
+        b2.click();
+        const n = document.body.innerText.length;
+        veilToggle();
+        return n;
+      });
+      await c.close();
+      return { before: before.length, on: on.length, off: off.length,
+               cover: on, stored, keyed, kept, clickable, dock };
+    })();
+    if (veil.on >= 40) bad.push("가렸는데 화면에 글자가 " + veil.on + "자 남아 있다");
+    if (!/가렸다/.test(veil.cover)) bad.push("가림 화면이 왜 덮였는지를 안 적는다");
+    if (/몫|회|판 표시/.test(veil.cover)) bad.push("가림 화면에 판의 글이 남아 있다");
+    if (!veil.stored) bad.push("가린 것이 저장소에 안 남는다");
+    if (!veil.keyed) bad.push("덮인 채로 다른 키가 듣는다");
+    if (!veil.kept) bad.push("가린 채로 다시 열었더니 덮개가 없어진다");
+    /* **푼 뒤가 가리기 전과 같아야 한다.** 처음에 서른아홉 자가 더 있었다.
+       덮개의 `display:flex` 가 `[hidden]` 을 이겨서 안 걷힌 것이었다. */
+    if (veil.off !== veil.before)
+      bad.push("푼 뒤 글자 수가 " + veil.off + "다. 가리기 전은 " + veil.before + "였다");
+    if (!veil.clickable) bad.push("푼 뒤에 단추가 안 눌린다. 덮개가 남아 있다");
+    if (veil.dock === null) bad.push("조작줄에 가림 단추가 없다");
+    else if (veil.dock >= 40) bad.push("조작줄 단추로는 안 덮인다: " + veil.dock + "자");
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

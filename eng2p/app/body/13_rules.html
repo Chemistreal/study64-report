@@ -16,6 +16,7 @@
       <span><kbd>Space</kbd> 타이머 시작과 정지</span>
       <span><kbd>N</kbd> 다음 블록</span>
       <span><kbd>L</kbd> LRE +1</span>
+      <span><kbd>H</kbd> 화면 가리기와 풀기</span>
       <span><kbd>1</kbd>~<kbd>9</kbd> 탭 이동</span>
     </div>
     <div class="mut" style="margin-top:8px">입력칸에 커서가 있을 때는 동작하지 않는다.</div>
@@ -44,6 +45,10 @@
     <button class="g" id="focusHome" type="button" hidden>오늘</button>
     <div class="fstate"><b id="focusBlock">블록 1</b><span id="focusClock">40:00</span></div>
     <button class="g" id="focusLre" type="button">LRE +1</button>
+    <!-- **상대가 다가올 때 손이 닿는 자리에 있어야 한다.** 격차 판에서
+         상대 화면이 보이면 그 판이 무너진다. 단추를 찾아 헤매는 사이에 이미 보인다.
+         조작줄은 세션 중에 늘 떠 있는 유일한 자리다. T244 -->
+    <button class="g" id="focusVeil" type="button" aria-label="화면 가리기">가림</button>
     <!-- **되돌릴 자리가 여기 없었다.** 잘못 밀거나 잘못 눌러 넘어가면
          화면을 위로 올려 조작줄을 찾아야 했다. 40분짜리 블록이다.
          넘김이 손가락 하나로 되면 되돌림도 손가락 하나로 돼야 한다. -->

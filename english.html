@@ -789,6 +789,15 @@ body.session-focus .sideband{height:6px}
 body.turn-flash .sideband{height:14px;transition:height .12s}
 body.turn-flash .sidetag{transform:scale(1.12)}
 .turnnote{margin-top:10px}
+
+.veilcover{position:fixed;inset:0;z-index:200;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;padding:24px}
+.veilcover[hidden]{display:none}
+.veilbox{max-width:340px;text-align:center;border:1px solid var(--edge);
+  border-radius:14px;background:var(--sub);padding:26px 20px}
+.veilbox button{min-height:48px;padding:12px 22px;font-size:1rem;margin-top:12px}
+body.veil-on>*:not(.veilcover){display:none}
+@media print{ .veilcover{display:none} }
 </style>
 </head>
 <body class="side-none">
@@ -1383,6 +1392,7 @@ body.turn-flash .sidetag{transform:scale(1.12)}
       <span><kbd>Space</kbd> 타이머 시작과 정지</span>
       <span><kbd>N</kbd> 다음 블록</span>
       <span><kbd>L</kbd> LRE +1</span>
+      <span><kbd>H</kbd> 화면 가리기와 풀기</span>
       <span><kbd>1</kbd>~<kbd>9</kbd> 탭 이동</span>
     </div>
     <div class="mut" style="margin-top:8px">입력칸에 커서가 있을 때는 동작하지 않는다.</div>
@@ -1403,6 +1413,7 @@ body.turn-flash .sidetag{transform:scale(1.12)}
     <button class="g" id="focusHome" type="button" hidden>오늘</button>
     <div class="fstate"><b id="focusBlock">블록 1</b><span id="focusClock">40:00</span></div>
     <button class="g" id="focusLre" type="button">LRE +1</button>
+    <button class="g" id="focusVeil" type="button" aria-label="화면 가리기">가림</button>
     <button class="g" id="focusPrev" type="button" aria-label="이전 블록">이전</button>
     <button class="b" id="focusToggle" type="button">일시정지</button>
     <button class="g" id="focusNext" type="button">다음</button>
@@ -1514,7 +1525,7 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{},solo:false,soloSeat:0,soloHand:false};
+          media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{},solo:false,soloSeat:0,soloHand:false,veiled:false};
 }
 function load(){
   var raw=null;
@@ -3675,6 +3686,8 @@ document.addEventListener("keydown",function(e){
   if(e.key==="n"||e.key==="N"||e.key==="ArrowRight"){ $("#tSkip").click(); return; }
   if(e.key==="p"||e.key==="P"||e.key==="ArrowLeft"){ $("#tPrev").click(); return; }
   if(e.key==="l"||e.key==="L"){ var b=$("#lrePlus"); if(b){ b.click(); flash("LRE +1"); } return; }
+  if(e.key==="h"||e.key==="H"){ veilToggle(); return; }
+  if(veiled()) return;             // 덮여 있으면 다른 키는 안 듣는다
   var n=parseInt(e.key,10);
   if(n>=1&&n<=vis.length){ go(vis[n-1][0]); }
 });
@@ -5500,7 +5513,7 @@ function pairCompare(){
 
 var MG_LOCAL=["device","fs","session","card","wk","cardMode","rate",
               "recOpen","emgOpen","onboarded",
-              "solo","soloSeat","soloHand"];
+              "solo","soloSeat","soloHand","veiled"];
 var MG_MAXDAY=["speak","cards","lre","h"];
 var MG_BAGDAY=["unres","coll"];
 var MG_ASKDAY=["aim","xchk"];
@@ -5997,6 +6010,30 @@ function turnAlert(step, every, names, into){
   if(box) box.innerHTML='<div class="note w turnnote"><b>'+esc(say)+'</b></div>';
   return say;
 }
+
+function veiled(){ return !!(S && S.veiled); }
+function veilToggle(after){
+  S.veiled=!veiled(); save();
+  if(typeof paintVeil==="function") paintVeil();
+  if(after) after();
+}
+function paintVeil(){
+  var on=veiled(), box=$("#veilCover");
+  if(!box){
+    if(!on) return;
+    box=document.createElement("div");
+    box.id="veilCover"; box.className="veilcover";
+    document.body.appendChild(box);
+  }
+  box.hidden=!on;
+  document.body.classList.toggle("veil-on", on);
+  if(!on) return;
+  box.innerHTML='<div class="veilbox"><div class="sotitle">가렸다</div>'+
+    '<div class="somsg">이 기기를 보는 사람이 푼다. 상대가 지나갈 때 누른다.</div>'+
+    '<button class="g" id="veilOff">푼다</button></div>';
+  $("#veilOff").onclick=function(){ veilToggle(); };
+}
+if($("#focusVeil")) $("#focusVeil").onclick=function(){ veilToggle(); };
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
   u:"https://learningenglish.voanews.com",
@@ -6245,7 +6282,7 @@ buildNav();
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
 loadSession();
 if(typeof LOAD_ERR!=="undefined" && LOAD_ERR) toast(LOAD_ERR);
-applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind(); paintSide();
+applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind(); paintSide(); paintVeil();
 ttsVoices(); renderSound(); renderClip(); renderScript();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });

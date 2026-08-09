@@ -354,3 +354,21 @@ body.session-focus .sideband{height:6px}
 body.turn-flash .sideband{height:14px;transition:height .12s}
 body.turn-flash .sidetag{transform:scale(1.12)}
 .turnnote{margin-top:10px}
+
+/* 즉시 가리기 (T244). **밑에 아무것도 안 그린다.** 덮개가 한 칸 어긋나면 다 보인다.
+   그래서 덮개를 띄우는 것으로 안 끝내고 몸통 자체를 안 보이게 한다. */
+.veilcover{position:fixed;inset:0;z-index:200;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;padding:24px}
+/* **`display:flex` 가 `[hidden]` 을 이긴다.** 브라우저의 `[hidden]{display:none}` 은
+   요소 이름 규칙이라 class 규칙에 진다. 그래서 푼 뒤에도 덮개가 화면을 덮고 있었다.
+   화면에 남은 글자를 세어 보고 알았다. 푼 뒤가 가리기 전보다 서른아홉 자 많았다. T244 */
+.veilcover[hidden]{display:none}
+.veilbox{max-width:340px;text-align:center;border:1px solid var(--edge);
+  border-radius:14px;background:var(--sub);padding:26px 20px}
+.veilbox button{min-height:48px;padding:12px 22px;font-size:1rem;margin-top:12px}
+/* **`visibility` 로는 안 된다.** 물려받는 값이라 밑에서 되살아나는 자리가 있었다.
+   재 보니 `.wrap` 이 hidden 인데 그 안 `.card` 가 visible 로 나왔다.
+   왜 그런지를 캐는 것보다 물려받지 않는 것으로 바꾸는 것이 낫다.
+   `display:none` 은 그 자리에서 통째로 안 그린다. 밑에서 되살릴 수가 없다. */
+body.veil-on>*:not(.veilcover){display:none}
+@media print{ .veilcover{display:none} }

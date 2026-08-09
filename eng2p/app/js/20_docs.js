@@ -259,7 +259,7 @@ loadSession();
 /* **못 읽은 기록이 있으면 제일 먼저 말한다.** 조용히 넘어가면 두 사람이
    빈 화면을 보고 다시 시작하고 그 다음 저장이 옛 기록 위를 덮는다. */
 if(typeof LOAD_ERR!=="undefined" && LOAD_ERR) toast(LOAD_ERR);
-applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind(); paintSide();
+applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind(); paintSide(); paintVeil();
 ttsVoices(); renderSound(); renderClip(); renderScript();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });

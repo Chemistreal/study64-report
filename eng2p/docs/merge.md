@@ -60,6 +60,7 @@
 | `rate` | 배속 |
 | `recOpen` `emgOpen` `onboarded` | 화면 여닫이 |
 | `solo` `soloSeat` `soloHand` | **돌려 보기.** 기기가 하나인 날의 절차 (T241) |
+| `veiled` | **즉시 가리기.** 지금 이 화면이 덮여 있나 (T244) |
 
 `veil` 은 저장소에 없다. 세션 안에서만 산다. 그래서 여기 안 적는다.
 

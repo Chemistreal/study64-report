@@ -172,6 +172,10 @@ document.addEventListener("keydown",function(e){
   if(e.key==="n"||e.key==="N"||e.key==="ArrowRight"){ $("#tSkip").click(); return; }
   if(e.key==="p"||e.key==="P"||e.key==="ArrowLeft"){ $("#tPrev").click(); return; }
   if(e.key==="l"||e.key==="L"){ var b=$("#lrePlus"); if(b){ b.click(); flash("LRE +1"); } return; }
+  /* **손이 화면에서 멀 때 칠 수 있어야 한다.** 상대가 다가오는 것을 보고
+     단추를 찾아 누르는 사이에 이미 보인다. 덮여 있을 때도 같은 키로 푼다. T244 */
+  if(e.key==="h"||e.key==="H"){ veilToggle(); return; }
+  if(veiled()) return;             // 덮여 있으면 다른 키는 안 듣는다
   var n=parseInt(e.key,10);
   if(n>=1&&n<=vis.length){ go(vis[n-1][0]); }
 });
