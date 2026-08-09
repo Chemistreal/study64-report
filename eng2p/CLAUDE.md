@@ -123,6 +123,7 @@ scripts/check_refs.py  카드 번호와 미디어 id 와 강 참조가 실제로
 scripts/derive_index.py 48주 96강 색인을 세트의 대응강의 줄에서 파생
 scripts/derive_input.py 조준표 넷을 파생. **48주 과제가 빠짐없이 한 번씩 나오는지 본다**
 docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무엇이 종이에만 있나
+docs/pair.md           기기 둘. 무엇이 갈리고 무엇이 건너가야 하는가. **셈은 코드로 글은 파일로**
 scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인쇄용)
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
 scripts/derive_transcripts.py 대본 52편을 script 한 파일로 묶는다 (file:// 대응)
