@@ -2484,6 +2484,82 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const rd2 = await pw.evaluate(() => roundSeed("mirror", 0));
     if (rd2 !== rd.seed) bad.push("시간이 지나니 씨앗이 바뀐다. 시계를 쓰고 있다");
 
+    /* **두 기기를 진짜로 띄워 본다.** 앞의 판들은 한 화면에서 `S.device` 를 바꿔 가며
+       쟀다. 그것은 셈이 맞는지를 본 것이고 **화면이 실제로 갈리는지는 다른 일**이다.
+       저장소를 따로 쓰는 창을 둘 띄워 나란히 읽는다. T240 */
+    const pair2 = await (async () => {
+      const out = [];
+      for (const who of ["a", "b"]) {
+        const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+        const q = await c.newPage();
+        q.on("pageerror", (e) => bad.push("판 화면 오류: " + e.message));
+        await q.goto(PAGE);
+        await q.evaluate((w) => { localStorage.setItem("eng2p.v1", JSON.stringify(
+          { v: 1, names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
+            media: { done: {}, fav: {}, pass: {} }, wk: 0, onboarded: true, device: w,
+            cardDue: {}, cues: {}, rate: 1, fs: 0, wchk: {}, q: {}, rot: [],
+            clips: [], scripts: {} })); }, who);
+        await q.goto(PAGE);
+        await q.waitForTimeout(400);
+        await q.evaluate(() => go("rules"));
+        await q.waitForTimeout(250);
+        const read = () => q.evaluate(() => ({
+          mine: [...document.querySelectorAll("#splitCheck .vmine>div")].map((x) => x.textContent),
+          hid: [...document.querySelectorAll("#splitCheck .vhid")].map((x) => x.textContent),
+          tag: roundTag("check", SPLIT.step), step: SPLIT.step }));
+        const at0 = await read();
+        await q.click("#splitNext"); await q.click("#splitNext");
+        const at2 = await read();
+        /* 동시 공개. 빈 칸이면 안 펴지고 적으면 펴진다. */
+        const gate = await q.evaluate(() => {
+          const box = document.getElementById("splitCheck");
+          box.innerHTML = '<input id="tstF"><div id="tstG"></div>';
+          const draw = () => { document.getElementById("tstG").innerHTML =
+            revealGate("t", "tstF", "같이 본다");
+            revealBind(document.getElementById("tstG"), draw); };
+          draw();
+          const shut = document.querySelector("#tstG button").disabled;
+          const before = document.getElementById("tstG").innerText;
+          document.getElementById("tstF").value = "적었다";
+          draw();
+          const open = document.querySelector("#tstG button").disabled;
+          const asks = document.getElementById("tstG").innerText;
+          document.querySelector("#tstG button").click();
+          const after = document.getElementById("tstG").innerText;
+          revealReset("t");
+          return { shut, before, open, asks, after };
+        });
+        out.push({ who, at0, at2, gate });
+        await c.close();
+      }
+      return out;
+    })();
+    const [dA, dB] = pair2;
+    if (dA.at0.tag !== dB.at0.tag)
+      bad.push("두 기기의 판 표시가 다르다: " + dA.at0.tag + " / " + dB.at0.tag);
+    if (dA.at2.tag !== dB.at2.tag) bad.push("회를 넘겼더니 판 표시가 갈린다");
+    if (!dA.at0.mine.length || !dB.at0.mine.length) bad.push("판 화면에 몫이 안 뜬다");
+    if (dA.at0.mine.join("") === dB.at0.mine.join(""))
+      bad.push("두 기기가 같은 몫을 본다: " + dA.at0.mine.join(""));
+    /* **가린 자리를 없는 자리로 만들지 않는다.** 빈 자리면 고장 난 줄 안다. */
+    [dA, dB].forEach((d) => {
+      if (!d.at0.hid.length) bad.push(d.who + " 기기가 가린 자리를 안 남긴다");
+      else if (!/화면에만/.test(d.at0.hid[0]))
+        bad.push(d.who + " 기기가 왜 안 보이는지를 안 적는다: " + d.at0.hid[0]);
+    });
+    if (dA.at0.mine.join("") === dA.at2.mine.join(""))
+      bad.push("두 회를 넘겼는데 자리가 안 바뀐다");
+    if (dA.at2.mine.join("") === dB.at2.mine.join(""))
+      bad.push("자리가 바뀐 뒤에도 두 기기가 같은 몫을 본다");
+    [dA, dB].forEach((d) => {
+      if (!d.gate.shut) bad.push(d.who + " 기기가 안 적었는데 펴진다");
+      if (d.gate.open) bad.push(d.who + " 기기가 다 적었는데 단추가 잠겨 있다");
+      /* 기기가 못 하는 것을 사람이 한다. **시키지 않으면 사람도 안 한다.** */
+      if (d.gate.asks.indexOf("상대도") < 0)
+        bad.push(d.who + " 기기가 상대에게 물어보라고 안 시킨다: " + d.gate.asks);
+      if (d.gate.after.indexOf("폈다") < 0) bad.push(d.who + " 기기가 눌러도 안 펴진다");
+    });
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

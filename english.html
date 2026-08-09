@@ -754,6 +754,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   padding:8px 9px;cursor:pointer;min-height:44px;overflow-wrap:anywhere}
 .mgpick:hover{border-color:var(--a1)}
 .mgpick.on{border-style:solid;border-color:var(--ok);background:var(--sub);font-weight:650}
+
+.vpane{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.vmine{flex:1 1 60%;min-width:0}
+.vmine>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
+  background:var(--bg2);margin-bottom:6px;overflow-wrap:anywhere}
+.vhid{flex:1 1 30%;min-width:120px;display:flex;align-items:center;justify-content:center;
+  border:1px dashed var(--edge);border-radius:10px;background:var(--sub);
+  color:var(--mut);font-size:0.75rem;text-align:center;padding:10px}
+.rgate{margin-top:10px}
+.rgate button{margin-top:8px}
+.rgate button[disabled]{opacity:.5;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -1336,6 +1347,9 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   <p class="lede noprint">이 장만 인쇄해서 공부하는 자리 벽에 붙인다. 세션 중에 규칙이 헷갈리면 매뉴얼을 뒤지지 말고 벽을 본다.</p>
   <div class="row noprint"><button class="g" onclick="window.print()">인쇄</button></div>
   <div class="wallcard" id="wall"></div>
+
+  <h2>두 기기 확인</h2>
+  <div class="card" id="splitCheck"></div>
 
   <h2>단축키</h2>
   <div class="card tight small">
@@ -1991,6 +2005,7 @@ function go(name){
   if(name==="verify") renderVerify();
   if(name==="quarter") renderQuarter();
   if(name==="rot") renderRot();
+  if(name==="rules") renderSplit();
   window.scrollTo(0,0);
 }
 document.addEventListener("click",function(e){
@@ -5781,6 +5796,73 @@ function roundTag(playId, step){
   var n=roundSeed(playId, step)%1024;
   var abc="0123456789ABCDEFGHJKMNPQRSTVWXYZ";
   return abc[Math.floor(n/32)]+abc[n%32];
+}
+
+
+function veilPane(mine, hidden, who){
+  var h='<div class="vpane"><div class="vmine">'+
+        mine.map(function(x){ return '<div>'+esc(x)+'</div>'; }).join("")+'</div>';
+  if(hidden && hidden.length)
+    h+='<div class="vhid" aria-hidden="true"><span>'+
+       esc((who||"상대")+" 화면에만 있다")+'</span></div>';
+  return h+'</div>';
+}
+
+var REVEAL={open:{}};
+function revealReady(id){
+  var el=document.getElementById(id);
+  return !!(el && String(el.value||"").trim().length);
+}
+function revealOpen(key){ return !!REVEAL.open[key]; }
+function revealGate(key, fieldId, what){
+  var ready=revealReady(fieldId), open=revealOpen(key);
+  if(open) return '<div class="note g">폈다. '+esc(what||"서로 다른 자리를 하나씩 말한다")+'</div>';
+  var h='<div class="rgate">';
+  if(!ready){
+    h+='<div class="note">이 기기 것을 다 적으면 펴는 단추가 켜진다.</div>';
+    h+='<button class="g" disabled>펴기</button>';
+  }else{
+    h+='<div class="note w">다 적었다. <b>상대도 다 적었는지 물어보고</b> 둘이 같이 누른다.</div>';
+    h+='<button class="g" data-reveal="'+esc(key)+'">둘 다 됐다. 편다</button>';
+  }
+  return h+'</div>';
+}
+function revealBind(box, after){
+  if(!box) return;
+  box.querySelectorAll("[data-reveal]").forEach(function(b){
+    b.onclick=function(){ REVEAL.open[b.dataset.reveal]=true; if(after) after(); };
+  });
+}
+function revealReset(key){ delete REVEAL.open[key]; }
+
+var SPLIT={step:0};
+function renderSplit(){
+  var box=$("#splitCheck"); if(!box) return;
+  var s=SPLIT.step, mine=(typeof deviceSide==="function")?deviceSide():null;
+  var h='<div class="small mut">두 기기를 나란히 놓고 이 자리를 편다. '+
+        '<b>같아야 하는 것과 달라야 하는 것이 아래에 갈려 있다.</b></div>';
+  h+='<table class="pairtab"><tr><th>무엇</th><th>이 기기</th><th>두 기기가</th></tr>'+
+     '<tr><td>판 표시</td><td class="mono">'+esc(roundTag("check",s))+
+     '</td><td>같아야 한다</td></tr>'+
+     '<tr><td>회</td><td class="mono">'+s+'</td><td>같아야 한다</td></tr>'+
+     '<tr><td>이 기기 쪽</td><td class="mono">'+esc(mine?mine.toUpperCase():"안 고름")+
+     '</td><td><b>달라야 한다</b></td></tr>'+
+     '<tr><td>자리</td><td class="mono">'+
+     esc(roundRole(s,2,["읽는 쪽","짚는 쪽"])||"둘 다")+
+     '</td><td><b>달라야 한다</b></td></tr></table>';
+  var p=roundPart(s,2,["왼쪽 몫","오른쪽 몫"]);
+  h+='<div style="margin-top:12px">'+veilPane(p.mine,p.hidden,"상대")+'</div>';
+  if(!mine)
+    h+='<div class="note w">기기 쪽을 안 골랐다. 대장 탭에서 고르면 화면이 갈린다. '+
+       '안 고르면 한 기기로 도는 날이라 둘 다 보인다.</div>';
+  h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
+     '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
+  h+='<div class="row" style="margin-top:8px">'+
+     '<button class="g" id="splitPrev">이전 회</button>'+
+     '<button class="g" id="splitNext">다음 회</button></div>';
+  box.innerHTML=h;
+  $("#splitPrev").onclick=function(){ SPLIT.step=Math.max(0,SPLIT.step-1); renderSplit(); };
+  $("#splitNext").onclick=function(){ SPLIT.step++; renderSplit(); };
 }
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",

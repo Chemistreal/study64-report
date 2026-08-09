@@ -302,3 +302,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   padding:8px 9px;cursor:pointer;min-height:44px;overflow-wrap:anywhere}
 .mgpick:hover{border-color:var(--a1)}
 .mgpick.on{border-style:solid;border-color:var(--ok);background:var(--sub);font-weight:650}
+
+/* 판 화면 두 조각 (T240).
+   **가린 자리를 없는 자리로 만들지 않는다.** 자리를 남기고 왜 안 보이는지를 적는다.
+   빈 자리로 두면 두 사람이 앱이 고장 난 줄 안다. */
+.vpane{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.vmine{flex:1 1 60%;min-width:0}
+.vmine>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
+  background:var(--bg2);margin-bottom:6px;overflow-wrap:anywhere}
+.vhid{flex:1 1 30%;min-width:120px;display:flex;align-items:center;justify-content:center;
+  border:1px dashed var(--edge);border-radius:10px;background:var(--sub);
+  color:var(--mut);font-size:0.75rem;text-align:center;padding:10px}
+.rgate{margin-top:10px}
+.rgate button{margin-top:8px}
+.rgate button[disabled]{opacity:.5;cursor:not-allowed}

@@ -96,3 +96,101 @@ function roundTag(playId, step){
   var abc="0123456789ABCDEFGHJKMNPQRSTVWXYZ";
   return abc[Math.floor(n/32)]+abc[n%32];
 }
+
+/* =========================================================================
+   판 화면 두 조각. **E단계 스무 판이 다 이 둘을 쓴다.**
+
+     가리기      이 기기 몫만 보이고 상대 몫은 자리만 남는다
+     동시 공개   내 것을 다 적기 전에는 안 펴진다
+
+   여기서 만들어 두고 판마다 새로 안 만든다.
+   스무 번 새로 만들면 스무 벌이 조금씩 다르게 되고 그중 하나가 안 가린다.
+   ========================================================================= */
+
+/* 가리는 자리. **없는 것처럼 만들지 않는다.** 자리를 남기고 왜 안 보이는지를 적는다.
+   빈 자리로 두면 두 사람이 앱이 고장 난 줄 안다. 가린 것과 없는 것은 다르다. */
+function veilPane(mine, hidden, who){
+  var h='<div class="vpane"><div class="vmine">'+
+        mine.map(function(x){ return '<div>'+esc(x)+'</div>'; }).join("")+'</div>';
+  if(hidden && hidden.length)
+    h+='<div class="vhid" aria-hidden="true"><span>'+
+       esc((who||"상대")+" 화면에만 있다")+'</span></div>';
+  return h+'</div>';
+}
+
+/* 동시 공개.
+
+   `docs/round.md` 5장이 정했다. **상대가 다 적었는지를 이 기기가 알 길이 없다.**
+   그래서 반만 셈으로 한다.
+
+     셈이 하는 것    내 것이 비어 있으면 안 펴진다
+     사람이 하는 것  상대가 됐다고 말해 주는 것
+
+   시계로 맞추지 않는다. 두 기기가 시작을 각자 눌러 몇 초씩 어긋나 있고
+   어긋난 시계로 동시를 만들면 한쪽이 먼저 펴진다. **먼저 펴지는 쪽이 손해다.** */
+var REVEAL={open:{}};
+function revealReady(id){
+  var el=document.getElementById(id);
+  return !!(el && String(el.value||"").trim().length);
+}
+function revealOpen(key){ return !!REVEAL.open[key]; }
+function revealGate(key, fieldId, what){
+  var ready=revealReady(fieldId), open=revealOpen(key);
+  if(open) return '<div class="note g">폈다. '+esc(what||"서로 다른 자리를 하나씩 말한다")+'</div>';
+  var h='<div class="rgate">';
+  if(!ready){
+    h+='<div class="note">이 기기 것을 다 적으면 펴는 단추가 켜진다.</div>';
+    h+='<button class="g" disabled>펴기</button>';
+  }else{
+    /* **상대가 됐다고 말하기 전에는 누르지 말라고 화면이 시킨다.**
+       기기가 못 하는 것을 사람이 한다. 시키지 않으면 사람도 안 한다. */
+    h+='<div class="note w">다 적었다. <b>상대도 다 적었는지 물어보고</b> 둘이 같이 누른다.</div>';
+    h+='<button class="g" data-reveal="'+esc(key)+'">둘 다 됐다. 편다</button>';
+  }
+  return h+'</div>';
+}
+/* 펴기 단추를 잇는다. 그린 다음에 부른다. */
+function revealBind(box, after){
+  if(!box) return;
+  box.querySelectorAll("[data-reveal]").forEach(function(b){
+    b.onclick=function(){ REVEAL.open[b.dataset.reveal]=true; if(after) after(); };
+  });
+}
+function revealReset(key){ delete REVEAL.open[key]; }
+
+/* =========================================================================
+   두 기기가 갈리는지 확인하는 자리. 규칙 탭에 있다.
+
+   E단계 스무 판이 다 위의 두 조각을 쓴다. 그런데 판이 아직 없다.
+   **기기 쪽을 잘못 골라 두면 판이 생긴 날에야 그것이 보이고 그때는 세션 중이다.**
+   그래서 미리 확인할 자리를 둔다. 두 기기를 나란히 놓고 이 화면을 편다.
+   ========================================================================= */
+var SPLIT={step:0};
+function renderSplit(){
+  var box=$("#splitCheck"); if(!box) return;
+  var s=SPLIT.step, mine=(typeof deviceSide==="function")?deviceSide():null;
+  var h='<div class="small mut">두 기기를 나란히 놓고 이 자리를 편다. '+
+        '<b>같아야 하는 것과 달라야 하는 것이 아래에 갈려 있다.</b></div>';
+  h+='<table class="pairtab"><tr><th>무엇</th><th>이 기기</th><th>두 기기가</th></tr>'+
+     '<tr><td>판 표시</td><td class="mono">'+esc(roundTag("check",s))+
+     '</td><td>같아야 한다</td></tr>'+
+     '<tr><td>회</td><td class="mono">'+s+'</td><td>같아야 한다</td></tr>'+
+     '<tr><td>이 기기 쪽</td><td class="mono">'+esc(mine?mine.toUpperCase():"안 고름")+
+     '</td><td><b>달라야 한다</b></td></tr>'+
+     '<tr><td>자리</td><td class="mono">'+
+     esc(roundRole(s,2,["읽는 쪽","짚는 쪽"])||"둘 다")+
+     '</td><td><b>달라야 한다</b></td></tr></table>';
+  var p=roundPart(s,2,["왼쪽 몫","오른쪽 몫"]);
+  h+='<div style="margin-top:12px">'+veilPane(p.mine,p.hidden,"상대")+'</div>';
+  if(!mine)
+    h+='<div class="note w">기기 쪽을 안 골랐다. 대장 탭에서 고르면 화면이 갈린다. '+
+       '안 고르면 한 기기로 도는 날이라 둘 다 보인다.</div>';
+  h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
+     '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
+  h+='<div class="row" style="margin-top:8px">'+
+     '<button class="g" id="splitPrev">이전 회</button>'+
+     '<button class="g" id="splitNext">다음 회</button></div>';
+  box.innerHTML=h;
+  $("#splitPrev").onclick=function(){ SPLIT.step=Math.max(0,SPLIT.step-1); renderSplit(); };
+  $("#splitNext").onclick=function(){ SPLIT.step++; renderSplit(); };
+}

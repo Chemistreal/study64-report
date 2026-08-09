@@ -53,6 +53,7 @@ function go(name){
   if(name==="verify") renderVerify();
   if(name==="quarter") renderQuarter();
   if(name==="rot") renderRot();
+  if(name==="rules") renderSplit();
   window.scrollTo(0,0);
 }
 document.addEventListener("click",function(e){
