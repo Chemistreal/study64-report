@@ -43,11 +43,26 @@ function spacingDays(no){
 function markCardRun(id, lectureNo){
   var days=spacingDays(lectureNo);
   var m=cardDue(), cur=m[id];
-  if(!days){ m[id]={box:0, due:null, ran:today()}; save(); return; }
+  if(!days){ m[id]={box:0, due:null, ran:today()}; save(); syncCardCount(); return; }
   var box=cur && cur.box ? cur.box : 0;
-  if(box>=days.length){ m[id]={box:box, due:null, ran:today()}; save(); return; }
+  if(box>=days.length){ m[id]={box:box, due:null, ran:today()}; save(); syncCardCount(); return; }
   m[id]={box:box+1, due:addDays(today(), days[box]), ran:today()};
-  save();
+  save(); syncCardCount();
+}
+/* **오늘 돈 카드 수를 앱이 이미 알고 있다.** 그런데 대장은 손으로 받았다.
+   `markCardRun` 이 카드마다 돈 날을 적어 두는데 그 수를 아무도 안 셌다.
+   손으로 올리는 숫자는 언젠가 안 올라간다. 회전 대장에서 겪은 것과 같다.
+
+   센 것보다 적게 적히는 일만 막는다. **종이로 더 돌았을 수 있어서 위로는 안 막는다.** T216 */
+function ranToday(){
+  var m=cardDue(), td=today(), n=0;
+  for(var k in m) if(m[k] && m[k].ran===td) n++;
+  return n;
+}
+function syncCardCount(){
+  var r=day(today()), n=ranToday();
+  if(n>(r.cards||0)){ r.cards=n; save(); }
+  return n;
 }
 function dueCards(){
   var m=cardDue(), td=today(), out=[];
@@ -267,9 +282,27 @@ function renderDrillPane(pl){
   var labels=ps.map(function(x){return x.label;}).join("|");
   if(segs.length && segs.join("|")!==labels)
     h+='<div class="n"><b>구간 지시</b><br>'+segs.map(function(s){return esc(s);}).join("<br>")+'</div>';
+  /* **이 블록이 남기는 것을 이 블록에서 받는다.** 오늘 탭까지 가서 적으면
+     30분 드릴이 끊긴다. 장수는 앱이 세고 발화 분만 사람이 적는다. T216 */
+  h+='<div class="drec"><div class="k">이 블록이 남기는 것</div>'+
+     '<div class="cntrow">'+
+     '<label class="blank"><span>오늘 돈 카드</span>'+
+     '<input type="number" min="0" step="1" id="drCards" readonly></label>'+
+     '<label class="blank"><span>발화 분</span>'+
+     '<input type="number" min="0" step="1" id="drSpeak"></label></div>'+
+     '<div class="n">장수는 돌았다로 적기를 누른 수다. 앱이 센다. '+
+     '발화 분은 둘이 실제로 말한 시간이다.</div></div>';
   if(L.role) h+='<div class="n"><b>역할</b> '+esc(withNames(L.role))+'</div>';
   if(L.stuck) h+='<div class="n"><b>막혔을 때</b> '+esc(L.stuck)+'</div>';
   h+=renderCardView(pl);
+  setTimeout(function(){
+    var r=day(today());
+    fillField("drCards", String(syncCardCount()));
+    fillField("drSpeak", r.speak?String(r.speak):"");
+    var sp=document.getElementById("drSpeak");
+    if(sp) sp.oninput=function(){ day(today()).speak=+sp.value||0; save();
+      var f=document.getElementById("fSpeak"); if(f) f.value=sp.value; };
+  },0);
   return h;
 }
 

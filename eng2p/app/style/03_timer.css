@@ -294,3 +294,8 @@ body.session-focus .rings{display:none}
 .blockpane .ckrow .ckn{font-family:var(--mono);font-size:1.25rem;font-weight:750;
   min-width:74px}
 .blockpane .ckrow button{min-height:44px}
+
+/* 블록 3이 남기는 것. **이 블록이 남기는 것을 이 블록에서 받는다.** T216 */
+.blockpane .drec{margin:9px 0;padding:9px 10px;border:1px solid var(--line);
+  border-radius:10px;background:var(--sub)}
+.blockpane .drec input[readonly]{background:var(--sub);color:var(--mut)}

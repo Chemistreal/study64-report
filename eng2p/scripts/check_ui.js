@@ -115,8 +115,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const bad = [];
     const sets = (DATA.sets && DATA.sets.items) || [];
     if (!sets.length) return ["세트 자료를 못 읽었다"];
+    /* **`S.device` 는 사람이고 화면 쪽은 날마다 뒤집힌다.** T216
+       사람을 박아 두면 하루걸러 A 화면 판과 B 화면 판이 서로 바뀐다. */
+    const asB = roleOf(today()) === "a" ? "b" : "a";
+    const asA = asB === "a" ? "b" : "a";
     for (const s of sets) {
-      for (const side of ["a", "b", null]) {
+      for (const side of [asA, asB, null]) {
         S.device = side;
         let h;
         try { h = renderSetPane({ set: s.id, lectureNo: s.lecture, quarter: s.quarter }); }
@@ -129,8 +133,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         const items = ((s.steps || [])[0] || {}).items || [];
         for (const it of items) {
           const has = h.indexOf(esc(it)) >= 0;
-          if (side === "b" && has) bad.push(s.id + " B 화면에 1단계 목록이 새어 나왔다");
-          if (side === "a" && !has) bad.push(s.id + " A 화면에 1단계 목록이 빠졌다");
+          if (side === asB && has) bad.push(s.id + " B 화면에 1단계 목록이 새어 나왔다");
+          if (side === asA && !has) bad.push(s.id + " A 화면에 1단계 목록이 빠졌다");
         }
       }
     }
@@ -162,8 +166,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const bad = [];
     const cards = (DATA.cards && DATA.cards.items) || [];
     if (!cards.length) return ["카드 자료를 못 읽었다"];
+    /* **`S.device` 는 사람이고 화면 쪽은 날마다 뒤집힌다.** T216
+       사람을 박아 두면 하루걸러 B면 판이 A면을 보게 된다. 쪽으로 골라 넣는다. */
+    const asB = roleOf(today()) === "a" ? "b" : "a";
+    const asA = asB === "a" ? "b" : "a";
     for (const c of cards) {
-      for (const side of ["a", "b", null]) {
+      for (const side of [asA, asB, null]) {
         S.device = side; S.card = { k: cardKey(), i: 0 };
         const pl = { quarter: c.quarter, cards: { from: c.no, to: c.no }, lectureNo: 1 };
         let h;
@@ -171,7 +179,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         catch (e) { bad.push(c.id + " " + side + " 예외 " + e.message); continue; }
         if (!h) { bad.push(c.id + " " + side + " 빈 화면"); continue; }
         if (h.indexOf("undefined") >= 0) bad.push(c.id + " " + side + " 빈 값이 찍혔다");
-        if (c.type === "판정" && side === "b" && h.indexOf("정답") >= 0)
+        if (c.type === "판정" && side === asB && h.indexOf("정답") >= 0)
           bad.push(c.id + " B면에 정답이 떴다");
       }
     }
@@ -323,15 +331,20 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const bad = [];
     const pl = plan();
     const sid = pl.set, lec = pl.lectureNo;
-    S.device = "a"; const sa = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
-    S.device = "b"; const sb = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
+    /* **`S.device` 는 사람이고 화면 쪽은 날마다 뒤집힌다.**
+       `deviceSide()` 가 `roleOf(today())` 를 곱해서 정한다.
+       사람을 박아 두면 하루걸러 이 판이 뒤집힌다. 쪽으로 골라 넣는다. T216 */
+    const asA = roleOf(today()) === "a" ? "a" : "b";
+    const asB = roleOf(today()) === "a" ? "b" : "a";
+    S.device = asA; const sa = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
+    S.device = asB; const sb = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
     if (sa.indexOf("B 화면에 안 띄운다") >= 0) bad.push("A 기기에 B용 안내가 떴다");
     if (sb.indexOf("B 화면에 안 띄운다") < 0) bad.push("B 기기에 가림 안내가 없다");
-    S.device = "a"; const ca = renderCardView(pl);
-    S.device = "b"; const cb = renderCardView(pl);
+    S.device = asA; const ca = renderCardView(pl);
+    S.device = asB; const cb = renderCardView(pl);
     if (ca.indexOf(">A면") < 0 && ca.indexOf("A면 ·") < 0) bad.push("A 기기가 A면을 안 본다");
     if (cb.indexOf("B면 ·") < 0) bad.push("B 기기가 B면을 안 본다");
-    S.device = "a";
+    S.device = asA;
     // 기기 고르면 기록을 한 기기에만 남기라는 말이 뜨는가
     paintTimer();
     const pick = document.getElementById("tSide");
@@ -1757,7 +1770,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* **블록 2 3단계가 1단계에서 가린 목록을 펴는가.**
        1단계 코드가 "빠진 것은 3단계에서 갈린다" 고 적어 놓고 안 폈다.
        B 는 그 목록을 세션 내내 한 번도 못 봤다. T212 */
-    await pw.evaluate(() => { S.device = "b"; save(); gotoBlock(1); });
+    /* **`S.device` 는 사람이고 화면 쪽은 날마다 뒤집힌다.** `deviceSide()` 가
+       `roleOf(today())` 를 곱해서 정한다. 사람을 박아 두면 하루걸러 검사가 뒤집힌다.
+       실제로 날이 바뀌면서 세 판이 실패했다. **B 쪽이 되는 사람을 골라 넣는다.** T216 */
+    await pw.evaluate(() => {
+      S.device = roleOf(today()) === "a" ? "b" : "a"; save(); gotoBlock(1);
+    });
     await pw.waitForTimeout(800);
     /* **1단계 동안에는 아직 안 보여야 한다.** 네 단계가 한 칸에 다 그려지므로
        그려 두기만 하면 아래로 밀어 볼 수 있다. 시간이 닿아야 편다. */
@@ -1821,7 +1839,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       await pw.waitForTimeout(1300);
       const after = await pw.textContent("#ckLeft");
       if (after === ck.left) bad.push("재기를 눌렀는데 시계가 안 돈다: " + after);
-      await pw.evaluate(() => { S.device = "b"; save(); renderBlockPane(); });
+      await pw.evaluate(() => {
+        S.device = roleOf(today()) === "a" ? "b" : "a"; save(); renderBlockPane();
+      });
       await pw.waitForTimeout(700);
       const bside = await pw.evaluate(() => ({
         go: !!document.getElementById("ckGo"),
@@ -1830,6 +1850,26 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       if (bside.row.indexOf("쪽이 시작한다") < 0)
         bad.push("응답자 화면이 누가 시작하는지 말 안 한다");
     }
+    /* **오늘 돈 카드 수를 앱이 세고 오늘 탭이 그것을 받는가.** T216
+       안 받으면 옆 칸을 고칠 때 `pullForm` 이 옛 값(0)을 다시 써 넣는다. */
+    await pw.evaluate(() => {
+      S.cardDue = {}; S.cardMode = "today"; S.card = null; S.device = null;
+      day(today()).cards = 0; save(); gotoBlock(2);
+    });
+    await pw.waitForTimeout(1500);
+    for (let k = 0; k < 3; k++) {
+      await pw.evaluate(() => document.querySelector('[data-card="run"]').click());
+      await pw.waitForTimeout(400);
+    }
+    const cnt = await pw.evaluate(() => ({
+      mem: day(today()).cards,
+      box: (document.getElementById("drCards") || {}).value }));
+    if (cnt.box !== "3") bad.push("블록 3 이 오늘 돈 카드를 안 센다: " + cnt.box);
+    if (cnt.mem !== 3) bad.push("센 것이 대장에 안 들어갔다: " + cnt.mem);
+    await pw.evaluate(() => go("today"));
+    await pw.waitForTimeout(500);
+    const back = await pw.evaluate(() => (document.getElementById("fCards") || {}).value);
+    if (back !== "3") bad.push("오늘 탭으로 돌아왔는데 센 값이 안 보인다: " + back);
     await ctxw.close();
     return bad;
   })();

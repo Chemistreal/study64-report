@@ -43,6 +43,11 @@ function go(name){
   if(name==="sound") renderSound();
   if(name==="src") renderSrc();
   if(name==="clip") renderClip();
+  /* **오늘 탭으로 돌아오면 다시 그린다.** 다른 탭은 다 다시 그리는데 이것만 아니었다.
+     세션 중에 값이 바뀐다. 블록 3이 오늘 돈 카드 수를 세고 블록 2가 LRE 를 받는다.
+     안 다시 그리면 옛 값이 칸에 남고, 그 상태에서 옆 칸을 고치면
+     `pullForm` 이 옛 값을 그대로 다시 써 넣는다. **센 것이 지워진다.** T216 */
+  if(name==="today") renderToday();
   if(name==="media") renderMedia();
   if(name==="ledger") renderLedger();
   if(name==="verify") renderVerify();
