@@ -289,3 +289,16 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .pairtab tr.pd-light td:first-child{border-left:3px solid var(--line);padding-left:6px}
 .note.g{border-color:var(--ok);color:var(--ok)}
 .note.g b{color:var(--ok)}
+
+/* 합치기 표. 두 쪽 값을 나란히 두고 누르는 것이 고르는 것이다 (T237).
+   **고른 것이 눈에 보여야 한다.** 일곱 줄에서 하나만 안 골랐을 때 그것이 보여야 한다. */
+.mgtab{width:100%;border-collapse:collapse;margin-top:10px;font-size:0.875rem}
+.mgtab th,.mgtab td{border-bottom:1px solid var(--line);padding:6px 7px;
+  text-align:left;vertical-align:top}
+.mgtab th{color:var(--mut);font-weight:600;font-size:0.75rem}
+.mgtab td:first-child{color:var(--mut)}
+.mgpick{display:block;width:100%;text-align:left;font:inherit;font-size:0.8125rem;
+  border:1px dashed var(--edge);border-radius:9px;background:var(--bg2);color:var(--fg);
+  padding:8px 9px;cursor:pointer;min-height:44px;overflow-wrap:anywhere}
+.mgpick:hover{border-color:var(--a1)}
+.mgpick.on{border-style:solid;border-color:var(--ok);background:var(--sub);font-weight:650}

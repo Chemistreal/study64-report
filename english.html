@@ -743,6 +743,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .pairtab tr.pd-light td:first-child{border-left:3px solid var(--line);padding-left:6px}
 .note.g{border-color:var(--ok);color:var(--ok)}
 .note.g b{color:var(--ok)}
+
+.mgtab{width:100%;border-collapse:collapse;margin-top:10px;font-size:0.875rem}
+.mgtab th,.mgtab td{border-bottom:1px solid var(--line);padding:6px 7px;
+  text-align:left;vertical-align:top}
+.mgtab th{color:var(--mut);font-weight:600;font-size:0.75rem}
+.mgtab td:first-child{color:var(--mut)}
+.mgpick{display:block;width:100%;text-align:left;font:inherit;font-size:0.8125rem;
+  border:1px dashed var(--edge);border-radius:9px;background:var(--bg2);color:var(--fg);
+  padding:8px 9px;cursor:pointer;min-height:44px;overflow-wrap:anywhere}
+.mgpick:hover{border-color:var(--a1)}
+.mgpick.on{border-style:solid;border-color:var(--ok);background:var(--sub);font-weight:650}
 </style>
 </head>
 <body>
@@ -1227,12 +1238,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
     <div class="row">
       <button class="g" id="exJson">JSON 내려받기</button>
       <button class="g" id="exMd">대장 마크다운 복사</button>
-      <button class="g" id="imBtn">JSON 가져오기</button>
+      <button class="g" id="mgBtn">JSON 합치기</button>
+      <input type="file" id="mgFile" accept="application/json" hidden>
+      <button class="g" id="imBtn">JSON 가져오기 (덮어씀)</button>
       <input type="file" id="imFile" accept="application/json" hidden>
       <button class="g" id="wipe" style="color:var(--warn)">전체 삭제</button>
     </div>
-    <div class="small mut" style="margin-top:8px">기록은 이 브라우저에만 저장된다. 기기를 바꾸면 JSON으로 옮긴다.</div>
+    <div class="small mut" style="margin-top:8px">기록은 이 브라우저에만 저장된다. 기기를 바꾸면 JSON으로 옮긴다.
+      <b>합치기가 기본이다.</b> 가져오기는 이 기기 것을 통째로 버린다.</div>
   </div>
+
+  <div class="card" id="mgBox" hidden></div>
 
   <div class="card" id="weekCheck"></div>
 </section>
@@ -1971,7 +1987,7 @@ function go(name){
   if(name==="clip") renderClip();
   if(name==="today") renderToday();
   if(name==="media") renderMedia();
-  if(name==="ledger"){ renderLedger(); renderWeekCheck(); renderPair(); }
+  if(name==="ledger"){ renderLedger(); renderWeekCheck(); renderPair(); renderMerge(); }
   if(name==="verify") renderVerify();
   if(name==="quarter") renderQuarter();
   if(name==="rot") renderRot();
@@ -3788,6 +3804,21 @@ $("#exMd").onclick=function(){
   copy(L.join("\n"), $("#fMsg"));
   alert("대장 마크다운을 복사했다.");
 };
+$("#mgBtn").onclick=function(){ $("#mgFile").click(); };
+$("#mgFile").onchange=function(e){
+  var f=e.target.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var o=JSON.parse(r.result);
+      if(!o.days) throw 0;
+      MG.plan=mergePlan(S,o); MG.pick={}; MG.name=f.name;
+      renderMerge();
+      $("#mgBox").scrollIntoView({block:"nearest"});
+    }catch(err){ alert("JSON 형식이 아니다."); }
+  };
+  r.readAsText(f); e.target.value="";
+};
 $("#imBtn").onclick=function(){ $("#imFile").click(); };
 $("#imFile").onchange=function(e){
   var f=e.target.files[0]; if(!f) return;
@@ -3796,7 +3827,7 @@ $("#imFile").onchange=function(e){
     try{
       var o=JSON.parse(r.result);
       if(!o.days) throw 0;
-      if(!confirm("현재 기록을 덮어쓴다. 진행할까.")) return;
+      if(!confirm("현재 기록을 통째로 덮어쓴다. 합치기가 아니다. 진행할까.")) return;
       var before=JSON.stringify(S);
       S=o; var b=blank(); for(var k in b) if(!(k in S)) S[k]=b[k];
       saveNow(); renderToday(); renderLedger();
@@ -5422,6 +5453,228 @@ function pairCompare(){
     h+='<div class="note">진도는 같다. 다른 것은 활동량뿐이고 '+
        '그것은 둘이 같을 이유가 없다. 각자 자기 것을 적으면 된다.</div>';
   out.innerHTML=h;
+}
+
+var MG_LOCAL=["device","fs","session","card","wk","cardMode","rate",
+              "recOpen","emgOpen","onboarded"];
+var MG_MAXDAY=["speak","cards","lre","h"];
+var MG_BAGDAY=["unres","coll"];
+var MG_ASKDAY=["aim","xchk"];
+
+function mgNum(v){ var n=+v; return isFinite(n)?n:0; }
+function mgBig(a,b){ return mgNum(a)>=mgNum(b)?mgNum(a):mgNum(b); }
+function mgHas(v){
+  if(v==null) return false;
+  if(typeof v==="string") return v.trim().length>0;
+  if(Array.isArray(v)) return v.length>0;
+  if(typeof v==="object") return Object.keys(v).length>0;
+  return v!==0 && v!==false;
+}
+function mgBag(a,b,key){
+  a=Array.isArray(a)?a:[]; b=Array.isArray(b)?b:[];
+  var seen={}, out=[];
+  a.concat(b).forEach(function(x){
+    var k=key?key(x):(typeof x==="string"?x:JSON.stringify(x));
+    if(seen[k]) return;
+    seen[k]=1; out.push(x);
+  });
+  return out;
+}
+
+function mgAsk(list,at,what,mine,theirs){
+  list.push({path:at.join("."), at:at, what:what, mine:mine, theirs:theirs});
+}
+var MG_KO={aim:"블록 1과 4에 적은 것", xchk:"블록 2 상호 검토",
+           normal:"정상", emg:"비상판", absent:"결석"};
+function mgKo(v){ return MG_KO[v]||v; }
+function mgBack(v){
+  for(var k in MG_KO) if(MG_KO[k]===v && (k==="normal"||k==="emg"||k==="absent")) return k;
+  return v;
+}
+
+function mergePlan(mine, theirs){
+  var out=JSON.parse(JSON.stringify(mine));
+  var ask=[], add={days:0, unres:0, coll:0, rot:0, clips:0};
+
+
+  if(mgHas(theirs.start) && theirs.start!==mine.start)
+    mgAsk(ask,["start"],"시작일",mine.start,theirs.start);
+  ["a","b"].forEach(function(k){
+    var m=(mine.names||{})[k], t=(theirs.names||{})[k];
+    if(mgHas(t) && mgHas(m) && m!==t)
+      mgAsk(ask,["names",k],"사람 "+(k==="a"?1:2)+" 이름",m,t);
+    else if(mgHas(t) && !mgHas(m)) out.names[k]=t;
+  });
+
+  var td=theirs.days||{}, md=mine.days||{};
+  for(var d in td){
+    var t=td[d], m=md[d];
+    if(!m){ out.days[d]=JSON.parse(JSON.stringify(t)); add.days++; continue; }
+    var o=out.days[d];
+    MG_MAXDAY.forEach(function(k){
+      if(t[k]!=null || m[k]!=null) o[k]=mgBig(m[k],t[k]);
+    });
+    MG_BAGDAY.forEach(function(k){
+      var was=(m[k]||[]).length;
+      o[k]=mgBag(m[k],t[k]);
+      add[k]+=o[k].length-was;
+    });
+    if(mgHas(t.status) && !mgHas(m.status)) o.status=t.status;
+    else if(mgHas(t.status) && mgHas(m.status) && t.status!==m.status)
+      mgAsk(ask,["days",d,"status"],d+" 그날 상태",mgKo(m.status),mgKo(t.status));
+    MG_ASKDAY.forEach(function(k){
+      var tv=t[k]||{}, mv=m[k]||{};
+      for(var c in tv){
+        if(!mgHas(tv[c])) continue;
+        if(!mgHas(mv[c])){ o[k]=o[k]||{}; o[k][c]=tv[c]; continue; }
+        if(String(mv[c])!==String(tv[c]))
+          mgAsk(ask,["days",d,k,c],d+" "+mgKo(k)+" ("+c.toUpperCase()+")",mv[c],tv[c]);
+      }
+    });
+  }
+
+  var tm=theirs.media||{};
+  ["done","pass","fav"].forEach(function(k){
+    var s=tm[k]||{}; out.media[k]=out.media[k]||{};
+    for(var id in s){
+      var a=out.media[k][id], b=s[id];
+      if(typeof b==="number"||typeof a==="number") out.media[k][id]=mgBig(a,b);
+      else if(!mgHas(a)) out.media[k][id]=b;
+    }
+  });
+  if(tm.lec){
+    out.media.lec=out.media.lec||{};
+    for(var no in tm.lec) out.media.lec[no]=mgBig(out.media.lec[no], tm.lec[no]);
+  }
+
+  var tc=theirs.cardDue||{};
+  out.cardDue=out.cardDue||{};
+  for(var cid in tc){
+    var was=out.cardDue[cid];
+    if(!was || String(tc[cid])>String(was)) out.cardDue[cid]=tc[cid];
+  }
+
+  var n0=(out.rot||[]).length;
+  out.rot=mgBag(mine.rot, theirs.rot, function(x){ return x.d+"|"+JSON.stringify(x); });
+  add.rot=out.rot.length-n0;
+  var c0=(out.clips||[]).length;
+  out.clips=mgBag(mine.clips, theirs.clips, function(x){ return x.f+"|"+x.a+"|"+x.b; });
+  add.clips=out.clips.length-c0;
+  var ts=theirs.scripts||{};
+  out.scripts=out.scripts||{};
+  for(var f in ts){
+    var have=(out.scripts[f]||[]).length;
+    if(ts[f].length>have) out.scripts[f]=ts[f];
+  }
+
+  var tw=theirs.wchk||{};
+  out.wchk=out.wchk||{};
+  for(var w in tw){
+    if(!mgHas(out.wchk[w])){ out.wchk[w]=tw[w]; continue; }
+    if(JSON.stringify(out.wchk[w])!==JSON.stringify(tw[w]))
+      mgAsk(ask,["wchk",w],w+"주 점검",out.wchk[w],tw[w]);
+  }
+  var tq=theirs.q||{};
+  out.q=out.q||{};
+  for(var qk in tq){
+    if(!mgHas(out.q[qk])){ out.q[qk]=tq[qk]; continue; }
+    if(JSON.stringify(out.q[qk])!==JSON.stringify(tq[qk]))
+      mgAsk(ask,["q",qk],qk+" 판정",out.q[qk],tq[qk]);
+  }
+  var tu=theirs.cues||{};
+  out.cues=out.cues||{};
+  for(var mid in tu){
+    out.cues[mid]=out.cues[mid]||{};
+    for(var ln in tu[mid]){
+      if(!mgHas(out.cues[mid][ln])){ out.cues[mid][ln]=tu[mid][ln]; continue; }
+      if(out.cues[mid][ln]!==tu[mid][ln])
+        mgAsk(ask,["cues",mid,ln],mid+" "+ln+"째 줄 시각",
+              out.cues[mid][ln],tu[mid][ln]);
+    }
+  }
+
+  MG_LOCAL.forEach(function(k){ out[k]=mine[k]; });
+
+  return {out:out, ask:ask, add:add};
+}
+
+function mergeApply(plan, pick){
+  var left=plan.ask.filter(function(q){ return pick[q.path]!=="mine" && pick[q.path]!=="theirs"; });
+  if(left.length) return {err:"아직 안 고른 것이 "+left.length+"개다", left:left};
+  var out=JSON.parse(JSON.stringify(plan.out));
+  plan.ask.forEach(function(q){
+    if(pick[q.path]!=="theirs") return;
+    var p=q.at, at=out;
+    for(var i=0;i<p.length-1;i++){
+      if(at[p[i]]==null) at[p[i]]={};
+      at=at[p[i]];
+    }
+    at[p[p.length-1]]=(p[p.length-1]==="status") ? mgBack(q.theirs) : q.theirs;
+  });
+  return {ok:true, out:out};
+}
+
+var MG={plan:null, pick:{}, name:""};
+
+function mgText(v){
+  if(v==null) return "(없음)";
+  if(typeof v==="object") return JSON.stringify(v);
+  return String(v);
+}
+function renderMerge(){
+  var box=$("#mgBox"); if(!box) return;
+  if(!MG.plan){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  var p=MG.plan, a=p.add;
+  var h='<h4 style="margin:0 0 8px">합치기: '+esc(MG.name)+'</h4>';
+  h+='<div class="small mut">아직 안 바꿨다. 아래를 보고 정한다.</div>';
+  var got=[["날",a.days],["미해결",a.unres],["채집",a.coll],
+           ["회전 등록",a.rot],["클립 구간",a.clips]]
+          .filter(function(x){ return x[1]>0; });
+  h+='<div class="note g" style="margin-top:10px">'+
+     (got.length ? "늘어난다: "+got.map(function(x){return x[0]+" "+x[1];}).join(", ")
+                 : "상대에게만 있는 것이 없다. 셈만 맞춰진다")+'</div>';
+  if(!p.ask.length){
+    h+='<div class="note" style="margin-top:8px">고를 것이 없다. 부딪치는 자리가 없다.</div>';
+  }else{
+    h+='<div class="note w" style="margin-top:8px"><b>고를 것이 '+p.ask.length+
+       '개다.</b> 둘 다 값이 있고 서로 다른 자리다. '+
+       '기계가 어느 쪽이 맞는지 모른다. <b>다 고르기 전에는 안 바뀐다.</b></div>';
+    h+='<table class="mgtab"><tr><th>무엇</th><th>이 기기</th><th>가져온 것</th></tr>';
+    p.ask.forEach(function(q,i){
+      var mk=MG.pick[q.path]==="mine", tk=MG.pick[q.path]==="theirs";
+      h+='<tr><td>'+esc(q.what)+'</td>'+
+         '<td><button class="mgpick'+(mk?" on":"")+'" data-i="'+i+'" data-s="mine">'+
+         esc(mgText(q.mine))+'</button></td>'+
+         '<td><button class="mgpick'+(tk?" on":"")+'" data-i="'+i+'" data-s="theirs">'+
+         esc(mgText(q.theirs))+'</button></td></tr>';
+    });
+    h+='</table>';
+  }
+  h+='<div class="row" style="margin-top:12px">'+
+     '<button class="g" id="mgGo">합친다</button>'+
+     '<button class="g" id="mgNo">그만둔다</button></div>';
+  h+='<div id="mgMsg" class="small mut"></div>';
+  box.innerHTML=h;
+  box.querySelectorAll(".mgpick").forEach(function(btn){
+    btn.onclick=function(){
+      MG.pick[p.ask[+btn.dataset.i].path]=btn.dataset.s;
+      renderMerge();
+    };
+  });
+  $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
+  $("#mgGo").onclick=function(){
+    var r=mergeApply(MG.plan, MG.pick);
+    if(!r.ok){ $("#mgMsg").textContent=r.err+". 그 줄에서 한쪽을 누른다"; return; }
+    var before=JSON.stringify(S);
+    S=r.out; var b=blank(); for(var k in b) if(!(k in S)) S[k]=b[k];
+    saveNow(); MG.plan=null; MG.pick={};
+    renderToday(); renderLedger(); renderWeekCheck(); renderPair(); renderMerge();
+    offerUndo("기록을 합쳤다",function(){
+      S=JSON.parse(before); saveNow();
+      renderToday(); renderLedger(); renderWeekCheck(); renderPair();
+    });
+  };
 }
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",

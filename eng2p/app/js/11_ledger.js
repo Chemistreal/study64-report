@@ -165,6 +165,22 @@ $("#exMd").onclick=function(){
   copy(L.join("\n"), $("#fMsg"));
   alert("대장 마크다운을 복사했다.");
 };
+/* 합치기. **덮는 것이 아니다.** docs/merge.md 가 갈래 넷을 정했다. T237 */
+$("#mgBtn").onclick=function(){ $("#mgFile").click(); };
+$("#mgFile").onchange=function(e){
+  var f=e.target.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var o=JSON.parse(r.result);
+      if(!o.days) throw 0;
+      MG.plan=mergePlan(S,o); MG.pick={}; MG.name=f.name;
+      renderMerge();
+      $("#mgBox").scrollIntoView({block:"nearest"});
+    }catch(err){ alert("JSON 형식이 아니다."); }
+  };
+  r.readAsText(f); e.target.value="";
+};
 $("#imBtn").onclick=function(){ $("#imFile").click(); };
 $("#imFile").onchange=function(e){
   var f=e.target.files[0]; if(!f) return;
@@ -173,7 +189,7 @@ $("#imFile").onchange=function(e){
     try{
       var o=JSON.parse(r.result);
       if(!o.days) throw 0;
-      if(!confirm("현재 기록을 덮어쓴다. 진행할까.")) return;
+      if(!confirm("현재 기록을 통째로 덮어쓴다. 합치기가 아니다. 진행할까.")) return;
       /* **덮어쓰기 전 것을 들고 있는다.** 물음을 하나 두는 것으로는 모자란다.
          엉뚱한 파일을 골랐어도 물음은 똑같이 뜨고 똑같이 예를 누른다.
          무엇이 덮였는지는 덮은 뒤에야 보인다. T184 */

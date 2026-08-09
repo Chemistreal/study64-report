@@ -51,12 +51,19 @@
     <div class="row">
       <button class="g" id="exJson">JSON 내려받기</button>
       <button class="g" id="exMd">대장 마크다운 복사</button>
-      <button class="g" id="imBtn">JSON 가져오기</button>
+      <button class="g" id="mgBtn">JSON 합치기</button>
+      <input type="file" id="mgFile" accept="application/json" hidden>
+      <button class="g" id="imBtn">JSON 가져오기 (덮어씀)</button>
       <input type="file" id="imFile" accept="application/json" hidden>
       <button class="g" id="wipe" style="color:var(--warn)">전체 삭제</button>
     </div>
-    <div class="small mut" style="margin-top:8px">기록은 이 브라우저에만 저장된다. 기기를 바꾸면 JSON으로 옮긴다.</div>
+    <div class="small mut" style="margin-top:8px">기록은 이 브라우저에만 저장된다. 기기를 바꾸면 JSON으로 옮긴다.
+      <b>합치기가 기본이다.</b> 가져오기는 이 기기 것을 통째로 버린다.</div>
   </div>
+
+  <!-- 합치기. docs/merge.md 가 갈래 넷을 정했다.
+       **못 정하는 것을 자동으로 정하지 않는다.** 그것은 조용한 덮기다. T237 -->
+  <div class="card" id="mgBox" hidden></div>
 
   <!-- 주간 점검 30분. 매뉴얼 대장 3장의 다섯 단계를 그대로 화면에 둔다.
        종이 기록표가 있는데 앱이 아는 숫자를 사람이 다시 세어 적고 있었다. T226 -->

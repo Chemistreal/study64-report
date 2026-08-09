@@ -2215,6 +2215,95 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       const after = await pw.evaluate(() => pairCode());
       if (after !== ps.code) bad.push("상대 코드를 읽었더니 이 기기 기록이 바뀌었다");
     }
+    /* **합치기는 덮는 것이 아니다.** `docs/merge.md` 4장이 지킬 것 넷을 정했다.
+       지우지 않는다, 못 정하는 것을 자동으로 안 정한다, 바꾸기 전에 보인다,
+       되돌릴 수 있다. 넷을 다 재 본다.
+
+       **부딪치는 판을 일부러 만든다.** 안 부딪치는 판으로 재면 물음이 0으로 나오고
+       물음이 0이면 이 파일이 있는 이유가 안 걸린다. T237 */
+    const mg = await pw.evaluate(() => {
+      const A = { names: { a: "남편", b: "아내" }, start: "2026-01-05",
+        days: { "2026-01-05": { status: "normal", h: 2, speak: 12, cards: 30, lre: 2,
+                  unres: [{ t: "내 것" }], coll: [],
+                  aim: { a: "내가 본 지점", b: "" }, xchk: { a: "", b: "" } } },
+        media: { done: {}, fav: {}, pass: { "lle1-01": 2 }, lec: { 1: 2 } },
+        cardDue: { "Q1-001": "2026-02-01" }, rot: [{ d: "2026-01-05", x: 1 }],
+        clips: [], scripts: {}, wchk: {}, q: {}, cues: {},
+        device: "a", fs: 2, wk: 3, rate: 1.5, card: "Q1-007", cardMode: "today" };
+      const B = { names: { a: "남편", b: "안사람" }, start: "2026-01-05",
+        days: { "2026-01-05": { status: "emg", h: 2, speak: 0, cards: 34, lre: 2,
+                  unres: [{ t: "상대 것" }], coll: [{ e: "nice" }],
+                  aim: { a: "상대가 본 지점", b: "상대 B" }, xchk: { a: "", b: "" } },
+                "2026-01-06": { status: "normal", h: 2, speak: 9, cards: 0, lre: 0,
+                  unres: [], coll: [] } },
+        media: { done: {}, fav: {}, pass: { "lle1-01": 1, "lle1-02": 3 }, lec: { 1: 1 } },
+        cardDue: { "Q1-001": "2026-01-20", "Q1-002": "2026-03-01" },
+        rot: [{ d: "2026-01-05", x: 1 }, { d: "2026-01-06", x: 2 }],
+        clips: [], scripts: {}, wchk: {}, q: {}, cues: {},
+        device: "b", fs: 0, wk: 0, rate: 1, card: null, cardMode: "due" };
+      const pl = mergePlan(A, B);
+      const d5 = pl.out.days["2026-01-05"];
+      /* 두 번 합쳐도 같아야 한다. `docs/merge.md` 5장이다. */
+      const twice = mergePlan(mergePlan(A, B).out, B).out.days["2026-01-05"];
+      const all = {}; pl.ask.forEach((q) => { all[q.path] = "theirs"; });
+      const some = {}; if (pl.ask[0]) some[pl.ask[0].path] = "mine";
+      const done = mergeApply(pl, all);
+      return { asks: pl.ask.map((q) => q.path), what: pl.ask.map((q) => q.what),
+               add: pl.add,
+               local: [pl.out.device, pl.out.fs, pl.out.wk, pl.out.rate,
+                       pl.out.card, pl.out.cardMode],
+               speak: d5.speak, cards: d5.cards, unres: d5.unres.length,
+               coll: d5.coll.length, has6: !!pl.out.days["2026-01-06"],
+               pass: pl.out.media.pass["lle1-01"], pass2: pl.out.media.pass["lle1-02"],
+               lec: pl.out.media.lec[1], due: pl.out.cardDue["Q1-001"],
+               rot: pl.out.rot.length, twiceUnres: twice.unres.length,
+               planStatus: d5.status, planAim: d5.aim.a, planName: pl.out.names.b,
+               halfErr: mergeApply(pl, some).err || "",
+               applied: done.ok ? { status: done.out.days["2026-01-05"].status,
+                                    aim: done.out.days["2026-01-05"].aim.a,
+                                    name: done.out.names.b } : null };
+    });
+    /* 하나. 지우지 않는다 */
+    if (mg.speak !== 12) bad.push("합치기가 큰 발화 분을 안 남긴다: " + mg.speak);
+    if (mg.cards !== 34) bad.push("합치기가 큰 드릴 장수를 안 남긴다: " + mg.cards);
+    if (mg.unres !== 2) bad.push("합치기가 미해결을 안 모은다: " + mg.unres);
+    if (mg.coll !== 1) bad.push("합치기가 채집을 안 모은다: " + mg.coll);
+    if (!mg.has6) bad.push("합치기가 상대에게만 있는 날을 안 가져온다");
+    if (mg.rot !== 2) bad.push("합치기가 회전 등록을 안 모은다: " + mg.rot);
+    if (mg.pass !== 2 || mg.pass2 !== 3) bad.push("합치기가 회차를 뒤로 돌린다");
+    if (mg.lec !== 2) bad.push("합치기가 강의 회차를 뒤로 돌린다: " + mg.lec);
+    /* 카드 간격은 **늦은 날짜**를 남긴다. 돌린 일을 무르지 않는다. */
+    if (mg.due !== "2026-02-01") bad.push("합치기가 이미 돌린 카드를 되돌린다: " + mg.due);
+    if (mg.twiceUnres !== 2) bad.push("두 번 합쳤더니 미해결이 " + mg.twiceUnres + "개다");
+    /* 둘. 못 정하는 것을 자동으로 안 정한다 */
+    const wantAsk = ["names.b", "days.2026-01-05.status", "days.2026-01-05.aim.a"];
+    wantAsk.forEach((k) => {
+      if (mg.asks.indexOf(k) < 0) bad.push("합치기가 " + k + " 를 안 묻는다");
+    });
+    if (mg.planStatus !== "normal" || mg.planAim !== "내가 본 지점" || mg.planName !== "아내")
+      bad.push("고르기 전에 이미 상대 값으로 바뀌었다");
+    if (!mg.halfErr) bad.push("덜 고르고도 합쳐진다");
+    /* 남은 수를 판에서 뽑는다. 숫자를 적어 두면 판이 바뀔 때 그 숫자가 먼저 낡는다. */
+    if (mg.halfErr.indexOf((mg.asks.length - 1) + "개") < 0)
+      bad.push("몇 개가 남았는지를 안 말한다: " + mg.halfErr);
+    if (!mg.applied) bad.push("다 골랐는데도 안 합쳐진다");
+    else {
+      if (mg.applied.status !== "emg")
+        bad.push("고른 값이 저장소 말로 안 돌아간다: " + mg.applied.status);
+      if (mg.applied.aim !== "상대가 본 지점") bad.push("고른 글이 안 들어간다");
+      if (mg.applied.name !== "안사람") bad.push("고른 이름이 안 들어간다");
+    }
+    /* 사람에게 보이는 이름표가 키 이름이면 안 된다. 두 사람은 aim 이 무엇인지 모른다. */
+    mg.what.forEach((w) => {
+      if (/\b(aim|xchk|status|names)\b/.test(w))
+        bad.push("합치기 물음이 키 이름을 그대로 보인다: " + w);
+    });
+    /* 셋. 안 건너가는 것은 안 건너간다 */
+    const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
+    mg.local.forEach((v, i) => {
+      if (v !== wantLocal[i])
+        bad.push("합치기가 안 건너가는 값을 건드렸다: " + v + " (" + wantLocal[i] + " 여야 한다)");
+    });
     await ctxw.close();
     return bad;
   })();
@@ -2234,7 +2323,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
               "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
               "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
-              "짝 코드 코덱 10판 / 짝 코드 화면 9판");
+              "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
