@@ -562,6 +562,42 @@ GLOBALS = {
 }
 
 
+def split_index(idx):
+    """차림표를 분기 넷으로 쪼갠다. **열자마자 읽는 것을 줄이는 자리다.** T245
+
+    `index.js` 30KB 중 29KB 가 48주 내용이다. 그런데 첫 그림에 쓰는 것은
+    **오늘 그 한 주뿐**이다. 나머지 47주는 길 지도와 카드 찾기가 쓰고
+    그 둘은 눌러야 열린다.
+
+    쪼개는 것을 못 한다고 `friction.md` 에 적어 뒀었다. 오늘이 몇 주인지를 알려면
+    차림표가 있어야 한다고 봤다. **틀렸다.** `plan()` 은 `S.days` 와 `S.start` 로
+    주차를 센다. 차림표를 한 줄도 안 본다. 고리가 없다.
+
+    머리에는 주마다 분기만 남긴다. 그것으로 어느 조각을 읽을지 정한다.
+    """
+    head = {
+        "note": idx.get("note", ""),
+        "generator": "scripts/derive_data.py",
+        "blocks": idx["blocks"], "roleRule": idx["roleRule"],
+        "counts": idx["counts"], "files": idx["files"],
+        # 주마다 어느 분기인가. 이것만 있으면 어느 조각을 읽을지 정할 수 있다.
+        "weekQ": [w["quarter"] for w in idx["weeks"]],
+    }
+    (OUT / "index_head.js").write_text(
+        "window.ENG2P_INDEX=" + json.dumps(head, ensure_ascii=False,
+                                           separators=(",", ":")) + ";\n",
+        encoding="utf-8")
+    qs = {}
+    for w in idx["weeks"]:
+        qs.setdefault(w["quarter"], []).append(w)
+    for q, ws in sorted(qs.items()):
+        (OUT / ("index_%s.js" % q.lower())).write_text(
+            "window.ENG2P_INDEX_%s=" % q.upper() +
+            json.dumps(ws, ensure_ascii=False, separators=(",", ":")) + ";\n",
+            encoding="utf-8")
+    return len(qs)
+
+
 def write_js(name, text):
     """JSON 과 같은 내용을 script 로 읽는 판으로 낸다.
 
@@ -676,8 +712,9 @@ def main():
     }, ensure_ascii=False, indent=2) + "\n"
     p.write_text(itext, encoding="utf-8")
     write_js("index.json", itext)
-    print("%s / %d주 (%.0fKB)"
-          % (p.relative_to(ROOT), len(idx["weeks"]), p.stat().st_size / 1024))
+    nq = split_index(idx)
+    print("%s / %d주 (%.0fKB) / 분기 조각 %d개"
+          % (p.relative_to(ROOT), len(idx["weeks"]), p.stat().st_size / 1024, nq))
     return 0
 
 

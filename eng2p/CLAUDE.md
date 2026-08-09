@@ -139,7 +139,7 @@ scripts/derive_ground_data.py 근거를 앱이 읽는 꼴로. 카드에서 그 �
 scripts/check_ground_cite.py 인용이 정말 그 줄을 가리키는지. 3360개 전수
 scripts/check_audio.py 길이가 적힌 세 자리(카탈로그·대본 머리말·mp3)가 같은 말을 하는지
 out/data/               파생된 자료. 손으로 안 고친다
-out/data/index.json     앱이 제일 먼저 읽는 한 장. 48주 차림표
+out/data/index.json     48주 차림표. 앱은 머리와 오늘 분기만 읽는다 (index_head/index_q*)
 out/data/manifest.json  파생 자료 열여섯의 크기와 해시. 받은 것이 온전한지 보는 표
 out/data/*.js           같은 내용을 script 로 읽는 판. **앱은 이쪽을 읽는다**
                         file:// 에서 fetch 가 막히기 때문이다. 종이와 같이 쓰는 물건이라

@@ -208,6 +208,10 @@ function renderSplit(){
     h+='<div class="note w">기기 쪽을 안 골랐다. 대장 탭에서 고르면 화면이 갈린다. '+
        '안 고르면 둘 다 보인다. 기기가 하나면 돌려 보기를 켠다.</div>';
   h+='<div id="splitTurn"></div>';
+  /* 소리 나누기. 이 판은 한쪽만 듣는다고 치고 물어본다. T245 */
+  h+='<div id="splitEar" style="margin-top:10px"></div>';
+  var sn=soundNote(s,2,["읽는 쪽","짚는 쪽"]);
+  if(sn) h+='<div class="note" style="margin-top:8px">'+esc(sn)+'</div>';
   h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
      '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
   h+='<div class="row" style="margin-top:8px">'+
@@ -218,6 +222,7 @@ function renderSplit(){
   if(soloOn()) h+='<button class="g" id="soHand">건넨다</button>';
   h+='</div>';
   box.innerHTML=h;
+  earAsk("check", "splitEar");
   /* 회를 넘길 때 자리가 바뀌면 알린다. **바뀐 그 순간에 알려야 한다.** */
   function stepTo(n){
     SPLIT.step=Math.max(0,n); renderSplit();
@@ -418,3 +423,58 @@ function paintVeil(){
 }
 /* 조작줄의 가림 단추. 세션 중에 늘 떠 있는 유일한 자리다. */
 if($("#focusVeil")) $("#focusVeil").onclick=function(){ veilToggle(); };
+
+/* =========================================================================
+   소리 나누기 (T245).
+
+   규칙서 스무 판을 훑어 **앱이 소리를 내는데 한쪽만 들어야 하는 판**을 셌다.
+   하나다. "A가 소리를 듣는다. B에게 말로 옮긴다. B가 적는다. 원문과 견준다."
+
+   나머지 판에서 나는 소리는 사람이 낸다. 사람이 내는 소리는 나눌 것이 없다.
+   상대가 듣는 것이 그 판의 뼈대다.
+
+   **소리는 화면처럼 못 가른다.** 화면은 두 기기가 각자 그리면 갈린다.
+   소리는 한 상에서 울리면 둘 다 듣는다. 기기가 둘이어도 상은 하나다 (T244).
+
+   앱이 할 수 있는 것과 못 하는 것을 갈라 둔다.
+
+     할 수 있다   **어느 기기가 소리를 낼지**를 정한다. 듣는 쪽 기기만 낸다
+     못 한다      그 소리가 상대 귀에 안 닿게 하는 것. 그것은 이어폰이다
+
+   못 하는 것을 하는 척하지 않는다. **이어폰을 끼웠는지를 묻고 답을 받는다.**
+   기기가 하나인 날은 이어폰 말고 길이 없다.
+   ========================================================================= */
+/* 이 기기가 지금 소리를 내는 자리인가. 안 고른 날은 낸다 (한 기기다). */
+function soundMine(step, every){
+  var f=roundFirst(step, every);
+  return f===null ? true : !!f;
+}
+/* 이어폰을 물었고 답을 받았는가. **판마다 따로 묻는다.**
+   한 번 묻고 그날 내내 안 물으면 다음 판에서 이어폰을 뺀 채로 돈다. */
+var EAR={ok:{}};
+function earOk(playId){ return !!EAR.ok[String(playId)]; }
+function earAsk(playId, into, after){
+  var box=(typeof into==="string")?$("#"+into):into;
+  if(!box) return;
+  if(earOk(playId)){
+    box.innerHTML='<div class="note g">이어폰을 끼웠다. 이 기기 소리는 '+
+      '<b>듣는 쪽 귀에만</b> 간다.</div>';
+    return;
+  }
+  box.innerHTML='<div class="note w"><b>이 판은 한쪽만 듣는다.</b> '+
+    '앱이 소리를 내는데 상 위에서 울리면 둘 다 듣는다. '+
+    '<b>듣는 쪽이 이어폰을 끼운다.</b> 끼우기 전에는 안 시작한다.</div>'+
+    '<button class="g" data-ear="'+esc(String(playId))+'">이어폰을 끼웠다</button>';
+  box.querySelectorAll("[data-ear]").forEach(function(b){
+    b.onclick=function(){ EAR.ok[b.dataset.ear]=true; earAsk(playId, box, after);
+                          if(after) after(); };
+  });
+}
+function earForget(playId){ delete EAR.ok[String(playId)]; }
+/* 소리를 안 내는 기기가 조용히 있으면 고장 난 줄 안다. **왜 조용한지를 적는다.** */
+function soundNote(step, every, names){
+  if(soundMine(step, every)) return "";
+  /* **자리 이름 뒤에 조사를 안 붙인다.** 이름은 판이 주는 것이고 받침이 있는 것과
+     없는 것이 섞인다. "읽는 쪽가 듣는다" 가 실제로 나왔다. 쌍점으로 잇는다. T245 */
+  return "이 기기는 소리를 안 낸다. 듣는 자리: "+(names&&names[0]||"상대")+".";
+}

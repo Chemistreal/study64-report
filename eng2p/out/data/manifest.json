@@ -1,7 +1,7 @@
 {
   "note": "out/data 의 파생 자료마다 크기와 해시다. 받은 것이 온전한지 보는 표다. 손으로 고치지 않는다. scripts/derive_manifest.py 를 다시 돌린다.",
   "generator": "scripts/derive_manifest.py",
-  "count": 19,
+  "count": 24,
   "files": [
     {
       "file": "audiolen.js",
@@ -47,6 +47,31 @@
       "file": "handouts.json",
       "bytes": 222456,
       "sha256": "1b8c8383e82a8b939b2d90fbeb0b8191b49dbac310d8c753a57405bc5ac5734a"
+    },
+    {
+      "file": "index_head.js",
+      "bytes": 749,
+      "sha256": "01280f50a79f174136b1b3409a451870a456a088c3901c68d08f666cc5089b19"
+    },
+    {
+      "file": "index_q1.js",
+      "bytes": 7539,
+      "sha256": "375176a8bcba722f928c613e69ce93ad85509ff5642c5c8c4f0b2adfb8e107a1"
+    },
+    {
+      "file": "index_q2.js",
+      "bytes": 7388,
+      "sha256": "28c768895d7fb185cddb07111473facf1067ca2421609e46c009119755073d4a"
+    },
+    {
+      "file": "index_q3.js",
+      "bytes": 7382,
+      "sha256": "030ceec96cbba2107f3727241b10507451cf9392fe61847b18df80546d5b3956"
+    },
+    {
+      "file": "index_q4.js",
+      "bytes": 7396,
+      "sha256": "ca1d2b81234c88d826d0fc2b7b65fae1930eeb7340a3d978ec504da125f80b81"
     },
     {
       "file": "input.js",

@@ -92,6 +92,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
 
   // 2. 288세션 전 구간에서 배정이 나오는가
+  /* **차림표가 이제 게으르다.** 48주 내용이 분기 조각 넷에 있고 열자마자 읽는 것은
+     오늘 그 한 주뿐이다 (T245). 288세션을 다 보려면 넷을 다 읽어야 한다.
+     안 읽고 재면 "주차 없음" 이 쏟아지는데 그것은 차림표가 아니라 검사 잘못이다. */
+  await page.evaluate(() => new Promise((r) => needAllWeeks(r)));
   const span = await page.evaluate(() => {
     const bad = [];
     const idx = window.ENG2P_INDEX;
@@ -2848,6 +2852,63 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!veil.clickable) bad.push("푼 뒤에 단추가 안 눌린다. 덮개가 남아 있다");
     if (veil.dock === null) bad.push("조작줄에 가림 단추가 없다");
     else if (veil.dock >= 40) bad.push("조작줄 단추로는 안 덮인다: " + veil.dock + "자");
+
+    /* **소리는 화면처럼 못 가른다.** 화면은 두 기기가 각자 그리면 갈리는데
+       소리는 한 상에서 울리면 둘 다 듣는다. 기기가 둘이어도 상은 하나다.
+       앱이 할 수 있는 것은 **어느 기기가 낼지**를 정하는 것까지고
+       상대 귀에 안 닿게 하는 것은 이어폰이다. 못 하는 것을 하는 척하지 않는다. T245 */
+    const snd = await (async () => {
+      const out = {};
+      for (const who of ["a", "b", null]) {
+        const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+        const q = await c.newPage();
+        q.on("pageerror", (e) => bad.push("소리 나누기 화면 오류: " + e.message));
+        await q.goto(PAGE);
+        await q.evaluate((w) => { localStorage.setItem("eng2p.v1", JSON.stringify(
+          { v: 1, names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
+            media: { done: {}, fav: {}, pass: {} }, wk: 0, onboarded: true, device: w,
+            cardDue: {}, cues: {}, rate: 1, fs: 0, wchk: {}, q: {}, rot: [],
+            clips: [], scripts: {} })); }, who);
+        await q.goto(PAGE);
+        await q.waitForTimeout(400);
+        await q.evaluate(() => go("rules"));
+        await q.waitForTimeout(250);
+        const before = await q.evaluate(() => ({
+          ear: document.getElementById("splitEar").innerText,
+          mine: soundMine(SPLIT.step, 2),
+          note: soundNote(SPLIT.step, 2, ["읽는 쪽", "짚는 쪽"]),
+          asked: !!document.querySelector("[data-ear]") }));
+        await q.click("[data-ear]"); await q.waitForTimeout(150);
+        const after = await q.evaluate(() => ({
+          ear: document.getElementById("splitEar").innerText,
+          asked: !!document.querySelector("[data-ear]"),
+          /* **판마다 따로 묻는다.** 한 번 묻고 그날 내내 안 물으면
+             다음 판에서 이어폰을 뺀 채로 돈다. */
+          other: earOk("another") }));
+        out[String(who)] = { before, after };
+        await c.close();
+      }
+      return out;
+    })();
+    ["a", "b", "null"].forEach((k) => {
+      if (!snd[k].before.asked) bad.push(k + " 기기가 이어폰을 안 묻는다");
+      if (!/이어폰/.test(snd[k].before.ear)) bad.push(k + " 기기 물음에 이어폰 말이 없다");
+      if (snd[k].after.asked) bad.push(k + " 기기가 답을 받고도 또 묻는다");
+      if (!/끼웠다/.test(snd[k].after.ear)) bad.push(k + " 기기가 답을 받은 것을 안 보인다");
+      if (snd[k].after.other) bad.push(k + " 기기가 한 판의 답을 다른 판에도 쓴다");
+    });
+    if (snd.a.before.mine === snd.b.before.mine)
+      bad.push("두 기기가 같이 소리를 낸다: " + snd.a.before.mine);
+    if (snd["null"].before.mine !== true)
+      bad.push("기기가 하나인데 소리를 안 낸다");
+    /* 소리를 안 내는 기기가 조용히 있으면 고장 난 줄 안다. */
+    const quiet = snd.a.before.mine ? snd.b : snd.a;
+    const loud = snd.a.before.mine ? snd.a : snd.b;
+    if (!quiet.before.note) bad.push("소리를 안 내는 기기가 왜 조용한지를 안 적는다");
+    if (loud.before.note) bad.push("소리를 내는 기기에 안 낸다는 말이 뜬다");
+    /* **자리 이름 뒤에 조사를 안 붙인다.** 이름은 판이 주고 받침이 섞인다. */
+    if (/쪽[가이]\s/.test(quiet.before.note))
+      bad.push("자리 이름 뒤에 조사를 붙였다: " + quiet.before.note);
 
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];

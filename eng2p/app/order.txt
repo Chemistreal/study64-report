@@ -26,6 +26,7 @@ page/02_script.html   자료 script 태그와 script 열기
 js/01_const.js        상수. 기준서에서 온 값
 js/02_store.js        저장소와 유틸
 js/03_plan.js         오늘 배정과 오늘 한 장
+js/03b_index.js       차림표를 게으르게. **오늘 그 한 주만 열자마자 읽는다**
 js/04_today.js        탭 몰기와 오늘 탭 그리기
 js/05_session.js      시계와 세션 상태와 기기 쪽
 js/06_cards.js        카드 뷰어와 간격 반복과 근거

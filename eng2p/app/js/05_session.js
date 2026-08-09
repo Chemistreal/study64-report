@@ -49,6 +49,12 @@ function peekMap(){
   syncSessionFocus(); renderBlockPane(); paintTimer();
   var box=$("#blockPane");
   if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+  /* **지도는 48주를 다 편다.** 분기 조각 넷을 여기서 읽는다 (T245).
+     누를 때만 읽는다. 다 읽으면 다시 그린다. 먼저 그린 판에는 읽은 주만 있다. */
+  needAllWeeks(function(){
+    if(!PEEKMAP) return;                     // 그 사이 닫았으면 안 그린다
+    PANE.sig=null; renderBlockPane();
+  });
 }
 function peekLecture(no){
   loadData("lecturetext","ENG2P_LECTURETEXT",function(v){

@@ -26,8 +26,14 @@ function cardLecture(id){
   if(!IDX) return null;
   var p=String(id).split("-"); if(p.length!==2) return null;
   var q=p[0], no=+p[1];
+  /* 그 분기 조각을 아직 안 읽었으면 읽어 둔다. **이 함수는 답을 바로 내야 한다.**
+     간격을 올리는 자리에서 부르는데 거기서 기다리면 카드가 멈춘다.
+     그래서 지금은 못 찾았다고 하고 다음번에 찾는다. T245 */
+  if(!haveQuarter(q)){ needQuarter(q); return null; }
   for(var i=0;i<IDX.weeks.length;i++){
-    var w=IDX.weeks[i]; if(w.quarter!==q) continue;
+    /* **`IDX.weeks` 에 구멍이 있다.** 읽은 분기 자리만 채워져 있다 (T245).
+       구멍을 그냥 읽으면 undefined 에서 터진다. 리허설이 그것을 잡았다. */
+    var w=IDX.weeks[i]; if(!w || w.quarter!==q) continue;
     for(var j=0;j<(w.lectures||[]).length;j++){
       var L=w.lectures[j];
       if(L.cards && no>=L.cards.from && no<=L.cards.to) return L.no;
@@ -162,8 +168,18 @@ function renderCardClock(c, mine){
   else h+='<button type="button" class="g" id="ckGo">'+c.seconds+'초 재기</button>';
   return h+'</div>';
 }
+/* **카드는 어느 분기 것이든 나온다.** 간격 반복이 옛 분기 카드를 오늘 낸다.
+   그 카드가 어느 강에 붙는지를 알아야 간격을 맞게 올린다 (`cardLecture`).
+   그래서 카드 자리를 열 때 분기 넷을 다 읽어 둔다. 눌러야 열리는 자리다. T245 */
+var CARDIDX={done:false};
+function needCardIndex(cb){
+  if(CARDIDX.done) return cb();
+  needAllWeeks(function(){ CARDIDX.done=true; cb(); });
+}
 function renderCardView(pl){
   var cards=DATA.cards;
+  /* 카드 자료를 읽는 김에 분기 넷도 읽어 둔다. 둘 다 눌러야 열리는 자리다. */
+  if(!CARDIDX.done) needCardIndex(function(){ renderBlockPane(); });
   if(!cards){
     loadData("cards","ENG2P_CARDS",function(){ renderBlockPane(); });
     return '<div class="n">카드를 여는 중이다.</div>';

@@ -259,7 +259,15 @@ loadSession();
 /* **못 읽은 기록이 있으면 제일 먼저 말한다.** 조용히 넘어가면 두 사람이
    빈 화면을 보고 다시 시작하고 그 다음 저장이 옛 기록 위를 덮는다. */
 if(typeof LOAD_ERR!=="undefined" && LOAD_ERR) toast(LOAD_ERR);
-applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind(); paintSide(); paintVeil();
+/* **오늘 그 한 주를 먼저 읽고 그린다.** 48주 내용이 분기 조각 넷에 있고
+   첫 그림에 쓰는 것은 오늘 주뿐이다 (T245).
+   주차는 `plan()` 이 `S.days` 로 세므로 차림표 없이도 안다. 고리가 없다.
+   못 읽어도 그린다. **안 그리면 화면이 빈 채로 남는다.** 그때는 오늘 한 장이
+   차림표를 못 읽었다고 말한다. 그 말은 이미 있다. */
+applyFs(); renderOnboard();
+needWeek(plan().week, function(){
+  renderToday(); paintTimer(); renderRules(); paintKind(); paintSide(); paintVeil();
+});
 ttsVoices(); renderSound(); renderClip(); renderScript();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });

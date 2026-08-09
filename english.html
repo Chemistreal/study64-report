@@ -1422,7 +1422,7 @@ body.veil-on>*:not(.veilcover){display:none}
   eng2p 운영 콘솔 · 상위 규격 eng2p/docs/spec.md · 기록은 이 브라우저의 localStorage 에만 남는다
 </footer>
 </div>
-<script src="eng2p/out/data/index.js"></script>
+<script src="eng2p/out/data/index_head.js"></script>
 <script>
 "use strict";
 
@@ -1996,6 +1996,35 @@ function jo(name,withJ,without){
   return s+(has?withJ:without);
 }
 function monday(d){ var x=parseISO(d); var w=(x.getDay()+6)%7; x.setDate(x.getDate()-w); return iso(x); }
+if(IDX && !IDX.weeks) IDX.weeks=[];
+function weekQuarter(w){
+  var q=(IDX&&IDX.weekQ)||[];
+  return q[(w|0)-1]||null;
+}
+function haveQuarter(q){
+  if(!IDX||!q) return false;
+  var w=(IDX.weekQ||[]).indexOf(q);
+  return w>=0 && !!IDX.weeks[w];
+}
+function needQuarter(q, cb){
+  cb=cb||function(){};
+  if(!IDX||!q) return cb(false);
+  if(haveQuarter(q)) return cb(true);
+  var g="ENG2P_INDEX_"+q.toUpperCase();
+  loadScript("idx"+q, "eng2p/out/data/index_"+q.toLowerCase()+".js", function(){
+    var rows=window[g];
+    if(!rows) return cb(false);
+    rows.forEach(function(w){ IDX.weeks[w.week-1]=w; });
+    cb(true);
+  });
+}
+function needWeek(w, cb){ needQuarter(weekQuarter(w), cb); }
+function needAllWeeks(cb){
+  var qs=["Q1","Q2","Q3","Q4"], left=qs.length, ok=true;
+  qs.forEach(function(q){
+    needQuarter(q, function(good){ if(!good) ok=false; if(!--left) cb(ok); });
+  });
+}
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
           ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
@@ -2229,6 +2258,10 @@ function peekMap(){
   syncSessionFocus(); renderBlockPane(); paintTimer();
   var box=$("#blockPane");
   if(box) box.scrollIntoView({behavior:"smooth",block:"start"});
+  needAllWeeks(function(){
+    if(!PEEKMAP) return;                     // 그 사이 닫았으면 안 그린다
+    PANE.sig=null; renderBlockPane();
+  });
 }
 function peekLecture(no){
   loadData("lecturetext","ENG2P_LECTURETEXT",function(v){
@@ -2480,8 +2513,9 @@ function cardLecture(id){
   if(!IDX) return null;
   var p=String(id).split("-"); if(p.length!==2) return null;
   var q=p[0], no=+p[1];
+  if(!haveQuarter(q)){ needQuarter(q); return null; }
   for(var i=0;i<IDX.weeks.length;i++){
-    var w=IDX.weeks[i]; if(w.quarter!==q) continue;
+    var w=IDX.weeks[i]; if(!w || w.quarter!==q) continue;
     for(var j=0;j<(w.lectures||[]).length;j++){
       var L=w.lectures[j];
       if(L.cards && no>=L.cards.from && no<=L.cards.to) return L.no;
@@ -2582,8 +2616,14 @@ function renderCardClock(c, mine){
   else h+='<button type="button" class="g" id="ckGo">'+c.seconds+'초 재기</button>';
   return h+'</div>';
 }
+var CARDIDX={done:false};
+function needCardIndex(cb){
+  if(CARDIDX.done) return cb();
+  needAllWeeks(function(){ CARDIDX.done=true; cb(); });
+}
 function renderCardView(pl){
   var cards=DATA.cards;
+  if(!CARDIDX.done) needCardIndex(function(){ renderBlockPane(); });
   if(!cards){
     loadData("cards","ENG2P_CARDS",function(){ renderBlockPane(); });
     return '<div class="n">카드를 여는 중이다.</div>';
@@ -5913,6 +5953,9 @@ function renderSplit(){
     h+='<div class="note w">기기 쪽을 안 골랐다. 대장 탭에서 고르면 화면이 갈린다. '+
        '안 고르면 둘 다 보인다. 기기가 하나면 돌려 보기를 켠다.</div>';
   h+='<div id="splitTurn"></div>';
+  h+='<div id="splitEar" style="margin-top:10px"></div>';
+  var sn=soundNote(s,2,["읽는 쪽","짚는 쪽"]);
+  if(sn) h+='<div class="note" style="margin-top:8px">'+esc(sn)+'</div>';
   h+='<div class="small mut" style="margin-top:10px">자리는 두 회마다 바뀐다. '+
      '다음에 바뀌는 회는 '+roundNextTurn(s,2)+'이다.</div>';
   h+='<div class="row" style="margin-top:8px">'+
@@ -5923,6 +5966,7 @@ function renderSplit(){
   if(soloOn()) h+='<button class="g" id="soHand">건넨다</button>';
   h+='</div>';
   box.innerHTML=h;
+  earAsk("check", "splitEar");
   function stepTo(n){
     SPLIT.step=Math.max(0,n); renderSplit();
     if(turnCheck("check",SPLIT.step,2))
@@ -6034,6 +6078,35 @@ function paintVeil(){
   $("#veilOff").onclick=function(){ veilToggle(); };
 }
 if($("#focusVeil")) $("#focusVeil").onclick=function(){ veilToggle(); };
+
+function soundMine(step, every){
+  var f=roundFirst(step, every);
+  return f===null ? true : !!f;
+}
+var EAR={ok:{}};
+function earOk(playId){ return !!EAR.ok[String(playId)]; }
+function earAsk(playId, into, after){
+  var box=(typeof into==="string")?$("#"+into):into;
+  if(!box) return;
+  if(earOk(playId)){
+    box.innerHTML='<div class="note g">이어폰을 끼웠다. 이 기기 소리는 '+
+      '<b>듣는 쪽 귀에만</b> 간다.</div>';
+    return;
+  }
+  box.innerHTML='<div class="note w"><b>이 판은 한쪽만 듣는다.</b> '+
+    '앱이 소리를 내는데 상 위에서 울리면 둘 다 듣는다. '+
+    '<b>듣는 쪽이 이어폰을 끼운다.</b> 끼우기 전에는 안 시작한다.</div>'+
+    '<button class="g" data-ear="'+esc(String(playId))+'">이어폰을 끼웠다</button>';
+  box.querySelectorAll("[data-ear]").forEach(function(b){
+    b.onclick=function(){ EAR.ok[b.dataset.ear]=true; earAsk(playId, box, after);
+                          if(after) after(); };
+  });
+}
+function earForget(playId){ delete EAR.ok[String(playId)]; }
+function soundNote(step, every, names){
+  if(soundMine(step, every)) return "";
+  return "이 기기는 소리를 안 낸다. 듣는 자리: "+(names&&names[0]||"상대")+".";
+}
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
   u:"https://learningenglish.voanews.com",
@@ -6282,7 +6355,10 @@ buildNav();
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
 loadSession();
 if(typeof LOAD_ERR!=="undefined" && LOAD_ERR) toast(LOAD_ERR);
-applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind(); paintSide(); paintVeil();
+applyFs(); renderOnboard();
+needWeek(plan().week, function(){
+  renderToday(); paintTimer(); renderRules(); paintKind(); paintSide(); paintVeil();
+});
 ttsVoices(); renderSound(); renderClip(); renderScript();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });

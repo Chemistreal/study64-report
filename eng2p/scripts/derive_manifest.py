@@ -41,6 +41,8 @@ EXPECT = [
     "audiolen.js", "cards.js", "cards.json", "cues.js",
     "emergency.js", "emergency.json", "ground.js",
     "handouts.js", "handouts.json",
+    # 차림표를 분기 넷으로 쪼갰다. 머리만 열자마자 읽는다. T245
+    "index_head.js", "index_q1.js", "index_q2.js", "index_q3.js", "index_q4.js",
     "input.js", "input.json",
     "lectures.js", "lectures.json", "lecturetext.js",
     "sets.js", "sets.json",
