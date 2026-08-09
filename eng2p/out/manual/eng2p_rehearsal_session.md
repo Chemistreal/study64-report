@@ -27,7 +27,7 @@
 시계 40:00   세션 남은 120분 · 블록 1 / 4
 
 A 아내
-조준표 과제대로 듣는다. 찾을 것은 한 번에 하나뿐이다.
+시간을 본다. 40분이 되면 다음 블록으로 넘긴다.
 B 남편
 같은 방에서 각자 듣는다. 말을 걸지 않는다. 같이 있는 것 자체가 장치다.
 
@@ -47,53 +47,16 @@ Lesson 29: A Long Time Ago · 03:21 · C-real
 이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. 따로 적는 자리라 서로 안 보는 것이 낫다.
 대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
-~0:00
-Marsha: Hi, Anna! Have a seat.
-여기
-~0:02
-Anna: Thanks. This was a good idea. Working outdoors is nice.
-여기
-~0:08
-Marsha: Um-hum, it is.
-여기
-~0:10
-Anna: I am tired. Today was a busy day at work. And I still have work to do!
-여기
-~0:17
-Marsha: Hmm, that’s too bad.
-여기
-~0:20
-Anna: How are you these days?
-여기
-~0:22
-Marsha: I'm really busy too, Anna. Let’s get to work.
-여기
-~0:27
-Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
-여기
-~0:33
-Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
-여기
-~0:40
-Anna: They have shows where Abraham Lincoln died?
-여기
-~0:44
-Marsha: Yeah, it’s a working theater and a museum.
-여기
-~0:49
-Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
-여기
-~0:57
-Marsha: Um-hum. What’s that?
-여기
-~0:59
-Anna: When I was a little girl … When I was a little girl … I was not like other children.
-여기
-~1:09
-Marsha: Um-hum, I can believe that.
-여기
-~1:12
-Anna's voice: I was a tall, serious child. At
+소리
+영상
+이 줄 되풀이
+대본 가림
+느리게
+빠르게
+미디어 탭에서
+속도 1.00배
+
+(대본 36줄은 안 옮겨 적는다. 화면에서 가려져 있다)
 ```
 
 ### 20분 지난 자리
@@ -102,7 +65,7 @@ Anna's voice: I was a tall, serious child. At
 시계 20:00   세션 남은 100분 · 블록 1 / 4
 
 A 아내
-조준표 과제대로 듣는다. 찾을 것은 한 번에 하나뿐이다.
+시간을 본다. 40분이 되면 다음 블록으로 넘긴다.
 B 남편
 같은 방에서 각자 듣는다. 말을 걸지 않는다. 같이 있는 것 자체가 장치다.
 
@@ -122,53 +85,16 @@ Lesson 29: A Long Time Ago · 03:21 · C-real
 이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. 따로 적는 자리라 서로 안 보는 것이 낫다.
 대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
-~0:00
-Marsha: Hi, Anna! Have a seat.
-여기
-~0:02
-Anna: Thanks. This was a good idea. Working outdoors is nice.
-여기
-~0:08
-Marsha: Um-hum, it is.
-여기
-~0:10
-Anna: I am tired. Today was a busy day at work. And I still have work to do!
-여기
-~0:17
-Marsha: Hmm, that’s too bad.
-여기
-~0:20
-Anna: How are you these days?
-여기
-~0:22
-Marsha: I'm really busy too, Anna. Let’s get to work.
-여기
-~0:27
-Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
-여기
-~0:33
-Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
-여기
-~0:40
-Anna: They have shows where Abraham Lincoln died?
-여기
-~0:44
-Marsha: Yeah, it’s a working theater and a museum.
-여기
-~0:49
-Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
-여기
-~0:57
-Marsha: Um-hum. What’s that?
-여기
-~0:59
-Anna: When I was a little girl … When I was a little girl … I was not like other children.
-여기
-~1:09
-Marsha: Um-hum, I can believe that.
-여기
-~1:12
-Anna's voice: I was a tall, serious child. At
+소리
+영상
+이 줄 되풀이
+대본 가림
+느리게
+빠르게
+미디어 탭에서
+속도 1.00배
+
+(대본 36줄은 안 옮겨 적는다. 화면에서 가려져 있다)
 ```
 
 ### 39분 지난 자리
@@ -177,7 +103,7 @@ Anna's voice: I was a tall, serious child. At
 시계 01:00   세션 남은 81분 · 블록 1 / 4
 
 A 아내
-조준표 과제대로 듣는다. 찾을 것은 한 번에 하나뿐이다.
+시간을 본다. 40분이 되면 다음 블록으로 넘긴다.
 B 남편
 같은 방에서 각자 듣는다. 말을 걸지 않는다. 같이 있는 것 자체가 장치다.
 
@@ -197,53 +123,16 @@ Lesson 29: A Long Time Ago · 03:21 · C-real
 이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. 따로 적는 자리라 서로 안 보는 것이 낫다.
 대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
-~0:00
-Marsha: Hi, Anna! Have a seat.
-여기
-~0:02
-Anna: Thanks. This was a good idea. Working outdoors is nice.
-여기
-~0:08
-Marsha: Um-hum, it is.
-여기
-~0:10
-Anna: I am tired. Today was a busy day at work. And I still have work to do!
-여기
-~0:17
-Marsha: Hmm, that’s too bad.
-여기
-~0:20
-Anna: How are you these days?
-여기
-~0:22
-Marsha: I'm really busy too, Anna. Let’s get to work.
-여기
-~0:27
-Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
-여기
-~0:33
-Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
-여기
-~0:40
-Anna: They have shows where Abraham Lincoln died?
-여기
-~0:44
-Marsha: Yeah, it’s a working theater and a museum.
-여기
-~0:49
-Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
-여기
-~0:57
-Marsha: Um-hum. What’s that?
-여기
-~0:59
-Anna: When I was a little girl … When I was a little girl … I was not like other children.
-여기
-~1:09
-Marsha: Um-hum, I can believe that.
-여기
-~1:12
-Anna's voice: I was a tall, serious child. At
+소리
+영상
+이 줄 되풀이
+대본 가림
+느리게
+빠르게
+미디어 탭에서
+속도 1.00배
+
+(대본 36줄은 안 옮겨 적는다. 화면에서 가려져 있다)
 ```
 
 ---
@@ -425,6 +314,11 @@ B 남편
 준비 3분 · 남은 3분
 A가 말하기 12분
 역할 바꿔 12분
+기록 3분
+구간 지시
+준비 3분
+A가 말하기 12분
+역할 바꿔 12분
 기록 3분이다
 이 블록이 남기는 것
 오늘 돈 카드
@@ -469,6 +363,11 @@ B 남편
 092 ~ 097
 준비 3분
 A가 말하기 12분 · 남은 7분
+역할 바꿔 12분
+기록 3분
+구간 지시
+준비 3분
+A가 말하기 12분
 역할 바꿔 12분
 기록 3분이다
 이 블록이 남기는 것
@@ -517,6 +416,11 @@ B 남편
 준비 3분
 A가 말하기 12분
 역할 바꿔 12분 · 남은 7분
+기록 3분
+구간 지시
+준비 3분
+A가 말하기 12분
+역할 바꿔 12분
 기록 3분이다
 이 블록이 남기는 것
 오늘 돈 카드
@@ -564,7 +468,12 @@ B 남편
 준비 3분
 A가 말하기 12분
 역할 바꿔 12분
-기록 3분이다 · 남은 1분
+기록 3분 · 남은 1분
+구간 지시
+준비 3분
+A가 말하기 12분
+역할 바꿔 12분
+기록 3분이다
 이 블록이 남기는 것
 오늘 돈 카드
 발화 분
@@ -593,7 +502,7 @@ lle1-03:7
 돌았다로 적기
 다음 카드
 
-알림: 4번째 구간 · 기록 3분이다
+알림: 4번째 구간 · 기록 3분
 ```
 
 ---
@@ -628,53 +537,17 @@ Lesson 29: A Long Time Ago · 03:21 · C-real
 센 것을 넣으면 무엇을 할지 여기서 말한다.
 대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
-~0:00
-Marsha: Hi, Anna! Have a seat.
-여기
-~0:02
-Anna: Thanks. This was a good idea. Working outdoors is nice.
-여기
-~0:08
-Marsha: Um-hum, it is.
-여기
-~0:10
-Anna: I am tired. Today was a busy day at work. And I still have work to do!
-여기
-~0:17
-Marsha: Hmm, that’s too bad.
-여기
-~0:20
-Anna: How are you these days?
-여기
-~0:22
-Marsha: I'm really busy too, Anna. Let’s get to work.
-여기
-~0:27
-Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
-여기
-~0:33
-Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
-여기
-~0:40
-Anna: They have shows where Abraham Lincoln died?
-여기
-~0:44
-Marsha: Yeah, it’s a working theater and a museum.
-여기
-~0:49
-Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
-여기
-~0:57
-Marsha: Um-hum. What’s that?
-여기
-~0:59
-Anna: When I was a little girl … When I was a little girl … I was not like other children.
-여기
-~1:09
-Marsha: Um-hum, I can believe that.
-여기
-~1:12
-Anna'
+소리
+영상
+1회차 끝냈다로 적기
+이 줄 되풀이
+대본 가림
+느리게
+빠르게
+미디어 탭에서
+속도 1.00배
+
+(대본 36줄은 안 옮겨 적는다. 화면에서 가려져 있다)
 ```
 
 ### 8분 지난 자리
@@ -705,53 +578,17 @@ Lesson 29: A Long Time Ago · 03:21 · C-real
 센 것을 넣으면 무엇을 할지 여기서 말한다.
 대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
-~0:00
-Marsha: Hi, Anna! Have a seat.
-여기
-~0:02
-Anna: Thanks. This was a good idea. Working outdoors is nice.
-여기
-~0:08
-Marsha: Um-hum, it is.
-여기
-~0:10
-Anna: I am tired. Today was a busy day at work. And I still have work to do!
-여기
-~0:17
-Marsha: Hmm, that’s too bad.
-여기
-~0:20
-Anna: How are you these days?
-여기
-~0:22
-Marsha: I'm really busy too, Anna. Let’s get to work.
-여기
-~0:27
-Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
-여기
-~0:33
-Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
-여기
-~0:40
-Anna: They have shows where Abraham Lincoln died?
-여기
-~0:44
-Marsha: Yeah, it’s a working theater and a museum.
-여기
-~0:49
-Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
-여기
-~0:57
-Marsha: Um-hum. What’s that?
-여기
-~0:59
-Anna: When I was a little girl … When I was a little girl … I was not like other children.
-여기
-~1:09
-Marsha: Um-hum, I can believe that.
-여기
-~1:12
-Anna
+소리
+영상
+1회차 끝냈다로 적기
+이 줄 되풀이
+대본 가림
+느리게
+빠르게
+미디어 탭에서
+속도 1.00배
+
+(대본 36줄은 안 옮겨 적는다. 화면에서 가려져 있다)
 
 알림: 이제 따로 적은 것을 편다
 ```
@@ -784,55 +621,17 @@ Lesson 29: A Long Time Ago · 03:21 · C-real
 센 것을 넣으면 무엇을 할지 여기서 말한다.
 대본 36줄 · 누르면 그 자리로 간다. 시각은 어림이다(물결표). 그 줄이 날 때 여기 를 누르면 앞뒤가 같이 맞아 든다.
 가림. 글을 보면 소리를 안 듣는다. 그래서 가린다.
-~0:00
-Marsha: Hi, Anna! Have a seat.
-여기
-~0:02
-Anna: Thanks. This was a good idea. Working outdoors is nice.
-여기
-~0:08
-Marsha: Um-hum, it is.
-여기
-~0:10
-Anna: I am tired. Today was a busy day at work. And I still have work to do!
-여기
-~0:17
-Marsha: Hmm, that’s too bad.
-여기
-~0:20
-Anna: How are you these days?
-여기
-~0:22
-Marsha: I'm really busy too, Anna. Let’s get to work.
-여기
-~0:27
-Anna: Marsha, look! That bus has a photo of Abraham Lincoln!
-여기
-~0:33
-Marsha: That’s an advertisement for Ford’s Theatre. They have a new show.
-여기
-~0:40
-Anna: They have shows where Abraham Lincoln died?
-여기
-~0:44
-Marsha: Yeah, it’s a working theater and a museum.
-여기
-~0:49
-Anna: I love Lincoln. You know, Marsha, that advertisement reminds me of something.
-여기
-~0:57
-Marsha: Um-hum. What’s that?
-여기
-~0:59
-Anna: When I was a little girl … When I was a little girl … I was not like other children.
-여기
-~1:09
-Marsha: Um-hum, I can believe that.
-여기
-~1:12
-Anna'
+소리
+영상
+1회차 끝냈다로 적기
+이 줄 되풀이
+대본 가림
+느리게
+빠르게
+미디어 탭에서
+속도 1.00배
 
-알림: 이제 따로 적은 것을 편다
+(대본 36줄은 안 옮겨 적는다. 화면에서 가려져 있다)
 ```
 
 ---

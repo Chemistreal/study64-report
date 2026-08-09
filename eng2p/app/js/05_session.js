@@ -358,7 +358,10 @@ function withNames(s){
 function planPieces(line){
   var out=[];
   (line||"").split(",").forEach(function(part){
-    var p=part.trim().replace(/\.$/,"");
+    /* 배분 문장을 쉼표로 자른 것이라 **마지막 토막에 문장 끝이 붙어 온다.**
+       "기록 3분이다" 가 그대로 구간 이름이 되고 알림이 그것을 읽는다.
+       T231 에 한 세션 기록을 읽다가 보였다. 끝의 서술만 떼고 뜻은 안 건드린다. */
+    var p=part.trim().replace(/\.$/,"").replace(/이다$/,"").trim();
     var m=/(\d+)\s*분/.exec(p); if(!m) return;
     var n=+m[1];
     var mm=/분\s*씩\s*([가-힣]+)/.exec(p);

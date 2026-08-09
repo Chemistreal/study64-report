@@ -117,17 +117,39 @@ function tidy(s) {
     L.push("## 블록 " + (i + 1) + ". " + bn);
     L.push("");
     for (const min of AT[i]) {
+      /* **알림 줄을 먼저 비운다.** 알림은 1.6초 남아 있다가 사라진다.
+         안 비우면 앞 장면에서 난 알림이 이 장면 기록에 남는다.
+         실제로 블록 4에서 같은 알림이 두 번 적혀 앱이 두 번 알리는 줄 알았다.
+         재 보니 앱은 한 번 알렸고 기록이 두 번 적은 것이었다. T231 */
       await page.evaluate((a) => {
+        const f = document.getElementById("fMsg");
+        if (f) f.textContent = "자동 저장된다";
         T.run = true; T.left = BLOCKS[T.idx].m * 60 - a[0] * 60; paintTimer();
       }, [min]);
       await page.waitForTimeout(700);
-      const shot = await page.evaluate(() => ({
-        clock: (document.getElementById("tClock") || {}).textContent,
-        sess: (document.getElementById("tSessLeft") || {}).textContent,
-        duo: (document.getElementById("tDuo") || {}).innerText,
-        pane: (document.querySelector("#blockPane") || {}).innerText,
-        msg: (document.getElementById("fMsg") || {}).textContent,
-      }));
+      /* **대본 줄은 안 받아 적는다.** 1회차는 화면에서 가려져 있는데
+         `innerText` 는 그것을 그대로 돌려준다. 글자 크기를 0으로 해서 가리기 때문이다.
+         그대로 적으면 기록 1400자가 다 대본이 되고 정작 읽을 것이 밀린다.
+         T231 에 이 기록을 읽다가 보였다. 몇 줄인지만 적는다. */
+      const shot = await page.evaluate(() => {
+        const pane = document.querySelector("#blockPane");
+        let text = "", lines = 0;
+        if (pane) {
+          const sc = pane.querySelector("#sessScript");
+          lines = sc ? sc.querySelectorAll(".scline").length : 0;
+          const keep = sc ? sc.style.display : null;
+          if (sc) sc.style.display = "none";
+          text = pane.innerText;
+          if (sc) sc.style.display = keep;
+        }
+        return {
+          clock: (document.getElementById("tClock") || {}).textContent,
+          sess: (document.getElementById("tSessLeft") || {}).textContent,
+          duo: (document.getElementById("tDuo") || {}).innerText,
+          pane: text, lines: lines,
+          msg: (document.getElementById("fMsg") || {}).textContent,
+        };
+      });
       shots++;
       L.push("### " + min + "분 지난 자리");
       L.push("");
@@ -137,6 +159,7 @@ function tidy(s) {
       L.push(tidy(shot.duo));
       L.push("");
       L.push(tidy(shot.pane).slice(0, 1400));
+      if (shot.lines) { L.push(""); L.push("(대본 " + shot.lines + "줄은 안 옮겨 적는다. 화면에서 가려져 있다)"); }
       if (shot.msg && shot.msg !== "자동 저장된다") L.push("");
       if (shot.msg && shot.msg !== "자동 저장된다") L.push("알림: " + shot.msg);
       L.push("```");
