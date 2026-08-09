@@ -98,6 +98,49 @@ def check_pair(app):
     return len(fields)
 
 
+def check_pair_manual(app, man):
+    """매뉴얼 10.11 이 짝 코드를 앱과 같게 설명하는가. T236
+
+    **두 사람이 읽는 것은 이 글이다.** 코드가 열넷이 됐는데 매뉴얼이 열셋이라고
+    적혀 있으면 두 사람은 열셋을 세고 하나가 남는 것을 자기 잘못으로 안다.
+    """
+    m = re.search(r"var PC_FIELDS=\[(.*?)\n\];", app, re.S)
+    if not m:
+        return
+    bits = sum(int(w) for _, w in re.findall(r'\["(\w+)",\s*(\d+)\]', m.group(1)))
+    ln = -(-bits // 5) + 1
+    word = KONUM.get(ln)
+    if word and (word + " 글자") not in man:
+        FAIL.append("매뉴얼에 짝 코드가 '%s 글자' 로 안 적혀 있다" % word)
+    # 앱이 내는 말 그대로. 길이가 바뀌면 이 인용이 먼저 낡는다.
+    quote = "%d글자여야 하는데" % ln
+    if quote not in man:
+        FAIL.append("매뉴얼이 앱의 길이 안내('%s') 를 옛말로 적고 있다" % quote)
+    # 뺀 글자. 앱의 글자표에 없는 것이 매뉴얼에도 없다고 적혀 있어야 한다.
+    # **양쪽으로 본다.** 뺀 것이 매뉴얼에 있는가만 보면 뺐다가 도로 넣은 것이 안 걸린다.
+    # 일부러 I 를 도로 넣어 봤는데 조용했다. 매뉴얼은 여전히 안 나온다고 적고 있었다. T236
+    abc = re.search(r'var PC_ABC="([^"]+)"', app)
+    if abc:
+        table = abc.group(1)
+        if len(table) != 32:
+            FAIL.append("짝 코드 글자표가 %d글자다. 다섯 비트라 서른둘이어야 한다" % len(table))
+        if len(set(table)) != len(table):
+            FAIL.append("짝 코드 글자표에 같은 글자가 두 번 있다")
+        tail = man.split("### 10.11")[-1]
+        # 와 과 를 번갈아 쓴다. 받침 때문이다. 이음말로 잡지 말고 글자만 줍는다.
+        said = re.search(r"\*\*([^*]*?) 가 안 나온다", tail)
+        said = re.findall(r"[A-Z]", said.group(1)) if said else []
+        for c in [x for x in "ILOU" if x not in table]:
+            if c not in said:
+                FAIL.append("매뉴얼에 코드에서 뺀 글자 %s 가 안 적혀 있다" % c)
+        for c in said:
+            if c in table:
+                FAIL.append("매뉴얼은 %s 가 코드에 안 나온다는데 글자표에 있다" % c)
+    # 활동량이 다른 것은 맞추지 않는다. 이것을 안 적으면 두 사람이 숫자를 지어낸다.
+    if "활동량은 원래 다르다" not in man:
+        FAIL.append("매뉴얼에 활동량은 맞추지 않는다는 말이 없다")
+
+
 def main():
     if not MAN.exists() or not APP.exists():
         print("[실패] 매뉴얼이나 앱이 없다")
@@ -153,6 +196,7 @@ def main():
         FAIL.append("매뉴얼에 끝냈다 단추가 블록 4에만 있다는 말이 없다")
 
     nfield = check_pair(app)
+    check_pair_manual(app, man)
 
     for f in FAIL:
         print("[실패] %s" % f)
