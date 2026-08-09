@@ -19,7 +19,9 @@
 var MG_LOCAL=["device","fs","session","card","wk","cardMode","rate",
               "recOpen","emgOpen","onboarded",
               /* 돌려 보기는 이 기기의 일이다. 기기가 둘인 쪽 파일을 받아도 안 바뀐다. T241 */
-              "solo","soloSeat","soloHand","veiled"];
+              "solo","soloSeat","soloHand","veiled",
+              /* 판의 회 번호와 지난번 자리. 각자 세는 값이다 (T247) */
+              "rstep","rseat"];
 /* 그날 기록 안에서 큰 것을 남기는 자리 */
 var MG_MAXDAY=["speak","cards","lre","h"];
 /* 그날 기록 안에서 모으는 자리 */

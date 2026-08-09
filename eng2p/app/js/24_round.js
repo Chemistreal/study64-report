@@ -173,7 +173,7 @@ function revealReset(key){ delete REVEAL.open[key]; }
    **기기 쪽을 잘못 골라 두면 판이 생긴 날에야 그것이 보이고 그때는 세션 중이다.**
    그래서 미리 확인할 자리를 둔다. 두 기기를 나란히 놓고 이 화면을 편다.
    ========================================================================= */
-var SPLIT={step:0};
+var SPLIT={step:(typeof roundStep==="function")?roundStep("check"):0};
 function renderSplit(){
   var box=$("#splitCheck"); if(!box) return;
   var s=SPLIT.step, mine=(typeof deviceSide==="function")?deviceSide():null;
@@ -225,7 +225,7 @@ function renderSplit(){
   earAsk("check", "splitEar");
   /* 회를 넘길 때 자리가 바뀌면 알린다. **바뀐 그 순간에 알려야 한다.** */
   function stepTo(n){
-    SPLIT.step=Math.max(0,n); renderSplit();
+    SPLIT.step=Math.max(0,n); roundStepSet("check", SPLIT.step); renderSplit();
     if(turnCheck("check",SPLIT.step,2))
       turnAlert(SPLIT.step,2,["읽는 쪽","짚는 쪽"],"splitTurn");
   }

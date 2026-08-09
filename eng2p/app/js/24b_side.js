@@ -56,12 +56,31 @@ function paintSide(){
 
    소리만으로 안 알린다. 소리를 끌 수 있고 (T222) 끈 사람에게는 아무 일도 안 난다.
    ========================================================================= */
+/* **회 번호와 지난번 자리를 저장소에 남긴다.** 안 남기면 끊겼다 다시 열 때
+   회가 0으로 돌아가고 (판을 다시 처음부터 돈다) 지난번 자리가 없어져
+   자리가 바뀌지도 않았는데 알리거나 바뀌었는데 안 알린다. T247
+
+   `docs/round.md` 6장이 "회 번호는 각자 센다" 고 정했다. 각자 센다는 것은
+   각자 들고 있다는 뜻이고, 들고 있으려면 끊겨도 남아 있어야 한다.
+   기기마다 다른 값이라 안 건너간다. */
+function roundStep(playId){
+  if(!S.rstep) S.rstep={};
+  return S.rstep[String(playId)]|0;
+}
+function roundStepSet(playId, n){
+  if(!S.rstep) S.rstep={};
+  S.rstep[String(playId)]=Math.max(0,n|0); save();
+}
 var TURN={at:{}};
 /* 지난번에 본 자리와 견준다. **처음 보는 판은 안 알린다.**
    판을 처음 열 때 알리면 아직 아무것도 안 바뀌었는데 바뀌었다고 하는 것이다. */
 function turnCheck(playId, step, every){
-  var f=roundFirst(step, every), k=String(playId), was=TURN.at[k];
-  TURN.at[k]=f;
+  var f=roundFirst(step, every), k=String(playId);
+  if(!S.rseat) S.rseat={};
+  /* 이 판을 이번에 처음 보는가는 **저장소까지 보고** 정한다.
+     기억만 보면 끊겼다 다시 열 때마다 처음 보는 판이 된다. */
+  var was=(k in TURN.at) ? TURN.at[k] : (k in S.rseat ? S.rseat[k] : null);
+  TURN.at[k]=f; S.rseat[k]=f; save();
   if(was==null || was===f || f===null) return null;
   return {step:step, next:roundNextTurn(step, every)};
 }

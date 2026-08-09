@@ -2972,6 +2972,86 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (where.loose.idx !== 0 || where.loose.left !== 720)
       bad.push("띄어 친 것을 안 받는다: " + where.loose.tag);
 
+    /* **끊겼을 때 이어 붙이기.** 기기가 꺼지거나 새로 열린다. T247
+
+       셋을 본다. 판의 회가 살아 있는가, 이어서 칸이 보이는가, 짝과 맞출 수 있는가.
+       가운데가 이 턴의 값이다. 블록 1은 미디어 탭에서 듣는데 **이어서 칸은 오늘
+       탭에 있다.** 주소가 `#media` 로 복원되면 끊긴 것을 아무도 못 본다. */
+    const cut = await (async () => {
+      const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const q = await c.newPage();
+      q.on("pageerror", (e) => bad.push("이어 붙이기 화면 오류: " + e.message));
+      await q.goto(PAGE);
+      await q.evaluate(() => {
+        function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
+          return z.toISOString().slice(0,10);}
+        var now=new Date(), st=new Date(now.getTime()-138*86400000), days={};
+        for(var i=0;i<138;i++){var x=new Date(st.getTime()+i*86400000);
+          if(x.getDay()===0) continue;
+          days[iso(x)]={status:"normal",h:2,speak:12,cards:30,lre:2,unres:[],coll:[]};}
+        localStorage.setItem("eng2p.v1",JSON.stringify(
+          {v:1,names:{a:"남편",b:"아내"},start:iso(st),days:days,
+           media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:true,session:null,
+           device:"a",recOpen:false,emgOpen:false,card:null,cardDue:{},
+           cardMode:"today",cues:{},rate:1,fs:0,wchk:{},q:{},rot:[],clips:[],scripts:{}}));
+      });
+      await q.goto(PAGE);
+      await q.waitForTimeout(500);
+      /* 판을 세 회 돌리고 끊는다 */
+      await q.evaluate(() => go("rules"));
+      await q.waitForTimeout(250);
+      for (let i = 0; i < 3; i++) { await q.click("#splitNext"); await q.waitForTimeout(100); }
+      const ran = await q.evaluate(() => ({ step: SPLIT.step, saved: (S.rstep || {}).check,
+                                            seat: (S.rseat || {}).check }));
+      await q.reload(); await q.waitForTimeout(500);
+      await q.evaluate(() => go("rules")); await q.waitForTimeout(250);
+      const kept = await q.evaluate(() => ({ step: SPLIT.step,
+        note: document.getElementById("splitTurn").innerText }));
+      /* 미디어 탭에서 듣다 끊긴다 */
+      await q.evaluate(() => { go("media"); T.run = true; gotoBlock(0);
+                               T.left = 1200; saveSession(); });
+      await q.waitForTimeout(300);
+      await q.reload(); await q.waitForTimeout(700);
+      const woke = await q.evaluate(() => ({ hash: location.hash,
+        today: !document.getElementById("t-today").hidden,
+        resume: document.getElementById("resumeBox").innerText,
+        /* **있는지가 아니라 보이는지를 본다.** T241 에 같은 덫을 고쳤는데
+           그때는 "단추가 없다" 였고 여기서는 "단추가 있는데 안 보인다" 다.
+           있는 것만 보고 누르러 가면 서른 초를 기다리고 "Timeout" 만 남는다. */
+        has: (function(){ var e=document.getElementById("resumeWith");
+          return !!(e && e.getClientRects().length); })() }));
+      let met = null;
+      if (woke.has) {
+        await q.click("#resumeWith", { timeout: 3000 }); await q.waitForTimeout(200);
+        await q.fill("#whereIn", "2-6"); await q.click("#whereGo");
+        await q.waitForTimeout(200);
+        met = await q.evaluate(() => ({ idx: T.idx, left: T.left }));
+      }
+      /* 끊긴 것이 없으면 보던 자리를 지킨다 */
+      await q.evaluate(() => { clearSession(); T.idx = 0; T.left = BLOCKS[0].m * 60;
+                               go("rot"); });
+      await q.waitForTimeout(200);
+      await q.reload(); await q.waitForTimeout(600);
+      const free = await q.evaluate(() => location.hash);
+      await c.close();
+      return { ran, kept, woke, met, free };
+    })();
+    if (cut.ran.saved !== cut.ran.step)
+      bad.push("판의 회를 저장소에 안 남긴다: " + JSON.stringify(cut.ran));
+    if (cut.kept.step !== cut.ran.step)
+      bad.push("다시 열었더니 판의 회가 " + cut.kept.step + "로 돌아갔다");
+    if (cut.kept.note) bad.push("다시 열었을 뿐인데 자리가 바뀌었다고 한다: " + cut.kept.note);
+    if (cut.woke.hash !== "#today" || !cut.woke.today)
+      bad.push("끊긴 세션이 있는데 오늘 탭으로 안 온다: " + cut.woke.hash);
+    if (!/멈췄다/.test(cut.woke.resume)) bad.push("이어서 칸이 안 뜬다");
+    if (!/낡았다/.test(cut.woke.resume))
+      bad.push("이 기기 자리가 낡았다는 말이 없다: " + cut.woke.resume.slice(0, 60));
+    if (!cut.woke.has) bad.push("짝과 맞추는 자리가 없다");
+    else if (!cut.met || cut.met.idx !== 1 || cut.met.left !== 360)
+      bad.push("이어서 칸에서 짝과 못 맞춘다: " + JSON.stringify(cut.met));
+    /* **끊긴 것이 없으면 데려오지 않는다.** 늘 오늘로 끌면 보던 자리를 잃는다. */
+    if (cut.free !== "#rot") bad.push("끊긴 것이 없는데 보던 자리를 잃는다: " + cut.free);
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

@@ -269,5 +269,17 @@ needWeek(plan().week, function(){
   renderToday(); paintTimer(); renderRules(); paintKind(); paintSide(); paintVeil();
 });
 ttsVoices(); renderSound(); renderClip(); renderScript();
-go((location.hash.slice(1)||"today"));
+/* **끊긴 세션이 있으면 오늘 탭으로 데려온다.** T247
+
+   블록 1은 미디어 탭에서 40분을 듣는다. 그 사이에 기기가 꺼지면 다시 열 때
+   주소의 `#media` 가 복원되고 미디어 탭이 열린다.
+   그런데 **이어서 칸은 오늘 탭에 있다.** 그러면 끊긴 것을 아무도 못 본다.
+   조작줄에 오늘 단추가 있어 갈 수는 있지만 (T182) 가야 하는 줄을 모른다.
+
+   오늘 것이 시작됐고 아직 안 끝났으면 그 칸을 먼저 보인다. */
+(function(){
+  var want=location.hash.slice(1)||"today";
+  var s=S.session, mid=(s && s.date===today() && (s.idx>0 || s.left<BLOCKS[0].m*60));
+  go(mid ? "today" : want);
+})();
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });

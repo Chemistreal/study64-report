@@ -222,10 +222,22 @@ function renderResume(pl){
     sessionLeftMin()+'분 남았다'+(g!=null?' · 멈춘 지 '+g+'분':'')+'</div>'+
     (longGap?'<div class="small">한 시간 반 넘게 쉬었다. '+
       '<b>블록은 시간이 아니라 하는 일이다.</b> 이 블록을 처음부터 도는 쪽이 낫다.</div>':'')+
+    /* **기기가 둘이면 이 기기 자리가 낡은 자리다.** 끊긴 동안 상대는 계속 갔다.
+       그대로 이어 가면 두 기기가 다른 블록에서 돈다. 그것이 T246 이 막으려던 것이다.
+       그래서 이어서 하기 옆에 짝에게 물으라고 적고 맞추는 자리를 같이 낸다. T247 */
     '</div><button class="g" id="resumeGo" type="button">이어서 하기</button>'+
     (longGap?'<button class="g" id="resumeAgain" type="button">이 블록 처음부터</button>':'')+
-    '</div>';
+    '<button class="g" id="resumeWith" type="button">짝과 맞춘다</button>'+
+    '</div>'+
+    '<div class="small mut" style="margin-top:6px">기기가 둘이면 <b>이 자리가 낡았다.</b> '+
+    '끊긴 동안 상대는 계속 갔다. 상대 자리를 물어보고 맞춘다.</div>';
   var go=$("#resumeGo"); if(go) go.onclick=function(){ $("#tOne").click(); };
+  var wi=$("#resumeWith");
+  if(wi) wi.onclick=function(){
+    var d=$("#whereDock"); if(!d) return;
+    d.hidden=false; renderWhere();
+    d.scrollIntoView({block:"nearest"});
+  };
   var ag=$("#resumeAgain");
   if(ag) ag.onclick=function(){
     var was={idx:T.idx,left:T.left};
