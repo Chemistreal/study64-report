@@ -193,11 +193,17 @@ function earOk(playId){ return !!EAR.ok[String(playId)]; }
 function earAsk(playId, into, after, step, every){
   var box=(typeof into==="string")?$("#"+into):into;
   if(!box) return;
+  /* **한 기기인 날에 "상대 기기" 라고 하면 안 된다.** 기기가 하나뿐이다.
+     T241 에 가린 자리에서 같은 것을 고쳤는데 여기는 안 고쳤다.
+     두 화면을 나란히 읽다가 보였다. 같은 부품을 쓰되 말을 판에 맞춘다. T256 */
+  var one=(typeof soloOn==="function") && soloOn();
   if(step!=null && typeof soundMine==="function" && !soundMine(step, every||1)){
     /* 한 줄로 다 말한다. 옆에 같은 말을 또 두면 두 줄이 겹쳐 읽힌다.
        실제로 "이 기기는 소리를 안 낸다" 가 두 줄 연달아 떴다 (T254). */
-    box.innerHTML='<div class="note">이 기기는 소리를 안 낸다. '+
-      '<b>이어폰은 상대 기기에 끼운다.</b> 듣는 자리는 위 표의 자리 줄에 있다.</div>';
+    box.innerHTML='<div class="note">지금 자리는 소리를 안 듣는다. '+
+      (one ? '<b>듣는 차례에 이어폰을 낀다.</b> 돌려받고 나서다.'
+           : '<b>이어폰은 상대 기기에 끼운다.</b>')+
+      ' 듣는 자리는 위 표의 자리 줄에 있다.</div>';
     return;
   }
   if(earOk(playId)){
@@ -207,7 +213,9 @@ function earAsk(playId, into, after, step, every){
   }
   box.innerHTML='<div class="note w"><b>이 판은 한쪽만 듣는다.</b> '+
     '앱이 소리를 내는데 상 위에서 울리면 둘 다 듣는다. '+
-    '<b>듣는 쪽이 이어폰을 끼운다.</b> 끼우기 전에는 안 시작한다.</div>'+
+    (one ? '<b>기기를 든 사람이 이어폰을 낀다.</b> 건넬 때 같이 넘긴다.'
+         : '<b>듣는 쪽이 이어폰을 끼운다.</b>')+
+    ' 끼우기 전에는 안 시작한다.</div>'+
     '<button class="g" data-ear="'+esc(String(playId))+'">이어폰을 끼웠다</button>';
   box.querySelectorAll("[data-ear]").forEach(function(b){
     b.onclick=function(){ EAR.ok[b.dataset.ear]=true; earAsk(playId, box, after);

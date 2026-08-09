@@ -2941,11 +2941,35 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       bad.push("두 기기가 같이 소리를 낸다: " + snd.a.before.mine);
     if (snd["null"].before.mine !== true)
       bad.push("기기가 하나인데 소리를 안 낸다");
+    /* **한 기기인 날에 "상대 기기" 라고 하면 안 된다.** 기기가 하나뿐이다.
+       T241 에 가린 자리에서 고친 것을 이어폰 자리에서는 안 고쳤다.
+       두 화면을 나란히 읽다가 보였다. T256 */
+    const soloEar = await pw.evaluate(async () => {
+      const was = { d: S.device, s: S.solo };
+      S.device = null; S.solo = true; S.soloSeat = 0; save();
+      go("rules");
+      await new Promise((r) => setTimeout(r, 300));
+      const first = (document.getElementById("splitEar") || {}).innerText || "";
+      S.soloSeat = 1; save(); renderSplit();
+      await new Promise((r) => setTimeout(r, 200));
+      const second = (document.getElementById("splitEar") || {}).innerText || "";
+      S.device = was.d; S.solo = was.s; S.soloSeat = 0; save(); renderSplit();
+      return { first, second };
+    });
+    [soloEar.first, soloEar.second].forEach((s, i) => {
+      if (/상대 기기/.test(s))
+        bad.push("돌려 보기인데 상대 기기라고 한다 (" + i + "번째 자리): " + s);
+      if (!/이어폰/.test(s)) bad.push("돌려 보기 " + i + "번째 자리에 이어폰 말이 없다");
+    });
+
     /* 소리를 안 내는 기기가 왜 조용한지를 말한다. 이어폰 칸이 그 말을 한다.
        **같은 말을 두 자리에 두지 않는다.** 두 화면을 나란히 읽다가 겹친 것이 보였다. */
     const quiet = snd.a.before.mine ? snd.b : snd.a;
-    if (!/소리를 안 낸다/.test(quiet.before.ear))
-      bad.push("소리를 안 내는 기기가 왜 조용한지를 안 적는다");
+    /* 말이 T256 에 바뀌었다. "안 낸다" 에서 "안 듣는다" 로 갔다.
+       **낸다와 듣는다는 다른 말이고 사람에게는 듣는다가 맞다.**
+       한 상에서는 상대 기기가 내도 들린다. 이 자리 사람이 안 듣는 것이 요점이다. */
+    if (!/소리를 안 듣는다/.test(quiet.before.ear))
+      bad.push("소리를 안 듣는 기기가 왜 조용한지를 안 적는다: " + quiet.before.ear);
     /* **자리 이름 뒤에 조사를 안 붙인다.** 이름은 판이 주고 받침이 섞인다. */
     if (/쪽[가이]\s/.test(quiet.before.note))
       bad.push("자리 이름 뒤에 조사를 붙였다: " + quiet.before.note);

@@ -218,6 +218,95 @@ function tidy(s) {
   L.push("");
   shots++;
 
+  /* 7. 즉시 가리기 (T244). **상대가 다가올 때 화면에 무엇이 남는가.** */
+  await A.evaluate(() => { go("rules"); veilToggle(); });
+  await A.waitForTimeout(250);
+  const veiled = await A.evaluate(() => document.body.innerText);
+  await A.evaluate(() => veilToggle());
+  await A.waitForTimeout(200);
+  L.push("---");
+  L.push("");
+  L.push("## " + head.a + " 기기가 가렸을 때 화면에 남는 글");
+  L.push("");
+  L.push("**여기 판의 글이 한 글자도 없어야 한다.** 상대 눈이 보는 것이 이것이다.");
+  L.push("");
+  L.push("```");
+  L.push(tidy(veiled));
+  L.push("```");
+  L.push("");
+  shots++;
+
+  /* 8. 돌려 보기 (T241). 기기가 하나인 날. 건네는 사이에 무엇이 뜨는가 */
+  const solo = await B.evaluate(async () => {
+    S.device = null; S.solo = true; S.soloSeat = 0; save();
+    go("rules");
+    await new Promise((r) => setTimeout(r, 250));
+    const before = (document.getElementById("splitCheck") || {}).innerText || "";
+    soloHandOff(renderSplit);
+    await new Promise((r) => setTimeout(r, 200));
+    const cover = (document.getElementById("splitCheck") || {}).innerText || "";
+    soloTake(renderSplit);
+    await new Promise((r) => setTimeout(r, 200));
+    const after = (document.getElementById("splitCheck") || {}).innerText || "";
+    S.solo = false; S.soloHand = false; S.device = "b"; save();
+    return { before, cover, after };
+  });
+  L.push("---");
+  L.push("");
+  L.push("## 기기가 하나인 날. 돌려 보기");
+  L.push("");
+  L.push("**건네는 사이에 앞 사람 몫이 한 글자도 없어야 한다.**");
+  L.push("");
+  L.push("| 첫째가 볼 때 | 건네는 중 | 둘째가 받은 뒤 |");
+  L.push("|---|---|---|");
+  const c1 = tidy(solo.before).split("\n"), c2 = tidy(solo.cover).split("\n"),
+        c3 = tidy(solo.after).split("\n");
+  const cn = Math.max(c1.length, c2.length, c3.length);
+  for (let i = 0; i < cn; i++)
+    L.push("| " + (c1[i] || "").replace(/\|/g, "/") + " | " +
+                  (c2[i] || "").replace(/\|/g, "/") + " | " +
+                  (c3[i] || "").replace(/\|/g, "/") + " |");
+  L.push("");
+  shots++;
+
+  /* 9. 자리 맞추기 (T246). 세션 중에 어긋난 것을 사람이 견주는 자리 */
+  const where = await A.evaluate(async () => {
+    /* **시계를 고치면 다시 그려야 한다.** 안 그리면 조작줄 표시가 낡은 값을
+       들고 있고 기록이 거짓이 된다. 실제로 3-30 으로 적혔다. T256 */
+    T.run = true; gotoBlock(2); T.left = 900; paintTimer();
+    await new Promise((r) => setTimeout(r, 250));
+    const tag = document.getElementById("focusWhere").textContent;
+    document.getElementById("focusWhere").click();
+    await new Promise((r) => setTimeout(r, 200));
+    const dock = (document.getElementById("whereDock") || {}).innerText || "";
+    T.run = false; clearInterval(T.tick);
+    return { tag, dock };
+  });
+  const whereB = await B.evaluate(async () => {
+    T.run = true; gotoBlock(2); T.left = 780; paintTimer();
+    await new Promise((r) => setTimeout(r, 250));
+    const tag = document.getElementById("focusWhere").textContent;
+    T.run = false; clearInterval(T.tick);
+    return { tag };
+  });
+  L.push("---");
+  L.push("");
+  L.push("## 세션 중 자리 표시");
+  L.push("");
+  L.push("**둘이 소리 내어 읽어 견준다.** 갈렸으면 상대 것을 쳐서 맞춘다.");
+  L.push("");
+  L.push("| " + head.a + " 기기 | " + head.b + " 기기 |");
+  L.push("|---|---|");
+  L.push("| " + where.tag + " | " + whereB.tag + " |");
+  L.push("");
+  L.push("맞추는 칸에 뜨는 글이다.");
+  L.push("");
+  L.push("```");
+  L.push(tidy(where.dock));
+  L.push("```");
+  L.push("");
+  shots++;
+
   for (const who of ["a", "b"]) await dev[who].ctx.close();
   await browser.close();
 

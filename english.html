@@ -6135,9 +6135,12 @@ function earOk(playId){ return !!EAR.ok[String(playId)]; }
 function earAsk(playId, into, after, step, every){
   var box=(typeof into==="string")?$("#"+into):into;
   if(!box) return;
+  var one=(typeof soloOn==="function") && soloOn();
   if(step!=null && typeof soundMine==="function" && !soundMine(step, every||1)){
-    box.innerHTML='<div class="note">이 기기는 소리를 안 낸다. '+
-      '<b>이어폰은 상대 기기에 끼운다.</b> 듣는 자리는 위 표의 자리 줄에 있다.</div>';
+    box.innerHTML='<div class="note">지금 자리는 소리를 안 듣는다. '+
+      (one ? '<b>듣는 차례에 이어폰을 낀다.</b> 돌려받고 나서다.'
+           : '<b>이어폰은 상대 기기에 끼운다.</b>')+
+      ' 듣는 자리는 위 표의 자리 줄에 있다.</div>';
     return;
   }
   if(earOk(playId)){
@@ -6147,7 +6150,9 @@ function earAsk(playId, into, after, step, every){
   }
   box.innerHTML='<div class="note w"><b>이 판은 한쪽만 듣는다.</b> '+
     '앱이 소리를 내는데 상 위에서 울리면 둘 다 듣는다. '+
-    '<b>듣는 쪽이 이어폰을 끼운다.</b> 끼우기 전에는 안 시작한다.</div>'+
+    (one ? '<b>기기를 든 사람이 이어폰을 낀다.</b> 건넬 때 같이 넘긴다.'
+         : '<b>듣는 쪽이 이어폰을 끼운다.</b>')+
+    ' 끼우기 전에는 안 시작한다.</div>'+
     '<button class="g" data-ear="'+esc(String(playId))+'">이어폰을 끼웠다</button>';
   box.querySelectorAll("[data-ear]").forEach(function(b){
     b.onclick=function(){ EAR.ok[b.dataset.ear]=true; earAsk(playId, box, after);
