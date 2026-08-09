@@ -1870,6 +1870,31 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await pw.waitForTimeout(500);
     const back = await pw.evaluate(() => (document.getElementById("fCards") || {}).value);
     if (back !== "3") bad.push("오늘 탭으로 돌아왔는데 센 값이 안 보인다: " + back);
+    /* **블록 3 구간이 바뀌면 알리는가.** 두 사람은 카드를 주고받느라 화면을 안 본다.
+       그중 하나가 역할을 바꾸는 자리다. 기준서 2.4 의 교대가 실제로 일어나는 자리다. T217 */
+    await pw.evaluate(() => { gotoBlock(2); T.run = true; });
+    await pw.waitForTimeout(1200);
+    const segs = await pw.evaluate(() => {
+      const L = (DATA.lectures.items || []).filter((x) => x.no === plan().lectureNo)[0];
+      return planPieces(L.plan && L.plan.split).map((x) => x.label);
+    });
+    if (segs.length < 2) bad.push("블록 3 구간이 " + segs.length + "개다");
+    let sawSwap = false, sawStep = false;
+    let mins = 0;
+    for (let i = 0; i < segs.length; i++) {
+      const at = mins + 1;
+      await pw.evaluate((m) => { T.run = true; T.left = 30 * 60 - m * 60; paintTimer(); }, at);
+      await pw.waitForTimeout(350);
+      const msg = await pw.textContent("#fMsg");
+      if (/역할.*(바꿔|바꾸|교대)/.test(segs[i])) {
+        if (msg.indexOf("역할을 바꾼다") >= 0) sawSwap = true;
+      } else if (i > 0 && msg.indexOf("구간") >= 0) sawStep = true;
+      const m2 = /(\d+)\s*분/.exec(segs[i]);
+      mins += m2 ? +m2[1] : 5;
+    }
+    if (!sawStep) bad.push("블록 3 구간이 바뀌는데 아무 말이 없다");
+    if (segs.some((s) => /역할.*(바꿔|바꾸|교대)/.test(s)) && !sawSwap)
+      bad.push("역할을 바꾸는 구간인데 그 말을 안 한다");
     await ctxw.close();
     return bad;
   })();

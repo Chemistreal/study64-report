@@ -248,6 +248,8 @@ function renderCardView(pl){
   return h;
 }
 
+/* 블록 3 구간이 어디까지 왔는지. 블록 2의 `SWAP` 과 같은 자리다. */
+var DRILL={step:null};
 function renderDrillPane(pl){
   var lec=DATA.lectures;
   var c=pl.cards ? String(pl.cards.from).padStart(3,"0")+" ~ "+String(pl.cards.to).padStart(3,"0") : "(없음)";
@@ -263,6 +265,25 @@ function renderDrillPane(pl){
 
   var used=BLOCKS[2].m*60-Math.max(0,T.left), acc=0, cur=0;
   ps.forEach(function(x,i){ if(used>=acc) cur=i; acc+=x.min*60; });
+
+  /* **구간이 바뀌면 하는 일이 바뀌는데 아무 소리가 안 났다.**
+     블록 2는 단계가 바뀔 때 소리로 알린다. 블록 3은 30분을 서너 구간으로 나누고
+     그중 하나가 역할을 바꾸는 자리인데 화면만 바뀌었다.
+
+     두 사람은 카드를 주고받는 중이라 화면을 안 본다. 그래서 교대를 놓친다.
+     블록 2에서 T176 에 겪은 것과 같은 자리다. **같은 병을 두 번째로 고친다.** T217
+
+     역할을 바꾸는 구간이면 다른 소리를 낸다. 그 구간이 이 블록의 중심이다.
+     기준서 2.4 가 요구하는 교대가 실제로 일어나는 자리가 여기다. */
+  if(T.run && DRILL.step!==null && DRILL.step!==cur){
+    var lab=(ps[cur]||{}).label||"";
+    var swap=/역할.*(바꿔|바꾸|교대)/.test(lab);
+    tone(swap?"swap":"next");
+    setTimeout(function(){
+      flash(swap ? "이제 역할을 바꾼다 · "+lab : (cur+1)+"번째 구간 · "+lab);
+    },0);
+  }
+  DRILL.step=T.run?cur:null;
 
   var h=head;
   if(L.pressureSeconds) h+='<div class="n">압박형 제한 시간 '+L.pressureSeconds+'초</div>';
