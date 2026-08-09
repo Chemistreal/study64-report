@@ -1,0 +1,200 @@
+{
+  "note": "거울 판의 최소대립쌍. 낱말은 52과 대본에 있는 것만 쓴다. 손으로 안 고친다. scripts/derive_pairs.py 를 다시 돌린다.",
+  "grade": "B",
+  "gradeWhy": "쌍이 정말 소리로 최소대립인지는 내가 못 잰다. 철자로 뽑고 자리를 지켰을 뿐이다. 사람이 확인한다.",
+  "generator": "scripts/derive_pairs.py",
+  "groups": [
+    {
+      "id": "lr",
+      "name": "l 과 r",
+      "why": "한국어 유음이 하나다. 자리에 따라 갈리지 않아 둘을 한 소리로 듣는다",
+      "pos": "any",
+      "grade": "B",
+      "pairs": [
+        {
+          "a": "light",
+          "b": "right",
+          "at": [
+            "lle1-02",
+            "lle1-06",
+            "lle1-07"
+          ]
+        }
+      ],
+      "found": 1
+    },
+    {
+      "id": "pf",
+      "name": "첫소리 p 와 f",
+      "why": "한국어에 순치 마찰음이 없다. f 를 ㅍ 로 옮겨 듣는다",
+      "pos": "start",
+      "grade": "B",
+      "pairs": [
+        {
+          "a": "fast",
+          "b": "past",
+          "at": [
+            "lle1-11",
+            "lle1-19",
+            "lle1-33"
+          ]
+        },
+        {
+          "a": "found",
+          "b": "pound",
+          "at": [
+            "lle1-26",
+            "lle1-30",
+            "lle1-33"
+          ]
+        },
+        {
+          "a": "full",
+          "b": "pull",
+          "at": [
+            "lle1-30",
+            "lle1-47"
+          ]
+        }
+      ],
+      "found": 3
+    },
+    {
+      "id": "bv",
+      "name": "첫소리 b 와 v",
+      "why": "한국어에 v 가 없다. b 로 옮겨 듣는다",
+      "pos": "start",
+      "grade": "B",
+      "pairs": [],
+      "found": 0
+    },
+    {
+      "id": "si",
+      "name": "s 와 sh",
+      "why": "/i/ 앞에서 한국어 구개음화 규칙이 옮겨 온다. see 를 she 로 낸다",
+      "pos": "any",
+      "grade": "B",
+      "pairs": [
+        {
+          "a": "as",
+          "b": "ash",
+          "at": [
+            "lle1-11",
+            "lle1-17",
+            "lle1-26"
+          ]
+        },
+        {
+          "a": "was",
+          "b": "wash",
+          "at": [
+            "lle1-05",
+            "lle1-21",
+            "lle1-24"
+          ]
+        }
+      ],
+      "found": 2
+    },
+    {
+      "id": "th",
+      "name": "첫소리 th 와 s",
+      "why": "한국어에 치간 마찰음이 없다. think 를 sink 로 낸다",
+      "pos": "start",
+      "grade": "B",
+      "pairs": [
+        {
+          "a": "sing",
+          "b": "thing",
+          "at": [
+            "lle1-07",
+            "lle1-14",
+            "lle1-16"
+          ]
+        },
+        {
+          "a": "sings",
+          "b": "things",
+          "at": [
+            "lle1-06",
+            "lle1-13",
+            "lle1-16"
+          ]
+        },
+        {
+          "a": "sink",
+          "b": "think",
+          "at": [
+            "lle1-19",
+            "lle1-22",
+            "lle1-27"
+          ]
+        }
+      ],
+      "found": 3
+    },
+    {
+      "id": "dt",
+      "name": "끝소리 d 와 t",
+      "why": "한국어 끝소리가 안 터진다. 끝의 d 와 t 를 같게 낸다",
+      "pos": "end",
+      "grade": "B",
+      "pairs": [
+        {
+          "a": "ad",
+          "b": "at",
+          "at": [
+            "lle1-02",
+            "lle1-03",
+            "lle1-05"
+          ]
+        },
+        {
+          "a": "bad",
+          "b": "bat",
+          "at": [
+            "lle1-19",
+            "lle1-22",
+            "lle1-29"
+          ]
+        },
+        {
+          "a": "card",
+          "b": "cart",
+          "at": [
+            "lle1-21",
+            "lle1-39",
+            "lle1-44"
+          ]
+        },
+        {
+          "a": "had",
+          "b": "hat",
+          "at": [
+            "lle1-14",
+            "lle1-27",
+            "lle1-42"
+          ]
+        },
+        {
+          "a": "mound",
+          "b": "mount",
+          "at": [
+            "lle1-33",
+            "lle1-45"
+          ]
+        },
+        {
+          "a": "send",
+          "b": "sent",
+          "at": [
+            "lle1-33",
+            "lle1-49",
+            "lle1-51"
+          ]
+        }
+      ],
+      "found": 6
+    }
+  ]
+}
