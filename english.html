@@ -558,6 +558,12 @@ body.session-focus .rings{display:none}
 .blockpane .drec{margin:9px 0;padding:9px 10px;border:1px solid var(--line);
   border-radius:10px;background:var(--sub)}
 .blockpane .drec input[readonly]{background:var(--sub);color:var(--mut)}
+
+/* 블록 4의 두 자리. **자료 길이가 그 숫자를 이미 갖고 있다.** T218 */
+.blockpane .phase{margin-bottom:9px;padding:8px 10px;border-radius:9px;
+  background:var(--sub);border:1px solid var(--line);font-weight:700}
+.blockpane .phase.chk{border-color:var(--a1)}
+.blockpane .phase .n{display:block;margin-top:3px;font-weight:400}
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
@@ -3044,7 +3050,44 @@ function aimTask(w, pl){
   var i=(w.lectures||[]).indexOf(pl.lectureNo);
   return w.tasks[i>=0 && i<w.tasks.length ? i : 0];
 }
+/* =========================================================================
+   블록 4의 20분을 자료 길이에서 파생시킨다.
+
+   블록 2와 3은 시간이 구간으로 갈린다. 강의록에 배분이 적혀 있기 때문이다.
+   **블록 4는 20분이 통째로 있다.** 같이 듣기와 맞춰 보기가 한 덩어리다.
+   그러면 듣다가 시간이 다 가고 맞춰 보는 자리가 없어진다.
+
+   숫자를 새로 선언하지 않는다. **자료 길이가 그 숫자를 이미 갖고 있다.**
+   조준표 1장이 자료를 2분에서 4분으로 정했고 카탈로그에 그 길이가 적혀 있다.
+   두 번 트는 데 걸리는 시간이 듣는 자리고 남는 것이 맞춰 보는 자리다. T218
+   ========================================================================= */
+var PHASE={at:null};
+function mmssSec(s){
+  var m=/(\d+):(\d+)/.exec(String(s||"")); if(!m) return 0;
+  return (+m[1])*60+(+m[2]);
+}
+function aimPhase(pl){
+  var i=MEDIA.length?MEDIA.findIndex(function(x){return x.id===pl.media;}):-1;
+  var dur=i>=0?mmssSec(MEDIA[i].duration):0;
+  if(!dur) return "";
+  var listen=Math.min(BLOCKS[3].m*60-120, Math.ceil(dur*2/60)*60);   // 두 번 듣기, 분으로 올림
+  var used=BLOCKS[3].m*60-Math.max(0,T.left);
+  var on=(used<listen)?"listen":"check";
+  if(T.run && PHASE.at!==null && PHASE.at!==on){
+    tone("swap");
+    setTimeout(function(){ flash(on==="check"?"이제 따로 적은 것을 편다":"같이 듣는 자리다"); },0);
+  }
+  PHASE.at=T.run?on:null;
+  var left=Math.max(0,Math.ceil((on==="listen"?listen-used:BLOCKS[3].m*60-used)/60));
+  return '<div class="phase'+(on==="check"?" chk":"")+'">'+
+    (on==="listen" ? "같이 듣는 자리 · 남은 "+left+"분"
+                   : "맞춰 보는 자리 · 남은 "+left+"분")+
+    /* 시각 뒤에 조사를 안 붙인다. 03:21 과 04:00 이 다르게 읽힌다. */
+    '<span class="n">이 과는 '+esc(MEDIA[i].duration||"")+' 다. 두 번 듣는 데 '+
+    Math.round(listen/60)+'분이고 남는 것이 맞춰 보는 시간이다.</span></div>';
+}
 function renderAimPane(pl, seat, round){
+  var h2b="";
   if(!DATA.input){
     loadData("input","ENG2P_INPUT",function(){ renderBlockPane(); });
     return '<div class="n">조준표를 여는 중이다.</div>';
@@ -3069,7 +3112,8 @@ function renderAimPane(pl, seat, round){
     return h+aimWrite("alone")+'</div>';
   }
   var x=aimCross(pl,round);
-  var h2='<div class="aim"><div class="k">같이 듣고 맞춰 보는 법 · '+round+'회차</div>';
+  h2b=aimPhase(pl);
+  var h2='<div class="aim">'+h2b+'<div class="k">같이 듣고 맞춰 보는 법 · '+round+'회차</div>';
   h2+='<div class="v">'+esc(x?x.how:"")+'</div>';
   h2+='<div class="n">누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.</div>';
   return h2+aimWrite("together",round)+'</div>';

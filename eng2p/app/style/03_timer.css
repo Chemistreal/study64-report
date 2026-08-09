@@ -299,3 +299,9 @@ body.session-focus .rings{display:none}
 .blockpane .drec{margin:9px 0;padding:9px 10px;border:1px solid var(--line);
   border-radius:10px;background:var(--sub)}
 .blockpane .drec input[readonly]{background:var(--sub);color:var(--mut)}
+
+/* 블록 4의 두 자리. **자료 길이가 그 숫자를 이미 갖고 있다.** T218 */
+.blockpane .phase{margin-bottom:9px;padding:8px 10px;border-radius:9px;
+  background:var(--sub);border:1px solid var(--line);font-weight:700}
+.blockpane .phase.chk{border-color:var(--a1)}
+.blockpane .phase .n{display:block;margin-top:3px;font-weight:400}

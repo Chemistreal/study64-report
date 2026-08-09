@@ -1895,6 +1895,21 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!sawStep) bad.push("블록 3 구간이 바뀌는데 아무 말이 없다");
     if (segs.some((s) => /역할.*(바꿔|바꾸|교대)/.test(s)) && !sawSwap)
       bad.push("역할을 바꾸는 구간인데 그 말을 안 한다");
+    /* **블록 4의 20분이 통째로 있으면 듣다가 시간이 다 간다.**
+       숫자를 선언하지 않고 자료 길이에서 파생시킨다. 두 자리로 갈리는지 본다. T218 */
+    await pw.evaluate(() => { gotoBlock(3); T.run = true; T.left = 20 * 60; paintTimer(); });
+    await pw.waitForTimeout(1200);
+    const ph1 = await pw.evaluate(() => {
+      const e = document.querySelector(".phase"); return e ? e.innerText : ""; });
+    if (ph1.indexOf("같이 듣는 자리") < 0) bad.push("블록 4 가 듣는 자리라고 말 안 한다: " + ph1);
+    if (!/두 번 듣는 데 \d+분/.test(ph1)) bad.push("블록 4 가 자료 길이에서 안 파생했다");
+    await pw.evaluate(() => { T.run = true; T.left = 20 * 60 - 15 * 60; paintTimer(); });
+    await pw.waitForTimeout(500);
+    const ph2 = await pw.evaluate(() => {
+      const e = document.querySelector(".phase"); return e ? e.innerText : ""; });
+    if (ph2.indexOf("맞춰 보는 자리") < 0) bad.push("블록 4 가 맞춰 보는 자리로 안 넘어간다: " + ph2);
+    if ((await pw.textContent("#fMsg")).indexOf("따로 적은 것을 편다") < 0)
+      bad.push("블록 4 자리가 바뀌는데 아무 말이 없다");
     await ctxw.close();
     return bad;
   })();
