@@ -319,6 +319,13 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
    손에 들면 상대 쪽으로 화면이 기운다. */
 .mirword{font-size:2.6rem;font-weight:700;letter-spacing:0.02em;
   margin:10px 0 4px;overflow-wrap:anywhere}
+/* 한 줄 바꾸기 (T262). 대본 한 줄을 상 건너에서 읽는다.
+   거울 판의 낱말 하나보다 길어서 그만큼 크게는 못 둔다. 대신 줄 간격을 벌린다. */
+.swpline{font-size:1.125rem;line-height:1.7;margin:10px 0 6px;overflow-wrap:anywhere}
+.swpmark{background:var(--sub);border-bottom:2px solid var(--warn);padding:0 2px;border-radius:3px}
+.swpswap{display:flex;align-items:center;gap:8px;font-size:1.125rem;
+  border:1px solid var(--edge);border-radius:10px;background:var(--bg2);
+  padding:9px 11px;margin-bottom:6px;overflow-wrap:anywhere}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}

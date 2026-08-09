@@ -765,6 +765,11 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   color:var(--mut);font-size:0.75rem;text-align:center;padding:10px}
 .mirword{font-size:2.6rem;font-weight:700;letter-spacing:0.02em;
   margin:10px 0 4px;overflow-wrap:anywhere}
+.swpline{font-size:1.125rem;line-height:1.7;margin:10px 0 6px;overflow-wrap:anywhere}
+.swpmark{background:var(--sub);border-bottom:2px solid var(--warn);padding:0 2px;border-radius:3px}
+.swpswap{display:flex;align-items:center;gap:8px;font-size:1.125rem;
+  border:1px solid var(--edge);border-radius:10px;background:var(--bg2);
+  padding:9px 11px;margin-bottom:6px;overflow-wrap:anywhere}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
@@ -6222,7 +6227,8 @@ if($("#focusWhere")) $("#focusWhere").onclick=function(){
 };
 
 var PLAYS=[
-  {id:"mirror", name:"거울", track:"소리", min:4}
+  {id:"mirror", name:"거울", track:"소리", min:4},
+  {id:"swapline", name:"한 줄 바꾸기", track:"소리", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};
@@ -6232,7 +6238,7 @@ function playById(id){
   return null;
 }
 function playLoad(cb){
-  if(PLAYREND.mirror) return cb(true);
+  if(PLAYREND[PLAY.at]) return cb(true);
   loadScript("plays","eng2p/out/app/plays.js",cb);
 }
 function renderPlayTab(){
