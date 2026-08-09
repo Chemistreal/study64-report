@@ -770,6 +770,8 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .swpswap{display:flex;align-items:center;gap:8px;font-size:1.125rem;
   border:1px solid var(--edge);border-radius:10px;background:var(--bg2);
   padding:9px 11px;margin-bottom:6px;overflow-wrap:anywhere}
+.hrmsay{font-size:0.9375rem;line-height:1.65;margin:8px 0 6px;
+  border-left:3px solid var(--a1);padding-left:11px}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
@@ -6228,7 +6230,8 @@ if($("#focusWhere")) $("#focusWhere").onclick=function(){
 
 var PLAYS=[
   {id:"mirror", name:"거울", track:"소리", min:4},
-  {id:"swapline", name:"한 줄 바꾸기", track:"소리", min:5}
+  {id:"swapline", name:"한 줄 바꾸기", track:"소리", min:5},
+  {id:"hearme", name:"내 소리는 네가", track:"소리", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};

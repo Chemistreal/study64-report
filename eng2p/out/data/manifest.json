@@ -100,13 +100,13 @@
     },
     {
       "file": "listen.js",
-      "bytes": 19997,
-      "sha256": "d0b82a4827ed36574af2c18066bc3e12b54e99cfddaf2fec2c5e33c6b43d4680"
+      "bytes": 19981,
+      "sha256": "f925c78ee5cf6215104feb5d1d8ad0f86f789cbc49dff04e4deb150b85640359"
     },
     {
       "file": "listen.json",
-      "bytes": 41011,
-      "sha256": "eb2ac76e70c1855b0391a961ea0672f4a5014354cd1e8b41c6b7ddb1e6a37d2a"
+      "bytes": 40995,
+      "sha256": "996627b1a65644268ef6c75b32898de201cee3ddb868a8b8a007e4ff681840cb"
     },
     {
       "file": "pairs.js",
