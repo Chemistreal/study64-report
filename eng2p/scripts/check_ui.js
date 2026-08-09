@@ -2001,6 +2001,28 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       if (!(s2.big > s2.ck)) bad.push("다 세고 나서 블록 시계로 안 돌아왔다 " + JSON.stringify(s2));
     }
     await pw.evaluate(() => { S.cardDue = {}; S.cardMode = "today"; S.card = null; save(); });
+    /* **세션 중에만 짙다.** 테마가 아니라 그 화면의 색이다. 12.4 가 없앤 것은 테마 두 벌이다.
+       두 기기가 서로 다른 판을 들면 같은 화면을 못 가리키는데,
+       세션 중에는 둘 다 세션 중이라 한쪽만 짙어지는 일이 없다. T223 */
+    const lumOf = (s) => {
+      const m = (s.match(/[\d.]+/g) || []).map(Number);
+      const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+      return 0.2126 * f(m[0]) + 0.7152 * f(m[1]) + 0.0722 * f(m[2]);
+    };
+    const inSess = await pw.evaluate(() => ({
+      cls: document.body.className,
+      bg: getComputedStyle(document.body).backgroundColor }));
+    if (inSess.cls.indexOf("session-focus") < 0) bad.push("세션 중인데 집중 화면이 아니다");
+    await pw.evaluate(() => { T.run = false; clearInterval(T.tick); T.idx = 0;
+      T.left = BLOCKS[0].m * 60; S.session = null; save(); syncSessionFocus(); paintTimer(); });
+    await pw.waitForTimeout(500);
+    const outSess = await pw.evaluate(() => ({
+      cls: document.body.className,
+      bg: getComputedStyle(document.body).backgroundColor }));
+    if (outSess.cls.indexOf("session-focus") >= 0) bad.push("세션이 끝났는데 집중 화면이 남았다");
+    if (!(lumOf(inSess.bg) < lumOf(outSess.bg)))
+      bad.push("세션 중이 더 안 짙다 " + inSess.bg + " / " + outSess.bg);
+    if (lumOf(outSess.bg) < 0.5) bad.push("세션 밖이 짙다. 테마가 두 벌이 됐다 " + outSess.bg);
     await ctxw.close();
     return bad;
   })();

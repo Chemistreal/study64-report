@@ -51,7 +51,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
   background:var(--card2)}
 .setstep.now{border-color:var(--a1);background:var(--card)}
 .setstep h5{margin:0;font-size:0.8125rem;font-weight:750;color:var(--mut);letter-spacing:.04em}
-.setstep.now h5{color:var(--a1)}
+.setstep.now h5{color:var(--a1t)}
 .setstep .body{margin-top:7px;font-size:0.9375rem;line-height:1.65}
 .setstep ol{margin:7px 0 0;padding-left:20px;font-size:0.9375rem;line-height:1.7}
 .setstep .hid{font-size:0.84375rem;color:var(--mut);font-style:italic}
@@ -62,7 +62,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
   background:var(--card2)}
 .cardview .top{display:flex;justify-content:space-between;align-items:center;gap:10px;
   font-size:0.75rem;color:var(--mut)}
-.cardview .side{font-weight:750;color:var(--a1)}
+.cardview .side{font-weight:750;color:var(--a1t)}
 .cardview .ins{margin-top:9px;font-size:1rem;line-height:1.6;font-weight:600}
 .cardview ol{margin:10px 0 0;padding-left:22px;font-size:1rem;line-height:1.85}
 .cardview .meta{margin-top:10px;font-size:0.84375rem;color:var(--mut);line-height:1.6}
@@ -80,7 +80,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .ground .grow{display:flex;gap:8px;align-items:center;margin-top:5px}
 .ground .gt{flex:1;font-size:0.8125rem;line-height:1.5}
 .ground .gat{flex:none;font-family:var(--mono);font-size:0.71875rem;padding:3px 8px;
-  border:1px solid var(--edge);border-radius:7px;background:var(--card);color:var(--a3);cursor:pointer}
+  border:1px solid var(--edge);border-radius:7px;background:var(--card);color:var(--a3t);cursor:pointer}
 .ground .gat:hover{border-color:var(--a1)}
 /* 세션 안 재생기. 블록 1은 40분, 블록 4는 20분을 이 자리에서 듣는다. */
 .sessplay{margin-top:12px;min-height:54px}
@@ -323,3 +323,44 @@ body.card-clock .blockpane .ckrow .ckn{font-size:clamp(30px,10vw,44px);
 /* 도는 동안에는 다른 남은 분들을 흐린다. 없애지는 않는다. */
 body.card-clock .blockpane .setstep h5,
 body.card-clock .blockpane .phase{opacity:.55}
+
+/* =========================================================================
+   세션 중에만 짙게. **테마가 아니라 그 화면의 색이다.**
+
+   12.4 에 다크모드를 없앤 이유가 넷이다. 그중 셋은 여기 안 걸린다.
+
+     색이 두 벌이라 두 번 확인한다   → 세션 화면 넷은 `check_contrast.js` 가 이미 본다
+     인쇄가 깨진다                   → 세션 중 화면은 인쇄 대상이 아니다
+     접근성 판정이 두 벌이 된다      → 위와 같다. 검사가 한 번에 돈다
+
+   넷째만 남는다. **두 기기가 서로 다른 판을 들고 있으면 같은 화면을 못 가리킨다.**
+   그런데 세션 중에는 **둘 다 세션 중이다.** 한쪽만 짙어지는 일이 없다.
+
+   짙게 하는 이유는 하나다. 두 시간 동안 화면을 켜 두고 서로를 본다.
+   흰 화면이 두 사람 사이에 있으면 그 밝기가 계속 눈에 들어온다. T223
+   ========================================================================= */
+body.session-focus{
+  --bg:#141420; --bg2:#1b1b2a; --fg:#f2f2f7; --mut:#a8a8b8; --line:#2e2e42;
+  --card:rgba(32,32,50,.72); --card2:rgba(32,32,50,.5); --edge:rgba(0,0,0,.35);
+  /* **강조색은 안 바꾼다.** 그 색들은 흰 글자를 얹는 바탕으로도 쓰인다.
+     밝게 바꾸면 그 위의 흰 글자가 안 읽힌다. `check_contrast.js` 가 넷을 잡았다.
+     글자로 쓰는 자리만 밝게 둔다. `--a3t` 가 그 자리다. */
+  --a3t:#67e8f9; --a1t:#a5a0ff; --sub:#20202e;
+  --warn:#f472b6; --ok:#2dd4bf;
+  --glow:0 10px 40px rgba(0,0,0,.45);
+  --au1:rgba(99,102,241,.16); --au2:rgba(168,85,247,.12); --au3:rgba(34,211,238,.10);
+  background:var(--bg); color:var(--fg);
+}
+/* 머리띠 이름은 그림물감을 글자에 부어 쓴다. 그 물감이 짙은 판에서 안 읽힌다.
+   세션 중에는 머리띠가 위로 접혀 안 보이지만 **글자는 거기 있다.**
+   보이지 않는 글자도 화면에 있는 글자다. `check_contrast.js` 가 그것을 잡았다.
+
+   짙은 판에서는 물감을 안 붓는다. 한 색으로 적는다.
+   그라디언트를 짙은 판에 맞춰 다시 고르면 색이 또 한 벌 는다.
+   **12.4 가 없앤 것이 색 두 벌이다.** 여기서 다시 늘리지 않는다. */
+body.session-focus .brand{background:none;color:var(--fg);-webkit-text-fill-color:var(--fg)}
+
+/* 적는 칸과 셈 칸은 바탕이 따로 있다. 짙은 판에서 흰 칸이 남으면 그것만 튄다. */
+body.session-focus .blockpane .aimw textarea,
+body.session-focus .blockpane .cntrow input,
+body.session-focus .blockpane .drec input{background:var(--bg2);color:var(--fg)}

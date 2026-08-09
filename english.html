@@ -15,6 +15,12 @@
   /* 글자에 쓰는 파랑. --a3 은 띠와 테두리 같은 꾸밈에 쓴다.
      꾸밈은 흐려도 되지만 글자는 안 된다. check_contrast.js 가 그것을 가른다. */
   --a3t:#155e75;
+  /* 같은 규칙을 보라에도 둔다. `--a1` 은 흰 글자를 얹는 바탕으로도 쓰인다.
+     그래서 밝게 못 바꾼다. 글자로 쓰는 자리는 이 토큰을 쓴다. T223 */
+  --a1t:#4f46e5;
+  /* 칸 바탕. T210 부터 `var(--sub)` 를 다섯 자리에 썼는데 **정의가 없었다.**
+     없는 토큰은 조용히 비어서 바탕이 없는 것으로 그려진다. T223 에 세면서 찾았다. */
+  --sub:#eeeef6;
   --acc:#4f46e5; --warn:#c2185b; --ok:#0f766e;
   --glow:0 10px 40px rgba(79,70,229,.14);
   --au1:rgba(99,102,241,.30); --au2:rgba(168,85,247,.24); --au3:rgba(34,211,238,.22);
@@ -181,7 +187,8 @@ tbody tr:hover td{background:var(--card2)}
 .rb{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:700;
   padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
-.rb.b{background:linear-gradient(96deg,var(--a3t),#0369a1)}
+/* 흰 글자를 얹는 바탕이라 밝게 못 간다. `--a3t` 는 글자용이라 여기 안 쓴다. T223 */
+.rb.b{background:linear-gradient(96deg,#155e75,#0369a1)}
 .cliproles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
 .roleunit{display:flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:12px;
   padding:9px 11px;background:var(--card2);color:var(--mut);transition:.2s}
@@ -236,7 +243,7 @@ tbody tr:hover td{background:var(--card2)}
 .todaysheet .gto:hover{border-color:var(--a1);background:var(--bg2)}
 .todaysheet .gto .gmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);
   color:var(--mut);font-size:0.9375rem}
-.todaysheet .gto:hover .gmark{color:var(--a1)}
+.todaysheet .gto:hover .gmark{color:var(--a1t)}
 /* 누를 자리는 44px 아래로 안 내려간다. 손가락 하나가 그만큼이다. */
 .todaysheet .gto{min-height:44px}
 .todaysheet .lec.gto{font-size:1.1875rem;font-weight:750;margin-bottom:2px;padding-top:11px;padding-bottom:11px}
@@ -249,7 +256,7 @@ tbody tr:hover td{background:var(--card2)}
 
 /* 강의 본문. **읽으라고 만든 글이다.** 줄 간격과 폭을 읽기에 맞춘다. */
 .lecbody{font-size:0.9375rem;line-height:1.72;max-width:44em}
-.lecbody h4{margin:20px 0 8px;font-size:1rem;color:var(--a1)}
+.lecbody h4{margin:20px 0 8px;font-size:1rem;color:var(--a1t)}
 .lecbody h4:first-child{margin-top:2px}
 .lecbody p{margin:0 0 9px}
 .lecbody .lecli{margin:0 0 6px;padding-left:15px;position:relative}
@@ -310,7 +317,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
   background:var(--card2)}
 .setstep.now{border-color:var(--a1);background:var(--card)}
 .setstep h5{margin:0;font-size:0.8125rem;font-weight:750;color:var(--mut);letter-spacing:.04em}
-.setstep.now h5{color:var(--a1)}
+.setstep.now h5{color:var(--a1t)}
 .setstep .body{margin-top:7px;font-size:0.9375rem;line-height:1.65}
 .setstep ol{margin:7px 0 0;padding-left:20px;font-size:0.9375rem;line-height:1.7}
 .setstep .hid{font-size:0.84375rem;color:var(--mut);font-style:italic}
@@ -321,7 +328,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
   background:var(--card2)}
 .cardview .top{display:flex;justify-content:space-between;align-items:center;gap:10px;
   font-size:0.75rem;color:var(--mut)}
-.cardview .side{font-weight:750;color:var(--a1)}
+.cardview .side{font-weight:750;color:var(--a1t)}
 .cardview .ins{margin-top:9px;font-size:1rem;line-height:1.6;font-weight:600}
 .cardview ol{margin:10px 0 0;padding-left:22px;font-size:1rem;line-height:1.85}
 .cardview .meta{margin-top:10px;font-size:0.84375rem;color:var(--mut);line-height:1.6}
@@ -339,7 +346,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .ground .grow{display:flex;gap:8px;align-items:center;margin-top:5px}
 .ground .gt{flex:1;font-size:0.8125rem;line-height:1.5}
 .ground .gat{flex:none;font-family:var(--mono);font-size:0.71875rem;padding:3px 8px;
-  border:1px solid var(--edge);border-radius:7px;background:var(--card);color:var(--a3);cursor:pointer}
+  border:1px solid var(--edge);border-radius:7px;background:var(--card);color:var(--a3t);cursor:pointer}
 .ground .gat:hover{border-color:var(--a1)}
 /* 세션 안 재생기. 블록 1은 40분, 블록 4는 20분을 이 자리에서 듣는다. */
 .sessplay{margin-top:12px;min-height:54px}
@@ -582,6 +589,47 @@ body.card-clock .blockpane .ckrow .ckn{font-size:clamp(30px,10vw,44px);
 /* 도는 동안에는 다른 남은 분들을 흐린다. 없애지는 않는다. */
 body.card-clock .blockpane .setstep h5,
 body.card-clock .blockpane .phase{opacity:.55}
+
+/* =========================================================================
+   세션 중에만 짙게. **테마가 아니라 그 화면의 색이다.**
+
+   12.4 에 다크모드를 없앤 이유가 넷이다. 그중 셋은 여기 안 걸린다.
+
+     색이 두 벌이라 두 번 확인한다   → 세션 화면 넷은 `check_contrast.js` 가 이미 본다
+     인쇄가 깨진다                   → 세션 중 화면은 인쇄 대상이 아니다
+     접근성 판정이 두 벌이 된다      → 위와 같다. 검사가 한 번에 돈다
+
+   넷째만 남는다. **두 기기가 서로 다른 판을 들고 있으면 같은 화면을 못 가리킨다.**
+   그런데 세션 중에는 **둘 다 세션 중이다.** 한쪽만 짙어지는 일이 없다.
+
+   짙게 하는 이유는 하나다. 두 시간 동안 화면을 켜 두고 서로를 본다.
+   흰 화면이 두 사람 사이에 있으면 그 밝기가 계속 눈에 들어온다. T223
+   ========================================================================= */
+body.session-focus{
+  --bg:#141420; --bg2:#1b1b2a; --fg:#f2f2f7; --mut:#a8a8b8; --line:#2e2e42;
+  --card:rgba(32,32,50,.72); --card2:rgba(32,32,50,.5); --edge:rgba(0,0,0,.35);
+  /* **강조색은 안 바꾼다.** 그 색들은 흰 글자를 얹는 바탕으로도 쓰인다.
+     밝게 바꾸면 그 위의 흰 글자가 안 읽힌다. `check_contrast.js` 가 넷을 잡았다.
+     글자로 쓰는 자리만 밝게 둔다. `--a3t` 가 그 자리다. */
+  --a3t:#67e8f9; --a1t:#a5a0ff; --sub:#20202e;
+  --warn:#f472b6; --ok:#2dd4bf;
+  --glow:0 10px 40px rgba(0,0,0,.45);
+  --au1:rgba(99,102,241,.16); --au2:rgba(168,85,247,.12); --au3:rgba(34,211,238,.10);
+  background:var(--bg); color:var(--fg);
+}
+/* 머리띠 이름은 그림물감을 글자에 부어 쓴다. 그 물감이 짙은 판에서 안 읽힌다.
+   세션 중에는 머리띠가 위로 접혀 안 보이지만 **글자는 거기 있다.**
+   보이지 않는 글자도 화면에 있는 글자다. `check_contrast.js` 가 그것을 잡았다.
+
+   짙은 판에서는 물감을 안 붓는다. 한 색으로 적는다.
+   그라디언트를 짙은 판에 맞춰 다시 고르면 색이 또 한 벌 는다.
+   **12.4 가 없앤 것이 색 두 벌이다.** 여기서 다시 늘리지 않는다. */
+body.session-focus .brand{background:none;color:var(--fg);-webkit-text-fill-color:var(--fg)}
+
+/* 적는 칸과 셈 칸은 바탕이 따로 있다. 짙은 판에서 흰 칸이 남으면 그것만 튄다. */
+body.session-focus .blockpane .aimw textarea,
+body.session-focus .blockpane .cntrow input,
+body.session-focus .blockpane .drec input{background:var(--bg2);color:var(--fg)}
 /* ---------- 차트 ---------- */
 svg.chart{width:100%;height:auto;display:block}
 svg .ax{stroke:var(--edge);stroke-width:1}
@@ -727,11 +775,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   /* 종이와 같이 쓰는 물건이다. 인쇄가 되는 것이 부속 기능이 아니다.
      화면 색을 그대로 찍으면 잉크를 먹고 글씨가 안 읽힌다.
      그래서 인쇄에서는 색 토큰을 순백과 순흑으로 되돌린다. */
-  :root{
+  /* **세션 중 짙은 판도 여기서 되돌린다.** T223 에 그 판을 만들었는데
+     인쇄는 그 판을 안 따라간다. 12.4 가 다크모드를 없앤 이유 둘째가 이것이었다.
+     `body.session-focus` 가 `:root` 보다 뒤에 오므로 그 자리에도 같이 적는다.
+     안 적으면 세션 중에 인쇄를 눌렀을 때 검은 종이가 나온다. */
+  :root, body.session-focus{
     --bg:#fff; --bg2:#fff; --fg:#000; --mut:#444; --line:#bbb;
-    --card:#fff; --card2:#fff; --edge:#999;
-    --a1:#000; --a2:#000; --a3:#000; --acc:#000; --glow:none;
+    --card:#fff; --card2:#fff; --edge:#999; --sub:#fff;
+    --a1:#000; --a2:#000; --a3:#000; --a1t:#000; --a3t:#000; --acc:#000; --glow:none;
   }
+  body.session-focus{background:#fff;color:#000}
+  body.session-focus .brand{color:#000;-webkit-text-fill-color:#000}
   header,nav,footer,.noprint,.aurora,.focusdock,.sessiondone,
   #onboard,.sidepick,.recgate,.resume,.bigtap,.stp button{display:none!important}
   /* **시계와 링은 종이에서 뺀다. 블록 칸은 남긴다.**

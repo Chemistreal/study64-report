@@ -143,11 +143,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   /* 종이와 같이 쓰는 물건이다. 인쇄가 되는 것이 부속 기능이 아니다.
      화면 색을 그대로 찍으면 잉크를 먹고 글씨가 안 읽힌다.
      그래서 인쇄에서는 색 토큰을 순백과 순흑으로 되돌린다. */
-  :root{
+  /* **세션 중 짙은 판도 여기서 되돌린다.** T223 에 그 판을 만들었는데
+     인쇄는 그 판을 안 따라간다. 12.4 가 다크모드를 없앤 이유 둘째가 이것이었다.
+     `body.session-focus` 가 `:root` 보다 뒤에 오므로 그 자리에도 같이 적는다.
+     안 적으면 세션 중에 인쇄를 눌렀을 때 검은 종이가 나온다. */
+  :root, body.session-focus{
     --bg:#fff; --bg2:#fff; --fg:#000; --mut:#444; --line:#bbb;
-    --card:#fff; --card2:#fff; --edge:#999;
-    --a1:#000; --a2:#000; --a3:#000; --acc:#000; --glow:none;
+    --card:#fff; --card2:#fff; --edge:#999; --sub:#fff;
+    --a1:#000; --a2:#000; --a3:#000; --a1t:#000; --a3t:#000; --acc:#000; --glow:none;
   }
+  body.session-focus{background:#fff;color:#000}
+  body.session-focus .brand{color:#000;-webkit-text-fill-color:#000}
   header,nav,footer,.noprint,.aurora,.focusdock,.sessiondone,
   #onboard,.sidepick,.recgate,.resume,.bigtap,.stp button{display:none!important}
   /* **시계와 링은 종이에서 뺀다. 블록 칸은 남긴다.**

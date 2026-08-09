@@ -87,7 +87,8 @@ tbody tr:hover td{background:var(--card2)}
 .rb{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:700;
   padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
-.rb.b{background:linear-gradient(96deg,var(--a3t),#0369a1)}
+/* 흰 글자를 얹는 바탕이라 밝게 못 간다. `--a3t` 는 글자용이라 여기 안 쓴다. T223 */
+.rb.b{background:linear-gradient(96deg,#155e75,#0369a1)}
 .cliproles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
 .roleunit{display:flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:12px;
   padding:9px 11px;background:var(--card2);color:var(--mut);transition:.2s}
@@ -142,7 +143,7 @@ tbody tr:hover td{background:var(--card2)}
 .todaysheet .gto:hover{border-color:var(--a1);background:var(--bg2)}
 .todaysheet .gto .gmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);
   color:var(--mut);font-size:0.9375rem}
-.todaysheet .gto:hover .gmark{color:var(--a1)}
+.todaysheet .gto:hover .gmark{color:var(--a1t)}
 /* 누를 자리는 44px 아래로 안 내려간다. 손가락 하나가 그만큼이다. */
 .todaysheet .gto{min-height:44px}
 .todaysheet .lec.gto{font-size:1.1875rem;font-weight:750;margin-bottom:2px;padding-top:11px;padding-bottom:11px}
@@ -155,7 +156,7 @@ tbody tr:hover td{background:var(--card2)}
 
 /* 강의 본문. **읽으라고 만든 글이다.** 줄 간격과 폭을 읽기에 맞춘다. */
 .lecbody{font-size:0.9375rem;line-height:1.72;max-width:44em}
-.lecbody h4{margin:20px 0 8px;font-size:1rem;color:var(--a1)}
+.lecbody h4{margin:20px 0 8px;font-size:1rem;color:var(--a1t)}
 .lecbody h4:first-child{margin-top:2px}
 .lecbody p{margin:0 0 9px}
 .lecbody .lecli{margin:0 0 6px;padding-left:15px;position:relative}
