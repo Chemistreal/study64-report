@@ -1,7 +1,7 @@
 /* =========================================================================
    탭
    ========================================================================= */
-var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],
+var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
           ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
 function navButton(t){
@@ -38,6 +38,9 @@ function go(name){
   if(home) home.hidden=(name==="today");
   if(typeof ttsStop==="function") ttsStop();
   if(name!=="media"&&typeof LIB!=="undefined"&&LIB.el) LIB.el.pause();
+  /* 판 탭을 떠나면 판 시계를 멈춘다. **안 멈추면 안 보이는 자리에서 매초 돈다.**
+     보이지도 않는 칸이 계속 도는 것을 T185 에서 한 번 겪었다. T259 */
+  if(name!=="play"&&typeof mirClockStop==="function") mirClockStop();
   if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
   if(name==="review") renderReview();
   if(name==="sound") renderSound();
@@ -54,6 +57,7 @@ function go(name){
   if(name==="quarter") renderQuarter();
   if(name==="rot") renderRot();
   if(name==="rules") renderSplit();
+  if(name==="play") renderPlayTab();
   window.scrollTo(0,0);
 }
 document.addEventListener("click",function(e){

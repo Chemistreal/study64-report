@@ -32,6 +32,9 @@ DERIVERS = [
     ("derive_app.py", ROOT.parent, "english.html", set()),
     # 조각 지도도 그 파생기가 만든다. 자리가 달라서 줄이 따로다.
     ("derive_app.py", ROOT / "docs", "app_map.md", set()),
+    # 판 묶음도 그 파생기가 만든다. **english.html 에 안 들어가는 자리다** (T259).
+    # 여기를 안 보면 판 조각을 고치고 안 합쳐도 아무도 모른다.
+    ("derive_app.py", ROOT / "out" / "app", "plays.js", set()),
     ("derive_handout.py", ROOT / "out" / "handouts", "eng2p_handout_l*.md", set()),
     ("derive_index.py", ROOT / "out" / "handouts", "eng2p_handout_index.md", set()),
     ("derive_bundle.py", ROOT / "out" / "bundles", "*.md", set()),

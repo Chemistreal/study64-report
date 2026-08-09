@@ -84,7 +84,7 @@ python3 scripts/all.py
 ```
 
 **한 줄이다.** 파생 열다섯과 검사 스물일곱과 상태 갱신 셋, 마흔다섯을 정해진 순서로 돈다.
-브라우저 검사까지 다 돌면 3분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
+브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
 검사가 열이 되고 나서 순서를 기억으로 돌리는 것을 그만뒀다.
@@ -149,7 +149,9 @@ scripts/derive_manifest.py 파생 자료의 크기와 해시. **맨 나중에 �
 scripts/derive_media_manifest.py 미디어 표의 크기와 해시를 다시 잰다. 275개 157MB
 scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 있는 실패 목록과 견준다**
 scripts/check_app.py   앱의 한국어를 규격 검사에 건다. **조각을 본다.** 파생물은 주석이 빠져 있다
-app/                   **앱의 원본.** 조각 마흔다섯이다. english.html 은 이것에서 나온다
+app/                   **앱의 원본.** 조각 쉰둘이다. english.html 은 이것에서 나온다
+app/play/              판 화면. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다
+out/app/plays.js       판 묶음. 파생물이다. 손으로 안 고친다
 app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
 scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **주석은 조각에만 남는다**
 scripts/check_manual.py 설명하는 글과 앱을 견준다. 매뉴얼 넷과 짝 코드 자리 폭
@@ -159,6 +161,7 @@ docs/play.md          2인 놀이 원칙 여섯 확정판. 부딪치는 자리�
 docs/play_rules.md    스무 판 규칙서. 판마다 아홉 줄. 이 파일이 check_play.py 의 원본
 docs/play_data.md     판마다 쓸 자료를 out/data 와 대조. 없다고 적은 것을 찾은 표
 docs/solo_plays.md    기기가 하나인 날 스무 판이 어떻게 도는가. **셋은 종이가 있어야 한다**
+docs/play_app.md      판 화면. 규칙서 아홉 줄이 화면의 어디로 가는가. 거울부터
 docs/bench_verdict.md 채용 열여섯과 기각 열. 다섯 문서와 12.7 을 합친 확정판
 docs/bench_axes.md    앱 서른둘을 열여섯 축에. **빈 자리가 이 과정의 자리다**
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다

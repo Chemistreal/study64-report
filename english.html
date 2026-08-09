@@ -762,6 +762,8 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .vhid{flex:1 1 30%;min-width:120px;display:flex;align-items:center;justify-content:center;
   border:1px dashed var(--edge);border-radius:10px;background:var(--sub);
   color:var(--mut);font-size:0.75rem;text-align:center;padding:10px}
+.mirword{font-size:2.6rem;font-weight:700;letter-spacing:0.02em;
+  margin:10px 0 4px;overflow-wrap:anywhere}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
@@ -1387,6 +1389,12 @@ body.veil-on>*:not(.veilcover){display:none}
 </section>
 
 <!-- ========== 규칙 ========== -->
+<section id="t-play" role="tabpanel" hidden>
+  <h2>판</h2>
+  <p class="lede noprint">한 판은 4~5분이다. 블록 안에서 돈다. <b>판마다 두 화면이 다른 것을 보인다.</b> 두 기기를 나란히 놓고 각자 자기 화면만 본다.</p>
+  <div class="row noprint" id="playList"></div>
+  <div id="playPane"></div>
+</section>
 <section id="t-rules" role="tabpanel" hidden>
   <h2>세션 규칙 카드</h2>
   <p class="lede noprint">이 장만 인쇄해서 공부하는 자리 벽에 붙인다. 세션 중에 규칙이 헷갈리면 매뉴얼을 뒤지지 말고 벽을 본다.</p>
@@ -2047,7 +2055,7 @@ function needAllWeeks(cb){
     needQuarter(q, function(good){ if(!good) ok=false; if(!--left) cb(ok); });
   });
 }
-var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],
+var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
           ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
 function navButton(t){
@@ -2082,6 +2090,7 @@ function go(name){
   if(home) home.hidden=(name==="today");
   if(typeof ttsStop==="function") ttsStop();
   if(name!=="media"&&typeof LIB!=="undefined"&&LIB.el) LIB.el.pause();
+  if(name!=="play"&&typeof mirClockStop==="function") mirClockStop();
   if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
   if(name==="review") renderReview();
   if(name==="sound") renderSound();
@@ -2094,6 +2103,7 @@ function go(name){
   if(name==="quarter") renderQuarter();
   if(name==="rot") renderRot();
   if(name==="rules") renderSplit();
+  if(name==="play") renderPlayTab();
   window.scrollTo(0,0);
 }
 document.addEventListener("click",function(e){
@@ -5582,7 +5592,8 @@ function pairCompare(){
 var MG_LOCAL=["device","fs","session","card","wk","cardMode","rate",
               "recOpen","emgOpen","onboarded",
               "solo","soloSeat","soloHand","veiled",
-              "rstep","rseat"];
+              "rstep","rseat",
+              "rhit"];
 var MG_MAXDAY=["speak","cards","lre","h"];
 var MG_BAGDAY=["unres","coll"];
 var MG_ASKDAY=["aim","xchk"];
@@ -6208,6 +6219,80 @@ if($("#focusWhere")) $("#focusWhere").onclick=function(){
   var box=$("#whereDock"); if(!box) return;
   box.hidden=!box.hidden; renderWhere();
 };
+
+var PLAYS=[
+  {id:"mirror", name:"거울", track:"소리", min:4}
+];
+var PLAYREND={};
+var PLAY={at:null, loading:false};
+
+function playById(id){
+  for(var i=0;i<PLAYS.length;i++) if(PLAYS[i].id===id) return PLAYS[i];
+  return null;
+}
+function playLoad(cb){
+  if(PLAYREND.mirror) return cb(true);
+  loadScript("plays","eng2p/out/app/plays.js",cb);
+}
+function renderPlayTab(){
+  var list=$("#playList"); if(!list) return;
+  var h="";
+  PLAYS.forEach(function(p){
+    h+='<button class="'+(PLAY.at===p.id?"b":"g")+'" data-play="'+esc(p.id)+'">'+
+       esc(p.name)+' <span class="small mut">'+esc(p.track)+' '+p.min+'분</span></button>';
+  });
+  h+='<span class="small mut">스무 판 중 '+PLAYS.length+'개가 화면에 붙었다. '+
+     '나머지는 규칙 카드와 종이로 돈다.</span>';
+  list.innerHTML=h;
+  list.querySelectorAll("[data-play]").forEach(function(b){
+    b.onclick=function(){
+      PLAY.at=(PLAY.at===b.dataset.play)?null:b.dataset.play;
+      renderPlayTab();
+    };
+  });
+  renderPlayPane();
+}
+function renderPlayPane(){
+  var box=$("#playPane"); if(!box) return;
+  if(!PLAY.at){ box.innerHTML=""; return; }
+  var f=PLAYREND[PLAY.at];
+  if(f) return f();
+  box.innerHTML='<div class="card tight small mut">판 화면을 여는 중이다.</div>';
+  playLoad(function(ok){
+    if(!ok || !PLAYREND[PLAY.at]){
+      box.innerHTML='<div class="card"><div class="note w">판 화면을 못 읽었다. '+
+        '<b>eng2p/out/app/plays.js</b> 가 있어야 한다. 내려받을 때 그 자리가 빠졌으면 '+
+        '그 판은 규칙 카드와 종이로 돈다.</div></div>';
+      return;
+    }
+    PLAYREND[PLAY.at]();
+  });
+}
+
+function playHead(p, s){
+  return '<div class="row" style="justify-content:space-between;align-items:baseline">'+
+    '<b>'+esc(p.name)+'</b>'+
+    '<span class="small mut">판 표시 <b class="mono">'+esc(roundTag(p.id,s))+
+    '</b> · 회 <b class="mono">'+s+'</b> · <b>둘이 같아야 한다</b></span></div>';
+}
+
+function playRec(id, blank){
+  if(!S.rhit) S.rhit={};
+  var k=id+"|"+today();
+  if(!S.rhit[k]) S.rhit[k]=blank;
+  return S.rhit[k];
+}
+function playHalf(all){
+  return '<div class="note w">규칙서가 남기라는 값은 <b>'+all+' 중 몇</b>이다. '+
+    '이 기기 숫자는 그 절반이다. 판정하는 자리가 판 안에서 바뀌었으니 '+
+    '<b>두 기기 숫자를 소리 내어 더한다.</b> 기기끼리는 못 더한다.</div>';
+}
+function playGrade(d){
+  if(!d) return "";
+  return '<div class="small mut" style="margin-top:10px">쓰는 자료는 <b>'+
+    esc(d.grade||"B")+'등급</b>이다. '+esc(d.gradeWhy||"")+
+    ' <b>Q1 소리 트랙 통과 판정에는 안 쓴다.</b> 연습에만 쓴다.</div>';
+}
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
   u:"https://learningenglish.voanews.com",

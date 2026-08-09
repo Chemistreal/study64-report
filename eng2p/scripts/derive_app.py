@@ -16,15 +16,30 @@
 | `app/style/` | 색과 자리와 시계와 인쇄 |
 | `app/body/` | 탭마다 한 장 |
 | `app/js/` | 열한 조각. 상수, 저장소, 배정, 오늘, 세션, 카드, 미디어, 몰기, 대장, 복습, 자료 |
+| `app/play/` | **english.html 에 안 들어간다.** 판 탭을 열 때 읽는 묶음 |
 
 **원본은 조각이고 `english.html` 은 파생물이다.** 손으로 고치지 않는다.
 고치면 `check_derived.py` 가 다음 턴에 되돌린다.
 
+## 나가는 파일이 둘이다 (T259)
+
+`app/play/` 만 다른 파일로 나간다. `eng2p/out/app/plays.js` 다.
+
+E단계가 스무 판을 붙인다. 첫 판이 10KB 였다. 스물이면 100KB 가 넘고
+그것만으로 `check_perf.js` 의 천장을 넘는다. 천장은 그런 것을 막으려고 둔 것이다.
+
+**두 사람이 판 탭을 안 여는 날도 있다.** 블록 1은 40분 듣기고 판이 안 든다.
+그날은 안 읽으면 된다. `out/data` 의 무거운 것을 미룬 것과 같은 자리다
+(`docs/friction.md` 8장).
+
+가르는 자리는 `app/order.txt` 의 경로다. `play/` 로 시작하면 묶음으로 간다.
+따로 표시를 안 만든다. **표시가 둘이면 둘이 어긋난다.**
+
 쓰는 법:
     python3 scripts/derive_app.py
 
-결과: english.html (저장소 뿌리)
-규격: docs/roadmap.md 12.10
+결과: english.html (저장소 뿌리) 와 eng2p/out/app/plays.js
+규격: docs/roadmap.md 12.10 / docs/play_app.md
 """
 import hashlib
 import pathlib
@@ -34,6 +49,9 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 APP = ROOT / "app"
 OUT = ROOT.parent / "english.html"
+# 판 화면 묶음. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다.
+PLAYS = ROOT / "out" / "app" / "plays.js"
+LAZY = "play/"
 
 # 조각 안에서만 사는 것. 합칠 때 뗀다. **주석은 조각에 남고 파생물에서만 빠진다.**
 #
@@ -146,14 +164,14 @@ def main():
         print("새로 만든 것이면 app/order.txt 에 넣는다. 자리가 곧 차례다.")
         return 1
 
-    parts, slim = [], []
+    parts, slim, lazy = [], [], []
     for n in names:
         t = (APP / n).read_text(encoding="utf-8")
         # 조각마다 끝 줄바꿈을 하나 붙여 뒀다. 이을 때 그 하나를 뗀다.
         if t.endswith("\n"):
             t = t[:-1]
         parts.append(t)
-        slim.append(strip_notes(t, n).rstrip("\n"))
+        (lazy if n.startswith(LAZY) else slim).append(strip_notes(t, n).rstrip("\n"))
     body = "\n".join(slim) + "\n"
 
     # 지도는 **조각의 줄 수**를 적는다. 파생물의 줄 수가 아니다.
@@ -165,9 +183,19 @@ def main():
     OUT.write_text(body, encoding="utf-8")
     same = hashlib.sha256(old.encode()).hexdigest() == hashlib.sha256(body.encode()).hexdigest()
     kb = len(body.encode()) / 1024
-    print("english.html / 조각 %d개 %d줄 %.0fKB (주석 %.0fKB 를 뗐다)%s"
-          % (len(names), body.count("\n"), kb, raw / 1024 - kb,
-             "" if same else "  (내용이 바뀌었다)"))
+
+    # 판 묶음. **비어도 파일을 쓴다.** 없으면 판 탭이 못 읽었다고 적고
+    # 두 사람이 내려받다 빠뜨린 줄 안다. 빈 것과 없는 것은 다르다.
+    PLAYS.parent.mkdir(parents=True, exist_ok=True)
+    pbody = ("/* 판 화면 묶음. app/play/ 에서 나온다. 손으로 안 고친다. */\n"
+             + "\n".join(lazy) + "\n")
+    PLAYS.write_text(pbody, encoding="utf-8")
+
+    print("english.html / 조각 %d개 %d줄 %.0fKB (주석 %.0fKB 를 뗐다)%s / "
+          "판 묶음 %d개 %.0fKB 는 따로 나간다"
+          % (len(names) - len(lazy), body.count("\n"), kb, raw / 1024 - kb,
+             "" if same else "  (내용이 바뀌었다)",
+             len(lazy), len(pbody.encode()) / 1024))
     return 0
 
 

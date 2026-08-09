@@ -313,6 +313,12 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .vhid{flex:1 1 30%;min-width:120px;display:flex;align-items:center;justify-content:center;
   border:1px dashed var(--edge);border-radius:10px;background:var(--sub);
   color:var(--mut);font-size:0.75rem;text-align:center;padding:10px}
+/* 거울 판의 읽을 낱말 (T259). **읽는 쪽 화면에만 있다.**
+   상 건너에서 읽으라고 크게 둔다. 두 사람이 마주 앉아 있고 (기준서 2.1)
+   기기는 상 위에 놓인 채다. 작은 글씨는 손에 들어야 읽히고
+   손에 들면 상대 쪽으로 화면이 기운다. */
+.mirword{font-size:2.6rem;font-weight:700;letter-spacing:0.02em;
+  margin:10px 0 4px;overflow-wrap:anywhere}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}

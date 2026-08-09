@@ -95,7 +95,12 @@ def plan():
 def missing_data():
     """play_data.md 5장이 센 진짜로 없는 자료."""
     txt = io.open(DATA, encoding="utf-8").read()
-    sec = txt.split("## 5. 진짜로 없는 것 다섯")[1].split("### 5.1")[0]
+    # **제목의 숫자말에 기대지 않는다.** 자료를 하나 만들면 그 말이 바뀌고
+    # 그러면 검사가 장을 못 찾아 조용히 0을 센다. 장 번호로 찾는다. T259
+    m = re.search(r"^## 5\..*?(?=^### 5\.1)", txt, re.S | re.M)
+    if not m:
+        return -1
+    sec = m.group(0)
     n = 0
     for line in sec.split("\n"):
         if line.startswith("| ") and "---" not in line and "어느 판" not in line:
