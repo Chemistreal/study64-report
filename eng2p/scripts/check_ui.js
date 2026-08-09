@@ -2407,6 +2407,83 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (mgs.wentThrough) bad.push("세션 중인데 합친다 단추가 있다");
     if (!mgs.closed) bad.push("그만둔 뒤에 합치기 칸이 안 닫힌다");
 
+    /* **같은 판.** `docs/round.md` 가 정했다. 망이 없어서 두 기기가 한 마디도
+       못 주고받는다. 둘 다 아는 넷에서 똑같이 셈해 낸다.
+
+       **두 기기를 다 돌려 본다.** 한 기기만 재면 서로 반대 자리인지가 안 걸린다.
+       그것이 이 물건이 하는 일 전부다. T239 */
+    const rd = await pw.evaluate(() => {
+      const was = S.device;
+      const seat = (dev, fn) => { S.device = dev; const v = fn(); S.device = was; return v; };
+      /* 같은 씨앗이면 같은 차례. 다른 회나 다른 판이면 다른 차례 */
+      const o1 = roundOrder(8, roundSeed("mirror", 0)).join("");
+      const o2 = roundOrder(8, roundSeed("mirror", 0)).join("");
+      const o3 = roundOrder(8, roundSeed("mirror", 1)).join("");
+      const o4 = roundOrder(8, roundSeed("swap", 0)).join("");
+      const whole = roundOrder(8, roundSeed("mirror", 0)).slice().sort((a, b) => a - b).join("");
+      /* 두 기기가 스무 회 내내 서로 반대인가 */
+      /* **주기의 배수만큼 돈다.** 넉 회마다 도는 판을 스무 회 보면 여덟 대 열둘이다.
+         스물이 여덟(넉 회 두 자리)의 배수가 아니라서다. 반반이 될 수가 없다.
+         처음에 스물로 재고 열을 바랐다가 걸렸다. **검사가 틀렸다.** T239 */
+      let opp = true, mine = 0, yours = 0;
+      for (let s = 0; s < 16; s++) {
+        const a = seat("a", () => roundFirst(s, 4));
+        const b = seat("b", () => roundFirst(s, 4));
+        if (a === b || a === null || b === null) opp = false;
+        if (a) mine++;
+        if (b) yours++;
+      }
+      /* 도는 주기 */
+      const e1 = [], e3 = [];
+      for (let s = 0; s < 6; s++) e1.push(seat("a", () => roundFirst(s, 1)) ? 1 : 0);
+      for (let s = 0; s < 9; s++) e3.push(seat("a", () => roundFirst(s, 3)) ? 1 : 0);
+      /* 몫이 서로 채우는가 */
+      const pa = seat("a", () => roundPart(0, 4, ["앞", "뒤"]));
+      const pb = seat("b", () => roundPart(0, 4, ["앞", "뒤"]));
+      /* 기기 쪽을 안 골랐으면 둘 다 보인다 */
+      const none = seat(null, () => ({ first: roundFirst(0, 4),
+                                       part: roundPart(0, 4, ["앞", "뒤"]) }));
+      /* 표시. 옆 회끼리 나란하면 안 된다 */
+      const tags = [];
+      for (let s = 0; s < 12; s++) tags.push(roundTag("mirror", s));
+      const abc = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+      let nearby = 0;
+      for (let i = 0; i + 1 < tags.length; i++)
+        if (Math.abs(abc.indexOf(tags[i][1]) - abc.indexOf(tags[i + 1][1])) <= 1 &&
+            tags[i][0] === tags[i + 1][0]) nearby++;
+      return { o1, o2, o3, o4, whole, opp, mine, yours, e1, e3,
+               pa: pa.mine.concat(pa.hidden).join(""), pb: pb.mine.concat(pb.hidden).join(""),
+               paMine: pa.mine[0], pbMine: pb.mine[0],
+               noneFirst: none.first, noneBoth: none.part.both,
+               noneMine: none.part.mine.length, tags, nearby,
+               next: [roundNextTurn(0, 4), roundNextTurn(3, 4), roundNextTurn(4, 4)],
+               seed: roundSeed("mirror", 0) };
+    });
+    if (rd.o1 !== rd.o2) bad.push("같은 씨앗인데 차례가 다르다: " + rd.o1 + " / " + rd.o2);
+    if (rd.o1 === rd.o3) bad.push("회가 다른데 차례가 같다");
+    if (rd.o1 === rd.o4) bad.push("판이 다른데 차례가 같다");
+    if (rd.whole !== "01234567") bad.push("섞은 차례에 빠지거나 겹친 것이 있다: " + rd.whole);
+    if (!rd.opp) bad.push("두 기기가 같은 자리가 되는 회가 있다");
+    if (rd.mine !== rd.yours || rd.mine + rd.yours !== 16)
+      bad.push("열여섯 회에서 자리가 " + rd.mine + " 대 " + rd.yours + " 다. 반반이어야 한다");
+    if (rd.e1.join("") !== "010101") bad.push("한 회마다 안 돈다: " + rd.e1.join(""));
+    if (rd.e3.join("") !== "000111000") bad.push("세 회마다 안 돈다: " + rd.e3.join(""));
+    if (rd.next.join(",") !== "4,4,8") bad.push("다음 바뀌는 회를 틀리게 센다: " + rd.next.join(","));
+    if (rd.paMine === rd.pbMine) bad.push("두 기기가 같은 몫을 본다: " + rd.paMine);
+    if (rd.pa !== "뒤앞" || rd.pb !== "앞뒤") bad.push("몫이 서로 안 채운다: " + rd.pa + " " + rd.pb);
+    if (rd.noneFirst !== null) bad.push("기기 쪽을 안 골랐는데 자리를 정한다");
+    if (!rd.noneBoth || rd.noneMine !== 2)
+      bad.push("기기 쪽을 안 골랐는데 한쪽을 가린다. 볼 사람이 하나뿐인 날이다");
+    /* **씨앗을 안 섞으면 표시가 나란해진다.** 회 하나 차이가 글자 하나 차이로 나온다.
+       나란한 표시는 두 사람이 흘끗 보고 같다고 여긴다. T239 */
+    if (rd.nearby > 2) bad.push("판 표시가 나란하다. 씨앗이 안 섞였다: " + rd.tags.join(" "));
+    if (new Set(rd.tags).size < rd.tags.length - 1)
+      bad.push("판 표시가 겹친다: " + rd.tags.join(" "));
+    /* 시계를 안 쓴다. 시간이 흘러도 같은 씨앗이어야 한다. */
+    await new Promise((r) => setTimeout(r, 1100));
+    const rd2 = await pw.evaluate(() => roundSeed("mirror", 0));
+    if (rd2 !== rd.seed) bad.push("시간이 지나니 씨앗이 바뀐다. 시계를 쓰고 있다");
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

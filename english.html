@@ -5728,6 +5728,60 @@ function renderMerge(){
     });
   };
 }
+
+function roundSeed(playId, step){
+  var s=String(S.start||"")+"|"+today()+"|"+String(playId)+"|"+String(step|0);
+  var n=7;
+  for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))%2147483647;
+  n^=n>>>13; n=(n*1274126177)%2147483647; n^=n>>>7;
+  return n<0 ? n+2147483647 : n;
+}
+function roundNext(st){
+  st.n=(st.n*1103515245+12345)%2147483647;
+  if(st.n<0) st.n+=2147483647;
+  return st.n;
+}
+function roundOrder(n, seed){
+  var a=[], st={n:seed};
+  for(var i=0;i<n;i++) a.push(i);
+  for(var j=n-1;j>0;j--){
+    var k=roundNext(st)%(j+1);
+    var t=a[j]; a[j]=a[k]; a[k]=t;
+  }
+  return a;
+}
+
+function roundTurn(step, every){
+  every=Math.max(1, every|0);
+  return Math.floor((step|0)/every)%2;
+}
+function roundFirst(step, every){
+  var mine=(typeof deviceSide==="function")?deviceSide():null;
+  if(!mine) return null;
+  return (mine==="a") === (roundTurn(step, every)===0);
+}
+function roundRole(step, every, names){
+  var f=roundFirst(step, every);
+  if(f===null) return null;
+  return f ? names[0] : names[1];
+}
+function roundNextTurn(step, every){
+  every=Math.max(1, every|0);
+  return (Math.floor((step|0)/every)+1)*every;
+}
+
+function roundPart(step, every, parts){
+  var f=roundFirst(step, every);
+  if(f===null) return {both:true, mine:parts, hidden:[]};
+  return f ? {both:false, mine:[parts[0]], hidden:[parts[1]]}
+           : {both:false, mine:[parts[1]], hidden:[parts[0]]};
+}
+
+function roundTag(playId, step){
+  var n=roundSeed(playId, step)%1024;
+  var abc="0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+  return abc[Math.floor(n/32)]+abc[n%32];
+}
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
   u:"https://learningenglish.voanews.com",

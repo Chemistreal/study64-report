@@ -46,5 +46,6 @@ js/19_library.js      미디어 라이브러리 52과
 js/21_weekcheck.js    주간 점검 30분. 앱이 세고 사람은 왜 그랬는지를 적는다
 js/22_paircode.js     짝 코드. **셈만 건너간다.** 사람이 손으로 치는 스물몇 글자
 js/23_merge.js        합치기. **덮는 것이 아니다.** 못 정하는 것은 사람에게 묻는다
+js/24_round.js        같은 판. **망 없이 셈으로 맞춘다.** 시계에서 아무것도 안 낸다
 js/20_docs.js         자료와 규칙과 시작
 page/03_close.html    script 닫고 body 닫기
