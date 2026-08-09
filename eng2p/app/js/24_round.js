@@ -221,9 +221,9 @@ function renderSplit(){
   $("#splitNext").onclick=function(){ SPLIT.step++; renderSplit(); };
   $("#soloTog").onclick=function(){
     var was=soloOn();
-    S.solo=!was; S.soloHand=false; save(); renderSplit();
+    S.solo=!was; S.soloHand=false; save(); renderSplit(); paintSide();
     offerUndo(was?"돌려 보기를 껐다":"돌려 보기를 켰다",function(){
-      S.solo=was; S.soloHand=false; save(); renderSplit();
+      S.solo=was; S.soloHand=false; save(); renderSplit(); paintSide();
     });
   };
   if($("#soHand")) $("#soHand").onclick=function(){ soloHandOff(renderSplit); };
@@ -263,7 +263,9 @@ function soloHandOff(after){
   S.soloHand=true; save(); if(after) after();
 }
 function soloTake(after){
-  S.soloHand=false; S.soloSeat=(soloSeat()===0)?1:0; save(); if(after) after();
+  S.soloHand=false; S.soloSeat=(soloSeat()===0)?1:0; save();
+  if(typeof paintSide==="function") paintSide();
+  if(after) after();
 }
 /* 덮는 화면. **이 안에 몫이 한 글자도 없다.** 누가 받는지만 적는다. */
 function soloCover(names){
@@ -275,4 +277,40 @@ function soloCover(names){
          '<div class="somsg">'+esc((names&&names[next])||"상대")+
          '에게 기기를 넘긴다. 넘기고 나서 받았다를 누른다.</div>'+
          '<button class="g" id="soTake">받았다</button></div>';
+}
+
+/* =========================================================================
+   이 기기가 어느 쪽인가를 화면 전체로 (T242).
+
+   **기기 쪽은 날마다 뒤집힌다** (T216). 어제 A였다고 오늘 A가 아니다.
+   그리고 판 안에서 자리가 또 돈다 (T239). 글자 한 줄로는 안 따라간다.
+
+   화면 위에 띠를 두고 오른쪽 위에 글자를 적는다.
+   **색만으로 안 가른다.** 색을 못 보는 눈에도 갈려야 한다.
+
+   **매초 도는 자리에서 부르지 않는다.** 바뀔 때만 다시 그린다.
+   매초 도는 자리에 무엇을 두면 그것이 매초 일어난다 (T211).
+   ========================================================================= */
+var SIDE={was:null};
+function sideNow(){
+  if(typeof soloOn==="function" && soloOn())
+    return {cls:"side-"+(soloSeat()===0?"a":"b"),
+            tag:(soloSeat()===0?"A":"B")+" 돌려 보기"};
+  var d=(typeof deviceSide==="function")?deviceSide():null;
+  if(!d) return {cls:"side-none", tag:"쪽 안 고름"};
+  var who=(devicePerson()==="a")?S.names.a:S.names.b;
+  return {cls:"side-"+d, tag:d.toUpperCase()+" "+who};
+}
+function paintSide(){
+  var s=sideNow(), key=s.cls+"|"+s.tag;
+  /* 값이 그대로여도 **자리가 정말 붙어 있는지**를 같이 본다.
+     안 보면 다른 자리가 body 의 class 를 통째로 쓰는 날 띠가 지워지고
+     이 함수는 안 바뀌었다며 그냥 돌아간다. **그러면 영영 안 돌아온다.**
+     지금은 아무도 통째로 안 쓰는데 그것을 매번 확인하며 살 수는 없다. T242 */
+  if(SIDE.was===key && document.body.classList.contains(s.cls)) return;
+  SIDE.was=key;
+  var b=document.body;
+  b.classList.remove("side-a","side-b","side-none");
+  b.classList.add(s.cls);
+  var t=$("#sideTag"); if(t) t.textContent=s.tag;
 }

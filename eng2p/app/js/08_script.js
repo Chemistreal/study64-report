@@ -460,6 +460,11 @@ function tick(){
     finishSession(); return;
   }
   paintTimer();
+  /* **날이 바뀌면 이 기기 쪽이 뒤집힌다** (T216). 세션 중에 자정을 넘길 수 있다.
+     그래서 매초 자리에서 부르되 `paintSide` 가 안 바뀌었으면 바로 돌아온다.
+     매초 도는 자리에 무엇을 두면 그것이 매초 일어난다 (T211). 그래서 재 봤다.
+     하는 일이 글자 몇 개를 잇고 견주는 것뿐이다. 그것은 둬도 된다. */
+  paintSide();
 }
 $("#tStart").onclick=function(){
   restartFinishedSession();

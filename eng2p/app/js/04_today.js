@@ -91,6 +91,7 @@ function renderToday(){
   });
   renderUnres(); renderColl(); renderNudge();
   paintTimer();  // 이름이 바뀌면 블록별 2인 지시도 같이 갱신한다
+  paintSide();   // 이름이 바뀌면 오른쪽 위 표시도 같이 갱신한다
 }
 document.querySelectorAll("[data-st]").forEach(function(b){
   b.onclick=function(){

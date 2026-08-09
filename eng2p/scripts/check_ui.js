@@ -2632,6 +2632,79 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (soloLocal.join(",") !== "true,1,false")
       bad.push("합치기가 돌려 보기 값을 건드린다: " + soloLocal.join(","));
 
+    /* **이 기기가 어느 쪽인가를 화면 전체로.** 글자 한 줄이면 흘끗 봐서 안 보인다.
+       기기 쪽은 날마다 뒤집히고 (T216) 판 안에서 자리가 또 돈다 (T239). T242 */
+    const band = await (async () => {
+      const got = {};
+      for (const who of ["a", "b", null]) {
+        const c = await browser.newContext({ viewport: { width: 390, height: 844 } });
+        const q = await c.newPage();
+        q.on("pageerror", (e) => bad.push("쪽 표시 화면 오류: " + e.message));
+        await q.goto(PAGE);
+        await q.evaluate((w) => { localStorage.setItem("eng2p.v1", JSON.stringify(
+          { v: 1, names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
+            media: { done: {}, fav: {}, pass: {} }, wk: 0, onboarded: true, device: w,
+            cardDue: {}, cues: {}, rate: 1, fs: 0, wchk: {}, q: {}, rot: [],
+            clips: [], scripts: {} })); }, who);
+        await q.goto(PAGE);
+        await q.waitForTimeout(400);
+        got[String(who)] = await q.evaluate(() => ({
+          cls: /side-(a|b|none)/.exec(document.body.className),
+          tag: document.getElementById("sideTag").textContent,
+          bandOn: !!document.querySelector(".sideband"),
+          bg: getComputedStyle(document.querySelector(".sideband")).backgroundImage,
+          side: deviceSide() }));
+        if (who === "a") {
+          /* **날이 바뀌면 뒤집힌다.** 세션 중에 자정을 넘길 수 있다. */
+          got.flip = await q.evaluate(() => {
+            const real = today;
+            const was = document.getElementById("sideTag").textContent;
+            window.today = function () { return addDays(real(), 1); };
+            tick();
+            const now = { cls: document.body.className,
+                          tag: document.getElementById("sideTag").textContent };
+            window.today = real; tick();
+            return { was, now, back: document.getElementById("sideTag").textContent };
+          });
+          /* 다른 자리가 class 를 통째로 써 버려도 다음 초에 돌아와야 한다. */
+          got.wipe = await q.evaluate(() => {
+            document.body.className = "";
+            tick();
+            return document.body.className;
+          });
+          got.solo = await q.evaluate(() => {
+            S.device = null; S.solo = true; S.soloSeat = 0; save(); paintSide();
+            const one = document.getElementById("sideTag").textContent;
+            S.soloSeat = 1; save(); paintSide();
+            return [one, document.getElementById("sideTag").textContent];
+          });
+        }
+        await c.close();
+      }
+      return got;
+    })();
+    ["a", "b", "null"].forEach((k) => {
+      const g = band[k];
+      if (!g.bandOn) bad.push(k + " 기기에 쪽 띠가 없다");
+      if (!g.cls) bad.push(k + " 기기 몸통에 쪽 표시가 없다: " + JSON.stringify(g.cls));
+      if (!g.tag) bad.push(k + " 기기에 쪽 글자가 없다");
+    });
+    /* **색만으로 가르지 않는다.** 색을 못 보는 눈에도 갈려야 한다. */
+    if (!/\bA\b/.test(band.a.tag) && !/\bB\b/.test(band.a.tag))
+      bad.push("쪽 표시에 A 나 B 라는 글자가 없다: " + band.a.tag);
+    if (band.a.cls[1] === band.b.cls[1])
+      bad.push("두 기기가 같은 쪽으로 뜬다: " + band.a.cls[1]);
+    if (band.a.bg === band.b.bg) bad.push("두 기기의 띠 색이 같다");
+    if (band["null"].cls[1] !== "none")
+      bad.push("쪽을 안 골랐는데 한쪽으로 뜬다: " + band["null"].cls[1]);
+    if (band.flip.was === band.flip.now.tag)
+      bad.push("날이 바뀌었는데 쪽 표시가 그대로다: " + band.flip.was);
+    if (band.flip.back !== band.flip.was) bad.push("날을 되돌렸는데 쪽 표시가 안 돌아온다");
+    if (!/side-(a|b|none)/.test(band.wipe))
+      bad.push("몸통 class 가 지워졌더니 쪽 띠가 안 돌아온다: " + band.wipe);
+    if (band.solo[0] === band.solo[1]) bad.push("돌려 보기에서 자리가 바뀌어도 표시가 같다");
+    if (!/돌려/.test(band.solo[0])) bad.push("돌려 보기라는 것을 표시가 안 말한다: " + band.solo[0]);
+
     /* 셋. 안 건너가는 것은 안 건너간다 */
     const wantLocal = ["a", 2, 3, 1.5, "Q1-007", "today"];
     mg.local.forEach((v, i) => {

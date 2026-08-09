@@ -163,7 +163,7 @@ function renderSidePick(A,B){
   box.innerHTML=h;
   box.querySelectorAll("[data-dev]").forEach(function(btn){
     btn.onclick=function(){
-      S.device=btn.dataset.dev||null; save(); paintTimer();
+      S.device=btn.dataset.dev||null; save(); paintTimer(); paintSide();
     };
   });
 }

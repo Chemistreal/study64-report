@@ -326,3 +326,25 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .socover button{min-height:48px;padding:12px 22px;font-size:1rem}
 .soflag{display:inline-block;font-size:0.75rem;color:var(--a1t);
   border:1px solid var(--edge);border-radius:8px;padding:3px 8px;margin-left:6px}
+
+/* 이 기기가 어느 쪽인가를 화면 전체로 (T242).
+
+   **글자 한 줄이면 흘끗 봐서 안 보인다.** 기기 쪽은 날마다 뒤집히고 (T216)
+   판마다 자리가 또 돈다 (T239). 어제 A였다고 오늘 A가 아니다.
+   한 줄을 읽어야 아는 것은 세션 중에 안 읽힌다.
+
+   그래서 화면 위쪽에 띠를 두고 왼쪽 가장자리에 선을 세운다.
+   **색만으로 가르지 않는다.** 띠에 A 나 B 라고 글자도 적는다.
+   색을 못 보는 눈에도 갈려야 한다. */
+.sideband{position:fixed;top:0;left:0;right:0;height:4px;z-index:60;pointer-events:none}
+body.side-a .sideband{background:linear-gradient(96deg,var(--a1),var(--a2))}
+body.side-b .sideband{background:linear-gradient(96deg,#155e75,#0369a1)}
+body.side-none .sideband{background:var(--line)}
+.sidetag{position:fixed;top:6px;right:8px;z-index:61;font-size:0.6875rem;font-weight:800;
+  padding:2px 9px;border-radius:99px;color:#fff;pointer-events:none;letter-spacing:.04em}
+body.side-a .sidetag{background:var(--a1)}
+body.side-b .sidetag{background:#155e75}
+body.side-none .sidetag{background:var(--mut)}
+/* 세션 중에는 머리띠가 접힌다. 그때 이 둘이 유일한 표시가 된다. */
+body.session-focus .sideband{height:6px}
+@media print{ .sideband, .sidetag{display:none} }

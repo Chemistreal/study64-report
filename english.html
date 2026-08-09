@@ -773,9 +773,23 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .socover button{min-height:48px;padding:12px 22px;font-size:1rem}
 .soflag{display:inline-block;font-size:0.75rem;color:var(--a1t);
   border:1px solid var(--edge);border-radius:8px;padding:3px 8px;margin-left:6px}
+
+.sideband{position:fixed;top:0;left:0;right:0;height:4px;z-index:60;pointer-events:none}
+body.side-a .sideband{background:linear-gradient(96deg,var(--a1),var(--a2))}
+body.side-b .sideband{background:linear-gradient(96deg,#155e75,#0369a1)}
+body.side-none .sideband{background:var(--line)}
+.sidetag{position:fixed;top:6px;right:8px;z-index:61;font-size:0.6875rem;font-weight:800;
+  padding:2px 9px;border-radius:99px;color:#fff;pointer-events:none;letter-spacing:.04em}
+body.side-a .sidetag{background:var(--a1)}
+body.side-b .sidetag{background:#155e75}
+body.side-none .sidetag{background:var(--mut)}
+body.session-focus .sideband{height:6px}
+@media print{ .sideband, .sidetag{display:none} }
 </style>
 </head>
-<body>
+<body class="side-none">
+<div class="sideband" aria-hidden="true"></div>
+<div class="sidetag" id="sideTag" aria-live="polite"></div>
 
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 
@@ -2046,6 +2060,7 @@ function renderToday(){
   });
   renderUnres(); renderColl(); renderNudge();
   paintTimer();  // 이름이 바뀌면 블록별 2인 지시도 같이 갱신한다
+  paintSide();   // 이름이 바뀌면 오른쪽 위 표시도 같이 갱신한다
 }
 document.querySelectorAll("[data-st]").forEach(function(b){
   b.onclick=function(){
@@ -2289,7 +2304,7 @@ function renderSidePick(A,B){
   box.innerHTML=h;
   box.querySelectorAll("[data-dev]").forEach(function(btn){
     btn.onclick=function(){
-      S.device=btn.dataset.dev||null; save(); paintTimer();
+      S.device=btn.dataset.dev||null; save(); paintTimer(); paintSide();
     };
   });
 }
@@ -3380,6 +3395,7 @@ function tick(){
     finishSession(); return;
   }
   paintTimer();
+  paintSide();
 }
 $("#tStart").onclick=function(){
   restartFinishedSession();
@@ -5893,9 +5909,9 @@ function renderSplit(){
   $("#splitNext").onclick=function(){ SPLIT.step++; renderSplit(); };
   $("#soloTog").onclick=function(){
     var was=soloOn();
-    S.solo=!was; S.soloHand=false; save(); renderSplit();
+    S.solo=!was; S.soloHand=false; save(); renderSplit(); paintSide();
     offerUndo(was?"돌려 보기를 껐다":"돌려 보기를 켰다",function(){
-      S.solo=was; S.soloHand=false; save(); renderSplit();
+      S.solo=was; S.soloHand=false; save(); renderSplit(); paintSide();
     });
   };
   if($("#soHand")) $("#soHand").onclick=function(){ soloHandOff(renderSplit); };
@@ -5911,7 +5927,9 @@ function soloHandOff(after){
   S.soloHand=true; save(); if(after) after();
 }
 function soloTake(after){
-  S.soloHand=false; S.soloSeat=(soloSeat()===0)?1:0; save(); if(after) after();
+  S.soloHand=false; S.soloSeat=(soloSeat()===0)?1:0; save();
+  if(typeof paintSide==="function") paintSide();
+  if(after) after();
 }
 function soloCover(names){
   var next=(soloSeat()===0)?1:0;
@@ -5919,6 +5937,26 @@ function soloCover(names){
          '<div class="somsg">'+esc((names&&names[next])||"상대")+
          '에게 기기를 넘긴다. 넘기고 나서 받았다를 누른다.</div>'+
          '<button class="g" id="soTake">받았다</button></div>';
+}
+
+var SIDE={was:null};
+function sideNow(){
+  if(typeof soloOn==="function" && soloOn())
+    return {cls:"side-"+(soloSeat()===0?"a":"b"),
+            tag:(soloSeat()===0?"A":"B")+" 돌려 보기"};
+  var d=(typeof deviceSide==="function")?deviceSide():null;
+  if(!d) return {cls:"side-none", tag:"쪽 안 고름"};
+  var who=(devicePerson()==="a")?S.names.a:S.names.b;
+  return {cls:"side-"+d, tag:d.toUpperCase()+" "+who};
+}
+function paintSide(){
+  var s=sideNow(), key=s.cls+"|"+s.tag;
+  if(SIDE.was===key && document.body.classList.contains(s.cls)) return;
+  SIDE.was=key;
+  var b=document.body;
+  b.classList.remove("side-a","side-b","side-none");
+  b.classList.add(s.cls);
+  var t=$("#sideTag"); if(t) t.textContent=s.tag;
 }
 var SOURCES=[
  {n:"VOA Learning English", lic:"퍼블릭 도메인. 교육과 상업 목적 재배포 허용. 출처 표기 필요",
@@ -6168,7 +6206,7 @@ buildNav();
 fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
 loadSession();
 if(typeof LOAD_ERR!=="undefined" && LOAD_ERR) toast(LOAD_ERR);
-applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind();
+applyFs(); renderOnboard(); renderToday(); paintTimer(); renderRules(); paintKind(); paintSide();
 ttsVoices(); renderSound(); renderClip(); renderScript();
 go((location.hash.slice(1)||"today"));
 window.addEventListener("hashchange",function(){ go(location.hash.slice(1)||"today"); });
