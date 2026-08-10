@@ -65,6 +65,8 @@ STEPS = [
     ("파생", "derive_wall.py", [], True),
     # 한 사람만 본다가 쓸 상황 카드. **B면을 안 담는다.** 안 실으면 안 샌다. T288
     ("파생", "derive_situ.py", [], True),
+    # 파장의 격식 눈금. **늘리는 것이지 짓는 것이 아니다.** 사이 칸은 이웃을 붙인다. T291
+    ("파생", "derive_wave.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
