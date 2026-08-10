@@ -412,6 +412,14 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   background:var(--bg2);padding:10px 12px}
 .cutline{font-size:1rem;line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
 
+/* 말 겹치기 (T304). 자기 줄만 본다. 상 건너에서 읽을 일이 없어 본문 크기로 둔다.
+   셋을 세는 자리는 크게 둔다. 화면을 안 보고 있어도 곁눈에 든다. */
+.clsline{font-size:1.125rem;line-height:1.7;margin:10px 0 6px;padding:10px 12px;
+  border:1px solid var(--edge);border-radius:12px;background:var(--bg2);
+  overflow-wrap:anywhere}
+.clscue{font-size:2rem;font-weight:750;line-height:1;align-self:center;
+  min-width:2.5ch;color:var(--acc)}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
