@@ -186,9 +186,23 @@ const RESET = () => {
     await page.click('[data-play="mirror"]');
     /* **판 화면이 붙기를 기다린다.** 칸이 그려진 것만 보면 너무 일찍 풀린다.
        판 화면은 따로 읽는 파일이고 (T259) 읽는 동안 "여는 중이다" 칸이 먼저 뜬다.
-       그 칸을 보고 나아가면 `mirTarget` 이 아직 없다. 실제로 그렇게 났다. */
-    await page.waitForFunction(() => typeof window.mirTarget === "function",
-                               null, { timeout: 8000 });
+       그 칸을 보고 나아가면 `mirTarget` 이 아직 없다. 실제로 그렇게 났다.
+
+       **묶음은 하나다.** 열한 판 중 아무 판에 오타가 나도 여기서 터진다.
+       그때 "Timeout" 만 나오면 거울 판이 깨진 줄 안다. T290 */
+    try {
+      await page.waitForFunction(() => typeof window.mirTarget === "function",
+                                 null, { timeout: 8000 });
+    } catch (e) {
+      const n = await page.evaluate(() =>
+        (typeof PLAYREND === "object" && PLAYREND) ? Object.keys(PLAYREND).length : -1);
+      console.log("[실패] 판 묶음이 안 붙었다. 붙은 판이 " + n + "개다. " +
+        "**0이면 어느 판의 오타든 여기서 터진다.** 거울 판만의 일이 아니다. " +
+        "node --check eng2p/out/app/plays.js 를 본다");
+      console.log("판 화면 검사가 못 돌았다. 통과가 아니다.");
+      await browser.close();
+      process.exit(1);
+    }
     dev[who] = page;
   }
   const A = dev.a, B = dev.b;
@@ -342,10 +356,21 @@ const RESET = () => {
   /* =====================================================================
      한 줄 바꾸기 (T263). 두 창을 그대로 옮겨 이 판으로 몬다.
      ===================================================================== */
+  /* **판 묶음은 하나다** (T259). 한 판에 오타가 나면 열한 판이 다 안 읽히고
+     여기서 8초를 기다리다 터진다. 그때 나오는 말이 "Timeout" 뿐이면
+     이 판이 깨진 줄 안다. 실제로는 아무 판이나 깨졌을 수 있다. T290 */
   const openPlay = async (p, id, fn) => {
     await p.evaluate((id) => { PLAY.at = id; renderPlayTab(); }, id);
-    await p.waitForFunction((f) => typeof window[f] === "function", fn,
-                            { timeout: 8000 });
+    try {
+      await p.waitForFunction((f) => typeof window[f] === "function", fn,
+                              { timeout: 8000 });
+    } catch (e) {
+      const loaded = await p.evaluate(() => Object.keys(PLAYREND).length);
+      no("판 " + id + " 를 열었는데 " + fn + " 가 안 생겼다. " +
+         "붙은 판이 " + loaded + "개다. **0이면 판 묶음이 통째로 안 읽힌 것이고 " +
+         "그러면 어느 판의 오타든 여기서 터진다.** node --check out/app/plays.js 를 본다");
+      throw e;
+    }
     await p.waitForTimeout(400);
   };
   const SWRESET = () => {
@@ -1517,16 +1542,222 @@ const RESET = () => {
   if (rbGrade !== "A" && !rbTxt.includes("통과 판정에는 안 쓴다"))
     no("되받아치기: B등급인데 통과 판정에 안 쓴다는 말이 없다");
 
+  /* =====================================================================
+     한 사람만 본다 (T290). **한 덩어리를 반만 가리는 첫 판.**
+
+       이름은 두 화면에   요소 이름은 둘 다 보고 값은 쥔 쪽만 본다
+       낸 요소가 날을 넘음 `S.situ` 다. 두 기기가 같이 빼야 내일 안 갈린다
+       2 + 2 + 1        다섯 요소가 세 판에 나뉜다. 셋째 판은 하나만 낸다
+       두 가지 못 여는 날 아직 안 나온 것과 다 접은 것은 다른 말이다
+     ===================================================================== */
+  const ONRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.situ = {};
+    S.solo = false; S.soloHand = false; S.device = S.device || "a"; save();
+    if (typeof turnForget === "function") turnForget("onesee");
+    ONECLK.left = 0; ONECLK.over = false;
+    renderOnesee();
+  };
+  for (const p of [A, B]) await openPlay(p, "onesee", "renderOnesee");
+  await A.evaluate(ONRESET); await B.evaluate(ONRESET);
+
+  /* ---- 84. 규격이 자료에서 온다. **검사도 숫자를 안 적는다** ------------ */
+  const ospec = await A.evaluate(() => ({
+    need: DATA.situ.need, most: DATA.situ.most,
+    parts: DATA.situ.parts.map((p) => p.name),
+    keys: DATA.situ.parts.map((p) => p.key),
+    grade: DATA.situ.grade,
+    pool: onePool().length,
+    deck: oneDeck().map((c) => c.id),
+  }));
+  if (!(ospec.need >= 1) || ospec.need >= ospec.parts.length)
+    no("한 사람만 본다: 알아낼 수가 " + ospec.need + " 다. 요소 수보다 작아야 한다");
+  if (ospec.parts.length !== 5)
+    no("한 사람만 본다: 요소가 " + ospec.parts.length + "개다. 기준서 8.1 은 다섯이다");
+  /* 다섯을 둘씩 내면 2 + 2 + 1 이라 세 판이다. **그 셋이 D1 의 셋과 같아야 한다.** */
+  const rounds = Math.ceil(ospec.parts.length / ospec.need);
+  if (rounds !== ospec.most)
+    no("한 사람만 본다: 요소 " + ospec.parts.length + "개를 " + ospec.need +
+       "개씩 내면 " + rounds + "판인데 D1 은 " + ospec.most + "판까지라고 적었다");
+  if (!ospec.deck.length) no("한 사람만 본다: 낼 카드가 없다");
+
+  /* ---- 85. 값이 알아내는 쪽 화면에 한 글자도 없다 ----------------------- */
+  let holder = (await A.evaluate(() => !!document.querySelector("#oneHit"))) ? A : B;
+  let finder = holder === A ? B : A;
+  if ((await A.evaluate(() => !!document.querySelector("#oneHit"))) ===
+      (await B.evaluate(() => !!document.querySelector("#oneHit"))))
+    no("한 사람만 본다: 두 기기가 같은 자리다");
+  const oVals = await holder.evaluate(() =>
+    Object.keys(oneDeck()[roundStep("onesee")].parts)
+      .map((k) => oneDeck()[roundStep("onesee")].parts[k]).filter(Boolean));
+  const fHtml = await pane(finder);
+  const oLeak = oVals.filter((v) => fHtml.indexOf(v) >= 0);
+  if (oLeak.length)
+    no("한 사람만 본다: 요소 값이 알아내는 쪽 화면에 있다: " + oLeak.join(" / ") +
+       ". 값이 뜨면 알아낼 것이 없다");
+  /* **안 그리는 것과 안 새는 것은 다르다** (T260). 쥔 쪽에는 있어야 한다. */
+  const hText = await text(holder);
+  const oMiss = oVals.filter((v) => hText.indexOf(v) < 0);
+  if (oMiss.length)
+    no("한 사람만 본다: 요소 값이 쥔 쪽 화면에도 없다: " + oMiss.join(" / "));
+
+  /* ---- 86. 이름은 두 화면에 다 있다 -------------------------------------
+     이름까지 없으면 무엇을 물을지 모른다. 판이 아니라 스무고개가 된다. */
+  const askNames = await holder.evaluate(() =>
+    oneAsk(oneDeck()[roundStep("onesee")]).map((x) => x.name));
+  const fText = await text(finder);
+  const nameGone = askNames.filter((n) => fText.indexOf(n) < 0);
+  if (nameGone.length)
+    no("한 사람만 본다: 알아낼 요소 이름이 알아내는 쪽 화면에 없다: " +
+       nameGone.join(" / "));
+  if (askNames.length !== ospec.need)
+    no("한 사람만 본다: 첫 판이 " + askNames.length + "개를 낸다. " +
+       ospec.need + "개여야 한다");
+
+  /* ---- 87. 판정 단추가 쥔 쪽에만 있다 ----------------------------------- */
+  for (const sel of ["#oneHit", "#oneGive", "#oneAsked"])
+    if (await finder.$(sel))
+      no("한 사람만 본다: 알아내는 쪽에 " + sel + " 가 있다. 답은 쥔 쪽만 안다");
+  if (!(await finder.$("#oneNext")))
+    no("한 사람만 본다: 알아내는 쪽에 자리를 미는 단추가 없다");
+
+  /* ---- 88. 자리가 한 장마다 바뀐다 -------------------------------------- */
+  const oSeats = [];
+  for (let i = 0; i < 4; i++) {
+    oSeats.push(await holder.evaluate(() => !!document.querySelector("#oneHit")));
+    await holder.evaluate(() => { roundStepSet("onesee", roundStep("onesee") + 1);
+                                  renderOnesee(); });
+  }
+  const oFlips = [];
+  for (let i = 1; i < oSeats.length; i++)
+    if (oSeats[i] !== oSeats[i - 1]) oFlips.push(i);
+  if (oFlips.length !== oSeats.length - 1)
+    no("한 사람만 본다: 자리가 바뀐 자리가 [" + oFlips.join(",") +
+       "] 다. 한 장마다 바뀌어야 한다");
+
+  /* ---- 89. 낸 요소가 날을 넘고 세 판에 나뉜다 ---------------------------
+     같은 카드를 `most` 번 돌린다. **판마다 낸 것이 겹치면 안 된다.** */
+  await A.evaluate(ONRESET); await B.evaluate(ONRESET);
+  const firstId = await A.evaluate(() => oneDeck()[0].id);
+  const sizes = [];
+  for (let i = 0; i < ospec.most; i++) {
+    for (const p of [A, B])
+      await p.evaluate(() => { S.rhit = {}; roundStepSet("onesee", 0);
+                               renderOnesee(); });
+    sizes.push(await A.evaluate(() =>
+      oneAsk(oneDeck()[0]).map((x) => x.key).join(",")));
+    for (const p of [A, B]) {
+      const btn = (await p.$("#oneHit")) ? "#oneHit" : "#oneNext";
+      await tap(p, btn, "같은 카드 " + (i + 1) + "판");
+      await p.waitForTimeout(60);
+    }
+  }
+  const flat = sizes.join(",").split(",").filter(Boolean);
+  if (new Set(flat).size !== flat.length)
+    no("한 사람만 본다: 같은 요소를 두 번 냈다: " + sizes.join(" | "));
+  if (flat.length !== ospec.parts.length)
+    no("한 사람만 본다: " + ospec.most + "판에 낸 요소가 " + flat.length +
+       "개다. " + ospec.parts.length + "개여야 한다");
+  const want = [];
+  for (let i = 0; i < ospec.parts.length; i += ospec.need)
+    want.push(Math.min(ospec.need, ospec.parts.length - i));
+  const got = sizes.map((x) => x.split(",").filter(Boolean).length);
+  if (got.join("+") !== want.join("+"))
+    no("한 사람만 본다: 판마다 낸 수가 " + got.join("+") + " 다. " +
+       want.join("+") + " 여야 한다");
+
+  /* ---- 90. 두 기기가 같은 요소를 뺐다 -----------------------------------
+     한쪽만 빼면 **내일 두 화면이 다른 요소를 알아내라고 적는다** (T283 과 같은 자리). */
+  const seenA = await A.evaluate((id) => (S.situ[id] || []).join(","), firstId);
+  const seenB = await B.evaluate((id) => (S.situ[id] || []).join(","), firstId);
+  if (seenA !== seenB || !seenA)
+    no("한 사람만 본다: 두 기기의 낸 요소가 갈린다: [" + seenA + "] / [" + seenB + "]");
+
+  /* ---- 91. 다 낸 카드는 접힌다 ------------------------------------------ */
+  await A.evaluate(() => { S.rhit = {}; roundStepSet("onesee", 0); renderOnesee(); });
+  if (!(await A.evaluate((id) => oneDeck().every((c) => c.id !== id), firstId)))
+    no("한 사람만 본다: 다섯 요소를 다 낸 카드가 아직 덱에 있다");
+
+  /* ---- 92. 덱이 판 도중에 안 섞인다 --------------------------------------
+     **한 장을 그냥 넘겨서는 안 잡힌다.** 그 카드는 아직 요소가 남아 덱에 그대로 있다.
+     덱이 흔들리는 것은 **카드가 덱에서 빠질 때**다.
+     그래서 첫 카드를 한 판이면 바닥나게 만들어 놓고 넘긴다.
+     처음에 이 자리를 약하게 짰다가 깨 보고 알았다 (T290). */
+  await A.evaluate(ONRESET);
+  await A.evaluate(() => {
+    var id = oneDeck()[0].id;
+    /* 마지막 하나만 남긴다. 한 판이면 그 카드가 빠진다. */
+    S.situ[id] = DATA.situ.parts.slice(0, DATA.situ.parts.length - 1)
+                   .map(function (p) { return p.key; });
+    save(); renderOnesee();
+  });
+  const oDeck0 = await A.evaluate(() => oneDeck().map((c) => c.id).join(","));
+  const oBtn = (await A.$("#oneHit")) ? "#oneHit" : "#oneNext";
+  await tap(A, oBtn, "바닥나는 장을 넘긴다");
+  if ((await A.evaluate(() => oneDeck().map((c) => c.id).join(","))) !== oDeck0)
+    no("한 사람만 본다: 카드가 바닥나자 판 도중에 덱이 섞였다. 이미 돈 장이 다시 나온다");
+
+  /* ---- 93. 못 여는 날 둘을 다르게 적는다 --------------------------------
+     아직 안 나온 것은 기다리면 오고 다 접은 것은 안 온다.
+     같은 말로 적으면 두 사람이 오지 않을 것을 기다린다. */
+  await A.evaluate(() => { window.__op = onePool; onePool = () => [];
+                           S.rhit = {}; save(); renderOnesee(); });
+  const notYet = await text(A);
+  if (!notYet.includes("안 나와서"))
+    no("한 사람만 본다: 카드가 아직 안 나온 날에 그 이유를 안 적는다");
+  await A.evaluate(() => { onePool = window.__op; S.rhit = {};
+                           DATA.situ.cards.forEach(function (c) {
+                             S.situ[c.id] = DATA.situ.parts.map(function (p) {
+                               return p.key; });
+                           });
+                           save(); renderOnesee(); });
+  const allFold = await text(A);
+  if (!allFold.includes("다 접었다"))
+    no("한 사람만 본다: 카드를 다 접은 날에 그 말을 안 한다");
+  if (allFold.includes("안 나와서"))
+    no("한 사람만 본다: 다 접은 날에 아직 안 나왔다고 적는다. 두 사람이 기다린다");
+
+  /* ---- 94. 마감이 틀에 안 맞는 말을 안 쓴다 -----------------------------
+     `playHalf` 의 말은 "N장 중 몇" 꼴이고 이 판의 값은 장마다 물은 수라
+     셀 수 있는 하나가 아니다. 넣으면 "장마다 물은 수 중 몇" 이 된다 (T289). */
+  await A.evaluate(ONRESET);
+  await A.evaluate(() => { ONECLK.over = true; renderOnesee(); });
+  const oDone1 = await text(A);
+  await A.evaluate(() => { ONECLK.over = false;
+                           roundStepSet("onesee", oneDeck().length);
+                           renderOnesee(); });
+  const oDone2 = await text(A);
+  for (const [why, txt] of [["시계", oDone1], ["덱 끝", oDone2]]) {
+    if (/중 몇이다/.test(txt))
+      no("한 사람만 본다 (" + why + "): 마감이 'N장 중 몇' 틀을 쓴다. " +
+         "이 판의 값은 장마다 물은 수다");
+    if (!txt.includes("몇 번 물어서 닿았는가"))
+      no("한 사람만 본다 (" + why + "): 마감이 무엇을 센 값인지 안 적는다");
+    if (!txt.includes("적은 쪽이 잘한 것이 아니다"))
+      no("한 사람만 본다 (" + why + "): 물은 수가 잘잘못이 아니라는 말이 없다");
+    if (/없다 다|번 다\./.test(txt))
+      no("한 사람만 본다 (" + why + "): 마감 글이 조사에서 어긋난다");
+  }
+
+  /* ---- 95. 등급 --------------------------------------------------------- */
+  await A.evaluate(ONRESET);
+  const oTxt = await text(A);
+  if (!oTxt.includes(ospec.grade + "등급"))
+    no("한 사람만 본다: 자료 등급이 화면에 없다");
+  if (ospec.grade !== "A" && !oTxt.includes("통과 판정에는 안 쓴다"))
+    no("한 사람만 본다: B등급인데 통과 판정에 안 쓴다는 말이 없다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 10개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 11개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
-              "3초 벽 35 / 되받아치기: 단추 자리 5판, 큰 수 2판, 청크 2판, 세기 8판, " +
-              "쉼 4판, 받는 쪽 3판, 쉼마다 4판, 마감 5판, 등급 2판 " +
-              "**더하라고 적는지를 본다** / 실패 " + fails.length);
+              "3초 벽 35 / 되받아치기 35 / " +
+              "한 사람만 본다: 규격 5판, 값이 안 새는가 3판, 이름 2판, 단추 자리 4판, " +
+              "한 장마다 1판, 2+2+1 3판, 두 기기 1판, 접힘 1판, 덱 1판, " +
+              "못 여는 날 3판, 마감 8판, 등급 2판 **반만 가리는 판** / " +
+              "실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
