@@ -347,6 +347,16 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 /* 겹치면 지운다 (T276). 맞힐 것은 둘 다 본다. 크게 둔다. */
 .ovltgt{font-size:1.75rem;font-weight:750;letter-spacing:-.02em;margin:4px 0 4px;
   overflow-wrap:anywhere}
+/* 배속 사다리 (T280). 지금 칸이 어디인지가 한눈에 보여야 한다.
+   위가 빠른 칸이다. 오르는 것이라 위로 쌓는다. */
+.ladbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+.ladrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
+  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut)}
+.ladrow:last-child{border-bottom:0}
+.ladrow b{flex:none;min-width:2.6em;font-size:1rem}
+.ladrow.on{background:var(--sub);color:var(--fg);font-weight:600}
+.ladrow.on b{color:var(--acc)}
+.ladrow.past{opacity:.55}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}

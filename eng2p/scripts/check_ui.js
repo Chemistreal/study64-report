@@ -234,10 +234,17 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   await page.evaluate(() => { gotoBlock(0); T.run = true; syncSessionFocus(); });
   await page.waitForTimeout(200);
   // 소리와 영상은 블록 칸 안에서 튼다. 미디어 탭으로 가는 것은 lib 단추다. T125
+  /* **잡아 두고 나중에 누르지 않는다.** 잡은 뒤 누르기 전에 블록 칸이 다시 그려지면
+     그 요소는 DOM 에서 떨어져 나가고 누르기가 터진다.
+     터지면 그 뒤의 검사가 통째로 안 돈다. 실제로 났고 다시 돌리니 통과했다.
+     **이틀에 한 번 나는 빨간불은 진짜 빨간불도 흔들린 것으로 보이게 만든다.** T280
+
+     있는지는 여기서 보고 누르는 것은 그 자리에서 다시 찾는다.
+     T260 에 `check_play_screen.js` 의 `tap()` 이 같은 이유로 생겼다. */
   const b1 = await page.$("[data-media=\"lib\"]");
   if (!b1) fails.push("블록 1에 미디어 탭으로 가는 단추가 없다");
   else {
-    await b1.click();
+    await page.click("[data-media=\"lib\"]", { timeout: 5000 });
     await page.waitForTimeout(500);
     if (!(await page.isVisible("#focusDock")))
       fails.push("미디어 탭에서 세션 조작줄이 사라졌다");
@@ -251,7 +258,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   await page.waitForTimeout(300);
   const mb = await page.$("[data-media=\"lib\"]");
   if (mb) {
-    await mb.click();
+    await page.click("[data-media=\"lib\"]", { timeout: 5000 });
     await page.waitForTimeout(1500);
     const scriptText = await page.textContent("#libScript");
     if (scriptText.indexOf("못 연다") >= 0 || scriptText.indexOf("불러오는 중") >= 0)
@@ -1296,7 +1303,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const set = await p2.$('[data-go="b:1"]');
     if (!set) bad.push("오늘 칸에 세트로 가는 자리가 없다");
     else {
-      await set.click();
+      await p2.click('[data-go="b:1"]', { timeout: 5000 });
       await p2.waitForTimeout(400);
       const st = await p2.evaluate(() => ({
         idx: T.idx, left: T.left, sess: S.session, peek: PEEK,
@@ -1325,7 +1332,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const lec = await p2.$('[data-go^="l:"]');
     if (!lec) bad.push("오늘 칸에 강의 본문으로 가는 자리가 없다");
     else {
-      await lec.click();
+      await p2.click('[data-go^="l:"]', { timeout: 5000 });
       await p2.waitForTimeout(900);
       const st = await p2.evaluate(() => ({
         heads: [...document.querySelectorAll(".lecbody h4")].map((x) => x.textContent),
@@ -1534,7 +1541,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
     const open = await p6.$('[data-go="map"]');
     if (!open) { bad.push("48주 띠를 누를 수가 없다"); await ctx4.close(); return bad; }
-    await open.click();
+    await p6.click('[data-go="map"]', { timeout: 5000 });
     await p6.waitForTimeout(420);
 
     const m = await p6.evaluate(() => ({

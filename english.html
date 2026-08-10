@@ -785,6 +785,14 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   padding:5px 11px;font-size:0.84375rem}
 .ovltgt{font-size:1.75rem;font-weight:750;letter-spacing:-.02em;margin:4px 0 4px;
   overflow-wrap:anywhere}
+.ladbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+.ladrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
+  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut)}
+.ladrow:last-child{border-bottom:0}
+.ladrow b{flex:none;min-width:2.6em;font-size:1rem}
+.ladrow.on{background:var(--sub);color:var(--fg);font-weight:600}
+.ladrow.on b{color:var(--acc)}
+.ladrow.past{opacity:.55}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
@@ -6248,7 +6256,8 @@ var PLAYS=[
   {id:"relay", name:"전달 놀이", track:"소리", min:5},
   {id:"chain", name:"이어달리기", track:"청크", min:5},
   {id:"twohalf", name:"둘이 한 문장", track:"청크", min:4},
-  {id:"overlap", name:"겹치면 지운다", track:"청크", min:4}
+  {id:"overlap", name:"겹치면 지운다", track:"청크", min:4},
+  {id:"ladder", name:"배속 사다리", track:"자동화", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};

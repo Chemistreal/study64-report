@@ -79,7 +79,11 @@ def main():
         m = re.search(r"(\d+(?:\.\d+)?)", c[1])
         if not m:
             continue
+        # **문서가 적은 글자를 그대로 들고 간다.** `1.0` 을 float 로만 두면
+        # 화면에 "1 배속" 이라고 뜬다. 문서는 "1.0" 이라고 적었고 두 사람이 보는
+        # 것은 문서가 아니라 화면이다. 셈은 숫자로 하고 보이는 것은 글자로 한다.
         steps.append({"name": c[0], "rate": float(m.group(1)),
+                      "label": m.group(1),
                       "see": c[2].replace("**", "")})
     if len(steps) != 3:
         bad.append("6.1 에서 칸 셋을 못 찾았다: %d개" % len(steps))

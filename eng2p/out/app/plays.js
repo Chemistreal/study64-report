@@ -1282,3 +1282,213 @@ function renderOverlap(){
   paintSay();
 }
 PLAYREND.overlap=renderOverlap;
+var LAD={seats:["말하는 쪽","세는 쪽"], ok:0, no:0};
+
+function ladLabel(s){ return (s && s.label) || String(s && s.rate); }
+function ladToday(){
+  var pl=(typeof plan==="function")?plan():null;
+  return pl && pl.media ? pl.media : null;
+}
+function ladPiece(){
+  var d=DATA.relay, mid=ladToday();
+  if(!d || !d.items || !mid) return null;
+  var rows=d.items[mid]||[];
+  if(!rows.length) return null;
+  return rows[roundSeed("ladder",0)%rows.length];
+}
+function ladLine(li){
+  var t=DATA.transcripts, mid=ladToday();
+  if(!t || !t.items || !mid) return null;
+  var ls=t.items[mid]; if(!ls || li>=ls.length) return null;
+  return String(ls[li]).replace(/^[A-Z][A-Za-z .'-]{0,20}:\s*/, "");
+}
+function ladRec(){ return playRec("ladder", {best:0, up:0, down:0}); }
+function ladStep(){
+  var d=DATA.ladder;
+  var n=roundStep("ladder");
+  return Math.max(0, Math.min((d&&d.steps?d.steps.length:1)-1, n));
+}
+function ladWho(){
+  var f=roundFirst(roundStep("ladder"), 1);
+  return f===null ? null : (f ? LAD.seats[0] : LAD.seats[1]);
+}
+
+var LADA={el:null, stop:null};
+function ladAudioStop(){
+  if(LADA.stop){ clearTimeout(LADA.stop); LADA.stop=null; }
+  if(LADA.el){ try{ LADA.el.pause(); }catch(e){} }
+}
+function ladPlay(it, rate){
+  var mid=ladToday(), m=MEDIA.filter(function(x){return x.id===mid;})[0];
+  if(!m) return false;
+  if(!LADA.el){ LADA.el=document.createElement("audio"); LADA.el.preload="none"; }
+  ladAudioStop();
+  if(LADA.el.src.indexOf(m.audio)<0) LADA.el.src=m.audio;
+  try{
+    LADA.el.playbackRate=rate;
+    LADA.el.currentTime=Math.max(0, it.at);
+    LADA.el.play();
+    LADA.stop=setTimeout(function(){ ladAudioStop(); },
+                         ((it.dur/rate)+0.7)*1000);
+  }catch(e){ return false; }
+  return true;
+}
+
+var LADCLK={t:null, left:0, over:false};
+function ladClockStop(){ if(LADCLK.t){ clearInterval(LADCLK.t); LADCLK.t=null; } }
+function ladClockText(){
+  if(LADCLK.over) return "0:00";
+  var s=LADCLK.left>0?LADCLK.left:LAD.min*60;
+  return String(Math.floor(s/60))+":"+String(s%60).padStart(2,"0");
+}
+function ladClockGo(min){
+  if(LADCLK.t){ ladClockStop(); return; }
+  if(LADCLK.left<=0){ LADCLK.left=min*60; LADCLK.over=false; }
+  tone("start");
+  LADCLK.t=setInterval(function(){
+    LADCLK.left--;
+    var e=document.getElementById("ladClock");
+    if(!e){ ladClockStop(); return; }
+    if(LADCLK.left<=0){
+      LADCLK.over=true; ladClockStop(); tone("blockend"); renderLadder(); return;
+    }
+    e.textContent=ladClockText();
+  },1000);
+  var e=document.getElementById("ladClock"); if(e) e.textContent=ladClockText();
+}
+
+function renderLadder(){
+  var box=$("#playPane"); if(!box) return;
+  var p=playById("ladder");
+  LAD.min=p.min;
+  if(!DATA.ladder){
+    box.innerHTML='<div class="card tight small mut">사다리 규격을 여는 중이다.</div>';
+    loadData("ladder","ENG2P_LADDER",function(){ renderLadder(); });
+    return;
+  }
+  if(!DATA.relay){
+    box.innerHTML='<div class="card tight small mut">토막을 여는 중이다.</div>';
+    loadData("relay","ENG2P_RELAY",function(){ renderLadder(); });
+    return;
+  }
+  if(!DATA.transcripts){
+    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
+    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderLadder(); });
+    return;
+  }
+  if(!MEDIA.length){
+    box.innerHTML='<div class="card tight small mut">소리 차림표를 여는 중이다.</div>';
+    needMedia(function(){ renderLadder(); });
+    return;
+  }
+  var d=DATA.ladder, it=ladPiece();
+  if(!it){
+    box.innerHTML='<div class="card"><div class="note w">오늘 과의 토막이 없다. '+
+      '<b>scripts/derive_relay.py</b> 를 돌려야 이 판이 돈다.</div></div>';
+    return;
+  }
+  var line=ladLine(it.li), k=ladStep(), st=d.steps[k], rec=ladRec();
+  var top=(k>=d.steps.length-1 && LAD.ok>=d.up);
+  var h='<div class="card">'+playHead(p, k);
+
+  if(top || LADCLK.over){
+    h+='<div class="note '+(top?"g":"w")+'" style="margin-top:10px">'+
+       (top ? '<b>꼭대기까지 갔다.</b> '+ladLabel(d.steps[d.steps.length-1])+
+              ' 배속이 '+d.up+'번 됐다.'
+            : '<b>'+LAD.min+'분이 됐다.</b> 그 칸에서 끝난다.')+
+       ' 닿은 제일 높은 칸은 <b>'+ladLabel(d.steps[rec.best])+' 배속</b>이다.</div>';
+    h+='<div class="note">규칙서가 남기라는 값은 <b>닿은 제일 높은 칸</b> 하나다. '+
+       '오르내린 자취는 안 센다. <b>내려간 것은 셈에 안 들어간다.</b></div>';
+    h+='<div class="note">두 기기에 <b>같은 칸</b>이 있어야 한다. 소리 내어 견준다.</div>';
+    h+=playGrade(d);
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="ladAgain">처음부터</button></div></div>';
+    box.innerHTML=h;
+    $("#ladAgain").onclick=function(){
+      roundStepSet("ladder",0); turnForget("ladder");
+      rec.best=0; rec.up=0; rec.down=0; save();
+      LAD.ok=0; LAD.no=0; ladAudioStop(); ladClockStop();
+      LADCLK.left=0; LADCLK.over=false; renderLadder();
+    };
+    return;
+  }
+
+  var who=ladWho();
+  h+='<div class="row" style="margin-top:8px;justify-content:space-between">'+
+     '<span>이 기기 자리 <b>'+esc(who||"둘이 정한다")+'</b></span>'+
+     '<span class="small mut">'+esc(ladToday())+'</span></div>';
+  if(who===null)
+    h+='<div class="note" style="margin-top:8px">기기 쪽을 안 골라 '+
+       '<b>누가 세는지는 못 말한다.</b> 이 판은 소리를 둘이 같이 들어서 그대로 돈다. '+
+       '대장 탭에서 쪽을 고르면 자리가 뜬다.</div>';
+
+  h+='<div class="ladbox">';
+  for(var i=d.steps.length-1;i>=0;i--){
+    var s=d.steps[i];
+    h+='<div class="ladrow'+(i===k?" on":"")+(i<k?" past":"")+'">'+
+       '<b class="mono">'+ladLabel(s)+'</b><span>'+esc(s.see)+'</span></div>';
+  }
+  h+='</div>';
+
+  h+='<div class="small mut" style="margin-top:10px">이 토막을 '+ladLabel(st)+
+     ' 배속으로 듣고 따라 말한다</div>'+
+     '<div class="swpline">'+esc(line||"")+'</div>'+
+     '<div class="row"><button class="b" id="ladSound">'+ladLabel(st)+
+     ' 배속으로 듣기</button>'+
+     '<button class="g" id="ladOne">1.0 으로 한 번</button></div>';
+
+  h+='<div class="note" style="margin-top:10px"><b>'+ladLabel(st)+' 배속에서 볼 것</b><br>'+
+     esc(st.judge)+'</div>';
+  h+='<div class="small mut">연달아 <b>'+LAD.ok+' / '+d.up+'</b>'+
+     (LAD.no?' · 안 된 것 연달아 '+LAD.no+' / '+d.down:'')+'</div>';
+  h+='<div class="row" style="margin-top:8px">'+
+     '<button class="b" id="ladYes">됐다</button>'+
+     '<button class="g" id="ladNo">한 번 더</button></div>'+
+     '<div class="small mut" style="margin-top:6px">'+
+     '<b>판정은 세는 사람이 한다.</b> 자기 소리는 자기가 못 듣는다. '+
+     '<b>내려가는 것은 벌이 아니다.</b> 다음에 할 일이다.</div>';
+
+  h+='<div id="ladTurn"></div>';
+  h+='<div class="row" style="margin-top:10px">'+
+     '<button class="g" id="ladGo">'+LAD.min+'분 시계 <span class="mono" id="ladClock">'+
+     ladClockText()+'</span></button></div>'+playGrade(d)+'</div>';
+  box.innerHTML=h;
+
+  $("#ladGo").onclick=function(){ ladClockGo(LAD.min); };
+  $("#ladSound").onclick=function(){
+    if(!ladPlay(it, st.rate)) $("#ladTurn").innerHTML=
+      '<div class="note w">소리 파일을 못 열었다. <b>media/english/audio</b> 가 '+
+      '같이 있어야 한다.</div>';
+  };
+  $("#ladOne").onclick=function(){ ladPlay(it, 1); };
+
+  function moveTo(n, why){
+    roundStepSet("ladder", n);
+    LAD.ok=0; LAD.no=0;
+    var cur=ladStep();
+    if(cur>rec.best){ rec.best=cur; }
+    save();
+    renderLadder();
+    if(turnCheck("ladder", n, 1)) turnAlert(n, 1, LAD.seats, "ladTurn");
+    if(why) $("#ladTurn").innerHTML+='<div class="note w">'+esc(why)+'</div>';
+  }
+  $("#ladYes").onclick=function(){
+    LAD.ok++; LAD.no=0;
+    if(LAD.ok>=d.up && k<d.steps.length-1){
+      rec.up++; tone("done");
+      moveTo(k+1, "한 칸 올랐다. 이제 "+ladLabel(d.steps[k+1])+" 배속이다.");
+      return;
+    }
+    tone("next"); renderLadder();
+  };
+  $("#ladNo").onclick=function(){
+    LAD.no++; LAD.ok=0;
+    if(LAD.no>=d.down && k>0){
+      rec.down++;
+      moveTo(k-1, d.downSay);
+      return;
+    }
+    renderLadder();
+  };
+}
+PLAYREND.ladder=renderLadder;

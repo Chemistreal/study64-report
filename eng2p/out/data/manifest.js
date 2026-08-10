@@ -105,13 +105,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "ladder.js",
-      "bytes": 934,
-      "sha256": "4d9d167bf5c22a5baf0774a0b90a57d525fa0d7393d9029f5860b1fd8ea901bf"
+      "bytes": 976,
+      "sha256": "3d6e8ed2789c9d920105face57f7e1436d382a2f01026ce8245409bc5044e913"
     },
     {
       "file": "ladder.json",
-      "bytes": 1079,
-      "sha256": "8e985995b39c70c0665cb8263226b51835a1c639225c4aa4eeed0c552d61144b"
+      "bytes": 1145,
+      "sha256": "fab6a4a45568a992b549d148ec8fa7e8b19034b1a77077794ddb6cad092d2a24"
     },
     {
       "file": "lectures.js",
