@@ -1,7 +1,7 @@
 window.ENG2P_MANIFEST={
   "note": "out/data 의 파생 자료마다 크기와 해시다. 받은 것이 온전한지 보는 표다. 손으로 고치지 않는다. scripts/derive_manifest.py 를 다시 돌린다.",
   "generator": "scripts/derive_manifest.py",
-  "count": 38,
+  "count": 40,
   "files": [
     {
       "file": "audiolen.js",
@@ -112,6 +112,16 @@ window.ENG2P_MANIFEST={
       "file": "ladder.json",
       "bytes": 1145,
       "sha256": "fab6a4a45568a992b549d148ec8fa7e8b19034b1a77077794ddb6cad092d2a24"
+    },
+    {
+      "file": "wall.js",
+      "bytes": 56708,
+      "sha256": "496512f1d9198fb0e27e73d5267d8aea49f50c599279b2ee81253078b33a7e0e"
+    },
+    {
+      "file": "wall.json",
+      "bytes": 71460,
+      "sha256": "f91ada6d0af78c5518d1f64533be22f39fa94165dfcde1d5a93cb2fc8e9a552d"
     },
     {
       "file": "lectures.js",

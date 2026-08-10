@@ -44,6 +44,7 @@ EXPECT = [
     # 차림표를 분기 넷으로 쪼갰다. 머리만 열자마자 읽는다. T245
     "index_head.js", "index_q1.js", "index_q2.js", "index_q3.js", "index_q4.js",
     "input.js", "input.json", "ladder.js", "ladder.json",
+    "wall.js", "wall.json",
     "lectures.js", "lectures.json", "lecturetext.js",
     "listen.js", "listen.json",
     "pairs.js", "pairs.json", "relay.js", "relay.json",

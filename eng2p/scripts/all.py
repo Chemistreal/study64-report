@@ -61,6 +61,8 @@ STEPS = [
     ("파생", "derive_halves.py", [], True),
     # 배속 사다리 규격. **문서가 원본이다.** 못 찾으면 실패로 낸다. T279
     ("파생", "derive_ladder.py", [], True),
+    # 3초 벽이 띄울 단서. **124장 중 서른은 띄울 것이 없었다.** T282
+    ("파생", "derive_wall.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
