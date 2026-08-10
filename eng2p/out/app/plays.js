@@ -2299,3 +2299,193 @@ function wavReset(rec){
   wavClockStop(); WAVCLK.left=0; WAVCLK.over=false; renderWave();
 }
 PLAYREND.wave=renderWave;
+var WHO={seats:["자리를 고르는 쪽","고른 것을 판정하는 쪽"]};
+
+function whoToday(){
+  var pl=(typeof plan==="function")?plan():null;
+  return pl || null;
+}
+function whoPool(){
+  var d=DATA.whose, pl=whoToday();
+  if(!d || !d.sets || !pl || !pl.cards || !pl.quarter) return [];
+  return d.sets.filter(function(c){
+    return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
+  });
+}
+function whoRec(){ return playRec("whose", {same:0, split:0, deck:null, pick:null}); }
+
+function whoDeck(){
+  var d=DATA.whose, pool=whoPool(), rec=whoRec();
+  if(!d || !pool.length) return [];
+  var by={}; pool.forEach(function(c){ by[c.id]=c; });
+  if(rec.deck && rec.deck.length){
+    var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
+    if(kept.length===rec.deck.length) return kept;
+  }
+  var ord=roundOrder(pool.length, roundSeed("whose",0)), out=[];
+  for(var i=0;i<ord.length && out.length<d.rounds;i++) out.push(pool[ord[i]]);
+  rec.deck=out.map(function(c){ return c.id; });
+  save();
+  return out;
+}
+function whoSplit(w){
+  if(!S.wsplit) S.wsplit={};
+  if(!S.wsplit[w]) S.wsplit[w]=[];
+  return S.wsplit[w];
+}
+
+var WHOCLK={t:null, left:0, over:false};
+function whoClockStop(){ if(WHOCLK.t){ clearInterval(WHOCLK.t); WHOCLK.t=null; } }
+function whoClockText(){
+  if(WHOCLK.over) return "0:00";
+  var s=WHOCLK.left>0?WHOCLK.left:WHO.min*60;
+  return String(Math.floor(s/60))+":"+String(s%60).padStart(2,"0");
+}
+function whoClockGo(min){
+  if(WHOCLK.t){ whoClockStop(); return; }
+  if(WHOCLK.left<=0){ WHOCLK.left=min*60; WHOCLK.over=false; }
+  tone("start");
+  WHOCLK.t=setInterval(function(){
+    WHOCLK.left--;
+    var e=document.getElementById("whoClock");
+    if(!e){ whoClockStop(); return; }
+    if(WHOCLK.left<=0){
+      WHOCLK.over=true; whoClockStop(); tone("blockend"); renderWhose(); return;
+    }
+    e.textContent=whoClockText();
+  },1000);
+  var e=document.getElementById("whoClock"); if(e) e.textContent=whoClockText();
+}
+
+function whoDone(d, rec, head){
+  var h=head;
+  h+='<div class="note">둘의 생각이 같았던 벌이 <b>'+rec.same+'</b>이고 '+
+     '갈린 벌이 <b>'+rec.split+'</b>이다.</div>';
+  h+='<div class="note w">두 기기에 <b>같은 수</b>가 있어야 한다. 소리 내어 견준다. '+
+     '<b>이 판은 절반이 아니다.</b> 둘의 생각이 같았는가는 한 사람의 값이 아니다.</div>';
+  h+='<div class="note"><b>갈린 것은 틀린 것이 아니다.</b> 물어볼 것이다. '+
+     '그 자리가 <b>주 이레째 점검</b>으로 간다. 거기서 다시 본다.</div>';
+  return h+playGrade(d)+
+    '<div class="row" style="margin-top:10px">'+
+    '<button class="g" id="whoAgain">처음부터</button></div></div>';
+}
+
+function renderWhose(){
+  var box=$("#playPane"); if(!box) return;
+  var p=playById("whose");
+  WHO.min=p.min;
+  if(!DATA.whose){
+    box.innerHTML='<div class="card tight small mut">쓸 자리를 여는 중이다.</div>';
+    loadData("whose","ENG2P_WHOSE",function(){ renderWhose(); });
+    return;
+  }
+  var d=DATA.whose, pool=whoPool();
+  if(pool.length<d.rounds){
+    box.innerHTML='<div class="card">'+playHead(p,0)+
+      '<div class="note w" style="margin-top:10px"><b>아직 이 판은 안 연다.</b> '+
+      '오늘까지 나온 쓸 자리가 <b>'+pool.length+'개</b>이고 이 판은 <b>'+d.rounds+
+      '벌</b>을 돈다. 안 배운 카드를 앞당겨 쓰지 않는다.</div>'+
+      '<div class="note">그 사이에는 같은 화용 트랙의 다른 판을 돈다.</div>'+
+      playGrade(d)+'</div>';
+    return;
+  }
+
+  var deck=whoDeck(), s=roundStep("whose"), rec=whoRec();
+  var h='<div class="card">'+playHead(p,s);
+
+  if(WHOCLK.over){
+    box.innerHTML=whoDone(d, rec, h+
+      '<div class="note w" style="margin-top:10px"><b>'+WHO.min+'분이 됐다. 끝났다.</b> '+
+      '남은 벌은 안 돈다.</div>');
+    $("#whoAgain").onclick=function(){ whoReset(rec); };
+    return;
+  }
+  if(s>=deck.length){
+    box.innerHTML=whoDone(d, rec, h+
+      '<div class="note g" style="margin-top:10px"><b>'+deck.length+
+      '벌을 다 돌았다.</b></div>');
+    $("#whoAgain").onclick=function(){ whoReset(rec); };
+    return;
+  }
+
+  var it=deck[s], first=roundFirst(s, 1);
+  if(first===null){
+    h+='<div class="note w" style="margin-top:10px"><b>이 판은 이대로 안 돈다.</b> '+
+       '누가 먼저 고르는지를 정해야 하는데 이 기기는 어느 쪽인지를 모른다. '+
+       '대장 탭에서 이 기기 쪽을 고른다.</div></div>';
+    box.innerHTML=h; return;
+  }
+
+  h+='<div class="row" style="margin-top:8px;justify-content:space-between">'+
+     '<span>이 기기 자리 <b>'+esc(first?WHO.seats[0]:WHO.seats[1])+'</b></span>'+
+     '<span class="small mut">'+(s+1)+' / '+deck.length+'벌 · '+esc(it.id)+'</span></div>';
+
+  h+='<div class="whobox"><div class="whowhere">'+esc(it.where)+'</div>'+
+     '<div class="small mut">상대: <b>'+esc(it.who)+'</b></div></div>';
+
+  h+='<div class="note" style="margin-top:10px">'+
+     (first ? '<b>먼저 고른다.</b> 이 자리에서 쓸 격식을 셋 중 하나 고르고 소리 내어 말한다.'
+            : '<b>듣고 고른다.</b> 상대가 말한 뒤에 자기 것을 고르고 견준다.')+
+     '</div>';
+
+  h+='<div class="row" style="margin-top:8px">';
+  d.regs.forEach(function(r){
+    h+='<button class="g whopick'+(rec.pick===r?" on":"")+'" data-who="'+esc(r)+'">'+
+       esc(r)+'</button>';
+  });
+  h+='</div>';
+  h+='<div class="small mut" style="margin-top:6px">'+
+     '<b>앱은 정답을 안 준다.</b> 이 자리에 무엇이 맞는지는 자료에 없다. '+
+     '<b>격식은 답이 하나가 아니다.</b></div>';
+
+  if(rec.pick){
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="b" id="whoSame">둘이 같았다</button>'+
+       '<button class="g" id="whoSplit">갈렸다</button></div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       (first
+         ? '<b>판정은 상대가 한다.</b> 그쪽이 말한 것을 이 기기에도 적는다. '+
+           '안 적으면 주 점검에 갈 자리가 한 기기에만 남는다.'
+         : '<b>판정은 이 자리다.</b> 같았는지 갈렸는지를 소리 내어 말한다.')+
+       '</div>';
+  }else{
+    h+='<div class="note" style="margin-top:10px">셋 중 하나를 고르면 '+
+       '<b>같았다</b>와 <b>갈렸다</b>가 뜬다.</div>';
+  }
+
+  h+='<div class="small mut" style="margin-top:8px">같았던 벌 <b>'+rec.same+
+     '</b> · 갈린 벌 <b>'+rec.split+'</b></div>';
+  h+='<div id="whoTurn"></div>';
+  h+='<div class="row" style="margin-top:10px">'+
+     '<button class="g" id="whoGo">'+WHO.min+'분 시계 <span class="mono" id="whoClock">'+
+     whoClockText()+'</span></button></div>'+playGrade(d)+'</div>';
+  box.innerHTML=h;
+
+  $("#whoGo").onclick=function(){ whoClockGo(WHO.min); };
+  box.querySelectorAll("[data-who]").forEach(function(b){
+    b.onclick=function(){ rec.pick=b.dataset.who; save(); renderWhose(); };
+  });
+
+  function step(){
+    rec.pick=null; save();
+    var n=s+1;
+    roundStepSet("whose", n); renderWhose();
+    if(turnCheck("whose", n, 1)) turnAlert(n, 1, WHO.seats, "whoTurn");
+  }
+  if($("#whoSame")) $("#whoSame").onclick=function(){
+    rec.same++; tone("done"); step();
+  };
+  if($("#whoSplit")) $("#whoSplit").onclick=function(){
+    rec.split++;
+    var pl=whoToday(), w=(pl&&pl.week)||1, list=whoSplit(w);
+    if(!list.filter(function(x){ return x.id===it.id; }).length)
+      list.push({id:it.id, where:it.where, who:it.who, day:today()});
+    tone("next"); step();
+  };
+}
+function whoReset(rec){
+  roundStepSet("whose",0); turnForget("whose");
+  rec.same=0; rec.split=0; rec.deck=null; rec.pick=null; save();
+  whoClockStop(); WHOCLK.left=0; WHOCLK.over=false; renderWhose();
+}
+PLAYREND.whose=renderWhose;

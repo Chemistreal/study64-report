@@ -821,6 +821,12 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .wavrow.on b{color:var(--acc)}
 .wavnow{margin-left:auto;font-size:0.75rem;color:var(--a1t);flex:none}
 
+.whobox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:12px 14px}
+.whowhere{font-size:1.125rem;line-height:1.6;overflow-wrap:anywhere;margin-bottom:4px}
+.whopick.on{border-style:solid;border-color:var(--ok);font-weight:650;
+  background:var(--sub);color:var(--fg)}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
@@ -5421,6 +5427,14 @@ function renderWeekCheck(){
      '아래는 앱이 모르는 것이라 사람이 적는다.</div>';
   if(a.length) h+='<div class="note w"><b>걸린 경보</b> '+esc(a.join(" · "))+'</div>';
   else h+='<div class="note small">걸린 경보 없음.</div>';
+  var sp=(S.wsplit&&S.wsplit[w])||[];
+  if(sp.length){
+    h+='<div class="note w"><b>누구 말이야에서 갈린 자리 '+sp.length+'개</b><br>'+
+       sp.map(function(x){
+         return esc(x.where)+' <span class="small mut">('+esc(x.who)+')</span>';
+       }).join('<br>')+
+       '<br><span class="small">갈린 것은 틀린 것이 아니다. 5단계에 물을 것으로 적는다.</span></div>';
+  }
   var fields=[
     ["wcCause","1단계 · 경보가 걸렸으면 그 원인",a.length?"":"경보가 없으면 비워 둔다"],
     ["wcLre","2단계 · 판정 세션에 올릴 미해결 LRE","번호나 문장을 적는다"],
@@ -6291,7 +6305,8 @@ var PLAYS=[
   {id:"wall", name:"3초 벽", track:"자동화", min:4},
   {id:"rebound", name:"되받아치기", track:"자동화", min:4},
   {id:"onesee", name:"한 사람만 본다", track:"화용", min:5},
-  {id:"wave", name:"파장", track:"화용", min:5}
+  {id:"wave", name:"파장", track:"화용", min:5},
+  {id:"whose", name:"누구 말이야", track:"화용", min:4}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};

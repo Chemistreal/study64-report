@@ -391,6 +391,16 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .wavrow.on b{color:var(--acc)}
 .wavnow{margin-left:auto;font-size:0.75rem;color:var(--a1t);flex:none}
 
+/* 누구 말이야 (T295). 쓸 자리를 둘 다 본다. 감출 것이 없다. 정답이 없다. */
+.whobox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:12px 14px}
+.whowhere{font-size:1.125rem;line-height:1.6;overflow-wrap:anywhere;margin-bottom:4px}
+/* **판 이름을 붙여 좁힌다.** 처음에 `.row button.on` 으로 적었더니
+   자료 탭의 분기 단추를 물어 대비 검사가 빨간불이 됐다 (T295).
+   이미 쓰이는 class 이름에 규칙을 얹으면 내가 모르는 자리가 같이 바뀐다. */
+.whopick.on{border-style:solid;border-color:var(--ok);font-weight:650;
+  background:var(--sub);color:var(--fg)}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}

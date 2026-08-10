@@ -77,6 +77,20 @@ function renderWeekCheck(){
      '아래는 앱이 모르는 것이라 사람이 적는다.</div>';
   if(a.length) h+='<div class="note w"><b>걸린 경보</b> '+esc(a.join(" · "))+'</div>';
   else h+='<div class="note small">걸린 경보 없음.</div>';
+  /* 누구 말이야에서 갈린 자리 (T295). 규칙서 7.3 의 못 했을 때 칸이
+     "갈렸다고 적고 넘어간다. **그 자리가 주 7일째 점검에 간다**" 다.
+     그 판은 정답을 안 주므로 갈린 것이 틀린 것이 아니다. **물어볼 것이다.**
+
+     앱이 그 자리를 세고 사람은 5단계에 무엇을 물을지 적는다.
+     이 화면의 규칙이 그것이다 (T226). 앱이 아는 숫자를 사람이 다시 안 센다. */
+  var sp=(S.wsplit&&S.wsplit[w])||[];
+  if(sp.length){
+    h+='<div class="note w"><b>누구 말이야에서 갈린 자리 '+sp.length+'개</b><br>'+
+       sp.map(function(x){
+         return esc(x.where)+' <span class="small mut">('+esc(x.who)+')</span>';
+       }).join('<br>')+
+       '<br><span class="small">갈린 것은 틀린 것이 아니다. 5단계에 물을 것으로 적는다.</span></div>';
+  }
   var fields=[
     ["wcCause","1단계 · 경보가 걸렸으면 그 원인",a.length?"":"경보가 없으면 비워 둔다"],
     ["wcLre","2단계 · 판정 세션에 올릴 미해결 LRE","번호나 문장을 적는다"],
