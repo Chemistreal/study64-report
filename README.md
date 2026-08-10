@@ -69,6 +69,7 @@ python3 tools/audit_pages.py --check     # 화면 전수 검수
 | `tools/lie_check.py` | **자가 거짓말하는 것** (참·거짓 예시를 맞히는지) |
 | `tools/msg_ledger.py` | 사람에게 하던 말이 조용히 사라지는 것 |
 | `tools/pages_budget.py` | 배포 한도(1GB)에 벽으로 닿는 것 |
+| `tools/worksheet_leak.py` | 학생에게 건네는 영어 학습지에 **선생님용 답**이 새로 실리는 것 |
 | `tests/narrow.js` | 휴대폰 폭(360px)에서 화면이 옆으로 밀리는 것 |
 | `tests/first-paint.js` | 글꼴 창구가 늦을 때 화면이 빈 흰 종이가 되는 것 |
 | `tests/gate-down.js` | 창구가 죽었을 때 빈 화면이 되거나 아무 말도 안 하는 것 |
