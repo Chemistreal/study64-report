@@ -63,6 +63,7 @@ python3 tools/audit_pages.py --check     # 화면 전수 검수
 | `tools/audit_pages.py` | 글자 대비 4.5:1 미달 · 작은 글씨 · 빠진 뼈대 |
 | `tools/noindex.py` | 개인 리포트가 검색에 잡히는 것 |
 | `tools/js_syntax.py` | 화면 안 자바스크립트가 깨진 채 나가는 것 |
+| `tools/store_ledger.py` | 브라우저에 무엇을 남기는지 적어 두지 않는 것 |
 | `tools/font_block.py` | 바깥 글꼴이 첫 그림을 인질로 잡는 것 |
 | `tools/input_labels.py` | 입력칸에 이름이 없는 것 (125칸 전부 이름 있음) |
 

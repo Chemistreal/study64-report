@@ -73,3 +73,9 @@ jobs:
         run: |
           npm install --no-save jsdom
           node prism_regression.js
+      # 이 리포트는 브라우저에 **PRISM 기록과 라벨**을 남긴다 —
+      # prism_records_v1 · prism_labels_v1 은 지우면 잃는 것이다(시트에 없다).
+      # 그 사실을 목록에 적어 두고, 새 칸이 조용히 생기면 한 번 묻게 한다.
+      - name: 브라우저에 남기는 칸이 적어 둔 것뿐이다
+        timeout-minutes: 5
+        run: python3 tools/store_ledger.py --check
