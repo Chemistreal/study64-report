@@ -62,6 +62,17 @@ QORDER = ["Q1", "Q2", "Q3", "Q4"]
 # **안 담는 칸.** 이 이름이 곧 이 파일의 일이다
 HIDE = ("answer", "note")
 
+# 기준이 **가르는 말인가 셈인가.** T307 에 화면을 짜다가 알았다.
+#
+#     B가 5개 중 4개 이상 맞히면 성공.        <- 셈이다. 무엇이 맞음인지 안 적혀 있다
+#     B가 5개 중 4개 이상에서 앞의 것을 고르면 성공.   <- 가른다
+#
+# 앞엣것을 든 A는 기준으로 못 가른다. **아는 것으로 가르거나 못 가른다고 적는다.**
+# 규칙서 8.1 의 못 했을 때 칸이 그 자리를 이미 열어 뒀다.
+# 화면이 둘을 갈라 보여 준다. 안 가르면 A가 기준을 읽고 아무것도 못 얻는다.
+BARE = re.compile(r"^(B가\s*)?\d+개 중 \d+개(\s*이상)?(을|를)?\s*"
+                  r"(다\s*)?(맞히면|맞으면)?\s*성공\.?$")
+
 
 def plain(s):
     """화면으로 가는 글에서 마크다운 표시를 뺀다 (T292)."""
@@ -177,6 +188,8 @@ def main():
             "mat": [plain(m) for m in mat],
             # **`pass` 만 간다.** 이것이 기준이고 이 판의 전부다
             "pass": plain(a.get("pass", "")),
+            # 그 기준이 **가르는 말인가 셈인가.** 화면이 둘을 다르게 적는다
+            "splits": not bool(BARE.match(plain(a.get("pass", "")).strip())),
             "bIns": plain(b.get("instruction", "")),
             "bPass": plain(b.get("pass", "")),
         })
@@ -216,6 +229,7 @@ def main():
         "from": q0, "end": end, "swap": swap,
         "hidden": list(HIDE),
         "count": len(pool), "blank": len(blank), "noAnswer": noans,
+        "splits": sum(1 for c in pool if c["splits"]),
         "short": short,
         "cards": pool,
     }
@@ -242,11 +256,12 @@ def main():
     kinds = {}
     for c in pool:
         kinds[c["type"]] = kinds.get(c["type"], 0) + 1
+    sp = sum(1 for c in pool if c["splits"])
     print("out/data/flip.json / %s 이후 카드 %d장 (%s) / 한 판 %d장 / "
-          "안 여는 강 %d / **정답과 해설을 안 담았다**"
+          "안 여는 강 %d / **기준이 가르는 장 %d 셈뿐인 장 %d** / 정답과 해설을 안 담았다"
           % (q0, len(pool),
              " ".join("%s %d" % kv for kv in sorted(kinds.items())),
-             end, len(short)))
+             end, len(short), sp, len(pool) - sp))
     return 0
 
 

@@ -185,13 +185,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "flip.js",
-      "bytes": 39329,
-      "sha256": "10e3d39d1472255b3c3f00b612ef67d115b4037fd318a349facc32048ed21f87"
+      "bytes": 40351,
+      "sha256": "c745cc2af0845005ec4a0c070b46768ddcbe19bffd417e46d8ffc0a23d5995d9"
     },
     {
       "file": "flip.json",
-      "bytes": 49088,
-      "sha256": "20a871cc637d4772bd4f6742a278524735a1fde2cbe60466a86e1ad15a531a71"
+      "bytes": 50658,
+      "sha256": "f8cb2110bbd5d14bb56ee915534e25d05eeec690ef3599bd5848efe3012d46e5"
     },
     {
       "file": "lectures.js",

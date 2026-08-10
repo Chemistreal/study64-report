@@ -755,7 +755,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   padding:8px 9px;cursor:pointer;min-height:44px;overflow-wrap:anywhere}
 .mgpick:hover{border-color:var(--a1)}
 .mgpick.on{border-style:solid;border-color:var(--ok);background:var(--sub);font-weight:650}
-
 .vpane{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
 .vmine{flex:1 1 60%;min-width:0}
 .vmine>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
@@ -840,6 +839,12 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   overflow-wrap:anywhere}
 .clscue{font-size:2rem;font-weight:750;line-height:1;align-self:center;
   min-width:2.5ch;color:var(--acc)}
+
+.flpmat{margin:10px 0 6px;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:8px 12px}
+.flpmat>div{font-size:1rem;line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
+.flppass{margin:8px 0 6px;border:1px solid var(--acc);border-radius:12px;
+  padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
 
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
@@ -6323,7 +6328,8 @@ var PLAYS=[
   {id:"whose", name:"누구 말이야", track:"화용", min:4},
   {id:"reask", name:"못 알아들은 척", track:"repair", min:4},
   {id:"cutin", name:"끼어들기", track:"repair", min:3},
-  {id:"clash", name:"말 겹치기", track:"repair", min:4}
+  {id:"clash", name:"말 겹치기", track:"repair", min:4},
+  {id:"flip", name:"거꾸로 판정", track:"문법", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};

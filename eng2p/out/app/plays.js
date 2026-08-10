@@ -3037,3 +3037,201 @@ function clsReset(rec){
   clsCueStop(); clsClockStop(); CLSCLK.left=0; CLSCLK.over=false; renderClash();
 }
 PLAYREND.clash=renderClash;
+var FLP={seats:["판정하는 쪽","답하는 쪽"]};
+
+function flpPool(){
+  var d=DATA.flip, pl=(typeof plan==="function")?plan():null;
+  if(!d || !d.cards || !pl || !pl.cards || !pl.quarter) return [];
+  return d.cards.filter(function(c){
+    return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
+  });
+}
+function flpRec(){ return playRec("flip", {split:0, stuck:0, ids:[], deck:null}); }
+
+function flpDeck(){
+  var d=DATA.flip, pool=flpPool(), rec=flpRec();
+  if(!d || !pool.length) return [];
+  var by={}; pool.forEach(function(c){ by[c.id]=c; });
+  if(rec.deck && rec.deck.length){
+    var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
+    if(kept.length===rec.deck.length) return kept;
+  }
+  var out=[], ord=roundOrder(pool.length, roundSeed("flip",0));
+  for(var i=0;i<ord.length && out.length<d.end;i++) out.push(pool[ord[i]]);
+  rec.deck=out.map(function(c){ return c.id; });
+  save();
+  return out;
+}
+
+var FCLK={t:null, left:0, over:false};
+function flpClockStop(){ if(FCLK.t){ clearInterval(FCLK.t); FCLK.t=null; } }
+function flpClockText(){
+  if(FCLK.over) return "0:00";
+  var s=FCLK.left>0?FCLK.left:FLP.min*60;
+  return String(Math.floor(s/60))+":"+String(s%60).padStart(2,"0");
+}
+function flpClockGo(min){
+  if(FCLK.t){ flpClockStop(); return; }
+  if(FCLK.left<=0){ FCLK.left=min*60; FCLK.over=false; }
+  tone("start");
+  FCLK.t=setInterval(function(){
+    FCLK.left--;
+    var e=document.getElementById("flpClock");
+    if(!e){ flpClockStop(); return; }
+    if(FCLK.left<=0){
+      FCLK.over=true; flpClockStop(); tone("blockend"); renderFlip(); return;
+    }
+    e.textContent=flpClockText();
+  },1000);
+  var e=document.getElementById("flpClock"); if(e) e.textContent=flpClockText();
+}
+
+function flpDone(d, rec, head){
+  var h=head;
+  h+='<div class="note">기준으로 갈린 장이 <b>'+rec.split+'</b>이고 '+
+     '못 가른 장이 <b>'+rec.stuck+'</b>이다.</div>';
+  h+=playHalf(d.end);
+  if((rec.ids||[]).length){
+    h+='<div class="note w"><b>못 가른 카드 번호를 검증 대기열에 옮겨 적는다.</b> '+
+       '<span class="mono">'+rec.ids.map(esc).join(" ")+'</span><br>'+
+       '앱은 파일을 못 쓴다. 이것을 적어야 다음에 내가 본다.</div>';
+  }
+  h+='<div class="note"><b>못 가른 것은 진 것이 아니다.</b> '+
+     '기준에 무엇이 맞음인지가 안 적힌 카드가 있고 그것은 카드 탓이다. '+
+     '<b>정답은 앱 어디에도 없다.</b> 이 판은 정답을 안 싣는다.</div>';
+  return h+playGrade(d)+
+    '<div class="row" style="margin-top:10px">'+
+    '<button class="g" id="flpAgain">처음부터</button></div></div>';
+}
+
+function renderFlip(){
+  var box=$("#playPane"); if(!box) return;
+  var p=playById("flip");
+  FLP.min=p.min;
+  if(!DATA.flip){
+    box.innerHTML='<div class="card tight small mut">카드를 여는 중이다.</div>';
+    loadData("flip","ENG2P_FLIP",function(){ renderFlip(); });
+    return;
+  }
+  if(soloOn() && soloHanding()){
+    box.innerHTML='<div class="card">'+soloCover([S.names.a,S.names.b])+'</div>';
+    $("#soTake").onclick=function(){ soloTake(renderFlip); };
+    return;
+  }
+  var d=DATA.flip, pl=(typeof plan==="function")?plan():null;
+  var h='<div class="card">';
+
+  if(pl && pl.quarter && pl.quarter < d.from){
+    h+=playHead(p,0);
+    h+='<div class="note w" style="margin-top:10px"><b>이 판은 '+esc(d.from)+
+       ' 부터 돈다.</b> 문법 트랙이고 Q1 문법은 0퍼센트다. '+
+       '오늘은 '+esc(pl.quarter)+' 다. 다른 판을 연다.</div></div>';
+    box.innerHTML=h; return;
+  }
+
+  var deck=flpDeck();
+  if(deck.length < d.end){
+    h+=playHead(p,0);
+    h+='<div class="note w" style="margin-top:10px"><b>오늘은 이 판을 안 연다.</b> '+
+       '그날 강까지 나온 카드에서 '+d.end+'장을 뽑아야 하는데 '+deck.length+
+       '장뿐이다. 안 배운 카드를 드릴에 넣지 않는다.<br>'+
+       '<b>분기가 바뀌는 첫머리에 나는 일이다.</b> 다음 강이면 열린다.</div></div>';
+    box.innerHTML=h; return;
+  }
+
+  var s=roundStep("flip"), rec=flpRec();
+  h+=playHead(p,s);
+
+  if(FCLK.over){
+    box.innerHTML=flpDone(d, rec, h+
+      '<div class="note w" style="margin-top:10px"><b>'+FLP.min+'분이 됐다. 끝났다.</b> '+
+      '남은 장은 안 돈다.</div>');
+    $("#flpAgain").onclick=function(){ flpReset(rec); };
+    return;
+  }
+  if(s>=deck.length){
+    box.innerHTML=flpDone(d, rec, h+
+      '<div class="note g" style="margin-top:10px"><b>'+deck.length+
+      '장을 다 돌았다.</b></div>');
+    $("#flpAgain").onclick=function(){ flpReset(rec); };
+    return;
+  }
+
+  var c=deck[s], first=roundFirst(s, d.swap);
+  h+='<div class="row" style="margin-top:8px;justify-content:space-between">'+
+     '<span class="small mut">'+esc(c.id)+' · '+esc(c.type)+'형</span>'+
+     '<span class="small mut">'+(s+1)+' / '+deck.length+'장 · '+
+     '<b>한 장마다 자리가 바뀐다</b></span></div>';
+  h+='<div id="flpTurn"></div>';
+
+  if(first===null){
+    h+='<div class="note w" style="margin-top:10px"><b>기기 쪽을 안 골랐다.</b> '+
+       '한 기기로 도는 날이면 이대로 돈다. 재료를 답하는 사람이 안 보게 든다.</div>';
+  }
+
+  if(first===null || first===true){
+    h+='<div class="note" style="margin-top:10px"><b>판정하는 쪽이다.</b> '+
+       esc(c.ins)+'</div>';
+    h+='<div class="flpmat">'+c.mat.map(function(m,i){
+         return '<div><span class="lno">'+(i+1)+'</span>'+esc(m)+'</div>';
+       }).join("")+'</div>';
+    h+='<div class="flppass"><b>기준</b><br>'+esc(c.pass)+'</div>';
+    if(c.splits){
+      h+='<div class="note g"><b>이 기준은 무엇이 맞음인지를 적고 있다.</b> '+
+         '그대로 가른다.</div>';
+    }else{
+      h+='<div class="note w"><b>이 기준은 셈만 적고 있다.</b> '+
+         '무엇이 맞음인지가 카드에 안 적혀 있다. '+
+         '<b>아는 것으로 가르고 안 되면 못 가른다고 누른다.</b> '+
+         '못 가른 것은 네 탓이 아니라 카드 탓이다.</div>';
+    }
+    h+='<div class="note"><b>정답은 이 화면에 없다.</b> '+
+       '앱 어디에도 없고 자료에도 안 실려 있다. <b>그것이 이 판이다.</b></div>';
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="b" id="flpSplit">기준으로 갈렸다</button>'+
+       '<button class="g" id="flpStuck">못 가른다</button></div>';
+  }else{
+    h+='<div class="note" style="margin-top:10px"><b>답하는 쪽이다.</b> '+
+       esc(c.bIns)+'</div>';
+    h+=veilPane([], c.mat, "판정하는 쪽", []);
+    h+='<div class="note"><b>문장은 저쪽 화면에만 있다.</b> '+
+       '듣고 답한다. 읽고 답하는 것이 아니다.</div>';
+    h+='<div class="small mut" style="margin-top:6px">이 자리 기준 <b>'+
+       esc(c.bPass)+'</b></div>';
+    h+='<div class="note w" style="margin-top:10px"><b>누르는 것은 저쪽이다.</b> '+
+       '다음 장에서 자리가 바뀐다.</div>';
+  }
+
+  h+='<div class="small mut" style="margin-top:8px">갈린 장 <b>'+rec.split+
+     '</b> · 못 가른 장 <b>'+rec.stuck+'</b> <span class="mut">(이 기기 몫)</span></div>';
+  if(soloOn())
+    h+='<div class="note" style="margin-top:8px"><b>기기가 하나다.</b> '+
+       '판정하는 쪽이 들고 <b>'+d.swap+'장마다 건넨다.</b> '+
+       '재료가 이 화면에 있다. 답할 사람이 보면 듣는 것이 아니라 읽는 것이 된다.</div>'+
+       '<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="flpHand">건넨다</button></div>';
+  h+='<div class="row" style="margin-top:10px">'+
+     '<button class="g" id="flpGo">'+FLP.min+'분 시계 <span class="mono" id="flpClock">'+
+     flpClockText()+'</span></button></div>'+playGrade(d)+'</div>';
+  box.innerHTML=h;
+
+  if(turnCheck("flip", s, d.swap)) turnAlert(s, d.swap, FLP.seats, "flpTurn");
+  $("#flpGo").onclick=function(){ flpClockGo(FLP.min); };
+  if($("#flpHand")) $("#flpHand").onclick=function(){ soloHandOff(renderFlip); };
+  function step(){ save(); roundStepSet("flip", s+1); renderFlip(); }
+  if($("#flpSplit")) $("#flpSplit").onclick=function(){
+    rec.split++; tone("done"); step();
+  };
+  if($("#flpStuck")) $("#flpStuck").onclick=function(){
+    rec.stuck++;
+    if(!rec.ids) rec.ids=[];
+    if(rec.ids.indexOf(c.id)<0) rec.ids.push(c.id);
+    step();
+  };
+}
+function flpReset(rec){
+  roundStepSet("flip",0); turnForget("flip");
+  rec.split=0; rec.stuck=0; rec.ids=[]; rec.deck=null; save();
+  flpClockStop(); FCLK.left=0; FCLK.over=false; renderFlip();
+}
+PLAYREND.flip=renderFlip;
