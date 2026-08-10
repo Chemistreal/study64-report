@@ -344,6 +344,9 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .chnpool .small{flex:1 0 100%;margin-bottom:2px}
 .chnk{border:1px solid var(--edge);border-radius:99px;background:var(--card2);
   padding:5px 11px;font-size:0.84375rem}
+/* 겹치면 지운다 (T276). 맞힐 것은 둘 다 본다. 크게 둔다. */
+.ovltgt{font-size:1.75rem;font-weight:750;letter-spacing:-.02em;margin:4px 0 4px;
+  overflow-wrap:anywhere}
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}

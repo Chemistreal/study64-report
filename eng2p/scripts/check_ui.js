@@ -1549,7 +1549,13 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (m.now !== 1) bad.push("이번 주 표시가 " + m.now + "개다");
     if (m.done !== 19) bad.push("지나온 주가 " + m.done + "개다. 19여야 한다");
     if (m.q !== 3) bad.push("분기 금이 " + m.q + "개다. 셋이어야 한다");
-    if (m.lit !== 120) bad.push("채운 날이 " + m.lit + "개다. 120이어야 한다");
+    /* **채운 날은 지나온 주에서 나온다.** 한 주가 엿새고 이번 주는 아직 도는 중이다.
+       그래서 `지나온 주 x 6` 에서 `+ 6` 까지가 맞는 자리다.
+       120으로 박아 두면 날짜가 하루 넘어가는 순간 119가 되고 빨간불이 된다.
+       실제로 자정을 넘기며 그렇게 났다. T276 */
+    const litLo = m.done * 6, litHi = m.done * 6 + 6;
+    if (m.lit < litLo || m.lit > litHi)
+      bad.push("채운 날이 " + m.lit + "개다. " + litLo + "에서 " + litHi + " 사이여야 한다");
     if (m.idx !== 0 || m.sess) bad.push("길 지도가 세션을 건드렸다");
 
     await p6.click('[data-w="20"]');
@@ -2493,11 +2499,27 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!rd.opp) bad.push("두 기기가 같은 자리가 되는 회가 있다");
     if (rd.mine !== rd.yours || rd.mine + rd.yours !== 16)
       bad.push("열여섯 회에서 자리가 " + rd.mine + " 대 " + rd.yours + " 다. 반반이어야 한다");
-    if (rd.e1.join("") !== "010101") bad.push("한 회마다 안 돈다: " + rd.e1.join(""));
-    if (rd.e3.join("") !== "000111000") bad.push("세 회마다 안 돈다: " + rd.e3.join(""));
+    /* **어느 쪽으로 시작하는지는 안 본다. 도는지만 본다.**
+       `roundFirst` 는 `deviceSide()` 를 타고 그것은 `roleOf(오늘)` 을 탄다.
+       `roleOf` 는 날짜 홀짝이라 **날마다 통째로 뒤집힌다** (T216).
+       기대값을 "010101" 로 박아 두면 이틀에 하루 빨간불이 된다.
+       실제로 그렇게 났다. 앱이 깨진 것이 아니라 검사가 하루만 맞게 적혀 있었다.
+       T253 에 `check_pair.js` 를 여러 날 훑게 고쳤는데 여기는 안 고쳤다. T276 */
+    const turns = (a, every) => {
+      for (let i = 1; i < a.length; i++) {
+        const want = (Math.floor(i / every) !== Math.floor((i - 1) / every));
+        if ((a[i] !== a[i - 1]) !== want) return false;
+      }
+      return true;
+    };
+    if (!turns(rd.e1, 1)) bad.push("한 회마다 안 돈다: " + rd.e1.join(""));
+    if (!turns(rd.e3, 3)) bad.push("세 회마다 안 돈다: " + rd.e3.join(""));
     if (rd.next.join(",") !== "4,4,8") bad.push("다음 바뀌는 회를 틀리게 센다: " + rd.next.join(","));
     if (rd.paMine === rd.pbMine) bad.push("두 기기가 같은 몫을 본다: " + rd.paMine);
-    if (rd.pa !== "뒤앞" || rd.pb !== "앞뒤") bad.push("몫이 서로 안 채운다: " + rd.pa + " " + rd.pb);
+    /* 어느 기기가 앞을 보는지는 날마다 뒤집힌다. **서로 채우는지만 본다.** */
+    if (rd.pa === rd.pb || rd.pa.split("").sort().join("") !== "뒤앞" ||
+        rd.pb.split("").sort().join("") !== "뒤앞")
+      bad.push("몫이 서로 안 채운다: " + rd.pa + " " + rd.pb);
     if (rd.noneFirst !== null) bad.push("기기 쪽을 안 골랐는데 자리를 정한다");
     if (!rd.noneBoth || rd.noneMine !== 2)
       bad.push("기기 쪽을 안 골랐는데 한쪽을 가린다. 볼 사람이 하나뿐인 날이다");
