@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 서른하나와 검사 스물아홉과 상태 갱신 셋, 예순셋을 정해진 순서로 돈다.
+**한 줄이다.** 파생 서른둘과 검사 스물아홉과 상태 갱신 셋, 예순넷을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -139,6 +139,7 @@ scripts/derive_clash.py 말 겹치기가 쓸 두 줄. **한 회가 두 줄이다
 scripts/derive_flip.py 거꾸로 판정이 쓸 카드. **정답과 해설을 안 담는다.** Q2 이후 68장
 scripts/derive_apart.py 따로 쓰고 같이 펴기의 물음. **강의에 물음이 없다.** 소재만 뽑는다
 scripts/derive_onepick.py 오늘의 한 판이 그날 열 판. **그날 열리는 판만.** 288일 무작위 없음
+scripts/derive_blocks.py 스무 판이 블록 넷 중 어디에 붙나. **블록 1은 비어 있고 그것이 맞다**
 docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무엇이 종이에만 있나
 docs/pair.md           기기 둘. 무엇이 갈리고 무엇이 건너가야 하는가. **셈은 코드로 글은 파일로**
 docs/merge.md          합치기. **덮는 것이 아니다.** 갈래 넷과 묻는 일곱
@@ -179,6 +180,7 @@ docs/play.md          2인 놀이 원칙 여섯 확정판. 부딪치는 자리�
 docs/play_rules.md    스무 판 규칙서. 판마다 아홉 줄. 이 파일이 check_play.py 의 원본
 docs/play_data.md     판마다 쓸 자료를 out/data 와 대조. 없다고 적은 것을 찾은 표
 docs/solo_plays.md    기기가 하나인 날 스무 판이 어떻게 도는가. **셋은 종이가 있어야 한다**
+docs/play_blocks.md   판이 세션 어디에 붙나. **블록 1은 비어 있고 그것이 맞다**
 docs/play_app.md      판 화면. 규칙서 아홉 줄이 화면의 어디로 가는가. 거울부터
 docs/bench_verdict.md 채용 열여섯과 기각 열. 다섯 문서와 12.7 을 합친 확정판
 docs/bench_axes.md    앱 서른둘을 열여섯 축에. **빈 자리가 이 과정의 자리다**
