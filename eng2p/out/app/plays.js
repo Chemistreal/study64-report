@@ -3616,3 +3616,120 @@ function rclReset(rec){
   rclClockStop(); RCLK.left=0; RCLK.over=false; renderRecall();
 }
 PLAYREND.recall=renderRecall;
+var ODY={};
+
+function odyJo(s, a, b){
+  var t=String(s||""), c=t.charCodeAt(t.length-1);
+  var fin=(c>=0xAC00 && c<=0xD7A3) ? (c-0xAC00)%28 : 0;
+  var has=(a==="으로") ? (fin>0 && fin!==8) : (fin>0);
+  return t+(has?a:b);
+}
+
+function odyGrade(){
+  return playGrade({grade:"A",
+    gradeWhy:"영어가 없다. 어느 판을 여는가만 적는다. 여는 판의 등급은 "+
+             "그 판이 제 화면에서 말한다."});
+}
+
+function odySlot(){
+  var rec=(typeof day==="function") ? day(today()) : null;
+  if(!rec || rec.status!=="normal") return null;
+  var i=(typeof doneSessions==="function" ? doneSessions() : 0)-1;
+  if(i<0 || i>287) return null;
+  return {i:i, w:Math.floor(i/6)+1, d:(i%6)+1};
+}
+function odyRow(){
+  var d=DATA.onepick, s=odySlot();
+  if(!d || !d.days || !s) return null;
+  var r=d.days[s.i];
+  if(!r || r.w!==s.w || r.d!==s.d) return null;
+  return {row:r, slot:s};
+}
+function odyRec(){ return playRec("oneday", {opened:0, done:0, pick:null}); }
+
+function renderOneday(){
+  var box=$("#playPane"); if(!box) return;
+  var p=playById("oneday");
+  if(!DATA.onepick){
+    box.innerHTML='<div class="card tight small mut">오늘 판을 여는 중이다.</div>';
+    loadData("onepick","ENG2P_ONEPICK",function(){ renderOneday(); });
+    return;
+  }
+  var d=DATA.onepick, rec=odyRec();
+  var h='<div class="card">'+playHead(p, rec.opened?1:0);
+
+  var got=odyRow();
+  if(!got){
+    var rc=(typeof day==="function") ? day(today()) : null;
+    var late=rc && rc.status==="normal";
+    h+='<div class="note w" style="margin-top:10px"><b>아직 안 열린다.</b> '+
+       (late ? '오늘 자리가 표에 없다. 288일을 다 돈 뒤다.'
+             : '<b>그날 세션을 마쳐야 열린다.</b> 두 시간을 다 돌고 '+
+               '세션 끝을 누르면 이 자리가 열린다.')+'</div>';
+    h+='<div class="note">이 판은 <b>덤이다.</b> 세션이 먼저다. '+
+       '이것 때문에 세션을 서두르면 거꾸로다.</div>';
+    box.innerHTML=h+odyGrade()+'</div>'; return;
+  }
+
+  var pick=got.row.pick, pl=playById(pick);
+  var name=pl ? pl.name : pick;
+  var unknown=(d.unknown||[]).indexOf(pick)>=0;
+
+  h+='<div class="row" style="margin-top:8px;justify-content:space-between">'+
+     '<span class="small mut">'+got.slot.w+'주 '+got.slot.d+'일 · '+
+     (got.slot.i+1)+' / '+d.count+'일째</span>'+
+     '<span class="small mut">고를 판이 '+got.row.cand+'개였다</span></div>';
+
+  if(rec.done){
+    h+='<div class="note g" style="margin-top:10px"><b>오늘 것은 끝났다.</b> '+
+       '오늘 판은 <b>'+esc(odyJo(name,"이었다","였다"))+
+       '.</b> <b>다시 안 열린다.</b></div>';
+    h+='<div class="note">더 하고 싶으면 <b>판 탭에서 아무 판이나 돈다.</b> '+
+       '그것은 막지 않는다. 막는 것은 <b>이 자리 하나</b>다. '+
+       '날마다 하나씩 오는 것이 이 판의 전부다.</div>';
+    box.innerHTML=h+odyGrade()+'</div>'; return;
+  }
+
+  h+='<div class="odyname"><span class="small mut">오늘의 한 판</span><br>'+
+     '<b>'+esc(name)+'</b>'+
+     (pl ? ' <span class="small mut">'+esc(pl.track)+' '+pl.min+'분</span>' : '')+
+     '</div>';
+
+  if(unknown){
+    h+='<div class="note" style="margin-top:8px">이 판은 <b>기기마다 기록이 달라서</b> '+
+       '표가 미리 못 가린 판이다. <b>한 기기만 안 열릴 수도 있다.</b> '+
+       '열어 보고 그 판이 하는 말을 따른다.</div>';
+  }
+
+  if(!rec.opened){
+    h+='<div class="note w" style="margin-top:10px"><b>한 번 열면 못 무른다.</b> '+
+       '오늘은 이 판 하나다. <b>더 하고 싶어도 이 자리는 다시 안 열린다.</b> '+
+       '그것이 이 판의 전부다. 하루에 스무 판을 다 돌면 사흘이면 질린다.</div>';
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="b" id="odyGo">'+esc(odyJo(name,"을","를"))+' 연다</button></div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>둘이 같이 누른다.</b> 두 기기가 같은 판을 연다. '+
+       '표가 같으니 이름도 같다. 다르면 한쪽이 자료를 못 읽은 것이다.</div>';
+  }else{
+    h+='<div class="note" style="margin-top:10px"><b>오늘 것은 열었다.</b> '+
+       '<b>'+esc(name)+'</b>'+odyJo(name,"을","를").slice(name.length)+' 판 탭에서 이어서 돈다. '+
+       '판이 끝나면 여기로 돌아와 아래를 누른다.</div>';
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="b" id="odyGo">'+esc(odyJo(name,"으로","로"))+' 간다</button>'+
+       '<button class="g" id="odyEnd">다 돌았다</button></div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>다 돌았다는 판정이 아니다.</b> 셈은 그 판이 적었다. '+
+       '이 단추는 <b>오늘 자리를 닫는 것</b>이다.</div>';
+  }
+
+  box.innerHTML=h+odyGrade()+'</div>';
+
+  if($("#odyGo")) $("#odyGo").onclick=function(){
+    rec.opened=1; rec.pick=pick; saveNow();
+    PLAY.at=pick; renderPlayTab();
+  };
+  if($("#odyEnd")) $("#odyEnd").onclick=function(){
+    rec.done=1; saveNow(); tone("done"); renderOneday();
+  };
+}
+PLAYREND.oneday=renderOneday;

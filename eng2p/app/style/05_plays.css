@@ -224,3 +224,8 @@ body.veil-on>*:not(.veilcover){display:none}
   padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
 .rcld{font-size:.875rem;padding:2px 8px;border-radius:999px;
   border:1px solid var(--edge);background:var(--bg2)}
+
+/* 오늘의 한 판 (T316). 이름 하나가 이 화면의 전부다. 크게 둔다. */
+.odyname{margin:10px 0 6px;border:1px solid var(--acc);border-radius:12px;
+  padding:12px;line-height:1.5}
+.odyname b{font-size:1.25rem}

@@ -42,7 +42,8 @@ var PLAYS=[
   {id:"clash", name:"말 겹치기", track:"repair", min:4},
   {id:"flip", name:"거꾸로 판정", track:"문법", min:5},
   {id:"apart", name:"따로 쓰고 같이 펴기", track:"전 트랙", min:5},
-  {id:"recall", name:"어제 그거", track:"복습", min:5}
+  {id:"recall", name:"어제 그거", track:"복습", min:5},
+  {id:"oneday", name:"오늘의 한 판", track:"전 트랙", min:5}
 ];
 /* 판을 그리는 자리. **`app/play/` 조각이 여기에 자기를 넣는다.**
    목록에 있는데 여기 없으면 아직 안 읽은 것이다. 읽고 나서 다시 그린다. */
@@ -67,8 +68,8 @@ function renderPlayTab(){
   });
   /* **스무 판 중 몇이 붙었는지를 적는다.** 안 적으면 하나뿐인 목록을 보고
      이것이 전부인 줄 안다. 나머지는 없는 것이 아니라 아직 안 만든 것이다. */
-  h+='<span class="small mut">스무 판 중 '+PLAYS.length+'개가 화면에 붙었다. '+
-     '나머지는 규칙 카드와 종이로 돈다.</span>';
+  h+='<span class="small mut">스무 판 중 '+PLAYS.length+'개가 화면에 붙었다.'+
+     (PLAYS.length<20 ? ' 나머지는 규칙 카드와 종이로 돈다.' : ' <b>다 붙었다.</b>')+'</span>';
   list.innerHTML=h;
   list.querySelectorAll("[data-play]").forEach(function(b){
     b.onclick=function(){

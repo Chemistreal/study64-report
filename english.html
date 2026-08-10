@@ -908,6 +908,10 @@ body.veil-on>*:not(.veilcover){display:none}
   padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
 .rcld{font-size:.875rem;padding:2px 8px;border-radius:999px;
   border:1px solid var(--edge);background:var(--bg2)}
+
+.odyname{margin:10px 0 6px;border:1px solid var(--acc);border-radius:12px;
+  padding:12px;line-height:1.5}
+.odyname b{font-size:1.25rem}
 </style>
 </head>
 <body class="side-none">
@@ -5977,7 +5981,8 @@ var PLAYS=[
   {id:"clash", name:"말 겹치기", track:"repair", min:4},
   {id:"flip", name:"거꾸로 판정", track:"문법", min:5},
   {id:"apart", name:"따로 쓰고 같이 펴기", track:"전 트랙", min:5},
-  {id:"recall", name:"어제 그거", track:"복습", min:5}
+  {id:"recall", name:"어제 그거", track:"복습", min:5},
+  {id:"oneday", name:"오늘의 한 판", track:"전 트랙", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};
@@ -5997,8 +6002,8 @@ function renderPlayTab(){
     h+='<button class="'+(PLAY.at===p.id?"b":"g")+'" data-play="'+esc(p.id)+'">'+
        esc(p.name)+' <span class="small mut">'+esc(p.track)+' '+p.min+'분</span></button>';
   });
-  h+='<span class="small mut">스무 판 중 '+PLAYS.length+'개가 화면에 붙었다. '+
-     '나머지는 규칙 카드와 종이로 돈다.</span>';
+  h+='<span class="small mut">스무 판 중 '+PLAYS.length+'개가 화면에 붙었다.'+
+     (PLAYS.length<20 ? ' 나머지는 규칙 카드와 종이로 돈다.' : ' <b>다 붙었다.</b>')+'</span>';
   list.innerHTML=h;
   list.querySelectorAll("[data-play]").forEach(function(b){
     b.onclick=function(){
