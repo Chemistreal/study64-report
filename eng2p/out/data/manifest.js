@@ -115,13 +115,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "wall.js",
-      "bytes": 56708,
-      "sha256": "496512f1d9198fb0e27e73d5267d8aea49f50c599279b2ee81253078b33a7e0e"
+      "bytes": 57918,
+      "sha256": "bb10c3c2d6fcb69fb0bd60eda0b7e256ce4889fb387fb2271ab60e6847e79960"
     },
     {
       "file": "wall.json",
-      "bytes": 71460,
-      "sha256": "f91ada6d0af78c5518d1f64533be22f39fa94165dfcde1d5a93cb2fc8e9a552d"
+      "bytes": 73422,
+      "sha256": "723dd1d434215bbdf8fd675b88944008b5ae41d5580b08e39105d8656eb4b94d"
     },
     {
       "file": "lectures.js",

@@ -149,6 +149,12 @@ def main():
             "pass": a.get("pass", ""),
             "bIns": b.get("instruction", ""),
             "bPass": b.get("pass", ""),
+            # **받는 쪽이 재료를 눈으로 봐야 하는 장인가.** 단서는 띄우는 쪽
+            # 화면에 있는 것이 원칙인데(역할 이름이 그렇다) 받는 쪽이 그 낱말을
+            # 그대로 읽어야 하는 장이 있다. 그 장은 화면을 돌려 줘야 한다.
+            # `읽는다` 로 잡는다. `읽은` 은 띄운 쪽이 읽은 것을 가리키는 말이라
+            # 안 잡힌다 (Q2-053 "빠르게 읽은 문장에서 강세 낱말만 말한다").
+            "show": bool(re.search(r"읽는다", b.get("instruction", ""))),
         })
     pool.sort(key=lambda c: (QORDER.index(c["q"]), c["no"]))
 
@@ -195,9 +201,12 @@ def main():
     secs = sorted(set(c["sec"] for c in pool))
     print("out/data/wall.json / 단서 %d장 (압박형 %d초 이하 %d장 중 "
           "재료가 빈 %d장을 뺐다) / 초 %s / %d장을 돌고 %d장마다 바뀐다 / "
+          "받는 쪽이 눈으로 봐야 하는 장 %d개 / 정답이 붙은 장 %d개 / "
           "열 장이 안 모이는 강 %d개"
           % (len(pool), CAP, len(tight), len(blank),
-             " ".join(str(s) for s in secs), end, swap, len(short)))
+             " ".join(str(s) for s in secs), end, swap,
+             len([c for c in pool if c["show"]]),
+             len([c for c in pool if c["ans"]]), len(short)))
     return 0
 
 

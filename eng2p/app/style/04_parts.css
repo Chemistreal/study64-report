@@ -357,6 +357,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .ladrow.on{background:var(--sub);color:var(--fg);font-weight:600}
 .ladrow.on b{color:var(--acc)}
 .ladrow.past{opacity:.55}
+/* 3초 벽 (T283). **초를 센다. 분이 아니다.** 제일 짧은 카드가 2초다.
+   상 건너에서 둘이 같이 본다. 받는 쪽이 시계를 못 보면 압박이 안 된다. */
+.walclock{display:flex;gap:12px;align-items:baseline;margin:12px 0 4px;
+  border:1px solid var(--edge);border-radius:12px;background:var(--bg2);padding:10px 14px}
+.walclock b{font-size:2.6rem;font-weight:750;line-height:1;min-width:2ch}
+.walclock span{font-size:0.8125rem;color:var(--mut)}
+.walclock.relay{border-color:var(--warn);background:var(--sub)}
+.walmat{margin-top:10px}
+.walmat>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
+  background:var(--bg2);margin-bottom:6px;overflow-wrap:anywhere;font-size:1.0625rem}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}

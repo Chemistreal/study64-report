@@ -1492,3 +1492,217 @@ function renderLadder(){
   };
 }
 PLAYREND.ladder=renderLadder;
+var WAL={seats:["단서를 띄우는 쪽","받는 쪽"], stage:"ask"};
+
+function walPool(){
+  var d=DATA.wall, pl=(typeof plan==="function")?plan():null;
+  if(!d || !d.cards || !pl || !pl.cards || !pl.quarter) return [];
+  return d.cards.filter(function(c){
+    return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
+  });
+}
+function walRec(){ return playRec("wall", {hit:0, done:0, defer:[], deck:null}); }
+
+function walDeck(){
+  var d=DATA.wall, pool=walPool(), rec=walRec();
+  if(!d || !pool.length) return [];
+  var by={}; pool.forEach(function(c){ by[c.id]=c; });
+  if(rec.deck && rec.deck.length){
+    var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
+    if(kept.length===rec.deck.length) return kept;
+  }
+  var out=[], used={};
+  (rec.defer||[]).forEach(function(id){
+    if(by[id] && !used[id]){ out.push(by[id]); used[id]=1; }
+  });
+  var rest=pool.filter(function(c){ return !used[c.id]; });
+  var ord=roundOrder(rest.length, roundSeed("wall",0));
+  for(var i=0;i<ord.length && out.length<d.end;i++) out.push(rest[ord[i]]);
+  out=out.slice(0, d.end);
+  rec.deck=out.map(function(c){ return c.id; });
+  save();
+  return out;
+}
+
+var WCLK={t:null, left:0, over:false};
+function walClockStop(){ if(WCLK.t){ clearInterval(WCLK.t); WCLK.t=null; } }
+function walClockReset(){ walClockStop(); WCLK.left=0; WCLK.over=false; }
+function walClockText(sec){
+  if(WCLK.over) return "0";
+  return String(WCLK.left>0 ? WCLK.left : sec);
+}
+function walClockGo(sec){
+  if(WCLK.t){ walClockStop(); return; }
+  WCLK.left=sec; WCLK.over=false;
+  tone("start");
+  WCLK.t=setInterval(function(){
+    WCLK.left--;
+    var e=document.getElementById("walClock");
+    if(!e){ walClockStop(); return; }
+    if(WCLK.left<=0){
+      WCLK.over=true; walClockStop(); tone("blockend");
+      if(WAL.stage==="ask") WAL.stage="relay";
+      renderWall();
+      return;
+    }
+    e.textContent=walClockText(sec);
+  },1000);
+  var e=document.getElementById("walClock"); if(e) e.textContent=walClockText(sec);
+}
+
+function renderWall(){
+  var box=$("#playPane"); if(!box) return;
+  var p=playById("wall");
+  if(!DATA.wall){
+    box.innerHTML='<div class="card tight small mut">단서를 여는 중이다.</div>';
+    loadData("wall","ENG2P_WALL",function(){ renderWall(); });
+    return;
+  }
+  var d=DATA.wall, pool=walPool();
+
+  if(pool.length < d.end){
+    box.innerHTML='<div class="card">'+playHead(p,0)+
+      '<div class="note w" style="margin-top:10px"><b>아직 이 판은 안 연다.</b> '+
+      '오늘까지 나온 단서가 <b>'+pool.length+'장</b>이고 이 판은 <b>'+d.end+
+      '장</b>을 돈다. 안 배운 카드를 앞당겨 쓰지 않는다.</div>'+
+      '<div class="note">모자란 날에 같은 장을 두 번 내지 않는다. '+
+      '<b>받는 쪽이 이미 본 단서는 압박이 아니다.</b> 두 번째에는 답을 아는 채로 잰다.</div>'+
+      '<div class="note">그 사이에는 같은 자동화 트랙의 다른 판을 돈다.</div>'+
+      playGrade(d)+'</div>';
+    return;
+  }
+
+  var deck=walDeck(), s=roundStep("wall"), rec=walRec();
+
+  if(soloOn() && soloHanding()){
+    box.innerHTML='<div class="card">'+soloCover([S.names.a,S.names.b])+'</div>';
+    $("#soTake").onclick=function(){ soloTake(renderWall); };
+    return;
+  }
+
+  var h='<div class="card">'+playHead(p,s);
+
+  if(s>=deck.length){
+    h+='<div class="note g" style="margin-top:10px"><b>'+deck.length+
+       '장을 다 돌았다.</b> 그중 <b>'+rec.hit+'장</b>을 시간 안에 받았다.</div>';
+    h+='<div class="note">규칙서가 남기라는 값은 <b>시간 안에 받은 장 수</b>다. '+
+       '<b>누가 받았는지는 안 센다.</b> 대신 받은 것도 받은 것이다.</div>';
+    h+=playHalf(d.end+"장 중 시간 안에 받은 장 수");
+    if((rec.defer||[]).length)
+      h+='<div class="note w">둘 다 못 받은 <b>'+rec.defer.length+
+         '장</b>은 다음 판으로 미뤘다. 다음 판이 그것부터 낸다.</div>';
+    h+=playGrade(d);
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="walAgain">처음부터</button></div></div>';
+    box.innerHTML=h;
+    $("#walAgain").onclick=function(){
+      roundStepSet("wall",0); turnForget("wall");
+      rec.hit=0; rec.done=0; rec.deck=null; save();
+      WAL.stage="ask"; walClockReset(); renderWall();
+    };
+    return;
+  }
+
+  var it=deck[s], first=roundFirst(s, d.swap);
+  if(first===null){
+    h+='<div class="note w" style="margin-top:10px"><b>이 판은 이대로 안 돈다.</b> '+
+       '정답이 붙은 장이 있어 받는 쪽에 안 보여야 하는데 이 기기는 어느 쪽인지를 모른다. '+
+       '대장 탭에서 이 기기 쪽을 고르거나, 기기가 하나면 규칙 탭에서 '+
+       '<b>돌려 보기</b>를 켠다.</div></div>';
+    box.innerHTML=h; return;
+  }
+
+  h+='<div class="row" style="margin-top:8px;justify-content:space-between">'+
+     '<span>이 기기 자리 <b>'+esc(first?WAL.seats[0]:WAL.seats[1])+'</b>'+
+     (soloOn()?' <span class="small mut">(돌려 보기)</span>':'')+'</span>'+
+     '<span class="small mut">'+(s+1)+' / '+deck.length+'장 · '+esc(it.id)+'</span></div>';
+
+  h+='<div class="walclock'+(WAL.stage==="relay"?" relay":"")+'">'+
+     '<b class="mono" id="walClock">'+(first?walClockText(it.sec):String(it.sec))+'</b>'+
+     '<span>'+it.sec+'초 · '+
+     (first ? (WAL.stage==="relay"?"대신 받는 차례":"받는 차례")
+            : "띄우는 쪽이 잰다")+'</span></div>';
+
+  if(WAL.stage==="relay")
+    h+='<div class="note w"><b>시간이 지났다. 상대가 대신 받는다.</b> '+
+       '같은 '+it.sec+'초를 준다. <b>대신 받은 것도 받은 것으로 센다.</b></div>';
+
+  if(first)
+    h+='<div class="walmat">'+
+       it.mat.map(function(x,i){
+         return '<div><span class="lno">'+(i+1)+'</span>'+esc(x)+'</div>';
+       }).join("")+'</div>';
+
+  if(first){
+    h+='<div class="note" style="margin-top:10px"><b>띄우는 쪽이 할 일</b><br>'+
+       esc(it.ins)+'</div>';
+    if(it.ans)
+      h+='<div class="note g"><b>정답</b> <span class="mono">'+esc(it.ans)+'</span><br>'+
+         '<span class="small">받는 쪽 화면에는 이 줄이 없다. 소리 내어 읽지 않는다.</span></div>';
+    if(it.note)
+      h+='<div class="small mut" style="margin-top:6px">'+esc(it.note)+'</div>';
+    h+='<div class="note"><b>판정</b> '+esc(it.pass)+'</div>';
+    if(it.show)
+      h+='<div class="note w"><b>이 장은 받는 쪽이 눈으로 읽는다.</b> '+
+         '시계를 세우면서 화면을 상대 쪽으로 돌린다.'+
+         (it.ans?' <b>정답 줄은 손으로 가린다.</b>':'')+'</div>';
+  }else{
+    h+='<div class="note" style="margin-top:10px"><b>받는 쪽이 할 일</b><br>'+
+       esc(it.bIns)+'</div>';
+    h+='<div class="note"><b>됐다고 보는 선</b> '+esc(it.bPass)+'</div>';
+    h+='<div class="vpane"><div class="vhid" aria-hidden="true"><span>'+
+       (it.show ? "이 장은 띄우는 쪽이 화면을 돌려 준다"
+                : "단서는 띄우는 쪽 화면에 있다")+
+       '</span></div></div>';
+  }
+
+  if(first){
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="b" id="walGo">'+(WCLK.t?"멈춘다":it.sec+"초 재기")+'</button>'+
+       '<button class="g" id="walHit">'+
+       (WAL.stage==="relay"?"대신 받았다":"시간 안에 받았다")+'</button>'+
+       (WAL.stage==="relay"?'<button class="g" id="walMiss">둘 다 못 받았다</button>':"")+
+       '</div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>판정은 띄운 사람이 한다.</b> 이 기기 셈 <b>'+rec.hit+'</b>장. '+
+       '<b>누가 받았는지는 안 센다.</b> 대신 받은 것도 받은 것이다.</div>';
+  }else{
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="walNext">다음 장</button>'+
+       '<button class="g" id="walDefer">둘 다 못 받았다고 한다</button></div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>이 자리에는 판정할 것이 없다.</b> 받았는지는 띄운 사람이 정한다. '+
+       '뒤엣단추는 판정이 아니라 <b>그쪽이 말한 것을 이 기기에도 적는 것</b>이다. '+
+       '안 적으면 다음 판에 두 기기가 다른 장을 낸다. 이 기기 셈 <b>'+rec.hit+'</b>장.</div>';
+  }
+  if(soloOn())
+    h+='<div class="note" style="margin-top:8px"><b>기기가 하나다.</b> '+
+       '띄우는 쪽이 들고 <b>'+d.swap+'장마다 건넨다.</b> 정답이 붙은 장이 있다.</div>';
+
+  h+='<div id="walTurn"></div>';
+  if(soloOn())
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="walHand">건넨다</button></div>';
+  h+=playGrade(d)+'</div>';
+  box.innerHTML=h;
+
+  if($("#walGo")) $("#walGo").onclick=function(){ walClockGo(it.sec); };
+  if($("#walHand")) $("#walHand").onclick=function(){ soloHandOff(renderWall); };
+
+  function nextCard(hit, defer){
+    walClockReset();
+    if(hit) rec.hit++;
+    rec.done++;
+    if(defer && (rec.defer||[]).indexOf(it.id)<0) rec.defer.push(it.id);
+    save();
+    WAL.stage="ask";
+    roundStepSet("wall", s+1);
+    renderWall();
+    if(turnCheck("wall", s+1, d.swap)) turnAlert(s+1, d.swap, WAL.seats, "walTurn");
+  }
+  if($("#walHit")) $("#walHit").onclick=function(){ tone("next"); nextCard(true, false); };
+  if($("#walMiss")) $("#walMiss").onclick=function(){ nextCard(false, true); };
+  if($("#walNext")) $("#walNext").onclick=function(){ nextCard(false, false); };
+  if($("#walDefer")) $("#walDefer").onclick=function(){ nextCard(false, true); };
+}
+PLAYREND.wall=renderWall;
