@@ -2158,6 +2158,21 @@ function needAllWeeks(cb){
     needQuarter(q, function(good){ if(!good) ok=false; if(!--left) cb(ok); });
   });
 }
+function streak(from){
+  var d=from||today(), n=0, back=0, seen=false;
+  while(back<400){
+    var x=parseISO(d);
+    if(x.getDay()!==0){
+      var r=(S.days||{})[d];
+      var st=r ? r.status : null;
+      if(st==="normal"){ n++; seen=true; }
+      else if(st==="emg"){ /* 건너뛴다 */ }
+      else if(seen || back>0) break;
+    }
+    d=addDays(d,-1); back++;
+  }
+  return n;
+}
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
           ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
