@@ -81,6 +81,15 @@
  * 그것은 없는 금지고 두 사람이 쓸 수 있는 것을 못 쓰는 것으로 읽는다.
  * B등급 판에서는 그 말이 있어야 하고 A등급 판에서는 없어야 한다. 둘 다 잰다.
  *
+ * ## 역할이 없는 판을 잰다 (T277)
+ *
+ * 겹치면 지운다다. **역할이 없는 유일한 판**이라 잴 것이 또 다르다.
+ *
+ *     두 기기가 **같은 맞힐 것**을 본다. 씨앗에서 나온다
+ *     자리 표시가 **없다.** 대신 역할이 없다고 적혀 있다
+ *     겹침 판정이 **글자만 본다.** 대소문자와 문장부호는 안 본다
+ *     펴기 전에 **내 단서가 화면에 없다.** 먼저 본 사람이 바꾸면 안 재게 된다
+ *
  * 쓰는 법:
  *     node scripts/check_play_screen.js
  *
@@ -920,15 +929,143 @@ const RESET = () => {
   if (!(await text(A)).includes("4분이 됐다"))
     no("둘이 한 문장: 4분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
+  /* =====================================================================
+     겹치면 지운다 (T277). **역할이 없는 판.**
+     ===================================================================== */
+  const OVRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    OVL.said = ""; OVL.heard = ""; OVL.ready = false; OVL.keep = []; OVL.hit = null;
+    REVEAL.open = {};
+    OVLCLK.left = 0; OVLCLK.over = false;
+    renderOverlap();
+  };
+  for (const p of [A, B]) await openPlay(p, "overlap", "renderOverlap");
+  await A.evaluate(OVRESET); await B.evaluate(OVRESET);
+
+  /* ---- 46. 겹침 판정. **아는 답을 넣고 아는 답을 본다** ----------------
+     기계가 판정하는 자리라 셈을 잰다. 전달 놀이와 같은 갈래다 (T269).  */
+  const ovSame = await A.evaluate(() => ({
+    plain: ovlSame("water", "water"),
+    caps: ovlSame("Water", "water"),
+    punct: ovlSame("water!", " water "),
+    apos: ovlSame("don\u2019t", "don't"),
+    diff: ovlSame("water", "river"),
+    empty: ovlSame("", ""),
+    oneEmpty: ovlSame("water", ""),
+  }));
+  if (!ovSame.plain) no("같은 낱말을 다르다고 한다");
+  if (!ovSame.caps) no("대소문자만 다른데 다르다고 한다");
+  if (!ovSame.punct) no("문장부호와 빈칸만 다른데 다르다고 한다");
+  if (!ovSame.apos) no("굽은 홑따옴표와 곧은 것을 다르다고 한다");
+  if (ovSame.diff) no("다른 낱말을 같다고 한다");
+  if (ovSame.empty) no("둘 다 빈 칸인데 같다고 한다. 빈 것은 겹친 것이 아니다");
+  if (ovSame.oneEmpty) no("한쪽이 빈 칸인데 같다고 한다");
+
+  /* ---- 47. 두 기기가 같은 맞힐 것을 본다 -------------------------------- */
+  const tgtOf = (p) => p.evaluate(() => ovlTarget());
+  if ((await tgtOf(A)) !== (await tgtOf(B)))
+    no("두 기기가 다른 맞힐 것을 본다. 둘 다 그것을 알아야 한다");
+  const shownTgt = await A.evaluate(() =>
+    document.querySelector("#playPane .ovltgt") &&
+    document.querySelector("#playPane .ovltgt").textContent);
+  if (!shownTgt || shownTgt !== (await tgtOf(A)))
+    no("맞힐 것이 화면에 안 뜨거나 다른 것이 뜬다");
+
+  /* ---- 48. 역할이 없다고 화면이 적는다 ---------------------------------- */
+  const ovText = await text(A);
+  if (!ovText.includes("역할이 없다"))
+    no("역할이 없다는 것을 화면이 안 적는다. 비우면 빠뜨린 것으로 읽힌다");
+  if (/이 기기 자리/.test(ovText))
+    no("역할이 없는 판에 자리 표시가 있다");
+
+  /* ---- 49. 펴기 전에 상대 칸과 판정이 없다 ------------------------------
+     **처음에는 "내 단서가 화면에 없어야 한다" 를 쟀다. 그것은 없는 요구였다.**
+     이 판은 자기 단서를 자기가 본다. 감춰야 하는 것은 상대 단서인데
+     이 기기에는 상대 단서가 애초에 없다. 사람이 나중에 친다.
+     기기가 격차를 만드는 판이 아니라 **입으로 만드는 판**이다.
+
+     깨 보고 알았다. 화면에 내 단서를 크게 그려 놓아도 검사가 조용했다.
+     검사가 약한 것이 아니라 **안 깨지는 자리를 깬 것**이었다 (T252 의 셋째).
+     진짜로 재야 하는 것은 **펴기 전에 판정이 안 뜨는가** 다.
+     먼저 판정을 보면 자기 것을 바꾸게 되고 그러면 동시 공개가 아니다. */
+  if ((await A.$$("#playPane [data-reveal]")).length)
+    no("빈 칸인데 펴는 단추가 켜져 있다");
+  await A.click("#ovlIn");
+  await A.type("#ovlIn", "water", { delay: 4 });
+  await A.waitForTimeout(250);
+  if (!(await A.$$("#playPane [data-reveal]")).length)
+    no("다 적었는데 펴는 단추가 안 켜졌다");
+  if ((await A.$$("#ovlHeard")).length)
+    no("펴기 전인데 상대 낱말 칸이 있다. 그것은 편 뒤에 나온다");
+  if ((await A.$$("#ovlNext")).length || (await A.$$("#ovlHit")).length)
+    no("펴기 전인데 판정이 떠 있다. 먼저 보면 자기 것을 바꾸게 된다");
+
+  /* ---- 50. 겹치면 지우고 안 겹치면 남는다 ------------------------------- */
+  await tap(A, "#playPane [data-reveal]", "펴기");
+  await A.click("#ovlHeard");
+  await A.type("#ovlHeard", "Water!", { delay: 4 });
+  await A.waitForTimeout(250);
+  const hit1 = await text(A);
+  if (!hit1.includes("겹쳤다. 둘 다 지운다"))
+    no("글자만 다른 같은 낱말인데 겹쳤다고 안 한다. 판정이 글자를 안 따라간다");
+  if (!hit1.includes("손해가 아니다"))
+    no("지워진 것이 손해가 아니라는 말이 화면에 없다");
+  await tap(A, "#ovlNext", "다음 바퀴");
+  let ov = await A.evaluate(() => S.rhit["overlap|" + today()] || {});
+  if (ov.wiped !== 2) no("겹쳤는데 지워진 단서가 " + ov.wiped + "개다. 둘이어야 한다");
+  const keptAfterWipe = await A.evaluate(() => OVL.keep.length);
+  if (keptAfterWipe !== 0) no("겹쳤는데 단서가 남았다: " + keptAfterWipe + "개");
+
+  await A.click("#ovlIn");
+  await A.type("#ovlIn", "river", { delay: 4 });
+  await A.waitForTimeout(250);
+  await tap(A, "#playPane [data-reveal]", "펴기");
+  await A.click("#ovlHeard");
+  await A.type("#ovlHeard", "boat", { delay: 4 });
+  await A.waitForTimeout(250);
+  if (!(await text(A)).includes("안 겹쳤다. 둘 다 남는다"))
+    no("다른 낱말인데 안 겹쳤다고 안 한다");
+  await tap(A, "#ovlNext", "다음 바퀴");
+  const kept = await A.evaluate(() => OVL.keep.slice());
+  if (kept.length !== 2 || kept.indexOf("river") < 0 || kept.indexOf("boat") < 0)
+    no("안 겹친 단서 둘이 안 남았다: " + JSON.stringify(kept));
+
+  /* ---- 51. 닿으면 몇 바퀴인지 적는다 ------------------------------------ */
+  await A.click("#ovlIn");
+  await A.type("#ovlIn", "flow", { delay: 4 });
+  await A.waitForTimeout(250);
+  await tap(A, "#playPane [data-reveal]", "펴기");
+  await A.click("#ovlHeard");
+  await A.type("#ovlHeard", "stream", { delay: 4 });
+  await A.waitForTimeout(250);
+  await tap(A, "#ovlHit", "남은 단서로 닿았다");
+  const ovDone = await text(A);
+  if (!/닿았다\. 3바퀴 만이다/.test(ovDone))
+    no("닿은 바퀴 수가 안 뜨거나 셋이 아니다");
+  if (!ovDone.includes("역할이 없어서"))
+    no("마감 화면이 역할이 없다는 것을 안 적는다");
+  if (ovDone.includes("이 기기 숫자는 그 절반이다"))
+    no("마감 화면이 이 수를 절반이라고 적는다. 둘이 같은 일을 하는 판이다");
+  if (!ovDone.includes("B등급") || !ovDone.includes("통과 판정에는 안 쓴다"))
+    no("겹치면 지운다: 자료 등급이 화면에 없다");
+
+  /* ---- 52. 4분 시계 ----------------------------------------------------- */
+  await A.evaluate(OVRESET);
+  await tap(A, "#ovlGo", "4분 시계");
+  await A.evaluate(() => { OVLCLK.left = 1; });
+  await A.waitForTimeout(1500);
+  if (!(await text(A)).includes("4분이 됐다"))
+    no("겹치면 지운다: 4분 시계가 다 됐는데 끝났다는 말을 안 한다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 6개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
-              "이어달리기 15 / 둘이 한 문장: 토막 새기 6문장 x 2쪽, 문장마다 바뀜 6, " +
-              "붙기와 펴기 5판, 마감 2판, **A등급 금지 없음 2판**, 시계 1판 / " +
-              "실패 " + fails.length);
+  console.log("판 7개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+              "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다: 겹침 셈 7판, " +
+              "같은 맞힐 것 2판, 역할 없음 2판, 펴기 전 3판, 지우고 남기기 6판, " +
+              "마감 4판, 시계 1판 / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
