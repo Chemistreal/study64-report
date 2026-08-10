@@ -77,6 +77,8 @@ STEPS = [
     ("파생", "derive_clash.py", [], True),
     # 거꾸로 판정이 쓸 카드. **정답과 해설을 안 담는다.** 담으면 이 판이 안 선다. T306
     ("파생", "derive_flip.py", [], True),
+    # 따로 쓰고 같이 펴기가 쓸 물음. **강의에 물음이 없어서 소재만 뽑는다.** T309
+    ("파생", "derive_apart.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
