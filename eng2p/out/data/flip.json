@@ -1,0 +1,1245 @@
+{
+  "note": "거꾸로 판정이 쓸 카드. out/data/cards.json 에서 뽑는다. 정답과 해설을 안 담는다. 담으면 이 판이 안 선다. 손으로 안 고친다. scripts/derive_flip.py 를 다시 돌린다.",
+  "grade": "B",
+  "gradeWhy": "카드 파일 열둘이 다 신뢰도 B 다. 판 구조는 기준서 8.1 에서 왔지만 화면에 뜨는 영어 문장은 카드가 진 등급을 그대로 진다.",
+  "generator": "scripts/derive_flip.py",
+  "source": "out/cards/ (Q2 이후 answer 가 있는 카드), docs/play_rules.md 8.1",
+  "from": "Q2",
+  "end": 5,
+  "swap": 1,
+  "hidden": [
+    "answer",
+    "note"
+  ],
+  "count": 68,
+  "blank": 0,
+  "noAnswer": 1,
+  "short": [
+    {
+      "lecture": 25,
+      "week": 13,
+      "have": 1
+    },
+    {
+      "lecture": 26,
+      "week": 13,
+      "have": 4
+    }
+  ],
+  "cards": [
+    {
+      "id": "Q2-001",
+      "no": 1,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 두 응답을 한 쌍씩 읽는다. 어느 쪽이 먼저 나올 형태인지는 말하지 않는다.",
+      "mat": [
+        "Sure! / That is something I can do for you.",
+        "Me too! / I also have the same feeling about it.",
+        "Not much. / There is not very much happening with me.",
+        "I will. / I am going to do that thing later today.",
+        "Why? / Can you tell me the reason for that?"
+      ],
+      "pass": "B가 5개 중 4개 이상에서 앞의 것을 고르면 성공.",
+      "bIns": "두 응답을 듣고 먼저 나올 쪽을 고른다. 뜻은 안 따진다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-007",
+      "no": 7,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 덩어리를 하나씩 읽는다. B가 여덟 자리 중 어디인지 말한다.",
+      "mat": [
+        "So, what are we going to talk about?",
+        "Anyway, that's the plan.",
+        "Hi there!",
+        "See you later.",
+        "Okay then."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "덩어리를 듣고 시작 자리인지 마무리 자리인지 말한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-008",
+      "no": 8,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 덩어리를 하나씩 읽는다. B가 되돌리기인지 확인인지 말한다.",
+      "mat": [
+        "How about you?",
+        "Um-hum.",
+        "What do you think?",
+        "Right.",
+        "And you?"
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "되돌리기와 확인 둘 중 하나로 답한다. 헷갈리면 상대가 말해야 하는지로 가른다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-009",
+      "no": 9,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 덩어리를 하나씩 읽는다. 나머지 네 자리 중 어디인지 말하게 한다.",
+      "mat": [
+        "yesterday",
+        "I think",
+        "First, then",
+        "this summer",
+        "My favorite is"
+      ],
+      "pass": "B가 5개 중 3개 이상 맞히면 성공.",
+      "bIns": "시간, 의견, 이야기 중 하나로 답한다.",
+      "bPass": "5개 중 3개 이상."
+    },
+    {
+      "id": "Q2-013",
+      "no": 13,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. 시작 덩어리가 있는지 없는지 말하게 한다.",
+      "mat": [
+        "So, I went there yesterday.",
+        "I went there yesterday.",
+        "Well, it was fine.",
+        "It was fine.",
+        "You know, this job is great."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "문장 앞에 붙은 덩어리가 있으면 있다고 말한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-014",
+      "no": 14,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 시작 덩어리를 하나씩 읽는다. 뒤에 무엇이 올지 짐작하게 한다.",
+      "mat": [
+        "Actually,",
+        "By the way,",
+        "In fact,",
+        "Well,",
+        "So,"
+      ],
+      "pass": "B가 5개 중 3개 이상에서 짐작이 안 된다고 말하면 성공.",
+      "bIns": "시작 덩어리를 듣고 뒤에 무엇이 올지 짐작해 본다. 안 되면 안 된다고 말한다.",
+      "bPass": "5개 중 3개 이상에서 짐작이 안 된다고 말하면 성공."
+    },
+    {
+      "id": "Q2-019",
+      "no": 19,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 덩어리를 하나씩 낱말 사이를 쉬지 않고 흘려 읽는다. B가 원래 형태를 말한다.",
+      "mat": [
+        "give me",
+        "let me",
+        "do not know",
+        "going to",
+        "want to"
+      ],
+      "pass": "B가 5개 중 4개 이상 복원하면 성공.",
+      "bIns": "줄어든 형태를 듣고 원래 형태를 말한다. 적지 않고 말한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-020",
+      "no": 20,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽되 줄일 수 있는 자리를 다 흘린다. 몇 군데를 흘렸는지 B가 센다.",
+      "mat": [
+        "Let me know if you wanna go.",
+        "I do not know what he is gonna do.",
+        "Give me a minute.",
+        "She is gonna wanna see it.",
+        "I do not know."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "문장에서 줄어든 자리가 몇 개인지 센다. 손가락으로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-025",
+      "no": 25,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 두 문장씩을 이어 읽는다. B가 세 방향 중 어느 것인지 말한다.",
+      "mat": [
+        "This job is hard. But I like it.",
+        "It was cold. So I stayed home.",
+        "I like coffee. For example, this one.",
+        "She was late. And she forgot the bag.",
+        "It rained. Still, we went out."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "두 문장을 잇는 말이 어느 방향인지 말한다. 같은 방향, 반대, 예 셋 중 하나다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-026",
+      "no": 26,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장 쌍을 읽는다. 잇는 말이 방향에 맞는지 판정하게 한다.",
+      "mat": [
+        "I was tired. And I went to bed.",
+        "I was tired. And I ran ten miles.",
+        "It was cheap. But I bought it.",
+        "It was cheap. So I bought it.",
+        "He is busy. Still, he came."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "잇는 말이 두 문장의 관계에 맞는지 맞다 아니다로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-031",
+      "no": 31,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 두 사람의 대화를 읽는다. 표시한 자리에서 두 박자 쉬고 읽는다.",
+      "mat": [
+        "Do you have the list? [쉼] Yes, I have it.",
+        "Do you have the list? Yes, I have it.",
+        "Are you ready? Sure.",
+        "Are you ready? [쉼] Sure.",
+        "What do you need? [쉼] Some coffee."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "대화를 듣고 두 사람 사이에 빈자리가 있었는지 말한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-034",
+      "no": 34,
+      "q": "Q2",
+      "type": "압박",
+      "ins": "아래 문장을 낸다. B는 말끝 두세 낱말을 되풀이하며 시작하고 제한 시간은 5초다.",
+      "mat": [
+        "I put the flour in the refrigerator.",
+        "She works at the same place.",
+        "We are cooking for friends.",
+        "He came back from Boston.",
+        "They have a new show."
+      ],
+      "pass": "B가 5개 중 4개 이상에서 되풀이로 시작하면 성공.",
+      "bIns": "상대 말끝 두세 낱말을 되풀이하며 시작한다. 그다음에 자기 말을 붙인다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-037",
+      "no": 37,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 되돌리는 덩어리를 하나씩 읽는다. B가 네 묶음 중 어느 것인지 말한다.",
+      "mat": [
+        "How about you?",
+        "What do you think?",
+        "Right?",
+        "Then what?",
+        "And you?"
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "되돌리는 덩어리를 듣고 네 묶음 중 하나로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-038",
+      "no": 38,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 대화를 읽는다. 되돌림이 있었는지 없었는지 말하게 한다.",
+      "mat": [
+        "How was your trip? It was fine.",
+        "How was your trip? It was fine. How about yours?",
+        "I am tired. That's too bad.",
+        "I am tired. That's too bad. Are you okay?",
+        "Where is the flour? In the refrigerator."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "대화 끝에 차례가 넘어갔는지 말한다. 넘어갔으면 있음이다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-043",
+      "no": 43,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 덩어리 셋을 나란히 읽는다. B가 안 바뀌는 부분을 짚는다.",
+      "mat": [
+        "I am happy to see you. / I am glad to see you. / I am ready to see you.",
+        "I want to go. / I need to go. / I have to go.",
+        "First we eat. / First we talk. / First we walk."
+      ],
+      "pass": "B가 3개 중 2개 이상에서 안 바뀌는 부분을 짚으면 성공.",
+      "bIns": "셋을 듣고 세 번 다 나온 부분을 말한다. 바뀐 자리는 말하지 않는다.",
+      "bPass": "3개 중 2개 이상."
+    },
+    {
+      "id": "Q2-044",
+      "no": 44,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 덩어리 셋을 나란히 읽는다. 하나가 다른 자리 것이니 그것을 짚게 한다.",
+      "mat": [
+        "I want to go. / I need to go. / How about you?",
+        "First we eat. / Then we walk. / I am tired.",
+        "How about you? / What do you think? / I have to go."
+      ],
+      "pass": "B가 3개 중 2개 이상 맞히면 성공.",
+      "bIns": "셋 중 자리가 다른 하나를 고른다.",
+      "bPass": "3개 중 2개 이상."
+    },
+    {
+      "id": "Q2-049",
+      "no": 49,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 빠르게 한 번 읽는다. B가 강세 개수를 센다.",
+      "mat": [
+        "I work here.",
+        "Walk slowly.",
+        "This job is great.",
+        "The store was closed.",
+        "Today was busy."
+      ],
+      "pass": "B가 5개 중 4개 이상에서 둘이라고 답하면 성공.",
+      "bIns": "빠르게 읽은 문장에서 강세가 몇 개인지 손가락으로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-050",
+      "no": 50,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 빠르게 한 번 읽는다. B가 강세 개수를 센다.",
+      "mat": [
+        "I want to talk about summer vacation.",
+        "This summer I am too busy.",
+        "We can show pictures and video.",
+        "I have so much to tell you.",
+        "She says I am the messiest cook."
+      ],
+      "pass": "5개 중 3개 이상에서 두 사람의 값이 같으면 성공.",
+      "bIns": "긴 문장에서 강세 개수를 센다. A도 따로 센다.",
+      "bPass": "5개 중 3개 이상에서 값이 같으면 성공."
+    },
+    {
+      "id": "Q2-053",
+      "no": 53,
+      "q": "Q2",
+      "type": "압박",
+      "ins": "아래 문장을 빠르게 읽고 B가 강세 낱말만 말하게 한다. 제한 시간 5초다.",
+      "mat": [
+        "I can eat all the free seafood I want.",
+        "Working outdoors is nice.",
+        "I put the flour inside the refrigerator.",
+        "You are walking quickly and loudly.",
+        "I have so much to tell you."
+      ],
+      "pass": "B가 5개 중 3개 이상에서 강세 낱말을 절반 이상 짚으면 성공.",
+      "bIns": "빠르게 읽은 문장에서 강세 낱말만 말한다. 전부 받아 적지 않는다.",
+      "bPass": "5개 중 3개 이상."
+    },
+    {
+      "id": "Q2-055",
+      "no": 55,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. B가 세 묶음 중 어느 것인지 말한다.",
+      "mat": [
+        "I saw her yesterday.",
+        "I see him these days.",
+        "Have you ever been there?",
+        "I lived there a long time ago.",
+        "I have never seen that."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "시간 덩어리를 듣고 세 묶음 중 하나로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-056",
+      "no": 56,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. 겹쳐 쓴 틀린 것을 골라내게 한다.",
+      "mat": [
+        "I have never been there.",
+        "I have never been there yesterday.",
+        "I saw him last year.",
+        "I have seen him many times.",
+        "I have visited it last summer."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "문장이 맞는지 아닌지 말한다. 어디가 틀렸는지는 안 말해도 된다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-061",
+      "no": 61,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 상황과 B의 한국어 답을 읽는다. 세 종류 중 어느 것인지 말하게 한다.",
+      "mat": [
+        "자리는 아는데 한국어로도 아무것도 안 떠올랐다",
+        "한국어로는 떠올랐는데 영어가 안 나왔다",
+        "영어가 나왔는데 되돌리기 자리에 확인 덩어리를 냈다",
+        "한국어로도 무슨 말을 할지 몰랐다",
+        "영어가 나왔는데 시간 자리에 의견 덩어리를 냈다"
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "남의 사례를 듣고 무, 늦, 자리 셋 중 하나로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-062",
+      "no": 62,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 사례를 읽는다. 어느 처방 카드로 가야 하는지 말하게 한다.",
+      "mat": [
+        "무로 판정된 자리",
+        "늦으로 판정된 자리",
+        "자리로 판정된 자리",
+        "세 번 연속 무가 나온 자리",
+        "무와 늦이 반씩 나온 자리"
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "판정 결과를 듣고 어느 카드를 돌릴지 말한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-065",
+      "no": 65,
+      "q": "Q2",
+      "type": "압박",
+      "ins": "아래 덩어리를 하나씩 읽고 B가 자리 이름만 말하게 한다. 제한 시간 5초다.",
+      "mat": [
+        "In fact",
+        "What about you",
+        "many times",
+        "My favorite is",
+        "So yeah"
+      ],
+      "pass": "B가 5개 중 4개 이상을 5초 안에 맞히면 성공.",
+      "bIns": "덩어리를 듣고 자리 이름만 5초 안에 말한다. 뜻은 안 말한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-073",
+      "no": 73,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 의견 문장을 하나씩 읽는다. 세 묶음 중 어느 것인지 말하게 한다.",
+      "mat": [
+        "I think it is fine.",
+        "I like this place.",
+        "My favorite is this one.",
+        "Maybe we should go.",
+        "I love coming here."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "의견을 듣고 약하게, 그냥, 세게 중 하나로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-074",
+      "no": 74,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 읽는다. 세기가 흐려진 것을 골라내게 한다.",
+      "mat": [
+        "I really love this.",
+        "I think I really love this.",
+        "Maybe it is my favorite.",
+        "This is my favorite.",
+        "I guess I like it."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "문장에서 세기가 하나로 잡히는지 말한다. 섞였으면 흐려진 것이다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-080",
+      "no": 80,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 낱말을 하나씩 읽는다. B가 세 형 중 하나로 답한다.",
+      "mat": [
+        "walked",
+        "played",
+        "wanted",
+        "asked",
+        "needed"
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "낱말을 듣고 1형, 2형, 3형 중 하나로 답한다. 낱말은 다시 말하지 않는다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-081",
+      "no": 81,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 읽는다. 표시가 든 낱말이 세 형 중 어느 것인지 말하게 한다.",
+      "mat": [
+        "I walked and walked.",
+        "I wanted a break.",
+        "She showed me the list.",
+        "He worked here last year.",
+        "They started the show."
+      ],
+      "pass": "B가 5개 중 3개 이상 맞히면 성공.",
+      "bIns": "문장을 듣고 표시가 든 낱말의 형을 말한다.",
+      "bPass": "5개 중 3개 이상."
+    },
+    {
+      "id": "Q2-092",
+      "no": 92,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 확인 표현을 하나씩 읽는다. 네 묶음 중 어느 것인지 말하게 한다.",
+      "mat": [
+        "Um-hum",
+        "You mean the red one",
+        "Sorry",
+        "So you're saying it is closed",
+        "Say that again"
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "확인 표현을 듣고 네 묶음 중 하나로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-093",
+      "no": 93,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 대화를 읽는다. 확인이 있었는지 없었는지 말하게 한다.",
+      "mat": [
+        "Working outdoors is nice. Um-hum, it is.",
+        "Working outdoors is nice. I am tired.",
+        "They have a new show. A new show?",
+        "They have a new show. Let's go home.",
+        "Today was busy. Hmm, that's too bad."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "두 번째 말이 앞의 말을 받았는지 말한다. 안 받았으면 없음이다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-098",
+      "no": 98,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "1번과 2번을 이어 읽고 3번과 4번도 이어 읽는다. B가 강세 낱말을 짚는다.",
+      "mat": [
+        "The apartment is clean.",
+        "The kitchen is clean.",
+        "I bought some fish.",
+        "I bought some bread.",
+        "She works here."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "문장을 듣고 제일 세게 나온 낱말을 짚는다. 하나만 짚는다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-099",
+      "no": 99,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 문장을 읽는다. 조동사에 강세를 놓아 읽는다.",
+      "mat": [
+        "I did spend too much time.",
+        "The kitchen is not clean.",
+        "I do like it.",
+        "She was there.",
+        "It is my favorite."
+      ],
+      "pass": "B가 5개 중 3개 이상 맞히면 성공.",
+      "bIns": "문장을 듣고 강세가 짧은 낱말에 있었는지 말한다.",
+      "bPass": "5개 중 3개 이상."
+    },
+    {
+      "id": "Q2-111",
+      "no": 111,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 이야기 토막을 읽고 B가 네 묶음 중 어느 것인지 말하게 한다.",
+      "mat": [
+        "You know what?",
+        "First, I went to the store.",
+        "And then I saw something.",
+        "So yeah, that's it.",
+        "After that, I walked home."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "이야기 토막을 듣고 네 묶음 중 하나로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-112",
+      "no": 112,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 이야기를 읽고 B가 빠진 묶음을 짚게 한다.",
+      "mat": [
+        "First I went out. Then I came back. So yeah, that's it.",
+        "You know what? First I went out. Then I came back.",
+        "You know what? I went out and came back. So yeah.",
+        "First I went out. Then I came back.",
+        "You know what? First I went out. And then it rained. So yeah, that's it."
+      ],
+      "pass": "B가 5개 중 3개 이상 맞히면 성공.",
+      "bIns": "이야기를 듣고 네 묶음 중 빠진 것을 말한다. 다 있으면 없다고 말한다.",
+      "bPass": "5개 중 3개 이상."
+    },
+    {
+      "id": "Q2-124",
+      "no": 124,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 두 낱말을 붙여 읽고 B가 겹치는 자리가 있는지 말하게 한다.",
+      "mat": [
+        "want to",
+        "next time",
+        "see you",
+        "but today",
+        "to eat"
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "두 낱말을 듣고 자음이 겹쳤는지 말한다. 어느 자음인지는 안 말한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-125",
+      "no": 125,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 두 낱말을 붙여 읽고 B가 가운데 소리가 빠졌는지 말하게 한다.",
+      "mat": [
+        "last scene",
+        "next day",
+        "first time",
+        "take it",
+        "look at"
+      ],
+      "pass": "B가 5개 중 3개 이상 맞히면 성공.",
+      "bIns": "두 낱말을 듣고 사이에서 소리가 하나 빠졌는지 말한다.",
+      "bPass": "5개 중 3개 이상."
+    },
+    {
+      "id": "Q2-130",
+      "no": 130,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 마무리 토막을 읽고 B가 네 묶음 중 어느 것인지 말하게 한다.",
+      "mat": [
+        "Okay then.",
+        "That's the plan.",
+        "See you then.",
+        "Take care.",
+        "Sounds good."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "마무리 토막을 듣고 네 묶음 중 하나로 답한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q2-131",
+      "no": 131,
+      "q": "Q2",
+      "type": "판정",
+      "ins": "아래 대화에서 Well 이 여는 자리인지 닫는 자리인지 말하게 한다.",
+      "mat": [
+        "Well, if you like plants, you can visit the garden.",
+        "Well, that's the plan. See you then.",
+        "Well, I have lived here for over a year.",
+        "Well, I should go now. Take care.",
+        "Well, they are all good."
+      ],
+      "pass": "B가 5개 중 4개 이상 맞히면 성공.",
+      "bIns": "뒤에 오는 말을 듣고 여는 자리인지 닫는 자리인지 말한다.",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q3-001",
+      "no": 1,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 대화를 한 쌍씩 읽는다. 괄호의 초만큼 쉬고 나서 답 쪽을 읽는다",
+      "mat": [
+        "Where are you from? (2초 쉼) I am from a small town.",
+        "How are you two? (4초 쉼) I am great!",
+        "Anna, do you have a pen? (1초 쉼) Yes. I have a pen in my bag.",
+        "Why not? What is wrong? (5초 쉼) Well, yesterday I felt fine.",
+        "Are you okay, Anna? (3초 쉼) I just ran from over there."
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "답이 나오기까지 3초를 넘겼는지만 말한다. 내용은 안 따진다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q3-008",
+      "no": 8,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 거절 문장을 하나씩 읽는다. B가 몇 층인지 말한다",
+      "mat": [
+        "I can't.",
+        "Something came up.",
+        "Maybe next time.",
+        "That won't work.",
+        "I have to go now.",
+        "How about tomorrow?",
+        "I'm not able to.",
+        "I already have one.",
+        "Can we do it later?",
+        "But I can't code."
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "못 한다는 표시인지 이유인지 대안인지 말한다. 셋 중 하나로 답한다",
+      "bPass": "10개 중 8개 이상."
+    },
+    {
+      "id": "Q3-009",
+      "no": 9,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 거절을 하나씩 읽는다. B가 빠진 층을 말한다",
+      "mat": [
+        "I can't. Something came up.",
+        "I can't. Maybe next time.",
+        "Something came up. Maybe next time.",
+        "I can't.",
+        "I have to go now. How about tomorrow?"
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "세 층 중 무엇이 빠졌는지 말한다. 둘이 빠진 것도 있다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q3-019",
+      "no": 19,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 상황과 늦은 초를 읽는다. B가 늦은 이유를 넷 중 하나로 가른다",
+      "mat": [
+        "질문을 받고 12초 뒤에 되물었다",
+        "질문을 받고 4초 뒤에 답했다",
+        "질문을 받고 7초 뒤에 답했다",
+        "세 사람 자리에서 초가 2초와 9초를 오갔다",
+        "질문을 받고 15초 뒤에 무슨 뜻인지 물었다"
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "못 알아들음, 못 정함, 안 나옴, 차례 판단 넷 중 하나로 답한다. 초를 단서로 쓴다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q3-026",
+      "no": 26,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. B가 조건인지 아닌지 말한다",
+      "mat": [
+        "If you want to see the White House, you need to walk.",
+        "When you find an American symbol, you win points.",
+        "When I'm nervous, I talk to myself.",
+        "If it works, we can go together.",
+        "When you are ready, turn.",
+        "When did you start feeling sick?",
+        "If I can, I will call you back.",
+        "When you get there, send me a message.",
+        "When I was sick last week, I had the flu.",
+        "If you want, we can stop now."
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "조건인지 때인지 말한다. 그 일이 일어날지 모르면 조건이다",
+      "bPass": "10개 중 8개 이상."
+    },
+    {
+      "id": "Q3-038",
+      "no": 38,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 질문을 하나씩 읽는다. B가 몇 계단인지 말한다",
+      "mat": [
+        "Are you okay, Anna?",
+        "Why not? What is wrong?",
+        "Do you have a pen?",
+        "Where are you from?",
+        "Did you pass the test the first time?",
+        "What did you do?",
+        "Can you write code?",
+        "When did you start feeling sick?",
+        "Is this 555-8986?",
+        "How's the new apartment?"
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "1계단인지 2계단인지 말한다. 답이 둘 중 하나면 1계단이다",
+      "bPass": "10개 중 8개 이상."
+    },
+    {
+      "id": "Q3-045",
+      "no": 45,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 불동의 문장을 하나씩 읽는다. B가 몇 조각인지 말한다",
+      "mat": [
+        "I know.",
+        "But this game is really fun.",
+        "For me it is different.",
+        "You're right.",
+        "Still, I want to try it.",
+        "I think it takes longer.",
+        "That's true.",
+        "Even so, we can start now.",
+        "because it is good for you",
+        "I know I should be more careful."
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "인정인지 뒤집기인지 근거인지 말한다. 셋 중 하나로 답한다",
+      "bPass": "10개 중 8개 이상."
+    },
+    {
+      "id": "Q3-046",
+      "no": 46,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 불동의를 하나씩 읽는다. B가 빠진 조각을 말한다",
+      "mat": [
+        "But this game is really fun. I think it takes longer.",
+        "I know. But this game is really fun.",
+        "I know. For me it is different.",
+        "But this game is really fun.",
+        "You're right. Still, I want to try it."
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "세 조각 중 무엇이 빠졌는지 말한다. 둘이 빠진 것도 있다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q3-050",
+      "no": 50,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. B가 어느 방향인지 말한다",
+      "mat": [
+        "We will be driving for a long time. So, we might get bored.",
+        "But I will try because it is good for you.",
+        "My roommate Marsha and I will be on vacation at the same time. So, we are going on a road trip together!",
+        "They are the best because they come from the nearby Chesapeake Bay!",
+        "If you want to see the White House, you need to walk.",
+        "Hair Be Good works and it's inexpensive. So, go online and order your Hair Be Good today!",
+        "When you find an American symbol, you win points.",
+        "But today I am watching a puppet show because it's Shakespeare's birthday!"
+      ],
+      "pass": "B가 8개 중 6개 이상을 맞히면 성공.",
+      "bIns": "이유가 먼저인지 결과가 먼저인지 말한다. 조건이면 둘 다 아니라고 답한다",
+      "bPass": "8개 중 6개 이상."
+    },
+    {
+      "id": "Q3-056",
+      "no": 56,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 두 줄을 한 쌍씩 읽는다. B가 받은 방식을 말한다",
+      "mat": [
+        "I am tired of my untidy hair. / Are you tired of your untidy hair?",
+        "Working outdoors is nice. / Um-hum, it is.",
+        "And it's uncomfortable. / Is it uncomfortable?",
+        "I have a pen in my bag. / In your bag.",
+        "The supermarket is near the apartment. / Right.",
+        "I don't have a job. / You don't have a job?",
+        "This game is really fun. / Really fun.",
+        "I started today. / Okay.",
+        "My delivery will arrive in 2 days. / Two days.",
+        "I am in apartment C2. / Marsha is my roommate."
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "맞장구인지 되풀이인지 되물어 받기인지 말한다. 셋 다 아니면 아니라고 답한다",
+      "bPass": "10개 중 8개 이상."
+    },
+    {
+      "id": "Q3-069",
+      "no": 69,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. B가 조건인지 가정인지 말한다",
+      "mat": [
+        "If you want, we can stop now.",
+        "If I were you, I would call first.",
+        "If it works, we can go together.",
+        "If I had time, I would go with you.",
+        "When you get there, send me a message.",
+        "I wish I had a car.",
+        "If I can, I will call you back.",
+        "If I were you, I would rest today.",
+        "If you have time, we can start now.",
+        "I wish it were sunny today."
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "조건인지 가정인지 말한다. 일어날 수 있으면 조건이다",
+      "bPass": "10개 중 8개 이상."
+    },
+    {
+      "id": "Q3-070",
+      "no": 70,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 앞 조각만 읽고 뒤는 안 읽는다. B가 가를 수 있는지 말한다",
+      "mat": [
+        "If you want,",
+        "If I were you,",
+        "If it works,",
+        "If I had time,",
+        "When you get there,"
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "앞 조각만 듣고 조건인지 가정인지 말한다. 못 가르겠으면 못 가르겠다고 답한다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q3-075",
+      "no": 75,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 대화 토막을 하나씩 읽는다. B가 LRE 인지 아닌지 말한다",
+      "mat": [
+        "왜 여기서 s 가 안 들리는지 둘이 이야기한다",
+        "어제 본 영화가 재미있었는지 둘이 이야기한다",
+        "이 자리에 if 를 쓸지 when 을 쓸지 둘이 이야기한다",
+        "주말에 어디로 갈지 둘이 이야기한다",
+        "이 문장이 왜 이 순서인지 둘이 이야기한다",
+        "저녁을 무엇으로 할지 둘이 이야기한다",
+        "같은 낱말을 서로 다르게 들었다고 이야기한다",
+        "오늘 일이 어땠는지 둘이 이야기한다",
+        "이 덩어리를 어디서 봤는지 둘이 이야기한다",
+        "그 사람이 무슨 뜻으로 말했는지 둘이 이야기한다"
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "언어를 놓고 한 이야기인지 내용을 놓고 한 이야기인지 말한다. 언어 쪽이면 LRE 다",
+      "bPass": "10개 중 8개 이상."
+    },
+    {
+      "id": "Q3-082",
+      "no": 82,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. B가 붙은 조각의 자리를 다 말한다",
+      "mat": [
+        "It is a big book.",
+        "I have a pen in my bag.",
+        "The supermarket is at 1500 Irving Street. It is near the apartment.",
+        "Why do you have a map of the world?",
+        "I am tired of my untidy hair.",
+        "There is a big supermarket on our street.",
+        "I have the perfect product for you.",
+        "Winter weather in Washington, D.C. can be really windy."
+      ],
+      "pass": "B가 8개 중 6개 이상을 맞히면 성공.",
+      "bIns": "붙은 조각이 어느 자리에 왔는지 다 말한다. 둘이면 둘 다 말한다",
+      "bPass": "8개 중 6개 이상."
+    },
+    {
+      "id": "Q3-094",
+      "no": 94,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 세 사람 대화 토막을 읽는다. B가 누구에게 한 말인지 말한다",
+      "mat": [
+        "Pete: How are you two? (Anna 와 Marsha 가 함께 있다)",
+        "Marsha: I am great! (바로 앞줄이 1번이다)",
+        "Pete: Why do you have a map of the world? (Anna 가 지도를 들고 있다)",
+        "Pete: How's the new apartment? (Anna 가 새 집에 막 들어왔다)",
+        "Dan: You have to find things that aren't really there. (Anna 가 게임을 물었다)",
+        "Anna: Everyone has a skill. (Pete 가 재주가 없다고 했다)",
+        "Marsha: Did you make a list of all the places you want to see? (Anna 가 짐을 다 쌌다)",
+        "Dan: Here are the symbols that I caught. (Anna 가 무엇을 잡았는지 물었다)",
+        "Anna: Please give me my Fun Fact. (기계가 답을 준다)",
+        "Ashley: Do you want some water? (Anna 가 숨차 있다)"
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "누구에게 한 말인지 말한다. 둘 다에게 하는 것도 있고 사람이 아닌 것도 있다",
+      "bPass": "10개 중 8개 이상."
+    },
+    {
+      "id": "Q3-101",
+      "no": 101,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 설명 토막을 하나씩 읽는다. B가 어느 자리인지 말한다",
+      "mat": [
+        "It's like a scavenger hunt.",
+        "You have to find things that aren't really there.",
+        "It is a long race.",
+        "First, the pitcher pitches the ball to the batter.",
+        "Then, the runner runs to first base.",
+        "It's a kind of game you play on your phone.",
+        "Many marathons raise money for charity.",
+        "When you find an American symbol, you win points."
+      ],
+      "pass": "B가 8개 중 6개 이상을 맞히면 성공.",
+      "bIns": "무엇인지인지 어떻게 하는지인지 왜 그런지인지 말한다. 셋 중 하나로 답한다",
+      "bPass": "8개 중 6개 이상."
+    },
+    {
+      "id": "Q3-102",
+      "no": 102,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 설명을 하나씩 읽는다. B가 자리가 몇 개 들었는지 말한다",
+      "mat": [
+        "It is a long race. Many marathons raise money for charity.",
+        "You have to find things that aren't really there.",
+        "It's like a scavenger hunt. You have to look at your phone.",
+        "First, the pitcher pitches the ball. Then, the runner runs to first base.",
+        "It's a kind of game. You play it on your phone because it is free."
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "세 자리 중 몇 개가 들었는지 수로 답한다. 문장 수가 아니라 자리 수다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q3-119",
+      "no": 119,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. B가 두 방법 중 어느 것인지 말한다",
+      "mat": [
+        "I passed my driving test.",
+        "Did you get your driver's license?",
+        "I did pass the second time.",
+        "It started fine.",
+        "It did not go well.",
+        "Yesterday I felt fine.",
+        "I will run in my first marathon.",
+        "Did you got your driver's license?",
+        "There were cars in the street.",
+        "I did passed the second time."
+      ],
+      "pass": "B가 10개 중 8개 이상을 맞히면 성공.",
+      "bIns": "낱말이 바뀌었는지 앞에 표시가 붙었는지 말한다. 틀린 문장이 둘 섞여 있고 그것은 둘 다 아니라고 답한다",
+      "bPass": "10개 중 8개 이상. 틀린 둘은 따라 말하지 않는다."
+    },
+    {
+      "id": "Q3-138",
+      "no": 138,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 두 문장을 한 쌍씩 읽는다. B가 같은 틀인지 다른 틀인지 말한다",
+      "mat": [
+        "We will be driving for a long time. / We'll be eating lunch in about 2 hours.",
+        "I have a pen in my bag. / I am in apartment C2.",
+        "If you want, we can stop now. / If it works, we can go together.",
+        "It is a big book. / There are nine innings in a game.",
+        "Do you have a pen? / Do you have a doctor?",
+        "I passed my driving test. / Did you get your driver's license?",
+        "It's like a scavenger hunt. / It's like a long race.",
+        "I love running. / I am a little nervous."
+      ],
+      "pass": "B가 8개 중 6개 이상을 맞히면 성공.",
+      "bIns": "같은 틀인지 다른 틀인지 말한다. 안 바뀌는 부분이 낱말 단위로 같아야 같은 틀이다",
+      "bPass": "8개 중 6개 이상."
+    },
+    {
+      "id": "Q3-139",
+      "no": 139,
+      "q": "Q3",
+      "type": "판정",
+      "ins": "아래 두 문장을 한 쌍씩 읽는다. 겉이 비슷한 것만 모았다",
+      "mat": [
+        "I will run in my first marathon. / We will be driving for a long time.",
+        "When you get there, send me a message. / When did you start feeling sick?",
+        "If you want, we can stop now. / If I were you, I would call first.",
+        "I am tired of my untidy hair. / Are you tired of your untidy hair?",
+        "When you get there, send me a message. / When you find an American symbol, you win points.",
+        "Did you get your driver's license? / Did you pass the test the first time?"
+      ],
+      "pass": "B가 6개 중 4개 이상을 맞히면 성공.",
+      "bIns": "같은 틀인지 다른 틀인지 말한다. 첫 낱말이 같아도 다른 틀일 수 있다",
+      "bPass": "6개 중 4개 이상."
+    },
+    {
+      "id": "Q4-001",
+      "no": 1,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 토막을 하나씩 읽는다. 읽고 나서 B의 답을 듣는다",
+      "mat": [
+        "Anna: Hello! Halloween is very popular in the United States. Children trick-or-treat. They ask people for candy. Children and adults wear costumes and go to parties! In fact, there is a Halloween party tonight. (뒤 줄임)",
+        "Anna: Tonight, there is a Halloween party. / Genie: I love Halloween! Are you going? / Anna: I might go. I might not go. I don't have a costume. Can you help me?",
+        "Anna: Ashley, today the weather is beautiful, isn't it? / Ashley: Yes, it is. (뒤 줄임) / Anna: No, we have time! Let's people-watch a little more.",
+        "Anna: Hello! People from all over the world come to Washington, D.C. When I'm at work, I love eating lunch outside. I like to watch people walking by. They all look very different. (뒤 줄임)",
+        "Anna: Well, have a seat! It is fun to see how people are different or the same. / Keyana: It is. For example, Anna, you are tall. (뒤 줄임) / Anna: And Keyana, you and Ashley have brown eyes; I have blue eyes."
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "Anna 가 낸 토막이 몇 개인지 말한다. 문장 수는 안 센다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q4-013",
+      "no": 13,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 줄을 하나씩 읽는다. B가 네 자리 중 하나로 답한다",
+      "mat": [
+        "Ashley, today the weather is beautiful, isn't it?",
+        "Yes, it is.",
+        "I love people-watching too!",
+        "I need to return to work. See you, Anna!",
+        "Do you like it?",
+        "It is."
+      ],
+      "pass": "B가 6개 중 5개 이상을 맞히면 성공.",
+      "bIns": "여는 자리, 받는 자리, 넓히는 자리, 닫는 자리 중 하나로 답한다",
+      "bPass": "6개 중 5개 이상."
+    },
+    {
+      "id": "Q4-039",
+      "no": 39,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 토막을 하나씩 읽는다. B가 잇는 방법을 하나로 답한다",
+      "mat": [
+        "(앞 줄임) I am at home plate. I wait for the pitch. The ball comes. I swing. (뒤 줄임)",
+        "First, I have to take a test on the computer. Then I have to take a test in the car.",
+        "First, we're going to introduce the subject. Then we can show pictures and video.",
+        "In the morning, I painted for hours. In the afternoon, I cut wood. Then, I built a fire.",
+        "(앞 줄임) Anna, this chart shows the audience of The Time Traveling Treehouse. If you look at it, you will see something bad. (뒤 줄임)"
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "나열인지 순서 표시인지 낱말 다시 쓰기인지 하나로 답한다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q4-040",
+      "no": 40,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 토막을 하나씩 읽는다. B가 잇는 방법을 하나로 답한다",
+      "mat": [
+        "I run to first base, second base, third base, then home plate.",
+        "First, the pitcher pitches the ball to the batter. The batter bats the ball. Then, the runner runs to first base.",
+        "Children trick-or-treat. They ask people for candy. Children and adults wear costumes and go to parties!",
+        "I was at work. And I wanted a break. So, I walked and walked … and walked. Then, I saw something! (뒤 줄임)",
+        "I might go. I might not go. I don't have a costume. Can you help me?"
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "나열인지 순서 표시인지 낱말 다시 쓰기인지 하나로 답한다. 표시가 있어도 나열일 수 있다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q4-090",
+      "no": 90,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. B가 배경인지 사건인지 답한다",
+      "mat": [
+        "Two robbers were grabbing her bag like this.",
+        "I left work to get some lunch.",
+        "She was hitting them with her umbrella.",
+        "The robbers got on a bus.",
+        "I was yelling, \"Stop, robbers! Stop!\"",
+        "So, I ran after the bus."
+      ],
+      "pass": "B가 6개 중 5개 이상을 맞히면 성공.",
+      "bIns": "배경인지 사건인지 하나로 답한다. 낱말 뜻은 안 따진다",
+      "bPass": "6개 중 5개 이상."
+    },
+    {
+      "id": "Q4-091",
+      "no": 91,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. B가 배경인지 사건인지 답한다",
+      "mat": [
+        "While I was running, I tripped and fell.",
+        "I was too far away and I didn't have my own umbrella.",
+        "They grabbed her bag and ran away!",
+        "I had no time to be afraid, Guy.",
+        "I was feeling very hungry.",
+        "So, I went to my office to get a snack."
+      ],
+      "pass": "B가 6개 중 4개 이상을 맞히면 성공.",
+      "bIns": "배경인지 사건인지 하나로 답한다. 한 문장에 둘이 다 있으면 둘 다 말한다",
+      "bPass": "6개 중 4개 이상."
+    },
+    {
+      "id": "Q4-096",
+      "no": 96,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 마무리를 하나씩 읽는다. B가 빠진 단계를 말한다",
+      "mat": [
+        "Anna: It's a special boat, Pete. Well, thanks for your help. See you later!",
+        "Anna: Good idea, Ashley. See you later!",
+        "Anna: Sorry, Marsha! I gotta go! See you later!",
+        "Anna: Got it. See you back at H.Q.!",
+        "Pete: Sorry, Anna. I'll go get some."
+      ],
+      "pass": "B가 5개 중 3개 이상을 맞히면 성공.",
+      "bIns": "1단계 신호, 2단계 정리, 3단계 인사, 4단계 다음 약속 중 무엇이 빠졌는지 말한다",
+      "bPass": "5개 중 3개 이상."
+    },
+    {
+      "id": "Q4-127",
+      "no": 127,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 규칙 짝을 하나씩 읽는다. B가 네 갈래 중 하나로 답한다",
+      "mat": [
+        "38강 지난 일 표시는 소리로 셋으로 갈린다 / 62강 명사에 붙일 때 짧은 것은 앞이다",
+        "53강 조건 조각이 앞에 온다 / 62강 긴 것은 뒤에 온다",
+        "57강 이유 표시어는 뒤 조각에 붙는다 / 79강 순서 표시는 문장 앞에 온다",
+        "68강 때 표시는 한 번만 한다 / 87강 배경에 ing 가 붙는다",
+        "79강 순서 표시는 문장 앞에 온다 / 87강 움직임에만 ing 가 붙는다"
+      ],
+      "pass": "B가 5개 중 4개 이상을 맞히면 성공.",
+      "bIns": "안 부딪힘, 좁은 쪽이 맡음, 하나가 틀림, 어느 쪽도 안 닿음 중 하나로 답한다",
+      "bPass": "5개 중 4개 이상."
+    },
+    {
+      "id": "Q4-128",
+      "no": 128,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 문장을 하나씩 읽는다. 여덟 규칙 중 어느 것이 닿는지 B가 답한다",
+      "mat": [
+        "I am at home plate. I wait for the pitch.",
+        "First, I have to take a test on the computer.",
+        "Two robbers were grabbing her bag like this.",
+        "I can see it now... I am at home plate.",
+        "In fact, I wanted to be a baseball player.",
+        "I might go. I might not go."
+      ],
+      "pass": "B가 6개 중 4개 이상을 맞히면 성공.",
+      "bIns": "여덟 규칙 중 어느 것이 닿는지 말한다. 안 닿으면 안 닿는다고 말한다",
+      "bPass": "6개 중 4개 이상."
+    },
+    {
+      "id": "Q4-145",
+      "no": 145,
+      "q": "Q4",
+      "type": "판정",
+      "ins": "아래 값 두 개를 하나씩 읽는다. B가 어느 쪽으로 판정할지 말한다",
+      "mat": [
+        "94강 12판 / 96강 15판",
+        "94강 9개 / 96강 7개",
+        "94강 20초 / 96강 14초",
+        "94강 4판 / 96강 4판",
+        "94강 6개 / 96강 11개"
+      ],
+      "pass": "B가 5개 중 5개를 다 맞히면 성공.",
+      "bIns": "두 값 중 어느 쪽으로 판정할지 말한다. 값의 뜻은 안 따진다",
+      "bPass": "5개 중 5개."
+    }
+  ]
+}
