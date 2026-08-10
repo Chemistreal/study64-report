@@ -59,6 +59,8 @@ STEPS = [
     ("파생", "derive_chunks.py", [], True),
     # 둘이 한 문장이 쓸 앞뒤 토막. **붙이면 원문이다.** 지어낸 영어가 없다. T273
     ("파생", "derive_halves.py", [], True),
+    # 배속 사다리 규격. **문서가 원본이다.** 못 찾으면 실패로 낸다. T279
+    ("파생", "derive_ladder.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
