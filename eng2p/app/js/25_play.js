@@ -33,7 +33,8 @@ var PLAYS=[
   {id:"overlap", name:"겹치면 지운다", track:"청크", min:4},
   {id:"ladder", name:"배속 사다리", track:"자동화", min:5},
   {id:"wall", name:"3초 벽", track:"자동화", min:4},
-  {id:"rebound", name:"되받아치기", track:"자동화", min:4}
+  {id:"rebound", name:"되받아치기", track:"자동화", min:4},
+  {id:"onesee", name:"한 사람만 본다", track:"화용", min:5}
 ];
 /* 판을 그리는 자리. **`app/play/` 조각이 여기에 자기를 넣는다.**
    목록에 있는데 여기 없으면 아직 안 읽은 것이다. 읽고 나서 다시 그린다. */

@@ -1855,3 +1855,245 @@ function renderRebound(){
   if($("#rbdSaid")) $("#rbdSaid").onclick=function(){ stopHere(false); };
 }
 PLAYREND.rebound=renderRebound;
+var ONE={seats:["상황을 쥔 쪽","알아내는 쪽"]};
+
+function oneToday(){
+  var pl=(typeof plan==="function")?plan():null;
+  return pl || null;
+}
+function onePool(){
+  var d=DATA.situ, pl=oneToday();
+  if(!d || !d.cards || !pl || !pl.cards || !pl.quarter) return [];
+  return d.cards.filter(function(c){
+    return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
+  });
+}
+function oneSeen(id){
+  if(!S.situ) S.situ={};
+  if(!S.situ[id]) S.situ[id]=[];
+  return S.situ[id];
+}
+function oneLeft(c){
+  var d=DATA.situ, seen=oneSeen(c.id);
+  return d.parts.filter(function(p){ return seen.indexOf(p.key)<0; });
+}
+function oneRec(){ return playRec("onesee", {asks:0, list:[], deck:null}); }
+
+function oneDeck(){
+  var pool=onePool(), rec=oneRec();
+  var by={}; pool.forEach(function(c){ by[c.id]=c; });
+  if(rec.deck && rec.deck.length){
+    var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
+    if(kept.length===rec.deck.length) return kept;
+  }
+  var live=pool.filter(function(c){ return oneLeft(c).length>0; });
+  if(!live.length) return [];
+  var ord=roundOrder(live.length, roundSeed("onesee",0)), out=[];
+  for(var i=0;i<ord.length;i++) out.push(live[ord[i]]);
+  rec.deck=out.map(function(c){ return c.id; });
+  save();
+  return out;
+}
+function oneAsk(c){
+  var d=DATA.situ, left=oneLeft(c);
+  return left.slice(0, d.need);
+}
+
+function oneDone(d, rec, head){
+  var got=rec.list.filter(function(x){ return x!==null; }).length;
+  var h=head;
+  h+='<div class="note">닿은 것은 '+got+'장이고 물은 수는 '+
+     (rec.list.length
+       ? esc(rec.list.map(function(x){
+           return x===null ? "못 닿음" : String(x)+"번";
+         }).join(", "))
+       : "아직 없다")+'.</div>';
+  h+='<div class="note w">규칙서가 남기라는 값은 <b>몇 번 물어서 닿았는가</b>다. '+
+     '<b>적은 쪽이 잘한 것이 아니다.</b> 물은 수는 어디가 안 보였는지를 적은 것이다.</div>';
+  h+='<div class="note">자리가 <b>한 장마다</b> 바뀌니 이 목록은 '+
+     '<b>이 기기가 쥐었던 장</b>만이다. 나머지는 상대 기기에 있다. '+
+     '소리 내어 이어 읽는다. 기기끼리는 못 잇는다.</div>';
+  return h+playGrade(d)+
+    '<div class="row" style="margin-top:10px">'+
+    '<button class="g" id="oneAgain">처음부터</button></div></div>';
+}
+
+var ONECLK={t:null, left:0, over:false};
+function oneClockStop(){ if(ONECLK.t){ clearInterval(ONECLK.t); ONECLK.t=null; } }
+function oneClockText(){
+  if(ONECLK.over) return "0:00";
+  var s=ONECLK.left>0?ONECLK.left:ONE.min*60;
+  return String(Math.floor(s/60))+":"+String(s%60).padStart(2,"0");
+}
+function oneClockGo(min){
+  if(ONECLK.t){ oneClockStop(); return; }
+  if(ONECLK.left<=0){ ONECLK.left=min*60; ONECLK.over=false; }
+  tone("start");
+  ONECLK.t=setInterval(function(){
+    ONECLK.left--;
+    var e=document.getElementById("oneClock");
+    if(!e){ oneClockStop(); return; }
+    if(ONECLK.left<=0){
+      ONECLK.over=true; oneClockStop(); tone("blockend"); renderOnesee(); return;
+    }
+    e.textContent=oneClockText();
+  },1000);
+  var e=document.getElementById("oneClock"); if(e) e.textContent=oneClockText();
+}
+
+function renderOnesee(){
+  var box=$("#playPane"); if(!box) return;
+  var p=playById("onesee");
+  ONE.min=p.min;
+  if(!DATA.situ){
+    box.innerHTML='<div class="card tight small mut">상황 카드를 여는 중이다.</div>';
+    loadData("situ","ENG2P_SITU",function(){ renderOnesee(); });
+    return;
+  }
+  var d=DATA.situ, pool=onePool(), deck=oneDeck();
+
+  if(!pool.length){
+    box.innerHTML='<div class="card">'+playHead(p,0)+
+      '<div class="note w" style="margin-top:10px"><b>아직 이 판은 안 연다.</b> '+
+      '역할형 카드가 오늘까지 <b>한 장도</b> 안 나왔다. '+
+      '<b>적어서가 아니라 아직 안 나와서다.</b> 강이 가면 나온다.</div>'+
+      '<div class="note">그 사이에는 같은 화용 트랙의 다른 판을 돈다.</div>'+
+      playGrade(d)+'</div>';
+    return;
+  }
+  if(!deck.length){
+    box.innerHTML='<div class="card">'+playHead(p,0)+
+      '<div class="note w" style="margin-top:10px"><b>오늘까지 나온 '+pool.length+
+      '장을 다 접었다.</b> 카드마다 다섯 요소를 다 알아냈다. '+
+      '한 장을 <b>'+d.most+'번까지</b> 쓰는데 그것을 다 썼다.</div>'+
+      '<div class="note">새 카드는 강이 가야 나온다. 그 사이에는 다른 판을 돈다.</div>'+
+      playGrade(d)+'</div>';
+    return;
+  }
+
+  var s=roundStep("onesee"), rec=oneRec();
+  if(soloOn() && soloHanding()){
+    box.innerHTML='<div class="card">'+soloCover([S.names.a,S.names.b])+'</div>';
+    $("#soTake").onclick=function(){ soloTake(renderOnesee); };
+    return;
+  }
+
+  var h='<div class="card">'+playHead(p,s);
+
+  if(ONECLK.over){
+    box.innerHTML=oneDone(d, rec, h+
+      '<div class="note w" style="margin-top:10px"><b>'+ONE.min+'분이 됐다.</b> '+
+      '쥔 쪽이 <b>나머지를 읽어 준다.</b> 못 맞힌 것을 듣는 것도 입력이다.</div>');
+    $("#oneAgain").onclick=function(){
+      roundStepSet("onesee",0); turnForget("onesee");
+      rec.asks=0; rec.list=[]; rec.deck=null; save();
+      oneClockStop(); ONECLK.left=0; ONECLK.over=false; renderOnesee();
+    };
+    return;
+  }
+
+  if(s>=deck.length){
+    box.innerHTML=oneDone(d, rec, h+
+      '<div class="note g" style="margin-top:10px"><b>오늘 낼 것을 다 냈다.</b> '+
+      deck.length+'장을 돌았다.</div>');
+    $("#oneAgain").onclick=function(){
+      roundStepSet("onesee",0); turnForget("onesee");
+      rec.asks=0; rec.list=[]; rec.deck=null; save();
+      oneClockStop(); ONECLK.left=0; ONECLK.over=false; renderOnesee();
+    };
+    return;
+  }
+
+  var it=deck[s], first=roundFirst(s, 1);
+  if(first===null){
+    h+='<div class="note w" style="margin-top:10px"><b>이 판은 이대로 안 돈다.</b> '+
+       '상황이 한쪽 화면에만 있어야 하는데 이 기기는 어느 쪽인지를 모른다. '+
+       '대장 탭에서 이 기기 쪽을 고르거나, 기기가 하나면 규칙 탭에서 '+
+       '<b>돌려 보기</b>를 켠다.</div></div>';
+    box.innerHTML=h; return;
+  }
+
+  var ask=oneAsk(it), left=oneLeft(it), round=d.parts.length-left.length;
+  h+='<div class="row" style="margin-top:8px;justify-content:space-between">'+
+     '<span>이 기기 자리 <b>'+esc(first?ONE.seats[0]:ONE.seats[1])+'</b>'+
+     (soloOn()?' <span class="small mut">(돌려 보기)</span>':'')+'</span>'+
+     '<span class="small mut">'+(s+1)+'장째 · '+esc(it.id)+'</span></div>';
+
+  h+='<div class="note" style="margin-top:10px">이 장에서 알아낼 것 '+ask.length+
+     '개: <b>'+ask.map(function(x){ return esc(x.name); }).join("</b>, <b>")+'</b>'+
+     (round?'. 이 카드에서 <b>'+round+'개</b>는 지난 판에 알아냈다. 다시 안 낸다':'')+
+     '</div>';
+
+  if(first){
+    h+='<div class="sitbox">';
+    d.parts.forEach(function(x){
+      var on=ask.filter(function(y){ return y.key===x.key; }).length;
+      h+='<div class="sitrow'+(on?" on":"")+'"><b>'+esc(x.name)+'</b><span>'+
+         esc(it.parts[x.key])+'</span></div>';
+    });
+    h+='</div>';
+    h+='<div class="note" style="margin-top:10px"><b>쥔 쪽이 할 일</b><br>'+
+       esc(it.ins)+'</div>';
+    h+='<div class="note"><b>판정</b> '+esc(it.pass)+'</div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>이 표를 읽어 주지 않는다.</b> 그 상황인 것처럼 말한다. '+
+       '상대가 물으면 그 말 안에서 답한다.</div>';
+  }else{
+    h+='<div class="vpane"><div class="vhid" aria-hidden="true"><span>'+
+       '상황은 쥔 쪽 화면에만 있다</span></div></div>';
+    h+='<div class="note" style="margin-top:10px"><b>알아내는 쪽이 할 일</b><br>'+
+       '묻는다. 위의 <b>'+ask.length+'개</b>가 무엇인지 알아내면 된다. '+
+       '나머지는 안 알아내도 된다.</div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>이름만 있고 값은 없다.</b> 값이 여기 있으면 알아낼 것이 없다.</div>';
+  }
+
+  h+='<div class="chnbig"><b>'+rec.asks+'</b> 번 물었다</div>';
+
+  if(first){
+    h+='<div class="row" style="margin-top:8px">'+
+       '<button class="b" id="oneAsked">물었다 (+1)</button>'+
+       '<button class="g" id="oneHit">'+ask.length+'개를 다 알아냈다</button>'+
+       '<button class="g" id="oneGive">못 닿았다. 읽어 준다</button></div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>판정은 쥔 사람이 한다.</b> 무엇이 답인지 그쪽만 안다. '+
+       '<b>못 닿아도 벌이 아니다.</b> 나머지를 읽어 주는 것으로 끝낸다.</div>';
+  }else{
+    h+='<div class="row" style="margin-top:8px">'+
+       '<button class="g" id="oneNext">다음 장</button></div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>이 자리에는 판정할 것이 없다.</b> 닿았는지는 쥔 사람이 정한다. '+
+       '그쪽이 넘겼다고 하면 이 단추를 누른다.</div>';
+  }
+
+  h+='<div id="oneTurn"></div>';
+  if(soloOn())
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="oneHand">건넨다</button></div>';
+  h+='<div class="row" style="margin-top:10px">'+
+     '<button class="g" id="oneGo">'+ONE.min+'분 시계 <span class="mono" id="oneClock">'+
+     oneClockText()+'</span></button></div>'+playGrade(d)+'</div>';
+  box.innerHTML=h;
+
+  $("#oneGo").onclick=function(){ oneClockGo(ONE.min); };
+  if($("#oneHand")) $("#oneHand").onclick=function(){ soloHandOff(renderOnesee); };
+  if($("#oneAsked")) $("#oneAsked").onclick=function(){
+    rec.asks++; save(); tone("next"); renderOnesee();
+  };
+  function advance(){
+    var seen=oneSeen(it.id);
+    ask.forEach(function(x){ if(seen.indexOf(x.key)<0) seen.push(x.key); });
+    rec.asks=0; save();
+    var n=s+1;
+    roundStepSet("onesee", n); renderOnesee();
+    if(turnCheck("onesee", n, 1)) turnAlert(n, 1, ONE.seats, "oneTurn");
+  }
+  if($("#oneHit")) $("#oneHit").onclick=function(){
+    rec.list.push(rec.asks); tone("done"); advance();
+  };
+  if($("#oneGive")) $("#oneGive").onclick=function(){
+    rec.list.push(null); advance();
+  };
+  if($("#oneNext")) $("#oneNext").onclick=function(){ advance(); };
+}
+PLAYREND.onesee=renderOnesee;

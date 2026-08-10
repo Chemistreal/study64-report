@@ -802,6 +802,15 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .walmat>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
   background:var(--bg2);margin-bottom:6px;overflow-wrap:anywhere;font-size:1.0625rem}
 
+.sitbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+.sitrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
+  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut);
+  overflow-wrap:anywhere}
+.sitrow:last-child{border-bottom:0}
+.sitrow b{flex:none;min-width:5em}
+.sitrow.on{background:var(--sub);color:var(--fg);font-weight:600}
+.sitrow.on b{color:var(--acc)}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
@@ -6268,7 +6277,8 @@ var PLAYS=[
   {id:"overlap", name:"겹치면 지운다", track:"청크", min:4},
   {id:"ladder", name:"배속 사다리", track:"자동화", min:5},
   {id:"wall", name:"3초 벽", track:"자동화", min:4},
-  {id:"rebound", name:"되받아치기", track:"자동화", min:4}
+  {id:"rebound", name:"되받아치기", track:"자동화", min:4},
+  {id:"onesee", name:"한 사람만 본다", track:"화용", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};

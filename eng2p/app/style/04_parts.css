@@ -368,6 +368,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .walmat>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
   background:var(--bg2);margin-bottom:6px;overflow-wrap:anywhere;font-size:1.0625rem}
 
+/* 한 사람만 본다 (T289). 다섯 요소 중 이 판이 낼 둘만 도드라져야 한다.
+   나머지 셋도 보인다. 쥔 사람은 그 상황을 통째로 알아야 그 사람처럼 말한다. */
+.sitbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+.sitrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
+  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut);
+  overflow-wrap:anywhere}
+.sitrow:last-child{border-bottom:0}
+.sitrow b{flex:none;min-width:5em}
+.sitrow.on{background:var(--sub);color:var(--fg);font-weight:600}
+.sitrow.on b{color:var(--acc)}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
