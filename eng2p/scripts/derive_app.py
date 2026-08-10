@@ -50,8 +50,14 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 APP = ROOT / "app"
 OUT = ROOT.parent / "english.html"
 # 판 화면 묶음. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다.
-PLAYS = ROOT / "out" / "app" / "plays.js"
-LAZY = "play/"
+LATEDIR = ROOT / "out" / "app"
+# 늦게 읽는 자리 둘. **접두사가 곧 묶음 이름이다.**
+#   play/  판 화면.        판 탭을 열 때 읽는다 (T259)
+#   late/  드물게 여는 탭.  그 탭을 열 때 읽는다 (T313 뒤)
+#
+# 둘로 가른 까닭이 있다. 판 탭을 여는 사람과 회전 탭을 여는 사람이 다른 날이다.
+# 한 묶음으로 두면 판 하나 열려고 검사 탭 코드까지 읽는다.
+LAZY = {"play/": "plays.js", "late/": "late.js"}
 
 # 조각 안에서만 사는 것. 합칠 때 뗀다. **주석은 조각에 남고 파생물에서만 빠진다.**
 #
@@ -164,14 +170,21 @@ def main():
         print("새로 만든 것이면 app/order.txt 에 넣는다. 자리가 곧 차례다.")
         return 1
 
-    parts, slim, lazy = [], [], []
+    parts, slim = [], []
+    lazy = {k: [] for k in LAZY}
     for n in names:
         t = (APP / n).read_text(encoding="utf-8")
         # 조각마다 끝 줄바꿈을 하나 붙여 뒀다. 이을 때 그 하나를 뗀다.
         if t.endswith("\n"):
             t = t[:-1]
         parts.append(t)
-        (lazy if n.startswith(LAZY) else slim).append(strip_notes(t, n).rstrip("\n"))
+        got = strip_notes(t, n).rstrip("\n")
+        for k in LAZY:
+            if n.startswith(k):
+                lazy[k].append(got)
+                break
+        else:
+            slim.append(got)
     body = "\n".join(slim) + "\n"
 
     # 지도는 **조각의 줄 수**를 적는다. 파생물의 줄 수가 아니다.
@@ -184,18 +197,22 @@ def main():
     same = hashlib.sha256(old.encode()).hexdigest() == hashlib.sha256(body.encode()).hexdigest()
     kb = len(body.encode()) / 1024
 
-    # 판 묶음. **비어도 파일을 쓴다.** 없으면 판 탭이 못 읽었다고 적고
+    # 늦게 읽는 묶음들. **비어도 파일을 쓴다.** 없으면 그 탭이 못 읽었다고 적고
     # 두 사람이 내려받다 빠뜨린 줄 안다. 빈 것과 없는 것은 다르다.
-    PLAYS.parent.mkdir(parents=True, exist_ok=True)
-    pbody = ("/* 판 화면 묶음. app/play/ 에서 나온다. 손으로 안 고친다. */\n"
-             + "\n".join(lazy) + "\n")
-    PLAYS.write_text(pbody, encoding="utf-8")
+    LATEDIR.mkdir(parents=True, exist_ok=True)
+    late = []
+    for pre in sorted(LAZY):
+        f = LATEDIR / LAZY[pre]
+        b = ("/* 늦게 읽는 묶음. app/%s 에서 나온다. 손으로 안 고친다. */\n" % pre
+             + "\n".join(lazy[pre]) + "\n")
+        f.write_text(b, encoding="utf-8")
+        late.append("%s %d개 %.0fKB" % (LAZY[pre], len(lazy[pre]), len(b.encode()) / 1024))
+    nlazy = sum(len(v) for v in lazy.values())
 
     print("english.html / 조각 %d개 %d줄 %.0fKB (주석 %.0fKB 를 뗐다)%s / "
-          "판 묶음 %d개 %.0fKB 는 따로 나간다"
-          % (len(names) - len(lazy), body.count("\n"), kb, raw / 1024 - kb,
-             "" if same else "  (내용이 바뀌었다)",
-             len(lazy), len(pbody.encode()) / 1024))
+          "늦게 읽는 것 %s 는 따로 나간다"
+          % (len(names) - nlazy, body.count("\n"), kb, raw / 1024 - kb,
+             "" if same else "  (내용이 바뀌었다)", " / ".join(late)))
     return 0
 
 

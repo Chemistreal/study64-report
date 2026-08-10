@@ -58,7 +58,7 @@ BROWSER = [("tests/narrow.js", "휴대폰 폭 안에 드나"),
 # T289 에 실제로 그 자리에 섰다. `app/play/onesee.js` 의 따옴표 하나가 어긋나
 # 판 묶음이 통째로 안 읽혔는데 **파생과 규격 검사가 다 초록불이었다.**
 # 브라우저 검사가 8초를 기다리다 터지는 것으로만 알았다.
-LOOSE = ["eng2p/out/app/plays.js"]
+LOOSE = ["eng2p/out/app/plays.js", "eng2p/out/app/late.js"]
 
 
 def main():

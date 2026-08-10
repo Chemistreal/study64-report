@@ -253,7 +253,8 @@ function renderRules(){
    시작
    ========================================================================= */
 buildNav();
-fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
+/* **회전 탭 고르개와 검사 탭 칸은 여기서 안 채운다** (T313 뒤).
+   그 코드가 늦게 오는 자리로 갔다. 채우는 일은 그 탭을 열 때 그쪽이 한다. */
 /* 끊긴 세션이 있으면 그 자리에서 다시 편다. 저절로 안 돈다. 누르면 이어 간다. */
 loadSession();
 /* **못 읽은 기록이 있으면 제일 먼저 말한다.** 조용히 넘어가면 두 사람이
@@ -266,7 +267,7 @@ if(typeof LOAD_ERR!=="undefined" && LOAD_ERR) toast(LOAD_ERR);
    차림표를 못 읽었다고 말한다. 그 말은 이미 있다. */
 applyFs(); renderOnboard();
 needWeek(plan().week, function(){
-  renderToday(); paintTimer(); renderRules(); paintKind(); paintSide(); paintVeil();
+  renderToday(); paintTimer(); renderRules(); paintSide(); paintVeil();
 });
 ttsVoices(); renderSound(); renderClip(); renderScript();
 /* **끊긴 세션이 있으면 오늘 탭으로 데려온다.** T247

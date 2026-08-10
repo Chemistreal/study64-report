@@ -166,7 +166,9 @@ scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 �
 scripts/check_app.py   앱의 한국어를 규격 검사에 건다. **조각을 본다.** 파생물은 주석이 빠져 있다
 app/                   **앱의 원본.** 조각 쉰둘이다. english.html 은 이것에서 나온다
 app/play/              판 화면. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다
+app/late/              드물게 여는 탭 넷. **english.html 에 안 들어간다.** 그 탭을 열 때 읽는다
 out/app/plays.js       판 묶음. 파생물이다. 손으로 안 고친다
+out/app/late.js        탭 넷 묶음. 파생물이다. 21.3KB 를 여기로 뺐다 (T313 뒤)
 app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
 scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **주석은 조각에만 남는다**
 scripts/check_manual.py 설명하는 글과 앱을 견준다. 매뉴얼 넷과 짝 코드 자리 폭

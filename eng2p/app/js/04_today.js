@@ -53,9 +53,13 @@ function go(name){
   if(name==="today") renderToday();
   if(name==="media") renderMedia();
   if(name==="ledger"){ renderLedger(); renderWeekCheck(); renderPair(); renderMerge(); }
-  if(name==="verify") renderVerify();
-  if(name==="quarter") renderQuarter();
-  if(name==="rot") renderRot();
+  /* **드물게 여는 탭 넷은 늦게 읽는다** (T313 뒤). 21.3KB 라 열자마자 읽을 값이 아니다.
+     판 탭이 쓰는 길과 같다 (T259). 다른 점은 **여기는 그릴 자리가 이미 화면에 있다**는
+     것이다. 칸은 `body/` 조각에 있고 그리는 코드만 늦게 온다. */
+  if(name==="verify") lateDo("renderVerify");
+  if(name==="quarter") lateDo("renderQuarter");
+  if(name==="rot") lateDo("renderRot");
+  if(name==="check") lateDo("checkBind");
   if(name==="rules") renderSplit();
   if(name==="play") renderPlayTab();
   window.scrollTo(0,0);
@@ -63,6 +67,20 @@ function go(name){
 document.addEventListener("click",function(e){
   var more=$("#navMore"); if(more&&more.open&&!more.contains(e.target)) more.open=false;
 });
+
+/* 늦게 읽는 탭 넷. **한 번만 읽는다.** 읽고 나면 그 안의 함수가 그냥 있다.
+   못 읽으면 그 탭이 빈 채로 남는다. 빈 것과 없는 것을 가르려고 말을 적는다. */
+var LATE={at:{}};
+function lateDo(fn, box){
+  if(typeof window[fn]==="function"){ window[fn](); return; }
+  loadScript("late","eng2p/out/app/late.js",function(ok){
+    if(ok && typeof window[fn]==="function"){ window[fn](); return; }
+    var b=$(box||"#tab-"+(LATE.now||""));
+    if(b) b.innerHTML='<div class="card"><div class="note w">이 탭을 못 읽었다. '+
+      '<b>eng2p/out/app/late.js</b> 가 있어야 한다. 내려받을 때 그 자리가 빠졌으면 '+
+      '이 탭은 안 돈다. 나머지는 그대로 돈다.</div></div>';
+  });
+}
 
 /* =========================================================================
    오늘 탭

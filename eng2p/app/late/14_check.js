@@ -156,9 +156,19 @@ function paintKind(){
   var t=$("#kText").value;
   $("#kLen").textContent="공백 제외 "+t.replace(/\s/g,"").length+"자";
 }
-$("#kName").oninput=paintKind;
-$("#kText").oninput=paintKind;
-$("#kRun").onclick=function(){
+/* **잇는 것을 함수 안으로 넣었다** (T313 뒤). 이 조각이 늦게 오므로
+   맨 위에서 잇던 것을 그대로 두면 조각을 읽는 순간에 잇게 되고
+   그때 검사 탭이 이미 열려 있다. 그래도 되지만 **다시 여는 날 또 잇는다.**
+   한 번만 잇고 그 김에 칸을 한 번 칠한다. 탭 몰기가 이것을 부른다. */
+function checkBind(){
+  if(checkBind.done){ paintKind(); return; }
+  checkBind.done=true;
+  $("#kName").oninput=paintKind;
+  $("#kText").oninput=paintKind;
+  $("#kRun").onclick=checkRun;
+  paintKind();
+}
+function checkRun(){
   var name=$("#kName").value.trim(), text=$("#kText").value;
   if(!text.trim()){ $("#kOut").innerHTML='<div class="note w small">검사할 내용이 없다.</div>'; return; }
   var r=runCheck(name,text);
@@ -175,5 +185,4 @@ $("#kRun").onclick=function(){
   if(!r.fail.length) h.push('<div class="note small">규격 검사는 형식만 본다. 영어 표현의 현행성은 잡지 못한다. 확신 없는 표현은 B등급으로 표시하고 대화 세션에서 웹 검색으로 검증한다.</div>');
   h.push('</div>');
   $("#kOut").innerHTML=h.join("");
-};
-
+}

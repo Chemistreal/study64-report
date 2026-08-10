@@ -1,4 +1,4 @@
-/* 판 화면 묶음. app/play/ 에서 나온다. 손으로 안 고친다. */
+/* 늦게 읽는 묶음. app/play/ 에서 나온다. 손으로 안 고친다. */
 var MIR={every:4, n:8, seats:["읽는 쪽","짚는 쪽"]};
 
 function mirPool(){

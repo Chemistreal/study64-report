@@ -16,7 +16,15 @@ function rotCounts(){
   return c;
 }
 function rotRound(d){ return S.rot.filter(function(x){return x.d===d;}).length+1; }
+/* 고르개를 여기서 채운다. **전에는 시작에서 채웠다** (T313 뒤에 옮겼다).
+   이 조각이 늦게 오므로 시작에는 이 함수가 없다. 두 번 채워도 같은 값이라 그냥 채운다. */
+function rotFill(){
+  if(rotFill.done) return;
+  fillSel("#rD",DOM); fillSel("#rR",REL); fillSel("#rF",FUN);
+  rotFill.done=true;
+}
 function renderRot(){
+  rotFill();
   var d=$("#rD").value,r=$("#rR").value,f=$("#rF").value,q=+$("#rQ").value;
   var round=rotRound(d), step=Math.min(round,4);
   $("#rLadder").innerHTML="<b>"+esc(d)+" "+esc(round)+"회차</b> · 추상도 "+step+"단계 ("+LEVELS[step-1]+")<br>"+
