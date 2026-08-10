@@ -3151,13 +3151,228 @@ const RESET = () => {
       no("따로 쓰고 같이 펴기 (" + why + "): 화면에 마크다운 표시가 보인다");
   }
 
+  /* =====================================================================
+     어제 그거 (T314). **두 기기가 다른 덱을 들어도 되는 판.**
+
+       덱     기기마다 다르다. `S.cardDue` 가 기기마다 따로다
+       회     그래도 같아야 한다. 그것으로 자리가 바뀐다
+       가림   카드와 **날짜**가 내는 쪽에만 있다
+       날짜   덤이다. 단추가 없고 셈에 안 든다
+     ===================================================================== */
+  /* 기록을 심는다. **두 기기에 다르게 심는다.** 그것이 이 판의 자리다.
+     A는 세 날에 넉넉히, B는 세 날에 다른 카드를 둔다. */
+  const RCSEED = (tag) => {
+    const td = today(), m = {};
+    const q = tag === "a" ? 1 : 40;
+    for (let i = 0; i < 12; i++) {
+      const n = [1, 3, 7][i % 3];
+      const id = "Q1-" + String(q + i).padStart(3, "0");
+      m[id] = { box: 1, due: addDays(td, 1), ran: addDays(td, -n),
+                hist: [addDays(td, -n)] };
+    }
+    S.cardDue = m; S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false;
+    saveNow();
+  };
+  const RCRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("recall");
+    rclClockStop(); RCLK.left = 0; RCLK.over = false;
+    renderRecall();
+  };
+  for (const [tag, p] of [["a", A], ["b", B]]) {
+    await openPlay(p, "recall", "renderRecall");
+    await p.evaluate(RCSEED, tag);
+    await p.evaluate(() => renderRecall());
+    await p.waitForFunction(() => !!DATA.cards, null, { timeout: 30000 })
+      .catch(() => no("어제 그거: 카드 자료를 못 읽었다"));
+    await p.evaluate(RCRESET);
+  }
+
+  /* ---- 165. 세 날에서 골고루 뽑고 열 장이다 ------------------------------ */
+  const rspec = await A.evaluate(() => {
+    const days = rclDays(), deck = rclDeck({ end: 10 });
+    const cnt = {};
+    deck.forEach((x) => { cnt[x.n] = (cnt[x.n] || 0) + 1; });
+    return { days: days.map((g) => ({ n: g.n, d: g.d, len: g.ids.length })),
+             deck: deck, cnt: cnt, ids: deck.map((x) => x.id) };
+  });
+  if (rspec.deck.length !== 10)
+    no("어제 그거: 덱이 " + rspec.deck.length + "장이다. 열 장이어야 한다");
+  if (new Set(rspec.ids).size !== rspec.ids.length)
+    no("어제 그거: 덱에 같은 카드가 두 번 있다");
+  for (const n of [1, 3, 7])
+    if (!rspec.cnt[n])
+      no("어제 그거: " + n + "일 전 카드가 덱에 하나도 없다. 섞은 것이 아니다");
+  const rday = {};
+  rspec.days.forEach((g) => { rday[g.n] = g.d; });
+  for (const x of rspec.deck)
+    if (x.d !== rday[x.n])
+      no("어제 그거: " + x.id + " 의 날짜가 " + x.d + " 다. " + rday[x.n] + " 여야 한다");
+
+  /* ---- 166. 두 기기가 다른 덱을 든다. **그래도 된다** (T313) -------------- */
+  const rB = await B.evaluate(() => rclDeck({ end: 10 }).map((x) => x.id));
+  if (rB.join() === rspec.ids.join())
+    no("어제 그거: 기록을 다르게 심었는데 두 기기 덱이 같다. 검사가 안 심었나 본다");
+  if (rB.length !== 10)
+    no("어제 그거: 저쪽 덱이 " + rB.length + "장이다");
+
+  /* ---- 167. 카드와 날짜가 내는 쪽에만 있다 -------------------------------- */
+  const rFirst = (p) => p.evaluate(() => roundFirst(roundStep("recall"), 5));
+  if ((await rFirst(A)) === (await rFirst(B)))
+    no("어제 그거: 두 기기가 같은 자리다. 하나가 내면 하나는 받아야 한다");
+  {
+    const give = (await rFirst(A)) ? A : B;
+    const take = give === A ? B : A;
+    const it = await give.evaluate(() => {
+      const x = rclDeck({ end: 10 })[roundStep("recall")];
+      let c = null;
+      (DATA.cards.items || []).forEach((y) => { if (y.id === x.id) c = y; });
+      return { id: x.id, d: x.d,
+               mat: ((c || {}).a || {}).material || [],
+               ans: (((c || {}).a || {}).answer || "") };
+    });
+    const gt = await pane(give), tt = await pane(take);
+    if (gt.indexOf(it.id) < 0) no("어제 그거: 내는 쪽 화면에 카드 번호가 없다");
+    if (gt.indexOf(it.d) < 0)
+      no("어제 그거: 내는 쪽 화면에 날짜가 없다. 판정은 그것을 보고 한다");
+    if (it.ans.length >= 12 && gt.indexOf(it.ans) < 0)
+      no("어제 그거: 내는 쪽 화면에 정답이 없다. 판정할 것이 없어진다");
+    if (tt.indexOf(it.d) >= 0)
+      no("어제 그거: 받는 쪽 화면에 날짜가 있다. 그것을 맞히는 것이 이 판이다");
+    if (it.ans.length >= 12 && tt.indexOf(it.ans) >= 0)
+      no("어제 그거: 받는 쪽 화면에 정답이 있다");
+    const leak = (it.mat || []).filter((m) => m.length >= 6 && tt.indexOf(m) >= 0);
+    if (leak.length)
+      no("어제 그거: 받는 쪽 화면에 카드 재료가 있다: " + leak[0].slice(0, 30));
+    /* **날짜는 덤이다.** 두 화면이 다 그 말을 한다 */
+    if (!/날짜는 덤이다/.test(await text(give)))
+      no("어제 그거: 내는 쪽 화면에 날짜가 덤이라는 말이 없다");
+    if (!/날짜는 덤이다/.test(await text(take)))
+      no("어제 그거: 받는 쪽 화면에 날짜가 덤이라는 말이 없다");
+    /* **날짜 단추가 없다.** 있으면 날짜가 셈에 든다 */
+    const rBtn = await give.$$("#playPane button");
+    const rTxt = [];
+    for (const b of rBtn) rTxt.push(await b.innerText());
+    if (rTxt.filter((t) => /날짜/.test(t)).length)
+      no("어제 그거: 날짜를 누르는 단추가 있다. 날짜는 따로 안 센다");
+  }
+
+  /* ---- 168. 받는 쪽은 넘기기만 한다 (T308 의 자리) ------------------------ */
+  {
+    const give = (await rFirst(A)) ? A : B;
+    const take = give === A ? B : A;
+    if (await take.$("#rclHit")) no("어제 그거: 받는 쪽에 판정 단추가 있다");
+    if (!(await take.$("#rclNext"))) no("어제 그거: 받는 쪽에 넘기는 단추가 없다");
+    if (!/판정이 아니라/.test(await text(take)))
+      no("어제 그거: 넘기는 단추가 판정이 아니라는 말이 없다");
+    await tap(take, "#rclNext", "저쪽이 눌렀다. 다음 장");
+    const st = await take.evaluate(() => ({
+      s: roundStep("recall"), r: S.rhit["recall|" + today()] || {} }));
+    if (st.s !== 1) no("어제 그거: 받는 쪽이 넘겼는데 이 기기 회가 안 밀렸다");
+    if ((st.r.hit || 0) + (st.r.miss || 0) !== 0)
+      no("어제 그거: 받는 쪽의 넘기기가 셈을 건드렸다");
+    await take.evaluate(() => { roundStepSet("recall", 0); renderRecall(); });
+  }
+
+  /* ---- 169. 맞았다와 못 맞혔다가 다르게 세고 둘 다 회를 민다 -------------- */
+  const rRec = (p) => p.evaluate(() => S.rhit["recall|" + today()] || {});
+  {
+    const give = (await rFirst(A)) ? A : B;
+    await tap(give, "#rclHit", "답이 맞았다");
+    let r = await rRec(give);
+    if ((r.hit || 0) !== 1 || (r.miss || 0) !== 0)
+      no("어제 그거: 맞았다를 눌렀는데 셈이 맞음 " + r.hit + " 못맞힘 " + r.miss + " 이다");
+    if ((await give.evaluate(() => roundStep("recall"))) !== 1)
+      no("어제 그거: 맞았다를 눌렀는데 장이 안 넘어갔다");
+    /* **다섯 장마다 바뀐다.** 한 장 밀렸다고 자리가 바뀌면 안 된다 */
+    if (!(await give.$("#rclHit")))
+      no("어제 그거: 한 장 돌았는데 자리가 바뀌었다. 다섯 장마다여야 한다");
+    await tap(give, "#rclMiss", "못 맞혔다");
+    r = await rRec(give);
+    if ((r.miss || 0) !== 1) no("어제 그거: 못 맞혔다를 눌렀는데 안 셌다");
+    if ((r.hit || 0) !== 1) no("어제 그거: 못 맞혔다가 맞음 셈까지 건드렸다");
+    if ((await give.evaluate(() => roundStep("recall"))) !== 2)
+      no("어제 그거: 못 맞혔다를 눌렀는데 장이 안 넘어갔다");
+    /* 다섯째에서 바뀐다. **화면을 본다.**
+
+       처음에는 `roundFirst(n, 5)` 를 불러서 쟀다. 그것은 판이 5를 쓰는지를 안 잰다.
+       판이 1을 써도 이 줄은 통과한다. 깸 시험에서 판을 1로 바꿔 봤더니
+       **다른 줄이 잡았다.** 옆줄이 잡아 준다고 약한 줄을 두면 안 된다 (T284).
+
+       판정 단추가 이 기기에 있는가로 잰다. 그것이 판이 정한 자리다. */
+    const seat = [];
+    for (let i = 0; i <= 5; i++) {
+      await give.evaluate((n) => { roundStepSet("recall", n); renderRecall(); }, i);
+      seat.push(!!(await give.$("#rclHit")));
+    }
+    if (!(seat[0] && seat[4] && !seat[5]))
+      no("어제 그거: 자리가 다섯 장마다 안 바뀐다. 판정 단추가 " +
+         JSON.stringify(seat) + " 로 있다");
+    await give.evaluate(() => { roundStepSet("recall", 2); renderRecall(); });
+  }
+
+  /* ---- 170. 마감. **절반이고 날짜는 안 센다** ---------------------------- */
+  await A.evaluate(RCRESET);
+  await A.evaluate(() => {
+    const rec = rclRec(); rec.hit = 3; rec.miss = 1; save();
+    RCLK.over = true; renderRecall();
+  });
+  const rDone1 = await text(A);
+  await A.evaluate(() => { RCLK.over = false;
+                           roundStepSet("recall", 10); renderRecall(); });
+  const rDone2 = await text(A);
+  for (const [why, txt] of [["시계", rDone1], ["장 끝", rDone2]]) {
+    if (!/두 기기 숫자를 소리 내어 더한다/.test(txt))
+      no("어제 그거 (" + why + "): 마감이 더하라고 안 적는다. 자리가 판 안에서 바뀐다");
+    if (!/날짜는 따로 안 셌다/.test(txt))
+      no("어제 그거 (" + why + "): 날짜를 안 셌다는 말이 없다");
+    if (/날짜.{0,6}(맞은|맞힌) *수|날짜 *\d/.test(txt))
+      no("어제 그거 (" + why + "): 마감이 날짜를 센 값을 적는다");
+  }
+
+  /* ---- 171. 기록이 없으면 안 연다. **한 기기만 안 열릴 수 있다** (T313) --- */
+  const rNone = await A.evaluate(() => {
+    const keep = JSON.parse(JSON.stringify(S.cardDue));
+    const td = today();
+    /* 사흘 전만 지운다. **셋 중 하나만 비어도 안 연다** */
+    Object.keys(S.cardDue).forEach((k) => {
+      const c = S.cardDue[k];
+      if ((c.hist || []).indexOf(addDays(td, -3)) >= 0) delete S.cardDue[k];
+    });
+    const rec = rclRec(); rec.deck = null; save();
+    renderRecall();
+    const t = document.getElementById("playPane").innerText;
+    S.cardDue = keep; rec.deck = null; save(); renderRecall();
+    return t;
+  });
+  if (!/안 연다/.test(rNone))
+    no("어제 그거: 사흘 전 기록이 없는데 판이 그대로 돈다");
+  if (!/짝 코드로 합치면/.test(rNone))
+    no("어제 그거: 이 기기에만 기록이 없을 수 있다는 것을 화면이 안 적는다");
+  if (!/0/.test(rNone))
+    no("어제 그거: 세 날에 몇 장씩 있는지를 화면이 안 적는다");
+
+  /* ---- 172. 등급. **화면 셋을 다 본다** (T305) --------------------------- */
+  await A.evaluate(RCRESET);
+  const rTxt2 = await text(A);
+  for (const [why, txt] of [["도는 중", rTxt2], ["시계", rDone1], ["장 끝", rDone2]]) {
+    if (!txt.includes("B등급"))
+      no("어제 그거 (" + why + "): 자료 등급이 화면에 없다");
+    if (!txt.includes("통과 판정에는 안 쓴다"))
+      no("어제 그거 (" + why + "): B등급인데 통과 판정에 안 쓴다는 말이 없다");
+    if (!/cards.js 에는 등급 칸이 없어/.test(txt))
+      no("어제 그거 (" + why + "): 그 등급이 어디서 왔는지를 화면이 안 적는다");
+    if (/\*\*/.test(txt))
+      no("어제 그거 (" + why + "): 화면에 마크다운 표시가 보인다");
+  }
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 18개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 19개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
               "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
               "파장 34 / " +
@@ -3172,6 +3387,9 @@ const RESET = () => {
               "**정답이 어느 화면에도 없다** / " +
               "따로 쓰고 같이 펴기: 규격 5판, 물음 8판, 잠금 6판, 시간 5판, " +
               "가림 6판, 저장소 1판, 셈 5판, 종이 두 판 x 3판, 등급 6판 " +
-              "**시계가 저절로 안 편다** / 실패 " + fails.length);
+              "**시계가 저절로 안 편다** / " +
+              "어제 그거: 덱 8판, 두 기기 2판, 가림 8판, 넘기기 5판, 셈 7판, " +
+              "마감 6판, 안 여는 날 3판, 등급 12판 " +
+              "**두 기기가 다른 덱을 들어도 된다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
