@@ -99,3 +99,27 @@ jobs:
       - name: 사람에게 하는 말이 조용히 사라지지 않았다
         timeout-minutes: 5
         run: python3 tools/msg_ledger.py --check --quiet
+      # 네 앱이 다 GitHub Pages 로 나가는데 **거기에 한도가 있다는 것을 아무도
+      # 안 재고 있었다**(사이트 1GB · 파일 하나 100MB). 이 한도는 벽에 닿아야
+      # 알게 된다 — 어느 날 배포가 멈추고, 그때서야 무엇이 무거운지 찾는다.
+      # 그래서 벽이 아니라 **문턱(700MB)** 에서 켠다. 급하면 지우면 안 될 것을
+      # 지우게 되므로, 고를 시간이 남아 있을 때 알린다.
+      - name: 배포 한도에 여유가 있다
+        timeout-minutes: 5
+        run: python3 tools/pages_budget.py --check
+      # 이 리포트는 **학부모가 문자로 받아 휴대폰으로 연다.** 이 값이 어긋나면
+      # 그것을 보는 사람은 거의 다 휴대폰 사용자다. 지금 6장 모두 성하다.
+      - name: 휴대폰 폭에서 화면이 옆으로 밀리지 않는다
+        timeout-minutes: 10
+        env:
+          REQUIRE_BROWSER: '1'
+        run: node tests/narrow.js
+      # font_block.py 는 CSS 규칙만 읽는다. 규칙이 맞아도 **실제로 몇 초에**
+      # 뜨는지는 안 본다 — 네 앱 어디서도 안 재던 값이다. 학부모가 문자로 받아
+      # 여는 리포트라, 글꼴 창구가 늦으면 보는 것은 빈 흰 종이다.
+      # 빠르기만 재면 '글꼴을 통째로 빼는 것' 이 만점을 받으므로 **오는지**도 잰다.
+      - name: 글꼴이 안 와도 첫 그림이 뜬다
+        timeout-minutes: 10
+        env:
+          REQUIRE_BROWSER: '1'
+        run: node tests/first-paint.js
