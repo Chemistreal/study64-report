@@ -168,7 +168,60 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   if (st.hit) no("저장소에 미리 알림 자국이 남는다. 주 수만 보고 정해야 한다");
 
-  /* ---- 5. 규칙 탭 표와 같은 말을 하는가 --------------------------------- */
+  /* ---- 5. 개정 요청 봉투 (T336). **덮는 자리는 있었는데 여는 자리가 없었다** */
+  /* 적는 길을 지나서 적는다. 5단계 칸에 쳐 넣는다 (T334 에서 배운 자리다) */
+  const env = async (startDaysAgo, texts) => {
+    await page.evaluate((a) => {
+      S.start = addDays(today(), -a.d);
+      /* **진도를 비운다.** 열두 달이 지났는데 세션이 0인 상태가
+         제일 밀린 상태고 봉투는 그때도 열려야 한다 (ahead.md 10.2) */
+      S.days = {}; S.wchk = {};
+      a.t.forEach(function (x) {
+        S.wchk[x[0]] = { cause: "", lre: "", coll: "", first: "", block: "",
+                         odd: "", ask: x[1], done: false };
+      });
+      saveNow(); go("ledger");
+    }, { d: startDaysAgo, t: texts });
+    await page.waitForTimeout(400);
+    return page.evaluate(() => {
+      const b = document.getElementById("askEnv");
+      return { hid: b.hidden, txt: b.innerText };
+    });
+  };
+
+  /* 아직 열두 달이 안 됐다. **안은 안 보이고 몇 장인지는 보인다** */
+  const shut = await env(200, [[25, "트랙 비중을 바꾸고 싶다"], [27, "새 앱을 보고 왔다"]]);
+  if (shut.hid) no("적어 뒀는데 봉투 칸이 안 보인다");
+  if (!/2건/.test(shut.txt)) no("몇 건인지가 안 뜬다: " + shut.txt.slice(0, 50));
+  if (/트랙 비중|새 앱/.test(shut.txt))
+    no("열두 달 전인데 안이 보인다. 봉투는 안이 안 보인다: " + shut.txt.slice(0, 60));
+  if (!/165일 남았다/.test(shut.txt))
+    no("며칟날 남았는지가 틀렸다: " + shut.txt.slice(0, 80));
+  if (!/이탈의 입구/.test(shut.txt)) no("지금 열면 왜 안 되는지가 없다");
+
+  /* 열두 달이 지났다. **눈금을 먼저 보이고 그다음에 안을 편다** */
+  const open = await env(370, [[25, "트랙 비중을 바꾸고 싶다"], [27, "새 앱을 보고 왔다"]]);
+  if (open.hid) no("열두 달이 지났는데 봉투 칸이 안 보인다");
+  if (!/트랙 비중/.test(open.txt) || !/새 앱/.test(open.txt))
+    no("열두 달이 지났는데 안이 안 열린다: " + open.txt.slice(0, 60));
+  if (!/25주차/.test(open.txt)) no("언제 적은 것인지가 없다");
+  if (!/30%/.test(open.txt))
+    no("여는 날 눈금 문장이 없다. 실망이 개정 요청을 다 옳게 보이게 만든다");
+  if (open.txt.indexOf("30%") > open.txt.indexOf("트랙 비중"))
+    no("적어 둔 것이 눈금 문장보다 먼저 나온다. 눈금부터 본다");
+
+  /* **0건이면 아예 안 뜬다.** 0인데 뜨면 그것은 잔소리다 (T181) */
+  const none = await env(370, []);
+  if (!none.hid) no("적어 둔 것이 없는데 봉투 칸이 뜬다: " + none.txt.slice(0, 40));
+
+  /* **막는 것은 시간이지 진도가 아니다.** 밀려도 열두 달이면 연다 */
+  const late = await env(370, [[25, "이것부터 다시 짜고 싶다"]]);
+  const behind = await page.evaluate(() => plan().week);
+  if (behind !== 1) no("진도를 비웠는데 " + behind + "주다. 붙박이가 샌다");
+  if (!/이것부터 다시 짜고 싶다/.test(late.txt))
+    no("진도가 밀렸다고 봉투를 안 연다. 막는 것은 시간이지 진도가 아니다");
+
+  /* ---- 6. 규칙 탭 표와 같은 말을 하는가 --------------------------------- */
   const tab = await page.evaluate(() => {
     go("rules");
     return document.getElementById("t-rules").innerText;
@@ -183,7 +236,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 미리 알린 것이 정말 이탈을 막는가**");
-  console.log("미리 아는 것 %d판 (자료 6, 때 %d, 글 11, 저장소 1, 규칙 탭 3) / 실패 %d",
-              21 + WANT.length, WANT.length, fails.length);
+  console.log("미리 아는 것과 봉투 %d판 (자료 6, 때 %d, 글 11, 저장소 1, 봉투 13, 규칙 탭 3) / 실패 %d",
+              34 + WANT.length, WANT.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

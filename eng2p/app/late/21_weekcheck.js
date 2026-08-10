@@ -146,3 +146,72 @@ function renderWeekCheck(){
     flash("종이 기록표 꼴로 복사했다");
   };
 }
+
+/* 개정 요청 봉투 (T336). 매뉴얼 1항이 규격이고 `docs/ahead.md` 10장이 설계다.
+
+   ## 덮는 자리는 있었는데 여는 자리가 없었다
+
+   5단계 개정 요청 칸이 처음부터 있었다. 화면도 "12개월차에 연다" 고 적고 있었다.
+   **그런데 여는 자리가 앱 어디에도 없었다.** 적으면 그 주 화면에서만 보이고
+   다음 주가 되면 사라진다. 12개월차가 와도 열 것이 없다.
+
+   적고 덮는 것이 맞다. 덮은 것을 **못 여는 것**은 안 맞는다.
+
+   ## 안은 안 보이고 몇 장인지는 보인다
+
+   봉투다. 몇 장 들었는지는 보이고 안은 안 보인다.
+   개수도 안 보이면 적은 것이 사라진 줄 안다. **들고 있다는 것은 말한다** (T334).
+   안까지 보이면 그것이 곧 다시 그 생각을 부른다. 적는 행위로 해소되는 것을 되돌린다.
+
+   ## 달력으로 센다
+
+   12개월차는 달력 12개월이다. 세션 주가 아니다.
+   매뉴얼 1항이 "12개월 동안 이 과정의 구조를 바꾸지 않는다" 고 시간으로 적었다.
+   밀려서 40주째여도 열두 달이 지났으면 연다. **막는 것은 시간이지 진도가 아니다.**
+
+   ## 저장소를 안 늘린다
+
+   적은 날을 따로 안 적는다. `S.wchk[w].ask` 가 이미 있고 주차로 언제인지가 나온다.
+   새 칸을 만들면 합치기가 또 한 갈래 는다 (merge.md). */
+var ASK_DAYS=365;
+function askOpenAt(){
+  return S.start ? addDays(S.start, ASK_DAYS) : null;
+}
+function askEnv(){
+  var at=askOpenAt();
+  if(!at) return null;
+  var items=[], wk=S.wchk||{};
+  Object.keys(wk).sort(function(a,b){ return (+a)-(+b); }).forEach(function(w){
+    var t=(wk[w]||{}).ask||"";
+    if(t.trim()) items.push({week:+w, text:t.trim()});
+  });
+  var left=Math.ceil((parseISO(at)-parseISO(today()))/86400000);
+  return {at:at, items:items, n:items.length, open:left<=0, left:Math.max(0,left)};
+}
+
+function renderAsk(){
+  var box=$("#askEnv"); if(!box) return;
+  var e=askEnv();
+  /* **0인데 뜨면 잔소리다** (T181). 적은 것이 없으면 이 칸이 아예 없다 */
+  if(!e || !e.n){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  var h='<div class="hd2"><b>개정 요청 '+e.n+'건</b>'+
+        '<span class="small mut">매뉴얼 1항</span></div>';
+  if(!e.open){
+    /* **안은 안 보인다.** 몇 장인지와 언제 여는지만 */
+    h+='<p class="small mut">적어 뒀다. <b>안은 아직 안 연다.</b> '+
+       '<b class="mono">'+esc(e.at)+'</b> 에 연다. '+esc(String(e.left))+'일 남았다.<br>'+
+       '고치지 말고 적는 것이 매뉴얼 1항이다. 적는 것으로 대부분 해소된다. '+
+       '<b>지금 열면 그 자리에서 논의하게 되고 그것이 이탈의 입구다.</b></p>';
+  }else{
+    h+='<p class="small mut"><b>열두 달이 지났다. 이제 연다.</b> '+
+       '적을 때의 나와 지금의 나가 같은 것을 말하는지 본다.</p>';
+    h+='<div class="note small"><b>먼저 읽는다.</b> 730시간은 원어민급에 필요한 '+
+       '2,000~2,500시간의 약 30%다. 12개월차에 "이 정도야?" 라고 느끼는 것은 '+
+       '실패 신호가 아니라 <b>30% 지점의 정상 신호</b>다 (매뉴얼 1장 2항).</div>';
+    h+=e.items.map(function(x){
+      return '<div class="blank"><b class="mono">'+x.week+'주차</b> '+esc(x.text)+'</div>';
+    }).join("");
+  }
+  box.innerHTML=h;
+}

@@ -382,10 +382,10 @@ function renderMerge(){
     var before=JSON.stringify(S);
     S=r.out; var b=blank(); for(var k in b) if(!(k in S)) S[k]=b[k];
     saveNow(); MG.plan=null; MG.pick={};
-    renderToday(); renderLedger(); renderWeekCheck(); renderPair(); renderMerge();
+    renderToday(); renderLedger(); lateDo("renderWeekCheck"); renderPair(); renderMerge();
     offerUndo("기록을 합쳤다",function(){
       S=JSON.parse(before); saveNow();
-      renderToday(); renderLedger(); renderWeekCheck(); renderPair();
+      renderToday(); renderLedger(); lateDo("renderWeekCheck"); renderPair();
     });
   };
 }

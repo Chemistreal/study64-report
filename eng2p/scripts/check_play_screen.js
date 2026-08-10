@@ -2132,15 +2132,21 @@ const RESET = () => {
      여기서 안 뜨면 그 값은 어디에도 안 간 것이고 규칙서 7.3 의
      "그 자리가 주 7일째 점검에 간다" 가 글로만 남는다. */
   await A.evaluate(WHRESET);
-  const wcOff = await A.evaluate(() => { go("ledger"); renderWeekCheck();
-    return document.querySelector("#weekCheck").innerText; });
+  /* 주간 점검이 늦게 읽는 조각으로 갔다 (T336). `go` 가 그 조각을 읽고 그린다.
+     여기서 함수를 바로 부르면 아직 안 읽은 것을 부르는 것이 된다. */
+  const wcOff = await A.evaluate(async () => {
+    go("ledger");
+    await new Promise((ok) => setTimeout(ok, 400));
+    return document.querySelector("#weekCheck").innerText;
+  });
   if (/갈린 자리/.test(wcOff))
     no("누구 말이야: 갈린 것이 없는데 주 점검이 갈린 자리를 적는다");
-  const put = await A.evaluate(() => {
+  const put = await A.evaluate(async () => {
     const w = (plan() || {}).week || 1;
     S.wsplit = {}; S.wsplit[w] = [{ id: "TEST-1", where: "검사가 넣은 자리",
                                     who: "검사가 넣은 상대", day: today() }];
-    save(); go("ledger"); renderWeekCheck();
+    save(); go("ledger"); lateDo("renderWeekCheck");
+    await new Promise((ok) => setTimeout(ok, 400));
     return document.querySelector("#weekCheck").innerText;
   });
   if (!put.includes("검사가 넣은 자리"))

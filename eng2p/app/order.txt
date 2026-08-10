@@ -42,7 +42,6 @@ js/11_ledger.js       대장 탭
 js/16_review.js       복습. 간격 반복
 js/17_sound.js        소리. 기기 내장 음성 합성
 js/19_library.js      미디어 라이브러리 52과
-js/21_weekcheck.js    주간 점검 30분. 앱이 세고 사람은 왜 그랬는지를 적는다
 js/22_paircode.js     짝 코드. **셈만 건너간다.** 사람이 손으로 치는 스물몇 글자
 js/23_merge.js        합치기. **덮는 것이 아니다.** 못 정하는 것은 사람에게 묻는다
 js/24_round.js        같은 판. **망 없이 셈으로 맞춘다.** 시계에서 아무것도 안 낸다
@@ -60,6 +59,7 @@ late/12_verify.js     판정 탭. **검증 대기열을 볼 때만 연다**
 late/13_quarter.js    분기 탭. **열두 주에 한 번 연다**
 late/14_check.js      규격 검사 이식. **제일 크고 제일 안 연다**
 late/15_rot.js        회전 대장. **주에 한 번 연다**
+late/21_weekcheck.js  주간 점검 30분. **이레째에 한 번 연다.** 7KB
 
 # 판 화면. eng2p/out/app/plays.js 로 나간다.
 # 판 탭을 처음 열 때 읽는다. 스무 판을 다 넣으면 천장을 넘는다 (T259).
