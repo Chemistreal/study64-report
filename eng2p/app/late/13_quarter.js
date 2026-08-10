@@ -228,7 +228,7 @@ function renderBadge(){
    앱은 언제 무엇을 읽었는지와 파일 이름만 적는다.
 
    파일을 못 찾으면 못 찾는다고 적는다. **들고 있는 척하지 않는다.** */
-var VOICE={rec:null, chunks:[], url:null};
+var VOICE={rec:null, chunks:[], url:null, cmp:0};
 function voiceKey(w){ return "w"+String(w).padStart(2,"0"); }
 function voiceLog(){ if(!S.voice) S.voice={}; return S.voice; }
 function voiceCan(){
@@ -307,6 +307,8 @@ function renderVoice(){
   });
 
   if($("#voiceGo")) $("#voiceGo").onclick=function(){ voiceToggle(); };
+  /* 대장이 바뀌면 나란히 듣기도 같이 바뀐다 (T337). 적고 지우는 자리가 여기다 */
+  if(typeof renderVoiceCmp==="function") renderVoiceCmp();
 }
 
 /* 녹음과 멈춤. **한 단추다.** 두 단추면 어느 것이 켜졌는지를 또 봐야 한다. */
@@ -338,3 +340,69 @@ function voiceToggle(){
   });
 }
 
+
+/* 나란히 듣기 (T337). `docs/growth.md` 6장이 규격이다.
+
+   ## 한 번에 하나씩 몬다
+
+   다섯을 한꺼번에 못 연다. 파일이 두 사람 기기에 있고 클립 탭은 하나를 연다.
+   앱이 차례를 세고 **지금 여는 것 하나만** 보여 준다. 이름을 복사해 준다.
+
+   늘 처음부터 간다. **제 것을 제 것과 견주는 일이라 시간 차례가 곧 그 견줌이다.**
+
+   ## 어디를 듣는지만 가리킨다
+
+   앱이 판정하지 않는다. `derive_voice.py` 가 그 줄을 고를 때 쓴
+   자음군 낱말과 여러 음절 낱말을 그대로 적는다. **지어낸 것이 아니다.**
+
+   ## 저장소에 안 남긴다
+
+   몇 번째를 듣고 있는지는 여기서만 산다. 화면을 닫으면 처음으로 돌아간다.
+   열두 주에 한 번 하는 일이고 남기면 합치기가 또 한 갈래 는다. */
+function voiceCmpList(){
+  var d=DATA.voice, log=voiceLog(), out=[];
+  if(!d) return out;
+  (d.weeks||[]).forEach(function(w){
+    var k=voiceKey(w.week), r=log[k];
+    if(r) out.push({week:w.week, when:w.when, file:r.file, at:r.at});
+  });
+  return out;
+}
+
+function renderVoiceCmp(){
+  var box=$("#voiceCmp"); if(!box) return;
+  var list=voiceCmpList();
+  /* **하나뿐이면 안 뜬다.** 견줄 것이 없다 (growth.md 6.3) */
+  if(list.length<2){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  if(VOICE.cmp==null || VOICE.cmp>=list.length) VOICE.cmp=0;
+  var i=VOICE.cmp, cur=list[i], d=DATA.voice;
+  var ears=((d.at.clusters||[]).concat(d.at.multi||[]))
+    .filter(function(x,n,a){ return a.indexOf(x)===n; });
+  var h='<div class="hd2" style="margin-top:10px"><b>나란히 듣기</b>'+
+        '<span class="small mut">'+(i+1)+' / '+list.length+'</span></div>';
+  h+='<p class="small mut">처음 것부터 잇달아 듣는다. '+
+     '<b>앱은 좋아졌는지를 안 말한다.</b> 듣고 두 사람이 정한다.</p>';
+  h+='<div class="note"><b>지금 여는 것</b> '+esc(cur.when)+
+     ' <span class="small mut">'+cur.week+'주</span><br>'+
+     '<b class="mono">'+esc(cur.file)+'</b><br>'+
+     '<span class="small">클립 탭에서 이 파일을 연다. 파일은 이 기기에 있다.</span></div>';
+  if(ears.length)
+    h+='<div class="n"><b>어디를 듣나</b> '+esc(ears.join(" · "))+
+       ' <span class="small mut">이 낱말들이 이 줄을 고른 까닭이다. '+
+       '나아졌는지는 앱이 안 정한다.</span></div>';
+  h+='<div class="row" style="gap:8px;margin-top:8px">'+
+     '<button class="g" type="button" data-vcmp="-1"'+(i?"":" disabled")+'>앞엣것</button>'+
+     '<button class="g" type="button" data-vcmp="1"'+
+       (i<list.length-1?"":" disabled")+'>다음 것</button>'+
+     '<button class="g" type="button" id="vcName">이름 복사</button>'+
+     '<button class="b" type="button" id="vcGo">클립 탭으로</button></div>';
+  box.innerHTML=h;
+  box.querySelectorAll("[data-vcmp]").forEach(function(b){
+    b.onclick=function(){ VOICE.cmp=i+(+b.dataset.vcmp); renderVoiceCmp(); };
+  });
+  if($("#vcName")) $("#vcName").onclick=function(){
+    copy(cur.file, null); flash("파일 이름을 복사했다");
+  };
+  if($("#vcGo")) $("#vcGo").onclick=function(){ go("clip"); };
+}

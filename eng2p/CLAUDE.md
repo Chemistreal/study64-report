@@ -149,6 +149,7 @@ docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무�
 docs/pair.md           기기 둘. 무엇이 갈리고 무엇이 건너가야 하는가. **셈은 코드로 글은 파일로**
 docs/merge.md          합치기. **덮는 것이 아니다.** 갈래 넷과 묻는 일곱
 docs/growth.md        늘어난 것 보여 주기. **점수가 아니라 소리다.** 앱이 소리를 안 든다
+                      6장이 나란히 듣기다. **어디를 듣는지만 가리키고 판정 안 한다**
 docs/ahead.md         미리 아는 것. **묻지 않는다.** 문제만 적고 대응을 안 적으면 겁주기다
                       10장이 개정 요청 봉투다. **안은 안 보이고 몇 장인지는 보인다**
 docs/quest.md         공동 퀘스트. **개인 기여도는 안 보여 준다.** 셀 수 있는 값 다섯
@@ -204,7 +205,7 @@ scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코
 scripts/check_streak.js 연속일과 회복권과 퀘스트 61판. **날을 세지 사람을 안 센다**
 scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지 않는다**
 scripts/check_relation.js 관계 점검과 신호 33판. **따로 적고 같이 편다**
-scripts/check_growth.js 되돌아보기 20판. **앱이 소리를 안 들고 있는다**
+scripts/check_growth.js 되돌아보기 33판. **앱이 소리를 안 들고 있는다**
 scripts/check_ahead.js 미리 아는 것과 봉투 50판. **표는 있었는데 그때 안 떴다**
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다

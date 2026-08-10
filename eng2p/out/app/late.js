@@ -586,7 +586,7 @@ function renderBadge(){
   if(c) c.textContent=got+" / "+d.count+" 를 지났다";
 }
 
-var VOICE={rec:null, chunks:[], url:null};
+var VOICE={rec:null, chunks:[], url:null, cmp:0};
 function voiceKey(w){ return "w"+String(w).padStart(2,"0"); }
 function voiceLog(){ if(!S.voice) S.voice={}; return S.voice; }
 function voiceCan(){
@@ -664,6 +664,7 @@ function renderVoice(){
   });
 
   if($("#voiceGo")) $("#voiceGo").onclick=function(){ voiceToggle(); };
+  if(typeof renderVoiceCmp==="function") renderVoiceCmp();
 }
 
 function voiceToggle(){
@@ -692,6 +693,54 @@ function voiceToggle(){
     if(msg) msg.innerHTML='<b>마이크를 못 열었다.</b> 브라우저가 막았거나 '+
       '기기에 마이크가 없다. <b>기기 녹음기로 녹음하고 아래에 적어 둔다.</b>';
   });
+}
+
+
+function voiceCmpList(){
+  var d=DATA.voice, log=voiceLog(), out=[];
+  if(!d) return out;
+  (d.weeks||[]).forEach(function(w){
+    var k=voiceKey(w.week), r=log[k];
+    if(r) out.push({week:w.week, when:w.when, file:r.file, at:r.at});
+  });
+  return out;
+}
+
+function renderVoiceCmp(){
+  var box=$("#voiceCmp"); if(!box) return;
+  var list=voiceCmpList();
+  if(list.length<2){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  if(VOICE.cmp==null || VOICE.cmp>=list.length) VOICE.cmp=0;
+  var i=VOICE.cmp, cur=list[i], d=DATA.voice;
+  var ears=((d.at.clusters||[]).concat(d.at.multi||[]))
+    .filter(function(x,n,a){ return a.indexOf(x)===n; });
+  var h='<div class="hd2" style="margin-top:10px"><b>나란히 듣기</b>'+
+        '<span class="small mut">'+(i+1)+' / '+list.length+'</span></div>';
+  h+='<p class="small mut">처음 것부터 잇달아 듣는다. '+
+     '<b>앱은 좋아졌는지를 안 말한다.</b> 듣고 두 사람이 정한다.</p>';
+  h+='<div class="note"><b>지금 여는 것</b> '+esc(cur.when)+
+     ' <span class="small mut">'+cur.week+'주</span><br>'+
+     '<b class="mono">'+esc(cur.file)+'</b><br>'+
+     '<span class="small">클립 탭에서 이 파일을 연다. 파일은 이 기기에 있다.</span></div>';
+  if(ears.length)
+    h+='<div class="n"><b>어디를 듣나</b> '+esc(ears.join(" · "))+
+       ' <span class="small mut">이 낱말들이 이 줄을 고른 까닭이다. '+
+       '나아졌는지는 앱이 안 정한다.</span></div>';
+  h+='<div class="row" style="gap:8px;margin-top:8px">'+
+     '<button class="g" type="button" data-vcmp="-1"'+(i?"":" disabled")+'>앞엣것</button>'+
+     '<button class="g" type="button" data-vcmp="1"'+
+       (i<list.length-1?"":" disabled")+'>다음 것</button>'+
+     '<button class="g" type="button" id="vcName">이름 복사</button>'+
+     '<button class="b" type="button" id="vcGo">클립 탭으로</button></div>';
+  box.innerHTML=h;
+  box.querySelectorAll("[data-vcmp]").forEach(function(b){
+    b.onclick=function(){ VOICE.cmp=i+(+b.dataset.vcmp); renderVoiceCmp(); };
+  });
+  if($("#vcName")) $("#vcName").onclick=function(){
+    copy(cur.file, null); flash("파일 이름을 복사했다");
+  };
+  if($("#vcGo")) $("#vcGo").onclick=function(){ go("clip"); };
 }
 var TRANSLIT=["디스","왓","하우","웨어","쓰리","파이브","굿모닝","땡큐","쏘리","플리즈","아이엠"];
 var CLICHE=["결론적으로","중요한 것은","핵심은 바로","요약하자면"];

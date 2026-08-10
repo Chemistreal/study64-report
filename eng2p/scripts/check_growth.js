@@ -142,7 +142,60 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (/좋아졌|나아졌|잘한다/.test(pane.split("되돌아보기")[1] || ""))
     no("앱이 좋아졌다고 말한다. 들려주는 것이 전부다");
 
-  /* ---- 6. 지운 것을 되돌릴 수 있는가 ------------------------------------- */
+  /* ---- 6. 나란히 듣기 (T337). **한 번에 하나씩 몬다** -------------------- */
+  /* 하나뿐이면 안 뜬다. 지금 하나 적혀 있는 상태다 (growth.md 6.3) */
+  const one = await page.evaluate(() => document.getElementById("voiceCmp").hidden);
+  if (!one) no("적어 둔 것이 하나인데 나란히 듣기가 뜬다. 견줄 것이 없다");
+
+  /* 둘째를 적는다. **적는 단추를 눌러서 적는다** */
+  await page.evaluate(() => { window.prompt = (q, def) => def; });
+  await page.click("[data-vadd]");
+  await page.waitForTimeout(300);
+  const two = await page.evaluate(() => ({
+    hid: document.getElementById("voiceCmp").hidden,
+    txt: document.getElementById("voiceCmp").innerText,
+    n: document.querySelectorAll("[data-vcmp]").length,
+  }));
+  if (two.hid) no("둘을 적었는데 나란히 듣기가 안 뜬다");
+  if (!/1 \/ 2/.test(two.txt)) no("몇 번째인지가 안 뜬다: " + two.txt.slice(0, 40));
+  if (two.n !== 2) no("앞뒤로 가는 자리가 " + two.n + "개다");
+  /* **한 번에 하나만 보여 준다.** 다섯을 한꺼번에 못 연다 */
+  const shown = (two.txt.match(/eng2p_voice_w\d\d_/g) || []).length;
+  if (shown !== 1) no("한 번에 " + shown + "개를 보여 준다. 하나씩 몰아야 한다");
+  /* **처음 것부터 간다.** 시간 차례가 곧 그 견줌이다 */
+  if (!/처음/.test(two.txt.split("지금 여는 것")[1] || ""))
+    no("처음 것부터 안 간다: " + two.txt.slice(0, 80));
+  /* **어디를 듣는지만 가리키고 판정하지 않는다.** 낱말은 자료에서 온다 */
+  const ears = await page.evaluate(() =>
+    (DATA.voice.at.clusters || []).concat(DATA.voice.at.multi || []));
+  if (!ears.every((w) => two.txt.indexOf(w) >= 0))
+    no("어디를 들을지가 자료의 낱말과 다르다: " + ears.join(" "));
+  /* **잘라 말하는 꼴만 잡는다.** "좋아졌는지를 안 말한다" 는 안 판정하는 말이라
+     넓게 잡으면 그 문장이 걸린다. 처음에 그렇게 걸렸다. */
+  const said = two.txt.replace(/[^。\n]*안 말한다[^\n]*/g, "");
+  if (/좋아졌다|나아졌다|늘었다|잘한다|점수/.test(said))
+    no("나란히 듣기가 판정한다: " + said.slice(0, 60));
+
+  /* 다음 것으로 몰린다 */
+  await page.click('[data-vcmp="1"]');
+  await page.waitForTimeout(200);
+  const nx = await page.evaluate(() =>
+    document.getElementById("voiceCmp").innerText);
+  if (!/2 \/ 2/.test(nx)) no("다음을 눌렀는데 안 넘어간다: " + nx.slice(0, 40));
+
+  /* **저장소에 어디까지 들었는지를 안 남긴다** (growth.md 6.4) */
+  const kept = await page.evaluate(() =>
+    /cmp|nowPlaying|listenAt/i.test(localStorage.getItem("eng2p.v1") || ""));
+  if (kept) no("어디까지 들었는지가 저장소에 남는다. 남길 값이 아니다");
+
+  /* 둘째를 도로 지운다. 아래 되돌리기 판정이 하나를 셈한다 */
+  await page.evaluate(() => {
+    const ks = Object.keys(S.voice).sort();
+    delete S.voice[ks[ks.length - 1]]; saveNow(); renderVoice();
+  });
+  await page.waitForTimeout(200);
+
+  /* ---- 7. 지운 것을 되돌릴 수 있는가 ------------------------------------- */
   await page.click("[data-vdel]");
   await page.waitForTimeout(250);
   if (!(await page.isVisible(".undo"))) no("지운 뒤 되돌릴 자리가 없다");
@@ -157,7 +210,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 다섯 녹음을 나란히 들었을 때 무엇이 들리는가**");
-  console.log("되돌아보기 20판 (읽을 줄 5, 저장소 2, 안 되는 자리 6, 대장 4, 견줌 3) / 실패 %d",
+  console.log("되돌아보기 33판 (읽을 줄 5, 저장소 3, 안 되는 자리 6, 대장 4, 견줌 3, 나란히 듣기 12) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
