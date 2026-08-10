@@ -368,43 +368,90 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   await page.reload();
   await page.waitForTimeout(500);
 
-  await page.evaluate(fill(3));
-  await page.waitForTimeout(400);
-  const q1 = await page.$eval("#todaySlots", (e) => e.innerText);
-  if (!/이 주 다섯 날을 채운다/.test(q1))
-    no("첫 주 퀘스트 이름이 화면에 없다: " + q1.slice(-80));
-  if (!/3 \/ 5/.test(q1)) no("첫 주 퀘스트가 3 / 5 가 아니다: " + q1.slice(-60));
-  if (!/둘이 같이 채운다/.test(q1)) no("둘이 같이 채운다는 말이 없다");
-  if (!/누가 얼마인지는 안 센다/.test(q1)) no("개인 기여도를 안 센다는 말이 없다");
+  /* **표를 읽어서 잰다.** 처음에는 "이 주 여섯 날을 다 채운다" 를 붙박이로 적었다.
+     T326~T328 이 표를 마흔여덟 주로 채우자 그 줄이 통째로 틀렸다.
+     **자료가 바뀌면 같이 바뀌어야 하는 판정을 손으로 적으면 안 된다** (T279 의 결). */
+  const look = async (n) => {
+    await page.evaluate(fill(n));
+    await page.waitForTimeout(400);
+    const txt = await page.$eval("#todaySlots", (e) => e.innerText);
+    const got = await page.evaluate(() => {
+      const w = plan().week;
+      let q = null;
+      DATA.quest.weeks.forEach((x) => { if (x.week === w) q = x; });
+      return { w: w, q: q, now: q ? questNow(q.kind, w) : null };
+    });
+    return { txt: txt, w: got.w, q: got.q, now: got.now };
+  };
+
+  const a1 = await look(3);
+  if (!a1.q) no(a1.w + "주가 퀘스트 표에 없다");
+  else {
+    if (a1.txt.indexOf(a1.q.name) < 0)
+      no(a1.w + "주 퀘스트 이름이 화면에 없다: " + a1.q.name);
+    if (a1.txt.indexOf(a1.now + " / " + a1.q.goal) < 0)
+      no(a1.w + "주 퀘스트가 " + a1.now + " / " + a1.q.goal + " 로 안 뜬다: " +
+         a1.txt.slice(-60));
+  }
+  /* **안 찼을 때 채웠다고 안 적는가.** 채운 뒤만 보면 이 가지를 안 지난다 (T323).
+     세 날을 마친 자리라 어느 주 어느 갈래든 아직 안 찼다. 거기서 잰다. */
+  if (a1.q && a1.now < a1.q.goal && /채웠다/.test(a1.txt))
+    no("아직 " + a1.now + " / " + a1.q.goal + " 인데 채웠다고 적는다");
+  if (a1.q && a1.now >= a1.q.goal)
+    no("세 날을 마쳤는데 벌써 채워졌다. 이 판정이 안 찬 자리를 못 잰다");
+  if (!/둘이 같이 채운다/.test(a1.txt)) no("둘이 같이 채운다는 말이 없다");
+  if (!/누가 얼마인지는 안 센다/.test(a1.txt)) no("개인 기여도를 안 센다는 말이 없다");
   /* **이름이 뜨면 그것이 곧 순위다** */
-  if (q1.indexOf("가람") >= 0 || q1.indexOf("나래") >= 0)
+  if (a1.txt.indexOf("가람") >= 0 || a1.txt.indexOf("나래") >= 0)
     no("퀘스트 줄에 사람 이름이 있다");
   /* **남은 것을 안 적는다.** 남은 것을 적으면 빚이 되고 빚은 벌이다 */
-  if (/남았|남은|더 해야|서둘/.test(q1.split("이 주")[1] || ""))
-    no("퀘스트 줄이 남은 것을 재촉한다: " + q1.slice(-70));
+  if (/남았|더 해야|서둘/.test(a1.txt.split("이 주")[1] || ""))
+    no("퀘스트 줄이 남은 것을 재촉한다: " + a1.txt.slice(-70));
 
-  await page.evaluate(fill(9));
-  await page.waitForTimeout(400);
-  const q2 = await page.$eval("#todaySlots", (e) => e.innerText);
-  if (!/둘이 60분을 말한다/.test(q2))
-    no("둘째 주로 넘어가면 퀘스트가 안 바뀐다: " + q2.slice(-80));
-  if (!/36 \/ 60/.test(q2)) no("둘째 주 발화가 36 / 60 이 아니다: " + q2.slice(-60));
+  const a2 = await look(9);
+  if (a2.w === a1.w) no("세션을 아홉 마쳤는데 주가 안 넘어갔다");
+  else if (a2.q && a2.txt.indexOf(a2.q.name) < 0)
+    no("주가 넘어갔는데 퀘스트가 안 바뀐다: " + a2.txt.slice(-70));
 
   /* **채웠으면 채웠다고 적는다.**
 
-     처음에는 첫 주 세션 여섯으로 쟀다. 안 됐다. 여섯째를 마치는 순간
-     `plan()` 이 둘째 주를 가리켜 **첫 주 퀘스트가 화면에서 사라진다.**
-     그것을 보고 목표 윗선을 다섯으로 막았다 (`quest.md` 5.2).
-     여기서는 둘째 주 발화로 잰다. 그 갈래는 주 안에서 채울 수 있다. */
-  await page.evaluate(new Function(`S.days={}; let k=0,c=0;
-    while(c<9){ const d=addDays(today(),-k);
-      if(parseISO(d).getDay()!==0){ S.days[d]={status:"normal",h:2,speak:20,
-        cards:0,lre:0,unres:[],coll:[]}; c++; } k++; }
-    saveNow(); renderToday();`));
+     그 주 퀘스트를 실제로 채워 놓고 본다. 갈래마다 채우는 길이 다르므로
+     표에서 갈래를 읽어 그 갈래를 채운다. **어느 주에 무엇이 오는지를 안 박는다.** */
+  const done = await page.evaluate(() => {
+    const w = plan().week;
+    let q = null;
+    DATA.quest.weeks.forEach((x) => { if (x.week === w) q = x; });
+    if (!q) return null;
+    const ds = weekDays(w);
+    if (!ds.length) return null;
+    const each = Math.ceil(q.goal / ds.length);
+    ds.forEach((d) => {
+      const r = S.days[d];
+      if (q.kind === "speak") r.speak = each;
+      else if (q.kind === "cards") r.cards = each;
+      else if (q.kind === "lre") r.lre = each;
+      else if (q.kind === "one") r.one = 1;
+      else if (q.kind === "coll") {
+        r.coll = [];
+        for (let i = 0; i < each; i++) r.coll.push({ t: "x" + i });
+      }
+    });
+    saveNow(); renderToday();
+    return { kind: q.kind, goal: q.goal, now: questNow(q.kind, w) };
+  });
   await page.waitForTimeout(300);
-  const q3 = await page.$eval("#todaySlots", (e) => e.innerText);
-  if (!/60 \/ 60/.test(q3) || !/채웠다/.test(q3))
-    no("둘째 주를 채웠는데 채웠다고 안 적는다: " + q3.slice(-70));
+  if (!done) no("채우기를 못 했다. 그 주가 표에 없다");
+  else {
+    const q3 = await page.$eval("#todaySlots", (e) => e.innerText);
+    if (done.now < done.goal) {
+      /* 세션 갈래처럼 날 수로 막히는 것은 다 못 채운다. 그때는 그것을 적는다 */
+      if (/채웠다/.test(q3))
+        no("아직 안 찼는데 채웠다고 적는다: " + done.now + " / " + done.goal);
+    } else if (!/채웠다/.test(q3)) {
+      no("채웠는데 채웠다고 안 적는다: " + done.now + " / " + done.goal +
+         " · " + q3.slice(-60));
+    }
+  }
   /* **윗선이 다섯인가.** 채운 것을 못 보여 주는 목표를 막는다 */
   const cap = await page.evaluate(() => DATA.quest.kinds);
   if (cap.session !== 5 || cap.one !== 5)

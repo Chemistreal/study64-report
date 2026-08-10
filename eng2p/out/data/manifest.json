@@ -225,13 +225,13 @@
     },
     {
       "file": "quest.js",
-      "bytes": 786,
-      "sha256": "6ac111e358a3fa0bff941237d3ef533a4dc12e43a43e17f980a7755ae36302ef"
+      "bytes": 3977,
+      "sha256": "eddb3b282db1a7cb3d02ff591271b29a49b4cb60cd189ad67d5fa54b8ee2a836"
     },
     {
       "file": "quest.json",
-      "bytes": 1051,
-      "sha256": "5d6eb7944d301f2232a88df3fde818c7ae3bc11cac3e8b246183b96a31082fdd"
+      "bytes": 6048,
+      "sha256": "c08e8dab0fd16796d45a37d95a5b2e52e168cd763cb1fa001493397b11cb0aaf"
     },
     {
       "file": "apart.js",

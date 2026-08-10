@@ -41,7 +41,16 @@ DOC = os.path.join(ROOT, "docs", "quest.md")
 #
 # 채운 것을 못 보여 주는 목표는 목표가 아니다. 그래서 다섯으로 막는다.
 # 오늘의 한 판도 세션이 있어야 열리므로 같은 자리다.
-KIND = {"session": 5, "speak": 600, "cards": 900, "lre": 60, "coll": 60, "one": 5}
+# `speak` 과 `cards` 와 `lre` 의 윗선을 T326 에 근거 있는 값으로 내렸다.
+# 처음에는 600 과 900 이었는데 그것은 아무 데서도 안 온 수였다.
+#
+#     speak   하루 60분이 윗선이다. 두 시간 세션의 절반이다. 주 엿새라 360
+#     cards   하루 60장이 윗선이다. 블록 3이 30분이다. 주 엿새라 360
+#     lre     Q3 통과 조건이 "세션당 8회 이상" 이다 (매뉴얼). 주 엿새라 48
+#     coll    조준표 채집이다. 주 열둘을 넘겨 본 적이 없다
+#
+# **윗선은 못 채울 목표를 막는 자리지 목표를 정하는 자리가 아니다.**
+KIND = {"session": 5, "speak": 360, "cards": 360, "lre": 48, "coll": 12, "one": 5}
 
 
 def cells(seg):
@@ -61,11 +70,11 @@ def main():
         print("[실패] %s 가 없다" % DOC)
         return 1
     s = io.open(DOC, encoding="utf-8").read()
-    i = s.find("## 5. 주마다 무엇을 주나")
+    i = s.find("### 5.1 표")
     if i < 0:
-        print("[실패] quest.md 에 주마다 무엇을 주나 장이 없다")
+        print("[실패] quest.md 5.1 에 표가 없다")
         return 1
-    j = s.find("### 5.1", i)
+    j = s.find("### 5.1.1", i)
     seg = s[i:j if j > 0 else len(s)]
 
     weeks, seen, bad = [], set(), []
@@ -104,6 +113,62 @@ def main():
         return 1
 
     weeks.sort(key=lambda x: x["week"])
+
+    # ---- 마흔여덟 주를 통째로 잰다 (T328) --------------------------------
+    #
+    # 주 하나씩 보면 다 맞는데 마흔여덟을 죽 늘어놓으면 틀린 것이 있다.
+    # **한 줄씩 재는 것과 표를 재는 것이 다르다.**
+    if len(weeks) == 48:
+        for a, b, q, want in ((1, 12, "Q1", ("session", "one")),
+                              (13, 24, "Q2", ("speak",)),
+                              (25, 36, "Q3", ("lre",)),
+                              (37, 48, "Q4", None)):
+            seg = [w for w in weeks if a <= w["week"] <= b]
+            cnt = {}
+            for w in seg:
+                cnt[w["kind"]] = cnt.get(w["kind"], 0) + 1
+            top = sorted(cnt, key=lambda k: (-cnt[k], k))[0]
+            if want and top not in want:
+                bad.append("%s 가 미는 것이 %s 다. %s 여야 한다 (quest.md 5.0)"
+                           % (q, top, " 나 ".join(want)))
+            # **한 분기가 한 갈래로 덮이면 퀘스트가 배경이 된다** (5.0.1)
+            if cnt[top] > len(seg) // 2:
+                bad.append("%s 의 %d주 중 %d주가 %s 다. 절반을 넘는다"
+                           % (q, len(seg), cnt[top], top))
+            # Q4 는 돌려 쓴다. 갈래가 다섯은 돼야 한다
+            if q == "Q4" and len(cnt) < 5:
+                bad.append("Q4 의 갈래가 %d가지다. 앞의 셋을 돌려 쓰는 분기다" % len(cnt))
+        # 갈래 여섯이 다 한 번은 나오는가. **안 나오는 갈래는 없는 것과 같다**
+        allk = set(w["kind"] for w in weeks)
+        miss = sorted(set(KIND) - allk)
+        if miss:
+            bad.append("마흔여덟 주에 한 번도 안 나오는 갈래가 있다: %s"
+                       % " ".join(miss))
+        # 같은 갈래 안에서 뒤로 갈수록 목표가 안 내려가는가.
+        # **내려가면 그 주가 쉬어 가는 주가 되고 그것을 안 적었다.**
+        last = {}
+        for w in weeks:
+            k = w["kind"]
+            if k in last and w["goal"] < last[k]:
+                bad.append("%d주의 %s 목표 %d 가 앞의 %d 보다 낮다. "
+                           "쉬어 가는 주를 두려면 quest.md 에 적는다"
+                           % (w["week"], k, w["goal"], last[k]))
+            last[k] = w["goal"]
+
+    if bad:
+        for b in bad:
+            print("[실패] " + b)
+        return 1
+
+
+    # **같은 갈래를 이틀 잇달아 안 준다** (`quest.md` 5.0.1).
+    # 한 갈래만 죽 이어지면 퀘스트가 배경이 되고 두 사람이 그것을 안 본다.
+    run = [weeks[i]["week"] for i in range(1, len(weeks))
+           if weeks[i]["kind"] == weeks[i - 1]["kind"]]
+    if run:
+        print("[실패] 같은 갈래가 잇달아 오는 자리가 %d곳이다: %s주"
+              % (len(run), " ".join(str(x) for x in run[:5])))
+        return 1
     obj = {
         "note": "주마다의 공동 퀘스트. docs/quest.md 5장 표가 원본이다. "
                 "손으로 안 고친다. scripts/derive_quest.py 를 다시 돌린다.",
@@ -124,7 +189,7 @@ def main():
     ks = {}
     for w in weeks:
         ks[w["kind"]] = ks.get(w["kind"], 0) + 1
-    print("out/data/quest.json / %d주 / %s / **48주는 T326 이 채운다**"
+    print("out/data/quest.json / %d주 / %s / **마흔여덟 주가 다 찼다**"
           % (len(weeks), " ".join("%s %d" % (k, ks[k]) for k in sorted(ks))))
     return 0
 

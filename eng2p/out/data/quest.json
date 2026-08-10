@@ -6,13 +6,13 @@
   "source": "docs/quest.md 5장",
   "kinds": {
     "session": 5,
-    "speak": 600,
-    "cards": 900,
-    "lre": 60,
-    "coll": 60,
+    "speak": 360,
+    "cards": 360,
+    "lre": 48,
+    "coll": 12,
     "one": 5
   },
-  "count": 5,
+  "count": 48,
   "weeks": [
     {
       "week": 1,
@@ -22,27 +22,285 @@
     },
     {
       "week": 2,
-      "kind": "speak",
-      "goal": 60,
-      "name": "둘이 60분을 말한다"
+      "kind": "one",
+      "goal": 3,
+      "name": "오늘의 한 판을 사흘 연다"
     },
     {
       "week": 3,
       "kind": "cards",
-      "goal": 300,
-      "name": "카드 300장을 돈다"
+      "goal": 60,
+      "name": "카드 60장을 돈다"
     },
     {
       "week": 4,
-      "kind": "coll",
+      "kind": "session",
       "goal": 5,
-      "name": "들은 말 다섯을 적는다"
+      "name": "다섯 날을 채운다"
     },
     {
       "week": 5,
       "kind": "one",
       "goal": 4,
       "name": "오늘의 한 판을 나흘 연다"
+    },
+    {
+      "week": 6,
+      "kind": "coll",
+      "goal": 3,
+      "name": "들은 말 셋을 적는다"
+    },
+    {
+      "week": 7,
+      "kind": "session",
+      "goal": 5,
+      "name": "다섯 날을 채운다"
+    },
+    {
+      "week": 8,
+      "kind": "cards",
+      "goal": 90,
+      "name": "카드 90장을 돈다"
+    },
+    {
+      "week": 9,
+      "kind": "one",
+      "goal": 4,
+      "name": "오늘의 한 판을 나흘 연다"
+    },
+    {
+      "week": 10,
+      "kind": "speak",
+      "goal": 60,
+      "name": "둘이 60분을 말한다"
+    },
+    {
+      "week": 11,
+      "kind": "session",
+      "goal": 5,
+      "name": "다섯 날을 채운다"
+    },
+    {
+      "week": 12,
+      "kind": "one",
+      "goal": 5,
+      "name": "오늘의 한 판을 닷새 연다"
+    },
+    {
+      "week": 13,
+      "kind": "speak",
+      "goal": 72,
+      "name": "둘이 72분을 말한다"
+    },
+    {
+      "week": 14,
+      "kind": "cards",
+      "goal": 120,
+      "name": "카드 120장을 돈다"
+    },
+    {
+      "week": 15,
+      "kind": "speak",
+      "goal": 84,
+      "name": "둘이 84분을 말한다"
+    },
+    {
+      "week": 16,
+      "kind": "one",
+      "goal": 5,
+      "name": "오늘의 한 판을 닷새 연다"
+    },
+    {
+      "week": 17,
+      "kind": "speak",
+      "goal": 96,
+      "name": "둘이 96분을 말한다"
+    },
+    {
+      "week": 18,
+      "kind": "coll",
+      "goal": 5,
+      "name": "들은 말 다섯을 적는다"
+    },
+    {
+      "week": 19,
+      "kind": "speak",
+      "goal": 108,
+      "name": "둘이 108분을 말한다"
+    },
+    {
+      "week": 20,
+      "kind": "cards",
+      "goal": 150,
+      "name": "카드 150장을 돈다"
+    },
+    {
+      "week": 21,
+      "kind": "speak",
+      "goal": 120,
+      "name": "둘이 120분을 말한다"
+    },
+    {
+      "week": 22,
+      "kind": "session",
+      "goal": 5,
+      "name": "다섯 날을 채운다"
+    },
+    {
+      "week": 23,
+      "kind": "speak",
+      "goal": 132,
+      "name": "둘이 132분을 말한다"
+    },
+    {
+      "week": 24,
+      "kind": "one",
+      "goal": 5,
+      "name": "오늘의 한 판을 닷새 연다"
+    },
+    {
+      "week": 25,
+      "kind": "lre",
+      "goal": 12,
+      "name": "미해결을 열둘 적는다"
+    },
+    {
+      "week": 26,
+      "kind": "coll",
+      "goal": 6,
+      "name": "들은 말 여섯을 적는다"
+    },
+    {
+      "week": 27,
+      "kind": "lre",
+      "goal": 18,
+      "name": "미해결을 열여덟 적는다"
+    },
+    {
+      "week": 28,
+      "kind": "speak",
+      "goal": 132,
+      "name": "둘이 132분을 말한다"
+    },
+    {
+      "week": 29,
+      "kind": "lre",
+      "goal": 24,
+      "name": "미해결을 스물넷 적는다"
+    },
+    {
+      "week": 30,
+      "kind": "coll",
+      "goal": 8,
+      "name": "들은 말 여덟을 적는다"
+    },
+    {
+      "week": 31,
+      "kind": "lre",
+      "goal": 30,
+      "name": "미해결을 서른 적는다"
+    },
+    {
+      "week": 32,
+      "kind": "cards",
+      "goal": 180,
+      "name": "카드 180장을 돈다"
+    },
+    {
+      "week": 33,
+      "kind": "lre",
+      "goal": 36,
+      "name": "미해결을 서른여섯 적는다"
+    },
+    {
+      "week": 34,
+      "kind": "coll",
+      "goal": 10,
+      "name": "들은 말 열을 적는다"
+    },
+    {
+      "week": 35,
+      "kind": "lre",
+      "goal": 42,
+      "name": "미해결을 마흔둘 적는다"
+    },
+    {
+      "week": 36,
+      "kind": "one",
+      "goal": 5,
+      "name": "오늘의 한 판을 닷새 연다"
+    },
+    {
+      "week": 37,
+      "kind": "speak",
+      "goal": 144,
+      "name": "둘이 144분을 말한다"
+    },
+    {
+      "week": 38,
+      "kind": "lre",
+      "goal": 48,
+      "name": "미해결을 마흔여덟 적는다"
+    },
+    {
+      "week": 39,
+      "kind": "cards",
+      "goal": 210,
+      "name": "카드 210장을 돈다"
+    },
+    {
+      "week": 40,
+      "kind": "coll",
+      "goal": 10,
+      "name": "들은 말 열을 적는다"
+    },
+    {
+      "week": 41,
+      "kind": "speak",
+      "goal": 156,
+      "name": "둘이 156분을 말한다"
+    },
+    {
+      "week": 42,
+      "kind": "one",
+      "goal": 5,
+      "name": "오늘의 한 판을 닷새 연다"
+    },
+    {
+      "week": 43,
+      "kind": "lre",
+      "goal": 48,
+      "name": "미해결을 마흔여덟 적는다"
+    },
+    {
+      "week": 44,
+      "kind": "cards",
+      "goal": 240,
+      "name": "카드 240장을 돈다"
+    },
+    {
+      "week": 45,
+      "kind": "speak",
+      "goal": 168,
+      "name": "둘이 168분을 말한다"
+    },
+    {
+      "week": 46,
+      "kind": "coll",
+      "goal": 12,
+      "name": "들은 말 열둘을 적는다"
+    },
+    {
+      "week": 47,
+      "kind": "session",
+      "goal": 5,
+      "name": "다섯 날을 채운다"
+    },
+    {
+      "week": 48,
+      "kind": "speak",
+      "goal": 180,
+      "name": "둘이 180분을 말한다"
     }
   ]
 }
