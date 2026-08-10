@@ -47,6 +47,9 @@ jobs:
       - name: CI 가 부르는 자가 여기서 돌 수 있다
         timeout-minutes: 5
         run: python3 tools/ci_deps.py --check
+      - name: PyMuPDF 설치
+        timeout-minutes: 5
+        run: python3 -m pip install --quiet PyMuPDF
       - name: 화면 전수 검수 (대비 · 글씨 · 뼈대)
         timeout-minutes: 5
         run: python3 tools/audit_pages.py --check
@@ -116,6 +119,17 @@ jobs:
       - name: 배포 한도에 여유가 있다
         timeout-minutes: 5
         run: python3 tools/pages_budget.py --check
+
+      # exam 에서 문제지 서른아홉 개 가운데 스물여섯 개에 답이 실려 있었다.
+      # 여기도 학생에게 **파일을 건넨다** — english.html 이 거는 '수업 PDF' 는
+      # VOA 의 선생님용 안내서다. 쉰두 개 가운데 넷에 답이 적혀 있다. 그 넷을
+      # 어떻게 할지는 선생님이 정할 칸이고(A6), 이 자는 **다섯째가 생기는 것**을
+      # 막는다. REQUIRE_PDF=1 — pymupdf 가 없으면 건너뛰지 않고 빨간불이다.
+      - name: 영어 학습지에 선생님용 답이 새로 실리지 않았다
+        timeout-minutes: 5
+        env:
+          REQUIRE_PDF: 1
+        run: python3 tools/worksheet_leak.py --check
       # 이 리포트는 **학부모가 문자로 받아 휴대폰으로 연다.** 이 값이 어긋나면
       # 그것을 보는 사람은 거의 다 휴대폰 사용자다. 지금 6장 모두 성하다.
       # ── 브라우저 ──────────────────────────────────────────
