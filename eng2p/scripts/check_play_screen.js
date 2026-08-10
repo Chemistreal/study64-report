@@ -1178,16 +1178,234 @@ const RESET = () => {
   if (!ldOver.includes("닿은 제일 높은 칸"))
     no("마감 화면이 무엇을 센 숫자인지 안 적는다");
 
+  /* =====================================================================
+     3초 벽 (T284). **한 시계가 한 장에 두 번 서는 판.**
+
+     이 판이 앞의 여덟과 다른 자리가 넷이다.
+
+       단서가 한쪽에만   받는 쪽 화면에 재료도 정답도 한 글자도 없어야 한다
+       시계가 한쪽에만   두 기기가 각자 재면 받는 쪽이 스스로 판정하게 된다
+       대신 받기         못 받으면 같은 초를 다시 주고 **그것도 받은 것으로 센다**
+       미룬 장           둘 다 못 받으면 다음 판으로 간다. **두 덱이 갈리면 안 된다**
+
+     **검사도 숫자를 안 적는다.** 열 장도 다섯 장도 제한시간도 `DATA.wall` 에서
+     읽는다. T281 에 정한 그대로다. 규칙서 6.2 를 고치면 앱과 검사가 같이 따라온다.
+     ===================================================================== */
+  const WLRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; S.soloHand = false;
+    S.device = S.device || "a"; save();
+    if (typeof turnForget === "function") turnForget("wall");
+    WAL.stage = "ask"; walClockReset();
+    renderWall();
+  };
+  for (const p of [A, B]) await openPlay(p, "wall", "renderWall");
+  await A.evaluate(WLRESET); await B.evaluate(WLRESET);
+
+  /* ---- 62. 규격이 자료에서 온다 ----------------------------------------- */
+  const wspec = await A.evaluate(() => ({
+    end: DATA.wall.end, swap: DATA.wall.swap, cap: DATA.wall.cap,
+    grade: DATA.wall.grade, pool: walPool().length,
+    deck: walDeck().map((c) => c.id),
+    secs: walDeck().map((c) => c.sec),
+  }));
+  if (!(wspec.end >= 2)) no("3초 벽: 도는 장수가 " + wspec.end + " 다");
+  if (!(wspec.swap >= 1) || wspec.swap >= wspec.end)
+    no("3초 벽: 자리가 바뀌는 장수가 " + wspec.swap + " 다. 끝 조건보다 작아야 한다");
+  if (wspec.deck.length !== wspec.end)
+    no("3초 벽: 한 판이 " + wspec.deck.length + "장이다. 자료는 " + wspec.end + " 라고 적었다");
+  if (new Set(wspec.deck).size !== wspec.deck.length)
+    no("3초 벽: 한 판에 같은 장이 두 번 나온다. 두 번째는 압박이 아니다");
+  if (wspec.secs.some((s) => !(s > 0 && s <= wspec.cap)))
+    no("3초 벽: 윗선을 넘는 초가 섞였다: " + wspec.secs.join(" "));
+
+  /* ---- 63. 두 기기가 같은 덱을 만든다 ----------------------------------- */
+  const wdeckOf = (p) => p.evaluate(() => walDeck().map((c) => c.id).join(","));
+  if ((await wdeckOf(A)) !== (await wdeckOf(B)))
+    no("3초 벽: 두 기기가 다른 덱을 낸다. 같은 장을 봐야 한다");
+
+  /* ---- 64. 단서가 받는 쪽 화면에 한 글자도 없다 -------------------------
+     **글자만 안 본다.** `innerHTML` 을 본다. class 하나 `data-` 하나로도 샌다. */
+  let shower = (await A.evaluate(() => !!document.querySelector("#walHit"))) ? A : B;
+  let taker = shower === A ? B : A;
+  if ((await A.evaluate(() => !!document.querySelector("#walHit"))) ===
+      (await B.evaluate(() => !!document.querySelector("#walHit"))))
+    no("3초 벽: 두 기기가 같은 자리다. 한쪽이 띄우고 한쪽이 받아야 한다");
+  const wmat = await shower.evaluate(() => walDeck()[roundStep("wall")].mat);
+  const takerHtml = await pane(taker);
+  const leakMat = wmat.filter((m) => takerHtml.indexOf(m) >= 0);
+  if (leakMat.length)
+    no("3초 벽: 단서가 받는 쪽 화면에 있다: " + leakMat.join(" / ") +
+       ". 미리 보면 재는 것이 압박이 아니라 읽기가 된다");
+
+  /* ---- 65. 정답이 붙은 장도 받는 쪽에 안 샌다 ---------------------------
+     94장 중 열아홉이 정답을 달고 있고 그중 열여섯이 Q1 이다 (T282).
+     **덱에 그런 장이 안 들면 이 자리는 아무것도 안 잰다.** 그래서 찾아 넣는다. */
+  const withAns = await shower.evaluate(() => {
+    var i = walDeck().findIndex(function (c) { return !!c.ans; });
+    if (i < 0) {
+      /* 오늘 덱에 없으면 자료 전체에서 하나 끌어와 앞에 놓는다.
+         **없는 것을 안 잰 것으로 넘기지 않는다.** */
+      var c = DATA.wall.cards.filter(function (x) { return !!x.ans; })[0];
+      if (!c) return null;
+      var rec = walRec();
+      rec.deck = [c.id].concat(walDeck().map(function (x) { return x.id; }).slice(1));
+      save(); i = 0;
+    }
+    roundStepSet("wall", i); renderWall();
+    return walDeck()[i].ans;
+  });
+  if (!withAns) {
+    no("3초 벽: 정답이 붙은 장을 하나도 못 찾았다. 자료가 비었거나 파생기가 안 실었다");
+  } else {
+    await taker.evaluate((i) => { roundStepSet("wall", i); renderWall(); },
+                         await shower.evaluate(() => roundStep("wall")));
+    const th = await pane(taker);
+    if (th.indexOf(withAns) >= 0)
+      no("3초 벽: 정답이 받는 쪽 화면에 있다: " + withAns);
+    if (!(await text(shower)).includes(withAns))
+      no("3초 벽: 정답이 띄우는 쪽 화면에도 없다. 안 그리는 것은 안 새는 것이 아니다");
+  }
+
+  /* ---- 66. 판정 단추가 받는 쪽에 없다. 넘기는 단추는 있다 ---------------
+     규칙서 6.2 의 판정 칸이 **띄운 사람**이다. 받는 쪽에 두면
+     자기가 받았는지를 자기가 정하게 된다. 그것이 이 판이 막으려던 일이다.
+     그렇다고 아무 단추도 안 두면 그 기기만 첫 장에 남는다 (round.md 6장). */
+  await A.evaluate(WLRESET); await B.evaluate(WLRESET);
+  shower = (await A.evaluate(() => !!document.querySelector("#walHit"))) ? A : B;
+  taker = shower === A ? B : A;
+  for (const sel of ["#walHit", "#walGo"])
+    if (await taker.$(sel)) no("3초 벽: 받는 쪽에 " + sel + " 가 있다");
+  for (const sel of ["#walNext", "#walDefer"])
+    if (!(await taker.$(sel))) no("3초 벽: 받는 쪽에 " + sel + " 가 없다");
+  if (!(await shower.$("#walGo"))) no("3초 벽: 띄우는 쪽에 시계 단추가 없다");
+
+  /* ---- 67. 자리가 자료가 적은 장수마다 바뀐다 ---------------------------
+     **날짜에 안 매인다.** 어느 쪽이 먼저인지는 날마다 뒤집히고 (roleOf)
+     바뀌는 자리만 잰다. check_ui.js 가 T276 에 고친 것과 같은 꼴이다. */
+  const seatSeq = [];
+  for (let i = 0; i < wspec.swap * 2; i++) {
+    seatSeq.push(await shower.evaluate(() => !!document.querySelector("#walHit")));
+    await shower.evaluate(() => { roundStepSet("wall", roundStep("wall") + 1);
+                                  renderWall(); });
+  }
+  const flipsW = [];
+  for (let i = 1; i < seatSeq.length; i++)
+    if (seatSeq[i] !== seatSeq[i - 1]) flipsW.push(i);
+  if (flipsW.length !== 1 || flipsW[0] !== wspec.swap)
+    no("3초 벽: 자리가 바뀐 자리가 [" + flipsW.join(",") + "] 다. [" +
+       wspec.swap + "] 여야 한다");
+
+  /* ---- 68. 시계가 다 되면 대신 받기로 넘어가고 같은 초를 준다 ----------- */
+  await A.evaluate(WLRESET); await B.evaluate(WLRESET);
+  shower = (await A.evaluate(() => !!document.querySelector("#walHit"))) ? A : B;
+  const wsec = await shower.evaluate(() => walDeck()[roundStep("wall")].sec);
+  await tap(shower, "#walGo", "제한시간 재기");
+  await shower.evaluate(() => { WCLK.left = 1; });
+  await shower.waitForTimeout(1400);
+  const relayTxt = await text(shower);
+  if (!relayTxt.includes("대신 받는다"))
+    no("3초 벽: 시간이 다 됐는데 대신 받는다는 말이 없다");
+  if (relayTxt.indexOf(String(wsec) + "초") < 0)
+    no("3초 벽: 대신 받는 자리에 제한시간이 안 적혔다. 덜 주면 그것이 벌이 된다");
+  if (!(await shower.$("#walMiss")))
+    no("3초 벽: 대신 받는 자리에 둘 다 못 받았다가 없다");
+  if ((await shower.evaluate(() => roundStep("wall"))) !== 0)
+    no("3초 벽: 시간이 다 됐다고 장이 넘어갔다. 대신 받을 차례가 남았다");
+
+  /* ---- 69. 대신 받은 것도 받은 것으로 센다 ------------------------------ */
+  const wrec = (p) => p.evaluate(() => S.rhit["wall|" + today()] || {});
+  await tap(shower, "#walHit", "대신 받았다");
+  let wrc = await wrec(shower);
+  if (wrc.hit !== 1)
+    no("3초 벽: 대신 받았다를 눌렀는데 셈이 " + wrc.hit + " 다. 누가 받았는지는 안 센다");
+
+  /* ---- 70. 둘 다 못 받으면 미루고 덱은 안 섞인다 ------------------------ */
+  const deckBefore = await shower.evaluate(() => walDeck().map((c) => c.id).join(","));
+  await shower.evaluate(() => { WCLK.left = 1; WCLK.over = true;
+                                WAL.stage = "relay"; renderWall(); });
+  const missId = await shower.evaluate(() => walDeck()[roundStep("wall")].id);
+  await tap(shower, "#walMiss", "둘 다 못 받았다");
+  wrc = await wrec(shower);
+  if ((wrc.defer || []).indexOf(missId) < 0)
+    no("3초 벽: 둘 다 못 받은 장이 미룬 목록에 없다: " + missId);
+  if (wrc.hit !== 1) no("3초 벽: 둘 다 못 받았는데 셈이 늘었다");
+  if ((await shower.evaluate(() => walDeck().map((c) => c.id).join(","))) !== deckBefore)
+    no("3초 벽: 미루자 판 도중에 덱이 섞였다. 이미 돈 장이 뒤로 밀린다");
+
+  /* ---- 71. 다음 판이 미룬 것부터 낸다 ----------------------------------- */
+  await shower.evaluate((n) => { roundStepSet("wall", n); renderWall(); }, wspec.end);
+  const wdone = await text(shower);
+  if (!/다 돌았다/.test(wdone)) no("3초 벽: 다 돌았는데 마감 화면이 안 뜬다");
+  if (!wdone.includes("누가 받았는지는 안 센다"))
+    no("3초 벽: 마감 화면이 무엇을 안 세는지 말 안 한다");
+  if (!wdone.includes("절반"))
+    no("3초 벽: 마감 화면이 이 숫자가 절반이라는 말을 안 한다");
+  if (!wdone.includes("미뤘다"))
+    no("3초 벽: 미룬 장이 있는데 마감 화면이 그 말을 안 한다");
+  await tap(shower, "#walAgain", "처음부터");
+  const firstNext = await shower.evaluate(() => walDeck()[0].id);
+  if (firstNext !== missId)
+    no("3초 벽: 다음 판 첫 장이 " + firstNext + " 다. 미룬 " + missId + " 여야 한다");
+  if (((await wrec(shower)).defer || []).indexOf(missId) < 0)
+    no("3초 벽: 처음부터를 눌렀더니 미룬 목록이 지워졌다");
+
+  /* ---- 72. 받는 쪽이 미룬 것을 적어야 두 덱이 안 갈린다 ----------------- */
+  await A.evaluate(WLRESET); await B.evaluate(WLRESET);
+  shower = (await A.evaluate(() => !!document.querySelector("#walHit"))) ? A : B;
+  taker = shower === A ? B : A;
+  const bothId = await shower.evaluate(() => walDeck()[0].id);
+  await shower.evaluate(() => { WAL.stage = "relay"; renderWall(); });
+  await tap(shower, "#walMiss", "띄운 쪽이 미룬다");
+  await tap(taker, "#walDefer", "받는 쪽도 적는다");
+  const dA = await shower.evaluate(() => (walRec().defer || []).join(","));
+  const dB = await taker.evaluate(() => (walRec().defer || []).join(","));
+  if (dA !== dB || dA.indexOf(bothId) < 0)
+    no("3초 벽: 두 기기의 미룬 목록이 갈린다: " + dA + " / " + dB);
+
+  /* ---- 73. 자료가 모자란 날은 판을 안 열고 단서를 안 띄운다 -------------
+     첫 다섯 강이 그렇다 (T282). **있는 만큼 돌리지 않는다.**
+     모자란 것을 채우려면 같은 장을 두 번 내야 하고 두 번째는 압박이 아니다. */
+  await shower.evaluate((n) => {
+    window.__wp = walPool;
+    walPool = function () { return DATA.wall.cards.slice(0, Math.max(0, n - 1)); };
+    S.rhit = {}; save(); roundStepSet("wall", 0); renderWall();
+  }, wspec.end);
+  const shortTxt = await text(shower);
+  const shortHtml = await pane(shower);
+  if (!shortTxt.includes("안 연다"))
+    no("3초 벽: 단서가 끝 조건보다 적은데 판이 그대로 돈다");
+  /* **한 장만 보면 운에 기댄다.** 덱은 섞여 나오므로 첫 장이 화면에 안 뜰 수도
+     있고 그러면 안 뜬 것이 아니라 다른 장이 뜬 것이다. 판이 낼 수 있는 것을 다 본다. */
+  const shortMat = await shower.evaluate((n) =>
+    DATA.wall.cards.slice(0, Math.max(0, n - 1))
+      .reduce((a, c) => a.concat(c.mat), []), wspec.end);
+  const shortSeen = shortMat.filter((m) => shortHtml.indexOf(m) >= 0);
+  if (shortSeen.length)
+    no("3초 벽: 안 여는 날인데 단서가 화면에 떴다: " + shortSeen.slice(0, 3).join(" / "));
+  if (await shower.$("#walHit"))
+    no("3초 벽: 안 여는 날인데 판정 단추가 있다");
+  await shower.evaluate(() => { walPool = window.__wp; S.rhit = {}; save(); });
+
+  /* ---- 74. 등급을 화면이 말한다 ----------------------------------------- */
+  await A.evaluate(WLRESET);
+  const wgTxt = await text(A);
+  if (!wgTxt.includes(wspec.grade + "등급"))
+    no("3초 벽: 자료 등급이 화면에 없다");
+  if (wspec.grade !== "A" && !wgTxt.includes("통과 판정에는 안 쓴다"))
+    no("3초 벽: B등급인데 통과 판정에 안 쓴다는 말이 없다");
+  if (wspec.grade === "A" && wgTxt.includes("통과 판정에는 안 쓴다"))
+    no("3초 벽: A등급 자료에 통과 판정 금지가 붙었다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 8개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
-              "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / " +
-              "배속 사다리: 규격 5판, 볼 것 2판, 오르내리기 8판, 바닥 1판, " +
-              "두 기기 2판, 등급과 시계 3판 **숫자를 검사에 안 적었다** / " +
-              "실패 " + fails.length);
+  console.log("판 9개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+              "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
+              "3초 벽: 규격 5판, 두 기기 덱 1판, 안 새는가 4판, 단추 자리 5판, " +
+              "다섯 장마다 1판, 대신 받기 5판, 미룸 8판, 안 여는 날 3판, 등급 3판 " +
+              "**여기도 숫자를 안 적었다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
