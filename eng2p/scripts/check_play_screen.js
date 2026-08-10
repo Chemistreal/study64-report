@@ -1396,16 +1396,137 @@ const RESET = () => {
   if (wspec.grade === "A" && wgTxt.includes("통과 판정에는 안 쓴다"))
     no("3초 벽: A등급 자료에 통과 판정 금지가 붙었다");
 
+  /* =====================================================================
+     되받아치기 (T286). **자료가 이어달리기와 같고 재는 것이 다른 판.**
+
+     그래서 이 판에서 잴 것은 자료가 아니라 **다른 자리**다.
+
+       단추가 한쪽에만   판정이 던진 사람이다. 이어달리기는 둘 다 누른다
+       쉼마다 자리       회가 아니라 쉼 횟수로 돈다
+       셈이 큰 것이다    더하지도 않고 같지도 않다. **셋째 법이 여기서 처음 나온다**
+       청크가 안 걸러진다 이을 수 있는 것만 보이면 재는 것이 쉼이 아니라 눈이 된다
+     ===================================================================== */
+  const RBRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("rebound");
+    RBDCLK.left = 0; RBDCLK.over = false;
+    renderRebound();
+  };
+  for (const p of [A, B]) await openPlay(p, "rebound", "renderRebound");
+  await A.evaluate(RBRESET); await B.evaluate(RBRESET);
+
+  /* ---- 75. 판정 단추가 던진 쪽에만 있다 --------------------------------- */
+  let thrower = (await A.evaluate(() => !!document.querySelector("#rbdOn"))) ? A : B;
+  let catcher = thrower === A ? B : A;
+  if ((await A.evaluate(() => !!document.querySelector("#rbdOn"))) ===
+      (await B.evaluate(() => !!document.querySelector("#rbdOn"))))
+    no("되받아치기: 두 기기가 같은 자리다. 한쪽이 던지고 한쪽이 받아야 한다");
+  for (const sel of ["#rbdOn", "#rbdStop"])
+    if (await catcher.$(sel))
+      no("되받아치기: 받는 쪽에 " + sel + " 가 있다. 쉼은 던진 쪽이 듣는다");
+  if (!(await catcher.$("#rbdSaid")))
+    no("되받아치기: 받는 쪽에 자리를 미는 단추가 없다. 안 밀면 판 표시가 갈린다");
+
+  /* ---- 76. 받는 쪽에 큰 수가 없다. **안 세는 것과 0인 것은 다르다** ----- */
+  if ((await catcher.$$(".chnbig")).length)
+    no("되받아치기: 받는 쪽에 큰 수가 떴다. 그 기기가 안 세는 것이지 0인 것이 아니다");
+  if (!(await thrower.$$(".chnbig")).length)
+    no("되받아치기: 던진 쪽에 큰 수가 없다");
+
+  /* ---- 77. 청크가 안 걸러진다 -------------------------------------------
+     오늘 과의 목록 그대로여야 한다. 말끝으로 이을 수 있는 것만 보이면
+     두 사람이 그것을 찾아 읽고 **재는 것이 쉼이 아니라 눈이 된다** (T285). */
+  const rbPool = await thrower.evaluate(() => ({
+    all: (DATA.chunks.items[rbdToday()] || []).map((c) => c.c),
+    shown: Array.prototype.map.call(
+      document.querySelectorAll("#playPane .chnk"), (n) => n.textContent),
+  }));
+  const missing = rbPool.all.filter((c) => rbPool.shown.indexOf(c) < 0);
+  if (missing.length)
+    no("되받아치기: 오늘 과의 청크가 화면에서 빠졌다: " + missing.join(" / ") +
+       ". 걸러 보이면 재는 것이 쉼이 아니라 눈이 된다");
+  if ((await catcher.evaluate(() => Array.prototype.map.call(
+        document.querySelectorAll("#playPane .chnk"), (n) => n.textContent).join("|")))
+      !== rbPool.shown.join("|"))
+    no("되받아치기: 두 기기가 다른 청크를 본다");
+
+  /* ---- 78. 주고받은 수가 늘고 제일 긴 것이 따라 오른다 ------------------ */
+  const rbRec = (p) => p.evaluate(() => S.rhit["rebound|" + today()] || {});
+  for (let i = 0; i < 3; i++) {
+    await tap(thrower, "#rbdOn", "주고받았다 " + (i + 1));
+    const r = await rbRec(thrower);
+    if (r.run !== i + 1)
+      no("되받아치기: " + (i + 1) + "번 눌렀는데 이어진 수가 " + r.run + " 다");
+    if (r.best !== i + 1)
+      no("되받아치기: 제일 긴 것이 " + r.best + " 다. 지금 것보다 작을 수 없다");
+  }
+
+  /* ---- 79. 쉼이 나면 이어진 수만 0이 되고 제일 긴 것은 남는다 ----------- */
+  await tap(thrower, "#rbdStop", "쉼이 생겼다");
+  let rb = await rbRec(thrower);
+  if (rb.run !== 0) no("되받아치기: 쉼이 났는데 이어진 수가 " + rb.run + " 다");
+  if (rb.best !== 3) no("되받아치기: 쉼이 났다고 제일 긴 것이 " + rb.best + " 로 줄었다");
+  if (rb.stops !== 1) no("되받아치기: 쉼 횟수가 " + rb.stops + " 다");
+  if (await thrower.$("#rbdOn"))
+    no("되받아치기: 쉼이 났는데 자리가 안 바뀌었다. 쉼마다 바뀐다");
+
+  /* ---- 80. 받는 쪽 단추는 셈을 안 건드리고 자리만 민다 ------------------ */
+  const before = await rbRec(catcher);
+  await tap(catcher, "#rbdSaid", "쉼이 났다고 한다");
+  const after = await rbRec(catcher);
+  if (after.best !== (before.best || 0) || after.stops !== (before.stops || 0))
+    no("되받아치기: 받는 쪽 단추가 셈을 건드렸다. 그 자리는 판정이 아니다");
+  if (!(await catcher.$("#rbdOn")))
+    no("되받아치기: 받는 쪽이 눌렀는데 자리가 안 바뀌었다");
+  if ((await thrower.evaluate(() => roundStep("rebound"))) !==
+      (await catcher.evaluate(() => roundStep("rebound"))))
+    no("되받아치기: 두 기기의 회가 갈렸다");
+
+  /* ---- 81. 자리가 쉼마다 바뀐다. **회마다가 아니다** --------------------
+     쉼을 안 눌렀는데 자리가 도는지를 본다. 주고받기만 여러 번 한다. */
+  await A.evaluate(RBRESET); await B.evaluate(RBRESET);
+  thrower = (await A.evaluate(() => !!document.querySelector("#rbdOn"))) ? A : B;
+  for (let i = 0; i < 4; i++) {
+    await tap(thrower, "#rbdOn", "쉼 없이 " + (i + 1));
+    if (!(await thrower.$("#rbdOn")))
+      no("되받아치기: 쉼이 안 났는데 자리가 바뀌었다: " + (i + 1) + "번째");
+  }
+
+  /* ---- 82. 마감이 더하라고 말하지 않는다 --------------------------------
+     앞의 다섯 판이 "두 기기 숫자를 더한다" 를 적는다. 여기서 그것을 적으면
+     두 사람이 주고받은 것을 다 더한 수를 남기고 **그것은 이 판의 값이 아니다.** */
+  await thrower.evaluate(() => { RBDCLK.over = true; renderRebound(); });
+  const rbDone = await text(thrower);
+  if (!/분이 됐다/.test(rbDone))
+    no("되받아치기: 시계가 다 됐는데 끝났다는 말을 안 한다");
+  if (!rbDone.includes("더하지 않는다"))
+    no("되받아치기: 마감 화면이 더하지 말라는 말을 안 한다");
+  if (/소리 내어 더한다|그 절반이다/.test(rbDone))
+    no("되받아치기: 마감 화면이 더하라고 적는다. 이 판의 값은 큰 것 하나다");
+  if (!rbDone.includes("큰 것"))
+    no("되받아치기: 마감 화면이 두 기기 중 무엇을 남기는지 안 적는다");
+  if (!rbDone.includes("한 번에 제일 많이"))
+    no("되받아치기: 마감 화면이 무엇을 센 숫자인지 안 적는다");
+
+  /* ---- 83. 등급 --------------------------------------------------------- */
+  await A.evaluate(RBRESET);
+  const rbGrade = await A.evaluate(() => DATA.chunks.grade);
+  const rbTxt = await text(A);
+  if (!rbTxt.includes(rbGrade + "등급"))
+    no("되받아치기: 자료 등급이 화면에 없다");
+  if (rbGrade !== "A" && !rbTxt.includes("통과 판정에는 안 쓴다"))
+    no("되받아치기: B등급인데 통과 판정에 안 쓴다는 말이 없다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 9개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 10개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
-              "3초 벽: 규격 5판, 두 기기 덱 1판, 안 새는가 4판, 단추 자리 5판, " +
-              "다섯 장마다 1판, 대신 받기 5판, 미룸 8판, 안 여는 날 3판, 등급 3판 " +
-              "**여기도 숫자를 안 적었다** / 실패 " + fails.length);
+              "3초 벽 35 / 되받아치기: 단추 자리 5판, 큰 수 2판, 청크 2판, 세기 8판, " +
+              "쉼 4판, 받는 쪽 3판, 쉼마다 4판, 마감 5판, 등급 2판 " +
+              "**더하라고 적는지를 본다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
