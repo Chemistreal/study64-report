@@ -401,6 +401,12 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .whopick.on{border-style:solid;border-color:var(--ok);font-weight:650;
   background:var(--sub);color:var(--fg)}
 
+/* 못 알아들은 척 (T298). 보기는 대본에 있는 줄이다. 지어낸 것이 아니다.
+   어느 과에서 왔는지를 옆에 둔다. **어디서 왔는지가 남아야 믿고 쓴다.** */
+.rskbox{margin-top:10px;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:10px 12px}
+.rskline{font-size:1.0625rem;line-height:1.6;padding:5px 0;overflow-wrap:anywhere}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
