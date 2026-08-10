@@ -55,6 +55,16 @@ KOPAT = "|".join(sorted(KO, key=len, reverse=True))
 QORDER = ["Q1", "Q2", "Q3", "Q4"]
 
 
+def plain(s):
+    """화면으로 가는 글에서 마크다운 표시를 뺀다.
+
+    **T265 에서 겪은 자리다.** 자료는 문서가 아니라 화면으로 간다.
+    화면은 `**` 를 굵게 그리지 않고 별 둘을 그대로 그린다.
+    그때는 한 파생기만 고쳤고 그 뒤에 만든 파생기가 같은 것을 또 흘렸다.
+    """
+    return (s or "").replace("**", "")
+
+
 def chapter(text, head, tail):
     i = text.find(head)
     if i < 0:
@@ -141,14 +151,16 @@ def main():
         pool.append({
             "id": c["id"], "no": c["no"], "q": c["quarter"],
             "sec": c["seconds"],
-            "ins": a.get("instruction", ""),
-            "mat": mat,
-            # 정답은 **띄우는 쪽에만** 간다. 받는 쪽 화면에 넣지 않는다
-            "ans": a.get("answer") or "",
-            "note": a.get("note") or "",
-            "pass": a.get("pass", ""),
-            "bIns": b.get("instruction", ""),
-            "bPass": b.get("pass", ""),
+            # **화면으로 가는 글은 다 `plain` 을 지난다.** 카드 마크다운에 `**` 가
+            # 섞여 있고 (Q1-054) 화면은 그것을 굵게 안 그리고 별 둘을 그린다. T292
+            "ins": plain(a.get("instruction", "")),
+            "mat": [plain(m) for m in mat],
+            # 정답은 띄우는 쪽에만 간다. 받는 쪽 화면에 넣지 않는다
+            "ans": plain(a.get("answer") or ""),
+            "note": plain(a.get("note") or ""),
+            "pass": plain(a.get("pass", "")),
+            "bIns": plain(b.get("instruction", "")),
+            "bPass": plain(b.get("pass", "")),
             # **받는 쪽이 재료를 눈으로 봐야 하는 장인가.** 단서는 띄우는 쪽
             # 화면에 있는 것이 원칙인데(역할 이름이 그렇다) 받는 쪽이 그 낱말을
             # 그대로 읽어야 하는 장이 있다. 그 장은 화면을 돌려 줘야 한다.

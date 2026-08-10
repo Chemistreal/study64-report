@@ -1,5 +1,5 @@
 {
-  "note": "한 사람만 본다가 쓸 상황 카드. 역할형 카드의 A면에서 뽑는다. **B면은 안 담는다.** scripts/derive_situ.py 를 다시 돌린다.",
+  "note": "한 사람만 본다가 쓸 상황 카드. 역할형 카드의 A면에서 뽑는다. B면은 안 담는다. scripts/derive_situ.py 를 다시 돌린다.",
   "grade": "B",
   "gradeWhy": "카드 파일 열둘이 다 신뢰도 B 다. 다섯 요소를 요구하는 것은 기준서 8.1 이지만 그 칸을 채운 한국어와 상황은 카드가 진 등급을 그대로 진다.",
   "generator": "scripts/derive_situ.py",

@@ -379,6 +379,18 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .sitrow.on{background:var(--sub);color:var(--fg);font-weight:600}
 .sitrow.on b{color:var(--acc)}
 
+/* 파장 (T292). 눈금 다섯 칸이 둘 다 보인다. 짚을 자리가 안 보이면 못 짚는다.
+   넣은 자리(2와 4)는 흐리게 둔다. **있는 값과 넣은 자리를 눈으로 가른다.** */
+.wavbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+.wavrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
+  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut)}
+.wavrow:last-child{border-bottom:0}
+.wavrow b{flex:none;min-width:1.6em}
+.wavrow.mid{background:var(--bg2)}
+.wavrow.on{background:var(--sub);color:var(--fg);font-weight:650}
+.wavrow.on b{color:var(--acc)}
+.wavnow{margin-left:auto;font-size:0.75rem;color:var(--a1t);flex:none}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}

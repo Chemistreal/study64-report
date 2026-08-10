@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 스물셋과 검사 스물아홉과 상태 갱신 셋, 쉰다섯을 정해진 순서로 돈다.
+**한 줄이다.** 파생 스물넷과 검사 스물아홉과 상태 갱신 셋, 쉰여섯을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -131,6 +131,7 @@ scripts/derive_halves.py 둘이 한 문장의 앞뒤 토막. **붙이면 원문�
 scripts/derive_ladder.py 배속 사다리 규격. **bench_music.md 6장이 원본.** 못 찾으면 실패
 scripts/derive_wall.py 3초 벽이 띄울 단서. **124장 중 서른은 재료가 비어 있다.** B등급
 scripts/derive_situ.py 한 사람만 본다의 상황 카드. **B면을 안 담는다.** 안 실으면 안 샌다
+scripts/derive_wave.py 파장의 격식 눈금 다섯. **2와 4에 새 이름을 안 짓는다.** B등급
 docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무엇이 종이에만 있나
 docs/pair.md           기기 둘. 무엇이 갈리고 무엇이 건너가야 하는가. **셈은 코드로 글은 파일로**
 docs/merge.md          합치기. **덮는 것이 아니다.** 갈래 넷과 묻는 일곱
@@ -179,7 +180,7 @@ scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다. 없으면 �
 scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = 서른두 판
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
-scripts/check_pages.py 뿌리 화면 검수를 들인다. **CI 와 같은 자다** (tools/audit_pages.py)
+scripts/check_pages.py 뿌리 화면 검수 넷을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
 scripts/rehearse_session.js 한 세션 두 시간. 블록 안에서 바뀌는 자리 열넷을 뜬다
 scripts/rehearse_pair.js **두 화면을 나란히 받아 적는다.** 자리 여섯 곳

@@ -1,7 +1,7 @@
 window.ENG2P_MANIFEST={
   "note": "out/data 의 파생 자료마다 크기와 해시다. 받은 것이 온전한지 보는 표다. 손으로 고치지 않는다. scripts/derive_manifest.py 를 다시 돌린다.",
   "generator": "scripts/derive_manifest.py",
-  "count": 42,
+  "count": 44,
   "files": [
     {
       "file": "audiolen.js",
@@ -115,23 +115,33 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "wall.js",
-      "bytes": 57918,
-      "sha256": "bb10c3c2d6fcb69fb0bd60eda0b7e256ce4889fb387fb2271ab60e6847e79960"
+      "bytes": 57914,
+      "sha256": "6d550e0a45ef0343e951a5a19a816f44ba8113eda8ab3629382f278e14761ae2"
     },
     {
       "file": "wall.json",
-      "bytes": 73422,
-      "sha256": "723dd1d434215bbdf8fd675b88944008b5ae41d5580b08e39105d8656eb4b94d"
+      "bytes": 73418,
+      "sha256": "afe071c853711aa895df5d40996aa42224767b0c12489e6aaadd95c941a56b5b"
     },
     {
       "file": "situ.js",
-      "bytes": 42647,
-      "sha256": "7305deadc942e62c1075462ef5c40ff3313c812e13b6c0b7777771683af995b1"
+      "bytes": 42643,
+      "sha256": "eb83109dc8f4122a2dc6ecf64796d7783ee0514b8e6f81f92efa1932c566d59a"
     },
     {
       "file": "situ.json",
-      "bytes": 55529,
-      "sha256": "139a12c63609390aec43d5c9bb03b6706f6a2bbd51b2131011885fe3152537a7"
+      "bytes": 55525,
+      "sha256": "11db11031a5aec4686cbed81f5b15bc7bb90b5738961596d26dbdb9be6764452"
+    },
+    {
+      "file": "wave.js",
+      "bytes": 959,
+      "sha256": "2fc8001b403d4c8b5cca5646ee02850c04edf83784708123163be399f617b2dc"
+    },
+    {
+      "file": "wave.json",
+      "bytes": 1194,
+      "sha256": "fe1c2025756e96dd2a60a67026e223e9c3b99c6c588f80caf262b88e27992168"
     },
     {
       "file": "lectures.js",

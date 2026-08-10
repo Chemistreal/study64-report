@@ -811,6 +811,16 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .sitrow.on{background:var(--sub);color:var(--fg);font-weight:600}
 .sitrow.on b{color:var(--acc)}
 
+.wavbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
+.wavrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
+  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut)}
+.wavrow:last-child{border-bottom:0}
+.wavrow b{flex:none;min-width:1.6em}
+.wavrow.mid{background:var(--bg2)}
+.wavrow.on{background:var(--sub);color:var(--fg);font-weight:650}
+.wavrow.on b{color:var(--acc)}
+.wavnow{margin-left:auto;font-size:0.75rem;color:var(--a1t);flex:none}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
@@ -1930,7 +1940,8 @@ function renderCrit(){
     if(c.threshold) line+=' <b>'+c.threshold.value+
       (c.threshold.op==="min"?" 이상":c.threshold.op==="max"?" 이하":" 정확히")+'</b>';
     h+='<div class="critrow"><div class="t">'+line+'</div>'+
-       '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'" aria-label="기준 점수">'+
+       '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'" '+
+       'aria-label="'+esc(c.text)+' 점수">'+
        mark+'</div>';
   });
   var judged=L.criteria.filter(function(c){return c.threshold;});
@@ -6249,7 +6260,8 @@ function renderWhere(){
   box.innerHTML='<div class="small mut">이 기기는 <b class="mono">'+esc(sessTag())+
     '</b> 다. 상대가 읽어 준 것을 친다. 앞뒤 어느 쪽이든 간다.</div>'+
     '<div class="row"><input id="whereIn" class="mono" placeholder="3-12" '+
-    'inputmode="text" autocomplete="off" style="max-width:110px" aria-label="3-12">'+
+    'inputmode="text" autocomplete="off" style="max-width:110px" '+
+    'aria-label="상대 기기 표시">'+
     '<button class="g" id="whereGo">맞춘다</button>'+
     '<button class="g" id="whereNo">닫는다</button></div>'+
     '<div id="whereMsg" class="small mut"></div>';
@@ -6278,7 +6290,8 @@ var PLAYS=[
   {id:"ladder", name:"배속 사다리", track:"자동화", min:5},
   {id:"wall", name:"3초 벽", track:"자동화", min:4},
   {id:"rebound", name:"되받아치기", track:"자동화", min:4},
-  {id:"onesee", name:"한 사람만 본다", track:"화용", min:5}
+  {id:"onesee", name:"한 사람만 본다", track:"화용", min:5},
+  {id:"wave", name:"파장", track:"화용", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};
