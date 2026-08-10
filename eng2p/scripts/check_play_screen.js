@@ -2678,13 +2678,293 @@ const RESET = () => {
       no("말 겹치기 (" + why + "): 화면에 마크다운 표시가 보인다");
   }
 
+  /* =====================================================================
+     거꾸로 판정 (T308). **정답이 어느 화면에도 없는 판.**
+
+       정답      두 화면과 자료 어디에도 없다. 카드에서 꺼내 견준다
+       가림      가리는 것이 정답이 아니라 **재료**다
+       기준      셈뿐인 장과 가르는 장을 화면이 갈라 적는가
+       안 여는 날 Q1 이라서와 다섯 장이 안 모여서. **까닭이 둘이다**
+     ===================================================================== */
+  const FLRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("flip");
+    flpClockStop(); FCLK.left = 0; FCLK.over = false;
+    renderFlip();
+  };
+  for (const p of [A, B]) await openPlay(p, "flip", "renderFlip");
+  await A.evaluate(FLRESET); await B.evaluate(FLRESET);
+
+  /* ---- 148. 규격과 자료 ------------------------------------------------- */
+  const fspec = await A.evaluate(() => ({
+    end: DATA.flip.end, swap: DATA.flip.swap, from: DATA.flip.from,
+    grade: DATA.flip.grade, count: DATA.flip.count, splits: DATA.flip.splits,
+    hidden: DATA.flip.hidden, deck: flpDeck().map((c) => c.id),
+    q: plan().quarter,
+  }));
+  if (fspec.swap !== 1)
+    no("거꾸로 판정: 자리가 " + fspec.swap + "장마다 바뀐다. 한 장마다여야 한다");
+  if (!(fspec.end >= 2)) no("거꾸로 판정: 도는 장이 " + fspec.end + " 이다");
+  if (fspec.from === "Q1")
+    no("거꾸로 판정: Q1 부터 돈다고 적혀 있다. Q1 문법은 0퍼센트다");
+  if (fspec.deck.length !== fspec.end)
+    no("거꾸로 판정: 오늘 덱이 " + fspec.deck.length + "장이다. " +
+       fspec.end + "장이어야 한다");
+  if (new Set(fspec.deck).size !== fspec.deck.length)
+    no("거꾸로 판정: 덱에 같은 장이 두 번 있다");
+  if ((await B.evaluate(() => flpDeck().map((c) => c.id))).join() !== fspec.deck.join())
+    no("거꾸로 판정: 두 기기가 다른 덱을 든다. 같은 씨앗이라 같아야 한다");
+  if (!(fspec.hidden || []).includes("answer") || !(fspec.hidden || []).includes("note"))
+    no("거꾸로 판정: 자료가 무엇을 안 담았는지를 안 적고 있다");
+  if (!(fspec.splits < fspec.count))
+    no("거꾸로 판정: 기준이 다 가른다고 적혀 있다. 셈뿐인 장이 있었다 (T307)");
+
+  /* ---- 149. 정답이 자료에도 두 화면에도 없다 -----------------------------
+     **이 판의 이름이 그것이다.** 파생기도 본다 (T306). 여기서는 화면이 그 자료를
+     그대로 쓰는지를 본다 (T302). 카드에서 정답을 꺼내 견준다. */
+  const fleak = await A.evaluate(async () => {
+    if (!DATA.cards) {
+      await new Promise((ok) => loadData("cards", "ENG2P_CARDS", ok));
+    }
+    const txt = JSON.stringify(DATA.flip);
+    const out = [];
+    DATA.cards.items.forEach((c) => {
+      const a = c.a || {};
+      ["answer", "note"].forEach((k) => {
+        const v = String(a[k] || "").replace(/\*\*/g, "").trim();
+        if (v.length >= 12 && txt.indexOf(v) >= 0) out.push(c.id + "." + k);
+      });
+    });
+    return out;
+  });
+  if (fleak.length)
+    no("거꾸로 판정: 자료에 정답이 실려 있다: " + fleak.slice(0, 3).join(" "));
+
+  const fkey = await A.evaluate(() => {
+    const by = {};
+    DATA.cards.items.forEach((c) => { by[c.id] = c; });
+    return flpDeck().map((c) => {
+      const a = (by[c.id] || {}).a || {};
+      return { id: c.id, splits: c.splits, mat: c.mat,
+               ans: String(a.answer || "").replace(/\*\*/g, "").trim(),
+               note: String(a.note || "").replace(/\*\*/g, "").trim() };
+    });
+  });
+  for (const [tag, p] of [["a", A], ["b", B]]) {
+    const t = await pane(p);
+    for (const k of fkey) {
+      if (k.ans.length >= 12 && t.indexOf(k.ans) >= 0)
+        no("거꾸로 판정: " + tag + " 화면에 " + k.id + " 의 정답이 있다");
+      if (k.note.length >= 12 && t.indexOf(k.note) >= 0)
+        no("거꾸로 판정: " + tag + " 화면에 " + k.id +
+           " 의 해설이 있다. 해설이 정답을 적는 장이 있다");
+    }
+  }
+
+  /* ---- 150. 자리가 갈리고 재료가 판정하는 쪽에만 있다 --------------------
+     **가리는 것이 정답이 아니라 재료다.** 답하는 쪽이 보면 듣기가 읽기가 된다. */
+  const fFirst = (p) => p.evaluate(() => roundFirst(roundStep("flip"), DATA.flip.swap));
+  if ((await fFirst(A)) === (await fFirst(B)))
+    no("거꾸로 판정: 두 기기가 같은 자리다. 하나가 판정하면 하나는 답해야 한다");
+  for (const [tag, p] of [["a", A], ["b", B]]) {
+    const judge = await fFirst(p);
+    const t = await pane(p);
+    const has = fkey[0].mat.filter((m) => t.indexOf(m) >= 0).length;
+    if (judge && has !== fkey[0].mat.length)
+      no("거꾸로 판정: " + tag + " 가 판정하는 쪽인데 재료가 " + has + "줄만 있다");
+    if (!judge && has)
+      no("거꾸로 판정: " + tag + " 가 답하는 쪽인데 재료가 " + has + "줄 보인다. " +
+         "보면 듣는 것이 아니라 읽는 것이 된다");
+  }
+
+  /* ---- 151. 판정 단추가 판정하는 쪽에만 있다 ----------------------------- */
+  for (const [tag, p] of [["a", A], ["b", B]]) {
+    const judge = await fFirst(p);
+    const bs = [await p.$("#flpSplit"), await p.$("#flpStuck")].filter(Boolean).length;
+    if (judge && bs !== 2)
+      no("거꾸로 판정: " + tag + " 가 판정하는 쪽인데 단추가 " + bs + "개다");
+    if (!judge && bs)
+      no("거꾸로 판정: " + tag + " 가 답하는 쪽인데 판정 단추가 " + bs + "개 있다");
+  }
+
+  /* ---- 152. 기준이 셈뿐인지 가르는지를 화면이 갈라 적는다 (T307) ---------
+     **안 가르면 기준을 읽고 아무것도 못 얻은 사람이 자기가 못한 줄 안다.** */
+  {
+    /* **다섯 장을 다 본다.** 처음에는 첫 장만 봤다. 깸 시험에서 갈래를 아예 안 가르고
+       늘 셈뿐이라고 적게 했더니 **안 잡혔다.** 오늘 첫 장이 마침 셈뿐이라 안 달라졌다.
+       한 장만 재면 나머지 넷이 빈다. T296 과 T305 에 이어 세 번째다. */
+    const seen = { yes: 0, no: 0 };
+    for (let i = 0; i < fkey.length; i++) {
+      const k = fkey[i];
+      for (const p of [A, B]) await p.evaluate((n) => {
+        roundStepSet("flip", n); renderFlip();
+      }, i);
+      const judge = (await fFirst(A)) ? A : B;
+      const t = await text(judge);
+      const bare = /이 기준은 셈만 적고 있다/.test(t);
+      const said = /무엇이 맞음인지를 적고 있다/.test(t);
+      if (bare === said)
+        no("거꾸로 판정 (" + k.id + "): 기준이 어느 갈래인지를 안 적거나 둘 다 적는다");
+      if (k.splits !== said)
+        no("거꾸로 판정 (" + k.id + "): 기준은 splits=" + k.splits +
+           " 인데 화면이 반대로 적는다");
+      if (bare && !/카드 탓이다/.test(t))
+        no("거꾸로 판정 (" + k.id + "): 셈뿐인 기준인데 카드 탓이라는 말이 없다");
+      if (!/정답은 이 화면에 없다/.test(t))
+        no("거꾸로 판정 (" + k.id + "): 정답이 이 화면에 없다는 말이 없다");
+      seen[k.splits ? "yes" : "no"]++;
+    }
+    /* **오늘 다섯 장이 한 갈래뿐일 수 있다.** 그러면 나머지 갈래를 오늘은 못 재고
+       거기가 깨져도 조용하다. 그래서 자료를 뒤집어 놓고 화면이 따라오는지를 본다.
+       T305 에서 `roleOf` 를 뒤집은 것과 같은 손이다. */
+    for (const p of [A, B]) await p.evaluate(() => {
+      roundStepSet("flip", 0); renderFlip();
+    });
+    const j0 = (await fFirst(A)) ? A : B;
+    for (const want of [true, false]) {
+      const t = await j0.evaluate((w) => {
+        const keep = DATA.flip.cards.map((c) => c.splits);
+        DATA.flip.cards.forEach((c) => { c.splits = w; });
+        renderFlip();
+        const box = document.getElementById("playPane").innerText;
+        DATA.flip.cards.forEach((c, i) => { c.splits = keep[i]; });
+        renderFlip();
+        return box;
+      }, want);
+      const bare = /이 기준은 셈만 적고 있다/.test(t);
+      const said = /무엇이 맞음인지를 적고 있다/.test(t);
+      if (bare === said)
+        no("거꾸로 판정 (splits=" + want + "): 갈래를 안 적거나 둘 다 적는다");
+      else if (said !== want)
+        no("거꾸로 판정: 자료가 splits=" + want + " 인데 화면이 반대로 적는다. " +
+           "오늘 다섯 장이 한 갈래뿐이면 이것 없이는 안 잡힌다");
+    }
+    if (!seen.yes && !seen.no)
+      no("거꾸로 판정: 기준 갈래를 한 장도 못 봤다");
+    for (const p of [A, B]) await p.evaluate(FLRESET);
+  }
+
+  /* ---- 153. 갈렸다와 못 가른다가 다르게 세고 둘 다 장을 넘긴다 ----------- */
+  const fRec = (p) => p.evaluate(() => S.rhit["flip|" + today()] || {});
+  {
+    const judge = (await fFirst(A)) ? A : B;
+    const id0 = fkey[0].id;
+    await tap(judge, "#flpSplit", "기준으로 갈렸다");
+    let fr = await fRec(judge);
+    if ((fr.split || 0) !== 1 || (fr.stuck || 0) !== 0)
+      no("거꾸로 판정: 갈렸다를 눌렀는데 셈이 갈림 " + fr.split +
+         " 못 가름 " + fr.stuck + " 이다");
+    if ((fr.ids || []).length)
+      no("거꾸로 판정: 갈렸는데 카드 번호가 대기열로 갔다");
+    if ((await judge.evaluate(() => roundStep("flip"))) !== 1)
+      no("거꾸로 판정: 갈렸다를 눌렀는데 장이 안 넘어갔다");
+    /* **자리가 한 장마다 바뀐다.** 누른 기기는 이제 답하는 쪽이라
+       다음 판정 단추가 저쪽에 있다. T299 에서 겪은 자리다. */
+    if (await judge.$("#flpSplit"))
+      no("거꾸로 판정: 한 장을 돌았는데 같은 기기에 판정 단추가 그대로 있다");
+    /* **저쪽도 제 손으로 장을 넘긴다.** 회 번호는 각자 센다 (`round.md` 6장).
+       판정하는 쪽만 눌러도 넘어가게 두면 이 기기 회가 0에 머물고 영영 어긋난다.
+       이 판정이 처음 낸 실패가 그것이었다. 검사가 아니라 판이 틀렸다 (T283 과 같다). */
+    const other = judge === A ? B : A;
+    if (await other.$("#flpSplit"))
+      no("거꾸로 판정: 답하는 쪽에 판정 단추가 있다");
+    await tap(other, "#flpNext", "저쪽이 눌렀다. 다음 장");
+    if ((await other.evaluate(() => roundStep("flip"))) !== 1)
+      no("거꾸로 판정: 답하는 쪽이 다음 장을 눌렀는데 이 기기 회가 안 밀렸다");
+    const oRec = await fRec(other);
+    if ((oRec.split || 0) + (oRec.stuck || 0) !== 0)
+      no("거꾸로 판정: 답하는 쪽의 다음 장이 셈을 건드렸다. 이 기기는 판정을 안 했다");
+    if (!(await other.$("#flpStuck")))
+      no("거꾸로 판정: 자리가 바뀌었는데 저쪽에 판정 단추가 안 갔다");
+    await tap(other, "#flpStuck", "못 가른다");
+    fr = await fRec(other);
+    if ((fr.stuck || 0) !== 1) no("거꾸로 판정: 못 가른다를 눌렀는데 안 셌다");
+    if ((fr.split || 0) !== 0) no("거꾸로 판정: 못 가른다가 갈림 셈까지 건드렸다");
+    if (!(fr.ids || []).length)
+      no("거꾸로 판정: 못 가른 카드 번호를 안 적어 뒀다. 검증 대기열로 갈 것이다");
+    if ((fr.ids || []).indexOf(id0) >= 0)
+      no("거꾸로 판정: 갈린 장의 번호가 대기열에 들어갔다");
+    if ((await other.evaluate(() => roundStep("flip"))) !== 2)
+      no("거꾸로 판정: 못 가른다를 눌렀는데 장이 안 넘어갔다");
+  }
+
+  /* ---- 154. 마감. **이 판은 절반이다** ----------------------------------- */
+  await A.evaluate(FLRESET);
+  await A.evaluate(() => {
+    const rec = flpRec();
+    rec.stuck = 2; rec.ids = ["Q2-777"]; save();
+    FCLK.over = true; renderFlip();
+  });
+  const fDone1 = await text(A);
+  await A.evaluate(() => { FCLK.over = false;
+                           roundStepSet("flip", DATA.flip.end); renderFlip(); });
+  const fDone2 = await text(A);
+  for (const [why, txt] of [["시계", fDone1], ["장 끝", fDone2]]) {
+    if (!/두 기기 숫자를 소리 내어 더한다/.test(txt))
+      no("거꾸로 판정 (" + why + "): 마감이 더하라고 안 적는다. " +
+         "판정하는 자리가 한 장마다 바뀌니 이 기기 셈은 절반이다");
+    if (txt.indexOf("Q2-777") < 0)
+      no("거꾸로 판정 (" + why + "): 못 가른 카드 번호가 마감에 없다");
+    if (!/검증 대기열/.test(txt))
+      no("거꾸로 판정 (" + why + "): 그 번호를 어디로 옮기라는 말이 없다");
+    if (!/못 가른 것은 진 것이 아니다/.test(txt))
+      no("거꾸로 판정 (" + why + "): 못 가른 것이 지는 것이 아니라는 말이 없다");
+  }
+
+  /* ---- 155. 안 여는 날이 두 갈래다 (T307) -------------------------------
+     앞의 판들은 **자료가 모자라서** 안 열었다. 이 판은 **오늘이 그 날이 아니라서**
+     안 여는 갈래가 하나 더 있다. 까닭이 다르니 적는 말도 달라야 한다. */
+  await A.evaluate(FLRESET);
+  const fQ1 = await A.evaluate(() => {
+    const keep = window.plan;
+    window.plan = function () { const p = keep(); p.quarter = "Q1"; return p; };
+    renderFlip();
+    const t = document.getElementById("playPane").innerText;
+    window.plan = keep; renderFlip();
+    return t;
+  });
+  if (!/Q2 부터 돈다/.test(fQ1))
+    no("거꾸로 판정: Q1 인데 판이 그대로 돈다. 문법 트랙이고 Q1 문법은 0퍼센트다");
+  if (!/0퍼센트/.test(fQ1))
+    no("거꾸로 판정: Q1 에 안 도는 까닭을 화면이 안 적는다");
+  const fThin = await A.evaluate(() => {
+    const keep = window.plan;
+    window.plan = function () {
+      const p = keep(); p.cards = { from: 1, to: 1 }; return p;
+    };
+    const rec = flpRec(); rec.deck = null; save();
+    renderFlip();
+    const t = document.getElementById("playPane").innerText;
+    window.plan = keep;
+    rec.deck = null; save(); renderFlip();
+    return t;
+  });
+  if (!/안 연다/.test(fThin))
+    no("거꾸로 판정: 다섯 장이 안 모이는데 판이 그대로 돈다");
+  if (!/안 배운 카드를 드릴에 넣지 않는다/.test(fThin))
+    no("거꾸로 판정: 장이 모자란 까닭을 화면이 안 적는다");
+  if (/0퍼센트/.test(fThin))
+    no("거꾸로 판정: 장이 모자란 날에 Q1 이라서라고 적는다. 까닭이 다르다");
+
+  /* ---- 156. 등급. **화면 셋을 다 본다** (T305 에서 겪은 자리다) ---------- */
+  await A.evaluate(FLRESET);
+  const fTxt = await text(A);
+  for (const [why, txt] of [["도는 중", fTxt], ["시계", fDone1], ["장 끝", fDone2]]) {
+    if (!txt.includes(fspec.grade + "등급"))
+      no("거꾸로 판정 (" + why + "): 자료 등급이 화면에 없다");
+    if (fspec.grade !== "A" && !txt.includes("통과 판정에는 안 쓴다"))
+      no("거꾸로 판정 (" + why + "): B등급인데 통과 판정에 안 쓴다는 말이 없다");
+    if (/\*\*/.test(txt))
+      no("거꾸로 판정 (" + why + "): 화면에 마크다운 표시가 보인다");
+  }
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 16개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 17개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
               "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
               "파장 34 / " +
@@ -2693,6 +2973,9 @@ const RESET = () => {
               "끼어들기 37 / " +
               "말 겹치기: 규격 4판, 두 줄 1판, 대본 그대로 1판, 몫 5판, 안 뒤집힘 1판, " +
               "신호 3판, 셈 6판, 마감 8판, 등급 9판 " +
-              "**역할이 없는데 몫이 갈린다** / 실패 " + fails.length);
+              "**역할이 없는데 몫이 갈린다** / " +
+              "거꾸로 판정: 규격 7판, 정답 없음 3판, 자리 3판, 재료 2판, 단추 2판, " +
+              "기준 갈래 다섯 장 x 4판 + 뒤집어 2판, 셈 11판, 마감 8판, 안 여는 날 5판, 등급 9판 " +
+              "**정답이 어느 화면에도 없다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();

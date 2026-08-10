@@ -216,7 +216,16 @@ function renderFlip(){
        '듣고 답한다. 읽고 답하는 것이 아니다.</div>';
     h+='<div class="small mut" style="margin-top:6px">이 자리 기준 <b>'+
        esc(c.bPass)+'</b></div>';
-    h+='<div class="note w" style="margin-top:10px"><b>누르는 것은 저쪽이다.</b> '+
+    /* **이 기기도 장을 넘겨야 한다.** 회 번호는 각자 센다 (`round.md` 6장).
+       판정하는 쪽만 누르면 이 기기 회가 0에 머물고 두 기기가 영영 어긋난다.
+       3초 벽에서 겪은 자리와 같다 (T283). 거기서는 미룬 장이 어긋났다.
+       **판정이 한쪽에만 있는 판은 다 이 단추가 있어야 한다.** */
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="flpNext">저쪽이 눌렀다. 다음 장</button></div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>이 자리에는 판정할 것이 없다.</b> 이 단추는 판정이 아니라 '+
+       '<b>이 기기도 다음 장으로 넘기는 것</b>이다. '+
+       '안 누르면 두 기기의 회가 어긋나고 판 표시가 달라진다. '+
        '다음 장에서 자리가 바뀐다.</div>';
   }
 
@@ -238,6 +247,8 @@ function renderFlip(){
   $("#flpGo").onclick=function(){ flpClockGo(FLP.min); };
   if($("#flpHand")) $("#flpHand").onclick=function(){ soloHandOff(renderFlip); };
   function step(){ save(); roundStepSet("flip", s+1); renderFlip(); }
+  /* **셈을 안 건드린다.** 이 기기는 이 장을 판정하지 않았다. */
+  if($("#flpNext")) $("#flpNext").onclick=function(){ step(); };
   if($("#flpSplit")) $("#flpSplit").onclick=function(){
     rec.split++; tone("done"); step();
   };

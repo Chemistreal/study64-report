@@ -3198,7 +3198,12 @@ function renderFlip(){
        '듣고 답한다. 읽고 답하는 것이 아니다.</div>';
     h+='<div class="small mut" style="margin-top:6px">이 자리 기준 <b>'+
        esc(c.bPass)+'</b></div>';
-    h+='<div class="note w" style="margin-top:10px"><b>누르는 것은 저쪽이다.</b> '+
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="flpNext">저쪽이 눌렀다. 다음 장</button></div>';
+    h+='<div class="small mut" style="margin-top:6px">'+
+       '<b>이 자리에는 판정할 것이 없다.</b> 이 단추는 판정이 아니라 '+
+       '<b>이 기기도 다음 장으로 넘기는 것</b>이다. '+
+       '안 누르면 두 기기의 회가 어긋나고 판 표시가 달라진다. '+
        '다음 장에서 자리가 바뀐다.</div>';
   }
 
@@ -3219,6 +3224,7 @@ function renderFlip(){
   $("#flpGo").onclick=function(){ flpClockGo(FLP.min); };
   if($("#flpHand")) $("#flpHand").onclick=function(){ soloHandOff(renderFlip); };
   function step(){ save(); roundStepSet("flip", s+1); renderFlip(); }
+  if($("#flpNext")) $("#flpNext").onclick=function(){ step(); };
   if($("#flpSplit")) $("#flpSplit").onclick=function(){
     rec.split++; tone("done"); step();
   };
