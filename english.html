@@ -1930,7 +1930,8 @@ function renderCrit(){
     if(c.threshold) line+=' <b>'+c.threshold.value+
       (c.threshold.op==="min"?" 이상":c.threshold.op==="max"?" 이하":" 정확히")+'</b>';
     h+='<div class="critrow"><div class="t">'+line+'</div>'+
-       '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'" aria-label="기준 점수">'+
+       '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'" '+
+       'aria-label="'+esc(c.text)+' 점수">'+
        mark+'</div>';
   });
   var judged=L.criteria.filter(function(c){return c.threshold;});

@@ -320,8 +320,14 @@ function renderCrit(){
     /* 부등호를 말로 쓴다. 기호가 글꼴에 없으면 네모로 나오고 뜻이 뒤집혀도 모른다. T152 */
     if(c.threshold) line+=' <b>'+c.threshold.value+
       (c.threshold.op==="min"?" 이상":c.threshold.op==="max"?" 이하":" 정확히")+'</b>';
+    /* **칸마다 다른 이름을 준다.** 밖에서 들어온 것은 열둘에 다 "기준 점수" 를
+       달아 뒀는데 (PR #11) 그러면 낭독기가 열두 번 같은 말을 읽는다.
+       "편집" 이 "기준 점수 편집" 이 됐을 뿐 어느 기준인지는 여전히 모른다.
+       옆에 이미 그 기준의 글이 있다. 그것을 이름으로 쓴다.
+       기호는 뺀다. 낭독기가 굵게 표시를 읽지 않는다. */
     h+='<div class="critrow"><div class="t">'+line+'</div>'+
-       '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'">'+
+       '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'" '+
+       'aria-label="'+esc(c.text)+' 점수">'+
        mark+'</div>';
   });
   var judged=L.criteria.filter(function(c){return c.threshold;});

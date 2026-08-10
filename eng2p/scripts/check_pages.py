@@ -30,6 +30,7 @@ TOOLS = ROOT / "tools"
 JOBS = [("audit_pages.py", "대비와 글씨와 뼈대"),
         ("noindex.py", "검색에서 뺐나"),
         ("js_syntax.py", "화면 안 자바스크립트가 깨졌나"),
+        ("input_labels.py", "입력칸에 이름이 붙었나"),
         ("font_block.py", "바깥 글꼴이 그리기를 막나")]
 
 # **그 자들이 안 보는 자리.** `js_syntax.py` 는 `.html` 안의 `<script>` 만 본다.
