@@ -122,13 +122,61 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (got.keys.indexOf("who") >= 0 || got.keys.indexOf("by") >= 0)
     no("그날 기록에 누가 했는지가 있다: " + got.keys.join(" "));
 
+  /* ---- 화면 (T322). **첫 화면 빈 자리에 들어간다** ------------------------ */
+  await page.evaluate(() => {
+    S.onboarded = true; S.names.a = "가람"; S.names.b = "나래"; saveNow();
+  });
+  await page.reload();
+  await page.waitForTimeout(400);
+
+  const slot = async (setup) => {
+    await page.evaluate(setup);
+    await page.waitForTimeout(120);
+    return page.$eval("#todaySlots", (e) => ({ txt: e.innerText, hid: e.hidden }));
+  };
+  const days = (n) => `S.days={}; let k=0,c=0;
+    while(c<${n}){ const d=addDays(today(),-k);
+      if(parseISO(d).getDay()!==0){ S.days[d]={status:"normal",h:2,speak:0,
+        cards:0,lre:0,unres:[],coll:[]}; c++; } k++; }
+    saveNow(); renderToday();`;
+
+  const five = await slot(new Function(days(5)));
+  if (five.hid) no("연속일 칸이 안 보인다");
+  if (!/\b5\b/.test(five.txt)) no("연속일 다섯인데 화면에 5가 없다: " + five.txt.slice(0, 40));
+  if (!/같이 하고 있다/.test(five.txt)) no("화면이 둘이 같이 한 것이라고 안 적는다");
+  if (!/이 기기가 아는 날로 셌다/.test(five.txt))
+    no("이 기기가 아는 날이라는 말이 없다. 두 기기 수가 다르면 앱이 틀린 줄 안다");
+  if (!/짝 코드로 합쳐/.test(five.txt))
+    no("합치면 같아진다는 말이 없다");
+  /* **개인 값이 화면에 없다.** 이름이 뜨면 그것이 곧 순위다 */
+  if (five.txt.indexOf("가람") >= 0 || five.txt.indexOf("나래") >= 0)
+    no("연속일 칸에 사람 이름이 있다: " + five.txt.slice(0, 60));
+  /* **제일 길었던 것을 안 보여 준다.** 지난 것을 오늘과 견주게 만든다 */
+  if (/제일 길|최고|기록 갱신|최장/.test(five.txt))
+    no("제일 길었던 연속일이 화면에 있다");
+
+  const zero = await slot(new Function(`S.days={}; saveNow(); renderToday();`));
+  if (!/오늘부터 시작한다/.test(zero.txt))
+    no("0일인데 오늘부터 시작한다는 말이 없다: " + zero.txt.slice(0, 40));
+  /* **끊긴 것을 벌로 안 만든다** */
+  if (/잃|날아|아깝|끊겼습니다|실패/.test(zero.txt))
+    no("0일 화면이 잃었다고 적는다: " + zero.txt.slice(0, 60));
+
+  const emg = await slot(new Function(`S.days={};
+    S.days[today()]={status:"emg",h:0,speak:0,cards:0,lre:0,unres:[],coll:[]};
+    saveNow(); renderToday();`));
+  if (!/비상판은 세션이 아니라 안 센다/.test(emg.txt))
+    no("비상판을 쓴 날 화면이 왜 0인지를 안 적는다: " + emg.txt.slice(0, 60));
+  if (!/안 끊는다/.test(emg.txt))
+    no("비상판이 안 끊는다는 말이 없다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 끊긴 날 두 사람이 무엇을 느끼는가**");
-  console.log("연속일 9판 (이음 3, 비상판 2, 끊김 2, 일요일 1, 개인 칸 1) / 실패 %d",
+  console.log("연속일 20판 (셈 9 + 화면 11: 다섯 7, 0일 2, 비상판 2) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

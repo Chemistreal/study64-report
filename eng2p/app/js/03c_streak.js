@@ -25,3 +25,40 @@ function streak(from){
   }
   return n;
 }
+
+/* 첫 화면 빈 자리 (T322). T166 에 비워 둔 `#todaySlots` 가 이 자리다.
+
+   ## 무엇을 보여 주고 무엇을 안 보여 주나
+
+   숫자 하나와 그 숫자가 무엇으로 센 것인지를 보여 준다.
+   **제일 길었던 연속일은 안 보여 준다.** 지난 것을 오늘과 견주게 만든다.
+
+   끊긴 것을 벌로 안 만든다. 0이면 "잃었다" 가 아니라 **"오늘부터 시작한다"** 다.
+   원칙 4가 침묵이 지는 것이 되면 안 된다고 했다. 그 결이 여기에도 온다.
+
+   ## 이 기기가 아는 날로 셌다
+
+   `S.days` 는 기기마다 따로다. 한쪽에서만 세션 끝을 눌렀으면
+   그 기기만 그날을 마친 날로 안다. **틀린 것이 아니라 덜 아는 것이다.**
+
+   짝 코드로 합치면 상대에게만 있는 날이 건너온다. 그러면 두 기기가 같아진다.
+   화면이 그 사이를 말한다. 안 적으면 두 사람이 서로 다른 수를 보고
+   앱이 틀렸다고 여긴다. */
+function renderSlots(){
+  var box=$("#todaySlots"); if(!box) return;
+  var n=streak(), rec=day(today());
+  /* **두 줄이다.** T322 에 넉 줄로 짰다가 첫 화면이 2499px 에서 2700px 이 됐다.
+     T166 이 4231 을 2508 로 줄여 놓은 자리라 마찰 게이트가 바로 잡았다.
+     말을 빼지 않고 줄을 합쳤다. **줄일 것은 글자가 아니라 줄이다.** */
+  var why = n ? "일요일과 비상판은 안 센다"
+    : (rec && rec.status==="emg"
+        ? "비상판은 세션이 아니라 안 센다. 대신 안 끊는다"
+        : "오늘부터 시작한다. 지난 것을 안 적는다");
+  box.innerHTML='<div class="card tight">'+
+    '<div class="row" style="justify-content:space-between;align-items:baseline">'+
+    '<span><b class="stkbig">'+n+'</b> <b>일째 같이 하고 있다</b></span>'+
+    '<span class="small mut">둘의 날이다</span></div>'+
+    '<div class="small mut" style="margin-top:4px">'+why+
+    ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div></div>';
+  box.hidden=false;
+}

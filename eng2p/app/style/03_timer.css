@@ -236,6 +236,11 @@ body.peek #sessionCard .sessctl{display:none}
 
 /* 비워 둔 자리. 공동 연속일과 오늘의 한 판이 여기 들어온다. */
 .slots{display:grid;gap:8px;margin-top:12px}
+/* **세션 중에는 숨는다** (T322). 세션 화면은 블록에 집중하는 자리고
+   껍데기 950px 한계가 그것을 지킨다. 연속일은 세션 전후에 보는 값이다. */
+body.session-focus #todaySlots{display:none}
+/* 공동 연속일 (T322). 숫자 하나가 이 칸의 전부다. 크게 둔다. */
+.stkbig{font-size:1.5rem;line-height:1}
 
 /* **세션 중에는 고리를 접는다.** 시계 링이 같은 것을 이미 말한다.
    T122 규칙이 껍데기 높이를 재는데 겹치는 그림이 그 자리를 먹으면

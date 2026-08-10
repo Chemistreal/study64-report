@@ -101,6 +101,7 @@ function renderToday(){
   $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
   var p2=$("#todayProgress2"); if(p2) p2.textContent="";
   renderRings(pl,weekDone,rec);
+  renderSlots();
   renderSheet(pl);
   renderResume(pl);
   renderRecGate(rec);
