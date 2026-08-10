@@ -52,6 +52,8 @@ EXPECT = [
     "cutin.js", "cutin.json",
     "clash.js", "clash.json",
     "flip.js", "flip.json",
+    "onepick.js", "onepick.json",
+    "onepick.js", "onepick.json",
     "apart.js", "apart.json",
     "lectures.js", "lectures.json", "lecturetext.js",
     "listen.js", "listen.json",

@@ -1,0 +1,2071 @@
+{
+  "note": "오늘의 한 판이 그날 열 판. 그날 열리는 판 중에서만 고른다. 무작위를 안 쓴다. 두 기기가 같은 표를 본다. 손으로 안 고친다. scripts/derive_onepick.py 를 다시 돌린다.",
+  "grade": "A",
+  "gradeWhy": "영어가 없다. 어느 판을 여는가만 적는다. 열리는 조건은 판마다의 자료 파일에서 세었고 고르는 법은 셈이라 다시 뽑아도 같은 표다.",
+  "generator": "scripts/derive_onepick.py",
+  "source": "out/data/index.json 과 판 자료 열둘, docs/play_rules.md 12.2",
+  "plays": [
+    "mirror",
+    "swapline",
+    "hearme",
+    "relay",
+    "chain",
+    "twohalf",
+    "overlap",
+    "ladder",
+    "wall",
+    "rebound",
+    "onesee",
+    "wave",
+    "whose",
+    "reask",
+    "cutin",
+    "clash",
+    "flip",
+    "apart",
+    "recall"
+  ],
+  "unknown": [
+    "recall"
+  ],
+  "count": 288,
+  "used": {
+    "mirror": 14,
+    "swapline": 15,
+    "hearme": 15,
+    "relay": 15,
+    "chain": 16,
+    "twohalf": 15,
+    "overlap": 15,
+    "ladder": 15,
+    "wall": 15,
+    "rebound": 15,
+    "onesee": 15,
+    "wave": 15,
+    "whose": 15,
+    "reask": 15,
+    "cutin": 16,
+    "clash": 16,
+    "flip": 15,
+    "apart": 16,
+    "recall": 15
+  },
+  "days": [
+    {
+      "w": 1,
+      "d": 1,
+      "lec": 1,
+      "pick": "apart",
+      "cand": 14
+    },
+    {
+      "w": 1,
+      "d": 2,
+      "lec": 1,
+      "pick": "chain",
+      "cand": 14
+    },
+    {
+      "w": 1,
+      "d": 3,
+      "lec": 1,
+      "pick": "clash",
+      "cand": 14
+    },
+    {
+      "w": 1,
+      "d": 4,
+      "lec": 2,
+      "pick": "cutin",
+      "cand": 15
+    },
+    {
+      "w": 1,
+      "d": 5,
+      "lec": 2,
+      "pick": "hearme",
+      "cand": 15
+    },
+    {
+      "w": 1,
+      "d": 6,
+      "lec": 2,
+      "pick": "ladder",
+      "cand": 15
+    },
+    {
+      "w": 2,
+      "d": 1,
+      "lec": 3,
+      "pick": "mirror",
+      "cand": 15
+    },
+    {
+      "w": 2,
+      "d": 2,
+      "lec": 3,
+      "pick": "overlap",
+      "cand": 15
+    },
+    {
+      "w": 2,
+      "d": 3,
+      "lec": 3,
+      "pick": "reask",
+      "cand": 15
+    },
+    {
+      "w": 2,
+      "d": 4,
+      "lec": 4,
+      "pick": "rebound",
+      "cand": 14
+    },
+    {
+      "w": 2,
+      "d": 5,
+      "lec": 4,
+      "pick": "recall",
+      "cand": 14
+    },
+    {
+      "w": 2,
+      "d": 6,
+      "lec": 4,
+      "pick": "relay",
+      "cand": 14
+    },
+    {
+      "w": 3,
+      "d": 1,
+      "lec": 5,
+      "pick": "swapline",
+      "cand": 14
+    },
+    {
+      "w": 3,
+      "d": 2,
+      "lec": 5,
+      "pick": "twohalf",
+      "cand": 14
+    },
+    {
+      "w": 3,
+      "d": 3,
+      "lec": 5,
+      "pick": "wave",
+      "cand": 14
+    },
+    {
+      "w": 3,
+      "d": 4,
+      "lec": 6,
+      "pick": "wall",
+      "cand": 16
+    },
+    {
+      "w": 3,
+      "d": 5,
+      "lec": 6,
+      "pick": "apart",
+      "cand": 16
+    },
+    {
+      "w": 3,
+      "d": 6,
+      "lec": 6,
+      "pick": "chain",
+      "cand": 16
+    },
+    {
+      "w": 4,
+      "d": 1,
+      "lec": 7,
+      "pick": "clash",
+      "cand": 15
+    },
+    {
+      "w": 4,
+      "d": 2,
+      "lec": 7,
+      "pick": "cutin",
+      "cand": 15
+    },
+    {
+      "w": 4,
+      "d": 3,
+      "lec": 7,
+      "pick": "hearme",
+      "cand": 15
+    },
+    {
+      "w": 4,
+      "d": 4,
+      "lec": 8,
+      "pick": "ladder",
+      "cand": 16
+    },
+    {
+      "w": 4,
+      "d": 5,
+      "lec": 8,
+      "pick": "mirror",
+      "cand": 16
+    },
+    {
+      "w": 4,
+      "d": 6,
+      "lec": 8,
+      "pick": "overlap",
+      "cand": 16
+    },
+    {
+      "w": 5,
+      "d": 1,
+      "lec": 9,
+      "pick": "reask",
+      "cand": 16
+    },
+    {
+      "w": 5,
+      "d": 2,
+      "lec": 9,
+      "pick": "rebound",
+      "cand": 16
+    },
+    {
+      "w": 5,
+      "d": 3,
+      "lec": 9,
+      "pick": "recall",
+      "cand": 16
+    },
+    {
+      "w": 5,
+      "d": 4,
+      "lec": 10,
+      "pick": "relay",
+      "cand": 16
+    },
+    {
+      "w": 5,
+      "d": 5,
+      "lec": 10,
+      "pick": "swapline",
+      "cand": 16
+    },
+    {
+      "w": 5,
+      "d": 6,
+      "lec": 10,
+      "pick": "twohalf",
+      "cand": 16
+    },
+    {
+      "w": 6,
+      "d": 1,
+      "lec": 11,
+      "pick": "wave",
+      "cand": 15
+    },
+    {
+      "w": 6,
+      "d": 2,
+      "lec": 11,
+      "pick": "wall",
+      "cand": 15
+    },
+    {
+      "w": 6,
+      "d": 3,
+      "lec": 11,
+      "pick": "apart",
+      "cand": 15
+    },
+    {
+      "w": 6,
+      "d": 4,
+      "lec": 12,
+      "pick": "chain",
+      "cand": 16
+    },
+    {
+      "w": 6,
+      "d": 5,
+      "lec": 12,
+      "pick": "clash",
+      "cand": 16
+    },
+    {
+      "w": 6,
+      "d": 6,
+      "lec": 12,
+      "pick": "cutin",
+      "cand": 16
+    },
+    {
+      "w": 7,
+      "d": 1,
+      "lec": 13,
+      "pick": "hearme",
+      "cand": 15
+    },
+    {
+      "w": 7,
+      "d": 2,
+      "lec": 13,
+      "pick": "ladder",
+      "cand": 15
+    },
+    {
+      "w": 7,
+      "d": 3,
+      "lec": 13,
+      "pick": "overlap",
+      "cand": 15
+    },
+    {
+      "w": 7,
+      "d": 4,
+      "lec": 14,
+      "pick": "mirror",
+      "cand": 16
+    },
+    {
+      "w": 7,
+      "d": 5,
+      "lec": 14,
+      "pick": "reask",
+      "cand": 16
+    },
+    {
+      "w": 7,
+      "d": 6,
+      "lec": 14,
+      "pick": "rebound",
+      "cand": 16
+    },
+    {
+      "w": 8,
+      "d": 1,
+      "lec": 15,
+      "pick": "recall",
+      "cand": 16
+    },
+    {
+      "w": 8,
+      "d": 2,
+      "lec": 15,
+      "pick": "relay",
+      "cand": 16
+    },
+    {
+      "w": 8,
+      "d": 3,
+      "lec": 15,
+      "pick": "swapline",
+      "cand": 16
+    },
+    {
+      "w": 8,
+      "d": 4,
+      "lec": 16,
+      "pick": "twohalf",
+      "cand": 15
+    },
+    {
+      "w": 8,
+      "d": 5,
+      "lec": 16,
+      "pick": "wave",
+      "cand": 15
+    },
+    {
+      "w": 8,
+      "d": 6,
+      "lec": 16,
+      "pick": "wall",
+      "cand": 15
+    },
+    {
+      "w": 9,
+      "d": 1,
+      "lec": 17,
+      "pick": "apart",
+      "cand": 15
+    },
+    {
+      "w": 9,
+      "d": 2,
+      "lec": 17,
+      "pick": "chain",
+      "cand": 15
+    },
+    {
+      "w": 9,
+      "d": 3,
+      "lec": 17,
+      "pick": "clash",
+      "cand": 15
+    },
+    {
+      "w": 9,
+      "d": 4,
+      "lec": 18,
+      "pick": "cutin",
+      "cand": 16
+    },
+    {
+      "w": 9,
+      "d": 5,
+      "lec": 18,
+      "pick": "hearme",
+      "cand": 16
+    },
+    {
+      "w": 9,
+      "d": 6,
+      "lec": 18,
+      "pick": "ladder",
+      "cand": 16
+    },
+    {
+      "w": 10,
+      "d": 1,
+      "lec": 19,
+      "pick": "overlap",
+      "cand": 15
+    },
+    {
+      "w": 10,
+      "d": 2,
+      "lec": 19,
+      "pick": "reask",
+      "cand": 15
+    },
+    {
+      "w": 10,
+      "d": 3,
+      "lec": 19,
+      "pick": "rebound",
+      "cand": 15
+    },
+    {
+      "w": 10,
+      "d": 4,
+      "lec": 20,
+      "pick": "onesee",
+      "cand": 17
+    },
+    {
+      "w": 10,
+      "d": 5,
+      "lec": 20,
+      "pick": "mirror",
+      "cand": 17
+    },
+    {
+      "w": 10,
+      "d": 6,
+      "lec": 20,
+      "pick": "onesee",
+      "cand": 17
+    },
+    {
+      "w": 11,
+      "d": 1,
+      "lec": 21,
+      "pick": "recall",
+      "cand": 17
+    },
+    {
+      "w": 11,
+      "d": 2,
+      "lec": 21,
+      "pick": "onesee",
+      "cand": 17
+    },
+    {
+      "w": 11,
+      "d": 3,
+      "lec": 21,
+      "pick": "relay",
+      "cand": 17
+    },
+    {
+      "w": 11,
+      "d": 4,
+      "lec": 22,
+      "pick": "whose",
+      "cand": 18
+    },
+    {
+      "w": 11,
+      "d": 5,
+      "lec": 22,
+      "pick": "swapline",
+      "cand": 18
+    },
+    {
+      "w": 11,
+      "d": 6,
+      "lec": 22,
+      "pick": "whose",
+      "cand": 18
+    },
+    {
+      "w": 12,
+      "d": 1,
+      "lec": 23,
+      "pick": "twohalf",
+      "cand": 17
+    },
+    {
+      "w": 12,
+      "d": 2,
+      "lec": 23,
+      "pick": "whose",
+      "cand": 17
+    },
+    {
+      "w": 12,
+      "d": 3,
+      "lec": 23,
+      "pick": "wave",
+      "cand": 17
+    },
+    {
+      "w": 12,
+      "d": 4,
+      "lec": 24,
+      "pick": "wall",
+      "cand": 18
+    },
+    {
+      "w": 12,
+      "d": 5,
+      "lec": 24,
+      "pick": "onesee",
+      "cand": 18
+    },
+    {
+      "w": 12,
+      "d": 6,
+      "lec": 24,
+      "pick": "whose",
+      "cand": 18
+    },
+    {
+      "w": 13,
+      "d": 1,
+      "lec": 25,
+      "pick": "apart",
+      "cand": 18
+    },
+    {
+      "w": 13,
+      "d": 2,
+      "lec": 25,
+      "pick": "chain",
+      "cand": 18
+    },
+    {
+      "w": 13,
+      "d": 3,
+      "lec": 25,
+      "pick": "clash",
+      "cand": 18
+    },
+    {
+      "w": 13,
+      "d": 4,
+      "lec": 26,
+      "pick": "cutin",
+      "cand": 18
+    },
+    {
+      "w": 13,
+      "d": 5,
+      "lec": 26,
+      "pick": "hearme",
+      "cand": 18
+    },
+    {
+      "w": 13,
+      "d": 6,
+      "lec": 26,
+      "pick": "ladder",
+      "cand": 18
+    },
+    {
+      "w": 14,
+      "d": 1,
+      "lec": 27,
+      "pick": "flip",
+      "cand": 19
+    },
+    {
+      "w": 14,
+      "d": 2,
+      "lec": 27,
+      "pick": "overlap",
+      "cand": 19
+    },
+    {
+      "w": 14,
+      "d": 3,
+      "lec": 27,
+      "pick": "flip",
+      "cand": 19
+    },
+    {
+      "w": 14,
+      "d": 4,
+      "lec": 28,
+      "pick": "reask",
+      "cand": 19
+    },
+    {
+      "w": 14,
+      "d": 5,
+      "lec": 28,
+      "pick": "flip",
+      "cand": 19
+    },
+    {
+      "w": 14,
+      "d": 6,
+      "lec": 28,
+      "pick": "rebound",
+      "cand": 19
+    },
+    {
+      "w": 15,
+      "d": 1,
+      "lec": 29,
+      "pick": "flip",
+      "cand": 19
+    },
+    {
+      "w": 15,
+      "d": 2,
+      "lec": 29,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 15,
+      "d": 3,
+      "lec": 29,
+      "pick": "recall",
+      "cand": 19
+    },
+    {
+      "w": 15,
+      "d": 4,
+      "lec": 30,
+      "pick": "relay",
+      "cand": 18
+    },
+    {
+      "w": 15,
+      "d": 5,
+      "lec": 30,
+      "pick": "swapline",
+      "cand": 18
+    },
+    {
+      "w": 15,
+      "d": 6,
+      "lec": 30,
+      "pick": "twohalf",
+      "cand": 18
+    },
+    {
+      "w": 16,
+      "d": 1,
+      "lec": 31,
+      "pick": "wave",
+      "cand": 18
+    },
+    {
+      "w": 16,
+      "d": 2,
+      "lec": 31,
+      "pick": "wall",
+      "cand": 18
+    },
+    {
+      "w": 16,
+      "d": 3,
+      "lec": 31,
+      "pick": "onesee",
+      "cand": 18
+    },
+    {
+      "w": 16,
+      "d": 4,
+      "lec": 32,
+      "pick": "whose",
+      "cand": 18
+    },
+    {
+      "w": 16,
+      "d": 5,
+      "lec": 32,
+      "pick": "flip",
+      "cand": 18
+    },
+    {
+      "w": 16,
+      "d": 6,
+      "lec": 32,
+      "pick": "apart",
+      "cand": 18
+    },
+    {
+      "w": 17,
+      "d": 1,
+      "lec": 33,
+      "pick": "chain",
+      "cand": 18
+    },
+    {
+      "w": 17,
+      "d": 2,
+      "lec": 33,
+      "pick": "clash",
+      "cand": 18
+    },
+    {
+      "w": 17,
+      "d": 3,
+      "lec": 33,
+      "pick": "cutin",
+      "cand": 18
+    },
+    {
+      "w": 17,
+      "d": 4,
+      "lec": 34,
+      "pick": "hearme",
+      "cand": 18
+    },
+    {
+      "w": 17,
+      "d": 5,
+      "lec": 34,
+      "pick": "ladder",
+      "cand": 18
+    },
+    {
+      "w": 17,
+      "d": 6,
+      "lec": 34,
+      "pick": "overlap",
+      "cand": 18
+    },
+    {
+      "w": 18,
+      "d": 1,
+      "lec": 35,
+      "pick": "reask",
+      "cand": 19
+    },
+    {
+      "w": 18,
+      "d": 2,
+      "lec": 35,
+      "pick": "rebound",
+      "cand": 19
+    },
+    {
+      "w": 18,
+      "d": 3,
+      "lec": 35,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 18,
+      "d": 4,
+      "lec": 36,
+      "pick": "recall",
+      "cand": 18
+    },
+    {
+      "w": 18,
+      "d": 5,
+      "lec": 36,
+      "pick": "relay",
+      "cand": 18
+    },
+    {
+      "w": 18,
+      "d": 6,
+      "lec": 36,
+      "pick": "swapline",
+      "cand": 18
+    },
+    {
+      "w": 19,
+      "d": 1,
+      "lec": 37,
+      "pick": "twohalf",
+      "cand": 19
+    },
+    {
+      "w": 19,
+      "d": 2,
+      "lec": 37,
+      "pick": "wave",
+      "cand": 19
+    },
+    {
+      "w": 19,
+      "d": 3,
+      "lec": 37,
+      "pick": "wall",
+      "cand": 19
+    },
+    {
+      "w": 19,
+      "d": 4,
+      "lec": 38,
+      "pick": "onesee",
+      "cand": 19
+    },
+    {
+      "w": 19,
+      "d": 5,
+      "lec": 38,
+      "pick": "whose",
+      "cand": 19
+    },
+    {
+      "w": 19,
+      "d": 6,
+      "lec": 38,
+      "pick": "flip",
+      "cand": 19
+    },
+    {
+      "w": 20,
+      "d": 1,
+      "lec": 39,
+      "pick": "apart",
+      "cand": 19
+    },
+    {
+      "w": 20,
+      "d": 2,
+      "lec": 39,
+      "pick": "chain",
+      "cand": 19
+    },
+    {
+      "w": 20,
+      "d": 3,
+      "lec": 39,
+      "pick": "clash",
+      "cand": 19
+    },
+    {
+      "w": 20,
+      "d": 4,
+      "lec": 40,
+      "pick": "cutin",
+      "cand": 19
+    },
+    {
+      "w": 20,
+      "d": 5,
+      "lec": 40,
+      "pick": "hearme",
+      "cand": 19
+    },
+    {
+      "w": 20,
+      "d": 6,
+      "lec": 40,
+      "pick": "ladder",
+      "cand": 19
+    },
+    {
+      "w": 21,
+      "d": 1,
+      "lec": 41,
+      "pick": "overlap",
+      "cand": 19
+    },
+    {
+      "w": 21,
+      "d": 2,
+      "lec": 41,
+      "pick": "reask",
+      "cand": 19
+    },
+    {
+      "w": 21,
+      "d": 3,
+      "lec": 41,
+      "pick": "rebound",
+      "cand": 19
+    },
+    {
+      "w": 21,
+      "d": 4,
+      "lec": 42,
+      "pick": "recall",
+      "cand": 18
+    },
+    {
+      "w": 21,
+      "d": 5,
+      "lec": 42,
+      "pick": "relay",
+      "cand": 18
+    },
+    {
+      "w": 21,
+      "d": 6,
+      "lec": 42,
+      "pick": "swapline",
+      "cand": 18
+    },
+    {
+      "w": 22,
+      "d": 1,
+      "lec": 43,
+      "pick": "twohalf",
+      "cand": 18
+    },
+    {
+      "w": 22,
+      "d": 2,
+      "lec": 43,
+      "pick": "wave",
+      "cand": 18
+    },
+    {
+      "w": 22,
+      "d": 3,
+      "lec": 43,
+      "pick": "wall",
+      "cand": 18
+    },
+    {
+      "w": 22,
+      "d": 4,
+      "lec": 44,
+      "pick": "onesee",
+      "cand": 18
+    },
+    {
+      "w": 22,
+      "d": 5,
+      "lec": 44,
+      "pick": "whose",
+      "cand": 18
+    },
+    {
+      "w": 22,
+      "d": 6,
+      "lec": 44,
+      "pick": "flip",
+      "cand": 18
+    },
+    {
+      "w": 23,
+      "d": 1,
+      "lec": 45,
+      "pick": "apart",
+      "cand": 18
+    },
+    {
+      "w": 23,
+      "d": 2,
+      "lec": 45,
+      "pick": "chain",
+      "cand": 18
+    },
+    {
+      "w": 23,
+      "d": 3,
+      "lec": 45,
+      "pick": "clash",
+      "cand": 18
+    },
+    {
+      "w": 23,
+      "d": 4,
+      "lec": 46,
+      "pick": "cutin",
+      "cand": 18
+    },
+    {
+      "w": 23,
+      "d": 5,
+      "lec": 46,
+      "pick": "hearme",
+      "cand": 18
+    },
+    {
+      "w": 23,
+      "d": 6,
+      "lec": 46,
+      "pick": "ladder",
+      "cand": 18
+    },
+    {
+      "w": 24,
+      "d": 1,
+      "lec": 47,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 24,
+      "d": 2,
+      "lec": 47,
+      "pick": "overlap",
+      "cand": 19
+    },
+    {
+      "w": 24,
+      "d": 3,
+      "lec": 47,
+      "pick": "reask",
+      "cand": 19
+    },
+    {
+      "w": 24,
+      "d": 4,
+      "lec": 48,
+      "pick": "rebound",
+      "cand": 18
+    },
+    {
+      "w": 24,
+      "d": 5,
+      "lec": 48,
+      "pick": "recall",
+      "cand": 18
+    },
+    {
+      "w": 24,
+      "d": 6,
+      "lec": 48,
+      "pick": "relay",
+      "cand": 18
+    },
+    {
+      "w": 25,
+      "d": 1,
+      "lec": 49,
+      "pick": "swapline",
+      "cand": 19
+    },
+    {
+      "w": 25,
+      "d": 2,
+      "lec": 49,
+      "pick": "twohalf",
+      "cand": 19
+    },
+    {
+      "w": 25,
+      "d": 3,
+      "lec": 49,
+      "pick": "wave",
+      "cand": 19
+    },
+    {
+      "w": 25,
+      "d": 4,
+      "lec": 50,
+      "pick": "wall",
+      "cand": 19
+    },
+    {
+      "w": 25,
+      "d": 5,
+      "lec": 50,
+      "pick": "onesee",
+      "cand": 19
+    },
+    {
+      "w": 25,
+      "d": 6,
+      "lec": 50,
+      "pick": "whose",
+      "cand": 19
+    },
+    {
+      "w": 26,
+      "d": 1,
+      "lec": 51,
+      "pick": "flip",
+      "cand": 18
+    },
+    {
+      "w": 26,
+      "d": 2,
+      "lec": 51,
+      "pick": "apart",
+      "cand": 18
+    },
+    {
+      "w": 26,
+      "d": 3,
+      "lec": 51,
+      "pick": "chain",
+      "cand": 18
+    },
+    {
+      "w": 26,
+      "d": 4,
+      "lec": 52,
+      "pick": "clash",
+      "cand": 18
+    },
+    {
+      "w": 26,
+      "d": 5,
+      "lec": 52,
+      "pick": "cutin",
+      "cand": 18
+    },
+    {
+      "w": 26,
+      "d": 6,
+      "lec": 52,
+      "pick": "hearme",
+      "cand": 18
+    },
+    {
+      "w": 27,
+      "d": 1,
+      "lec": 53,
+      "pick": "ladder",
+      "cand": 18
+    },
+    {
+      "w": 27,
+      "d": 2,
+      "lec": 53,
+      "pick": "overlap",
+      "cand": 18
+    },
+    {
+      "w": 27,
+      "d": 3,
+      "lec": 53,
+      "pick": "reask",
+      "cand": 18
+    },
+    {
+      "w": 27,
+      "d": 4,
+      "lec": 54,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 27,
+      "d": 5,
+      "lec": 54,
+      "pick": "rebound",
+      "cand": 19
+    },
+    {
+      "w": 27,
+      "d": 6,
+      "lec": 54,
+      "pick": "recall",
+      "cand": 19
+    },
+    {
+      "w": 28,
+      "d": 1,
+      "lec": 55,
+      "pick": "relay",
+      "cand": 19
+    },
+    {
+      "w": 28,
+      "d": 2,
+      "lec": 55,
+      "pick": "swapline",
+      "cand": 19
+    },
+    {
+      "w": 28,
+      "d": 3,
+      "lec": 55,
+      "pick": "twohalf",
+      "cand": 19
+    },
+    {
+      "w": 28,
+      "d": 4,
+      "lec": 56,
+      "pick": "wave",
+      "cand": 18
+    },
+    {
+      "w": 28,
+      "d": 5,
+      "lec": 56,
+      "pick": "wall",
+      "cand": 18
+    },
+    {
+      "w": 28,
+      "d": 6,
+      "lec": 56,
+      "pick": "onesee",
+      "cand": 18
+    },
+    {
+      "w": 29,
+      "d": 1,
+      "lec": 57,
+      "pick": "whose",
+      "cand": 19
+    },
+    {
+      "w": 29,
+      "d": 2,
+      "lec": 57,
+      "pick": "flip",
+      "cand": 19
+    },
+    {
+      "w": 29,
+      "d": 3,
+      "lec": 57,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 29,
+      "d": 4,
+      "lec": 58,
+      "pick": "apart",
+      "cand": 19
+    },
+    {
+      "w": 29,
+      "d": 5,
+      "lec": 58,
+      "pick": "chain",
+      "cand": 19
+    },
+    {
+      "w": 29,
+      "d": 6,
+      "lec": 58,
+      "pick": "clash",
+      "cand": 19
+    },
+    {
+      "w": 30,
+      "d": 1,
+      "lec": 59,
+      "pick": "cutin",
+      "cand": 19
+    },
+    {
+      "w": 30,
+      "d": 2,
+      "lec": 59,
+      "pick": "hearme",
+      "cand": 19
+    },
+    {
+      "w": 30,
+      "d": 3,
+      "lec": 59,
+      "pick": "ladder",
+      "cand": 19
+    },
+    {
+      "w": 30,
+      "d": 4,
+      "lec": 60,
+      "pick": "overlap",
+      "cand": 19
+    },
+    {
+      "w": 30,
+      "d": 5,
+      "lec": 60,
+      "pick": "reask",
+      "cand": 19
+    },
+    {
+      "w": 30,
+      "d": 6,
+      "lec": 60,
+      "pick": "rebound",
+      "cand": 19
+    },
+    {
+      "w": 31,
+      "d": 1,
+      "lec": 61,
+      "pick": "recall",
+      "cand": 19
+    },
+    {
+      "w": 31,
+      "d": 2,
+      "lec": 61,
+      "pick": "relay",
+      "cand": 19
+    },
+    {
+      "w": 31,
+      "d": 3,
+      "lec": 61,
+      "pick": "swapline",
+      "cand": 19
+    },
+    {
+      "w": 31,
+      "d": 4,
+      "lec": 62,
+      "pick": "twohalf",
+      "cand": 19
+    },
+    {
+      "w": 31,
+      "d": 5,
+      "lec": 62,
+      "pick": "wave",
+      "cand": 19
+    },
+    {
+      "w": 31,
+      "d": 6,
+      "lec": 62,
+      "pick": "wall",
+      "cand": 19
+    },
+    {
+      "w": 32,
+      "d": 1,
+      "lec": 63,
+      "pick": "onesee",
+      "cand": 18
+    },
+    {
+      "w": 32,
+      "d": 2,
+      "lec": 63,
+      "pick": "whose",
+      "cand": 18
+    },
+    {
+      "w": 32,
+      "d": 3,
+      "lec": 63,
+      "pick": "flip",
+      "cand": 18
+    },
+    {
+      "w": 32,
+      "d": 4,
+      "lec": 64,
+      "pick": "apart",
+      "cand": 18
+    },
+    {
+      "w": 32,
+      "d": 5,
+      "lec": 64,
+      "pick": "chain",
+      "cand": 18
+    },
+    {
+      "w": 32,
+      "d": 6,
+      "lec": 64,
+      "pick": "clash",
+      "cand": 18
+    },
+    {
+      "w": 33,
+      "d": 1,
+      "lec": 65,
+      "pick": "cutin",
+      "cand": 18
+    },
+    {
+      "w": 33,
+      "d": 2,
+      "lec": 65,
+      "pick": "hearme",
+      "cand": 18
+    },
+    {
+      "w": 33,
+      "d": 3,
+      "lec": 65,
+      "pick": "ladder",
+      "cand": 18
+    },
+    {
+      "w": 33,
+      "d": 4,
+      "lec": 66,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 33,
+      "d": 5,
+      "lec": 66,
+      "pick": "overlap",
+      "cand": 19
+    },
+    {
+      "w": 33,
+      "d": 6,
+      "lec": 66,
+      "pick": "reask",
+      "cand": 19
+    },
+    {
+      "w": 34,
+      "d": 1,
+      "lec": 67,
+      "pick": "rebound",
+      "cand": 19
+    },
+    {
+      "w": 34,
+      "d": 2,
+      "lec": 67,
+      "pick": "recall",
+      "cand": 19
+    },
+    {
+      "w": 34,
+      "d": 3,
+      "lec": 67,
+      "pick": "relay",
+      "cand": 19
+    },
+    {
+      "w": 34,
+      "d": 4,
+      "lec": 68,
+      "pick": "swapline",
+      "cand": 18
+    },
+    {
+      "w": 34,
+      "d": 5,
+      "lec": 68,
+      "pick": "twohalf",
+      "cand": 18
+    },
+    {
+      "w": 34,
+      "d": 6,
+      "lec": 68,
+      "pick": "wave",
+      "cand": 18
+    },
+    {
+      "w": 35,
+      "d": 1,
+      "lec": 69,
+      "pick": "wall",
+      "cand": 19
+    },
+    {
+      "w": 35,
+      "d": 2,
+      "lec": 69,
+      "pick": "onesee",
+      "cand": 19
+    },
+    {
+      "w": 35,
+      "d": 3,
+      "lec": 69,
+      "pick": "whose",
+      "cand": 19
+    },
+    {
+      "w": 35,
+      "d": 4,
+      "lec": 70,
+      "pick": "flip",
+      "cand": 19
+    },
+    {
+      "w": 35,
+      "d": 5,
+      "lec": 70,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 35,
+      "d": 6,
+      "lec": 70,
+      "pick": "apart",
+      "cand": 19
+    },
+    {
+      "w": 36,
+      "d": 1,
+      "lec": 71,
+      "pick": "chain",
+      "cand": 19
+    },
+    {
+      "w": 36,
+      "d": 2,
+      "lec": 71,
+      "pick": "clash",
+      "cand": 19
+    },
+    {
+      "w": 36,
+      "d": 3,
+      "lec": 71,
+      "pick": "cutin",
+      "cand": 19
+    },
+    {
+      "w": 36,
+      "d": 4,
+      "lec": 72,
+      "pick": "hearme",
+      "cand": 19
+    },
+    {
+      "w": 36,
+      "d": 5,
+      "lec": 72,
+      "pick": "ladder",
+      "cand": 19
+    },
+    {
+      "w": 36,
+      "d": 6,
+      "lec": 72,
+      "pick": "overlap",
+      "cand": 19
+    },
+    {
+      "w": 37,
+      "d": 1,
+      "lec": 73,
+      "pick": "reask",
+      "cand": 18
+    },
+    {
+      "w": 37,
+      "d": 2,
+      "lec": 73,
+      "pick": "rebound",
+      "cand": 18
+    },
+    {
+      "w": 37,
+      "d": 3,
+      "lec": 73,
+      "pick": "recall",
+      "cand": 18
+    },
+    {
+      "w": 37,
+      "d": 4,
+      "lec": 74,
+      "pick": "relay",
+      "cand": 19
+    },
+    {
+      "w": 37,
+      "d": 5,
+      "lec": 74,
+      "pick": "swapline",
+      "cand": 19
+    },
+    {
+      "w": 37,
+      "d": 6,
+      "lec": 74,
+      "pick": "twohalf",
+      "cand": 19
+    },
+    {
+      "w": 38,
+      "d": 1,
+      "lec": 75,
+      "pick": "wave",
+      "cand": 18
+    },
+    {
+      "w": 38,
+      "d": 2,
+      "lec": 75,
+      "pick": "wall",
+      "cand": 18
+    },
+    {
+      "w": 38,
+      "d": 3,
+      "lec": 75,
+      "pick": "onesee",
+      "cand": 18
+    },
+    {
+      "w": 38,
+      "d": 4,
+      "lec": 76,
+      "pick": "whose",
+      "cand": 19
+    },
+    {
+      "w": 38,
+      "d": 5,
+      "lec": 76,
+      "pick": "flip",
+      "cand": 19
+    },
+    {
+      "w": 38,
+      "d": 6,
+      "lec": 76,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 39,
+      "d": 1,
+      "lec": 77,
+      "pick": "apart",
+      "cand": 18
+    },
+    {
+      "w": 39,
+      "d": 2,
+      "lec": 77,
+      "pick": "chain",
+      "cand": 18
+    },
+    {
+      "w": 39,
+      "d": 3,
+      "lec": 77,
+      "pick": "clash",
+      "cand": 18
+    },
+    {
+      "w": 39,
+      "d": 4,
+      "lec": 78,
+      "pick": "cutin",
+      "cand": 18
+    },
+    {
+      "w": 39,
+      "d": 5,
+      "lec": 78,
+      "pick": "hearme",
+      "cand": 18
+    },
+    {
+      "w": 39,
+      "d": 6,
+      "lec": 78,
+      "pick": "ladder",
+      "cand": 18
+    },
+    {
+      "w": 40,
+      "d": 1,
+      "lec": 79,
+      "pick": "overlap",
+      "cand": 18
+    },
+    {
+      "w": 40,
+      "d": 2,
+      "lec": 79,
+      "pick": "reask",
+      "cand": 18
+    },
+    {
+      "w": 40,
+      "d": 3,
+      "lec": 79,
+      "pick": "rebound",
+      "cand": 18
+    },
+    {
+      "w": 40,
+      "d": 4,
+      "lec": 80,
+      "pick": "recall",
+      "cand": 18
+    },
+    {
+      "w": 40,
+      "d": 5,
+      "lec": 80,
+      "pick": "relay",
+      "cand": 18
+    },
+    {
+      "w": 40,
+      "d": 6,
+      "lec": 80,
+      "pick": "swapline",
+      "cand": 18
+    },
+    {
+      "w": 41,
+      "d": 1,
+      "lec": 81,
+      "pick": "twohalf",
+      "cand": 18
+    },
+    {
+      "w": 41,
+      "d": 2,
+      "lec": 81,
+      "pick": "wave",
+      "cand": 18
+    },
+    {
+      "w": 41,
+      "d": 3,
+      "lec": 81,
+      "pick": "wall",
+      "cand": 18
+    },
+    {
+      "w": 41,
+      "d": 4,
+      "lec": 82,
+      "pick": "onesee",
+      "cand": 18
+    },
+    {
+      "w": 41,
+      "d": 5,
+      "lec": 82,
+      "pick": "whose",
+      "cand": 18
+    },
+    {
+      "w": 41,
+      "d": 6,
+      "lec": 82,
+      "pick": "flip",
+      "cand": 18
+    },
+    {
+      "w": 42,
+      "d": 1,
+      "lec": 83,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 42,
+      "d": 2,
+      "lec": 83,
+      "pick": "apart",
+      "cand": 19
+    },
+    {
+      "w": 42,
+      "d": 3,
+      "lec": 83,
+      "pick": "chain",
+      "cand": 19
+    },
+    {
+      "w": 42,
+      "d": 4,
+      "lec": 84,
+      "pick": "clash",
+      "cand": 18
+    },
+    {
+      "w": 42,
+      "d": 5,
+      "lec": 84,
+      "pick": "cutin",
+      "cand": 18
+    },
+    {
+      "w": 42,
+      "d": 6,
+      "lec": 84,
+      "pick": "hearme",
+      "cand": 18
+    },
+    {
+      "w": 43,
+      "d": 1,
+      "lec": 85,
+      "pick": "ladder",
+      "cand": 19
+    },
+    {
+      "w": 43,
+      "d": 2,
+      "lec": 85,
+      "pick": "overlap",
+      "cand": 19
+    },
+    {
+      "w": 43,
+      "d": 3,
+      "lec": 85,
+      "pick": "reask",
+      "cand": 19
+    },
+    {
+      "w": 43,
+      "d": 4,
+      "lec": 86,
+      "pick": "rebound",
+      "cand": 18
+    },
+    {
+      "w": 43,
+      "d": 5,
+      "lec": 86,
+      "pick": "recall",
+      "cand": 18
+    },
+    {
+      "w": 43,
+      "d": 6,
+      "lec": 86,
+      "pick": "relay",
+      "cand": 18
+    },
+    {
+      "w": 44,
+      "d": 1,
+      "lec": 87,
+      "pick": "swapline",
+      "cand": 18
+    },
+    {
+      "w": 44,
+      "d": 2,
+      "lec": 87,
+      "pick": "twohalf",
+      "cand": 18
+    },
+    {
+      "w": 44,
+      "d": 3,
+      "lec": 87,
+      "pick": "wave",
+      "cand": 18
+    },
+    {
+      "w": 44,
+      "d": 4,
+      "lec": 88,
+      "pick": "wall",
+      "cand": 19
+    },
+    {
+      "w": 44,
+      "d": 5,
+      "lec": 88,
+      "pick": "onesee",
+      "cand": 19
+    },
+    {
+      "w": 44,
+      "d": 6,
+      "lec": 88,
+      "pick": "whose",
+      "cand": 19
+    },
+    {
+      "w": 45,
+      "d": 1,
+      "lec": 89,
+      "pick": "flip",
+      "cand": 18
+    },
+    {
+      "w": 45,
+      "d": 2,
+      "lec": 89,
+      "pick": "apart",
+      "cand": 18
+    },
+    {
+      "w": 45,
+      "d": 3,
+      "lec": 89,
+      "pick": "chain",
+      "cand": 18
+    },
+    {
+      "w": 45,
+      "d": 4,
+      "lec": 90,
+      "pick": "mirror",
+      "cand": 19
+    },
+    {
+      "w": 45,
+      "d": 5,
+      "lec": 90,
+      "pick": "clash",
+      "cand": 19
+    },
+    {
+      "w": 45,
+      "d": 6,
+      "lec": 90,
+      "pick": "cutin",
+      "cand": 19
+    },
+    {
+      "w": 46,
+      "d": 1,
+      "lec": 91,
+      "pick": "hearme",
+      "cand": 19
+    },
+    {
+      "w": 46,
+      "d": 2,
+      "lec": 91,
+      "pick": "ladder",
+      "cand": 19
+    },
+    {
+      "w": 46,
+      "d": 3,
+      "lec": 91,
+      "pick": "overlap",
+      "cand": 19
+    },
+    {
+      "w": 46,
+      "d": 4,
+      "lec": 92,
+      "pick": "reask",
+      "cand": 18
+    },
+    {
+      "w": 46,
+      "d": 5,
+      "lec": 92,
+      "pick": "rebound",
+      "cand": 18
+    },
+    {
+      "w": 46,
+      "d": 6,
+      "lec": 92,
+      "pick": "recall",
+      "cand": 18
+    },
+    {
+      "w": 47,
+      "d": 1,
+      "lec": 93,
+      "pick": "relay",
+      "cand": 18
+    },
+    {
+      "w": 47,
+      "d": 2,
+      "lec": 93,
+      "pick": "swapline",
+      "cand": 18
+    },
+    {
+      "w": 47,
+      "d": 3,
+      "lec": 93,
+      "pick": "twohalf",
+      "cand": 18
+    },
+    {
+      "w": 47,
+      "d": 4,
+      "lec": 94,
+      "pick": "wave",
+      "cand": 18
+    },
+    {
+      "w": 47,
+      "d": 5,
+      "lec": 94,
+      "pick": "wall",
+      "cand": 18
+    },
+    {
+      "w": 47,
+      "d": 6,
+      "lec": 94,
+      "pick": "onesee",
+      "cand": 18
+    },
+    {
+      "w": 48,
+      "d": 1,
+      "lec": 95,
+      "pick": "whose",
+      "cand": 18
+    },
+    {
+      "w": 48,
+      "d": 2,
+      "lec": 95,
+      "pick": "flip",
+      "cand": 18
+    },
+    {
+      "w": 48,
+      "d": 3,
+      "lec": 95,
+      "pick": "apart",
+      "cand": 18
+    },
+    {
+      "w": 48,
+      "d": 4,
+      "lec": 96,
+      "pick": "chain",
+      "cand": 18
+    },
+    {
+      "w": 48,
+      "d": 5,
+      "lec": 96,
+      "pick": "clash",
+      "cand": 18
+    },
+    {
+      "w": 48,
+      "d": 6,
+      "lec": 96,
+      "pick": "cutin",
+      "cand": 18
+    }
+  ]
+}
