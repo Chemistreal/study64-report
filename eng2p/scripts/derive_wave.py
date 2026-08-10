@@ -48,6 +48,16 @@ KO = {"한": 1, "두": 2, "세": 3, "네": 4, "다섯": 5,
 KOPAT = "|".join(sorted(KO, key=len, reverse=True))
 
 
+def plain(s):
+    """화면으로 가는 글에서 마크다운 표시를 뺀다.
+
+    **T265 에서 겪은 자리다.** 자료는 문서가 아니라 화면으로 간다.
+    화면은 `**` 를 굵게 그리지 않고 별 둘을 그대로 그린다.
+    그때는 한 파생기만 고쳤고 그 뒤에 만든 파생기가 같은 것을 또 흘렸다.
+    """
+    return (s or "").replace("**", "")
+
+
 def chapter(text, head, tail):
     i = text.find(head)
     if i < 0:
@@ -169,7 +179,7 @@ def main():
     steps = []
     for n in range(1, sp["size"] + 1):
         if n in anchor:
-            steps.append({"n": n, "name": anchor[n], "anchor": True,
+            steps.append({"n": n, "name": plain(anchor[n]), "anchor": True,
                           "cards": seen[anchor[n]]})
         else:
             lo = max([x for x in anchor if x < n] or [None])
@@ -179,7 +189,7 @@ def main():
                 return 1
             # **새 이름을 안 짓는다.** 이웃 둘을 그대로 붙인다
             steps.append({"n": n,
-                          "name": "%s과 %s 사이" % (anchor[lo], anchor[hi]),
+                          "name": plain("%s과 %s 사이" % (anchor[lo], anchor[hi])),
                           "anchor": False, "cards": 0})
 
     obj = {
@@ -187,7 +197,7 @@ def main():
                 "docs/play_rules.md 7.2 에서 온다. 사이 칸은 이웃 둘을 붙인 것이다. "
                 "손으로 안 고친다. scripts/derive_wave.py 를 다시 돌린다.",
         "grade": "B",
-        "gradeWhy": "카드가 신뢰도 B 이고 **사이 칸이 내 판단이다.** 격식이 다섯 단으로 "
+        "gradeWhy": "카드가 신뢰도 B 이고 사이 칸이 내 판단이다. 격식이 다섯 단으로 "
                     "고르게 벌어져 있다는 근거가 없다. 있는 것은 세 값이고 나머지는 "
                     "한 칸 안 판정이 뜻을 갖게 하려고 넣은 자리다.",
         "generator": "scripts/derive_wave.py",

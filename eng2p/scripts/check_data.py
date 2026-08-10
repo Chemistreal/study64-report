@@ -375,6 +375,44 @@ def check_index(lec):
         FAIL.append("index.json 에 역할 규칙이 없다")
 
 
+# 판이 읽는 자료. **여기 들어 있는 글은 문서가 아니라 화면으로 간다.**
+PLAYDATA = ["pairs", "swaps", "listen", "relay", "chunks", "halves",
+            "ladder", "wall", "situ", "wave"]
+
+
+def check_play_plain():
+    """판 자료에 마크다운 표시가 섞였는가.
+
+    **T265 에서 한 번 겪었다.** 화면은 `**` 를 굵게 안 그리고 별 둘을 그린다.
+    그때 파생기 하나를 고쳤고 그 뒤에 만든 파생기 넷이 같은 것을 또 흘렸다.
+    T292 에 `wall.json` 의 Q1-054 에서 다시 나왔다.
+
+    **한 번 고친 자리는 검사로 막는다.** 안 막으면 다음 파생기가 또 흘린다.
+    """
+    for name in PLAYDATA:
+        f = ROOT / "out" / "data" / (name + ".json")
+        if not f.exists():
+            continue
+        hit = []
+
+        def walk(o, path):
+            if isinstance(o, str):
+                if "**" in o:
+                    hit.append(path)
+            elif isinstance(o, dict):
+                for k, v in o.items():
+                    walk(v, path + "/" + str(k))
+            elif isinstance(o, list):
+                for i, v in enumerate(o):
+                    walk(v, path + "/" + str(i))
+
+        walk(json.loads(f.read_text(encoding="utf-8")), name)
+        for h in hit[:5]:
+            FAIL.append("%s 에 마크다운 표시가 있다. 화면은 별 둘을 그대로 그린다" % h)
+        if len(hit) > 5:
+            FAIL.append("%s 에 그런 자리가 %d곳 더 있다" % (name, len(hit) - 5))
+
+
 def main():
     if not DATA.exists():
         print("[실패] %s 가 없다. derive_data.py 를 먼저 돌린다" % DATA.name)
@@ -440,6 +478,7 @@ def main():
     check_tasks(items)
     check_index(items)
     check_js_pairs()
+    check_play_plain()
 
     for m in FAIL:
         print("[실패] %s" % m)

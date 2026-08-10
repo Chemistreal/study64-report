@@ -72,6 +72,16 @@ FIELD = {
 QORDER = ["Q1", "Q2", "Q3", "Q4"]
 
 
+def plain(s):
+    """화면으로 가는 글에서 마크다운 표시를 뺀다.
+
+    **T265 에서 겪은 자리다.** 자료는 문서가 아니라 화면으로 간다.
+    화면은 `**` 를 굵게 그리지 않고 별 둘을 그대로 그린다.
+    그때는 한 파생기만 고쳤고 그 뒤에 만든 파생기가 같은 것을 또 흘렸다.
+    """
+    return (s or "").replace("**", "")
+
+
 def spec():
     bad = []
     need = most = None
@@ -133,7 +143,7 @@ def main():
         a = c.get("a") or {}
         vals = {}
         for p in parts:
-            v = (a.get(p["key"]) or "").strip()
+            v = plain((a.get(p["key"]) or "").strip())
             if not v:
                 holes.append(c["id"] + ":" + p["name"])
             vals[p["key"]] = v
@@ -141,8 +151,8 @@ def main():
         pool.append({
             "id": c["id"], "no": c["no"], "q": c["quarter"],
             "parts": vals,
-            "ins": a.get("instruction", ""),
-            "pass": a.get("pass", ""),
+            "ins": plain(a.get("instruction", "")),
+            "pass": plain(a.get("pass", "")),
         })
     pool.sort(key=lambda c: (QORDER.index(c["q"]), c["no"]))
 
@@ -171,7 +181,7 @@ def main():
 
     obj = {
         "note": "한 사람만 본다가 쓸 상황 카드. 역할형 카드의 A면에서 뽑는다. "
-                "**B면은 안 담는다.** scripts/derive_situ.py 를 다시 돌린다.",
+                "B면은 안 담는다. scripts/derive_situ.py 를 다시 돌린다.",
         "grade": "B",
         "gradeWhy": "카드 파일 열둘이 다 신뢰도 B 다. 다섯 요소를 요구하는 것은 "
                     "기준서 8.1 이지만 그 칸을 채운 한국어와 상황은 카드가 진 "
