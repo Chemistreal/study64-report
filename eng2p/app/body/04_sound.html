@@ -22,15 +22,15 @@
 
   <div class="card">
     <div class="grid g3">
-      <div><label class="f">음성</label><select id="vVoice"></select></div>
+      <div><label for="vVoice" class="f">음성</label><select id="vVoice"></select></div>
       <div><label class="f">속도 <span class="mono" id="vRateN">0.85</span></label>
         <input type="range" id="vRate" min="0.5" max="1.1" step="0.05" value="0.85"></div>
-      <div><label class="f">반복</label><select id="vRep"><option>1</option><option selected>2</option><option>3</option><option>5</option></select></div>
-      <div><label class="f">모드</label>
+      <div><label for="vRep" class="f">반복</label><select id="vRep"><option>1</option><option selected>2</option><option>3</option><option>5</option></select></div>
+      <div><label for="vMode" class="f">모드</label>
         <select id="vMode"><option value="plain">듣기만</option><option value="shadow">섀도잉 (따라 말할 틈을 준다)</option></select></div>
     </div>
     <div style="margin-top:12px">
-      <label class="f">읽을 내용 (한 줄에 하나)</label>
+      <label for="vText" class="f">읽을 내용 (한 줄에 하나)</label>
       <textarea id="vText" rows="6" placeholder="I'm gonna call you back.&#10;What are you doing?"></textarea>
     </div>
     <div class="row end" style="margin-top:10px">
