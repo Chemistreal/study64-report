@@ -91,3 +91,11 @@ jobs:
       - name: 자가 참·거짓 예시를 맞힌다
         timeout-minutes: 5
         run: python3 tools/lie_check.py --check
+      # 화면이 **사람에게 하는 말**은 여태 아무도 안 셌다. 글자 크기와 대비는
+      # 재면서 그 자리에 무엇이 적혀 있는지는 안 본 것이다. 학생과 학부모가
+      # 실제로 가져가는 것은 그 문장이다 — 여기 4,810개가 있고 그중 570개는
+      # 아이가 자기를 보는 방식을 만드는 평가 문장이다.
+      # 여기서는 고치지 않는다. **줄어드는 것만** 막는다.
+      - name: 사람에게 하는 말이 조용히 사라지지 않았다
+        timeout-minutes: 5
+        run: python3 tools/msg_ledger.py --check --quiet
