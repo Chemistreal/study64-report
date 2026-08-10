@@ -2162,19 +2162,217 @@ const RESET = () => {
   if (/\*\*/.test(hTxt))
     no("누구 말이야: 화면에 마크다운 표시가 보인다");
 
+  /* =====================================================================
+     못 알아들은 척 (T299). **감출 것이 하나씩 양쪽에 있는 첫 판.**
+
+     그래서 이 판은 **두 쪽을 다 본다.** 한쪽만 보면 절반만 잰다.
+
+       줄        뭉개는 쪽에만. 저쪽이 보면 뭉갠 자리를 눈으로 찾는다
+       세기      되묻는 쪽에만. 저쪽이 보면 그 세기에 맞춰 뭉갠다
+       보기      열기 전에는 없다. 여는 것이 벌이 아니라고 화면이 적는다
+       없는 단   지어낸 줄이 안 뜨고 **없다고 적는다** (T297)
+     ===================================================================== */
+  const RKRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("reask");
+    RSKCLK.left = 0; RSKCLK.over = false;
+    renderReask();
+  };
+  for (const p of [A, B]) await openPlay(p, "reask", "renderReask");
+  await A.evaluate(RKRESET); await B.evaluate(RKRESET);
+
+  /* ---- 119. 규격이 자료에서 온다 ---------------------------------------- */
+  const kspec = await A.evaluate(() => ({
+    steps: DATA.reask.steps.map((x) => x.name),
+    counts: DATA.reask.steps.map((x) => x.lines.length),
+    empty: DATA.reask.empty || [],
+    grade: DATA.reask.grade,
+    lines: rskLines().length,
+  }));
+  if (kspec.steps.length < 2)
+    no("못 알아들은 척: 되묻기 단이 " + kspec.steps.length + "개다");
+  if (new Set(kspec.steps).size !== kspec.steps.length)
+    no("못 알아들은 척: 같은 이름의 단이 두 번 있다");
+  if (!kspec.lines) no("못 알아들은 척: 오늘 과의 줄을 못 뽑았다");
+  /* **보기가 하나도 없는 단이 있어도 된다.** 지어내지 않은 값이다 (T297) */
+  const kZero = kspec.counts.filter((n) => !n).length;
+  if (kZero !== kspec.empty.length)
+    no("못 알아들은 척: 보기가 없는 단이 " + kZero + "개인데 자료는 " +
+       kspec.empty.length + "개라고 적었다");
+
+  /* ---- 120. 줄이 되묻는 쪽에 없다 --------------------------------------- */
+  let kMud = (await A.evaluate(() => !!document.querySelector("#rskAlone"))) ? A : B;
+  let kAsk = kMud === A ? B : A;
+  if ((await A.evaluate(() => !!document.querySelector("#rskAlone"))) ===
+      (await B.evaluate(() => !!document.querySelector("#rskAlone"))))
+    no("못 알아들은 척: 두 기기가 같은 자리다");
+  const kLine = await kMud.evaluate(() => rskLines()[roundStep("reask")]);
+  if ((await pane(kAsk)).indexOf(kLine) >= 0)
+    no("못 알아들은 척: 대본 줄이 되묻는 쪽 화면에 있다. 뭉갠 자리를 눈으로 찾는다");
+  if ((await text(kMud)).indexOf(kLine) < 0)
+    no("못 알아들은 척: 대본 줄이 뭉개는 쪽 화면에도 없다");
+
+  /* ---- 121. 세기가 뭉개는 쪽에 없다 -------------------------------------
+     **거울 판의 자를 든다** (T260). 세기를 고정하고 두 번 그려 견준다.
+     이름이 안 보이는 것만으로는 모자란다. class 하나로도 샌다. */
+  const withStep = (p, n) => p.evaluate((n) => {
+    window.__rs = window.__rs || rskStep;
+    rskStep = function () { return DATA.reask.steps[n]; };
+    renderReask();
+    return document.querySelector("#playPane").innerHTML;
+  }, n);
+  let kLeak = 0, kBlind = 0;
+  for (let i = 1; i < kspec.steps.length; i++) {
+    if ((await withStep(kMud, 0)) !== (await withStep(kMud, i))) kLeak++;
+    if ((await withStep(kAsk, 0)) === (await withStep(kAsk, i))) kBlind++;
+  }
+  for (const p of [A, B])
+    await p.evaluate(() => { if (window.__rs) rskStep = window.__rs; renderReask(); });
+  if (kLeak) no("못 알아들은 척: 뭉개는 쪽 화면이 세기에 따라 달라진다: " + kLeak + "단");
+  if (kBlind)
+    no("못 알아들은 척: 되묻는 쪽 화면이 세기에 따라 안 달라진다: " + kBlind +
+       "단. 안 그리는 것이 아니라 아무것도 안 그리는 것이다");
+
+  /* ---- 122. 단추가 제자리에만 있다 --------------------------------------- */
+  for (const sel of ["#rskAlone", "#rskShown"])
+    if (await kAsk.$(sel))
+      no("못 알아들은 척: 되묻는 쪽에 " + sel + " 가 있다. 판정은 뭉갠 사람이 한다");
+  for (const sel of ["#rskOpen", "#rskNext"])
+    if (await kMud.$(sel))
+      no("못 알아들은 척: 뭉개는 쪽에 " + sel + " 가 있다");
+  if (!(await kAsk.$("#rskOpen"))) no("못 알아들은 척: 되묻는 쪽에 보기 단추가 없다");
+
+  /* ---- 123. 보기는 열기 전에 없고 열면 **자료 그대로** 뜬다 -------------- */
+  const kNow = await kAsk.evaluate(() => rskStep(roundStep("reask")));
+  if (kNow.lines.length) {
+    const before = await text(kAsk);
+    const shown0 = kNow.lines.filter((x) => before.indexOf(x.line) >= 0);
+    if (shown0.length)
+      no("못 알아들은 척: 열기 전에 보기가 떴다: " + shown0[0].line);
+    await tap(kAsk, "#rskOpen", "보기를 본다");
+    const after = await text(kAsk);
+    const missing = kNow.lines.filter((x) => after.indexOf(x.line) < 0);
+    if (missing.length)
+      no("못 알아들은 척: 연 보기에 빠진 줄이 있다: " + missing[0].line);
+    /* **어디서 왔는지가 같이 뜬다.** 지어낸 것이 아니라고 적는 것과 다르다 */
+    if (after.indexOf(kNow.lines[0].mid) < 0)
+      no("못 알아들은 척: 보기에 어느 과에서 왔는지가 없다");
+    if (!after.includes("지어낸 것이 아니다"))
+      no("못 알아들은 척: 보기가 대본에서 왔다는 말이 없다");
+  }
+
+  /* ---- 124. 보기가 없는 단은 **없다고 적고 지어낸 줄이 안 뜬다** ---------
+     T297 이 찾은 것이 여기서 화면으로 나온다. 빈 자리를 안 채운다. */
+  if (kspec.empty.length) {
+    const blank = await kAsk.evaluate(() => {
+      window.__rs = window.__rs || rskStep;
+      const z = DATA.reask.steps.filter((x) => !x.lines.length)[0];
+      rskStep = function () { return z; };
+      rskRec().open = true; save(); renderReask();
+      return document.querySelector("#playPane").innerText;
+    });
+    if (!blank.includes("보기가 없다"))
+      no("못 알아들은 척: 보기가 없는 단인데 없다고 안 적는다");
+    if (!blank.includes("둘이 만들어 본다"))
+      no("못 알아들은 척: 보기가 없는 단에서 무엇을 하라는 말이 없다");
+    /* 다른 단의 보기가 대신 뜨면 그것이 지어낸 것보다 더 나쁘다 */
+    const other = await kAsk.evaluate(() =>
+      DATA.reask.steps.reduce((a, x) => a.concat(x.lines.map((y) => y.line)), []));
+    const wrong = other.filter((x) => blank.indexOf(x) >= 0);
+    if (wrong.length)
+      no("못 알아들은 척: 보기가 없는 단에 다른 단의 보기가 떴다: " + wrong[0]);
+    await kAsk.evaluate(() => { rskStep = window.__rs; rskRec().open = false;
+                                save(); renderReask(); });
+  }
+
+  /* ---- 125. 보기 없이와 보고가 다르게 센다 ------------------------------ */
+  await A.evaluate(RKRESET); await B.evaluate(RKRESET);
+  kMud = (await A.evaluate(() => !!document.querySelector("#rskAlone"))) ? A : B;
+  const kRec = (p) => p.evaluate(() => S.rhit["reask|" + today()] || {});
+  await tap(kMud, "#rskAlone", "보기 없이 되물었다");
+  let kr = await kRec(kMud);
+  if (kr.alone !== 1 || kr.shown !== 0)
+    no("못 알아들은 척: 보기 없이를 눌렀는데 셈이 없이 " + kr.alone +
+       " 보고 " + kr.shown + " 이다");
+  /* **한 기기에서 두 번 센다.** 자리가 한 줄마다 도니 누르고 나면 이 기기가
+     되묻는 쪽이 된다. 그때 다른 기기를 봐도 소용없다. 그쪽은 회가 안 밀렸다.
+     회는 기기마다 자기가 세기 때문이다 (round.md 6장).
+     **한 줄 더 밀어 이 기기를 다시 뭉개는 쪽으로 만든다.**
+     처음에 다른 기기를 보게 짜서 이 검사의 첫 실패가 검사 탓이었다 (T299). */
+  await tap(kMud, "#rskNext", "한 줄 더 민다");
+  if (!(await kMud.$("#rskAlone")))
+    no("못 알아들은 척: 두 줄을 밀었는데 자리가 안 돌아왔다");
+  await tap(kMud, "#rskShown", "보기를 보고 말했다");
+  kr = await kRec(kMud);
+  if ((kr.shown || 0) !== 1)
+    no("못 알아들은 척: 보기 보고를 눌렀는데 안 셌다");
+  if ((kr.alone || 0) !== 1)
+    no("못 알아들은 척: 보기 보고가 보기 없이 셈까지 건드렸다");
+
+  /* ---- 126. 다음 줄로 가면 보기가 닫힌다 --------------------------------
+     안 닫으면 다음 줄에서 **열지도 않았는데 보기가 떠 있다.** */
+  await A.evaluate(RKRESET); await B.evaluate(RKRESET);
+  kAsk = (await A.evaluate(() => !!document.querySelector("#rskOpen"))) ? A : B;
+  if (await kAsk.$("#rskOpen")) {
+    await tap(kAsk, "#rskOpen", "보기를 연다");
+    await tap(kAsk, "#rskNext", "다음 줄");
+    if ((await kAsk.evaluate(() => rskRec().open)) === true)
+      no("못 알아들은 척: 다음 줄로 갔는데 보기가 열린 채다");
+  }
+
+  /* ---- 127. 한 줄마다 자리가 바뀐다 ------------------------------------- */
+  await A.evaluate(RKRESET);
+  const kSeats = [];
+  for (let i = 0; i < 4; i++) {
+    kSeats.push(await A.evaluate(() => !!document.querySelector("#rskAlone")));
+    await A.evaluate(() => { roundStepSet("reask", roundStep("reask") + 1);
+                             renderReask(); });
+  }
+  const kFlips = [];
+  for (let i = 1; i < kSeats.length; i++)
+    if (kSeats[i] !== kSeats[i - 1]) kFlips.push(i);
+  if (kFlips.length !== kSeats.length - 1)
+    no("못 알아들은 척: 자리가 바뀐 자리가 [" + kFlips.join(",") + "] 다. 한 줄마다 바뀐다");
+
+  /* ---- 128. 마감과 등급 -------------------------------------------------- */
+  await A.evaluate(RKRESET);
+  await A.evaluate(() => { RSKCLK.over = true; renderReask(); });
+  const kDone1 = await text(A);
+  await A.evaluate(() => { RSKCLK.over = false;
+                           roundStepSet("reask", rskLines().length); renderReask(); });
+  const kDone2 = await text(A);
+  for (const [why, txt] of [["시계", kDone1], ["줄 끝", kDone2]]) {
+    if (/중 몇 중 몇/.test(txt))
+      no("못 알아들은 척 (" + why + "): 마감이 '중 몇' 을 두 번 적는다");
+    if (!txt.includes("보기 없이 되물은 줄"))
+      no("못 알아들은 척 (" + why + "): 마감이 무엇을 센 값인지 안 적는다");
+    if (!/보기를 본 것은 실패가 아니다/.test(txt))
+      no("못 알아들은 척 (" + why + "): 보기가 벌이 아니라는 말이 없다");
+    if (!txt.includes("절반"))
+      no("못 알아들은 척 (" + why + "): 이 숫자가 절반이라는 말이 없다");
+  }
+  await A.evaluate(RKRESET);
+  const kTxt = await text(A);
+  if (!kTxt.includes(kspec.grade + "등급"))
+    no("못 알아들은 척: 자료 등급이 화면에 없다");
+  if (kspec.grade !== "A" && !kTxt.includes("통과 판정에는 안 쓴다"))
+    no("못 알아들은 척: B등급인데 통과 판정에 안 쓴다는 말이 없다");
+  if (/\*\*/.test(kTxt))
+    no("못 알아들은 척: 화면에 마크다운 표시가 보인다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 13개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 14개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
               "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
               "파장 34 / " +
-              "누구 말이야: 규격 3판, 정답 없음 5판, 감출 것 없음 6판, 고르기 전 4판, " +
-              "셈 4판, 그 주 3판, 두 기기 2판, 덱 2판, 한 벌마다 1판, 마감 8판, " +
-              "**주 점검까지 4판**, 등급 3판 **판 밖으로 나간 값을 잰다** / " +
-              "실패 " + fails.length);
+              "누구 말이야 43 / " +
+              "못 알아들은 척: 규격 4판, 줄 2판, 세기 2판, 단추 자리 5판, 보기 4판, " +
+              "없는 단 3판, 셈 3판, 다시 닫기 1판, 한 줄마다 1판, 마감 8판, 등급 3판 " +
+              "**두 쪽을 다 본다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
