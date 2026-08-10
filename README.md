@@ -61,6 +61,7 @@ python3 tools/audit_pages.py --check     # 화면 전수 검수
 |---|---|
 | `prism_regression.js` | **12극 채점 · 저장 · 마이그레이션이 되돌아가는 것** (75개) |
 | `tools/audit_pages.py` | 글자 대비 4.5:1 미달 · 작은 글씨 · 빠진 뼈대 |
+| `tools/ci_deps.py` | **자가 CI 에서 못 도는 것** (걸어 뒀는데 안 돌아가는 것) |
 | `tools/noindex.py` | 개인 리포트가 검색에 잡히는 것 |
 | `tools/js_syntax.py` | 화면 안 자바스크립트가 깨진 채 나가는 것 |
 | `tools/store_ledger.py` | 브라우저에 무엇을 남기는지 적어 두지 않는 것 |
@@ -72,6 +73,7 @@ python3 tools/audit_pages.py --check     # 화면 전수 검수
 | `tests/first-paint.js` | 글꼴 창구가 늦을 때 화면이 빈 흰 종이가 되는 것 |
 | `tests/gate-down.js` | 창구가 죽었을 때 빈 화면이 되거나 아무 말도 안 하는 것 |
 | `tools/name_key.py` | 같은 학생이 앱마다 다른 이름으로 갈리는 것 (정한 뒤부터) |
+| `tools/print_ink.py` | 종이로 뽑을 때 흰 종이에 흰 글씨가 되는 것 |
 | `tools/font_block.py` | 바깥 글꼴이 첫 그림을 인질로 잡는 것 |
 | `tools/input_labels.py` | 입력칸에 이름이 없는 것 (125칸 전부 이름 있음) |
 
