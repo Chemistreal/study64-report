@@ -40,12 +40,16 @@ JOBS = [("audit_pages.py", "대비와 글씨와 뼈대"),
         ("lie_check.py", "화면이 없는 것을 있다고 하나"),
         ("msg_ledger.py", "학습자에게 하는 말이 대장에 있나"),
         # 2026-08-10 에 하나 더 (PR #15)
-        ("pages_budget.py", "Pages 한도 안인가")]
+        ("pages_budget.py", "Pages 한도 안인가"),
+        # 2026-08-10 에 둘 더 (PR #16)
+        ("name_key.py", "이름 열쇠가 어긋나나"),
+        ("print_ink.py", "인쇄할 때 잉크를 먹나")]
 
 # 브라우저를 띄우는 자. **CI 는 `playwright` 를 쓰고 이 기계에는 `playwright-core`
 # 가 있다.** 이름을 안 알려 주면 조용히 건너뛰고 그러면 안 본 것이 통과처럼 보인다.
 BROWSER = [("tests/narrow.js", "휴대폰 폭 안에 드나"),
-           ("tests/first-paint.js", "첫 그림을 글꼴이 막나")]
+           ("tests/first-paint.js", "첫 그림을 글꼴이 막나"),
+           ("tests/gate-down.js", "창구가 죽어도 사정을 말하나")]
 
 # **그 자들이 안 보는 자리.** `js_syntax.py` 는 `.html` 안의 `<script>` 만 본다.
 # 이 저장소에는 홀로 선 `.js` 파생물이 있고 (T259 에 판 화면을 밖으로 뺐다)

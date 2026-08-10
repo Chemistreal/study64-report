@@ -184,7 +184,7 @@ scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다. 없으면 �
 scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = 서른두 판
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
-scripts/check_pages.py 뿌리 화면 검수 열둘을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
+scripts/check_pages.py 뿌리 화면 검수 열여섯을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
 scripts/rehearse_session.js 한 세션 두 시간. 블록 안에서 바뀌는 자리 열넷을 뜬다
 scripts/rehearse_pair.js **두 화면을 나란히 받아 적는다.** 자리 여섯 곳
