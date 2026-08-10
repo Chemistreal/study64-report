@@ -2360,19 +2360,178 @@ const RESET = () => {
   if (/\*\*/.test(kTxt))
     no("못 알아들은 척: 화면에 마크다운 표시가 보인다");
 
+  /* =====================================================================
+     끼어들기 (T302). **시계를 한 기기만 드는 판.**
+
+       같은 벌      두 기기가 같은 신호 시각을 본다 (T300)
+       시계는 하나  두 기기가 각자 재면 어긋난다. 단추가 한쪽에만 있다 (T301)
+       못 한 것     한 번은 다시 주고 두 번째는 **역할만 바꾼다**
+       셈           **시계를 든 기기만 센다.** 더하지도 같지도 않다
+     ===================================================================== */
+  const CTRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("cutin");
+    CUT.miss = 0; CUT.sig = false;
+    CUTCLK.left = 0; CUTCLK.over = false; CUTCLK.at = 0;
+    renderCutin();
+  };
+  for (const p of [A, B]) await openPlay(p, "cutin", "renderCutin");
+  await A.evaluate(CTRESET); await B.evaluate(CTRESET);
+
+  /* ---- 129. 규격이 자료에서 온다 ---------------------------------------- */
+  const cspec = await A.evaluate(() => ({
+    min: DATA.cutin.min, sec: DATA.cutin.sec,
+    gap: DATA.cutin.gap, far: DATA.cutin.far,
+    decks: DATA.cutin.decks.length, grade: DATA.cutin.grade,
+    deck: cutDeck(),
+  }));
+  if (cspec.sec !== cspec.min * 60)
+    no("끼어들기: 분과 초가 안 맞는다: " + cspec.min + "분 " + cspec.sec + "초");
+  if (!(cspec.gap < cspec.far))
+    no("끼어들기: 짧은 사이 " + cspec.gap + " 가 긴 사이 " + cspec.far + " 보다 안 짧다");
+  if (cspec.decks < 2) no("끼어들기: 신호 벌이 " + cspec.decks + "개다");
+  if (cspec.deck.length < 2)
+    no("끼어들기: 오늘 벌의 신호가 " + cspec.deck.length + "개다. 한 번도 안 뒤집히면 그냥 읽기다");
+  /* **사이가 규격 안인가.** 붙으면 끼어들 틈이 없고 벌어지면 판이 안 선다 */
+  for (let i = 1; i < cspec.deck.length; i++) {
+    const g = cspec.deck[i] - cspec.deck[i - 1];
+    if (g < cspec.gap || g > cspec.far)
+      no("끼어들기: 신호 사이가 " + g + "초다. " + cspec.gap + "~" + cspec.far + " 여야 한다");
+  }
+  if (cspec.deck[cspec.deck.length - 1] >= cspec.sec)
+    no("끼어들기: 신호가 판이 끝난 뒤에 있다");
+
+  /* ---- 130. 두 기기가 같은 벌을 보고 시계는 한쪽만 든다 ------------------ */
+  if ((await A.evaluate(() => JSON.stringify(cutDeck()))) !==
+      (await B.evaluate(() => JSON.stringify(cutDeck()))))
+    no("끼어들기: 두 기기가 다른 신호 벌을 본다. 다른 순간에 울린다");
+  let cHold = (await A.evaluate(() => !!document.querySelector("#cutGo"))) ? A : B;
+  let cOff = cHold === A ? B : A;
+  if ((await A.evaluate(() => !!document.querySelector("#cutGo"))) ===
+      (await B.evaluate(() => !!document.querySelector("#cutGo"))))
+    no("끼어들기: 시계 단추가 두 기기에 다 있거나 다 없다. 한 기기만 든다");
+  if (!(await cOff.$("#cutFlip")))
+    no("끼어들기: 시계를 안 든 기기에 회를 미는 단추가 없다");
+  if (await cOff.$("#cutGo"))
+    no("끼어들기: 시계를 안 든 기기에 시계 단추가 있다");
+  /* 읽을 거리는 둘 다 본다. **감출 것이 없는 판이다** */
+  const cLine = await cHold.evaluate(() => cutLines()[0]);
+  for (const [who, p] of [["시계 쪽", cHold], ["다른 쪽", cOff]])
+    if ((await text(p)).indexOf(cLine) < 0)
+      no("끼어들기: " + who + " 화면에 읽을 거리가 없다");
+
+  /* ---- 131. 신호 시각에 닿으면 시계가 멈추고 신호가 뜬다 ----------------- */
+  await tap(cHold, "#cutGo", "시계를 켠다");
+  await cHold.evaluate(() => { CUTCLK.left = DATA.cutin.sec - cutDeck()[0]; });
+  await cHold.waitForTimeout(1600);
+  const cSig = await text(cHold);
+  if (!cSig.includes("신호가 났다"))
+    no("끼어들기: 신호 시각에 닿았는데 화면이 아무 말도 안 한다");
+  if (!(await cHold.evaluate(() => !CUTCLK.t)))
+    no("끼어들기: 신호가 났는데 시계가 계속 간다. 끼어드는 동안 다음 신호가 온다");
+  for (const sel of ["#cutIn", "#cutNo"])
+    if (!(await cHold.$(sel))) no("끼어들기: 신호 뒤에 " + sel + " 가 없다");
+
+  /* ---- 132. 한 번 못 하면 회가 안 늘고 두 번째 신호가 뜬다 --------------- */
+  const cRec = (p) => p.evaluate(() => S.rhit["cutin|" + today()] || {});
+  const cStep = (p) => p.evaluate(() => roundStep("cutin"));
+  await tap(cHold, "#cutNo", "한 번 못 했다");
+  if ((await cStep(cHold)) !== 0)
+    no("끼어들기: 한 번 못 했는데 회가 늘었다. 신호가 한 번 더 온다");
+  let cr = await cRec(cHold);
+  if ((cr.flip || 0) || (cr.pass || 0))
+    no("끼어들기: 한 번 못 했는데 셈이 늘었다");
+  if (!(await text(cHold)).includes("두 번째 신호"))
+    no("끼어들기: 둘째 신호라는 말이 화면에 없다");
+  /* **시계를 되돌리지 않는다.** 되돌리면 다음 신호 자리가 표와 어긋난다 */
+  if ((await cHold.evaluate(() => CUTCLK.at)) !== 1)
+    no("끼어들기: 둘째 신호를 주려고 신호 자리를 되돌렸다");
+
+  /* ---- 133. 두 번째도 못 하면 역할만 바뀌고 셈에 안 든다 ----------------- */
+  await tap(cHold, "#cutNo", "두 번째도 못 했다");
+  if ((await cStep(cHold)) !== 1)
+    no("끼어들기: 두 번째도 못 했는데 역할이 안 바뀌었다");
+  cr = await cRec(cHold);
+  if ((cr.flip || 0) !== 0)
+    no("끼어들기: 두 번 다 못 했는데 뒤집힘으로 셌다");
+  if ((cr.pass || 0) !== 1)
+    no("끼어들기: 두 번 다 못 한 것을 안 적었다");
+
+  /* ---- 134. 끼어들면 셈에 든다 ------------------------------------------- */
+  await A.evaluate(CTRESET); await B.evaluate(CTRESET);
+  cHold = (await A.evaluate(() => !!document.querySelector("#cutGo"))) ? A : B;
+  await cHold.evaluate(() => { CUT.sig = true; renderCutin(); });
+  await tap(cHold, "#cutIn", "끼어들었다");
+  cr = await cRec(cHold);
+  if ((cr.flip || 0) !== 1) no("끼어들기: 끼어들었는데 안 셌다");
+  if ((cr.pass || 0) !== 0) no("끼어들기: 끼어들었는데 그냥 바꾼 것으로도 셌다");
+  if ((await cStep(cHold)) !== 1) no("끼어들기: 끼어들었는데 역할이 안 바뀌었다");
+  if (await cHold.evaluate(() => CUT.sig))
+    no("끼어들기: 뒤집혔는데 신호가 나 있는 채다");
+
+  /* ---- 135. 신호마다 자리가 바뀐다 -------------------------------------- */
+  await A.evaluate(CTRESET);
+  const cSeats = [];
+  for (let i = 0; i < 4; i++) {
+    cSeats.push(await A.evaluate(() =>
+      /지금 읽는 쪽/.test(document.querySelector("#playPane").innerText)));
+    await A.evaluate(() => { roundStepSet("cutin", roundStep("cutin") + 1);
+                             renderCutin(); });
+  }
+  const cFlips = [];
+  for (let i = 1; i < cSeats.length; i++)
+    if (cSeats[i] !== cSeats[i - 1]) cFlips.push(i);
+  if (cFlips.length !== cSeats.length - 1)
+    no("끼어들기: 자리가 바뀐 자리가 [" + cFlips.join(",") + "] 다. 신호마다 바뀐다");
+
+  /* ---- 136. 시계를 안 든 기기는 셈을 안 건드리고 회만 민다 --------------- */
+  await A.evaluate(CTRESET); await B.evaluate(CTRESET);
+  cOff = (await A.evaluate(() => !!document.querySelector("#cutFlip"))) ? A : B;
+  await tap(cOff, "#cutFlip", "뒤집혔다");
+  const cr2 = await cRec(cOff);
+  if ((cr2.flip || 0) || (cr2.pass || 0))
+    no("끼어들기: 시계를 안 든 기기가 셈을 건드렸다. 그 자리는 판정이 아니다");
+  if ((await cStep(cOff)) !== 1)
+    no("끼어들기: 뒤집혔다를 눌렀는데 회가 안 밀렸다");
+
+  /* ---- 137. 마감이 한 기기가 센다고 적는다 ------------------------------
+     이 판은 절반도 아니고 같은 수도 아니다. **한 기기만 셀 수 있다** (T301). */
+  await A.evaluate(CTRESET);
+  await A.evaluate(() => { CUTCLK.over = true; renderCutin(); });
+  const cDone = await text(A);
+  if (/소리 내어 더한다|그 절반이다/.test(cDone))
+    no("끼어들기: 마감이 더하라고 적는다. 시계를 든 기기만 센다");
+  if (!cDone.includes("시계를 든 기기가 센다"))
+    no("끼어들기: 마감이 누가 센 숫자인지 안 적는다");
+  if (!cDone.includes("뒤집힌 횟수"))
+    no("끼어들기: 마감이 무엇을 센 값인지 안 적는다");
+  if (!/못 끼어든 것은 벌이 아니다/.test(cDone))
+    no("끼어들기: 못 끼어든 것이 벌이 아니라는 말이 없다");
+
+  /* ---- 138. 등급 -------------------------------------------------------- */
+  await A.evaluate(CTRESET);
+  const cTxt = await text(A);
+  if (!cTxt.includes(cspec.grade + "등급"))
+    no("끼어들기: 자료 등급이 화면에 없다");
+  if (cspec.grade !== "A" && !cTxt.includes("통과 판정에는 안 쓴다"))
+    no("끼어들기: B등급인데 통과 판정에 안 쓴다는 말이 없다");
+  if (/\*\*/.test(cTxt))
+    no("끼어들기: 화면에 마크다운 표시가 보인다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 14개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 15개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
               "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
               "파장 34 / " +
               "누구 말이야 43 / " +
-              "못 알아들은 척: 규격 4판, 줄 2판, 세기 2판, 단추 자리 5판, 보기 4판, " +
-              "없는 단 3판, 셈 3판, 다시 닫기 1판, 한 줄마다 1판, 마감 8판, 등급 3판 " +
-              "**두 쪽을 다 본다** / 실패 " + fails.length);
+              "못 알아들은 척 36 / " +
+              "끼어들기: 규격 6판, 같은 벌과 시계 자리 6판, 신호 4판, 한 번 못 함 4판, " +
+              "두 번째 3판, 끼어듦 4판, 신호마다 1판, 다른 기기 2판, 마감 4판, 등급 3판 " +
+              "**시계를 한 기기만 든다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
