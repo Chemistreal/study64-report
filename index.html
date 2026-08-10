@@ -1162,7 +1162,7 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
     <button class="btn secondary" onclick="document.getElementById('v27JsonLoader').click()">JSON 불러오기</button>
     <button class="btn secondary" onclick="v27CopySummary()">핵심 요약 복사</button>
     <button class="btn secondary" onclick="restart()">다시 검사하기</button>
-    <input id="v27JsonLoader" type="file" accept="application/json,.json" style="display:none" onchange="v27LoadResultJson(event)">
+    <input id="v27JsonLoader" type="file" accept="application/json,.json" style="display:none" onchange="v27LoadResultJson(event)" aria-label="결과 JSON 파일 고르기">
   </div>
 </section>
 
@@ -3024,7 +3024,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     if($('addonProgressPanel'))return;
     const progress=$('progressBox'); if(!progress)return;
     const panel=document.createElement('section'); panel.id='addonProgressPanel'; panel.className='addonPanel hide';
-    panel.innerHTML=`<h3>8블록 진행판</h3><p>96문항을 12문항씩 나누어 현재 위치, 완료 블록, 남은 문항을 한눈에 확인합니다. 기존 문항과 결과 산출 방식은 그대로 유지됩니다.</p><div class="addonBlockNav" id="addonBlockNav"></div><div class="addonControlRow"><button class="addonMiniBtn mint" type="button" onclick="addonGoFirstUnanswered()">첫 미응답으로 이동</button><button class="addonMiniBtn" type="button" onclick="addonSaveProfile()">학생명 기준 저장</button><button class="addonMiniBtn" type="button" onclick="addonLoadProfile()">학생명 기준 불러오기</button><button class="addonMiniBtn gold" type="button" onclick="addonSaveJson()">응답 JSON 저장</button><button class="addonMiniBtn" type="button" onclick="addonLoadJsonClick()">응답 JSON 불러오기</button><input id="addonJsonLoader" type="file" accept="application/json" style="display:none"></div><div class="addonStatusLine" id="addonStatusLine">진행 상태를 계산하는 중입니다.</div>`;
+    panel.innerHTML=`<h3>8블록 진행판</h3><p>96문항을 12문항씩 나누어 현재 위치, 완료 블록, 남은 문항을 한눈에 확인합니다. 기존 문항과 결과 산출 방식은 그대로 유지됩니다.</p><div class="addonBlockNav" id="addonBlockNav"></div><div class="addonControlRow"><button class="addonMiniBtn mint" type="button" onclick="addonGoFirstUnanswered()">첫 미응답으로 이동</button><button class="addonMiniBtn" type="button" onclick="addonSaveProfile()">학생명 기준 저장</button><button class="addonMiniBtn" type="button" onclick="addonLoadProfile()">학생명 기준 불러오기</button><button class="addonMiniBtn gold" type="button" onclick="addonSaveJson()">응답 JSON 저장</button><button class="addonMiniBtn" type="button" onclick="addonLoadJsonClick()">응답 JSON 불러오기</button><input id="addonJsonLoader" type="file" accept="application/json" style="display:none" aria-label="응답 JSON 파일 고르기"></div><div class="addonStatusLine" id="addonStatusLine">진행 상태를 계산하는 중입니다.</div>`;
     progress.insertAdjacentElement('afterend',panel);
     const loader=$('addonJsonLoader');
     if(loader){loader.addEventListener('change',addonLoadJsonFile)}
@@ -6701,7 +6701,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       <button class="prBtn" style="border-color:rgba(119,255,214,.3);color:#aef7e0" onclick="prismStorageOpen()">용량</button>
       <button class="prBtn" onclick="prismRecordsBackup()">백업(JSON)</button>
       <button class="prBtn" onclick="prismRecordsRestorePick()">복원</button>
-      <input type="file" id="prRestoreFile" accept="application/json,.json" style="display:none" onchange="prismRecordsRestoreFile(event)">
+      <input type="file" id="prRestoreFile" accept="application/json,.json" style="display:none" onchange="prismRecordsRestoreFile(event)" aria-label="복원할 기록 파일 고르기">
       <button class="prBtn danger" onclick="prismRecordsClearAll()">전체 삭제</button>
     </div>
     <div id="prismRecordsBody"></div>
@@ -7169,7 +7169,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
 
     <div class="plField">
       <label>실제 결과 (있으면, 추후 입력 가능)</label>
-      <input class="plInp" id="plOutcome" placeholder="예: 2027 영재고 합격 / 자사고 불합격 / 미정">
+      <input class="plInp" id="plOutcome" placeholder="예: 2027 영재고 합격 / 자사고 불합격 / 미정" aria-label="실제 결과">
       <div class="plHelp">시간이 지나 입시 결과가 나오면 입력하세요. 예측 타당도(검사가 결과를 예측했는지)의 핵심 데이터입니다.</div>
     </div>
 
@@ -7712,7 +7712,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var grades={};
     recs.forEach(function(r){ var g=gradeOf(r); if(g) grades[g]=(grades[g]||0)+1; });
     var gkeys=Object.keys(grades).sort();
-    var sel='<select id="pgGrade" onchange="prismCohortRefresh()"><option value="__all__">전체 ('+recs.length+'명)</option>';
+    var sel='<select id="pgGrade" onchange="prismCohortRefresh()" aria-label="분포를 볼 학년"><option value="__all__">전체 ('+recs.length+'명)</option>';
     gkeys.forEach(function(g){ sel+='<option value="'+esc(g)+'">'+esc(g)+' ('+grades[g]+'명)</option>'; });
     sel+='<option value="__nolabel__">학년 미입력</option></select>';
     $('prismCohortBody').innerHTML=
@@ -7873,7 +7873,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var grades={}; all.forEach(function(r){var g=gradeOf(r);if(g)grades[g]=(grades[g]||0)+1;});
     var gkeys=Object.keys(grades).sort();
     var myGrade=gradeOf(rec);
-    var sel='<select id="prkGrade" onchange="prismRankRefresh()"><option value="__all__">전체 ('+all.length+'명)</option>';
+    var sel='<select id="prkGrade" onchange="prismRankRefresh()" aria-label="석차를 볼 학년"><option value="__all__">전체 ('+all.length+'명)</option>';
     gkeys.forEach(function(g){ sel+='<option value="'+esc(g)+'"'+(g===myGrade?' selected':'')+'>'+esc(g)+' ('+grades[g]+'명)</option>'; });
     sel+='</select>';
     $('prismRankBody').innerHTML=
@@ -8373,7 +8373,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       +'<div class="psTool"><div class="psToolText"><div class="t">먼저 백업</div><div class="d">정리 전에 전체 기록을 파일로 저장하세요. 되돌릴 수 없습니다.</div></div>'
         +'<button class="psBtn go" onclick="prismStorageBackupFirst()">백업(JSON)</button></div>'
       +'<div class="psTool"><div class="psToolText"><div class="t">오래된 기록 삭제</div><div class="d">가장 오래된 검사부터 지정 수만큼 삭제합니다. 라벨이 달린 기록도 포함됩니다.</div></div>'
-        +'<input class="psInput" id="psDelN" type="number" min="1" value="10"><button class="psBtn danger" onclick="prismStorageDeleteOldest()">삭제</button></div>'
+        +'<input class="psInput" id="psDelN" type="number" min="1" value="10" aria-label="삭제할 기록 수"><button class="psBtn danger" onclick="prismStorageDeleteOldest()">삭제</button></div>'
       +'<div class="psTool"><div class="psToolText"><div class="t">라벨 없는 기록만 삭제</div><div class="d">교사 라벨이 달리지 않은(검증에 안 쓰는) 기록만 정리합니다.</div></div>'
         +'<button class="psBtn danger" onclick="prismStorageDeleteUnlabeled()">삭제</button></div>'
       +'<div class="psTool"><div class="psToolText"><div class="t">신뢰도 낮은 기록 삭제</div><div class="d">응답 신뢰도가 낮은(직진·극단 의심) 기록을 정리합니다.</div></div>'
