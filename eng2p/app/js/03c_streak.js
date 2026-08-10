@@ -123,3 +123,35 @@ function renderSlots(){
     ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div></div>';
   box.hidden=false;
 }
+
+/* 공동 퀘스트가 세는 값 (T324). `docs/quest.md` 2장
+
+   **주는 세션 주다.** 달력 주가 아니다. 밀리면 달력은 가고 세션 주는 안 간다.
+   퀘스트가 달력을 따라가면 밀린 두 사람에게 못 채울 목표가 쌓인다.
+
+   그 주에 든 날을 세션 수로 찾는다. `plan()` 이 끝낸 세션 수로 주와 날을 세므로
+   **주 w 의 날은 그 주에 마친 날들**이다. 마친 날만 세면 저절로 그렇게 된다.
+   빠진 날은 다음 주로 밀린다. 그것이 이 과정의 밀림 규칙이다. */
+function weekDays(w){
+  var out=[], n=0, ks=Object.keys(S.days||{}).sort();
+  for(var i=0;i<ks.length;i++){
+    var r=S.days[ks[i]];
+    if(!r || r.status!=="normal") continue;
+    n++;
+    if(Math.floor((n-1)/6)+1===w) out.push(ks[i]);
+  }
+  return out;
+}
+/* 그 주에 얼마나 찼나. **못 쓰는 값은 여기 없다** (`quest.md` 2.1). */
+function questNow(kind, w){
+  var ds=weekDays(w||plan().week), n=0;
+  ds.forEach(function(d){
+    var r=S.days[d]||{};
+    if(kind==="session") n++;
+    else if(kind==="speak") n+=(+r.speak||0);
+    else if(kind==="cards") n+=(+r.cards||0);
+    else if(kind==="lre") n+=(+r.lre||0);
+    else if(kind==="coll") n+=((r.coll||[]).length);
+  });
+  return n;
+}

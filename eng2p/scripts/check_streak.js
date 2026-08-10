@@ -283,13 +283,85 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     no("지난 날 것에 무르는 단추가 있다. 지난 것을 오늘 바꾸는 일이 된다");
   if (!/지난 것은 못 무른다/.test(rTxt3))
     no("지난 것을 왜 못 무르는지를 화면이 안 적는다");
+  /* ---- 공동 퀘스트가 세는 값 (T324). **주는 세션 주다** ------------------- */
+  const q = await page.evaluate(() => {
+    const out = {};
+    /* 세션일 열넷을 오늘에서 거꾸로 뽑아 **오래된 것부터** 채운다.
+       열넷이면 첫 주 여섯과 둘째 주 여섯과 셋째 주 둘이다. */
+    const list = [];
+    let k = 0;
+    while (list.length < 14 && k < 400) {
+      const d = addDays(today(), -k);
+      if (parseISO(d).getDay() !== 0) list.push(d);
+      k++;
+    }
+    list.reverse();
+    S.days = {}; S.rest = {};
+    list.forEach((d, i) => {
+      /* **채집은 날마다 장수를 다르게 둔다.** 처음에는 날마다 한 장씩 뒀는데
+         그러면 장수와 날 수가 같아서 "장수가 아니라 날로 센다" 는 깸이 안 잡혔다.
+         자료가 두 답을 못 가르면 판정도 못 가른다 (T317). */
+      const coll = i === 0 ? [{ t: "x" }, { t: "y" }, { t: "z" }]
+                 : i === 1 ? [{ t: "x" }] : [];
+      S.days[d] = { status: "normal", h: 2, speak: i + 1, cards: 10,
+                    lre: 1, unres: [], coll: coll };
+    });
+    saveNow();
+    out.w1 = weekDays(1).length;
+    out.w2 = weekDays(2).length;
+    out.w3 = weekDays(3).length;
+    out.sess1 = questNow("session", 1);
+    out.speak1 = questNow("speak", 1);
+    out.cards1 = questNow("cards", 1);
+    out.lre1 = questNow("lre", 1);
+    out.coll1 = questNow("coll", 1);
+    out.speak2 = questNow("speak", 2);
+    /* **안 마친 날은 그 주에 안 든다.** 밀리면 다음 주로 간다 */
+    const mid = list[2];
+    S.days[mid].status = "absent";
+    saveNow();
+    out.afterMiss1 = weekDays(1).length;
+    out.afterMiss3 = weekDays(3).length;
+    /* **판 셈은 퀘스트가 안 센다** (`quest.md` 2.1). 종류에 없어야 한다 */
+    S.rhit = {}; S.rhit["mirror|" + today()] = { hit: 5 };
+    out.rhit = questNow("rhit", 1);
+    S.days = {}; S.rhit = {}; saveNow();
+    return out;
+  });
+
+  if (q.w1 !== 6 || q.w2 !== 6 || q.w3 !== 2)
+    no("세션 주가 엿새씩 안 갈린다: " + q.w1 + " " + q.w2 + " " + q.w3);
+  if (q.sess1 !== 6) no("첫 주 세션이 " + q.sess1 + " 이다");
+  if (q.speak1 !== 21) no("첫 주 발화 분 합이 " + q.speak1 + " 이다. 1+2+..+6 이라 21이다");
+  if (q.speak2 !== 57) no("둘째 주 발화 분 합이 " + q.speak2 + " 이다. 7+8+..+12 라 57이다");
+  if (q.cards1 !== 60) no("첫 주 카드가 " + q.cards1 + " 이다");
+  if (q.lre1 !== 6) no("첫 주 LRE 가 " + q.lre1 + " 이다");
+  if (q.coll1 !== 4)
+    no("첫 주 채집이 " + q.coll1 + " 이다. 세 장과 한 장이라 넉 장이다");
+  /* **밀림은 주를 줄이지 않고 뒤를 당긴다.**
+
+     처음에는 첫 주가 다섯이 되는 줄 알고 그렇게 적었다. 아니었다.
+     한 날을 안 하면 그 뒤의 날이 앞으로 당겨져 첫 주는 그대로 엿새고
+     **맨 뒤가 하나 줄어든다.** `plan()` 이 처음부터 그렇게 센다.
+
+         빠진 것은 지워지는 것이 아니라 미뤄지는 것이다.
+
+     이 검사가 처음 낸 실패였고 **검사가 틀렸다.** 열 번째다. */
+  if (q.afterMiss1 !== 6)
+    no("한 날을 안 했는데 첫 주가 " + q.afterMiss1 + "일이다. 뒤가 당겨져 엿새여야 한다");
+  if (q.afterMiss3 !== 1)
+    no("밀린 만큼 맨 뒤가 안 줄었다: 셋째 주가 " + q.afterMiss3 + "일");
+  /* **판 셈은 안 센다.** 안 건너가는 값이라 공동 목표가 못 된다 */
+  if (q.rhit !== 0)
+    no("판 셈을 퀘스트가 센다: " + q.rhit + ". 짝 코드로 안 건너가는 값이다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 끊긴 날 두 사람이 무엇을 느끼는가**");
-  console.log("연속일 36판 (셈 9 + 화면 11 + 회복권 16: 걸기 7, 셈 3, 화면 6) / 실패 %d",
+  console.log("연속일과 퀘스트 47판 (연속일 20, 회복권 16, 퀘스트 셈 11) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

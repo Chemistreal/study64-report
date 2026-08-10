@@ -2236,6 +2236,29 @@ function renderSlots(){
     ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div></div>';
   box.hidden=false;
 }
+
+function weekDays(w){
+  var out=[], n=0, ks=Object.keys(S.days||{}).sort();
+  for(var i=0;i<ks.length;i++){
+    var r=S.days[ks[i]];
+    if(!r || r.status!=="normal") continue;
+    n++;
+    if(Math.floor((n-1)/6)+1===w) out.push(ks[i]);
+  }
+  return out;
+}
+function questNow(kind, w){
+  var ds=weekDays(w||plan().week), n=0;
+  ds.forEach(function(d){
+    var r=S.days[d]||{};
+    if(kind==="session") n++;
+    else if(kind==="speak") n+=(+r.speak||0);
+    else if(kind==="cards") n+=(+r.cards||0);
+    else if(kind==="lre") n+=(+r.lre||0);
+    else if(kind==="coll") n+=((r.coll||[]).length);
+  });
+  return n;
+}
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
           ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
