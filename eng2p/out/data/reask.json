@@ -1,0 +1,100 @@
+{
+  "note": "되묻기 강도 세 단. 이름은 docs/play_rules.md 10.1 에서, 보기는 52과 대본에서 그대로 온다. 지어낸 영어가 없다. 손으로 안 고친다. scripts/derive_reask.py 를 다시 돌린다.",
+  "grade": "B",
+  "gradeWhy": "줄이 대본에 있다는 것은 A등급이다 (52과 녹음이 있다). 그 줄이 그 단이라는 것이 B등급이다. 꼴로 갈랐고 꼴이 뜻을 다 담지 못한다.",
+  "generator": "scripts/derive_reask.py",
+  "source": "docs/play_rules.md 10.1 (이름), out/data/transcripts.js (보기)",
+  "empty": [
+    "다시 말해 달라"
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "name": "알아들은 데까지 확인하는 것",
+      "key": "알아들은 데까지 확인하",
+      "lines": [
+        {
+          "mid": "lle1-20",
+          "li": 21,
+          "line": "Do you mean drive a race car?"
+        },
+        {
+          "mid": "lle1-27",
+          "li": 6,
+          "line": "Anna, what do you mean?"
+        },
+        {
+          "mid": "lle1-35",
+          "li": 12,
+          "line": "What do you mean wrong?"
+        },
+        {
+          "mid": "lle1-49",
+          "li": 4,
+          "line": "You mean, collect intelligence?"
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "name": "한 낱말만 짚는 것",
+      "key": "한 낱말만 짚",
+      "lines": [
+        {
+          "mid": "lle1-25",
+          "li": 7,
+          "line": "What kind of game?"
+        },
+        {
+          "mid": "lle1-29",
+          "li": 27,
+          "line": "Go where?"
+        },
+        {
+          "mid": "lle1-30",
+          "li": 32,
+          "line": "What kind of boat?"
+        },
+        {
+          "mid": "lle1-39",
+          "li": 14,
+          "line": "It’s not what?"
+        },
+        {
+          "mid": "lle1-44",
+          "li": 10,
+          "line": "No, what?"
+        },
+        {
+          "mid": "lle1-49",
+          "li": 3,
+          "line": "Agent what?"
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "name": "다시 말해 달라는 것",
+      "key": "다시 말해 달라",
+      "lines": []
+    }
+  ],
+  "dropped": [
+    {
+      "line": "I want to see an interesting museum but I don’t know which one.",
+      "why": "자기 말이다. 상대에게 묻는 것이 아니다"
+    },
+    {
+      "line": "One more time.",
+      "why": "혼잣말이다. 상대에게 다시 말해 달라는 것이 아니다"
+    },
+    {
+      "line": "Excuse me?",
+      "why": "말을 거는 말이다. 다시 말해 달라는 것이 아니다"
+    },
+    {
+      "line": "I will try one more time, Anna.",
+      "why": "자기가 다시 해 보겠다는 말이다"
+    }
+  ]
+}
