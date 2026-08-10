@@ -2518,20 +2518,181 @@ const RESET = () => {
   if (/\*\*/.test(cTxt))
     no("끼어들기: 화면에 마크다운 표시가 보인다");
 
+  /* =====================================================================
+     말 겹치기 (T305). **역할이 없는데 몫이 갈리는 판.**
+
+       몫        `devicePerson` 이 정한다. **날마다 안 뒤집힌다**
+       가림      상대 줄이 안 보인다. 보이면 겹치는 것을 피하게 된다
+       자료      두 줄이 대본에 **그대로** 있어야 한다 (A등급이 그 말이다)
+       멈춤      셈에 안 들 뿐이고 회는 넘어간다
+     ===================================================================== */
+  const CLRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("clash");
+    clsCueStop(); CLSCLK.left = 0; CLSCLK.over = false;
+    renderClash();
+  };
+  for (const p of [A, B]) await openPlay(p, "clash", "renderClash");
+  await A.evaluate(CLRESET); await B.evaluate(CLRESET);
+
+  /* ---- 139. 규격과 자료 ------------------------------------------------- */
+  const lspec = await A.evaluate(() => ({
+    rounds: DATA.clash.rounds, minw: DATA.clash.minWords,
+    grade: DATA.clash.grade, rows: clsRows().length,
+    lessons: Object.keys(DATA.clash.items).length,
+  }));
+  if (!(lspec.rounds >= 2)) no("말 겹치기: 도는 회가 " + lspec.rounds + " 다");
+  if (!(lspec.minw >= 2)) no("말 겹치기: 줄 길이 밑선이 " + lspec.minw + " 다");
+  if (!lspec.rows) no("말 겹치기: 오늘 과에 겹칠 줄이 없다");
+  if (lspec.rows > lspec.rounds)
+    no("말 겹치기: 오늘 과가 " + lspec.rows + "회다. " + lspec.rounds + "회를 넘는다");
+
+  /* ---- 140. 한 회가 두 줄이고 화자가 다르다 -----------------------------
+     **한 줄씩이면 합창이고 이 판이 안 선다** (T303). 자료가 그것을 지키는지 본다. */
+  const lbad = await A.evaluate(() => {
+    const out = [];
+    const it = DATA.clash.items;
+    Object.keys(it).forEach((mid) => it[mid].forEach((r, i) => {
+      if (!r.a || !r.b) out.push(mid + "#" + i + " 두 줄이 아니다");
+      else if (r.a.who === r.b.who) out.push(mid + "#" + i + " 화자가 같다");
+      else if (r.b.li !== r.a.li + 1) out.push(mid + "#" + i + " 이웃한 줄이 아니다");
+      else if (r.a.line.split(/\s+/).length < DATA.clash.minWords ||
+               r.b.line.split(/\s+/).length < DATA.clash.minWords)
+        out.push(mid + "#" + i + " 줄이 밑선보다 짧다");
+    }));
+    return out;
+  });
+  if (lbad.length)
+    no("말 겹치기: 자료가 규격을 어긴다: " + lbad.slice(0, 3).join(" / ") +
+       (lbad.length > 3 ? " 외 " + (lbad.length - 3) + "곳" : ""));
+
+  /* ---- 141. 두 줄이 대본에 그대로 있다 ----------------------------------
+     **A등급이 그 말이다.** 지어낸 영어가 없다는 것을 여기서 잰다.
+     파생기도 보지만 화면이 그 자료를 그대로 쓰는지는 여기서만 본다 (T302). */
+  const lfake = await A.evaluate(async () => {
+    if (!DATA.transcripts) {
+      await new Promise((ok) => loadData("transcripts", "ENG2P_TRANSCRIPTS", ok));
+    }
+    const strip = (x) => String(x).replace(/^[A-Z][A-Za-z .'-]{0,20}:\s*/, "").trim();
+    const out = [];
+    const it = DATA.clash.items;
+    Object.keys(it).forEach((mid) => {
+      const ls = (DATA.transcripts.items[mid] || []).map(strip);
+      it[mid].forEach((r, i) => {
+        ["a", "b"].forEach((k) => {
+          if (ls.indexOf(r[k].line) < 0) out.push(mid + "#" + i + k);
+        });
+      });
+    });
+    return out;
+  });
+  if (lfake.length)
+    no("말 겹치기: 대본에 없는 줄이 있다: " + lfake.slice(0, 3).join(" ") +
+       ". A등급은 대본 그대로라는 뜻이다");
+
+  /* ---- 142. 몫이 두 기기에 갈리고 상대 줄이 안 샌다 ---------------------- */
+  const lrow = await A.evaluate(() => clsRows()[roundStep("clash")]);
+  const lWho = (p) => p.evaluate(() => clsMine());
+  if ((await lWho(A)) === (await lWho(B)))
+    no("말 겹치기: 두 기기가 같은 몫을 든다. 같은 줄을 말하면 합창이다");
+  for (const [tag, p] of [["a", A], ["b", B]]) {
+    const mineK = await lWho(p);
+    const otherK = mineK === "a" ? "b" : "a";
+    if ((await text(p)).indexOf(lrow[mineK].line) < 0)
+      no("말 겹치기: " + tag + " 화면에 제 줄이 없다");
+    if ((await pane(p)).indexOf(lrow[otherK].line) >= 0)
+      no("말 겹치기: " + tag + " 화면에 상대 줄이 있다. 보이면 겹치는 것을 피하게 된다");
+  }
+
+  /* ---- 143. 몫이 날마다 안 뒤집힌다 -------------------------------------
+     `deviceSide` 는 `roleOf` 로 날마다 뒤집힌다. **몫은 그러면 안 된다** (T304).
+     자리가 안 도는 판에서 몫만 도는 것은 규칙서에 없는 일이다. */
+  const lFlip = await A.evaluate(() => {
+    const was = clsMine();
+    const keep = window.roleOf;
+    window.roleOf = function () { return keep(today()) === "a" ? "b" : "a"; };
+    const now = clsMine();
+    window.roleOf = keep;
+    return was === now;
+  });
+  if (!lFlip)
+    no("말 겹치기: 날이 바뀌면 몫이 뒤집힌다. 자리가 안 도는 판이다");
+
+  /* ---- 144. 신호는 한 기기만 낸다 --------------------------------------- */
+  const lCue = [await A.$("#clsCueGo"), await B.$("#clsCueGo")].filter(Boolean);
+  if (lCue.length !== 1)
+    no("말 겹치기: 신호 단추가 " + lCue.length + "개다. 한 기기만 낸다");
+  for (const [tag, p] of [["a", A], ["b", B]]) {
+    const has = !!(await p.$("#clsCueGo"));
+    const isA = (await lWho(p)) === "a";
+    if (has !== isA)
+      no("말 겹치기: " + tag + " 기기의 신호 단추가 몫과 안 맞는다");
+  }
+
+  /* ---- 145. 이어졌다와 멈췄다가 다르게 세고 둘 다 회를 민다 -------------- */
+  const lRec = (p) => p.evaluate(() => S.rhit["clash|" + today()] || {});
+  await tap(A, "#clsJoin", "말이 이어졌다");
+  let lr = await lRec(A);
+  if ((lr.join || 0) !== 1 || (lr.stop || 0) !== 0)
+    no("말 겹치기: 이어졌다를 눌렀는데 셈이 이음 " + lr.join + " 멈춤 " + lr.stop + " 이다");
+  if ((await A.evaluate(() => roundStep("clash"))) !== 1)
+    no("말 겹치기: 이어졌다를 눌렀는데 회가 안 밀렸다");
+  await tap(A, "#clsStop", "둘 다 멈췄다");
+  lr = await lRec(A);
+  if ((lr.stop || 0) !== 1) no("말 겹치기: 멈췄다를 눌렀는데 안 셌다");
+  if ((lr.join || 0) !== 1) no("말 겹치기: 멈췄다가 이음 셈까지 건드렸다");
+  /* **멈춘 것도 답이라 회는 넘어간다.** 무르면 넉 회를 도는 판의 끝 조건이 안 선다 */
+  if ((await A.evaluate(() => roundStep("clash"))) !== 2)
+    no("말 겹치기: 멈췄다를 눌렀는데 회가 안 밀렸다. 다시 시작한다는 다음 회다");
+
+  /* ---- 146. 마감 -------------------------------------------------------- */
+  await A.evaluate(CLRESET);
+  await A.evaluate(() => { CLSCLK.over = true; renderClash(); });
+  const lDone1 = await text(A);
+  await A.evaluate(() => { CLSCLK.over = false;
+                           roundStepSet("clash", clsRows().length); renderClash(); });
+  const lDone2 = await text(A);
+  for (const [why, txt] of [["시계", lDone1], ["회 끝", lDone2]]) {
+    if (/소리 내어 더한다|그 절반이다/.test(txt))
+      no("말 겹치기 (" + why + "): 마감이 더하라고 적는다. 둘이 같이 판정한다");
+    if (!txt.includes("같은 수"))
+      no("말 겹치기 (" + why + "): 두 기기에 같은 수가 있어야 한다는 말이 없다");
+    if (!/멈춘 것도 한 가지 답이다/.test(txt))
+      no("말 겹치기 (" + why + "): 멈춘 것이 답이라는 말이 없다");
+    if (!/양보하는 쪽이 지는 것이 아니다/.test(txt))
+      no("말 겹치기 (" + why + "): 양보가 지는 것이 아니라는 말이 없다");
+  }
+
+  /* ---- 147. 등급이 A다. **없는 금지가 안 붙는다** (T274) ----------------
+     처음에는 도는 중 화면 하나만 봤다. 깸 시험에서 마감 화면에 금지 문구를 붙였더니
+     **안 잡혔다.** 등급 표시는 화면 셋에 다 있고 금지 문구도 셋 어디에나 붙을 수 있다.
+     한 자리만 재면 나머지 둘이 빈다 (T296 과 같은 종류다). 셋을 다 본다. */
+  await A.evaluate(CLRESET);
+  const lTxt = await text(A);
+  for (const [why, txt] of [["도는 중", lTxt], ["시계", lDone1], ["회 끝", lDone2]]) {
+    if (!txt.includes(lspec.grade + "등급"))
+      no("말 겹치기 (" + why + "): 자료 등급이 화면에 없다");
+    if (lspec.grade === "A" && txt.includes("통과 판정에는 안 쓴다"))
+      no("말 겹치기 (" + why + "): A등급 자료에 통과 판정 금지가 붙었다");
+    if (/\*\*/.test(txt))
+      no("말 겹치기 (" + why + "): 화면에 마크다운 표시가 보인다");
+  }
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 15개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 16개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
               "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
               "파장 34 / " +
               "누구 말이야 43 / " +
               "못 알아들은 척 36 / " +
-              "끼어들기: 규격 6판, 같은 벌과 시계 자리 6판, 신호 4판, 한 번 못 함 4판, " +
-              "두 번째 3판, 끼어듦 4판, 신호마다 1판, 다른 기기 2판, 마감 4판, 등급 3판 " +
-              "**시계를 한 기기만 든다** / 실패 " + fails.length);
+              "끼어들기 37 / " +
+              "말 겹치기: 규격 4판, 두 줄 1판, 대본 그대로 1판, 몫 5판, 안 뒤집힘 1판, " +
+              "신호 3판, 셈 6판, 마감 8판, 등급 9판 " +
+              "**역할이 없는데 몫이 갈린다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
