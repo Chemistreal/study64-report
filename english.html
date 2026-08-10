@@ -2217,7 +2217,13 @@ function needAllWeeks(cb){
 }
 function streak(from){
   var d=from||today(), n=0, back=0, seen=false;
-  while(back<400){
+  var lo=null;
+  for(var k in (S.days||{})){ if(lo===null||k<lo) lo=k; }
+  for(var k2 in (S.rest||{})){ if(lo===null||k2<lo) lo=k2; }
+  var stop=lo ? Math.min(4000,
+    Math.floor((parseISO(d)-parseISO(lo))/86400000)+2) : 1;
+  if(stop<1) stop=1;
+  while(back<stop){
     var x=parseISO(d);
     if(x.getDay()!==0){
       var r=(S.days||{})[d];

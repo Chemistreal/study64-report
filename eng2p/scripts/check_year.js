@@ -154,7 +154,68 @@ const AHEAD_ON = 21;
   if (/300세션|12세션 더|초과/.test(end.txt))
     no("288을 넘긴 수를 세어 보인다: " + end.txt.slice(0, 60));
 
-  /* ---- 3. 앱이 아는 것을 사람이 다시 안 적는가 (T338) -------------------- */
+  /* ---- 3. 밀린 해 (T339). **느리게 가는 해를 안 재 봤다** ---------------
+     주 엿새 중 정규 넷 비상판 둘로 돈다. 결석이 없으니 연속일이 안 끊긴다.
+     그런데 288세션에 오백 날이 넘게 걸린다. */
+  const slow = await page.evaluate(() => {
+    S.days = {}; S.rest = {};
+    let norm = 0, cal = 0, seat = 0, d = today();
+    while (norm < 288 && cal < 900) {
+      if (parseISO(d).getDay() !== 0) {
+        if (seat % 6 < 4) {
+          S.days[d] = { status: "normal", speak: 70, cards: 70, lre: 9,
+                        unres: [], coll: ["a", "b", "c"], one: true };
+          norm++;
+        } else {
+          S.days[d] = { status: "emg", speak: 0, cards: 0, lre: 0,
+                        unres: [], coll: [] };
+        }
+        seat++;
+      }
+      d = addDays(d, 1 * -1); cal++;
+    }
+    S.start = addDays(today(), -cal);
+    saveNow(); go("today"); renderToday();
+    return { cal: cal, streak: streak(), week: plan().week,
+             done: plan().done, behind: plan().behind,
+             txt: document.getElementById("todaySlots").innerText };
+  });
+  if (slow.cal < 400)
+    no("느린 해가 " + slow.cal + "일이다. 400일을 넘겨야 그 벽을 잰다");
+  if (slow.done !== 288) no("정규가 " + slow.done + "이다. 288 이어야 한다");
+  /* **막은 자리가 셈을 바꾸면 안 된다.** 되돌아 걷기를 400일로 막아 뒀었고
+     그때 하루도 안 빠졌는데 연속일이 229로 나왔다 (T339 에서 잡았다). */
+  if (slow.streak !== 288)
+    no("결석 없이 288세션을 했는데 연속일이 " + slow.streak + "이다. " +
+       "되돌아 걷기를 막아 둔 자리가 셈을 바꾸고 있다");
+  /* **비상판이 안 끊고 안 는다** (streak.md). 정규만 센다 */
+  if (slow.streak > slow.done) no("연속일이 정규 세션 수보다 크다");
+  /* **밀린 양을 세어 보이지 않는다** (원칙 4). 다그치지 않는다 */
+  if (/밀렸|빚|못 한 날|늦었/.test(slow.txt))
+    no("느린 해에 첫 화면이 밀린 것을 적는다: " + slow.txt.slice(0, 60));
+
+  /* 결석이 섞이면 끊긴다. **비상판과 결석이 다르다** */
+  const gap = await page.evaluate(() => {
+    const ks = Object.keys(S.days).sort();
+    const mid = ks[Math.floor(ks.length / 2)];
+    S.days[mid].status = "absent";
+    saveNow();
+    return { st: streak(), when: mid };
+  });
+  if (gap.st >= 288) no("가운데 하루가 결석인데 연속일이 안 끊긴다: " + gap.st);
+  if (gap.st < 1) no("결석 뒤로 이어 온 날이 하나도 없다고 한다");
+
+  /* 그 자리에 회복권을 걸면 안 끊긴다. **미리 걸어야 하고 달에 둘이다** */
+  const saved = await page.evaluate((d) => {
+    REST()[d] = 1; saveNow();
+    return { st: streak(), left: restLeft(d) };
+  }, gap.when);
+  if (saved.st !== 288)
+    no("회복권을 건 날인데 연속일이 " + saved.st + "이다. 안 끊고 안 는다");
+  if (saved.left !== 1)
+    no("그 달 회복권이 " + saved.left + "장 남았다고 한다. 둘 중 하나를 썼다");
+
+  /* ---- 4. 앱이 아는 것을 사람이 다시 안 적는가 (T338) -------------------- */
   const auto = await page.evaluate(() => {
     go("quarter");
     return new Promise((ok) => setTimeout(() => {
@@ -186,7 +247,7 @@ const AHEAD_ON = 21;
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마흔여덟 주를 진짜로 견디는가**");
-  console.log("1년 %d판 (주마다 6판 x 48 = %d, 구간 줄 3, 갈래 1, 끝 6, 앱이 셈 5) / 실패 %d",
-              48 * 6 + 15, 48 * 6, fails.length);
+  console.log("1년 %d판 (주마다 6판 x 48 = %d, 구간 줄 3, 갈래 1, 끝 6, 밀린 해 9, 앱이 셈 5) / 실패 %d",
+              48 * 6 + 24, 48 * 6, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

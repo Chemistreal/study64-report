@@ -12,7 +12,18 @@
    안 그러면 하루 내내 0으로 보이고 저녁에 갑자기 붙는다. */
 function streak(from){
   var d=from||today(), n=0, back=0, seen=false;
-  while(back<400){
+  /* 되돌아 걷는 끝을 **적어 둔 날 중 제일 이른 것**으로 잡는다 (T339).
+     400일로 막아 뒀었다. 그러면 느리게 가는 해에서 연속일이 잘린다.
+     주 엿새 중 넷만 정규로 도는 해는 288세션에 오백 날이 넘게 걸리고
+     그때 하루도 안 빠졌는데 연속일이 229로 나왔다.
+     **막은 자리가 셈을 바꾸고 있었다.** 1년 검사가 잡았다. */
+  var lo=null;
+  for(var k in (S.days||{})){ if(lo===null||k<lo) lo=k; }
+  for(var k2 in (S.rest||{})){ if(lo===null||k2<lo) lo=k2; }
+  var stop=lo ? Math.min(4000,
+    Math.floor((parseISO(d)-parseISO(lo))/86400000)+2) : 1;
+  if(stop<1) stop=1;
+  while(back<stop){
     var x=parseISO(d);
     if(x.getDay()!==0){
       var r=(S.days||{})[d];
