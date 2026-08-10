@@ -166,7 +166,11 @@ async function tap(page, sel, why) {
      T280 에 다섯 자리를 이 꼴로 고쳤는데 **`tap` 자신이 그대로였다.**
      그래서 T290 뒤에 되받아치기에서 한 번 흔들렸다. 다시 돌리면 초록불이 되는
      빨간불이 제일 나쁘다. 진짜 빨간불을 흔들리는 것으로 읽게 만든다. */
-  try { await page.click(sel, { timeout: 3000 }); return true; }
+  /* **3초에서 8초로 늘렸다.** 3초는 T260 에 정한 값이고 그때 막으려던 것은
+     없는 것을 누르며 기본 30초를 기다리는 일이었다. 그것은 위의 있는지 보는 줄이
+     이미 막는다. 남은 3초는 **기계가 바쁠 때 눌리는 것을 못 누른 것으로 만든다.**
+     T293 에 그렇게 한 번 흔들렸다. 없는 것은 여전히 바로 실패로 난다. */
+  try { await page.click(sel, { timeout: 8000 }); return true; }
   catch (e) { no(why + ": " + sel + " 를 못 눌렀다"); return false; }
 }
 
@@ -1753,18 +1757,206 @@ const RESET = () => {
   if (ospec.grade !== "A" && !oTxt.includes("통과 판정에는 안 쓴다"))
     no("한 사람만 본다: B등급인데 통과 판정에 안 쓴다는 말이 없다");
 
+  /* =====================================================================
+     파장 (T293). **감추는 것이 말할 거리가 아니라 말하는 세기인 첫 판.**
+
+       세기가 한쪽에만  맞히는 쪽 화면이 **세기에 안 흔들려야 한다**
+       줄은 둘 다        감추는 것이 줄이 아니다. 줄이 한쪽에만 있으면 틀렸다
+       한 칸 안          `near` 안이면 닿은 것이다. 정확히 맞히는 판이 아니다
+       두 칸 넘게        `far` 를 넘으면 **점이 안 넘어간다**
+       넣은 자리         2와 4가 화면에서 갈린다 (T291)
+     ===================================================================== */
+  const WVRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("wave");
+    WAVCLK.left = 0; WAVCLK.over = false;
+    renderWave();
+  };
+  for (const p of [A, B]) await openPlay(p, "wave", "renderWave");
+  await A.evaluate(WVRESET); await B.evaluate(WVRESET);
+
+  /* ---- 96. 규격이 자료에서 온다 ----------------------------------------- */
+  const vspec = await A.evaluate(() => ({
+    size: DATA.wave.size, points: DATA.wave.points,
+    near: DATA.wave.near, far: DATA.wave.far,
+    grade: DATA.wave.grade,
+    anchors: DATA.wave.steps.filter((x) => x.anchor).map((x) => x.n),
+    mids: DATA.wave.steps.filter((x) => !x.anchor).map((x) => x.n),
+    names: DATA.wave.steps.map((x) => x.name),
+  }));
+  if (vspec.size !== vspec.anchors.length + vspec.mids.length)
+    no("파장: 눈금 칸수가 안 맞는다");
+  if (!(vspec.near >= 1) || !(vspec.far > vspec.near))
+    no("파장: 닿는 폭 " + vspec.near + " 와 다시 하는 폭 " + vspec.far +
+       " 가 이상하다. 닿는 폭이 더 좁아야 한다");
+  if (!vspec.mids.length)
+    no("파장: 넣은 자리가 없다. 세 값만으로는 한 칸 안 판정이 뜻이 없다");
+  if (new Set(vspec.names).size !== vspec.names.length)
+    no("파장: 눈금에 같은 이름이 두 번 있다");
+
+  /* ---- 97. 맞히는 쪽 화면이 세기에 안 흔들린다 --------------------------
+     **거울 판에서 쓴 자를 그대로 든다** (T260). 세기를 고정하고 두 번 그려
+     `innerHTML` 을 통째로 견준다. 글자만 보면 class 하나로 샌다.
+     뒤엣줄이 앞엣줄만큼 중요하다. 쥔 쪽에서도 안 달라지면 그것은
+     안 새는 것이 아니라 **아무것도 안 그리는 것**이다. */
+  let vHold = (await A.evaluate(() => !!document.querySelector("[data-wav]"))) ? A : B;
+  let vGuess = vHold === A ? B : A;
+  if ((await A.evaluate(() => !!document.querySelector("[data-wav]"))) ===
+      (await B.evaluate(() => !!document.querySelector("[data-wav]"))))
+    no("파장: 두 기기가 같은 자리다");
+  const withAim = async (p, n) => {
+    const html = await p.evaluate((n) => {
+      window.__wa = window.__wa || wavAim;
+      wavAim = function () { return DATA.wave.steps[n]; };
+      renderWave();
+      return document.querySelector("#playPane").innerHTML;
+    }, n);
+    return html;
+  };
+  let vLeak = 0, vBlind = 0;
+  for (let i = 1; i < vspec.size; i++) {
+    if ((await withAim(vGuess, 0)) !== (await withAim(vGuess, i))) vLeak++;
+    if ((await withAim(vHold, 0)) === (await withAim(vHold, i))) vBlind++;
+  }
+  for (const p of [A, B])
+    await p.evaluate(() => { if (window.__wa) wavAim = window.__wa; renderWave(); });
+  if (vLeak)
+    no("파장: 맞히는 쪽 화면이 세기에 따라 달라진다: " + vLeak + "칸");
+  if (vBlind)
+    no("파장: 쥔 쪽 화면이 세기에 따라 안 달라진다: " + vBlind +
+       "칸. 안 그리는 것이 아니라 아무것도 안 그리는 것이다");
+
+  /* ---- 98. 줄은 둘 다 본다. **감추는 것이 줄이 아니다** ----------------- */
+  const vLine = await vHold.evaluate(() => wavLine(wavPiece().li));
+  if (!vLine) no("파장: 오늘 줄을 못 찾았다");
+  else {
+    for (const [who, p] of [["쥔 쪽", vHold], ["맞히는 쪽", vGuess]])
+      if ((await text(p)).indexOf(vLine) < 0)
+        no("파장: " + who + " 화면에 말할 줄이 없다. 감추는 것은 줄이 아니라 세기다");
+  }
+
+  /* ---- 99. 눈금이 두 화면에 다 있다. 짚을 자리가 안 보이면 못 짚는다 ---- */
+  for (const [who, p] of [["쥔 쪽", vHold], ["맞히는 쪽", vGuess]]) {
+    const rows = await p.$$eval(".wavrow", (ns) => ns.length);
+    if (rows !== vspec.size)
+      no("파장: " + who + " 화면의 눈금이 " + rows + "칸이다. " + vspec.size + "칸이어야 한다");
+  }
+  /* 넣은 자리가 있는 것과 갈리는가. **등급 한 줄로만 적으면 다 같은 무게로 읽는다** */
+  const vMid = await vGuess.$$eval(".wavrow.mid", (ns) => ns.length);
+  if (vMid !== vspec.mids.length)
+    no("파장: 넣은 자리가 " + vMid + "칸만 갈렸다. " + vspec.mids.length + "칸이어야 한다");
+
+  /* ---- 100. 판정 단추가 쥔 쪽에만 있다 ---------------------------------- */
+  if ((await vGuess.$$("[data-wav]")).length)
+    no("파장: 맞히는 쪽에 자리를 대는 단추가 있다. 판정은 쥔 사람이 한다");
+  if (!(await vGuess.$("#wavNext")))
+    no("파장: 맞히는 쪽에 자리를 미는 단추가 없다");
+  if ((await vHold.$$("[data-wav]")).length !== vspec.size)
+    no("파장: 쥔 쪽의 단추가 눈금 칸수와 다르다");
+
+  /* ---- 101. `near` 안이면 닿은 것으로 센다 ------------------------------ */
+  const vRec = (p) => p.evaluate(() => S.rhit["wave|" + today()] || {});
+  const aimNow = (p) => p.evaluate(() => wavAim(roundStep("wave")).n);
+  const stepNow = (p) => p.evaluate(() => roundStep("wave"));
+  await A.evaluate(WVRESET); await B.evaluate(WVRESET);
+  vHold = (await A.evaluate(() => !!document.querySelector("[data-wav]"))) ? A : B;
+  let aim = await aimNow(vHold);
+  let pick = aim + vspec.near <= vspec.size ? aim + vspec.near : aim - vspec.near;
+  await tap(vHold, '[data-wav="' + pick + '"]', "닿는 폭 안");
+  let vr = await vRec(vHold);
+  if (vr.near !== 1)
+    no("파장: " + vspec.near + "칸 벌어졌는데 닿은 것으로 안 셌다");
+  if ((await stepNow(vHold)) !== 1) no("파장: 닿았는데 점이 안 넘어갔다");
+
+  /* ---- 102. `near` 를 넘고 `far` 이하면 못 닿았지만 넘어간다 ------------ */
+  await A.evaluate(WVRESET); await B.evaluate(WVRESET);
+  vHold = (await A.evaluate(() => !!document.querySelector("[data-wav]"))) ? A : B;
+  aim = await aimNow(vHold);
+  pick = aim + vspec.far <= vspec.size ? aim + vspec.far : aim - vspec.far;
+  if (Math.abs(pick - aim) === vspec.far) {
+    await tap(vHold, '[data-wav="' + pick + '"]', "다시 안 하는 폭");
+    vr = await vRec(vHold);
+    if (vr.near !== 0) no("파장: " + vspec.far + "칸 벌어졌는데 닿은 것으로 셌다");
+    if ((await stepNow(vHold)) !== 1)
+      no("파장: " + vspec.far + "칸은 다시 하는 폭이 아닌데 점이 안 넘어갔다");
+    if ((vr.again || 0) !== 0) no("파장: 다시 말한 것으로 셌다");
+  }
+
+  /* ---- 103. `far` 를 넘으면 점이 안 넘어가고 어디였는지 보여 준다 -------- */
+  await A.evaluate(WVRESET); await B.evaluate(WVRESET);
+  vHold = (await A.evaluate(() => !!document.querySelector("[data-wav]"))) ? A : B;
+  aim = await aimNow(vHold);
+  pick = aim + vspec.far + 1 <= vspec.size ? aim + vspec.far + 1 : aim - vspec.far - 1;
+  if (pick >= 1 && pick <= vspec.size) {
+    await tap(vHold, '[data-wav="' + pick + '"]', "다시 하는 폭");
+    if ((await stepNow(vHold)) !== 0)
+      no("파장: " + (vspec.far + 1) + "칸 벌어졌는데 점이 넘어갔다. 다시 말해야 한다");
+    const said = await vHold.evaluate(() => {
+      const e = document.getElementById("wavTurn");
+      return e ? e.innerText : "";
+    });
+    if (!said.includes("다시 말한다"))
+      no("파장: 다시 말하라는 말이 안 뜬다");
+    const aimName = await vHold.evaluate(() => wavAim(roundStep("wave")).name);
+    if (said.indexOf(aimName) < 0)
+      no("파장: 어디였는지를 안 보여 준다");
+    if (((await vRec(vHold)).again || 0) !== 1)
+      no("파장: 다시 말한 것을 안 셌다");
+  }
+
+  /* ---- 104. 한 점마다 자리가 바뀐다 ------------------------------------- */
+  await A.evaluate(WVRESET);
+  const vSeats = [];
+  for (let i = 0; i < 4; i++) {
+    vSeats.push(await A.evaluate(() => !!document.querySelector("[data-wav]")));
+    await A.evaluate(() => { roundStepSet("wave", roundStep("wave") + 1);
+                             renderWave(); });
+  }
+  const vFlips = [];
+  for (let i = 1; i < vSeats.length; i++)
+    if (vSeats[i] !== vSeats[i - 1]) vFlips.push(i);
+  if (vFlips.length !== vSeats.length - 1)
+    no("파장: 자리가 바뀐 자리가 [" + vFlips.join(",") + "] 다. 한 점마다 바뀌어야 한다");
+
+  /* ---- 105. 마감 -------------------------------------------------------- */
+  await A.evaluate(WVRESET);
+  await A.evaluate(() => { WAVCLK.over = true; renderWave(); });
+  const vDone1 = await text(A);
+  await A.evaluate(() => { WAVCLK.over = false;
+                           roundStepSet("wave", DATA.wave.points); renderWave(); });
+  const vDone2 = await text(A);
+  for (const [why, txt] of [["시계", vDone1], ["점 끝", vDone2]]) {
+    if (/중 몇 중 몇/.test(txt))
+      no("파장 (" + why + "): 마감이 '중 몇' 을 두 번 적는다");
+    if (!txt.includes("절반"))
+      no("파장 (" + why + "): 마감이 이 숫자가 절반이라는 말을 안 한다");
+    if (!txt.includes("점이 아니라 폭"))
+      no("파장 (" + why + "): 정확히 맞히는 판이 아니라는 말이 없다");
+  }
+
+  /* ---- 106. 등급 -------------------------------------------------------- */
+  await A.evaluate(WVRESET);
+  const vTxt = await text(A);
+  if (!vTxt.includes(vspec.grade + "등급"))
+    no("파장: 자료 등급이 화면에 없다");
+  if (vspec.grade !== "A" && !vTxt.includes("통과 판정에는 안 쓴다"))
+    no("파장: B등급인데 통과 판정에 안 쓴다는 말이 없다");
+  /* **자료 자체가 화면으로 온다.** 마크다운이 섞이면 별 둘이 그대로 보인다 (T292). */
+  if (/\*\*/.test(vTxt))
+    no("파장: 화면에 마크다운 표시가 보인다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 11개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 12개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
-              "3초 벽 35 / 되받아치기 35 / " +
-              "한 사람만 본다: 규격 5판, 값이 안 새는가 3판, 이름 2판, 단추 자리 4판, " +
-              "한 장마다 1판, 2+2+1 3판, 두 기기 1판, 접힘 1판, 덱 1판, " +
-              "못 여는 날 3판, 마감 8판, 등급 2판 **반만 가리는 판** / " +
+              "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
+              "파장: 규격 4판, 안 흔들리는가 2판, 줄 3판, 눈금 3판, 단추 자리 3판, " +
+              "닿는 폭 2판, 안 닿는 폭 3판, 다시 하는 폭 4판, 한 점마다 1판, " +
+              "마감 6판, 등급 3판 **세기를 감추는 판** / " +
               "실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
