@@ -71,6 +71,8 @@ STEPS = [
     ("파생", "derive_whose.py", [], True),
     # 되묻기 강도 세 단. **보기는 대본 그대로다.** 없는 단은 없다고 적는다. T297
     ("파생", "derive_reask.py", [], True),
+    # 끼어들기 신호 시각. **무작위를 안 쓴다.** 두 기기가 같은 벌을 본다. T300
+    ("파생", "derive_cutin.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
