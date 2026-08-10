@@ -2269,7 +2269,7 @@ function renderSlots(){
     '<span class="small mut">둘의 날이다</span></div>'+
     '<div class="small mut" style="margin-top:4px">'+why+
     ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div>'+
-    questLine()+rxLine()+'</div>';
+    questLine()+rxLine()+aheadLine()+'</div>';
   box.hidden=false;
 }
 
@@ -2357,6 +2357,42 @@ function rxLine(){
     '<b>이 주 처방</b> '+esc(names.join(" · "))+
     ' · <b class="mono">'+r.day+' / '+RX_DAYS+'일째</b>'+
     ' · 자세한 것은 분기 탭에 있다.</div>';
+}
+
+function aheadAt(w){
+  var d=DATA.ahead;
+  if(!d || !d.items) return null;
+  var lead=d.lead, aft=d.after, pick=null, rank={now:3, past:2, soon:1};
+  d.items.forEach(function(x){
+    var st=null;
+    if(w>=x.from && w<=x.to) st="now";
+    else if(w>x.to && w<=x.to+aft) st="past";
+    else if(w<x.from && w>=x.from-lead) st="soon";
+    if(st && (!pick || rank[st]>rank[pick.state])) pick={item:x, state:st};
+  });
+  return pick;
+}
+
+function aheadLine(){
+  var d=DATA.ahead;
+  if(!d){
+    loadData("ahead","ENG2P_AHEAD",function(){ renderSlots(); });
+    return '';
+  }
+  var a=aheadAt(plan().week);
+  if(!a) return '';
+  var x=a.item, head, tail;
+  if(a.state==="now"){
+    head='<b>지금 '+esc(x.label)+' 구간이다.</b>';
+    tail='<b>그래서</b> '+esc(x.act)+'.';
+  }else if(a.state==="past"){
+    head='<b>'+esc(x.label)+' 구간을 지났다.</b>';
+    tail='여기까지 왔다.';
+  }else{
+    head='<b>'+esc(x.label)+' 구간이 곧 온다.</b>';
+    tail=esc(x.why)+'. <b>그래서</b> '+esc(x.act)+'.';
+  }
+  return '<div class="small mut" style="margin-top:4px">'+head+' '+tail+'</div>';
 }
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],

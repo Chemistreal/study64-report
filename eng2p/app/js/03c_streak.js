@@ -121,7 +121,7 @@ function renderSlots(){
     '<span class="small mut">둘의 날이다</span></div>'+
     '<div class="small mut" style="margin-top:4px">'+why+
     ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div>'+
-    questLine()+rxLine()+'</div>';
+    questLine()+rxLine()+aheadLine()+'</div>';
   box.hidden=false;
 }
 
@@ -269,4 +269,62 @@ function rxLine(){
     '<b>이 주 처방</b> '+esc(names.join(" · "))+
     ' · <b class="mono">'+r.day+' / '+RX_DAYS+'일째</b>'+
     ' · 자세한 것은 분기 탭에 있다.</div>';
+}
+
+/* 기준서 12장이 예고한 세 자리 (T335). `docs/ahead.md` 가 규격이다.
+
+   ## 표는 있었는데 그때 안 떴다
+
+   `FAILPT` 가 규칙 탭에 표로 있었다. **그 탭은 아무도 안 연다.**
+   10주가 됐다는 것도 10주에 지루해진다는 것도 앱이 아는데 그 말을 안 했다.
+   T332 에서 겪은 것과 같은 꼴이다. 말한 자리와 그 말을 지킬 자리가 다르다.
+
+   ## 저장소에 아무것도 안 남긴다
+
+   "봤다" 를 적어 두면 두 기기가 갈리고 합치기가 또 한 갈래 는다.
+   **주 수만 보고 정한다.** 그러면 두 기기가 늘 같은 것을 본다.
+
+   ## 겹치면 지금 > 지나갔다 > 곧 온다
+
+   첫 화면은 한 줄이다 (T322). 22주가 겹치는 자리고 거기서는 끝난 것을 먼저 말한다.
+   **끝을 안 말하면 영영 안 끝난다.** */
+function aheadAt(w){
+  var d=DATA.ahead;
+  if(!d || !d.items) return null;
+  var lead=d.lead, aft=d.after, pick=null, rank={now:3, past:2, soon:1};
+  d.items.forEach(function(x){
+    var st=null;
+    if(w>=x.from && w<=x.to) st="now";
+    else if(w>x.to && w<=x.to+aft) st="past";
+    else if(w<x.from && w>=x.from-lead) st="soon";
+    if(st && (!pick || rank[st]>rank[pick.state])) pick={item:x, state:st};
+  });
+  return pick;
+}
+
+/* **묻지 않는다.** 증상을 안 적고 설계와 대응을 적는다 (ahead.md 3장).
+   문제만 적고 대응을 안 적으면 겁주기다 (4장). 둘을 한 줄 안에 같이 적는다. */
+function aheadLine(){
+  var d=DATA.ahead;
+  if(!d){
+    loadData("ahead","ENG2P_AHEAD",function(){ renderSlots(); });
+    return '';
+  }
+  var a=aheadAt(plan().week);
+  if(!a) return '';
+  var x=a.item, head, tail;
+  /* **왜 그런지는 예고할 때 한 번만 적는다.** 구간이 다섯 주고 그동안 날마다
+     같은 설명을 네 줄로 띄우면 그것을 안 읽는다 (T322). 예고가 설명하는 자리고
+     그 안에 있는 동안은 무엇을 하는지만 가리킨다. 자세한 것은 매뉴얼 8장이다. */
+  if(a.state==="now"){
+    head='<b>지금 '+esc(x.label)+' 구간이다.</b>';
+    tail='<b>그래서</b> '+esc(x.act)+'.';
+  }else if(a.state==="past"){
+    head='<b>'+esc(x.label)+' 구간을 지났다.</b>';
+    tail='여기까지 왔다.';
+  }else{
+    head='<b>'+esc(x.label)+' 구간이 곧 온다.</b>';
+    tail=esc(x.why)+'. <b>그래서</b> '+esc(x.act)+'.';
+  }
+  return '<div class="small mut" style="margin-top:4px">'+head+' '+tail+'</div>';
 }
