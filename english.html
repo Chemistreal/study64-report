@@ -969,11 +969,11 @@ body.veil-on>*:not(.veilcover){display:none}
     </div>
     <div class="grid g3">
       <div><label class="f">발화 시간 (분)</label>
-        <div class="stp"><button data-stp="fSpeak" data-d="-5">-</button><input type="number" id="fSpeak" min="0" step="1"><button data-stp="fSpeak" data-d="5">+</button></div></div>
+        <div class="stp"><button data-stp="fSpeak" data-d="-5">-</button><input type="number" id="fSpeak" min="0" step="1" aria-label="발화 시간 (분)"><button data-stp="fSpeak" data-d="5">+</button></div></div>
       <div><label class="f">드릴 소화량 (장)</label>
-        <div class="stp"><button data-stp="fCards" data-d="-1">-</button><input type="number" id="fCards" min="0" step="1"><button data-stp="fCards" data-d="1">+</button></div></div>
+        <div class="stp"><button data-stp="fCards" data-d="-1">-</button><input type="number" id="fCards" min="0" step="1" aria-label="드릴 소화량 (장)"><button data-stp="fCards" data-d="1">+</button></div></div>
       <div><label class="f">LRE 발생 (회)</label>
-        <div class="stp"><button data-stp="fLre" data-d="-1">-</button><input type="number" id="fLre" min="0" step="1"><button data-stp="fLre" data-d="1">+</button></div></div>
+        <div class="stp"><button data-stp="fLre" data-d="-1">-</button><input type="number" id="fLre" min="0" step="1" aria-label="LRE 발생 (회)"><button data-stp="fLre" data-d="1">+</button></div></div>
     </div>
     <div style="margin-top:12px"><button class="bigtap alt" id="lrePlus">LRE +1</button></div>
     <div class="note small">LRE는 둘이 <b>지금 쓰는 영어 자체</b>에 대해 얘기한 순간이다. 한 덩어리 이야기가 한 항목을 다루면 1회다. 횟수를 채우려고 억지로 만들지 않는다.</div>
@@ -1051,7 +1051,7 @@ body.veil-on>*:not(.veilcover){display:none}
     <div class="grid g3">
       <div><label for="vVoice" class="f">음성</label><select id="vVoice"></select></div>
       <div><label class="f">속도 <span class="mono" id="vRateN">0.85</span></label>
-        <input type="range" id="vRate" min="0.5" max="1.1" step="0.05" value="0.85"></div>
+        <input type="range" id="vRate" min="0.5" max="1.1" step="0.05" value="0.85" aria-label="읽어 주는 속도"></div>
       <div><label for="vRep" class="f">반복</label><select id="vRep"><option>1</option><option selected>2</option><option>3</option><option>5</option></select></div>
       <div><label for="vMode" class="f">모드</label>
         <select id="vMode"><option value="plain">듣기만</option><option value="shadow">섀도잉 (따라 말할 틈을 준다)</option></select></div>
@@ -1110,7 +1110,7 @@ body.veil-on>*:not(.veilcover){display:none}
     <div class="drop" id="drop">
       <div style="font-size:15px;font-weight:700">음성이나 영상 파일을 여기에 끌어다 놓는다</div>
       <div class="small mut" style="margin-top:4px">또는 눌러서 고른다. mp3, m4a, wav, mp4, webm</div>
-      <input type="file" id="clipFile" accept="audio/*,video/*" hidden>
+      <input type="file" id="clipFile" accept="audio/*,video/*" hidden aria-label="소리·영상 파일 고르기">
     </div>
     <div id="mediaHost" style="margin-top:14px"></div>
     <div id="clipCtl" hidden>
@@ -1133,11 +1133,11 @@ body.veil-on>*:not(.veilcover){display:none}
       </div>
       <div class="grid g3" style="margin-top:12px">
         <div><label class="f">속도 <span class="mono" id="cRateN">1.00</span></label>
-          <input type="range" id="cRate" min="0.5" max="1" step="0.05" value="1"></div>
+          <input type="range" id="cRate" min="0.5" max="1" step="0.05" value="1" aria-label="클립 재생 속도"></div>
         <div><label class="f">A 시각</label>
-          <div class="stp"><button data-nud="a" data-d="-0.5">-</button><input id="cA" class="tc" readonly><button data-nud="a" data-d="0.5">+</button></div></div>
+          <div class="stp"><button data-nud="a" data-d="-0.5">-</button><input id="cA" class="tc" readonly aria-label="A 시각 (초)"><button data-nud="a" data-d="0.5">+</button></div></div>
         <div><label class="f">B 시각</label>
-          <div class="stp"><button data-nud="b" data-d="-0.5">-</button><input id="cB" class="tc" readonly><button data-nud="b" data-d="0.5">+</button></div></div>
+          <div class="stp"><button data-nud="b" data-d="-0.5">-</button><input id="cB" class="tc" readonly aria-label="B 시각 (초)"><button data-nud="b" data-d="0.5">+</button></div></div>
       </div>
       <div class="grid g2" style="margin-top:12px">
         <div><label for="cLabel" class="f">라벨</label><input id="cLabel" placeholder="되묻기 나오는 구간"></div>
@@ -1211,7 +1211,7 @@ body.veil-on>*:not(.veilcover){display:none}
         <button class="g" id="libPrev" type="button">이전 레슨</button>
         <button class="g" id="libBack" type="button">3초 뒤로</button>
         <button class="b" id="libToClip" type="button">클립으로 보내기</button>
-        <div style="min-width:150px;flex:1"><label class="f">속도 <span class="mono" id="libRateN">1.00</span></label><input type="range" id="libRate" min="0.75" max="1.25" step="0.05" value="1"></div>
+        <div style="min-width:150px;flex:1"><label class="f">속도 <span class="mono" id="libRateN">1.00</span></label><input type="range" id="libRate" min="0.75" max="1.25" step="0.05" value="1" aria-label="자료 재생 속도"></div>
         <button class="g" id="libNext" type="button">다음 레슨</button>
       </div>
       <details class="libresources">
@@ -1344,9 +1344,9 @@ body.veil-on>*:not(.veilcover){display:none}
       <button class="g" id="exJson">JSON 내려받기</button>
       <button class="g" id="exMd">대장 마크다운 복사</button>
       <button class="g" id="mgBtn">JSON 합치기</button>
-      <input type="file" id="mgFile" accept="application/json" hidden>
+      <input type="file" id="mgFile" accept="application/json" hidden aria-label="합칠 JSON 파일 고르기">
       <button class="g" id="imBtn">JSON 가져오기 (덮어씀)</button>
-      <input type="file" id="imFile" accept="application/json" hidden>
+      <input type="file" id="imFile" accept="application/json" hidden aria-label="가져올 JSON 파일 고르기">
       <button class="g" id="wipe" style="color:var(--warn)">전체 삭제</button>
     </div>
     <div class="small mut" style="margin-top:8px">기록은 이 브라우저에만 저장된다. 기기를 바꾸면 JSON으로 옮긴다.
@@ -1930,7 +1930,7 @@ function renderCrit(){
     if(c.threshold) line+=' <b>'+c.threshold.value+
       (c.threshold.op==="min"?" 이상":c.threshold.op==="max"?" 이하":" 정확히")+'</b>';
     h+='<div class="critrow"><div class="t">'+line+'</div>'+
-       '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'">'+
+       '<input type="number" step="1" data-crit="'+c.no+'" value="'+esc(v)+'" aria-label="기준 점수">'+
        mark+'</div>';
   });
   var judged=L.criteria.filter(function(c){return c.threshold;});
