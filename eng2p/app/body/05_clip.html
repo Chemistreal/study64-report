@@ -50,8 +50,8 @@
           <div class="stp"><button data-nud="b" data-d="-0.5">-</button><input id="cB" class="tc" readonly><button data-nud="b" data-d="0.5">+</button></div></div>
       </div>
       <div class="grid g2" style="margin-top:12px">
-        <div><label class="f">라벨</label><input id="cLabel" placeholder="되묻기 나오는 구간"></div>
-        <div><label class="f">회차 초점</label><select id="cFocus">
+        <div><label for="cLabel" class="f">라벨</label><input id="cLabel" placeholder="되묻기 나오는 구간"></div>
+        <div><label for="cFocus" class="f">회차 초점</label><select id="cFocus">
           <option value="1">1회 소리. 어디가 줄었는지</option>
           <option value="2">2회 청크. 통째로 굴러가는 덩어리</option>
           <option value="3">3회 의미. 이제 내용을 잡는다</option>
@@ -73,7 +73,7 @@
     받은 대본은 검사 탭에 먼저 넣는다. 파일명을 eng2p_audio_q1_001.md 형태로 주면 음성 대본 규격으로 검사한다.
   </div>
   <div class="card">
-    <label class="f">대본 붙여넣기 (한 줄에 한 발화)</label>
+    <label for="scText" class="f">대본 붙여넣기 (한 줄에 한 발화)</label>
     <textarea id="scText" rows="6" placeholder="A: Could you say that again?&#10;B: Sorry. I said I am going to be late."></textarea>
     <div class="row end" style="margin-top:10px">
       <button class="g" id="scClear">비우기</button>
