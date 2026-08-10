@@ -67,6 +67,8 @@ STEPS = [
     ("파생", "derive_situ.py", [], True),
     # 파장의 격식 눈금. **늘리는 것이지 짓는 것이 아니다.** 사이 칸은 이웃을 붙인다. T291
     ("파생", "derive_wave.py", [], True),
+    # 누구 말이야가 쓸 자리. **register 를 안 담는다.** 이 판에는 정답이 없다. T294
+    ("파생", "derive_whose.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),

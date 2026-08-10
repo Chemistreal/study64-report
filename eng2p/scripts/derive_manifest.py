@@ -47,6 +47,7 @@ EXPECT = [
     "wall.js", "wall.json",
     "situ.js", "situ.json",
     "wave.js", "wave.json",
+    "whose.js", "whose.json",
     "lectures.js", "lectures.json", "lecturetext.js",
     "listen.js", "listen.json",
     "pairs.js", "pairs.json", "relay.js", "relay.json",

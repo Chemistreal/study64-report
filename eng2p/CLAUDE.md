@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 스물넷과 검사 스물아홉과 상태 갱신 셋, 쉰여섯을 정해진 순서로 돈다.
+**한 줄이다.** 파생 스물다섯과 검사 스물아홉과 상태 갱신 셋, 쉰일곱을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -132,6 +132,7 @@ scripts/derive_ladder.py 배속 사다리 규격. **bench_music.md 6장이 원�
 scripts/derive_wall.py 3초 벽이 띄울 단서. **124장 중 서른은 재료가 비어 있다.** B등급
 scripts/derive_situ.py 한 사람만 본다의 상황 카드. **B면을 안 담는다.** 안 실으면 안 샌다
 scripts/derive_wave.py 파장의 격식 눈금 다섯. **2와 4에 새 이름을 안 짓는다.** B등급
+scripts/derive_whose.py 누구 말이야의 쓸 자리. **register 를 안 담는다.** 정답이 없는 판
 docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무엇이 종이에만 있나
 docs/pair.md           기기 둘. 무엇이 갈리고 무엇이 건너가야 하는가. **셈은 코드로 글은 파일로**
 docs/merge.md          합치기. **덮는 것이 아니다.** 갈래 넷과 묻는 일곱

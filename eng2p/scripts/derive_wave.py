@@ -129,11 +129,14 @@ def spec():
     out["names"], out["at"], out["size"] = names, at, size
 
     # 규칙서 7.3 이 적어 둔 장수. **여기가 카드와 어긋나는 자리다**
-    m = re.search(r"\(([^)]*?)\)", chapter(doc, "### 7.3", "## 8"))
+    # **괄호 첫째를 집지 않는다.** 칸에 "(T294)" 같은 것이 먼저 온다.
+    # 이름과 수가 세 쌍 나오는 자리를 찾는다. 못 찾으면 실패로 낸다.
     said = {}
-    if m:
-        for a, b in re.findall(r"(\S+)\s+(\d+)", m.group(1)):
-            said[a] = int(b)
+    for line in chapter(doc, "### 7.3", "## 8").split("\n"):
+        got = re.findall(r"([가-힣]+)\s+(\d+)", line.replace("**", ""))
+        if len(got) == 3:
+            said = {a: int(b) for a, b in got}
+            break
     if len(said) != 3:
         bad.append("규칙서 7.3 에서 세 값의 장수를 못 찾았다")
     out["said"] = said
