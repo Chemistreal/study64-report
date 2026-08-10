@@ -170,13 +170,126 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (!/안 끊는다/.test(emg.txt))
     no("비상판이 안 끊는다는 말이 없다");
 
+  /* ---- 회복권 (T323). **달에 둘. 미리 선언해야 쓴다** --------------------- */
+  const rest = await page.evaluate(() => {
+    const out = {};
+    /* 앞으로 오는 세션일 n개 */
+    function fwd(n) {
+      const list = [];
+      let k = 1;
+      while (list.length < n && k < 60) {
+        const d = addDays(today(), k);
+        if (parseISO(d).getDay() !== 0) list.push(d);
+        k++;
+      }
+      return list;
+    }
+    const f = fwd(4);
+    out.fwd = f;
+    S.rest = {}; S.days = {}; saveNow();
+    /* 걸 수 있는가 */
+    out.today = restCan(today());
+    out.past = restCan(addDays(today(), -1));
+    out.sun = (function () {
+      let k = 1;
+      while (parseISO(addDays(today(), k)).getDay() !== 0) k++;
+      return restCan(addDays(today(), k));
+    })();
+    out.ok = restCan(f[0]);
+    /* 달에 둘 */
+    restSet(f[0], true); restSet(f[1], true);
+    out.left2 = restLeft(f[0]);
+    out.third = restCan(f[2]);
+    /* 두 번 건 날은 다시 못 건다 */
+    out.again = restCan(f[0]);
+    /* 걸어 놓고 결국 한 날은 안 쓴 것이다 */
+    S.days[f[0]] = { status: "normal", h: 2, speak: 0, cards: 0,
+                     lre: 0, unres: [], coll: [] };
+    out.leftDone = restLeft(f[0]);
+    /* 연속일이 안 끊긴다. **건 날을 건너뛴다** */
+    S.days = {}; S.rest = {};
+    restSet(f[1], true);
+    S.days[f[0]] = { status: "normal", h: 2, speak: 0, cards: 0,
+                     lre: 0, unres: [], coll: [] };
+    S.days[f[2]] = { status: "normal", h: 2, speak: 0, cards: 0,
+                     lre: 0, unres: [], coll: [] };
+    out.span = streak(f[2]);
+    /* 안 걸었으면 끊긴다. **같은 자리에서 견준다** */
+    S.rest = {};
+    out.spanNo = streak(f[2]);
+    S.rest = {}; S.days = {}; saveNow();
+    return out;
+  });
+
+  if (!rest.today) no("오늘을 걸 수 있다. 미리 선언이 아니게 된다");
+  if (!rest.past) no("지난 날을 걸 수 있다. 못 한 날을 그 자리에서 메우게 된다");
+  if (!rest.sun) no("일요일을 걸 수 있다. 원래 쉬는 날이다");
+  if (rest.ok) no("앞날을 못 건다: " + rest.ok);
+  if (rest.left2 !== 0) no("둘을 걸었는데 " + rest.left2 + "장 남았다고 한다");
+  if (!rest.third) no("달에 셋째를 걸 수 있다. 달에 둘이어야 한다");
+  if (!rest.again) no("이미 건 날을 다시 걸 수 있다");
+  if (rest.leftDone !== 1)
+    no("걸어 놓고 그날 세션을 했는데 " + rest.leftDone + "장 남았다고 한다. " +
+       "안 쓴 것으로 쳐야 한다");
+  if (rest.span !== 2)
+    no("건 날을 사이에 두고 이었는데 연속일이 " + rest.span + " 이다");
+  /* **안 걸었을 때와 견준다.** 안 그러면 이 판정이 회복권을 안 잰 것일 수도 있다 */
+  if (rest.spanNo !== 1)
+    no("안 걸었는데도 연속일이 " + rest.spanNo + " 이다. " +
+       "이 판정이 회복권을 안 재고 있다");
+
+  /* 화면 */
+  await page.evaluate(() => { go("ledger"); });
+  await page.waitForTimeout(200);
+  const rTxt = await page.$eval("#t-ledger", (e) => e.innerText);
+  if (!/오늘보다 뒤에만 건다/.test(rTxt))
+    no("회복권 칸이 미리 걸어야 한다는 말을 안 적는다");
+  if (!/끊긴 것은 벌이 아니다/.test(rTxt))
+    no("갑자기 못 한 날이 벌이 아니라는 말이 없다");
+  if (!/2장 남았다/.test(rTxt)) no("남은 장수가 화면에 없다");
+
+  await page.evaluate(() => {
+    let k = 1;
+    while (parseISO(addDays(today(), k)).getDay() === 0) k++;
+    document.getElementById("restDay").value = addDays(today(), k);
+  });
+  await page.click("#restGo");
+  await page.waitForTimeout(200);
+  const rTxt2 = await page.$eval("#restList", (e) => e.innerText);
+  if (!/앞날/.test(rTxt2)) no("건 날이 목록에 앞날로 안 뜬다");
+  if (!/무른다/.test(rTxt2)) no("앞날 것을 무를 자리가 없다");
+
+  /* **첫 화면에도 남은 장수가 뜨는가.** 거는 것은 대장이고 아는 것은 첫 화면이다 */
+  await page.evaluate(() => { go("today"); });
+  await page.waitForTimeout(200);
+  const slotTxt = await page.$eval("#todaySlots", (e) => e.innerText);
+  if (!/회복권 1장 남았다/.test(slotTxt))
+    no("첫 화면에 남은 회복권이 안 뜬다: " + slotTxt.slice(0, 60));
+
+  /* **지난 것이 걸린 목록도 본다.** 처음에는 앞날 것만 넣고 재서
+     "지난 것도 무를 수 있게 한다" 는 깸이 안 잡혔다. 그 자리를 한 번도 안 지났다.
+     깸이 안 잡히면 그 깸이 정말 깬 것인지를 먼저 본다 (T317). 여기는 정말 깼는데
+     **검사가 그 길을 안 갔다.** 길을 만들어 준다. */
+  const gone = await page.evaluate(() => {
+    let k = 1;
+    while (parseISO(addDays(today(), -k)).getDay() === 0) k++;
+    const d = addDays(today(), -k);
+    S.rest[d] = 1; saveNow(); renderRest();
+    return d;
+  });
+  await page.waitForTimeout(150);
+  const rTxt3 = await page.$eval("#restList", (e) => e.innerHTML);
+  if (rTxt3.indexOf('data-rest="' + gone + '"') >= 0)
+    no("지난 날 것에 무르는 단추가 있다. 지난 것을 오늘 바꾸는 일이 된다");
+  if (!/지난 것은 못 무른다/.test(rTxt3))
+    no("지난 것을 왜 못 무르는지를 화면이 안 적는다");
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 끊긴 날 두 사람이 무엇을 느끼는가**");
-  console.log("연속일 20판 (셈 9 + 화면 11: 다섯 7, 0일 2, 비상판 2) / 실패 %d",
+  console.log("연속일 36판 (셈 9 + 화면 11 + 회복권 16: 걸기 7, 셈 3, 화면 6) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

@@ -25,6 +25,37 @@ document.querySelectorAll("#fsPick button").forEach(function(b){
 function allDays(){ return Object.keys(S.days).sort(); }
 function totalHours(){ return allDays().reduce(function(a,d){return a+hoursOf(S.days[d]);},0); }
 
+/* 회복권 칸 (T323). **건 것과 쓴 것을 갈라 적는다.**
+
+   건 날이 지나면 두 가지 중 하나다. 그날 세션을 했으면 **안 쓴 것**이고
+   안 했으면 **쓴 것**이다. 화면이 그것을 적는다.
+   안 적으면 두 사람이 왜 남은 장수가 안 줄었는지를 모른다. */
+function renderRest(){
+  var box=$("#restList"); if(!box) return;
+  var left=$("#restLeft");
+  if(left) left.textContent="이 달 "+restLeft()+"장 남았다 (달에 "+REST_MAX+"장)";
+  var r=REST(), ks=Object.keys(r).sort();
+  if(!ks.length){ box.innerHTML='<div class="small mut">건 날이 없다. 위에서 날을 고르고 <b>건다</b>를 누르면 여기 쌓인다. 안 걸어도 된다. 걸 일이 없으면 없는 것이 맞다.</div>'; return; }
+  var h="";
+  ks.forEach(function(d){
+    var rec=(S.days||{})[d], td=today();
+    var st = d>td ? "앞날"
+      : (rec && rec.status==="normal") ? "안 썼다. 그날 세션을 했다" : "썼다";
+    h+='<div class="row" style="justify-content:space-between;align-items:baseline">'+
+       '<span class="mono">'+esc(d)+'</span>'+
+       '<span class="small mut">'+st+'</span>'+
+       (d>td ? '<button class="g" type="button" data-rest="'+esc(d)+'">무른다</button>'
+             : '<span class="small mut">지난 것은 못 무른다</span>')+'</div>';
+  });
+  box.innerHTML=h;
+  box.querySelectorAll("[data-rest]").forEach(function(b){
+    b.onclick=function(){
+      restSet(b.dataset.rest,false); renderRest(); renderToday();
+      toast("건 날을 물렀다");
+    };
+  });
+}
+
 function renderLedger(){
   $("#sStart").value=S.start; $("#sNameA").value=S.names.a; $("#sNameB").value=S.names.b;
   var th=totalHours();
@@ -207,5 +238,16 @@ $("#wipe").onclick=function(){
   if(!confirm("전체 기록을 지운다. 되돌릴 수 없다.")) return;
   if(!confirm("정말 지울까. JSON 내려받기를 먼저 하는 게 낫다.")) return;
   wipeStore(); renderToday(); renderLedger();
+};
+
+/* 대장 탭을 열 때 회복권 칸도 그린다. **잇는 것은 한 번만 한다.** */
+if($("#restGo")) $("#restGo").onclick=function(){
+  var d=$("#restDay").value, msg=$("#restMsg");
+  var why=restCan(d);
+  if(!d){ if(msg) msg.textContent="날을 고른다."; return; }
+  if(why){ if(msg) msg.textContent=why+"."; return; }
+  restSet(d,true);
+  if(msg) msg.textContent=d+" 를 걸었다. 그날 연속일이 안 끊긴다.";
+  renderRest(); renderToday();
 };
 

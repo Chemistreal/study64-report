@@ -144,7 +144,7 @@ scripts/derive_tally.py 판마다 셈을 합치는 법 넷. **합친 값을 저�
 docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무엇이 종이에만 있나
 docs/pair.md           기기 둘. 무엇이 갈리고 무엇이 건너가야 하는가. **셈은 코드로 글은 파일로**
 docs/merge.md          합치기. **덮는 것이 아니다.** 갈래 넷과 묻는 일곱
-docs/streak.md        공동 연속일. **날을 세지 사람을 안 센다.** 비상판은 안 끊고 안 는다
+docs/streak.md        공동 연속일과 회복권. **날을 세지 사람을 안 센다.** 미리 선언해야 쓴다
 docs/round.md          같은 판. **망 없이 셈으로 맞춘다.** 시계에서 아무것도 안 낸다
 scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인쇄용)
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
@@ -193,7 +193,7 @@ scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세�
 scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다. 없으면 건너뛴다 (통과 아님)
 scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = 서른두 판
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
-scripts/check_streak.js 공동 연속일 9판. **날을 세지 사람을 안 센다**
+scripts/check_streak.js 공동 연속일과 회복권 36판. **날을 세지 사람을 안 센다**
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다

@@ -1357,6 +1357,23 @@ body.veil-on>*:not(.veilcover){display:none}
   <p class="lede">매일 칸은 활동량이다. 실력 판정은 분기 탭에서만 한다.</p>
 
   <div class="card tight">
+    <div class="row" style="justify-content:space-between;align-items:baseline">
+      <b>회복권</b>
+      <span class="small mut" id="restLeft"></span>
+    </div>
+    <p class="small mut">미리 아는 못 하는 날을 걸어 두면 그날 연속일이 안 끊긴다.
+      <b>오늘보다 뒤에만 건다.</b> 갑자기 못 하게 된 날은 못 쓴다.
+      그날은 그냥 끊기고 <b>끊긴 것은 벌이 아니다.</b></p>
+    <div class="row" style="margin-top:8px">
+      <label for="restDay" class="f">쉴 날</label>
+      <input type="date" id="restDay">
+      <button class="b" id="restGo" type="button">건다</button>
+    </div>
+    <div id="restMsg" class="small mut" style="margin-top:6px"></div>
+    <div id="restList" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card tight">
     <div class="grid g3">
       <div><label for="sStart" class="f">시작일</label><input type="date" id="sStart"></div>
       <div><label for="sNameA" class="f">사람 1</label><input id="sNameA"></div>
@@ -2169,11 +2186,38 @@ function streak(from){
       var st=r ? r.status : null;
       if(st==="normal"){ n++; seen=true; }
       else if(st==="emg"){ /* 건너뛴다 */ }
+      else if(REST()[d]){ /* 건너뛴다 */ }
       else if(seen || back>0) break;
     }
     d=addDays(d,-1); back++;
   }
   return n;
+}
+
+var REST_MAX=2;
+function REST(){ if(!S.rest) S.rest={}; return S.rest; }
+function restUsed(d){
+  var m=(d||today()).slice(0,7), r=REST(), n=0;
+  for(var k in r){
+    if(k.slice(0,7)!==m) continue;
+    var rec=(S.days||{})[k];
+    if(rec && rec.status==="normal") continue;
+    n++;
+  }
+  return n;
+}
+function restLeft(d){ return Math.max(0, REST_MAX-restUsed(d)); }
+function restCan(d){
+  if(!d || d<=today()) return "오늘보다 뒤에만 건다";
+  if(parseISO(d).getDay()===0) return "일요일은 원래 쉬는 날이다";
+  if(REST()[d]) return "이미 걸린 날이다";
+  if(!restLeft(d)) return "그 달 회복권을 다 썼다";
+  return null;
+}
+function restSet(d, on){
+  var r=REST();
+  if(on) r[d]=1; else delete r[d];
+  save();
 }
 
 function renderSlots(){
@@ -2183,6 +2227,7 @@ function renderSlots(){
     : (rec && rec.status==="emg"
         ? "비상판은 세션이 아니라 안 센다. 대신 안 끊는다"
         : "오늘부터 시작한다. 지난 것을 안 적는다");
+  why += " · 이 달 회복권 " + restLeft() + "장 남았다";
   box.innerHTML='<div class="card tight">'+
     '<div class="row" style="justify-content:space-between;align-items:baseline">'+
     '<span><b class="stkbig">'+n+'</b> <b>일째 같이 하고 있다</b></span>'+
@@ -2234,7 +2279,7 @@ function go(name){
   if(name==="clip") renderClip();
   if(name==="today") renderToday();
   if(name==="media") renderMedia();
-  if(name==="ledger"){ renderLedger(); renderWeekCheck(); renderPair(); renderMerge(); }
+  if(name==="ledger"){ renderLedger(); renderRest(); renderWeekCheck(); renderPair(); renderMerge(); }
   if(name==="verify") lateDo("renderVerify");
   if(name==="quarter") lateDo("renderQuarter");
   if(name==="rot") lateDo("renderRot");
@@ -3962,6 +4007,32 @@ document.querySelectorAll("#fsPick button").forEach(function(b){
 function allDays(){ return Object.keys(S.days).sort(); }
 function totalHours(){ return allDays().reduce(function(a,d){return a+hoursOf(S.days[d]);},0); }
 
+function renderRest(){
+  var box=$("#restList"); if(!box) return;
+  var left=$("#restLeft");
+  if(left) left.textContent="이 달 "+restLeft()+"장 남았다 (달에 "+REST_MAX+"장)";
+  var r=REST(), ks=Object.keys(r).sort();
+  if(!ks.length){ box.innerHTML='<div class="small mut">건 날이 없다. 위에서 날을 고르고 <b>건다</b>를 누르면 여기 쌓인다. 안 걸어도 된다. 걸 일이 없으면 없는 것이 맞다.</div>'; return; }
+  var h="";
+  ks.forEach(function(d){
+    var rec=(S.days||{})[d], td=today();
+    var st = d>td ? "앞날"
+      : (rec && rec.status==="normal") ? "안 썼다. 그날 세션을 했다" : "썼다";
+    h+='<div class="row" style="justify-content:space-between;align-items:baseline">'+
+       '<span class="mono">'+esc(d)+'</span>'+
+       '<span class="small mut">'+st+'</span>'+
+       (d>td ? '<button class="g" type="button" data-rest="'+esc(d)+'">무른다</button>'
+             : '<span class="small mut">지난 것은 못 무른다</span>')+'</div>';
+  });
+  box.innerHTML=h;
+  box.querySelectorAll("[data-rest]").forEach(function(b){
+    b.onclick=function(){
+      restSet(b.dataset.rest,false); renderRest(); renderToday();
+      toast("건 날을 물렀다");
+    };
+  });
+}
+
 function renderLedger(){
   $("#sStart").value=S.start; $("#sNameA").value=S.names.a; $("#sNameB").value=S.names.b;
   var th=totalHours();
@@ -4139,6 +4210,16 @@ $("#wipe").onclick=function(){
   if(!confirm("전체 기록을 지운다. 되돌릴 수 없다.")) return;
   if(!confirm("정말 지울까. JSON 내려받기를 먼저 하는 게 낫다.")) return;
   wipeStore(); renderToday(); renderLedger();
+};
+
+if($("#restGo")) $("#restGo").onclick=function(){
+  var d=$("#restDay").value, msg=$("#restMsg");
+  var why=restCan(d);
+  if(!d){ if(msg) msg.textContent="날을 고른다."; return; }
+  if(why){ if(msg) msg.textContent=why+"."; return; }
+  restSet(d,true);
+  if(msg) msg.textContent=d+" 를 걸었다. 그날 연속일이 안 끊긴다.";
+  renderRest(); renderToday();
 };
 var IVL=[1,3,7,14,30,60];
 var REV={queue:[],i:0,shown:false};

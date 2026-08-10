@@ -2,6 +2,26 @@
   <h2>진행 대장</h2>
   <p class="lede">매일 칸은 활동량이다. 실력 판정은 분기 탭에서만 한다.</p>
 
+  <!-- 회복권 (T323). **미리 아는 못 하는 날을 여기서 건다.**
+       첫 화면에는 남은 장수만 글자로 적는다. 거는 것은 자주 하는 일이 아니라
+       첫 화면에 단추를 둘 자리가 아니다. -->
+  <div class="card tight">
+    <div class="row" style="justify-content:space-between;align-items:baseline">
+      <b>회복권</b>
+      <span class="small mut" id="restLeft"></span>
+    </div>
+    <p class="small mut">미리 아는 못 하는 날을 걸어 두면 그날 연속일이 안 끊긴다.
+      <b>오늘보다 뒤에만 건다.</b> 갑자기 못 하게 된 날은 못 쓴다.
+      그날은 그냥 끊기고 <b>끊긴 것은 벌이 아니다.</b></p>
+    <div class="row" style="margin-top:8px">
+      <label for="restDay" class="f">쉴 날</label>
+      <input type="date" id="restDay">
+      <button class="b" id="restGo" type="button">건다</button>
+    </div>
+    <div id="restMsg" class="small mut" style="margin-top:6px"></div>
+    <div id="restList" style="margin-top:8px"></div>
+  </div>
+
   <div class="card tight">
     <div class="grid g3">
       <div><label for="sStart" class="f">시작일</label><input type="date" id="sStart"></div>
