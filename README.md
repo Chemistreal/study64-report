@@ -66,6 +66,7 @@ python3 tools/audit_pages.py --check     # 화면 전수 검수
 | `tools/store_ledger.py` | 브라우저에 무엇을 남기는지 적어 두지 않는 것 |
 | `tools/page_doors.py` | 아무 데서도 안 걸리는 화면이 조용히 남는 것 |
 | `tools/lie_check.py` | **자가 거짓말하는 것** (참·거짓 예시를 맞히는지) |
+| `tools/msg_ledger.py` | 사람에게 하던 말이 조용히 사라지는 것 |
 | `tools/font_block.py` | 바깥 글꼴이 첫 그림을 인질로 잡는 것 |
 | `tools/input_labels.py` | 입력칸에 이름이 없는 것 (125칸 전부 이름 있음) |
 
