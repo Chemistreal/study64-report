@@ -25,6 +25,26 @@ document.querySelectorAll("#fsPick button").forEach(function(b){
 function allDays(){ return Object.keys(S.days).sort(); }
 function totalHours(){ return allDays().reduce(function(a,d){return a+hoursOf(S.days[d]);},0); }
 
+/* 분기 통과 값 하나 (T338). **앱이 아는 것은 앱이 센다.**
+
+   누적 시간이 그 하나다. `S.days` 의 시간을 합하면 나오는데 분기 판정 화면이
+   그것을 **손으로 치게** 하고 있었다. 사람이 다시 세면 세다가 틀리고
+   틀리면 그 분기가 틀리게 남는다.
+
+   T226 에 주간 점검에서 고친 그 자리와 같은 종류다.
+   1년을 통째로 돌려 보고서야 보였다 (`scripts/check_year.js`).
+
+   나머지 열둘은 사람이 재는 값이다. 청취 식별도 무중단 발화도
+   **앱이 못 잰다.** 그것까지 자동으로 채우면 그것은 지어내는 것이다. */
+var PASS_AUTO={hrs:function(){ return Math.round(totalHours()*100)/100; }};
+function passAuto(k){ return !!PASS_AUTO[k]; }
+function passVal(q,k){
+  if(PASS_AUTO[k]) return PASS_AUTO[k]();
+  var st=(S.q||{})["Q"+q];
+  var v=(st&&st.pass)?st.pass[k]:null;
+  return (v==null||v==="")?null:+v;
+}
+
 /* 회복권 칸 (T323). **건 것과 쓴 것을 갈라 적는다.**
 
    건 날이 지나면 두 가지 중 하나다. 그날 세션을 했으면 **안 쓴 것**이고

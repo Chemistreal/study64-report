@@ -140,8 +140,8 @@ tbody tr:hover td{background:var(--card2)}
 
 .tag{display:inline-block;font-size:0.6875rem;font-weight:600;padding:2px 10px;border:1px solid var(--edge);
   border-radius:99px;color:var(--mut);white-space:nowrap;background:var(--card2)}
-.tag.w{color:#fff;border-color:transparent;background:linear-gradient(96deg,var(--warn),#f43f5e)}
-.tag.o{color:#fff;border-color:transparent;background:linear-gradient(96deg,var(--ok),#14b8a6)}
+.tag.w{color:#fff;border-color:transparent;background:linear-gradient(96deg,#c2185b,#9f1239)}
+.tag.o{color:#fff;border-color:transparent;background:linear-gradient(96deg,#0f766e,#115e59)}
 .tag.a{color:#fff;border-color:transparent;background:linear-gradient(96deg,var(--a1),var(--a2))}
 .note{border-left:3px solid var(--a1);border-radius:0 10px 10px 0;padding:10px 14px;color:var(--mut);
   font-size:0.8125rem;margin:12px 0;background:var(--card2)}
@@ -4170,6 +4170,15 @@ document.querySelectorAll("#fsPick button").forEach(function(b){
 
 function allDays(){ return Object.keys(S.days).sort(); }
 function totalHours(){ return allDays().reduce(function(a,d){return a+hoursOf(S.days[d]);},0); }
+
+var PASS_AUTO={hrs:function(){ return Math.round(totalHours()*100)/100; }};
+function passAuto(k){ return !!PASS_AUTO[k]; }
+function passVal(q,k){
+  if(PASS_AUTO[k]) return PASS_AUTO[k]();
+  var st=(S.q||{})["Q"+q];
+  var v=(st&&st.pass)?st.pass[k]:null;
+  return (v==null||v==="")?null:+v;
+}
 
 function renderRest(){
   var box=$("#restList"); if(!box) return;

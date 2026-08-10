@@ -93,8 +93,23 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     no("배지 칸에 사람 이름이 있다");
 
   /* ---- 3. 넷을 다 지나면 분기 배지가 붙는다 ------------------------------ */
+  /* **누적 시간은 앱이 센다** (T338). 손으로 치던 값이라 여기서도 치고 있었다.
+     그 칸이 없어졌으므로 검사도 날을 넣어서 시간을 만든다.
+     검사가 그 길을 지나야 그 길을 잰다 (T334). */
+  /* 정규 세션 하루가 2시간이다 (`hoursOf`). Q1 이 144h 라 일흔두 날이 그 선이다.
+     날 수로 만든다. **손으로 시간을 못 친다.** */
   const t1 = await page.evaluate(() => {
-    S.q = { Q1: { pass: { red: 19, str: 9, ask: 3, hrs: 150 }, rel: { a: {}, b: {} } } };
+    S.days = {}; let k = 0, c = 0;
+    while (c < 80) {                       // 80일 x 2h = 160h. 144 를 넘는다
+      const d = addDays(today(), -k);
+      if (parseISO(d).getDay() !== 0) {
+        S.days[d] = { status: "normal", speak: 0, cards: 0,
+                      lre: 0, unres: [], coll: [] };
+        c++;
+      }
+      k++;
+    }
+    S.q = { Q1: { pass: { red: 19, str: 9, ask: 3 }, rel: { a: {}, b: {} } } };
     saveNow(); renderBadge();
     return { cnt: document.getElementById("badgeCount").textContent,
              txt: document.getElementById("badgeList").innerText };
@@ -106,7 +121,17 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
   /* **셋만 지나면 분기 배지가 안 붙는다** */
   const t2 = await page.evaluate(() => {
-    S.q = { Q1: { pass: { red: 19, str: 9, ask: 3, hrs: 100 }, rel: { a: {}, b: {} } } };
+    S.days = {}; let k = 0, c = 0;
+    while (c < 60) {                       // 60일 x 2h = 120h. 144 에 못 미친다
+      const d = addDays(today(), -k);
+      if (parseISO(d).getDay() !== 0) {
+        S.days[d] = { status: "normal", speak: 0, cards: 0,
+                      lre: 0, unres: [], coll: [] };
+        c++;
+      }
+      k++;
+    }
+    S.q = { Q1: { pass: { red: 19, str: 9, ask: 3 }, rel: { a: {}, b: {} } } };
     saveNow(); renderBadge();
     return document.getElementById("badgeCount").textContent;
   });

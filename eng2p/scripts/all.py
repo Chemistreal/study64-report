@@ -149,6 +149,7 @@ STEPS = [
     ("화면", "check_relation.js", [], False),
     ("화면", "check_growth.js", [], False),
     ("화면", "check_ahead.js", [], False),
+    ("화면", "check_year.js", [], False),
     ("화면", "check_store.js", [], False),
     # **열자마자 읽는 바이트에 선을 건다.** 시간은 기계마다 달라 선을 못 건다.
     # T185 에 접힌 칸이 안에서 136KB 를 읽고 있던 것이 여기서 나왔다.

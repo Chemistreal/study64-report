@@ -19,22 +19,31 @@ function renderQuarter(){
     lab.appendChild(el("div",null,c.l));
     var meta=el("div","small mut"); meta.textContent=c.u+" "+c.need+" 이상 · 기준 "+c.src;
     lab.appendChild(meta); row.appendChild(lab);
-    var inp=el("input"); inp.type="number"; inp.style.width="110px"; inp.style.flex="none";
-    inp.value=(st.pass[c.k]!=null?st.pass[c.k]:"");
     var tag=el("span","tag");
     function paint(){
-      var v=st.pass[c.k];
-      if(v==null||v===""){ tag.textContent="미측정"; tag.className="tag"; }
-      else if(+v>=c.need){ tag.textContent="통과"; tag.className="tag o"; }
+      var v=passVal(curQ,c.k);
+      if(v==null){ tag.textContent="미측정"; tag.className="tag"; }
+      else if(v>=c.need){ tag.textContent="통과"; tag.className="tag o"; }
       else { tag.textContent="미통과"; tag.className="tag w"; }
     }
-    inp.oninput=function(){ st.pass[c.k]= inp.value===""?null:+inp.value; save(); paint(); summary(); };
-    row.appendChild(inp); row.appendChild(tag);
+    /* **앱이 아는 것은 앱이 센다** (T338). 누적 시간이 그 하나고
+       나머지 열둘은 사람이 재는 값이다. 그것까지 채우면 지어내는 것이다. */
+    if(passAuto(c.k)){
+      var got=el("span","mono"); got.style.width="110px"; got.style.flex="none";
+      got.style.textAlign="right"; got.textContent=String(passVal(curQ,c.k));
+      meta.textContent=c.u+" "+c.need+" 이상 · 기준 "+c.src+" · 앱이 셌다. 다시 안 적는다";
+      row.appendChild(got); row.appendChild(tag);
+    }else{
+      var inp=el("input"); inp.type="number"; inp.style.width="110px"; inp.style.flex="none";
+      inp.value=(st.pass[c.k]!=null?st.pass[c.k]:"");
+      inp.oninput=function(){ st.pass[c.k]= inp.value===""?null:+inp.value; save(); paint(); summary(); };
+      row.appendChild(inp); row.appendChild(tag);
+    }
     card.appendChild(row); box.appendChild(card); paint();
   });
   var sum=el("div","note small"); sum.id="qSum"; box.appendChild(sum);
   function summary(){
-    var n=PASS[curQ].filter(function(c){var v=st.pass[c.k];return v!=null&&v!==""&&+v>=c.need;}).length;
+    var n=PASS[curQ].filter(function(c){var v=passVal(curQ,c.k);return v!=null&&v>=c.need;}).length;
     sum.textContent="통과 "+n+" / "+PASS[curQ].length+" 트랙. 미통과 트랙은 그대로 그 분기에 남는다. 남는 게 지연이 아니라 설계다.";
   }
   summary();
@@ -185,19 +194,18 @@ function renderBadge(){
   }
   var got=0, h="";
   d.badges.forEach(function(b){
-    var st=(S.q&&S.q["Q"+b.quarter]) ? S.q["Q"+b.quarter] : null;
-    var pass=st?(st.pass||{}):{};
+    /* 값은 `passVal` 이 준다 (T338). 앱이 아는 것은 앱이 세고
+       사람이 재는 것만 저장소에서 온다. **한 자리에서만 고른다.** */
     var now, ok;
     if(b.kind==="all"){
       now=0;
       (PASS[b.quarter]||[]).forEach(function(c){
-        var v=pass[c.k];
-        if(v!=null && v!=="" && +v>=c.need) now++;
+        var v=passVal(b.quarter,c.k);
+        if(v!=null && v>=c.need) now++;
       });
       ok = now>=b.need;
     }else{
-      var v=pass[b.key];
-      now = (v==null||v==="") ? null : +v;
+      now = passVal(b.quarter, b.key);
       ok = now!=null && now>=b.need;
     }
     if(ok) got++;

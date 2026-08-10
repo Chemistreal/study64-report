@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 서른일곱과 검사 서른다섯과 상태 갱신 셋, 일흔다섯을 정해진 순서로 돈다.
+**한 줄이다.** 파생 서른일곱과 검사 서른여섯과 상태 갱신 셋, 일흔여섯을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -155,6 +155,7 @@ docs/ahead.md         미리 아는 것. **묻지 않는다.** 문제만 적고 
 docs/quest.md         공동 퀘스트. **개인 기여도는 안 보여 준다.** 셀 수 있는 값 다섯
 docs/streak.md        공동 연속일과 회복권. **날을 세지 사람을 안 센다.** 미리 선언해야 쓴다
 docs/round.md          같은 판. **망 없이 셈으로 맞춘다.** 시계에서 아무것도 안 낸다
+docs/year.md          1년을 통째로 돈다. **앱이 아는 것을 사람이 다시 적고 있었다**
 scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인쇄용)
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
 scripts/derive_transcripts.py 대본 52편을 script 한 파일로 묶는다 (file:// 대응)
@@ -207,6 +208,7 @@ scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지
 scripts/check_relation.js 관계 점검과 신호 33판. **따로 적고 같이 편다**
 scripts/check_growth.js 되돌아보기 33판. **앱이 소리를 안 들고 있는다**
 scripts/check_ahead.js 미리 아는 것과 봉투 50판. **표는 있었는데 그때 안 떴다**
+scripts/check_year.js  1년을 통째로 돈다 303판. **길게 도는 것을 안 재 봤다**
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
