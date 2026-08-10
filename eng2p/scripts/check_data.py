@@ -378,7 +378,7 @@ def check_index(lec):
 # 판이 읽는 자료. **여기 들어 있는 글은 문서가 아니라 화면으로 간다.**
 PLAYDATA = ["pairs", "swaps", "listen", "relay", "chunks", "halves",
             "ladder", "wall", "situ", "wave", "whose", "reask", "cutin",
-            "clash", "flip", "onepick", "apart", "playblocks", "tally"]
+            "clash", "flip", "onepick", "apart", "playblocks", "tally", "quest"]
 
 
 def check_play_plain():

@@ -162,7 +162,11 @@ function renderOneday(){
 
   if($("#odyGo")) $("#odyGo").onclick=function(){
     /* **여는 것을 먼저 적는다.** 넘어간 뒤에 적으면 넘어가다 만 날이 안 적힌다 */
-    rec.opened=1; rec.pick=pick; saveNow();
+    rec.opened=1; rec.pick=pick;
+    /* **날 기록에도 적는다** (T325). `rhit` 는 짝 코드로 안 건너가서
+       공동 목표가 못 된다 (T320). 열었는가는 셈이 아니라 문이라 건너간다. */
+    day(today()).one=1;
+    saveNow();
     PLAY.at=pick; renderPlayTab();
   };
   if($("#odyEnd")) $("#odyEnd").onclick=function(){

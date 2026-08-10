@@ -28,7 +28,9 @@ var MG_LOCAL=["device","fs","session","card","wk","cardMode","rate",
                  절반을 온것으로 여기게 된다. 그것이 제일 나쁘다. T259 */
               "rhit"];
 /* 그날 기록 안에서 큰 것을 남기는 자리 */
-var MG_MAXDAY=["speak","cards","lre","h"];
+/* `one` 은 0 아니면 1이다. 큰 것을 남기면 **한쪽만 열었어도 연 날이 된다.**
+   둘이 같이 여는 판이고 한쪽만 누른 것뿐이다 (T325). */
+var MG_MAXDAY=["speak","cards","lre","h","one"];
 /* 그날 기록 안에서 모으는 자리 */
 var MG_BAGDAY=["unres","coll"];
 /* 그날 기록 안에서 묻는 자리. 자리마다 안쪽 칸이 있다 */

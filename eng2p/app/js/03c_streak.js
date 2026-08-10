@@ -120,7 +120,8 @@ function renderSlots(){
     '<span><b class="stkbig">'+n+'</b> <b>일째 같이 하고 있다</b></span>'+
     '<span class="small mut">둘의 날이다</span></div>'+
     '<div class="small mut" style="margin-top:4px">'+why+
-    ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div></div>';
+    ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div>'+
+    questLine()+'</div>';
   box.hidden=false;
 }
 
@@ -152,6 +153,38 @@ function questNow(kind, w){
     else if(kind==="cards") n+=(+r.cards||0);
     else if(kind==="lre") n+=(+r.lre||0);
     else if(kind==="coll") n+=((r.coll||[]).length);
+    else if(kind==="one") n+=(r.one?1:0);
   });
   return n;
+}
+
+/* 이 주 퀘스트 한 줄 (T325). **칸을 새로 안 만든다.**
+
+   T322 에 연속일 칸이 133px 을 먹었고 첫 화면 예산이 빠듯하다.
+   퀘스트는 그 칸 안에 **한 줄로** 들어간다.
+
+   ## 개인 기여도를 안 보여 준다
+
+   숫자가 둘이다. 지금 얼마와 목표 얼마. **누가 얼마인지는 없다.**
+   그 값을 앱이 아예 안 갖고 있으므로 보여 줄 수도 없다 (`quest.md` 4장).
+
+   ## 못 채운 것을 재촉하지 않는다
+
+   "3장 남았다" 를 안 적는다. 지금 얼마인지만 적는다.
+   남은 것을 적으면 그것이 빚이 되고 빚은 벌이다 (원칙 4). */
+function questLine(){
+  var d=DATA.quest;
+  if(!d || !d.weeks){
+    loadData("quest","ENG2P_QUEST",function(){ renderSlots(); });
+    return '';
+  }
+  var w=plan().week, q=null;
+  d.weeks.forEach(function(x){ if(x.week===w) q=x; });
+  if(!q) return '<div class="small mut" style="margin-top:4px">'+
+    '이 주 퀘스트는 아직 안 정했다. <b>'+d.count+'주까지 정해져 있다.</b></div>';
+  var now=questNow(q.kind, w), done=now>=q.goal;
+  return '<div class="small mut" style="margin-top:4px">'+
+    '<b>이 주 '+esc(q.name)+'</b> · <b class="mono">'+now+' / '+q.goal+'</b>'+
+    (done ? ' <b>채웠다</b>' : '')+
+    ' · <b>둘이 같이 채운다.</b> 누가 얼마인지는 안 센다.</div>';
 }

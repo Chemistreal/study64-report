@@ -3728,7 +3728,9 @@ function renderOneday(){
   box.innerHTML=h+odyGrade()+'</div>';
 
   if($("#odyGo")) $("#odyGo").onclick=function(){
-    rec.opened=1; rec.pick=pick; saveNow();
+    rec.opened=1; rec.pick=pick;
+    day(today()).one=1;
+    saveNow();
     PLAY.at=pick; renderPlayTab();
   };
   if($("#odyEnd")) $("#odyEnd").onclick=function(){

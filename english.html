@@ -2233,7 +2233,8 @@ function renderSlots(){
     '<span><b class="stkbig">'+n+'</b> <b>일째 같이 하고 있다</b></span>'+
     '<span class="small mut">둘의 날이다</span></div>'+
     '<div class="small mut" style="margin-top:4px">'+why+
-    ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div></div>';
+    ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div>'+
+    questLine()+'</div>';
   box.hidden=false;
 }
 
@@ -2256,8 +2257,26 @@ function questNow(kind, w){
     else if(kind==="cards") n+=(+r.cards||0);
     else if(kind==="lre") n+=(+r.lre||0);
     else if(kind==="coll") n+=((r.coll||[]).length);
+    else if(kind==="one") n+=(r.one?1:0);
   });
   return n;
+}
+
+function questLine(){
+  var d=DATA.quest;
+  if(!d || !d.weeks){
+    loadData("quest","ENG2P_QUEST",function(){ renderSlots(); });
+    return '';
+  }
+  var w=plan().week, q=null;
+  d.weeks.forEach(function(x){ if(x.week===w) q=x; });
+  if(!q) return '<div class="small mut" style="margin-top:4px">'+
+    '이 주 퀘스트는 아직 안 정했다. <b>'+d.count+'주까지 정해져 있다.</b></div>';
+  var now=questNow(q.kind, w), done=now>=q.goal;
+  return '<div class="small mut" style="margin-top:4px">'+
+    '<b>이 주 '+esc(q.name)+'</b> · <b class="mono">'+now+' / '+q.goal+'</b>'+
+    (done ? ' <b>채웠다</b>' : '')+
+    ' · <b>둘이 같이 채운다.</b> 누가 얼마인지는 안 센다.</div>';
 }
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
@@ -5461,7 +5480,7 @@ var MG_LOCAL=["device","fs","session","card","wk","cardMode","rate",
               "solo","soloSeat","soloHand","veiled",
               "rstep","rseat",
               "rhit"];
-var MG_MAXDAY=["speak","cards","lre","h"];
+var MG_MAXDAY=["speak","cards","lre","h","one"];
 var MG_BAGDAY=["unres","coll"];
 var MG_ASKDAY=["aim","xchk"];
 

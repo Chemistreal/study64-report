@@ -355,13 +355,92 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (q.rhit !== 0)
     no("판 셈을 퀘스트가 센다: " + q.rhit + ". 짝 코드로 안 건너가는 값이다");
 
+  /* ---- 퀘스트 화면 (T325). **개인 기여도를 안 보여 준다** ----------------- */
+  const fill = (n) => new Function(`S.days={}; let k=0,c=0;
+    while(c<${n}){ const d=addDays(today(),-k);
+      if(parseISO(d).getDay()!==0){ S.days[d]={status:"normal",h:2,speak:12,
+        cards:60,lre:1,unres:[],coll:[],one:(c%2)}; c++; } k++; }
+    saveNow(); renderToday();`);
+
+  await page.evaluate(() => {
+    S.onboarded = true; S.names.a = "가람"; S.names.b = "나래"; saveNow();
+  });
+  await page.reload();
+  await page.waitForTimeout(500);
+
+  await page.evaluate(fill(3));
+  await page.waitForTimeout(400);
+  const q1 = await page.$eval("#todaySlots", (e) => e.innerText);
+  if (!/이 주 다섯 날을 채운다/.test(q1))
+    no("첫 주 퀘스트 이름이 화면에 없다: " + q1.slice(-80));
+  if (!/3 \/ 5/.test(q1)) no("첫 주 퀘스트가 3 / 5 가 아니다: " + q1.slice(-60));
+  if (!/둘이 같이 채운다/.test(q1)) no("둘이 같이 채운다는 말이 없다");
+  if (!/누가 얼마인지는 안 센다/.test(q1)) no("개인 기여도를 안 센다는 말이 없다");
+  /* **이름이 뜨면 그것이 곧 순위다** */
+  if (q1.indexOf("가람") >= 0 || q1.indexOf("나래") >= 0)
+    no("퀘스트 줄에 사람 이름이 있다");
+  /* **남은 것을 안 적는다.** 남은 것을 적으면 빚이 되고 빚은 벌이다 */
+  if (/남았|남은|더 해야|서둘/.test(q1.split("이 주")[1] || ""))
+    no("퀘스트 줄이 남은 것을 재촉한다: " + q1.slice(-70));
+
+  await page.evaluate(fill(9));
+  await page.waitForTimeout(400);
+  const q2 = await page.$eval("#todaySlots", (e) => e.innerText);
+  if (!/둘이 60분을 말한다/.test(q2))
+    no("둘째 주로 넘어가면 퀘스트가 안 바뀐다: " + q2.slice(-80));
+  if (!/36 \/ 60/.test(q2)) no("둘째 주 발화가 36 / 60 이 아니다: " + q2.slice(-60));
+
+  /* **채웠으면 채웠다고 적는다.**
+
+     처음에는 첫 주 세션 여섯으로 쟀다. 안 됐다. 여섯째를 마치는 순간
+     `plan()` 이 둘째 주를 가리켜 **첫 주 퀘스트가 화면에서 사라진다.**
+     그것을 보고 목표 윗선을 다섯으로 막았다 (`quest.md` 5.2).
+     여기서는 둘째 주 발화로 잰다. 그 갈래는 주 안에서 채울 수 있다. */
+  await page.evaluate(new Function(`S.days={}; let k=0,c=0;
+    while(c<9){ const d=addDays(today(),-k);
+      if(parseISO(d).getDay()!==0){ S.days[d]={status:"normal",h:2,speak:20,
+        cards:0,lre:0,unres:[],coll:[]}; c++; } k++; }
+    saveNow(); renderToday();`));
+  await page.waitForTimeout(300);
+  const q3 = await page.$eval("#todaySlots", (e) => e.innerText);
+  if (!/60 \/ 60/.test(q3) || !/채웠다/.test(q3))
+    no("둘째 주를 채웠는데 채웠다고 안 적는다: " + q3.slice(-70));
+  /* **윗선이 다섯인가.** 채운 것을 못 보여 주는 목표를 막는다 */
+  const cap = await page.evaluate(() => DATA.quest.kinds);
+  if (cap.session !== 5 || cap.one !== 5)
+    no("세션 갈래 윗선이 " + cap.session + " 이다. 다섯이어야 한다. " +
+       "여섯이면 채운 것을 그 주 화면에서 못 본다");
+
+  /* 표에 없는 주. **없다고 보여 준다** */
+  const far = await page.evaluate(() => {
+    const d = DATA.quest;
+    return { count: d.count, kinds: Object.keys(d.kinds).sort() };
+  });
+  if (far.count < 5) no("퀘스트 표가 " + far.count + "주다");
+  if (far.kinds.indexOf("one") < 0)
+    no("갈래에 오늘의 한 판이 없다. 판을 세는 길이 필요하다");
+
+  /* **오늘의 한 판을 열면 날 기록에 적히는가** (T325). `rhit` 가 아니다 */
+  const one = await page.evaluate(() => {
+    S.days = {}; S.rhit = {}; saveNow();
+    const r = day(today());
+    const before = r.one || 0;
+    r.one = 1; saveNow();
+    return { before: before, after: (day(today()).one || 0),
+             inMax: (typeof MG_MAXDAY !== "undefined") &&
+                    MG_MAXDAY.indexOf("one") >= 0 };
+  });
+  if (one.before !== 0 || one.after !== 1) no("날 기록에 오늘의 한 판 자리가 없다");
+  if (!one.inMax)
+    no("합칠 때 오늘의 한 판이 안 건너간다. 한쪽만 눌러도 연 날이어야 한다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 끊긴 날 두 사람이 무엇을 느끼는가**");
-  console.log("연속일과 퀘스트 47판 (연속일 20, 회복권 16, 퀘스트 셈 11) / 실패 %d",
+  console.log("연속일과 퀘스트 61판 (연속일 20, 회복권 16, 퀘스트 셈 11, 화면 14) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
