@@ -37,7 +37,8 @@ var PLAYS=[
   {id:"onesee", name:"한 사람만 본다", track:"화용", min:5},
   {id:"wave", name:"파장", track:"화용", min:5},
   {id:"whose", name:"누구 말이야", track:"화용", min:4},
-  {id:"reask", name:"못 알아들은 척", track:"repair", min:4}
+  {id:"reask", name:"못 알아들은 척", track:"repair", min:4},
+  {id:"cutin", name:"끼어들기", track:"repair", min:3}
 ];
 /* 판을 그리는 자리. **`app/play/` 조각이 여기에 자기를 넣는다.**
    목록에 있는데 여기 없으면 아직 안 읽은 것이다. 읽고 나서 다시 그린다. */

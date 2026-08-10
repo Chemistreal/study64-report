@@ -407,6 +407,11 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   background:var(--bg2);padding:10px 12px}
 .rskline{font-size:1.0625rem;line-height:1.6;padding:5px 0;overflow-wrap:anywhere}
 
+/* 끼어들기 (T301). 읽을 거리를 둘 다 본다. 압박은 언제 끊길지를 모르는 데서 온다. */
+.cutbox{margin-top:10px;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:10px 12px}
+.cutline{font-size:1rem;line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
+
 .rgate{margin-top:10px}
 .rgate button{margin-top:8px}
 .rgate button[disabled]{opacity:.5;cursor:not-allowed}
