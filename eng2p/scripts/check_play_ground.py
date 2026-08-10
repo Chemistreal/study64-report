@@ -53,7 +53,8 @@ WORDLIST = os.path.join(ROOT, "docs", "wordlist.md")
 # 판이 읽는 자료. `check_data.py` 의 PLAYDATA 와 같아야 한다
 PLAYDATA = ["pairs", "swaps", "listen", "relay", "chunks", "halves",
             "ladder", "wall", "situ", "wave", "whose", "reask", "cutin",
-            "clash", "flip", "onepick", "apart", "playblocks"]
+            "clash", "flip", "onepick", "apart", "playblocks",
+            "tally"]
 
 HANGUL = re.compile(r"[가-힣]")
 WORD = re.compile(r"[A-Za-z]{2,}")
@@ -64,7 +65,8 @@ WORD = re.compile(r"[A-Za-z]{2,}")
 META = {"generator", "source", "note", "gradeWhy", "grade", "emptyWhy",
         "id", "key", "sec", "src", "uses", "pick", "hidden", "plays",
         "unknown", "empty", "fit", "why", "mid", "at", "pos", "kind",
-        "track", "name", "label", "anchor", "judge", "see", "q"}
+        "track", "name", "label", "anchor", "judge", "see", "q",
+        "how", "screen", "ways", "type"}
 PATHY = re.compile(r"[/\\]|\.(py|js|json|md|mp3)\b")
 
 

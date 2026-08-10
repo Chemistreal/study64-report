@@ -176,7 +176,13 @@ function renderRelay(){
     /* **틀어진 것이 이 판의 산출물이다.** 못한 셈이 아니라고 화면이 적는다. */
     h+='<div class="note">틀어진 자리가 <b>안 들리는 자리</b>다. '+
        '벌이 아니라 다음에 들을 자리다. 규칙서가 그렇게 적었다.</div>';
-    h+=playHalf(items.length)+playGrade(DATA.relay);
+    /* **이 판은 절반이 아니다** (T320). 판정 칸이 "둘이 같이 본다" 다.
+       원문이 화면에 있고 둘이 같이 견주므로 두 기기에 같은 수가 남는다.
+       `playHalf` 를 쓰고 있었다. 절반이라고 적으면 두 사람이 그 수를 두 배로 만든다. */
+    h+='<div class="note w">규칙서가 남기라는 값은 <b>'+items.length+
+       ' 중 몇</b>이다. <b>두 기기에 같은 수</b>가 있어야 한다. '+
+       '둘이 같이 보고 같이 셌으니 더하지 않는다. 소리 내어 견준다.</div>';
+    h+=playGrade(DATA.relay);
     h+='<div class="row" style="margin-top:10px">'+
        '<button class="g" id="rlyAgain">처음부터</button></div></div>';
     box.innerHTML=h;

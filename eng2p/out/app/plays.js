@@ -696,7 +696,10 @@ function renderRelay(){
        '거기서 <b>틀어진 자리가 '+rec.off+'군데</b>다.</div>';
     h+='<div class="note">틀어진 자리가 <b>안 들리는 자리</b>다. '+
        '벌이 아니라 다음에 들을 자리다. 규칙서가 그렇게 적었다.</div>';
-    h+=playHalf(items.length)+playGrade(DATA.relay);
+    h+='<div class="note w">규칙서가 남기라는 값은 <b>'+items.length+
+       ' 중 몇</b>이다. <b>두 기기에 같은 수</b>가 있어야 한다. '+
+       '둘이 같이 보고 같이 셌으니 더하지 않는다. 소리 내어 견준다.</div>';
+    h+=playGrade(DATA.relay);
     h+='<div class="row" style="margin-top:10px">'+
        '<button class="g" id="rlyAgain">처음부터</button></div></div>';
     box.innerHTML=h;

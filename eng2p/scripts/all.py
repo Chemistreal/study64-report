@@ -84,6 +84,8 @@ STEPS = [
     ("파생", "derive_onepick.py", [], True),
     # 스무 판이 블록 넷 중 어디에 붙는가. **블록 1은 비어 있고 그것이 맞다.** T318
     ("파생", "derive_blocks.py", [], True),
+    # 판마다 셈을 합치는 법. **규칙서와 화면이 같은 말을 하는지 대 본다.** T320
+    ("파생", "derive_tally.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
