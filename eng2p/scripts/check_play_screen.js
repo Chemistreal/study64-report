@@ -2958,13 +2958,206 @@ const RESET = () => {
       no("거꾸로 판정 (" + why + "): 화면에 마크다운 표시가 보인다");
   }
 
+  /* =====================================================================
+     따로 쓰고 같이 펴기 (T311). **시계가 저절로 안 펴는 판.**
+
+       가림      답이다. 편 뒤에도 상대 답이 이 화면에 안 온다
+       시계      다 되면 **단추만 켠다.** 저절로 안 편다
+       셈        폈다는 것 하나. **절반이 아니다**
+       한 기기   **종이다.** 적는 칸을 안 낸다 (`solo_plays.md` 4.2)
+     ===================================================================== */
+  const APRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("apart");
+    revealReset("apart" + today());
+    APT.said = ""; APT.ready = false;
+    aptClockStop(); ACLK.left = 0; ACLK.over = false;
+    renderApart();
+  };
+  for (const p of [A, B]) await openPlay(p, "apart", "renderApart");
+  await A.evaluate(APRESET); await B.evaluate(APRESET);
+
+  /* ---- 157. 규격과 자료 ------------------------------------------------- */
+  const aspec = await A.evaluate(() => {
+    const it = aptItem();
+    return { grade: DATA.apart.grade, min: DATA.apart.min,
+             count: DATA.apart.count, frames: DATA.apart.frames.length,
+             lec: plan().lectureNo, id: it && it.no,
+             trap: it && it.trap, ask: it && it.ask, iGrade: it && it.grade };
+  });
+  if (aspec.count !== 96)
+    no("따로 쓰고 같이 펴기: 물음이 " + aspec.count + "개다. 강의 96편이어야 한다");
+  if (!(aspec.frames >= 2))
+    no("따로 쓰고 같이 펴기: 묻는 틀이 " + aspec.frames + "개다. 하나면 48주 내내 같다");
+  if (aspec.id !== aspec.lec)
+    no("따로 쓰고 같이 펴기: 오늘 " + aspec.lec + "강인데 물음은 " + aspec.id + "강 것이다");
+  /* **묻는 틀에 영어가 없다.** 있으면 내가 지은 영어다 (T309). */
+  const aEn = await A.evaluate(() => DATA.apart.frames.filter((f) => /[A-Za-z]/.test(f)));
+  if (aEn.length)
+    no("따로 쓰고 같이 펴기: 묻는 틀에 영어가 있다: " + aEn[0].slice(0, 30));
+  /* 함정 문장이 **강의 그대로**인지. 인과 꼴을 지켰는지로 잰다 */
+  const aBad = await A.evaluate(() =>
+    DATA.apart.items.filter((i) =>
+      !(i.trap.indexOf("한국어") >= 0 && i.trap.indexOf("영어") >= 0 &&
+        /(이므로|으므로|므로|때문에)/.test(i.trap))).map((i) => i.no));
+  if (aBad.length)
+    no("따로 쓰고 같이 펴기: 인과 꼴이 아닌 함정이 " + aBad.length + "강 있다: " +
+       aBad.slice(0, 3).join(" "));
+
+  /* ---- 158. 두 기기가 같은 물음을 본다. **역할이 없다** ------------------ */
+  for (const [tag, p] of [["a", A], ["b", B]]) {
+    const t = await text(p);
+    if (t.indexOf(aspec.trap) < 0)
+      no("따로 쓰고 같이 펴기: " + tag + " 화면에 오늘 함정 문장이 없다");
+    if (t.indexOf(aspec.ask) < 0)
+      no("따로 쓰고 같이 펴기: " + tag + " 화면에 오늘 물음이 없다");
+    if (!/역할이 없다/.test(t))
+      no("따로 쓰고 같이 펴기: " + tag + " 화면이 역할이 없다는 것을 안 적는다");
+    if (!(await p.$("#aptIn")))
+      no("따로 쓰고 같이 펴기: " + tag + " 에 적는 칸이 없다");
+  }
+
+  /* ---- 159. 빈 칸이면 안 펴진다. 적으면 켜진다 ---------------------------
+     **셈이 하는 것이 이것 하나다** (`round.md` 5장). 나머지는 사람이 맞춘다. */
+  const aGate = (p) => p.evaluate(() => {
+    const b = document.querySelector(".rgate button");
+    return { has: !!b, off: !!(b && b.disabled),
+             pull: !!document.querySelector("[data-reveal]") };
+  });
+  let ag = await aGate(A);
+  if (!ag.has) no("따로 쓰고 같이 펴기: 펴는 단추가 아예 없다");
+  if (!ag.off) no("따로 쓰고 같이 펴기: 빈 칸인데 펴는 단추가 켜져 있다");
+  if (ag.pull) no("따로 쓰고 같이 펴기: 빈 칸인데 누를 수 있는 펴기가 있다");
+  await A.fill("#aptIn", "밤에 말이 끊길 때 그냥 웃고 넘겼다");
+  await A.evaluate(() => { APT.said = document.getElementById("aptIn").value;
+                           APT.ready = true; renderApart(); });
+  ag = await aGate(A);
+  if (ag.off || !ag.pull)
+    no("따로 쓰고 같이 펴기: 다 적었는데 펴는 단추가 안 켜진다");
+  if (!/상대도 다 적었는지 물어보고/.test(await text(A)))
+    no("따로 쓰고 같이 펴기: 상대에게 물어보라는 말이 없다. 기기가 못 하는 것을 사람이 한다");
+
+  /* ---- 160. 시계가 다 돼도 저절로 안 편다 (T310) -------------------------
+     **두 기기 시계가 따로 간다.** 저절로 펴면 먼저 울린 쪽이 먼저 펴지고
+     그것이 이 판이 막으려던 바로 그것이다. 단추만 켜져야 한다. */
+  /* **시계를 실제로 돌린다.** 처음에는 `ACLK.over` 를 손으로 세워 놓고 그렸다.
+     깸 시험에서 시계가 다 될 때 저절로 펴게 했더니 **안 잡혔다.**
+     그 코드는 시계의 끝 자리에 있고 손으로 세우면 그 자리를 안 지난다.
+     **끝난 뒤의 그림을 재는 것과 끝나는 길을 재는 것이 다르다.** */
+  await B.evaluate(() => { ACLK.left = 1; ACLK.over = false; aptClockGo(APT.min); });
+  await B.waitForFunction(() => ACLK.over === true, null, { timeout: 6000 })
+    .catch(() => no("따로 쓰고 같이 펴기: 시계가 다 돼도 끝났다고 안 한다"));
+  const bOpen = await B.evaluate(() => revealOpen("apart" + today()));
+  if (bOpen)
+    no("따로 쓰고 같이 펴기: 시계가 다 되니 저절로 폈다. 먼저 울린 쪽이 먼저 편다");
+  const bg = await aGate(B);
+  if (bg.off || !bg.pull)
+    no("따로 쓰고 같이 펴기: 시간이 됐는데 빈 칸이라고 단추가 잠겨 있다");
+  /* **단추 자리만 본다.** 처음에는 화면 전체를 봤다. 깸 시험에서 단추 옆의
+     "둘이 같이 누른다" 를 지웠는데 **안 잡혔다.** 판 화면이 그 말을 한 번 더
+     하고 있어서다. **같은 말이 두 자리에 있으면 한 자리를 지워도 조용하다.**
+     단추를 누르려는 사람이 읽는 것은 단추 옆이다. 거기를 잰다. */
+  const bGate = await B.$eval(".rgate", (n) => n.innerText).catch(() => "");
+  if (!/시간이 됐다/.test(bGate))
+    no("따로 쓰고 같이 펴기: 펴는 단추 옆에 시간이 됐다는 말이 없다");
+  if (!/못 적은 것이 벌이 아니다/.test(bGate))
+    no("따로 쓰고 같이 펴기: 펴는 단추 옆에 못 적은 것이 벌이 아니라는 말이 없다");
+  if (!/둘이 같이 누른다/.test(bGate))
+    no("따로 쓰고 같이 펴기: 펴는 단추 옆에 둘이 같이 누르라는 말이 없다");
+  const bTxt = await text(B);
+  if (!/앱이 저절로 펴지 않는다/.test(bTxt))
+    no("따로 쓰고 같이 펴기: 앱이 저절로 안 편다는 말이 화면에 없다");
+  await B.evaluate(() => { aptClockStop(); ACLK.over = true; renderApart(); });
+
+  /* ---- 161. 편 뒤에도 상대 답이 이 화면에 안 온다 ------------------------ */
+  await tap(A, "[data-reveal]", "둘 다 됐다. 편다");
+  await tap(B, "[data-reveal]", "둘 다 됐다. 편다");
+  const aMine = await pane(A);
+  if (aMine.indexOf("밤에 말이 끊길 때") < 0)
+    no("따로 쓰고 같이 펴기: 편 뒤에 이 기기 답이 안 보인다");
+  if ((await pane(B)).indexOf("밤에 말이 끊길 때") >= 0)
+    no("따로 쓰고 같이 펴기: 저쪽 화면에 이 기기 답이 있다. 기기끼리는 못 주고받는다");
+  if (!/못 적었다/.test(await text(B)))
+    no("따로 쓰고 같이 펴기: 못 적고 편 기기가 그 말을 안 적는다");
+  if (!/소리 내어 읽는다/.test(await text(A)))
+    no("따로 쓰고 같이 펴기: 편 뒤에 소리 내어 읽으라는 말이 없다");
+  if (!/서로 다른 자리를 하나씩/.test(await text(A)))
+    no("따로 쓰고 같이 펴기: 끝 조건을 화면이 안 적는다");
+  if (!/답을 채점하지 않는다/.test(await text(A)))
+    no("따로 쓰고 같이 펴기: 답을 채점하지 않는다는 말이 없다");
+
+  /* **저장소에 답이 안 남는다** (T310). 담으면 언젠가 견주게 된다. */
+  const aStore = await A.evaluate(() => JSON.stringify(S));
+  if (aStore.indexOf("밤에 말이 끊길 때") >= 0)
+    no("따로 쓰고 같이 펴기: 적은 글이 저장소에 담겼다. 남의 글을 쌓아 두지 않는다");
+
+  /* ---- 162. 셈이 하나고 절반이 아니다 ------------------------------------ */
+  const aRec = (p) => p.evaluate(() => S.rhit["apart|" + today()] || {});
+  await tap(A, "#aptDone", "다른 자리를 하나씩 말했다");
+  const ar = await aRec(A);
+  if (Object.keys(ar).join() !== "opened")
+    no("따로 쓰고 같이 펴기: 남기는 값이 " + Object.keys(ar).join(" ") +
+       " 다. 폈다는 것 하나여야 한다");
+  if (ar.opened !== 1) no("따로 쓰고 같이 펴기: 끝냈는데 폈다는 것이 안 남았다");
+  const aDone = await text(A);
+  if (/두 기기 숫자를 소리 내어 더한다/.test(aDone))
+    no("따로 쓰고 같이 펴기: 마감이 더하라고 적는다. 둘이 같이 폈으니 같은 수다");
+  if (!/같은 수/.test(aDone))
+    no("따로 쓰고 같이 펴기: 두 기기에 같은 수라는 말이 없다");
+  if (!/답을 채점하지 않는다/.test(aDone))
+    no("따로 쓰고 같이 펴기 (마감): 답을 채점하지 않는다는 말이 없다");
+
+  /* ---- 163. 한 기기인 날은 종이다 (`solo_plays.md` 4.2) ------------------
+     **적는 칸을 안 낸다.** 화면에 흉내를 내면 그 판이 판이 아니게 된다.
+     겹치면 지운다도 같은 갈래인데 T310 까지 그 화면이 없었다. 둘을 같이 잰다. */
+  for (const [name, id, rend] of [["따로 쓰고 같이 펴기", "apart", "renderApart"],
+                                  ["겹치면 지운다", "overlap", "renderOverlap"]]) {
+    await openPlay(A, id, rend);
+    /* **판마다 마감 자리를 따로 지운다.** 처음에 회와 셈만 지우고 그렸더니
+       겹치면 지운다가 마감 화면을 냈다. 앞의 판정이 `OVL.hit` 를 채워 놓았고
+       그 값은 회에도 셈에도 안 들어 있다. 그러면 적는 칸이 0개라 통과처럼 보인다.
+       **검사가 처음 낸 실패였고 검사 탓이었다** (여덟 번째). */
+    const t = await A.evaluate((r) => {
+      S.rstep = {}; S.rhit = {}; S.solo = true; save();
+      REVEAL.open = {};
+      if (typeof OVL === "object") { OVL.hit = null; OVL.said = ""; OVL.heard = "";
+                                     OVL.ready = false; OVL.keep = []; }
+      if (typeof OVLCLK === "object") { OVLCLK.left = 0; OVLCLK.over = false; }
+      if (typeof APT === "object") { APT.said = ""; APT.ready = false; }
+      if (typeof ACLK === "object") { ACLK.left = 0; ACLK.over = false; }
+      window[r]();
+      return document.getElementById("playPane").innerText;
+    }, rend);
+    const ins = await A.$$("#playPane textarea, #playPane input");
+    if (ins.length)
+      no(name + ": 기기가 하나인데 적는 칸이 " + ins.length + "개 있다. 이 판은 종이다");
+    if (!/종이로 돈다/.test(t))
+      no(name + ": 기기가 하나인 날 종이로 돈다는 말이 없다");
+    if (!/서로 못 믿는다/.test(t))
+      no(name + ": 왜 종이인지를 화면이 안 적는다");
+    await A.evaluate(() => { S.solo = false; save(); });
+  }
+
+  /* ---- 164. 등급. **화면 둘을 다 본다** (T305) --------------------------- */
+  await openPlay(A, "apart", "renderApart");
+  await A.evaluate(APRESET);
+  const aTxt = await text(A);
+  for (const [why, txt] of [["도는 중", aTxt], ["마감", aDone]]) {
+    if (!txt.includes(aspec.grade + "등급"))
+      no("따로 쓰고 같이 펴기 (" + why + "): 자료 등급이 화면에 없다");
+    if (aspec.grade !== "A" && !txt.includes("통과 판정에는 안 쓴다"))
+      no("따로 쓰고 같이 펴기 (" + why + "): B등급인데 통과 판정에 안 쓴다는 말이 없다");
+    if (/\*\*/.test(txt))
+      no("따로 쓰고 같이 펴기 (" + why + "): 화면에 마크다운 표시가 보인다");
+  }
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 17개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 18개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
               "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
               "파장 34 / " +
@@ -2976,6 +3169,9 @@ const RESET = () => {
               "**역할이 없는데 몫이 갈린다** / " +
               "거꾸로 판정: 규격 7판, 정답 없음 3판, 자리 3판, 재료 2판, 단추 2판, " +
               "기준 갈래 다섯 장 x 4판 + 뒤집어 2판, 셈 11판, 마감 8판, 안 여는 날 5판, 등급 9판 " +
-              "**정답이 어느 화면에도 없다** / 실패 " + fails.length);
+              "**정답이 어느 화면에도 없다** / " +
+              "따로 쓰고 같이 펴기: 규격 5판, 물음 8판, 잠금 6판, 시간 5판, " +
+              "가림 6판, 저장소 1판, 셈 5판, 종이 두 판 x 3판, 등급 6판 " +
+              "**시계가 저절로 안 편다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
