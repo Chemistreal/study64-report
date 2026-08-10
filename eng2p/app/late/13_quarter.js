@@ -144,15 +144,12 @@ function renderQuarter(){
 
   function signals(){
     var out=$("#qSignal"); out.innerHTML="";
-    var A=st.rel.a, B=st.rel.b, hits=[];
-    if(A.share==="7대 3 넘음"||B.share==="7대 3 넘음") hits.push("share");
-    if((A.fix&&A.fix.indexOf("만")>0)&&(B.fix&&B.fix.indexOf("만")>0)&&A.fix===B.fix) hits.push("fix");
-    var prev=S.q["Q"+(curQ-1)];
-    if(prev&&prev.rel&&A.lead&&A.lead!=="미기재"&&A.lead!=="비슷"&&prev.rel.a&&prev.rel.a.lead===A.lead) hits.push("lead");
-    REL_Q.forEach(function(q){
-      var a=A[q.k],b=B[q.k];
-      if(a&&b&&a!=="미기재"&&b!=="미기재"&&a!==b&&hits.indexOf("gap")<0) hits.push("gap");
-    });
+    /* **셈은 한 자리에서만 한다** (T332). `rxHits` 가 늘 있는 자리에 있고
+       첫 화면도 그것을 쓴다. 여기에 다시 적으면 언젠가 갈린다 (T320). */
+    var hits=rxHits(curQ);
+    /* 처방을 언제부터 쓰기 시작했나. **편 날이다.** 안 적으면 2주를 못 센다 */
+    if(open && hits.length && !st.rxAt){ st.rxAt=today(); save(); }
+    if(open && !hits.length && st.rxAt){ st.rxAt=null; save(); }
     if(!hits.length){
       out.innerHTML='<div class="note small">걸린 신호 없음. 신호가 없어도 이 표는 매 분기 채운다. 변화를 보려면 정상일 때 값이 남아 있어야 한다.</div>';
       return;

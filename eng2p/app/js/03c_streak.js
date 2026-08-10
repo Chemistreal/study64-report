@@ -121,7 +121,7 @@ function renderSlots(){
     '<span class="small mut">둘의 날이다</span></div>'+
     '<div class="small mut" style="margin-top:4px">'+why+
     ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div>'+
-    questLine()+'</div>';
+    questLine()+rxLine()+'</div>';
   box.hidden=false;
 }
 
@@ -187,4 +187,86 @@ function questLine(){
     '<b>이 주 '+esc(q.name)+'</b> · <b class="mono">'+now+' / '+q.goal+'</b>'+
     (done ? ' <b>채웠다</b>' : '')+
     ' · <b>둘이 같이 채운다.</b> 누가 얼마인지는 안 센다.</div>';
+}
+
+/* 지배 수동 신호 (T332). 매뉴얼 7.3 이 정한 넷이다.
+
+   ## 셈을 분기 탭 밖으로 꺼냈다
+
+   이 셈이 `late/13_quarter.js` 안에만 있었다. 그 탭은 **1년에 네 번 연다.**
+   신호가 걸리면 처방을 2주 동안 쓰라고 매뉴얼이 시키는데
+   그 말이 분기 탭 안에만 있으면 **2주 동안 아무도 안 본다.**
+
+   그렇다고 셈을 두 자리에 적으면 언젠가 갈린다 (T320 에서 겪었다).
+   그래서 셈을 여기로 옮기고 분기 탭이 이것을 부른다. **한 자리에서만 센다.**
+
+   ## 넷
+
+       지분 편중    한쪽이 7대 3 을 넘었다고 적었다
+       수정 일방향  둘 다 같은 한 방향만 적었다
+       주도권 고정  두 분기 잇달아 같은 쪽이다
+       인식 불일치  같은 항목에 두 사람 답이 다르다
+
+   앞의 둘이 로드맵 12.15 가 이름 붙인 것이다. 나머지 둘도 같이 본다.
+   **하나라도 걸리면 지배 수동형 신호로 본다** (매뉴얼 7.3). */
+function rxHits(q){
+  var st=(S.q||{})["Q"+q];
+  if(!st || !st.rel) return [];
+  var A=st.rel.a||{}, B=st.rel.b||{}, hits=[];
+  if(A.share==="7대 3 넘음"||B.share==="7대 3 넘음") hits.push("share");
+  if((A.fix&&A.fix.indexOf("만")>0)&&(B.fix&&B.fix.indexOf("만")>0)&&A.fix===B.fix)
+    hits.push("fix");
+  var prev=(S.q||{})["Q"+(q-1)];
+  if(prev&&prev.rel&&A.lead&&A.lead!=="미기재"&&A.lead!=="비슷"&&
+     prev.rel.a&&prev.rel.a.lead===A.lead) hits.push("lead");
+  if(typeof REL_Q!=="undefined") REL_Q.forEach(function(x){
+    var a=A[x.k], b=B[x.k];
+    if(a&&b&&a!=="미기재"&&b!=="미기재"&&a!==b&&hits.indexOf("gap")<0) hits.push("gap");
+  });
+  return hits;
+}
+
+/* 지금 쓰고 있는 처방. **2주다.** 매뉴얼 7.3 이 그렇게 적었다.
+
+   폈을 때 신호가 있으면 그날을 적어 둔다. 그날부터 2주가 처방 기간이다.
+   2주가 지나면 처방이 아니라 **재점검할 때**가 된다.
+
+   달력 날로 센다. 세션일이 아니다. 처방은 세션 안에서만 쓰는 것이 아니라
+   두 사람이 말하는 자리마다 쓰는 것이기 때문이다. */
+var RX_DAYS=14;
+function rxNow(){
+  var q=null, st=null;
+  for(var i=4;i>=1;i--){
+    var x=(S.q||{})["Q"+i];
+    if(x && x.relOpen && x.rxAt){ q=i; st=x; break; }
+  }
+  if(!q) return null;
+  var hits=rxHits(q);
+  if(!hits.length) return null;
+  var gone=Math.floor((parseISO(today())-parseISO(st.rxAt))/86400000);
+  return {q:q, hits:hits, at:st.rxAt, day:gone+1, over:gone>=RX_DAYS};
+}
+
+/* 처방 한 줄 (T332). **분기 탭 밖에서도 보인다.**
+
+   신호가 걸리면 매뉴얼 7.3 이 2주 동안 처방을 쓰라고 시킨다.
+   그 말이 분기 탭 안에만 있으면 **2주 동안 아무도 안 본다.** 1년에 네 번 여는 탭이다.
+
+   여기서는 **무엇을 하라는지 한 줄**만 적는다. 왜 그런지와 어떻게 하는지는
+   분기 탭에 있고 그것을 여기로 옮기지 않는다. 첫 화면이 길어지면 안 읽는다 (T322).
+
+   **누가 우세한지를 안 적는다.** 신호 이름과 처방 이름만 적는다.
+   "가람이 말을 더 많이 한다" 가 첫 화면에 뜨면 그것이 곧 지목이다. */
+function rxLine(){
+  var r=(typeof rxNow==="function") ? rxNow() : null;
+  if(!r) return '';
+  if(r.over)
+    return '<div class="small mut" style="margin-top:4px">'+
+      '<b>처방 2주가 지났다.</b> 분기 탭에서 <b>같은 양식으로 다시 적는다.</b> '+
+      '지난 분기 값은 안 지운다.</div>';
+  var names=r.hits.map(function(k){ return (RX[k]||{}).p||k; });
+  return '<div class="small mut" style="margin-top:4px">'+
+    '<b>이 주 처방</b> '+esc(names.join(" · "))+
+    ' · <b class="mono">'+r.day+' / '+RX_DAYS+'일째</b>'+
+    ' · 자세한 것은 분기 탭에 있다.</div>';
 }

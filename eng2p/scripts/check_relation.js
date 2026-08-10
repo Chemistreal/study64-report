@@ -154,13 +154,78 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (after.q2 !== before) no("다시 적기가 다른 분기 값을 지운다: " + after.q2);
   if (!(await page.isVisible(".undo"))) no("다시 적기 뒤에 되돌릴 자리가 없다");
 
+  /* ---- 7. 지배 수동 신호 알림 (T332). **분기 탭 밖에서도 보인다** -------- */
+  const rx = await page.evaluate(() => {
+    const out = {};
+    S.q = {};
+    /* 지분 편중과 수정 일방향. 로드맵 12.15 가 이름 붙인 둘이다 */
+    S.q.Q1 = { pass: {}, relOpen: 1, rxAt: today(), rel: {
+      a: { share: "7대 3 넘음", lead: "비슷", fix: "A에서 B로만", ask: "비슷" },
+      b: { share: "비슷", lead: "비슷", fix: "A에서 B로만", ask: "비슷" } } };
+    saveNow();
+    out.hits = rxHits(1);
+    out.now = rxNow();
+    /* **셈이 한 자리에 있는가.** 분기 탭이 제 셈을 따로 하면 언젠가 갈린다 */
+    out.tabOwn = /A.share===|hits.push\("share"\)/.test(String(renderQuarter));
+    S.q = {}; saveNow();
+    out.none = rxNow();
+    return out;
+  });
+  if (rx.hits.indexOf("share") < 0) no("지분 7대 3 을 넘었는데 신호가 안 걸린다");
+  if (rx.hits.indexOf("fix") < 0) no("수정이 한 방향인데 신호가 안 걸린다");
+  if (!rx.now || rx.now.day !== 1) no("처방 첫날인데 " + JSON.stringify(rx.now));
+  if (rx.now && rx.now.over) no("첫날인데 2주가 지났다고 한다");
+  if (rx.none) no("신호가 없는데 처방이 뜬다");
+  if (rx.tabOwn)
+    no("분기 탭이 신호를 따로 센다. 셈이 두 자리에 있으면 언젠가 갈린다");
+
+  const line = async (setup) => {
+    await page.evaluate(setup);
+    await page.evaluate(() => { go("today"); renderToday(); });
+    await page.waitForTimeout(200);
+    return page.$eval("#todaySlots", (e) => e.innerText);
+  };
+  const l1 = await line(() => {
+    S.q = {}; S.q.Q1 = { pass: {}, relOpen: 1, rxAt: today(), rel: {
+      a: { share: "7대 3 넘음", lead: "비슷", fix: "A에서 B로만", ask: "비슷" },
+      b: { share: "비슷", lead: "비슷", fix: "A에서 B로만", ask: "비슷" } } };
+    saveNow();
+  });
+  if (!/이 주 처방/.test(l1)) no("첫 화면에 처방 줄이 없다: " + l1.slice(-70));
+  if (!/1 \/ 14일째/.test(l1)) no("처방 며칟날인지가 안 뜬다: " + l1.slice(-60));
+  if (!/분기 탭에 있다/.test(l1)) no("자세한 것이 어디 있는지를 안 적는다");
+  /* **누가 우세한지를 안 적는다.** 첫 화면에 이름이 뜨면 그것이 곧 지목이다 */
+  if (l1.indexOf("가람") >= 0 || l1.indexOf("나래") >= 0)
+    no("처방 줄에 사람 이름이 있다");
+  if (/7대 3|한 방향|우세/.test(l1.split("이 주 처방")[1] || ""))
+    no("처방 줄이 누가 어떻다를 적는다: " + l1.slice(-70));
+
+  const l2 = await line(() => { S.q.Q1.rxAt = addDays(today(), -15); saveNow(); });
+  if (!/처방 2주가 지났다/.test(l2)) no("2주가 지났는데 그 말이 없다: " + l2.slice(-70));
+  if (/일째/.test(l2.split("처방 2주")[1] || ""))
+    no("2주가 지났는데 아직 며칟날을 센다");
+  if (!/다시 적는다/.test(l2)) no("재점검하라는 말이 없다");
+
+  const l3 = await line(() => { S.q = {}; saveNow(); });
+  if (/처방/.test(l3)) no("신호가 없는데 첫 화면에 처방이 뜬다: " + l3.slice(-60));
+
+  /* **펴기 전에는 처방이 안 뜬다.** 신호는 두 답을 견줘서 나온다 */
+  const l4 = await line(() => {
+    S.q = {}; S.q.Q1 = { pass: {}, relOpen: 0, rxAt: today(), rel: {
+      a: { share: "7대 3 넘음", lead: "비슷", fix: "A에서 B로만", ask: "비슷" },
+      b: { share: "비슷", lead: "비슷", fix: "A에서 B로만", ask: "비슷" } } };
+    saveNow();
+  });
+  if (/이 주 처방/.test(l4))
+    no("아직 안 폈는데 처방이 뜬다. 신호는 두 답을 같이 봐야 나온다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 두 사람이 정말 따로 앉아 적는가**");
-  console.log("관계 점검 18판 (가림 5, 문 4, 어긋남 5, 다시 열기 1, 다시 적기 4) / 실패 %d",
+  console.log("관계 점검과 신호 33판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
