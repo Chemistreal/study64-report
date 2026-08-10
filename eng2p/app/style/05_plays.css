@@ -214,3 +214,13 @@ body.veil-on>*:not(.veilcover){display:none}
 .aptmine{margin:8px 0;border:1px solid var(--edge);border-radius:12px;
   background:var(--bg2);padding:10px 12px;line-height:1.7;white-space:pre-wrap;
   overflow-wrap:anywhere}
+
+/* 어제 그거 (T313). 카드와 날짜가 내는 쪽 화면에만 있다.
+   날짜를 도드라지게 둔다. **판정하는 사람이 그것을 보고 맞다 아니다를 정한다.** */
+.rclmat{margin:8px 0 6px;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:8px 12px}
+.rclmat>div{font-size:1rem;line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
+.rclans{margin:8px 0 6px;border:1px solid var(--acc);border-radius:12px;
+  padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
+.rcld{font-size:.875rem;padding:2px 8px;border-radius:999px;
+  border:1px solid var(--edge);background:var(--bg2)}

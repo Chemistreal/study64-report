@@ -41,7 +41,8 @@ var PLAYS=[
   {id:"cutin", name:"끼어들기", track:"repair", min:3},
   {id:"clash", name:"말 겹치기", track:"repair", min:4},
   {id:"flip", name:"거꾸로 판정", track:"문법", min:5},
-  {id:"apart", name:"따로 쓰고 같이 펴기", track:"전 트랙", min:5}
+  {id:"apart", name:"따로 쓰고 같이 펴기", track:"전 트랙", min:5},
+  {id:"recall", name:"어제 그거", track:"복습", min:5}
 ];
 /* 판을 그리는 자리. **`app/play/` 조각이 여기에 자기를 넣는다.**
    목록에 있는데 여기 없으면 아직 안 읽은 것이다. 읽고 나서 다시 그린다. */

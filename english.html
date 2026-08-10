@@ -900,6 +900,14 @@ body.veil-on>*:not(.veilcover){display:none}
 .aptmine{margin:8px 0;border:1px solid var(--edge);border-radius:12px;
   background:var(--bg2);padding:10px 12px;line-height:1.7;white-space:pre-wrap;
   overflow-wrap:anywhere}
+
+.rclmat{margin:8px 0 6px;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:8px 12px}
+.rclmat>div{font-size:1rem;line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
+.rclans{margin:8px 0 6px;border:1px solid var(--acc);border-radius:12px;
+  padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
+.rcld{font-size:.875rem;padding:2px 8px;border-radius:999px;
+  border:1px solid var(--edge);background:var(--bg2)}
 </style>
 </head>
 <body class="side-none">
@@ -6366,7 +6374,8 @@ var PLAYS=[
   {id:"cutin", name:"끼어들기", track:"repair", min:3},
   {id:"clash", name:"말 겹치기", track:"repair", min:4},
   {id:"flip", name:"거꾸로 판정", track:"문법", min:5},
-  {id:"apart", name:"따로 쓰고 같이 펴기", track:"전 트랙", min:5}
+  {id:"apart", name:"따로 쓰고 같이 펴기", track:"전 트랙", min:5},
+  {id:"recall", name:"어제 그거", track:"복습", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};
