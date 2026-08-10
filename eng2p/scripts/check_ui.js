@@ -2244,7 +2244,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
                   unres: [{ t: "내 것" }], coll: [],
                   aim: { a: "내가 본 지점", b: "" }, xchk: { a: "", b: "" } } },
         media: { done: {}, fav: {}, pass: { "lle1-01": 2 }, lec: { 1: 2 } },
-        cardDue: { "Q1-001": "2026-02-01" }, rot: [{ d: "2026-01-05", x: 1 }],
+        /* **진짜 꼴로 적는다** (T312). 여기가 날짜 글자였고 앱은 객체를 쓴다.
+           그래서 합치기가 객체를 글자로 바꿔 견주는 죽은 줄을 들고 있어도
+           이 검사는 통과했다. **제 편한 꼴로 재면 진짜 꼴이 깨진 것을 못 본다.** */
+        cardDue: { "Q1-001": { box: 2, due: "2026-02-01", ran: "2026-01-25",
+                               hist: ["2026-01-25"] } },
+        rot: [{ d: "2026-01-05", x: 1 }],
         clips: [], scripts: {}, wchk: {}, q: {}, cues: {},
         device: "a", fs: 2, wk: 3, rate: 1.5, card: "Q1-007", cardMode: "today" };
       const B = { names: { a: "남편", b: "안사람" }, start: "2026-01-05",
@@ -2254,7 +2259,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
                 "2026-01-06": { status: "normal", h: 2, speak: 9, cards: 0, lre: 0,
                   unres: [], coll: [] } },
         media: { done: {}, fav: {}, pass: { "lle1-01": 1, "lle1-02": 3 }, lec: { 1: 1 } },
-        cardDue: { "Q1-001": "2026-01-20", "Q1-002": "2026-03-01" },
+        cardDue: { "Q1-001": { box: 1, due: "2026-01-20", ran: "2026-01-15",
+                               hist: ["2026-01-15"] },
+                   "Q1-002": { box: 3, due: "2026-03-01", ran: "2026-01-20",
+                               hist: ["2026-01-20"] } },
         rot: [{ d: "2026-01-05", x: 1 }, { d: "2026-01-06", x: 2 }],
         clips: [], scripts: {}, wchk: {}, q: {}, cues: {},
         device: "b", fs: 0, wk: 0, rate: 1, card: null, cardMode: "due" };
@@ -2272,7 +2280,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
                speak: d5.speak, cards: d5.cards, unres: d5.unres.length,
                coll: d5.coll.length, has6: !!pl.out.days["2026-01-06"],
                pass: pl.out.media.pass["lle1-01"], pass2: pl.out.media.pass["lle1-02"],
-               lec: pl.out.media.lec[1], due: pl.out.cardDue["Q1-001"],
+               lec: pl.out.media.lec[1], due: pl.out.cardDue["Q1-001"].due,
+               ran: pl.out.cardDue["Q1-001"].ran,
+               hist: pl.out.cardDue["Q1-001"].hist,
                rot: pl.out.rot.length, twiceUnres: twice.unres.length,
                planStatus: d5.status, planAim: d5.aim.a, planName: pl.out.names.b,
                halfErr: mergeApply(pl, some).err || "",
@@ -2291,6 +2301,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (mg.lec !== 2) bad.push("합치기가 강의 회차를 뒤로 돌린다: " + mg.lec);
     /* 카드 간격은 **늦은 날짜**를 남긴다. 돌린 일을 무르지 않는다. */
     if (mg.due !== "2026-02-01") bad.push("합치기가 이미 돌린 카드를 되돌린다: " + mg.due);
+    if (mg.ran !== "2026-01-25")
+      bad.push("합치기가 늦게 돈 쪽을 안 든다: " + mg.ran);
+    /* **돈 날은 어느 쪽에 있든 다 남는다** (T312). 한쪽만 돌린 날도 돈 날이다 */
+    if ((mg.hist || []).indexOf("2026-01-15") < 0 ||
+        (mg.hist || []).indexOf("2026-01-25") < 0)
+      bad.push("합치기가 돈 날을 안 합친다: " + JSON.stringify(mg.hist));
     if (mg.twiceUnres !== 2) bad.push("두 번 합쳤더니 미해결이 " + mg.twiceUnres + "개다");
     /* 둘. 못 정하는 것을 자동으로 안 정한다 */
     const wantAsk = ["names.b", "days.2026-01-05.status", "days.2026-01-05.aim.a"];
@@ -2323,7 +2339,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         days: { "2026-01-05": { status: "normal", h: 2, speak: 12, cards: 30, lre: 2,
                   unres: [{ t: "내 것" }], coll: [], aim: { a: "내 것", b: "" } } },
         media: { done: {}, fav: {}, pass: { "lle1-01": 2 }, lec: { 1: 2 } },
-        cardDue: { "Q1-001": "2026-02-01" }, rot: [], clips: [], scripts: {},
+        cardDue: { "Q1-001": { box: 2, due: "2026-02-01", ran: "2026-01-25",
+                               hist: ["2026-01-25"] } },
+        rot: [], clips: [], scripts: {},
         wchk: {}, q: {}, cues: {}, device: "a", fs: 2, wk: 3, rate: 1.5,
         card: null, cardMode: "today" };
       const copy = () => JSON.parse(JSON.stringify(me));
@@ -2332,7 +2350,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         days: { "2026-01-05": { status: "normal", h: 2, speak: 3, cards: 5, lre: 0,
                   unres: [], coll: [] } },
         media: { done: {}, fav: {}, pass: { "lle1-01": 1 }, lec: { 1: 1 } },
-        cardDue: { "Q1-001": "2026-01-01" }, rot: [], clips: [], scripts: {},
+        cardDue: { "Q1-001": { box: 1, due: "2026-01-01", ran: "2026-01-01",
+                               hist: ["2026-01-01"] } },
+        rot: [], clips: [], scripts: {},
         wchk: {}, q: {}, cues: {} });
       let old = null, empty = null;
       try { old = mergePlan(me, { days: { "2026-01-04": { status: "normal", speak: 5 } } }); }
@@ -2360,7 +2380,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       return { selfChg: self.chg.length, selfAsk: self.ask.length,
                selfSame: JSON.stringify(self.out) === JSON.stringify(me),
                staleChg: stale.chg.length, staleSpeak: stale.out.days["2026-01-05"].speak,
-               staleDue: stale.out.cardDue["Q1-001"],
+               staleDue: stale.out.cardDue["Q1-001"].due,
                oldErr: old.err || "", oldHas: old.out ? !!old.out.days["2026-01-04"] : false,
                oldStart: old.out ? old.out.start : null,
                emptyErr: empty.err || "",

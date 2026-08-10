@@ -46,13 +46,38 @@ function spacingDays(no){
   var L=(lec.items||[]).filter(function(x){return x.no===no;})[0];
   return (L && L.spacing && L.spacing.days && L.spacing.days.length) ? L.spacing.days : null;
 }
+/* 돈 날을 **여러 개** 남긴다 (T312).
+
+   `ran` 은 마지막 한 번이다. 어제 그거 판이 어제와 사흘 전과 이레 전 것을 묻는데
+   1일 간격 카드는 어제 돌면 오늘 다시 돈다. 그러면 `ran` 이 오늘로 덮이고
+   **어제 돈 카드가 하나도 없게 된다.** 마지막만 남기면 지난 것을 못 찾는다.
+
+   이레보다 오래된 날은 버린다. 이 판이 묻는 제일 먼 날이 이레 전이라
+   그보다 오래된 것은 아무도 안 읽는다. 안 버리면 카드 600장에 날짜가 끝없이 쌓인다. */
+function cardRanDays(cur, td){
+  var h=(cur && cur.hist && cur.hist.length) ? cur.hist.slice()
+      : (cur && cur.ran ? [cur.ran] : []);
+  if(h.indexOf(td)<0) h.push(td);
+  var keep=addDays(td,-7);
+  return h.filter(function(d){ return d>=keep; }).sort();
+}
+/* 그날 돈 카드. **`ran` 하나로는 못 찾는다.** 위를 본다. */
+function ranOn(d){
+  var m=cardDue(), out=[];
+  for(var k in m){
+    var c=m[k]; if(!c) continue;
+    var h=(c.hist && c.hist.length) ? c.hist : (c.ran ? [c.ran] : []);
+    if(h.indexOf(d)>=0) out.push(k);
+  }
+  return out.sort();
+}
 function markCardRun(id, lectureNo){
-  var days=spacingDays(lectureNo);
-  var m=cardDue(), cur=m[id];
-  if(!days){ m[id]={box:0, due:null, ran:today()}; save(); syncCardCount(); return; }
+  var days=spacingDays(lectureNo), td=today();
+  var m=cardDue(), cur=m[id], hist=cardRanDays(cur, td);
+  if(!days){ m[id]={box:0, due:null, ran:td, hist:hist}; save(); syncCardCount(); return; }
   var box=cur && cur.box ? cur.box : 0;
-  if(box>=days.length){ m[id]={box:box, due:null, ran:today()}; save(); syncCardCount(); return; }
-  m[id]={box:box+1, due:addDays(today(), days[box]), ran:today()};
+  if(box>=days.length){ m[id]={box:box, due:null, ran:td, hist:hist}; save(); syncCardCount(); return; }
+  m[id]={box:box+1, due:addDays(td, days[box]), ran:td, hist:hist};
   save(); syncCardCount();
 }
 /* **오늘 돈 카드 수를 앱이 이미 알고 있다.** 그런데 대장은 손으로 받았다.

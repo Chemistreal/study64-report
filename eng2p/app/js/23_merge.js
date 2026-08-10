@@ -36,6 +36,17 @@ var MG_ASKDAY=["aim","xchk"];
 
 function mgNum(v){ var n=+v; return isFinite(n)?n:0; }
 function mgBig(a,b){ return mgNum(a)>=mgNum(b)?mgNum(a):mgNum(b); }
+/* 카드 하나를 합친다. **늦게 돈 쪽이 상자와 다음 차례를 준다.**
+   돈 날은 어느 쪽에 있든 다 남긴다. 한쪽만 돌린 날이 있으면 그 날도 돈 날이다. */
+function mgCard(a,b){
+  if(!a) return b; if(!b) return a;
+  var late=(String(b.ran||"")>String(a.ran||"")) ? b : a, seen={};
+  [a,b].forEach(function(x){
+    var h=(x.hist && x.hist.length) ? x.hist : (x.ran ? [x.ran] : []);
+    h.forEach(function(d){ seen[d]=1; });
+  });
+  return {box:late.box, due:late.due, ran:late.ran, hist:Object.keys(seen).sort()};
+}
 /* 값이 있는가. 0과 빈 글자와 빈 모음은 없는 것으로 본다.
    **없는 자리를 채우는 것은 안 묻는다.** 그것은 고를 것이 없는 일이다. */
 function mgHas(v){
@@ -181,14 +192,19 @@ function mergePlan(mine, theirs){
     }
   }
 
-  /* 카드 간격. **늦은 날짜를 남긴다.** 늦다는 것은 누군가 그 카드를 돌렸다는 뜻이다. */
+  /* 카드 간격. **늦게 돈 쪽을 남기고 돈 날은 합친다** (T312).
+
+     전에는 `String(tc[cid]) > String(was)` 로 견줬다. 둘 다 객체라
+     `"[object Object]"` 가 되고 **그 비교는 늘 거짓이었다.**
+     그래서 한쪽에만 있는 카드만 건너갔다. 늦은 날짜를 남긴다고 적어 놓고 안 남겼다.
+     **적어 놓은 것과 도는 것이 달랐고 아무도 안 봤다.** */
   var tc=theirs.cardDue||{};
   out.cardDue=out.cardDue||{};
   for(var cid in tc){
-    var was=out.cardDue[cid];
-    if(!was || String(tc[cid])>String(was)){
-      out.cardDue[cid]=tc[cid];
-      note(cid+" 다음 차례", was||"(없음)", String(tc[cid]));
+    var was=out.cardDue[cid], got=mgCard(was, tc[cid]);
+    if(JSON.stringify(got)!==JSON.stringify(was)){
+      out.cardDue[cid]=got;
+      note(cid+" 다음 차례", (was&&was.due)||"(없음)", got.due||"(없음)");
     }
   }
 

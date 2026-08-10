@@ -276,6 +276,94 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await ctx.close();
   }
 
+  /* 10. 카드가 돈 날이 **여러 개** 남는가 (T312)
+     `ran` 은 마지막 한 번이다. 1일 간격 카드는 어제 돌면 오늘 다시 돌고
+     그러면 `ran` 이 오늘로 덮인다. 어제 그거 판이 어제 것을 못 찾는다. */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    const h = await page.evaluate(() => {
+      S.cardDue = {};
+      const td = today(), y = addDays(td, -1), old = addDays(td, -9);
+      S.cardDue["Q1-001"] = { box: 1, due: td, ran: y, hist: [old, y] };
+      const got = cardRanDays(S.cardDue["Q1-001"], td);
+      S.cardDue["Q1-001"].hist = got; S.cardDue["Q1-001"].ran = td;
+      saveNow();
+      return { got: got, y: y, td: td, old: old,
+               yList: ranOn(y), tList: ranOn(td), oList: ranOn(old) };
+    });
+    if (h.got.indexOf(h.y) < 0)
+      fails.push("오늘 다시 돌았더니 어제 돈 것이 사라졌다: " + JSON.stringify(h.got));
+    if (h.got.indexOf(h.td) < 0)
+      fails.push("오늘 돈 것이 안 적혔다: " + JSON.stringify(h.got));
+    if (h.got.indexOf(h.old) >= 0)
+      fails.push("이레보다 오래된 날이 안 버려졌다. 600장에 날짜가 쌓인다");
+    if (h.yList.join() !== "Q1-001")
+      fails.push("어제 돈 카드를 못 찾는다: " + h.yList.join(" "));
+    if (h.tList.join() !== "Q1-001")
+      fails.push("오늘 돈 카드를 못 찾는다: " + h.tList.join(" "));
+    if (h.oList.length)
+      fails.push("버린 날로도 카드가 나온다: " + h.oList.join(" "));
+    /* **새로고침 뒤에도 남는가.** 기록이 살아남는지가 이 검사의 일이다 */
+    await page.reload();
+    await page.waitForTimeout(300);
+    const back = await page.evaluate(() => (S.cardDue["Q1-001"] || {}).hist || []);
+    if (back.length !== h.got.length)
+      fails.push("돈 날이 새로고침 뒤에 안 남는다: " + JSON.stringify(back));
+    await ctx.close();
+  }
+
+  /* 11. 두 기기의 카드 기록이 합쳐지는가 (T312)
+     **전에는 안 합쳐졌다.** `String(객체) > String(객체)` 로 견줘서
+     둘 다 "[object Object]" 였고 그 비교가 늘 거짓이었다.
+     한쪽에만 있는 카드만 건너갔다. 늦은 날짜를 남긴다고 적어 놓고 안 남겼다. */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    const m = await page.evaluate(() => {
+      const td = today(), d1 = addDays(td, -1), d3 = addDays(td, -3);
+      const mine = { box: 1, due: addDays(td, 1), ran: d3, hist: [d3] };
+      const theirs = { box: 2, due: addDays(td, 3), ran: d1, hist: [d1] };
+      const late = mgCard(mine, theirs);
+      const rev = mgCard(theirs, mine);
+      return { late: late, rev: rev, d1: d1, d3: d3,
+               only: mgCard(null, theirs) };
+    });
+    if (m.late.ran !== m.d1 || m.late.box !== 2)
+      fails.push("합칠 때 늦게 돈 쪽이 안 남는다: " + JSON.stringify(m.late));
+    if (JSON.stringify(m.late) !== JSON.stringify(m.rev))
+      fails.push("어느 쪽을 먼저 넣느냐로 결과가 달라진다: " +
+                 JSON.stringify(m.late) + " vs " + JSON.stringify(m.rev));
+    if (m.late.hist.indexOf(m.d1) < 0 || m.late.hist.indexOf(m.d3) < 0)
+      fails.push("돈 날이 합쳐지지 않는다: " + JSON.stringify(m.late.hist));
+    if (JSON.stringify(m.only) !== JSON.stringify({ box: 2, due: m.only.due,
+                                                    ran: m.d1, hist: [m.d1] }))
+      fails.push("한쪽에만 있는 카드가 그대로 안 온다: " + JSON.stringify(m.only));
+    /* **합치기를 통째로 돌려서도 본다.** 위는 조각 하나만 본 것이다 */
+    const whole = await page.evaluate(() => {
+      const td = today(), d1 = addDays(td, -1), d3 = addDays(td, -3);
+      S.cardDue = { "Q1-001": { box: 1, due: td, ran: d3, hist: [d3] } };
+      saveNow();
+      const theirs = JSON.parse(JSON.stringify(S));
+      theirs.cardDue = {
+        "Q1-001": { box: 2, due: addDays(td, 3), ran: d1, hist: [d1] },
+        "Q1-002": { box: 1, due: td, ran: d1, hist: [d1] },
+      };
+      const r = mergePlan(S, theirs);
+      return { a: r.out.cardDue["Q1-001"], b: r.out.cardDue["Q1-002"],
+               d1: d1, d3: d3 };
+    }).catch(() => null);
+    if (!whole) fails.push("합치기를 통째로 못 돌렸다. 이름이 바뀌었나 본다");
+    else {
+      if (!whole.b) fails.push("합쳐도 저쪽에만 있던 카드가 안 왔다");
+      if (whole.a && whole.a.ran !== whole.d1)
+        fails.push("합쳐도 늦게 돈 쪽이 안 남는다: " + JSON.stringify(whole.a));
+      if (whole.a && (whole.a.hist || []).indexOf(whole.d3) < 0)
+        fails.push("합쳐도 이쪽이 돈 날이 사라진다: " + JSON.stringify(whole.a));
+    }
+    await ctx.close();
+  }
+
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
