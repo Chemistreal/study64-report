@@ -90,6 +90,8 @@ STEPS = [
     ("파생", "derive_quest.py", [], True),
     # 공동 배지. **새 이름을 안 짓는다.** PASS 에서 그대로 옮긴다. T329
     ("파생", "derive_badge.py", [], True),
+    # 되돌아보기 녹음이 읽을 줄. **대본 그대로다.** 앱이 소리를 안 든다. T333
+    ("파생", "derive_voice.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
@@ -144,6 +146,7 @@ STEPS = [
     ("화면", "check_badge.js", [], False),
     # 분기 관계 점검. **따로 적고 같이 편다.** T330~T331
     ("화면", "check_relation.js", [], False),
+    ("화면", "check_growth.js", [], False),
     ("화면", "check_store.js", [], False),
     # **열자마자 읽는 바이트에 선을 건다.** 시간은 기계마다 달라 선을 못 건다.
     # T185 에 접힌 칸이 안에서 136KB 를 읽고 있던 것이 여기서 나왔다.

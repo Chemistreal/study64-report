@@ -309,3 +309,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 /* 관계 점검에서 어긋난 자리 (T331). **어느 쪽이 맞는지는 안 적는다.** */
 .relgap{color:var(--warn)}
 
+/* 되돌아보기 녹음이 읽을 줄 (T334). 다섯 번 읽는 줄이라 크게 둔다. */
+.voiceline{margin:8px 0;border:1px solid var(--acc);border-radius:12px;
+  padding:12px;font-size:1.0625rem;line-height:1.6;overflow-wrap:anywhere}
+

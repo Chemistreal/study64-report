@@ -61,6 +61,7 @@ function go(name){
   if(name==="verify") lateDo("renderVerify");
   if(name==="quarter") lateDo("renderQuarter");
   if(name==="quarter") lateDo("renderBadge");
+  if(name==="quarter") lateDo("renderVoice");
   if(name==="rot") lateDo("renderRot");
   if(name==="check") lateDo("checkBind");
   if(name==="rules") renderSplit();

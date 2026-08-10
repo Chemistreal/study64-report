@@ -761,6 +761,9 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .badgeall{font-weight:600}
 
 .relgap{color:var(--warn)}
+
+.voiceline{margin:8px 0;border:1px solid var(--acc);border-radius:12px;
+  padding:12px;font-size:1.0625rem;line-height:1.6;overflow-wrap:anywhere}
 .vpane{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
 .vmine{flex:1 1 60%;min-width:0}
 .vmine>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
@@ -1466,6 +1469,19 @@ body.veil-on>*:not(.veilcover){display:none}
   <p class="lede">각자 다른 방에서 따로 적고 동시에 공개한다. 상의하면 힘센 쪽 답으로 수렴한다.</p>
   <div id="qRel"></div>
   <div id="qSignal"></div>
+  <div class="card tight">
+    <div class="row" style="justify-content:space-between;align-items:baseline">
+      <b>되돌아보기 녹음</b>
+      <span class="small mut" id="voiceCount"></span>
+    </div>
+    <p class="small mut">같은 문장을 1년에 다섯 번 읽는다.
+      <b>늘었다고 말하지 않는다. 들려준다.</b>
+      각자 <b>제 것을 제 것과</b> 견준다. 서로 견주는 것이 아니다.</p>
+    <div class="voiceline" id="voiceLine"></div>
+    <div id="voiceHow"></div>
+    <div id="voiceList" style="margin-top:8px"></div>
+  </div>
+
   <div class="card tight">
     <div class="row" style="justify-content:space-between;align-items:baseline">
       <b>공동 배지</b>
@@ -2389,6 +2405,7 @@ function go(name){
   if(name==="verify") lateDo("renderVerify");
   if(name==="quarter") lateDo("renderQuarter");
   if(name==="quarter") lateDo("renderBadge");
+  if(name==="quarter") lateDo("renderVoice");
   if(name==="rot") lateDo("renderRot");
   if(name==="check") lateDo("checkBind");
   if(name==="rules") renderSplit();

@@ -212,3 +212,129 @@ function renderBadge(){
   if(c) c.textContent=got+" / "+d.count+" 를 지났다";
 }
 
+/* 되돌아보기 녹음 (T334). `out/data/voice.js` 가 자료다. `docs/growth.md` 가 규격이다.
+
+   ## 못 하는 것을 조용히 안 하면 안 된다
+
+   `file://` 로 열면 브라우저가 마이크를 안 준다. 안전한 자리가 아니기 때문이다.
+   그런데 이 앱은 `file://` 로 열어도 돌아야 한다. 종이와 같이 쓰는 물건이다.
+
+   단추가 안 눌리면 두 사람은 **앱이 고장 난 줄 안다.**
+   왜 안 되는지와 대신 무엇을 하는지를 화면이 말한다.
+
+   ## 앱이 소리를 안 들고 있는다
+
+   녹음이 끝나면 **내려받게 한다.** 파일은 두 사람 기기에 있고
+   앱은 언제 무엇을 읽었는지와 파일 이름만 적는다.
+
+   파일을 못 찾으면 못 찾는다고 적는다. **들고 있는 척하지 않는다.** */
+var VOICE={rec:null, chunks:[], url:null};
+function voiceKey(w){ return "w"+String(w).padStart(2,"0"); }
+function voiceLog(){ if(!S.voice) S.voice={}; return S.voice; }
+function voiceCan(){
+  return !!(location.protocol!=="file:" &&
+            navigator.mediaDevices && navigator.mediaDevices.getUserMedia &&
+            typeof MediaRecorder!=="undefined");
+}
+function voiceName(w){
+  return "eng2p_voice_"+voiceKey(w)+"_"+today()+".webm";
+}
+
+function renderVoice(){
+  var box=$("#voiceList"); if(!box) return;
+  var d=DATA.voice;
+  if(!d){
+    box.innerHTML='<div class="small mut">읽을 줄을 여는 중이다.</div>';
+    loadData("voice","ENG2P_VOICE",function(){ renderVoice(); });
+    return;
+  }
+  var line=$("#voiceLine");
+  if(line) line.textContent=d.at.line;
+  var log=voiceLog(), got=0;
+
+  var how=$("#voiceHow");
+  if(how){
+    if(voiceCan()){
+      how.innerHTML='<div class="row" style="margin-top:8px">'+
+        '<button class="b" id="voiceGo" type="button">녹음</button>'+
+        '<span class="small mut" id="voiceMsg">한 번 읽고 멈춘다. '+
+        '끝나면 <b>내려받는다.</b> 파일은 이 기기에 둔다.</span></div>';
+    }else{
+      /* **안 된다고 말한다.** 왜와 대신 무엇을 하는지를 같이 적는다 */
+      how.innerHTML='<div class="note w" style="margin-top:8px">'+
+        '<b>여기서는 녹음이 안 된다.</b> 이 화면을 <b>파일에서 열었기 때문</b>이고 '+
+        '브라우저가 안전한 자리에서만 마이크를 준다. 앱이 고장 난 것이 아니다.'+
+        '<br><b>대신 기기 녹음기로 녹음한다.</b> 이름을 <b class="mono">'+
+        esc(voiceName(plan().week))+'</b> 로 적고 아래에 적어 둔다.</div>';
+    }
+  }
+
+  var h="";
+  (d.weeks||[]).forEach(function(w){
+    var k=voiceKey(w.week), r=log[k];
+    if(r) got++;
+    h+='<div class="row" style="justify-content:space-between;align-items:baseline">'+
+       '<span>'+esc(w.when)+' <span class="small mut">'+w.week+'주</span></span>'+
+       '<span class="small mut mono">'+(r?esc(r.file):"아직")+'</span>'+
+       (r ? '<button class="g" type="button" data-vdel="'+esc(k)+'">지운다</button>'
+          : '<button class="g" type="button" data-vadd="'+esc(k)+'">적는다</button>')+
+       '</div>';
+  });
+  box.innerHTML=h;
+  var c=$("#voiceCount");
+  if(c) c.textContent=got+" / "+(d.weeks||[]).length+" 를 읽었다";
+
+  box.querySelectorAll("[data-vadd]").forEach(function(b){
+    b.onclick=function(){
+      var k=b.dataset.vadd, w=+k.slice(1);
+      var name=prompt("파일 이름을 적는다", voiceName(w));
+      if(!name) return;
+      voiceLog()[k]={file:name, at:today()};
+      save(); renderVoice();
+      offerUndo("녹음을 적었다", function(){
+        delete voiceLog()[k]; save(); renderVoice();
+      });
+    };
+  });
+  box.querySelectorAll("[data-vdel]").forEach(function(b){
+    b.onclick=function(){
+      var k=b.dataset.vdel, was=voiceLog()[k];
+      delete voiceLog()[k]; save(); renderVoice();
+      offerUndo("적어 둔 것을 지웠다", function(){
+        voiceLog()[k]=was; save(); renderVoice();
+      });
+    };
+  });
+
+  if($("#voiceGo")) $("#voiceGo").onclick=function(){ voiceToggle(); };
+}
+
+/* 녹음과 멈춤. **한 단추다.** 두 단추면 어느 것이 켜졌는지를 또 봐야 한다. */
+function voiceToggle(){
+  var btn=$("#voiceGo"), msg=$("#voiceMsg");
+  if(VOICE.rec && VOICE.rec.state==="recording"){ VOICE.rec.stop(); return; }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){
+    VOICE.chunks=[];
+    VOICE.rec=new MediaRecorder(st);
+    VOICE.rec.ondataavailable=function(e){ if(e.data.size) VOICE.chunks.push(e.data); };
+    VOICE.rec.onstop=function(){
+      st.getTracks().forEach(function(t){ t.stop(); });
+      var blob=new Blob(VOICE.chunks,{type:"audio/webm"});
+      if(VOICE.url) URL.revokeObjectURL(VOICE.url);
+      VOICE.url=URL.createObjectURL(blob);
+      var w=plan().week, name=voiceName(w);
+      var a=document.createElement("a");
+      a.href=VOICE.url; a.download=name; a.click();
+      if(btn) btn.textContent="녹음";
+      if(msg) msg.innerHTML='<b>'+esc(name)+'</b> 를 내려받았다. '+
+        '아래에서 <b>적는다</b>를 눌러 적어 둔다. 앱은 파일을 안 들고 있는다.';
+    };
+    VOICE.rec.start();
+    if(btn) btn.textContent="멈춘다";
+    if(msg) msg.textContent="읽는다. 다 읽으면 멈춘다.";
+  }).catch(function(){
+    if(msg) msg.innerHTML='<b>마이크를 못 열었다.</b> 브라우저가 막았거나 '+
+      '기기에 마이크가 없다. <b>기기 녹음기로 녹음하고 아래에 적어 둔다.</b>';
+  });
+}
+
