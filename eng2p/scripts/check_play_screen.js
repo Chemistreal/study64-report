@@ -3366,13 +3366,219 @@ const RESET = () => {
       no("어제 그거 (" + why + "): 화면에 마크다운 표시가 보인다");
   }
 
+  /* =====================================================================
+     오늘의 한 판 (T317). **판이 아니라 자리다.**
+
+       시작   그날 세션을 마쳐야 열린다
+       고르기 두 기기가 **같은 판**을 연다. 표가 같으니 이름도 같다
+       잠금   한 번 열면 못 무른다. 닫으면 **다시 안 열린다**
+       자리   판의 조건을 대신 판정하지 않는다
+     ===================================================================== */
+  const ODRESET = (done) => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false;
+    day(today()).status = done ? "normal" : "none";
+    saveNow(); renderOneday();
+  };
+  for (const p of [A, B]) {
+    await openPlay(p, "oneday", "renderOneday");
+    await p.waitForFunction(() => !!DATA.onepick, null, { timeout: 30000 })
+      .catch(() => no("오늘의 한 판: 표를 못 읽었다"));
+    await p.evaluate(ODRESET, false);
+  }
+
+  /* ---- 173. 표가 규격을 지킨다 ------------------------------------------ */
+  const odspec = await A.evaluate(() => {
+    const d = DATA.onepick, seen = {}, pair = [];
+    d.days.forEach((r, i) => {
+      seen[r.pick] = (seen[r.pick] || 0) + 1;
+      if (i && d.days[i - 1].pick === r.pick) pair.push(i);
+    });
+    return { n: d.days.length, plays: d.plays, used: seen, pair: pair,
+             unknown: d.unknown,
+             cand: d.days.map((r) => r.cand),
+             ids: PLAYS.map((p) => p.id) };
+  });
+  if (odspec.n !== 288)
+    no("오늘의 한 판: 표가 " + odspec.n + "일치다. 288일이어야 한다");
+  if (odspec.pair.length)
+    no("오늘의 한 판: 같은 판이 이틀 잇달아 나오는 자리가 " + odspec.pair.length + "곳이다");
+  {
+    const c = Object.values(odspec.used);
+    if (Math.max(...c) - Math.min(...c) > 2)
+      no("오늘의 한 판: 판마다 나오는 횟수가 " + Math.min(...c) + "~" +
+         Math.max(...c) + " 로 벌어졌다");
+    if (Object.keys(odspec.used).length !== odspec.plays.length)
+      no("오늘의 한 판: 표에 안 나오는 판이 있다");
+    if (Math.min(...odspec.cand) < 2)
+      no("오늘의 한 판: 고를 판이 둘도 안 되는 날이 있다");
+  }
+  /* **표가 아는 판과 앱이 아는 판이 같은가.** 하나가 늘면 표가 조용히 낡는다 */
+  {
+    const want = odspec.ids.filter((x) => x !== "oneday");
+    if (want.join() !== odspec.plays.join())
+      no("오늘의 한 판: 앱이 아는 판과 표가 아는 판이 다르다: " +
+         want.length + " vs " + odspec.plays.length);
+    if (odspec.ids.indexOf("oneday") < 0 || odspec.plays.indexOf("oneday") >= 0)
+      no("오늘의 한 판: 표가 자기를 고를 수 있게 돼 있다");
+  }
+
+  /* ---- 174. 세션을 안 마치면 안 열린다 ---------------------------------- */
+  {
+    const t = await text(A);
+    if (!/아직 안 열린다/.test(t))
+      no("오늘의 한 판: 세션을 안 마쳤는데 판이 열린다");
+    if (!/세션을 마쳐야 열린다/.test(t))
+      no("오늘의 한 판: 왜 안 열리는지를 화면이 안 적는다");
+    if (!/덤이다/.test(t))
+      no("오늘의 한 판: 세션이 먼저라는 말이 없다");
+    if (await A.$("#odyGo"))
+      no("오늘의 한 판: 세션을 안 마쳤는데 여는 단추가 있다");
+  }
+
+  /* ---- 175. 마친 뒤에 도는 판이라 **어제 자리가 아니다** (T316) ---------- */
+  await A.evaluate(ODRESET, true);
+  await B.evaluate(ODRESET, true);
+  const oslot = await A.evaluate(() => ({
+    slot: odySlot(), row: (odyRow() || {}).row, done: doneSessions() }));
+  if (!oslot.slot || !oslot.row)
+    no("오늘의 한 판: 세션을 마쳤는데 자리를 못 찾는다");
+  else {
+    if (oslot.slot.i !== oslot.done - 1)
+      no("오늘의 한 판: 자리가 " + oslot.slot.i + " 인데 끝낸 세션이 " +
+         oslot.done + " 이다. 오늘 것이 이미 세어졌다");
+    if (oslot.row.w !== oslot.slot.w || oslot.row.d !== oslot.slot.d)
+      no("오늘의 한 판: 표의 줄과 자리가 안 맞는다");
+    /* **`plan()` 을 그대로 쓰면 내일 자리다.** 그 자리를 안 쓰는지를 잰다 */
+    const pw = await A.evaluate(() => ({ w: plan().week, d: plan().day }));
+    if (pw.w === oslot.slot.w && pw.d === oslot.slot.d)
+      no("오늘의 한 판: 자리가 plan() 과 같다. 마친 뒤라 하나 앞이어야 한다");
+  }
+
+  /* ---- 176. 두 기기가 같은 판을 연다 ------------------------------------ */
+  {
+    const nameOf = (p) => p.evaluate(() => {
+      const r = (odyRow() || {}).row; if (!r) return null;
+      const pl = playById(r.pick);
+      return { pick: r.pick, name: pl ? pl.name : null };
+    });
+    const a = await nameOf(A), b = await nameOf(B);
+    if (!a || !b || a.pick !== b.pick)
+      no("오늘의 한 판: 두 기기가 다른 판을 연다: " +
+         JSON.stringify(a) + " vs " + JSON.stringify(b));
+    if (a && a.name && (await text(A)).indexOf(a.name) < 0)
+      no("오늘의 한 판: 오늘 판 이름이 화면에 없다");
+    /* **조사가 이름에 맞는가** (T316). 받침 있는 이름과 없는 이름을 다 대 본다 */
+    const jo = await A.evaluate(() => [
+      ["거울", odyJo("거울", "을", "를"), odyJo("거울", "으로", "로")],
+      ["끼어들기", odyJo("끼어들기", "을", "를"), odyJo("끼어들기", "으로", "로")],
+      ["3초 벽", odyJo("3초 벽", "을", "를"), odyJo("3초 벽", "으로", "로")],
+    ]);
+    const want = [["거울", "거울을", "거울로"],
+                  ["끼어들기", "끼어들기를", "끼어들기로"],
+                  ["3초 벽", "3초 벽을", "3초 벽으로"]];
+    if (JSON.stringify(jo) !== JSON.stringify(want))
+      no("오늘의 한 판: 조사가 이름에 안 맞는다: " + JSON.stringify(jo));
+  }
+
+  /* ---- 177. 열면 그 판으로 가고 **적는 것이 먼저다** --------------------- */
+  {
+    const pick = await A.evaluate(() => (odyRow() || {}).row.pick);
+    if (!(await A.$("#odyGo"))) no("오늘의 한 판: 여는 단추가 없다");
+    if (!/한 번 열면 못 무른다/.test(await text(A)))
+      no("오늘의 한 판: 못 무른다는 말이 없다");
+    await tap(A, "#odyGo", "판을 연다");
+    const st = await A.evaluate(() => ({
+      at: PLAY.at, rec: S.rhit["oneday|" + today()] || {},
+      saved: JSON.parse(localStorage.getItem("eng2p.v1") || "{}")
+               .rhit["oneday|" + today()] || {} }));
+    if (st.at !== pick)
+      no("오늘의 한 판: 눌렀는데 " + st.at + " 로 갔다. " + pick + " 여야 한다");
+    if (!st.rec.opened) no("오늘의 한 판: 열었는데 안 적혔다");
+    /* **넘어가기 전에 적는다.** 넘어가다 만 날이 안 적히면 안 연 날이 된다 */
+    if (!st.saved.opened)
+      no("오늘의 한 판: 연 것이 저장소에 안 남았다. 넘어가다 만 날이 사라진다");
+    if (st.rec.pick !== pick)
+      no("오늘의 한 판: 무엇을 열었는지가 안 적혔다");
+  }
+
+  /* ---- 178. 다시 와도 안 무른다. 닫으면 다시 안 열린다 ------------------- */
+  {
+    await A.evaluate(() => { PLAY.at = "oneday"; renderPlayTab(); });
+    await A.waitForTimeout(200);
+    const t = await text(A);
+    if (!/오늘 것은 열었다/.test(t))
+      no("오늘의 한 판: 다시 왔더니 안 연 것으로 돌아갔다");
+    if (await A.$("#odyEnd")) {
+      if (!/판정이 아니다/.test(t))
+        no("오늘의 한 판: 닫는 단추가 판정이 아니라는 말이 없다");
+    } else no("오늘의 한 판: 닫는 단추가 없다");
+    await tap(A, "#odyEnd", "다 돌았다");
+    const d = await text(A);
+    if (!/오늘 것은 끝났다/.test(d))
+      no("오늘의 한 판: 닫았는데 안 닫힌다");
+    if (!/다시 안 열린다/.test(d))
+      no("오늘의 한 판: 닫았는데 다시 안 열린다는 말이 없다");
+    if (await A.$("#odyGo"))
+      no("오늘의 한 판: 닫았는데 여는 단추가 그대로 있다");
+    /* **막는 것은 이 자리 하나다.** 판 탭을 막으면 연습을 막는 것이 된다.
+
+       처음에는 "판 탭에서 아무 판이나 돈다" 하나만 봤다. 깸 시험에서 그 뒤의
+       "막는 것은 이 자리 하나다" 를 지웠는데 **안 잡혔다.** 두 문장이 다른 말을
+       하는데 앞엣것만 쟀다. 앞은 무엇을 해도 되는지고 뒤는 **무엇이 막히는지**다.
+       둘 다 없으면 두 사람이 앱이 연습을 막는 줄 안다. 둘 다 잰다. */
+    if (!/판 탭에서 아무 판이나 돈다/.test(d))
+      no("오늘의 한 판: 더 하고 싶으면 무엇을 하라는 말이 없다");
+    if (!/막는 것은/.test(d) || !/이 자리 하나/.test(d))
+      no("오늘의 한 판: 막는 것이 이 자리 하나라는 말이 없다");
+    /* 새로고침해도 닫힌 채인가 */
+    await A.reload();
+    await A.waitForTimeout(400);
+    await openPlay(A, "oneday", "renderOneday");
+    await A.waitForFunction(() => !!DATA.onepick, null, { timeout: 30000 })
+      .catch(() => no("오늘의 한 판: 다시 열 때 표를 못 읽었다"));
+    await A.evaluate(() => renderOneday());
+    if (!/오늘 것은 끝났다/.test(await text(A)))
+      no("오늘의 한 판: 새로고침했더니 잠금이 풀렸다");
+    /* **되돌리기가 없어야 한다.** 무를 수 있으면 막는 것이 아니다 */
+    if (await A.$(".undo"))
+      no("오늘의 한 판: 되돌릴 자리가 뜬다. 무를 수 있으면 막는 것이 아니다");
+  }
+
+  /* ---- 179. 저쪽 기기는 아직 안 닫혔다. **잠금이 기기마다다** ------------ */
+  {
+    /* **"다시 안 열린다" 로 자리를 못 가른다.** 그 말이 두 화면에 다 있다.
+       열기 전 경고가 "더 하고 싶어도 이 자리는 다시 안 열린다" 고 적고
+       닫은 뒤 화면도 같은 말을 한다. 처음에 그 말로 쟀다가 **검사가 틀렸다.**
+
+       T311 에 같은 것을 겪었다. 거기서는 화면의 두 자리였고 여기는 두 상태다.
+       **한 화면에만 있는 말을 고른다.** 닫은 뒤에만 있는 말이 이것이다. */
+    const t = await text(B);
+    if (/오늘 것은 끝났다/.test(t))
+      no("오늘의 한 판: 이쪽에서 닫았는데 저쪽도 닫혔다. 셈이 안 건너간다");
+    if (!(await B.$("#odyGo")))
+      no("오늘의 한 판: 저쪽 기기에 여는 단추가 없다");
+  }
+
+  /* ---- 180. 등급. **여는 판의 등급은 그 판이 말한다** -------------------- */
+  {
+    const t = await text(B);
+    if (!t.includes("A등급"))
+      no("오늘의 한 판: 자료 등급이 화면에 없다");
+    if (t.includes("통과 판정에는 안 쓴다"))
+      no("오늘의 한 판: A등급 자료에 통과 판정 금지가 붙었다");
+    if (!/그 판이 제 화면에서 말한다/.test(t))
+      no("오늘의 한 판: 여는 판의 등급을 누가 말하는지가 없다");
+    if (/\*\*/.test(t))
+      no("오늘의 한 판: 화면에 마크다운 표시가 보인다");
+  }
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 19개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 20개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
               "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
               "파장 34 / " +
@@ -3390,6 +3596,9 @@ const RESET = () => {
               "**시계가 저절로 안 편다** / " +
               "어제 그거: 덱 8판, 두 기기 2판, 가림 8판, 넘기기 5판, 셈 7판, " +
               "마감 6판, 안 여는 날 3판, 등급 12판 " +
-              "**두 기기가 다른 덱을 들어도 된다** / 실패 " + fails.length);
+              "**두 기기가 다른 덱을 들어도 된다** / " +
+              "오늘의 한 판: 표 7판, 안 마친 날 4판, 자리 4판, 두 기기 4판, " +
+              "열기 5판, 잠금 8판, 갈린 잠금 2판, 등급 4판 " +
+              "**판이 아니라 자리다** / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
