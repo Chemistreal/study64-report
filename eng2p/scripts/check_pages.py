@@ -19,12 +19,14 @@ CI 에 걸었다. 여섯 장 중 다섯 장이 걸렸고 `english.html` 도 그�
 
 규격: .github/workflows/tests.yml, tools/audit_pages.py, tools/noindex.py
 """
+import os
 import pathlib
 import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 TOOLS = ROOT / "tools"
+CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 
 # CI 가 도는 차례 그대로다. **여기서 빼면 여기서만 초록불이다.**
 JOBS = [("audit_pages.py", "대비와 글씨와 뼈대"),
@@ -36,7 +38,14 @@ JOBS = [("audit_pages.py", "대비와 글씨와 뼈대"),
         ("store_ledger.py", "저장하는 것을 적어 뒀나"),
         ("page_doors.py", "화면마다 나갈 문이 있나"),
         ("lie_check.py", "화면이 없는 것을 있다고 하나"),
-        ("msg_ledger.py", "학습자에게 하는 말이 대장에 있나")]
+        ("msg_ledger.py", "학습자에게 하는 말이 대장에 있나"),
+        # 2026-08-10 에 하나 더 (PR #15)
+        ("pages_budget.py", "Pages 한도 안인가")]
+
+# 브라우저를 띄우는 자. **CI 는 `playwright` 를 쓰고 이 기계에는 `playwright-core`
+# 가 있다.** 이름을 안 알려 주면 조용히 건너뛰고 그러면 안 본 것이 통과처럼 보인다.
+BROWSER = [("tests/narrow.js", "휴대폰 폭 안에 드나"),
+           ("tests/first-paint.js", "첫 그림을 글꼴이 막나")]
 
 # **그 자들이 안 보는 자리.** `js_syntax.py` 는 `.html` 안의 `<script>` 만 본다.
 # 이 저장소에는 홀로 선 `.js` 파생물이 있고 (T259 에 판 화면을 밖으로 뺐다)
@@ -69,6 +78,34 @@ def main():
             for x in lines[-12:]:
                 print("   " + x)
         said.append("%s: %s" % (what, tail))
+    # 브라우저를 띄우는 자 둘. **CI 와 같은 자다.**
+    for rel, what in BROWSER:
+        f = ROOT / rel
+        if not f.exists():
+            said.append("%s: %s 가 없다" % (what, rel))
+            continue
+        env = dict(os.environ)
+        env.setdefault("PLAYWRIGHT_MODULE", "playwright-core")
+        if not env.get("CHROMIUM_PATH") and os.path.exists(CHROME):
+            env["CHROMIUM_PATH"] = CHROME
+        try:
+            r = subprocess.run(["node", str(f)], capture_output=True,
+                               text=True, cwd=str(ROOT), env=env)
+        except OSError:
+            said.append("%s: node 가 없어 건너뛴다. 통과가 아니다" % what)
+            continue
+        lines = [x for x in (r.stdout or "").strip().split("\n") if x.strip()]
+        tail = lines[-1] if lines else "(출력 없음)"
+        if "건너뜀" in (r.stdout or ""):
+            said.append("%s: **건너뛰었다. 통과가 아니다**" % what)
+            continue
+        if r.returncode:
+            bad += 1
+            print("[실패] %s (%s)" % (rel, what))
+            for x in lines[-10:]:
+                print("   " + x)
+        said.append("%s: %s" % (what, tail))
+
     # 홀로 선 파생 `.js` 는 `node --check` 로 직접 본다. node 가 없으면
     # **건너뛴다고 적는다.** 조용히 넘어가면 안 본 것이 통과처럼 보인다.
     seen = 0
@@ -96,8 +133,8 @@ def main():
 
     for s in said:
         print("  " + s)
-    print("뿌리 화면 검수 %d갈래 + 홀로 선 %d개 / 실패 %d"
-          % (len(JOBS), len(LOOSE), bad))
+    print("뿌리 화면 검수 %d갈래 + 브라우저 %d개 + 홀로 선 %d개 / 실패 %d"
+          % (len(JOBS), len(BROWSER), len(LOOSE), bad))
     return 1 if bad else 0
 
 
