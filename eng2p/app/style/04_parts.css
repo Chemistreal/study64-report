@@ -306,3 +306,6 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 /* 공동 배지 (T329). 분기 배지 한 줄만 도드라지게 둔다. 조건 넷을 다 지난 자리다. */
 .badgeall{font-weight:600}
 
+/* 관계 점검에서 어긋난 자리 (T331). **어느 쪽이 맞는지는 안 적는다.** */
+.relgap{color:var(--warn)}
+

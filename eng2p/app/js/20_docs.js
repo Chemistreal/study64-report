@@ -269,7 +269,9 @@ applyFs(); renderOnboard();
 needWeek(plan().week, function(){
   renderToday(); paintTimer(); renderRules(); paintSide(); paintVeil();
 });
-ttsVoices(); renderSound(); renderClip(); renderScript();
+/* 클립과 대본은 그 탭을 열 때 그린다 (T331 뒤). 늦게 읽는 조각이라
+   시작에는 그 함수가 없다. **늦게 읽는 것을 시작에서 부르면 안 된다.** */
+ttsVoices(); renderSound();
 /* **끊긴 세션이 있으면 오늘 탭으로 데려온다.** T247
 
    블록 1은 미디어 탭에서 40분을 듣는다. 그 사이에 기기가 꺼지면 다시 열 때

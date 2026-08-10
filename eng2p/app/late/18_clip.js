@@ -6,12 +6,6 @@
 var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1,
   peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare"};
 
-function mmss(s){
-  if(s==null||isNaN(s)) return "-";
-  s=Math.max(0,s);
-  var m=Math.floor(s/60), r=s-m*60;
-  return m+":"+(r<10?"0":"")+r.toFixed(1);
-}
 function setClipPhase(phase){
   CLIP.phase=phase;
   var a=$("#clipRoleA"), b=$("#clipRoleB"), hint=$("#clipRoleHint");

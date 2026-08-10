@@ -41,7 +41,6 @@ js/10_run.js          블록 몰기. 넘김과 되돌림
 js/11_ledger.js       대장 탭
 js/16_review.js       복습. 간격 반복
 js/17_sound.js        소리. 기기 내장 음성 합성
-js/18_clip.js         클립. 로컬 파일 구간 반복
 js/19_library.js      미디어 라이브러리 52과
 js/21_weekcheck.js    주간 점검 30분. 앱이 세고 사람은 왜 그랬는지를 적는다
 js/22_paircode.js     짝 코드. **셈만 건너간다.** 사람이 손으로 치는 스물몇 글자
@@ -56,6 +55,7 @@ page/03_close.html    script 닫고 body 닫기
 
 # 드물게 여는 탭 넷. eng2p/out/app/late.js 로 나간다 (T313 뒤).
 # 그 탭을 처음 열 때 읽는다. 21.3KB 라 열자마자 읽을 값이 아니다.
+late/18_clip.js       클립 탭. **파일을 열어 구간을 도는 자리다.** 16KB
 late/12_verify.js     판정 탭. **검증 대기열을 볼 때만 연다**
 late/13_quarter.js    분기 탭. **열두 주에 한 번 연다**
 late/14_check.js      규격 검사 이식. **제일 크고 제일 안 연다**

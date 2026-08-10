@@ -45,7 +45,9 @@ function go(name){
   if(name==="review") renderReview();
   if(name==="sound") renderSound();
   if(name==="src") renderSrc();
-  if(name==="clip") renderClip();
+  /* 클립 탭도 늦게 읽는다 (T331 뒤). 파일을 열어 구간을 도는 자리라
+     날마다 여는 자리가 아니다. 대본 자리도 그 탭 안에 있어 같이 그린다. */
+  if(name==="clip"){ lateDo("renderClip"); lateDo("renderScript"); }
   /* **오늘 탭으로 돌아오면 다시 그린다.** 다른 탭은 다 다시 그리는데 이것만 아니었다.
      세션 중에 값이 바뀐다. 블록 3이 오늘 돈 카드 수를 세고 블록 2가 LRE 를 받는다.
      안 다시 그리면 옛 값이 칸에 남고, 그 상태에서 옆 칸을 고치면

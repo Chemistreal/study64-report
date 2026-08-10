@@ -147,10 +147,22 @@ function veilPane(mine, hidden, who, at){
    어긋난 시계로 동시를 만들면 한쪽이 먼저 펴진다. **먼저 펴지는 쪽이 손해다.** */
 var REVEAL={open:{}};
 function revealReady(id){
+  /* **참거짓을 그대로 받는다** (T330). 분기 관계 점검은 적는 칸이 아니라
+     고르개 넷이다. 다 골랐는지는 그쪽이 아니까 그 답을 그대로 준다.
+     여기서 고르개까지 알려 들면 이 부품이 화면마다 다른 것을 알아야 한다. */
+  if(typeof id==="boolean") return id;
   var el=document.getElementById(id);
   return !!(el && String(el.value||"").trim().length);
 }
-function revealOpen(key){ return !!REVEAL.open[key]; }
+/* 편 것을 어디에 적어 두나. **판은 그날 것이라 기억에만 둔다.**
+   분기 관계 점검은 1년에 네 번이라 새로 열어도 펴진 채여야 한다 (T330).
+   그래서 밖에서 적어 둔 값을 받는 자리를 뒀다. */
+var REVEAL_KEEP={};
+function revealKeep(key, fn){ REVEAL_KEEP[key]=fn; }
+function revealOpen(key){
+  if(REVEAL_KEEP[key] && REVEAL_KEEP[key]()) return true;
+  return !!REVEAL.open[key];
+}
 /* `force` 는 **시간이 다 됐다**는 뜻이다 (T310). 규칙서 12.1 의 못 했을 때 칸이
    "한쪽이 못 적으면 적은 쪽이 먼저 펴지 않는다. 시간이 되면 둘 다 펴진다" 다.
 

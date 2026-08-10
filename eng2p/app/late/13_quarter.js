@@ -40,22 +40,106 @@ function renderQuarter(){
   summary();
   $("#qFoot").textContent="기준 표시가 [운용]인 항목은 기준서에 숫자가 없어 이 콘솔에서 정한 값이다. 기준서 개정 시 함께 고친다.";
 
+  /* **따로 적고 같이 편다** (T330). 매뉴얼 7.2 가 그렇게 시킨다.
+
+       각자 다른 방에서 아래 4항목을 혼자 적는다. 5분.
+       상의하지 않는다. **상의하면 힘센 쪽 답으로 수렴한다.**
+       동시에 종이를 뒤집어 공개한다.
+
+     앱은 그동안 **두 사람 칸을 나란히 보여 주고 있었다.** 종이가 막으려던
+     바로 그것을 앱이 하고 있었다. 따로 쓰고 같이 펴기 판이 쓰는 문을 그대로 쓴다.
+
+     **누구 것을 적나** 를 고르고 그 사람 칸만 보인다. 넷을 다 고르면 문이 열린다.
+     기기가 둘이면 각자 제 것을 적고 하나면 돌려 가며 적는다. */
+  var rkey="rel"+curQ;
+  revealKeep(rkey, function(){ return !!st.relOpen; });
+  var side = st.relSide==="b" ? "b" : "a";
+  var full = function(w){
+    var n=0;
+    REL_Q.forEach(function(q){
+      var v=st.rel[w][q.k];
+      if(v && v!=="미기재") n++;
+    });
+    return n===REL_Q.length;
+  };
+  var open = revealOpen(rkey);
   var rb=$("#qRel"); rb.innerHTML="";
+
+  if(!open){
+    var pick=el("div","row");
+    pick.appendChild(el("span","small mut","누구 것을 적나"));
+    [["a",S.names.a],["b",S.names.b]].forEach(function(p){
+      var btn=el("button", side===p[0]?"b":"g", p[1]);
+      btn.type="button";
+      btn.onclick=function(){ st.relSide=p[0]; save(); renderQuarter(); };
+      pick.appendChild(btn);
+    });
+    rb.appendChild(pick);
+    rb.appendChild(el("div","small mut",
+      "따로 적는다. 상의하지 않는다. 상의하면 힘센 쪽 답으로 수렴한다."));
+  }
+
   [["a",S.names.a],["b",S.names.b]].forEach(function(p){
+    if(!open && p[0]!==side){
+      var v=el("div","card tight");
+      v.innerHTML='<h3>'+esc(jo(p[1],"이","가")+" 적은 것")+'</h3>'+
+        '<div class="vpane"><div class="vhid" aria-hidden="true"><span>'+
+        (full(p[0]) ? '다 적었다. 펴면 보인다' : '아직이다. 저쪽에서 적는다')+
+        '</span></div></div>';
+      rb.appendChild(v);
+      return;
+    }
     var card=el("div","card tight");
     card.appendChild(el("h3",null,jo(p[1],"이","가")+" 적은 것"));
     REL_Q.forEach(function(q){
       var w=el("div"); w.style.margin="8px 0";
-      var l=el("label","f",q.l); w.appendChild(l);
+      /* **어긋난 자리에만 표시한다** (T331). 매뉴얼 7.2 의 넷째 걸음이다.
+         편 뒤에만 붙는다. 펴기 전에 붙으면 상대 답을 알려 주는 것이 된다.
+
+         어느 쪽이 맞는지는 안 적는다. **어긋났다는 것이 답이다.**
+         한쪽은 비슷하다 하고 한쪽은 네가 우세하다 하면 이미 한 사람이
+         말을 삼키고 있다는 뜻이다 (매뉴얼 7.3 마지막 줄). */
+      var gap = open && st.rel.a[q.k] && st.rel.b[q.k] &&
+                st.rel.a[q.k]!=="미기재" && st.rel.b[q.k]!=="미기재" &&
+                st.rel.a[q.k]!==st.rel.b[q.k];
+      var l=el("label","f",q.l+(gap?" · 어긋났다":"")); w.appendChild(l);
+      if(gap) l.className="f relgap";
       var sel=el("select");
       sel.appendChild(el("option",null,"미기재"));
       q.opt.forEach(function(o){ sel.appendChild(el("option",null,o)); });
       sel.value=st.rel[p[0]][q.k]||"미기재";
-      sel.onchange=function(){ st.rel[p[0]][q.k]=sel.value; save(); signals(); };
+      sel.onchange=function(){ st.rel[p[0]][q.k]=sel.value; save(); renderQuarter(); };
       w.appendChild(sel); card.appendChild(w);
     });
     rb.appendChild(card);
   });
+
+  if(open){
+    /* 다시 적는 자리. **무르는 것이 아니라 다시 재는 것이다.**
+       2주 뒤 재점검을 매뉴얼 7.3 이 시킨다. 그때 이 분기 값을 지우고 다시 적는다.
+       지난 분기 값은 안 건드린다. 주도권 고정은 두 분기를 견줘서 나온다. */
+    var again=el("div","row"); again.style.marginTop="8px";
+    var ab=el("button","g","다시 적는다"); ab.type="button";
+    ab.onclick=function(){
+      st.relOpen=0; REVEAL.open["rel"+curQ]=false;
+      st.rel={a:{},b:{}}; save(); renderQuarter();
+      offerUndo("관계 점검을 다시 적기로 했다", function(){
+        st.relOpen=1; save(); renderQuarter();
+      });
+    };
+    again.appendChild(ab);
+    again.appendChild(el("span","small mut",
+      "2주 뒤 재점검에 쓴다. 지난 분기 값은 안 지운다."));
+    rb.appendChild(again);
+  }
+
+  if(!open){
+    var gate=el("div");
+    gate.innerHTML=revealGate(rkey, full("a")&&full("b"),
+      "두 사람 답이 어긋난 자리에만 표시가 붙는다");
+    rb.appendChild(gate);
+    revealBind(gate, function(){ st.relOpen=1; save(); renderQuarter(); });
+  }
   signals();
 
   function signals(){

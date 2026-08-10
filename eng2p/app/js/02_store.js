@@ -107,6 +107,15 @@ function iso(d){
   return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
 function parseISO(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2]);}
+/* 초를 분초로. **늦게 읽는 클립 조각에 있었다** (T331 뒤).
+   그 조각을 늦게 읽게 옮기면서 여기로 왔다. 되풀이 목록도 이것을 쓴다.
+   **한 자리에서만 쓰는 줄 알았는데 두 자리에서 썼다.** */
+function mmss(s){
+  if(s==null||isNaN(s)) return "-";
+  s=Math.max(0,s);
+  var m=Math.floor(s/60), r=s-m*60;
+  return m+":"+(r<10?"0":"")+r.toFixed(1);
+}
 function addDays(s,n){var d=parseISO(s); d.setDate(d.getDate()+n); return iso(d);}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}

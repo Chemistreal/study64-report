@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 서른다섯과 검사 서른둘과 상태 갱신 셋, 일흔을 정해진 순서로 돈다.
+**한 줄이다.** 파생 서른다섯과 검사 서른셋과 상태 갱신 셋, 일흔하나를 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -174,9 +174,9 @@ scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 �
 scripts/check_app.py   앱의 한국어를 규격 검사에 건다. **조각을 본다.** 파생물은 주석이 빠져 있다
 app/                   **앱의 원본.** 조각 쉰둘이다. english.html 은 이것에서 나온다
 app/play/              판 화면. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다
-app/late/              드물게 여는 탭 넷. **english.html 에 안 들어간다.** 그 탭을 열 때 읽는다
+app/late/              드물게 여는 탭 다섯. **english.html 에 안 들어간다.** 그 탭을 열 때 읽는다
 out/app/plays.js       판 묶음. 파생물이다. 손으로 안 고친다
-out/app/late.js        탭 넷 묶음. 파생물이다. 21.3KB 를 여기로 뺐다 (T313 뒤)
+out/app/late.js        탭 다섯 묶음. 파생물이다. 37KB 를 여기로 뺐다 (T313 뒤, T331 뒤)
 app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
 scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **주석은 조각에만 남는다**
 scripts/check_manual.py 설명하는 글과 앱을 견준다. 매뉴얼 넷과 짝 코드 자리 폭
@@ -198,6 +198,7 @@ scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = �
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/check_streak.js 연속일과 회복권과 퀘스트 61판. **날을 세지 사람을 안 센다**
 scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지 않는다**
+scripts/check_relation.js 분기 관계 점검 18판. **따로 적고 같이 편다**
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다

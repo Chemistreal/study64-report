@@ -193,7 +193,9 @@ function paintLibScript(it, lines){
     loadClipUrl(name, it.audio, false);
     var lab=$("#cLabel"); if(lab&&!lab.value) lab.value=it.title;
     $("#scText").value=lines.map(function(x){return x.line;}).join("\n");
-    save(); renderScript(); go("clip");
+    /* `go` 가 클립 탭을 열면서 그 조각을 읽고 대본까지 그린다 (T331 뒤).
+       여기서 먼저 부르면 아직 안 읽은 함수를 부르는 것이 된다. */
+    save(); go("clip");
     flash("대본 "+lines.length+"줄을 클립으로 보냈다");
   };
   head.appendChild(toClip);
