@@ -919,7 +919,7 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
     <h1><span class="grad">PRISM</span></h1>
     <p class="sub">공부 성격을 맞히는 검사에서 끝나지 않고, 학생이 어떤 조건에서 공부가 시작되고, 어떤 방식으로 이해하며, 어떤 피드백에서 성장하고, 어떤 상황에서 무너지는지를 찾는 학습 행동 진단 리포트입니다.</p>
     <div class="notice"><b>응답 기준 안내</b><br>이 검사는 좋고 나쁜 학생을 나누기 위한 검사가 아닙니다. 각 문항은 학생의 실제 학습이 어떻게 시작되고, 어디서 막히며, 어떤 방식으로 회복되는지를 보기 위한 문항입니다. 최근 1~2개월의 실제 공부 모습을 기준으로 답해주세요. 이상적인 모습보다 실제 행동에 가까운 답을 선택할수록 결과가 정확해집니다.<br><br><b>업데이트 기준</b><br>문항은 EBSi 학습유형검사, MSLQ, 자기조절학습검사, 한국교육개발원 자기조절역량 연구에서 공통적으로 다루는 사고유형, 자기주도성, 행동조절, 인지전략, 동기전략, 조력추구, 메타인지 요소를 바탕으로 새롭게 재작성했습니다. <br><br><b>해석상 확인할 점</b><br>이 리포트는 표준화 심리검사 형식보다 교육심리학 기반의 자기보고식 학습 행동 분석 도구입니다. 결과는 실제 수업 참여, 과제 수행, 틀린 문제를 다시 풀어 맞히는 과정, 복습 지속성 자료와 함께 해석할 때 가장 유용합니다.</div>
-    <div class="inputRow"><input id="studentName" placeholder="학생 이름 또는 닉네임을 입력하세요"><button class="btn" onclick="startTest()">검사 시작</button></div>
+    <div class="inputRow"><input id="studentName" placeholder="학생 이름 또는 닉네임을 입력하세요" aria-label="학생 이름 또는 닉네임을 입력하세요"><button class="btn" onclick="startTest()">검사 시작</button></div>
     <div class="actions"><button class="btn secondary" onclick="demoFill()">데모 결과 보기</button><button class="btn secondary" onclick="scrollToFrames()">논문 기반 프레임 보기</button></div>
   </div>
   <aside class="glass heroSide">
@@ -6142,7 +6142,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       <div class="paeTitle"><b>관리자 · ADMIN</b><h2>OMR 수기 입력 → 리포트 생성</h2></div>
       <div class="paeSub">각 칸에 <b>1~5 숫자</b>를 키보드로 입력하세요. 숫자를 누르면 자동으로 다음 칸으로 넘어갑니다. <b>← Backspace</b>로 지우며 뒤로, <b>방향키</b>로 칸 이동, <b>Enter</b>로 다음 칸. 96칸을 모두 채우면 검사와 동일한 리포트가 생성됩니다. <b>단축키</b>: Ctrl+S 또는 Ctrl+Enter 저장, Esc 닫기.</div>
       <div class="paeRow">
-        <input class="paeName" id="paeName" placeholder="학생 이름 또는 닉네임">
+        <input class="paeName" id="paeName" placeholder="학생 이름 또는 닉네임" aria-label="학생 이름 또는 닉네임">
         <button class="paeBtn ghost" onclick="prismAdminClear()">전체 지우기</button>
         <button class="paeBtn ghost" onclick="prismRecordsOpen()">저장 기록</button>
         <button class="paeBtn ghost" onclick="prismAdminPasteOpen()">번호 일괄 붙여넣기</button>
@@ -6693,7 +6693,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
       <button class="prBtn prClose" onclick="prismRecordsClose()">닫기</button>
     </div>
     <div class="prBar">
-      <input class="prFilter" id="prFilter" placeholder="이름으로 검색" oninput="prismRecordsRender()">
+      <input class="prFilter" id="prFilter" placeholder="이름으로 검색" oninput="prismRecordsRender()" aria-label="이름으로 검색">
       <span class="prStat" id="prStat"></span>
       <button class="prBtn" style="border-color:rgba(119,255,214,.3);color:#aef7e0" onclick="prismCohortOpen()">반 집계</button>
       <button class="prBtn go" onclick="prismRecordsExport()">CSV 내보내기</button>
@@ -7012,8 +7012,8 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     var opts=recs.map(function(r,i){return '<option value="'+r.id+'">'+(i+1)+'회 · '+fmtDate(r.ts)+'</option>';}).join('');
     var pick='';
     if(recs.length>2){
-      pick='<div class="pcPick"><label>이전</label><select id="pcSelA" onchange="prismCompareRefresh(\''+esc(name)+'\')">'+opts+'</select>'
-          +'<label>이후</label><select id="pcSelB" onchange="prismCompareRefresh(\''+esc(name)+'\')">'+opts+'</select></div>';
+      pick='<div class="pcPick"><label for="pcSelA">이전</label><select id="pcSelA" onchange="prismCompareRefresh(\''+esc(name)+'\')">'+opts+'</select>'
+          +'<label for="pcSelB">이후</label><select id="pcSelB" onchange="prismCompareRefresh(\''+esc(name)+'\')">'+opts+'</select></div>';
     }
     $('prismCompareBody').innerHTML=pick+'<div id="pcResult"></div>';
     if(recs.length>2){ $('pcSelA').value=recs[0].id; $('pcSelB').value=recs[recs.length-1].id; }
@@ -7152,7 +7152,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
 
     <div class="plRow2">
       <div class="plField">
-        <label>학년</label>
+        <label for="plGrade">학년</label>
         <select class="plSel" id="plGrade">
           <option value="">선택</option>
           <option>초4</option><option>초5</option><option>초6</option>
@@ -7174,7 +7174,7 @@ document.addEventListener('DOMContentLoaded',v33PatchStaticDOM);
     </div>
 
     <div class="plField">
-      <label>교사 관찰 메모 (자유)</label>
+      <label for="plNote">교사 관찰 메모 (자유)</label>
       <textarea class="plTxt" id="plNote" placeholder="검사 결과와 실제 학생의 차이, 특이사항, 검사가 놓친 점 등"></textarea>
     </div>
 

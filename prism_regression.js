@@ -1,8 +1,15 @@
 // ============================================================
 // PRISM 자동 회귀 스위트  (prism_regression.js)
 // 실행:  node prism_regression.js  [경로]
-// 기본 경로: /mnt/user-data/outputs/index.html
-// 종료코드: 0 = 전부 통과, 1 = 하나라도 실패
+// 기본 경로: 이 저장소의 index.html
+// 종료코드: 0 = 전부 통과, 1 = 하나라도 실패, 2 = 아예 못 돌았다
+//
+// ⚠ 이 검사 75개는 **아무도 안 돌리고 있었다**(2026-08-10 까지).
+//    · CI(.github/workflows/tests.yml)가 이 파일을 부르지 않았다
+//    · 기본 경로가 `/mnt/user-data/outputs/index.html` 이었다 — 산출물을 zip
+//      으로 내보내던 시절의 자리라, 저장소에서 인자 없이 돌리면 '파일 없음'
+//      이었다. 이제 이 저장소의 index.html 을 기본으로 본다
+//    못 도는 것과 통과하는 것은 다르다. 못 돌면 2 로 끝난다 — CI 가 빨간불로 본다.
 // ============================================================
 const fs = require('fs');
 const path = require('path');
@@ -11,7 +18,7 @@ let JSDOM;
 try { ({ JSDOM } = require('jsdom')); }
 catch (e) { console.error('jsdom 미설치. `npm install jsdom` 후 재실행.'); process.exit(2); }
 
-const FILE = process.argv[2] || '/mnt/user-data/outputs/index.html';
+const FILE = process.argv[2] || path.join(__dirname, 'index.html');
 if (!fs.existsSync(FILE)) { console.error('파일 없음:', FILE); process.exit(2); }
 const HTML = fs.readFileSync(FILE, 'utf8');
 

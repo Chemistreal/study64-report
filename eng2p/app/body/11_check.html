@@ -3,10 +3,10 @@
   <p class="lede">scripts/check.py 를 브라우저로 옮긴 것이다. 통과 못 하면 미완성이다.</p>
   <div class="card">
     <div class="grid g2">
-      <div><label class="f">파일명</label><input id="kName" value="eng2p_q1_l001.md"></div>
-      <div><label class="f">종류 (파일명으로 자동 판정)</label><input id="kKind" readonly class="mono"></div>
+      <div><label for="kName" class="f">파일명</label><input id="kName" value="eng2p_q1_l001.md"></div>
+      <div><label for="kKind" class="f">종류 (파일명으로 자동 판정)</label><input id="kKind" readonly class="mono"></div>
     </div>
-    <div style="margin-top:10px"><label class="f">제작물 내용</label><textarea id="kText" rows="14" placeholder="마크다운을 그대로 붙여넣는다"></textarea></div>
+    <div style="margin-top:10px"><label for="kText" class="f">제작물 내용</label><textarea id="kText" rows="14" placeholder="마크다운을 그대로 붙여넣는다"></textarea></div>
     <div class="row end" style="margin-top:10px">
       <span class="small mut mono" id="kLen"></span>
       <button class="b" id="kRun">검사</button>
