@@ -87,3 +87,47 @@ function renderQuarter(){
   }
 }
 
+/* 공동 배지 (T329). `out/data/badge.js` 가 자료다.
+
+   **지난 것과 안 지난 것을 같이 보여 준다.** 지난 것만 보이면 남은 것이 몇인지
+   모르고 안 지난 것만 보이면 그것이 빚이 된다.
+
+   안 지난 것에는 **얼마가 모자란지를 안 적는다.** 지금 얼마인지만 적는다.
+   퀘스트에서 정한 것과 같은 결이다 (`quest.md` 5.3). */
+function renderBadge(){
+  var box=$("#badgeList"); if(!box) return;
+  var d=DATA.badge;
+  if(!d){
+    box.innerHTML='<div class="small mut">배지를 여는 중이다.</div>';
+    loadData("badge","ENG2P_BADGE",function(){ renderBadge(); });
+    return;
+  }
+  var got=0, h="";
+  d.badges.forEach(function(b){
+    var st=(S.q&&S.q["Q"+b.quarter]) ? S.q["Q"+b.quarter] : null;
+    var pass=st?(st.pass||{}):{};
+    var now, ok;
+    if(b.kind==="all"){
+      now=0;
+      (PASS[b.quarter]||[]).forEach(function(c){
+        var v=pass[c.k];
+        if(v!=null && v!=="" && +v>=c.need) now++;
+      });
+      ok = now>=b.need;
+    }else{
+      var v=pass[b.key];
+      now = (v==null||v==="") ? null : +v;
+      ok = now!=null && now>=b.need;
+    }
+    if(ok) got++;
+    h+='<div class="row" style="justify-content:space-between;align-items:baseline">'+
+       '<span'+(b.kind==="all"?' class="badgeall"':'')+'>'+
+       (ok?'<b>지났다</b> ':'<span class="mut">아직 </span>')+esc(b.name)+'</span>'+
+       '<span class="small mut mono">'+
+       (now==null?"미측정":now+" / "+b.need)+' '+esc(b.unit)+'</span></div>';
+  });
+  box.innerHTML=h;
+  var c=$("#badgeCount");
+  if(c) c.textContent=got+" / "+d.count+" 를 지났다";
+}
+

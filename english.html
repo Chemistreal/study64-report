@@ -757,6 +757,8 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   padding:8px 9px;cursor:pointer;min-height:44px;overflow-wrap:anywhere}
 .mgpick:hover{border-color:var(--a1)}
 .mgpick.on{border-style:solid;border-color:var(--ok);background:var(--sub);font-weight:650}
+
+.badgeall{font-weight:600}
 .vpane{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
 .vmine{flex:1 1 60%;min-width:0}
 .vmine>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
@@ -1462,6 +1464,15 @@ body.veil-on>*:not(.veilcover){display:none}
   <p class="lede">각자 다른 방에서 따로 적고 동시에 공개한다. 상의하면 힘센 쪽 답으로 수렴한다.</p>
   <div id="qRel"></div>
   <div id="qSignal"></div>
+  <div class="card tight">
+    <div class="row" style="justify-content:space-between;align-items:baseline">
+      <b>공동 배지</b>
+      <span class="small mut" id="badgeCount"></span>
+    </div>
+    <p class="small mut">통과 조건에 붙는 이름표다. <b>새 목표가 아니다.</b>
+      배지가 없어도 다음 분기로 간다. <b>둘의 것이라 누가 지났는지를 안 적는다.</b></p>
+    <div id="badgeList"></div>
+  </div>
 </section>
 
 <!-- ========== 검사 ========== -->
@@ -2324,6 +2335,7 @@ function go(name){
   if(name==="ledger"){ renderLedger(); renderRest(); renderWeekCheck(); renderPair(); renderMerge(); }
   if(name==="verify") lateDo("renderVerify");
   if(name==="quarter") lateDo("renderQuarter");
+  if(name==="quarter") lateDo("renderBadge");
   if(name==="rot") lateDo("renderRot");
   if(name==="check") lateDo("checkBind");
   if(name==="rules") renderSplit();

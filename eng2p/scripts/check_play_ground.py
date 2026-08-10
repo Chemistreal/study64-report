@@ -54,7 +54,7 @@ WORDLIST = os.path.join(ROOT, "docs", "wordlist.md")
 PLAYDATA = ["pairs", "swaps", "listen", "relay", "chunks", "halves",
             "ladder", "wall", "situ", "wave", "whose", "reask", "cutin",
             "clash", "flip", "onepick", "apart", "playblocks",
-            "tally", "quest"]
+            "tally", "quest", "badge"]
 
 HANGUL = re.compile(r"[가-힣]")
 WORD = re.compile(r"[A-Za-z]{2,}")

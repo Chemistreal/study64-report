@@ -88,6 +88,8 @@ STEPS = [
     ("파생", "derive_tally.py", [], True),
     # 주마다의 공동 퀘스트. **docs/quest.md 5장 표가 원본이다.** T325
     ("파생", "derive_quest.py", [], True),
+    # 공동 배지. **새 이름을 안 짓는다.** PASS 에서 그대로 옮긴다. T329
+    ("파생", "derive_badge.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
@@ -138,6 +140,8 @@ STEPS = [
     # 깨진 기록을 조용히 버리는지, 미뤄 둔 저장이 창 닫힐 때 흘러가는지를 본다.
     # 공동 연속일. **날을 세지 사람을 안 센다.** T321
     ("화면", "check_streak.js", [], False),
+    # 공동 배지. **새 이름을 안 짓고 잠그지 않는다.** T329
+    ("화면", "check_badge.js", [], False),
     ("화면", "check_store.js", [], False),
     # **열자마자 읽는 바이트에 선을 건다.** 시간은 기계마다 달라 선을 못 건다.
     # T185 에 접힌 칸이 안에서 136KB 를 읽고 있던 것이 여기서 나왔다.

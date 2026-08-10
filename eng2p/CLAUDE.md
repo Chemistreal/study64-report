@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 서른넷과 검사 서른하나와 상태 갱신 셋, 예순여덟을 정해진 순서로 돈다.
+**한 줄이다.** 파생 서른다섯과 검사 서른둘과 상태 갱신 셋, 일흔을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -142,6 +142,7 @@ scripts/derive_onepick.py 오늘의 한 판이 그날 열 판. **그날 열리�
 scripts/derive_blocks.py 스무 판이 블록 넷 중 어디에 붙나. **블록 1은 비어 있고 그것이 맞다**
 scripts/derive_tally.py 판마다 셈을 합치는 법 넷. **합친 값을 저장소에 안 남긴다**
 scripts/derive_quest.py 주마다의 공동 퀘스트. **quest.md 5장 표가 원본이다**
+scripts/derive_badge.py 공동 배지 스물. **새 이름을 안 짓는다.** PASS 에서 옮긴다
 docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무엇이 종이에만 있나
 docs/pair.md           기기 둘. 무엇이 갈리고 무엇이 건너가야 하는가. **셈은 코드로 글은 파일로**
 docs/merge.md          합치기. **덮는 것이 아니다.** 갈래 넷과 묻는 일곱
@@ -195,7 +196,8 @@ scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세�
 scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다. 없으면 건너뛴다 (통과 아님)
 scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = 서른두 판
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
-scripts/check_streak.js 연속일과 회복권과 퀘스트 47판. **날을 세지 사람을 안 센다**
+scripts/check_streak.js 연속일과 회복권과 퀘스트 61판. **날을 세지 사람을 안 센다**
+scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지 않는다**
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다

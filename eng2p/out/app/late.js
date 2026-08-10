@@ -151,6 +151,43 @@ function renderQuarter(){
     out.appendChild(el("div","note small","이 신호는 '말수가 적다'가 아니라 '고착됐다'를 잡는 장치다. 조용한 사람을 말하게 만드는 게 목적이 아니다."));
   }
 }
+
+function renderBadge(){
+  var box=$("#badgeList"); if(!box) return;
+  var d=DATA.badge;
+  if(!d){
+    box.innerHTML='<div class="small mut">배지를 여는 중이다.</div>';
+    loadData("badge","ENG2P_BADGE",function(){ renderBadge(); });
+    return;
+  }
+  var got=0, h="";
+  d.badges.forEach(function(b){
+    var st=(S.q&&S.q["Q"+b.quarter]) ? S.q["Q"+b.quarter] : null;
+    var pass=st?(st.pass||{}):{};
+    var now, ok;
+    if(b.kind==="all"){
+      now=0;
+      (PASS[b.quarter]||[]).forEach(function(c){
+        var v=pass[c.k];
+        if(v!=null && v!=="" && +v>=c.need) now++;
+      });
+      ok = now>=b.need;
+    }else{
+      var v=pass[b.key];
+      now = (v==null||v==="") ? null : +v;
+      ok = now!=null && now>=b.need;
+    }
+    if(ok) got++;
+    h+='<div class="row" style="justify-content:space-between;align-items:baseline">'+
+       '<span'+(b.kind==="all"?' class="badgeall"':'')+'>'+
+       (ok?'<b>지났다</b> ':'<span class="mut">아직 </span>')+esc(b.name)+'</span>'+
+       '<span class="small mut mono">'+
+       (now==null?"미측정":now+" / "+b.need)+' '+esc(b.unit)+'</span></div>';
+  });
+  box.innerHTML=h;
+  var c=$("#badgeCount");
+  if(c) c.textContent=got+" / "+d.count+" 를 지났다";
+}
 var TRANSLIT=["디스","왓","하우","웨어","쓰리","파이브","굿모닝","땡큐","쏘리","플리즈","아이엠"];
 var CLICHE=["결론적으로","중요한 것은","핵심은 바로","요약하자면"];
 var VAGUE=["자연스러워지면","익숙해지면","감이 오면","편해지면","어느 정도"];

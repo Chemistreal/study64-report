@@ -1,0 +1,214 @@
+{
+  "note": "공동 배지. app/js/01_const.js 의 PASS 에서 이름과 숫자를 그대로 옮긴다. 새 이름을 안 짓는다. 손으로 안 고친다. scripts/derive_badge.py 를 다시 돌린다.",
+  "grade": "A",
+  "gradeWhy": "영어가 없다. 통과 조건 이름과 숫자를 옮긴 것이라 세면 나온다.",
+  "generator": "scripts/derive_badge.py",
+  "source": "app/js/01_const.js 의 PASS",
+  "locks": false,
+  "locksWhy": "배지가 없어도 다음 분기로 간다. 분기 이동은 통과 조건이 정한다. 배지는 지난 것을 적어 두는 자리지 여는 열쇠가 아니다.",
+  "perPerson": false,
+  "perPersonWhy": "S.q 의 pass 는 사람별이 아니다. 둘이 서로에게 재고 한 숫자를 적는다. 그러니 배지도 하나고 누가 지났는지를 안 적는다.",
+  "count": 20,
+  "badges": [
+    {
+      "id": "Q1-red",
+      "quarter": 1,
+      "kind": "one",
+      "key": "red",
+      "name": "축약 20종 청취 식별",
+      "need": 18,
+      "unit": "20개 중",
+      "src": "기준서 90%"
+    },
+    {
+      "id": "Q1-str",
+      "quarter": 1,
+      "kind": "one",
+      "key": "str",
+      "name": "강세 박자 재현",
+      "need": 8,
+      "unit": "10문장 중",
+      "src": "운용"
+    },
+    {
+      "id": "Q1-ask",
+      "quarter": 1,
+      "kind": "one",
+      "key": "ask",
+      "name": "되묻기 3형 자동 (2초 내)",
+      "need": 3,
+      "unit": "3형 중",
+      "src": "기준서 자동"
+    },
+    {
+      "id": "Q1-hrs",
+      "quarter": 1,
+      "kind": "one",
+      "key": "hrs",
+      "name": "누적 시간",
+      "need": 144,
+      "unit": "h",
+      "src": "파생 576h"
+    },
+    {
+      "id": "Q1",
+      "quarter": 1,
+      "kind": "all",
+      "key": null,
+      "name": "Q1 통과 조건 넷을 다 지났다",
+      "need": 4,
+      "unit": "조건 중",
+      "src": "위 넷"
+    },
+    {
+      "id": "Q2-chk",
+      "quarter": 2,
+      "kind": "one",
+      "key": "chk",
+      "name": "고빈도 청크 0.5초 인출",
+      "need": 45,
+      "unit": "표본 50개 중",
+      "src": "운용 90%"
+    },
+    {
+      "id": "Q2-non",
+      "quarter": 2,
+      "kind": "one",
+      "key": "non",
+      "name": "무중단 발화",
+      "need": 90,
+      "unit": "초",
+      "src": "기준서 90초"
+    },
+    {
+      "id": "Q2-rep",
+      "quarter": 2,
+      "kind": "one",
+      "key": "rep",
+      "name": "자기수정 자연화",
+      "need": 3,
+      "unit": "3분 중 성공 회",
+      "src": "운용"
+    },
+    {
+      "id": "Q2-hrs",
+      "quarter": 2,
+      "kind": "one",
+      "key": "hrs",
+      "name": "누적 시간",
+      "need": 288,
+      "unit": "h",
+      "src": "파생 576h"
+    },
+    {
+      "id": "Q2",
+      "quarter": 2,
+      "kind": "all",
+      "key": null,
+      "name": "Q2 통과 조건 넷을 다 지났다",
+      "need": 4,
+      "unit": "조건 중",
+      "src": "위 넷"
+    },
+    {
+      "id": "Q3-rct",
+      "quarter": 3,
+      "kind": "one",
+      "key": "rct",
+      "name": "3초 내 반응",
+      "need": 18,
+      "unit": "20문항 중",
+      "src": "운용 90%"
+    },
+    {
+      "id": "Q3-lre",
+      "quarter": 3,
+      "kind": "one",
+      "key": "lre",
+      "name": "LRE 세션당 평균",
+      "need": 8,
+      "unit": "회",
+      "src": "기준서 8회"
+    },
+    {
+      "id": "Q3-ovl",
+      "quarter": 3,
+      "kind": "one",
+      "key": "ovl",
+      "name": "겹침 상황 처리",
+      "need": 7,
+      "unit": "10회 중 복구",
+      "src": "운용"
+    },
+    {
+      "id": "Q3-hrs",
+      "quarter": 3,
+      "kind": "one",
+      "key": "hrs",
+      "name": "누적 시간",
+      "need": 432,
+      "unit": "h",
+      "src": "파생 576h"
+    },
+    {
+      "id": "Q3",
+      "quarter": 3,
+      "kind": "all",
+      "key": null,
+      "name": "Q3 통과 조건 넷을 다 지났다",
+      "need": 4,
+      "unit": "조건 중",
+      "src": "위 넷"
+    },
+    {
+      "id": "Q4-spk",
+      "quarter": 4,
+      "kind": "one",
+      "key": "spk",
+      "name": "발화 지속",
+      "need": 180,
+      "unit": "초",
+      "src": "기준서 3분"
+    },
+    {
+      "id": "Q4-reg",
+      "quarter": 4,
+      "kind": "one",
+      "key": "reg",
+      "name": "3레지스터 구분",
+      "need": 5,
+      "unit": "6문항 중",
+      "src": "운용"
+    },
+    {
+      "id": "Q4-trn",
+      "quarter": 4,
+      "kind": "one",
+      "key": "trn",
+      "name": "대화 주도권 전환",
+      "need": 7,
+      "unit": "10회 중",
+      "src": "운용"
+    },
+    {
+      "id": "Q4-hrs",
+      "quarter": 4,
+      "kind": "one",
+      "key": "hrs",
+      "name": "누적 시간",
+      "need": 576,
+      "unit": "h",
+      "src": "파생 576h"
+    },
+    {
+      "id": "Q4",
+      "quarter": 4,
+      "kind": "all",
+      "key": null,
+      "name": "Q4 통과 조건 넷을 다 지났다",
+      "need": 4,
+      "unit": "조건 중",
+      "src": "위 넷"
+    }
+  ]
+}

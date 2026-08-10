@@ -58,6 +58,7 @@ function go(name){
      것이다. 칸은 `body/` 조각에 있고 그리는 코드만 늦게 온다. */
   if(name==="verify") lateDo("renderVerify");
   if(name==="quarter") lateDo("renderQuarter");
+  if(name==="quarter") lateDo("renderBadge");
   if(name==="rot") lateDo("renderRot");
   if(name==="check") lateDo("checkBind");
   if(name==="rules") renderSplit();
