@@ -135,6 +135,39 @@ function renderOverlap(){
   }
 
   var key="overlap"+r, open=revealOpen(key);
+  /* 기기가 하나면 이 판도 종이로 돈다 (`solo_plays.md` 4.2). **따로 쓰고 같이 펴기와
+     같은 자리다.** T310 에 그 판을 짜다가 여기가 비어 있는 것을 알았다.
+     적는 자리가 하나면 뒤에 적는 사람이 앞사람 것을 봤거나 **안 봤다는 것을 서로 못 믿는다.**
+     화면에 칸을 만들어 두고 돌려 보라고 하면 그 판이 판이 아니게 된다. */
+  if(typeof soloOn==="function" && soloOn() && !open){
+    h+='<div class="note w" style="margin-top:12px"><b>기기가 하나다. '+
+       '이 판은 종이로 돈다.</b> 적는 자리가 하나면 뒤에 적는 사람이 앞사람 것을 '+
+       '봤거나 <b>안 봤다는 것을 서로 못 믿는다.</b><br>'+
+       '<b>각자 종이에 단서 한 낱말을 적고 같이 뒤집는다.</b> '+
+       '겹쳤는지는 둘이 눈으로 견준다. 화면은 맞힐 것과 남은 단서만 낸다.</div>';
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="b" id="ovlPaperSame">겹쳤다. 둘 다 지운다</button>'+
+       '<button class="g" id="ovlPaperDiff">안 겹쳤다. 둘 다 남는다</button></div>';
+    h+='<div class="row" style="margin-top:10px">'+
+       '<button class="g" id="ovlGo">4분 시계 <span class="mono" id="ovlClock">'+
+       ovlClockText()+'</span></button>'+
+       '<button class="g" id="ovlHit">남은 단서로 닿았다</button></div>'+
+       playGrade(DATA.chunks)+'</div>';
+    box.innerHTML=h;
+    $("#ovlGo").onclick=function(){ ovlClockGo(OVL.min); };
+    $("#ovlHit").onclick=function(){
+      OVL.hit=r+1; rec.rounds=r+1; save(); renderOverlap();
+    };
+    $("#ovlPaperSame").onclick=function(){
+      rec.wiped+=2; rec.rounds++; save();
+      roundStepSet("overlap", r+1); renderOverlap();
+    };
+    $("#ovlPaperDiff").onclick=function(){
+      rec.rounds++; save();
+      roundStepSet("overlap", r+1); renderOverlap();
+    };
+    return;
+  }
   if(!open){
     h+='<div class="note" style="margin-top:12px">단서 <b>한 낱말</b>을 적는다. '+
        '<b>상대에게 안 보여 준다.</b> 다 적으면 펴는 단추가 켜진다.</div>'+

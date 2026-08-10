@@ -151,8 +151,15 @@ function revealReady(id){
   return !!(el && String(el.value||"").trim().length);
 }
 function revealOpen(key){ return !!REVEAL.open[key]; }
-function revealGate(key, fieldId, what){
-  var ready=revealReady(fieldId), open=revealOpen(key);
+/* `force` 는 **시간이 다 됐다**는 뜻이다 (T310). 규칙서 12.1 의 못 했을 때 칸이
+   "한쪽이 못 적으면 적은 쪽이 먼저 펴지 않는다. 시간이 되면 둘 다 펴진다" 다.
+
+   그래도 **앱이 저절로 안 편다.** 두 기기의 시계가 따로 가서 한쪽이 먼저 울린다.
+   저절로 펴면 먼저 울린 쪽이 먼저 펴지고 그것이 이 판이 막으려던 바로 그것이다.
+   시간이 되면 **빈 칸이어도 단추가 켜지고** 누르는 것은 여전히 둘이 같이 한다.
+   `docs/round.md` 5장이 정한 반반이 그대로다. */
+function revealGate(key, fieldId, what, force){
+  var typed=revealReady(fieldId), ready=typed||!!force, open=revealOpen(key);
   if(open) return '<div class="note g">폈다. '+esc(what||"서로 다른 자리를 하나씩 말한다")+'</div>';
   var h='<div class="rgate">';
   if(!ready){
@@ -161,7 +168,10 @@ function revealGate(key, fieldId, what){
   }else{
     /* **상대가 됐다고 말하기 전에는 누르지 말라고 화면이 시킨다.**
        기기가 못 하는 것을 사람이 한다. 시키지 않으면 사람도 안 한다. */
-    h+='<div class="note w">다 적었다. <b>상대도 다 적었는지 물어보고</b> 둘이 같이 누른다.</div>';
+    h+= typed
+      ? '<div class="note w">다 적었다. <b>상대도 다 적었는지 물어보고</b> 둘이 같이 누른다.</div>'
+      : '<div class="note w"><b>시간이 됐다.</b> 다 못 적었어도 편다. '+
+        '못 적은 것이 벌이 아니다. <b>둘이 같이 누른다.</b></div>';
     h+='<button class="g" data-reveal="'+esc(key)+'">둘 다 됐다. 편다</button>';
   }
   return h+'</div>';

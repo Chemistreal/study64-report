@@ -204,3 +204,13 @@ body.veil-on>*:not(.veilcover){display:none}
 .lno{flex:none;display:inline-block;min-width:1.6em;text-align:right;
   font-family:var(--mono);font-size:0.75rem;color:var(--mut);margin-right:7px}
 .syncscript .scline .lno{width:1.8em}
+
+/* 따로 쓰고 같이 펴기 (T310). 함정과 물음이 둘 다 보인다. 감출 것은 답뿐이다.
+   물음이 이 판의 전부라 눈에 띄게 둔다. 답 칸은 상 건너에서 안 보여야 한다. */
+.aptrap{margin:6px 0;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:10px 12px;line-height:1.7;overflow-wrap:anywhere}
+.aptask{margin:10px 0 6px;border:1px solid var(--acc);border-radius:12px;
+  padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
+.aptmine{margin:8px 0;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:10px 12px;line-height:1.7;white-space:pre-wrap;
+  overflow-wrap:anywhere}

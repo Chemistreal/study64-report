@@ -892,6 +892,14 @@ body.veil-on>*:not(.veilcover){display:none}
 .lno{flex:none;display:inline-block;min-width:1.6em;text-align:right;
   font-family:var(--mono);font-size:0.75rem;color:var(--mut);margin-right:7px}
 .syncscript .scline .lno{width:1.8em}
+
+.aptrap{margin:6px 0;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:10px 12px;line-height:1.7;overflow-wrap:anywhere}
+.aptask{margin:10px 0 6px;border:1px solid var(--acc);border-radius:12px;
+  padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
+.aptmine{margin:8px 0;border:1px solid var(--edge);border-radius:12px;
+  background:var(--bg2);padding:10px 12px;line-height:1.7;white-space:pre-wrap;
+  overflow-wrap:anywhere}
 </style>
 </head>
 <body class="side-none">
@@ -6042,15 +6050,18 @@ function revealReady(id){
   return !!(el && String(el.value||"").trim().length);
 }
 function revealOpen(key){ return !!REVEAL.open[key]; }
-function revealGate(key, fieldId, what){
-  var ready=revealReady(fieldId), open=revealOpen(key);
+function revealGate(key, fieldId, what, force){
+  var typed=revealReady(fieldId), ready=typed||!!force, open=revealOpen(key);
   if(open) return '<div class="note g">폈다. '+esc(what||"서로 다른 자리를 하나씩 말한다")+'</div>';
   var h='<div class="rgate">';
   if(!ready){
     h+='<div class="note">이 기기 것을 다 적으면 펴는 단추가 켜진다.</div>';
     h+='<button class="g" disabled>펴기</button>';
   }else{
-    h+='<div class="note w">다 적었다. <b>상대도 다 적었는지 물어보고</b> 둘이 같이 누른다.</div>';
+    h+= typed
+      ? '<div class="note w">다 적었다. <b>상대도 다 적었는지 물어보고</b> 둘이 같이 누른다.</div>'
+      : '<div class="note w"><b>시간이 됐다.</b> 다 못 적었어도 편다. '+
+        '못 적은 것이 벌이 아니다. <b>둘이 같이 누른다.</b></div>';
     h+='<button class="g" data-reveal="'+esc(key)+'">둘 다 됐다. 편다</button>';
   }
   return h+'</div>';
@@ -6329,7 +6340,8 @@ var PLAYS=[
   {id:"reask", name:"못 알아들은 척", track:"repair", min:4},
   {id:"cutin", name:"끼어들기", track:"repair", min:3},
   {id:"clash", name:"말 겹치기", track:"repair", min:4},
-  {id:"flip", name:"거꾸로 판정", track:"문법", min:5}
+  {id:"flip", name:"거꾸로 판정", track:"문법", min:5},
+  {id:"apart", name:"따로 쓰고 같이 펴기", track:"전 트랙", min:5}
 ];
 var PLAYREND={};
 var PLAY={at:null, loading:false};
