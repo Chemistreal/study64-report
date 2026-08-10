@@ -2312,20 +2312,13 @@ function whoPool(){
     return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
   });
 }
-function whoRec(){ return playRec("whose", {same:0, split:0, deck:null, pick:null}); }
+function whoRec(){ return playRec("whose", {same:0, split:0, pick:null}); }
 
 function whoDeck(){
-  var d=DATA.whose, pool=whoPool(), rec=whoRec();
+  var d=DATA.whose, pool=whoPool();
   if(!d || !pool.length) return [];
-  var by={}; pool.forEach(function(c){ by[c.id]=c; });
-  if(rec.deck && rec.deck.length){
-    var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
-    if(kept.length===rec.deck.length) return kept;
-  }
   var ord=roundOrder(pool.length, roundSeed("whose",0)), out=[];
   for(var i=0;i<ord.length && out.length<d.rounds;i++) out.push(pool[ord[i]]);
-  rec.deck=out.map(function(c){ return c.id; });
-  save();
   return out;
 }
 function whoSplit(w){
@@ -2485,7 +2478,7 @@ function renderWhose(){
 }
 function whoReset(rec){
   roundStepSet("whose",0); turnForget("whose");
-  rec.same=0; rec.split=0; rec.deck=null; rec.pick=null; save();
+  rec.same=0; rec.split=0; rec.pick=null; save();
   whoClockStop(); WHOCLK.left=0; WHOCLK.over=false; renderWhose();
 }
 PLAYREND.whose=renderWhose;

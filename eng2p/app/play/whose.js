@@ -46,21 +46,24 @@ function whoPool(){
     return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
   });
 }
-function whoRec(){ return playRec("whose", {same:0, split:0, deck:null, pick:null}); }
+function whoRec(){ return playRec("whose", {same:0, split:0, pick:null}); }
 
-/* 이 판에 낼 벌. **한 판 안에서는 안 바뀐다.** 3초 벽에서 정한 꼴이다 (T283). */
+/* 이 판에 낼 벌.
+
+   **얼리지 않는다.** 3초 벽(T283)과 한 사람만 본다(T289)는 덱을 `rec` 에 적어 뒀다.
+   그 둘은 판을 도는 동안 카드가 덱에서 빠진다. 미루면 앞으로 오고
+   요소를 다 내면 사라진다. 그래서 그리는 자리에서 다시 세면 자리가 밀렸다.
+
+   이 판은 빠지는 것이 없다. 벌을 돌아도 못에서 아무것도 안 준다.
+   `roundOrder` 가 같은 씨앗에 같은 차례를 내므로 몇 번을 다시 세도 같다.
+
+   T296 에 얼리는 자리를 넣어 뒀다가 뺐다. **깨 봐도 안 깨졌다.**
+   깨지지 않는 것을 지키는 코드는 지키는 일을 안 하고 지키는 것처럼 보이기만 한다. */
 function whoDeck(){
-  var d=DATA.whose, pool=whoPool(), rec=whoRec();
+  var d=DATA.whose, pool=whoPool();
   if(!d || !pool.length) return [];
-  var by={}; pool.forEach(function(c){ by[c.id]=c; });
-  if(rec.deck && rec.deck.length){
-    var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
-    if(kept.length===rec.deck.length) return kept;
-  }
   var ord=roundOrder(pool.length, roundSeed("whose",0)), out=[];
   for(var i=0;i<ord.length && out.length<d.rounds;i++) out.push(pool[ord[i]]);
-  rec.deck=out.map(function(c){ return c.id; });
-  save();
   return out;
 }
 /* 갈린 자리. **그 주의 것이다.** 주 이레째 점검이 이것을 읽는다. */
@@ -226,7 +229,7 @@ function renderWhose(){
 }
 function whoReset(rec){
   roundStepSet("whose",0); turnForget("whose");
-  rec.same=0; rec.split=0; rec.deck=null; rec.pick=null; save();
+  rec.same=0; rec.split=0; rec.pick=null; save();
   whoClockStop(); WHOCLK.left=0; WHOCLK.over=false; renderWhose();
 }
 PLAYREND.whose=renderWhose;

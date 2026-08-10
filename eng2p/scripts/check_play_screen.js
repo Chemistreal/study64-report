@@ -1945,18 +1945,236 @@ const RESET = () => {
   if (/\*\*/.test(vTxt))
     no("파장: 화면에 마크다운 표시가 보인다");
 
+  /* =====================================================================
+     누구 말이야 (T296). **앱이 아무것도 안 견주는 판.**
+
+       정답이 없다      자료 어디에도 register 가 없어야 한다 (T294)
+       감출 것이 없다   쓸 자리도 세 단추도 두 화면에 다 있다
+       같은 수다        절반이 아니다. `playHalf` 를 쓰면 실패다
+       판 밖으로 나간다 갈린 자리가 **주 점검 화면**에 뜬다
+
+     마지막이 이 파일에서 처음이다. **판 탭을 떠나서 재는 판정**이다.
+     ===================================================================== */
+  const WHRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.wsplit = {};
+    S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("whose");
+    WHOCLK.left = 0; WHOCLK.over = false;
+    renderWhose();
+  };
+  for (const p of [A, B]) await openPlay(p, "whose", "renderWhose");
+  await A.evaluate(WHRESET); await B.evaluate(WHRESET);
+
+  /* ---- 107. 규격이 자료에서 온다 ---------------------------------------- */
+  const hspec = await A.evaluate(() => ({
+    rounds: DATA.whose.rounds, regs: DATA.whose.regs,
+    grade: DATA.whose.grade, pool: whoPool().length,
+    deck: whoDeck().map((c) => c.id),
+  }));
+  if (hspec.regs.length !== 3)
+    no("누구 말이야: 고를 것이 " + hspec.regs.length + "가지다. 셋이어야 한다");
+  if (hspec.deck.length !== hspec.rounds)
+    no("누구 말이야: 한 판이 " + hspec.deck.length + "벌이다. 자료는 " +
+       hspec.rounds + " 라고 적었다");
+  if (new Set(hspec.deck).size !== hspec.deck.length)
+    no("누구 말이야: 한 판에 같은 자리가 두 번 나온다");
+
+  /* ---- 108. 정답이 자료에 없다 ------------------------------------------
+     **담고 안 그리는 것과 안 담는 것이 다르다** (T294).
+     화면만 보면 둘이 같아 보인다. 자료를 본다. */
+  const hasAns = await A.evaluate(() => {
+    const blob = JSON.stringify(DATA.whose.sets);
+    return DATA.whose.regs.filter((r) => blob.indexOf(r) >= 0);
+  });
+  if (hasAns.length)
+    no("누구 말이야: 쓸 자리 글에 격식 값이 들어 있다: " + hasAns.join(" / ") +
+       ". 앱은 정답을 안 준다");
+  /* 화면이 맞았다 틀렸다를 적으면 그것도 정답을 준 것이다.
+     **고르기 전과 고른 뒤를 다 본다.** 판정 단추는 고른 뒤에만 뜨고
+     처음에 앞엣것만 봤더니 단추 글을 "맞았다" 로 바꿔 놔도 안 잡혔다 (T296). */
+  for (const p of [A, B]) {
+    for (const when of ["고르기 전", "고른 뒤"]) {
+      if (when === "고른 뒤")
+        await p.evaluate(() => { whoRec().pick = DATA.whose.regs[0]; save();
+                                 renderWhose(); });
+      const txt = await text(p);
+      if (/맞았|틀렸|정답은/.test(txt))
+        no("누구 말이야 (" + when + "): 화면이 맞고 틀림을 적는다. " +
+           "격식은 답이 하나가 아니다");
+      if (!txt.includes("앱은 정답을 안 준다"))
+        no("누구 말이야 (" + when + "): 앱이 정답을 안 준다는 말이 화면에 없다");
+    }
+    await p.evaluate(() => { whoRec().pick = null; save(); renderWhose(); });
+  }
+
+  /* ---- 109. 쓸 자리와 세 단추가 두 화면에 다 있다 ------------------------
+     **감출 것이 없는 판이다.** 한쪽에만 있으면 그것이 정보 격차가 된다. */
+  const hSet = await A.evaluate(() => whoDeck()[roundStep("whose")]);
+  for (const [who, p] of [["A", A], ["B", B]]) {
+    const txt = await text(p);
+    if (txt.indexOf(hSet.where) < 0)
+      no("누구 말이야: " + who + " 화면에 쓸 자리가 없다. 감출 것이 없는 판이다");
+    if (txt.indexOf(hSet.who) < 0)
+      no("누구 말이야: " + who + " 화면에 상대가 누구인지가 없다");
+    if ((await p.$$("[data-who]")).length !== hspec.regs.length)
+      no("누구 말이야: " + who + " 화면의 고를 단추가 셋이 아니다");
+  }
+
+  /* ---- 110. 고르기 전에는 판정 단추가 안 뜬다 ---------------------------- */
+  for (const sel of ["#whoSame", "#whoSplit"])
+    if (await A.$(sel))
+      no("누구 말이야: 고르기 전에 " + sel + " 가 떴다. 안 고르고 판정할 수 없다");
+  await tap(A, '[data-who="' + hspec.regs[0] + '"]', "하나 고른다");
+  for (const sel of ["#whoSame", "#whoSplit"])
+    if (!(await A.$(sel)))
+      no("누구 말이야: 고르고 나서도 " + sel + " 가 안 뜬다");
+
+  /* ---- 111. 같았다와 갈렸다가 다르게 센다 -------------------------------- */
+  const hRec = (p) => p.evaluate(() => S.rhit["whose|" + today()] || {});
+  await tap(A, "#whoSame", "둘이 같았다");
+  let hwr = await hRec(A);
+  if (hwr.same !== 1 || hwr.split !== 0)
+    no("누구 말이야: 같았다를 눌렀는데 셈이 같음 " + hwr.same + " 갈림 " + hwr.split + " 이다");
+  if ((await A.evaluate(() => roundStep("whose"))) !== 1)
+    no("누구 말이야: 같았다를 눌렀는데 벌이 안 넘어갔다");
+  if ((await hRec(A)).pick)
+    no("누구 말이야: 다음 벌로 갔는데 앞 벌에서 고른 것이 남아 있다");
+
+  /* ---- 112. 갈린 자리가 **그 주**에 남는다 ------------------------------- */
+  const splitId = await A.evaluate(() => whoDeck()[roundStep("whose")].id);
+  await tap(A, '[data-who="' + hspec.regs[1] + '"]', "둘째 벌을 고른다");
+  await tap(A, "#whoSplit", "갈렸다");
+  hwr = await hRec(A);
+  if (hwr.split !== 1) no("누구 말이야: 갈렸다를 눌렀는데 안 셌다");
+  const wsp = await A.evaluate(() => S.wsplit || {});
+  const wkeys = Object.keys(wsp);
+  if (wkeys.length !== 1 || !(wsp[wkeys[0]] || []).length)
+    no("누구 말이야: 갈린 자리가 그 주에 안 남았다");
+  else if (!wsp[wkeys[0]].filter((x) => x.id === splitId).length)
+    no("누구 말이야: 갈린 자리에 그 벌이 아닌 것이 남았다");
+  /* **그날이 아니라 그 주다.** 이레째 점검이 읽어야 하기 때문이다 */
+  const wkNow = await A.evaluate(() => (plan() || {}).week || 1);
+  if (String(wkeys[0]) !== String(wkNow))
+    no("누구 말이야: 갈린 자리가 " + wkeys[0] + "주에 남았다. " + wkNow + "주여야 한다");
+
+  /* ---- 113. 두 기기가 각자 적어야 목록이 같다 ---------------------------
+     한쪽만 적으면 **이레 뒤에 두 사람이 서로 다른 목록을 본다** (T295). */
+  const sameId = await B.evaluate(() => whoDeck()[0].id);
+  await tap(B, '[data-who="' + hspec.regs[0] + '"]', "B 첫 벌");
+  await tap(B, "#whoSame", "B 같았다");
+  const bSplitId = await B.evaluate(() => whoDeck()[roundStep("whose")].id);
+  await tap(B, '[data-who="' + hspec.regs[1] + '"]', "B 둘째 벌");
+  await tap(B, "#whoSplit", "B 갈렸다");
+  const listA = await A.evaluate(() => JSON.stringify(
+    ((S.wsplit || {})[(plan() || {}).week || 1] || []).map((x) => x.id)));
+  const listB = await B.evaluate(() => JSON.stringify(
+    ((S.wsplit || {})[(plan() || {}).week || 1] || []).map((x) => x.id)));
+  if (listA !== listB)
+    no("누구 말이야: 두 기기의 갈린 목록이 다르다: " + listA + " / " + listB);
+  if (bSplitId !== splitId)
+    no("누구 말이야: 두 기기가 다른 벌을 돌고 있다");
+
+  /* ---- 114. 두 기기가 같은 덱을 만든다 ----------------------------------
+     **얼리는지는 안 잰다.** 이 판은 덱에서 빠지는 것이 없어서 얼릴 것이 없다.
+     T296 에 그 판정을 넣어 뒀다가 뺐다. 얼리기를 지워도 안 깨졌기 때문이다.
+     깨지지 않는 것을 재는 줄은 **재는 것처럼 보이기만 한다** (T290 과 같은 갈래). */
+  const hDeckOf = (p) => p.evaluate(() => whoDeck().map((c) => c.id).join(","));
+  if ((await hDeckOf(A)) !== (await hDeckOf(B)))
+    no("누구 말이야: 두 기기가 다른 덱을 낸다");
+  /* 덱이 오늘 강에 매여 있는가. **안 배운 자리를 앞당겨 쓰지 않는다** */
+  const hAhead = await A.evaluate(() => {
+    const pl = plan();
+    return whoDeck().filter((c) =>
+      !(c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to)))
+      .map((c) => c.id);
+  });
+  if (hAhead.length)
+    no("누구 말이야: 아직 안 나온 자리가 덱에 있다: " + hAhead.join(" "));
+
+  /* ---- 115. 한 벌마다 자리가 바뀐다 ------------------------------------- */
+  await A.evaluate(WHRESET);
+  const hSeats = [];
+  for (let i = 0; i < 4; i++) {
+    hSeats.push(await A.evaluate(() =>
+      /이 기기 자리 자리를 고르는 쪽/.test(
+        document.querySelector("#playPane").innerText)));
+    await A.evaluate(() => { roundStepSet("whose", roundStep("whose") + 1);
+                             renderWhose(); });
+  }
+  const hFlips = [];
+  for (let i = 1; i < hSeats.length; i++)
+    if (hSeats[i] !== hSeats[i - 1]) hFlips.push(i);
+  if (hFlips.length !== hSeats.length - 1)
+    no("누구 말이야: 자리가 바뀐 자리가 [" + hFlips.join(",") + "] 다. 한 벌마다 바뀐다");
+
+  /* ---- 116. 마감이 절반이라고 안 적는다 ---------------------------------
+     기록할 값이 "둘의 생각이 같았던 벌" 이라 **한 사람의 값이 아니다.**
+     `playHalf` 의 말을 쓰면 두 사람이 두 수를 더한다. */
+  await A.evaluate(WHRESET);
+  await A.evaluate(() => { WHOCLK.over = true; renderWhose(); });
+  const hDone1 = await text(A);
+  await A.evaluate(() => { WHOCLK.over = false;
+                           roundStepSet("whose", whoDeck().length); renderWhose(); });
+  const hDone2 = await text(A);
+  for (const [why, txt] of [["시계", hDone1], ["벌 끝", hDone2]]) {
+    if (/소리 내어 더한다|그 절반이다/.test(txt))
+      no("누구 말이야 (" + why + "): 마감이 더하라고 적는다. 이 판은 절반이 아니다");
+    if (!txt.includes("같은 수"))
+      no("누구 말이야 (" + why + "): 두 기기에 같은 수가 있어야 한다는 말이 없다");
+    if (!txt.includes("주 이레째 점검"))
+      no("누구 말이야 (" + why + "): 갈린 자리가 어디로 가는지 안 적는다");
+    if (!/갈린 것은 틀린 것이 아니다/.test(txt))
+      no("누구 말이야 (" + why + "): 갈린 것이 틀린 것이 아니라는 말이 없다");
+  }
+
+  /* ---- 117. 갈린 자리가 주 점검 화면에 뜬다 -----------------------------
+     **판 탭을 떠나서 재는 첫 판정이다.** 판이 판 밖으로 값을 내보냈다 (T295).
+     여기서 안 뜨면 그 값은 어디에도 안 간 것이고 규칙서 7.3 의
+     "그 자리가 주 7일째 점검에 간다" 가 글로만 남는다. */
+  await A.evaluate(WHRESET);
+  const wcOff = await A.evaluate(() => { go("ledger"); renderWeekCheck();
+    return document.querySelector("#weekCheck").innerText; });
+  if (/갈린 자리/.test(wcOff))
+    no("누구 말이야: 갈린 것이 없는데 주 점검이 갈린 자리를 적는다");
+  const put = await A.evaluate(() => {
+    const w = (plan() || {}).week || 1;
+    S.wsplit = {}; S.wsplit[w] = [{ id: "TEST-1", where: "검사가 넣은 자리",
+                                    who: "검사가 넣은 상대", day: today() }];
+    save(); go("ledger"); renderWeekCheck();
+    return document.querySelector("#weekCheck").innerText;
+  });
+  if (!put.includes("검사가 넣은 자리"))
+    no("주 점검: 누구 말이야에서 갈린 자리가 안 뜬다. " +
+       "규칙서 7.3 이 그 자리가 이레째 점검에 간다고 적었다");
+  if (!put.includes("갈린 것은 틀린 것이 아니다"))
+    no("주 점검: 갈린 것이 틀린 것이 아니라는 말이 없다");
+  await A.evaluate(() => { S.wsplit = {}; save(); go("play"); });
+
+  /* ---- 118. 등급과 마크다운 --------------------------------------------- */
+  await A.evaluate(() => { PLAY.at = "whose"; renderPlayTab(); });
+  await A.waitForTimeout(300);
+  await A.evaluate(WHRESET);
+  const hTxt = await text(A);
+  if (!hTxt.includes(hspec.grade + "등급"))
+    no("누구 말이야: 자료 등급이 화면에 없다");
+  if (hspec.grade !== "A" && !hTxt.includes("통과 판정에는 안 쓴다"))
+    no("누구 말이야: B등급인데 통과 판정에 안 쓴다는 말이 없다");
+  if (/\*\*/.test(hTxt))
+    no("누구 말이야: 화면에 마크다운 표시가 보인다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 12개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+  console.log("판 13개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
               "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / 배속 사다리 21 / " +
               "3초 벽 35 / 되받아치기 35 / 한 사람만 본다 36 / " +
-              "파장: 규격 4판, 안 흔들리는가 2판, 줄 3판, 눈금 3판, 단추 자리 3판, " +
-              "닿는 폭 2판, 안 닿는 폭 3판, 다시 하는 폭 4판, 한 점마다 1판, " +
-              "마감 6판, 등급 3판 **세기를 감추는 판** / " +
+              "파장 34 / " +
+              "누구 말이야: 규격 3판, 정답 없음 5판, 감출 것 없음 6판, 고르기 전 4판, " +
+              "셈 4판, 그 주 3판, 두 기기 2판, 덱 2판, 한 벌마다 1판, 마감 8판, " +
+              "**주 점검까지 4판**, 등급 3판 **판 밖으로 나간 값을 잰다** / " +
               "실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
