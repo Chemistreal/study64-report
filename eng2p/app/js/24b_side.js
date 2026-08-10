@@ -277,7 +277,12 @@ function renderWhere(){
   box.innerHTML='<div class="small mut">이 기기는 <b class="mono">'+esc(sessTag())+
     '</b> 다. 상대가 읽어 준 것을 친다. 앞뒤 어느 쪽이든 간다.</div>'+
     '<div class="row"><input id="whereIn" class="mono" placeholder="3-12" '+
-    'inputmode="text" autocomplete="off" style="max-width:110px">'+
+    /* **낭독기가 읽을 이름이다.** placeholder 는 이름이 아니다. 글자를 넣으면
+       사라지고 낭독기마다 읽는 것이 다르다. 밖에서 들어온 자가 여기에
+       `aria-label="3-12"` 를 넣어 뒀는데 그것은 이름이 아니라 보기다.
+       그 자의 설명문이 스스로 막으라고 적은 것이 그 꼴이다 (tools/input_labels.py). */
+    'inputmode="text" autocomplete="off" style="max-width:110px" '+
+    'aria-label="상대 기기 표시">'+
     '<button class="g" id="whereGo">맞춘다</button>'+
     '<button class="g" id="whereNo">닫는다</button></div>'+
     '<div id="whereMsg" class="small mut"></div>';

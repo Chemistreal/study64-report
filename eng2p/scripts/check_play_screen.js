@@ -159,7 +159,14 @@ function no(msg) { fails.push(msg); console.log("[실패] " + msg); }
 async function tap(page, sel, why) {
   const el = await page.$(sel);
   if (!el || !(await el.isVisible())) { no(why + ": " + sel + " 가 화면에 없다"); return false; }
-  try { await el.click({ timeout: 3000 }); return true; }
+  /* **쥔 손으로 안 누르고 이름으로 누른다.** 판 화면은 누를 때마다 `innerHTML` 을
+     통째로 갈아 끼운다. 위에서 잡아 둔 손잡이가 그 사이에 떨어져 나가면
+     "Element is not attached to the DOM" 이 난다.
+
+     T280 에 다섯 자리를 이 꼴로 고쳤는데 **`tap` 자신이 그대로였다.**
+     그래서 T290 뒤에 되받아치기에서 한 번 흔들렸다. 다시 돌리면 초록불이 되는
+     빨간불이 제일 나쁘다. 진짜 빨간불을 흔들리는 것으로 읽게 만든다. */
+  try { await page.click(sel, { timeout: 3000 }); return true; }
   catch (e) { no(why + ": " + sel + " 를 못 눌렀다"); return false; }
 }
 
