@@ -90,6 +90,16 @@
  *     겹침 판정이 **글자만 본다.** 대소문자와 문장부호는 안 본다
  *     펴기 전에 **내 단서가 화면에 없다.** 먼저 본 사람이 바꾸면 안 재게 된다
  *
+ * ## 숫자가 문서에서 오는 판을 잰다 (T281)
+ *
+ * 배속 사다리다. 이 판은 세 칸도 3연속도 2연속도 화면에 안 적혀 있다.
+ * 다 `ladder.js` 에서 오고 그것은 `docs/bench_music.md` 6장에서 파생된다.
+ *
+ * 그래서 **검사도 숫자를 안 적는다.** 자료에서 읽어 그 수만큼 눌러 본다.
+ * 검사에 3을 적으면 문서를 4로 고쳤을 때 검사가 빨간불이 되고,
+ * 그것은 앱이 깨진 것이 아니라 **검사가 안 따라온 것**이다.
+ * 문서 하나를 고쳐 앱과 검사가 같이 따라오는지가 이 판에서 잴 것이다.
+ *
  * 쓰는 법:
  *     node scripts/check_play_screen.js
  *
@@ -1057,15 +1067,127 @@ const RESET = () => {
   if (!(await text(A)).includes("4분이 됐다"))
     no("겹치면 지운다: 4분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
+  /* =====================================================================
+     배속 사다리 (T281). **숫자가 문서에서 오는 판.**
+     ===================================================================== */
+  const LDRESET = () => {
+    S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; save();
+    if (typeof turnForget === "function") turnForget("ladder");
+    LAD.ok = 0; LAD.no = 0; LADCLK.left = 0; LADCLK.over = false;
+    renderLadder();
+  };
+  for (const p of [A, B]) await openPlay(p, "ladder", "renderLadder");
+  await A.evaluate(LDRESET); await B.evaluate(LDRESET);
+
+  /* ---- 53. 규격이 자료에서 온다. **검사도 숫자를 안 적는다** ------------ */
+  const spec = await A.evaluate(() => ({
+    up: DATA.ladder.up, down: DATA.ladder.down,
+    n: DATA.ladder.steps.length,
+    labels: DATA.ladder.steps.map((s) => s.label || String(s.rate)),
+    judges: DATA.ladder.steps.map((s) => s.judge),
+    say: DATA.ladder.downSay,
+    grade: DATA.ladder.grade,
+  }));
+  if (!(spec.up >= 2) || !(spec.down >= 1))
+    no("사다리 규격의 오르내리는 수가 이상하다: 오름 " + spec.up + " 내림 " + spec.down);
+  if (spec.n < 3) no("사다리 칸이 " + spec.n + "개다. 셋 아래로는 아직이라는 자리가 없다");
+  if (new Set(spec.judges).size !== spec.judges.length)
+    no("칸마다 볼 것이 같다. 같은 것을 여러 번 재는 것이 아니다");
+  if (spec.judges.some((x) => !x)) no("판정 기준이 빈 칸이 있다");
+
+  /* ---- 54. 지금 칸의 볼 것이 화면에 있다 -------------------------------- */
+  const ladText0 = await text(A);
+  if (ladText0.indexOf(spec.judges[0]) < 0)
+    no("지금 칸에서 볼 것이 화면에 없다. 없으면 세 칸이 다 '잘했나' 가 된다");
+  if (ladText0.indexOf(spec.labels[0] + " 배속") < 0)
+    no("배속이 문서가 적은 글자로 안 뜬다: " + spec.labels[0]);
+
+  /* ---- 55. 오르는 수만큼 누르면 한 칸 오른다 ---------------------------- */
+  const ladStepNow = () => A.evaluate(() => roundStep("ladder"));
+  for (let i = 0; i < spec.up - 1; i++) {
+    await tap(A, "#ladYes", "됐다 " + (i + 1));
+    if ((await ladStepNow()) !== 0)
+      no("오르는 수를 채우기 전에 칸이 올랐다: " + (i + 1) + "번째");
+  }
+  await tap(A, "#ladYes", "됐다 " + spec.up);
+  if ((await ladStepNow()) !== 1)
+    no(spec.up + "번 됐는데 칸이 안 올랐다");
+  const ladText1 = await text(A);
+  if (ladText1.indexOf(spec.judges[1]) < 0)
+    no("칸이 올랐는데 볼 것이 안 바뀌었다");
+
+  /* ---- 56. 내리는 수만큼 누르면 한 칸 내린다. **말은 문서에서 온다** ---- */
+  for (let i = 0; i < spec.down - 1; i++) {
+    await tap(A, "#ladNo", "한 번 더 " + (i + 1));
+    if ((await ladStepNow()) !== 1)
+      no("내리는 수를 채우기 전에 칸이 내렸다: " + (i + 1) + "번째");
+  }
+  await tap(A, "#ladNo", "한 번 더 " + spec.down);
+  if ((await ladStepNow()) !== 0)
+    no(spec.down + "번 안 됐는데 칸이 안 내렸다");
+  const ladText2 = await text(A);
+  if (ladText2.indexOf(spec.say) < 0)
+    no("내릴 때 문서가 정한 말이 안 뜬다: " + spec.say);
+  /* **내리는 그 자리만 본다.** 처음에는 화면 전체에서 "실패" 를 찾았는데
+     등급 설명문의 "못 찾으면 실패로 낸다" 를 물었다. 그것은 파생기가 하는 일을
+     적은 말이지 학습자에게 하는 말이 아니다.
+     **넓게 보면 엉뚱한 자리를 문다.** T249 와 같은 갈래다. */
+  const ladSaid = await A.evaluate(() => {
+    var e = document.getElementById("ladTurn");
+    return e ? e.innerText : "";
+  });
+  if (/실패|못했|틀렸/.test(ladSaid))
+    no("내리는 자리에 실패라고 적는다. 사람이 아니라 다음에 할 일을 말한다 (T175): " +
+       ladSaid.slice(0, 40));
+
+  /* ---- 57. 연달아 센 것이 칸을 옮기면 0으로 돌아간다 -------------------- */
+  const okNow = () => A.evaluate(() => LAD.ok);
+  if ((await okNow()) !== 0) no("칸을 옮겼는데 연달아 센 것이 안 지워졌다");
+
+  /* ---- 58. 제일 높은 칸은 내려가도 안 준다 ------------------------------ */
+  let ld = await A.evaluate(() => S.rhit["ladder|" + today()] || {});
+  if (ld.best !== 1)
+    no("올랐다 내렸는데 제일 높은 칸이 " + ld.best + " 다. 1이어야 한다");
+
+  /* ---- 59. 맨 아래에서 더 내려가지 않는다 ------------------------------- */
+  for (let i = 0; i < spec.down + 1; i++) await tap(A, "#ladNo", "바닥에서 한 번 더");
+  if ((await ladStepNow()) !== 0) no("맨 아래인데 더 내려갔다");
+
+  /* ---- 60. 두 기기가 같은 토막과 같은 칸을 본다 ------------------------- */
+  await A.evaluate(LDRESET); await B.evaluate(LDRESET);
+  const pieceOf = (p) => p.evaluate(() => JSON.stringify(ladPiece()));
+  if ((await pieceOf(A)) !== (await pieceOf(B)))
+    no("두 기기가 다른 토막을 본다");
+  const turnLd = (p) => p.evaluate(() => {
+    var m = /이 기기 자리 (말하는 쪽|세는 쪽)/.exec(
+      document.querySelector("#playPane").innerText);
+    return m ? m[1] : null;
+  });
+  if ((await turnLd(A)) === (await turnLd(B)))
+    no("두 기기가 같은 자리다. 한 칸 오를 때마다 바뀐다");
+
+  /* ---- 61. 등급과 시계 -------------------------------------------------- */
+  if (spec.grade === "A" && (await text(A)).includes("통과 판정에는 안 쓴다"))
+    no("A등급 자료에 통과 판정 금지가 붙었다");
+  await tap(A, "#ladGo", "시계");
+  await A.evaluate(() => { LADCLK.left = 1; });
+  await A.waitForTimeout(1500);
+  const ldOver = await text(A);
+  if (!/분이 됐다/.test(ldOver))
+    no("배속 사다리: 시계가 다 됐는데 끝났다는 말을 안 한다");
+  if (!ldOver.includes("닿은 제일 높은 칸"))
+    no("마감 화면이 무엇을 센 숫자인지 안 적는다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
   /* **판정 줄이 맨 뒤에 온다.** `all.py` 가 마지막 뜻있는 줄을 그 검사의 판정으로 읽는다.
      기계가 안 보는 것을 뒤에 두면 표에 그 줄이 뜨고 실패 수가 안 보인다. */
   console.log("**기계가 안 보는 것: 상 건너로 보이는 화면, 소리가 정말 갈렸는지**");
-  console.log("판 7개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
-              "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다: 겹침 셈 7판, " +
-              "같은 맞힐 것 2판, 역할 없음 2판, 펴기 전 3판, 지우고 남기기 6판, " +
-              "마감 4판, 시계 1판 / 실패 " + fails.length);
+  console.log("판 8개 / 거울 10 / 한 줄 바꾸기 6 / 내 소리는 네가 7 / 전달 놀이 8 / " +
+              "이어달리기 15 / 둘이 한 문장 17 / 겹치면 지운다 25 / " +
+              "배속 사다리: 규격 5판, 볼 것 2판, 오르내리기 8판, 바닥 1판, " +
+              "두 기기 2판, 등급과 시계 3판 **숫자를 검사에 안 적었다** / " +
+              "실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })();
