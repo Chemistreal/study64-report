@@ -307,11 +307,85 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
+  /* ---- 한 분기를 되짚는가 (T380) ---------------------------------------
+     **열두 주가 무엇이었는지를 아무 데도 안 적었다.** 분기 탭의 값은 다 잰 값이다.
+     차림표가 다 알고 있었다. T379 와 같은 자리다. */
+  const qr = await page.evaluate(async () => {
+    go("quarter");
+    await new Promise((ok) => setTimeout(ok, 1200));
+    const out = [];
+    for (const q of [1, 2, 3, 4]) {
+      curQ = q; renderQuarter();
+      await new Promise((ok) => setTimeout(ok, 700));
+      const e = document.getElementById("qRecap");
+      const r = qRecap(q);
+      out.push({ q: q, hid: e ? e.hidden : null,
+                 txt: e ? e.innerText.replace(/\s+/g, " ") : "",
+                 have: !!r, tr: r ? r.tr : null,
+                 w0: r ? r.weeks[0] : 0, w1: r ? r.weeks[r.weeks.length - 1] : 0,
+                 from: r ? r.from : null, to: r ? r.to : null });
+    }
+    curQ = 1; renderQuarter();
+    await new Promise((ok) => setTimeout(ok, 500));
+    const all = document.getElementById("t-quarter").innerText.replace(/\s+/g, " ");
+    /* **차림표에 없는 분기는 안 뜬다.** 빈 자리는 못 채운 자리로 읽힌다 */
+    const box = document.getElementById("qRecap");
+    const was = curQ; curQ = 9; renderQRecap();
+    const none = box.hidden;
+    curQ = was; renderQRecap();
+    return { rows: out, all: all, none: none };
+  });
+  if (qr.rows[0].hid === null) no("분기 탭에 되짚는 자리가 없다");
+  else {
+    qr.rows.forEach((r) => {
+      if (!r.have) { no("Q" + r.q + " 차림표를 못 읽어 되짚기를 잴 수 없다"); return; }
+      if (r.hid) no("Q" + r.q + " 차림표를 읽었는데 되짚기가 안 뜬다");
+      /* **열두 주와 강의 범위와 카드 자리를 적는다** */
+      if (r.txt.indexOf(r.w0 + "~" + r.w1 + "주") < 0)
+        no("Q" + r.q + " 되짚기가 주 범위를 안 적는다: " + r.txt.slice(0, 60));
+      if (r.txt.indexOf("카드 " + r.from + "~" + r.to) < 0)
+        no("Q" + r.q + " 되짚기가 카드 자리를 안 적는다");
+      /* **트랙별 수는 차림표 값이다.** 하나라도 빠지면 쏠린 자리가 안 보인다 */
+      Object.keys(r.tr).forEach((k) => {
+        if (r.txt.indexOf(k + " " + r.tr[k]) < 0)
+          no("Q" + r.q + " 되짚기에 트랙 " + k + " " + r.tr[k] + " 이 없다");
+      });
+      /* **사람별로 가른 값이 아니라고 말한다** (track.md) */
+      if (r.txt.indexOf("사람별로 가른 값이 아니다") < 0)
+        no("Q" + r.q + " 되짚기가 사람 값이 아니라는 말을 안 적는다");
+      /* 못 한 것을 안 센다. 통과 조건 칸이 이미 그 일을 한다 */
+      if (/못 한|안 한|빠뜨|밀렸|남았다/.test(r.txt))
+        no("Q" + r.q + " 되짚기가 못 한 것을 센다: " + r.txt.slice(0, 60));
+    });
+    /* **되짚기가 잰 값보다 먼저다** (T379 와 같은 규칙) */
+    const iR = qr.all.indexOf("이런 열두 주다"), iP = qr.all.indexOf("강세 박자 재현");
+    if (iR < 0) no("분기 탭 글에 되짚기가 없다");
+    else if (iP < 0) no("분기 탭 글에 통과 조건이 없다");
+    else if (iR > iP) no("통과 조건이 되짚기보다 먼저 온다");
+    if (!qr.none) no("차림표에 없는 분기인데 되짚기가 뜬다");
+    /* **반쪽 셈이 온전한 셈처럼 보인다.** 열두 주 중 하나만 빠져도 트랙 수가
+       틀린다. 그 자리는 다 읽은 채로 재면 영영 안 재진다 (T379-2 와 같다).
+       `needQuarter` 를 안 부르고 함수만 불러 그 자리를 만든다. */
+    const half = await page.evaluate(() => {
+      const ws = (IDX.weekQ || []).map((x, i) => (x === "Q1" ? i : -1))
+        .filter((i) => i >= 0);
+      if (ws.length < 2) return null;
+      const keep = IDX.weeks[ws[1]];
+      IDX.weeks[ws[1]] = null;
+      const r = qRecap(1);
+      IDX.weeks[ws[1]] = keep;
+      return r === null;
+    });
+    if (half === null) no("Q1 주가 둘도 안 돼 반쪽 셈을 잴 수 없다");
+    else if (!half) no("열두 주 중 하나를 못 읽었는데 되짚기를 낸다");
+  }
+
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 두 사람이 정말 따로 앉아 적는가**");
-  console.log("관계 점검과 신호 49판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14, 판정 숫자 5, 안 막는다 4, 더 돌 자리 7) / 실패 %d",
+  console.log("관계 점검과 신호 75판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14, 판정 숫자 5, "+
+              "안 막는다 4, 더 돌 자리 7, 분기 되짚기 26) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

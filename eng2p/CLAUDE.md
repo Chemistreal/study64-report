@@ -200,9 +200,9 @@ scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 �
 scripts/check_app.py   앱의 한국어를 규격 검사에 건다. **조각을 본다.** 파생물은 주석이 빠져 있다
 app/                   **앱의 원본.** 조각 쉰둘이다. english.html 은 이것에서 나온다
 app/play/              판 화면. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다
-app/late/              드물게 여는 조각 열둘. **english.html 에 안 들어간다.** 그 자리를 열 때 읽는다
+app/late/              드물게 여는 조각 열셋. **english.html 에 안 들어간다.** 그 자리를 열 때 읽는다
 out/app/plays.js       판 묶음. 파생물이다. 손으로 안 고친다
-out/app/late.js        조각 열둘 묶음. 파생물이다. 88KB 를 여기로 뺐다 (T313 뒤, T331 뒤, T336, T344, T361, T365, T367, T369, T374)
+out/app/late.js        조각 열셋 묶음. 파생물이다. 91KB 를 여기로 뺐다 (T313 뒤, T331 뒤, T336, T344, T361, T365, T367, T369, T374, T380)
 app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
 scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **주석은 조각에만 남는다**
 scripts/check_manual.py 설명하는 글과 앱을 견준다. 매뉴얼 넷과 짝 코드 자리 폭
@@ -220,20 +220,20 @@ scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 �
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다
 scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다. 없으면 건너뛴다 (통과 아님)
-scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = 서른두 판
+scripts/check_session.js 블록 넷을 실제로 돌린다 48판. **끝난 자리가 다음 일을 시키고 있었다**
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/check_streak.js 연속일과 회복권과 퀘스트 69판. **날을 세지 사람을 안 센다**
 scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지 않는다**
-scripts/check_relation.js 관계 점검과 신호 49판. **따로 적고 같이 편다**
+scripts/check_relation.js 관계 점검과 신호 75판. **따로 적고 같이 편다**
 scripts/check_growth.js 되돌아보기 51판. **앱이 소리를 안 들고 있는다**
 scripts/check_ahead.js 미리 아는 것과 봉투 72판. **표는 있었는데 그때 안 떴다**
 scripts/check_year.js  1년을 통째로 돈다 324판. **막는 값이 세는 값이 되면 안 된다**
-scripts/check_track.js 트랙 진도 22판. **고르지 않은 것이 정상이라고 말한다**
+scripts/check_track.js 트랙 진도 29판. **고르지 않은 것이 정상이라고 말한다**
 scripts/check_adapt.js 적응 16판. **갈린 채로 오래 도는가.** 자리와 사람은 다르다
 scripts/check_role.js  역할 교대 13판. **잰 값을 박아 둔다.** 고치는 것이 아니다
 scripts/check_versus.js 견줌 18판. **코드가 아니라 화면을 훑는다.** 이름 옆의 숫자
 scripts/check_reach.js 닿는 길 28판. **만든 것과 닿는 것은 다르다**
-scripts/check_late.js  늦게 읽는 조각 79판. **파일은 멀쩡하고 화면만 빈다.** 탭을 열어 본다
+scripts/check_late.js  늦게 읽는 조각 85판. **파일은 멀쩡하고 화면만 빈다.** 탭을 열어 본다
 scripts/check_split.js 갈린 자리 17판. **조건을 만들어 놓고 뜨는지 본다.** 안 뜨는 쪽도 잰다
 scripts/check_beat.js  마디 133판. **파형을 지어 넣는다.** 음성 파일을 저장소에 안 넣는다
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다

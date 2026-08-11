@@ -33,7 +33,17 @@ function renderTrack(){
     loadData("track","ENG2P_TRACK",function(){ renderTrack(); });
     return;
   }
-  var done=trackDone(), pl=plan(), q=pl.quarter||"Q1";
+  var done=trackDone(), pl=plan(), q=pl.quarter;
+  /* **못 읽었으면 Q1 인 척하지 않는다** (T380).
+     `plan().quarter` 는 그 주 차림표에서 온다. 안 읽혀 있으면 undefined 고
+     전에는 그것을 `||"Q1"` 로 받았다. **13주인데 Q1 배정을 보여 주고 있었다.**
+     T379 가 주간 점검에 `needWeek` 을 걸면서 그 자리가 드러났다.
+     못 읽었으면 읽어 오고 그동안은 아무 값도 안 적는다. */
+  if(!q){
+    box.innerHTML='<div class="small mut">트랙 표를 여는 중이다.</div>';
+    if(typeof needWeek==="function") needWeek(pl.week,function(){ renderTrack(); });
+    return;
+  }
   var h='<p class="small mut">강의 96편에 트랙이 하나씩 붙어 있다. '+
         '<b>지금 '+done+'강까지 마쳤다.</b><br>'+
         '<b>트랙마다 속도가 다른 것이 정상이다.</b> '+

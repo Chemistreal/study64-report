@@ -711,6 +711,44 @@ function renderSide(){
   };
   if($("#sdOff")) $("#sdOff").onclick=function(){ VOICE.side=0; renderSide(); };
 }
+function qRecap(q){
+  if(!window.IDX) return null;
+  var name="Q"+q, ws=[], lec=[], lo=null, hi=null, tr={}, miss=false;
+  ((IDX.weekQ)||[]).forEach(function(x,i){ if(x===name) ws.push(i+1); });
+  if(!ws.length) return null;
+  ws.forEach(function(w){
+    var row=(IDX.weeks||[])[w-1];
+    if(!row){ miss=true; return; }
+    (row.lectures||[]).forEach(function(l){
+      lec.push(l.no);
+      if(l.track) tr[l.track]=(tr[l.track]||0)+1;
+      if(l.cards){
+        if(lo===null||l.cards.from<lo) lo=l.cards.from;
+        if(hi===null||l.cards.to>hi) hi=l.cards.to;
+      }
+    });
+  });
+  if(miss||!lec.length) return null;
+  return {weeks:ws, lec:lec, tr:tr, from:lo, to:hi};
+}
+
+function renderQRecap(){
+  var box=$("#qRecap"); if(!box) return;
+  var r=qRecap(curQ);
+  if(!r){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  var w0=r.weeks[0], w1=r.weeks[r.weeks.length-1];
+  var l0=Math.min.apply(null,r.lec), l1=Math.max.apply(null,r.lec);
+  var tr=Object.keys(r.tr).map(function(k){
+    return esc(k)+" "+r.tr[k];
+  }).join(" · ");
+  box.innerHTML='<div class="note"><b>Q'+curQ+' 는 이런 열두 주다</b> '+
+    '<span class="small mut">'+w0+'~'+w1+'주 · '+l0+'~'+l1+'강</span>'+
+    '<div class="small" style="margin-top:4px">트랙 '+tr+'</div>'+
+    (r.from!==null?'<div class="small mut">카드 '+r.from+'~'+r.to+'</div>':"")+
+    '<div class="small mut">한 트랙에 쏠린 것은 기준서가 그렇게 정한 것이다. '+
+    '<b>사람별로 가른 값이 아니다.</b></div></div>';
+}
 var showDone=false;
 function renderVerify(){
   $("#vFilter").textContent = showDone?"미해결만 보기":"해결된 항목 보기";
@@ -792,6 +830,9 @@ function renderQuarter(){
     var b=el("button","g"+(q===curQ?" on":""),"Q"+q);
     b.onclick=function(){curQ=q;renderQuarter();}; tb.appendChild(b);
   });
+  renderQRecap();
+  if(typeof needQuarter==="function")
+    needQuarter("Q"+curQ,function(){ renderQRecap(); });
   var st=qs(curQ);
   var box=$("#qPass"); box.innerHTML="";
   PASS[curQ].forEach(function(c){
@@ -1649,7 +1690,12 @@ function renderTrack(){
     loadData("track","ENG2P_TRACK",function(){ renderTrack(); });
     return;
   }
-  var done=trackDone(), pl=plan(), q=pl.quarter||"Q1";
+  var done=trackDone(), pl=plan(), q=pl.quarter;
+  if(!q){
+    box.innerHTML='<div class="small mut">트랙 표를 여는 중이다.</div>';
+    if(typeof needWeek==="function") needWeek(pl.week,function(){ renderTrack(); });
+    return;
+  }
   var h='<p class="small mut">강의 96편에 트랙이 하나씩 붙어 있다. '+
         '<b>지금 '+done+'강까지 마쳤다.</b><br>'+
         '<b>트랙마다 속도가 다른 것이 정상이다.</b> '+

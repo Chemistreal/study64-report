@@ -18,6 +18,10 @@ function renderQuarter(){
     var b=el("button","g"+(q===curQ?" on":""),"Q"+q);
     b.onclick=function(){curQ=q;renderQuarter();}; tb.appendChild(b);
   });
+  /* 되짚기는 그 분기 차림표를 읽어야 그린다. **누를 때만 읽는다** (T245) */
+  renderQRecap();
+  if(typeof needQuarter==="function")
+    needQuarter("Q"+curQ,function(){ renderQRecap(); });
   var st=qs(curQ);
   var box=$("#qPass"); box.innerHTML="";
   PASS[curQ].forEach(function(c){

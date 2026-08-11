@@ -72,6 +72,8 @@ const SPOT = [
     sel: null, how: "fn", what: "클립 탭의 마디를 적는 자리" },
   { piece: "27_side.js", tab: "clip", fn: "sideStep",
     sel: null, how: "fn", what: "클립 탭의 나란히 듣기" },
+  { piece: "28_qrecap.js", tab: "quarter", fn: "qRecap",
+    sel: null, how: "fn", what: "분기 탭의 되짚기" },
   { piece: "24_script.js", tab: "clip", fn: "renderScript",
     sel: "#scList", how: "kids", what: "클립 탭의 대본 자리" },
   { piece: "25_clips.js", tab: "clip", fn: "renderClip",
