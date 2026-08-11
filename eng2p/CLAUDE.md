@@ -217,7 +217,7 @@ scripts/check_streak.js 연속일과 회복권과 퀘스트 61판. **날을 세�
 scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지 않는다**
 scripts/check_relation.js 관계 점검과 신호 38판. **따로 적고 같이 편다**
 scripts/check_growth.js 되돌아보기 33판. **앱이 소리를 안 들고 있는다**
-scripts/check_ahead.js 미리 아는 것과 봉투 50판. **표는 있었는데 그때 안 떴다**
+scripts/check_ahead.js 미리 아는 것과 봉투 72판. **표는 있었는데 그때 안 떴다**
 scripts/check_year.js  1년을 통째로 돈다 324판. **막는 값이 세는 값이 되면 안 된다**
 scripts/check_track.js 트랙 진도 22판. **고르지 않은 것이 정상이라고 말한다**
 scripts/check_role.js  역할 교대 13판. **잰 값을 박아 둔다.** 고치는 것이 아니다

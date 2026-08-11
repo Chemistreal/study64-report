@@ -2386,7 +2386,22 @@ function aheadAt(w){
   return pick;
 }
 
+var QWEEKS=[12,24,36,48];
+function qWeekNow(w){
+  w=w||plan().week;
+  var i=QWEEKS.indexOf(w);
+  return i<0 ? null : {q:i+1, week:w};
+}
+function qWeekLine(){
+  var x=qWeekNow();
+  if(!x) return '';
+  return '<div class="small mut" style="margin-top:4px">'+
+    '<b>이 주가 Q'+x.q+' 분기 점검 주다.</b> 이레째에 20분이 더 든다. '+
+    '<b>분기 탭에서 셋을 한다.</b> 통과 조건 넷 · 관계 점검 · 되돌아보기 녹음.</div>';
+}
+
 function aheadLine(){
+  if(qWeekNow()) return qWeekLine();
   var d=DATA.ahead;
   if(!d){
     loadData("ahead","ENG2P_AHEAD",function(){ renderSlots(); });

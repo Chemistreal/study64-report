@@ -315,7 +315,36 @@ function aheadAt(w){
 
 /* **묻지 않는다.** 증상을 안 적고 설계와 대응을 적는다 (ahead.md 3장).
    문제만 적고 대응을 안 적으면 겁주기다 (4장). 둘을 한 줄 안에 같이 적는다. */
+/* 분기 점검 주인가 (T351). 12 24 36 48 주다.
+
+   매뉴얼 7.2 가 "분기 마지막 주 주간 점검에서 한다. 1년에 네 번. 20분" 이라고 적었다.
+   **그 주에 할 일 셋이 서로 다른 자리에 흩어져 있다.**
+
+       통과 조건 넷      분기 탭
+       관계 점검         분기 탭
+       되돌아보기 녹음   분기 탭
+
+   셋 다 분기 탭인데 **그 주에 그 탭을 열라고 아무도 말하지 않았다.**
+   분기 탭은 1년에 네 번 여는 자리고 그 네 번이 언제인지를 앱이 안 알렸다. */
+var QWEEKS=[12,24,36,48];
+function qWeekNow(w){
+  w=w||plan().week;
+  var i=QWEEKS.indexOf(w);
+  return i<0 ? null : {q:i+1, week:w};
+}
+function qWeekLine(){
+  var x=qWeekNow();
+  if(!x) return '';
+  return '<div class="small mut" style="margin-top:4px">'+
+    '<b>이 주가 Q'+x.q+' 분기 점검 주다.</b> 이레째에 20분이 더 든다. '+
+    '<b>분기 탭에서 셋을 한다.</b> 통과 조건 넷 · 관계 점검 · 되돌아보기 녹음.</div>';
+}
+
 function aheadLine(){
+  /* **분기 점검 주가 이긴다** (T351). 첫 화면은 한 줄이다 (T322).
+     구간 줄은 배경 설명이고 분기 점검은 그 주에 반드시 하는 일이다.
+     12주와 24주가 겹치는 자리고 거기서는 할 일이 먼저다. */
+  if(qWeekNow()) return qWeekLine();
   var d=DATA.ahead;
   if(!d){
     loadData("ahead","ENG2P_AHEAD",function(){ renderSlots(); });

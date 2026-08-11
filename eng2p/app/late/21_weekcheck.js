@@ -73,6 +73,14 @@ function renderWeekCheck(){
      '<span>수행 '+c.norm+' / 6</span><span>비상판 '+c.emg+'</span>'+
      '<span>결석 '+c.abs+'</span><span>LRE '+c.lre+'</span>'+
      '<span>미해결 '+c.unres+'</span><span>채집 '+c.coll+'</span></div>';
+  /* **분기 점검 주면 그 말을 먼저 한다** (T351). 매뉴얼 7.2 가 그 주에
+     20분을 더 쓰라고 한다. 주간 점검 화면이 그것을 안 말하면 그냥 30분만 하고 닫는다. */
+  var qw=(typeof qWeekNow==="function") ? qWeekNow(w) : null;
+  if(qw)
+    h+='<div class="note w"><b>이 주가 Q'+qw.q+' 분기 점검 주다.</b> '+
+       '주간 점검 30분에 <b>분기 점검 20분</b>이 더 붙는다 (매뉴얼 7.2).<br>'+
+       '<b>분기 탭에서 셋을 한다.</b> 통과 조건 넷 · 관계 점검 · 되돌아보기 녹음. '+
+       '<button type="button" class="g" id="wcQ">분기 탭으로</button></div>';
   h+='<div class="n">위 숫자는 앱이 센 것이다. 다시 세지 않는다. '+
      '아래는 앱이 모르는 것이라 사람이 적는다.</div>';
   if(a.length) h+='<div class="note w"><b>걸린 경보</b> '+esc(a.join(" · "))+'</div>';
@@ -118,6 +126,7 @@ function renderWeekCheck(){
     var el=document.getElementById(k[0]);
     if(el) el.oninput=function(){ r[k[1]]=el.value; save(); };
   });
+  if($("#wcQ")) $("#wcQ").onclick=function(){ go("quarter"); };
   var dn=$("#wcDone");
   if(dn) dn.onclick=function(){
     var was=r.done; r.done=true; save(); renderWeekCheck();

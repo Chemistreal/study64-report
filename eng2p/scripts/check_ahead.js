@@ -113,7 +113,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     [21, "now"],
     [22, "past"],               // **겹치는 자리.** 끝난 것이 이긴다
     [23, "soon"],               // 24~28 은 여기 한 주만 뜬다
-    [24, "now"],
+    /* **24주에는 구간 줄이 안 뜬다** (T351). 분기 점검 주가 이긴다.
+       첫 화면은 한 줄이고 그 주에 반드시 하는 일이 배경 설명보다 앞선다. */
+    [24, ""],
+    [25, "now"],
     [28, "now"],
     [29, "past"],
     [30, ""],
@@ -167,6 +170,27 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     return { hit: /ahead|seenAhead|failpt/i.test(raw) };
   });
   if (st.hit) no("저장소에 미리 알림 자국이 남는다. 주 수만 보고 정해야 한다");
+
+  /* ---- 4.5 분기 점검 주 (T351). **분기 점검 주가 구간 줄을 이긴다** ------
+     매뉴얼 7.2 가 12 24 36 48 주에 20분을 더 쓰라고 한다.
+     그 주에 할 일 셋이 다 분기 탭인데 그 탭을 열라고 아무도 말하지 않았다. */
+  const qw = [];
+  for (const w of [12, 24, 36, 48]) {
+    const r = await at(w);
+    if (r.w !== w) { qw.push(w + "주로 못 갔다"); continue; }
+    const line = (r.txt.split("\n").filter((x) => /분기 점검 주/.test(x))[0] || "").trim();
+    if (!line) { qw.push(w + "주에 분기 점검 줄이 없다"); continue; }
+    if (line.indexOf("Q" + (w / 12)) < 0) qw.push(w + "주가 Q" + (w / 12) + " 가 아니다");
+    if (!/20분/.test(line)) qw.push(w + "주에 20분이 더 든다는 말이 없다");
+    if (!/분기 탭/.test(line)) qw.push(w + "주에 어디로 가는지가 없다");
+    /* **구간 줄이 밀린다.** 첫 화면은 한 줄이다 */
+    if (/구간이다|구간이 곧|구간을 지났다/.test(r.txt))
+      qw.push(w + "주에 구간 줄과 분기 줄이 같이 뜬다");
+  }
+  qw.forEach(no);
+  /* 분기 주가 아닌 데서는 안 뜬다 */
+  const q13 = await at(13);
+  if (/분기 점검 주/.test(q13.txt)) no("13주에 분기 점검 줄이 뜬다");
 
   /* ---- 5. 개정 요청 봉투 (T336). **덮는 자리는 있었는데 여는 자리가 없었다** */
   /* 적는 길을 지나서 적는다. 5단계 칸에 쳐 넣는다 (T334 에서 배운 자리다) */
@@ -236,7 +260,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 미리 알린 것이 정말 이탈을 막는가**");
-  console.log("미리 아는 것과 봉투 %d판 (자료 6, 때 %d, 글 11, 저장소 1, 봉투 13, 규칙 탭 3) / 실패 %d",
-              34 + WANT.length, WANT.length, fails.length);
+  console.log("미리 아는 것과 봉투 %d판 (자료 6, 때 %d, 글 11, 분기 주 21, 저장소 1, 봉투 13, 규칙 탭 3) / 실패 %d",
+              55 + WANT.length, WANT.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
