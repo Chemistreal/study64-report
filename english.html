@@ -1017,7 +1017,7 @@ body.veil-on>*:not(.veilcover){display:none}
       <button class="g" id="tSkip">다음 블록</button>
       <button class="g" id="tReset">처음으로</button>
       <label class="small mut" style="display:flex;align-items:center;gap:5px;margin-left:6px">
-        <input type="checkbox" id="tSound" checked> 종료음
+        <input type="checkbox" id="tSound" checked> 소리
       </label>
       <label class="small mut" style="display:flex;align-items:center;gap:5px">
         <input type="checkbox" id="tBuzz" checked> 진동
@@ -1732,6 +1732,16 @@ function blank(){
           media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{},solo:false,soloSeat:0,soloHand:false,veiled:false,rstep:{},rseat:{},
           rung:{}};
 }
+var PREF_KEY="eng2p.snd";
+function prefGet(){
+  try{ return JSON.parse(localStorage.getItem(PREF_KEY)||"{}")||{}; }
+  catch(e){ return {}; }
+}
+function prefSet(k,v){
+  var o=prefGet(); o[k]=!!v;
+  try{ localStorage.setItem(PREF_KEY, JSON.stringify(o)); }catch(e){}
+}
+
 function load(){
   var raw=null;
   try{ raw=localStorage.getItem(KEY); }
@@ -3709,6 +3719,15 @@ function tone(kind){
   }catch(e){}
 }
 function beep(){ tone("blockend"); }
+
+function sndInit(){
+  var o=prefGet();
+  [["tSound","sound"],["tBuzz","buzz"]].forEach(function(p){
+    var e=$("#"+p[0]); if(!e) return;
+    if(p[1] in o) e.checked=!!o[p[1]];
+    e.onchange=function(){ prefSet(p[1], e.checked); };
+  });
+}
 function fmtT(s){
   s=Math.max(0,Math.round(s));
   return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
@@ -6157,6 +6176,7 @@ needWeek(plan().week, function(){
 });
 ttsVoices(); renderSound();
 paintBuzz();
+sndInit();
 (function(){
   var want=location.hash.slice(1)||"today";
   var s=S.session, mid=(s && s.date===today() && (s.idx>0 || s.left<BLOCKS[0].m*60));

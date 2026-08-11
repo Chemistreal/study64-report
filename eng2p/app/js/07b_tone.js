@@ -105,3 +105,34 @@ function tone(kind){
 /* 옛 이름. 블록이 끝날 때 나던 소리다. 부르는 자리가 남아 있어 그대로 둔다. */
 function beep(){ tone("blockend"); }
 
+/* 켜고 끈 것을 남긴다 (T383).
+
+   ## 껐는데 다음 날 또 울렸다
+
+   두 칸 다 화면에만 있었다. **새로고침하면 다시 켜진다.**
+   밤에 아이가 자는 집에서 껐는데 다음 세션에 또 울린다.
+   `check_ui.js` 가 "끄면 정말 꺼지는가" 를 재고 있었는데 **끈 채로 남는가는
+   아무도 안 쟀다.** 껐다는 것과 꺼져 있다는 것은 다르다.
+
+   ## 저장소(S)에 안 넣는다
+
+   **기기 설정이라 옮기면 안 된다.** `S` 에 넣으면 JSON 내보내기에 실리고
+   가져오기가 저쪽 기기 설정을 이쪽에 덮는다. 헤드폰을 쓰는 사람과
+   주머니에 넣는 사람이 같은 값을 들게 된다.
+
+   `merge.md` 가 정한 합치기 갈래 넷 중 어디에도 안 든다. 따로 둔다.
+
+   ## 저장소를 만지는 코드는 한 자리에 모은다
+
+   키와 읽고 쓰는 함수는 `02_store.js` 에 있다 (`prefGet` `prefSet`).
+   여기서 `localStorage` 를 직접 만졌더니 검사가 잡았다.
+   **흩어지면 못 읽을 때 처리가 갈린다.** T383 */
+function sndInit(){
+  var o=prefGet();
+  [["tSound","sound"],["tBuzz","buzz"]].forEach(function(p){
+    var e=$("#"+p[0]); if(!e) return;
+    if(p[1] in o) e.checked=!!o[p[1]];
+    e.onchange=function(){ prefSet(p[1], e.checked); };
+  });
+}
+

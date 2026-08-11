@@ -14,6 +14,25 @@ function blank(){
           /* 배속 사다리 칸 (T372). **몇 번 만에 올라갔는지는 안 남긴다** */
           rung:{}};
 }
+/* 기기 설정 (T383). **저장소(S)와 다른 칸이다.**
+
+   소리와 진동을 켰나 껐나는 기기마다 다르다. 헤드폰을 쓰는 사람과
+   주머니에 넣는 사람이 같은 값을 들면 안 된다.
+
+   `S` 에 넣으면 JSON 내보내기에 실리고 가져오기가 저쪽 값을 이쪽에 덮는다.
+   그래서 키를 따로 쓴다. **저장소를 만지는 코드는 여기 한 자리에 모은다.**
+   흩어지면 못 읽을 때 처리가 갈린다. */
+/* **판(v1)에 안 매단다.** 기록은 판이 바뀌면 옮겨 주지만 설정은 그럴 것이 없다 */
+var PREF_KEY="eng2p.snd";
+function prefGet(){
+  try{ return JSON.parse(localStorage.getItem(PREF_KEY)||"{}")||{}; }
+  catch(e){ return {}; }
+}
+function prefSet(k,v){
+  var o=prefGet(); o[k]=!!v;
+  try{ localStorage.setItem(PREF_KEY, JSON.stringify(o)); }catch(e){}
+}
+
 /* **못 읽은 기록을 지우지 않는다.**
    전에는 JSON 이 깨지면 조용히 빈 상태로 시작했다. 1년치 기록이 아직 거기 있는데
    화면에는 0회로 나온다. 두 사람은 그것이 사라졌다고 여기고 다시 시작한다.

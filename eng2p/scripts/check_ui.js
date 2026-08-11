@@ -1461,7 +1461,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       return made;
     });
     if (off !== 0 && off !== "상자 없음")
-      bad.push("종료음을 껐는데 소리가 " + off + "개 났다");
+      bad.push("소리를 껐는데 " + off + "개 났다");
 
     /* **진동 (T381).** 헤드폰을 끼면 소리가 들리고 주머니에 있으면 안 들린다.
        소리를 대신하는 것이 아니라 같이 난다. **끄는 칸이 따로 있다.** */
@@ -1500,6 +1500,41 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!bz.out.both) bad.push("소리를 켰더니 진동이 안 난다. 두 칸은 서로 안 묶인다");
     /* 이 브라우저는 진동이 되므로 까닭 줄이 숨어 있어야 한다 */
     if (bz.why === false) bad.push("진동이 되는데 안 된다는 말이 떠 있다");
+
+    /* **껐는데 다음 날 또 울렸다** (T383). 두 칸 다 화면에만 있었다.
+       껐다는 것과 꺼져 있다는 것은 다르다. 새로고침 뒤에도 꺼져 있는가. */
+    await p4.evaluate(() => {
+      $("#tSound").checked = false; $("#tSound").onchange();
+      $("#tBuzz").checked = false; $("#tBuzz").onchange();
+    });
+    await p4.reload();
+    await p4.waitForTimeout(600);
+    const kept = await p4.evaluate(() => ({
+      s: $("#tSound").checked, b: $("#tBuzz").checked,
+      /* **기기 설정이라 옮기면 안 된다.** 저장소에 있으면 JSON 에 실린다 */
+      inS: /"?(sound|buzz)"?\s*:/.test(JSON.stringify(S)),
+      key: !!localStorage.getItem("eng2p.snd"),
+    }));
+    if (kept.s) bad.push("소리를 껐는데 새로고침하니 다시 켜졌다");
+    if (kept.b) bad.push("진동을 껐는데 새로고침하니 다시 켜졌다");
+    if (kept.inS) bad.push("소리 설정이 저장소에 있다. JSON 으로 옮겨 가면 안 된다");
+    if (!kept.key) bad.push("소리 설정이 아무 데도 안 남는다");
+    /* **다시 켜면 켜진 채로 남는다.** 끄기만 남으면 되돌릴 길이 없다 */
+    await p4.evaluate(() => {
+      $("#tSound").checked = true; $("#tSound").onchange();
+      $("#tBuzz").checked = true; $("#tBuzz").onchange();
+    });
+    await p4.reload();
+    await p4.waitForTimeout(600);
+    const back = await p4.evaluate(() => ({
+      s: $("#tSound").checked, b: $("#tBuzz").checked }));
+    if (!back.s) bad.push("소리를 다시 켰는데 새로고침하니 꺼져 있다");
+    if (!back.b) bad.push("진동을 다시 켰는데 새로고침하니 꺼져 있다");
+    /* **이름이 좁으면 껐는데 왜 다른 소리가 나냐고 묻는다** */
+    const lab = await p4.evaluate(() =>
+      ($("#tSound").parentElement || {}).innerText || "");
+    if (lab.indexOf("종료음") >= 0)
+      bad.push("소리 칸 이름이 종료음이다. 여섯을 다 끄는 칸이다");
 
     await p4.close();
     return bad;
@@ -3421,7 +3456,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
-              "소리 여섯 6판 / 소리 끄기 1판 / 진동 12판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
+              "소리 여섯 6판 / 소리 끄기 1판 / 진동 12판 / 끈 채로 남기 7판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
               "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
               "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판 / 합치기 가장자리 16판 / " +
               "주 되짚기 12판");
