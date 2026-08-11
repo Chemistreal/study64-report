@@ -615,14 +615,66 @@ if (doc.indexOf("B등급") < 0)
   if (warn.other && warn.other.indexOf("이 칸의 근거가 아니다") >= 0)
     no("기계 눈금이 없는 칸에도 그 말이 붙어 있다");
 
+  /* ---- 배속 사다리 세 칸이 클립 탭에도 있는가 (T371) --------------------
+     **손잡이만 두면 아무 값으로 민다** (`bench_music.md` 5장). */
+  const lad = JSON.parse(fs.readFileSync(
+    path.join(HERE, "out", "data", "ladder.json"), "utf8"));
+  const ladder = await page.evaluate(async () => {
+    go("clip");
+    await new Promise((ok) => setTimeout(ok, 900));
+    $("#clipCtl").hidden = false;
+    CLIP.el = { duration: 10, currentTime: 0, playbackRate: 1 };
+    if (!DATA.ladder)
+      await new Promise((ok) => loadData("ladder", "ENG2P_LADDER", ok));
+    renderLadder();
+    const btns = [...document.querySelectorAll("#cLadder button")]
+      .map((b) => b.textContent);
+    const say = document.getElementById("cLadderSay");
+    /* 위 칸을 누른다. **손잡이 위 끝이 1 이면 여기서 안 선다** */
+    [...document.querySelectorAll("#cLadder button")].pop().click();
+    /* **누르면 사다리를 다시 그린다.** 옛 단추를 들고 있으면 못 본다.
+       처음에 그렇게 재다가 걸렸고 앱이 맞았다 (T371, 열여덟 번째). */
+    const now = [...document.querySelectorAll("#cLadder button")].pop();
+    const at = { rate: +$("#cRate").value, say: say.textContent,
+                 on: (now.className || "").indexOf("on") >= 0 };
+    /* 칸 밖으로 민다 */
+    $("#cRate").value = 0.9;
+    $("#cRate").dispatchEvent(new Event("input"));
+    return { btns: btns, at: at, off: say.textContent,
+             max: +$("#cRate").max };
+  });
+  const steps = lad.steps || [];
+  if (ladder.btns.length !== steps.length)
+    no("사다리 칸이 " + ladder.btns.length + "개다. " + steps.length + "개여야 한다");
+  steps.forEach((st, i) => {
+    if ((ladder.btns[i] || "").indexOf(st.label) < 0)
+      no("사다리 " + (i + 1) + "번째 칸이 " + st.label + " 가 아니다: " + ladder.btns[i]);
+  });
+  /* **위 칸이 손잡이 끝을 넘으면 안 선다.** T371 에 그것이 걸렸다 */
+  const topRate = steps.length ? steps[steps.length - 1].rate : 0;
+  if (ladder.max < topRate)
+    no("속도 손잡이 위 끝이 " + ladder.max + " 인데 사다리 위 칸이 " + topRate + " 다");
+  if (Math.abs(ladder.at.rate - topRate) > 0.005)
+    no("위 칸을 눌렀는데 속도가 " + ladder.at.rate + " 다");
+  if (!ladder.at.on) no("그 칸에 섰는데 단추가 켜져 보이지 않는다");
+  /* 그 칸의 판정 기준을 적는가. **기준이 칸마다 다르다** (6.4) */
+  const topStep = steps[steps.length - 1] || {};
+  if (ladder.at.say.indexOf(topStep.judge || " ") < 0)
+    no("그 칸의 듣는 쪽 기준을 안 적는다: " + ladder.at.say);
+  if (ladder.at.say.indexOf(topStep.see || " ") < 0)
+    no("그 칸에서 무엇을 보는지를 안 적는다: " + ladder.at.say);
+  /* **칸 밖은 칸 밖이라고 적는다** */
+  if (ladder.off.indexOf("사다리 칸 밖") < 0)
+    no("칸 밖인데 그 말을 안 한다: " + ladder.off);
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14, 통과 근거 4) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 80, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14, 통과 근거 4, 사다리 10) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 90, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

@@ -35,7 +35,7 @@ function waveInfo(){
     msg="파일을 열면 실제 음성 파형을 분석한다.";
   }
   if(info.textContent!==msg) info.textContent=msg;
-  renderDiff(); renderStress(); renderMatch(); renderRows();
+  renderDiff(); renderStress(); renderMatch(); renderRows(); renderLadder();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -296,6 +296,7 @@ function paintRef(){
 $("#cRate").oninput=function(){
   $("#cRateN").textContent=(+this.value).toFixed(2);
   if(CLIP.el) CLIP.el.playbackRate=+this.value;
+  renderLadder();
 };
 document.querySelectorAll("[data-nud]").forEach(function(b){
   b.onclick=function(){
@@ -532,6 +533,30 @@ function renderRows(){
         '<td class="n">'+(g.t1-g.t0).toFixed(2)+'초</td>'+
         '<td class="n">'+(r.rel==null?"셀 수 없다":r.rel.toFixed(2)+"배")+'</td></tr>';
     }).join("");
+}
+
+function renderLadder(){
+  var box=$("#cLadder"), say=$("#cLadderSay");
+  if(!box||!say) return;
+  var d=DATA.ladder;
+  if(!d){ loadData("ladder","ENG2P_LADDER",function(){ renderLadder(); }); return; }
+  var now=CLIP.el ? Math.round((+$("#cRate").value)*100)/100 : null;
+  box.innerHTML="";
+  (d.steps||[]).forEach(function(st){
+    var on=(now!=null && Math.abs(now-st.rate)<0.005);
+    var b=el("button","g"+(on?" on":""),st.name+" "+st.label);
+    b.type="button";
+    b.onclick=function(){
+      $("#cRate").value=st.rate;
+      $("#cRate").dispatchEvent(new Event("input"));
+    };
+    box.appendChild(b);
+  });
+  var at=(d.steps||[]).filter(function(st){
+    return now!=null && Math.abs(now-st.rate)<0.005; })[0];
+  say.textContent = at
+    ? at.name+" 칸 · 무엇을 보나: "+at.see+" · 듣는 쪽 기준: "+at.judge
+    : "사다리 칸 밖이다. 세 칸 중 하나에 서야 그 칸 기준으로 잰다.";
 }
 
 function renderDiff(){

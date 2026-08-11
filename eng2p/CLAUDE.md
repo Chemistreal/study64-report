@@ -230,7 +230,7 @@ scripts/check_versus.js 견줌 18판. **코드가 아니라 화면을 훑는다.
 scripts/check_reach.js 닿는 길 28판. **만든 것과 닿는 것은 다르다**
 scripts/check_late.js  늦게 읽는 조각 73판. **파일은 멀쩡하고 화면만 빈다.** 탭을 열어 본다
 scripts/check_split.js 갈린 자리 17판. **조건을 만들어 놓고 뜨는지 본다.** 안 뜨는 쪽도 잰다
-scripts/check_beat.js  마디 104판. **파형을 지어 넣는다.** 음성 파일을 저장소에 안 넣는다
+scripts/check_beat.js  마디 114판. **파형을 지어 넣는다.** 음성 파일을 저장소에 안 넣는다
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다

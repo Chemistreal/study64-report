@@ -130,6 +130,44 @@ function renderRows(){
     }).join("");
 }
 
+/* 배속 사다리 세 칸을 클립 탭에도 건다 (T371).
+
+   `bench_music.md` 5장이 이렇게 적었다.
+
+       규격이 없어서 배속이 그냥 손잡이다. 두 사람이 아무 때나 아무 값으로 민다.
+
+   그 손잡이가 여기 있다. 6장이 정한 세 칸을 단추로 두고
+   **그 칸에 서면 그 칸의 판정 기준을 적는다.** 기준이 칸마다 다르다 (6.4).
+
+   **숫자를 여기 안 적는다.** `out/data/ladder.js` 에서 온다.
+   그 파일은 `docs/bench_music.md` 6장에서 파생된다. 놀이 판이 쓰는 것과 같은 자료다.
+
+   손잡이 위 끝이 1 이었다. **사다리 위 칸이 1.2 라 못 만들었다** (T371 에 잡았다). */
+function renderLadder(){
+  var box=$("#cLadder"), say=$("#cLadderSay");
+  if(!box||!say) return;
+  var d=DATA.ladder;
+  if(!d){ loadData("ladder","ENG2P_LADDER",function(){ renderLadder(); }); return; }
+  var now=CLIP.el ? Math.round((+$("#cRate").value)*100)/100 : null;
+  box.innerHTML="";
+  (d.steps||[]).forEach(function(st){
+    var on=(now!=null && Math.abs(now-st.rate)<0.005);
+    var b=el("button","g"+(on?" on":""),st.name+" "+st.label);
+    b.type="button";
+    b.onclick=function(){
+      $("#cRate").value=st.rate;
+      $("#cRate").dispatchEvent(new Event("input"));
+    };
+    box.appendChild(b);
+  });
+  var at=(d.steps||[]).filter(function(st){
+    return now!=null && Math.abs(now-st.rate)<0.005; })[0];
+  /* **칸 밖에 있으면 그 말을 한다.** 사다리에 없는 값은 사다리가 아니다 */
+  say.textContent = at
+    ? at.name+" 칸 · 무엇을 보나: "+at.see+" · 듣는 쪽 기준: "+at.judge
+    : "사다리 칸 밖이다. 세 칸 중 하나에 서야 그 칸 기준으로 잰다.";
+}
+
 function renderDiff(){
   var box=$("#clipDiff"); if(!box) return;
   var d=beatDiff();

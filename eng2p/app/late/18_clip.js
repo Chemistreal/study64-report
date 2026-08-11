@@ -45,7 +45,7 @@ function waveInfo(){
     msg="파일을 열면 실제 음성 파형을 분석한다.";
   }
   if(info.textContent!==msg) info.textContent=msg;
-  renderDiff(); renderStress(); renderMatch(); renderRows();
+  renderDiff(); renderStress(); renderMatch(); renderRows(); renderLadder();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -357,6 +357,7 @@ function paintRef(){
 $("#cRate").oninput=function(){
   $("#cRateN").textContent=(+this.value).toFixed(2);
   if(CLIP.el) CLIP.el.playbackRate=+this.value;
+  renderLadder();
 };
 document.querySelectorAll("[data-nud]").forEach(function(b){
   b.onclick=function(){
