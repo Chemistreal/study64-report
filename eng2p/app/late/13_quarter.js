@@ -4,6 +4,14 @@
 var curQ=1;
 function qs(q){ if(!S.q["Q"+q]) S.q["Q"+q]={pass:{},rel:{a:{},b:{}}};
   if(!S.q["Q"+q].rel) S.q["Q"+q].rel={a:{},b:{}}; return S.q["Q"+q]; }
+/* 기계 눈금이 있는 통과 조건. **그 눈금은 근거가 아니다** (T370).
+   조건 키마다 그 자리에서 무엇을 재고 무엇을 못 재는지를 적는다. */
+var BEAT_NOT_PASS={
+  /* 화면에 그대로 나가는 글이다. **별표는 문서에서만 쓴다** */
+  str:"클립 탭이 마디와 박자를 숫자로 낸다. 그 숫자는 이 칸의 근거가 아니다. "+
+      "앱은 소리와 쉼의 경계만 재고 발음도 강세 자리도 못 잰다. 판정은 상대가 한다."
+};
+
 function renderQuarter(){
   var tb=$("#qTabs"); tb.innerHTML="";
   [1,2,3,4].forEach(function(q){
@@ -18,7 +26,16 @@ function renderQuarter(){
     var lab=el("div"); lab.style.flex="1"; lab.style.minWidth="200px";
     lab.appendChild(el("div",null,c.l));
     var meta=el("div","small mut"); meta.textContent=c.u+" "+c.need+" 이상 · 기준 "+c.src;
-    lab.appendChild(meta); row.appendChild(lab);
+    lab.appendChild(meta);
+    /* **기계 판정을 통과 근거로 안 쓴다** (T370, `beat.md` 5장).
+       클립 탭이 마디와 박자를 숫자로 낸다. 그 숫자가 이 칸을 채우면 안 된다.
+
+       그 말을 클립 탭에만 적어 두면 안 닿는다. **재고 싶어지는 자리는 여기다.**
+       T332 와 T335 와 T336 이 같은 자리에서 걸렸다.
+       기준서 13.2 와 매뉴얼 8.3 이 "판정은 상대가" 라고 정했다. */
+    if(BEAT_NOT_PASS[c.k])
+      lab.appendChild(el("div","small w",BEAT_NOT_PASS[c.k]));
+    row.appendChild(lab);
     var tag=el("span","tag");
     function paint(){
       var v=passVal(curQ,c.k);

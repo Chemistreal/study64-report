@@ -591,14 +591,38 @@ if (doc.indexOf("B등급") < 0)
   if (said.indexOf("앱은 잘했는지 안 말한다") < 0)
     no("클립 탭이 앱은 판정 안 한다는 말을 안 적는다");
 
+  /* ---- 기계 눈금이 통과 근거가 아니라는 말이 그 자리에 있는가 (T370) ----
+     **클립 탭에만 적어 두면 안 닿는다.** 재고 싶어지는 자리는 분기 탭이다.
+     T332 와 T335 와 T336 이 같은 자리에서 걸렸다. */
+  const warn = await page.evaluate(async () => {
+    go("quarter");
+    await new Promise((ok) => setTimeout(ok, 1200));
+    const box = document.getElementById("qPass");
+    const rows = [...box.querySelectorAll(".card")].map((c) => c.innerText);
+    return { str: rows.filter((t) => t.indexOf("강세 박자 재현") >= 0)[0] || "",
+             other: rows.filter((t) => t.indexOf("누적 시간") >= 0)[0] || "",
+             n: rows.length };
+  });
+  if (!warn.str) no("분기 탭에 강세 박자 재현 칸이 없다");
+  else {
+    if (warn.str.indexOf("이 칸의 근거가 아니다") < 0)
+      no("강세 박자 칸이 기계 눈금은 근거가 아니라고 안 적는다: " +
+         warn.str.replace(/\s+/g, " ").slice(0, 70));
+    if (warn.str.indexOf("판정은 상대가 한다") < 0)
+      no("강세 박자 칸이 누가 판정하는지를 안 적는다");
+  }
+  /* **다른 칸에는 안 붙는다.** 다 붙이면 아무 데도 안 읽힌다 (T181) */
+  if (warn.other && warn.other.indexOf("이 칸의 근거가 아니다") >= 0)
+    no("기계 눈금이 없는 칸에도 그 말이 붙어 있다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 76, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14, 통과 근거 4) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 80, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

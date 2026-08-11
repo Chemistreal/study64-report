@@ -616,6 +616,11 @@ $("#vCopy").onclick=function(){
 var curQ=1;
 function qs(q){ if(!S.q["Q"+q]) S.q["Q"+q]={pass:{},rel:{a:{},b:{}}};
   if(!S.q["Q"+q].rel) S.q["Q"+q].rel={a:{},b:{}}; return S.q["Q"+q]; }
+var BEAT_NOT_PASS={
+  str:"클립 탭이 마디와 박자를 숫자로 낸다. 그 숫자는 이 칸의 근거가 아니다. "+
+      "앱은 소리와 쉼의 경계만 재고 발음도 강세 자리도 못 잰다. 판정은 상대가 한다."
+};
+
 function renderQuarter(){
   var tb=$("#qTabs"); tb.innerHTML="";
   [1,2,3,4].forEach(function(q){
@@ -630,7 +635,10 @@ function renderQuarter(){
     var lab=el("div"); lab.style.flex="1"; lab.style.minWidth="200px";
     lab.appendChild(el("div",null,c.l));
     var meta=el("div","small mut"); meta.textContent=c.u+" "+c.need+" 이상 · 기준 "+c.src;
-    lab.appendChild(meta); row.appendChild(lab);
+    lab.appendChild(meta);
+    if(BEAT_NOT_PASS[c.k])
+      lab.appendChild(el("div","small w",BEAT_NOT_PASS[c.k]));
+    row.appendChild(lab);
     var tag=el("span","tag");
     function paint(){
       var v=passVal(curQ,c.k);
