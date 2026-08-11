@@ -121,6 +121,7 @@ function bindEmgClock(mm){
 }
 function renderEmg(pl){
   renderSoloLine();
+  renderMissLine();
   var line=$("#emgLine"), box=$("#emgBox");
   if(!line||!box) return;
   var rec=day(today());

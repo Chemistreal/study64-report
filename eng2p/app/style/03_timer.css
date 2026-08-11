@@ -238,7 +238,13 @@ body.peek #sessionCard .sessctl{display:none}
 .slots{display:grid;gap:8px;margin-top:12px}
 /* **세션 중에는 숨는다** (T322). 세션 화면은 블록에 집중하는 자리고
    껍데기 950px 한계가 그것을 지킨다. 연속일은 세션 전후에 보는 값이다. */
-body.session-focus #todaySlots{display:none}
+/* 세션 중에는 그날을 시작하기 전에 보는 줄들을 접는다 (T322, T355).
+   껍데기가 길면 블록 칸이 화면 아래로 밀린다. 세션 중에는 블록 칸만 본다.
+   `#missLine` 은 어제 못 했다는 줄이고 `#soloLine` 은 기기가 하나인 날 줄이다.
+   **둘 다 세션을 시작하기 전에 고르는 자리다.** 시작한 뒤에는 볼 까닭이 없다. */
+body.session-focus #todaySlots,
+body.session-focus #missLine,
+body.session-focus #soloLine{display:none}
 /* 공동 연속일 (T322). 숫자 하나가 이 칸의 전부다. 크게 둔다. */
 .stkbig{font-size:1.5rem;line-height:1}
 

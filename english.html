@@ -417,7 +417,9 @@ body.peek #sessionCard .slab,
 body.peek #sessionCard .sessctl{display:none}
 
 .slots{display:grid;gap:8px;margin-top:12px}
-body.session-focus #todaySlots{display:none}
+body.session-focus #todaySlots,
+body.session-focus #missLine,
+body.session-focus #soloLine{display:none}
 .stkbig{font-size:1.5rem;line-height:1}
 
 body.session-focus .rings{display:none}
@@ -973,6 +975,7 @@ body.veil-on>*:not(.veilcover){display:none}
     <div class="todaysheet" id="todaySheet"></div>
     <div class="emgline" id="emgLine"></div>
     <div class="emgline" id="soloLine"></div>
+    <div id="missLine"></div>
     <div id="emgBox"></div>
     <div class="timer">
       <div class="ringwrap">
@@ -1876,6 +1879,7 @@ function bindEmgClock(mm){
 }
 function renderEmg(pl){
   renderSoloLine();
+  renderMissLine();
   var line=$("#emgLine"), box=$("#emgBox");
   if(!line||!box) return;
   var rec=day(today());
@@ -2441,6 +2445,34 @@ function renderSoloLine(){
   if($("#soloOff")) $("#soloOff").onclick=function(){
     S.solo=false; save(); renderToday();
   };
+}
+
+function missYesterday(){
+  var d=addDays(today(),-1), n=0;
+  while(n<14){
+    var wd=parseISO(d).getDay();
+    if(wd!==0 && !((S.rest||{})[d])){
+      var r=(S.days||{})[d];
+      var st=r&&r.status;
+      if(st==="normal"||st==="emg") return null;
+      return {day:d, first:n===0};
+    }
+    d=addDays(d,-1); n++;
+  }
+  return null;
+}
+
+function renderMissLine(){
+  var line=$("#missLine"); if(!line) return;
+  var t=(S.days||{})[today()];
+  if(t && (t.status==="normal"||t.status==="emg")){ line.innerHTML=""; return; }
+  var m=missYesterday();
+  if(!m){ line.innerHTML=""; return; }
+  line.innerHTML='<div class="note w"><b>어제 못 했다.</b> '+
+    '<b>오늘은 무슨 일이 있어도 한다.</b> 정규 두 시간이 안 되면 '+
+    '<b>비상판 15분</b>으로 대신한다. 비상판을 쓴 날도 수행일로 센다.<br>'+
+    '<span class="small">하루 빠지는 것은 사고고 이틀 연속이 습관의 시작이다 '+
+    '(매뉴얼 2.4). 얼마나 빠졌는지는 안 센다.</span></div>';
 }
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],

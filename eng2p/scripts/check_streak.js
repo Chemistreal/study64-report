@@ -481,13 +481,72 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (!one.inMax)
     no("합칠 때 오늘의 한 판이 안 건너간다. 한쪽만 눌러도 연 날이어야 한다");
 
+  /* ---- 어제 못 했으면 오늘 그 말을 한다 (T355) --------------------------
+     매뉴얼 2.4. 앱에 경보가 있었지만 **주간 점검에 뜬다.** 이레째다.
+     월요일에 빠지면 그 말을 일요일에 듣고 그때는 이미 이틀이 지났다. */
+  const miss = async (setup) => {
+    await page.evaluate(setup);
+    await page.waitForTimeout(200);
+    return page.$eval("#missLine", (e) => e.innerText);
+  };
+  /* 어제가 결석이고 오늘은 아직 안 했다 */
+  const m1 = await miss(() => {
+    S.days = {}; S.rest = {};
+    let d = addDays(today(), -1);
+    while (parseISO(d).getDay() === 0) d = addDays(d, -1);
+    S.days[d] = { status: "absent", speak: 0, cards: 0, lre: 0, unres: [], coll: [] };
+    saveNow(); renderToday();
+  });
+  if (!/어제 못 했다/.test(m1)) no("어제 결석인데 오늘 그 말이 없다: " + m1.slice(0, 40));
+  if (!/무슨 일이 있어도 한다/.test(m1)) no("오늘 무엇을 하라는 말이 없다");
+  if (!/비상판 15분/.test(m1)) no("정규가 안 될 때 무엇을 하는지가 없다");
+  /* **다그치지 않는다.** 겁주는 말을 안 쓴다 */
+  if (/끝|포기|실패했|망|또/.test(m1)) no("어제 줄이 겁을 준다: " + m1.slice(0, 50));
+  /* **얼마나 빠졌는지를 안 센다** */
+  if (/\d+일 빠|\d+번 빠|\d+일째/.test(m1)) no("빠진 날을 세어 보인다: " + m1.slice(0, 50));
+
+  /* 어제 비상판을 했으면 안 뜬다. 비상판도 수행일이다 */
+  const m2 = await miss(() => {
+    S.days = {};
+    let d = addDays(today(), -1);
+    while (parseISO(d).getDay() === 0) d = addDays(d, -1);
+    S.days[d] = { status: "emg", speak: 0, cards: 0, lre: 0, unres: [], coll: [] };
+    saveNow(); renderToday();
+  });
+  if (m2.trim()) no("어제 비상판을 했는데 못 했다고 한다: " + m2.slice(0, 40));
+
+  /* 오늘을 이미 했으면 안 뜬다 */
+  const m3 = await miss(() => {
+    S.days = {};
+    let d = addDays(today(), -1);
+    while (parseISO(d).getDay() === 0) d = addDays(d, -1);
+    S.days[d] = { status: "absent", speak: 0, cards: 0, lre: 0, unres: [], coll: [] };
+    S.days[today()] = { status: "normal", speak: 0, cards: 0, lre: 0,
+                        unres: [], coll: [] };
+    saveNow(); renderToday();
+  });
+  if (m3.trim()) no("오늘을 이미 했는데 어제 줄이 뜬다: " + m3.slice(0, 40));
+
+  /* **미리 건 회복권 날은 안 센다.** 그날은 쉬기로 한 날이다 */
+  const m4 = await miss(() => {
+    S.days = {}; S.rest = {};
+    let d = addDays(today(), -1);
+    while (parseISO(d).getDay() === 0) d = addDays(d, -1);
+    S.rest[d] = 1;
+    let e = addDays(d, -1);
+    while (parseISO(e).getDay() === 0) e = addDays(e, -1);
+    S.days[e] = { status: "normal", speak: 0, cards: 0, lre: 0, unres: [], coll: [] };
+    saveNow(); renderToday();
+  });
+  if (m4.trim()) no("회복권 건 날인데 못 했다고 한다: " + m4.slice(0, 40));
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 끊긴 날 두 사람이 무엇을 느끼는가**");
-  console.log("연속일과 퀘스트 61판 (연속일 20, 회복권 16, 퀘스트 셈 11, 화면 14) / 실패 %d",
+  console.log("연속일과 퀘스트 69판 (연속일 20, 회복권 16, 퀘스트 셈 11, 화면 14, 어제 8) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
