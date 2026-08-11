@@ -154,6 +154,7 @@ STEPS = [
     ("화면", "check_ahead.js", [], False),
     ("화면", "check_year.js", [], False),
     ("화면", "check_track.js", [], False),
+    ("화면", "check_role.js", [], False),
     ("화면", "check_reach.js", [], False),
     ("화면", "check_store.js", [], False),
     # **열자마자 읽는 바이트에 선을 건다.** 시간은 기계마다 달라 선을 못 건다.
