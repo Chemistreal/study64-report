@@ -517,6 +517,75 @@ if (doc.indexOf("B등급") < 0)
     no("마디 수가 다를 때 못 댄다고 안 적는다: " + match.four.txt);
   if (!match.gone) no("기준을 지웠는데 박자 줄이 남아 있다");
 
+  /* ---- 마디마다 한 줄 (T369) -------------------------------------------
+     **한 줄로는 어디가 어떻게 다른지 모른다.** 표가 그 자리다. */
+  const rows = await page.evaluate(() => {
+    const tb = document.getElementById("clipRows");
+    const make = (lens) => {
+      const p = [];
+      lens.forEach((n) => {
+        for (let j = 0; j < n; j++) p.push(0.6);
+        for (let j = 0; j < 12; j++) p.push(0.01);
+      });
+      while (p.length < 320) p.push(0.01);
+      return p.slice(0, 320);
+    };
+    const set = (name, peaks, d) => {
+      CLIP.file = { name: name }; CLIP.el = { duration: d, currentTime: 0 };
+      CLIP.peaks = peaks; CLIP.beat = null; CLIP.waveState = "ready";
+    };
+    REF = null;
+    set("원본.mp3", make([20, 20, 20]), 6);
+    paintRef(); waveInfo();
+    const noRef = { hid: tb.hidden, n: tb.rows.length };
+    document.getElementById("cRef").click();
+    set("내녹음.webm", make([20, 40, 20]), 6);
+    waveInfo();
+    const on = { hid: tb.hidden, n: tb.rows.length,
+                 head: tb.rows[0] ? tb.rows[0].innerText : "",
+                 mid: tb.rows[2] ? tb.rows[2].innerText : "",
+                 /* **줄 전체로 재면 안 된다.** 기준 칸의 초가 검사를 통과시킨다.
+                    칸을 하나씩 본다 (T369 에 깸이 안 잡혀서 고쳤다) */
+                 cells: tb.rows[2]
+                   ? [...tb.rows[2].cells].map((c) => c.textContent) : [],
+                 txt: tb.innerText };
+    /* 마디 수가 다르면 짝을 못 짓는다. **표도 없다** */
+    set("넷.webm", make([20, 20, 20, 20]), 6);
+    waveInfo();
+    const four = { hid: tb.hidden, n: tb.rows.length };
+    document.getElementById("cRef").click();
+    waveInfo();
+    return { noRef: noRef, on: on, four: four, gone: tb.hidden };
+  });
+  if (!rows.noRef.hid) no("기준이 없는데 마디 표가 떠 있다");
+  if (rows.on.hid) no("짝이 지어졌는데 마디 표가 안 뜬다");
+  /* 머리 한 줄 + 마디 셋 */
+  if (rows.on.n !== 4) no("마디 셋인데 표가 " + rows.on.n + "줄이다 (머리 포함 넷이어야 한다)");
+  ["마디", "기준", "이 파일", "상대 길이"].forEach((w) => {
+    if (rows.on.head.indexOf(w) < 0) no("표 머리에 '" + w + "' 가 없다: " + rows.on.head);
+  });
+  /* 가운데 마디가 두 배로 늘어졌다. **초와 배수가 둘 다 있어야 한다** */
+  if (rows.on.mid.indexOf("2.00배") < 0)
+    no("가운데 줄에 상대 길이가 안 적힌다: " + rows.on.mid);
+  /* 칸 넷. 마디 번호 / 기준 초 / 이 파일 초 / 상대 길이 */
+  if (rows.on.cells.length !== 4)
+    no("가운데 줄이 " + rows.on.cells.length + "칸이다. 넷이어야 한다");
+  else {
+    if (!/^\d+\.\d\d초$/.test(rows.on.cells[1]))
+      no("기준 칸에 초가 안 적힌다: '" + rows.on.cells[1] + "'");
+    if (!/^\d+\.\d\d초$/.test(rows.on.cells[2]))
+      no("이 파일 칸에 초가 안 적힌다: '" + rows.on.cells[2] + "'");
+    /* 가운데 마디가 두 배로 늘어졌다. **두 칸이 같으면 한쪽을 안 읽은 것이다** */
+    if (rows.on.cells[1] === rows.on.cells[2])
+      no("기준 칸과 이 파일 칸이 같다: '" + rows.on.cells[1] + "'");
+  }
+  /* **표에도 판정을 안 적는다** */
+  ["잘", "틀렸", "맞았", "좋", "나쁘", "느리", "빠르"].forEach((w) => {
+    if (rows.on.txt.indexOf(w) >= 0) no("마디 표가 판정하는 말을 쓴다: " + w);
+  });
+  if (!rows.four.hid) no("마디 수가 다른데 표가 떠 있다");
+  if (!rows.gone) no("기준을 지웠는데 마디 표가 남아 있다");
+
   /* 앱이 판정 안 한다는 말이 그 자리에 있는가. **만든 것과 닿는 것은 다르다** */
   const said = await page.evaluate(() => document.getElementById("t-clip").innerText);
   if (said.indexOf("앱은 잘했는지 안 말한다") < 0)
@@ -528,8 +597,8 @@ if (doc.indexOf("B등급") < 0)
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 62, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 76, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

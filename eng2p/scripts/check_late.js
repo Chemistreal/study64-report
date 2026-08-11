@@ -68,6 +68,8 @@ const SPOT = [
      늦게 읽는 것이 맞는지와 닿는지는 똑같이 재진다. */
   { piece: "18_clip.js", tab: "clip", fn: "beatSegs",
     sel: null, how: "fn", what: "클립 탭의 마디 뽑기" },
+  { piece: "26_beatview.js", tab: "clip", fn: "renderMatch",
+    sel: null, how: "fn", what: "클립 탭의 마디를 적는 자리" },
   { piece: "24_script.js", tab: "clip", fn: "renderScript",
     sel: "#scList", how: "kids", what: "클립 탭의 대본 자리" },
   { piece: "25_clips.js", tab: "clip", fn: "renderClip",
