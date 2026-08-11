@@ -45,7 +45,7 @@ function waveInfo(){
     msg="파일을 열면 실제 음성 파형을 분석한다.";
   }
   if(info.textContent!==msg) info.textContent=msg;
-  renderDiff(); renderStress();
+  renderDiff(); renderStress(); renderMatch();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -265,6 +265,56 @@ function beatDiff(){
   return {refDur:REF.dur, myDur:d2, ratio:d2/REF.dur,
           refSegs:REF.segs, mySegs:bt.segs.length};
 }
+/* 박자를 대 본다 (T368). **전체가 느린 것과 한 마디만 늘어진 것은 다르다.**
+
+   0.8배로 또박또박 말한 것은 박자가 맞는 것이다 (`bench_music.md` 6.1).
+   그러니 전체 배수는 어긋남이 아니다. **그 배수를 빼고 남는 것이 박자다.**
+
+       상대 길이 = (내 마디 / 내 전체) / (기준 마디 / 기준 전체)
+
+   1.00 이면 그 마디가 전체와 같은 비율로 늘었다는 뜻이다.
+   1.00 보다 크면 그 마디만 더 늘어졌고 작으면 그 마디만 더 뭉갰다.
+
+   **마디 수가 다르면 짝을 못 짓는다.** 억지로 맞추면 그다음 숫자가 다 헛것이다.
+   못 하는 것을 못 한다고 낸다. */
+function beatMatch(){
+  var d=beatDiff();
+  if(!d) return null;
+  var mine=beatNow();
+  if(!mine||!REF||!REF.segs) return null;
+  if(!REF.each||REF.each.length!==d.refSegs) return {paired:false};
+  if(mine.segs.length!==d.refSegs) return {paired:false};
+  var rows=mine.segs.map(function(g,i){
+    var my=(g.t1-g.t0)/d.myDur, rf=REF.each[i]/d.refDur;
+    return {i:i, rel:rf>0 ? my/rf : null};
+  });
+  /* 제일 어긋난 마디. **1.00 에서 얼마나 먼가로 센다** */
+  var worst=null;
+  rows.forEach(function(r){
+    if(r.rel==null) return;
+    var off=Math.abs(r.rel-1);
+    if(!worst||off>worst.off) worst={i:r.i, rel:r.rel, off:off};
+  });
+  return {paired:true, rows:rows, worst:worst};
+}
+function renderMatch(){
+  var box=$("#clipMatch"); if(!box) return;
+  var m=beatMatch();
+  if(!m){ box.hidden=true; box.textContent=""; return; }
+  box.hidden=false;
+  if(!m.paired){
+    /* **못 하는 것을 못 한다고 낸다.** 억지로 맞추면 그다음 숫자가 다 헛것이다 */
+    box.textContent="마디 수가 달라서 마디끼리 대 보지 못한다. "+
+      "먼저 어디서 끊었는지를 맞춘다.";
+    return;
+  }
+  var w=m.worst;
+  if(!w){ box.hidden=true; box.textContent=""; return; }
+  /* **전체 배수를 뺀 값이다.** 느리게 말한 것 자체는 어긋남이 아니다 */
+  box.textContent="전체 배수를 빼고 대 보면 "+(w.i+1)+"번째 마디가 제일 다르다 "+
+    "("+w.rel.toFixed(2)+"배). 1.00 이면 전체와 같은 비율이다.";
+}
+
 function renderDiff(){
   var box=$("#clipDiff"); if(!box) return;
   var d=beatDiff();
@@ -399,7 +449,10 @@ $("#cRef").onclick=function(){
     flash("파형을 아직 못 읽었다. 다 읽고 나서 잡는다"); return;
   }
   REF={name:(CLIP.file&&CLIP.file.name)||"", peaks:CLIP.peaks.slice(),
-       dur:dur(), segs:bt.segs.length};
+       dur:dur(), segs:bt.segs.length,
+       /* 마디마다 길이도 쥔다 (T368). **파형만 쥐면 다시 세야 하고
+          그때 문턱이 이 파일 기준으로 잡혀 값이 달라진다.** */
+       each:bt.segs.map(function(g){ return g.t1-g.t0; })};
   paintRef(); paintWave(); waveInfo();
   flash("기준으로 잡았다. 다음 파일을 열면 겹쳐 보인다");
 };

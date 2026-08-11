@@ -451,6 +451,72 @@ if (doc.indexOf("B등급") < 0)
   if (pick.onePick !== null) no("마디 하나인데 제일 긴 것을 짚는다");
   if (!pick.oneHid) no("마디 하나인데 강세 줄이 떠 있다");
 
+  /* ---- 박자를 대 본다 (T368) -------------------------------------------
+     **전체가 느린 것과 한 마디만 늘어진 것은 다르다.** */
+  const match = await page.evaluate(() => {
+    const box = document.getElementById("clipMatch");
+    /* `lens` 만큼의 마디를 짓는다. 쉼은 늘 12칸 */
+    const make = (lens) => {
+      const p = [];
+      lens.forEach((n) => {
+        for (let j = 0; j < n; j++) p.push(0.6);
+        for (let j = 0; j < 12; j++) p.push(0.01);
+      });
+      while (p.length < 320) p.push(0.01);
+      return p.slice(0, 320);
+    };
+    const set = (name, peaks, d) => {
+      CLIP.file = { name: name }; CLIP.el = { duration: d, currentTime: 0 };
+      CLIP.peaks = peaks; CLIP.beat = null; CLIP.waveState = "ready";
+    };
+    REF = null;
+    set("원본.mp3", make([20, 20, 20]), 6);
+    paintRef(); waveInfo();
+    document.getElementById("cRef").click();
+
+    /* 1. 통째로 1.5배 느리게. **마디 비율은 그대로다** */
+    set("느리게.webm", make([20, 20, 20]), 9);
+    waveInfo();
+    const slow = { txt: box.textContent, m: beatMatch() };
+
+    /* 2. 가운데 마디만 늘어졌다 */
+    set("가운데.webm", make([20, 40, 20]), 6);
+    waveInfo();
+    const mid = { txt: box.textContent, m: beatMatch() };
+
+    /* 3. 마디 수가 다르다. **짝을 못 짓는다** */
+    set("넷.webm", make([20, 20, 20, 20]), 6);
+    waveInfo();
+    const four = { txt: box.textContent, m: beatMatch() };
+
+    document.getElementById("cRef").click();
+    waveInfo();
+    return { slow: slow, mid: mid, four: four, gone: box.hidden };
+  });
+  /* 통째로 느린 것은 어긋남이 아니다. **1.00 에 붙어 있어야 한다** */
+  if (!match.slow.m || !match.slow.m.paired) no("통째로 느린 파일을 짝 못 짓는다");
+  else if (Math.abs(match.slow.m.worst.rel - 1) > 0.05)
+    no("통째로 1.5배 느린데 어긋남이 " + match.slow.m.worst.rel.toFixed(2) +
+       "배로 나온다. 전체 배수를 안 빼고 있다");
+  /* 가운데만 늘어진 것은 그 마디가 짚혀야 한다 */
+  if (!match.mid.m || !match.mid.m.paired) no("가운데가 늘어진 파일을 짝 못 짓는다");
+  else {
+    if (match.mid.m.worst.i !== 1)
+      no("가운데 마디가 늘어졌는데 " + (match.mid.m.worst.i + 1) + "번째를 짚는다");
+    if (match.mid.m.worst.rel <= 1.2)
+      no("가운데가 두 배로 늘어졌는데 " + match.mid.m.worst.rel.toFixed(2) + "배로 낸다");
+  }
+  if (match.mid.txt.indexOf("2번째 마디가 제일 다르다") < 0)
+    no("화면이 어긋난 마디를 안 짚는다: " + match.mid.txt);
+  if (match.mid.txt.indexOf("전체 배수를 빼고") < 0)
+    no("전체 배수를 뺀 값이라고 안 적는다: " + match.mid.txt);
+  /* 마디 수가 다르면 **못 한다고 낸다** */
+  if (!match.four.m || match.four.m.paired)
+    no("마디 수가 다른데 짝을 지어 버린다");
+  if (match.four.txt.indexOf("마디 수가 달라서") < 0)
+    no("마디 수가 다를 때 못 댄다고 안 적는다: " + match.four.txt);
+  if (!match.gone) no("기준을 지웠는데 박자 줄이 남아 있다");
+
   /* 앱이 판정 안 한다는 말이 그 자리에 있는가. **만든 것과 닿는 것은 다르다** */
   const said = await page.evaluate(() => document.getElementById("t-clip").innerText);
   if (said.indexOf("앱은 잘했는지 안 말한다") < 0)
@@ -462,8 +528,8 @@ if (doc.indexOf("B등급") < 0)
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 52, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 62, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

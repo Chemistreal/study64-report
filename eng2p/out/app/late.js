@@ -35,7 +35,7 @@ function waveInfo(){
     msg="파일을 열면 실제 음성 파형을 분석한다.";
   }
   if(info.textContent!==msg) info.textContent=msg;
-  renderDiff(); renderStress();
+  renderDiff(); renderStress(); renderMatch();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -207,6 +207,41 @@ function beatDiff(){
   return {refDur:REF.dur, myDur:d2, ratio:d2/REF.dur,
           refSegs:REF.segs, mySegs:bt.segs.length};
 }
+function beatMatch(){
+  var d=beatDiff();
+  if(!d) return null;
+  var mine=beatNow();
+  if(!mine||!REF||!REF.segs) return null;
+  if(!REF.each||REF.each.length!==d.refSegs) return {paired:false};
+  if(mine.segs.length!==d.refSegs) return {paired:false};
+  var rows=mine.segs.map(function(g,i){
+    var my=(g.t1-g.t0)/d.myDur, rf=REF.each[i]/d.refDur;
+    return {i:i, rel:rf>0 ? my/rf : null};
+  });
+  var worst=null;
+  rows.forEach(function(r){
+    if(r.rel==null) return;
+    var off=Math.abs(r.rel-1);
+    if(!worst||off>worst.off) worst={i:r.i, rel:r.rel, off:off};
+  });
+  return {paired:true, rows:rows, worst:worst};
+}
+function renderMatch(){
+  var box=$("#clipMatch"); if(!box) return;
+  var m=beatMatch();
+  if(!m){ box.hidden=true; box.textContent=""; return; }
+  box.hidden=false;
+  if(!m.paired){
+    box.textContent="마디 수가 달라서 마디끼리 대 보지 못한다. "+
+      "먼저 어디서 끊었는지를 맞춘다.";
+    return;
+  }
+  var w=m.worst;
+  if(!w){ box.hidden=true; box.textContent=""; return; }
+  box.textContent="전체 배수를 빼고 대 보면 "+(w.i+1)+"번째 마디가 제일 다르다 "+
+    "("+w.rel.toFixed(2)+"배). 1.00 이면 전체와 같은 비율이다.";
+}
+
 function renderDiff(){
   var box=$("#clipDiff"); if(!box) return;
   var d=beatDiff();
@@ -327,7 +362,8 @@ $("#cRef").onclick=function(){
     flash("파형을 아직 못 읽었다. 다 읽고 나서 잡는다"); return;
   }
   REF={name:(CLIP.file&&CLIP.file.name)||"", peaks:CLIP.peaks.slice(),
-       dur:dur(), segs:bt.segs.length};
+       dur:dur(), segs:bt.segs.length,
+       each:bt.segs.map(function(g){ return g.t1-g.t0; })};
   paintRef(); paintWave(); waveInfo();
   flash("기준으로 잡았다. 다음 파일을 열면 겹쳐 보인다");
 };

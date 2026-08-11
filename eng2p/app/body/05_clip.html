@@ -40,6 +40,9 @@
       <!-- 겹친 그림으로는 길이 차이가 안 보인다 (T366). 가로를 칸 번호로
            맞추기 때문이다. 안 보이는 것을 글로 적는 자리다. -->
       <div class="waveinfo" id="clipDiff" aria-live="polite" hidden></div>
+      <!-- 박자를 대 본다 (T368). 전체가 느린 것은 어긋남이 아니다.
+           그 배수를 빼고 남는 것이 박자다. -->
+      <div class="waveinfo" id="clipMatch" aria-live="polite" hidden></div>
       <!-- 마디는 눈금이지 판정이 아니다 (T364). 기준서 13.2 와 매뉴얼 8.3 이
            판정은 상대가 한다고 정했고 그것이 바뀌지 않는다. -->
       <div class="small mut">아래 띠가 <b>마디</b>다. 소리와 쉼의 경계일 뿐이고
