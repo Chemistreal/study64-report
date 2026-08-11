@@ -35,6 +35,7 @@ function waveInfo(){
     msg="파일을 열면 실제 음성 파형을 분석한다.";
   }
   if(info.textContent!==msg) info.textContent=msg;
+  renderDiff();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -164,6 +165,27 @@ function beatSegs(peaks, dur){
   }
   close(peaks.length);
   return {thr:thr, per:per, segs:segs};
+}
+
+function beatDiff(){
+  if(!REF||!(REF.dur>0)) return null;
+  var bt=beatNow(), d2=dur();
+  if(!bt||!(d2>0)) return null;
+  if(REF.name===(CLIP.file&&CLIP.file.name)) return null;
+  return {refDur:REF.dur, myDur:d2, ratio:d2/REF.dur,
+          refSegs:REF.segs, mySegs:bt.segs.length};
+}
+function renderDiff(){
+  var box=$("#clipDiff"); if(!box) return;
+  var d=beatDiff();
+  if(!d){ box.hidden=true; box.textContent=""; return; }
+  box.hidden=false;
+  var say="기준 "+d.refDur.toFixed(1)+"초 · 이 파일 "+d.myDur.toFixed(1)+"초"+
+    " ("+d.ratio.toFixed(2)+"배)";
+  say+= d.mySegs===d.refSegs
+    ? " · 마디 수는 같다 ("+d.mySegs+"개)"
+    : " · 마디 "+d.mySegs+"개 대 기준 "+d.refSegs+"개";
+  if(box.textContent!==say) box.textContent=say;
 }
 
 function beatGaps(r){

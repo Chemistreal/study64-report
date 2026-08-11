@@ -307,6 +307,62 @@ if (doc.indexOf("B등급") < 0)
   if (ref.label2 !== "기준으로 잡기")
     no("지운 뒤에도 단추가 '" + ref.label2 + "' 다");
 
+  /* ---- 그림으로 안 보이는 것을 글로 적는가 (T366) ----------------------
+     겹친 그림은 가로를 칸 번호로 맞춰서 **길이 차이가 안 보인다.** */
+  const diff = await page.evaluate(() => {
+    const make = (n) => {
+      const p = [];
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < 10; j++) p.push(0.7);
+        for (let j = 0; j < 10; j++) p.push(0.01);
+      }
+      while (p.length < 320) p.push(0.01);
+      return p.slice(0, 320);
+    };
+    const box = document.getElementById("clipDiff");
+    REF = null;
+    CLIP.el = { duration: 6, currentTime: 0 };
+    CLIP.file = { name: "원본.mp3" };
+    CLIP.peaks = make(4); CLIP.beat = null; CLIP.waveState = "ready";
+    paintRef(); waveInfo();
+    const noRef = { hid: box.hidden, txt: box.textContent };
+    document.getElementById("cRef").click();
+    /* 기준만 잡고 파일은 그대로. **자기와 자기를 견주지 않는다** */
+    waveInfo();
+    const self = { hid: box.hidden, txt: box.textContent };
+    /* 1.25배 길고 마디가 하나 적은 파일 */
+    CLIP.el = { duration: 7.5, currentTime: 0 };
+    CLIP.file = { name: "내녹음.webm" };
+    CLIP.peaks = make(3); CLIP.beat = null;
+    waveInfo();
+    const other = { hid: box.hidden, txt: box.textContent };
+    /* 마디 수가 같은 자리. **같으면 같다고 적는다** */
+    CLIP.peaks = make(4); CLIP.beat = null;
+    waveInfo();
+    const same = box.textContent;
+    document.getElementById("cRef").click();
+    waveInfo();
+    return { noRef: noRef, self: self, other: other, same: same,
+             gone: box.hidden };
+  });
+  if (!diff.noRef.hid) no("기준이 없는데 차이 칸이 떠 있다: " + diff.noRef.txt);
+  if (!diff.self.hid) no("같은 파일인데 자기와 자기를 견준다: " + diff.self.txt);
+  if (diff.other.hid) no("기준과 다른 파일인데 차이 칸이 안 뜬다");
+  else {
+    ["기준 6.0초", "이 파일 7.5초", "1.25배", "마디 3개 대 기준 4개"]
+      .forEach((w) => {
+        if (diff.other.txt.indexOf(w) < 0)
+          no("차이 칸에 '" + w + "' 가 없다: " + diff.other.txt);
+      });
+  }
+  if (diff.same.indexOf("마디 수는 같다 (4개)") < 0)
+    no("마디 수가 같은데 같다고 안 적는다: " + diff.same);
+  /* **판정 낱말을 안 쓴다.** 느린 것이 나쁜 것이 아니다 */
+  ["느리", "빠르", "잘", "틀렸", "맞았", "부족"].forEach((w) => {
+    if (diff.other.txt.indexOf(w) >= 0) no("차이 칸이 판정하는 말을 쓴다: " + w);
+  });
+  if (!diff.gone) no("기준을 지웠는데 차이 칸이 남아 있다");
+
   /* 앱이 판정 안 한다는 말이 그 자리에 있는가. **만든 것과 닿는 것은 다르다** */
   const said = await page.evaluate(() => document.getElementById("t-clip").innerText);
   if (said.indexOf("앱은 잘했는지 안 말한다") < 0)
@@ -318,8 +374,8 @@ if (doc.indexOf("B등급") < 0)
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 28, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 40, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
