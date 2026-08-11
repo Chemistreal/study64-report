@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 서른여덟과 검사 서른아홉과 상태 갱신 셋, 여든을 정해진 순서로 돈다.
+**한 줄이다.** 파생 서른여덟과 검사 마흔과 상태 갱신 셋, 여든하나를 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -158,6 +158,7 @@ docs/streak.md        공동 연속일과 회복권. **날을 세지 사람을 �
 docs/round.md          같은 판. **망 없이 셈으로 맞춘다.** 시계에서 아무것도 안 낸다
 docs/engine.md        공동 진행 엔진 F단계 결산. **만든 것은 대부분 무엇을 안 하는가다**
 docs/track.md         트랙별 진도. **고르지 않은 것이 정상이다.** 사람별로 안 가른다
+docs/gap.md           갈릴 때. **기준서가 진도 격차를 위험으로 안 본다.** 갈리는 칸 넷
 docs/year.md          1년을 통째로 돈다. **앱이 아는 것을 사람이 다시 적고 있었다**
                       6장이 밀린 해다. **오백 날이 넘게 걸리는 해가 있다**
                       7장이 1년치 합치기다. **이을 것과 골라야 할 것을 가른다**
@@ -170,6 +171,7 @@ scripts/ground.py       제작물의 영어 재료가 52과 대본 어디에 있
 scripts/check_ground.py 근거 없음 비율과 **대본 밖 낱말 목록**. G구간의 게이트
 scripts/check_play_ground.py 판 자료 열여덟의 영어. **G구간 게이트를 판에도 건다**
 scripts/check_play_score.py 개인 칸 86판. **규칙서가 아니라 코드와 자료를 읽는다**
+scripts/check_person.py 사람별 칸 51판. **저장소에서 갈리는 칸은 넷뿐이고 다 글이다**
 docs/wordlist.md      대본에 없는데 내가 쓴 낱말. **여기 없는 낱말이 재료에 나오면 실패다**
 scripts/check_layers.py 3층 대조판. **2층 줄이 다 52과 대본에 있는지 잰다**
 scripts/derive_ground_data.py 근거를 앱이 읽는 꼴로. 카드에서 그 녹음 자리로 간다
@@ -211,7 +213,7 @@ scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = �
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/check_streak.js 연속일과 회복권과 퀘스트 61판. **날을 세지 사람을 안 센다**
 scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지 않는다**
-scripts/check_relation.js 관계 점검과 신호 33판. **따로 적고 같이 편다**
+scripts/check_relation.js 관계 점검과 신호 38판. **따로 적고 같이 편다**
 scripts/check_growth.js 되돌아보기 33판. **앱이 소리를 안 들고 있는다**
 scripts/check_ahead.js 미리 아는 것과 봉투 50판. **표는 있었는데 그때 안 떴다**
 scripts/check_year.js  1년을 통째로 돈다 324판. **막는 값이 세는 값이 되면 안 된다**

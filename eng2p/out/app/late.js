@@ -443,6 +443,11 @@ function renderQuarter(){
     }
     card.appendChild(row); box.appendChild(card); paint();
   });
+  var who=el("div","note small");
+  who.innerHTML='<b>이 숫자는 둘의 것이다.</b> 서로에게 재고 <b>낮은 쪽</b>을 적는다. '+
+    '통과는 둘 다 넘어야 하는 것이라 높은 쪽을 적으면 낮은 쪽이 사라진다. '+
+    '<b>누가 낮은지는 안 적는다.</b>';
+  box.appendChild(who);
   var sum=el("div","note small"); sum.id="qSum"; box.appendChild(sum);
   function summary(){
     var n=PASS[curQ].filter(function(c){var v=passVal(curQ,c.k);return v!=null&&v>=c.need;}).length;

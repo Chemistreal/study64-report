@@ -219,13 +219,35 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (/이 주 처방/.test(l4))
     no("아직 안 폈는데 처방이 뜬다. 신호는 두 답을 같이 봐야 나온다");
 
+  /* ---- 8. 분기 판정 숫자가 누구 것인지 (T345) ---------------------------
+     매뉴얼이 "둘이 서로에게 재고 한 숫자를 적는다" 고 정했다.
+     **화면이 그 말을 안 하면 두 사람은 각자 제 숫자를 적으려 한다.** */
+  const pass = await page.evaluate(() => {
+    go("quarter");
+    return new Promise((ok) => setTimeout(() => {
+      const b = document.getElementById("qPass");
+      ok({ txt: b.innerText, inputs: b.querySelectorAll("input").length });
+    }, 900));
+  });
+  if (!/이 숫자는 둘의 것이다/.test(pass.txt))
+    no("분기 판정 숫자가 누구 것인지를 안 적는다");
+  if (!/낮은 쪽/.test(pass.txt))
+    no("어느 쪽을 적는지가 없다. 높은 쪽을 적으면 낮은 쪽이 사라진다");
+  if (!/둘 다 넘어야/.test(pass.txt)) no("왜 낮은 쪽인지가 없다");
+  /* **누가 낮은지는 안 적는다.** 이름이 뜨면 그것이 곧 지목이다 */
+  if (pass.txt.indexOf("가람") >= 0 || pass.txt.indexOf("나래") >= 0)
+    no("분기 판정 칸에 사람 이름이 있다");
+  /* **사람별 칸을 안 만든다.** 조건 넷에 칸이 넷이지 여덟이 아니다 */
+  if (pass.inputs > 3)
+    no("적는 칸이 " + pass.inputs + "개다. 조건 넷 중 누적 시간은 앱이 세므로 셋이다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 두 사람이 정말 따로 앉아 적는가**");
-  console.log("관계 점검과 신호 33판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14) / 실패 %d",
+  console.log("관계 점검과 신호 38판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14, 판정 숫자 5) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

@@ -41,6 +41,18 @@ function renderQuarter(){
     }
     card.appendChild(row); box.appendChild(card); paint();
   });
+  /* **이 숫자가 누구 것인지를 말한다** (T345). 매뉴얼이 "둘이 서로에게 재고
+     한 숫자를 적는다" 고 정했는데 화면이 그 말을 안 하고 있었다.
+     숫자 칸 넷이 나란히 있고 아무 말이 없으면 두 사람은 각자 제 숫자를 적으려 한다.
+     그러면 한 사람이 적고 다른 사람이 덮는다. **그 숫자가 무엇인지 아무도 모르게 된다.**
+
+     낮은 쪽을 적는다. 통과는 둘 다 넘어야 하는 것이라
+     높은 쪽을 적으면 낮은 쪽이 사라진다. **누가 낮은지는 안 적는다.** */
+  var who=el("div","note small");
+  who.innerHTML='<b>이 숫자는 둘의 것이다.</b> 서로에게 재고 <b>낮은 쪽</b>을 적는다. '+
+    '통과는 둘 다 넘어야 하는 것이라 높은 쪽을 적으면 낮은 쪽이 사라진다. '+
+    '<b>누가 낮은지는 안 적는다.</b>';
+  box.appendChild(who);
   var sum=el("div","note small"); sum.id="qSum"; box.appendChild(sum);
   function summary(){
     var n=PASS[curQ].filter(function(c){var v=passVal(curQ,c.k);return v!=null&&v>=c.need;}).length;
