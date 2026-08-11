@@ -20,6 +20,49 @@ function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
    **앱이 간격을 새로 정하지 않는다.** 강의가 정한 값을 그대로 쓴다.
    ========================================================================= */
 function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
+
+/* 카드 간격을 사람별로 (T358). `docs/cards_person.md` 가 규격이다.
+
+   ## 왜 갈랐나
+
+   페어 드릴은 한 사람이 묻고 한 사람이 답한다. **답한 사람에게만 그 카드가 어렵다.**
+   간격이 한 벌이면 한쪽이 못 맞힌 카드가 다른 쪽에게도 다시 온다.
+   간격 반복이 그렇게 도는 장치라 그 어긋남은 시간이 갈수록 커진다.
+
+   개정문 16번이 그 범위를 정했다. **막는 것은 값이 아니라 둘 사이의 우열이다.**
+   그래서 쌓되 **한 화면에 나란히 안 놓는다.**
+
+   ## 누구 것인가
+
+   기기가 정해져 있으면 그 기기를 든 사람 것이다. 기기가 하나거나 안 정해졌으면
+   **그날 답하는 쪽** 것이다. 페어 드릴에서 A가 묻고 B가 답한다 (매뉴얼 4장).
+
+   ## 옛 기록을 안 버린다
+
+   전에는 그 자리에 한 벌이 있었다. 갈래가 없는 옛 꼴을 만나면
+   **둘 다에게 같은 값으로** 넣는다. 지금까지 둘이 같이 돈 것이라 그렇게 읽는 것이 맞다.
+   **반만 고치면 옛 꼴과 새 꼴이 섞이고 그때 잃는 것이 1년치 간격이다.** */
+function cardSide(){
+  var d=(typeof deviceSide==="function") ? deviceSide() : null;
+  if(d==="a"||d==="b") return d;
+  return roleOf(today())==="a" ? "b" : "a";
+}
+/* 옛 꼴을 새 꼴로. **한 번만 바꾸고 그 뒤로는 그대로 둔다** */
+function cardSplit(c){
+  if(!c) return {a:null, b:null};
+  if(c.a!==undefined || c.b!==undefined) return c;
+  var one={box:c.box, due:c.due, ran:c.ran, hist:(c.hist||[]).slice()};
+  return {a:one, b:{box:one.box, due:one.due, ran:one.ran, hist:one.hist.slice()}};
+}
+function cardOne(id, side){
+  var m=cardDue(), c=cardSplit(m[id]);
+  m[id]=c;
+  return c[side||cardSide()]||null;
+}
+function cardSet(id, rec, side){
+  var m=cardDue(), c=cardSplit(m[id]);
+  c[side||cardSide()]=rec; m[id]=c;
+}
 /* 카드 하나가 어느 강에 붙는지. 묶음의 주차 표에서 나온다.
    다시 낼 카드는 오늘 강의 것이 아니므로 이 값이 있어야 간격을 맞게 올린다. */
 function cardLecture(id){
@@ -65,7 +108,7 @@ function cardRanDays(cur, td){
 function ranOn(d){
   var m=cardDue(), out=[];
   for(var k in m){
-    var c=m[k]; if(!c) continue;
+    var c=cardOne(k); if(!c) continue;
     var h=(c.hist && c.hist.length) ? c.hist : (c.ran ? [c.ran] : []);
     if(h.indexOf(d)>=0) out.push(k);
   }
@@ -73,11 +116,11 @@ function ranOn(d){
 }
 function markCardRun(id, lectureNo){
   var days=spacingDays(lectureNo), td=today();
-  var m=cardDue(), cur=m[id], hist=cardRanDays(cur, td);
-  if(!days){ m[id]={box:0, due:null, ran:td, hist:hist}; save(); syncCardCount(); return; }
+  var cur=cardOne(id), hist=cardRanDays(cur, td);
+  if(!days){ cardSet(id,{box:0, due:null, ran:td, hist:hist}); save(); syncCardCount(); return; }
   var box=cur && cur.box ? cur.box : 0;
-  if(box>=days.length){ m[id]={box:box, due:null, ran:td, hist:hist}; save(); syncCardCount(); return; }
-  m[id]={box:box+1, due:addDays(td, days[box]), ran:td, hist:hist};
+  if(box>=days.length){ cardSet(id,{box:box, due:null, ran:td, hist:hist}); save(); syncCardCount(); return; }
+  cardSet(id,{box:box+1, due:addDays(td, days[box]), ran:td, hist:hist});
   save(); syncCardCount();
 }
 /* **오늘 돈 카드 수를 앱이 이미 알고 있다.** 그런데 대장은 손으로 받았다.
@@ -87,7 +130,7 @@ function markCardRun(id, lectureNo){
    센 것보다 적게 적히는 일만 막는다. **종이로 더 돌았을 수 있어서 위로는 안 막는다.** T216 */
 function ranToday(){
   var m=cardDue(), td=today(), n=0;
-  for(var k in m) if(m[k] && m[k].ran===td) n++;
+  for(var k in m){ var c=cardOne(k); if(c && c.ran===td) n++; }
   return n;
 }
 function syncCardCount(){
@@ -97,7 +140,7 @@ function syncCardCount(){
 }
 function dueCards(){
   var m=cardDue(), td=today(), out=[];
-  for(var k in m) if(m[k] && m[k].due && m[k].due<=td) out.push(k);
+  for(var k in m){ var c=cardOne(k); if(c && c.due && c.due<=td) out.push(k); }
   return out;
 }
 

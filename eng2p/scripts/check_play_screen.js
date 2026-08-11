@@ -3351,9 +3351,10 @@ const RESET = () => {
     const keep = JSON.parse(JSON.stringify(S.cardDue));
     const td = today();
     /* 사흘 전만 지운다. **셋 중 하나만 비어도 안 연다** */
+    /* 카드 기록이 사람별로 갈렸다 (T358). **이 기기 사람 것을 본다.** */
     Object.keys(S.cardDue).forEach((k) => {
-      const c = S.cardDue[k];
-      if ((c.hist || []).indexOf(addDays(td, -3)) >= 0) delete S.cardDue[k];
+      const c = cardOne(k);
+      if (c && (c.hist || []).indexOf(addDays(td, -3)) >= 0) delete S.cardDue[k];
     });
     const rec = rclRec(); rec.deck = null; save();
     renderRecall();

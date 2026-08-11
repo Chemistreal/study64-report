@@ -283,11 +283,13 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     n++;
     const { ctx, page } = await fresh();
     const h = await page.evaluate(() => {
+      /* 카드 기록이 사람별로 갈렸다 (T358). **이 기기 사람 것을 쓴다.**
+         `cardOne` 과 `cardSet` 이 갈래를 고르고 옛 꼴이면 갈라 준다. */
       S.cardDue = {};
       const td = today(), y = addDays(td, -1), old = addDays(td, -9);
-      S.cardDue["Q1-001"] = { box: 1, due: td, ran: y, hist: [old, y] };
-      const got = cardRanDays(S.cardDue["Q1-001"], td);
-      S.cardDue["Q1-001"].hist = got; S.cardDue["Q1-001"].ran = td;
+      cardSet("Q1-001", { box: 1, due: td, ran: y, hist: [old, y] });
+      const got = cardRanDays(cardOne("Q1-001"), td);
+      cardSet("Q1-001", { box: 1, due: td, ran: td, hist: got });
       saveNow();
       return { got: got, y: y, td: td, old: old,
                yList: ranOn(y), tList: ranOn(td), oList: ranOn(old) };
@@ -307,7 +309,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* **새로고침 뒤에도 남는가.** 기록이 살아남는지가 이 검사의 일이다 */
     await page.reload();
     await page.waitForTimeout(300);
-    const back = await page.evaluate(() => (S.cardDue["Q1-001"] || {}).hist || []);
+    const back = await page.evaluate(() => (cardOne("Q1-001") || {}).hist || []);
     if (back.length !== h.got.length)
       fails.push("돈 날이 새로고침 뒤에 안 남는다: " + JSON.stringify(back));
     await ctx.close();
@@ -324,10 +326,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       const td = today(), d1 = addDays(td, -1), d3 = addDays(td, -3);
       const mine = { box: 1, due: addDays(td, 1), ran: d3, hist: [d3] };
       const theirs = { box: 2, due: addDays(td, 3), ran: d1, hist: [d1] };
-      const late = mgCard(mine, theirs);
-      const rev = mgCard(theirs, mine);
+      /* 갈래 하나를 합치는 것은 `mgCardOne` 이다 (T358).
+         `mgCard` 는 갈래 둘을 묶어 합친다. **여기서 재는 것은 한 갈래의 규칙이다.** */
+      const late = mgCardOne(mine, theirs);
+      const rev = mgCardOne(theirs, mine);
       return { late: late, rev: rev, d1: d1, d3: d3,
-               only: mgCard(null, theirs) };
+               only: mgCardOne(null, theirs) };
     });
     if (m.late.ran !== m.d1 || m.late.box !== 2)
       fails.push("합칠 때 늦게 돈 쪽이 안 남는다: " + JSON.stringify(m.late));
@@ -342,15 +346,20 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* **합치기를 통째로 돌려서도 본다.** 위는 조각 하나만 본 것이다 */
     const whole = await page.evaluate(() => {
       const td = today(), d1 = addDays(td, -1), d3 = addDays(td, -3);
-      S.cardDue = { "Q1-001": { box: 1, due: td, ran: d3, hist: [d3] } };
+      /* **진짜 꼴로 적는다** (T312, T358). 갈래 둘이 있는 꼴이다 */
+      const two = (r) => ({ a: JSON.parse(JSON.stringify(r)),
+                            b: JSON.parse(JSON.stringify(r)) });
+      S.cardDue = { "Q1-001": two({ box: 1, due: td, ran: d3, hist: [d3] }) };
       saveNow();
       const theirs = JSON.parse(JSON.stringify(S));
       theirs.cardDue = {
-        "Q1-001": { box: 2, due: addDays(td, 3), ran: d1, hist: [d1] },
-        "Q1-002": { box: 1, due: td, ran: d1, hist: [d1] },
+        "Q1-001": two({ box: 2, due: addDays(td, 3), ran: d1, hist: [d1] }),
+        "Q1-002": two({ box: 1, due: td, ran: d1, hist: [d1] }),
       };
       const r = mergePlan(S, theirs);
-      return { a: r.out.cardDue["Q1-001"], b: r.out.cardDue["Q1-002"],
+      const side = cardSide();
+      return { a: r.out.cardDue["Q1-001"][side],
+               b: r.out.cardDue["Q1-002"][side],
                d1: d1, d3: d3 };
     }).catch(() => null);
     if (!whole) fails.push("합치기를 통째로 못 돌렸다. 이름이 바뀌었나 본다");

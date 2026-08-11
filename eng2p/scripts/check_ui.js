@@ -2313,9 +2313,14 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
                speak: d5.speak, cards: d5.cards, unres: d5.unres.length,
                coll: d5.coll.length, has6: !!pl.out.days["2026-01-06"],
                pass: pl.out.media.pass["lle1-01"], pass2: pl.out.media.pass["lle1-02"],
-               lec: pl.out.media.lec[1], due: pl.out.cardDue["Q1-001"].due,
-               ran: pl.out.cardDue["Q1-001"].ran,
-               hist: pl.out.cardDue["Q1-001"].hist,
+               /* 카드 간격이 사람별로 갈렸다 (T358). 갈래마다 따로 합친다.
+                  붙박이가 옛 꼴이라 합치기가 둘 다에게 같은 값을 넣는다.
+                  **옛 기록을 안 버린다.** 그것을 여기서 잰다. */
+               lec: pl.out.media.lec[1],
+               due: pl.out.cardDue["Q1-001"].a.due,
+               ran: pl.out.cardDue["Q1-001"].a.ran,
+               hist: pl.out.cardDue["Q1-001"].a.hist,
+               dueB: pl.out.cardDue["Q1-001"].b.due,
                rot: pl.out.rot.length, twiceUnres: twice.unres.length,
                twiceAim: twice.aim.a,
                planStatus: d5.status, planAim: d5.aim.a, planName: pl.out.names.b,
@@ -2335,6 +2340,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (mg.lec !== 2) bad.push("합치기가 강의 회차를 뒤로 돌린다: " + mg.lec);
     /* 카드 간격은 **늦은 날짜**를 남긴다. 돌린 일을 무르지 않는다. */
     if (mg.due !== "2026-02-01") bad.push("합치기가 이미 돌린 카드를 되돌린다: " + mg.due);
+    /* **옛 꼴은 둘 다에게 같은 값으로 들어간다** (T358) */
+    if (mg.dueB !== mg.due)
+      bad.push("옛 꼴을 갈랐는데 두 갈래 값이 다르다: " + mg.due + " / " + mg.dueB);
     if (mg.ran !== "2026-01-25")
       bad.push("합치기가 늦게 돈 쪽을 안 든다: " + mg.ran);
     /* **돈 날은 어느 쪽에 있든 다 남는다** (T312). 한쪽만 돌린 날도 돈 날이다 */
@@ -2385,8 +2393,13 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         days: { "2026-01-05": { status: "normal", h: 2, speak: 12, cards: 30, lre: 2,
                   unres: [{ t: "내 것" }], coll: [], aim: { a: "내 것", b: "" } } },
         media: { done: {}, fav: {}, pass: { "lle1-01": 2 }, lec: { 1: 2 } },
-        cardDue: { "Q1-001": { box: 2, due: "2026-02-01", ran: "2026-01-25",
-                               hist: ["2026-01-25"] } },
+        /* **진짜 꼴로 적는다** (T312, T358). 카드 간격이 사람별로 갈렸다.
+           옛 꼴을 여기 적으면 합치기가 그것을 갈래로 바꾸고
+           그러면 "자기 파일을 다시 합쳤는데 바뀐다" 가 난다.
+           옛 꼴을 갈래로 바꾸는 것은 위의 합치기 판정이 따로 잰다. */
+        cardDue: { "Q1-001": {
+          a: { box: 2, due: "2026-02-01", ran: "2026-01-25", hist: ["2026-01-25"] },
+          b: { box: 2, due: "2026-02-01", ran: "2026-01-25", hist: ["2026-01-25"] } } },
         rot: [], clips: [], scripts: {},
         wchk: {}, q: {}, cues: {}, device: "a", fs: 2, wk: 3, rate: 1.5,
         card: null, cardMode: "today" };
@@ -2396,8 +2409,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         days: { "2026-01-05": { status: "normal", h: 2, speak: 3, cards: 5, lre: 0,
                   unres: [], coll: [] } },
         media: { done: {}, fav: {}, pass: { "lle1-01": 1 }, lec: { 1: 1 } },
-        cardDue: { "Q1-001": { box: 1, due: "2026-01-01", ran: "2026-01-01",
-                               hist: ["2026-01-01"] } },
+        /* 낡은 파일이지만 꼴은 새 꼴이다. **낡은 것과 옛 꼴은 다르다.**
+           여기서 재는 것은 늦게 돈 쪽이 이기는가지 꼴 바꾸기가 아니다. */
+        cardDue: { "Q1-001": {
+          a: { box: 1, due: "2026-01-01", ran: "2026-01-01", hist: ["2026-01-01"] },
+          b: { box: 1, due: "2026-01-01", ran: "2026-01-01", hist: ["2026-01-01"] } } },
         rot: [], clips: [], scripts: {},
         wchk: {}, q: {}, cues: {} });
       let old = null, empty = null;
@@ -2426,7 +2442,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       return { selfChg: self.chg.length, selfAsk: self.ask.length,
                selfSame: JSON.stringify(self.out) === JSON.stringify(me),
                staleChg: stale.chg.length, staleSpeak: stale.out.days["2026-01-05"].speak,
-               staleDue: stale.out.cardDue["Q1-001"].due,
+               staleDue: stale.out.cardDue["Q1-001"].a.due,
                oldErr: old.err || "", oldHas: old.out ? !!old.out.days["2026-01-04"] : false,
                oldStart: old.out ? old.out.start : null,
                emptyErr: empty.err || "",

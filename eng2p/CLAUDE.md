@@ -175,7 +175,7 @@ scripts/ground.py       제작물의 영어 재료가 52과 대본 어디에 있
 scripts/check_ground.py 근거 없음 비율과 **대본 밖 낱말 목록**. G구간의 게이트
 scripts/check_play_ground.py 판 자료 열여덟의 영어. **G구간 게이트를 판에도 건다**
 scripts/check_play_score.py 개인 칸 86판. **규칙서가 아니라 코드와 자료를 읽는다**
-scripts/check_person.py 사람별 칸 51판. **저장소에서 갈리는 칸은 넷뿐이고 다 글이다**
+scripts/check_person.py 사람별 칸 52판. **갈리는 칸 다섯. 넷은 글이고 하나는 숫자다**
 docs/wordlist.md      대본에 없는데 내가 쓴 낱말. **여기 없는 낱말이 재료에 나오면 실패다**
 scripts/check_layers.py 3층 대조판. **2층 줄이 다 52과 대본에 있는지 잰다**
 scripts/derive_ground_data.py 근거를 앱이 읽는 꼴로. 카드에서 그 녹음 자리로 간다

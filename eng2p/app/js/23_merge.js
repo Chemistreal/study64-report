@@ -40,7 +40,25 @@ function mgNum(v){ var n=+v; return isFinite(n)?n:0; }
 function mgBig(a,b){ return mgNum(a)>=mgNum(b)?mgNum(a):mgNum(b); }
 /* 카드 하나를 합친다. **늦게 돈 쪽이 상자와 다음 차례를 준다.**
    돈 날은 어느 쪽에 있든 다 남긴다. 한쪽만 돌린 날이 있으면 그 날도 돈 날이다. */
-function mgCard(a,b){
+/* 사람별로 갈린 뒤에도 규칙은 그대로다 (T358).
+   갈래마다 따로 합친다. **글이 아니라 날짜라 이을 수 있다** (T340).
+   한쪽 기기에만 있는 갈래는 그대로 가져온다. 묻는 것이 안 는다. */
+function mgCardSide(a,b){
+  var A=mgCardOld(a), B=mgCardOld(b);
+  if(!A) return B; if(!B) return A;
+  var out={};
+  ["a","b"].forEach(function(k){ out[k]=mgCardOne(A[k],B[k]); });
+  return out;
+}
+/* 옛 꼴을 새 꼴로. `06_cards.js` 의 `cardSplit` 과 같은 규칙이다.
+   합치기는 앱과 따로 돌 수 있어서 여기에도 있어야 한다. */
+function mgCardOld(c){
+  if(!c) return null;
+  if(c.a!==undefined || c.b!==undefined) return c;
+  var one={box:c.box, due:c.due, ran:c.ran, hist:(c.hist||[]).slice()};
+  return {a:one, b:{box:one.box, due:one.due, ran:one.ran, hist:one.hist.slice()}};
+}
+function mgCardOne(a,b){
   if(!a) return b; if(!b) return a;
   var late=(String(b.ran||"")>String(a.ran||"")) ? b : a, seen={};
   [a,b].forEach(function(x){
@@ -49,6 +67,7 @@ function mgCard(a,b){
   });
   return {box:late.box, due:late.due, ran:late.ran, hist:Object.keys(seen).sort()};
 }
+function mgCard(a,b){ return mgCardSide(a,b); }
 /* 값이 있는가. 0과 빈 글자와 빈 모음은 없는 것으로 본다.
    **없는 자리를 채우는 것은 안 묻는다.** 그것은 고를 것이 없는 일이다. */
 /* 두 기기에 다르게 적힌 글을 잇는다 (T340). **덮지 않고 잇는다.**

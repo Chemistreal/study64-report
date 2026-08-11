@@ -2980,6 +2980,27 @@ function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
 
 
 function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
+
+function cardSide(){
+  var d=(typeof deviceSide==="function") ? deviceSide() : null;
+  if(d==="a"||d==="b") return d;
+  return roleOf(today())==="a" ? "b" : "a";
+}
+function cardSplit(c){
+  if(!c) return {a:null, b:null};
+  if(c.a!==undefined || c.b!==undefined) return c;
+  var one={box:c.box, due:c.due, ran:c.ran, hist:(c.hist||[]).slice()};
+  return {a:one, b:{box:one.box, due:one.due, ran:one.ran, hist:one.hist.slice()}};
+}
+function cardOne(id, side){
+  var m=cardDue(), c=cardSplit(m[id]);
+  m[id]=c;
+  return c[side||cardSide()]||null;
+}
+function cardSet(id, rec, side){
+  var m=cardDue(), c=cardSplit(m[id]);
+  c[side||cardSide()]=rec; m[id]=c;
+}
 function cardLecture(id){
   if(!IDX) return null;
   var p=String(id).split("-"); if(p.length!==2) return null;
@@ -3009,7 +3030,7 @@ function cardRanDays(cur, td){
 function ranOn(d){
   var m=cardDue(), out=[];
   for(var k in m){
-    var c=m[k]; if(!c) continue;
+    var c=cardOne(k); if(!c) continue;
     var h=(c.hist && c.hist.length) ? c.hist : (c.ran ? [c.ran] : []);
     if(h.indexOf(d)>=0) out.push(k);
   }
@@ -3017,16 +3038,16 @@ function ranOn(d){
 }
 function markCardRun(id, lectureNo){
   var days=spacingDays(lectureNo), td=today();
-  var m=cardDue(), cur=m[id], hist=cardRanDays(cur, td);
-  if(!days){ m[id]={box:0, due:null, ran:td, hist:hist}; save(); syncCardCount(); return; }
+  var cur=cardOne(id), hist=cardRanDays(cur, td);
+  if(!days){ cardSet(id,{box:0, due:null, ran:td, hist:hist}); save(); syncCardCount(); return; }
   var box=cur && cur.box ? cur.box : 0;
-  if(box>=days.length){ m[id]={box:box, due:null, ran:td, hist:hist}; save(); syncCardCount(); return; }
-  m[id]={box:box+1, due:addDays(td, days[box]), ran:td, hist:hist};
+  if(box>=days.length){ cardSet(id,{box:box, due:null, ran:td, hist:hist}); save(); syncCardCount(); return; }
+  cardSet(id,{box:box+1, due:addDays(td, days[box]), ran:td, hist:hist});
   save(); syncCardCount();
 }
 function ranToday(){
   var m=cardDue(), td=today(), n=0;
-  for(var k in m) if(m[k] && m[k].ran===td) n++;
+  for(var k in m){ var c=cardOne(k); if(c && c.ran===td) n++; }
   return n;
 }
 function syncCardCount(){
@@ -3036,7 +3057,7 @@ function syncCardCount(){
 }
 function dueCards(){
   var m=cardDue(), td=today(), out=[];
-  for(var k in m) if(m[k] && m[k].due && m[k].due<=td) out.push(k);
+  for(var k in m){ var c=cardOne(k); if(c && c.due && c.due<=td) out.push(k); }
   return out;
 }
 
@@ -5234,7 +5255,20 @@ var MG_ASKDAY=["aim","xchk"];
 
 function mgNum(v){ var n=+v; return isFinite(n)?n:0; }
 function mgBig(a,b){ return mgNum(a)>=mgNum(b)?mgNum(a):mgNum(b); }
-function mgCard(a,b){
+function mgCardSide(a,b){
+  var A=mgCardOld(a), B=mgCardOld(b);
+  if(!A) return B; if(!B) return A;
+  var out={};
+  ["a","b"].forEach(function(k){ out[k]=mgCardOne(A[k],B[k]); });
+  return out;
+}
+function mgCardOld(c){
+  if(!c) return null;
+  if(c.a!==undefined || c.b!==undefined) return c;
+  var one={box:c.box, due:c.due, ran:c.ran, hist:(c.hist||[]).slice()};
+  return {a:one, b:{box:one.box, due:one.due, ran:one.ran, hist:one.hist.slice()}};
+}
+function mgCardOne(a,b){
   if(!a) return b; if(!b) return a;
   var late=(String(b.ran||"")>String(a.ran||"")) ? b : a, seen={};
   [a,b].forEach(function(x){
@@ -5243,6 +5277,7 @@ function mgCard(a,b){
   });
   return {box:late.box, due:late.due, ran:late.ran, hist:Object.keys(seen).sort()};
 }
+function mgCard(a,b){ return mgCardSide(a,b); }
 function mgJoin(a,b){
   if(!a) return b;
   if(!b || a===b) return a;
