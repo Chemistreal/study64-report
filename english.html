@@ -2993,7 +2993,7 @@ function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
 function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
 
 function cardSide(){
-  var d=(typeof deviceSide==="function") ? deviceSide() : null;
+  var d=(typeof devicePerson==="function") ? devicePerson() : null;
   if(d==="a"||d==="b") return d;
   return roleOf(today())==="a" ? "b" : "a";
 }

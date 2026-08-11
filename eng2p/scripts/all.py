@@ -156,6 +156,7 @@ STEPS = [
     ("화면", "check_ahead.js", [], False),
     ("화면", "check_year.js", [], False),
     ("화면", "check_track.js", [], False),
+    ("화면", "check_adapt.js", [], False),
     ("화면", "check_role.js", [], False),
     ("화면", "check_versus.js", [], False),
     ("화면", "check_reach.js", [], False),

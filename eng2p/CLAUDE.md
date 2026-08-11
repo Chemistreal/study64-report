@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 마흔과 검사 마흔둘과 상태 갱신 셋, 여든다섯을 정해진 순서로 돈다.
+**한 줄이다.** 파생 마흔과 검사 마흔셋과 상태 갱신 셋, 여든여섯을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -222,6 +222,7 @@ scripts/check_growth.js 되돌아보기 33판. **앱이 소리를 안 들고 있
 scripts/check_ahead.js 미리 아는 것과 봉투 72판. **표는 있었는데 그때 안 떴다**
 scripts/check_year.js  1년을 통째로 돈다 324판. **막는 값이 세는 값이 되면 안 된다**
 scripts/check_track.js 트랙 진도 22판. **고르지 않은 것이 정상이라고 말한다**
+scripts/check_adapt.js 적응 16판. **갈린 채로 오래 도는가.** 자리와 사람은 다르다
 scripts/check_role.js  역할 교대 13판. **잰 값을 박아 둔다.** 고치는 것이 아니다
 scripts/check_versus.js 견줌 18판. **코드가 아니라 화면을 훑는다.** 이름 옆의 숫자
 scripts/check_reach.js 닿는 길 28판. **만든 것과 닿는 것은 다르다**

@@ -43,8 +43,13 @@ function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
    **둘 다에게 같은 값으로** 넣는다. 지금까지 둘이 같이 돈 것이라 그렇게 읽는 것이 맞다.
    **반만 고치면 옛 꼴과 새 꼴이 섞이고 그때 잃는 것이 1년치 간격이다.** */
 function cardSide(){
-  var d=(typeof deviceSide==="function") ? deviceSide() : null;
+  /* **자리가 아니라 사람이다** (T360 이 잡았다).
+     처음에 `deviceSide()` 를 썼다. 그것은 **그날의 A/B 자리**고 날마다 뒤집힌다.
+     그러면 같은 사람의 카드가 하루걸러 다른 갈래에 쌓인다.
+     `devicePerson()` 이 이 기기를 쓰는 **사람**이다. 그것이 안 뒤집힌다. */
+  var d=(typeof devicePerson==="function") ? devicePerson() : null;
   if(d==="a"||d==="b") return d;
+  /* 기기를 안 골랐으면 그날 답하는 사람을 든다. 페어 드릴에서 B 자리가 답한다 */
   return roleOf(today())==="a" ? "b" : "a";
 }
 /* 옛 꼴을 새 꼴로. **한 번만 바꾸고 그 뒤로는 그대로 둔다** */
