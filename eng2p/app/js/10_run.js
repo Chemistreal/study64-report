@@ -79,18 +79,62 @@ $("#tReset").onclick=function(){
   }
 };
 
-/* 화면 꺼짐 방지. 2시간짜리 타이머를 켜 두고 매번 화면을 깨우게 하지 않는다. */
+/* 화면 꺼짐 방지. 2시간짜리 타이머를 켜 두고 매번 화면을 깨우게 하지 않는다.
+
+   ## 안 될 때 아무 말도 안 했다 (T384)
+
+   전에는 `return` 하고 `.catch` 가 실패를 삼켰다. **안 되면 조용했다.**
+
+   두 시간짜리 세션인데 화면이 30초마다 꺼지면 두 사람은 계속 화면을 깨운다.
+   그것이 앱의 결함으로 읽힌다. 실제로는 브라우저가 안 주는 것이다.
+
+   그리고 이 물건은 **내려받아 여는 것이 정상 사용**이다 (`file://`).
+   그 자리에서는 안 될 가능성이 크다. 안전한 자리가 아니라 브라우저가 안 준다.
+   짝 코드의 카메라와 같은 결이다 (`22_paircode.js`).
+
+   ## 대응을 적는다
+
+   `ahead.md` 가 정했다. **문제만 적고 대응을 안 적으면 겁주기다.**
+   기기 설정에서 화면 꺼지는 시간을 늘리라고 적는다.
+
+   ## 세션 중에만 뜬다
+
+   시작 전에 띄우면 아직 안 겪은 일로 겁을 준다. 걸어 본 뒤에 말한다. */
 var wakeLock=null;
+/* 왜 안 되나. **그 자리 값이라 저장소에 안 남는다.** 기기와 여는 곳이 정한다 */
+var WAKE_WHY=null;
 function reqWake(){
+  WAKE_WHY=null;
   try{
-    if(!("wakeLock" in navigator)) return;
+    /* **이름만 있고 값이 없을 수 있다.** `in` 만 보면 그 자리를 지난다 */
+    if(!navigator.wakeLock || !navigator.wakeLock.request){
+      WAKE_WHY=(location.protocol==="file:")
+        ? "파일로 열면 화면 켜 두기가 안 된다"
+        : "이 브라우저는 화면 켜 두기를 안 준다";
+      paintWake(); return;
+    }
     navigator.wakeLock.request("screen").then(function(w){
-      wakeLock=w;
+      wakeLock=w; WAKE_WHY=null; paintWake();
       w.addEventListener("release",function(){ wakeLock=null; });
-    }).catch(function(){});
-  }catch(e){}
+    }).catch(function(){
+      WAKE_WHY="브라우저가 화면 켜 두기를 안 줬다"; paintWake();
+    });
+  }catch(e){ WAKE_WHY="화면 켜 두기를 걸다 막혔다"; paintWake(); }
+  paintWake();
 }
-function relWake(){ try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){} }
+/* **앱이 고장 난 것이 아니라고 적는다.** 안 적으면 두 사람이 그렇게 읽는다 */
+function paintWake(){
+  var box=$("#wakeWhy"); if(!box) return;
+  if(!WAKE_WHY || !T.run){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  box.innerHTML='<b>'+esc(WAKE_WHY)+'.</b> 앱이 고장 난 것이 아니다. '+
+    '<span class="small">기기 설정에서 화면이 꺼지는 시간을 길게 잡는다. '+
+    '두 시간을 켜 두는 세션이다.</span>';
+}
+function relWake(){
+  try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){}
+  WAKE_WHY=null; paintWake();
+}
 document.addEventListener("visibilitychange",function(){
   if(document.visibilityState==="visible" && T.run && !wakeLock) reqWake();
 });

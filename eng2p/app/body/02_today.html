@@ -80,6 +80,9 @@
         <div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
         <div class="nextday" id="nextDay"></div></div>
     </div>
+    <!-- 화면 켜 두기가 안 될 때 (T384). 세션 중에만 뜬다.
+         전에는 아무 말도 안 했다. 화면이 자꾸 꺼지면 앱 결함으로 읽힌다. -->
+    <div class="note w" id="wakeWhy" hidden></div>
     <div class="row sessctl" id="sessCtl" style="justify-content:center;margin-top:12px">
       <button class="g" id="tStart">시작</button>
       <button class="g" id="tPrev">이전 블록</button>

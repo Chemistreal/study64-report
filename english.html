@@ -1011,6 +1011,7 @@ body.veil-on>*:not(.veilcover){display:none}
         <div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
         <div class="nextday" id="nextDay"></div></div>
     </div>
+    <div class="note w" id="wakeWhy" hidden></div>
     <div class="row sessctl" id="sessCtl" style="justify-content:center;margin-top:12px">
       <button class="g" id="tStart">시작</button>
       <button class="g" id="tPrev">이전 블록</button>
@@ -4284,16 +4285,37 @@ $("#tReset").onclick=function(){
 };
 
 var wakeLock=null;
+var WAKE_WHY=null;
 function reqWake(){
+  WAKE_WHY=null;
   try{
-    if(!("wakeLock" in navigator)) return;
+    if(!navigator.wakeLock || !navigator.wakeLock.request){
+      WAKE_WHY=(location.protocol==="file:")
+        ? "파일로 열면 화면 켜 두기가 안 된다"
+        : "이 브라우저는 화면 켜 두기를 안 준다";
+      paintWake(); return;
+    }
     navigator.wakeLock.request("screen").then(function(w){
-      wakeLock=w;
+      wakeLock=w; WAKE_WHY=null; paintWake();
       w.addEventListener("release",function(){ wakeLock=null; });
-    }).catch(function(){});
-  }catch(e){}
+    }).catch(function(){
+      WAKE_WHY="브라우저가 화면 켜 두기를 안 줬다"; paintWake();
+    });
+  }catch(e){ WAKE_WHY="화면 켜 두기를 걸다 막혔다"; paintWake(); }
+  paintWake();
 }
-function relWake(){ try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){} }
+function paintWake(){
+  var box=$("#wakeWhy"); if(!box) return;
+  if(!WAKE_WHY || !T.run){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  box.innerHTML='<b>'+esc(WAKE_WHY)+'.</b> 앱이 고장 난 것이 아니다. '+
+    '<span class="small">기기 설정에서 화면이 꺼지는 시간을 길게 잡는다. '+
+    '두 시간을 켜 두는 세션이다.</span>';
+}
+function relWake(){
+  try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){}
+  WAKE_WHY=null; paintWake();
+}
 document.addEventListener("visibilitychange",function(){
   if(document.visibilityState==="visible" && T.run && !wakeLock) reqWake();
 });

@@ -1541,6 +1541,72 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   tones.forEach((m) => fails.push("소리: " + m));
 
+  /* 31b. **화면 켜 두기가 안 될 때 아무 말도 안 했다** (T384).
+     두 시간짜리 세션인데 화면이 자꾸 꺼지면 앱의 결함으로 읽힌다.
+     실제로는 브라우저가 안 주는 것이다. 이 물건은 파일로 여는 것이 정상이라
+     그 자리에서 안 될 가능성이 크다. **대응을 적는다.** */
+  const wake = await (async () => {
+    const bad = [];
+    const p6 = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await p6.goto(PAGE);
+    await p6.evaluate(() => localStorage.clear());
+    await p6.reload();
+    await p6.waitForTimeout(600);
+    await p6.evaluate(() => { S.onboarded = true; S.device = "a"; save(); renderToday(); });
+    const r = await p6.evaluate(async () => {
+      const box = document.getElementById("wakeWhy");
+      /* **처음 상태를 먼저 적어 둔다.** 밑에서 지어 넣고 지운다 */
+      const had = !!(navigator.wakeLock && navigator.wakeLock.request);
+      const before = box.hidden;
+      document.getElementById("tOne").click();
+      await new Promise((ok) => setTimeout(ok, 400));
+      const during = { hid: box.hidden, txt: box.innerText.replace(/\s+/g, " ") };
+      /* 주는 자리를 지어 본다 */
+      Object.defineProperty(navigator, "wakeLock", { configurable: true,
+        value: { request: () => Promise.resolve({ addEventListener() {}, release() {} }) } });
+      reqWake();
+      await new Promise((ok) => setTimeout(ok, 300));
+      const ok1 = { hid: box.hidden, why: WAKE_WHY };
+      /* 거절하는 자리 */
+      Object.defineProperty(navigator, "wakeLock", { configurable: true,
+        value: { request: () => Promise.reject(new Error("no")) } });
+      reqWake();
+      await new Promise((ok) => setTimeout(ok, 300));
+      const no1 = { hid: box.hidden, txt: box.innerText.replace(/\s+/g, " ") };
+      /* 아예 없는 자리 */
+      delete navigator.wakeLock;
+      try { delete Navigator.prototype.wakeLock; } catch (e) {}
+      reqWake();
+      await new Promise((ok) => setTimeout(ok, 300));
+      const gone = { hid: box.hidden, txt: box.innerText.replace(/\s+/g, " ") };
+      finishSession();
+      return { before, during, ok1, no1, gone, after: box.hidden, has: had };
+    });
+    if (!r.before) bad.push("세션 전인데 화면 켜 두기 말이 떠 있다");
+    /* 이 브라우저가 파일로도 준다면 안 뜨는 것이 맞다. 안 주는 자리는 밑에서 잰다 */
+    if (r.during.hid && !r.has) bad.push("세션을 켰는데 안 된다는 말이 없다");
+    if (!r.ok1.hid) bad.push("화면 켜 두기가 됐는데 안 된다는 말이 남아 있다");
+    if (r.ok1.why) bad.push("됐는데 까닭이 남아 있다: " + r.ok1.why);
+    if (r.no1.hid) bad.push("브라우저가 거절했는데 아무 말이 없다");
+    else if (r.no1.txt.indexOf("안 줬다") < 0)
+      bad.push("거절한 것을 안 적는다: " + r.no1.txt.slice(0, 50));
+    if (r.gone.hid) bad.push("화면 켜 두기가 아예 없는데 아무 말이 없다");
+    else {
+      if (r.gone.txt.indexOf("파일로 열면 화면 켜 두기가 안 된다") < 0)
+        bad.push("파일로 열었을 때 그 까닭을 안 적는다: " + r.gone.txt.slice(0, 60));
+      /* **앱이 고장 난 것이 아니라고 적는다** */
+      if (r.gone.txt.indexOf("앱이 고장 난 것이 아니다") < 0)
+        bad.push("앱이 고장 난 것이 아니라는 말이 없다");
+      /* **문제만 적고 대응을 안 적으면 겁주기다** (`ahead.md`) */
+      if (r.gone.txt.indexOf("화면이 꺼지는 시간을 길게") < 0)
+        bad.push("대신 무엇을 하라는 말이 없다. 문제만 적으면 겁주기다");
+    }
+    if (!r.after) bad.push("세션이 끝났는데 그 말이 남아 있다");
+    await p6.close();
+    return bad;
+  })();
+  wake.forEach((m) => fails.push("화면 켜 두기: " + m));
+
   /* 32. **화면이 미는 방향이 진행 방향과 같은가.**
      다음 블록으로 가는데 화면이 왼쪽에서 들어오면 앞으로 가는 것인지
      되돌아가는 것인지 몸이 모른다. 손가락으로 미는 방향과도 어긋난다.
@@ -3456,7 +3522,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
-              "소리 여섯 6판 / 소리 끄기 1판 / 진동 12판 / 끈 채로 남기 7판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
+              "소리 여섯 6판 / 소리 끄기 1판 / 진동 12판 / 끈 채로 남기 7판 / 화면 켜 두기 11판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
               "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
               "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판 / 합치기 가장자리 16판 / " +
               "주 되짚기 12판");
