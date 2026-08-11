@@ -718,14 +718,65 @@ if (doc.indexOf("B등급") < 0)
     no("연달아 몇 번인지를 안 적는다: " + rung.say.replace(/\s+/g, " ").slice(0, 60));
   if (!rung.noFile) no("파일이 없는데 사다리 셈 칸이 떠 있다");
 
+  /* ---- 되풀이 자리를 앱이 짚는가 (T373) --------------------------------
+     **못 맞춘 마디만.** 짚는 것은 다시 들을 자리지 판정이 아니다. */
+  const pickSeg = await page.evaluate(() => {
+    const make = (lens) => {
+      const p = [];
+      lens.forEach((n) => {
+        for (let j = 0; j < n; j++) p.push(0.6);
+        for (let j = 0; j < 12; j++) p.push(0.01);
+      });
+      while (p.length < 320) p.push(0.01);
+      return p.slice(0, 320);
+    };
+    const set = (name, peaks, d) => {
+      CLIP.file = { name: name }; CLIP.el = { duration: d, currentTime: 0 };
+      CLIP.peaks = peaks; CLIP.beat = null; CLIP.waveState = "ready";
+    };
+    const box = document.getElementById("cPick");
+    REF = null;
+    set("원본.mp3", make([20, 20, 20]), 6);
+    paintRef(); waveInfo();
+    const noRef = box.hidden;
+    document.getElementById("cRef").click();
+    /* 가운데 마디만 늘어졌다 */
+    set("내녹음.webm", make([20, 40, 20]), 6);
+    CLIP.a = null; CLIP.b = null;
+    waveInfo();
+    const on = { hid: box.hidden, txt: box.innerText };
+    box.querySelector("button").click();
+    const seg = beatNow().segs[1];
+    const got = { a: CLIP.a, b: CLIP.b, t0: seg.t0, t1: seg.t1 };
+    /* 마디 수가 다르면 짚을 것이 없다 */
+    set("넷.webm", make([20, 20, 20, 20]), 6);
+    waveInfo();
+    const four = box.hidden;
+    document.getElementById("cRef").click(); waveInfo();
+    return { noRef: noRef, on: on, got: got, four: four, gone: box.hidden };
+  });
+  if (!pickSeg.noRef) no("기준이 없는데 되풀이 자리를 짚는다");
+  if (pickSeg.on.hid) no("짝이 지어졌는데 되풀이 자리를 안 짚는다");
+  /* **그 마디를 잡는다.** 앞뒤로 조금 넓히되 옆 마디를 안 삼킨다 */
+  const g = pickSeg.got;
+  if (!(g.a <= g.t0 && g.a >= g.t0 - 0.2))
+    no("A를 " + g.a + " 로 잡는다. 마디 시작이 " + g.t0.toFixed(2) + " 다");
+  if (!(g.b >= g.t1 && g.b <= g.t1 + 0.2))
+    no("B를 " + g.b + " 로 잡는다. 마디 끝이 " + g.t1.toFixed(2) + " 다");
+  /* **짚는 것이 판정이 아니라는 말이 있는가** */
+  if (pickSeg.on.txt.indexOf("틀렸다는 말이 아니다") < 0)
+    no("짚는 것이 판정이 아니라는 말이 없다: " + pickSeg.on.txt.slice(0, 50));
+  if (!pickSeg.four) no("마디 수가 다른데 되풀이 자리를 짚는다");
+  if (!pickSeg.gone) no("기준을 지웠는데 되풀이 자리가 남아 있다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14, 통과 근거 4, 사다리 10, 칸 셈 12) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 102, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14, 통과 근거 4, 사다리 10, 칸 셈 12, 되풀이 자리 7) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 109, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

@@ -46,6 +46,7 @@ function waveInfo(){
   }
   if(info.textContent!==msg) info.textContent=msg;
   renderDiff(); renderStress(); renderMatch(); renderRows(); renderLadder();
+  renderPick();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;

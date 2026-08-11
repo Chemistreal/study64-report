@@ -36,6 +36,7 @@ function waveInfo(){
   }
   if(info.textContent!==msg) info.textContent=msg;
   renderDiff(); renderStress(); renderMatch(); renderRows(); renderLadder();
+  renderPick();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -518,6 +519,25 @@ function renderMatch(){
     "("+w.rel.toFixed(2)+"배). 1.00 이면 전체와 같은 비율이다.";
 }
 
+
+function renderPick(){
+  var box=$("#cPick"); if(!box) return;
+  var m=beatMatch(), mine=beatNow();
+  if(!m||!m.paired||!m.worst||!mine){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false; box.innerHTML="";
+  var g=mine.segs[m.worst.i];
+  var b=el("button","g","제일 다른 마디를 A와 B로 잡기");
+  b.type="button";
+  b.onclick=function(){
+    CLIP.a=Math.max(0, Math.round((g.t0-0.1)*10)/10);
+    CLIP.b=Math.min(dur(), Math.round((g.t1+0.1)*10)/10);
+    setClipPhase("prepare"); paintScrub();
+    flash((m.worst.i+1)+"번째 마디를 잡았다. 구간 반복으로 듣는다");
+  };
+  box.appendChild(b);
+  box.appendChild(el("div","small mut",
+    "앱이 짚는 것은 다시 들을 자리다. 그 마디가 틀렸다는 말이 아니다."));
+}
 
 function renderRows(){
   var box=$("#clipRows"); if(!box) return;

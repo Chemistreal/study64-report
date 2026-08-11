@@ -112,6 +112,36 @@ function renderMatch(){
    앞이 밀린 것인지 뒤가 밀린 것인지도 안 보인다.
 
    **표에도 판정을 안 적는다.** 초와 배수만 적는다. */
+/* 되풀이 자리를 앱이 짚는다 (T373). **못 맞춘 마디만.**
+
+   T368 이 제일 어긋난 마디를 냈고 T369 가 마디마다 시각을 들고 있다.
+   그러면 그 마디를 A와 B로 잡아 주는 데 새로 셀 것이 없다.
+
+   **이것도 판정이 아니다.** 어디를 다시 들을지 짚어 줄 뿐이고
+   그 마디가 틀렸다고 말하지 않는다 (`beat.md` 5장).
+
+   짝을 못 지으면 짚을 것도 없다. 마디 수부터 맞춰야 한다 (13.1). */
+function renderPick(){
+  var box=$("#cPick"); if(!box) return;
+  var m=beatMatch(), mine=beatNow();
+  if(!m||!m.paired||!m.worst||!mine){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false; box.innerHTML="";
+  var g=mine.segs[m.worst.i];
+  var b=el("button","g","제일 다른 마디를 A와 B로 잡기");
+  b.type="button";
+  b.onclick=function(){
+    /* **마디 앞뒤로 조금 넓힌다.** 딱 잘라 놓으면 첫소리가 잘려 들린다.
+       0.1초는 `BEAT_MIN_SEG_S` 보다 작아서 옆 마디를 안 삼킨다. */
+    CLIP.a=Math.max(0, Math.round((g.t0-0.1)*10)/10);
+    CLIP.b=Math.min(dur(), Math.round((g.t1+0.1)*10)/10);
+    setClipPhase("prepare"); paintScrub();
+    flash((m.worst.i+1)+"번째 마디를 잡았다. 구간 반복으로 듣는다");
+  };
+  box.appendChild(b);
+  box.appendChild(el("div","small mut",
+    "앱이 짚는 것은 다시 들을 자리다. 그 마디가 틀렸다는 말이 아니다."));
+}
+
 function renderRows(){
   var box=$("#clipRows"); if(!box) return;
   var m=beatMatch(), d=beatDiff(), mine=beatNow();
