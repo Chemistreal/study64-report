@@ -36,7 +36,7 @@ function waveInfo(){
   }
   if(info.textContent!==msg) info.textContent=msg;
   renderDiff(); renderStress(); renderMatch(); renderRows(); renderLadder();
-  renderPick();
+  renderPick(); renderSide();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -639,6 +639,78 @@ function renderDiff(){
     : " · 마디 "+d.mySegs+"개 대 기준 "+d.refSegs+"개";
   if(box.textContent!==say) box.textContent=say;
 }
+
+function sideStep(){
+  var list=voiceCmpList();
+  if(!VOICE.side||list.length<2) return null;
+  var i=Math.min(VOICE.side,list.length-1);
+  if(i<1) i=1;
+  var first=list[0], cur=list[i], now=(CLIP.file&&CLIP.file.name)||"";
+  var st;
+  if(!REF) st=now?"mark":"open1";
+  else if(REF.name!==first.file) st="odd";
+  else st=(now===cur.file)?"on":"open2";
+  return {list:list, i:i, first:first, cur:cur, now:now, st:st};
+}
+
+function renderSide(){
+  var box=$("#cSide"); if(!box) return;
+  var s=sideStep();
+  if(!s){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  var h='<div class="card"><div class="hd2"><b>나란히 듣기</b>'+
+        '<span class="small mut">처음 것과 '+(s.i+1)+'번째를 댄다</span></div>';
+  if(s.st==="odd")
+    h+='<div class="w"><b>기준이 처음 것이 아니다.</b> 지금 기준은 '+
+       '<span class="mono">'+esc(REF.name)+'</span> 다. 처음 것은 '+
+       '<span class="mono">'+esc(s.first.file)+'</span> 다. '+
+       '<span class="small">지우고 처음 것으로 다시 잡는다.</span></div>';
+  else if(s.st==="open1")
+    h+='<div class="note"><b>1) 처음 것을 연다</b> '+
+       '<span class="small mut">'+esc(s.first.when)+' · '+s.first.week+'주</span><br>'+
+       '<b class="mono">'+esc(s.first.file)+'</b><br>'+
+       '<span class="small">파일은 이 기기에 있다. 열고 나서 기준으로 잡는다.</span></div>';
+  else if(s.st==="mark")
+    h+='<div class="note"><b>2) 이것을 기준으로 잡는다</b><br>'+
+       '<span class="small">잡아 두면 옅게 겹쳐 그린다. '+
+       '이 화면을 닫으면 없어지고 저장소에 안 들어간다.</span></div>';
+  else if(s.st==="open2")
+    h+='<div class="note"><b>3) 이제 이것을 연다</b> '+
+       '<span class="small mut">'+esc(s.cur.when)+' · '+s.cur.week+'주</span><br>'+
+       '<b class="mono">'+esc(s.cur.file)+'</b><br>'+
+       '<span class="small">열면 밑에 마디 표가 뜬다.</span></div>';
+  else
+    h+='<div class="n"><b>4) 지금 이 둘을 대고 있다</b><br>'+
+       '<span class="mono">'+esc(s.first.file)+'</span><br>'+
+       '<span class="mono">'+esc(s.cur.file)+'</span><br>'+
+       '<span class="small">밑의 마디 표가 그 둘을 댄 것이다.</span></div>';
+  h+='<p class="small mut">앱은 마디 길이만 잰다. '+
+     '<b>좋아졌는지는 앱이 안 말한다.</b> 듣고 두 사람이 정한다.</p>';
+  h+='<div class="row" style="gap:8px">'+
+     '<button class="g" type="button" data-side="-1"'+
+       (s.i>1?"":" disabled")+'>앞엣것</button>'+
+     '<button class="g" type="button" data-side="1"'+
+       (s.i<s.list.length-1?"":" disabled")+'>다음 것</button>';
+  if(s.st==="open1"||s.st==="open2")
+    h+='<button class="g" type="button" id="sdName">이름 복사</button>';
+  if(s.st==="mark"||s.st==="odd")
+    h+='<button class="b" type="button" id="sdRef">'+
+       (s.st==="odd"?"기준 지우기":"기준으로 잡기")+'</button>';
+  h+='<button class="g" type="button" id="sdOff">그만두기</button></div></div>';
+  box.innerHTML=h;
+  box.querySelectorAll("[data-side]").forEach(function(b){
+    b.onclick=function(){ VOICE.side=s.i+(+b.dataset.side); renderSide(); };
+  });
+  if($("#sdName")) $("#sdName").onclick=function(){
+    copy(s.st==="open1"?s.first.file:s.cur.file, null);
+    flash("파일 이름을 복사했다");
+  };
+  if($("#sdRef")) $("#sdRef").onclick=function(){
+    var b=$("#cRef"); if(b) b.click();
+    renderSide();
+  };
+  if($("#sdOff")) $("#sdOff").onclick=function(){ VOICE.side=0; renderSide(); };
+}
 var showDone=false;
 function renderVerify(){
   $("#vFilter").textContent = showDone?"미해결만 보기":"해결된 항목 보기";
@@ -931,7 +1003,7 @@ function renderBadge(){
   if(c) c.textContent=got+" / "+d.count+" 를 지났다";
 }
 
-var VOICE={rec:null, chunks:[], url:null, cmp:0};
+var VOICE={rec:null, chunks:[], url:null, cmp:0, side:0};
 function voiceKey(w){ return "w"+String(w).padStart(2,"0"); }
 function voiceLog(){ if(!S.voice) S.voice={}; return S.voice; }
 function voiceCan(){
@@ -1085,7 +1157,9 @@ function renderVoiceCmp(){
   if($("#vcName")) $("#vcName").onclick=function(){
     copy(cur.file, null); flash("파일 이름을 복사했다");
   };
-  if($("#vcGo")) $("#vcGo").onclick=function(){ go("clip"); };
+  if($("#vcGo")) $("#vcGo").onclick=function(){
+    VOICE.side=1; go("clip"); renderSide();
+  };
 }
 var TRANSLIT=["디스","왓","하우","웨어","쓰리","파이브","굿모닝","땡큐","쏘리","플리즈","아이엠"];
 var CLICHE=["결론적으로","중요한 것은","핵심은 바로","요약하자면"];

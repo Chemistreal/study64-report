@@ -1169,6 +1169,8 @@ body.veil-on>*:not(.veilcover){display:none}
     </div>
   </div>
 
+  <div id="cSide" hidden></div>
+
   <div class="card">
     <div class="cliproles" id="clipRoles">
       <div class="roleunit a active" id="clipRoleA"><span class="rb a" id="clipRa">A</span><span class="small">재생과 구간을 맡는다</span></div>
@@ -2536,7 +2538,8 @@ function go(name){
   if(name==="review") renderReview();
   if(name==="sound") renderSound();
   if(name==="src") lateDo("renderSrc");
-  if(name==="clip"){ lateDo("renderClip"); lateDo("renderScript"); }
+  if(name==="clip"){ lateDo("renderClip"); lateDo("renderScript");
+                     lateDo("renderSide"); }
   if(name==="today") renderToday();
   if(name==="media") renderMedia();
   if(name==="ledger"){ renderLedger(); renderRest(); lateDo("renderWeekCheck");

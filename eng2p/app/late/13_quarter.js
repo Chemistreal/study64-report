@@ -303,7 +303,7 @@ function renderBadge(){
    앱은 언제 무엇을 읽었는지와 파일 이름만 적는다.
 
    파일을 못 찾으면 못 찾는다고 적는다. **들고 있는 척하지 않는다.** */
-var VOICE={rec:null, chunks:[], url:null, cmp:0};
+var VOICE={rec:null, chunks:[], url:null, cmp:0, side:0};
 function voiceKey(w){ return "w"+String(w).padStart(2,"0"); }
 function voiceLog(){ if(!S.voice) S.voice={}; return S.voice; }
 function voiceCan(){
@@ -479,5 +479,8 @@ function renderVoiceCmp(){
   if($("#vcName")) $("#vcName").onclick=function(){
     copy(cur.file, null); flash("파일 이름을 복사했다");
   };
-  if($("#vcGo")) $("#vcGo").onclick=function(){ go("clip"); };
+  /* 클립 탭에 닿으면 안내가 사라졌다 (T374). 켜 두고 보낸다 */
+  if($("#vcGo")) $("#vcGo").onclick=function(){
+    VOICE.side=1; go("clip"); renderSide();
+  };
 }

@@ -70,6 +70,8 @@ const SPOT = [
     sel: null, how: "fn", what: "클립 탭의 마디 뽑기" },
   { piece: "26_beatview.js", tab: "clip", fn: "renderMatch",
     sel: null, how: "fn", what: "클립 탭의 마디를 적는 자리" },
+  { piece: "27_side.js", tab: "clip", fn: "sideStep",
+    sel: null, how: "fn", what: "클립 탭의 나란히 듣기" },
   { piece: "24_script.js", tab: "clip", fn: "renderScript",
     sel: "#scList", how: "kids", what: "클립 탭의 대본 자리" },
   { piece: "25_clips.js", tab: "clip", fn: "renderClip",

@@ -204,13 +204,121 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   const back = await page.evaluate(() => Object.keys(S.voice || {}).length);
   if (back !== 1) no("되돌렸는데 적어 둔 것이 안 돌아왔다");
 
+  /* ---- 8. 클립 탭의 나란히 듣기 (T374) ----------------------------------
+     **분기 탭이 몰아 놓고 클립 탭에 닿으면 안내가 사라졌다.**
+     앞 절이 적어 둔 것을 지웠다 되돌렸다. 둘을 다시 세우고 건너가 본다.
+     이름을 손으로 짓는다. `voiceName` 은 오늘 날을 쓰므로 둘이 같아진다. */
+  await page.evaluate(() => {
+    S.voice = {};
+    (DATA.voice.weeks || []).slice(0, 2).forEach((w, i) => {
+      S.voice[voiceKey(w.week)] = { file: "eng2p_voice_" + voiceKey(w.week) +
+        "_2026-0" + (i + 1) + "-05.webm", at: "2026-0" + (i + 1) + "-05" };
+    });
+    saveNow(); renderVoice();
+  });
+  await page.waitForTimeout(300);
+  const sideOff = await page.evaluate(async () => {
+    go("clip");
+    await new Promise((ok) => setTimeout(ok, 900));
+    return document.getElementById("cSide").hidden;
+  });
+  if (!sideOff) no("켜지도 않았는데 클립 탭에 나란히 듣기가 떠 있다");
+
+  const sd = await page.evaluate(async () => {
+    const box = document.getElementById("cSide");
+    const peaks = (n) => {
+      const p = [];
+      for (let k = 0; k < n; k++) {
+        for (let j = 0; j < 20; j++) p.push(0.6);
+        for (let j = 0; j < 12; j++) p.push(0.01);
+      }
+      while (p.length < 320) p.push(0.01);
+      return p.slice(0, 320);
+    };
+    const open = (name, n) => {
+      CLIP.file = { name: name }; CLIP.el = { duration: 6, currentTime: 0 };
+      CLIP.peaks = peaks(n); CLIP.beat = null; CLIP.waveState = "ready";
+      renderSide();
+    };
+    const files = voiceCmpList().map((x) => x.file);
+    /* 분기 탭의 단추가 켜고 보낸다 */
+    go("quarter");
+    await new Promise((ok) => setTimeout(ok, 600));
+    renderVoiceCmp();
+    document.getElementById("vcGo").click();
+    await new Promise((ok) => setTimeout(ok, 400));
+    const tab = document.querySelector("#t-clip").hidden;
+    const one = { hid: box.hidden, txt: box.innerText };
+    /* 안 뜨면 그 뒤가 다 없다. **여기서 멈추고 그 사실만 낸다.**
+       이어 가면 없는 단추를 누르다 죽고 무엇이 틀렸는지가 안 보인다 */
+    if (one.hid) return { tab: tab, one: one, stop: true, files: files };
+    /* 1) 처음 것을 연다 -> 2) 기준으로 잡는다 */
+    open(files[0], 3);
+    const two = { txt: box.innerText, ref: !!REF };
+    document.getElementById("sdRef").click();
+    const marked = REF ? REF.name : null;
+    /* 3) 이제 이것을 연다 -> 4) 둘을 대고 있다 */
+    const three = box.innerText;
+    open(files[1], 3);
+    const four = box.innerText;
+    /* 처음 것이 아닌 것을 기준으로 잡아 두면 알린다 */
+    REF = null; open(files[1], 3);
+    document.getElementById("sdRef").click();
+    const odd = box.innerText;
+    /* 그만두면 꺼진다. **저장소에 아무것도 안 남는다** */
+    REF = null; renderSide();
+    document.getElementById("sdOff").click();
+    return { tab: tab, one: one, two: two, marked: marked, three: three,
+             four: four, odd: odd, off: box.hidden,
+             kept: JSON.stringify(S).indexOf('"side"') >= 0,
+             files: files };
+  });
+  if (sd.tab) no("클립 탭으로 를 눌렀는데 클립 탭이 안 열린다");
+  if (sd.one.hid) no("클립 탭으로 를 눌렀는데 나란히 듣기가 안 뜬다");
+  if (!sd.stop) {
+  if (sd.one.txt.indexOf(sd.files[0]) < 0)
+    no("처음 것의 파일 이름을 안 적는다: " + sd.one.txt.slice(0, 60));
+  if (sd.two.ref) no("파일만 열었는데 기준이 잡혀 있다");
+  if (sd.two.txt.indexOf("기준으로 잡는다") < 0)
+    no("파일을 열었는데 기준으로 잡으라고 안 한다: " + sd.two.txt.slice(0, 60));
+  /* **처음 것이 기준이다.** 늘 처음부터 간다 (growth.md 6.1) */
+  if (sd.marked !== sd.files[0])
+    no("기준이 " + sd.marked + " 로 잡혔다. 처음 것은 " + sd.files[0] + " 다");
+  if (sd.three.indexOf(sd.files[1]) < 0)
+    no("다음에 열 것을 안 적는다: " + sd.three.slice(0, 60));
+  if (sd.four.indexOf("대고 있다") < 0)
+    no("둘을 다 열었는데 대고 있다고 안 적는다: " + sd.four.slice(0, 60));
+  if (sd.odd.indexOf("기준이 처음 것이 아니다") < 0)
+    no("처음 것이 아닌 것을 기준으로 잡았는데 아무 말이 없다: " + sd.odd.slice(0, 60));
+  /* **좋아졌는지는 앱이 안 말한다** (growth.md 6.2) */
+  [sd.one.txt, sd.two.txt, sd.three, sd.four].forEach((t) => {
+    if (t.indexOf("안 말한다") < 0) no("판정 안 한다는 말이 빠진 단계가 있다");
+    if (/좋아졌다|나아졌다|잘한다|늘었다/.test(t))
+      no("앱이 좋아졌다고 말한다: " + t.slice(0, 60));
+  });
+  if (!sd.off) no("그만두기를 눌렀는데 안 꺼진다");
+  /* **저장소에 안 남긴다** (growth.md 6.4) */
+  if (sd.kept) no("몇 번째를 보고 있는지가 저장소에 남았다");
+  }
+
+  /* **하나뿐이면 켜도 안 뜬다** (growth.md 6.3). 견줄 것이 없다.
+     띠가 안 뜨는 쪽은 둘을 세워 놓고는 영영 안 재진다. 하나로 줄여서 잰다 */
+  const sdOne = await page.evaluate(async () => {
+    const ks = Object.keys(S.voice).sort();
+    delete S.voice[ks[ks.length - 1]]; saveNow();
+    VOICE.side = 1; renderSide();
+    return { hid: document.getElementById("cSide").hidden, n: voiceCmpList().length };
+  });
+  if (sdOne.n !== 1) no("하나로 줄였는데 목록이 " + sdOne.n + "개다");
+  if (!sdOne.hid) no("적어 둔 것이 하나인데 클립 탭에 나란히 듣기가 뜬다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 다섯 녹음을 나란히 들었을 때 무엇이 들리는가**");
-  console.log("되돌아보기 33판 (읽을 줄 5, 저장소 3, 안 되는 자리 6, 대장 4, 견줌 3, 나란히 듣기 12) / 실패 %d",
+  console.log("되돌아보기 51판 (읽을 줄 5, 저장소 3, 안 되는 자리 6, 대장 4, 견줌 3, 나란히 듣기 12, 클립 탭 18) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
