@@ -1799,7 +1799,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       const what = ["정상", "비상판", "결석"][i];
       if (m.txt.indexOf(v) < 0) bad.push(what + " 날 수가 지도에 없다: " + m.txt);
     });
-    if (m.txt.indexOf("밀렸다") < 0) bad.push("밀린 주 수가 지도에 없다");
+    /* **낱말이 아니라 무엇을 아는가를 잰다** (T386). 전에는 "밀렸다" 를 찾았다.
+       그 말이 다그침이라 "달력은 N주째" 로 바꿨더니 이 판이 거짓으로 실패했다.
+       재려던 것은 **달력 주를 지도가 말하는가**다. */
+    if (m.txt.indexOf("달력은") < 0) bad.push("달력 주가 지도에 없다");
+    if (m.txt.indexOf("밀렸다") >= 0) bad.push("지도가 밀렸다고 적는다");
     if (!m.note) bad.push("비상판과 결석이 칸을 안 채운다는 설명이 없다");
     if (m.cal !== 1) bad.push("달력상 이번 주 표시가 " + m.cal + "개다");
     if (m.now !== 1) bad.push("진도상 이번 주 표시가 " + m.now + "개다");

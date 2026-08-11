@@ -2722,7 +2722,7 @@ function renderRings(pl,weekDone,rec){
   else today4=T.idx;
   var v=[today4/4, weekDone/6, Math.min(1,(pl.done||0)/288)];
   var num=[today4+" / 4 블록", weekDone+" / 6일",
-           pl.week+" / 48주"+(pl.behind>0?" · "+pl.behind+"주 밀렸다":"")];
+           pl.week+" / 48주"+(pl.behind>0?" · 달력은 "+(pl.week+pl.behind)+"주째":"")];
   var say=RING.map(function(g,i){ return g.k+" "+num[i]; }).join(", ");
   var s='<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(say)+'">';
   RING.forEach(function(g,i){
@@ -4179,7 +4179,7 @@ function renderMapPane(){
      '<span><b>'+tally.normal+'</b>일 정상</span>'+
      '<span><b>'+tally.emg+'</b>일 비상판</span>'+
      '<span><b>'+tally.absent+'</b>일 결석</span>'+
-     (pl.behind>0?'<span class="warn">달력보다 <b>'+pl.behind+'</b>주 밀렸다</span>':"")+
+     (pl.behind>0?'<span class="mut">달력은 <b>'+(pl.week+pl.behind)+'</b>주째</span>':"")+
      '</div>';
   if(pl.behind>0)
     h+='<div class="wnote">밀린 것은 <b>없어진 것이 아니라 미뤄진 것이다.</b> '+

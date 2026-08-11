@@ -247,8 +247,11 @@ function renderRings(pl,weekDone,rec){
   var v=[today4/4, weekDone/6, Math.min(1,(pl.done||0)/288)];
   /* 이름표와 읽어 주는 글이 같아야 한다. 두 자리에 따로 적으면 갈라진다.
      그래서 이름표를 먼저 짓고 그것을 읽어 주는 글에도 그대로 쓴다. */
+  /* **밀렸다고 안 적는다** (T386). 달력 주와 세션 주는 다른 값이고
+     둘이 다른 것은 이 과정에서 정상이다. 비상판으로 도는 해는 느리게 간다
+     (`year.md` 6장). 같은 사실을 두 가지로 적을 수 있으면 안 다그치는 쪽이다. */
   var num=[today4+" / 4 블록", weekDone+" / 6일",
-           pl.week+" / 48주"+(pl.behind>0?" · "+pl.behind+"주 밀렸다":"")];
+           pl.week+" / 48주"+(pl.behind>0?" · 달력은 "+(pl.week+pl.behind)+"주째":"")];
   var say=RING.map(function(g,i){ return g.k+" "+num[i]; }).join(", ");
   var s='<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(say)+'">';
   RING.forEach(function(g,i){

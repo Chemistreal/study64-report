@@ -126,7 +126,9 @@ function renderMapPane(){
      '<span><b>'+tally.normal+'</b>일 정상</span>'+
      '<span><b>'+tally.emg+'</b>일 비상판</span>'+
      '<span><b>'+tally.absent+'</b>일 결석</span>'+
-     (pl.behind>0?'<span class="warn">달력보다 <b>'+pl.behind+'</b>주 밀렸다</span>':"")+
+     /* **경고가 아니다** (T386). 밑의 주석이 원칙을 적어 놓고 글은 안 고쳤었다.
+        달력 주와 세션 주는 다른 값이고 둘이 다른 것이 정상이다 */
+     (pl.behind>0?'<span class="mut">달력은 <b>'+(pl.week+pl.behind)+'</b>주째</span>':"")+
      '</div>';
   /* **밀린 것은 없어진 것이 아니라 미뤄진 것이다** (T181, T356).
      같은 사실을 두 가지로 적을 수 있으면 안 다그치는 쪽을 고른다 (bench_habit 5장).
