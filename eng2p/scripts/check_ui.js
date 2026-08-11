@@ -1462,6 +1462,45 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     });
     if (off !== 0 && off !== "상자 없음")
       bad.push("종료음을 껐는데 소리가 " + off + "개 났다");
+
+    /* **진동 (T381).** 헤드폰을 끼면 소리가 들리고 주머니에 있으면 안 들린다.
+       소리를 대신하는 것이 아니라 같이 난다. **끄는 칸이 따로 있다.** */
+    const bz = await p4.evaluate(() => {
+      const got = [];
+      navigator.vibrate = function (p) { got.push(p); return true; };
+      $("#tSound").checked = false;      /* 소리는 끈 채로 둔다 */
+      $("#tBuzz").checked = true;
+      const out = {};
+      ["start", "next", "loop", "swap", "blockend", "done"].forEach((k) => {
+        got.length = 0; tone(k); out[k] = got.length;
+      });
+      /* 진동을 끄면 안 나야 한다 */
+      $("#tBuzz").checked = false;
+      got.length = 0; tone("done");
+      out.off = got.length;
+      $("#tBuzz").checked = true;
+      /* 소리를 켜도 진동은 그대로 난다. **두 칸은 서로 안 묶인다** */
+      $("#tSound").checked = true;
+      got.length = 0; tone("swap");
+      out.both = got.length;
+      return { out: out, keys: Object.keys(BUZZ),
+               why: (document.getElementById("tBuzzWhy") || {}).hidden };
+    });
+    /* **여섯 중 셋에만 건다.** 사람이 움직여야 하는 때다 */
+    ["swap", "blockend", "done"].forEach((k) => {
+      if (!bz.out[k]) bad.push(k + " 에 진동이 안 난다. 사람이 움직여야 하는 때다");
+    });
+    ["start", "next", "loop"].forEach((k) => {
+      if (bz.out[k]) bad.push(k + " 에 진동이 난다. 지나가는 것에는 안 건다");
+    });
+    if (bz.keys.length !== 3)
+      bad.push("진동 표가 " + bz.keys.length + "개다. 셋이어야 한다");
+    if (bz.out.off) bad.push("진동을 껐는데 " + bz.out.off + "번 울렸다");
+    /* **소리를 껐을 때도 진동은 났다.** 위 여섯을 소리 끈 채로 쟀다 */
+    if (!bz.out.both) bad.push("소리를 켰더니 진동이 안 난다. 두 칸은 서로 안 묶인다");
+    /* 이 브라우저는 진동이 되므로 까닭 줄이 숨어 있어야 한다 */
+    if (bz.why === false) bad.push("진동이 되는데 안 된다는 말이 떠 있다");
+
     await p4.close();
     return bad;
   })();
@@ -3382,7 +3421,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
               "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
-              "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
+              "소리 여섯 6판 / 소리 끄기 1판 / 진동 12판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
               "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
               "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판 / 합치기 가장자리 16판 / " +
               "주 되짚기 12판");

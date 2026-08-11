@@ -1019,6 +1019,10 @@ body.veil-on>*:not(.veilcover){display:none}
       <label class="small mut" style="display:flex;align-items:center;gap:5px;margin-left:6px">
         <input type="checkbox" id="tSound" checked> 종료음
       </label>
+      <label class="small mut" style="display:flex;align-items:center;gap:5px">
+        <input type="checkbox" id="tBuzz" checked> 진동
+      </label>
+      <span class="small w" id="tBuzzWhy" hidden></span>
     </div>
   </div>
 
@@ -3660,7 +3664,30 @@ function actx(){
     return AC;
   }catch(e){ return null; }
 }
+var BUZZ={
+  swap:    [60,80,60],            /* 짧게 둘. 주고받는 꼴 */
+  blockend:[180,90,180],          /* 길게 둘. 멈추는 것 */
+  done:    [120,80,120,80,240]    /* 셋. 마지막이 길다 */
+};
+function canBuzz(){
+  try{ return typeof navigator.vibrate==="function"; }catch(e){ return false; }
+}
+function buzz(kind){
+  var s=$("#tBuzz"); if(s && !s.checked) return;
+  var p=BUZZ[kind]; if(!p) return;
+  if(!canBuzz()) return;
+  try{ navigator.vibrate(p); }catch(e){}
+}
+function paintBuzz(){
+  var lab=$("#tBuzzWhy"); if(!lab) return;
+  if(canBuzz()){ lab.hidden=true; lab.textContent=""; return; }
+  lab.hidden=false;
+  lab.textContent="이 기기는 진동이 안 된다. 앱이 고장 난 것이 아니다.";
+  var s=$("#tBuzz"); if(s) s.disabled=true;
+}
+
 function tone(kind){
+  buzz(kind);
   var s=$("#tSound"); if(s && !s.checked) return;
   var d=TONE[kind]; if(!d) return;
   var a=actx(); if(!a) return;
@@ -6126,6 +6153,7 @@ needWeek(plan().week, function(){
   renderToday(); paintTimer(); paintSide(); paintVeil();
 });
 ttsVoices(); renderSound();
+paintBuzz();
 (function(){
   var want=location.hash.slice(1)||"today";
   var s=S.session, mid=(s && s.date===today() && (s.idx>0 || s.left<BLOCKS[0].m*60));
