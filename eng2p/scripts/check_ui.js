@@ -2142,6 +2142,53 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       const k = Object.keys(S2.wchk || {})[0];
       return k ? S2.wchk[k].first : ""; });
     if (kept !== "월요일 저녁 8시에 헤드폰부터") bad.push("주간 점검에 적은 것이 안 남는다: " + kept);
+    /* **셈은 있었고 되짚기가 없었다** (T379). 여섯 날이 지나고 이레째에 앉았는데
+       그 주에 무엇을 배웠는지를 화면이 한 줄도 안 말했다. 차림표가 다 알고 있었다. */
+    await pw.waitForTimeout(900);
+    const rc = await pw.evaluate(() => {
+      const e = document.getElementById("wcRecap");
+      const w = (typeof plan === "function") ? plan().week : 1;
+      const row = (IDX && IDX.weeks) ? IDX.weeks[w - 1] : null;
+      return { hid: e ? e.hidden : null,
+               txt: e ? e.innerText.replace(/\s+/g, " ") : "",
+               lec: row ? row.lectures.map((l) => ({ no: l.no, t: l.title, tr: l.track })) : null,
+               q: row ? row.quarter : null };
+    });
+    if (rc.hid === null) bad.push("주간 점검에 되짚는 자리가 없다");
+    else if (!rc.lec) bad.push("차림표를 못 읽어 되짚기를 잴 수 없다");
+    else {
+      if (rc.hid) bad.push("차림표를 읽었는데 되짚기가 안 뜬다");
+      /* **그 주 강의를 다 적는다.** 번호와 제목과 트랙이다 */
+      rc.lec.forEach((l) => {
+        if (rc.txt.indexOf(l.no + "강") < 0) bad.push("되짚기에 " + l.no + "강이 없다");
+        if (rc.txt.indexOf(l.t) < 0) bad.push("되짚기에 " + l.no + "강 제목이 없다");
+        if (rc.txt.indexOf(l.tr) < 0) bad.push("되짚기에 " + l.no + "강 트랙이 없다");
+      });
+      if (rc.txt.indexOf(rc.q) < 0) bad.push("되짚기가 어느 분기인지를 안 적는다");
+      if (!/카드 \d+~\d+/.test(rc.txt)) bad.push("되짚기가 카드 자리를 안 적는다");
+      /* **한 것만 적는다.** 못 한 것은 위 숫자 칸이 이미 말한다 (T378 과 같은 규칙) */
+      if (/못 한|안 한|빠뜨|밀렸|남았다/.test(rc.txt))
+        bad.push("되짚기가 못 한 것을 센다: " + rc.txt.slice(0, 60));
+      /* **되짚기가 숫자보다 먼저 온다.** 한 주가 무엇이었는지가 먼저다 */
+      const order = await pw.evaluate(() =>
+        document.getElementById("weekCheck").innerText.replace(/\s+/g, " "));
+      /* **못 찾으면 -1 이고 -1 은 무엇보다 작다.** 그러면 없는 것이 앞선 것이 되어
+         이 판이 저절로 통과한다. 자리를 옮겼는데 검사가 안 잡아서 알았다 */
+      const iR = order.indexOf("이 주에 한 것"), iN = order.indexOf("수행 ");
+      if (iR < 0) bad.push("주간 점검 글에 되짚기가 없다");
+      else if (iN < 0) bad.push("주간 점검 글에 수행일 숫자가 없다");
+      else if (iR > iN) bad.push("숫자가 되짚기보다 먼저 온다");
+      /* **빈 자리를 띄우면 못 채운 자리로 읽힌다** (원칙 4).
+         차림표에 없는 주를 그려 본다. 실제로 IDX 를 비우면 needWeek 이
+         곧바로 다시 읽어 와 그 자리가 안 만들어진다. */
+      const empty = await pw.evaluate(() => {
+        renderWeekRecap(999);
+        const hid = document.getElementById("wcRecap").hidden;
+        renderWeekRecap((typeof plan === "function") ? plan().week : 1);
+        return hid;
+      });
+      if (!empty) bad.push("차림표에 없는 주인데 되짚기가 뜬다");
+    }
     await pw.evaluate(() => go("today"));
     await pw.waitForTimeout(300);
     /* **비상판 15분이 두 토막인데 재는 것이 없었다.** 인출 10분과 청크 5분이
@@ -3337,7 +3384,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
               "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
               "소리 여섯 6판 / 소리 끄기 1판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
               "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
-              "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판 / 합치기 가장자리 16판");
+              "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판 / 합치기 가장자리 16판 / " +
+              "주 되짚기 12판");
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

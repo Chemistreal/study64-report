@@ -62,6 +62,50 @@ function wchkAlerts(c){
   if(c.norm<4) out.push("수행일이 "+c.norm+"일이다");
   return out;
 }
+/* 한 주를 되짚는다 (T379). T378 과 같은 결이다.
+
+   ## 셈은 있었고 되짚기가 없었다
+
+   주간 점검이 숫자 여섯을 낸다. 수행 비상판 결석 LRE 미해결 채집이다.
+   그것은 **다음에 무엇을 할지 정하는 재료**지 한 주가 무엇이었는지가 아니다.
+
+   여섯 날이 지나고 이레째에 앉았는데 화면이 그 주에 무엇을 배웠는지를
+   한 줄도 안 말했다. **차림표가 다 알고 있는데 아무도 안 물었다.**
+
+   ## 무엇을 되짚나
+
+   차림표에서 온다. 그 주 강의 둘의 번호와 제목과 트랙, 카드 번호 자리다.
+   `needWeek` 이 그 분기를 읽어 온다. **누를 때만 읽는다** (T245).
+
+   못 한 것을 안 센다. 수행 n/6 은 위 숫자 칸이 이미 말한다.
+   여기는 **한 것**만 적는다. 그것이 T378 과 같은 규칙이다. */
+function weekRecap(w){
+  var row=(IDX&&IDX.weeks)?IDX.weeks[w-1]:null;
+  if(!row||!row.lectures||!row.lectures.length) return null;
+  var lo=null, hi=null;
+  row.lectures.forEach(function(l){
+    if(!l.cards) return;
+    if(lo===null||l.cards.from<lo) lo=l.cards.from;
+    if(hi===null||l.cards.to>hi) hi=l.cards.to;
+  });
+  return {q:row.quarter, lec:row.lectures, from:lo, to:hi};
+}
+function renderWeekRecap(w){
+  var box=$("#wcRecap"); if(!box) return;
+  var r=weekRecap(w);
+  /* **차림표를 아직 못 읽었으면 안 뜬다.** 빈 자리를 띄우면 못 채운 자리로 읽힌다 */
+  if(!r){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  var lec=r.lec.map(function(l){
+    return '<div>'+l.no+'강 <b>'+esc(l.title)+'</b> '+
+           '<span class="small mut">'+esc(l.track)+'</span></div>';
+  }).join("");
+  box.innerHTML='<div class="note"><b>이 주에 한 것</b> '+
+    '<span class="small mut">'+esc(r.q)+' · '+w+'주</span>'+lec+
+    (r.from!==null?'<div class="small mut">카드 '+r.from+'~'+r.to+'</div>':"")+
+    '</div>';
+}
+
 function renderWeekCheck(){
   var box=$("#weekCheck"); if(!box) return;
   var pl=(typeof plan==="function")?plan():null;
@@ -69,6 +113,9 @@ function renderWeekCheck(){
   var c=wchkCount(w), a=wchkAlerts(c), r=wchkRec(w);
   var h='<div class="hd2"><b>주간 점검 30분 · '+w+'주차</b>'+
         '<span class="small mut">이레째에 한다. 학습은 하지 않는다</span></div>';
+  /* 되짚기가 숫자보다 먼저다. **한 주가 무엇이었는지를 먼저 말한다.**
+     숫자는 다음에 무엇을 할지 정하는 재료지 그 주가 무엇이었는지가 아니다 */
+  h+='<div id="wcRecap" hidden></div>';
   h+='<div class="wcnum">'+
      '<span>수행 '+c.norm+' / 6</span><span>비상판 '+c.emg+'</span>'+
      '<span>결석 '+c.abs+'</span><span>LRE '+c.lre+'</span>'+
@@ -128,6 +175,11 @@ function renderWeekCheck(){
   });
   if($("#wcQ")) $("#wcQ").onclick=function(){ go("quarter"); };
   var dn=$("#wcDone");
+  /* 차림표는 분기마다 따로 있고 **누를 때만 읽는다** (T245).
+     읽어 온 뒤에 그린다. 못 읽으면 이 자리가 안 뜨는 것이 맞다 */
+  renderWeekRecap(w);
+  if(typeof needWeek==="function")
+    needWeek(w,function(){ renderWeekRecap(w); });
   if(dn) dn.onclick=function(){
     var was=r.done; r.done=true; save(); renderWeekCheck();
     if(!was) offerUndo(w+"주 점검을 마쳤다로 적음",function(){ r.done=false; renderWeekCheck(); });

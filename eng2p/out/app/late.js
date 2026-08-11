@@ -1482,6 +1482,32 @@ function wchkAlerts(c){
   if(c.norm<4) out.push("수행일이 "+c.norm+"일이다");
   return out;
 }
+function weekRecap(w){
+  var row=(IDX&&IDX.weeks)?IDX.weeks[w-1]:null;
+  if(!row||!row.lectures||!row.lectures.length) return null;
+  var lo=null, hi=null;
+  row.lectures.forEach(function(l){
+    if(!l.cards) return;
+    if(lo===null||l.cards.from<lo) lo=l.cards.from;
+    if(hi===null||l.cards.to>hi) hi=l.cards.to;
+  });
+  return {q:row.quarter, lec:row.lectures, from:lo, to:hi};
+}
+function renderWeekRecap(w){
+  var box=$("#wcRecap"); if(!box) return;
+  var r=weekRecap(w);
+  if(!r){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  var lec=r.lec.map(function(l){
+    return '<div>'+l.no+'강 <b>'+esc(l.title)+'</b> '+
+           '<span class="small mut">'+esc(l.track)+'</span></div>';
+  }).join("");
+  box.innerHTML='<div class="note"><b>이 주에 한 것</b> '+
+    '<span class="small mut">'+esc(r.q)+' · '+w+'주</span>'+lec+
+    (r.from!==null?'<div class="small mut">카드 '+r.from+'~'+r.to+'</div>':"")+
+    '</div>';
+}
+
 function renderWeekCheck(){
   var box=$("#weekCheck"); if(!box) return;
   var pl=(typeof plan==="function")?plan():null;
@@ -1489,6 +1515,7 @@ function renderWeekCheck(){
   var c=wchkCount(w), a=wchkAlerts(c), r=wchkRec(w);
   var h='<div class="hd2"><b>주간 점검 30분 · '+w+'주차</b>'+
         '<span class="small mut">이레째에 한다. 학습은 하지 않는다</span></div>';
+  h+='<div id="wcRecap" hidden></div>';
   h+='<div class="wcnum">'+
      '<span>수행 '+c.norm+' / 6</span><span>비상판 '+c.emg+'</span>'+
      '<span>결석 '+c.abs+'</span><span>LRE '+c.lre+'</span>'+
@@ -1539,6 +1566,9 @@ function renderWeekCheck(){
   });
   if($("#wcQ")) $("#wcQ").onclick=function(){ go("quarter"); };
   var dn=$("#wcDone");
+  renderWeekRecap(w);
+  if(typeof needWeek==="function")
+    needWeek(w,function(){ renderWeekRecap(w); });
   if(dn) dn.onclick=function(){
     var was=r.done; r.done=true; save(); renderWeekCheck();
     if(!was) offerUndo(w+"주 점검을 마쳤다로 적음",function(){ r.done=false; renderWeekCheck(); });
