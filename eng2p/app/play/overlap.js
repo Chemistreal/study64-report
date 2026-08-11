@@ -82,8 +82,8 @@ function renderOverlap(){
   var p=playById("overlap");
   OVL.min=p.min;
   if(!DATA.chunks){
-    box.innerHTML='<div class="card tight small mut">청크 목록을 여는 중이다.</div>';
-    loadData("chunks","ENG2P_CHUNKS",function(){ renderOverlap(); });
+    box.innerHTML=dataWait("청크 목록을","chunks");
+    if(!dataFailed("chunks")) loadData("chunks","ENG2P_CHUNKS",function(){ renderOverlap(); });
     return;
   }
   var mid=ovlToday(), tgt=ovlTarget();

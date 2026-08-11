@@ -292,7 +292,7 @@ function renderCardView(pl){
   if(!CARDIDX.done) needCardIndex(function(){ renderBlockPane(); });
   if(!cards){
     loadData("cards","ENG2P_CARDS",function(){ renderBlockPane(); });
-    return '<div class="n">카드를 여는 중이다.</div>';
+    return dataWait("카드를","cards");
   }
   if(!pl.cards) return "";
   /* 두 벌을 돈다. 오늘 범위와 다시 낼 카드다.
@@ -395,7 +395,7 @@ function renderDrillPane(pl){
   var head='<div class="k">이 블록에 쓰는 것 · 카드</div><div class="v">'+esc(c)+'</div>';
   if(!lec){
     loadData("lectures","ENG2P_LECTURES",function(){ renderBlockPane(); });
-    return head+'<div class="n">진행표를 여는 중이다.</div>';
+    return head+dataWait("진행표를","lectures");
   }
   var L=(lec.items||[]).filter(function(x){return x.no===pl.lectureNo;})[0];
   if(!L) return head;

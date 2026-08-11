@@ -88,8 +88,8 @@ function renderRebound(){
   var p=playById("rebound");
   RBD.min=p.min;
   if(!DATA.chunks){
-    box.innerHTML='<div class="card tight small mut">청크 목록을 여는 중이다.</div>';
-    loadData("chunks","ENG2P_CHUNKS",function(){ renderRebound(); });
+    box.innerHTML=dataWait("청크 목록을","chunks");
+    if(!dataFailed("chunks")) loadData("chunks","ENG2P_CHUNKS",function(){ renderRebound(); });
     return;
   }
   var mid=rbdToday(), pool=rbdPool();

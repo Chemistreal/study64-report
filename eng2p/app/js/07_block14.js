@@ -120,7 +120,7 @@ function renderAimPane(pl, seat, round){
   var h2b="";
   if(!DATA.input){
     loadData("input","ENG2P_INPUT",function(){ renderBlockPane(); });
-    return '<div class="n">조준표를 여는 중이다.</div>';
+    return dataWait("조준표를","input");
   }
   var w=aimWeek(pl);
   if(!w) return '<div class="n">'+pl.week+'주 조준표 과제를 못 찾았다.</div>';
@@ -258,7 +258,7 @@ function renderMediaPane(pl, seat){
   /* 차림표를 늦게 읽는다. 블록 칸은 세션에 들어가야 그린다. T213 */
   if(!MEDIA.length){
     needMedia(function(){ renderBlockPane(); });
-    return head+'<div class="n">차림표를 여는 중이다.</div>';
+    return head+dataWait("차림표를","catalog");
   }
   var i=MEDIA.findIndex(function(x){return x.id===pl.media;});
   var it=i>=0?MEDIA[i]:null;

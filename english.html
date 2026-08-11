@@ -1822,6 +1822,48 @@ function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
 function today(){return iso(new Date());}
 function roleOf(d){ return parseISO(d).getDate()%2===0 ? "a" : "b"; }
+var pending={};
+var failed={};
+function dataFailed(key){ return !!failed[key]; }
+function loadScript(key, src, cb){
+  if(failed[key]) return cb(false);
+  if(pending[key]){ pending[key].push(cb); return; }
+  pending[key]=[cb];
+  var s=document.createElement("script");
+  s.src=src;
+  function done(ok){
+    var qs=pending[key]||[]; pending[key]=null;
+    qs.forEach(function(f){ f(ok); });
+  }
+  s.onload=function(){ done(true); };
+  s.onerror=function(){ failed[key]=true; done(false); };
+  document.head.appendChild(s);
+}
+function loadData(name, global, cb){
+  if(window[global]){ DATA[name]=window[global]; return cb(DATA[name]); }
+  if(dataFailed(name)) return;
+  loadScript(name, "eng2p/out/data/"+name+".js", function(ok){
+    DATA[name]=ok?window[global]:null; cb(DATA[name]);
+  });
+}
+var DATA_AT={
+  catalog:"media/english/catalog.js",
+  plays:"eng2p/out/app/plays.js",
+  late:"eng2p/out/app/late.js"
+};
+function dataPath(name){
+  if(DATA_AT[name]) return DATA_AT[name];
+  if(name.indexOf("idx")===0)
+    return "eng2p/out/data/index_"+name.slice(3).toLowerCase()+".js";
+  return "eng2p/out/data/"+name+".js";
+}
+function dataWait(what, name){
+  if(dataFailed(name))
+    return '<div class="note w">'+esc(what)+' 못 읽었다. '+
+      '<b>'+esc(dataPath(name))+'</b> 가 있어야 한다. '+
+      '내려받을 때 그 자리가 빠졌으면 이 칸은 안 돈다. 나머지는 그대로 돈다.</div>';
+  return '<div class="small mut">'+esc(what)+' 여는 중이다.</div>';
+}
 var IDX=(window.ENG2P_INDEX)||null;
 
 function doneSessions(){
@@ -1854,26 +1896,6 @@ function plan(){
 
 
 var DATA={};
-var pending={};
-function loadScript(key, src, cb){
-  if(pending[key]){ pending[key].push(cb); return; }
-  pending[key]=[cb];
-  var s=document.createElement("script");
-  s.src=src;
-  function done(ok){
-    var qs=pending[key]||[]; pending[key]=null;
-    qs.forEach(function(f){ f(ok); });
-  }
-  s.onload=function(){ done(true); };
-  s.onerror=function(){ done(false); };
-  document.head.appendChild(s);
-}
-function loadData(name, global, cb){
-  if(window[global]){ DATA[name]=window[global]; return cb(DATA[name]); }
-  loadScript(name, "eng2p/out/data/"+name+".js", function(ok){
-    DATA[name]=ok?window[global]:null; cb(DATA[name]);
-  });
-}
 var EMG=null;
 function loadEmg(cb){ loadData("emergency","ENG2P_EMERGENCY",function(v){ EMG=v; cb(!!v); }); }
 var EMGCLK={t:null,left:0,at:null};
@@ -1940,7 +1962,7 @@ function renderEmg(pl){
     return;
   }
   if(pl.emergency==null){ box.innerHTML=""; return; }
-  box.innerHTML='<div class="small mut">비상판을 여는 중이다.</div>';
+  box.innerHTML=dataWait("비상판을","emergency");
   loadEmg(function(ok){
     if(!ok){
       box.innerHTML='<div class="emgbox"><div class="small mut">'+
@@ -2068,8 +2090,8 @@ function renderCrit(){
   var open = S.recOpen===true || rec.status;
   if(!open){ box.innerHTML=""; return; }
   var lec=DATA.lectures;
-  if(!lec){ loadData("lectures","ENG2P_LECTURES",function(){ renderCrit(); }); 
-            box.innerHTML='<div class="card tight small mut">통과 기준을 여는 중이다.</div>'; return; }
+  if(!lec){ loadData("lectures","ENG2P_LECTURES",function(){ renderCrit(); });
+            box.innerHTML=dataWait("통과 기준을","lectures"); return; }
   var pl=plan();
   var L=(lec.items||[]).filter(function(x){return x.no===pl.lectureNo;})[0];
   if(!L || !L.criteria || !L.criteria.length){ box.innerHTML=""; return; }
@@ -2353,6 +2375,7 @@ function questNow(kind, w){
 function questLine(){
   var d=DATA.quest;
   if(!d || !d.weeks){
+    if(dataFailed("quest")) return dataWait("퀘스트를","quest");
     loadData("quest","ENG2P_QUEST",function(){ renderSlots(); });
     return '';
   }
@@ -2910,7 +2933,7 @@ function renderSetPane(pl){
     loadData("sets","ENG2P_SETS",function(){ renderBlockPane(); });
     return '<div class="k">이 블록에 쓰는 것 · 대조 교차 세트</div>'+
            '<div class="v">'+esc(pl.set||"(없음)")+'</div>'+
-           '<div class="n">세트를 여는 중이다.</div>';
+           dataWait("세트를","sets");
   }
   var s=(sets.items||[]).filter(function(x){return x.id===pl.set;})[0];
   if(!s) return '<div class="k">대조 교차 세트</div><div class="v">'+esc(pl.set||"(없음)")+'</div>';
@@ -3211,7 +3234,7 @@ function renderCardView(pl){
   if(!CARDIDX.done) needCardIndex(function(){ renderBlockPane(); });
   if(!cards){
     loadData("cards","ENG2P_CARDS",function(){ renderBlockPane(); });
-    return '<div class="n">카드를 여는 중이다.</div>';
+    return dataWait("카드를","cards");
   }
   if(!pl.cards) return "";
   var due=dueCards();
@@ -3308,7 +3331,7 @@ function renderDrillPane(pl){
   var head='<div class="k">이 블록에 쓰는 것 · 카드</div><div class="v">'+esc(c)+'</div>';
   if(!lec){
     loadData("lectures","ENG2P_LECTURES",function(){ renderBlockPane(); });
-    return head+'<div class="n">진행표를 여는 중이다.</div>';
+    return head+dataWait("진행표를","lectures");
   }
   var L=(lec.items||[]).filter(function(x){return x.no===pl.lectureNo;})[0];
   if(!L) return head;
@@ -3440,7 +3463,7 @@ function renderAimPane(pl, seat, round){
   var h2b="";
   if(!DATA.input){
     loadData("input","ENG2P_INPUT",function(){ renderBlockPane(); });
-    return '<div class="n">조준표를 여는 중이다.</div>';
+    return dataWait("조준표를","input");
   }
   var w=aimWeek(pl);
   if(!w) return '<div class="n">'+pl.week+'주 조준표 과제를 못 찾았다.</div>';
@@ -3540,7 +3563,7 @@ function renderMediaPane(pl, seat){
   if(!pl.media) return head;
   if(!MEDIA.length){
     needMedia(function(){ renderBlockPane(); });
-    return head+'<div class="n">차림표를 여는 중이다.</div>';
+    return head+dataWait("차림표를","catalog");
   }
   var i=MEDIA.findIndex(function(x){return x.id===pl.media;});
   var it=i>=0?MEDIA[i]:null;
@@ -3790,7 +3813,7 @@ function renderSyncScript(it, round){
     if(!tr) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderBlockPane(); });
     if(!cu) loadData("cues","ENG2P_CUES",function(){ renderBlockPane(); });
     if(!al) loadData("audiolen","ENG2P_AUDIOLEN",function(){ renderBlockPane(); });
-    return '<div class="n">대본을 여는 중이다.</div>';
+    return dataWait("대본을","audiolen");
   }
   var lines=(tr.items||{})[it.id], cue=(cu.items||{})[it.id];
   if(!lines||!lines.length) return '<div class="n"><b>이 과는 대본이 없다.</b> '+
@@ -6133,7 +6156,7 @@ function renderPlayPane(){
   if(!PLAY.at){ box.innerHTML=""; return; }
   var f=PLAYREND[PLAY.at];
   if(f) return f();
-  box.innerHTML='<div class="card tight small mut">판 화면을 여는 중이다.</div>';
+  box.innerHTML=dataWait("판 화면을","plays");
   playLoad(function(ok){
     if(!ok || !PLAYREND[PLAY.at]){
       box.innerHTML='<div class="card"><div class="note w">판 화면을 못 읽었다. '+

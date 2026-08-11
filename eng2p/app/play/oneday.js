@@ -87,8 +87,8 @@ function renderOneday(){
   var box=$("#playPane"); if(!box) return;
   var p=playById("oneday");
   if(!DATA.onepick){
-    box.innerHTML='<div class="card tight small mut">오늘 판을 여는 중이다.</div>';
-    loadData("onepick","ENG2P_ONEPICK",function(){ renderOneday(); });
+    box.innerHTML=dataWait("오늘 판을","onepick");
+    if(!dataFailed("onepick")) loadData("onepick","ENG2P_ONEPICK",function(){ renderOneday(); });
     return;
   }
   var d=DATA.onepick, rec=odyRec();

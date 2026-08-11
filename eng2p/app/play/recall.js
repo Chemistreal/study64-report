@@ -134,8 +134,8 @@ function renderRecall(){
   RCL.min=p.min;
   var d={end:10};
   if(!DATA.cards){
-    box.innerHTML='<div class="card tight small mut">카드를 여는 중이다.</div>';
-    loadData("cards","ENG2P_CARDS",function(){ renderRecall(); });
+    box.innerHTML=dataWait("카드를","cards");
+    if(!dataFailed("cards")) loadData("cards","ENG2P_CARDS",function(){ renderRecall(); });
     return;
   }
   /* 기기가 하나인 날. 돌려 보기다 (`solo_plays.md` 18번). 다섯 장마다 건넨다. */

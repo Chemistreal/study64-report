@@ -76,8 +76,8 @@ function renderChain(){
   var p=playById("chain");
   CHN.min=p.min;
   if(!DATA.chunks){
-    box.innerHTML='<div class="card tight small mut">청크 목록을 여는 중이다.</div>';
-    loadData("chunks","ENG2P_CHUNKS",function(){ renderChain(); });
+    box.innerHTML=dataWait("청크 목록을","chunks");
+    if(!dataFailed("chunks")) loadData("chunks","ENG2P_CHUNKS",function(){ renderChain(); });
     return;
   }
   var mid=chnToday(), pool=chnPool();

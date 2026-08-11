@@ -54,29 +54,6 @@ function plan(){
    쓸 때 가져온다. fetch 를 안 쓴다. file:// 에서 막힌다.
    script 를 꽂는 방식은 Pages 에서도 file:// 에서도 된다. */
 var DATA={};
-/* **읽는 것을 뒤로 미루는 자리가 둘이 됐다.**
-   하나는 `out/data` 의 파생 자료고 하나는 미디어 차림표다. 경로가 다르다.
-   그래서 붙이는 일만 떼어 둔다. 같은 것을 두 번 붙이지 않는 것이 이 함수의 일이다. */
-var pending={};
-function loadScript(key, src, cb){
-  if(pending[key]){ pending[key].push(cb); return; }
-  pending[key]=[cb];
-  var s=document.createElement("script");
-  s.src=src;
-  function done(ok){
-    var qs=pending[key]||[]; pending[key]=null;
-    qs.forEach(function(f){ f(ok); });
-  }
-  s.onload=function(){ done(true); };
-  s.onerror=function(){ done(false); };
-  document.head.appendChild(s);
-}
-function loadData(name, global, cb){
-  if(window[global]){ DATA[name]=window[global]; return cb(DATA[name]); }
-  loadScript(name, "eng2p/out/data/"+name+".js", function(ok){
-    DATA[name]=ok?window[global]:null; cb(DATA[name]);
-  });
-}
 var EMG=null;
 function loadEmg(cb){ loadData("emergency","ENG2P_EMERGENCY",function(v){ EMG=v; cb(!!v); }); }
 /* 비상판 15분 시계. 인출 10분과 청크 5분 두 토막이다.
@@ -148,7 +125,7 @@ function renderEmg(pl){
     return;
   }
   if(pl.emergency==null){ box.innerHTML=""; return; }
-  box.innerHTML='<div class="small mut">비상판을 여는 중이다.</div>';
+  box.innerHTML=dataWait("비상판을","emergency");
   loadEmg(function(ok){
     if(!ok){
       box.innerHTML='<div class="emgbox"><div class="small mut">'+
@@ -307,8 +284,8 @@ function renderCrit(){
   var open = S.recOpen===true || rec.status;
   if(!open){ box.innerHTML=""; return; }
   var lec=DATA.lectures;
-  if(!lec){ loadData("lectures","ENG2P_LECTURES",function(){ renderCrit(); }); 
-            box.innerHTML='<div class="card tight small mut">통과 기준을 여는 중이다.</div>'; return; }
+  if(!lec){ loadData("lectures","ENG2P_LECTURES",function(){ renderCrit(); });
+            box.innerHTML=dataWait("통과 기준을","lectures"); return; }
   var pl=plan();
   var L=(lec.items||[]).filter(function(x){return x.no===pl.lectureNo;})[0];
   if(!L || !L.criteria || !L.criteria.length){ box.innerHTML=""; return; }

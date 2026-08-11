@@ -90,7 +90,7 @@ function renderSyncScript(it, round){
     if(!tr) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderBlockPane(); });
     if(!cu) loadData("cues","ENG2P_CUES",function(){ renderBlockPane(); });
     if(!al) loadData("audiolen","ENG2P_AUDIOLEN",function(){ renderBlockPane(); });
-    return '<div class="n">대본을 여는 중이다.</div>';
+    return dataWait("대본을","audiolen");
   }
   var lines=(tr.items||{})[it.id], cue=(cu.items||{})[it.id];
   if(!lines||!lines.length) return '<div class="n"><b>이 과는 대본이 없다.</b> '+

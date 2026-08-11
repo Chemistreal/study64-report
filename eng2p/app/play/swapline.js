@@ -78,13 +78,13 @@ function renderSwapline(){
   SWP.min=p.min;
   /* 자료 둘을 게으르게 읽는다. **대본이 112KB 다.** 이 판을 안 열면 안 읽는다. */
   if(!DATA.swaps){
-    box.innerHTML='<div class="card tight small mut">바꿀 낱말 표를 여는 중이다.</div>';
-    loadData("swaps","ENG2P_SWAPS",function(){ renderSwapline(); });
+    box.innerHTML=dataWait("바꿀 낱말 표를","swaps");
+    if(!dataFailed("swaps")) loadData("swaps","ENG2P_SWAPS",function(){ renderSwapline(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderSwapline(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderSwapline(); });
     return;
   }
   var mid=swpToday();

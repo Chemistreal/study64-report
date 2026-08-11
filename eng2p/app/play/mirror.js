@@ -79,8 +79,8 @@ function renderMirror(){
   MIR.min=p.min;
   /* 자료를 게으르게 읽는다. 이 판을 안 열면 안 읽는다 (friction.md 8장). */
   if(!DATA.pairs){
-    box.innerHTML='<div class="card tight small mut">쌍 표를 여는 중이다.</div>';
-    loadData("pairs","ENG2P_PAIRS",function(){ renderMirror(); });
+    box.innerHTML=dataWait("쌍 표를","pairs");
+    if(!dataFailed("pairs")) loadData("pairs","ENG2P_PAIRS",function(){ renderMirror(); });
     return;
   }
   var items=mirItems(MIR.n);

@@ -122,8 +122,8 @@ function renderClash(){
   var p=playById("clash");
   CLS.min=p.min;
   if(!DATA.clash){
-    box.innerHTML='<div class="card tight small mut">겹칠 줄을 여는 중이다.</div>';
-    loadData("clash","ENG2P_CLASH",function(){ renderClash(); });
+    box.innerHTML=dataWait("겹칠 줄을","clash");
+    if(!dataFailed("clash")) loadData("clash","ENG2P_CLASH",function(){ renderClash(); });
     return;
   }
   var d=DATA.clash, rows=clsRows();

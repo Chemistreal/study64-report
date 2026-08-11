@@ -144,8 +144,8 @@ function renderOnesee(){
   var p=playById("onesee");
   ONE.min=p.min;
   if(!DATA.situ){
-    box.innerHTML='<div class="card tight small mut">상황 카드를 여는 중이다.</div>';
-    loadData("situ","ENG2P_SITU",function(){ renderOnesee(); });
+    box.innerHTML=dataWait("상황 카드를","situ");
+    if(!dataFailed("situ")) loadData("situ","ENG2P_SITU",function(){ renderOnesee(); });
     return;
   }
   var d=DATA.situ, pool=onePool(), deck=oneDeck();

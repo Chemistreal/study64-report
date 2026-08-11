@@ -102,13 +102,13 @@ function renderReask(){
   var p=playById("reask");
   RSK.min=p.min;
   if(!DATA.reask){
-    box.innerHTML='<div class="card tight small mut">되묻기 단을 여는 중이다.</div>';
-    loadData("reask","ENG2P_REASK",function(){ renderReask(); });
+    box.innerHTML=dataWait("되묻기 단을","reask");
+    if(!dataFailed("reask")) loadData("reask","ENG2P_REASK",function(){ renderReask(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderReask(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderReask(); });
     return;
   }
   var d=DATA.reask, lines=rskLines();

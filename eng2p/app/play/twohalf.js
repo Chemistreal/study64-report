@@ -66,8 +66,8 @@ function renderTwohalf(){
   var p=playById("twohalf");
   TWH.min=p.min;
   if(!DATA.halves){
-    box.innerHTML='<div class="card tight small mut">가른 문장을 여는 중이다.</div>';
-    loadData("halves","ENG2P_HALVES",function(){ renderTwohalf(); });
+    box.innerHTML=dataWait("가른 문장을","halves");
+    if(!dataFailed("halves")) loadData("halves","ENG2P_HALVES",function(){ renderTwohalf(); });
     return;
   }
   var mid=twhToday(), items=twhItems();

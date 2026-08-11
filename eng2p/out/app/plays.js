@@ -46,8 +46,8 @@ function renderMirror(){
   var p=playById("mirror");
   MIR.min=p.min;
   if(!DATA.pairs){
-    box.innerHTML='<div class="card tight small mut">쌍 표를 여는 중이다.</div>';
-    loadData("pairs","ENG2P_PAIRS",function(){ renderMirror(); });
+    box.innerHTML=dataWait("쌍 표를","pairs");
+    if(!dataFailed("pairs")) loadData("pairs","ENG2P_PAIRS",function(){ renderMirror(); });
     return;
   }
   var items=mirItems(MIR.n);
@@ -236,13 +236,13 @@ function renderSwapline(){
   var p=playById("swapline");
   SWP.min=p.min;
   if(!DATA.swaps){
-    box.innerHTML='<div class="card tight small mut">바꿀 낱말 표를 여는 중이다.</div>';
-    loadData("swaps","ENG2P_SWAPS",function(){ renderSwapline(); });
+    box.innerHTML=dataWait("바꿀 낱말 표를","swaps");
+    if(!dataFailed("swaps")) loadData("swaps","ENG2P_SWAPS",function(){ renderSwapline(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderSwapline(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderSwapline(); });
     return;
   }
   var mid=swpToday();
@@ -429,13 +429,13 @@ function renderHearme(){
   var p=playById("hearme");
   HRM.min=p.min;
   if(!DATA.listen){
-    box.innerHTML='<div class="card tight small mut">듣는 쪽 지시를 여는 중이다.</div>';
-    loadData("listen","ENG2P_LISTEN",function(){ renderHearme(); });
+    box.innerHTML=dataWait("듣는 쪽 지시를","listen");
+    if(!dataFailed("listen")) loadData("listen","ENG2P_LISTEN",function(){ renderHearme(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderHearme(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderHearme(); });
     return;
   }
   var mid=hrmToday();
@@ -659,17 +659,17 @@ function renderRelay(){
   var p=playById("relay");
   RLY.min=p.min;
   if(!DATA.relay){
-    box.innerHTML='<div class="card tight small mut">줄 고르기를 여는 중이다.</div>';
-    loadData("relay","ENG2P_RELAY",function(){ renderRelay(); });
+    box.innerHTML=dataWait("줄 고르기를","relay");
+    if(!dataFailed("relay")) loadData("relay","ENG2P_RELAY",function(){ renderRelay(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderRelay(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderRelay(); });
     return;
   }
   if(!MEDIA.length){
-    box.innerHTML='<div class="card tight small mut">소리 차림표를 여는 중이다.</div>';
+    box.innerHTML=dataWait("소리 차림표를","catalog");
     needMedia(function(){ renderRelay(); });
     return;
   }
@@ -877,8 +877,8 @@ function renderChain(){
   var p=playById("chain");
   CHN.min=p.min;
   if(!DATA.chunks){
-    box.innerHTML='<div class="card tight small mut">청크 목록을 여는 중이다.</div>';
-    loadData("chunks","ENG2P_CHUNKS",function(){ renderChain(); });
+    box.innerHTML=dataWait("청크 목록을","chunks");
+    if(!dataFailed("chunks")) loadData("chunks","ENG2P_CHUNKS",function(){ renderChain(); });
     return;
   }
   var mid=chnToday(), pool=chnPool();
@@ -1004,8 +1004,8 @@ function renderTwohalf(){
   var p=playById("twohalf");
   TWH.min=p.min;
   if(!DATA.halves){
-    box.innerHTML='<div class="card tight small mut">가른 문장을 여는 중이다.</div>';
-    loadData("halves","ENG2P_HALVES",function(){ renderTwohalf(); });
+    box.innerHTML=dataWait("가른 문장을","halves");
+    if(!dataFailed("halves")) loadData("halves","ENG2P_HALVES",function(){ renderTwohalf(); });
     return;
   }
   var mid=twhToday(), items=twhItems();
@@ -1162,8 +1162,8 @@ function renderOverlap(){
   var p=playById("overlap");
   OVL.min=p.min;
   if(!DATA.chunks){
-    box.innerHTML='<div class="card tight small mut">청크 목록을 여는 중이다.</div>';
-    loadData("chunks","ENG2P_CHUNKS",function(){ renderOverlap(); });
+    box.innerHTML=dataWait("청크 목록을","chunks");
+    if(!dataFailed("chunks")) loadData("chunks","ENG2P_CHUNKS",function(){ renderOverlap(); });
     return;
   }
   var mid=ovlToday(), tgt=ovlTarget();
@@ -1394,22 +1394,22 @@ function renderLadder(){
   var p=playById("ladder");
   LAD.min=p.min;
   if(!DATA.ladder){
-    box.innerHTML='<div class="card tight small mut">사다리 규격을 여는 중이다.</div>';
-    loadData("ladder","ENG2P_LADDER",function(){ renderLadder(); });
+    box.innerHTML=dataWait("사다리 규격을","ladder");
+    if(!dataFailed("ladder")) loadData("ladder","ENG2P_LADDER",function(){ renderLadder(); });
     return;
   }
   if(!DATA.relay){
-    box.innerHTML='<div class="card tight small mut">토막을 여는 중이다.</div>';
-    loadData("relay","ENG2P_RELAY",function(){ renderLadder(); });
+    box.innerHTML=dataWait("토막을","relay");
+    if(!dataFailed("relay")) loadData("relay","ENG2P_RELAY",function(){ renderLadder(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderLadder(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderLadder(); });
     return;
   }
   if(!MEDIA.length){
-    box.innerHTML='<div class="card tight small mut">소리 차림표를 여는 중이다.</div>';
+    box.innerHTML=dataWait("소리 차림표를","catalog");
     needMedia(function(){ renderLadder(); });
     return;
   }
@@ -1586,8 +1586,8 @@ function renderWall(){
   var box=$("#playPane"); if(!box) return;
   var p=playById("wall");
   if(!DATA.wall){
-    box.innerHTML='<div class="card tight small mut">단서를 여는 중이다.</div>';
-    loadData("wall","ENG2P_WALL",function(){ renderWall(); });
+    box.innerHTML=dataWait("단서를","wall");
+    if(!dataFailed("wall")) loadData("wall","ENG2P_WALL",function(){ renderWall(); });
     return;
   }
   var d=DATA.wall, pool=walPool();
@@ -1783,8 +1783,8 @@ function renderRebound(){
   var p=playById("rebound");
   RBD.min=p.min;
   if(!DATA.chunks){
-    box.innerHTML='<div class="card tight small mut">청크 목록을 여는 중이다.</div>';
-    loadData("chunks","ENG2P_CHUNKS",function(){ renderRebound(); });
+    box.innerHTML=dataWait("청크 목록을","chunks");
+    if(!dataFailed("chunks")) loadData("chunks","ENG2P_CHUNKS",function(){ renderRebound(); });
     return;
   }
   var mid=rbdToday(), pool=rbdPool();
@@ -1978,8 +1978,8 @@ function renderOnesee(){
   var p=playById("onesee");
   ONE.min=p.min;
   if(!DATA.situ){
-    box.innerHTML='<div class="card tight small mut">상황 카드를 여는 중이다.</div>';
-    loadData("situ","ENG2P_SITU",function(){ renderOnesee(); });
+    box.innerHTML=dataWait("상황 카드를","situ");
+    if(!dataFailed("situ")) loadData("situ","ENG2P_SITU",function(){ renderOnesee(); });
     return;
   }
   var d=DATA.situ, pool=onePool(), deck=oneDeck();
@@ -2202,18 +2202,18 @@ function renderWave(){
   var p=playById("wave");
   WAV.min=p.min;
   if(!DATA.wave){
-    box.innerHTML='<div class="card tight small mut">눈금을 여는 중이다.</div>';
-    loadData("wave","ENG2P_WAVE",function(){ renderWave(); });
+    box.innerHTML=dataWait("눈금을","wave");
+    if(!dataFailed("wave")) loadData("wave","ENG2P_WAVE",function(){ renderWave(); });
     return;
   }
   if(!DATA.relay){
-    box.innerHTML='<div class="card tight small mut">줄을 여는 중이다.</div>';
-    loadData("relay","ENG2P_RELAY",function(){ renderWave(); });
+    box.innerHTML=dataWait("줄을","relay");
+    if(!dataFailed("relay")) loadData("relay","ENG2P_RELAY",function(){ renderWave(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderWave(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderWave(); });
     return;
   }
   var d=DATA.wave, it=wavPiece();
@@ -2400,8 +2400,8 @@ function renderWhose(){
   var p=playById("whose");
   WHO.min=p.min;
   if(!DATA.whose){
-    box.innerHTML='<div class="card tight small mut">쓸 자리를 여는 중이다.</div>';
-    loadData("whose","ENG2P_WHOSE",function(){ renderWhose(); });
+    box.innerHTML=dataWait("쓸 자리를","whose");
+    if(!dataFailed("whose")) loadData("whose","ENG2P_WHOSE",function(){ renderWhose(); });
     return;
   }
   var d=DATA.whose, pool=whoPool();
@@ -2578,13 +2578,13 @@ function renderReask(){
   var p=playById("reask");
   RSK.min=p.min;
   if(!DATA.reask){
-    box.innerHTML='<div class="card tight small mut">되묻기 단을 여는 중이다.</div>';
-    loadData("reask","ENG2P_REASK",function(){ renderReask(); });
+    box.innerHTML=dataWait("되묻기 단을","reask");
+    if(!dataFailed("reask")) loadData("reask","ENG2P_REASK",function(){ renderReask(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderReask(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderReask(); });
     return;
   }
   var d=DATA.reask, lines=rskLines();
@@ -2775,13 +2775,13 @@ function renderCutin(){
   var box=$("#playPane"); if(!box) return;
   var p=playById("cutin");
   if(!DATA.cutin){
-    box.innerHTML='<div class="card tight small mut">신호 표를 여는 중이다.</div>';
-    loadData("cutin","ENG2P_CUTIN",function(){ renderCutin(); });
+    box.innerHTML=dataWait("신호 표를","cutin");
+    if(!dataFailed("cutin")) loadData("cutin","ENG2P_CUTIN",function(){ renderCutin(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderCutin(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderCutin(); });
     return;
   }
   var d=DATA.cutin, lines=cutLines(), deck=cutDeck();
@@ -2973,8 +2973,8 @@ function renderClash(){
   var p=playById("clash");
   CLS.min=p.min;
   if(!DATA.clash){
-    box.innerHTML='<div class="card tight small mut">겹칠 줄을 여는 중이다.</div>';
-    loadData("clash","ENG2P_CLASH",function(){ renderClash(); });
+    box.innerHTML=dataWait("겹칠 줄을","clash");
+    if(!dataFailed("clash")) loadData("clash","ENG2P_CLASH",function(){ renderClash(); });
     return;
   }
   var d=DATA.clash, rows=clsRows();
@@ -3141,8 +3141,8 @@ function renderFlip(){
   var p=playById("flip");
   FLP.min=p.min;
   if(!DATA.flip){
-    box.innerHTML='<div class="card tight small mut">카드를 여는 중이다.</div>';
-    loadData("flip","ENG2P_FLIP",function(){ renderFlip(); });
+    box.innerHTML=dataWait("카드를","flip");
+    if(!dataFailed("flip")) loadData("flip","ENG2P_FLIP",function(){ renderFlip(); });
     return;
   }
   if(soloOn() && soloHanding()){
@@ -3311,8 +3311,8 @@ function renderApart(){
   var p=playById("apart");
   APT.min=p.min;
   if(!DATA.apart){
-    box.innerHTML='<div class="card tight small mut">물음을 여는 중이다.</div>';
-    loadData("apart","ENG2P_APART",function(){ renderApart(); });
+    box.innerHTML=dataWait("물음을","apart");
+    if(!dataFailed("apart")) loadData("apart","ENG2P_APART",function(){ renderApart(); });
     return;
   }
   var d=DATA.apart, it=aptItem(), s=roundStep("apart"), rec=aptRec();
@@ -3503,8 +3503,8 @@ function renderRecall(){
   RCL.min=p.min;
   var d={end:10};
   if(!DATA.cards){
-    box.innerHTML='<div class="card tight small mut">카드를 여는 중이다.</div>';
-    loadData("cards","ENG2P_CARDS",function(){ renderRecall(); });
+    box.innerHTML=dataWait("카드를","cards");
+    if(!dataFailed("cards")) loadData("cards","ENG2P_CARDS",function(){ renderRecall(); });
     return;
   }
   if(soloOn() && soloHanding()){
@@ -3654,8 +3654,8 @@ function renderOneday(){
   var box=$("#playPane"); if(!box) return;
   var p=playById("oneday");
   if(!DATA.onepick){
-    box.innerHTML='<div class="card tight small mut">오늘 판을 여는 중이다.</div>';
-    loadData("onepick","ENG2P_ONEPICK",function(){ renderOneday(); });
+    box.innerHTML=dataWait("오늘 판을","onepick");
+    if(!dataFailed("onepick")) loadData("onepick","ENG2P_ONEPICK",function(){ renderOneday(); });
     return;
   }
   var d=DATA.onepick, rec=odyRec();

@@ -115,8 +115,8 @@ function renderWhose(){
   var p=playById("whose");
   WHO.min=p.min;
   if(!DATA.whose){
-    box.innerHTML='<div class="card tight small mut">쓸 자리를 여는 중이다.</div>';
-    loadData("whose","ENG2P_WHOSE",function(){ renderWhose(); });
+    box.innerHTML=dataWait("쓸 자리를","whose");
+    if(!dataFailed("whose")) loadData("whose","ENG2P_WHOSE",function(){ renderWhose(); });
     return;
   }
   var d=DATA.whose, pool=whoPool();

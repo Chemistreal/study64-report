@@ -71,13 +71,13 @@ function renderHearme(){
   var p=playById("hearme");
   HRM.min=p.min;
   if(!DATA.listen){
-    box.innerHTML='<div class="card tight small mut">듣는 쪽 지시를 여는 중이다.</div>';
-    loadData("listen","ENG2P_LISTEN",function(){ renderHearme(); });
+    box.innerHTML=dataWait("듣는 쪽 지시를","listen");
+    if(!dataFailed("listen")) loadData("listen","ENG2P_LISTEN",function(){ renderHearme(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderHearme(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderHearme(); });
     return;
   }
   var mid=hrmToday();

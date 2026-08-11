@@ -116,13 +116,13 @@ function renderCutin(){
   var box=$("#playPane"); if(!box) return;
   var p=playById("cutin");
   if(!DATA.cutin){
-    box.innerHTML='<div class="card tight small mut">신호 표를 여는 중이다.</div>';
-    loadData("cutin","ENG2P_CUTIN",function(){ renderCutin(); });
+    box.innerHTML=dataWait("신호 표를","cutin");
+    if(!dataFailed("cutin")) loadData("cutin","ENG2P_CUTIN",function(){ renderCutin(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderCutin(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderCutin(); });
     return;
   }
   var d=DATA.cutin, lines=cutLines(), deck=cutDeck();

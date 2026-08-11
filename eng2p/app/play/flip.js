@@ -117,8 +117,8 @@ function renderFlip(){
   var p=playById("flip");
   FLP.min=p.min;
   if(!DATA.flip){
-    box.innerHTML='<div class="card tight small mut">카드를 여는 중이다.</div>';
-    loadData("flip","ENG2P_FLIP",function(){ renderFlip(); });
+    box.innerHTML=dataWait("카드를","flip");
+    if(!dataFailed("flip")) loadData("flip","ENG2P_FLIP",function(){ renderFlip(); });
     return;
   }
   /* 기기가 하나인 날. **건네는 1초에 화면이 켜져 있다** (T241).

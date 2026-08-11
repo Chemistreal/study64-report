@@ -121,22 +121,23 @@ function renderLadder(){
   var p=playById("ladder");
   LAD.min=p.min;
   if(!DATA.ladder){
-    box.innerHTML='<div class="card tight small mut">사다리 규격을 여는 중이다.</div>';
-    loadData("ladder","ENG2P_LADDER",function(){ renderLadder(); });
+    box.innerHTML=dataWait("사다리 규격을","ladder");
+    if(!dataFailed("ladder")) loadData("ladder","ENG2P_LADDER",function(){ renderLadder(); });
     return;
   }
   if(!DATA.relay){
-    box.innerHTML='<div class="card tight small mut">토막을 여는 중이다.</div>';
-    loadData("relay","ENG2P_RELAY",function(){ renderLadder(); });
+    box.innerHTML=dataWait("토막을","relay");
+    if(!dataFailed("relay")) loadData("relay","ENG2P_RELAY",function(){ renderLadder(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderLadder(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderLadder(); });
     return;
   }
   if(!MEDIA.length){
-    box.innerHTML='<div class="card tight small mut">소리 차림표를 여는 중이다.</div>';
+    /* **못 읽었으면 그렇다고 말한다** (T387). 차림표 키는 catalog 다 */
+    box.innerHTML=dataWait("소리 차림표를","catalog");
     needMedia(function(){ renderLadder(); });
     return;
   }

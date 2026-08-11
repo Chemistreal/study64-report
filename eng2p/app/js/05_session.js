@@ -253,7 +253,7 @@ function renderSetPane(pl){
     loadData("sets","ENG2P_SETS",function(){ renderBlockPane(); });
     return '<div class="k">이 블록에 쓰는 것 · 대조 교차 세트</div>'+
            '<div class="v">'+esc(pl.set||"(없음)")+'</div>'+
-           '<div class="n">세트를 여는 중이다.</div>';
+           dataWait("세트를","sets");
   }
   var s=(sets.items||[]).filter(function(x){return x.id===pl.set;})[0];
   if(!s) return '<div class="k">대조 교차 세트</div><div class="v">'+esc(pl.set||"(없음)")+'</div>';

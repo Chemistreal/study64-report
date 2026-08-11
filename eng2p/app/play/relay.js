@@ -138,17 +138,18 @@ function renderRelay(){
   var p=playById("relay");
   RLY.min=p.min;
   if(!DATA.relay){
-    box.innerHTML='<div class="card tight small mut">줄 고르기를 여는 중이다.</div>';
-    loadData("relay","ENG2P_RELAY",function(){ renderRelay(); });
+    box.innerHTML=dataWait("줄 고르기를","relay");
+    if(!dataFailed("relay")) loadData("relay","ENG2P_RELAY",function(){ renderRelay(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderRelay(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderRelay(); });
     return;
   }
   if(!MEDIA.length){
-    box.innerHTML='<div class="card tight small mut">소리 차림표를 여는 중이다.</div>';
+    /* **못 읽었으면 그렇다고 말한다** (T387). 차림표 키는 catalog 다 */
+    box.innerHTML=dataWait("소리 차림표를","catalog");
     needMedia(function(){ renderRelay(); });
     return;
   }

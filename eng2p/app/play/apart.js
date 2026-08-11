@@ -75,8 +75,8 @@ function renderApart(){
   var p=playById("apart");
   APT.min=p.min;
   if(!DATA.apart){
-    box.innerHTML='<div class="card tight small mut">물음을 여는 중이다.</div>';
-    loadData("apart","ENG2P_APART",function(){ renderApart(); });
+    box.innerHTML=dataWait("물음을","apart");
+    if(!dataFailed("apart")) loadData("apart","ENG2P_APART",function(){ renderApart(); });
     return;
   }
   var d=DATA.apart, it=aptItem(), s=roundStep("apart"), rec=aptRec();

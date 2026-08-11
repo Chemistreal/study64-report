@@ -117,18 +117,18 @@ function renderWave(){
   var p=playById("wave");
   WAV.min=p.min;
   if(!DATA.wave){
-    box.innerHTML='<div class="card tight small mut">눈금을 여는 중이다.</div>';
-    loadData("wave","ENG2P_WAVE",function(){ renderWave(); });
+    box.innerHTML=dataWait("눈금을","wave");
+    if(!dataFailed("wave")) loadData("wave","ENG2P_WAVE",function(){ renderWave(); });
     return;
   }
   if(!DATA.relay){
-    box.innerHTML='<div class="card tight small mut">줄을 여는 중이다.</div>';
-    loadData("relay","ENG2P_RELAY",function(){ renderWave(); });
+    box.innerHTML=dataWait("줄을","relay");
+    if(!dataFailed("relay")) loadData("relay","ENG2P_RELAY",function(){ renderWave(); });
     return;
   }
   if(!DATA.transcripts){
-    box.innerHTML='<div class="card tight small mut">대본을 여는 중이다.</div>';
-    loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderWave(); });
+    box.innerHTML=dataWait("대본을","transcripts");
+    if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderWave(); });
     return;
   }
   var d=DATA.wave, it=wavPiece();

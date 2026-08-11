@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 마흔과 검사 쉰과 상태 갱신 셋, 아흔셋을 정해진 순서로 돈다.
+**한 줄이다.** 파생 마흔과 검사 쉰하나와 상태 갱신 셋, 아흔넷을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -120,6 +120,7 @@ scripts/check_sound.py  소리 자리 69판. **적은 자리를 센 적이 없�
 scripts/check_sound_screen.js 소리 화면 22판. **코드가 아니라 사람이 읽는 글을 훑는다**
 scripts/check_cando.js 안 되는 자리 43판. **안 된다 / 왜 / 그럼 무엇을 셋을 잰다**
 scripts/check_tone.js 말투 44판. **주석이 아니라 화면 글을 훑는다.** 4566줄
+scripts/check_wait.js 기다림 30판. **자료를 막아 놓고 본다.** 영영 여는 중이었다
 scripts/check_cards_plan.py 카드 유형 총량을 기준서 8.1과 대조
 scripts/derive_handout.py 강의에서 강의록을 파생. 강의의 검사기이기도 하다
 scripts/check_page.py  강의록이 A4 앞뒤 두 면에 들어가는지 잰다
@@ -202,7 +203,8 @@ scripts/derive_manifest.py 파생 자료의 크기와 해시. **맨 나중에 �
 scripts/derive_media_manifest.py 미디어 표의 크기와 해시를 다시 잰다. 275개 157MB
 scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 있는 실패 목록과 견준다**
 scripts/check_app.py   앱의 한국어를 규격 검사에 건다. **조각을 본다.** 파생물은 주석이 빠져 있다
-app/                   **앱의 원본.** 조각 쉰둘이다. english.html 은 이것에서 나온다
+app/                   **앱의 원본.** 조각 쉰셋이다. english.html 은 이것에서 나온다
+app/js/03a_data.js     자료를 읽는 자리. **못 읽은 것을 기억한다** (T387). 흩어지면 처리가 갈린다
 app/play/              판 화면. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다
 app/late/              드물게 여는 조각 열넷. **english.html 에 안 들어간다.** 그 자리를 열 때 읽는다
 out/app/plays.js       판 묶음. 파생물이다. 손으로 안 고친다

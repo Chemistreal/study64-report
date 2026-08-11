@@ -27,6 +27,7 @@ body/14_footer.html   바닥글
 page/02_script.html   자료 script 태그와 script 열기
 js/01_const.js        상수. 기준서에서 온 값
 js/02_store.js        저장소와 유틸
+js/03a_data.js       자료를 읽는 자리. **script 로 읽는다.** 못 읽은 것을 기억한다 (T387)
 js/03_plan.js         오늘 배정과 오늘 한 장
 js/03b_index.js       차림표를 게으르게. **오늘 그 한 주만 열자마자 읽는다**
 js/03c_streak.js      공동 연속일. **날을 세지 사람을 안 센다.** 비상판은 건너뛴다

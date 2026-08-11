@@ -29,8 +29,10 @@ function renderTrack(){
   var box=$("#trackBox"); if(!box) return;
   var d=DATA.track;
   if(!d){
-    box.innerHTML='<div class="small mut">트랙 표를 여는 중이다.</div>';
-    loadData("track","ENG2P_TRACK",function(){ renderTrack(); });
+    /* **못 읽었으면 그렇다고 말한다** (T387). 전에는 영영 여는 중이었다 */
+    box.innerHTML=dataWait("트랙 표를","track");
+    if(!dataFailed("track"))
+      loadData("track","ENG2P_TRACK",function(){ renderTrack(); });
     return;
   }
   var done=trackDone(), pl=plan(), q=pl.quarter;
@@ -40,7 +42,7 @@ function renderTrack(){
      T379 가 주간 점검에 `needWeek` 을 걸면서 그 자리가 드러났다.
      못 읽었으면 읽어 오고 그동안은 아무 값도 안 적는다. */
   if(!q){
-    box.innerHTML='<div class="small mut">트랙 표를 여는 중이다.</div>';
+    box.innerHTML=dataWait("트랙 표를","idx"+(weekQuarter(pl.week)||"Q1"));
     if(typeof needWeek==="function") needWeek(pl.week,function(){ renderTrack(); });
     return;
   }

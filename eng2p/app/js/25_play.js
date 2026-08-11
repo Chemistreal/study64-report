@@ -84,7 +84,7 @@ function renderPlayPane(){
   if(!PLAY.at){ box.innerHTML=""; return; }
   var f=PLAYREND[PLAY.at];
   if(f) return f();
-  box.innerHTML='<div class="card tight small mut">판 화면을 여는 중이다.</div>';
+  box.innerHTML=dataWait("판 화면을","plays");
   playLoad(function(ok){
     if(!ok || !PLAYREND[PLAY.at]){
       box.innerHTML='<div class="card"><div class="note w">판 화면을 못 읽었다. '+

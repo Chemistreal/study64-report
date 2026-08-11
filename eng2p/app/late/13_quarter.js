@@ -259,8 +259,8 @@ function renderBadge(){
   var box=$("#badgeList"); if(!box) return;
   var d=DATA.badge;
   if(!d){
-    box.innerHTML='<div class="small mut">배지를 여는 중이다.</div>';
-    loadData("badge","ENG2P_BADGE",function(){ renderBadge(); });
+    box.innerHTML=dataWait("배지를","badge");
+    if(!dataFailed("badge")) loadData("badge","ENG2P_BADGE",function(){ renderBadge(); });
     return;
   }
   var got=0, h="";
@@ -323,8 +323,8 @@ function renderVoice(){
   var box=$("#voiceList"); if(!box) return;
   var d=DATA.voice;
   if(!d){
-    box.innerHTML='<div class="small mut">읽을 줄을 여는 중이다.</div>';
-    loadData("voice","ENG2P_VOICE",function(){ renderVoice(); });
+    box.innerHTML=dataWait("읽을 줄을","voice");
+    if(!dataFailed("voice")) loadData("voice","ENG2P_VOICE",function(){ renderVoice(); });
     return;
   }
   var line=$("#voiceLine");

@@ -186,6 +186,9 @@ function questNow(kind, w){
 function questLine(){
   var d=DATA.quest;
   if(!d || !d.weeks){
+    /* **못 읽었으면 그 말을 낸다** (T388). 빈 줄을 내면 두 사람은
+       퀘스트가 없는 주라고 여긴다. 없는 것과 못 읽은 것은 다르다 */
+    if(dataFailed("quest")) return dataWait("퀘스트를","quest");
     loadData("quest","ENG2P_QUEST",function(){ renderSlots(); });
     return '';
   }

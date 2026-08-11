@@ -114,8 +114,8 @@ function renderWall(){
   var box=$("#playPane"); if(!box) return;
   var p=playById("wall");
   if(!DATA.wall){
-    box.innerHTML='<div class="card tight small mut">단서를 여는 중이다.</div>';
-    loadData("wall","ENG2P_WALL",function(){ renderWall(); });
+    box.innerHTML=dataWait("단서를","wall");
+    if(!dataFailed("wall")) loadData("wall","ENG2P_WALL",function(){ renderWall(); });
     return;
   }
   var d=DATA.wall, pool=walPool();

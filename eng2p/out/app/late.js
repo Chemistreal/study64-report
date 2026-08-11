@@ -1053,8 +1053,8 @@ function renderBadge(){
   var box=$("#badgeList"); if(!box) return;
   var d=DATA.badge;
   if(!d){
-    box.innerHTML='<div class="small mut">배지를 여는 중이다.</div>';
-    loadData("badge","ENG2P_BADGE",function(){ renderBadge(); });
+    box.innerHTML=dataWait("배지를","badge");
+    if(!dataFailed("badge")) loadData("badge","ENG2P_BADGE",function(){ renderBadge(); });
     return;
   }
   var got=0, h="";
@@ -1099,8 +1099,8 @@ function renderVoice(){
   var box=$("#voiceList"); if(!box) return;
   var d=DATA.voice;
   if(!d){
-    box.innerHTML='<div class="small mut">읽을 줄을 여는 중이다.</div>';
-    loadData("voice","ENG2P_VOICE",function(){ renderVoice(); });
+    box.innerHTML=dataWait("읽을 줄을","voice");
+    if(!dataFailed("voice")) loadData("voice","ENG2P_VOICE",function(){ renderVoice(); });
     return;
   }
   var line=$("#voiceLine");
@@ -1725,13 +1725,14 @@ function renderTrack(){
   var box=$("#trackBox"); if(!box) return;
   var d=DATA.track;
   if(!d){
-    box.innerHTML='<div class="small mut">트랙 표를 여는 중이다.</div>';
-    loadData("track","ENG2P_TRACK",function(){ renderTrack(); });
+    box.innerHTML=dataWait("트랙 표를","track");
+    if(!dataFailed("track"))
+      loadData("track","ENG2P_TRACK",function(){ renderTrack(); });
     return;
   }
   var done=trackDone(), pl=plan(), q=pl.quarter;
   if(!q){
-    box.innerHTML='<div class="small mut">트랙 표를 여는 중이다.</div>';
+    box.innerHTML=dataWait("트랙 표를","idx"+(weekQuarter(pl.week)||"Q1"));
     if(typeof needWeek==="function") needWeek(pl.week,function(){ renderTrack(); });
     return;
   }
