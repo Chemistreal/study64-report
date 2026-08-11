@@ -59,6 +59,7 @@ EXPECT = [
     "badge.js", "badge.json",
     "voice.js", "voice.json",
     "ahead.js", "ahead.json",
+    "track.js", "track.json",
     "apart.js", "apart.json",
     "lectures.js", "lectures.json", "lecturetext.js",
     "listen.js", "listen.json",
