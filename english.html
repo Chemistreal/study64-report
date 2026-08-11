@@ -1224,6 +1224,7 @@ body.veil-on>*:not(.veilcover){display:none}
       </div>
       <div class="row" style="margin-top:12px" id="cLadder"></div>
       <div class="small mut" id="cLadderSay"></div>
+      <div id="cRung" hidden></div>
       <div class="row end" style="margin-top:12px"><button class="b" id="cSave">구간 저장</button></div>
     </div>
   </div>
@@ -1716,7 +1717,8 @@ var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
-          media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{},solo:false,soloSeat:0,soloHand:false,veiled:false,rstep:{},rseat:{}};
+          media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{},solo:false,soloSeat:0,soloHand:false,veiled:false,rstep:{},rseat:{},
+          rung:{}};
 }
 function load(){
   var raw=null;

@@ -554,9 +554,57 @@ function renderLadder(){
   });
   var at=(d.steps||[]).filter(function(st){
     return now!=null && Math.abs(now-st.rate)<0.005; })[0];
+  renderRung();
   say.textContent = at
     ? at.name+" 칸 · 무엇을 보나: "+at.see+" · 듣는 쪽 기준: "+at.judge
     : "사다리 칸 밖이다. 세 칸 중 하나에 서야 그 칸 기준으로 잰다.";
+}
+
+function rungKey(){ return (CLIP.file && CLIP.file.name) || null; }
+function rungNow(){
+  var k=rungKey(); if(!k) return null;
+  var r=(S.rung||{})[k];
+  return r || {i:0, run:0, miss:0, at:null};
+}
+function rungSet(r){
+  var k=rungKey(); if(!k) return;
+  if(!S.rung) S.rung={};
+  S.rung[k]=r; save();
+}
+function rungOk(){
+  var d=DATA.ladder, r=rungNow(); if(!d||!r) return;
+  var top=(d.steps||[]).length-1;
+  r.run++; r.miss=0; r.at=today();
+  if(r.run>=d.up){
+    r.run=0;
+    if(r.i<top){ r.i++; flash("한 칸 올라간다"); }
+    else flash("이 자리는 굳었다");
+  }
+  rungSet(r); renderLadder(); renderRung();
+}
+function rungNo(){
+  var d=DATA.ladder, r=rungNow(); if(!d||!r) return;
+  r.run=0; r.miss++; r.at=today();
+  if(r.miss>=d.down){
+    r.miss=0;
+    if(r.i>0){ r.i--; flash(d.downSay); }
+  }
+  rungSet(r); renderLadder(); renderRung();
+}
+function renderRung(){
+  var box=$("#cRung"); if(!box) return;
+  var d=DATA.ladder, r=rungNow();
+  if(!d||!r){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  var st=(d.steps||[])[r.i]||{};
+  var say=el("div","small mut");
+  say.textContent="이 파일은 "+(st.name||"")+" 칸 · 연달아 "+r.run+"번 "+
+    "("+d.up+"번이면 올라간다)"+(r.at?" · 마지막 "+r.at:"");
+  box.innerHTML=""; box.appendChild(say);
+  var row=el("div","row");
+  var ok=el("button","b","됐다"); ok.type="button"; ok.onclick=rungOk;
+  var no=el("button","g","안 됐다"); no.type="button"; no.onclick=rungNo;
+  row.appendChild(ok); row.appendChild(no); box.appendChild(row);
 }
 
 function renderDiff(){

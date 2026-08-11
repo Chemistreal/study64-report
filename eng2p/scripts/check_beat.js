@@ -667,14 +667,65 @@ if (doc.indexOf("B등급") < 0)
   if (ladder.off.indexOf("사다리 칸 밖") < 0)
     no("칸 밖인데 그 말을 안 한다: " + ladder.off);
 
+  /* ---- 사다리 칸을 세는가 (T372) ---------------------------------------
+     규칙은 `bench_music.md` 6.2 와 6.3 이 정했고 `ladder.json` 이 들고 있다. */
+  const rung = await page.evaluate(async (cfg) => {
+    const up = cfg.up, down = cfg.down;
+    CLIP.file = { name: "사다리.mp3" };
+    CLIP.el = { duration: 10, currentTime: 0, playbackRate: 1 };
+    S.rung = {}; saveNow();
+    renderLadder();
+    const at = () => (S.rung["사다리.mp3"] || { i: 0, run: 0, miss: 0 });
+    const out = { steps: [], downs: [] };
+    /* up 번 연달아 되면 한 칸 오른다 */
+    for (let i = 0; i < up; i++) { rungOk(); out.steps.push([at().i, at().run]); }
+    /* 한 번 안 되면 그 칸에서 다시 센다. **안 내린다** */
+    rungOk(); rungNo();
+    out.afterOneMiss = [at().i, at().run, at().miss];
+    /* down 번 연달아 안 되면 한 칸 내린다 */
+    for (let i = 0; i < down; i++) { rungNo(); out.downs.push([at().i, at().miss]); }
+    const box = document.getElementById("cRung");
+    renderRung();
+    out.say = box.innerText;
+    out.keys = Object.keys(S.rung["사다리.mp3"]).sort().join(",");
+    /* 파일이 없으면 셈할 것도 없다 */
+    CLIP.file = null; renderRung();
+    out.noFile = box.hidden;
+    return out;
+  }, { up: lad.up, down: lad.down });
+  /* up 번째에 올라간다. **그 앞에서는 안 오른다** */
+  rung.steps.forEach(([i, run], n) => {
+    const last = n === lad.up - 1;
+    if (last && i !== 1) no("연달아 " + lad.up + "번 됐는데 칸이 " + i + " 다");
+    if (!last && i !== 0) no("연달아 " + (n + 1) + "번인데 벌써 칸이 " + i + " 다");
+    if (last && run !== 0) no("올라간 뒤 연달아 수가 " + run + " 다. 0이어야 한다");
+  });
+  /* 한 번 안 된 것으로 안 내린다. **그것도 운이다** */
+  if (rung.afterOneMiss[0] !== 1)
+    no("한 번 안 됐는데 칸이 내려갔다: " + rung.afterOneMiss[0]);
+  if (rung.afterOneMiss[1] !== 0)
+    no("안 된 뒤에 연달아 수가 " + rung.afterOneMiss[1] + " 다. 0부터 다시 센다");
+  /* down 번째에 내려간다 */
+  const lastDown = rung.downs[rung.downs.length - 1] || [];
+  if (lastDown[0] !== 0)
+    no("연달아 " + lad.down + "번 안 됐는데 칸이 " + lastDown[0] + " 다");
+  /* **몇 번 만에 올라갔는지를 안 남긴다** (6.5) */
+  if (rung.keys !== "at,i,miss,run")
+    no("저장소에 남기는 칸이 " + rung.keys + " 다. at,i,miss,run 이어야 한다");
+  if (/\d+번 만에|기록|성적|누가/.test(rung.say))
+    no("사다리 줄이 안 남길 것을 적는다: " + rung.say.replace(/\s+/g, " ").slice(0, 60));
+  if (rung.say.indexOf("연달아") < 0)
+    no("연달아 몇 번인지를 안 적는다: " + rung.say.replace(/\s+/g, " ").slice(0, 60));
+  if (!rung.noFile) no("파일이 없는데 사다리 셈 칸이 떠 있다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14, 통과 근거 4, 사다리 10) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 90, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12, 박자 10, 표 14, 통과 근거 4, 사다리 10, 칸 셈 12) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 102, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

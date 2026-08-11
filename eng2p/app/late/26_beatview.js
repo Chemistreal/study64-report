@@ -163,9 +163,76 @@ function renderLadder(){
   var at=(d.steps||[]).filter(function(st){
     return now!=null && Math.abs(now-st.rate)<0.005; })[0];
   /* **칸 밖에 있으면 그 말을 한다.** 사다리에 없는 값은 사다리가 아니다 */
+  renderRung();
   say.textContent = at
     ? at.name+" 칸 · 무엇을 보나: "+at.see+" · 듣는 쪽 기준: "+at.judge
     : "사다리 칸 밖이다. 세 칸 중 하나에 서야 그 칸 기준으로 잰다.";
+}
+
+/* 사다리 칸을 센다 (T372). 규칙은 `bench_music.md` 6.2 와 6.3 이 정했고
+   `out/data/ladder.js` 가 그것을 들고 온다.
+
+       세 번 연달아 되면 한 칸 올라간다
+       한 번 안 되면 그 칸에서 다시 센다 (0부터)
+       두 번 연달아 안 되면 한 칸 내린다
+
+   **남기는 것과 안 남기는 것이 6.5 에 있다.**
+
+       남긴다      지금 몇 칸인가. 마지막으로 언제 했는가
+       안 남긴다   몇 번 만에 올라갔는가. 누가 판정했는가. 사람별 칸
+
+   `run` 은 지금 연달아 몇 번인가다. **셈에 쓰는 값이지 쌓은 값이 아니다.**
+   올라가면 0으로 돌아가고 아무 데도 안 남는다. */
+function rungKey(){ return (CLIP.file && CLIP.file.name) || null; }
+function rungNow(){
+  var k=rungKey(); if(!k) return null;
+  var r=(S.rung||{})[k];
+  return r || {i:0, run:0, miss:0, at:null};
+}
+function rungSet(r){
+  var k=rungKey(); if(!k) return;
+  if(!S.rung) S.rung={};
+  S.rung[k]=r; save();
+}
+/* 됐다. **세 번 연달아여야 올라간다. 한 번은 운이다** (6.2) */
+function rungOk(){
+  var d=DATA.ladder, r=rungNow(); if(!d||!r) return;
+  var top=(d.steps||[]).length-1;
+  r.run++; r.miss=0; r.at=today();
+  if(r.run>=d.up){
+    r.run=0;
+    if(r.i<top){ r.i++; flash("한 칸 올라간다"); }
+    else flash("이 자리는 굳었다");
+  }
+  rungSet(r); renderLadder(); renderRung();
+}
+/* 안 됐다. **한 번 안 된 것으로 안 내린다. 그것도 운이다** (6.3) */
+function rungNo(){
+  var d=DATA.ladder, r=rungNow(); if(!d||!r) return;
+  r.run=0; r.miss++; r.at=today();
+  if(r.miss>=d.down){
+    r.miss=0;
+    /* **내리는 것이 벌이 아니라는 것을 화면이 말한다** (6.3 표) */
+    if(r.i>0){ r.i--; flash(d.downSay); }
+  }
+  rungSet(r); renderLadder(); renderRung();
+}
+function renderRung(){
+  var box=$("#cRung"); if(!box) return;
+  var d=DATA.ladder, r=rungNow();
+  if(!d||!r){ box.hidden=true; box.innerHTML=""; return; }
+  box.hidden=false;
+  var st=(d.steps||[])[r.i]||{};
+  var say=el("div","small mut");
+  /* **연달아 몇 번인지는 적는다.** 다음에 무엇을 하는지가 거기서 나온다.
+     몇 번 만에 올라갔는지는 안 적는다. 그것이 성적이다 (6.5). */
+  say.textContent="이 파일은 "+(st.name||"")+" 칸 · 연달아 "+r.run+"번 "+
+    "("+d.up+"번이면 올라간다)"+(r.at?" · 마지막 "+r.at:"");
+  box.innerHTML=""; box.appendChild(say);
+  var row=el("div","row");
+  var ok=el("button","b","됐다"); ok.type="button"; ok.onclick=rungOk;
+  var no=el("button","g","안 됐다"); no.type="button"; no.onclick=rungNo;
+  row.appendChild(ok); row.appendChild(no); box.appendChild(row);
 }
 
 function renderDiff(){
