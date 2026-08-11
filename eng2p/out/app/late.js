@@ -96,6 +96,59 @@ function buildWaveform(source){
     CLIP.peaks=null; CLIP.waveState="failed"; paintWave(); waveInfo();
   });
 }
+var BEAT_PAUSE_S=0.18;   /* 이만큼 조용하면 쉼이다 */
+var BEAT_MIN_SEG_S=0.12; /* 이보다 짧은 소리는 마디로 안 센다 */
+var BEAT_FLOOR=0.06;     /* 이 아래는 무조건 조용한 것으로 본다 */
+var BEAT_REL=0.22;       /* 그 파일에서 큰 쪽의 이만큼이 문턱이다 */
+
+function beatFloor(peaks){
+  var s=peaks.slice().sort(function(a,b){ return b-a; });
+  var top=s[Math.min(9,s.length-1)]||0;
+  return Math.max(BEAT_FLOOR, top*BEAT_REL);
+}
+
+function beatSegs(peaks, dur){
+  if(!peaks||!peaks.length) return null;
+  if(!(dur>0)) return null;
+  var per=dur/peaks.length;
+  var gapN=Math.max(1,Math.ceil(BEAT_PAUSE_S/per));
+  var minN=Math.max(1,Math.ceil(BEAT_MIN_SEG_S/per));
+  var thr=beatFloor(peaks);
+  var segs=[], from=-1, quiet=0;
+  function close(end){
+    if(from<0) return;
+    if(end-from>=minN) segs.push({t0:from*per, t1:end*per, n:end-from});
+    from=-1;
+  }
+  for(var i=0;i<peaks.length;i++){
+    if(peaks[i]>=thr){
+      if(from<0) from=i;
+      quiet=0;
+    }else{
+      quiet++;
+      if(from>=0&&quiet>=gapN) close(i-quiet+1);
+    }
+  }
+  close(peaks.length);
+  return {thr:thr, per:per, segs:segs};
+}
+
+function beatGaps(r){
+  if(!r||r.segs.length<2) return [];
+  var out=[];
+  for(var i=1;i<r.segs.length;i++) out.push(r.segs[i].t0-r.segs[i-1].t1);
+  return out;
+}
+
+function beatSpread(r){
+  if(!r||r.segs.length<2) return null;
+  var d=r.segs.map(function(s){ return s.t1-s.t0; });
+  var m=d.reduce(function(a,b){ return a+b; },0)/d.length;
+  if(!(m>0)) return null;
+  var v=d.reduce(function(a,b){ return a+(b-m)*(b-m); },0)/d.length;
+  return Math.sqrt(v)/m;
+}
+
 function loadMedia(file){
   mountClip(file.name, URL.createObjectURL(file), true,
     /^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name),file);

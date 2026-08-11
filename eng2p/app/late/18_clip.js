@@ -100,6 +100,86 @@ function buildWaveform(source){
     CLIP.peaks=null; CLIP.waveState="failed"; paintWave(); waveInfo();
   });
 }
+/* =========================================================================
+   마디 뽑기 (T363). **박자를 잰다. 음소는 안 잰다.**
+
+   기준서 2.2 Q1 이 "강세 박자 재현" 을 통과 조건에 넣었고 8장 표가
+   "한국어는 음절 박자, 영어는 강세 박자" 라고 적었다. **크기만 있으면
+   어디서 소리가 나고 어디서 쉬는지가 나온다.** 음소는 필요 없다.
+
+   규격은 `docs/beat.md` 다. 아래 값 넷이 그 문서 4장 표와 같아야 하고
+   `scripts/check_beat.js` 가 그것을 대 본다.
+
+   **이것은 판정이 아니라 눈금이다.** 앱이 어느 쪽이 맞는지 말하지 않는다.
+   ========================================================================= */
+var BEAT_PAUSE_S=0.18;   /* 이만큼 조용하면 쉼이다 */
+var BEAT_MIN_SEG_S=0.12; /* 이보다 짧은 소리는 마디로 안 센다 */
+var BEAT_FLOOR=0.06;     /* 이 아래는 무조건 조용한 것으로 본다 */
+var BEAT_REL=0.22;       /* 그 파일에서 큰 쪽의 이만큼이 문턱이다 */
+
+/* 문턱을 그 파일에서 낸다 (`beat.md` 4.1). **기기마다 녹음 크기가 다르다.**
+   고정 문턱을 쓰면 작게 녹음한 쪽은 통째로 쉼이 된다.
+   제일 큰 칸을 안 쓴다. 한 번 튄 잡음이 문턱을 통째로 올린다. */
+function beatFloor(peaks){
+  var s=peaks.slice().sort(function(a,b){ return b-a; });
+  var top=s[Math.min(9,s.length-1)]||0;
+  return Math.max(BEAT_FLOOR, top*BEAT_REL);
+}
+
+/* 마디를 뽑는다. **초로 정하고 칸으로 바꾼다** (`beat.md` 3장).
+   320칸은 파일 길이와 상관없이 320칸이라 칸으로 규칙을 적으면
+   5초 파일과 30초 파일에서 뜻이 여섯 배 달라진다.
+
+   길이를 모르면 `null` 을 낸다. **어림해서 안 뽑는다.** */
+function beatSegs(peaks, dur){
+  if(!peaks||!peaks.length) return null;
+  if(!(dur>0)) return null;
+  var per=dur/peaks.length;
+  var gapN=Math.max(1,Math.ceil(BEAT_PAUSE_S/per));
+  var minN=Math.max(1,Math.ceil(BEAT_MIN_SEG_S/per));
+  var thr=beatFloor(peaks);
+  var segs=[], from=-1, quiet=0;
+  function close(end){
+    if(from<0) return;
+    /* **`a` 와 `b` 를 안 쓴다.** 이 저장소에서 그 두 글자는 사람이다 (T345 T360).
+       시작과 끝에 같은 이름을 붙이면 사람별 칸 검사가 걸고 그것이 맞다. */
+    if(end-from>=minN) segs.push({t0:from*per, t1:end*per, n:end-from});
+    from=-1;
+  }
+  for(var i=0;i<peaks.length;i++){
+    if(peaks[i]>=thr){
+      if(from<0) from=i;
+      quiet=0;
+    }else{
+      quiet++;
+      /* **쉼이 다 차야 마디를 닫는다.** 한 칸 조용한 것은 낱말 안에도 있다 */
+      if(from>=0&&quiet>=gapN) close(i-quiet+1);
+    }
+  }
+  close(peaks.length);
+  return {thr:thr, per:per, segs:segs};
+}
+
+/* 마디 사이의 쉼. **마디가 하나면 쉼이 없다.** 0개를 0으로 적는다 */
+function beatGaps(r){
+  if(!r||r.segs.length<2) return [];
+  var out=[];
+  for(var i=1;i<r.segs.length;i++) out.push(r.segs[i].t0-r.segs[i-1].t1);
+  return out;
+}
+
+/* 마디 길이가 고른가 (`beat.md` 1장). **고르면 음절 박자다.**
+   퍼진 정도를 평균으로 나눈다. 파일 길이가 달라도 견줄 수 있는 값이 된다.
+   마디가 둘보다 적으면 낼 값이 없다. **없는 것을 0으로 안 적는다.** */
+function beatSpread(r){
+  if(!r||r.segs.length<2) return null;
+  var d=r.segs.map(function(s){ return s.t1-s.t0; });
+  var m=d.reduce(function(a,b){ return a+b; },0)/d.length;
+  if(!(m>0)) return null;
+  var v=d.reduce(function(a,b){ return a+(b-m)*(b-m); },0)/d.length;
+  return Math.sqrt(v)/m;
+}
+
 function loadMedia(file){
   mountClip(file.name, URL.createObjectURL(file), true,
     /^video\//.test(file.type)||/\.(mp4|webm|mov|mkv)$/i.test(file.name),file);

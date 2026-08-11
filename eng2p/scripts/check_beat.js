@@ -1,0 +1,191 @@
+/* 파형에서 마디를 뽑는가. T363
+ *
+ * `docs/beat.md` 가 규격이다. **판정이 아니라 눈금이다.**
+ *
+ * 실제 녹음으로는 못 잰다. 저장소에 음성 파일을 안 넣기 때문이다.
+ * **대신 파형을 지어서 넣는다.** 마디를 몇 개 만들지 아는 채로 넣고
+ * 뽑힌 수가 그것과 같은지 본다.
+ *
+ * ## 재는 것 넷
+ *
+ *     문서와 코드의 값이 같은가   `beat.md` 4장 표 넷
+ *     지은 마디를 그대로 뽑는가   셋을 넣으면 셋이 나온다
+ *     길이를 모르면 안 뽑는가     **어림해서 안 뽑는다** (3장)
+ *     크기가 달라도 같은가        큰 녹음과 작은 녹음 (4.1)
+ *
+ * 넷째가 이 검사의 요점이다. 두 사람이 기기 녹음기로 녹음하고
+ * **기기마다 크기가 다르다.** 고정 문턱이면 한쪽이 통째로 쉼이 된다.
+ *
+ * 사용법:
+ *     node scripts/check_beat.js
+ *
+ * 규격: docs/beat.md
+ */
+const path = require("path");
+const fs = require("fs");
+
+const HERE = path.resolve(__dirname, "..");
+const ROOT = path.resolve(HERE, "..");
+const PAGE = "file://" + path.join(ROOT, "english.html");
+const CHROME = process.env.CHROMIUM_PATH ||
+  "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
+
+function skip(why) {
+  console.log("[건너뜀] " + why);
+  console.log("마디 검사를 안 돌렸다. 통과가 아니다.");
+  process.exit(0);
+}
+let chromium;
+try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
+catch (e) { skip("playwright 를 못 찾았다"); }
+if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+
+const fails = [];
+const no = (m) => fails.push(m);
+
+/* ---- 문서와 코드가 같은 말을 하는가 -------------------------------------
+   **적어 놓은 것과 도는 것이 다르다** 를 F단계가 네 번 잡았다. 여기서 막는다 */
+const doc = fs.readFileSync(path.join(HERE, "docs", "beat.md"), "utf8");
+const src = fs.readFileSync(path.join(HERE, "app", "late", "18_clip.js"), "utf8");
+const VALS = [
+  ["PAUSE_S", "0.18", "BEAT_PAUSE_S"],
+  ["MIN_SEG_S", "0.12", "BEAT_MIN_SEG_S"],
+  ["FLOOR", "0.06", "BEAT_FLOOR"],
+  ["REL", "0.22", "BEAT_REL"],
+];
+VALS.forEach(([name, want, code]) => {
+  const row = doc.split("\n").filter((l) => l.indexOf("`" + name + "`") >= 0 &&
+                                            l.indexOf("|") === 0)[0];
+  if (!row) { no("beat.md 4장 표에 " + name + " 줄이 없다"); return; }
+  if (row.indexOf(want) < 0)
+    no("beat.md 의 " + name + " 이 " + want + " 가 아니다: " + row.trim());
+  const m = src.match(new RegExp("var " + code + "\\s*=\\s*([0-9.]+)"));
+  if (!m) { no("18_clip.js 에 " + code + " 가 없다"); return; }
+  if (m[1] !== want)
+    no("문서는 " + name + " 이 " + want + " 인데 코드는 " + m[1] + " 이다");
+});
+
+/* **B등급이라고 적어 뒀는가.** 출처 없는 값을 A등급으로 두면 안 된다 */
+if (doc.indexOf("B등급") < 0)
+  no("beat.md 가 문턱값 넷을 B등급으로 안 적었다");
+
+(async () => {
+  const browser = await chromium.launch({ executablePath: CHROME });
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  const page = await ctx.newPage();
+  const errs = [];
+  page.on("pageerror", (e) => errs.push(e.message));
+  await page.goto(PAGE);
+  await page.evaluate(() => {
+    S.onboarded = true; S.names.a = "가람"; S.names.b = "나래"; saveNow();
+  });
+  await page.reload();
+  await page.waitForTimeout(500);
+  /* 마디 뽑기는 늦게 읽는 조각에 있다 (T361). 클립 탭을 열어야 온다 */
+  await page.evaluate(() => go("clip"));
+  await page.waitForTimeout(900);
+  if (!(await page.evaluate(() => typeof beatSegs === "function"))) {
+    await browser.close();
+    no("클립 탭을 열었는데 beatSegs 가 없다");
+    fails.forEach((m) => console.log("[실패] " + m));
+    process.exit(1);
+  }
+
+  /* 파형을 짓는다. `want` 개 마디를 넣고 그만큼 나오는지 본다.
+   *   loud  소리 칸의 크기. 기기마다 다른 것을 흉내 낸다
+   *   quiet 쉼 칸의 크기. **잡음 바닥이다.** 크게 녹음하면 이것도 커진다
+   *   segN  마디 하나가 몇 칸인가
+   *   gapN  쉼이 몇 칸인가
+   *
+   * 넷째 줄이 문턱을 그 파일에서 내는 까닭이다 (`beat.md` 4.1).
+   * **처음에 잡음 바닥을 늘 0.01 로 두고 재다가 깸이 안 잡혔다.**
+   * 고정 문턱으로 바꿔 놓아도 다 통과했다. 잡음이 낮으면 어느 쪽이든 되니까.
+   * 크게 녹음하면 잡음 바닥도 같이 오른다. 거기서만 갈린다.
+   */
+  const CASES = [
+    { name: "마디 셋 · 보통 크기", want: 3, loud: 0.8, quiet: 0.01,
+      segN: 20, gapN: 20, dur: 10 },
+    { name: "마디 셋 · 작게 녹음", want: 3, loud: 0.14, quiet: 0.003,
+      segN: 20, gapN: 20, dur: 10 },
+    { name: "마디 셋 · 크게 녹음. 잡음 바닥도 높다", want: 3, loud: 1.0, quiet: 0.1,
+      segN: 20, gapN: 20, dur: 10 },
+    { name: "마디 일곱", want: 7, loud: 0.6, quiet: 0.01,
+      segN: 14, gapN: 14, dur: 10 },
+    { name: "마디 하나", want: 1, loud: 0.6, quiet: 0.01,
+      segN: 200, gapN: 20, dur: 10 },
+  ];
+
+  for (const c of CASES) {
+    const got = await page.evaluate((c) => {
+      const p = [];
+      for (let i = 0; i < c.want; i++) {
+        for (let j = 0; j < c.segN; j++) p.push(c.loud);
+        for (let j = 0; j < c.gapN; j++) p.push(c.quiet);
+      }
+      while (p.length < 320) p.push(c.quiet);
+      const r = beatSegs(p.slice(0, 320), c.dur);
+      return r ? { n: r.segs.length, thr: r.thr,
+                   gaps: beatGaps(r).length, spread: beatSpread(r) } : null;
+    }, c);
+    if (!got) { no(c.name + ": 마디를 못 뽑았다"); continue; }
+    if (got.n !== c.want)
+      no(c.name + ": 마디 " + c.want + "개를 넣었는데 " + got.n + "개가 나왔다");
+    /* 쉼은 마디 사이에만 있다. **마디 하나면 쉼이 0이다** */
+    if (got.gaps !== Math.max(0, got.n - 1))
+      no(c.name + ": 마디 " + got.n + "개에 쉼이 " + got.gaps + "개다");
+    /* 지은 파형은 마디 길이가 다 같다. **퍼진 정도가 0이어야 한다** */
+    if (got.n >= 2 && got.spread > 0.01)
+      no(c.name + ": 길이가 다 같은데 퍼진 정도가 " + got.spread + " 다");
+  }
+
+  /* ---- 길이를 모르면 안 뽑는다. **어림해서 안 뽑는다** (3장) ------------- */
+  const bad = await page.evaluate(() => {
+    const p = new Array(320).fill(0.5);
+    return { noDur: beatSegs(p, 0), negDur: beatSegs(p, -3),
+             noPeak: beatSegs([], 10), nullPeak: beatSegs(null, 10),
+             one: beatSpread(beatSegs(p, 10)) };
+  });
+  ["noDur", "negDur", "noPeak", "nullPeak"].forEach((k) => {
+    if (bad[k] !== null) no("길이나 파형이 없는데 " + k + " 가 값을 냈다");
+  });
+  /* 마디가 하나면 퍼진 정도가 없다. **없는 것을 0으로 안 적는다** */
+  if (bad.one !== null) no("마디 하나인데 퍼진 정도를 " + bad.one + " 로 적는다");
+
+  /* ---- 크기가 달라도 같은 마디가 나오는가 (4.1) ------------------------- */
+  const same = await page.evaluate(() => {
+    /* **크기만 통째로 다르다.** 잡음 바닥도 같은 배로 커진다.
+       기기 둘이 같은 말을 다른 볼륨으로 담은 자리다 */
+    const make = (loud) => {
+      const p = [];
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 20; j++) p.push(loud);
+        for (let j = 0; j < 20; j++) p.push(loud * 0.12);
+      }
+      while (p.length < 320) p.push(loud * 0.12);
+      return beatSegs(p.slice(0, 320), 10);
+    };
+    return [0.12, 0.4, 1].map((x) => make(x).segs.length);
+  });
+  if (new Set(same).size !== 1)
+    no("크기만 다른 같은 파형에서 마디가 " + same.join(" / ") + " 로 갈린다");
+
+  /* ---- 한 칸 조용한 것으로 마디를 안 끊는다 ----------------------------- */
+  const dip = await page.evaluate(() => {
+    const p = new Array(320).fill(0.01);
+    for (let i = 20; i < 120; i++) p[i] = 0.7;
+    p[70] = 0.01;  /* 낱말 안의 한 칸. 10초에 320칸이면 0.03초다 */
+    return beatSegs(p, 10).segs.length;
+  });
+  if (dip !== 1) no("한 칸 조용한 자리에서 마디가 " + dip + "개로 끊긴다");
+
+  if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
+
+  await browser.close();
+  fails.forEach((m) => console.log("[실패] " + m));
+  console.log("");
+  console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 7, VALS.length * 2,
+              CASES.length, fails.length);
+  process.exit(fails.length ? 1 : 0);
+})().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

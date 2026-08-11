@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 마흔과 검사 마흔셋과 상태 갱신 셋, 여든여섯을 정해진 순서로 돈다.
+**한 줄이다.** 파생 마흔과 검사 마흔여섯과 상태 갱신 셋, 여든아홉을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -162,8 +162,9 @@ docs/engine.md        공동 진행 엔진 F단계 결산. **만든 것은 대�
 docs/track.md         트랙별 진도. **고르지 않은 것이 정상이다.** 사람별로 안 가른다
 docs/cards_person.md  카드 간격을 사람별로. **쌓되 나란히 안 놓는다.** 개정문 16번이 근거
 docs/gap.md           갈릴 때. **기준서가 진도 격차를 위험으로 안 본다.** 갈리는 칸 넷
-docs/split.md         갈릴 때 G단계 결산. **조건이 붙은 자리는 안 뜨는 것이 정상처럼 보인다**
                       5장이 역할 교대다. **주마다 한 번씩 멈춘다.** 개정문 11번이 그 자리
+docs/split.md         갈릴 때 G단계 결산. **조건이 붙은 자리는 안 뜨는 것이 정상처럼 보인다**
+docs/beat.md          박자를 잰다. **음소는 안 잰다.** 문턱값 넷은 B등급
 docs/year.md          1년을 통째로 돈다. **앱이 아는 것을 사람이 다시 적고 있었다**
                       6장이 밀린 해다. **오백 날이 넘게 걸리는 해가 있다**
                       7장이 1년치 합치기다. **이을 것과 골라야 할 것을 가른다**
@@ -175,8 +176,8 @@ scripts/derive_cues.py  대본 줄마다 어림 시각. **어림이다.** 쉼을
 scripts/ground.py       제작물의 영어 재료가 52과 대본 어디에 있는지 찾는다
 scripts/check_ground.py 근거 없음 비율과 **대본 밖 낱말 목록**. G구간의 게이트
 scripts/check_play_ground.py 판 자료 열여덟의 영어. **G구간 게이트를 판에도 건다**
-scripts/check_play_score.py 개인 칸 86판. **규칙서가 아니라 코드와 자료를 읽는다**
-scripts/check_person.py 사람별 칸 52판. **갈리는 칸 다섯. 넷은 글이고 하나는 숫자다**
+scripts/check_play_score.py 개인 칸 89판. **규칙서가 아니라 코드와 자료를 읽는다**
+scripts/check_person.py 사람별 칸 53판. **갈리는 칸 다섯. 넷은 글이고 하나는 숫자다**
 docs/wordlist.md      대본에 없는데 내가 쓴 낱말. **여기 없는 낱말이 재료에 나오면 실패다**
 scripts/check_layers.py 3층 대조판. **2층 줄이 다 52과 대본에 있는지 잰다**
 scripts/derive_ground_data.py 근거를 앱이 읽는 꼴로. 카드에서 그 녹음 자리로 간다
@@ -229,6 +230,7 @@ scripts/check_versus.js 견줌 18판. **코드가 아니라 화면을 훑는다.
 scripts/check_reach.js 닿는 길 28판. **만든 것과 닿는 것은 다르다**
 scripts/check_late.js  늦게 읽는 조각 55판. **파일은 멀쩡하고 화면만 빈다.** 탭을 열어 본다
 scripts/check_split.js 갈린 자리 17판. **조건을 만들어 놓고 뜨는지 본다.** 안 뜨는 쪽도 잰다
+scripts/check_beat.js  마디 31판. **파형을 지어 넣는다.** 음성 파일을 저장소에 안 넣는다
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
