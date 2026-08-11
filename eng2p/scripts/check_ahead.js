@@ -246,8 +246,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     no("진도가 밀렸다고 봉투를 안 연다. 막는 것은 시간이지 진도가 아니다");
 
   /* ---- 6. 규칙 탭 표와 같은 말을 하는가 --------------------------------- */
-  const tab = await page.evaluate(() => {
+  /* **규칙 탭은 T361 부터 늦게 읽는다.** 바로 읽으면 아직 안 그려져 있을 수 있다.
+     여태 지나간 것은 앞의 분기 탭이 이미 `late.js` 를 읽어 둔 덕이었다.
+     그 차례에 기대는 것은 검사가 아니다. 기다렸다가 읽는다. */
+  const tab = await page.evaluate(async () => {
     go("rules");
+    await new Promise((ok) => setTimeout(ok, 500));
     return document.getElementById("t-rules").innerText;
   });
   ["10~14주", "20주 전후", "24~28주"].forEach((k) => {

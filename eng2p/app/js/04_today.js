@@ -44,7 +44,8 @@ function go(name){
   if(location.hash.slice(1)!==name) history.replaceState(null,"","#"+name);
   if(name==="review") renderReview();
   if(name==="sound") renderSound();
-  if(name==="src") renderSrc();
+  /* 자료 탭과 규칙 탭은 늦게 읽는다 (T361). 거의 안 여는 자리다 */
+  if(name==="src") lateDo("renderSrc");
   /* 클립 탭도 늦게 읽는다 (T331 뒤). 파일을 열어 구간을 도는 자리라
      날마다 여는 자리가 아니다. 대본 자리도 그 탭 안에 있어 같이 그린다. */
   if(name==="clip"){ lateDo("renderClip"); lateDo("renderScript"); }
@@ -68,7 +69,7 @@ function go(name){
   if(name==="quarter") lateDo("renderVoice");
   if(name==="rot") lateDo("renderRot");
   if(name==="check") lateDo("checkBind");
-  if(name==="rules") renderSplit();
+  if(name==="rules"){ lateDo("renderRules"); renderSplit(); }
   if(name==="play") renderPlayTab();
   window.scrollTo(0,0);
 }

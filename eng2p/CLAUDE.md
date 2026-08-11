@@ -193,9 +193,9 @@ scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 �
 scripts/check_app.py   앱의 한국어를 규격 검사에 건다. **조각을 본다.** 파생물은 주석이 빠져 있다
 app/                   **앱의 원본.** 조각 쉰둘이다. english.html 은 이것에서 나온다
 app/play/              판 화면. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다
-app/late/              드물게 여는 조각 일곱. **english.html 에 안 들어간다.** 그 자리를 열 때 읽는다
+app/late/              드물게 여는 조각 여덟. **english.html 에 안 들어간다.** 그 자리를 열 때 읽는다
 out/app/plays.js       판 묶음. 파생물이다. 손으로 안 고친다
-out/app/late.js        조각 일곱 묶음. 파생물이다. 46KB 를 여기로 뺐다 (T313 뒤, T331 뒤, T336, T344)
+out/app/late.js        조각 여덟 묶음. 파생물이다. 73KB 를 여기로 뺐다 (T313 뒤, T331 뒤, T336, T344, T361)
 app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
 scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **주석은 조각에만 남는다**
 scripts/check_manual.py 설명하는 글과 앱을 견준다. 매뉴얼 넷과 짝 코드 자리 폭
@@ -226,6 +226,7 @@ scripts/check_adapt.js 적응 16판. **갈린 채로 오래 도는가.** 자리�
 scripts/check_role.js  역할 교대 13판. **잰 값을 박아 둔다.** 고치는 것이 아니다
 scripts/check_versus.js 견줌 18판. **코드가 아니라 화면을 훑는다.** 이름 옆의 숫자
 scripts/check_reach.js 닿는 길 28판. **만든 것과 닿는 것은 다르다**
+scripts/check_late.js  늦게 읽는 조각 55판. **파일은 멀쩡하고 화면만 빈다.** 탭을 열어 본다
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
