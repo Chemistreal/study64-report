@@ -53,6 +53,19 @@ function renderQuarter(){
     '통과는 둘 다 넘어야 하는 것이라 높은 쪽을 적으면 낮은 쪽이 사라진다. '+
     '<b>누가 낮은지는 안 적는다.</b>';
   box.appendChild(who);
+  /* **앱이 강의를 안 막는다** (T352). 기준서 2.2 와 매뉴얼 2.5 가
+     "조건을 통과해야 간다" 고 적었는데 앱은 96강을 세션 수 차례로 낸다.
+     `plan()` 이 `S.q` 를 한 번도 안 본다.
+
+     어긋난 자리고 기준서는 사용자만 고친다. 개정문 19번에 두 갈래를 적어 뒀다.
+     **고칠 때까지 화면이 그것을 말한다.** 숨기면 두 사람이 조건을 넘어야
+     다음 강이 나오는 줄 알고 기다린다. */
+  var gap=el("div","note w small");
+  gap.innerHTML='<b>이 숫자가 강의를 막지 않는다.</b> 앱은 96강을 차례로 낸다. '+
+    '기준서 2.2 는 조건을 통과해야 다음 분기로 간다고 적었다. '+
+    '<b>어긋난 자리고 개정문 19번에 적어 뒀다.</b> '+
+    '못 넘은 것은 그 트랙 드릴을 더 돌아서 넘는다. 강의를 멈추고 기다리지 않는다.';
+  box.appendChild(gap);
   var sum=el("div","note small"); sum.id="qSum"; box.appendChild(sum);
   function summary(){
     var n=PASS[curQ].filter(function(c){var v=passVal(curQ,c.k);return v!=null&&v>=c.need;}).length;

@@ -241,13 +241,33 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (pass.inputs > 3)
     no("적는 칸이 " + pass.inputs + "개다. 조건 넷 중 누적 시간은 앱이 세므로 셋이다");
 
+  /* ---- 9. 통과 조건이 강의를 안 막는다 (T352) ---------------------------
+     기준서 2.2 와 매뉴얼 2.5 는 "조건을 통과해야 간다" 고 적었고
+     앱은 96강을 세션 수 차례로 낸다. **어긋난 자리를 화면이 말해야 한다.** */
+  const blockSay = await page.evaluate(() => {
+    go("quarter");
+    return new Promise((ok) => setTimeout(() => {
+      ok({ txt: document.getElementById("qPass").innerText,
+           /* **배정이 통과 조건을 안 본다.** 코드를 글자로 읽는다 */
+           plan: /S\.q\b|\bpass\b/.test(String(plan)) });
+    }, 900));
+  });
+  if (!/이 숫자가 강의를 막지 않는다/.test(blockSay.txt))
+    no("통과 조건이 강의를 막는지 안 막는지를 화면이 안 말한다");
+  if (!/개정문 19번/.test(blockSay.txt))
+    no("어긋난 자리가 어디 적혀 있는지가 없다");
+  if (!/드릴을 더 돌아서/.test(blockSay.txt))
+    no("못 넘었을 때 무엇을 하는지가 없다");
+  if (blockSay.plan)
+    no("배정이 통과 조건을 본다. 그러면 화면이 적은 말과 도는 것이 다르다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 두 사람이 정말 따로 앉아 적는가**");
-  console.log("관계 점검과 신호 38판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14, 판정 숫자 5) / 실패 %d",
+  console.log("관계 점검과 신호 42판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14, 판정 숫자 5, 안 막는다 4) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

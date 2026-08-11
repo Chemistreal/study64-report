@@ -215,7 +215,7 @@ scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = �
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/check_streak.js 연속일과 회복권과 퀘스트 61판. **날을 세지 사람을 안 센다**
 scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지 않는다**
-scripts/check_relation.js 관계 점검과 신호 38판. **따로 적고 같이 편다**
+scripts/check_relation.js 관계 점검과 신호 42판. **따로 적고 같이 편다**
 scripts/check_growth.js 되돌아보기 33판. **앱이 소리를 안 들고 있는다**
 scripts/check_ahead.js 미리 아는 것과 봉투 72판. **표는 있었는데 그때 안 떴다**
 scripts/check_year.js  1년을 통째로 돈다 324판. **막는 값이 세는 값이 되면 안 된다**
