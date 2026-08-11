@@ -155,6 +155,34 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
       /* 블록 2는 B 화면에서 1단계 목록을 가려야 한다. 그 주 세트로 확인한다. */
       if (i === 1 && txt.indexOf("B 화면에 안 띄운다") < 0)
         fails.push(wk + "주 블록 2 가 B 화면에서 목록을 안 가린다");
+      /* **3단계 첫마디가 누구인지를 적는가** (T350).
+         세트 48개가 "1단계에서 설명한 사람이 3단계에서 먼저 말하지 않는다" 고
+         적어 놨는데 그 말이 종이에만 있었다. 세션 중에 세트 파일을 펴는 사람은 없다. */
+      if (i === 1) {
+        const say = await page.evaluate(() => {
+          const p = document.querySelector("#blockPane");
+          /* **머리를 본다.** 처음에 `3단계` 를 아무 데서나 찾았더니
+             1단계 칸이 걸렸다. 거기 "빠진 것은 3단계에서 갈린다" 가 있다.
+             같은 글자가 딴 칸의 설명에도 있다. 첫 줄로 가른다. */
+          const st = [...p.querySelectorAll(".setstep")]
+            .filter((e) => /^3단계 ·/.test(e.innerText.trim()))[0];
+          return st ? st.innerText : "";
+        });
+        if (!say) fails.push(wk + "주 블록 2 에 3단계 칸이 없다");
+        else {
+          /* 조사가 받침을 따라 바뀐다. 이 와 가 를 둘 다 본다 */
+          if (!/(이|가) 먼저 말한다/.test(say))
+            fails.push(wk + "주 블록 2 3단계가 누가 먼저 말하는지를 안 적는다");
+          if (!/설명한 사람이 먼저 말하지 않는다/.test(say))
+            fails.push(wk + "주 블록 2 3단계가 왜 그런지를 안 적는다");
+          /* **설명한 쪽이 아니어야 한다.** 그날 A가 1단계 설명이다 */
+          /* 조사가 붙는다. 앱이 받침을 보고 이/가 를 고른다 */
+          const who = await page.evaluate(() =>
+            jo(roleOf(today()) === "a" ? S.names.b : S.names.a, "이", "가"));
+          if (say.indexOf(who + " 먼저 말한다") < 0)
+            fails.push(wk + "주 블록 2 3단계 첫마디가 설명한 쪽이다");
+        }
+      }
     }
     await page.evaluate(() => { T.run = false; clearInterval(T.tick); });
   }

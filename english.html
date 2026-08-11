@@ -2829,6 +2829,10 @@ function renderSetPane(pl){
           '<div class="n">2단계까지 B 화면에서 가려 뒀던 것이다. '+
           '빠진 것이 있으면 그것이 불일치 지점이다.</div></div>';
       }
+      var b3=(roleOf(today())==="a") ? S.names.b : S.names.a;
+      body+='<div class="note w"><b>3단계는 '+esc(jo(b3,"이","가"))+
+        ' 먼저 말한다.</b> 1단계에서 설명한 사람이 먼저 말하지 않는다. '+
+        '설명한 쪽이 먼저 말하면 그 자리가 그대로 굳는다.</div>';
       body+='<div class="body">'+xchkWrite()+'</div>';
     }else{
       var rec=day(today());
