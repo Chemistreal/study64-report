@@ -1,6 +1,6 @@
 /* 늦게 읽는 묶음. app/late/ 에서 나온다. 손으로 안 고친다. */
 var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1,
-  peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare"};
+  peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare",beat:null};
 
 function setClipPhase(phase){
   CLIP.phase=phase;
@@ -20,7 +20,10 @@ function waveInfo(){
   if(CLIP.loop&&CLIP.a!=null&&CLIP.b!=null&&CLIP.b>CLIP.a){
     msg="반복 중 · "+(CLIP.b-CLIP.a).toFixed(1)+"초 · "+mmss(CLIP.a)+"~"+mmss(CLIP.b);
   }else if(CLIP.waveState==="ready"){
-    msg="실제 음성 파형 · A와 B 사이를 골라 반복한다.";
+    var bt=beatNow();
+    msg="실제 음성 파형"+
+      (bt ? " · 마디 "+bt.segs.length+"개 · 쉼 "+beatGaps(bt).length+"군데" : "")+
+      " · A와 B 사이를 골라 반복한다.";
   }else if(CLIP.waveState==="loading"){
     msg="실제 음성 파형 분석 중";
   }else if(CLIP.waveState==="failed"){
@@ -52,7 +55,26 @@ function paintWave(){
     ctx.globalAlpha=i/count<=now?.82:.34; ctx.strokeStyle=i/count<=now?active:future;
     ctx.beginPath(); ctx.moveTo(x,mid-amp); ctx.lineTo(x,mid+amp); ctx.stroke();
   });
+  var bt=beatNow();
+  if(bt&&bt.segs.length){
+    var y=rect.height-2, d2=dur();
+    ctx.globalAlpha=.9; ctx.lineWidth=3; ctx.lineCap="butt";
+    ctx.strokeStyle=css.getPropertyValue("--a2").trim()||"#0ea5e9";
+    bt.segs.forEach(function(g){
+      ctx.beginPath();
+      ctx.moveTo(g.t0/d2*rect.width,y); ctx.lineTo(g.t1/d2*rect.width,y); ctx.stroke();
+    });
+  }
   ctx.globalAlpha=1;
+}
+
+function beatNow(){
+  if(!CLIP.peaks||!CLIP.peaks.length) return null;
+  var d2=dur();
+  if(!d2) return null;
+  if(!CLIP.beat||CLIP.beat.per*CLIP.peaks.length!==d2)
+    CLIP.beat=beatSegs(CLIP.peaks,d2);
+  return CLIP.beat;
 }
 function decodeClipAudio(ctx,buf){
   return new Promise(function(resolve,reject){
@@ -90,7 +112,7 @@ function buildWaveform(source){
     });
   }).then(function(peaks){
     if(!peaks||token!==CLIP.waveToken) return;
-    CLIP.peaks=peaks; CLIP.waveState="ready"; paintWave(); waveInfo();
+    CLIP.peaks=peaks; CLIP.beat=null; CLIP.waveState="ready"; paintWave(); waveInfo();
   }).catch(function(){
     if(token!==CLIP.waveToken) return;
     CLIP.peaks=null; CLIP.waveState="failed"; paintWave(); waveInfo();
@@ -164,10 +186,11 @@ function mountClip(name, url, revocable, isVid, source){
   m.src=CLIP.url; m.controls=true; m.preload="metadata";
   try{ m.preservesPitch=true; m.mozPreservesPitch=true; m.webkitPreservesPitch=true; }catch(e){}
   host.appendChild(m); CLIP.el=m; CLIP.a=null; CLIP.b=null; CLIP.loop=false;
-  CLIP.peaks=null; CLIP.waveState="loading"; CLIP.heard=false;
+  CLIP.peaks=null; CLIP.beat=null; CLIP.waveState="loading"; CLIP.heard=false;
   $("#cLoop").classList.remove("on");
   $("#clipCtl").hidden=false;
-  m.addEventListener("loadedmetadata",function(){ paintScrub(); renderClip(); });
+  m.addEventListener("loadedmetadata",function(){
+    CLIP.beat=null; paintScrub(); paintWave(); waveInfo(); renderClip(); });
   m.addEventListener("timeupdate",function(){
     if(CLIP.loop&&CLIP.a!=null&&CLIP.b!=null&&m.currentTime>=CLIP.b){ m.currentTime=CLIP.a; }
     paintScrub();

@@ -4,7 +4,7 @@
    남는 것은 파일 이름과 시각과 메모뿐이다.
    ========================================================================= */
 var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1,
-  peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare"};
+  peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare",beat:null};
 
 function setClipPhase(phase){
   CLIP.phase=phase;
@@ -24,7 +24,13 @@ function waveInfo(){
   if(CLIP.loop&&CLIP.a!=null&&CLIP.b!=null&&CLIP.b>CLIP.a){
     msg="반복 중 · "+(CLIP.b-CLIP.a).toFixed(1)+"초 · "+mmss(CLIP.a)+"~"+mmss(CLIP.b);
   }else if(CLIP.waveState==="ready"){
-    msg="실제 음성 파형 · A와 B 사이를 골라 반복한다.";
+    /* 마디 수를 같이 적는다 (T364). **판정 낱말을 안 쓴다.**
+       "고르다" 나 "들쭉날쭉하다" 는 판정이고 그것은 상대가 한다 (`beat.md` 5장).
+       길이를 모르면 이 자리가 통째로 없다. **모르면 안 적는다.** */
+    var bt=beatNow();
+    msg="실제 음성 파형"+
+      (bt ? " · 마디 "+bt.segs.length+"개 · 쉼 "+beatGaps(bt).length+"군데" : "")+
+      " · A와 B 사이를 골라 반복한다.";
   }else if(CLIP.waveState==="loading"){
     msg="실제 음성 파형 분석 중";
   }else if(CLIP.waveState==="failed"){
@@ -56,7 +62,31 @@ function paintWave(){
     ctx.globalAlpha=i/count<=now?.82:.34; ctx.strokeStyle=i/count<=now?active:future;
     ctx.beginPath(); ctx.moveTo(x,mid-amp); ctx.lineTo(x,mid+amp); ctx.stroke();
   });
+  /* 마디를 아래에 띠로 깐다 (T364). **파형을 안 가린다.**
+     파형 위에 금을 그으면 어느 것이 소리고 어느 것이 금인지 헷갈린다.
+     띠는 바닥에 붙어 있고 마디 하나가 한 토막이다. */
+  var bt=beatNow();
+  if(bt&&bt.segs.length){
+    var y=rect.height-2, d2=dur();
+    ctx.globalAlpha=.9; ctx.lineWidth=3; ctx.lineCap="butt";
+    ctx.strokeStyle=css.getPropertyValue("--a2").trim()||"#0ea5e9";
+    bt.segs.forEach(function(g){
+      ctx.beginPath();
+      ctx.moveTo(g.t0/d2*rect.width,y); ctx.lineTo(g.t1/d2*rect.width,y); ctx.stroke();
+    });
+  }
   ctx.globalAlpha=1;
+}
+
+/* 마디를 그때 세고 안 남긴다 (`beat.md` 6장). **파일이 바뀌면 다시 센다.**
+   `CLIP.beat` 은 그 파일을 여는 동안만 있는 값이고 저장소에 안 들어간다. */
+function beatNow(){
+  if(!CLIP.peaks||!CLIP.peaks.length) return null;
+  var d2=dur();
+  if(!d2) return null;
+  if(!CLIP.beat||CLIP.beat.per*CLIP.peaks.length!==d2)
+    CLIP.beat=beatSegs(CLIP.peaks,d2);
+  return CLIP.beat;
 }
 function decodeClipAudio(ctx,buf){
   return new Promise(function(resolve,reject){
@@ -94,7 +124,7 @@ function buildWaveform(source){
     });
   }).then(function(peaks){
     if(!peaks||token!==CLIP.waveToken) return;
-    CLIP.peaks=peaks; CLIP.waveState="ready"; paintWave(); waveInfo();
+    CLIP.peaks=peaks; CLIP.beat=null; CLIP.waveState="ready"; paintWave(); waveInfo();
   }).catch(function(){
     if(token!==CLIP.waveToken) return;
     CLIP.peaks=null; CLIP.waveState="failed"; paintWave(); waveInfo();
@@ -196,10 +226,13 @@ function mountClip(name, url, revocable, isVid, source){
   m.src=CLIP.url; m.controls=true; m.preload="metadata";
   try{ m.preservesPitch=true; m.mozPreservesPitch=true; m.webkitPreservesPitch=true; }catch(e){}
   host.appendChild(m); CLIP.el=m; CLIP.a=null; CLIP.b=null; CLIP.loop=false;
-  CLIP.peaks=null; CLIP.waveState="loading"; CLIP.heard=false;
+  CLIP.peaks=null; CLIP.beat=null; CLIP.waveState="loading"; CLIP.heard=false;
   $("#cLoop").classList.remove("on");
   $("#clipCtl").hidden=false;
-  m.addEventListener("loadedmetadata",function(){ paintScrub(); renderClip(); });
+  /* 파형과 길이가 따로 온다. **길이가 늦게 오면 그때 마디를 센다** (T364).
+     먼저 왔을 때 못 세고 끝나면 마디 줄이 영영 안 뜬다. */
+  m.addEventListener("loadedmetadata",function(){
+    CLIP.beat=null; paintScrub(); paintWave(); waveInfo(); renderClip(); });
   m.addEventListener("timeupdate",function(){
     if(CLIP.loop&&CLIP.a!=null&&CLIP.b!=null&&m.currentTime>=CLIP.b){ m.currentTime=CLIP.a; }
     paintScrub();

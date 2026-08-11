@@ -178,14 +178,86 @@ if (doc.indexOf("B등급") < 0)
   });
   if (dip !== 1) no("한 칸 조용한 자리에서 마디가 " + dip + "개로 끊긴다");
 
+  /* ---- 화면이 마디를 말하는가 (T364) -----------------------------------
+     **파형을 지어 넣고 그린다.** 음성 파일 없이 화면까지 갈 수 있는 자리다.
+     `CLIP.el` 을 길이만 가진 것으로 두면 `dur()` 이 그것을 읽는다. */
+  const shown = await page.evaluate(() => {
+    const p = [];
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 20; j++) p.push(0.7);
+      for (let j = 0; j < 20; j++) p.push(0.01);
+    }
+    while (p.length < 320) p.push(0.01);
+    $("#clipCtl").hidden = false;
+    CLIP.el = { duration: 10, currentTime: 0 };
+    CLIP.peaks = p; CLIP.beat = null; CLIP.waveState = "ready";
+    paintWave(); waveInfo();
+    const withDur = $("#clipWaveInfo").textContent;
+    /* 길이를 모르는 자리. **모르면 안 적는다** */
+    CLIP.el = { duration: 0, currentTime: 0 }; CLIP.beat = null;
+    waveInfo();
+    return { withDur: withDur, noDur: $("#clipWaveInfo").textContent };
+  });
+  if (shown.withDur.indexOf("마디 4개") < 0)
+    no("화면이 마디 수를 안 적는다: " + shown.withDur);
+  if (shown.withDur.indexOf("쉼 3군데") < 0)
+    no("화면이 쉼 수를 안 적는다: " + shown.withDur);
+  if (shown.noDur.indexOf("마디") >= 0)
+    no("길이를 모르는데 마디를 적는다: " + shown.noDur);
+
+  /* **판정 낱말을 안 쓴다** (`beat.md` 5장). 잘했다고도 못했다고도 안 한다 */
+  ["잘", "틀렸", "맞았", "좋", "나쁘", "고르다", "들쭉"].forEach((w) => {
+    if (shown.withDur.indexOf(w) >= 0)
+      no("마디 줄이 판정하는 말을 쓴다: " + w);
+  });
+
+  /* 띠를 정말 그렸는가. **글자는 맞는데 안 그려질 수 있다.**
+     캔버스는 글로 안 읽힌다. 바닥 몇 줄의 칠해진 점을 센다. */
+  const drawn = await page.evaluate(() => {
+    const cv = document.getElementById("clipWave");
+    const r = cv.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    function ink() {
+      const h = Math.round(6 * dpr);
+      const d = cv.getContext("2d")
+        .getImageData(0, cv.height - h, cv.width, h).data;
+      let n = 0;
+      for (let i = 3; i < d.length; i += 4) if (d[i] > 40) n++;
+      return n;
+    }
+    const p = [];
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 20; j++) p.push(0.7);
+      for (let j = 0; j < 20; j++) p.push(0.01);
+    }
+    while (p.length < 320) p.push(0.01);
+    CLIP.el = { duration: 10, currentTime: 0 };
+    CLIP.peaks = p; CLIP.beat = null; CLIP.waveState = "ready";
+    paintWave();
+    const withSeg = ink();
+    /* 길이를 모르면 띠가 없다. **파형은 그대로 그린다** */
+    CLIP.el = { duration: 0, currentTime: 0 }; CLIP.beat = null;
+    paintWave();
+    return { w: r.width, withSeg: withSeg, noSeg: ink() };
+  });
+  if (!drawn.w) no("클립 파형 칸이 화면에 안 펴져 있다");
+  else if (drawn.withSeg <= drawn.noSeg)
+    no("마디 띠가 안 그려진다: 있을 때 " + drawn.withSeg +
+       "점, 없을 때 " + drawn.noSeg + "점");
+
+  /* 앱이 판정 안 한다는 말이 그 자리에 있는가. **만든 것과 닿는 것은 다르다** */
+  const said = await page.evaluate(() => document.getElementById("t-clip").innerText);
+  if (said.indexOf("앱은 잘했는지 안 말한다") < 0)
+    no("클립 탭이 앱은 판정 안 한다는 말을 안 적는다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 7, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 20, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
