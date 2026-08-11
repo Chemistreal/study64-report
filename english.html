@@ -1461,6 +1461,8 @@ body.veil-on>*:not(.veilcover){display:none}
       <b>합치기가 기본이다.</b> 가져오기는 이 기기 것을 통째로 버린다.</div>
   </div>
 
+  <div class="card tight" id="openWhere"></div>
+
   <div class="card" id="mgBox" hidden></div>
 
   <div class="card" id="weekCheck"></div>
@@ -2550,6 +2552,7 @@ function go(name){
   if(name==="today") renderToday();
   if(name==="media") renderMedia();
   if(name==="ledger"){ renderLedger(); renderRest(); lateDo("renderWeekCheck");
+                       lateDo("renderOpen");
                        lateDo("renderAsk"); lateDo("renderTrack");
                        renderPair(); renderMerge(); }
   if(name==="verify") lateDo("renderVerify");

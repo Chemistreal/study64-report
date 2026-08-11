@@ -749,6 +749,45 @@ function renderQRecap(){
     '<div class="small mut">한 트랙에 쏠린 것은 기준서가 그렇게 정한 것이다. '+
     '<b>사람별로 가른 값이 아니다.</b></div></div>';
 }
+function openKind(){
+  try{
+    if(location.protocol==="file:") return "file";
+    if((location.hostname||"").indexOf("github.io")>=0) return "pages";
+    if(location.protocol==="http:"||location.protocol==="https:") return "web";
+  }catch(e){}
+  return "other";
+}
+var OPEN_NAME={
+  file:"내려받은 파일",
+  pages:"공개 주소",
+  web:"웹 주소",
+  other:"알 수 없는 자리"
+};
+
+function renderOpen(){
+  var box=$("#openWhere"); if(!box) return;
+  var k=openKind();
+  var h='<div class="hd2"><b>지금 어디서 열었나</b>'+
+        '<span class="small mut">'+esc(OPEN_NAME[k])+'</span></div>';
+  h+='<div class="note"><b>여는 곳이 바뀌면 기록이 따로 산다.</b>'+
+     '<div class="small" style="margin-top:4px">'+
+     '브라우저 저장소는 주소별로 갈린다. 같은 기기 같은 브라우저라도 '+
+     '공개 주소로 열 때와 내려받은 파일로 열 때가 서로 다른 칸을 쓴다.<br>'+
+     '<b>저쪽 기록이 없어진 것이 아니라 이 칸에 안 보이는 것이다.</b> '+
+     '옮기려면 위의 JSON 합치기를 쓴다. 기기끼리는 짝 코드가 있다.</div></div>';
+  if(k==="file")
+    h+='<div class="small mut">파일로 열면 인터넷이 없어도 돈다. '+
+       '대신 <b>홈 화면에는 못 붙인다.</b> 붙이려면 공개 주소로 연다.</div>';
+  else
+    h+='<div class="n"><b>홈 화면에 붙이기</b>'+
+       '<div class="small" style="margin-top:4px">'+
+       '브라우저 메뉴에서 홈 화면에 더하는 자리를 찾는다. '+
+       '<b>메뉴 이름은 기기와 판마다 다르다.</b> 공유 단추 안에 있기도 하고 '+
+       '주소줄 옆 점 셋 안에 있기도 하다.<br>'+
+       '붙인 것은 <b>이 주소를 여는 것이라 인터넷이 있어야 한다.</b> '+
+       '인터넷 없이 쓰려면 파일을 내려받아 연다. 그때는 기록이 따로 산다.</div></div>';
+  box.innerHTML=h;
+}
 var showDone=false;
 function renderVerify(){
   $("#vFilter").textContent = showDone?"미해결만 보기":"해결된 항목 보기";

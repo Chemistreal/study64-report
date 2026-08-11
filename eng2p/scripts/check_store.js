@@ -412,9 +412,64 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await ctx.close();
   }
 
+  /* ---- 어디서 열었나 (T382) ---------------------------------------------
+     **저장소는 주소별로 갈린다.** 내보내기 칸이 기기만 말하고 여는 곳을
+     안 말해서 기록이 사라진 것처럼 보이는 자리가 있었다. */
+  {
+    const { ctx, page } = await fresh();
+    await page.evaluate(() => {
+      S.onboarded = true; S.names.a = "가람"; S.names.b = "나래"; saveNow();
+    });
+    await page.reload();
+    await page.waitForTimeout(500);
+    const w = await page.evaluate(async () => {
+      go("ledger");
+      await new Promise((ok) => setTimeout(ok, 1200));
+      const e = document.getElementById("openWhere");
+      /* 세 자리를 다 그려 본다. **파일로 열면 홈에 못 붙인다** */
+      const kinds = {};
+      const real = openKind;
+      ["file", "pages", "web"].forEach((k) => {
+        window.openKind = () => k;
+        renderOpen();
+        kinds[k] = e.innerText.replace(/\s+/g, " ");
+      });
+      window.openKind = real; renderOpen();
+      return { now: e ? e.innerText.replace(/\s+/g, " ") : null,
+               kinds: kinds, proto: location.protocol,
+               names: Object.keys(OPEN_NAME).length };
+    });
+    n += 9;
+    if (w.now === null) { fails.push("대장 탭에 어디서 열었나 자리가 없다"); }
+    else {
+      if (w.proto !== "file:") fails.push("이 검사가 file:// 로 안 열렸다: " + w.proto);
+      if (w.names !== 4) fails.push("여는 곳 이름이 " + w.names + "개다. 넷이어야 한다");
+      /* **여는 곳이 바뀌면 따로 산다는 말이 늘 있다** */
+      ["file", "pages", "web"].forEach((k) => {
+        if (w.kinds[k].indexOf("여는 곳이 바뀌면 기록이 따로 산다") < 0)
+          fails.push(k + " 로 열었을 때 기록이 따로 산다는 말이 없다");
+      });
+      /* **잃었다고 안 적는다.** 옮기는 길이 이미 둘 있다 */
+      if (/사라졌|날아갔|잃었|지워졌/.test(w.now))
+        fails.push("잃었다고 적는다: " + w.now.slice(0, 60));
+      if (w.now.indexOf("JSON") < 0) fails.push("옮기는 길을 안 적는다");
+      /* **파일로 열면 홈에 못 붙인다.** 주소로 열 때만 붙이는 법을 적는다 */
+      if (w.kinds.file.indexOf("홈 화면에는 못 붙인다") < 0)
+        fails.push("파일로 열었는데 홈에 못 붙인다는 말이 없다");
+      if (w.kinds.pages.indexOf("홈 화면에 붙이기") < 0)
+        fails.push("주소로 열었는데 홈 화면 붙이는 법이 없다");
+      /* **메뉴 이름을 못 박지 않는다.** 지어낸 이름을 적으면 없는 것을 찾는다 */
+      if (w.kinds.pages.indexOf("기기와 판마다 다르다") < 0)
+        fails.push("메뉴 이름이 기기마다 다르다는 말이 없다");
+      if (w.kinds.pages.indexOf("인터넷이 있어야 한다") < 0)
+        fails.push("홈에 붙인 것이 인터넷을 쓴다는 말이 없다");
+    }
+    await ctx.close();
+  }
+
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("저장소 %d판 (되돌리기 5자리 포함) / 실패 %d", n, fails.length);
+  console.log("저장소 %d판 (되돌리기 5자리, 어디서 열었나 9) / 실패 %d", n, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
