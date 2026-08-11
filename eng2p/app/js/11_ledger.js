@@ -149,12 +149,17 @@ function renderWeek(){
   var start=addDays(base, S.wk*7);
   $("#wLabel").textContent=start+" ~ "+addDays(start,6);
   var names=["월","화","수","목","금","토","일"];
-  var rows=['<tr><th scope="col">일자</th><th scope="col">요일</th><th scope="col">오늘 A</th><th scope="col">수행</th><th scope="col" class="n">발화</th><th scope="col" class="n">드릴</th><th scope="col" class="n">LRE</th><th scope="col" class="n">미해결</th></tr>'];
+  var rows=['<tr><th scope="col">일자</th><th scope="col">요일</th><th scope="col">자리</th><th scope="col">수행</th><th scope="col" class="n">발화</th><th scope="col" class="n">드릴</th><th scope="col" class="n">LRE</th><th scope="col" class="n">미해결</th></tr>'];
   var sp=0,cd=0,lr=0,hh=0;
   for(var i=0;i<7;i++){
     var d=addDays(start,i), r=S.days[d];
     var st=!r||!r.status?"-":r.status==="normal"?"정상":r.status==="emg"?"비상판":"결석";
-    var role=roleOf(d)==="a"?S.names.a:S.names.b;
+    /* **자리 이름만 적는다** (T347). 전에는 그 칸에 사람 이름을 썼다.
+       그러면 한 줄이 `가람 · 정상 · 70 · 70 · 9` 가 되고 그것은
+       **가람이 70을 했다** 로 읽힌다. 그 숫자는 둘이 같이 한 값이다.
+       1년치를 훑으면 "가람 날은 70 나래 날은 40" 이라는 읽기가 생긴다.
+       그것이 원칙 1이 막는 개인 칸이다. 누가 A인지는 표 위에 한 줄로 적는다. */
+    var role=roleOf(d)==="a"?"A":"B";
     sp+=r?(r.speak||0):0; cd+=r?(r.cards||0):0; lr+=r?(r.lre||0):0; hh+=hoursOf(r);
     var un=r?r.unres.length:0;
     rows.push('<tr'+(d===today()?' style="background:var(--sub)"':'')+'><td class="mono">'+d.slice(5)+'</td><td>'+names[i]+
@@ -164,6 +169,11 @@ function renderWeek(){
   }
   rows.push('<tr><td colspan="4"><b>합계</b> <span class="mut small">'+hh.toFixed(2).replace(/\.?0+$/,"")+'h</span></td><td class="n"><b>'+sp+'</b></td><td class="n"><b>'+cd+'</b></td><td class="n"><b>'+lr+'</b></td><td></td></tr>');
   $("#weekTable").innerHTML=rows.join("");
+  /* 누가 A인지는 여기 한 줄이다. 줄마다 이름을 적으면 그 줄의 숫자가 그 사람 것으로 읽힌다 */
+  var who=$("#weekWho");
+  if(who) who.innerHTML='<b>A</b> 짝수 날 '+esc(S.names.a)+' · '+
+    '<b>B</b> 홀수 날 '+esc(S.names.b)+
+    ' <span class="small mut">숫자는 그날 둘이 같이 한 값이다. 자리가 정하는 값이 아니다.</span>';
 }
 $("#wPrev").onclick=function(){S.wk--;save();renderWeek();renderAlerts();};
 $("#wNext").onclick=function(){S.wk++;save();renderWeek();renderAlerts();};
@@ -206,10 +216,11 @@ $("#exJson").onclick=function(){
 $("#exMd").onclick=function(){
   var L=["# eng2p 진행 대장 내보내기","","생성일: "+today(),"시작일: "+S.start,
     "누적 시간: "+totalHours()+"h","",
-    "| 일자 | 오늘 A | 수행 | 발화(분) | 드릴(장) | LRE | 미해결 |","|---|---|---|---|---|---|---|"];
+    "A 짝수 날 "+S.names.a+" · B 홀수 날 "+S.names.b+". 숫자는 둘이 같이 한 값이다.","",
+    "| 일자 | 자리 | 수행 | 발화(분) | 드릴(장) | LRE | 미해결 |","|---|---|---|---|---|---|---|"];
   allDays().forEach(function(d){
     var r=S.days[d];
-    L.push("| "+d+" | "+(roleOf(d)==="a"?S.names.a:S.names.b)+" | "+
+    L.push("| "+d+" | "+(roleOf(d)==="a"?"A":"B")+" | "+
       (r.status==="normal"?"정상":r.status==="emg"?"비상판":r.status==="absent"?"결석":"-")+
       " | "+(r.speak||0)+" | "+(r.cards||0)+" | "+(r.lre||0)+" | "+r.unres.length+" |");
   });
