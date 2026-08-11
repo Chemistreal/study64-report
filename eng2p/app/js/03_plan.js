@@ -168,6 +168,10 @@ function renderEmg(pl){
       '<span class="ecw" id="emgWhat">인출 '+mm.pull+'분</span>'+
       '<button type="button" class="g" id="emgGo">시작</button></div>'+
       '<p><b>인출 '+mm.pull+'분.</b> '+esc(it.pull)+'</p>'+
+      /* **막힌 카드가 도는 자리가 여기다** (T359). 간격은 강의가 정하고
+         앱이 안 바꾼다. 그래서 막힌 것을 따로 모아 이 10분에 돌린다.
+         비어 있으면 아예 안 적는다. 0인데 뜨면 그것이 잔소리다 (T181). */
+      emgStuckSay()+
       '<div class="ch"><b>청크 '+mm.chunk+'분</b><br>'+esc((it.chunks||[]).join("  /  "))+'</div>'+
       '<p class="small mut">쓴 날도 수행일로 센다. 다만 진도는 안 나간다. '+
       '새 재료가 없기 때문이다.</p>'+

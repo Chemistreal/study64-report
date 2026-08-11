@@ -138,6 +138,43 @@ function syncCardCount(){
   if(n>(r.cards||0)){ r.cards=n; save(); }
   return n;
 }
+/* 막힌 카드 (T359). **간격을 안 바꾼다.**
+
+   강의가 간격을 정한다. 앱이 새로 정하지 않는다 (이 파일 머리말).
+   그러니 막혔다고 다음 날짜를 당기지 않는다. 그것은 강의가 정한 값을 앱이 뒤집는 것이다.
+
+   **대신 따로 모은다.** 막힌 카드가 한 덱이 되고 그 덱은 간격 밖에서 돈다.
+   비상판 인출 10분이 그 자리다. 매뉴얼 11.2 가 그것을 인출이라고 부른다.
+
+   ## 사람별이다
+
+   막힌 것은 **답한 사람에게만** 막힌 것이다 (`docs/cards_person.md`).
+   그러니 이 값도 사람별로 쌓이고 **한 화면에 둘을 나란히 안 놓는다.**
+
+   ## 몇 번 막혔는지를 화면에 안 적는다
+
+   세면 그것이 곧 빚이 된다 (원칙 4). 목록에서 앞에 오는 것으로만 쓴다. */
+function markCardStuck(id){
+  var cur=cardOne(id) || {box:0, due:null, ran:null, hist:[]};
+  var n=(cur.stuck|0)+1;
+  cardSet(id, {box:cur.box, due:cur.due, ran:cur.ran,
+               hist:(cur.hist||[]).slice(), stuck:n});
+  save();
+}
+function stuckCards(){
+  var m=cardDue(), out=[];
+  for(var k in m){ var c=cardOne(k); if(c && (c.stuck|0)>0) out.push([k, c.stuck|0]); }
+  /* 많이 막힌 것이 앞에 온다. 같으면 번호 차례다. **무작위를 안 쓴다** */
+  out.sort(function(a,b){ return b[1]-a[1] || (a[0]<b[0]?-1:1); });
+  return out.map(function(x){ return x[0]; });
+}
+function clearCardStuck(id){
+  var cur=cardOne(id); if(!cur) return;
+  cardSet(id, {box:cur.box, due:cur.due, ran:cur.ran,
+               hist:(cur.hist||[]).slice(), stuck:0});
+  save();
+}
+
 function dueCards(){
   var m=cardDue(), td=today(), out=[];
   for(var k in m){ var c=cardOne(k); if(c && c.due && c.due<=td) out.push(k); }
@@ -296,7 +333,7 @@ function renderCardView(pl){
   h+=renderGround(c);
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
-  var m=cardDue()[c.id];
+  var m=cardOne(c.id);
   /* 다시 낼 카드는 오늘 강의 것이 아니다. 그 카드가 붙은 강의 간격을 써야 한다. */
   var ownLec=cardLecture(c.id) || pl.lectureNo;
   var sp=spacingDays(ownLec);
@@ -309,6 +346,7 @@ function renderCardView(pl){
     '<button type="button" data-card="prev">이전 카드</button>'+
     '<button type="button" data-card="run">'+
     (m&&m.ran===today()?'오늘 돌았다':'돌았다로 적기')+'</button>'+
+    '<button type="button" data-card="stuck">막혔다</button>'+
     '<button type="button" data-card="next">다음 카드</button></div>';
   setTimeout(function(){
     var cg=document.getElementById("ckGo");
@@ -324,6 +362,11 @@ function renderCardView(pl){
           return;
         }
         stopCardClock();      // 카드를 넘기면 앞 카드의 시계는 끝난 것이다
+        if(b.dataset.card==="stuck"){
+          markCardStuck(c.id);
+          setCardIdx(i+1>=list.length?0:i+1);
+          return;
+        }
         if(b.dataset.card==="run"){
           markCardRun(c.id, ownLec);
           /* 적고 나면 다음 카드로 간다. 한 장씩 도는 자리라 손이 한 번만 나가야 한다. */

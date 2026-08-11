@@ -1923,6 +1923,7 @@ function renderEmg(pl){
       '<span class="ecw" id="emgWhat">인출 '+mm.pull+'분</span>'+
       '<button type="button" class="g" id="emgGo">시작</button></div>'+
       '<p><b>인출 '+mm.pull+'분.</b> '+esc(it.pull)+'</p>'+
+      emgStuckSay()+
       '<div class="ch"><b>청크 '+mm.chunk+'분</b><br>'+esc((it.chunks||[]).join("  /  "))+'</div>'+
       '<p class="small mut">쓴 날도 수행일로 센다. 다만 진도는 안 나간다. '+
       '새 재료가 없기 때문이다.</p>'+
@@ -2472,6 +2473,16 @@ function renderMissLine(){
     '<b>비상판 15분</b>으로 대신한다. 비상판을 쓴 날도 수행일로 센다.<br>'+
     '<span class="small">하루 빠지는 것은 사고고 이틀 연속이 습관의 시작이다 '+
     '(매뉴얼 2.4). 얼마나 빠졌는지는 안 센다.</span></div>';
+}
+
+function emgStuckSay(){
+  var st=(typeof stuckCards==="function") ? stuckCards() : [];
+  if(!st.length) return "";
+  return '<div class="note"><b>막힌 카드 '+st.length+'장이 있다.</b> '+
+    '이 10분에 그것부터 돈다. <span class="mono">'+
+    esc(st.slice(0,6).join(" ")) + (st.length>6 ? " …" : "") + '</span><br>'+
+    '<span class="small">간격은 강의가 정한 대로 그대로 간다. '+
+    '이것은 그 밖에서 도는 자리다. <b>이 기기 사람 것이다.</b></span></div>';
 }
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
@@ -3055,6 +3066,26 @@ function syncCardCount(){
   if(n>(r.cards||0)){ r.cards=n; save(); }
   return n;
 }
+function markCardStuck(id){
+  var cur=cardOne(id) || {box:0, due:null, ran:null, hist:[]};
+  var n=(cur.stuck|0)+1;
+  cardSet(id, {box:cur.box, due:cur.due, ran:cur.ran,
+               hist:(cur.hist||[]).slice(), stuck:n});
+  save();
+}
+function stuckCards(){
+  var m=cardDue(), out=[];
+  for(var k in m){ var c=cardOne(k); if(c && (c.stuck|0)>0) out.push([k, c.stuck|0]); }
+  out.sort(function(a,b){ return b[1]-a[1] || (a[0]<b[0]?-1:1); });
+  return out.map(function(x){ return x[0]; });
+}
+function clearCardStuck(id){
+  var cur=cardOne(id); if(!cur) return;
+  cardSet(id, {box:cur.box, due:cur.due, ran:cur.ran,
+               hist:(cur.hist||[]).slice(), stuck:0});
+  save();
+}
+
 function dueCards(){
   var m=cardDue(), td=today(), out=[];
   for(var k in m){ var c=cardOne(k); if(c && c.due && c.due<=td) out.push(k); }
@@ -3177,7 +3208,7 @@ function renderCardView(pl){
   h+=renderGround(c);
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
-  var m=cardDue()[c.id];
+  var m=cardOne(c.id);
   var ownLec=cardLecture(c.id) || pl.lectureNo;
   var sp=spacingDays(ownLec);
   if(sp) h+='<div class="meta"><b>간격</b> '+sp.join("일 · ")+'일'+
@@ -3189,6 +3220,7 @@ function renderCardView(pl){
     '<button type="button" data-card="prev">이전 카드</button>'+
     '<button type="button" data-card="run">'+
     (m&&m.ran===today()?'오늘 돌았다':'돌았다로 적기')+'</button>'+
+    '<button type="button" data-card="stuck">막혔다</button>'+
     '<button type="button" data-card="next">다음 카드</button></div>';
   setTimeout(function(){
     var cg=document.getElementById("ckGo");
@@ -3204,6 +3236,11 @@ function renderCardView(pl){
           return;
         }
         stopCardClock();      // 카드를 넘기면 앞 카드의 시계는 끝난 것이다
+        if(b.dataset.card==="stuck"){
+          markCardStuck(c.id);
+          setCardIdx(i+1>=list.length?0:i+1);
+          return;
+        }
         if(b.dataset.card==="run"){
           markCardRun(c.id, ownLec);
           setCardIdx(i+1>=list.length?0:i+1);

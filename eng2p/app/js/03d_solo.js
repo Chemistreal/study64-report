@@ -82,3 +82,19 @@ function renderMissLine(){
     '(매뉴얼 2.4). 얼마나 빠졌는지는 안 센다.</span></div>';
 }
 
+/* 비상판 인출 10분에 돌 막힌 카드 (T359).
+
+   **간격을 안 바꾸는 대신 자리를 준다.** 막혔다고 다음 날짜를 당기면
+   강의가 정한 값을 앱이 뒤집는 것이다. 그러니 간격 밖에서 돈다.
+
+   **몇 번 막혔는지를 안 적는다.** 세면 그것이 빚이 된다 (원칙 4).
+   앞에 오는 차례로만 쓰고 화면에는 장수와 번호만 적는다. */
+function emgStuckSay(){
+  var st=(typeof stuckCards==="function") ? stuckCards() : [];
+  if(!st.length) return "";
+  return '<div class="note"><b>막힌 카드 '+st.length+'장이 있다.</b> '+
+    '이 10분에 그것부터 돈다. <span class="mono">'+
+    esc(st.slice(0,6).join(" ")) + (st.length>6 ? " …" : "") + '</span><br>'+
+    '<span class="small">간격은 강의가 정한 대로 그대로 간다. '+
+    '이것은 그 밖에서 도는 자리다. <b>이 기기 사람 것이다.</b></span></div>';
+}

@@ -373,6 +373,45 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await ctx.close();
   }
 
+  /* 12. 막힌 카드를 모으되 **간격을 안 바꾼다** (T359) */
+  {
+    n++;
+    const { ctx, page } = await fresh();
+    const st = await page.evaluate(() => {
+      const td = today();
+      S.cardDue = {};
+      cardSet("Q1-001", { box: 2, due: addDays(td, 5), ran: td, hist: [td] });
+      cardSet("Q1-002", { box: 1, due: addDays(td, 2), ran: td, hist: [td] });
+      saveNow();
+      const before = JSON.parse(JSON.stringify(cardOne("Q1-001")));
+      markCardStuck("Q1-001");
+      markCardStuck("Q1-001");
+      markCardStuck("Q1-002");
+      const after = cardOne("Q1-001");
+      return { before: before, after: after, list: stuckCards(),
+               otherSide: (cardDue()["Q1-001"][cardSide() === "a" ? "b" : "a"] || {}).stuck };
+    });
+    /* **간격을 안 바꾼다.** 상자도 다음 날짜도 그대로다 */
+    if (st.after.box !== st.before.box || st.after.due !== st.before.due)
+      fails.push("막혔다를 눌렀더니 간격이 바뀐다: " +
+                 JSON.stringify(st.before) + " -> " + JSON.stringify(st.after));
+    if (st.after.stuck !== 2) fails.push("막힌 수가 " + st.after.stuck + "이다");
+    /* **많이 막힌 것이 앞에 온다.** 무작위를 안 쓴다 */
+    if (st.list.join() !== "Q1-001,Q1-002")
+      fails.push("막힌 카드 차례가 " + st.list.join(" ") + " 다");
+    /* **사람별이다.** 저쪽 갈래는 안 는다 */
+    if (st.otherSide) fails.push("이쪽에서 막혔는데 저쪽 갈래도 늘었다");
+
+    /* 지우면 목록에서 빠진다 */
+    const gone = await page.evaluate(() => {
+      clearCardStuck("Q1-001");
+      return stuckCards();
+    });
+    if (gone.join() !== "Q1-002")
+      fails.push("지웠는데 목록에 남는다: " + gone.join(" "));
+    await ctx.close();
+  }
+
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
