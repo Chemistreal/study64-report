@@ -114,6 +114,9 @@ STEPS = [
     ("규격", "check_blocks.py", [], False),
     ("규격", "check_page.py", [], False),
     ("규격", "check_media.py", [], False),
+    # **소리를 다루는 자리를 다 세었는가.** 판정 안 한다는 말을 턴마다 그 자리에
+    # 적었는데 적은 자리를 센 적이 없었다. 하나 더 늘면 아무도 안 본다. T375
+    ("규격", "check_sound.py", [], False),
     ("규격", "check_cards_plan.py", ["q4"], False),
     ("대조", "check_audio.py", [], True),
     ("대조", "check_ground.py", [], True),
