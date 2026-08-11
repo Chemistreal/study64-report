@@ -3604,6 +3604,29 @@ const RESET = () => {
   }
   if (seatSay.length)
     no("자리를 바꾸는 길이 안 적힌 판이 있다: " + seatSay.slice(0, 4).join(" "));
+
+  /* 정보를 쥐는 자리를 알려 주는가 (T349). **원칙 3을 사람이 하려면 알아야 한다** */
+  const hold = await A.evaluate(async () => {
+    if (!DATA.hold) await new Promise((ok) => loadData("hold", "ENG2P_HOLD", ok));
+    return DATA.hold.plays.filter((p) => p.hold);
+  });
+  if (hold.length !== 9)
+    no("쥐는 자리가 있는 판이 " + hold.length + "개다. 아홉이어야 한다");
+  const holdMiss = [];
+  for (const x of hold) {
+    const t = await A.evaluate(async (id) => {
+      PLAY.at = id; renderPlayTab();
+      await new Promise((ok) => setTimeout(ok, 250));
+      return document.getElementById("playPane").innerText;
+    }, x.id);
+    if (t.indexOf("정보를 쥐는 자리는 " + x.hold) < 0) holdMiss.push(x.id);
+    else if (!/덜 되는 쪽/.test(t)) holdMiss.push(x.id + "(누가 맡나)");
+  }
+  if (holdMiss.length)
+    no("정보를 쥐는 자리를 안 알려 주는 판이 있다: " + holdMiss.slice(0, 4).join(" "));
+  /* **앱이 누가 맡을지를 안 정한다** (개정문 18번) */
+  const picks = await A.evaluate(() => DATA.hold.picks);
+  if (picks !== false) no("앱이 누가 그 자리를 맡을지 정한다고 적혀 있다");
   /* **앱이 자리를 직접 뒤집는 단추를 안 만든다.** 한쪽만 누르면 판이 조용히 깨진다 */
   const flipBtn = await A.evaluate(() =>
     document.querySelectorAll("#playPane [data-seat],#playPane [data-swapseat]").length);

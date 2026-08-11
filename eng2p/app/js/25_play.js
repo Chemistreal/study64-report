@@ -104,7 +104,7 @@ function playHead(p, s){
     '<b>'+esc(p.name)+'</b>'+
     '<span class="small mut">판 표시 <b class="mono">'+esc(roundTag(p.id,s))+
     '</b> · 회 <b class="mono">'+s+'</b> · <b>둘이 같아야 한다</b></span></div>'+
-    playSeatSay();
+    playSeatSay(p.id);
 }
 
 /* 자리를 바꾸고 싶을 때 (T348). **앱이 안 바꿔 준다.**
@@ -123,11 +123,28 @@ function playHead(p, s){
 
    원칙 3(못 하는 쪽이 정보를 쥔다)은 사람이 한다. 앱은 누가 못 하는지를 모른다
    (개정문 18번). 그러니 **바꾸는 것도 사람이 정하고 앱은 길만 알려 준다.** */
-function playSeatSay(){
-  return '<div class="n small">자리를 바꾸고 싶으면 <b>회를 하나 넘긴다.</b> '+
+function playSeatSay(id){
+  return '<div class="n small">'+playHoldSay(id)+
+    '자리를 바꾸고 싶으면 <b>회를 하나 넘긴다.</b> '+
     '앱이 자리를 직접 안 바꾼다. 두 기기가 회 번호로 각각 세기 때문에 '+
     '<b>한쪽에서만 바꾸면 둘 다 같은 자리가 된다.</b> '+
     '누가 어느 자리를 맡을지는 두 사람이 정한다.</div>';
+}
+
+/* 이 판에서 정보를 쥐는 자리 (T349). `out/data/hold.js` 가 자료다.
+
+   원칙 3이 **못 하는 쪽이 정보를 쥔다**인데 그 자리가 어디인지는 규칙서에만 있었다.
+   판을 열 때마다 규칙서를 펴는 사람은 없다. **알려 주지 않으면 원칙 3이 안 돈다.**
+
+   **누가 맡을지는 안 정한다.** 앱은 두 사람의 실력을 나타내는 값을 안 갖는다
+   (개정문 18번). 자리가 어디인지만 알려 주고 정하는 것은 두 사람이 한다. */
+function playHoldSay(id){
+  var d=DATA.hold;
+  if(!d){ loadData("hold","ENG2P_HOLD",function(){ renderPlayPane(); }); return ""; }
+  var x=(d.plays||[]).filter(function(p){ return p.id===id; })[0];
+  if(!x || !x.hold) return "";
+  return '<b>정보를 쥐는 자리는 '+esc(x.hold)+'이다.</b> '+
+    '<b>덜 되는 쪽</b>이 그 자리를 맡는다 (원칙 3). 누가 맡을지는 앱이 안 정한다. ';
 }
 
 /* 그날의 셈. **판정은 규칙서가 정한 사람이 하고 그 자리가 판 안에서 바뀐다.**

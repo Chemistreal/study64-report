@@ -94,6 +94,7 @@ STEPS = [
     ("파생", "derive_voice.py", [], True),
     ("파생", "derive_ahead.py", [], True),
     ("파생", "derive_track.py", [], True),
+    ("파생", "derive_hold.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
