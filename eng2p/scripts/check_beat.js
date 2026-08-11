@@ -245,6 +245,68 @@ if (doc.indexOf("B등급") < 0)
     no("마디 띠가 안 그려진다: 있을 때 " + drawn.withSeg +
        "점, 없을 때 " + drawn.noSeg + "점");
 
+  /* ---- 기준을 잡아 두고 겹쳐 보는가 (T365) -----------------------------
+     **잡아 둔 것이 저장소에 안 들어가야 한다** (`beat.md` 6장). */
+  const ref = await page.evaluate(async () => {
+    const cv = document.getElementById("clipWave");
+    /* **점을 세면 안 된다.** 조용한 칸도 최소 굵기로 그려져서 가운데 띠가
+       늘 꽉 찬다. 처음에 세다가 혼자와 겹쳐가 똑같이 나왔다.
+       그림 자체를 견준다. 겹쳐 그리면 그림이 달라진다. */
+    function ink() { return cv.toDataURL(); }
+    const make = (n) => {
+      const p = [];
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < 10; j++) p.push(0.7);
+        for (let j = 0; j < 10; j++) p.push(0.01);
+      }
+      while (p.length < 320) p.push(0.01);
+      return p.slice(0, 320);
+    };
+    REF = null;
+    CLIP.el = { duration: 10, currentTime: 0 };
+    CLIP.file = { name: "원본.mp3" };
+    CLIP.peaks = make(4); CLIP.beat = null; CLIP.waveState = "ready";
+    paintRef(); paintWave();
+    const alone = ink();
+    document.getElementById("cRef").click();
+    const label = document.getElementById("cRef").textContent;
+    const held = !!(REF && REF.peaks);
+    /* 다른 파일을 연 자리. **같은 이름이면 안 겹친다** */
+    CLIP.file = { name: "내녹음.webm" };
+    CLIP.peaks = make(3); CLIP.beat = null;
+    paintWave(); waveInfo();
+    const over = ink(), said = document.getElementById("clipWaveInfo").textContent;
+    /* 같은 파형을 기준 없이 그린 그림. **이것과 달라야 겹친 것이다** */
+    const keep = REF; REF = null; paintWave();
+    const overNoRef = ink(); REF = keep;
+    /* 같은 파일로 돌아오면 자기를 자기 위에 안 겹친다 */
+    CLIP.file = { name: "원본.mp3" }; CLIP.peaks = make(4); CLIP.beat = null;
+    paintWave();
+    const self = ink();
+    saveNow();
+    const inStore = (localStorage.getItem("eng2p.v1") || "").indexOf("원본.mp3") >= 0;
+    document.getElementById("cRef").click();
+    return { alone: alone, over: over, overNoRef: overNoRef, self: self,
+             held: held, label: label,
+             said: said, cleared: REF === null,
+             label2: document.getElementById("cRef").textContent,
+             inStore: inStore };
+  });
+  if (!ref.held) no("기준으로 잡기를 눌렀는데 안 잡힌다");
+  if (ref.label !== "기준 지우기")
+    no("잡아 둔 뒤에도 단추가 '" + ref.label + "' 다");
+  if (ref.said.indexOf("기준 원본.mp3") < 0)
+    no("무엇을 기준으로 보는지 안 적는다: " + ref.said);
+  if (ref.over === ref.overNoRef)
+    no("기준을 잡아도 그림이 그대로다. 안 겹쳐 그린다");
+  if (ref.self !== ref.alone)
+    no("같은 이름인데 자기를 자기 위에 겹친다");
+  /* **소리에서 나온 값을 저장소에 안 남긴다** */
+  if (ref.inStore) no("기준으로 잡은 파일 이름이 저장소에 들어갔다");
+  if (!ref.cleared) no("기준 지우기를 눌렀는데 안 지워진다");
+  if (ref.label2 !== "기준으로 잡기")
+    no("지운 뒤에도 단추가 '" + ref.label2 + "' 다");
+
   /* 앱이 판정 안 한다는 말이 그 자리에 있는가. **만든 것과 닿는 것은 다르다** */
   const said = await page.evaluate(() => document.getElementById("t-clip").innerText);
   if (said.indexOf("앱은 잘했는지 안 말한다") < 0)
@@ -256,8 +318,8 @@ if (doc.indexOf("B등급") < 0)
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 20, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 28, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

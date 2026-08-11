@@ -6,6 +6,11 @@
 var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1,
   peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare",beat:null};
 
+/* 기준으로 잡아 둔 파형 (T365). **원본을 잡아 두고 내 녹음을 겹쳐 본다.**
+   이 화면을 닫으면 없어진다. `S` 에 안 넣는다 (`beat.md` 6장).
+   소리가 아니라 320칸짜리 눈금이지만 남기면 그것이 두 사람의 숫자가 된다. */
+var REF=null;
+
 function setClipPhase(phase){
   CLIP.phase=phase;
   var a=$("#clipRoleA"), b=$("#clipRoleB"), hint=$("#clipRoleHint");
@@ -30,6 +35,7 @@ function waveInfo(){
     var bt=beatNow();
     msg="실제 음성 파형"+
       (bt ? " · 마디 "+bt.segs.length+"개 · 쉼 "+beatGaps(bt).length+"군데" : "")+
+      (REF ? " · 기준 "+REF.name+" 을 옅게 겹쳤다" : "")+
       " · A와 B 사이를 골라 반복한다.";
   }else if(CLIP.waveState==="loading"){
     msg="실제 음성 파형 분석 중";
@@ -56,6 +62,17 @@ function paintWave(){
   var active=css.getPropertyValue("--a1").trim()||"#6366f1";
   var future=css.getPropertyValue("--a3").trim()||"#0891b2";
   var mid=rect.height/2, maxH=Math.max(3,mid-5), count=CLIP.peaks.length;
+  /* 기준을 먼저 옅게 깐다 (T365). **뒤에 깔아야 내 파형이 위에 온다.**
+     가로는 칸 번호로 맞춘다. 둘 다 320칸이라 **길이가 달라도 모양이 겹친다.**
+     길이 차이는 그림이 아니라 글로 적는다 (T366). */
+  if(REF&&REF.peaks&&REF.name!==(CLIP.file&&CLIP.file.name)){
+    ctx.globalAlpha=.3; ctx.lineWidth=Math.max(1,rect.width/REF.peaks.length*.7);
+    ctx.lineCap="round"; ctx.strokeStyle=muted;
+    REF.peaks.forEach(function(p,i){
+      var x=(i+.5)/REF.peaks.length*rect.width, amp=Math.max(1.5,p*maxH);
+      ctx.beginPath(); ctx.moveTo(x,mid-amp); ctx.lineTo(x,mid+amp); ctx.stroke();
+    });
+  }
   ctx.lineWidth=Math.max(1,rect.width/count*.7); ctx.lineCap="round";
   CLIP.peaks.forEach(function(p,i){
     var x=(i+.5)/count*rect.width, amp=Math.max(1.5,p*maxH);
@@ -243,7 +260,7 @@ function mountClip(name, url, revocable, isVid, source){
   m.playbackRate=+$("#cRate").value||1;
   var saved=S.scripts[file.name];
   $("#scText").value = saved ? saved.map(function(x){return x.line;}).join("\n") : "";
-  setClipPhase("prepare"); buildWaveform(source);
+  setClipPhase("prepare"); paintRef(); buildWaveform(source);
   paintScrub(); renderClip(); renderScript();
 }
 function dur(){ return (CLIP.el&&CLIP.el.duration&&isFinite(CLIP.el.duration))?CLIP.el.duration:0; }
@@ -334,74 +351,9 @@ function renderClip(){
   });
 }
 
-/* 대본 동기화. 줄마다 시각을 찍어 두면 그 줄만 골라 반복할 수 있다.
-   대본은 텍스트라 저장한다. 음성은 저장하지 않는다. */
-function scKey(){ return CLIP.file ? CLIP.file.name : null; }
-function scLines(){
-  var k=scKey();
-  return (k && S.scripts[k]) ? S.scripts[k] : [];
-}
-function renderScript(){
-  var box=$("#scList"); if(!box) return;
-  box.innerHTML="";
-  var k=scKey();
-  if(!k){ box.innerHTML='<div class="note small">파일을 먼저 연다. 대본은 파일 이름에 붙는다.</div>'; return; }
-  var arr=scLines();
-  if(!arr.length){ box.innerHTML='<div class="note small">대본을 붙여넣고 줄 나누기를 누른다.</div>'; return; }
-  arr.forEach(function(ln,i){
-    var d=el("div","clip");
-    var top=el("div","hd2");
-    var left=el("div"); left.style.flex="1"; left.style.minWidth="140px";
-    left.appendChild(el("div",null,ln.line));
-    left.appendChild(el("div","small mut tc", ln.t==null ? "시각 미지정" : mmss(ln.t)));
-    top.appendChild(left);
-    var acts=el("div","row"); acts.style.gap="6px";
-    var mark=el("button","g","여기 찍기");
-    mark.style.padding="3px 10px"; mark.style.fontSize="12px";
-    mark.onclick=function(){
-      if(!CLIP.el) return;
-      ln.t=+CLIP.el.currentTime.toFixed(1); save(); renderScript();
-    };
-    acts.appendChild(mark);
-    if(ln.t!=null){
-      var play=el("button","g","이 줄 재생");
-      play.style.padding="3px 10px"; play.style.fontSize="12px";
-      play.onclick=function(){
-        if(!CLIP.el) return;
-        var nxt=null;
-        for(var j=i+1;j<arr.length;j++){ if(arr[j].t!=null){ nxt=arr[j].t; break; } }
-        CLIP.a=ln.t; CLIP.b=(nxt!=null?nxt:Math.min(dur(),ln.t+6));
-        CLIP.loop=true; $("#cLoop").classList.add("on");
-        CLIP.el.currentTime=ln.t; CLIP.el.play(); paintScrub();
-      };
-      acts.appendChild(play);
-    }
-    acts.appendChild(spkBtn(ln.line.replace(/^[A-Z]\s*:\s*/,"")));
-    top.appendChild(acts); d.appendChild(top);
-    box.appendChild(d);
-  });
-  var done=arr.filter(function(x){return x.t!=null;}).length;
-  box.appendChild(el("div","note small","시각 지정 "+done+" / "+arr.length+"줄. 앞줄부터 순서대로 찍는다. 다음 줄 시각이 그 줄의 끝이 된다."));
-}
-$("#scLoad").onclick=function(){
-  var k=scKey();
-  if(!k){ flash("파일을 먼저 연다"); return; }
-  var lines=$("#scText").value.split("\n").map(function(x){return x.trim();}).filter(Boolean);
-  if(!lines.length){ flash("대본이 비어 있다"); return; }
-  var old=S.scripts[k]||[];
-  S.scripts[k]=lines.map(function(L){
-    var hit=old.filter(function(o){return o.line===L;})[0];
-    return {line:L, t: hit?hit.t:null};
-  });
-  save(); renderScript(); flash(lines.length+"줄로 나눴다");
-};
-$("#scClear").onclick=function(){
-  var k=scKey(); if(!k) return;
-  var gone=S.scripts[k];
-  delete S.scripts[k]; save(); renderScript();
-  offerUndo("대본 1개 삭제",function(){ S.scripts[k]=gone; renderScript(); });
-};
-
+/* 클립 조작. **대본 절을 갈라 내면서 여기로 돌아왔다** (T365).
+   자를 자리를 글 첫머리로 잡았더니 뒤에 붙어 있던 클립 단추들이 같이 딸려 갔다.
+   **가르는 자리는 글의 시작이 아니라 일의 끝이다.** */
 $("#drop").onclick=function(){ $("#clipFile").click(); };
 $("#clipFile").onchange=function(e){ if(e.target.files[0]) loadMedia(e.target.files[0]); };
 ["dragenter","dragover"].forEach(function(ev){
@@ -433,6 +385,26 @@ $("#cLoop").onclick=function(){
   if(CLIP.loop&&CLIP.el){ CLIP.el.currentTime=CLIP.a; CLIP.el.play(); }
 };
 $("#cBack").onclick=function(){ if(CLIP.el) CLIP.el.currentTime=Math.max(0,CLIP.el.currentTime-3); };
+/* 기준으로 잡기 (T365). **한 단추다.** 잡혀 있으면 지우는 단추가 된다.
+   두 단추면 어느 것이 켜졌는지를 또 봐야 한다 (T334 녹음 단추와 같은 결). */
+$("#cRef").onclick=function(){
+  if(REF){ REF=null; paintRef(); paintWave(); waveInfo(); return; }
+  var bt=beatNow();
+  if(!CLIP.peaks||!bt){
+    flash("파형을 아직 못 읽었다. 다 읽고 나서 잡는다"); return;
+  }
+  REF={name:(CLIP.file&&CLIP.file.name)||"", peaks:CLIP.peaks.slice(),
+       dur:dur(), segs:bt.segs.length};
+  paintRef(); paintWave(); waveInfo();
+  flash("기준으로 잡았다. 다음 파일을 열면 겹쳐 보인다");
+};
+/* 단추 글자와 안내. **잡아 둔 것이 무엇인지 이름을 적는다.**
+   안 적으면 무엇을 기준으로 보고 있는지 두 사람이 모른다. */
+function paintRef(){
+  var b=$("#cRef"); if(!b) return;
+  b.textContent=REF?"기준 지우기":"기준으로 잡기";
+  b.classList.toggle("on",!!REF);
+}
 $("#cRate").oninput=function(){
   $("#cRateN").textContent=(+this.value).toFixed(2);
   if(CLIP.el) CLIP.el.playbackRate=+this.value;
@@ -458,4 +430,5 @@ $("#cSave").onclick=function(){
     focus:+$("#cFocus").value,note:"",date:today()});
   $("#cLabel").value=""; setClipPhase("prepare"); save(); renderClip(); flash("구간을 저장했다");
 };
+
 

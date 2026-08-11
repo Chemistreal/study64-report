@@ -2,6 +2,8 @@
 var CLIP={el:null,url:null,file:null,loop:false,a:null,b:null,active:-1,
   peaks:null,waveState:"idle",waveToken:0,heard:false,phase:"prepare",beat:null};
 
+var REF=null;
+
 function setClipPhase(phase){
   CLIP.phase=phase;
   var a=$("#clipRoleA"), b=$("#clipRoleB"), hint=$("#clipRoleHint");
@@ -23,6 +25,7 @@ function waveInfo(){
     var bt=beatNow();
     msg="실제 음성 파형"+
       (bt ? " · 마디 "+bt.segs.length+"개 · 쉼 "+beatGaps(bt).length+"군데" : "")+
+      (REF ? " · 기준 "+REF.name+" 을 옅게 겹쳤다" : "")+
       " · A와 B 사이를 골라 반복한다.";
   }else if(CLIP.waveState==="loading"){
     msg="실제 음성 파형 분석 중";
@@ -49,6 +52,14 @@ function paintWave(){
   var active=css.getPropertyValue("--a1").trim()||"#6366f1";
   var future=css.getPropertyValue("--a3").trim()||"#0891b2";
   var mid=rect.height/2, maxH=Math.max(3,mid-5), count=CLIP.peaks.length;
+  if(REF&&REF.peaks&&REF.name!==(CLIP.file&&CLIP.file.name)){
+    ctx.globalAlpha=.3; ctx.lineWidth=Math.max(1,rect.width/REF.peaks.length*.7);
+    ctx.lineCap="round"; ctx.strokeStyle=muted;
+    REF.peaks.forEach(function(p,i){
+      var x=(i+.5)/REF.peaks.length*rect.width, amp=Math.max(1.5,p*maxH);
+      ctx.beginPath(); ctx.moveTo(x,mid-amp); ctx.lineTo(x,mid+amp); ctx.stroke();
+    });
+  }
   ctx.lineWidth=Math.max(1,rect.width/count*.7); ctx.lineCap="round";
   CLIP.peaks.forEach(function(p,i){
     var x=(i+.5)/count*rect.width, amp=Math.max(1.5,p*maxH);
@@ -201,7 +212,7 @@ function mountClip(name, url, revocable, isVid, source){
   m.playbackRate=+$("#cRate").value||1;
   var saved=S.scripts[file.name];
   $("#scText").value = saved ? saved.map(function(x){return x.line;}).join("\n") : "";
-  setClipPhase("prepare"); buildWaveform(source);
+  setClipPhase("prepare"); paintRef(); buildWaveform(source);
   paintScrub(); renderClip(); renderScript();
 }
 function dur(){ return (CLIP.el&&CLIP.el.duration&&isFinite(CLIP.el.duration))?CLIP.el.duration:0; }
@@ -292,6 +303,78 @@ function renderClip(){
   });
 }
 
+$("#drop").onclick=function(){ $("#clipFile").click(); };
+$("#clipFile").onchange=function(e){ if(e.target.files[0]) loadMedia(e.target.files[0]); };
+["dragenter","dragover"].forEach(function(ev){
+  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.add("over"); });
+});
+["dragleave","drop"].forEach(function(ev){
+  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.remove("over"); });
+});
+$("#drop").addEventListener("drop",function(e){
+  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+  if(f) loadMedia(f);
+});
+$("#cPlay").onclick=function(){ if(!CLIP.el) return; if(CLIP.el.paused) CLIP.el.play(); else CLIP.el.pause(); };
+$("#cSetA").onclick=function(){
+  if(!CLIP.el) return;
+  CLIP.a=+CLIP.el.currentTime.toFixed(1);
+  if(CLIP.b!=null&&CLIP.b<=CLIP.a) CLIP.b=null;
+  setClipPhase("prepare"); paintScrub();
+};
+$("#cSetB").onclick=function(){
+  if(!CLIP.el) return;
+  CLIP.b=+CLIP.el.currentTime.toFixed(1);
+  if(CLIP.a!=null&&CLIP.a>=CLIP.b) CLIP.a=null;
+  setClipPhase("prepare"); paintScrub();
+};
+$("#cLoop").onclick=function(){
+  if(CLIP.a==null||CLIP.b==null){ flash("A와 B를 먼저 찍는다"); return; }
+  CLIP.loop=!CLIP.loop; this.classList.toggle("on",CLIP.loop);
+  if(CLIP.loop&&CLIP.el){ CLIP.el.currentTime=CLIP.a; CLIP.el.play(); }
+};
+$("#cBack").onclick=function(){ if(CLIP.el) CLIP.el.currentTime=Math.max(0,CLIP.el.currentTime-3); };
+$("#cRef").onclick=function(){
+  if(REF){ REF=null; paintRef(); paintWave(); waveInfo(); return; }
+  var bt=beatNow();
+  if(!CLIP.peaks||!bt){
+    flash("파형을 아직 못 읽었다. 다 읽고 나서 잡는다"); return;
+  }
+  REF={name:(CLIP.file&&CLIP.file.name)||"", peaks:CLIP.peaks.slice(),
+       dur:dur(), segs:bt.segs.length};
+  paintRef(); paintWave(); waveInfo();
+  flash("기준으로 잡았다. 다음 파일을 열면 겹쳐 보인다");
+};
+function paintRef(){
+  var b=$("#cRef"); if(!b) return;
+  b.textContent=REF?"기준 지우기":"기준으로 잡기";
+  b.classList.toggle("on",!!REF);
+}
+$("#cRate").oninput=function(){
+  $("#cRateN").textContent=(+this.value).toFixed(2);
+  if(CLIP.el) CLIP.el.playbackRate=+this.value;
+};
+document.querySelectorAll("[data-nud]").forEach(function(b){
+  b.onclick=function(){
+    var k=b.dataset.nud, d=+b.dataset.d;
+    if(CLIP[k]==null) return;
+    CLIP[k]=Math.max(0,+(CLIP[k]+d).toFixed(1));
+    setClipPhase("prepare"); paintScrub();
+  };
+});
+$("#scrub").onclick=function(e){
+  if(!CLIP.el||!dur()) return;
+  var r=this.getBoundingClientRect();
+  CLIP.el.currentTime=(e.clientX-r.left)/r.width*dur();
+  setClipPhase("prepare"); paintScrub();
+};
+$("#cSave").onclick=function(){
+  if(!CLIP.file){ flash("파일을 먼저 연다"); return; }
+  if(CLIP.a==null||CLIP.b==null||CLIP.b<=CLIP.a){ flash("A와 B를 찍는다"); return; }
+  S.clips.push({f:CLIP.file.name,a:CLIP.a,b:CLIP.b,label:$("#cLabel").value.trim(),
+    focus:+$("#cFocus").value,note:"",date:today()});
+  $("#cLabel").value=""; setClipPhase("prepare"); save(); renderClip(); flash("구간을 저장했다");
+};
 function scKey(){ return CLIP.file ? CLIP.file.name : null; }
 function scLines(){
   var k=scKey();
@@ -356,63 +439,6 @@ $("#scClear").onclick=function(){
   var gone=S.scripts[k];
   delete S.scripts[k]; save(); renderScript();
   offerUndo("대본 1개 삭제",function(){ S.scripts[k]=gone; renderScript(); });
-};
-
-$("#drop").onclick=function(){ $("#clipFile").click(); };
-$("#clipFile").onchange=function(e){ if(e.target.files[0]) loadMedia(e.target.files[0]); };
-["dragenter","dragover"].forEach(function(ev){
-  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.add("over"); });
-});
-["dragleave","drop"].forEach(function(ev){
-  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.remove("over"); });
-});
-$("#drop").addEventListener("drop",function(e){
-  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
-  if(f) loadMedia(f);
-});
-$("#cPlay").onclick=function(){ if(!CLIP.el) return; if(CLIP.el.paused) CLIP.el.play(); else CLIP.el.pause(); };
-$("#cSetA").onclick=function(){
-  if(!CLIP.el) return;
-  CLIP.a=+CLIP.el.currentTime.toFixed(1);
-  if(CLIP.b!=null&&CLIP.b<=CLIP.a) CLIP.b=null;
-  setClipPhase("prepare"); paintScrub();
-};
-$("#cSetB").onclick=function(){
-  if(!CLIP.el) return;
-  CLIP.b=+CLIP.el.currentTime.toFixed(1);
-  if(CLIP.a!=null&&CLIP.a>=CLIP.b) CLIP.a=null;
-  setClipPhase("prepare"); paintScrub();
-};
-$("#cLoop").onclick=function(){
-  if(CLIP.a==null||CLIP.b==null){ flash("A와 B를 먼저 찍는다"); return; }
-  CLIP.loop=!CLIP.loop; this.classList.toggle("on",CLIP.loop);
-  if(CLIP.loop&&CLIP.el){ CLIP.el.currentTime=CLIP.a; CLIP.el.play(); }
-};
-$("#cBack").onclick=function(){ if(CLIP.el) CLIP.el.currentTime=Math.max(0,CLIP.el.currentTime-3); };
-$("#cRate").oninput=function(){
-  $("#cRateN").textContent=(+this.value).toFixed(2);
-  if(CLIP.el) CLIP.el.playbackRate=+this.value;
-};
-document.querySelectorAll("[data-nud]").forEach(function(b){
-  b.onclick=function(){
-    var k=b.dataset.nud, d=+b.dataset.d;
-    if(CLIP[k]==null) return;
-    CLIP[k]=Math.max(0,+(CLIP[k]+d).toFixed(1));
-    setClipPhase("prepare"); paintScrub();
-  };
-});
-$("#scrub").onclick=function(e){
-  if(!CLIP.el||!dur()) return;
-  var r=this.getBoundingClientRect();
-  CLIP.el.currentTime=(e.clientX-r.left)/r.width*dur();
-  setClipPhase("prepare"); paintScrub();
-};
-$("#cSave").onclick=function(){
-  if(!CLIP.file){ flash("파일을 먼저 연다"); return; }
-  if(CLIP.a==null||CLIP.b==null||CLIP.b<=CLIP.a){ flash("A와 B를 찍는다"); return; }
-  S.clips.push({f:CLIP.file.name,a:CLIP.a,b:CLIP.b,label:$("#cLabel").value.trim(),
-    focus:+$("#cFocus").value,note:"",date:today()});
-  $("#cLabel").value=""; setClipPhase("prepare"); save(); renderClip(); flash("구간을 저장했다");
 };
 var showDone=false;
 function renderVerify(){

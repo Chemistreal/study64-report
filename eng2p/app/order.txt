@@ -55,7 +55,8 @@ page/03_close.html    script 닫고 body 닫기
 
 # 드물게 여는 탭 넷. eng2p/out/app/late.js 로 나간다 (T313 뒤).
 # 그 탭을 처음 열 때 읽는다. 21.3KB 라 열자마자 읽을 값이 아니다.
-late/18_clip.js       클립 탭. **파일을 열어 구간을 도는 자리다.** 16KB
+late/18_clip.js       클립 탭과 마디. **파일을 열어 구간을 도는 자리다.** 16KB
+late/24_script.js     대본 동기. **클립에서 갈라 나왔다** (T365). 글은 저장하고 소리는 안 한다
 late/12_verify.js     판정 탭. **검증 대기열을 볼 때만 연다**
 late/13_quarter.js    분기 탭. **열두 주에 한 번 연다**
 late/14_check.js      규격 검사 이식. **제일 크고 제일 안 연다**
