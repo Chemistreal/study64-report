@@ -73,7 +73,11 @@
       <div class="duomark" aria-hidden="true">
         <i class="doneorb a">A</i><i class="doneorb b">B</i><i class="donering"></i>
       </div>
-      <div><b>2인 세션 완료</b><div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
+      <div><b>2인 세션 완료</b>
+        <!-- 두 시간을 되짚는다 (T378). 블록 넷은 고정값이라 저장소를 안 늘린다.
+             끝난 자리에서 곧바로 다음 일을 시키면 그것이 다그침이다. -->
+        <div id="doneRecap"></div>
+        <div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
         <div class="nextday" id="nextDay"></div></div>
     </div>
     <div class="row sessctl" id="sessCtl" style="justify-content:center;margin-top:12px">

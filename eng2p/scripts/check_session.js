@@ -187,10 +187,57 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
     await page.evaluate(() => { T.run = false; clearInterval(T.tick); });
   }
 
+  /* ---- 두 시간을 되짚는가 (T378) ---------------------------------------
+     **끝난 자리가 곧바로 다음 일을 시키고 있었다.** 12.5.2 가 그것을 막는다.
+     블록 넷은 고정값이라 저장소를 안 늘린다. 그것도 잰다. */
+  const recap = await page.evaluate(() => {
+    go("today");
+    finishSession();
+    const box = document.getElementById("doneRecap");
+    const done = document.getElementById("sessionDone");
+    return { hid: done.hidden, txt: box ? box.innerText : null,
+             all: done.innerText,
+             names: BLOCKS.map((b) => b.n), mins: BLOCKS.map((b) => b.m),
+             total: TOTAL_MIN,
+             store: JSON.stringify(S) };
+  });
+  if (recap.txt === null) fails.push("세션 끝 화면에 되짚는 자리가 없다");
+  else {
+    if (recap.hid) fails.push("세션을 끝냈는데 끝 화면이 안 뜬다");
+    /* **블록 넷을 다 되짚는다.** 못 한 것을 세는 것이 아니라 한 것을 적는다 */
+    recap.names.forEach((n, i) => {
+      if (recap.txt.indexOf(n) < 0) fails.push("되짚기에 블록 " + (i + 1) + " (" + n + ") 이 없다");
+      if (recap.txt.indexOf(recap.mins[i] + "분") < 0)
+        fails.push("되짚기에 블록 " + (i + 1) + " 의 " + recap.mins[i] + "분이 없다");
+    });
+    if (recap.txt.indexOf(recap.total / 60 + "시간을 채웠다") < 0)
+      fails.push("되짚기가 두 시간을 채웠다고 안 적는다: " + recap.txt.replace(/\s+/g, " ").slice(0, 60));
+    if (!/\d+번째다/.test(recap.txt))
+      fails.push("되짚기가 몇 번째인지를 안 적는다");
+    /* **다그치지 않는다** (12.5.2). 못 한 것을 세거나 다음을 시키지 않는다 */
+    if (/못 한|빠뜨|밀렸|서둘|해야 한다/.test(recap.txt))
+      fails.push("되짚기가 다그친다: " + recap.txt.replace(/\s+/g, " ").slice(0, 60));
+    /* **사람을 안 가른다** (quest.md 원칙) */
+    if (/가람|나래|A가|B가/.test(recap.txt))
+      fails.push("되짚기가 두 사람을 갈라 적는다");
+    /* 기록 남기라는 말은 빼지 않고 뒤로 민다 */
+    if (recap.all.indexOf("30초 안에") < 0)
+      fails.push("끝 화면에서 기록 남기라는 말이 사라졌다");
+    if (recap.all.indexOf("30초 안에") < recap.all.indexOf("시간을 채웠다"))
+      fails.push("되짚기보다 시키는 말이 먼저 온다");
+    /* **저장소를 안 늘린다.** 고정값을 되짚는 일이라 남길 것이 없다 */
+    if (/recap|doneAt|blockLog/.test(recap.store))
+      fails.push("되짚기가 저장소에 값을 남긴다");
+  }
+  /* 뜨는가 1, 블록 넷 x 2, 두 시간 1, 몇 번째 1, 다그침 1,
+     사람 가름 1, 기록 말 1, 차례 1, 저장소 1 */
+  panes += 16;
+
   await browser.close();
   errs.slice(0, 5).forEach((m) => fails.push("화면 오류: " + m));
   fails.slice(0, 20).forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("주 " + WEEKS.length + "개 x 블록 4 = " + panes + "판 (회차 셋을 돌려 본다) / 실패 " + fails.length);
+  console.log("주 " + WEEKS.length + "개 x 블록 4 + 되짚기 16 = " + panes +
+              "판 (회차 셋을 돌려 본다) / 실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

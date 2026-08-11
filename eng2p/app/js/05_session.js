@@ -104,6 +104,35 @@ function syncSessionFocus(){
   var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");
 }
 function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=true; }
+
+/* 두 시간을 되짚는다 (T378). `docs/roadmap.md` 12.18
+
+   ## 끝난 자리가 곧바로 다음 일을 시키고 있었다
+
+   세션이 끝나면 "2인 세션 완료" 한 줄이 뜨고 바로 밑에 기록을 남기라고 적혀 있었다.
+   **끝난 것을 알리는 화면이 아니라 다음 일을 시키는 화면이다.**
+   12.5.2 가 다그치지 않는다고 정했고 이 자리가 그 자리다.
+
+   ## 무엇을 되짚나
+
+   블록 넷의 이름과 분이다. **고정값이라 저장소를 안 늘린다.**
+   오늘이 정상으로 적혔으면 넷을 다 돈 것이다. 못 한 것을 안 센다.
+
+   숫자는 둘뿐이다. 두 시간과 몇 번째인가.
+   **점수가 아니다.** 누가 무엇을 더 했는지도 안 가른다 (`quest.md` 원칙).
+
+   ## 자리를 옮기지 않는다
+
+   기록 남기라는 말은 그대로 두고 **뒤로 민다.** 빼면 안 된다.
+   30초 안에 남기는 일이 이 과정의 기록 규칙이다. */
+function renderDoneRecap(){
+  var box=$("#doneRecap"); if(!box) return;
+  var p=plan();
+  var line=BLOCKS.map(function(b){ return b.n+" "+b.m+"분"; }).join(" · ");
+  box.innerHTML='<div class="small" style="margin-top:6px">'+esc(line)+'</div>'+
+    '<div class="small mut" style="margin-top:2px">'+
+    '<b>'+(TOTAL_MIN/60)+'시간을 채웠다.</b> 이것으로 '+p.done+'번째다.</div>';
+}
 function finishSession(){
   /* **밀기 하나로 되돌릴 수 없는 일이 일어난다.**
      T170 에 손가락으로 밀어 블록을 옮기게 했다. 블록 4에서 왼쪽으로 밀면
@@ -123,6 +152,7 @@ function finishSession(){
   if(rec.status!=="normal"){ rec.status="normal"; }
   clearSession();
   renderToday();
+  renderDoneRecap();
   renderNextDay();
   paintTimer();
   offerUndo("세션을 끝냈다",function(){

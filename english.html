@@ -1006,7 +1006,9 @@ body.veil-on>*:not(.veilcover){display:none}
       <div class="duomark" aria-hidden="true">
         <i class="doneorb a">A</i><i class="doneorb b">B</i><i class="donering"></i>
       </div>
-      <div><b>2인 세션 완료</b><div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
+      <div><b>2인 세션 완료</b>
+        <div id="doneRecap"></div>
+        <div class="small mut">둘이 함께 세션 기록을 30초 안에 남긴다.</div>
         <div class="nextday" id="nextDay"></div></div>
     </div>
     <div class="row sessctl" id="sessCtl" style="justify-content:center;margin-top:12px">
@@ -2797,6 +2799,15 @@ function syncSessionFocus(){
   var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");
 }
 function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=true; }
+
+function renderDoneRecap(){
+  var box=$("#doneRecap"); if(!box) return;
+  var p=plan();
+  var line=BLOCKS.map(function(b){ return b.n+" "+b.m+"분"; }).join(" · ");
+  box.innerHTML='<div class="small" style="margin-top:6px">'+esc(line)+'</div>'+
+    '<div class="small mut" style="margin-top:2px">'+
+    '<b>'+(TOTAL_MIN/60)+'시간을 채웠다.</b> 이것으로 '+p.done+'번째다.</div>';
+}
 function finishSession(){
   var was={idx:T.idx, left:T.left, status:day(today()).status,
            sess:S.session ? {date:S.session.date, idx:S.session.idx, left:S.session.left} : null};
@@ -2809,6 +2820,7 @@ function finishSession(){
   if(rec.status!=="normal"){ rec.status="normal"; }
   clearSession();
   renderToday();
+  renderDoneRecap();
   renderNextDay();
   paintTimer();
   offerUndo("세션을 끝냈다",function(){
