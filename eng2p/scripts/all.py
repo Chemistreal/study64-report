@@ -116,6 +116,7 @@ STEPS = [
     ("대조", "check_ground.py", [], True),
     # 판 자료의 영어에 근거가 있나. **G구간 게이트를 판에도 건다.** T319
     ("대조", "check_play_ground.py", [], True),
+    ("대조", "check_play_score.py", [], True),
     ("대조", "check_layers.py", [], True),
     ("대조", "check_ground_cite.py", [], True),
     ("대조", "check_refs.py", [], True),
