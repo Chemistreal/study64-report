@@ -972,6 +972,7 @@ body.veil-on>*:not(.veilcover){display:none}
     <div id="todaySlots" class="slots" hidden></div>
     <div class="todaysheet" id="todaySheet"></div>
     <div class="emgline" id="emgLine"></div>
+    <div class="emgline" id="soloLine"></div>
     <div id="emgBox"></div>
     <div class="timer">
       <div class="ringwrap">
@@ -1874,6 +1875,7 @@ function bindEmgClock(mm){
   if(EMGCLK.at) paintEmgClock();
 }
 function renderEmg(pl){
+  renderSoloLine();
   var line=$("#emgLine"), box=$("#emgBox");
   if(!line||!box) return;
   var rec=day(today());
@@ -2421,6 +2423,24 @@ function aheadLine(){
     tail=esc(x.why)+'. <b>그래서</b> '+esc(x.act)+'.';
   }
   return '<div class="small mut" style="margin-top:4px">'+head+' '+tail+'</div>';
+}
+function renderSoloLine(){
+  var line=$("#soloLine"); if(!line) return;
+  var on=(typeof soloOn==="function") && soloOn();
+  line.innerHTML= on
+    ? '<button type="button" id="soloOff">기기가 하나인 날로 돌고 있다. 끄기</button>'+
+      '<span class="small mut">두 시간을 다 돈다. 판은 돌려 보며 한다. '+
+      '<b>비상판이 아니다.</b> 둘이 다 있는 날이다.</span>'
+    : '<button type="button" id="soloOn2">오늘 기기가 하나다</button>'+
+      '<span class="small mut">두 시간을 다 돈다. <b>비상판으로 안 간다.</b> '+
+      '없는 것이 상대일 때만 비상판이다 (매뉴얼 11장).</span>';
+  if($("#soloOn2")) $("#soloOn2").onclick=function(){
+    S.solo=true; S.soloSeat=0; save(); renderToday();
+    flash("기기가 하나인 날로 돈다. 두 시간을 다 돈다");
+  };
+  if($("#soloOff")) $("#soloOff").onclick=function(){
+    S.solo=false; save(); renderToday();
+  };
 }
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],

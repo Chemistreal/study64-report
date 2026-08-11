@@ -1728,6 +1728,39 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   })();
   back.forEach((m) => fails.push("돌아올 길: " + m));
 
+  /* 없는 것이 상대인가 기기인가 (T354). 매뉴얼 11장이 바로잡은 자리다.
+     **둘을 헷갈리면 그날 두 시간을 통째로 버린다.** 첫 화면에 둘 다 있어야 한다. */
+  {
+    const c9 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const p9 = await c9.newPage();
+    await p9.goto(PAGE);
+    await p9.evaluate(() => {
+      S.onboarded = true; S.names.a = "남편"; S.names.b = "아내";
+      S.solo = false; saveNow();
+    });
+    await p9.goto(PAGE);
+    await p9.waitForTimeout(500);
+    const t9 = await p9.evaluate(() => ({
+      emg: (document.getElementById("emgLine") || {}).innerText || "",
+      solo: (document.getElementById("soloLine") || {}).innerText || "",
+      btn: !!document.getElementById("soloOn2"),
+    }));
+    if (!/상대가 없다/.test(t9.emg))
+      fails.push("첫 화면: 상대가 없는 날로 가는 자리가 없다");
+    if (!t9.btn) fails.push("첫 화면: 기기가 하나인 날로 가는 자리가 없다");
+    if (!/두 시간을 다 돈다/.test(t9.solo))
+      fails.push("첫 화면: 기기가 하나인 날에 두 시간을 다 돈다는 말이 없다");
+    if (!/비상판으로 안 간다/.test(t9.solo))
+      fails.push("첫 화면: 기기가 하나면 비상판이 아니라는 말이 없다");
+    await p9.click("#soloOn2");
+    await p9.waitForTimeout(250);
+    const on9 = await p9.evaluate(() => ({ on: soloOn(),
+      txt: document.getElementById("soloLine").innerText }));
+    if (!on9.on) fails.push("첫 화면: 눌렀는데 기기 하나인 날로 안 바뀐다");
+    if (!/끄기/.test(on9.txt)) fails.push("첫 화면: 되돌릴 자리가 없다");
+    await c9.close();
+  }
+
   /* **적는 칸에서 손이 안 끊기는가.**
      블록 칸은 세션이 도는 동안 매초 다시 그려진다. 값이 그리는 글 안에 있으면
      한 글자 칠 때마다 글이 달라지고 칸이 통째로 갈린다. 그러면 치던 글이 사라진다.

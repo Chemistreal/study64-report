@@ -120,6 +120,7 @@ function bindEmgClock(mm){
   if(EMGCLK.at) paintEmgClock();
 }
 function renderEmg(pl){
+  renderSoloLine();
   var line=$("#emgLine"), box=$("#emgBox");
   if(!line||!box) return;
   var rec=day(today());
@@ -491,4 +492,3 @@ function jo(name,withJ,without){
   return s+(has?withJ:without);
 }
 function monday(d){ var x=parseISO(d); var w=(x.getDay()+6)%7; x.setDate(x.getDate()-w); return iso(x); }
-
