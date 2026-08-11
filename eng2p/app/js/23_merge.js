@@ -51,6 +51,14 @@ function mgCard(a,b){
 }
 /* 값이 있는가. 0과 빈 글자와 빈 모음은 없는 것으로 본다.
    **없는 자리를 채우는 것은 안 묻는다.** 그것은 고를 것이 없는 일이다. */
+/* 두 기기에 다르게 적힌 글을 잇는다 (T340). **덮지 않고 잇는다.**
+   두 번 합쳐도 같아야 한다. 이미 든 글이면 안 덧붙인다. */
+function mgJoin(a,b){
+  if(!a) return b;
+  if(!b || a===b) return a;
+  if(a.indexOf(b)>=0) return a;
+  return a+"\n[저쪽 기기] "+b;
+}
 function mgHas(v){
   if(v==null) return false;
   if(typeof v==="string") return v.trim().length>0;
@@ -154,8 +162,21 @@ function mergePlan(mine, theirs){
           note(d+" "+mgKo(k)+" ("+c.toUpperCase()+")", "(빈 칸)", "채워진다");
           continue;
         }
-        if(String(mv[c])!==String(tv[c]))
-          mgAsk(ask,["days",d,k,c],d+" "+mgKo(k)+" ("+c.toUpperCase()+")",mv[c],tv[c]);
+        /* **글은 안 묻고 둘 다 남긴다** (T340).
+
+           전에는 여기서 물었다. 1년을 따로 돌고 합치면 **물음이 288개**가 난다.
+           하나씩 고르는 것은 아무도 못 하고 그 288 중 하나를 잘못 고르면
+           그날 적은 글이 없어진다. 합치기는 **덮는 것이 아니다** (merge.md).
+
+           둘 다 남기면 아무것도 안 잃는다. 지우는 것은 사람이 나중에 하면 되고
+           그것은 되돌릴 수 있다. 고르는 것은 그 자리에서 하나를 버리는 일이다. */
+        if(String(mv[c])!==String(tv[c])){
+          var both=mgJoin(String(mv[c]), String(tv[c]));
+          if(both!==String(mv[c])){
+            o[k]=o[k]||{}; o[k][c]=both;
+            note(d+" "+mgKo(k)+" ("+c.toUpperCase()+")","한 기기 것","둘 다 남긴다");
+          }
+        }
       }
     });
   }
@@ -284,6 +305,8 @@ function mergeApply(plan, pick){
    가져오기는 누르고 나서 보였다. 무엇이 덮였는지는 덮은 뒤에야 보인다 (T184).
    합치기는 누르기 전에 보인다. 그것이 이 화면의 값이다.
    ========================================================================= */
+/* 고를 것이 이만큼을 넘으면 하나씩 안 묻는다 (T340). 표도 여기까지만 그린다 */
+var MG_MANY=20;
 var MG={plan:null, pick:{}, name:""};
 
 function mgText(v){
@@ -350,8 +373,24 @@ function renderMerge(){
     h+='<div class="note w" style="margin-top:8px"><b>고를 것이 '+p.ask.length+
        '개다.</b> 둘 다 값이 있고 서로 다른 자리다. '+
        '기계가 어느 쪽이 맞는지 모른다. <b>다 고르기 전에는 안 바뀐다.</b></div>';
+    /* **많으면 하나씩 안 고른다** (T340). 1년을 따로 돌고 합치면 여기가 수백 줄이 된다.
+       하나씩 고르라고 하면 아무도 안 하고 그러면 합치기가 통째로 안 돌아간다.
+       그때는 통째로 한쪽을 고르는 것이 맞다. **어느 기기가 더 오래 돌았는가**가
+       그 판단이고 그것은 두 사람이 안다. */
+    if(p.ask.length>MG_MANY)
+      h+='<div class="note" style="margin-top:8px">'+
+         '<b>두 기기가 오래 떨어져 있었다.</b> 이만큼을 하나씩 고르는 것은 못 한다. '+
+         '<b>통째로 한쪽을 고른다.</b> 더 오래 돌린 기기 쪽이 대개 맞다. '+
+         '고른 뒤에 아래 표에서 몇 개만 다시 바꿔도 된다.</div>';
+    h+='<div class="row" style="gap:8px;margin-top:8px">'+
+       '<button class="g" id="mgAllM">다 이 기기 것으로</button>'+
+       '<button class="g" id="mgAllT">다 가져온 것으로</button>'+
+       '<button class="g" id="mgClr">고른 것 지우기</button>'+
+       '<span class="small mut" id="mgPicked">'+
+       Object.keys(MG.pick).length+' / '+p.ask.length+' 골랐다</span></div>';
     h+='<table class="mgtab"><tr><th scope="col">무엇</th><th scope="col">이 기기</th><th scope="col">가져온 것</th></tr>';
-    p.ask.forEach(function(q,i){
+    /* 표는 스무 줄까지만 그린다. 바뀌는 셈을 열 줄까지만 적는 것과 같은 이유다 */
+    p.ask.slice(0,MG_MANY).forEach(function(q,i){
       var mk=MG.pick[q.path]==="mine", tk=MG.pick[q.path]==="theirs";
       h+='<tr><td>'+esc(q.what)+'</td>'+
          '<td><button class="mgpick'+(mk?" on":"")+'" data-i="'+i+'" data-s="mine">'+
@@ -360,6 +399,9 @@ function renderMerge(){
          esc(mgText(q.theirs))+'</button></td></tr>';
     });
     h+='</table>';
+    if(p.ask.length>MG_MANY)
+      h+='<div class="small mut">그리고 '+(p.ask.length-MG_MANY)+
+         '개 더. 위의 통째 고르기가 그것까지 다 정한다.</div>';
   }
   h+='<div class="row" style="margin-top:12px">'+
      '<button class="g" id="mgGo">합친다</button>'+
@@ -372,6 +414,14 @@ function renderMerge(){
       renderMerge();
     };
   });
+  /* 통째 고르기 (T340). **지우는 자리도 같이 둔다.** 잘못 누르면 되돌려야 한다 */
+  function mgAll(side){
+    p.ask.forEach(function(q){ MG.pick[q.path]=side; });
+    renderMerge();
+  }
+  if($("#mgAllM")) $("#mgAllM").onclick=function(){ mgAll("mine"); };
+  if($("#mgAllT")) $("#mgAllT").onclick=function(){ mgAll("theirs"); };
+  if($("#mgClr")) $("#mgClr").onclick=function(){ MG.pick={}; renderMerge(); };
   $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
   $("#mgGo").onclick=function(){
     /* 화면을 띄운 뒤에 세션이 시작될 수 있다. **누르는 그 순간에 다시 본다.** */

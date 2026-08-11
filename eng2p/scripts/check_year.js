@@ -241,13 +241,116 @@ const AHEAD_ON = 21;
     no("적는 칸이 " + auto.inputs + "개다. 조건 " + auto.conds +
        " 중 누적 시간 하나만 앱이 센다");
 
+  /* ---- 5. 두 기기가 1년을 따로 돌고 합칠 때 (T340) ----------------------
+     짝 맞추기는 날마다 하는 것이 규격이다 (매뉴얼 0장). 그런데 안 할 수 있다.
+     **1년을 따로 돌고 나서 합치는 판을 아무도 안 봤다.** */
+  const two = await page.evaluate(() => {
+    const mk = (n, tag) => {
+      const days = {}; let k = 0, c = 0;
+      while (c < n) {
+        const d = addDays(today(), -k);
+        if (parseISO(d).getDay() !== 0) {
+          days[d] = { status: "normal", speak: 60 + tag, cards: 60, lre: 8,
+                      unres: [], coll: ["a"],
+                      aim: { a: "이쪽 " + c, b: "" } };
+          c++;
+        }
+        k++;
+      }
+      return days;
+    };
+    S.days = {}; saveNow();
+    const mine = JSON.parse(JSON.stringify(S));
+    mine.days = mk(288, 0);
+    const theirs = JSON.parse(JSON.stringify(S));
+    theirs.days = mk(288, 1);
+    Object.keys(theirs.days).forEach((d, i) => {
+      theirs.days[d].aim = { a: "저쪽 " + i, b: "" };
+    });
+    const p1 = mergePlan(mine, theirs);
+    /* **두 번 합쳐도 같아야 한다.** 이은 글이 자꾸 늘면 1년 뒤에 못 읽는다 */
+    const p2 = mergePlan(p1.out, theirs);
+    const one = Object.keys(p1.out.days).sort()[0];
+    /* 그날 상태가 다르면 그것은 골라야 한다. 글과 다르다 */
+    const t3 = JSON.parse(JSON.stringify(theirs));
+    Object.keys(t3.days).forEach((d) => { t3.days[d].status = "emg"; });
+    const p3 = mergePlan(mine, t3);
+    return {
+      ask1: p1.ask.length, ask3: p3.ask.length,
+      joined: p1.out.days[one].aim.a,
+      again: p2.out.days[one].aim.a,
+      chg2: p2.chg.length,
+      speak: p1.out.days[one].speak,
+    };
+  });
+  /* **글은 안 묻고 둘 다 남긴다.** 288개를 하나씩 고르게 하면 아무도 못 한다 */
+  if (two.ask1) no("글이 다르다고 " + two.ask1 + "개를 묻는다. 둘 다 남겨야 한다");
+  if (two.joined.indexOf("이쪽") < 0 || two.joined.indexOf("저쪽") < 0)
+    no("합친 글에 한쪽이 없다: " + two.joined);
+  /* **두 번 합쳐도 같다** */
+  if (two.again !== two.joined)
+    no("두 번 합치니 글이 또 늘었다: " + two.again);
+  if (two.chg2) no("바뀔 것이 없는데 두 번째 합치기가 " + two.chg2 + "개를 바꾼다");
+  /* 큰 것을 든다 (MG_MAXDAY) */
+  if (two.speak !== 61) no("발화 분이 " + two.speak + "이다. 큰 쪽을 들어야 한다");
+  /* **골라야 하는 것은 그대로 묻는다.** 그날 상태는 이을 수 없다 */
+  if (two.ask3 < 200)
+    no("그날 상태가 288개 다른데 물음이 " + two.ask3 + "개다. 상태는 골라야 한다");
+
+  /* 많이 물을 때 통째로 고르는 자리가 있는가 */
+  const many = await page.evaluate(() => {
+    go("ledger");
+    MG.name = "저쪽 기기"; MG.pick = {};
+    const mk = (tag) => {
+      const days = {}; let k = 0, c = 0;
+      while (c < 288) {
+        const d = addDays(today(), -k);
+        if (parseISO(d).getDay() !== 0) {
+          days[d] = { status: tag ? "emg" : "normal", speak: 60, cards: 60,
+                      lre: 8, unres: [], coll: [] };
+          c++;
+        }
+        k++;
+      }
+      return days;
+    };
+    S.days = mk(0); saveNow();
+    const theirs = JSON.parse(JSON.stringify(S));
+    theirs.days = mk(1);
+    MG.plan = mergePlan(JSON.parse(JSON.stringify(S)), theirs);
+    renderMerge();
+    const box = document.getElementById("mgBox");
+    return { asks: MG.plan.ask.length, txt: box.innerText,
+             rows: box.querySelectorAll(".mgtab tr").length,
+             allM: !!document.getElementById("mgAllM"),
+             allT: !!document.getElementById("mgAllT"),
+             clr: !!document.getElementById("mgClr") };
+  });
+  if (many.asks < 200) no("붙박이가 안 섰다. 물음이 " + many.asks + "개다");
+  if (!many.allM || !many.allT) no("통째로 고르는 자리가 없다");
+  if (!many.clr) no("고른 것을 지우는 자리가 없다. 잘못 누르면 못 되돌린다");
+  /* **표를 다 안 그린다.** 수백 줄을 그리면 아무도 안 읽는다 */
+  if (many.rows > 22) no("표가 " + many.rows + "줄이다. 스물까지만 그린다");
+  if (!/오래 떨어져 있었다/.test(many.txt))
+    no("왜 통째로 고르라는지가 없다: " + many.txt.slice(0, 80));
+  if (!/개 더/.test(many.txt)) no("안 그린 것이 몇 개인지를 안 적는다");
+
+  /* 통째로 고르면 다 정해진다 */
+  const all = await page.evaluate(() => {
+    document.getElementById("mgAllT").click();
+    return { picked: Object.keys(MG.pick).length, asks: MG.plan.ask.length };
+  });
+  if (all.picked !== all.asks)
+    no("통째로 골랐는데 " + all.picked + " / " + all.asks + " 만 정해졌다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마흔여덟 주를 진짜로 견디는가**");
-  console.log("1년 %d판 (주마다 6판 x 48 = %d, 구간 줄 3, 갈래 1, 끝 6, 밀린 해 9, 앱이 셈 5) / 실패 %d",
-              48 * 6 + 24, 48 * 6, fails.length);
+  console.log("1년 %d판 (주마다 6판 x 48 = %d, 구간 줄 3, 갈래 1, 끝 6, 밀린 해 9, " +
+              "앱이 셈 5, 두 기기 12) / 실패 %d",
+              48 * 6 + 36, 48 * 6, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

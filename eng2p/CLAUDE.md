@@ -157,6 +157,7 @@ docs/streak.md        공동 연속일과 회복권. **날을 세지 사람을 �
 docs/round.md          같은 판. **망 없이 셈으로 맞춘다.** 시계에서 아무것도 안 낸다
 docs/year.md          1년을 통째로 돈다. **앱이 아는 것을 사람이 다시 적고 있었다**
                       6장이 밀린 해다. **오백 날이 넘게 걸리는 해가 있다**
+                      7장이 1년치 합치기다. **이을 것과 골라야 할 것을 가른다**
 scripts/derive_bundle.py 강의록을 분기마다 한 파일로 묶는다 (인쇄용)
 scripts/derive_data.py  앱이 읽는 JSON 을 파생. 마크다운이 원본이다
 scripts/derive_transcripts.py 대본 52편을 script 한 파일로 묶는다 (file:// 대응)
@@ -209,7 +210,7 @@ scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지
 scripts/check_relation.js 관계 점검과 신호 33판. **따로 적고 같이 편다**
 scripts/check_growth.js 되돌아보기 33판. **앱이 소리를 안 들고 있는다**
 scripts/check_ahead.js 미리 아는 것과 봉투 50판. **표는 있었는데 그때 안 떴다**
-scripts/check_year.js  1년을 통째로 돈다 312판. **막는 값이 세는 값이 되면 안 된다**
+scripts/check_year.js  1년을 통째로 돈다 324판. **막는 값이 세는 값이 되면 안 된다**
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다

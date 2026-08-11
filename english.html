@@ -5160,6 +5160,12 @@ function mgCard(a,b){
   });
   return {box:late.box, due:late.due, ran:late.ran, hist:Object.keys(seen).sort()};
 }
+function mgJoin(a,b){
+  if(!a) return b;
+  if(!b || a===b) return a;
+  if(a.indexOf(b)>=0) return a;
+  return a+"\n[저쪽 기기] "+b;
+}
 function mgHas(v){
   if(v==null) return false;
   if(typeof v==="string") return v.trim().length>0;
@@ -5237,8 +5243,13 @@ function mergePlan(mine, theirs){
           note(d+" "+mgKo(k)+" ("+c.toUpperCase()+")", "(빈 칸)", "채워진다");
           continue;
         }
-        if(String(mv[c])!==String(tv[c]))
-          mgAsk(ask,["days",d,k,c],d+" "+mgKo(k)+" ("+c.toUpperCase()+")",mv[c],tv[c]);
+        if(String(mv[c])!==String(tv[c])){
+          var both=mgJoin(String(mv[c]), String(tv[c]));
+          if(both!==String(mv[c])){
+            o[k]=o[k]||{}; o[k][c]=both;
+            note(d+" "+mgKo(k)+" ("+c.toUpperCase()+")","한 기기 것","둘 다 남긴다");
+          }
+        }
       }
     });
   }
@@ -5341,6 +5352,7 @@ function mergeApply(plan, pick){
   return {ok:true, out:out};
 }
 
+var MG_MANY=20;
 var MG={plan:null, pick:{}, name:""};
 
 function mgText(v){
@@ -5395,8 +5407,19 @@ function renderMerge(){
     h+='<div class="note w" style="margin-top:8px"><b>고를 것이 '+p.ask.length+
        '개다.</b> 둘 다 값이 있고 서로 다른 자리다. '+
        '기계가 어느 쪽이 맞는지 모른다. <b>다 고르기 전에는 안 바뀐다.</b></div>';
+    if(p.ask.length>MG_MANY)
+      h+='<div class="note" style="margin-top:8px">'+
+         '<b>두 기기가 오래 떨어져 있었다.</b> 이만큼을 하나씩 고르는 것은 못 한다. '+
+         '<b>통째로 한쪽을 고른다.</b> 더 오래 돌린 기기 쪽이 대개 맞다. '+
+         '고른 뒤에 아래 표에서 몇 개만 다시 바꿔도 된다.</div>';
+    h+='<div class="row" style="gap:8px;margin-top:8px">'+
+       '<button class="g" id="mgAllM">다 이 기기 것으로</button>'+
+       '<button class="g" id="mgAllT">다 가져온 것으로</button>'+
+       '<button class="g" id="mgClr">고른 것 지우기</button>'+
+       '<span class="small mut" id="mgPicked">'+
+       Object.keys(MG.pick).length+' / '+p.ask.length+' 골랐다</span></div>';
     h+='<table class="mgtab"><tr><th scope="col">무엇</th><th scope="col">이 기기</th><th scope="col">가져온 것</th></tr>';
-    p.ask.forEach(function(q,i){
+    p.ask.slice(0,MG_MANY).forEach(function(q,i){
       var mk=MG.pick[q.path]==="mine", tk=MG.pick[q.path]==="theirs";
       h+='<tr><td>'+esc(q.what)+'</td>'+
          '<td><button class="mgpick'+(mk?" on":"")+'" data-i="'+i+'" data-s="mine">'+
@@ -5405,6 +5428,9 @@ function renderMerge(){
          esc(mgText(q.theirs))+'</button></td></tr>';
     });
     h+='</table>';
+    if(p.ask.length>MG_MANY)
+      h+='<div class="small mut">그리고 '+(p.ask.length-MG_MANY)+
+         '개 더. 위의 통째 고르기가 그것까지 다 정한다.</div>';
   }
   h+='<div class="row" style="margin-top:12px">'+
      '<button class="g" id="mgGo">합친다</button>'+
@@ -5417,6 +5443,13 @@ function renderMerge(){
       renderMerge();
     };
   });
+  function mgAll(side){
+    p.ask.forEach(function(q){ MG.pick[q.path]=side; });
+    renderMerge();
+  }
+  if($("#mgAllM")) $("#mgAllM").onclick=function(){ mgAll("mine"); };
+  if($("#mgAllT")) $("#mgAllT").onclick=function(){ mgAll("theirs"); };
+  if($("#mgClr")) $("#mgClr").onclick=function(){ MG.pick={}; renderMerge(); };
   $("#mgNo").onclick=function(){ MG.plan=null; MG.pick={}; renderMerge(); };
   $("#mgGo").onclick=function(){
     if(mergeBusy()){ renderMerge(); return; }

@@ -108,6 +108,10 @@
 const path = require("path");
 const fs = require("fs");
 
+/* 빈칸을 접는다. 화면이 잇단 빈칸을 하나로 그리기 때문이다 (T340 뒤) */
+const flatSp = (x) => String(x).replace(/\s+/g, " ").trim();
+
+
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
 const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
@@ -1298,7 +1302,13 @@ const RESET = () => {
     const th = await pane(taker);
     if (th.indexOf(withAns) >= 0)
       no("3초 벽: 정답이 받는 쪽 화면에 있다: " + withAns);
-    if (!(await text(shower)).includes(withAns))
+    /* **화면은 빈칸을 접는다.** 자료가 줄을 맞추려고 빈칸 둘을 들고 있으면
+       그 글자는 화면 글자와 영영 다르다. `1) book  2) here` 가 화면에서는
+       `1) book 2) here` 로 나온다. 자료 여든여덟 자리가 그렇게 적혀 있고
+       그것은 인쇄물의 줄맞춤이라 고칠 것이 아니다.
+       **있는지 없는지를 볼 때는 빈칸을 접고 견준다.** 새는지 볼 때는 안 접는다.
+       접고 재면 안 새는 것을 샌다고 할 일은 없지만 그 반대는 있다. */
+    if (!flatSp(await text(shower)).includes(flatSp(withAns)))
       no("3초 벽: 정답이 띄우는 쪽 화면에도 없다. 안 그리는 것은 안 새는 것이 아니다");
   }
 

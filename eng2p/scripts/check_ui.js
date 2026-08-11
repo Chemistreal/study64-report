@@ -2284,6 +2284,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
                ran: pl.out.cardDue["Q1-001"].ran,
                hist: pl.out.cardDue["Q1-001"].hist,
                rot: pl.out.rot.length, twiceUnres: twice.unres.length,
+               twiceAim: twice.aim.a,
                planStatus: d5.status, planAim: d5.aim.a, planName: pl.out.names.b,
                halfErr: mergeApply(pl, some).err || "",
                applied: done.ok ? { status: done.out.days["2026-01-05"].status,
@@ -2309,11 +2310,22 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       bad.push("합치기가 돈 날을 안 합친다: " + JSON.stringify(mg.hist));
     if (mg.twiceUnres !== 2) bad.push("두 번 합쳤더니 미해결이 " + mg.twiceUnres + "개다");
     /* 둘. 못 정하는 것을 자동으로 안 정한다 */
-    const wantAsk = ["names.b", "days.2026-01-05.status", "days.2026-01-05.aim.a"];
+    const wantAsk = ["names.b", "days.2026-01-05.status"];
     wantAsk.forEach((k) => {
       if (mg.asks.indexOf(k) < 0) bad.push("합치기가 " + k + " 를 안 묻는다");
     });
-    if (mg.planStatus !== "normal" || mg.planAim !== "내가 본 지점" || mg.planName !== "아내")
+    /* **글은 안 묻고 둘 다 남긴다** (T340). 1년치를 합치면 여기가 288개가 되고
+       하나씩 고르는 것은 아무도 못 한다. 그리고 고르는 것은 하나를 버리는 일이다.
+       그날 상태는 못 이으므로 그대로 묻는다. **이을 것과 골라야 할 것을 가른다.** */
+    if (mg.asks.indexOf("days.2026-01-05.aim.a") >= 0)
+      bad.push("합치기가 그날 적은 글을 고르라고 한다. 둘 다 남겨야 한다");
+    if (mg.planAim.indexOf("내가 본 지점") < 0 ||
+        mg.planAim.indexOf("상대가 본 지점") < 0)
+      bad.push("합친 글에 한쪽이 없다: " + mg.planAim);
+    /* 두 번 합쳐도 같다. 이미 든 글이면 안 덧붙인다 */
+    if (mg.twiceAim !== mg.planAim)
+      bad.push("두 번 합치니 글이 또 늘었다: " + mg.twiceAim);
+    if (mg.planStatus !== "normal" || mg.planName !== "아내")
       bad.push("고르기 전에 이미 상대 값으로 바뀌었다");
     if (!mg.halfErr) bad.push("덜 고르고도 합쳐진다");
     /* 남은 수를 판에서 뽑는다. 숫자를 적어 두면 판이 바뀔 때 그 숫자가 먼저 낡는다. */
@@ -2323,7 +2335,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     else {
       if (mg.applied.status !== "emg")
         bad.push("고른 값이 저장소 말로 안 돌아간다: " + mg.applied.status);
-      if (mg.applied.aim !== "상대가 본 지점") bad.push("고른 글이 안 들어간다");
+      if (mg.applied.aim !== mg.planAim)
+        bad.push("합친 글이 저장소 말로 안 돌아간다: " + mg.applied.aim);
       if (mg.applied.name !== "안사람") bad.push("고른 이름이 안 들어간다");
     }
     /* 사람에게 보이는 이름표가 키 이름이면 안 된다. 두 사람은 aim 이 무엇인지 모른다. */
