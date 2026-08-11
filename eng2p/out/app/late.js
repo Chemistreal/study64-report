@@ -35,7 +35,7 @@ function waveInfo(){
     msg="파일을 열면 실제 음성 파형을 분석한다.";
   }
   if(info.textContent!==msg) info.textContent=msg;
-  renderDiff();
+  renderDiff(); renderStress();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -75,6 +75,11 @@ function paintWave(){
     bt.segs.forEach(function(g){
       ctx.beginPath();
       ctx.moveTo(g.t0/d2*rect.width,y); ctx.lineTo(g.t1/d2*rect.width,y); ctx.stroke();
+    });
+    ctx.fillStyle=css.getPropertyValue("--a1").trim()||"#6366f1";
+    bt.segs.forEach(function(g){
+      ctx.beginPath();
+      ctx.arc(g.top/d2*rect.width, 3, 2.5, 0, Math.PI*2); ctx.fill();
     });
   }
   ctx.globalAlpha=1;
@@ -151,7 +156,11 @@ function beatSegs(peaks, dur){
   var segs=[], from=-1, quiet=0;
   function close(end){
     if(from<0) return;
-    if(end-from>=minN) segs.push({t0:from*per, t1:end*per, n:end-from});
+    if(end-from>=minN){
+      var top=from, amp=peaks[from];
+      for(var k=from;k<end;k++) if(peaks[k]>amp){ amp=peaks[k]; top=k; }
+      segs.push({t0:from*per, t1:end*per, n:end-from, top:top*per, amp:amp});
+    }
     from=-1;
   }
   for(var i=0;i<peaks.length;i++){
@@ -165,6 +174,29 @@ function beatSegs(peaks, dur){
   }
   close(peaks.length);
   return {thr:thr, per:per, segs:segs};
+}
+
+function beatPick(r){
+  if(!r||r.segs.length<2) return null;
+  var lo=0, hi=0, i;
+  for(i=1;i<r.segs.length;i++){
+    if(r.segs[i].t1-r.segs[i].t0 > r.segs[lo].t1-r.segs[lo].t0) lo=i;
+    if(r.segs[i].amp > r.segs[hi].amp) hi=i;
+  }
+  return {longest:lo, loudest:hi, len:r.segs[lo].t1-r.segs[lo].t0,
+          same:lo===hi};
+}
+function renderStress(){
+  var box=$("#clipStress"); if(!box) return;
+  var p=beatPick(beatNow());
+  if(!p){ box.hidden=true; box.textContent=""; return; }
+  box.hidden=false;
+  var say=p.same
+    ? "제일 길고 제일 센 마디가 "+(p.longest+1)+"번째다 ("+p.len.toFixed(1)+"초)"
+    : "제일 긴 마디 "+(p.longest+1)+"번째 ("+p.len.toFixed(1)+"초) · "+
+      "제일 센 마디 "+(p.loudest+1)+"번째";
+  say+=" · 마디 안 어디인지는 안 잰다";
+  if(box.textContent!==say) box.textContent=say;
 }
 
 function beatDiff(){
@@ -257,6 +289,136 @@ function paintScrub(){
   paintWave(); waveInfo();
 }
 window.addEventListener("resize",paintWave);
+$("#drop").onclick=function(){ $("#clipFile").click(); };
+$("#clipFile").onchange=function(e){ if(e.target.files[0]) loadMedia(e.target.files[0]); };
+["dragenter","dragover"].forEach(function(ev){
+  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.add("over"); });
+});
+["dragleave","drop"].forEach(function(ev){
+  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.remove("over"); });
+});
+$("#drop").addEventListener("drop",function(e){
+  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+  if(f) loadMedia(f);
+});
+$("#cPlay").onclick=function(){ if(!CLIP.el) return; if(CLIP.el.paused) CLIP.el.play(); else CLIP.el.pause(); };
+$("#cSetA").onclick=function(){
+  if(!CLIP.el) return;
+  CLIP.a=+CLIP.el.currentTime.toFixed(1);
+  if(CLIP.b!=null&&CLIP.b<=CLIP.a) CLIP.b=null;
+  setClipPhase("prepare"); paintScrub();
+};
+$("#cSetB").onclick=function(){
+  if(!CLIP.el) return;
+  CLIP.b=+CLIP.el.currentTime.toFixed(1);
+  if(CLIP.a!=null&&CLIP.a>=CLIP.b) CLIP.a=null;
+  setClipPhase("prepare"); paintScrub();
+};
+$("#cLoop").onclick=function(){
+  if(CLIP.a==null||CLIP.b==null){ flash("A와 B를 먼저 찍는다"); return; }
+  CLIP.loop=!CLIP.loop; this.classList.toggle("on",CLIP.loop);
+  if(CLIP.loop&&CLIP.el){ CLIP.el.currentTime=CLIP.a; CLIP.el.play(); }
+};
+$("#cBack").onclick=function(){ if(CLIP.el) CLIP.el.currentTime=Math.max(0,CLIP.el.currentTime-3); };
+$("#cRef").onclick=function(){
+  if(REF){ REF=null; paintRef(); paintWave(); waveInfo(); return; }
+  var bt=beatNow();
+  if(!CLIP.peaks||!bt){
+    flash("파형을 아직 못 읽었다. 다 읽고 나서 잡는다"); return;
+  }
+  REF={name:(CLIP.file&&CLIP.file.name)||"", peaks:CLIP.peaks.slice(),
+       dur:dur(), segs:bt.segs.length};
+  paintRef(); paintWave(); waveInfo();
+  flash("기준으로 잡았다. 다음 파일을 열면 겹쳐 보인다");
+};
+function paintRef(){
+  var b=$("#cRef"); if(!b) return;
+  b.textContent=REF?"기준 지우기":"기준으로 잡기";
+  b.classList.toggle("on",!!REF);
+}
+$("#cRate").oninput=function(){
+  $("#cRateN").textContent=(+this.value).toFixed(2);
+  if(CLIP.el) CLIP.el.playbackRate=+this.value;
+};
+document.querySelectorAll("[data-nud]").forEach(function(b){
+  b.onclick=function(){
+    var k=b.dataset.nud, d=+b.dataset.d;
+    if(CLIP[k]==null) return;
+    CLIP[k]=Math.max(0,+(CLIP[k]+d).toFixed(1));
+    setClipPhase("prepare"); paintScrub();
+  };
+});
+$("#scrub").onclick=function(e){
+  if(!CLIP.el||!dur()) return;
+  var r=this.getBoundingClientRect();
+  CLIP.el.currentTime=(e.clientX-r.left)/r.width*dur();
+  setClipPhase("prepare"); paintScrub();
+};
+function scKey(){ return CLIP.file ? CLIP.file.name : null; }
+function scLines(){
+  var k=scKey();
+  return (k && S.scripts[k]) ? S.scripts[k] : [];
+}
+function renderScript(){
+  var box=$("#scList"); if(!box) return;
+  box.innerHTML="";
+  var k=scKey();
+  if(!k){ box.innerHTML='<div class="note small">파일을 먼저 연다. 대본은 파일 이름에 붙는다.</div>'; return; }
+  var arr=scLines();
+  if(!arr.length){ box.innerHTML='<div class="note small">대본을 붙여넣고 줄 나누기를 누른다.</div>'; return; }
+  arr.forEach(function(ln,i){
+    var d=el("div","clip");
+    var top=el("div","hd2");
+    var left=el("div"); left.style.flex="1"; left.style.minWidth="140px";
+    left.appendChild(el("div",null,ln.line));
+    left.appendChild(el("div","small mut tc", ln.t==null ? "시각 미지정" : mmss(ln.t)));
+    top.appendChild(left);
+    var acts=el("div","row"); acts.style.gap="6px";
+    var mark=el("button","g","여기 찍기");
+    mark.style.padding="3px 10px"; mark.style.fontSize="12px";
+    mark.onclick=function(){
+      if(!CLIP.el) return;
+      ln.t=+CLIP.el.currentTime.toFixed(1); save(); renderScript();
+    };
+    acts.appendChild(mark);
+    if(ln.t!=null){
+      var play=el("button","g","이 줄 재생");
+      play.style.padding="3px 10px"; play.style.fontSize="12px";
+      play.onclick=function(){
+        if(!CLIP.el) return;
+        var nxt=null;
+        for(var j=i+1;j<arr.length;j++){ if(arr[j].t!=null){ nxt=arr[j].t; break; } }
+        CLIP.a=ln.t; CLIP.b=(nxt!=null?nxt:Math.min(dur(),ln.t+6));
+        CLIP.loop=true; $("#cLoop").classList.add("on");
+        CLIP.el.currentTime=ln.t; CLIP.el.play(); paintScrub();
+      };
+      acts.appendChild(play);
+    }
+    acts.appendChild(spkBtn(ln.line.replace(/^[A-Z]\s*:\s*/,"")));
+    top.appendChild(acts); d.appendChild(top);
+    box.appendChild(d);
+  });
+  var done=arr.filter(function(x){return x.t!=null;}).length;
+  box.appendChild(el("div","note small","시각 지정 "+done+" / "+arr.length+"줄. 앞줄부터 순서대로 찍는다. 다음 줄 시각이 그 줄의 끝이 된다."));
+}
+$("#scLoad").onclick=function(){
+  var k=scKey();
+  if(!k){ flash("파일을 먼저 연다"); return; }
+  var lines=$("#scText").value.split("\n").map(function(x){return x.trim();}).filter(Boolean);
+  if(!lines.length){ flash("대본이 비어 있다"); return; }
+  var old=S.scripts[k]||[];
+  S.scripts[k]=lines.map(function(L){
+    var hit=old.filter(function(o){return o.line===L;})[0];
+    return {line:L, t: hit?hit.t:null};
+  });
+  save(); renderScript(); flash(lines.length+"줄로 나눴다");
+};
+$("#scClear").onclick=function(){
+  var k=scKey(); if(!k) return;
+  var gone=S.scripts[k];
+  delete S.scripts[k]; save(); renderScript();
+  offerUndo("대본 1개 삭제",function(){ S.scripts[k]=gone; renderScript(); });
+};
 function renderClip(){
   var box=$("#clipList"); if(!box) return;
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
@@ -325,142 +487,12 @@ function renderClip(){
   });
 }
 
-$("#drop").onclick=function(){ $("#clipFile").click(); };
-$("#clipFile").onchange=function(e){ if(e.target.files[0]) loadMedia(e.target.files[0]); };
-["dragenter","dragover"].forEach(function(ev){
-  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.add("over"); });
-});
-["dragleave","drop"].forEach(function(ev){
-  $("#drop").addEventListener(ev,function(e){ e.preventDefault(); this.classList.remove("over"); });
-});
-$("#drop").addEventListener("drop",function(e){
-  var f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
-  if(f) loadMedia(f);
-});
-$("#cPlay").onclick=function(){ if(!CLIP.el) return; if(CLIP.el.paused) CLIP.el.play(); else CLIP.el.pause(); };
-$("#cSetA").onclick=function(){
-  if(!CLIP.el) return;
-  CLIP.a=+CLIP.el.currentTime.toFixed(1);
-  if(CLIP.b!=null&&CLIP.b<=CLIP.a) CLIP.b=null;
-  setClipPhase("prepare"); paintScrub();
-};
-$("#cSetB").onclick=function(){
-  if(!CLIP.el) return;
-  CLIP.b=+CLIP.el.currentTime.toFixed(1);
-  if(CLIP.a!=null&&CLIP.a>=CLIP.b) CLIP.a=null;
-  setClipPhase("prepare"); paintScrub();
-};
-$("#cLoop").onclick=function(){
-  if(CLIP.a==null||CLIP.b==null){ flash("A와 B를 먼저 찍는다"); return; }
-  CLIP.loop=!CLIP.loop; this.classList.toggle("on",CLIP.loop);
-  if(CLIP.loop&&CLIP.el){ CLIP.el.currentTime=CLIP.a; CLIP.el.play(); }
-};
-$("#cBack").onclick=function(){ if(CLIP.el) CLIP.el.currentTime=Math.max(0,CLIP.el.currentTime-3); };
-$("#cRef").onclick=function(){
-  if(REF){ REF=null; paintRef(); paintWave(); waveInfo(); return; }
-  var bt=beatNow();
-  if(!CLIP.peaks||!bt){
-    flash("파형을 아직 못 읽었다. 다 읽고 나서 잡는다"); return;
-  }
-  REF={name:(CLIP.file&&CLIP.file.name)||"", peaks:CLIP.peaks.slice(),
-       dur:dur(), segs:bt.segs.length};
-  paintRef(); paintWave(); waveInfo();
-  flash("기준으로 잡았다. 다음 파일을 열면 겹쳐 보인다");
-};
-function paintRef(){
-  var b=$("#cRef"); if(!b) return;
-  b.textContent=REF?"기준 지우기":"기준으로 잡기";
-  b.classList.toggle("on",!!REF);
-}
-$("#cRate").oninput=function(){
-  $("#cRateN").textContent=(+this.value).toFixed(2);
-  if(CLIP.el) CLIP.el.playbackRate=+this.value;
-};
-document.querySelectorAll("[data-nud]").forEach(function(b){
-  b.onclick=function(){
-    var k=b.dataset.nud, d=+b.dataset.d;
-    if(CLIP[k]==null) return;
-    CLIP[k]=Math.max(0,+(CLIP[k]+d).toFixed(1));
-    setClipPhase("prepare"); paintScrub();
-  };
-});
-$("#scrub").onclick=function(e){
-  if(!CLIP.el||!dur()) return;
-  var r=this.getBoundingClientRect();
-  CLIP.el.currentTime=(e.clientX-r.left)/r.width*dur();
-  setClipPhase("prepare"); paintScrub();
-};
 $("#cSave").onclick=function(){
   if(!CLIP.file){ flash("파일을 먼저 연다"); return; }
   if(CLIP.a==null||CLIP.b==null||CLIP.b<=CLIP.a){ flash("A와 B를 찍는다"); return; }
   S.clips.push({f:CLIP.file.name,a:CLIP.a,b:CLIP.b,label:$("#cLabel").value.trim(),
     focus:+$("#cFocus").value,note:"",date:today()});
   $("#cLabel").value=""; setClipPhase("prepare"); save(); renderClip(); flash("구간을 저장했다");
-};
-function scKey(){ return CLIP.file ? CLIP.file.name : null; }
-function scLines(){
-  var k=scKey();
-  return (k && S.scripts[k]) ? S.scripts[k] : [];
-}
-function renderScript(){
-  var box=$("#scList"); if(!box) return;
-  box.innerHTML="";
-  var k=scKey();
-  if(!k){ box.innerHTML='<div class="note small">파일을 먼저 연다. 대본은 파일 이름에 붙는다.</div>'; return; }
-  var arr=scLines();
-  if(!arr.length){ box.innerHTML='<div class="note small">대본을 붙여넣고 줄 나누기를 누른다.</div>'; return; }
-  arr.forEach(function(ln,i){
-    var d=el("div","clip");
-    var top=el("div","hd2");
-    var left=el("div"); left.style.flex="1"; left.style.minWidth="140px";
-    left.appendChild(el("div",null,ln.line));
-    left.appendChild(el("div","small mut tc", ln.t==null ? "시각 미지정" : mmss(ln.t)));
-    top.appendChild(left);
-    var acts=el("div","row"); acts.style.gap="6px";
-    var mark=el("button","g","여기 찍기");
-    mark.style.padding="3px 10px"; mark.style.fontSize="12px";
-    mark.onclick=function(){
-      if(!CLIP.el) return;
-      ln.t=+CLIP.el.currentTime.toFixed(1); save(); renderScript();
-    };
-    acts.appendChild(mark);
-    if(ln.t!=null){
-      var play=el("button","g","이 줄 재생");
-      play.style.padding="3px 10px"; play.style.fontSize="12px";
-      play.onclick=function(){
-        if(!CLIP.el) return;
-        var nxt=null;
-        for(var j=i+1;j<arr.length;j++){ if(arr[j].t!=null){ nxt=arr[j].t; break; } }
-        CLIP.a=ln.t; CLIP.b=(nxt!=null?nxt:Math.min(dur(),ln.t+6));
-        CLIP.loop=true; $("#cLoop").classList.add("on");
-        CLIP.el.currentTime=ln.t; CLIP.el.play(); paintScrub();
-      };
-      acts.appendChild(play);
-    }
-    acts.appendChild(spkBtn(ln.line.replace(/^[A-Z]\s*:\s*/,"")));
-    top.appendChild(acts); d.appendChild(top);
-    box.appendChild(d);
-  });
-  var done=arr.filter(function(x){return x.t!=null;}).length;
-  box.appendChild(el("div","note small","시각 지정 "+done+" / "+arr.length+"줄. 앞줄부터 순서대로 찍는다. 다음 줄 시각이 그 줄의 끝이 된다."));
-}
-$("#scLoad").onclick=function(){
-  var k=scKey();
-  if(!k){ flash("파일을 먼저 연다"); return; }
-  var lines=$("#scText").value.split("\n").map(function(x){return x.trim();}).filter(Boolean);
-  if(!lines.length){ flash("대본이 비어 있다"); return; }
-  var old=S.scripts[k]||[];
-  S.scripts[k]=lines.map(function(L){
-    var hit=old.filter(function(o){return o.line===L;})[0];
-    return {line:L, t: hit?hit.t:null};
-  });
-  save(); renderScript(); flash(lines.length+"줄로 나눴다");
-};
-$("#scClear").onclick=function(){
-  var k=scKey(); if(!k) return;
-  var gone=S.scripts[k];
-  delete S.scripts[k]; save(); renderScript();
-  offerUndo("대본 1개 삭제",function(){ S.scripts[k]=gone; renderScript(); });
 };
 var showDone=false;
 function renderVerify(){

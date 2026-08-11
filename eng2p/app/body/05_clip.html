@@ -34,6 +34,9 @@
         <div class="lb" id="scLb2" style="right:6px">0:00</div>
       </div>
       <div class="waveinfo" id="clipWaveInfo" aria-live="polite">파일을 열면 실제 음성 파형을 분석한다.</div>
+      <!-- 어디가 길고 어디가 센가 (T367). 마디 위의 점이 그 마디의 봉우리다.
+           음절이 아니다. 마디 안 어디에 강세가 있는지는 안 잰다. -->
+      <div class="waveinfo" id="clipStress" aria-live="polite" hidden></div>
       <!-- 겹친 그림으로는 길이 차이가 안 보인다 (T366). 가로를 칸 번호로
            맞추기 때문이다. 안 보이는 것을 글로 적는 자리다. -->
       <div class="waveinfo" id="clipDiff" aria-live="polite" hidden></div>

@@ -45,7 +45,7 @@ function waveInfo(){
     msg="파일을 열면 실제 음성 파형을 분석한다.";
   }
   if(info.textContent!==msg) info.textContent=msg;
-  renderDiff();
+  renderDiff(); renderStress();
 }
 function paintWave(){
   var canvas=$("#clipWave"); if(!canvas) return;
@@ -91,6 +91,13 @@ function paintWave(){
     bt.segs.forEach(function(g){
       ctx.beginPath();
       ctx.moveTo(g.t0/d2*rect.width,y); ctx.lineTo(g.t1/d2*rect.width,y); ctx.stroke();
+    });
+    /* 마디마다 봉우리에 점 하나 (T367). **위쪽 여백에 찍는다.**
+       파형 위에 찍으면 소리와 헷갈리고 아래에 찍으면 마디 띠와 겹친다. */
+    ctx.fillStyle=css.getPropertyValue("--a1").trim()||"#6366f1";
+    bt.segs.forEach(function(g){
+      ctx.beginPath();
+      ctx.arc(g.top/d2*rect.width, 3, 2.5, 0, Math.PI*2); ctx.fill();
     });
   }
   ctx.globalAlpha=1;
@@ -191,7 +198,13 @@ function beatSegs(peaks, dur){
     if(from<0) return;
     /* **`a` 와 `b` 를 안 쓴다.** 이 저장소에서 그 두 글자는 사람이다 (T345 T360).
        시작과 끝에 같은 이름을 붙이면 사람별 칸 검사가 걸고 그것이 맞다. */
-    if(end-from>=minN) segs.push({t0:from*per, t1:end*per, n:end-from});
+    if(end-from>=minN){
+      /* 마디 안에서 제일 센 자리 (T367). **음절이 아니라 봉우리다.**
+         영어는 강세 자리가 길고 세다. 그 둘을 마디 단위로만 잰다. */
+      var top=from, amp=peaks[from];
+      for(var k=from;k<end;k++) if(peaks[k]>amp){ amp=peaks[k]; top=k; }
+      segs.push({t0:from*per, t1:end*per, n:end-from, top:top*per, amp:amp});
+    }
     from=-1;
   }
   for(var i=0;i<peaks.length;i++){
@@ -206,6 +219,37 @@ function beatSegs(peaks, dur){
   }
   close(peaks.length);
   return {thr:thr, per:per, segs:segs};
+}
+
+/* 제일 긴 마디와 제일 센 마디 (T367). **몇 번째인지를 낸다.**
+
+   영어는 강세 박자라 마디 길이가 들쭉날쭉하다 (기준서 8장 표).
+   그런데 **들쭉날쭉한 정도를 앱이 판정하지 않는다** (`beat.md` 5장).
+   어디가 제일 긴지 어디가 제일 센지만 짚고 그다음은 두 사람이 본다.
+
+   마디가 둘보다 적으면 짚을 것이 없다. **하나뿐인 것을 제일이라고 안 한다.** */
+function beatPick(r){
+  if(!r||r.segs.length<2) return null;
+  var lo=0, hi=0, i;
+  for(i=1;i<r.segs.length;i++){
+    if(r.segs[i].t1-r.segs[i].t0 > r.segs[lo].t1-r.segs[lo].t0) lo=i;
+    if(r.segs[i].amp > r.segs[hi].amp) hi=i;
+  }
+  return {longest:lo, loudest:hi, len:r.segs[lo].t1-r.segs[lo].t0,
+          same:lo===hi};
+}
+function renderStress(){
+  var box=$("#clipStress"); if(!box) return;
+  var p=beatPick(beatNow());
+  if(!p){ box.hidden=true; box.textContent=""; return; }
+  box.hidden=false;
+  /* **같으면 같다고 적는다.** 두 줄로 나눠 적으면 다른 자리로 읽힌다 */
+  var say=p.same
+    ? "제일 길고 제일 센 마디가 "+(p.longest+1)+"번째다 ("+p.len.toFixed(1)+"초)"
+    : "제일 긴 마디 "+(p.longest+1)+"번째 ("+p.len.toFixed(1)+"초) · "+
+      "제일 센 마디 "+(p.loudest+1)+"번째";
+  say+=" · 마디 안 어디인지는 안 잰다";
+  if(box.textContent!==say) box.textContent=say;
 }
 
 /* 기준과 이 파일의 차이 (T366). **그림으로 안 보이는 것만 낸다.**
@@ -312,74 +356,6 @@ function paintScrub(){
   paintWave(); waveInfo();
 }
 window.addEventListener("resize",paintWave);
-function renderClip(){
-  var box=$("#clipList"); if(!box) return;
-  var A=roleOf(today())==="a"?S.names.a:S.names.b;
-  var B=roleOf(today())==="a"?S.names.b:S.names.a;
-  var ra=$("#clipRa"), rb=$("#clipRb");
-  if(ra) ra.textContent="A "+A;
-  if(rb) rb.textContent="B "+B;
-
-  box.innerHTML="";
-  if(!S.clips.length){
-    box.innerHTML='<div class="note small">저장한 구간이 없다. 파일을 열고 A와 B를 찍은 뒤 저장한다.</div>';
-    return;
-  }
-  var cur=CLIP.file?CLIP.file.name:null;
-  var groups={};
-  S.clips.forEach(function(c,i){ (groups[c.f]=groups[c.f]||[]).push({c:c,i:i}); });
-  Object.keys(groups).sort().forEach(function(fname){
-    var h=el("div","row"); h.style.marginTop="14px";
-    h.appendChild(el("b",null,fname));
-    h.appendChild(el("span","tag"+(fname===cur?" o":""), fname===cur?"열려 있음":"파일을 다시 열면 재생된다"));
-    box.appendChild(h);
-    groups[fname].forEach(function(x){
-      var c=x.c, i=x.i;
-      var d=el("div","clip"+(CLIP.active===i?" on":""));
-      var top=el("div","hd2");
-      var left=el("div");
-      left.appendChild(el("b",null,c.label||"무제"));
-      left.appendChild(el("div","small mut tc",
-        mmss(c.a)+"  ~  "+mmss(c.b)+"   ("+(c.b-c.a).toFixed(1)+"초)   ·   "+c.focus+"회 초점"));
-      top.appendChild(left);
-      var acts=el("div","row"); acts.style.gap="8px";
-      if(fname===cur){
-        var play=el("button","g","구간 재생");
-        play.style.padding="3px 10px"; play.style.fontSize="12px";
-        play.onclick=function(){
-          CLIP.a=c.a; CLIP.b=c.b; CLIP.loop=true; CLIP.active=i;
-          $("#cLoop").classList.add("on");
-          CLIP.el.currentTime=c.a; CLIP.el.play(); paintScrub(); renderClip();
-        };
-        acts.appendChild(play);
-      }
-      var del=el("button","del","삭제");
-      del.onclick=function(){
-        var gone=S.clips.splice(i,1)[0]; save(); renderClip();
-        offerUndo("구간 1개 삭제",function(){ S.clips.splice(i,0,gone); renderClip(); });
-      };
-      acts.appendChild(del);
-      top.appendChild(acts); d.appendChild(top);
-
-      var row=el("div","row"); row.style.marginTop="10px";
-      var inp=el("input"); inp.placeholder="여기서 들린 표현을 적는다";
-      inp.style.flex="1"; inp.style.minWidth="170px"; inp.value=c.note||"";
-      inp.oninput=function(){ c.note=inp.value; save(); };
-      var send=el("button","g","채집으로");
-      send.onclick=function(){
-        var e2=(c.note||"").trim();
-        if(!e2){ inp.focus(); flash("들린 표현을 먼저 적는다"); return; }
-        day(today()).coll.push({e:e2, s:fname+" "+mmss(c.a)+"-"+mmss(c.b), q:c.label||"", k:"", done:false});
-        save(); renderColl(); flash("채집으로 보냈다");
-        offerUndo("채집 1건 추가",function(){ day(today()).coll.pop(); renderColl(); });
-      };
-      row.appendChild(inp); row.appendChild(send);
-      d.appendChild(row);
-      box.appendChild(d);
-    });
-  });
-}
-
 /* 클립 조작. **대본 절을 갈라 내면서 여기로 돌아왔다** (T365).
    자를 자리를 글 첫머리로 잡았더니 뒤에 붙어 있던 클립 단추들이 같이 딸려 갔다.
    **가르는 자리는 글의 시작이 아니라 일의 끝이다.** */
@@ -452,12 +428,3 @@ $("#scrub").onclick=function(e){
   CLIP.el.currentTime=(e.clientX-r.left)/r.width*dur();
   setClipPhase("prepare"); paintScrub();
 };
-$("#cSave").onclick=function(){
-  if(!CLIP.file){ flash("파일을 먼저 연다"); return; }
-  if(CLIP.a==null||CLIP.b==null||CLIP.b<=CLIP.a){ flash("A와 B를 찍는다"); return; }
-  S.clips.push({f:CLIP.file.name,a:CLIP.a,b:CLIP.b,label:$("#cLabel").value.trim(),
-    focus:+$("#cFocus").value,note:"",date:today()});
-  $("#cLabel").value=""; setClipPhase("prepare"); save(); renderClip(); flash("구간을 저장했다");
-};
-
-

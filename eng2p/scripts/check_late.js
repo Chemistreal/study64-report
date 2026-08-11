@@ -62,10 +62,16 @@ const SPOT = [
     sel: "#kKind", how: "value", what: "검사 탭의 종류 판정" },
   { piece: "15_rot.js", tab: "rot", fn: "renderRot",
     sel: "#rD", how: "kids", what: "회전 탭의 주제 목록" },
-  { piece: "18_clip.js", tab: "clip", fn: "renderClip",
-    sel: "#clipList", how: "kids", what: "클립 탭의 저장한 구간" },
+  /* **그리는 조각이 아니라 셈하는 조각도 있다** (T367).
+     파형과 마디는 파일을 열어야 그려진다. 탭만 열어서는 그릴 것이 없다.
+     그래서 이 갈래는 칸이 아니라 **함수가 오는지**를 잰다.
+     늦게 읽는 것이 맞는지와 닿는지는 똑같이 재진다. */
+  { piece: "18_clip.js", tab: "clip", fn: "beatSegs",
+    sel: null, how: "fn", what: "클립 탭의 마디 뽑기" },
   { piece: "24_script.js", tab: "clip", fn: "renderScript",
     sel: "#scList", how: "kids", what: "클립 탭의 대본 자리" },
+  { piece: "25_clips.js", tab: "clip", fn: "renderClip",
+    sel: "#clipList", how: "kids", what: "클립 탭의 저장한 구간" },
   { piece: "21_weekcheck.js", tab: "ledger", fn: "renderWeekCheck",
     sel: "#weekCheck", how: "kids", what: "대장 탭의 주간 점검" },
   { piece: "22_track.js", tab: "ledger", fn: "renderTrack",
@@ -112,8 +118,13 @@ SPOT.forEach((s) => {
   if (src.indexOf("function " + s.fn + "(") < 0)
     no(s.what + ": " + s.fn + " 이 late/" + s.piece + " 에 없다");
 
-  /* 부르는 자리가 있는가. **없으면 만들어 놓고 안 닿는 것이다** (T342) */
-  if (!eager.some(([, t]) => t.indexOf('lateDo("' + s.fn + '")') >= 0))
+  /* 부르는 자리가 있는가. **없으면 만들어 놓고 안 닿는 것이다** (T342).
+     셈하는 조각은 스스로 안 불린다. **같은 탭의 그리는 조각이 묶음을 읽어 온다.**
+     그 조각이 하나도 없으면 이 조각은 영영 안 읽힌다. */
+  if (s.how === "fn") {
+    if (!SPOT.some((x) => x.tab === s.tab && x.how !== "fn"))
+      no(s.what + ": " + s.tab + " 탭에 묶음을 읽어 오는 조각이 없다");
+  } else if (!eager.some(([, t]) => t.indexOf('lateDo("' + s.fn + '")') >= 0))
     no(s.what + ": 열자마자 읽는 코드에 lateDo(\"" + s.fn + "\") 가 없다");
 
   /* 바로 부르는 자리가 있으면 안 된다. **늦게 읽는 조각은 맨 위에서
@@ -147,19 +158,24 @@ SPOT.forEach((s) => {
   /* **탭을 하나도 열기 전에 다 잰다.** 하나를 열면 묶음이 읽히므로
      그 뒤에 재면 무엇이 언제 그려졌는지 못 가른다 */
   const before = await page.evaluate((T) => T.map((s) => {
+    if (s.how === "fn") return typeof window[s.fn] === "function" ? 1 : 0;
     const e = document.querySelector(s.sel);
     if (!e) return null;
     return s.how === "value" ? (e.value || "").trim() : e.children.length;
   }), SPOT);
   SPOT.forEach((s, i) => {
     if (before[i] === null) { no(s.what + ": 자리(" + s.sel + ")가 화면에 없다"); return; }
-    if (before[i]) no(s.what + ": 탭을 열기 전에 이미 그려져 있다. 늦게 읽는 것이 아니다");
+    if (before[i]) no(s.what + (s.how === "fn"
+      ? ": 탭을 열기 전에 이미 " + s.fn + " 이 있다. 늦게 읽는 것이 아니다"
+      : ": 탭을 열기 전에 이미 그려져 있다. 늦게 읽는 것이 아니다"));
   });
 
   for (const s of SPOT) {
     const got = await page.evaluate(async (x) => {
       go(x.tab);
       await new Promise((ok) => setTimeout(ok, 900));
+      if (x.how === "fn")
+        return { n: typeof window[x.fn] === "function" ? 1 : 0, txt: x.fn };
       const e = document.querySelector(x.sel);
       if (!e) return null;
       return { n: x.how === "value" ? ((e.value || "").trim() ? 1 : 0)
@@ -168,7 +184,8 @@ SPOT.forEach((s) => {
     }, s);
     if (!got) { no(s.what + ": 탭을 여니 자리가 없어졌다"); continue; }
     if (!got.n)
-      no(s.what + ": " + s.tab + " 탭을 열었는데 " + s.sel + " 이 비어 있다");
+      no(s.what + ": " + s.tab + " 탭을 열었는데 " +
+         (s.how === "fn" ? s.fn + " 이 안 왔다" : s.sel + " 이 비어 있다"));
   }
 
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));

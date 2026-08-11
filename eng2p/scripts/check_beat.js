@@ -363,6 +363,94 @@ if (doc.indexOf("B등급") < 0)
   });
   if (!diff.gone) no("기준을 지웠는데 차이 칸이 남아 있다");
 
+  /* ---- 어디가 길고 어디가 센가 (T367) ----------------------------------
+     **마디 단위로만 잰다.** 마디 안 어디에 강세가 있는지는 안 잰다. */
+  const pick = await page.evaluate(() => {
+    const cv = document.getElementById("clipWave");
+    /* 위쪽 3px. **봉우리 점만 닿는 자리다.** 파형은 가운데서 자란다 */
+    const ink = () => {
+      const h = Math.max(1, Math.round(cv.height * 0.06));
+      const d = cv.getContext("2d").getImageData(0, 0, cv.width, h).data;
+      let n = 0;
+      for (let i = 3; i < d.length; i += 4) if (d[i] > 40) n++;
+      return n;
+    };
+    /* 마디 넷. **둘째가 제일 길고 셋째가 제일 세다** */
+    const p = [];
+    const seg = (len, loud) => {
+      for (let j = 0; j < len; j++) p.push(loud);
+      for (let j = 0; j < 12; j++) p.push(0.01);
+    };
+    seg(12, 0.5); seg(40, 0.5); seg(12, 0.95); seg(12, 0.5);
+    while (p.length < 320) p.push(0.01);
+    REF = null;
+    CLIP.el = { duration: 10, currentTime: 0 };
+    CLIP.file = { name: "말.mp3" };
+    CLIP.peaks = p.slice(0, 320); CLIP.beat = null; CLIP.waveState = "ready";
+    paintWave(); waveInfo();
+    const r = beatNow(), pk = beatPick(r);
+    const box = document.getElementById("clipStress");
+    const four = { txt: box.textContent, hid: box.hidden, dots: ink(),
+                   pick: pick0(pk), tops: r.segs.map((g) => g.top >= g.t0 &&
+                                                            g.top <= g.t1) };
+    /* 제일 길고 제일 센 것이 같은 마디인 자리 */
+    const q = [];
+    const seg2 = (len, loud) => {
+      for (let j = 0; j < len; j++) q.push(loud);
+      for (let j = 0; j < 12; j++) q.push(0.01);
+    };
+    seg2(12, 0.5); seg2(40, 0.95); seg2(12, 0.5);
+    while (q.length < 320) q.push(0.01);
+    CLIP.peaks = q.slice(0, 320); CLIP.beat = null;
+    waveInfo();
+    const same = box.textContent;
+    /* 마디 하나. **하나뿐인 것을 제일이라고 안 한다** */
+    const one = new Array(320).fill(0.01);
+    for (let i = 20; i < 200; i++) one[i] = 0.6;
+    CLIP.peaks = one; CLIP.beat = null;
+    waveInfo();
+    return { four: four, same: same, oneHid: box.hidden,
+             onePick: beatPick(beatNow()) };
+    function pick0(x) { return x ? { lo: x.longest, hi: x.loudest } : null; }
+  });
+  if (!pick.four.pick) no("마디 넷인데 제일 긴 것을 못 짚는다");
+  else {
+    if (pick.four.pick.lo !== 1)
+      no("제일 긴 마디가 2번째인데 " + (pick.four.pick.lo + 1) + "번째로 짚는다");
+    if (pick.four.pick.hi !== 2)
+      no("제일 센 마디가 3번째인데 " + (pick.four.pick.hi + 1) + "번째로 짚는다");
+  }
+  if (pick.four.tops.some((x) => !x)) no("봉우리가 그 마디 밖에 있다");
+  /* **마디 안에 있다는 것으로는 모자란다.** 첫 칸도 마디 안이다.
+     처음에 그것만 재다가 봉우리를 첫 칸으로 바꾼 깸이 안 잡혔다.
+     한 자리만 크게 만든 마디를 넣고 **거기를 짚는지** 본다. */
+  const top = await page.evaluate(() => {
+    const p = new Array(320).fill(0.01);
+    for (let i = 20; i < 120; i++) p[i] = 0.4;
+    p[70] = 0.95;  /* 여기가 봉우리다. 10초에 320칸이면 2.19초 */
+    CLIP.el = { duration: 10, currentTime: 0 };
+    CLIP.peaks = p; CLIP.beat = null; CLIP.waveState = "ready";
+    const r = beatNow();
+    return { top: r.segs[0].top, t0: r.segs[0].t0, want: 70 * (10 / 320) };
+  });
+  if (Math.abs(top.top - top.want) > 0.05)
+    no("봉우리를 " + top.top.toFixed(2) + "초로 짚는다. " +
+       top.want.toFixed(2) + "초여야 한다 (마디 시작은 " + top.t0.toFixed(2) + ")");
+  if (pick.four.hid) no("마디 넷인데 강세 줄이 안 뜬다");
+  if (pick.four.txt.indexOf("제일 긴 마디 2번째") < 0)
+    no("강세 줄이 제일 긴 마디를 안 적는다: " + pick.four.txt);
+  if (pick.four.txt.indexOf("제일 센 마디 3번째") < 0)
+    no("강세 줄이 제일 센 마디를 안 적는다: " + pick.four.txt);
+  /* **못 재는 것을 못 잰다고 적는다** */
+  if (pick.four.txt.indexOf("마디 안 어디인지는 안 잰다") < 0)
+    no("마디 안을 안 잰다는 말이 없다: " + pick.four.txt);
+  if (!pick.four.dots) no("봉우리 점이 안 그려진다");
+  if (pick.same.indexOf("제일 길고 제일 센 마디가 2번째다") < 0)
+    no("길고 센 것이 같은 마디인데 따로 적는다: " + pick.same);
+  /* 마디 하나면 짚을 것이 없다 */
+  if (pick.onePick !== null) no("마디 하나인데 제일 긴 것을 짚는다");
+  if (!pick.oneHid) no("마디 하나인데 강세 줄이 떠 있다");
+
   /* 앱이 판정 안 한다는 말이 그 자리에 있는가. **만든 것과 닿는 것은 다르다** */
   const said = await page.evaluate(() => document.getElementById("t-clip").innerText);
   if (said.indexOf("앱은 잘했는지 안 말한다") < 0)
@@ -374,8 +462,8 @@ if (doc.indexOf("B등급") < 0)
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 마디가 같아도 발음이 다를 수 있다**");
-  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12) / 실패 %d",
-              VALS.length * 2 + 1 + CASES.length * 3 + 40, VALS.length * 2,
+  console.log("마디 %d판 (문서 대조 %d, 등급 1, 지은 파형 %d x 3, 안 뽑는 자리 5, 크기 1, 한 칸 1, 화면 11, 띠 2, 기준 8, 차이 12, 강세 12) / 실패 %d",
+              VALS.length * 2 + 1 + CASES.length * 3 + 52, VALS.length * 2,
               CASES.length, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
