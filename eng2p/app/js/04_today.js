@@ -57,7 +57,8 @@ function go(name){
   /* 주간 점검은 이레째에 한 번 연다 (T336). 늦게 읽는 조각으로 옮겼다.
      **크기로 고르지 않고 언제 쓰는가로 골랐다** (T331 뒤). */
   if(name==="ledger"){ renderLedger(); renderRest(); lateDo("renderWeekCheck");
-                       lateDo("renderAsk"); renderPair(); renderMerge(); }
+                       lateDo("renderAsk"); lateDo("renderTrack");
+                       renderPair(); renderMerge(); }
   /* **드물게 여는 탭 넷은 늦게 읽는다** (T313 뒤). 21.3KB 라 열자마자 읽을 값이 아니다.
      판 탭이 쓰는 길과 같다 (T259). 다른 점은 **여기는 그릴 자리가 이미 화면에 있다**는
      것이다. 칸은 `body/` 조각에 있고 그리는 코드만 늦게 온다. */

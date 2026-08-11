@@ -1185,3 +1185,42 @@ function renderAsk(){
   }
   box.innerHTML=h;
 }
+function trackDone(){
+  return Math.min(96, Math.floor(doneSessions()/3));
+}
+
+function renderTrack(){
+  var box=$("#trackBox"); if(!box) return;
+  var d=DATA.track;
+  if(!d){
+    box.innerHTML='<div class="small mut">트랙 표를 여는 중이다.</div>';
+    loadData("track","ENG2P_TRACK",function(){ renderTrack(); });
+    return;
+  }
+  var done=trackDone(), pl=plan(), q=pl.quarter||"Q1";
+  var h='<p class="small mut">강의 96편에 트랙이 하나씩 붙어 있다. '+
+        '<b>지금 '+done+'강까지 마쳤다.</b><br>'+
+        '<b>트랙마다 속도가 다른 것이 정상이다.</b> '+
+        '기준서 3.1 이 분기마다 비중을 다르게 잡았다.</p>';
+  h+='<table class="mgtab"><tr><th scope="col">트랙</th>'+
+     '<th scope="col">지금까지</th><th scope="col">이 분기</th>'+
+     '<th scope="col">다음</th></tr>';
+  (d.tracks||[]).forEach(function(t){
+    var got=(t.nos||[]).filter(function(n){ return n<=done; }).length;
+    var qn=(t.q||{})[q]||0;
+    var nx=null;
+    (t.nos||[]).forEach(function(n,i){
+      if(nx===null && n>done) nx=(t.weeks||[])[i];
+    });
+    h+='<tr><td>'+esc(t.track)+'</td>'+
+       '<td class="mono">'+got+' / '+t.all+'</td>'+
+       '<td class="small">'+(qn ? '<span class="mono">'+qn+'</span>강'
+                                : '<span class="mut">이 분기에는 없다</span>')+'</td>'+
+       '<td class="small mut">'+(nx===null ? '다 지났다' : nx+'주')+'</td></tr>';
+  });
+  h+='</table>';
+  h+='<div class="n">여기 있는 것은 <b>차림표를 어디까지 지났는가</b>다. '+
+     '그 트랙이 몸에 붙었는지는 분기 통과 조건이 재고 그중 열둘은 사람이 잰다.<br>'+
+     '<b>둘이 같이 지난 것이다.</b> 사람마다 다르게 가는 것은 진도가 아니라 실력이다.</div>';
+  box.innerHTML=h;
+}

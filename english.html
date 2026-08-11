@@ -1399,6 +1399,9 @@ body.veil-on>*:not(.veilcover){display:none}
 
   <div class="grid g3" id="statCards"></div>
 
+  <h3>트랙별 진도</h3>
+  <div class="card" id="trackBox"></div>
+
   <h3>누적 시간</h3>
   <div class="card"><div id="chart"></div>
     <div class="small mut" style="margin-top:8px">
@@ -2447,7 +2450,8 @@ function go(name){
   if(name==="today") renderToday();
   if(name==="media") renderMedia();
   if(name==="ledger"){ renderLedger(); renderRest(); lateDo("renderWeekCheck");
-                       lateDo("renderAsk"); renderPair(); renderMerge(); }
+                       lateDo("renderAsk"); lateDo("renderTrack");
+                       renderPair(); renderMerge(); }
   if(name==="verify") lateDo("renderVerify");
   if(name==="quarter") lateDo("renderQuarter");
   if(name==="quarter") lateDo("renderBadge");
