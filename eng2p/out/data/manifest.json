@@ -1,7 +1,7 @@
 {
   "note": "out/data 의 파생 자료마다 크기와 해시다. 받은 것이 온전한지 보는 표다. 손으로 고치지 않는다. scripts/derive_manifest.py 를 다시 돌린다.",
   "generator": "scripts/derive_manifest.py",
-  "count": 74,
+  "count": 76,
   "files": [
     {
       "file": "audiolen.js",
@@ -282,6 +282,16 @@
       "file": "hold.json",
       "bytes": 6026,
       "sha256": "520736f8dd40be59ee5f45e1efdad165f76fe4c8145c7f9a3080f660ef6ec7a0"
+    },
+    {
+      "file": "more.js",
+      "bytes": 2849,
+      "sha256": "a6fa8d1d9cef683c528ea2705859ec9c1bc0f4144f004dfb189ad2c0c4825a5c"
+    },
+    {
+      "file": "more.json",
+      "bytes": 4600,
+      "sha256": "63954360adea005870177890a9cfb07fd1f965564a65f3e4ee8f7ddee46f98da"
     },
     {
       "file": "apart.js",

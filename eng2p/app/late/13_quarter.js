@@ -36,10 +36,35 @@ function renderQuarter(){
     }else{
       var inp=el("input"); inp.type="number"; inp.style.width="110px"; inp.style.flex="none";
       inp.value=(st.pass[c.k]!=null?st.pass[c.k]:"");
-      inp.oninput=function(){ st.pass[c.k]= inp.value===""?null:+inp.value; save(); paint(); summary(); };
+      inp.oninput=function(){ st.pass[c.k]= inp.value===""?null:+inp.value; save(); paint(); summary(); if(c.fill) c.fill(); };
       row.appendChild(inp); row.appendChild(tag);
     }
-    card.appendChild(row); box.appendChild(card); paint();
+    card.appendChild(row);
+    /* **못 넘었으면 어디서 더 도는지를 적는다** (T353).
+       T352 에 강의를 안 막는다고 적었다. 그러면 못 넘은 것은 더 돌아서 넘는다.
+       그런데 무엇을 더 도는지가 어디에도 없었다. `out/data/more.js` 가 그 표다.
+       **되돌리지 않는다.** 지난 강으로 안 돌아간다. */
+    var mo=el("div","n small"); mo.style.display="none";
+    card.appendChild(mo);
+    (function(c2,box2){
+      function fill(){
+        var v=passVal(curQ,c2.k);
+        if(v!=null && v>=c2.need){ box2.style.display="none"; return; }
+        var d=DATA.more;
+        if(!d){ loadData("more","ENG2P_MORE",function(){ fill(); }); return; }
+        var it=(d.items||[]).filter(function(x){ return x.k===c2.k; })[0];
+        if(!it){ box2.style.display="none"; return; }
+        box2.style.display="";
+        box2.innerHTML='<b>더 돌 자리</b> '+
+          (it.plays.length
+            ? it.plays.map(function(p){ return esc(p.name); }).join(" · ")+
+              ' <span class="mut">('+esc(it.track)+' 트랙 판)</span>'
+            : esc(it.alt))+
+          '. <b>지난 강으로 안 돌아간다.</b>';
+      }
+      c2.fill=fill; fill();
+    })(c, mo);
+    box.appendChild(card); paint();
   });
   /* **이 숫자가 누구 것인지를 말한다** (T345). 매뉴얼이 "둘이 서로에게 재고
      한 숫자를 적는다" 고 정했는데 화면이 그 말을 안 하고 있었다.

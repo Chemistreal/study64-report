@@ -261,13 +261,57 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (blockSay.plan)
     no("배정이 통과 조건을 본다. 그러면 화면이 적은 말과 도는 것이 다르다");
 
+  /* ---- 10. 못 넘었을 때 어디서 더 도나 (T353) ---------------------------
+     **되돌리지 않고 그 자리를 더 돈다.** 무엇을 더 도는지가 어디에도 없었다. */
+  const more = await page.evaluate(async () => {
+    S.days = {}; S.q = {}; saveNow();
+    go("quarter");
+    await new Promise((ok) => setTimeout(ok, 900));
+    if (!DATA.more) await new Promise((ok) => loadData("more", "ENG2P_MORE", ok));
+    renderQuarter();
+    await new Promise((ok) => setTimeout(ok, 400));
+    const b = document.getElementById("qPass");
+    return { txt: b.innerText, n: DATA.more.items.length,
+             rew: DATA.more.rewinds, noPlay: DATA.more.noPlay };
+  });
+  if (more.n !== 16) no("더 돌 자리 표가 " + more.n + "줄이다. 열여섯이어야 한다");
+  if (more.rew !== false) no("못 넘으면 되돌린다고 적혀 있다");
+  if (more.noPlay !== 4) no("판으로 못 채우는 것이 " + more.noPlay + "개다. 넷이어야 한다");
+  /* 아무것도 안 쟀으면 넷 다 미통과다. 넷 다 더 돌 자리가 떠야 한다 */
+  const cnt = (more.txt.match(/더 돌 자리/g) || []).length;
+  if (cnt !== 4) no("미통과 넷인데 더 돌 자리가 " + cnt + "개 뜬다");
+  if (!/지난 강으로 안 돌아간다/.test(more.txt))
+    no("되돌리지 않는다는 말이 없다");
+  if (!/세션을 더 돈다/.test(more.txt))
+    no("누적 시간에 판이 없는데 대신 무엇을 하는지가 없다");
+
+  /* 넘긴 것에는 안 뜬다. **다 넘었는데 더 돌라고 하면 그것이 잔소리다** */
+  const gone = await page.evaluate(async () => {
+    S.days = {}; let k = 0, c = 0;
+    while (c < 80) {
+      const d = addDays(today(), -k);
+      if (parseISO(d).getDay() !== 0) {
+        S.days[d] = { status: "normal", speak: 0, cards: 0, lre: 0,
+                      unres: [], coll: [] };
+        c++;
+      }
+      k++;
+    }
+    S.q = { Q1: { pass: { red: 19, str: 9, ask: 3 }, rel: { a: {}, b: {} } } };
+    saveNow(); renderQuarter();
+    await new Promise((ok) => setTimeout(ok, 400));
+    return document.getElementById("qPass").innerText;
+  });
+  if ((gone.match(/더 돌 자리/g) || []).length)
+    no("넷을 다 넘었는데 더 돌라고 한다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
   console.log("**기계가 안 보는 것: 두 사람이 정말 따로 앉아 적는가**");
-  console.log("관계 점검과 신호 42판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14, 판정 숫자 5, 안 막는다 4) / 실패 %d",
+  console.log("관계 점검과 신호 49판 (가림 5, 문 4, 어긋남 5, 다시 적기 5, 신호 14, 판정 숫자 5, 안 막는다 4, 더 돌 자리 7) / 실패 %d",
               fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

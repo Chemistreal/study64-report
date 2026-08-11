@@ -83,7 +83,7 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 서른아홉과 검사 마흔둘과 상태 갱신 셋, 여든넷을 정해진 순서로 돈다.
+**한 줄이다.** 파생 마흔과 검사 마흔둘과 상태 갱신 셋, 여든다섯을 정해진 순서로 돈다.
 브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
@@ -147,6 +147,7 @@ scripts/derive_voice.py 되돌아보기 녹음이 읽을 줄. **대본 그대로
 scripts/derive_ahead.py 기준서 12장이 예고한 세 자리. **기준서 표가 원본이다.** 때 맞춰 뜬다
 scripts/derive_track.py 트랙 여섯의 진도표. **세는 것이 아니라 차림표에서 읽는다**
 scripts/derive_hold.py 판마다 정보를 쥐는 자리. **어디인지만 알려 주고 누가 맡을지는 안 정한다**
+scripts/derive_more.py 못 넘은 조건을 어디서 더 도나. **되돌리지 않고 그 자리를 더 돈다**
 docs/blocks.md         블록 넷 현행 진단. 무엇이 화면에 있고 무엇이 종이에만 있나
 docs/pair.md           기기 둘. 무엇이 갈리고 무엇이 건너가야 하는가. **셈은 코드로 글은 파일로**
 docs/merge.md          합치기. **덮는 것이 아니다.** 갈래 넷과 묻는 일곱
@@ -215,7 +216,7 @@ scripts/check_session.js 블록 넷을 실제로 돌린다. 여덟 주 x 넷 = �
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/check_streak.js 연속일과 회복권과 퀘스트 61판. **날을 세지 사람을 안 센다**
 scripts/check_badge.js 공동 배지 16판. **새 이름을 안 짓고 잠그지 않는다**
-scripts/check_relation.js 관계 점검과 신호 42판. **따로 적고 같이 편다**
+scripts/check_relation.js 관계 점검과 신호 49판. **따로 적고 같이 편다**
 scripts/check_growth.js 되돌아보기 33판. **앱이 소리를 안 들고 있는다**
 scripts/check_ahead.js 미리 아는 것과 봉투 72판. **표는 있었는데 그때 안 떴다**
 scripts/check_year.js  1년을 통째로 돈다 324판. **막는 값이 세는 값이 되면 안 된다**

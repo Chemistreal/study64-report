@@ -438,10 +438,31 @@ function renderQuarter(){
     }else{
       var inp=el("input"); inp.type="number"; inp.style.width="110px"; inp.style.flex="none";
       inp.value=(st.pass[c.k]!=null?st.pass[c.k]:"");
-      inp.oninput=function(){ st.pass[c.k]= inp.value===""?null:+inp.value; save(); paint(); summary(); };
+      inp.oninput=function(){ st.pass[c.k]= inp.value===""?null:+inp.value; save(); paint(); summary(); if(c.fill) c.fill(); };
       row.appendChild(inp); row.appendChild(tag);
     }
-    card.appendChild(row); box.appendChild(card); paint();
+    card.appendChild(row);
+    var mo=el("div","n small"); mo.style.display="none";
+    card.appendChild(mo);
+    (function(c2,box2){
+      function fill(){
+        var v=passVal(curQ,c2.k);
+        if(v!=null && v>=c2.need){ box2.style.display="none"; return; }
+        var d=DATA.more;
+        if(!d){ loadData("more","ENG2P_MORE",function(){ fill(); }); return; }
+        var it=(d.items||[]).filter(function(x){ return x.k===c2.k; })[0];
+        if(!it){ box2.style.display="none"; return; }
+        box2.style.display="";
+        box2.innerHTML='<b>더 돌 자리</b> '+
+          (it.plays.length
+            ? it.plays.map(function(p){ return esc(p.name); }).join(" · ")+
+              ' <span class="mut">('+esc(it.track)+' 트랙 판)</span>'
+            : esc(it.alt))+
+          '. <b>지난 강으로 안 돌아간다.</b>';
+      }
+      c2.fill=fill; fill();
+    })(c, mo);
+    box.appendChild(card); paint();
   });
   var who=el("div","note small");
   who.innerHTML='<b>이 숫자는 둘의 것이다.</b> 서로에게 재고 <b>낮은 쪽</b>을 적는다. '+

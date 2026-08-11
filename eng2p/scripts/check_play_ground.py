@@ -54,7 +54,7 @@ WORDLIST = os.path.join(ROOT, "docs", "wordlist.md")
 PLAYDATA = ["pairs", "swaps", "listen", "relay", "chunks", "halves",
             "ladder", "wall", "situ", "wave", "whose", "reask", "cutin",
             "clash", "flip", "onepick", "apart", "playblocks",
-            "tally", "quest", "badge", "voice", "ahead", "track", "hold"]
+            "tally", "quest", "badge", "voice", "ahead", "track", "hold", "more"]
 
 HANGUL = re.compile(r"[가-힣]")
 WORD = re.compile(r"[A-Za-z]{2,}")
@@ -62,7 +62,9 @@ WORD = re.compile(r"[A-Za-z]{2,}")
 # 두 사람이 안 읽는 칸. **파일 이름과 만든 자 이름이다.**
 # 처음에는 이것까지 세어서 `scripts` 와 `py` 가 지어낸 철자로 나왔다.
 # 재는 것은 **화면으로 가는 영어**지 자료가 자기를 적은 글이 아니다.
-META = {"generator", "source", "note", "gradeWhy", "grade", "emptyWhy",
+# `k` 는 통과 조건의 열쇠 이름이다 (T353). 화면에 안 나간다. 화면에 나가는 것은 `l` 이다.
+META = {"k",
+        "generator", "source", "note", "gradeWhy", "grade", "emptyWhy",
         "id", "key", "sec", "src", "uses", "pick", "hidden", "plays",
         "unknown", "empty", "fit", "why", "mid", "at", "pos", "kind",
         "track", "name", "label", "anchor", "judge", "see", "q",

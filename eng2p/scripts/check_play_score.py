@@ -41,7 +41,7 @@ DATA = os.path.join(ROOT, "out", "data")
 PLAYDATA = ["pairs", "swaps", "listen", "relay", "chunks", "halves",
             "ladder", "wall", "situ", "wave", "whose", "reask", "cutin",
             "clash", "flip", "onepick", "apart", "playblocks",
-            "tally", "quest", "badge", "voice", "ahead", "track", "hold"]
+            "tally", "quest", "badge", "voice", "ahead", "track", "hold", "more"]
 
 # 사람을 가리키는 칸 이름. **이 이름이 셈 그릇에 있으면 그것이 개인 칸이다.**
 PERSON = re.compile(r"^(a|b|A|B|me|you|mine|theirs|p1|p2|left|right)$")
