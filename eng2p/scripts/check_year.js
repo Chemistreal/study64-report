@@ -194,6 +194,10 @@ const AHEAD_ON = 21;
   if (/밀렸|빚|못 한 날|늦었/.test(slow.txt))
     no("느린 해에 첫 화면이 밀린 것을 적는다: " + slow.txt.slice(0, 60));
 
+
+
+  if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
+
   /* 결석이 섞이면 끊긴다. **비상판과 결석이 다르다** */
   const gap = await page.evaluate(() => {
     const ks = Object.keys(S.days).sort();
@@ -214,6 +218,23 @@ const AHEAD_ON = 21;
     no("회복권을 건 날인데 연속일이 " + saved.st + "이다. 안 끊고 안 는다");
   if (saved.left !== 1)
     no("그 달 회복권이 " + saved.left + "장 남았다고 한다. 둘 중 하나를 썼다");
+
+  /* **밀린 양은 한 자리에서만 적는다** (T356). 전에는 네 자리에 있었다.
+     첫 화면 줄, 고리 이름표, 지도 아래, 내보내기다.
+     같은 값을 여러 자리에서 보이면 그것이 곧 다그침이 된다 (원칙 4).
+
+     ## 그려서 안 재고 코드를 글자로 읽는다
+
+     화면마다 뜨는 조건이 다르다. 지도는 접혀 있고 진행 줄은 머리띠에 있다.
+     그려서 세면 **그날 상태에 따라 수가 달라지고** 깸을 넣어도 안 잡힌다.
+     실제로 두 번 그렇게 겪었다.
+
+     적는 자리가 몇 곳인가는 코드에 있다. 거기를 센다. T329 T332 T341 T345 와 같은 손이다. */
+  const src = fs.readFileSync(path.join(ROOT, "english.html"), "utf-8");
+  const sites = (src.match(/주 밀렸다/g) || []).length;
+  if (sites !== 2)
+    no("밀린 주 수를 적는 자리가 " + sites + "곳이다. 화면 하나와 내보내기 하나뿐이다");
+
 
   /* ---- 4. 앱이 아는 것을 사람이 다시 안 적는가 (T338) -------------------- */
   const auto = await page.evaluate(() => {
@@ -343,7 +364,6 @@ const AHEAD_ON = 21;
   if (all.picked !== all.asks)
     no("통째로 골랐는데 " + all.picked + " / " + all.asks + " 만 정해졌다");
 
-  if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));

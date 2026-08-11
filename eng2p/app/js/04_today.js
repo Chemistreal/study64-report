@@ -103,7 +103,11 @@ function renderToday(){
   for(var wi=0;wi<7;wi++){ var wr=S.days[addDays(weekStart,wi)]; if(wr&&(wr.status==="normal"||wr.status==="emg")) weekDone++; }
   var pl=plan();
   var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
-  if(pl.behind>0) msg+=" · 달력보다 "+pl.behind+"주 밀렸다";
+  /* **밀린 양을 한 자리에서만 보인다** (T356). 전에는 네 자리에 있었다.
+     첫 화면 줄, 고리 이름표, 지도 아래, 내보내기다. 같은 값을 네 번 보이면
+     그것이 곧 다그침이 된다. 원칙 4 가 막는 자리다.
+     남기는 한 자리는 **지도 아래**다. 거기가 지나온 것을 같이 보는 자리라
+     밀림이 혼자 뜨지 않는다. T181 이 그 자리를 골랐다. */
   /* **고리와 겹치는 줄은 없앤다.** 역할 교대는 바로 위 lede 가 이미 말한다.
      밀린 주 수는 고리 이름표로 옮겼다. 그러면 이 줄은 평소에 비어 있다. */
   $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";

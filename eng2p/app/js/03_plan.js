@@ -452,8 +452,8 @@ function band(pl){
     s+='<i class="'+c.join(" ")+'"></i>';
   }
   s+='</div><div class="bandnote"><span>1주</span>';
-  s+='<span>'+(pl.behind>0 ? "달력보다 "+pl.behind+"주 밀렸다" :
-                pl.week>1 ? (pl.week-1)+"주 마쳤다" : "시작 주다")+'</span>';
+  /* 밀린 양은 지도 아래 한 자리에서만 보인다 (T356). 여기는 지나온 것만 적는다 */
+  s+='<span>'+(pl.week>1 ? (pl.week-1)+"주 마쳤다" : "시작 주다")+'</span>';
   s+='<span>48주</span></div></button>';
   return s;
 }

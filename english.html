@@ -2157,8 +2157,7 @@ function band(pl){
     s+='<i class="'+c.join(" ")+'"></i>';
   }
   s+='</div><div class="bandnote"><span>1주</span>';
-  s+='<span>'+(pl.behind>0 ? "달력보다 "+pl.behind+"주 밀렸다" :
-                pl.week>1 ? (pl.week-1)+"주 마쳤다" : "시작 주다")+'</span>';
+  s+='<span>'+(pl.week>1 ? (pl.week-1)+"주 마쳤다" : "시작 주다")+'</span>';
   s+='<span>48주</span></div></button>';
   return s;
 }
@@ -2556,7 +2555,6 @@ function renderToday(){
   for(var wi=0;wi<7;wi++){ var wr=S.days[addDays(weekStart,wi)]; if(wr&&(wr.status==="normal"||wr.status==="emg")) weekDone++; }
   var pl=plan();
   var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
-  if(pl.behind>0) msg+=" · 달력보다 "+pl.behind+"주 밀렸다";
   $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
   var p2=$("#todayProgress2"); if(p2) p2.textContent="";
   renderRings(pl,weekDone,rec);
@@ -4047,6 +4045,10 @@ function renderMapPane(){
      '<span><b>'+tally.absent+'</b>일 결석</span>'+
      (pl.behind>0?'<span class="warn">달력보다 <b>'+pl.behind+'</b>주 밀렸다</span>':"")+
      '</div>';
+  if(pl.behind>0)
+    h+='<div class="wnote">밀린 것은 <b>없어진 것이 아니라 미뤄진 것이다.</b> '+
+       '진도는 정상 세션으로만 세므로 오늘 한 만큼 그대로 간다. '+
+       '따라잡으려고 하루에 둘을 하지 않는다.</div>';
   if(tally.emg||tally.absent){
     h+='<div class="wnote">비상판과 결석은 칸을 안 채운다. '+
        '진도는 정상 세션으로만 는다. 매뉴얼 2.2 가 그렇게 정한다.</div>';
