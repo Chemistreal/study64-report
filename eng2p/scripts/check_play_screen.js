@@ -3588,6 +3588,27 @@ const RESET = () => {
       no("오늘의 한 판: 화면에 마크다운 표시가 보인다");
   }
 
+  /* ---- 자리를 바꾸는 길 (T348). **앱이 안 바꿔 주고 길을 알려 준다** -----
+     개정문 18번이 "두 사람이 그 자리에서 바꾼다" 고 적었다. 앱에 그 자리가 없었다.
+     두 기기가 회 번호로 각각 셈하므로 한쪽에서만 뒤집으면 둘 다 같은 자리가 된다.
+     그래서 바꾸는 길을 회로 낸다. 판마다 그 말이 있어야 한다. */
+  const seatIds = await A.evaluate(() => PLAYS.map((p) => p.id));
+  const seatSay = [];
+  for (const pid of seatIds) {
+    const t = await A.evaluate(async (x) => {
+      PLAY.at = x; renderPlayTab();
+      await new Promise((ok) => setTimeout(ok, 250));
+      return document.getElementById("playPane").innerText;
+    }, pid);
+    if (!/회를 하나 넘긴다/.test(t)) seatSay.push(pid);
+  }
+  if (seatSay.length)
+    no("자리를 바꾸는 길이 안 적힌 판이 있다: " + seatSay.slice(0, 4).join(" "));
+  /* **앱이 자리를 직접 뒤집는 단추를 안 만든다.** 한쪽만 누르면 판이 조용히 깨진다 */
+  const flipBtn = await A.evaluate(() =>
+    document.querySelectorAll("#playPane [data-seat],#playPane [data-swapseat]").length);
+  if (flipBtn) no("자리를 직접 뒤집는 단추가 " + flipBtn + "개 있다");
+
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 3).join(" / "));
   await browser.close();
 
