@@ -352,6 +352,27 @@ h1{font-size:clamp(43px,7vw,82px);line-height:.96;letter-spacing:-.075em;margin:
 .v12Mini .v12FocusMint,.v12Scene .v12FocusMint,.v12Check .v12FocusMint{font-weight:1000}
 @media(max-width:980px){.v12Hero,.v12Grid3,.v12Grid2,.v12NextGrid,.v12Admission,.v12SceneGrid,.v12Criteria{grid-template-columns:1fr}.v12AxisRow{grid-template-columns:1fr}.v12Hero{padding:22px}.v12Score{min-height:230px}}
 
+
+/* ── 어디서나 같은 마무리 (선생님 결정 #48) ─────────────────────────────
+   exam·DT·KMChC 는 `tools/theme.py` 가 팔레트·머리띠·마무리를 한 벌로 넣는다.
+   PRISM 은 **자기 옷(크림 바탕·금빛·세리프)을 그대로 입고**, 눈에 안 보이는
+   마무리만 가져오기로 했다 — 옷은 다르되 손에 닿는 감은 같게.
+
+   재어 보니 **가져올 것이 이 한 줄뿐이었다.** 나머지 셋은 여기 이미 있거나,
+   있어도 아무것도 안 바뀐다(2026-08-11).
+
+     · 초점 테두리 — 탭으로 짚어 화소로 재니 고치기 전에도 6곳 다 보였다.
+       처음에 «열일곱 중 열 곳이 안 보인다» 고 적었는데 **그건 자가 틀린
+       것**이다. `getComputedStyle().outline` 은 여기서 `!important` 를 얹어도
+       `solid 0px` 를 돌려줬다. 눈에 보이는 것을 재야 했다
+     · 표의 숫자 자릿수 — 이 화면에는 살아 있는 `<table>` 이 **0개**다
+       (여덟은 인쇄용 새 창을 짓는 글자 안에 있다). 게다가 이 글꼴은 1과 0의
+       폭이 이미 같아, 넣어도 달라지는 것이 없다
+     · 팔레트·머리띠 — 안 가져온다. PRISM 의 옷은 그대로 둔다(선생님 결정)
+
+   `report.html`·`answers.html` 에는 이 줄이 이미 있다. 여기만 없어서 글을
+   끌면 이 화면만 브라우저 기본 파랑이 뜬다. */
+::selection{background:rgba(255,219,125,.28);color:var(--ink)}
 </style>
 
 <style id="stableFinalPatchStyle">
