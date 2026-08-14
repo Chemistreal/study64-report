@@ -250,7 +250,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .wcell .wdots i{width:5px;height:5px;border-radius:99px;background:var(--edge)}
 .wcell .wdots i.on{background:var(--a1)}
 .wcell.done{background:var(--bg2)}
-.wcell.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(8,145,178,.16);color:var(--fg)}
+.wcell.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(21,94,117,.16);color:var(--fg)}
 /* 분기가 바뀌는 자리에 금을 긋는다. 열두 주마다다. */
 .wcell.qstart{border-left:3px solid var(--a2)}
 /* 달력상 지금 있어야 할 주. 진도 주와 다를 때만 나온다. */
@@ -265,7 +265,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .wlegend span{display:flex;align-items:center;gap:5px}
 .wlegend i.lg{width:11px;height:11px;border-radius:3px;border:1px solid var(--edge);background:var(--card2)}
 .wlegend i.lg.done{background:var(--bg2)}
-.wlegend i.lg.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(8,145,178,.16)}
+.wlegend i.lg.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(21,94,117,.16)}
 .wdetail{margin-top:12px;padding:12px;border:1px solid var(--edge);border-radius:12px;background:var(--card2)}
 .wdetail h4{margin:0 0 8px;font-size:0.9375rem}
 .wlec{display:block;width:100%;text-align:left;font:inherit;font-size:0.875rem;

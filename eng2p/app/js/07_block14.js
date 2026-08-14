@@ -281,9 +281,13 @@ function renderMediaPane(pl, seat){
      C-gen 이 하나라도 들어오면 그날부터 판정이 잘못된다. 여기서 막는다. */
   var soundQ1 = (pl.quarter==="Q1" && pl.track==="소리");
   var locked = soundQ1 && it.grade!=="C-real";
+  /* **셋을 문단으로 가른다** (T389). `<br>` 로 붙이면 줄 간격이 다 같아
+     40분 동안 보는 칸에서 무엇이 지시고 무엇이 셈인지가 안 갈린다.
+     대화하면서 흘끗 보는 자리라 덩어리로 안 잡히면 화면을 집어 들게 된다. */
   var h=head+'<div class="n"><b>'+esc(it.title)+'</b> · '+esc(it.duration||"")+
-    ' · '+esc(it.grade||"등급 없음")+
-    '<br>'+focus+'<br>회차 '+done+' / 3 끝냈다</div>';
+    ' · '+esc(it.grade||"등급 없음")+'</div>'+
+    '<div class="n">'+focus+'</div>'+
+    '<div class="n">회차 '+done+' / 3 끝냈다</div>';
   if(locked) h+='<div class="cardwarn">이 과는 '+esc(it.grade||"등급 없음")+
     ' 이다. Q1 소리 트랙 통과 판정은 C-real 로만 한다. 연습에는 쓴다.</div>';
   /* **재생기가 이 칸 안에 있다.** 전에는 미디어 탭으로 보냈다.

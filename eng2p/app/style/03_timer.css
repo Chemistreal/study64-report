@@ -39,11 +39,14 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 /* 블록마다 쓰는 것. 세션 중에 이것을 찾으러 가면 그 블록이 무너진다. */
 .blockpane{margin-top:16px;padding:14px 16px;border:1px solid var(--edge);border-radius:12px;
   background:var(--card);text-align:left}
-/* 타이머 칸이 가운데 정렬이라 목록이 가운데로 붙었다. 읽는 글은 왼쪽에서 시작해야 한다. */
-.blockpane .k,.blockpane .v{text-align:center}
+/* 타이머 칸이 가운데 정렬이라 목록이 가운데로 붙었다. 읽는 글은 왼쪽에서 시작해야 한다.
+   **한 칸 안에서 위 두 줄만 가운데였다** (T389). 셋을 다 왼쪽으로 세운다. */
+.blockpane .k,.blockpane .v{text-align:left}
 .blockpane .k{font-size:0.71875rem;color:var(--mut);letter-spacing:.06em}
 .blockpane .v{font-size:1.1875rem;font-weight:750;font-family:var(--mono);margin-top:3px}
-.blockpane .n{font-size:0.84375rem;color:var(--mut);margin-top:7px;line-height:1.6}
+.blockpane .n{font-size:0.84375rem;color:var(--mut);margin-top:7px;line-height:1.5}
+.blockpane .n+.n{margin-top:11px}
+.blockpane .v{line-height:1.2}
 /* 세트 뷰어. 네 단계를 순서대로 편다. 지금 단계가 굵고 나머지는 흐리다. */
 .setstep{margin-top:12px;padding:12px 14px;border:1px solid var(--edge);border-radius:11px;
   background:var(--card2)}
@@ -220,13 +223,13 @@ body.session-focus #tSkip{display:none}
 .focusdock .fstate span{font-family:var(--mono);font-size:1.0625rem}
 .sessiondone{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;
   border:1px solid rgba(15,118,110,.28);border-radius:14px;padding:13px 16px;
-  background:linear-gradient(120deg,rgba(15,118,110,.10),rgba(8,145,178,.08));animation:doneRise .35s ease-out}
+  background:linear-gradient(120deg,rgba(15,118,110,.10),rgba(21,94,117,.10));animation:doneRise .35s ease-out}
 .sessiondone[hidden]{display:none}
 .duomark{width:78px;height:34px;position:relative;flex:none}
 .doneorb{position:absolute;top:5px;width:24px;height:24px;border-radius:50%;color:#fff;font-size:0.625rem;
   font-weight:800;display:grid;place-items:center;box-shadow:var(--glow)}
 .doneorb.a{left:4px;background:linear-gradient(96deg,var(--a1),var(--a2));animation:meetA .55s ease-out forwards}
-.doneorb.b{right:4px;background:linear-gradient(96deg,var(--a3),#0ea5e9);animation:meetB .55s ease-out forwards}
+.doneorb.b{right:4px;background:linear-gradient(96deg,var(--a3),var(--b2));animation:meetB .55s ease-out forwards}
 .donering{position:absolute;left:25px;top:0;width:30px;height:30px;border:2px solid var(--ok);border-radius:50%;
   opacity:0;animation:joinRing .65s .35s ease-out forwards}
 @keyframes meetA{to{transform:translateX(12px)}}

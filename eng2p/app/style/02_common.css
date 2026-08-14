@@ -93,14 +93,14 @@ tbody tr:hover td{background:var(--card2)}
   padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
 /* 흰 글자를 얹는 바탕이라 밝게 못 간다. `--a3t` 는 글자용이라 여기 안 쓴다. T223 */
-.rb.b{background:linear-gradient(96deg,#155e75,#0369a1)}
+.rb.b{background:linear-gradient(96deg,var(--b1),var(--b2))}
 .cliproles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
 .roleunit{display:flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:12px;
   padding:9px 11px;background:var(--card2);color:var(--mut);transition:.2s}
 .roleunit .small{line-height:1.35}
 .roleunit.active{color:var(--fg);border-color:var(--a1);background:var(--card);
   box-shadow:0 0 0 3px rgba(99,102,241,.10),var(--glow);transform:translateY(-1px)}
-.roleunit.b.active{border-color:var(--a3);box-shadow:0 0 0 3px rgba(8,145,178,.11),var(--glow)}
+.roleunit.b.active{border-color:var(--a3);box-shadow:0 0 0 3px rgba(21,94,117,.14),var(--glow)}
 .rolehint{min-height:20px;color:var(--mut);font-size:0.75rem;margin-bottom:10px}
 @media(max-width:520px){.cliproles{grid-template-columns:1fr}}
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
