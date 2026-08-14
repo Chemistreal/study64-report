@@ -167,7 +167,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   body.session-focus #emgLine,
   body.session-focus #emgBox,
   body.session-focus #resumeBox,
-  body.session-focus .progline{display:revert!important}
+  body.session-focus
   /* 근거 인용은 종이에서도 쓴다. 어느 과를 들으면 되는지가 거기 있다. */
   .ground .gat{display:inline!important;border:0;padding:0;color:#000;font-weight:700}
   /* 종이 위의 버튼은 누를 수 없다. 자리만 먹는다. */
@@ -180,7 +180,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   section[hidden]{display:none}
   /* 오늘 한 장은 종이에서 제일 큰 것이 강 제목이어야 한다. */
   .todaysheet{border:1.5px solid #000;background:#fff;padding:14px 16px}
-  .todaysheet .lec{font-size:1.375rem}
+  .todaysheet .lec.gto{font-size:1.375rem}
   .todaysheet .lec b{color:#000}
   .todaysheet .g{border-color:#999}
   .weekband i{background:#ddd;height:6px}
@@ -200,6 +200,18 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
    **이 묶음은 마지막 style 조각에 둔다.** 03_timer.css 에 620px 짜리
    자리 규칙이 이미 있어서 앞에 두면 그것에 덮인다. T171 에 그렇게 해 보고 알았다.
    ========================================================================= */
+/* 세션이 끝난 뒤에 쓰는 칸 (T389). 접혀 있어도 제목은 그대로 읽힌다 */
+.afterfold{margin-top:22px}
+.afterfold>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:9px;padding:2px 0}
+.afterfold>summary::-webkit-details-marker{display:none}
+.afterfold>summary h3{display:inline;margin:0}
+.afterfold>summary::after{content:"";width:8px;height:8px;margin-left:auto;
+  border-right:2px solid var(--mut);border-bottom:2px solid var(--mut);
+  transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+.afterfold[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
+.afterfold>summary:hover::after{border-color:var(--fg)}
+
 @media (max-width:560px){
   header{position:static;backdrop-filter:none}
   .hd{padding:12px 16px 0}

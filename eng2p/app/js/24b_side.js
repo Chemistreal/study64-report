@@ -23,7 +23,10 @@ function sideNow(){
     return {cls:"side-"+(soloSeat()===0?"a":"b"),
             tag:(soloSeat()===0?"A":"B")+" 돌려 보기"};
   var d=(typeof deviceSide==="function")?deviceSide():null;
-  if(!d) return {cls:"side-none", tag:"쪽 안 고름"};
+  /* **아직 안 들어온 사람에게는 안 보인다** (T389). 무엇을 안 골랐는지도
+     어디서 고르는지도 그 화면에 없어 결함으로 읽힌다. 고르는 자리는
+     `.timer` 안이라 세션 전에는 접혀 있다 (T166). */
+  if(!d) return {cls:"side-none", tag:S.onboarded?"쪽 안 고름":""};
   var who=(devicePerson()==="a")?S.names.a:S.names.b;
   return {cls:"side-"+d, tag:d.toUpperCase()+" "+who};
 }
@@ -38,7 +41,8 @@ function paintSide(){
   var b=document.body;
   b.classList.remove("side-a","side-b","side-none");
   b.classList.add(s.cls);
-  var t=$("#sideTag"); if(t) t.textContent=s.tag;
+  var t=$("#sideTag");
+  if(t){ t.textContent=s.tag; t.hidden=!s.tag; }
 }
 
 /* =========================================================================

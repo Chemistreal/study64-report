@@ -128,7 +128,9 @@ function renderSlots(){
   why += " · 이 달 회복권 " + restLeft() + "장 남았다";
   box.innerHTML='<div class="card tight">'+
     '<div class="row" style="justify-content:space-between;align-items:baseline">'+
-    '<span><b class="stkbig">'+n+'</b> <b>일째 같이 하고 있다</b></span>'+
+    /* **0에 큰 크기를 안 준다** (T389). `streak.md` 5.1 이 0일 화면을
+       제일 조심스럽다고 했고 글은 그것을 지켰는데 크기가 안 지켰다 */
+    '<span><b'+(n?' class="stkbig"':'')+'>'+n+'</b> <b>일째 같이 하고 있다</b></span>'+
     '<span class="small mut">둘의 날이다</span></div>'+
     '<div class="small mut" style="margin-top:4px">'+why+
     ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div>'+

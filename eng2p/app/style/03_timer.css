@@ -24,9 +24,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 #sessionCard{position:relative;transition:opacity .25s,transform .25s,box-shadow .25s}
 .sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:4px}
 /* 진도 줄은 버튼 옆 좁은 칸에서 두 줄로 접혔다. 한 줄로 빼면 흘끗 보고 읽힌다. */
-.sessionhead .sessionprogress{display:none}
-.progline{font-size:0.78125rem;color:var(--mut);margin:2px 0 10px}
-/* 오늘 못 하는 날. 첫 화면에서 한 번에 간다. 찾게 하면 그날은 그냥 쉰다. */
+.sessionhead /* 오늘 못 하는 날. 첫 화면에서 한 번에 간다. 찾게 하면 그날은 그냥 쉰다. */
 .emgline{margin-top:12px;text-align:center}
 .emgline button{background:none;border:none;color:var(--mut);font-size:0.78125rem;
   text-decoration:underline;cursor:pointer;padding:8px 10px}
@@ -113,7 +111,8 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .syncscript.veil1 .scl,.syncscript.veil2 .scl{font-size:0}
 .syncscript.veil1 .scl::after,.syncscript.veil2 .scl::after{
   content:attr(data-mask);font-size:0.8125rem;color:var(--mut);font-style:italic}
-.syncscript .scline.loop .scl::after{content:" \21BA";color:var(--a3)}
+/* 글자로 쓰는 자리는 글자 토큰을 쓴다 (T389). 짙은 판에서 3.11 이었다 */
+.syncscript .scline.loop .scl::after{content:" \21BA";color:var(--a3t)}
 /* 마무리. 다음 날 무엇을 하는지가 여기 있어야 내일 앉자마자 시작한다. */
 .nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:0.84375rem;line-height:1.65;text-align:left}
@@ -131,11 +130,12 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .critrow .v.no{color:var(--warn);background:rgba(194,24,91,.12)}
 .critrow .v.hand{color:var(--mut)}
 .sessionrole{font-size:1.3125rem;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
-.sessionprogress{font-size:0.75rem;color:var(--mut)}
 /* 오늘 한 장. 책상에 놓고 흘끗 보는 자리라 멀리서 읽혀야 한다. */
 .todaysheet{margin:14px 0 0;padding:16px 18px;border:1px solid var(--edge);border-radius:14px;
   background:var(--card2)}
-.todaysheet .lec{font-size:1.625rem;font-weight:800;letter-spacing:-.03em;line-height:1.2}
+/* `.lec` 크기는 `02_common.css` 의 `.lec.gto`(특정도가 더 높다)가 정한다.
+   여기 있던 26px 규칙은 한 번도 안 먹었다. 지웠다 (T389). */
+.todaysheet .lec{font-weight:800;letter-spacing:-.03em;line-height:1.2}
 .todaysheet .lec b{color:var(--a1)}
 .todaysheet .tk{font-size:0.75rem;color:var(--mut);margin-top:2px}
 .todaysheet .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));
@@ -144,8 +144,15 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .todaysheet .g .k{font-size:0.6875rem;color:var(--mut)}
 .todaysheet .g .v{font-size:1.0625rem;font-weight:730;font-family:var(--mono);
   font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap}
-/* 값이 접히면 흘끗 보고 못 읽는다. 칸을 값에 맞춘다. */
-.todaysheet .grid{grid-template-columns:repeat(auto-fit,minmax(132px,1fr))}
+/* 값이 접히면 흘끗 보고 못 읽는다. 칸을 값에 맞춘다.
+
+   **4px 이 모자라 다섯 칸이 다섯 줄이었다** (T389). 시트 안폭이 270px 인데
+   132 둘이 274 를 달라고 했다. 126px 로 내리면 두 열이 서고 150px 이 준다.
+   rem 으로 적는다. 글자를 키우면 칸도 같이 자라 저절로 한 열로 돌아간다. */
+.todaysheet .grid{grid-template-columns:repeat(auto-fit,minmax(7.875rem,1fr))}
+/* 칸이 좁아지면 값이 화살표 밑으로 들어간다. 통로를 그 자리에서 되살린다.
+   `03_timer.css` 의 `.todaysheet .g` 가 `02_common.css` 의 통로를 덮고 있었다. */
+.todaysheet .g.gto{padding:9px 26px 9px 11px}
 /* 48주 띠. 한 줄로 1년이 다 보인다. */
 .weekband{display:flex;gap:2px;margin-top:13px}
 .weekband i{flex:1;height:7px;border-radius:2px;background:var(--edge)}
@@ -154,6 +161,12 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .weekband i.qend{margin-right:9px}  /* 12주마다 틈. 분기가 눈으로 갈린다 */
 .bandnote{font-size:0.6875rem;color:var(--mut);margin-top:6px;display:flex;justify-content:space-between}
 .sessionstart{min-width:190px}
+/* 아직 안 들어온 사람 (T389). **지나온 값을 안 보인다.**
+   `#sessionCard` 를 반드시 남긴다. 검사가 그 안의 시작 단추를 누른다. */
+body.onboarding #t-today>*:not(#onboard):not(#sessionCard){display:none}
+body.onboarding #todaySlots,body.onboarding #todayRings,
+body.onboarding #emgLine,body.onboarding #soloLine,
+body.onboarding #missLine,body.onboarding #resumeBox{display:none}
 body.session-focus header{position:fixed;inset:0 0 auto;transform:translateY(-110%);opacity:0;pointer-events:none}
 body.session-focus .aurora i{opacity:.18;animation-play-state:paused}
 body.session-focus .wrap{max-width:780px;padding-top:12px}
@@ -175,8 +188,7 @@ body.session-focus .todaysheet,
 body.session-focus #emgLine,
 body.session-focus #emgBox,
 body.session-focus #resumeBox,
-body.session-focus .progline{display:none}
-/* 같은 버튼이 두 자리에 있다. 조작줄의 일시정지는 #tStart 를 누르고
+body.session-focus /* 같은 버튼이 두 자리에 있다. 조작줄의 일시정지는 #tStart 를 누르고
    다음 블록은 #tSkip 을 누른다. 코드가 그렇게 적혀 있다.
    휴대폰 너비에서 카드 안 줄이 두 줄로 접혀 65px 을 먹는데
    그 65px 이 사는 일이 없다. 조작줄이 늘 떠 있기 때문이다.
@@ -189,7 +201,21 @@ body.session-focus #tSkip{display:none}
    글자를 줄이는 것이 아니라 여백을 줄이고 눌리는 높이는 지킨다. */
 @media (max-width:430px){ .focusdock{gap:4px;padding:9px 7px}
   .focusdock button{padding:11px 7px;min-width:0;flex:1}
-  .focusdock .fstate{display:none} }
+  .focusdock .fstate{display:none}
+  /* **"일시정다음" 으로 겹쳐 읽혔다** (T389). 390px 에서 안폭 332px 을
+     단추 여섯이 나눈다. 한 칸 55px 인데 "일시정지" 는 60px 이 들고
+     `word-break:keep-all` 이라 접히지도 않고 옆 단추 위로 넘친다.
+     블록 1에서는 `#focusHome` 이 펴져 일곱이라 셈이 더 나쁘다.
+
+     **글자를 줄이는 것이 아니라 기호로 바꾼다.** 낭독기는 `aria-label` 을
+     그대로 읽으므로 뜻이 안 준다. 폭 44px 은 손가락 하나 규격이다. */
+  #focusPrev,#focusNext{flex:none;width:44px;font-size:0;position:relative}
+  #focusPrev::after,#focusNext::after{content:"";position:absolute;
+    left:50%;top:50%;width:9px;height:9px;
+    border-right:2px solid currentColor;border-bottom:2px solid currentColor}
+  #focusPrev::after{transform:translate(-40%,-50%) rotate(135deg)}
+  #focusNext::after{transform:translate(-60%,-50%) rotate(-45deg)}
+  #focusToggle{flex:1.5} }
 .focusdock .fstate b{display:block;font-size:0.75rem}
 .focusdock .fstate span{font-family:var(--mono);font-size:1.0625rem}
 .sessiondone{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;
@@ -246,7 +272,13 @@ body.session-focus #todaySlots,
 body.session-focus #missLine,
 body.session-focus #soloLine{display:none}
 /* 공동 연속일 (T322). 숫자 하나가 이 칸의 전부다. 크게 둔다. */
-.stkbig{font-size:1.5rem;line-height:1}
+/* **크기 차례와 중요도 차례가 반대였다** (T389). 오늘 화면에서 제일 큰 글자가
+   연속일 숫자 24px 이고 강의 제목이 19px 이었다. 그리고 아직 하루도 안 한
+   사람 화면에서 제일 크게 그려진 것이 `0` 이었다. */
+.stkbig{font-size:1.125rem;line-height:1.1;font-weight:800}
+/* 각주가 문단으로 갈린다. 4px 여백에 20.6px 줄 간격이면 구별이 안 된다 */
+.slots .card.tight .small{line-height:1.5;margin-top:9px}
+.slots>.card{margin:0}
 
 /* **세션 중에는 고리를 접는다.** 시계 링이 같은 것을 이미 말한다.
    T122 규칙이 껍데기 높이를 재는데 겹치는 그림이 그 자리를 먹으면
@@ -257,7 +289,10 @@ body.session-focus .rings{display:none}
    T172 에 재 보니 오늘 칸의 세트 단추(270x68)가 세션 시작(308x55)보다 컸다.
    눈이 큰 것을 먼저 본다. 그러면 앉자마자 세트를 누른다.
    그 자리에서 할 일은 세션을 시작하는 것이다. */
-.sessionstart{min-height:62px;font-size:1.0625rem}
+/* **오늘 화면에서 제일 큰 단추는 세션 시작이어야 한다** (`friction.md` 7장).
+   재 보니 강의 제목 단추와 2.3% 차이라 도드라진 것이 아니라 비긴 것이었다.
+   그리고 62px 이 px 이라 글자를 키우면 안 자라 제목이 두 줄만 되어도 뒤집힌다. */
+.sessionstart{min-height:max(72px,4.1rem);font-size:1.0625rem}
 
 /* 블록이 넘어가는 방향. **몸이 아는 방향으로 민다.**
    앞으로 가면 오른쪽에서 들어오고 되돌아가면 왼쪽에서 들어온다.
@@ -356,7 +391,12 @@ body.session-focus{
   /* **강조색은 안 바꾼다.** 그 색들은 흰 글자를 얹는 바탕으로도 쓰인다.
      밝게 바꾸면 그 위의 흰 글자가 안 읽힌다. `check_contrast.js` 가 넷을 잡았다.
      글자로 쓰는 자리만 밝게 둔다. `--a3t` 가 그 자리다. */
-  --a3t:#67e8f9; --a1t:#a5a0ff; --sub:#20202e;
+  --a3t:#67e8f9; --a1t:#c4c0ff; --sub:#20202e;
+  /* **변수 참조는 정의된 자리에서 풀린다** (T389). `:root` 에 적은
+     `--acc:var(--a1t)` 는 `:root` 의 `--a1t` 로 굳는다. 여기서 `--a1t` 를
+     바꿔도 `--acc` 는 안 따라온다. 그래서 여기에도 한 줄이 있어야 한다.
+     이 줄이 없어서 판 화면의 배속 숫자가 2.55 였다. */
+  --acc:var(--a1t);
   --warn:#f472b6; --ok:#2dd4bf;
   --glow:0 10px 40px rgba(0,0,0,.45);
   --au1:rgba(99,102,241,.16); --au2:rgba(168,85,247,.12); --au3:rgba(34,211,238,.10);

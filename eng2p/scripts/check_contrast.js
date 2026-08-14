@@ -41,8 +41,11 @@ try { chromium = require("playwright-core").chromium; }
 catch (e) { skip("playwright-core 가 없다"); }
 if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
+/* **판 탭이 빠져 있었다** (T389). 판은 `out/app/plays.js` 로 늦게 읽으므로
+   탭을 안 열면 DOM 에 아예 없다. 판 화면 스무 개의 색을 한 번도 안 쟀다.
+   게다가 판은 블록 안에서 도니 **판 화면은 늘 짙은 판이다.** */
 const TABS = ["today", "review", "sound", "clip", "media", "src",
-              "ledger", "verify", "quarter", "check", "rot", "rules"];
+              "ledger", "verify", "quarter", "check", "rot", "rules", "play"];
 
 const SEED = `(function(){
   function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);
@@ -174,10 +177,26 @@ const MEASURE = function () {
   const all = [];
   for (const t of TABS) {
     await page.evaluate((x) => go(x), t);
-    await page.waitForTimeout(320);
+    await page.waitForTimeout(t === "play" ? 900 : 320);
     const rows = await page.evaluate(MEASURE);
     rows.forEach((x) => { x.tab = t; all.push(x); });
   }
+  /* 판 스물을 짙은 판에서 하나씩 연다. **거기가 색이 제일 안 보이던 자리다** */
+  const plays = await page.evaluate(() => (window.PLAYS || []).map((p) => p.id));
+  await page.evaluate(() => document.body.classList.add("session-focus"));
+  for (const id of plays) {
+    const ok = await page.evaluate(async (x) => {
+      go("play");
+      await new Promise((r) => setTimeout(r, 120));
+      PLAY.at = x; renderPlayTab();
+      await new Promise((r) => setTimeout(r, 500));
+      return !!document.querySelector("#t-play");
+    }, id);
+    if (!ok) continue;
+    const rows = await page.evaluate(MEASURE);
+    rows.forEach((x) => { x.tab = "판:" + id; all.push(x); });
+  }
+  await page.evaluate(() => document.body.classList.remove("session-focus"));
   /* **세션이 돌 때의 화면은 따로 재야 한다.** 탭만 돌면 그 화면이 안 나온다.
      세션 중에 두 사람이 제일 오래 보는 자리인데 검사 밖에 있으면 안 된다. */
   await page.evaluate(() => go("today"));

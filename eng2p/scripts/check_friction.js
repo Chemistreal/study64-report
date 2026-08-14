@@ -78,7 +78,8 @@ function seedScript() {
 (async () => {
   const B = baselines();
   const need = ["tap_day2", "tap_resume", "tap_first", "today_px",
-                "today_taps", "tabs_open", "today_reach"];
+                "today_px_miss", "today_px_first", "today_taps",
+                "today_taps_first", "tabs_open", "today_reach"];
   const miss = need.filter((k) => !B[k]);
   if (miss.length) {
     console.log("[실패] friction.md 7장에 기준선이 없다: " + miss.join(" "));
@@ -172,7 +173,12 @@ function seedScript() {
   {
     const { c, p } = await ctx(true);
     const m = await p.evaluate(() => {
-      const vis = (e) => e.offsetParent !== null;
+      /* **접힌 안은 못 누른다** (T389). 닫힌 `<details>` 의 자식은
+         `offsetParent` 가 살아 있어 그대로 세진다. 사람은 안 보이고
+         못 누르는데 검사만 센다. summary 는 눌리므로 남긴다. */
+      const fold = (e) => { const d = e.closest("details");
+        return !!d && !d.open && e.tagName !== "SUMMARY"; };
+      const vis = (e) => e.offsetParent !== null && !fold(e);
       return {
         px: document.documentElement.scrollHeight,
         taps: [...document.querySelectorAll("button,summary,input,select,textarea,a")]
@@ -186,6 +192,45 @@ function seedScript() {
     await c.close();
   }
 
+  /* 4a2. **제일 큰 상태를 재고 있는가** (T389).
+     위 4번은 138일을 하루도 안 빠지고 채운 상태다. 그 상태에서는
+     "어제 못 했다" 줄도 온보딩 칸도 안 뜬다. 그런데 실제로 두 사람이 보는
+     화면 중 제일 큰 것은 그 둘이 뜬 화면이다.
+
+     T335 가 "기준선이 제일 큰 상태를 재고 있다" 를 근거로 20주를 골랐는데
+     **그 말이 틀렸다.** 안 재는 자리에 값이 숨어 있었다. 둘을 따로 잰다. */
+  {
+    const { c, p } = await ctx(true);
+    /* 어제와 오늘을 비운다. 그러면 못 한 줄이 뜬다 */
+    await p.evaluate(() => {
+      const iso = (d) => {
+        const z = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+        return z.toISOString().slice(0, 10);
+      };
+      const back = (n) => iso(new Date(Date.now() - n * 86400000));
+      for (let i = 0; i < 3; i++) delete S.days[back(i)];
+      saveNow();
+    });
+    await p.reload();
+    await p.waitForTimeout(700);
+    got.today_px_miss = await p.evaluate(() => document.documentElement.scrollHeight);
+    await c.close();
+  }
+  {
+    const { c, p } = await ctx(false);
+    await p.waitForTimeout(500);
+    const m = await p.evaluate(() => ({
+      px: document.documentElement.scrollHeight,
+      taps: [...document.querySelectorAll("button,summary,input,select,textarea,a")]
+        .filter((e) => { const d = e.closest("details");
+          return e.offsetParent !== null &&
+                 !(d && !d.open && e.tagName !== "SUMMARY"); }).length,
+    }));
+    got.today_px_first = m.px;
+    got.today_taps_first = m.taps;
+    await c.close();
+  }
+
   /* 4b. **한 손으로 닿는가.** 손전화에서 제일 자주 누르는 것이 화면 위쪽에 있으면
      두 손으로 들어야 한다. 두 사람이 마주 앉아 한 손으로 들고 쓰는 물건이다.
      엄지가 닿는 자리를 아래 3분의 2로 잡는다. */
@@ -193,9 +238,12 @@ function seedScript() {
     const { c, p } = await ctx(true);
     const m = await p.evaluate(() => {
       const vh = innerHeight, reach = vh / 3;
+      const fold = (e) => { const d = e.closest("details");
+        return !!d && !d.open && e.tagName !== "SUMMARY"; };
       const vis = (e) => {
         const r = e.getBoundingClientRect();
-        return e.offsetParent !== null && r.width > 0 && r.height > 0 && r.top < vh && r.bottom > 0;
+        return e.offsetParent !== null && !fold(e) &&
+               r.width > 0 && r.height > 0 && r.top < vh && r.bottom > 0;
       };
       const tabs = [...document.querySelectorAll("nav > button, nav summary")].filter(vis);
       const high = tabs.filter((e) => {
@@ -227,7 +275,9 @@ function seedScript() {
       window.scrollTo(0, document.documentElement.scrollHeight);
       const nb = nav.getBoundingClientRect();
       const hit = [...document.querySelectorAll("button,a[href],input")]
-        .filter((e) => e.offsetParent !== null && !nav.contains(e))
+        .filter((e) => { const d = e.closest("details");
+          return e.offsetParent !== null && !nav.contains(e) &&
+                 !(d && !d.open && e.tagName !== "SUMMARY"); })
         .filter((e) => { const r = e.getBoundingClientRect();
                          return r.height > 0 && r.bottom > nb.top && r.top < innerHeight; })
         .map((e) => (e.textContent || e.id || "").trim().slice(0, 14));

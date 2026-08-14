@@ -15,7 +15,7 @@
   --a3t:#155e75;
   --a1t:#4f46e5;
   --sub:#eeeef6;
-  --acc:#4f46e5; --warn:#c2185b; --ok:#0f766e;
+  --acc:var(--a1t); --warn:#c2185b; --ok:#0f766e;
   --glow:0 10px 40px rgba(79,70,229,.14);
   --au1:rgba(99,102,241,.30); --au2:rgba(168,85,247,.24); --au3:rgba(34,211,238,.22);
   --mono:ui-monospace,SFMono-Regular,SF Mono,Menlo,monospace;
@@ -147,7 +147,6 @@ tbody tr:hover td{background:var(--card2)}
   font-size:0.8125rem;margin:12px 0;background:var(--card2)}
 .note.w{border-color:var(--warn);color:var(--warn)}
 .note b{color:var(--fg)}
-.note.w b{color:var(--warn)}
 
 .rb{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:700;
   padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
@@ -193,17 +192,22 @@ tbody tr:hover td{background:var(--card2)}
 .rings .rlab b{color:var(--fg);font-weight:650}
 .rings .rlab div{display:flex;align-items:center;gap:7px}
 .rings .rlab i{width:9px;height:9px;border-radius:99px;flex:none}
+.rings .rlab i[data-dot="11"]{width:11px;height:11px}
+.rings .rlab i[data-dot="9"]{width:9px;height:9px}
+.rings .rlab i[data-dot="7"]{width:7px;height:7px}
 @media (prefers-reduced-motion:reduce){ .rings .rv{transition:none} }
 
+button.b .mut,button.b .small.mut,.bigtap .mut{color:rgba(255,255,255,.92)}
+
 .todaysheet .gto{position:relative;display:block;width:100%;text-align:left;font:inherit;
-  cursor:pointer;border:1px solid var(--edge);background:var(--card2);color:var(--fg);
+  cursor:pointer;border:1px solid var(--edge);background:var(--bg2);color:var(--fg);
   border-radius:12px;padding:9px 30px 9px 12px;transition:.15s}
 .todaysheet .gto:hover{border-color:var(--a1);background:var(--bg2)}
 .todaysheet .gto .gmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);
   color:var(--mut);font-size:0.9375rem}
 .todaysheet .gto:hover .gmark{color:var(--a1t)}
 .todaysheet .gto{min-height:44px}
-.todaysheet .lec.gto{font-size:1.1875rem;font-weight:750;margin-bottom:2px;padding-top:11px;padding-bottom:11px}
+.todaysheet .lec.gto{font-size:1.1875rem;font-weight:750;margin-bottom:2px;padding-top:8px;padding-bottom:8px}
 .peekbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:0.8125rem;
   color:var(--mut);background:var(--card2);border:1px solid var(--edge);
   border-radius:11px;padding:8px 11px;margin-bottom:10px}
@@ -240,8 +244,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .slab{display:flex;justify-content:space-between;font-size:0.6875rem;color:var(--mut);margin-top:7px}
 #sessionCard{position:relative;transition:opacity .25s,transform .25s,box-shadow .25s}
 .sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:4px}
-.sessionhead .sessionprogress{display:none}
-.progline{font-size:0.78125rem;color:var(--mut);margin:2px 0 10px}
+.sessionhead /* 오늘 못 하는 날. 첫 화면에서 한 번에 간다. 찾게 하면 그날은 그냥 쉰다. */
 .emgline{margin-top:12px;text-align:center}
 .emgline button{background:none;border:none;color:var(--mut);font-size:0.78125rem;
   text-decoration:underline;cursor:pointer;padding:8px 10px}
@@ -318,7 +321,7 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .syncscript.veil1 .scl,.syncscript.veil2 .scl{font-size:0}
 .syncscript.veil1 .scl::after,.syncscript.veil2 .scl::after{
   content:attr(data-mask);font-size:0.8125rem;color:var(--mut);font-style:italic}
-.syncscript .scline.loop .scl::after{content:" \21BA";color:var(--a3)}
+.syncscript .scline.loop .scl::after{content:" \21BA";color:var(--a3t)}
 .nextday{margin-top:10px;padding:10px 12px;border:1px solid var(--edge);border-radius:10px;
   background:var(--card);font-size:0.84375rem;line-height:1.65;text-align:left}
 .nextday b{font-size:0.9375rem}
@@ -334,10 +337,9 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .critrow .v.no{color:var(--warn);background:rgba(194,24,91,.12)}
 .critrow .v.hand{color:var(--mut)}
 .sessionrole{font-size:1.3125rem;font-weight:780;letter-spacing:-.025em;margin:3px 0 5px}
-.sessionprogress{font-size:0.75rem;color:var(--mut)}
 .todaysheet{margin:14px 0 0;padding:16px 18px;border:1px solid var(--edge);border-radius:14px;
   background:var(--card2)}
-.todaysheet .lec{font-size:1.625rem;font-weight:800;letter-spacing:-.03em;line-height:1.2}
+.todaysheet .lec{font-weight:800;letter-spacing:-.03em;line-height:1.2}
 .todaysheet .lec b{color:var(--a1)}
 .todaysheet .tk{font-size:0.75rem;color:var(--mut);margin-top:2px}
 .todaysheet .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));
@@ -346,7 +348,8 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .todaysheet .g .k{font-size:0.6875rem;color:var(--mut)}
 .todaysheet .g .v{font-size:1.0625rem;font-weight:730;font-family:var(--mono);
   font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap}
-.todaysheet .grid{grid-template-columns:repeat(auto-fit,minmax(132px,1fr))}
+.todaysheet .grid{grid-template-columns:repeat(auto-fit,minmax(7.875rem,1fr))}
+.todaysheet .g.gto{padding:9px 26px 9px 11px}
 .weekband{display:flex;gap:2px;margin-top:13px}
 .weekband i{flex:1;height:7px;border-radius:2px;background:var(--edge)}
 .weekband i.done{background:var(--a1)}
@@ -354,6 +357,10 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .weekband i.qend{margin-right:9px}  /* 12주마다 틈. 분기가 눈으로 갈린다 */
 .bandnote{font-size:0.6875rem;color:var(--mut);margin-top:6px;display:flex;justify-content:space-between}
 .sessionstart{min-width:190px}
+body.onboarding #t-today>*:not(#onboard):not(#sessionCard){display:none}
+body.onboarding #todaySlots,body.onboarding #todayRings,
+body.onboarding #emgLine,body.onboarding #soloLine,
+body.onboarding #missLine,body.onboarding #resumeBox{display:none}
 body.session-focus header{position:fixed;inset:0 0 auto;transform:translateY(-110%);opacity:0;pointer-events:none}
 body.session-focus .aurora i{opacity:.18;animation-play-state:paused}
 body.session-focus .wrap{max-width:780px;padding-top:12px}
@@ -370,13 +377,24 @@ body.session-focus .todaysheet,
 body.session-focus #emgLine,
 body.session-focus #emgBox,
 body.session-focus #resumeBox,
-body.session-focus .progline{display:none}
+body.session-focus /* 같은 버튼이 두 자리에 있다. 조작줄의 일시정지는 #tStart 를 누르고
+   다음 블록은 #tSkip 을 누른다. 코드가 그렇게 적혀 있다.
+   휴대폰 너비에서 카드 안 줄이 두 줄로 접혀 65px 을 먹는데
+   그 65px 이 사는 일이 없다. 조작줄이 늘 떠 있기 때문이다.
+   세션 중에만 감춘다. 감춰도 눌리는 데는 지장이 없다. T123 */
 body.session-focus #tStart,
 body.session-focus #tSkip{display:none}
 .focusdock .fstate{min-width:104px;flex:1;padding:0 6px}
 @media (max-width:430px){ .focusdock{gap:4px;padding:9px 7px}
   .focusdock button{padding:11px 7px;min-width:0;flex:1}
-  .focusdock .fstate{display:none} }
+  .focusdock .fstate{display:none}
+  #focusPrev,#focusNext{flex:none;width:44px;font-size:0;position:relative}
+  #focusPrev::after,#focusNext::after{content:"";position:absolute;
+    left:50%;top:50%;width:9px;height:9px;
+    border-right:2px solid currentColor;border-bottom:2px solid currentColor}
+  #focusPrev::after{transform:translate(-40%,-50%) rotate(135deg)}
+  #focusNext::after{transform:translate(-60%,-50%) rotate(-45deg)}
+  #focusToggle{flex:1.5} }
 .focusdock .fstate b{display:block;font-size:0.75rem}
 .focusdock .fstate span{font-family:var(--mono);font-size:1.0625rem}
 .sessiondone{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;
@@ -420,11 +438,13 @@ body.peek #sessionCard .sessctl{display:none}
 body.session-focus #todaySlots,
 body.session-focus #missLine,
 body.session-focus #soloLine{display:none}
-.stkbig{font-size:1.5rem;line-height:1}
+.stkbig{font-size:1.125rem;line-height:1.1;font-weight:800}
+.slots .card.tight .small{line-height:1.5;margin-top:9px}
+.slots>.card{margin:0}
 
 body.session-focus .rings{display:none}
 
-.sessionstart{min-height:62px;font-size:1.0625rem}
+.sessionstart{min-height:max(72px,4.1rem);font-size:1.0625rem}
 
 @keyframes slideNext{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
 @keyframes slidePrev{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
@@ -480,7 +500,8 @@ body.card-clock .blockpane .phase{opacity:.55}
 body.session-focus{
   --bg:#141420; --bg2:#1b1b2a; --fg:#f2f2f7; --mut:#a8a8b8; --line:#2e2e42;
   --card:rgba(32,32,50,.72); --card2:rgba(32,32,50,.5); --edge:rgba(0,0,0,.35);
-  --a3t:#67e8f9; --a1t:#a5a0ff; --sub:#20202e;
+  --a3t:#67e8f9; --a1t:#c4c0ff; --sub:#20202e;
+  --acc:var(--a1t);
   --warn:#f472b6; --ok:#2dd4bf;
   --glow:0 10px 40px rgba(0,0,0,.45);
   --au1:rgba(99,102,241,.16); --au2:rgba(168,85,247,.12); --au3:rgba(34,211,238,.10);
@@ -657,7 +678,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   body.session-focus #emgLine,
   body.session-focus #emgBox,
   body.session-focus #resumeBox,
-  body.session-focus .progline{display:revert!important}
+  body.session-focus
   .ground .gat{display:inline!important;border:0;padding:0;color:#000;font-weight:700}
   button{display:none!important}
   input,textarea,select{background:#fff;color:#000;border:1px solid #999}
@@ -666,7 +687,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   .card,.wallcard{background:#fff;box-shadow:none;backdrop-filter:none;border-color:#999}
   section[hidden]{display:none}
   .todaysheet{border:1.5px solid #000;background:#fff;padding:14px 16px}
-  .todaysheet .lec{font-size:1.375rem}
+  .todaysheet .lec.gto{font-size:1.375rem}
   .todaysheet .lec b{color:#000}
   .todaysheet .g{border-color:#999}
   .weekband i{background:#ddd;height:6px}
@@ -674,6 +695,17 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   .weekband i.now{background:#000;box-shadow:0 0 0 2px #fff,0 0 0 3px #000}
   a[href]:after{content:""}
 }
+
+.afterfold{margin-top:22px}
+.afterfold>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
+  gap:9px;padding:2px 0}
+.afterfold>summary::-webkit-details-marker{display:none}
+.afterfold>summary h3{display:inline;margin:0}
+.afterfold>summary::after{content:"";width:8px;height:8px;margin-left:auto;
+  border-right:2px solid var(--mut);border-bottom:2px solid var(--mut);
+  transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+.afterfold[open]>summary::after{transform:rotate(225deg) translateY(-2px)}
+.afterfold>summary:hover::after{border-color:var(--fg)}
 
 @media (max-width:560px){
   header{position:static;backdrop-filter:none}
@@ -802,7 +834,7 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 .ladrow b{flex:none;min-width:2.6em;font-size:1rem}
 .ladrow.on{background:var(--sub);color:var(--fg);font-weight:600}
 .ladrow.on b{color:var(--acc)}
-.ladrow.past{opacity:.55}
+.ladrow.past{opacity:.82;font-weight:400}
 .walclock{display:flex;gap:12px;align-items:baseline;margin:12px 0 4px;
   border:1px solid var(--edge);border-radius:12px;background:var(--bg2);padding:10px 14px}
 .walclock b{font-size:2.6rem;font-weight:750;line-height:1;min-width:2ch}
@@ -944,11 +976,11 @@ body.veil-on>*:not(.veilcover){display:none}
 <!-- ========== 오늘 ========== -->
 <section id="t-today" role="tabpanel">
   <h2>오늘</h2>
-  <p class="lede">날짜만 보고 역할을 정한다. 협의하면 편중된다.</p>
 
   <div class="card" id="onboard" hidden>
-    <b>두 사람과 시작일만 정하면 바로 시작할 수 있다.</b>
-    <div class="small mut" style="margin-top:3px">사람 1과 사람 2는 고정이고, 세션 역할 A와 B는 날짜에 따라 자동으로 바뀐다.</div>
+    <b>둘이 마주 앉아 두 시간. 주 엿새로 48주를 돈다.</b>
+    <div class="small mut" style="margin-top:4px" id="obWhat"></div>
+    <div class="small mut" style="margin-top:6px">사람 1과 사람 2는 고정이고, 세션 역할 A와 B는 날짜에 따라 자동으로 바뀐다.</div>
     <div class="grid g3" style="margin-top:12px">
       <div><label for="obA" class="f">사람 1</label><input id="obA" placeholder="남편" autocomplete="name"></div>
       <div><label for="obB" class="f">사람 2</label><input id="obB" placeholder="아내" autocomplete="name"></div>
@@ -964,15 +996,14 @@ body.veil-on>*:not(.veilcover){display:none}
       <div style="flex:1;min-width:190px">
         <div class="small mut">오늘 <span class="mono" id="todayDate"></span></div>
         <div class="sessionrole" id="todayRole"></div>
-        <div class="sessionprogress" id="todayProgress"></div>
+        <div class="small mut">날짜로 자동 교대. 협의하면 편중된다</div>
       </div>
       <button class="bigtap sessionstart" id="tOne">세션 시작</button>
     </div>
-    <div class="rings" id="todayRings"></div>
-    <div class="progline" id="todayProgress2"></div>
     <div id="resumeBox"></div>
-    <div id="todaySlots" class="slots" hidden></div>
     <div class="todaysheet" id="todaySheet"></div>
+    <div class="rings" id="todayRings"></div>
+    <div id="todaySlots" class="slots" hidden></div>
     <div class="emgline" id="emgLine"></div>
     <div class="emgline" id="soloLine"></div>
     <div id="missLine"></div>
@@ -1055,7 +1086,8 @@ body.veil-on>*:not(.veilcover){display:none}
     <div class="row end"><span class="small mut" id="fMsg">자동 저장된다</span></div>
   </div>
 
-  <h3>미해결 LRE</h3>
+  <details class="afterfold" id="dtLre">
+  <summary><h3>미해결 LRE</h3><span class="small mut" id="lreCnt"></span></summary>
   <p class="lede">반드시 문장으로 적는다. 이게 주간 판정 세션의 입력이 된다.</p>
   <div class="card">
     <div class="grid g2">
@@ -1071,8 +1103,10 @@ body.veil-on>*:not(.veilcover){display:none}
     <div class="row end" style="margin-top:10px"><button class="g" id="uAdd">추가</button></div>
     <div id="uList"></div>
   </div>
+  </details>
 
-  <h3>채집 표현</h3>
+  <details class="afterfold" id="dtColl">
+  <summary><h3>채집 표현</h3><span class="small mut" id="collCnt"></span></summary>
   <p class="lede">출처 없이 올리지 않는다. 출처가 없으면 판정이 안 된다.</p>
   <div class="card">
     <div class="grid g3">
@@ -1085,6 +1119,7 @@ body.veil-on>*:not(.veilcover){display:none}
     <div class="row end" style="margin-top:10px"><button class="g" id="cAdd">추가</button></div>
     <div id="cList"></div>
   </div>
+  </details>
 </section>
 
 <!-- ========== 복습 ========== -->
@@ -1618,7 +1653,7 @@ body.veil-on>*:not(.veilcover){display:none}
     <button class="g" id="focusVeil" type="button" aria-label="화면 가리기">가림</button>
     <button class="g" id="focusPrev" type="button" aria-label="이전 블록">이전</button>
     <button class="b" id="focusToggle" type="button">일시정지</button>
-    <button class="g" id="focusNext" type="button">다음</button>
+    <button class="g" id="focusNext" type="button" aria-label="다음 블록">다음</button>
     <button class="g mono" id="focusWhere" type="button"
             aria-label="이 기기 자리. 눌러서 상대와 맞춘다">1-40</button>
   </div>
@@ -2145,6 +2180,13 @@ function renderRecGate(rec){
   if(!gate||!card) return;
   var open = S.recOpen===true || (rec && rec.status);
   gate.hidden=!!open; card.hidden=!open;
+  var d1=$("#dtLre"), d2=$("#dtColl");
+  if(d1) d1.open=!!open;
+  if(d2) d2.open=!!open;
+  var n1=$("#lreCnt"), n2=$("#collCnt");
+  var un=(rec&&rec.unres)?rec.unres.length:0, co=(rec&&rec.coll)?rec.coll.length:0;
+  if(n1) n1.textContent=un?("오늘 "+un+"건"):"";
+  if(n2) n2.textContent=co?("오늘 "+co+"건"):"";
 }
 
 function renderSheet(pl){
@@ -2166,12 +2208,10 @@ function renderSheet(pl){
     g.push('<button type="button" class="g gto" data-go="'+esc(go)+'">'+body+
            '<span class="gmark" aria-hidden="true">\u2192</span></button>');
   }
-  cell("세트", pl.set, "b:1");
   function pad3(n){ return String(n).padStart(3,"0"); }
-  cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null, "b:2");
   cell("미디어", pl.media, pl.media ? "m:"+pl.media : null);
-  cell("과제 분량", pl.task ? pl.task.minChars+"자" : null);
-  cell("비상판", pl.emergency!=null ? String(pl.emergency) : "없는 강");
+  cell("세트", pl.set, "b:1");
+  cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null, "b:2");
   var dn=dueCards().length;
   if(dn) cell("다시 낼 카드", dn+"장", "due");
 
@@ -2180,6 +2220,9 @@ function renderSheet(pl){
         '<div class="tk">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
         pl.week+'주 '+pl.day+'일째 · 오늘이 '+pl.session+'번째 세션이다</div>'+
         '<div class="grid">'+g.join("")+'</div>'+
+        '<div class="tk" style="margin-top:9px">과제 '+
+          (pl.task ? esc(pl.task.minChars+"자") : "-")+' · 비상판 '+
+          (pl.emergency!=null ? esc(String(pl.emergency)) : "없는 강")+'</div>'+
         band(pl);
   box.innerHTML=h;
   bindSheetGo(box);
@@ -2214,7 +2257,6 @@ function band(pl){
     s+='<i class="'+c.join(" ")+'"></i>';
   }
   s+='</div><div class="bandnote"><span>1주</span>';
-  s+='<span>'+(pl.week>1 ? (pl.week-1)+"주 마쳤다" : "시작 주다")+'</span>';
   s+='<span>48주</span></div></button>';
   return s;
 }
@@ -2340,7 +2382,7 @@ function renderSlots(){
   why += " · 이 달 회복권 " + restLeft() + "장 남았다";
   box.innerHTML='<div class="card tight">'+
     '<div class="row" style="justify-content:space-between;align-items:baseline">'+
-    '<span><b class="stkbig">'+n+'</b> <b>일째 같이 하고 있다</b></span>'+
+    '<span><b'+(n?' class="stkbig"':'')+'>'+n+'</b> <b>일째 같이 하고 있다</b></span>'+
     '<span class="small mut">둘의 날이다</span></div>'+
     '<div class="small mut" style="margin-top:4px">'+why+
     ' · <b>이 기기가 아는 날로 셌다.</b> 저쪽 날은 짝 코드로 합쳐야 온다.</div>'+
@@ -2507,12 +2549,13 @@ function renderSoloLine(){
 function missYesterday(){
   var d=addDays(today(),-1), n=0;
   while(n<14){
+    if(S.start && d < S.start && !(S.days||{})[d]) return null;
     var wd=parseISO(d).getDay();
     if(wd!==0 && !((S.rest||{})[d])){
       var r=(S.days||{})[d];
       var st=r&&r.status;
       if(st==="normal"||st==="emg") return null;
-      return {day:d, first:n===0};
+      return {day:d};
     }
     d=addDays(d,-1); n++;
   }
@@ -2521,6 +2564,7 @@ function missYesterday(){
 
 function renderMissLine(){
   var line=$("#missLine"); if(!line) return;
+  if(!S.onboarded){ line.innerHTML=""; return; }
   var t=(S.days||{})[today()];
   if(t && (t.status==="normal"||t.status==="emg")){ line.innerHTML=""; return; }
   var m=missYesterday();
@@ -2616,6 +2660,7 @@ function lateDo(fn, box){
 }
 
 function renderToday(){
+  document.body.classList.toggle("onboarding", !S.onboarded);
   var d=today(), r=roleOf(d), rec=day(d);
   $("#todayDate").textContent=d;
   var A = r==="a" ? S.names.a : S.names.b;
@@ -2625,8 +2670,6 @@ function renderToday(){
   for(var wi=0;wi<7;wi++){ var wr=S.days[addDays(weekStart,wi)]; if(wr&&(wr.status==="normal"||wr.status==="emg")) weekDone++; }
   var pl=plan();
   var msg="이번 주 "+weekDone+" / 6일 · 진도 "+pl.week+"주 "+pl.day+"일째 / 48주";
-  $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
-  var p2=$("#todayProgress2"); if(p2) p2.textContent="";
   renderRings(pl,weekDone,rec);
   renderSlots();
   renderSheet(pl);
@@ -2733,9 +2776,9 @@ $("#cAdd").onclick=function(){
 
 
 var RING=[
-  {r:46,w:10,k:"오늘",c:"var(--a1)"},
-  {r:33,w:10,k:"이번 주",c:"var(--a2)"},
-  {r:20,w:10,k:"1년",c:"var(--a3)"}
+  {r:47,w:8,k:"1년",c:"#2f2f3d",dot:11},
+  {r:33,w:8,k:"이번 주",c:"#2f2f3d",dot:9},
+  {r:19,w:8,k:"오늘",c:"#2f2f3d",dot:7}
 ];
 function renderRings(pl,weekDone,rec){
   var box=$("#todayRings"); if(!box) return;
@@ -2743,9 +2786,9 @@ function renderRings(pl,weekDone,rec){
   if(rec && rec.status==="normal") today4=4;
   else if(T.left===0) today4=4;
   else today4=T.idx;
-  var v=[today4/4, weekDone/6, Math.min(1,(pl.done||0)/288)];
-  var num=[today4+" / 4 블록", weekDone+" / 6일",
-           pl.week+" / 48주"+(pl.behind>0?" · 달력은 "+(pl.week+pl.behind)+"주째":"")];
+  var v=[Math.min(1,(pl.done||0)/288), weekDone/6, today4/4];
+  var num=[pl.week+" / 48주"+(pl.behind>0?" · 달력은 "+(pl.week+pl.behind)+"주째":""),
+           weekDone+" / 6일", today4+" / 4 블록"];
   var say=RING.map(function(g,i){ return g.k+" "+num[i]; }).join(", ");
   var s='<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(say)+'">';
   RING.forEach(function(g,i){
@@ -2759,7 +2802,8 @@ function renderRings(pl,weekDone,rec){
   s+="</svg>";
   s+='<div class="rlab">';
   RING.forEach(function(g,i){
-    s+='<div><i style="background:'+g.c+'"></i><b>'+g.k+"</b> "+num[i]+"</div>";
+    s+='<div><i data-dot="'+g.dot+'" style="background:'+g.c+'"></i><b>'+
+       g.k+"</b> "+num[i]+"</div>";
   });
   s+="</div>";
   box.innerHTML=s;
@@ -4410,6 +4454,9 @@ function renderOnboard(){
   var card=$("#onboard");
   if(S.onboarded){ card.hidden=true; return; }
   card.hidden=false;
+  var w=$("#obWhat");
+  if(w) w.textContent="둘이 있어야 돈다. 두 시간은 블록 넷이다. "+
+    BLOCKS.map(function(b){ return b.m+"분 "+b.n; }).join(" · ")+".";
   $("#obA").value=S.names.a; $("#obB").value=S.names.b; $("#obD").value=S.start;
 }
 $("#obGo").onclick=function(){
@@ -5939,7 +5986,7 @@ function sideNow(){
     return {cls:"side-"+(soloSeat()===0?"a":"b"),
             tag:(soloSeat()===0?"A":"B")+" 돌려 보기"};
   var d=(typeof deviceSide==="function")?deviceSide():null;
-  if(!d) return {cls:"side-none", tag:"쪽 안 고름"};
+  if(!d) return {cls:"side-none", tag:S.onboarded?"쪽 안 고름":""};
   var who=(devicePerson()==="a")?S.names.a:S.names.b;
   return {cls:"side-"+d, tag:d.toUpperCase()+" "+who};
 }
@@ -5950,7 +5997,8 @@ function paintSide(){
   var b=document.body;
   b.classList.remove("side-a","side-b","side-none");
   b.classList.add(s.cls);
-  var t=$("#sideTag"); if(t) t.textContent=s.tag;
+  var t=$("#sideTag");
+  if(t){ t.textContent=s.tag; t.hidden=!s.tag; }
 }
 
 function roundStep(playId){

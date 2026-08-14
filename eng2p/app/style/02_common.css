@@ -85,7 +85,8 @@ tbody tr:hover td{background:var(--card2)}
   font-size:0.8125rem;margin:12px 0;background:var(--card2)}
 .note.w{border-color:var(--warn);color:var(--warn)}
 .note b{color:var(--fg)}
-.note.w b{color:var(--warn)}
+/* **색이 다시 다그치면 안 된다** (T389). 왼쪽 선만 남긴다.
+   글까지 경보색으로 칠하면 `tone.md` 가 허락한 문장도 겁으로 읽힌다. */
 
 /* 역할 배지. 2인 전제를 화면 어디서나 보이게 한다. */
 .rb{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:700;
@@ -137,12 +138,22 @@ tbody tr:hover td{background:var(--card2)}
 .rings .rlab{display:grid;gap:4px;font-size:0.78125rem;color:var(--mut)}
 .rings .rlab b{color:var(--fg);font-weight:650}
 .rings .rlab div{display:flex;align-items:center;gap:7px}
+/* 점 크기가 어느 고리인지를 말한다 (T389). 색은 셋 다 같다 */
 .rings .rlab i{width:9px;height:9px;border-radius:99px;flex:none}
+.rings .rlab i[data-dot="11"]{width:11px;height:11px}
+.rings .rlab i[data-dot="9"]{width:9px;height:9px}
+.rings .rlab i[data-dot="7"]{width:7px;height:7px}
 @media (prefers-reduced-motion:reduce){ .rings .rv{transition:none} }
 
+/* **파란 바탕에 회색 글자를 얹지 않는다** (T389). 고른 판 단추가 `.b` 인데
+   그 안 부연이 `.small.mut` 이라 대비가 2.3 이었다. 판 화면을 한 번도
+   안 재고 있어서 아무도 몰랐다. 어디서든 이 짝은 안 읽힌다. */
+button.b .mut,button.b .small.mut,.bigtap .mut{color:rgba(255,255,255,.92)}
+
 /* 오늘 칸에서 그 재료로 가는 자리. **누를 수 있다는 것이 보여야 한다.** */
+/* 눌리는 칸은 바탕이 더 밝다 (T389). 안 눌리는 칸과 눈으로 갈린다 */
 .todaysheet .gto{position:relative;display:block;width:100%;text-align:left;font:inherit;
-  cursor:pointer;border:1px solid var(--edge);background:var(--card2);color:var(--fg);
+  cursor:pointer;border:1px solid var(--edge);background:var(--bg2);color:var(--fg);
   border-radius:12px;padding:9px 30px 9px 12px;transition:.15s}
 .todaysheet .gto:hover{border-color:var(--a1);background:var(--bg2)}
 .todaysheet .gto .gmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);
@@ -150,7 +161,7 @@ tbody tr:hover td{background:var(--card2)}
 .todaysheet .gto:hover .gmark{color:var(--a1t)}
 /* 누를 자리는 44px 아래로 안 내려간다. 손가락 하나가 그만큼이다. */
 .todaysheet .gto{min-height:44px}
-.todaysheet .lec.gto{font-size:1.1875rem;font-weight:750;margin-bottom:2px;padding-top:11px;padding-bottom:11px}
+.todaysheet .lec.gto{font-size:1.1875rem;font-weight:750;margin-bottom:2px;padding-top:8px;padding-bottom:8px}
 /* 미리 보기 띠. 시계가 안 돈다는 것을 그 자리에서 말한다. */
 .peekbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:0.8125rem;
   color:var(--mut);background:var(--card2);border:1px solid var(--edge);

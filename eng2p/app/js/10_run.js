@@ -227,8 +227,17 @@ document.addEventListener("keydown",function(e){
 /* 첫 실행 온보딩. 물어보는 것은 세 개뿐이다. */
 function renderOnboard(){
   var card=$("#onboard");
+  /* **아직 안 들어온 사람에게 지나온 값을 안 보인다** (T389).
+     처음 여는 화면이 3335px 이었다. 이름을 아직 안 정했는데 적는 칸의
+     이름표가 벌써 "남편 생각" 이고, 정상 세션을 한 번도 안 본 사람에게
+     1인 예외 두 줄이 먼저 왔다. 남기는 것은 온보딩 카드와 시작 칸뿐이다. */
   if(S.onboarded){ card.hidden=true; return; }
   card.hidden=false;
+  /* **숫자와 이름을 여기 안 적는다.** `BLOCKS` 가 원본이고 두 자리에 적으면
+     갈라진다. 둘이 있어야 돈다는 것을 먼저 말한다. */
+  var w=$("#obWhat");
+  if(w) w.textContent="둘이 있어야 돈다. 두 시간은 블록 넷이다. "+
+    BLOCKS.map(function(b){ return b.m+"분 "+b.n; }).join(" · ")+".";
   $("#obA").value=S.names.a; $("#obB").value=S.names.b; $("#obD").value=S.start;
 }
 $("#obGo").onclick=function(){

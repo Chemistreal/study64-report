@@ -1,10 +1,13 @@
 <section id="t-today" role="tabpanel">
   <h2>오늘</h2>
-  <p class="lede">날짜만 보고 역할을 정한다. 협의하면 편중된다.</p>
 
   <div class="card" id="onboard" hidden>
-    <b>두 사람과 시작일만 정하면 바로 시작할 수 있다.</b>
-    <div class="small mut" style="margin-top:3px">사람 1과 사람 2는 고정이고, 세션 역할 A와 B는 날짜에 따라 자동으로 바뀐다.</div>
+    <!-- **이 앱이 무엇인지부터 말한다** (T389). 처음 두 줄이 아직 만난 적 없는
+         개념(A/B 역할)의 예외 규칙과 설정 절차였다. 두 시간이 무엇으로
+         채워지는지가 첫 화면 어디에도 없었다. -->
+    <b>둘이 마주 앉아 두 시간. 주 엿새로 48주를 돈다.</b>
+    <div class="small mut" style="margin-top:4px" id="obWhat"></div>
+    <div class="small mut" style="margin-top:6px">사람 1과 사람 2는 고정이고, 세션 역할 A와 B는 날짜에 따라 자동으로 바뀐다.</div>
     <div class="grid g3" style="margin-top:12px">
       <div><label for="obA" class="f">사람 1</label><input id="obA" placeholder="남편" autocomplete="name"></div>
       <div><label for="obB" class="f">사람 2</label><input id="obB" placeholder="아내" autocomplete="name"></div>
@@ -20,21 +23,25 @@
       <div style="flex:1;min-width:190px">
         <div class="small mut">오늘 <span class="mono" id="todayDate"></span></div>
         <div class="sessionrole" id="todayRole"></div>
-        <div class="sessionprogress" id="todayProgress"></div>
+        <!-- 역할 규칙은 매일 읽을 글이 아니다 (T389). 화면 제목 밑 lede 에서
+             여기로 옮겼다. 자리를 그 값 옆으로 옮기면 한 번 읽고 만다. -->
+        <div class="small mut">날짜로 자동 교대. 협의하면 편중된다</div>
       </div>
       <button class="bigtap sessionstart" id="tOne">세션 시작</button>
     </div>
     <!-- **글자 없이 한눈에.** 오늘과 이번 주와 1년이 고리 셋이다.
          숫자는 아래 한 줄에만 적는다. 두 사람이 앉자마자 보는 것은 고리다.
          셋 다 둘이 같이 쌓는 값이다. 사람별 칸이 없다. -->
-    <div class="rings" id="todayRings"></div>
-    <div class="progline" id="todayProgress2"></div>
     <div id="resumeBox"></div>
+    <!-- **오늘 무엇을 하나가 먼저다** (T389). 시작 단추와 그 단추가 여는 것
+         사이에 지나온 값 328px 이 끼어 있었다. 고리 첫째가 늘 0/4 라
+         **늘 0인 것이 제일 좋은 자리를 먹고 있었다.** -->
+    <div class="todaysheet" id="todaySheet"></div>
+    <div class="rings" id="todayRings"></div>
     <!-- **비워 두는 자리다.** 공동 연속일(F단계)과 오늘의 한 판(E단계)이 여기 들어온다.
          자리를 지금 잡아 두는 이유는 나중에 첫 화면을 다시 짜지 않기 위해서다.
          무엇이 들어올지는 docs/roadmap.md 12.9 와 12.15 에 이미 적혀 있다. -->
     <div id="todaySlots" class="slots" hidden></div>
-    <div class="todaysheet" id="todaySheet"></div>
     <!-- 없는 것이 상대인가 기기인가 (T354). 매뉴얼 11장이 바로잡은 자리다.
          상대가 없으면 비상판 15분이고 기기가 하나면 두 시간을 다 돈다.
          둘을 헷갈리면 그날 두 시간을 통째로 버린다. -->
@@ -130,7 +137,11 @@
     <div class="row end"><span class="small mut" id="fMsg">자동 저장된다</span></div>
   </div>
 
-  <h3>미해결 LRE</h3>
+  <!-- 세션이 끝난 뒤에 쓰는 칸이다 (T389). 첫 화면의 43% 가 여기였다.
+       접어 두고 세션이 끝나면 저절로 펴진다. 진짜 입력 자리는 블록 2 안이고
+       (T224) 여기는 둘째 입구다. **보이는 시간이 곧 안 쓰는 시간이었다.** -->
+  <details class="afterfold" id="dtLre">
+  <summary><h3>미해결 LRE</h3><span class="small mut" id="lreCnt"></span></summary>
   <p class="lede">반드시 문장으로 적는다. 이게 주간 판정 세션의 입력이 된다.</p>
   <div class="card">
     <div class="grid g2">
@@ -146,8 +157,10 @@
     <div class="row end" style="margin-top:10px"><button class="g" id="uAdd">추가</button></div>
     <div id="uList"></div>
   </div>
+  </details>
 
-  <h3>채집 표현</h3>
+  <details class="afterfold" id="dtColl">
+  <summary><h3>채집 표현</h3><span class="small mut" id="collCnt"></span></summary>
   <p class="lede">출처 없이 올리지 않는다. 출처가 없으면 판정이 안 된다.</p>
   <div class="card">
     <div class="grid g3">
@@ -160,6 +173,7 @@
     <div class="row end" style="margin-top:10px"><button class="g" id="cAdd">추가</button></div>
     <div id="cList"></div>
   </div>
+  </details>
 </section>
 
 <!-- ========== 복습 ========== -->

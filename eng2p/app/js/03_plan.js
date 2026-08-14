@@ -349,6 +349,15 @@ function renderRecGate(rec){
   if(!gate||!card) return;
   var open = S.recOpen===true || (rec && rec.status);
   gate.hidden=!!open; card.hidden=!open;
+  /* 세션이 끝나면 적는 칸 둘도 같이 펴진다 (T389).
+     **한 것만 센다.** 안 한 것을 세는 요약 줄을 안 만든다 (`tone.md` 3장). */
+  var d1=$("#dtLre"), d2=$("#dtColl");
+  if(d1) d1.open=!!open;
+  if(d2) d2.open=!!open;
+  var n1=$("#lreCnt"), n2=$("#collCnt");
+  var un=(rec&&rec.unres)?rec.unres.length:0, co=(rec&&rec.coll)?rec.coll.length:0;
+  if(n1) n1.textContent=un?("오늘 "+un+"건"):"";
+  if(n2) n2.textContent=co?("오늘 "+co+"건"):"";
 }
 
 function renderSheet(pl){
@@ -375,13 +384,13 @@ function renderSheet(pl){
     g.push('<button type="button" class="g gto" data-go="'+esc(go)+'">'+body+
            '<span class="gmark" aria-hidden="true">\u2192</span></button>');
   }
-  cell("세트", pl.set, "b:1");
+  /* **세션 차례로 놓는다** (T389). BLOCKS 는 미디어(40분) 다음이 세트(30분)고
+     그 다음이 카드(30분)다. 화면이 거꾸로라 제일 먼저 쓰는 것이 셋째였다. */
   function pad3(n){ return String(n).padStart(3,"0"); }
+  cell("미디어", pl.media, pl.media ? "m:"+pl.media : null);
+  cell("세트", pl.set, "b:1");
   // 카드는 자료에서 [041] 처럼 세 자리다. 화면이 41 이라고 하면 두 사람이 그것을 찾는다.
   cell("카드", pl.cards ? pad3(pl.cards.from)+" ~ "+pad3(pl.cards.to) : null, "b:2");
-  cell("미디어", pl.media, pl.media ? "m:"+pl.media : null);
-  cell("과제 분량", pl.task ? pl.task.minChars+"자" : null);
-  cell("비상판", pl.emergency!=null ? String(pl.emergency) : "없는 강");
   /* 다시 낼 날이 된 카드. 오늘 범위 밖의 것도 있다. 그것을 안 보여 주면 간격이 무너진다. */
   var dn=dueCards().length;
   if(dn) cell("다시 낼 카드", dn+"장", "due");
@@ -391,6 +400,12 @@ function renderSheet(pl){
         '<div class="tk">'+esc(pl.quarter||"")+' · '+esc(pl.track||"")+' 트랙 · '+
         pl.week+'주 '+pl.day+'일째 · 오늘이 '+pl.session+'번째 세션이다</div>'+
         '<div class="grid">'+g.join("")+'</div>'+
+        /* **눌리는 칸과 안 눌리는 칸을 안 섞는다** (T389). 다섯이 테두리도
+           바탕도 값 글자도 같은데 둘은 문이 아니었다. 셋만 남기니
+           화살표가 예외 없는 규칙이 된다. 나머지 둘은 한 줄로 적는다. */
+        '<div class="tk" style="margin-top:9px">과제 '+
+          (pl.task ? esc(pl.task.minChars+"자") : "-")+' · 비상판 '+
+          (pl.emergency!=null ? esc(String(pl.emergency)) : "없는 강")+'</div>'+
         band(pl);
   box.innerHTML=h;
   bindSheetGo(box);
@@ -433,8 +448,9 @@ function band(pl){
     s+='<i class="'+c.join(" ")+'"></i>';
   }
   s+='</div><div class="bandnote"><span>1주</span>';
-  /* 밀린 양은 지도 아래 한 자리에서만 보인다 (T356). 여기는 지나온 것만 적는다 */
-  s+='<span>'+(pl.week>1 ? (pl.week-1)+"주 마쳤다" : "시작 주다")+'</span>';
+  /* **가운데 span 을 뺐다** (T389). `space-between` 이라 늘 띠 한가운데에
+     앉아 3주째인데 24주 자리에 "2주 마쳤다" 를 적고 있었다.
+     몇 주째인지는 바로 위 고리 이름표가 이미 말한다 (`1년 3 / 48주`). */
   s+='<span>48주</span></div></button>';
   return s;
 }

@@ -97,6 +97,10 @@ function lateDo(fn, box){
    오늘 탭
    ========================================================================= */
 function renderToday(){
+  /* **아직 안 들어온 사람에게 지나온 값을 안 보인다** (T389).
+     이 표를 `renderOnboard` 안에서만 붙였더니 저장소를 다른 길로 바꿨을 때
+     안 따라왔다. `renderToday` 는 어느 길로 바뀌든 불린다. */
+  document.body.classList.toggle("onboarding", !S.onboarded);
   var d=today(), r=roleOf(d), rec=day(d);
   $("#todayDate").textContent=d;
   var A = r==="a" ? S.names.a : S.names.b;
@@ -113,8 +117,9 @@ function renderToday(){
      밀림이 혼자 뜨지 않는다. T181 이 그 자리를 골랐다. */
   /* **고리와 겹치는 줄은 없앤다.** 역할 교대는 바로 위 lede 가 이미 말한다.
      밀린 주 수는 고리 이름표로 옮겼다. 그러면 이 줄은 평소에 비어 있다. */
-  $("#todayProgress").textContent=msg+" · A/B는 날짜로 자동 교대";
-  var p2=$("#todayProgress2"); if(p2) p2.textContent="";
+  /* `#todayProgress` 는 `03_timer.css` 가 `display:none` 으로 감추고
+     `#todayProgress2` 는 늘 빈 문자열이었다. **한 번도 안 떴다** (T389).
+     화면에 안 뜨는 채로 살아 있어 말투 검사 밖에 있던 자리다. 지웠다. */
   renderRings(pl,weekDone,rec);
   renderSlots();
   renderSheet(pl);
@@ -231,10 +236,20 @@ $("#cAdd").onclick=function(){
 
    셋 다 **둘이 같이 쌓는 값이다.** 사람별 칸을 안 만든다. 2인 원칙 1이다.
    ========================================================================= */
+/* **색으로 안 가른다** (T389). 셋을 `--a1 --a2 --a3` 로 칠했는데
+   `#9333ea` 와 `#0e7490` 의 상대 휘도가 같아 **대비가 1.00:1** 이었다.
+   흑백으로 뽑으면 한 색이고 색맹인 사람에게도 한 색이다.
+
+   그리고 그 색이 곧 A 색과 B 색이다. "1년 3/48주" 가 B 의 색을 달고 있었다.
+   `streak.md` 4장이 사람별 칸을 막았는데 색이 그 금을 넘고 있었다.
+
+   셋을 한 색으로 하고 **이름표 옆 점 크기**로 가른다. 큰 점이 바깥 고리다.
+   차례도 뒤집는다. 바깥이 1년, 안이 오늘이다. 오늘은 시작 전에 늘 0이라
+   제일 크고 제일 눈에 띄는 띠가 앉는 순간 늘 비어 있었다. */
 var RING=[
-  {r:46,w:10,k:"오늘",c:"var(--a1)"},
-  {r:33,w:10,k:"이번 주",c:"var(--a2)"},
-  {r:20,w:10,k:"1년",c:"var(--a3)"}
+  {r:47,w:8,k:"1년",c:"#2f2f3d",dot:11},
+  {r:33,w:8,k:"이번 주",c:"#2f2f3d",dot:9},
+  {r:19,w:8,k:"오늘",c:"#2f2f3d",dot:7}
 ];
 function renderRings(pl,weekDone,rec){
   var box=$("#todayRings"); if(!box) return;
@@ -244,14 +259,15 @@ function renderRings(pl,weekDone,rec){
   if(rec && rec.status==="normal") today4=4;
   else if(T.left===0) today4=4;
   else today4=T.idx;
-  var v=[today4/4, weekDone/6, Math.min(1,(pl.done||0)/288)];
+  /* **RING 과 같은 차례여야 한다.** 바깥부터 1년 / 이번 주 / 오늘이다 */
+  var v=[Math.min(1,(pl.done||0)/288), weekDone/6, today4/4];
   /* 이름표와 읽어 주는 글이 같아야 한다. 두 자리에 따로 적으면 갈라진다.
      그래서 이름표를 먼저 짓고 그것을 읽어 주는 글에도 그대로 쓴다. */
   /* **밀렸다고 안 적는다** (T386). 달력 주와 세션 주는 다른 값이고
      둘이 다른 것은 이 과정에서 정상이다. 비상판으로 도는 해는 느리게 간다
      (`year.md` 6장). 같은 사실을 두 가지로 적을 수 있으면 안 다그치는 쪽이다. */
-  var num=[today4+" / 4 블록", weekDone+" / 6일",
-           pl.week+" / 48주"+(pl.behind>0?" · 달력은 "+(pl.week+pl.behind)+"주째":"")];
+  var num=[pl.week+" / 48주"+(pl.behind>0?" · 달력은 "+(pl.week+pl.behind)+"주째":""),
+           weekDone+" / 6일", today4+" / 4 블록"];
   var say=RING.map(function(g,i){ return g.k+" "+num[i]; }).join(", ");
   var s='<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(say)+'">';
   RING.forEach(function(g,i){
@@ -265,7 +281,8 @@ function renderRings(pl,weekDone,rec){
   s+="</svg>";
   s+='<div class="rlab">';
   RING.forEach(function(g,i){
-    s+='<div><i style="background:'+g.c+'"></i><b>'+g.k+"</b> "+num[i]+"</div>";
+    s+='<div><i data-dot="'+g.dot+'" style="background:'+g.c+'"></i><b>'+
+       g.k+"</b> "+num[i]+"</div>";
   });
   s+="</div>";
   box.innerHTML=s;

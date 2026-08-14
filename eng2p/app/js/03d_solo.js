@@ -56,12 +56,20 @@ function missYesterday(){
   var d=addDays(today(),-1), n=0;
   /* 일요일과 회복권 건 날은 건너뛴다. 그 앞의 진짜 마지막 자리를 본다 */
   while(n<14){
+    /* **시작하기 전 날은 안 한 날이 아니라 없는 날이다** (T389).
+       이 벽이 없어서 처음 켠 두 사람에게 "어제 못 했다" 가 떴다.
+       한 번도 시작 안 한 사람에게 못 한 것을 세어 보이는 자리였다.
+       `tone.md` 3장이 그 칸을 아예 만들지 말라고 한 그 자리다.
+
+       **다만 적혀 있으면 있는 날이다.** 시작일을 나중에 당겨 잡았을 수 있고
+       그때 적어 둔 날까지 없는 셈 치면 그것은 기록을 지우는 것이다. */
+    if(S.start && d < S.start && !(S.days||{})[d]) return null;
     var wd=parseISO(d).getDay();
     if(wd!==0 && !((S.rest||{})[d])){
       var r=(S.days||{})[d];
       var st=r&&r.status;
       if(st==="normal"||st==="emg") return null;
-      return {day:d, first:n===0};
+      return {day:d};
     }
     d=addDays(d,-1); n++;
   }
@@ -70,6 +78,8 @@ function missYesterday(){
 
 function renderMissLine(){
   var line=$("#missLine"); if(!line) return;
+  /* **아직 안 들어온 사람에게는 아무것도 안 센다** (T389) */
+  if(!S.onboarded){ line.innerHTML=""; return; }
   /* 오늘을 이미 했으면 안 뜬다. 지난 일을 오늘 다 하고 나서 볼 까닭이 없다 */
   var t=(S.days||{})[today()];
   if(t && (t.status==="normal"||t.status==="emg")){ line.innerHTML=""; return; }
