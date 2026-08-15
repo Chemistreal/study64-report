@@ -2,6 +2,11 @@
    저장소
    ========================================================================= */
 var KEY="eng2p.v1";
+/* 사본 이름과 벌 수도 **여기 있어야 한다.** 아래 사본 문단에 두었더니
+   load() 안에서 BAK 가 undefined 였고 사본이 하나도 안 보였다. 화면에는
+   아무 표시가 없다. 깨진 날에만 드러난다. 아래 LOAD_ERR 과 같은 자리다. */
+var BAK=KEY+".bak.";
+var BAK_KEEP=7;
 /* **이 줄이 load() 호출보다 위에 있어야 한다.**
    var 는 끌어올려지지만 대입은 안 그렇다. 아래에 두면 load() 가 넣은 값을
    그 다음 줄이 null 로 도로 지운다. T165 에 검사가 그것을 잡았다. */
@@ -12,7 +17,9 @@ function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
           media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{},solo:false,soloSeat:0,soloHand:false,veiled:false,rstep:{},rseat:{},
           /* 배속 사다리 칸 (T372). **몇 번 만에 올라갔는지는 안 남긴다** */
-          rung:{}};
+          rung:{},
+          /* 마지막으로 JSON 을 내보낸 날 (T390). 사본은 이 기기에만 있다 */
+          exportAt:null};
 }
 /* 기기 설정 (T383). **저장소(S)와 다른 칸이다.**
 
@@ -33,6 +40,65 @@ function prefSet(k,v){
   try{ localStorage.setItem(PREF_KEY, JSON.stringify(o)); }catch(e){}
 }
 
+/* 날마다 사본 (T390).
+
+   ## 1년치가 한 벌에만 있었다
+
+   깨지면 `.broken` 으로 옮겨 두기는 했다. 그런데 **옮겨 둔 것은 못 읽는 글자다.**
+   되살릴 길이 없었다. 두 사람이 1년을 쌓은 값이 브라우저 칸 하나에 있었다.
+
+   재 봤더니 1년치가 **115KB** 다. 저장소는 보통 5MB 다.
+   사본 일곱 벌이 805KB 고 그것으로 이레를 되짚을 수 있다.
+
+   ## 덮기 전에 남긴다
+
+   그날 처음 저장할 때 **덮이기 전의 판**을 사본으로 남긴다.
+   하루에 한 벌이고 이레를 넘으면 오래된 것부터 지운다.
+
+   ## 사본이 저장을 막으면 안 된다
+
+   사본을 못 남겨도 저장은 돌아야 한다. 순서가 그래서 중요하다.
+   사본 쓰기가 실패하면 조용히 지나간다. **본 기록이 먼저다.**
+
+   이름과 벌 수는 이 파일 맨 위에 있다. load() 보다 위여야 한다. */
+function bakList(){
+  var out=[];
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k && k.indexOf(BAK)===0) out.push(k);
+    }
+  }catch(e){}
+  return out.sort();
+}
+function bakKeep(){
+  try{
+    var k=BAK+iso(new Date());
+    if(localStorage.getItem(k)!=null) return;   /* 오늘 것은 이미 있다 */
+    var cur=localStorage.getItem(KEY);
+    if(!cur) return;
+    /* **못 읽는 글자는 사본이 아니다.** 그것까지 남기면 오늘 한 자리를
+       쓰레기가 차지하고 그만큼 되살릴 수 있는 날이 하루 줄어든다.
+       깨진 글자 자체는 load() 가 .broken 으로 따로 옮겨 뒀다. */
+    try{ var o=JSON.parse(cur); if(!o||typeof o!=="object") return; }
+    catch(e2){ return; }
+    localStorage.setItem(k,cur);
+    var all=bakList();
+    while(all.length>BAK_KEEP) localStorage.removeItem(all.shift());
+  }catch(e){}
+}
+/* 제일 최근 사본. 못 읽으면 그 앞 것을 본다. **하나가 깨져도 이레가 남는다** */
+function bakLatest(){
+  var all=bakList();
+  for(var i=all.length-1;i>=0;i--){
+    try{
+      var o=JSON.parse(localStorage.getItem(all[i]));
+      if(o && typeof o==="object") return {day:all[i].slice(BAK.length), data:o};
+    }catch(e){}
+  }
+  return null;
+}
+
 /* **못 읽은 기록을 지우지 않는다.**
    전에는 JSON 이 깨지면 조용히 빈 상태로 시작했다. 1년치 기록이 아직 거기 있는데
    화면에는 0회로 나온다. 두 사람은 그것이 사라졌다고 여기고 다시 시작한다.
@@ -49,6 +115,17 @@ function load(){
     return o;
   }catch(e){
     try{ localStorage.setItem(KEY+".broken."+Date.now(), raw); }catch(e2){}
+    /* **사본이 있으면 그것으로 되살린다** (T390).
+       전에는 여기서 빈 상태로 시작했다. 못 읽은 글자를 옮겨 두기는 했지만
+       그것은 되살릴 수 없는 글자다. 두 사람은 1년치가 사라진 화면을 본다. */
+    var b=bakLatest();
+    if(b){
+      var bl=blank();
+      for(var k2 in bl) if(!(k2 in b.data)) b.data[k2]=bl[k2];
+      LOAD_ERR="기록이 깨져서 "+b.day+" 사본으로 되살렸다. "+
+        "그 뒤에 적은 것은 안 들어 있다. 대장 탭에서 JSON 을 내려받아 둔다";
+      return b.data;
+    }
     LOAD_ERR="기록을 못 읽었다. 지우지 않고 "+KEY+".broken 으로 옮겨 뒀다";
     return blank();
   }
@@ -59,6 +136,8 @@ function load(){
 var saveTimer=null;
 function writeNow(){
   var text=JSON.stringify(S);
+  /* **덮기 전에 남긴다** (T390). 사본이 실패해도 저장은 돌아야 한다 */
+  bakKeep();
   try{
     localStorage.setItem(KEY,text);
   }catch(e){

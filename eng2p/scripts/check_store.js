@@ -13,6 +13,10 @@
  *
  * 셋 다 **눈으로는 안 보인다.** 화면은 멀쩡하다. 그래서 검사로 만든다.
  *
+ * T390 에 하나가 더 붙었다. 깨진 글자를 옮겨 두는 것만으로는 안 되살아난다.
+ * 옮겨 둔 것은 **못 읽는 글자**다. 그래서 그날 처음 저장할 때 덮이기 전의 판을
+ * 사본으로 남기고 이레를 둔다. 사본이 있어야 되살릴 수 있다.
+ *
  * 사용법:
  *     node scripts/check_store.js
  *
@@ -439,7 +443,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
                kinds: kinds, proto: location.protocol,
                names: Object.keys(OPEN_NAME).length };
     });
-    n += 9;
+    n += 12;
     if (w.now === null) { fails.push("대장 탭에 어디서 열었나 자리가 없다"); }
     else {
       if (w.proto !== "file:") fails.push("이 검사가 file:// 로 안 열렸다: " + w.proto);
@@ -463,13 +467,191 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         fails.push("메뉴 이름이 기기마다 다르다는 말이 없다");
       if (w.kinds.pages.indexOf("인터넷이 있어야 한다") < 0)
         fails.push("홈에 붙인 것이 인터넷을 쓴다는 말이 없다");
+      /* **사본이 있다는 것을 말한다** (T390). 있는 줄 모르면 없는 것과 같다 */
+      if (w.now.indexOf("이 기기의 사본") < 0) fails.push("사본이 몇 벌인지 안 적는다");
+      /* **사본도 이 기기 안에 있다.** 그것으로 기기 바뀜을 못 막는다 */
+      if (w.now.indexOf("기기가 바뀌면 같이 사라진다") < 0)
+        fails.push("사본이 기기를 벗어나지 못한다는 말이 없다");
+      /* **다그치지 않는다** (docs/tone.md). 언제였는지만 적는다 */
+      if (/오래됐|해야 한다|늦었다|서둘러/.test(w.now))
+        fails.push("사본 자리에서 다그친다: " + w.now.slice(0, 80));
     }
     await ctx.close();
   }
 
+  /* ---- 사본 (T390) ------------------------------------------------------
+     깨진 기록을 옮겨 두는 것만으로는 되살아나지 않는다. 옮겨 둔 글자는
+     못 읽는 글자다. **되살릴 수 있는 판이 따로 있어야 한다.**
+     그날 처음 저장할 때 덮이기 전의 판을 남기고 이레를 둔다. */
+  let bak = 0;
+
+  /* 6-1. 그날 처음 저장할 때 **덮이기 전의 판**이 남는가. 하루 한 벌인가 */
+  {
+    bak += 3;
+    const { ctx, page } = await fresh();
+    const st = await page.evaluate((k) => {
+      const B = k + ".bak.";
+      const keys = () => {
+        const o = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const x = localStorage.key(i);
+          if (x.indexOf(B) === 0) o.push(x);
+        }
+        return o.sort();
+      };
+      /* 앱이 뜨면서 이미 한 번 저장했다. 여기부터 세려고 지운다 */
+      keys().forEach((x) => localStorage.removeItem(x));
+      S.names.a = "첫판"; saveNow();
+      keys().forEach((x) => localStorage.removeItem(x));
+      /* 남길 것이 없을 때는 **빈 사본을 안 만든다** */
+      localStorage.removeItem(k);
+      S.names.a = "본기록없음"; saveNow();
+      const afterFirst = keys();
+      localStorage.setItem(k, JSON.stringify({ names: { a: "첫판" } }));
+      S.names.a = "둘째판"; saveNow();
+      const afterSecond = keys();
+      const kept = afterSecond.length
+        ? JSON.parse(localStorage.getItem(afterSecond[0])).names.a : null;
+      S.names.a = "셋째판"; saveNow();
+      const afterThird = keys();
+      const stillKept = afterThird.length
+        ? JSON.parse(localStorage.getItem(afterThird[0])).names.a : null;
+      return { one: afterFirst.length, two: afterSecond.length,
+               three: afterThird.length, kept: kept, stillKept: stillKept,
+               name: afterSecond[0] || null, td: today() };
+    }, KEY);
+    /* 아무것도 없을 때는 남길 것이 없다. **빈 사본을 만들지 않는다** */
+    if (st.one !== 0) fails.push("본 기록이 없는데 사본이 " + st.one + "벌 생겼다");
+    if (st.two !== 1) fails.push("둘째 저장 뒤 사본이 " + st.two + "벌이다");
+    if (st.kept !== "첫판")
+      fails.push("사본에 덮은 뒤의 판이 들어 있다: " + st.kept);
+    /* **하루에 한 벌이다.** 저장할 때마다 늘면 이레가 하루가 된다 */
+    if (st.three !== 1) fails.push("같은 날 세 번 저장했더니 사본이 " + st.three + "벌이다");
+    if (st.stillKept !== "첫판")
+      fails.push("그날 첫 판이 나중 저장에 덮였다: " + st.stillKept);
+    if (st.name !== KEY + ".bak." + st.td)
+      fails.push("사본 이름이 날짜가 아니다: " + st.name);
+    await ctx.close();
+  }
+
+  /* 6-2. 이레를 넘으면 **오래된 것부터** 지우는가 */
+  {
+    bak += 3;
+    const { ctx, page } = await fresh();
+    const st = await page.evaluate((k) => {
+      const B = k + ".bak.";
+      /* 옛 사본 열 벌을 심는다. 날짜가 다 다르다 */
+      for (let i = 1; i <= 10; i++) {
+        const d = "2025-01-" + (i < 10 ? "0" + i : i);
+        localStorage.setItem(B + d, JSON.stringify({ names: { a: "옛" + i } }));
+      }
+      S.names.a = "지금"; saveNow();   /* 여기서 오늘 사본이 는다. 열하나가 된다 */
+      S.names.a = "다음"; saveNow();   /* 같은 날이라 더 안 는다 */
+      const o = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const x = localStorage.key(i);
+        if (x.indexOf(B) === 0) o.push(x.slice(B.length));
+      }
+      return { list: o.sort(), td: today() };
+    }, KEY);
+    if (st.list.length !== 7)
+      fails.push("사본이 " + st.list.length + "벌 남았다. 이레여야 한다: " + st.list.join(" "));
+    /* **오늘 것이 남는다.** 새것을 지우고 옛것을 두면 되살릴 수 없다 */
+    if (st.list.indexOf(st.td) < 0)
+      fails.push("오늘 사본이 잘려 나갔다: " + st.list.join(" "));
+    /* **제일 옛것부터 빠진다** */
+    if (st.list.indexOf("2025-01-01") >= 0 || st.list.indexOf("2025-01-04") >= 0)
+      fails.push("옛 사본이 안 빠졌다: " + st.list.join(" "));
+    if (st.list.indexOf("2025-01-10") < 0)
+      fails.push("가까운 사본이 빠졌다: " + st.list.join(" "));
+    await ctx.close();
+  }
+
+  /* 6-3. 본 기록이 깨졌을 때 **사본으로 되살아나는가.** 이 검사의 고갱이다 */
+  {
+    bak += 5;
+    const { ctx, page } = await fresh();
+    await page.evaluate((k) => {
+      localStorage.setItem(k + ".bak.2025-03-04", JSON.stringify(
+        { onboarded: true, names: { a: "가람", b: "나래" },
+          days: { "2025-03-01": { speak: 77 } } }));
+      localStorage.setItem(k, "{이건 JSON 이 아니다");
+    }, KEY);
+    await page.reload();
+    await page.waitForTimeout(500);
+    const st = await page.evaluate((k) => {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i));
+      return { err: typeof LOAD_ERR !== "undefined" ? LOAD_ERR : null,
+               a: S.names.a, speak: ((S.days || {})["2025-03-01"] || {}).speak,
+               /* blank() 에만 있는 칸도 채워졌는가. 옛 사본에는 없던 칸이다 */
+               hasCards: S.cardDue !== undefined && S.exportAt !== undefined,
+               /* 되살린 뒤에 저장이 한 번 돈다. 그때 사본으로 남는 것이
+                  **깨진 글자면 오늘 한 자리를 쓰레기가 차지한다** */
+               fresh: (function () {
+                 const t = localStorage.getItem(k + ".bak." + today());
+                 if (t == null) return "없음";
+                 try { return typeof JSON.parse(t) === "object" ? "성함" : "이상"; }
+                 catch (e) { return "깨짐"; }
+               })(),
+               broken: keys.some((x) => x.indexOf(k + ".broken") === 0) };
+    }, KEY);
+    if (st.fresh === "깨짐" || st.fresh === "이상")
+      fails.push("못 읽는 글자를 오늘 사본으로 남겼다: " + st.fresh);
+    if (st.a !== "가람" || st.speak !== 77)
+      fails.push("사본이 있는데 안 되살렸다: " + st.a + " / " + st.speak);
+    /* **되살린 사실과 그 날짜를 말한다.** 조용히 되살리면 그 뒤에 적은 것을
+       잃은 줄 모른다 */
+    if (!st.err || st.err.indexOf("2025-03-04") < 0)
+      fails.push("어느 날 사본으로 되살렸는지 안 말한다: " + st.err);
+    if (!st.hasCards) fails.push("옛 사본에 없던 칸이 안 채워졌다");
+    /* 되살려도 **못 읽은 글자는 그대로 둔다** */
+    if (!st.broken) fails.push("되살리면서 못 읽은 글자를 버렸다");
+    await ctx.close();
+  }
+
+  /* 6-4. 사본이 깨져 있으면 **그 앞 사본**을 보는가 */
+  {
+    bak += 1;
+    const { ctx, page } = await fresh();
+    await page.evaluate((k) => {
+      localStorage.setItem(k + ".bak.2025-03-01", JSON.stringify({ names: { a: "앞것" } }));
+      localStorage.setItem(k + ".bak.2025-03-05", "{이 사본도 깨졌다");
+      localStorage.setItem(k, "{본 기록도 깨졌다");
+    }, KEY);
+    await page.reload();
+    await page.waitForTimeout(500);
+    const a = await page.evaluate(() => S.names.a);
+    if (a !== "앞것") fails.push("사본 하나가 깨지니 나머지도 안 봤다: " + a);
+    await ctx.close();
+  }
+
+  /* 6-5. **사본이 저장을 막지 않는가.** 본 기록이 먼저다 */
+  {
+    bak += 2;
+    const { ctx, page } = await fresh();
+    const st = await page.evaluate((k) => {
+      const real = localStorage.setItem.bind(localStorage);
+      localStorage.setItem = function (key, val) {
+        if (key.indexOf(k + ".bak.") === 0) throw new Error("사본 자리가 꽉 찼다");
+        return real(key, val);
+      };
+      S.names.a = "먼저"; saveNow();
+      S.names.a = "나중";
+      const ok = saveNow();
+      localStorage.setItem = real;
+      return { ok: ok, saved: JSON.parse(localStorage.getItem(k)).names.a };
+    }, KEY);
+    if (st.ok !== true) fails.push("사본을 못 남겼다고 저장이 실패로 돌아왔다");
+    if (st.saved !== "나중") fails.push("사본이 막히니 본 기록도 안 써졌다: " + st.saved);
+    await ctx.close();
+  }
+  n += bak;
+
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("저장소 %d판 (되돌리기 5자리, 어디서 열었나 9) / 실패 %d", n, fails.length);
+  console.log("저장소 %d판 (되돌리기 5자리, 어디서 열었나 12, 사본 %d) / 실패 %d",
+              n, bak, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });

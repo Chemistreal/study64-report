@@ -208,6 +208,8 @@ function renderAlerts(){
 }
 
 $("#exJson").onclick=function(){
+  /* **언제 마지막으로 내보냈는지를 남긴다** (T390). 안 남기면 아무도 모른다 */
+  S.exportAt=today(); saveNow();
   var blob=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
   var a=el("a"); a.href=URL.createObjectURL(blob); a.download="eng2p_ledger_"+today()+".json";
   document.body.appendChild(a); a.click(); document.body.removeChild(a);

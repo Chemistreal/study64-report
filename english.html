@@ -1763,13 +1763,16 @@ var FAILPT=[
  ["24~28주","방법론 재설계 욕구","성향적 충동","매뉴얼 1항. 고치지 말고 적는다. 12개월 후 개봉"]
 ];
 var KEY="eng2p.v1";
+var BAK=KEY+".bak.";
+var BAK_KEEP=7;
 var LOAD_ERR=null;
 var S=load();
 
 function blank(){
   return {names:{a:"남편",b:"아내"},start:iso(new Date()),days:{},q:{},rot:[],clips:[],scripts:{},
           media:{done:{},fav:{},last:null,pass:{}},wk:0,onboarded:false,session:null,device:null,recOpen:false,emgOpen:false,card:null,cardDue:{},cardMode:"today",cues:{},rate:1,fs:0,wchk:{},solo:false,soloSeat:0,soloHand:false,veiled:false,rstep:{},rseat:{},
-          rung:{}};
+          rung:{},
+          exportAt:null};
 }
 var PREF_KEY="eng2p.snd";
 function prefGet(){
@@ -1779,6 +1782,40 @@ function prefGet(){
 function prefSet(k,v){
   var o=prefGet(); o[k]=!!v;
   try{ localStorage.setItem(PREF_KEY, JSON.stringify(o)); }catch(e){}
+}
+
+function bakList(){
+  var out=[];
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k && k.indexOf(BAK)===0) out.push(k);
+    }
+  }catch(e){}
+  return out.sort();
+}
+function bakKeep(){
+  try{
+    var k=BAK+iso(new Date());
+    if(localStorage.getItem(k)!=null) return;   /* 오늘 것은 이미 있다 */
+    var cur=localStorage.getItem(KEY);
+    if(!cur) return;
+    try{ var o=JSON.parse(cur); if(!o||typeof o!=="object") return; }
+    catch(e2){ return; }
+    localStorage.setItem(k,cur);
+    var all=bakList();
+    while(all.length>BAK_KEEP) localStorage.removeItem(all.shift());
+  }catch(e){}
+}
+function bakLatest(){
+  var all=bakList();
+  for(var i=all.length-1;i>=0;i--){
+    try{
+      var o=JSON.parse(localStorage.getItem(all[i]));
+      if(o && typeof o==="object") return {day:all[i].slice(BAK.length), data:o};
+    }catch(e){}
+  }
+  return null;
 }
 
 function load(){
@@ -1792,6 +1829,14 @@ function load(){
     return o;
   }catch(e){
     try{ localStorage.setItem(KEY+".broken."+Date.now(), raw); }catch(e2){}
+    var b=bakLatest();
+    if(b){
+      var bl=blank();
+      for(var k2 in bl) if(!(k2 in b.data)) b.data[k2]=bl[k2];
+      LOAD_ERR="기록이 깨져서 "+b.day+" 사본으로 되살렸다. "+
+        "그 뒤에 적은 것은 안 들어 있다. 대장 탭에서 JSON 을 내려받아 둔다";
+      return b.data;
+    }
     LOAD_ERR="기록을 못 읽었다. 지우지 않고 "+KEY+".broken 으로 옮겨 뒀다";
     return blank();
   }
@@ -1800,6 +1845,7 @@ function load(){
 var saveTimer=null;
 function writeNow(){
   var text=JSON.stringify(S);
+  bakKeep();
   try{
     localStorage.setItem(KEY,text);
   }catch(e){
@@ -4646,6 +4692,7 @@ function renderAlerts(){
 }
 
 $("#exJson").onclick=function(){
+  S.exportAt=today(); saveNow();
   var blob=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
   var a=el("a"); a.href=URL.createObjectURL(blob); a.download="eng2p_ledger_"+today()+".json";
   document.body.appendChild(a); a.click(); document.body.removeChild(a);

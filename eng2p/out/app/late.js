@@ -786,6 +786,22 @@ function renderOpen(){
        '주소줄 옆 점 셋 안에 있기도 하다.<br>'+
        '붙인 것은 <b>이 주소를 여는 것이라 인터넷이 있어야 한다.</b> '+
        '인터넷 없이 쓰려면 파일을 내려받아 연다. 그때는 기록이 따로 산다.</div></div>';
+  var bl=(typeof bakList==="function")?bakList():[];
+  h+='<div class="n" style="margin-top:10px"><b>이 기기의 사본</b>'+
+     '<div class="small" style="margin-top:4px">';
+  if(bl.length){
+    var first=bl[0].slice(bl[0].lastIndexOf(".")+1);
+    var last=bl[bl.length-1].slice(bl[bl.length-1].lastIndexOf(".")+1);
+    h+='날마다 한 벌씩 <b>'+bl.length+'벌</b> 있다 ('+esc(first)+' ~ '+esc(last)+'). '+
+       '본 기록이 깨지면 제일 가까운 사본으로 되살린다.';
+  }else{
+    h+='아직 없다. 내일 처음 저장할 때 어제 판이 한 벌 남는다.';
+  }
+  h+='<br>'+(S.exportAt
+      ? 'JSON 을 마지막으로 내려받은 날은 <b>'+esc(S.exportAt)+'</b> 다.'
+      : 'JSON 을 아직 안 내려받았다.')+
+     ' 사본도 이 브라우저 안에 있다. <b>기기가 바뀌면 같이 사라진다.</b>'+
+     '</div></div>';
   box.innerHTML=h;
 }
 var showDone=false;
