@@ -80,7 +80,7 @@ nav button[aria-current="page"]{
   background:var(--bg2);box-shadow:0 18px 50px rgba(10,10,30,.22)}
 .navmenu button{text-align:left;border-radius:9px;width:100%;padding-inline:12px}
 .navmenu button[aria-current="page"]{background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff}
-h2{font-size:clamp(24px,4.2vw,32px);font-weight:820;letter-spacing:-.035em;margin:40px 0 6px;line-height:1.15;
+h2{font-size:clamp(1.5rem,4.2vw,2rem);font-weight:820;letter-spacing:-.035em;margin:40px 0 6px;line-height:1.15;
   background:linear-gradient(96deg,var(--fg),var(--a2) 130%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 h2:first-of-type{margin-top:30px}
@@ -179,7 +179,7 @@ tbody tr:hover td{background:var(--card2)}
 .duo>div.other{opacity:.62}
 .sidepick{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px;
   font-size:0.75rem;color:var(--mut);flex-wrap:wrap}
-.sidepick button{padding:7px 13px;border-radius:9px;border:1px solid var(--edge);
+.sidepick button{padding:7px 13px;min-height:44px;border-radius:9px;border:1px solid var(--edge);
   background:var(--card);color:var(--fg);font-size:0.78125rem;font-weight:650;cursor:pointer}
 .sidepick button.on{border-color:var(--a1);background:var(--a1);color:#fff}
 .tleft{font-size:0.875rem;color:var(--mut);margin-top:5px;font-family:var(--mono)}
@@ -252,10 +252,9 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 .slab{display:flex;justify-content:space-between;font-size:0.6875rem;color:var(--mut);margin-top:7px}
 #sessionCard{position:relative;transition:opacity .25s,transform .25s,box-shadow .25s}
 .sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:4px}
-.sessionhead /* 오늘 못 하는 날. 첫 화면에서 한 번에 간다. 찾게 하면 그날은 그냥 쉰다. */
 .emgline{margin-top:12px;text-align:center}
 .emgline button{background:none;border:none;color:var(--mut);font-size:0.78125rem;
-  text-decoration:underline;cursor:pointer;padding:8px 10px}
+  text-decoration:underline;cursor:pointer;padding:8px 10px;min-height:44px}
 .emgline button:hover{color:var(--fg)}
 .emgbox{margin-top:12px;padding:16px 18px;border:1px solid var(--a3);border-radius:14px;
   background:var(--card2)}
@@ -713,8 +712,8 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
 }
 
 .afterfold{margin-top:22px}
-.afterfold>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
-  gap:9px;padding:2px 0}
+.afterfold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;
+  gap:9px;padding:2px 0;min-height:44px}
 .afterfold>summary::-webkit-details-marker{display:none}
 .afterfold>summary h3{display:inline;margin:0}
 .afterfold>summary::after{content:"";width:8px;height:8px;margin-left:auto;

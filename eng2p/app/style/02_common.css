@@ -1,5 +1,8 @@
 /* ---------- 공통 ---------- */
-h2{font-size:clamp(24px,4.2vw,32px);font-weight:820;letter-spacing:-.035em;margin:40px 0 6px;line-height:1.15;
+/* **`px` 로 적으면 글자 크기 설정을 안 따라온다** (T394). `01_tokens.css` 가
+   바로 그 말을 적어 두었는데 화면 제목만 `px` 로 남아 있었다.
+   "더 크게" 를 눌러도 제목만 24px 그대로였다. 다른 글은 다 20% 커진다. */
+h2{font-size:clamp(1.5rem,4.2vw,2rem);font-weight:820;letter-spacing:-.035em;margin:40px 0 6px;line-height:1.15;
   background:linear-gradient(96deg,var(--fg),var(--a2) 130%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 h2:first-of-type{margin-top:30px}
@@ -136,7 +139,9 @@ tbody tr:hover td{background:var(--card2)}
 .duo>div.other{opacity:.62}
 .sidepick{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px;
   font-size:0.75rem;color:var(--mut);flex-wrap:wrap}
-.sidepick button{padding:7px 13px;border-radius:9px;border:1px solid var(--edge);
+/* 글자 크기를 고르는 자리다. **여기가 44px 아래면 크게 보려는 사람이
+   그 단추부터 못 누른다** (T394) */
+.sidepick button{padding:7px 13px;min-height:44px;border-radius:9px;border:1px solid var(--edge);
   background:var(--card);color:var(--fg);font-size:0.78125rem;font-weight:650;cursor:pointer}
 .sidepick button.on{border-color:var(--a1);background:var(--a1);color:#fff}
 /* 링 안의 세션 남은 시간. 블록 시간만 보면 두 시간 중 어디인지 모른다. */

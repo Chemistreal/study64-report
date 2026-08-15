@@ -215,20 +215,51 @@ function light(rgb) {
     if (m.txt < 200) fails.push("판 탭 종이에 " + m.txt + "자만 찍힌다");
   }
 
-  /* 4. **주석을 선택자 목록 가운데에 안 두었는가.** 소스를 본다.
-     화면으로는 안 드러난다. 쉼표로 끝난 줄 다음에 주석이 오면 목록이 이어진다. */
+  /* 4. **선택자를 적는 자리에 주석을 안 두었는가.** 소스를 본다.
+     화면으로는 안 드러난다. **CSS 에게 주석은 빈칸이다.**
+
+     두 꼴이 있고 둘 다 이 저장소에서 실제로 났다.
+
+       쉼표로 끝난 줄 다음에 주석이 오면 목록이 이어진다 (T393).
+       종이에서 여섯 자리가 한 줄로 흘렀다.
+
+       쉼표 없이 끝난 줄 다음에 주석이 오면 자손 선택자가 된다 (T394).
+       `.emgline` 이 `.sessionhead .emgline` 이 되어 여태 아무 데도 안 걸렸다.
+
+     **괄호 밖에서만 잰다.** 값 안에도 쉼표로 끝나는 줄이 있다. */
   {
     n += 1;
     const dir = path.join(__dirname, "..", "app", "style");
     fs.readdirSync(dir).forEach((f) => {
       const lines = fs.readFileSync(path.join(dir, f), "utf8").split("\n");
-      for (let i = 0; i < lines.length - 1; i++) {
-        if (!/,\s*$/.test(lines[i])) continue;
-        let j = i + 1;
-        while (j < lines.length && /^\s*$/.test(lines[j])) j++;
-        if (j < lines.length && /^\s*\/\*/.test(lines[j]))
-          fails.push(f + " " + (j + 1) + "째 줄: 쉼표로 끝난 선택자 다음에 주석이 온다. " +
-                     "CSS 에게 주석은 빈칸이라 목록이 이어진다");
+      let depth = 0, inC = false;
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        /* 이 줄을 읽기 전의 깊이가 선택자 자리인가를 정한다 */
+        const wasSel = (depth === 0 && !inC);
+        /* 이 줄이 선택자 조각으로 끝나는가. `{` `}` `;` 로 안 끝나고 비지 않았다 */
+        const bare = wasSel && /\S/.test(line) &&
+                     !/^\s*\/\*/.test(line) && !/^\s*@/.test(line) &&
+                     line.indexOf("{") < 0 && line.indexOf("}") < 0 &&
+                     line.indexOf(";") < 0 && !/\*\/\s*$/.test(line);
+        /* 깊이를 이 줄만큼 옮긴다. 주석 안의 괄호는 안 센다 */
+        let k = 0;
+        while (k < line.length) {
+          if (inC) { const e = line.indexOf("*/", k); if (e < 0) { k = line.length; }
+                     else { inC = false; k = e + 2; } continue; }
+          const c = line.indexOf("/*", k);
+          const seg = c < 0 ? line.slice(k) : line.slice(k, c);
+          for (const ch of seg) { if (ch === "{") depth++; else if (ch === "}") depth--; }
+          if (c < 0) break;
+          inC = true; k = c + 2;
+        }
+        if (!bare) continue;
+        let j2 = i + 1;
+        while (j2 < lines.length && /^\s*$/.test(lines[j2])) j2++;
+        if (j2 < lines.length && /^\s*\/\*/.test(lines[j2]))
+          fails.push(f + " " + (j2 + 1) + "째 줄: 선택자 가운데에 주석이 온다 (" +
+                     lines[i].trim().slice(0, 40) + "). CSS 에게 주석은 빈칸이라 " +
+                     "위아래 선택자가 하나로 붙는다");
       }
     });
   }

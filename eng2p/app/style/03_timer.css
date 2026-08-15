@@ -22,12 +22,20 @@ body.session-focus .sidepick button{padding:11px 17px;font-size:0.875rem;min-hei
 @keyframes pulse{50%{opacity:.55}}
 .slab{display:flex;justify-content:space-between;font-size:0.6875rem;color:var(--mut);margin-top:7px}
 #sessionCard{position:relative;transition:opacity .25s,transform .25s,box-shadow .25s}
-.sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:4px}
 /* 진도 줄은 버튼 옆 좁은 칸에서 두 줄로 접혔다. 한 줄로 빼면 흘끗 보고 읽힌다. */
-.sessionhead /* 오늘 못 하는 날. 첫 화면에서 한 번에 간다. 찾게 하면 그날은 그냥 쉰다. */
+.sessionhead{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:4px}
+/* 오늘 못 하는 날. 첫 화면에서 한 번에 간다. 찾게 하면 그날은 그냥 쉰다.
+
+   **여기 주석이 `.sessionhead` 와 `.emgline` 사이에 끼어 있었다** (T394).
+   쉼표가 없으니 둘이 `.sessionhead .emgline` 한 선택자로 붙었다.
+   `#emgLine` 은 `.sessionhead` 안에 없다. 그래서 이 두 줄이 여태 아무 데도
+   안 걸렸다. 가운데 정렬도 위 여백도 없었다. T393 에 종이에서 겪은 것과
+   같은 갈래다. **CSS 에게 주석은 빈칸이다.** */
 .emgline{margin-top:12px;text-align:center}
+/* 비상판으로 가는 자리다. 그날 두 시간을 15분으로 바꾼다.
+   **밑줄 친 글처럼 보여도 누르는 자리는 44px 이어야 한다** (T394) */
 .emgline button{background:none;border:none;color:var(--mut);font-size:0.78125rem;
-  text-decoration:underline;cursor:pointer;padding:8px 10px}
+  text-decoration:underline;cursor:pointer;padding:8px 10px;min-height:44px}
 .emgline button:hover{color:var(--fg)}
 .emgbox{margin-top:12px;padding:16px 18px;border:1px solid var(--a3);border-radius:14px;
   background:var(--card2)}

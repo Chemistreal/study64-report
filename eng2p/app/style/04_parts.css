@@ -230,8 +230,9 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
    ========================================================================= */
 /* 세션이 끝난 뒤에 쓰는 칸 (T389). 접혀 있어도 제목은 그대로 읽힌다 */
 .afterfold{margin-top:22px}
-.afterfold>summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;
-  gap:9px;padding:2px 0}
+/* 접고 펴는 자리다. **글만 있어도 누르는 자리는 44px 이어야 한다** (T394) */
+.afterfold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;
+  gap:9px;padding:2px 0;min-height:44px}
 .afterfold>summary::-webkit-details-marker{display:none}
 .afterfold>summary h3{display:inline;margin:0}
 .afterfold>summary::after{content:"";width:8px;height:8px;margin-left:auto;
