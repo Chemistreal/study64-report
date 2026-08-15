@@ -178,7 +178,12 @@ function seedScript() {
          못 누르는데 검사만 센다. summary 는 눌리므로 남긴다. */
       const fold = (e) => { const d = e.closest("details");
         return !!d && !d.open && e.tagName !== "SUMMARY"; };
-      const vis = (e) => e.offsetParent !== null && !fold(e);
+      /* **화면 위로 밀어 둔 것은 손가락이 못 누른다** (T392).
+         본문으로 건너뛰는 길이 `top:-64px` 에 있다. 초점을 받을 때만
+         내려온다. `offsetParent` 는 살아 있어서 그대로 세졌다.
+         이 줄이 재는 것은 손가락이 누를 자리 수다. 그 자리가 아니다. */
+      const above = (e) => e.getBoundingClientRect().bottom <= 0;
+      const vis = (e) => e.offsetParent !== null && !fold(e) && !above(e);
       return {
         px: document.documentElement.scrollHeight,
         taps: [...document.querySelectorAll("button,summary,input,select,textarea,a")]
@@ -223,7 +228,9 @@ function seedScript() {
       px: document.documentElement.scrollHeight,
       taps: [...document.querySelectorAll("button,summary,input,select,textarea,a")]
         .filter((e) => { const d = e.closest("details");
+          /* 화면 위로 밀어 둔 것은 안 센다. 위 4번과 같은 잣대다 (T392) */
           return e.offsetParent !== null &&
+                 e.getBoundingClientRect().bottom > 0 &&
                  !(d && !d.open && e.tagName !== "SUMMARY"); }).length,
     }));
     got.today_px_first = m.px;

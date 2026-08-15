@@ -101,7 +101,13 @@ function syncSessionFocus(){
   document.body.classList.toggle("peek",PEEK!=null||PEEKLEC!=null||PEEKMAP);
   var card=$("#sessionCard");
   if(card) card.setAttribute("aria-busy",T.run?"true":"false");
-  var dock=$("#focusDock"); if(dock) dock.setAttribute("aria-hidden",T.run?"false":"true");
+  /* **조작줄에 `aria-hidden` 을 걸지 않는다** (T392).
+     `T.run` 을 보고 걸었었다. 그런데 뜨고 지는 것은 `body.session-focus` 가
+     정한다. 둘이 다르다. 세션을 멈추면 조작줄은 그대로 떠 있는데
+     `aria-hidden="true"` 가 된다. **보이는데 낭독기에는 없는 자리**가 되고
+     키보드 초점은 그리로 간다. 초점은 가는데 무엇에 왔는지 안 읽힌다.
+     `display:none` 이 이미 낭독기와 초점 차례에서 뺀다. 표시를 겹치지 않는다. */
+  var dock=$("#focusDock"); if(dock) dock.removeAttribute("aria-hidden");
 }
 function hideSessionDone(){ var done=$("#sessionDone"); if(done) done.hidden=true; }
 

@@ -1,5 +1,5 @@
-<section id="t-rules" role="tabpanel" hidden>
-  <h2>세션 규칙 카드</h2>
+<section id="t-rules" role="region" aria-labelledby="h-rules" tabindex="-1" hidden>
+  <h2 id="h-rules">세션 규칙 카드</h2>
   <p class="lede noprint">이 장만 인쇄해서 공부하는 자리 벽에 붙인다. 세션 중에 규칙이 헷갈리면 매뉴얼을 뒤지지 말고 벽을 본다.</p>
   <div class="row noprint"><button class="g" onclick="window.print()">인쇄</button></div>
   <div class="wallcard" id="wall"></div>
@@ -37,7 +37,9 @@
      블록 1은 미디어 탭으로 가서 40분을 듣는 블록이다. 그때 탭이 바뀌면
      오늘 탭이 통째로 숨고 타이머도 같이 사라진다. T113 에서 겪었다.
      페이지 바닥에 두면 어느 탭에서도 떠 있다. -->
-  <div class="focusdock noprint" id="focusDock" aria-label="세션 빠른 조작" aria-hidden="true">
+  <!-- aria-hidden 을 안 건다 (T392). display:none 이 이미 낭독기와 초점 차례에서
+       뺀다. 두 표시가 서로 다른 조건을 보면 보이는데 안 읽히는 자리가 생긴다. -->
+  <div class="focusdock noprint" id="focusDock" aria-label="세션 빠른 조작">
     <!-- **세션 중에 딴 탭에 가면 돌아올 길이 없었다.**
          블록 1은 미디어 탭에서 듣는 블록이다. 그때 머리띠가 숨고 좁은 화면에서는
          탭도 숨는다. 조작줄에는 블록을 옮기는 것만 있었다.

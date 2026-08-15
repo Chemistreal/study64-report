@@ -52,7 +52,26 @@ button:disabled{opacity:.38;cursor:not-allowed}
    이 줄이 `button.b` 보다 뒤에 있어서 48을 44로 되돌리고 있었다. 갈라 적는다. */
 button.g,.tbtn,nav button,.navmore summary,.stp button{min-height:44px}
 button.b,.bigtap{min-height:48px}
-:focus-visible{outline:3px solid var(--a3);outline-offset:3px}
+/* **테두리는 곧바로 나타나야 한다** (T392).
+   여러 자리가 `transition:.18s` 를 쓴다. 값이 하나면 `all` 이라 테두리 굵기도
+   0에서 3px 로 서서히 자란다. 키보드로 옮기는 사람은 자리를 옮길 때마다
+   그 사이 자기가 어디 있는지 모른다. 옮기는 것이 빠를수록 더 그렇다.
+   초점을 받은 동안은 옮김을 끈다. */
+/* `!important` 를 쓴다. 특정도로는 못 이긴다. `:focus-visible` 은 (0,1,0) 인데
+   `.todaysheet .gto` 는 (0,2,0) 이고 `button.g` 는 (0,1,1) 이다. 그리고 그런
+   자리가 열아홉이다. 하나하나 이기려고 선택자를 늘리면 다음에 자리가 하나
+   늘 때 또 진다. **이 한 줄은 늘 이겨야 하는 줄이다.** */
+:focus-visible{outline:3px solid var(--a3);outline-offset:3px;transition-duration:0s!important}
+/* **구역으로 초점을 옮길 때 테두리를 안 그린다** (T392).
+   화면을 바꿀 때마다 본문 전체에 네모가 그려지면 눈으로 쓰는 사람에게는
+   그것이 무엇인지 알 수 없는 깜빡임이다. 낭독기는 이름만 읽으면 된다. */
+section[role=region]:focus,section[role=region]:focus-visible,
+.wrap:focus,.wrap:focus-visible{outline:0}
+/* 본문으로 건너뛰기. **초점을 받을 때만 보인다** */
+.skip{position:absolute;left:12px;top:-64px;z-index:60;
+  background:var(--a1);color:#fff;font-weight:700;font-size:0.9375rem;
+  padding:12px 16px;border-radius:0 0 12px 12px;text-decoration:none}
+.skip:focus{top:0}
 input:focus-visible,select:focus-visible,textarea:focus-visible{outline:0;border-color:var(--a1);box-shadow:0 0 0 3px rgba(99,102,241,.22)}
 input,select,textarea{
   font:inherit;font-size:0.875rem;color:var(--fg);background:var(--bg2);

@@ -74,7 +74,20 @@ function go(name){
   if(name==="rules"){ lateDo("renderRules"); renderSplit(); }
   if(name==="play") renderPlayTab();
   window.scrollTo(0,0);
+  /* **화면을 바꿨는데 낭독기가 아무 말도 안 했다** (T392).
+     초점이 누른 단추에 그대로 남는다. 눈으로 보는 사람은 바뀐 것을 보지만
+     듣는 사람에게는 아무 일도 안 일어난 것과 같다.
+
+     그 구역으로 초점을 옮기면 구역 이름(`aria-labelledby` 가 가리키는 `<h2>`)
+     을 읽는다. **처음 그릴 때는 안 옮긴다.** 열자마자 초점이 튀면
+     건너뛰기 링크가 첫 초점이라는 약속이 깨진다. */
+  if(NAV_READY){
+    var sec=$("#t-"+name);
+    if(sec && typeof sec.focus==="function"){ try{ sec.focus({preventScroll:true}); }catch(e){ sec.focus(); } }
+  }
+  NAV_READY=true;
 }
+var NAV_READY=false;
 document.addEventListener("click",function(e){
   var more=$("#navMore"); if(more&&more.open&&!more.contains(e.target)) more.open=false;
 });
