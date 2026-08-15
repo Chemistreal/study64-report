@@ -217,6 +217,27 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   .afterfold>summary::after{display:none!important}
 }
 
+/* 찾기 결과 (T395). **한 줄이 한 자리다.**
+   갈 데가 있는 줄은 단추고 없는 줄은 글이다. 둘이 눈으로 갈려야 한다.
+   우리가 적은 것은 갈 데가 없다. 그날 화면으로 돌아갈 길이 없기 때문이다. */
+.fdrow{display:block;width:100%;text-align:left;font:inherit;color:var(--fg);
+  border:0;border-top:1px solid var(--edge);background:none;
+  padding:11px 2px;min-height:44px}
+.fdrow:first-child{border-top:0}
+button.fdrow{cursor:pointer;position:relative;padding-right:22px}
+button.fdrow:hover{background:var(--bg2)}
+button.fdrow::after{content:"\2192";position:absolute;right:4px;top:50%;
+  transform:translateY(-50%);color:var(--mut)}
+.fdhead{font-size:0.9375rem;line-height:1.45;overflow-wrap:anywhere}
+.fdhead b{color:var(--a1t);font-weight:800}
+.fdrow .small{margin-top:3px;overflow-wrap:anywhere}
+.fdrow .tag{margin-right:5px;vertical-align:1px}
+.fdmore{margin-top:10px;width:100%}
+.fdnone{margin:-4px 0 4px}
+#fdOut h3{margin-top:22px}
+#fdOut h3:first-child{margin-top:16px}
+.fdmore{margin-top:10px;width:100%}
+
 /* =========================================================================
    한 손 조작. **손전화에서는 탭을 아래로 내린다.**
 

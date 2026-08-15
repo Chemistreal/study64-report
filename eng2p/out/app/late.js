@@ -863,6 +863,208 @@ function bakGo(day){
   saveNow(); renderToday(); renderLedger(); renderBakPick();
   offerUndo(day+" 사본으로 되돌림", back);
 }
+
+var FIND_KIND=[
+  {k:"mine", name:"우리가 적은 것"},
+  {k:"lec",  name:"강의 96",   data:"lectures",    global:"ENG2P_LECTURES"},
+  {k:"card", name:"카드 600",  data:"cards",       global:"ENG2P_CARDS"},
+  {k:"set",  name:"세트 288",  data:"sets",        global:"ENG2P_SETS"},
+  {k:"scr",  name:"대본 52",   data:"transcripts", global:"ENG2P_TRANSCRIPTS"}
+];
+var FIND_ON={mine:true,lec:true,card:true,set:true,scr:true};
+var FIND_CAP=60;
+var FIND_SHOW=6;
+var FIND_MORE={};
+var FIND_ASKED={};
+
+function findNorm(s){ return String(s==null?"":s).toLowerCase(); }
+function findMark(text, q){
+  var t=String(text==null?"":text), i=findNorm(t).indexOf(findNorm(q));
+  if(i<0) return esc(t);
+  return esc(t.slice(0,i))+"<b>"+esc(t.slice(i,i+q.length))+"</b>"+esc(t.slice(i+q.length));
+}
+function findCut(text, q, span){
+  var t=String(text==null?"":text), i=findNorm(t).indexOf(findNorm(q));
+  if(i<0 || t.length<=span) return t;
+  var from=Math.max(0,i-Math.floor(span/3));
+  var out=t.slice(from, from+span);
+  return (from?"...":"")+out+((from+span<t.length)?"...":"");
+}
+
+function findMine(q){
+  var out=[], days=Object.keys(S.days||{}).sort();
+  for(var i=days.length-1;i>=0 && out.length<FIND_CAP*3;i--){
+    var d=days[i], r=S.days[d]||{};
+    (r.unres||[]).forEach(function(u){
+      var hay=[u.t,u.i,u.k,u.h,u.w].join(" ");
+      if(findNorm(hay).indexOf(findNorm(q))<0) return;
+      out.push({day:d, tag:"미해결 LRE", head:u.t||"(문장 없음)",
+                body:[u.i?"걸린 것: "+u.i:"", u.h?S.names.a+": "+u.h:"",
+                      u.w?S.names.b+": "+u.w:""].filter(Boolean).join(" · ")});
+    });
+    (r.coll||[]).forEach(function(c){
+      var hay=[c.e,c.s,c.q,c.k].join(" ");
+      if(findNorm(hay).indexOf(findNorm(q))<0) return;
+      out.push({day:d, tag:"채집 표현", head:c.e||"(표현 없음)",
+                body:"출처: "+(c.s||"(없음)")+(c.q?" · "+c.q:"")});
+    });
+  }
+  return out;
+}
+
+function findLec(q, D){
+  var out=[];
+  (D.items||[]).forEach(function(x){
+    if(out.length>=FIND_CAP) return;
+    var hay=[x.no+"강", x.title, x.track, x.quarter, x.media].join(" ");
+    if(findNorm(hay).indexOf(findNorm(q))<0) return;
+    out.push({head:x.no+"강 "+x.title, go:"l:"+x.no,
+              body:x.quarter+" · "+x.track+" 트랙 · "+x.week+"주 · 카드 "+
+                   (x.cards?x.cards.from+"~"+x.cards.to:"-")});
+  });
+  return out;
+}
+function findLecOfCard(no){
+  var D=DATA.lectures; if(!D||!D.items) return null;
+  for(var i=0;i<D.items.length;i++){
+    var c=D.items[i].cards;
+    if(c && no>=c.from && no<=c.to) return D.items[i].no;
+  }
+  return null;
+}
+function findCard(q, D){
+  var out=[];
+  (D.items||[]).forEach(function(x){
+    if(out.length>=FIND_CAP) return;
+    var mat=((x.a&&x.a.material)||[]).join(" / ");
+    var hay=[x.id, x.type, mat, (x.a&&x.a.instruction)||""].join(" ");
+    if(findNorm(hay).indexOf(findNorm(q))<0) return;
+    var ln=findLecOfCard(x.no);
+    out.push({head:x.id+" "+x.type+"형"+(ln?" · "+ln+"강":""),
+              go:ln?("l:"+ln):null, body:findCut(mat,q,120)});
+  });
+  return out;
+}
+function findSet(q, D){
+  var out=[];
+  (D.items||[]).forEach(function(x){
+    if(out.length>=FIND_CAP) return;
+    var lines=[];
+    (x.steps||[]).forEach(function(s){
+      lines.push(s.name);
+      (s.items||[]).forEach(function(t){ lines.push(t); });
+    });
+    var hay=[x.id].concat(lines).join(" ");
+    if(findNorm(hay).indexOf(findNorm(q))<0) return;
+    var hit=lines.filter(function(t){ return findNorm(t).indexOf(findNorm(q))>=0; })[0];
+    out.push({head:x.id+" 세트 ("+x.week+"주)", go:"l:"+x.lecture,
+              body:findCut(hit||lines[0]||"",q,120)});
+  });
+  return out;
+}
+function findScr(q, D){
+  var out=[], items=D.items||{};
+  Object.keys(items).forEach(function(id){
+    (items[id]||[]).forEach(function(line, n){
+      if(out.length>=FIND_CAP) return;
+      if(findNorm(line).indexOf(findNorm(q))<0) return;
+      out.push({head:id+" "+(n+1)+"째 줄", go:"m:"+id, body:findCut(line,q,120)});
+    });
+  });
+  return out;
+}
+
+function findOne(kind, q){
+  if(kind.k==="mine") return {rows:findMine(q)};
+  var D=DATA[kind.data];
+  if(!D){
+    if(dataFailed(kind.data)) return {wait:dataWait("이 갈래를", kind.data)};
+    if(!FIND_ASKED[kind.data]){
+      FIND_ASKED[kind.data]=true;
+      loadData(kind.data, kind.global, function(){ renderFind(); });
+    }
+    return {wait:dataWait("이 갈래를", kind.data)};
+  }
+  if(kind.k==="lec")  return {rows:findLec(q,D)};
+  if(kind.k==="card") return {rows:findCard(q,D)};
+  if(kind.k==="set")  return {rows:findSet(q,D)};
+  return {rows:findScr(q,D)};
+}
+
+function renderFindKinds(){
+  var box=$("#fdKinds"); if(!box || box.children.length) return;
+  FIND_KIND.forEach(function(k){
+    var b=el("button","g"+(FIND_ON[k.k]?" on":""),k.name);
+    b.type="button"; b.dataset.fk=k.k;
+    b.setAttribute("aria-pressed",FIND_ON[k.k]?"true":"false");
+    b.onclick=function(){
+      FIND_ON[k.k]=!FIND_ON[k.k];
+      b.classList.toggle("on",FIND_ON[k.k]);
+      b.setAttribute("aria-pressed",FIND_ON[k.k]?"true":"false");
+      renderFind();
+    };
+    box.appendChild(b);
+  });
+}
+
+function renderFind(){
+  var out=$("#fdOut"); if(!out) return;
+  renderFindKinds();
+  var q=($("#fdQ")&&$("#fdQ").value||"").trim();
+  if(q.length<2){
+    out.innerHTML='<div class="card tight small mut">두 글자부터 찾는다. '+
+      '영어 표현을 그대로 쳐도 되고 한국어로 쳐도 된다. '+
+      '<b>우리가 적은 것</b>은 이 기기에 있어서 곧바로 나온다.</div>';
+    return;
+  }
+  var h="", any=false;
+  FIND_KIND.forEach(function(k){
+    if(!FIND_ON[k.k]) return;
+    any=true;
+    var got=findOne(k,q);
+    if(got.wait){ h+='<h3>'+esc(k.name)+'</h3>'+got.wait; return; }
+    var rows=got.rows, n=rows.length;
+    h+='<h3>'+esc(k.name)+' <span class="mut" style="font-weight:600">'+
+       (n>=FIND_CAP?FIND_CAP+"건 넘음":n+"건")+'</span></h3>';
+    if(!n){ h+='<div class="fdnone small mut">여기에는 없다.</div>'; return; }
+    var show=FIND_MORE[k.k]?n:Math.min(n,FIND_SHOW);
+    h+='<div class="card tight">';
+    rows.slice(0,show).forEach(function(r){
+      var head=findMark(r.head,q), body=r.body?findMark(r.body,q):"";
+      var meta=r.day?'<span class="tag">'+esc(r.day)+'</span> <span class="tag">'+esc(r.tag)+'</span> ':"";
+      if(r.go){
+        h+='<button type="button" class="fdrow gto" data-go="'+esc(r.go)+'">'+
+           '<div class="fdhead">'+meta+head+'</div>'+
+           (body?'<div class="small mut">'+body+'</div>':"")+'</button>';
+      }else{
+        h+='<div class="fdrow"><div class="fdhead">'+meta+head+'</div>'+
+           (body?'<div class="small mut">'+body+'</div>':"")+'</div>';
+      }
+    });
+    if(n>show)
+      h+='<button type="button" class="g fdmore" data-fm="'+esc(k.k)+'">'+
+         (n-show)+'건 더 보기</button>';
+    else if(FIND_MORE[k.k] && n>FIND_SHOW)
+      h+='<button type="button" class="g fdmore" data-fm="'+esc(k.k)+'">접기</button>';
+    h+='</div>';
+  });
+  if(!any) h='<div class="card tight small mut">갈래를 하나도 안 골랐다. 위에서 고른다.</div>';
+  out.innerHTML=h;
+  if(typeof bindSheetGo==="function") bindSheetGo(out);
+  out.querySelectorAll("[data-fm]").forEach(function(b){
+    b.onclick=function(){
+      var k=b.getAttribute("data-fm");
+      FIND_MORE[k]=!FIND_MORE[k];
+      renderFind();
+    };
+  });
+}
+
+var findTimer=null;
+if($("#fdQ")) $("#fdQ").oninput=function(){
+  clearTimeout(findTimer);
+  findTimer=setTimeout(function(){ FIND_MORE={}; renderFind(); },180);
+};
 var showDone=false;
 function renderVerify(){
   $("#vFilter").textContent = showDone?"미해결만 보기":"해결된 항목 보기";

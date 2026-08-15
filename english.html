@@ -711,6 +711,24 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   .afterfold>summary::after{display:none!important}
 }
 
+.fdrow{display:block;width:100%;text-align:left;font:inherit;color:var(--fg);
+  border:0;border-top:1px solid var(--edge);background:none;
+  padding:11px 2px;min-height:44px}
+.fdrow:first-child{border-top:0}
+button.fdrow{cursor:pointer;position:relative;padding-right:22px}
+button.fdrow:hover{background:var(--bg2)}
+button.fdrow::after{content:"\2192";position:absolute;right:4px;top:50%;
+  transform:translateY(-50%);color:var(--mut)}
+.fdhead{font-size:0.9375rem;line-height:1.45;overflow-wrap:anywhere}
+.fdhead b{color:var(--a1t);font-weight:800}
+.fdrow .small{margin-top:3px;overflow-wrap:anywhere}
+.fdrow .tag{margin-right:5px;vertical-align:1px}
+.fdmore{margin-top:10px;width:100%}
+.fdnone{margin:-4px 0 4px}
+#fdOut h3{margin-top:22px}
+#fdOut h3:first-child{margin-top:16px}
+.fdmore{margin-top:10px;width:100%}
+
 .afterfold{margin-top:22px}
 .afterfold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;
   gap:9px;padding:2px 0;min-height:44px}
@@ -1634,6 +1652,21 @@ body.veil-on>*:not(.veilcover){display:none}
   <p class="printonly">위는 판 목록이다. <b>판 하나를 열고 인쇄하면</b> 그 판의 종이 자리가 나온다.
     여기서 그냥 인쇄하면 목록만 나온다.</p>
   <div id="playPane"></div>
+</section>
+<section id="t-find" role="region" aria-labelledby="h-find" tabindex="-1" hidden>
+  <h2 id="h-find">찾기</h2>
+  <p class="lede">1년치를 한 자리에서 찾는다. 우리가 적은 것과 자료를 같이 뒤진다.</p>
+  <div class="card tight">
+    <label for="fdQ" class="f">찾을 말</label>
+    <input id="fdQ" type="search" placeholder="영어 표현이나 한국어. 강 번호도 된다"
+           autocomplete="off" enterkeyhint="search">
+    <div class="row" id="fdKinds" role="group" aria-label="찾을 갈래" style="margin-top:10px"></div>
+    <div class="small mut" style="margin-top:8px">
+      <b>우리가 적은 것은 이 기기에 있다.</b> 자료는 찾을 때 읽는다.
+      저쪽 기기에 적은 것은 합치기를 해야 여기서 찾아진다.
+    </div>
+  </div>
+  <div id="fdOut"></div>
 </section>
 <section id="t-rules" role="region" aria-labelledby="h-rules" tabindex="-1" hidden>
   <h2 id="h-rules">세션 규칙 카드</h2>
@@ -2659,6 +2692,7 @@ function emgStuckSay(){
     '이것은 그 밖에서 도는 자리다. <b>이 기기 사람 것이다.</b></span></div>';
 }
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
+          ["find","찾기","manage"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
           ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
 function navButton(t){
@@ -2711,6 +2745,10 @@ function go(name){
   if(name==="quarter") lateDo("renderBadge");
   if(name==="quarter") lateDo("renderVoice");
   if(name==="rot") lateDo("renderRot");
+  if(name==="find"){
+    lateDo("renderFind");
+    var fq=$("#fdQ"); if(fq) fq.focus();
+  }
   if(name==="check") lateDo("checkBind");
   if(name==="rules"){ lateDo("renderRules"); renderSplit(); }
   if(name==="play") renderPlayTab();

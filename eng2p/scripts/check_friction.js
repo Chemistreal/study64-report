@@ -302,7 +302,7 @@ function seedScript() {
      눈이 큰 것을 먼저 본다. 다른 것이 더 크면 앉자마자 그것을 누른다. */
   {
     const { c, p } = await ctx(true);
-    const TABS = ["today", "review", "sound", "clip", "media", "src",
+    const TABS = ["today", "review", "sound", "clip", "media", "find", "src",
                   "ledger", "verify", "quarter", "check", "rot", "rules"];
     const bad = [];
     for (const tab of TABS) {

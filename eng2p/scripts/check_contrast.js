@@ -45,7 +45,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
    탭을 안 열면 DOM 에 아예 없다. 판 화면 스무 개의 색을 한 번도 안 쟀다.
    게다가 판은 블록 안에서 도니 **판 화면은 늘 짙은 판이다.** */
 const TABS = ["today", "review", "sound", "clip", "media", "src",
-              "ledger", "verify", "quarter", "check", "rot", "rules", "play"];
+              "ledger", "verify", "quarter", "check", "rot", "rules", "play", "find"];
 
 const SEED = `(function(){
   function iso(d){var z=new Date(d.getTime()-d.getTimezoneOffset()*60000);

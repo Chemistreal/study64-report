@@ -22,6 +22,7 @@ body/10_quarter.html  분기 탭
 body/11_check.html    검사 탭
 body/12_rot.html      회전 탭
 body/12b_play.html    판 탭. E단계 스무 판이 여기 붙는다
+body/12c_find.html    찾기 자리 (T395). 1년치를 한 자리에서 찾는다
 body/13_rules.html    규칙 탭
 body/14_footer.html   바닥글
 page/02_script.html   자료 script 태그와 script 열기
@@ -64,6 +65,7 @@ late/27_side.js       나란히 듣기를 클립 탭에서 몬다 (T374). **처�
 late/28_qrecap.js     한 분기를 되짚는다 (T380). **되짚기가 잰 값보다 먼저다**
 late/29_where.js      어디서 열었나 (T382). **여는 곳이 바뀌면 기록이 따로 산다**
 late/30_bakpick.js    사본에서 되살리기 (T391). **깨진 것이 아니라 멀쩡한 채로 틀린 것을 되돌린다**
+late/31_find.js       찾기 (T395). **적어 두고 다시 못 보면 안 적은 것과 같다**
 late/12_verify.js     판정 탭. **검증 대기열을 볼 때만 연다**
 late/13_quarter.js    분기 탭. **열두 주에 한 번 연다**
 late/14_check.js      규격 검사 이식. **제일 크고 제일 안 연다**

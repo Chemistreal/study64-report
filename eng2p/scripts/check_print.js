@@ -33,7 +33,7 @@ const CHROME = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium-1194/chro
 /* A4 폭을 96dpi 로 잰 값에서 여백을 뺀 값. 종이는 좁다 */
 const PAPER = 794;
 const TABS = ["today", "review", "sound", "clip", "media", "play",
-              "src", "ledger", "verify", "quarter", "check", "rot", "rules"];
+              "find", "src", "ledger", "verify", "quarter", "check", "rot", "rules"];
 
 function skip(why) {
   console.log("[건너뜀] " + why);

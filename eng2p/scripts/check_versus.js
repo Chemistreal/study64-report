@@ -41,7 +41,7 @@ try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium
 catch (e) { skip("playwright 를 못 찾았다"); }
 if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
-const TABS = ["today", "review", "sound", "clip", "media", "play", "src",
+const TABS = ["today", "review", "sound", "clip", "media", "play", "find", "src",
               "ledger", "verify", "quarter", "check", "rot", "rules"];
 
 /* 이름을 못 알아보게 짧게 안 짓는다. 두 글자면 딴 낱말에 섞인다. */

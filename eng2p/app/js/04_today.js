@@ -2,6 +2,7 @@
    탭
    ========================================================================= */
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
+          ["find","찾기","manage"],
           ["src","자료","manage"],["ledger","대장","manage"],["verify","판정","manage"],["quarter","분기","manage"],
           ["check","검사","manage"],["rot","회전","manage"],["rules","규칙","manage"]];
 function navButton(t){
@@ -70,6 +71,12 @@ function go(name){
   if(name==="quarter") lateDo("renderBadge");
   if(name==="quarter") lateDo("renderVoice");
   if(name==="rot") lateDo("renderRot");
+  /* 찾기는 늦게 읽는다 (T395). 자료 넷을 뒤지는데 그 넷이 1MB 다.
+     **날마다 여는 자리가 아니다.** 찾을 때만 읽는다. */
+  if(name==="find"){
+    lateDo("renderFind");
+    var fq=$("#fdQ"); if(fq) fq.focus();
+  }
   if(name==="check") lateDo("checkBind");
   if(name==="rules"){ lateDo("renderRules"); renderSplit(); }
   if(name==="play") renderPlayTab();

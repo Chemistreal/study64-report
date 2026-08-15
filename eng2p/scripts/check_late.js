@@ -78,6 +78,8 @@ const SPOT = [
     sel: "#openWhere", how: "kids", what: "대장 탭의 어디서 열었나" },
   { piece: "30_bakpick.js", tab: "ledger", fn: "renderBakPick",
     sel: "#bakPick", how: "kids", what: "대장 탭의 사본에서 되살리기" },
+  { piece: "31_find.js", tab: "find", fn: "renderFind",
+    sel: "#fdOut", how: "kids", what: "찾기 탭의 결과 자리" },
   { piece: "24_script.js", tab: "clip", fn: "renderScript",
     sel: "#scList", how: "kids", what: "클립 탭의 대본 자리" },
   { piece: "25_clips.js", tab: "clip", fn: "renderClip",

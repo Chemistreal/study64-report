@@ -1,0 +1,28 @@
+<!-- ========== 찾기 ========== -->
+<!-- 1년치를 한 자리에서 찾는다 (T395).
+
+     찾는 길이 미디어 탭 안에만 있었다. 52과 제목만 찾는 칸이다.
+     그 밖은 못 찾았다. 강의 96편, 카드 600장, 세트 288개, 대본 52편,
+     그리고 **두 사람이 1년 동안 적은 것**이 다 그랬다.
+
+     미해결 LRE 와 채집 표현은 더 나쁘다. 오늘 화면에 오늘 것만 그린다.
+     어제 적은 것을 다시 보려면 판정 탭에 가서 눈으로 훑어야 했다.
+     쉰 주째면 그것이 수백 건이다.
+
+     **판정을 안 한다.** 몇 건이 나왔는지는 세지만 그것이 잘한 것도
+     못한 것도 아니다. 어디 있는지만 말한다. -->
+<section id="t-find" role="region" aria-labelledby="h-find" tabindex="-1" hidden>
+  <h2 id="h-find">찾기</h2>
+  <p class="lede">1년치를 한 자리에서 찾는다. 우리가 적은 것과 자료를 같이 뒤진다.</p>
+  <div class="card tight">
+    <label for="fdQ" class="f">찾을 말</label>
+    <input id="fdQ" type="search" placeholder="영어 표현이나 한국어. 강 번호도 된다"
+           autocomplete="off" enterkeyhint="search">
+    <div class="row" id="fdKinds" role="group" aria-label="찾을 갈래" style="margin-top:10px"></div>
+    <div class="small mut" style="margin-top:8px">
+      <b>우리가 적은 것은 이 기기에 있다.</b> 자료는 찾을 때 읽는다.
+      저쪽 기기에 적은 것은 합치기를 해야 여기서 찾아진다.
+    </div>
+  </div>
+  <div id="fdOut"></div>
+</section>

@@ -31,7 +31,7 @@ const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
 const CHROME = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 const TABS = ["today", "review", "sound", "clip", "media", "play",
-              "src", "ledger", "verify", "quarter", "check", "rot", "rules"];
+              "find", "src", "ledger", "verify", "quarter", "check", "rot", "rules"];
 
 function skip(why) {
   console.log("[건너뜀] " + why);

@@ -55,7 +55,7 @@ const KINDS = [
 const NOT = /안 |못 |않|아니|없/;
 
 /* 탭 열셋. `#t-<이름>` 이 그 자리다 */
-const TABS = ["today", "review", "sound", "clip", "media", "src", "ledger",
+const TABS = ["today", "review", "sound", "clip", "media", "find", "src", "ledger",
               "verify", "quarter", "check", "rot", "play", "rules"];
 
 const fails = [];
