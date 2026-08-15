@@ -40,9 +40,12 @@ try { chromium = require("playwright-core").chromium; }
 catch (e) { skip("playwright-core 가 없다"); }
 if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
+/* **한 자리에서 던지면 그때까지 모은 실패가 다 사라졌다** (T391).
+   실패 목록이 async 안에 있어서 아래 catch 가 오류 한 줄만 찍고 끝냈다.
+   무엇이 이미 틀렸는지를 못 보면 고칠 자리를 못 찾는다. 밖으로 뺀다. */
+const fails = [];
 (async () => {
   const browser = await chromium.launch({ executablePath: CHROME });
-  const fails = [];
   let n = 0;
 
   async function fresh() {
@@ -646,12 +649,93 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (st.saved !== "나중") fails.push("사본이 막히니 본 기록도 안 써졌다: " + st.saved);
     await ctx.close();
   }
-  n += bak;
+  /* ---- 사람이 고르는 되살리기 (T391) ------------------------------------
+     깨진 것은 앱이 알아본다. **멀쩡한 채로 틀린 것은 못 알아본다.**
+     엉뚱한 JSON 을 덮었거나 전체 삭제를 눌렀을 때가 그렇다. */
+  let pick = 0;
+  {
+    pick += 8;
+    const { ctx, page } = await fresh();
+    await page.evaluate(() => {
+      S.onboarded = true; S.names.a = "가람"; S.names.b = "나래";
+      day(today()).speak = 5; saveNow();
+    });
+    /* 사본 두 벌을 심는다. 하나는 알차고 하나는 못 읽는다.
+       앱이 뜨면서 남긴 오늘 벌은 치운다. 그래야 세는 것이 흔들리지 않는다 */
+    await page.evaluate((k) => {
+      localStorage.removeItem(k + ".bak." + today());
+      localStorage.setItem(k + ".bak.2025-05-02", JSON.stringify(
+        { onboarded: true, names: { a: "옛가람", b: "옛나래" },
+          days: { "2025-04-30": { speak: 1 }, "2025-05-01": { speak: 2 } } }));
+      localStorage.setItem(k + ".bak.2025-05-03", "{이 벌은 못 읽는다");
+    }, KEY);
+    const st = await page.evaluate(async () => {
+      go("ledger");
+      await new Promise((ok) => setTimeout(ok, 1200));
+      const e = document.getElementById("bakPick");
+      return { txt: e ? e.innerText.replace(/\s+/g, " ") : null,
+               btns: e ? e.querySelectorAll("[data-bak]").length : 0 };
+    });
+    if (st.txt === null) { fails.push("대장 탭에 사본 고르는 자리가 없다"); }
+    else {
+      /* **무엇이 들었는지 보고 고른다.** 날짜만으로는 못 고른다 */
+      if (st.txt.indexOf("2일") < 0) fails.push("벌마다 적힌 날 수를 안 적는다: " + st.txt.slice(0, 90));
+      if (st.txt.indexOf("2025-05-01") < 0) fails.push("마지막 적은 날을 안 적는다");
+      /* 지금과 견준다. 지금은 하루, 사본은 이틀이라 +1 이다 */
+      if (st.txt.indexOf("+1") < 0) fails.push("지금 것과 견준 값이 없다: " + st.txt.slice(0, 90));
+      /* **못 읽는 벌은 되살리기를 안 내민다** */
+      if (st.btns !== 1) fails.push("되살리기 단추가 " + st.btns + "개다. 읽히는 벌만이어야 한다");
+      if (st.txt.indexOf("이 벌은 못 읽는다") < 0) fails.push("못 읽는 벌을 안 밝힌다");
+      /* **다그치지 않는다.** 적다고 나쁘다고 안 적는다 */
+      if (/오래됐|낡았|위험|해야 한다/.test(st.txt))
+        fails.push("사본을 고르는 자리에서 다그친다: " + st.txt.slice(0, 80));
+      if (st.txt.indexOf("기기가 바뀌면 같이 사라진다") < 0)
+        fails.push("사본이 기기를 벗어나지 못한다는 말이 없다");
+    }
+
+    /* 되살리면 그 판이 오고 **되돌리기가 뜬다** */
+    page.on("dialog", (d) => d.accept());
+    const after = await page.evaluate(async () => {
+      document.querySelector("[data-bak]").click();
+      await new Promise((ok) => setTimeout(ok, 400));
+      return { a: S.names.a, speak: (S.days["2025-05-01"] || {}).speak,
+               undo: !!document.querySelector(".undo") };
+    });
+    pick += 3;
+    if (after.a !== "옛가람" || after.speak !== 2)
+      fails.push("사본을 골랐는데 안 되살아났다: " + after.a + " / " + after.speak);
+    if (!after.undo) fails.push("사본으로 되돌렸는데 되돌릴 자리가 없다");
+    /* **되살리기도 되돌릴 수 있어야 한다.** 어제로 갔더니 오늘 것이 사라지면
+       그것도 잃은 것이다 */
+    const back = await page.evaluate(async () => {
+      document.querySelector(".undo button").click();
+      await new Promise((ok) => setTimeout(ok, 400));
+      return { a: S.names.a, speak: day(today()).speak };
+    });
+    if (back.a !== "가람" || back.speak !== 5)
+      fails.push("사본 되살리기를 되돌렸는데 안 돌아왔다: " + back.a + " / " + back.speak);
+
+    /* 덮기 직전 판이 **오늘 사본으로 남았는가.** 되돌리기는 새로고침에 없어진다 */
+    pick += 1;
+    const kept = await page.evaluate((k) => {
+      const t = localStorage.getItem(k + ".bak." + today());
+      if (!t) return null;
+      try { return JSON.parse(t).names.a; } catch (e) { return "깨짐"; }
+    }, KEY);
+    if (kept !== "가람")
+      fails.push("덮기 직전 판이 오늘 사본에 안 남았다: " + kept);
+    await ctx.close();
+  }
+  n += bak + pick;
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("저장소 %d판 (되돌리기 5자리, 어디서 열었나 12, 사본 %d) / 실패 %d",
-              n, bak, fails.length);
+  console.log("저장소 %d판 (되돌리기 5자리, 어디서 열었나 12, 사본 %d, 골라 되살리기 %d) / 실패 %d",
+              n, bak, pick, fails.length);
   process.exit(fails.length ? 1 : 0);
-})().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
+})().catch((e) => {
+  fails.forEach((m) => console.log("[실패] " + m));
+  console.log("[실패] 검사가 도중에 멈췄다: " + e.message);
+  process.exit(1);
+});

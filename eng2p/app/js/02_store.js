@@ -87,6 +87,14 @@ function bakKeep(){
     while(all.length>BAK_KEEP) localStorage.removeItem(all.shift());
   }catch(e){}
 }
+/* 사본 한 벌을 읽는다. 못 읽으면 null. **되살리는 것은 여기서 안 한다.**
+   읽는 것과 덮는 것을 한 함수에 두면 보기만 하려다 덮는 날이 온다. */
+function bakRead(day){
+  try{
+    var o=JSON.parse(localStorage.getItem(BAK+day));
+    return (o && typeof o==="object") ? o : null;
+  }catch(e){ return null; }
+}
 /* 제일 최근 사본. 못 읽으면 그 앞 것을 본다. **하나가 깨져도 이레가 남는다** */
 function bakLatest(){
   var all=bakList();

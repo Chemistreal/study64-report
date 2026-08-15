@@ -804,6 +804,65 @@ function renderOpen(){
      '</div></div>';
   box.innerHTML=h;
 }
+function bakDays(o){ return Object.keys((o&&o.days)||{}).length; }
+function bakLast(o){
+  var k=Object.keys((o&&o.days)||{}).sort();
+  return k.length ? k[k.length-1] : null;
+}
+
+function renderBakPick(){
+  var box=$("#bakPick"); if(!box) return;
+  var bl=bakList(), now=bakDays(S);
+  var h='<h3 style="margin-top:0">사본에서 되살리기</h3>';
+  if(!bl.length){
+    h+='<p class="lede">아직 사본이 없다. 내일 처음 저장할 때 오늘 판이 한 벌 남는다.</p>'+
+       '<div class="small mut">사본은 날마다 한 벌씩 이레를 둔다. '+
+       '이 브라우저 안에 있어서 <b>기기가 바뀌면 같이 사라진다.</b> '+
+       '기기를 옮길 때는 위의 JSON 내려받기를 쓴다.</div>';
+    box.innerHTML=h; return;
+  }
+  h+='<p class="lede">날마다 한 벌씩 이레를 둔다. 지금 적힌 날은 '+now+'일이다.</p>'+
+     '<div class="scroll"><table><thead><tr>'+
+     '<th scope="col">사본</th><th scope="col">적힌 날</th>'+
+     '<th scope="col">마지막 적은 날</th><th scope="col"></th>'+
+     '</tr></thead><tbody>';
+  for(var i=bl.length-1;i>=0;i--){
+    var day=bl[i].slice(bl[i].lastIndexOf(".")+1);
+    var o=bakRead(day);
+    if(!o){
+      h+='<tr><td class="mono">'+esc(day)+'</td><td colspan="3" class="small mut">'+
+         '이 벌은 못 읽는다. 다른 벌을 쓴다</td></tr>';
+      continue;
+    }
+    var n=bakDays(o), last=bakLast(o);
+    var gap=n-now;
+    h+='<tr><td class="mono">'+esc(day)+'</td>'+
+       '<td>'+n+'일'+(gap===0?'':' ('+(gap>0?'+':'')+gap+')')+'</td>'+
+       '<td class="mono">'+esc(last||"-")+'</td>'+
+       '<td><button class="g" data-bak="'+esc(day)+'">되살리기</button></td></tr>';
+  }
+  h+='</tbody></table></div>'+
+     '<div class="small mut" style="margin-top:8px">되살리면 지금 기록을 덮는다. '+
+     '<b>되돌리기가 한 번 뜬다.</b> 그리고 덮기 직전 판이 오늘 사본으로 한 벌 남는다. '+
+     '사본은 이 브라우저 안에 있어서 기기가 바뀌면 같이 사라진다.</div>';
+  box.innerHTML=h;
+  var bs=box.querySelectorAll("[data-bak]");
+  for(var j=0;j<bs.length;j++) bs[j].onclick=function(){ bakGo(this.getAttribute("data-bak")); };
+}
+
+function bakGo(day){
+  var o=bakRead(day);
+  if(!o){ alert("그 사본을 못 읽었다. 다른 벌을 쓴다."); renderBakPick(); return; }
+  if(!confirm(day+" 사본으로 되돌린다. 지금 기록을 덮는다. 진행할까.")) return;
+  var before=JSON.stringify(S);
+  var back=function(){
+    S=JSON.parse(before); saveNow();
+    renderToday(); renderLedger(); renderBakPick();
+  };
+  S=o; var b=blank(); for(var k in b) if(!(k in S)) S[k]=b[k];
+  saveNow(); renderToday(); renderLedger(); renderBakPick();
+  offerUndo(day+" 사본으로 되돌림", back);
+}
 var showDone=false;
 function renderVerify(){
   $("#vFilter").textContent = showDone?"미해결만 보기":"해결된 항목 보기";

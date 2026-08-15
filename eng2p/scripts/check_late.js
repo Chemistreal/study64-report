@@ -76,6 +76,8 @@ const SPOT = [
     sel: null, how: "fn", what: "분기 탭의 되짚기" },
   { piece: "29_where.js", tab: "ledger", fn: "renderOpen",
     sel: "#openWhere", how: "kids", what: "대장 탭의 어디서 열었나" },
+  { piece: "30_bakpick.js", tab: "ledger", fn: "renderBakPick",
+    sel: "#bakPick", how: "kids", what: "대장 탭의 사본에서 되살리기" },
   { piece: "24_script.js", tab: "clip", fn: "renderScript",
     sel: "#scList", how: "kids", what: "클립 탭의 대본 자리" },
   { piece: "25_clips.js", tab: "clip", fn: "renderClip",
