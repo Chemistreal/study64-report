@@ -122,6 +122,7 @@ button.b,.bigtap{min-height:48px}
 :focus-visible{outline:3px solid var(--a3);outline-offset:3px;transition-duration:0s!important}
 section[role=region]:focus,section[role=region]:focus-visible,
 .wrap:focus,.wrap:focus-visible{outline:0}
+.printonly{display:none}
 .skip{position:absolute;left:12px;top:-64px;z-index:60;
   background:var(--a1);color:#fff;font-weight:700;font-size:0.9375rem;
   padding:12px 16px;border-radius:0 0 12px 12px;text-decoration:none}
@@ -686,10 +687,14 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   body.session-focus .todaysheet,
   body.session-focus #emgLine,
   body.session-focus #emgBox,
-  body.session-focus #resumeBox,
-  body.session-focus
+  body.session-focus #resumeBox{display:block!important}
   .ground .gat{display:inline!important;border:0;padding:0;color:#000;font-weight:700}
   button{display:none!important}
+  #playList{display:block!important}
+  #playList button{display:inline!important;border:0;padding:0;background:none;
+    color:#000;font-weight:700}
+  #playList button:not(:last-child):after{content:" · ";font-weight:400}
+  #playList button .mut{color:#333;font-weight:400}
   input,textarea,select{background:#fff;color:#000;border:1px solid #999}
   body{font-size:0.75rem;background:#fff;color:#000}
   .wrap{padding:0;max-width:none}
@@ -703,6 +708,8 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   .weekband i.done{background:#000}
   .weekband i.now{background:#000;box-shadow:0 0 0 2px #fff,0 0 0 3px #000}
   a[href]:after{content:""}
+  .printonly{display:block!important}
+  .afterfold>summary::after{display:none!important}
 }
 
 .afterfold{margin-top:22px}
@@ -1624,7 +1631,9 @@ body.veil-on>*:not(.veilcover){display:none}
 <section id="t-play" role="region" aria-labelledby="h-play" tabindex="-1" hidden>
   <h2 id="h-play">판</h2>
   <p class="lede noprint">한 판은 4~5분이다. 블록 안에서 돈다. <b>판마다 두 화면이 다른 것을 보인다.</b> 두 기기를 나란히 놓고 각자 자기 화면만 본다.</p>
-  <div class="row noprint" id="playList"></div>
+  <div class="row" id="playList"></div>
+  <p class="printonly">위는 판 목록이다. <b>판 하나를 열고 인쇄하면</b> 그 판의 종이 자리가 나온다.
+    여기서 그냥 인쇄하면 목록만 나온다.</p>
   <div id="playPane"></div>
 </section>
 <section id="t-rules" role="region" aria-labelledby="h-rules" tabindex="-1" hidden>
@@ -2717,6 +2726,22 @@ var NAV_READY=false;
 document.addEventListener("click",function(e){
   var more=$("#navMore"); if(more&&more.open&&!more.contains(e.target)) more.open=false;
 });
+
+var PRINT_OPENED=[];
+function printOpen(){
+  printClose();
+  var ds=document.querySelectorAll("details:not([open])");
+  for(var i=0;i<ds.length;i++){
+    if(ds[i].id==="navMore") continue;
+    PRINT_OPENED.push(ds[i]); ds[i].open=true;
+  }
+}
+function printClose(){
+  for(var i=0;i<PRINT_OPENED.length;i++) PRINT_OPENED[i].open=false;
+  PRINT_OPENED=[];
+}
+window.addEventListener("beforeprint",printOpen);
+window.addEventListener("afterprint",printClose);
 
 var LATE={at:{}};
 function lateDo(fn, box){

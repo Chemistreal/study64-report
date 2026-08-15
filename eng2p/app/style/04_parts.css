@@ -161,17 +161,31 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
      그래서 세션 중에 인쇄하면 날짜와 이름표만 찍혔다. 빈 종이가 나온다.
      블록 칸이 오늘 쓰는 카드와 진행표가 있는 자리다. T148 */
   .ringwrap,.bar,.steps,.slab,.tleft,.sessplay,.syncscript{display:none!important}
-  /* 세션 중이어도 종이에는 다 찍는다. 화면에서 숨긴 것은 화면이 좁아서였다. */
+  /* 세션 중이어도 종이에는 다 찍는다. 화면에서 숨긴 것은 화면이 좁아서였다.
+
+     **주석을 선택자 목록 가운데에 두었다가 목록이 이어져 버렸다** (T393).
+     `body.session-focus` 로 끝나는 줄과 그 아래 `.ground .gat` 이 하나로 붙어서
+     여기 여섯 자리가 다 `display:inline` 과 `border:0` 을 받았다.
+     세션 중에 인쇄하면 카드도 표도 테두리를 잃고 한 줄로 흘렀다.
+     쉼표 뒤에서 줄이 끊긴 것처럼 보이지만 CSS 에게 주석은 빈칸이다.
+     **주석은 목록 밖에 둔다.** */
   body.session-focus #t-today>*,
   body.session-focus .todaysheet,
   body.session-focus #emgLine,
   body.session-focus #emgBox,
-  body.session-focus #resumeBox,
-  body.session-focus
+  body.session-focus #resumeBox{display:block!important}
   /* 근거 인용은 종이에서도 쓴다. 어느 과를 들으면 되는지가 거기 있다. */
   .ground .gat{display:inline!important;border:0;padding:0;color:#000;font-weight:700}
   /* 종이 위의 버튼은 누를 수 없다. 자리만 먹는다. */
   button{display:none!important}
+  /* 판 목록만 다르다 (T393). 단추를 다 지우면 이 탭이 "판" 한 글자짜리
+     종이가 된다. 어느 판이 몇 분인지는 종이에서도 블록을 짜는 근거다.
+     누를 것이 아니라 읽을 것으로 바꿔 찍는다. */
+  #playList{display:block!important}
+  #playList button{display:inline!important;border:0;padding:0;background:none;
+    color:#000;font-weight:700}
+  #playList button:not(:last-child):after{content:" · ";font-weight:400}
+  #playList button .mut{color:#333;font-weight:400}
   /* 빈 입력 칸은 손으로 적는 자리이므로 남긴다. 테두리만 남기고 배경을 없앤다. */
   input,textarea,select{background:#fff;color:#000;border:1px solid #999}
   body{font-size:0.75rem;background:#fff;color:#000}
@@ -187,6 +201,20 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   .weekband i.done{background:#000}
   .weekband i.now{background:#000;box-shadow:0 0 0 2px #fff,0 0 0 3px #000}
   a[href]:after{content:""}
+  .printonly{display:block!important}
+  /* **종이는 못 편다** (T393). 접어 둔 칸이 화면에서는 한 번 누르면 열리는데
+     종이에서는 그 안이 영영 안 나온다. 접은 이유는 화면이 좁아서였다.
+     종이에는 그 이유가 없다.
+
+     이것은 CSS 로 못 한다. 닫힌 `<details>` 의 안을 숨기는 것은 브라우저가
+     하고 그것을 규칙으로 되돌리는 길이 판마다 다르다. `display:revert` 를
+     넣어 봤더니 안은 그대로 닫혀 있고 `summary` 의 배치만 바뀌었다.
+     **되는 것처럼 보였는데 재 보니 높이가 그대로였다.**
+     인쇄 직전에 열고 끝나면 되돌린다 (`04_today.js` 의 `printOpen`).
+
+     펴고 접는 삼각형은 종이에서 뜻이 없다. 그리고 그것이 45도로 돌아
+     있어서 오른쪽으로 4px 넘쳤다. 종이는 안 넓어지고 넘친 만큼 잘린다. */
+  .afterfold>summary::after{display:none!important}
 }
 
 /* =========================================================================

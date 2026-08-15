@@ -92,6 +92,30 @@ document.addEventListener("click",function(e){
   var more=$("#navMore"); if(more&&more.open&&!more.contains(e.target)) more.open=false;
 });
 
+/* 종이는 못 편다 (T393). 접어 둔 칸은 **화면이 좁아서** 접은 것이다.
+   종이에는 그 이유가 없는데 접힌 채로 찍으면 그 안이 영영 안 나온다.
+   미해결 LRE 와 채집 표현이 거기 있다. 두 사람이 종이에 옮겨 적을 것들이다.
+
+   CSS 로는 못 한다. `display:revert` 를 넣어 봤더니 안은 그대로 닫혀 있고
+   `summary` 배치만 바뀌었다. 인쇄 직전에 열고 끝나면 되돌린다.
+   **되돌리는 것까지가 이 일이다.** 안 되돌리면 인쇄 한 번에 화면이 바뀐다. */
+var PRINT_OPENED=[];
+function printOpen(){
+  printClose();
+  var ds=document.querySelectorAll("details:not([open])");
+  for(var i=0;i<ds.length;i++){
+    /* 이동줄 메뉴는 종이에 안 찍힌다. 열어 봐야 화면만 흔든다 */
+    if(ds[i].id==="navMore") continue;
+    PRINT_OPENED.push(ds[i]); ds[i].open=true;
+  }
+}
+function printClose(){
+  for(var i=0;i<PRINT_OPENED.length;i++) PRINT_OPENED[i].open=false;
+  PRINT_OPENED=[];
+}
+window.addEventListener("beforeprint",printOpen);
+window.addEventListener("afterprint",printClose);
+
 /* 늦게 읽는 탭 넷. **한 번만 읽는다.** 읽고 나면 그 안의 함수가 그냥 있다.
    못 읽으면 그 탭이 빈 채로 남는다. 빈 것과 없는 것을 가르려고 말을 적는다. */
 var LATE={at:{}};
