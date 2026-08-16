@@ -35,8 +35,7 @@ function swpRows(){
    **모자라면 모자란 대로 돈다.** 이웃 과에서 안 가져온다. */
 function swpItems(){
   var rows=swpRows(); if(!rows || !rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("swapline",0)), out=[];
-  for(var i=0;i<Math.min(SWP.n,rows.length);i++) out.push(rows[ord[i]]);
+  var out=roundPick("swapline", rows, SWP.n);
   return out;
 }
 /* 대본 한 줄. 화자표를 뗀다. 화자 이름은 이 판이 쓰는 것이 아니다. */

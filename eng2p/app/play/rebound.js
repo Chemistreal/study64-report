@@ -52,8 +52,7 @@ function rbdPool(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("rebound",0)), out=[];
-  for(var i=0;i<rows.length;i++) out.push(rows[ord[i]]);
+  var out=roundPick("rebound", rows, rows.length);
   return out;
 }
 /* 그날 셈. `run` 은 지금 이어지고 있는 수이고 `best` 는 이 기기가 던진 동안의 제일 긴 것이다.

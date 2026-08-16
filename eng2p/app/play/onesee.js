@@ -78,8 +78,7 @@ function oneDeck(){
   }
   var live=pool.filter(function(c){ return oneLeft(c).length>0; });
   if(!live.length) return [];
-  var ord=roundOrder(live.length, roundSeed("onesee",0)), out=[];
-  for(var i=0;i<ord.length;i++) out.push(live[ord[i]]);
+  var out=roundPick("onesee", live, live.length);
   rec.deck=out.map(function(c){ return c.id; });
   save();
   return out;

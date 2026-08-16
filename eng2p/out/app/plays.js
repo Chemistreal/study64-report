@@ -11,8 +11,7 @@ function mirPool(){
 }
 function mirItems(n){
   var pool=mirPool(); if(!pool || pool.length<2) return null;
-  var ord=roundOrder(pool.length, roundSeed("mirror",0)), out=[];
-  for(var i=0;i<Math.min(n,pool.length);i++) out.push(pool[ord[i]]);
+  var out=roundPick("mirror", pool, n);
   return out;
 }
 function mirTarget(i){ return roundSeed("mirror", 100+(i|0))%2; }
@@ -196,8 +195,7 @@ function swpRows(){
 }
 function swpItems(){
   var rows=swpRows(); if(!rows || !rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("swapline",0)), out=[];
-  for(var i=0;i<Math.min(SWP.n,rows.length);i++) out.push(rows[ord[i]]);
+  var out=roundPick("swapline", rows, SWP.n);
   return out;
 }
 function swpLine(li){
@@ -389,8 +387,7 @@ function hrmItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("hearme",0)), out=[];
-  for(var i=0;i<Math.min(HRM.n,rows.length);i++) out.push(rows[ord[i]]);
+  var out=roundPick("hearme", rows, HRM.n);
   return out;
 }
 function hrmLine(li){
@@ -567,8 +564,7 @@ function rlyItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("relay",0)), out=[];
-  for(var i=0;i<Math.min(RLY.n,rows.length);i++) out.push(rows[ord[i]]);
+  var out=roundPick("relay", rows, RLY.n);
   return out;
 }
 function rlyLine(li){
@@ -838,8 +834,7 @@ function chnPool(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("chain",0)), out=[];
-  for(var i=0;i<rows.length;i++) out.push(rows[ord[i]]);
+  var out=roundPick("chain", rows, rows.length);
   return out;
 }
 function chnRec(){ return playRec("chain", {best:0, folds:0}); }
@@ -970,8 +965,7 @@ function twhItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("twohalf",0)), out=[];
-  for(var i=0;i<Math.min(TWH.n,rows.length);i++) out.push(rows[ord[i]]);
+  var out=roundPick("twohalf", rows, TWH.n);
   return out;
 }
 function twhRec(){ return playRec("twohalf", {joined:0, done:0, ln:-1}); }
@@ -1548,8 +1542,7 @@ function walDeck(){
     if(by[id] && !used[id]){ out.push(by[id]); used[id]=1; }
   });
   var rest=pool.filter(function(c){ return !used[c.id]; });
-  var ord=roundOrder(rest.length, roundSeed("wall",0));
-  for(var i=0;i<ord.length && out.length<d.end;i++) out.push(rest[ord[i]]);
+  if(out.length<d.end) out=out.concat(roundPick("wall", rest, d.end-out.length));
   out=out.slice(0, d.end);
   rec.deck=out.map(function(c){ return c.id; });
   save();
@@ -1749,8 +1742,7 @@ function rbdPool(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("rebound",0)), out=[];
-  for(var i=0;i<rows.length;i++) out.push(rows[ord[i]]);
+  var out=roundPick("rebound", rows, rows.length);
   return out;
 }
 function rbdRec(){ return playRec("rebound", {best:0, run:0, stops:0}); }
@@ -1920,8 +1912,7 @@ function oneDeck(){
   }
   var live=pool.filter(function(c){ return oneLeft(c).length>0; });
   if(!live.length) return [];
-  var ord=roundOrder(live.length, roundSeed("onesee",0)), out=[];
-  for(var i=0;i<ord.length;i++) out.push(live[ord[i]]);
+  var out=roundPick("onesee", live, live.length);
   rec.deck=out.map(function(c){ return c.id; });
   save();
   return out;
@@ -2349,8 +2340,7 @@ function whoRec(){ return playRec("whose", {same:0, split:0, pick:null}); }
 function whoDeck(){
   var d=DATA.whose, pool=whoPool();
   if(!d || !pool.length) return [];
-  var ord=roundOrder(pool.length, roundSeed("whose",0)), out=[];
-  for(var i=0;i<ord.length && out.length<d.rounds;i++) out.push(pool[ord[i]]);
+  var out=roundPick("whose", pool, d.rounds);
   return out;
 }
 function whoSplit(w){
@@ -2527,8 +2517,7 @@ function rskLines(){
     return String(x).replace(/^[A-Z][A-Za-z .'-]{0,20}:\s*/, "");
   }).filter(function(x){ return x.split(/\s+/).length>=4; });
   if(!ls.length) return null;
-  var ord=roundOrder(ls.length, roundSeed("reask",0)), out=[];
-  for(var i=0;i<ord.length && out.length<RSK.n;i++) out.push(ls[ord[i]]);
+  var out=roundPick("reask", ls, RSK.n);
   return out;
 }
 function rskStep(s){
@@ -3088,8 +3077,7 @@ function flpDeck(){
     var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
     if(kept.length===rec.deck.length) return kept;
   }
-  var out=[], ord=roundOrder(pool.length, roundSeed("flip",0));
-  for(var i=0;i<ord.length && out.length<d.end;i++) out.push(pool[ord[i]]);
+  var out=roundPick("flip", pool, d.end);
   rec.deck=out.map(function(c){ return c.id; });
   save();
   return out;

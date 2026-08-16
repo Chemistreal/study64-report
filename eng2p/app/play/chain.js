@@ -34,8 +34,7 @@ function chnPool(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("chain",0)), out=[];
-  for(var i=0;i<rows.length;i++) out.push(rows[ord[i]]);
+  var out=roundPick("chain", rows, rows.length);
   return out;
 }
 /* 그날 셈. **제일 길게 간 마디 수 하나다.** 접은 횟수는 셈이 아니라 자리 세기다. */

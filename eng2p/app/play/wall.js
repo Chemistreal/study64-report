@@ -74,8 +74,9 @@ function walDeck(){
     if(by[id] && !used[id]){ out.push(by[id]); used[id]=1; }
   });
   var rest=pool.filter(function(c){ return !used[c.id]; });
-  var ord=roundOrder(rest.length, roundSeed("wall",0));
-  for(var i=0;i<ord.length && out.length<d.end;i++) out.push(rest[ord[i]]);
+  /* **미룬 것 뒤를 순환으로 채운다** (T403). 날마다 새로 섞던 때는
+     아흔넷을 들고도 어제 낸 열 중 몇이 오늘 또 왔다. 겹친 날이 73.6%였다. */
+  if(out.length<d.end) out=out.concat(roundPick("wall", rest, d.end-out.length));
   out=out.slice(0, d.end);
   rec.deck=out.map(function(c){ return c.id; });
   save();

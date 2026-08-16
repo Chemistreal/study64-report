@@ -29,8 +29,7 @@ function hrmItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("hearme",0)), out=[];
-  for(var i=0;i<Math.min(HRM.n,rows.length);i++) out.push(rows[ord[i]]);
+  var out=roundPick("hearme", rows, HRM.n);
   return out;
 }
 function hrmLine(li){

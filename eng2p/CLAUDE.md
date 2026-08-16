@@ -217,6 +217,7 @@ scripts/check_play.py 놀이 규칙서 스무 판. **판정은 사람이 하고 
 docs/play.md          2인 놀이 원칙 여섯 확정판. 부딪치는 자리와 검사 갈래
 docs/play_rules.md    스무 판 규칙서. 판마다 아홉 줄. 이 파일이 check_play.py 의 원본
 docs/play_data.md     판마다 쓸 자료를 out/data 와 대조. 없다고 적은 것을 찾은 표
+                      6.3 이 뽑는 법이다. **예순여덟을 들고 열 장처럼 보였다**
 docs/solo_plays.md    기기가 하나인 날 스무 판이 어떻게 도는가. **셋은 종이가 있어야 한다**
 docs/play_blocks.md   판이 세션 어디에 붙나. **블록 1은 비어 있고 그것이 맞다**
 docs/play_app.md      판 화면. 규칙서 아홉 줄이 화면의 어디로 가는가. 거울부터
@@ -243,6 +244,7 @@ scripts/check_late.js  늦게 읽는 조각 91판. **파일은 멀쩡하고 화�
 scripts/check_split.js 갈린 자리 17판. **조건을 만들어 놓고 뜨는지 본다.** 안 뜨는 쪽도 잰다
 scripts/check_beat.js  마디 133판. **파형을 지어 넣는다.** 음성 파일을 저장소에 안 넣는다
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
+scripts/check_supply.js 자루가 도는 속도 28판. **자료가 아니라 뽑는 법이 모자랐다**
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
 scripts/rehearse_session.js 한 세션 두 시간. 블록 안에서 바뀌는 자리 열넷을 뜬다

@@ -14,9 +14,12 @@
    ========================================================================= */
 
 /* 넷을 한 수로 접는다. 짝 코드의 검사 글자와 같은 꼴이다.
-   자리마다 무게를 달리 줘야 자리를 바꿔 넣은 것이 다른 수가 된다. */
-function roundSeed(playId, step){
-  var s=String(S.start||"")+"|"+today()+"|"+String(playId)+"|"+String(step|0);
+   자리마다 무게를 달리 줘야 자리를 바꿔 넣은 것이 다른 수가 된다.
+
+   `day` 를 안 주면 오늘이다. **주는 자리가 하나 있다** (T403). `roundPick` 이
+   날마다 안 섞으려고 오늘 대신 시작일을 넣는다. 거기 말고는 안 준다. */
+function roundSeed(playId, step, day){
+  var s=String(S.start||"")+"|"+(day||today())+"|"+String(playId)+"|"+String(step|0);
   var n=7;
   for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))%2147483647;
   /* **끝에 한 번 더 섞는다.** 안 섞으면 아랫자리가 안 흩어진다.
@@ -45,6 +48,56 @@ function roundOrder(n, seed){
     var t=a[j]; a[j]=a[k]; a[k]=t;
   }
   return a;
+}
+
+/* 시작일부터 며칠째인가. **일요일도 센다.** 세션 수가 아니라 날 수다.
+   자리를 옮기는 데만 쓰므로 쉬는 날을 빼고 셀 이유가 없다.
+   빼려면 기록을 봐야 하는데 기록은 기기마다 다르다 (round.md 2장). */
+function roundDayNo(){
+  if(!S.start) return 0;
+  var a=parseISO(S.start), b=parseISO(today());
+  if(!a || !b) return 0;
+  var n=Math.round((b-a)/86400000);
+  return n>0 ? n : 0;
+}
+
+/* 그날 낼 것을 고른다. **어제 낸 것을 오늘 또 내지 않는다.**
+
+   판마다 `roundOrder` 로 날마다 새로 섞고 앞에서 몇을 뗐다.
+   그러면 **어제 뗀 것이 오늘 또 걸린다.** 판 열둘을 288일 돌려 봤더니
+   자루에 여유가 있는데도 겹친 날이 이랬다 (T403).
+
+     3초 벽    73.6%    아흔넷을 들고 열을 내는데 어제 것이 또 나왔다
+     전달      62.9%
+     누구 말   54.1%
+     못 알아들은 척  45.8%
+     거꾸로 판정    44.5%    예순여덟을 들고 다섯을 낸다
+
+   `play_data.md` 6장이 이것을 **자료가 모자란 것으로 읽었다.**
+   자료는 있었다. 뽑는 법이 자료를 안 썼다.
+
+   그래서 **섞는 것을 날마다 안 한다.** 한 바퀴에 한 번 섞고 날마다 자리를 옮긴다.
+   자루가 n이고 한 판에 k를 내면 n/k 날 동안 같은 것이 두 번 안 나온다.
+
+   **기록을 안 본다.** 기기끼리 말할 길이 없어서 기록은 갈린다 (round.md 2장).
+   여기 드는 것은 시작일과 오늘과 자루 크기뿐이고 셋 다 두 기기에서 같다. */
+function roundPick(playId, list, take){
+  var n=(list||[]).length, out=[], i;
+  take=Math.max(1, take|0);
+  /* 자루가 낼 것보다 작으면 다 낸다. **그래도 차례는 섞는다.**
+     안 섞으면 파일 차례가 그대로 나오고 그것은 날마다 같다. */
+  if(n<=take){
+    var o0=roundOrder(n, roundSeed(playId, 0));
+    for(i=0;i<n;i++) out.push(list[o0[i]]);
+    return out;
+  }
+  var at=roundDayNo()*take, lap=Math.floor(at/n);
+  /* 바퀴마다 다시 섞는다. **안 섞으면 n/k 날마다 같은 묶음이 통째로 돈다.**
+     씨앗의 날짜 자리에 시작일을 넣어 **오늘을 뺀다.** 그것이 이 함수의 전부다. */
+  var ord=roundOrder(n, roundSeed(playId, lap, String(S.start||"x")));
+  var off=at%n;
+  for(i=0;i<take;i++) out.push(list[ord[(off+i)%n]]);
+  return out;
 }
 
 /* 몇 회마다 자리가 도는가. 판이 값으로 준다 (규칙서가 판마다 다르게 적었다).

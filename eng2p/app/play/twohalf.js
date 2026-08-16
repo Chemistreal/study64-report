@@ -32,8 +32,7 @@ function twhItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("twohalf",0)), out=[];
-  for(var i=0;i<Math.min(TWH.n,rows.length);i++) out.push(rows[ord[i]]);
+  var out=roundPick("twohalf", rows, TWH.n);
   return out;
 }
 function twhRec(){ return playRec("twohalf", {joined:0, done:0, ln:-1}); }

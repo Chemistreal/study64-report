@@ -29,11 +29,11 @@ function mirPool(){
   });
   return out;
 }
-/* 오늘 돌 여덟. `roundOrder` 가 씨앗대로 섞으므로 **두 기기에서 같다.** */
+/* 오늘 돌 여덟. `roundPick` 이 시작일과 오늘에서만 셈하므로 **두 기기에서 같다.**
+   쌍이 열다섯인데 여덟을 낸다. 날마다 새로 섞던 때는 어제 것이 또 왔다 (T403). */
 function mirItems(n){
   var pool=mirPool(); if(!pool || pool.length<2) return null;
-  var ord=roundOrder(pool.length, roundSeed("mirror",0)), out=[];
-  for(var i=0;i<Math.min(n,pool.length);i++) out.push(pool[ord[i]]);
+  var out=roundPick("mirror", pool, n);
   return out;
 }
 /* 이 줄에서 읽을 쪽. 0이면 앞엣것 1이면 뒤엣것이다.

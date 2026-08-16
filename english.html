@@ -5637,8 +5637,8 @@ function pairCompare(){
   out.innerHTML=h;
 }
 
-function roundSeed(playId, step){
-  var s=String(S.start||"")+"|"+today()+"|"+String(playId)+"|"+String(step|0);
+function roundSeed(playId, step, day){
+  var s=String(S.start||"")+"|"+(day||today())+"|"+String(playId)+"|"+String(step|0);
   var n=7;
   for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))%2147483647;
   n^=n>>>13; n=(n*1274126177)%2147483647; n^=n>>>7;
@@ -5657,6 +5657,29 @@ function roundOrder(n, seed){
     var t=a[j]; a[j]=a[k]; a[k]=t;
   }
   return a;
+}
+
+function roundDayNo(){
+  if(!S.start) return 0;
+  var a=parseISO(S.start), b=parseISO(today());
+  if(!a || !b) return 0;
+  var n=Math.round((b-a)/86400000);
+  return n>0 ? n : 0;
+}
+
+function roundPick(playId, list, take){
+  var n=(list||[]).length, out=[], i;
+  take=Math.max(1, take|0);
+  if(n<=take){
+    var o0=roundOrder(n, roundSeed(playId, 0));
+    for(i=0;i<n;i++) out.push(list[o0[i]]);
+    return out;
+  }
+  var at=roundDayNo()*take, lap=Math.floor(at/n);
+  var ord=roundOrder(n, roundSeed(playId, lap, String(S.start||"x")));
+  var off=at%n;
+  for(i=0;i<take;i++) out.push(list[ord[(off+i)%n]]);
+  return out;
 }
 
 function roundTurn(step, every){

@@ -62,8 +62,7 @@ function flpDeck(){
     var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
     if(kept.length===rec.deck.length) return kept;
   }
-  var out=[], ord=roundOrder(pool.length, roundSeed("flip",0));
-  for(var i=0;i<ord.length && out.length<d.end;i++) out.push(pool[ord[i]]);
+  var out=roundPick("flip", pool, d.end);
   rec.deck=out.map(function(c){ return c.id; });
   save();
   return out;

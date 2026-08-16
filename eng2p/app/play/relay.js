@@ -29,8 +29,7 @@ function rlyItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var ord=roundOrder(rows.length, roundSeed("relay",0)), out=[];
-  for(var i=0;i<Math.min(RLY.n,rows.length);i++) out.push(rows[ord[i]]);
+  var out=roundPick("relay", rows, RLY.n);
   return out;
 }
 function rlyLine(li){

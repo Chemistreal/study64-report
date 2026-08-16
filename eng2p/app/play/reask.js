@@ -49,8 +49,7 @@ function rskLines(){
     return String(x).replace(/^[A-Z][A-Za-z .'-]{0,20}:\s*/, "");
   }).filter(function(x){ return x.split(/\s+/).length>=4; });
   if(!ls.length) return null;
-  var ord=roundOrder(ls.length, roundSeed("reask",0)), out=[];
-  for(var i=0;i<ord.length && out.length<RSK.n;i++) out.push(ls[ord[i]]);
+  var out=roundPick("reask", ls, RSK.n);
   return out;
 }
 /* 이 줄의 강도. **줄마다 다르고 두 기기가 같은 값을 낸다.** */
