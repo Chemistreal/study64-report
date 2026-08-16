@@ -736,11 +736,86 @@ const fails = [];
   }
   n += bak + pick;
 
+  /* ---- 저장소를 어느 길로 바꾸든 첫 화면이 따라오는가 (T397) -------------
+     `S.onboarded` 는 저장소 값이고 첫 화면은 그것을 보고 둘을 정한다.
+     하나는 `body.onboarding` 표고 하나는 온보딩 카드의 `hidden` 이다.
+
+     **그 둘을 서로 다른 자리가 서로 다른 때에 정하고 있었다.**
+     표는 `renderToday` 가, 카드는 `renderOnboard` 가 정했다.
+     `renderOnboard` 는 시작할 때와 설정 저장을 누를 때만 불린다.
+
+     그래서 전체 삭제를 누르면 표는 켜지고 카드는 숨은 채로 남는다.
+     다른 칸은 표가 다 숨기므로 **이름을 정할 칸이 화면에 없다.**
+     새로고침해야 뜬다. 두 사람은 앱이 망가진 줄 안다. */
+  let onb = 0;
+  {
+    const ways = [
+      { name: "전체 삭제", run: () => { wipeStore(); renderToday(); renderLedger(); } },
+      { name: "JSON 가져오기", run: () => {
+          S = JSON.parse('{"days":{},"onboarded":false}');
+          var b = blank(); for (var k in b) if (!(k in S)) S[k] = b[k];
+          saveNow(); renderToday(); } },
+      { name: "사본 되살리기", run: () => {
+          var o = { days: {}, onboarded: false };
+          var b = blank(); for (var k in b) if (!(k in o)) o[k] = b[k];
+          S = o; saveNow(); renderToday(); } },
+    ];
+    for (const w of ways) {
+      onb += 3;
+      const { ctx, page } = await fresh();
+      /* 제대로 들어온 상태부터 만든다. 단추로 누른다 */
+      await page.fill("#obA", "가람");
+      await page.fill("#obB", "나래");
+      await page.click("#obGo");
+      await page.waitForTimeout(400);
+      const on0 = await page.evaluate(() => ({
+        card: document.getElementById("onboard").hidden,
+        cls: /onboarding/.test(document.body.className) }));
+      if (!on0.card || on0.cls)
+        fails.push("설정 저장 뒤에도 온보딩 자리가 남았다: " + JSON.stringify(on0));
+      const got = await page.evaluate((src) => {
+        (new Function(src))();
+        return { onb: S.onboarded,
+                 card: document.getElementById("onboard").hidden,
+                 cls: /onboarding/.test(document.body.className),
+                 seen: [...document.querySelectorAll("#t-today > *")]
+                   .filter((e) => e.offsetParent !== null).length };
+      }, "(" + w.run.toString() + ")()");
+      if (got.onb) { fails.push(w.name + " 뒤에도 onboarded 가 참이다"); await ctx.close(); continue; }
+      /* **표와 카드가 같은 말을 해야 한다** */
+      if (got.card)
+        fails.push(w.name + " 뒤에 온보딩 카드가 숨은 채다. 이름 정할 칸이 화면에 없다");
+      if (!got.cls) fails.push(w.name + " 뒤에 onboarding 표가 안 켜졌다");
+      /* 화면이 통째로 비면 안 된다 */
+      if (got.seen < 2)
+        fails.push(w.name + " 뒤에 오늘 화면에 " + got.seen + "칸만 남았다");
+      await ctx.close();
+    }
+    /* 거꾸로도 따라오는가. **들어온 판을 가져오면 카드가 사라져야 한다** */
+    {
+      onb += 2;
+      const { ctx, page } = await fresh();
+      const got = await page.evaluate(() => {
+        const before = document.getElementById("onboard").hidden;
+        S.onboarded = true; S.names.a = "가람"; S.names.b = "나래";
+        saveNow(); renderToday();
+        return { before: before,
+                 after: document.getElementById("onboard").hidden,
+                 cls: /onboarding/.test(document.body.className) };
+      });
+      if (got.before) fails.push("처음 여는데 온보딩 카드가 숨어 있다");
+      if (!got.after) fails.push("들어온 판을 넣었는데 온보딩 카드가 안 사라졌다");
+      if (got.cls) fails.push("들어온 판을 넣었는데 onboarding 표가 남았다");
+      await ctx.close();
+    }
+  }
+  n += onb;
+
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("저장소 %d판 (되돌리기 5자리, 어디서 열었나 12, 사본 %d, 골라 되살리기 %d) / 실패 %d",
-              n, bak, pick, fails.length);
+  console.log("저장소 %d판 (되돌리기 5자리, 어디서 열었나 12, 사본 %d, 골라 되살리기 %d, 첫 화면 %d) / 실패 %d",
+              n, bak, pick, onb, fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => {
   fails.forEach((m) => console.log("[실패] " + m));

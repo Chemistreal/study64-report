@@ -2793,6 +2793,7 @@ function lateDo(fn, box){
 }
 
 function renderToday(){
+  if(typeof renderOnboard==="function") renderOnboard();
   document.body.classList.toggle("onboarding", !S.onboarded);
   var d=today(), r=roleOf(d), rec=day(d);
   $("#todayDate").textContent=d;

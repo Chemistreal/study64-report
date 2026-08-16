@@ -144,7 +144,21 @@ function lateDo(fn, box){
 function renderToday(){
   /* **아직 안 들어온 사람에게 지나온 값을 안 보인다** (T389).
      이 표를 `renderOnboard` 안에서만 붙였더니 저장소를 다른 길로 바꿨을 때
-     안 따라왔다. `renderToday` 는 어느 길로 바뀌든 불린다. */
+     안 따라왔다. `renderToday` 는 어느 길로 바뀌든 불린다.
+
+     ## 반쪽만 옮겨 왔었다 (T397)
+
+     T389 에 표는 여기로 옮겼는데 **카드 자체의 `hidden` 은 저기 두고 왔다.**
+     그래서 전체 삭제를 누르면 이런 화면이 된다.
+
+         S.onboarded 는 false 가 되고 표는 켜져서 다른 칸이 다 숨는다.
+         그런데 온보딩 카드는 hidden 인 채로 남는다.
+         **이름을 정하는 칸이 없다.** 새로고침해야 뜬다.
+
+     JSON 가져오기와 합치기와 사본 되살리기도 같은 길이다.
+     같은 것을 두 자리가 서로 다른 때에 정하면 언젠가 어긋난다 (T392).
+     한 번에 정한다. */
+  if(typeof renderOnboard==="function") renderOnboard();
   document.body.classList.toggle("onboarding", !S.onboarded);
   var d=today(), r=roleOf(d), rec=day(d);
   $("#todayDate").textContent=d;
