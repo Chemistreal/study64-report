@@ -14,7 +14,7 @@
 **문장은 안 넣었다.** 내가 지어 쓴 드릴 문장이고 말뭉치에 없는 것이 당연하다.
 넣은 것은 목록뿐이다. 여러 자리에서 쓰는 것부터 위에 둔다.
 
-표현 215개 / 자리 288군데
+표현 214개 / 자리 287군데
 
 | 쓰는 자리 | 표현 | 어디서 |
 |---|---|---|
@@ -144,7 +144,6 @@
 | 1 | kind of hard | lectures_q1 |
 | 1 | kind of strange | card_q1_051_100 |
 | 1 | last year | lectures_q2 |
-| 1 | lesson start the | card_q2_101_150 |
 | 1 | Let's talk later | lectures_q2 |
 | 1 | Like you said | lectures_q2 |
 | 1 | look a | card_q1_051_100 |

@@ -4,7 +4,7 @@
   "gradeWhy": "지어낸 영어가 없다. 문장이 대본에 있고 두 토막을 붙이면 원문이 된다. 둘 다 셀 수 있다. 가르는 자리는 내가 정했지만 그것은 설계지 언어에 관한 주장이 아니다.",
   "cut": "가운데에 가장 가깝고 청크를 안 쪼개는 자리에서 가른다. 청크 목록은 고르는 데만 쓰고 결과에 안 들어간다.",
   "generator": "scripts/derive_halves.py",
-  "per": 8,
+  "per": 36,
   "minWords": 6,
   "maxWords": 12,
   "items": {
@@ -140,6 +140,20 @@
         "a": "Now I know",
         "b": "I have a pen.",
         "n": 7
+      },
+      {
+        "li": 6,
+        "si": 1,
+        "a": "But you learn",
+        "b": "a little more every day.",
+        "n": 8
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "And now",
+        "b": "you have a lamp.",
+        "n": 6
       }
     ],
     "lle1-05": [
@@ -293,6 +307,20 @@
         "a": "But remember,",
         "b": "they are busy working.",
         "n": 6
+      },
+      {
+        "li": 42,
+        "si": 0,
+        "a": "This day is not",
+        "b": "going well.",
+        "n": 6
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "The word",
+        "b": "of the day is social.",
+        "n": 7
       }
     ],
     "lle1-08": [
@@ -402,6 +430,34 @@
         "a": "So, every day",
         "b": "I check the forecast.",
         "n": 7
+      },
+      {
+        "li": 16,
+        "si": 2,
+        "a": "It is cold",
+        "b": "and windy and snowy!",
+        "n": 7
+      },
+      {
+        "li": 19,
+        "si": 1,
+        "a": "Remember to check the",
+        "b": "forecast -- the right forecast.",
+        "n": 9
+      },
+      {
+        "li": 0,
+        "si": 3,
+        "a": "But the next",
+        "b": "day is warm and sunny!",
+        "n": 8
+      },
+      {
+        "li": 7,
+        "si": 0,
+        "a": "No, it is not",
+        "b": "windy today.",
+        "n": 6
       }
     ],
     "lle1-10": [
@@ -460,6 +516,20 @@
         "a": "Then at the",
         "b": "bus station turn left.",
         "n": 7
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "My apartment is",
+        "b": "near a coffee shop.",
+        "n": 7
+      },
+      {
+        "li": 13,
+        "si": 0,
+        "a": "Okay, my apartment is",
+        "b": "across from a big department store.",
+        "n": 10
       }
     ],
     "lle1-11": [
@@ -518,6 +588,48 @@
         "a": "In our neighborhood, I",
         "b": "can do all my errands.",
         "n": 9
+      },
+      {
+        "li": 4,
+        "si": 0,
+        "a": "Marsha, I can",
+        "b": "return the books here.",
+        "n": 7
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "Anna, what are",
+        "b": "those in the books?",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 1,
+        "a": "Is there a",
+        "b": "post office near here?",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 1,
+        "a": "The post office",
+        "b": "is far from here.",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 2,
+        "a": "But there is a",
+        "b": "mailbox across from the store.",
+        "n": 9
+      },
+      {
+        "li": 10,
+        "si": 0,
+        "a": "Marsha, now I",
+        "b": "need to buy stamps.",
+        "n": 7
       }
     ],
     "lle1-12": [
@@ -575,6 +687,97 @@
         "si": 1,
         "a": "Anna tells Marsha",
         "b": "about her parents.",
+        "n": 6
+      },
+      {
+        "li": 33,
+        "si": 0,
+        "a": "Her father's parents",
+        "b": "are from Italy.",
+        "n": 6
+      },
+      {
+        "li": 34,
+        "si": 0,
+        "a": "Anna's mother's parents",
+        "b": "live in California.",
+        "n": 6
+      },
+      {
+        "li": 34,
+        "si": 1,
+        "a": "These grandparents have a",
+        "b": "farm and raise horses.",
+        "n": 8
+      },
+      {
+        "li": 35,
+        "si": 0,
+        "a": "Anna's mother's sister",
+        "b": "is Aunt Lavender.",
+        "n": 6
+      },
+      {
+        "li": 37,
+        "si": 0,
+        "a": "Uncle John has a",
+        "b": "daughter and a son.",
+        "n": 8
+      },
+      {
+        "li": 38,
+        "si": 1,
+        "a": "They are Anna's",
+        "b": "niece and nephew.",
+        "n": 6
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "Do you want",
+        "b": "to talk about it?",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "This is my mother",
+        "b": "and this is my father.",
+        "n": 9
+      },
+      {
+        "li": 13,
+        "si": 0,
+        "a": "Who is that",
+        "b": "woman in the picture?",
+        "n": 7
+      },
+      {
+        "li": 20,
+        "si": 2,
+        "a": "He's awesome, and",
+        "b": "I'm his favorite niece.",
+        "n": 7
+      },
+      {
+        "li": 26,
+        "si": 0,
+        "a": "Thanks for showing",
+        "b": "me your family photos.",
+        "n": 7
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "Her mother and",
+        "b": "father are rodeo clowns.",
+        "n": 7
+      },
+      {
+        "li": 29,
+        "si": 0,
+        "a": "Washington, DC",
+        "b": "is my new home.",
         "n": 6
       }
     ],
@@ -634,6 +837,13 @@
         "a": "This is a",
         "b": "party for William Shakespeare?",
         "n": 7
+      },
+      {
+        "li": 6,
+        "si": 1,
+        "a": "I never listen",
+        "b": "to a drum band.",
+        "n": 7
       }
     ],
     "lle1-14": [
@@ -692,6 +902,76 @@
         "a": "Yes, the right size",
         "b": "for you is medium.",
         "n": 8
+      },
+      {
+        "li": 13,
+        "si": 0,
+        "a": "Oh, I don’t",
+        "b": "like this outfit.",
+        "n": 6
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "Those clothes look great",
+        "b": "… for a man!",
+        "n": 8
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "Can you put",
+        "b": "on a jacket?",
+        "n": 6
+      },
+      {
+        "li": 29,
+        "si": 1,
+        "a": "I have to",
+        "b": "help other friends.",
+        "n": 6
+      },
+      {
+        "li": 5,
+        "si": 1,
+        "a": "Jeans and a",
+        "b": "t-shirt are too casual.",
+        "n": 7
+      },
+      {
+        "li": 20,
+        "si": 2,
+        "a": "Now these clothes",
+        "b": "look great on you!",
+        "n": 7
+      },
+      {
+        "li": 21,
+        "si": 1,
+        "a": "Um, Genie, can you",
+        "b": "put on a gold belt?",
+        "n": 9
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "Genie, these clothes",
+        "b": "look and feel great!",
+        "n": 7
+      },
+      {
+        "li": 29,
+        "si": 2,
+        "a": "Go to the magazine if",
+        "b": "you want me to help again.",
+        "n": 11
+      },
+      {
+        "li": 0,
+        "si": 0,
+        "a": "Tonight I am going to the",
+        "b": "theater with my friends.",
+        "n": 10
       }
     ],
     "lle1-15": [
@@ -750,6 +1030,118 @@
         "a": "Keyana and I",
         "b": "have curly hair.",
         "n": 6
+      },
+      {
+        "li": 16,
+        "si": 0,
+        "a": "You have very",
+        "b": "curly hair, Anna.",
+        "n": 6
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "I need to",
+        "b": "return to work.",
+        "n": 6
+      },
+      {
+        "li": 20,
+        "si": 1,
+        "a": "And this sun",
+        "b": "feels so good!",
+        "n": 6
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "Um, Anna, what does",
+        "b": "your boss look like?",
+        "n": 8
+      },
+      {
+        "li": 34,
+        "si": 0,
+        "a": "I am looking for",
+        "b": "my, my … stick.",
+        "n": 8
+      },
+      {
+        "li": 38,
+        "si": 0,
+        "a": "It’s a beautiful",
+        "b": "day, isn’t it?",
+        "n": 6
+      },
+      {
+        "li": 40,
+        "si": 1,
+        "a": "It makes me",
+        "b": "forget the time!",
+        "n": 6
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "I like to",
+        "b": "watch people walking by.",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 4,
+        "a": "Today, my friend Ashley",
+        "b": "is eating lunch with me.",
+        "n": 9
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "Is she wearing",
+        "b": "a blue sweater today?",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 0,
+        "a": "What are you doing",
+        "b": "behind that bench?",
+        "n": 7
+      },
+      {
+        "li": 35,
+        "si": 2,
+        "a": "But it’s time",
+        "b": "to return to work!",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 1,
+        "a": "Keyana, this is my",
+        "b": "friend Ashley.",
+        "n": 6
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "Anna, I",
+        "b": "have to go, too.",
+        "n": 6
+      },
+      {
+        "li": 2,
+        "si": 2,
+        "a": "Ooh, we",
+        "b": "have to return to work!",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 1,
+        "a": "But the weather",
+        "b": "is beautiful and people-watching is fun!",
+        "n": 9
       }
     ],
     "lle1-16": [
@@ -808,6 +1200,118 @@
         "a": "Many of the",
         "b": "museums are free.",
         "n": 6
+      },
+      {
+        "li": 32,
+        "si": 2,
+        "a": "Do you have time to",
+        "b": "answer a couple of questions?",
+        "n": 10
+      },
+      {
+        "li": 34,
+        "si": 0,
+        "a": "What is your name",
+        "b": "and where’re you from?",
+        "n": 8
+      },
+      {
+        "li": 39,
+        "si": 0,
+        "a": "Well, I like learning",
+        "b": "about government and politics.",
+        "n": 8
+      },
+      {
+        "li": 46,
+        "si": 2,
+        "a": "This is Anna Matteo",
+        "b": "reporting for The News.",
+        "n": 8
+      },
+      {
+        "li": 0,
+        "si": 3,
+        "a": "Today, my job",
+        "b": "is to interview tourists.",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 8,
+        "a": "Do you have",
+        "b": "time for an interview?",
+        "n": 7
+      },
+      {
+        "li": 10,
+        "si": 0,
+        "a": "What do you like",
+        "b": "to do in Washington D.C.?",
+        "n": 9
+      },
+      {
+        "li": 13,
+        "si": 2,
+        "a": "And it feels like",
+        "b": "Abraham Lincoln is still alive.",
+        "n": 9
+      },
+      {
+        "li": 17,
+        "si": 2,
+        "a": "I am Anna",
+        "b": "Matteo from The News.",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 3,
+        "a": "Do you have time",
+        "b": "for a couple of questions?",
+        "n": 9
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "What is your name",
+        "b": "and where are you from?",
+        "n": 9
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "What do you",
+        "b": "like about Washington DC?",
+        "n": 7
+      },
+      {
+        "li": 32,
+        "si": 1,
+        "a": "I am Anna",
+        "b": "Matteo from The News.",
+        "n": 7
+      },
+      {
+        "li": 36,
+        "si": 0,
+        "a": "What language do",
+        "b": "they speak in Iran?",
+        "n": 7
+      },
+      {
+        "li": 38,
+        "si": 0,
+        "a": "What do you like",
+        "b": "to do in Washington DC?",
+        "n": 9
+      },
+      {
+        "li": 41,
+        "si": 1,
+        "a": "I want to",
+        "b": "see the U.S. Capitol.",
+        "n": 7
       }
     ],
     "lle1-17": [
@@ -866,6 +1370,118 @@
         "a": "Wednesday night I",
         "b": "am not busy.",
         "n": 6
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "I’m going to teach children",
+        "b": "how to play the ukulele.",
+        "n": 10
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "Marsha, it looks like we’ll never",
+        "b": "have time to see a movie.",
+        "n": 12
+      },
+      {
+        "li": 26,
+        "si": 1,
+        "a": "This is always when",
+        "b": "I do my errands.",
+        "n": 8
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "I’ll do my",
+        "b": "errands on Sunday.",
+        "n": 6
+      },
+      {
+        "li": 2,
+        "si": 1,
+        "a": "Hey, do you wanna",
+        "b": "see a movie with me?",
+        "n": 9
+      },
+      {
+        "li": 4,
+        "si": 0,
+        "a": "Are you busy",
+        "b": "this Thursday at 6pm?",
+        "n": 7
+      },
+      {
+        "li": 5,
+        "si": 2,
+        "a": "I am going to tap",
+        "b": "dance with my friends Thursday night.",
+        "n": 11
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "We always eat dinner together",
+        "b": "and sometimes we play board games.",
+        "n": 11
+      },
+      {
+        "li": 12,
+        "si": 1,
+        "a": "The word game",
+        "b": "Scrabble is my favorite.",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "I always feel",
+        "b": "great after I jog.",
+        "n": 7
+      },
+      {
+        "li": 19,
+        "si": 2,
+        "a": "This Wednesday night",
+        "b": "I will be busy.",
+        "n": 7
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "The world does",
+        "b": "need more ukulele players.",
+        "n": 7
+      },
+      {
+        "li": 29,
+        "si": 0,
+        "a": "Most days of the",
+        "b": "week, people are really busy.",
+        "n": 9
+      },
+      {
+        "li": 29,
+        "si": 1,
+        "a": "But it’s important to find",
+        "b": "time to be with your friends!",
+        "n": 11
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "* Connect Four is a",
+        "b": "two-player connection game using colored discs.",
+        "n": 11
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "I’m going to jog",
+        "b": "in the park with my friend.",
+        "n": 10
       }
     ],
     "lle1-18": [
@@ -924,6 +1540,125 @@
         "a": "The duck's mother",
         "b": "cannot find him.",
         "n": 6
+      },
+      {
+        "li": 14,
+        "si": 0,
+        "a": "Hello, and welcome",
+        "b": "to The News.",
+        "n": 6
+      },
+      {
+        "li": 14,
+        "si": 1,
+        "a": "A new book is very",
+        "b": "popular with children and families.",
+        "n": 10
+      },
+      {
+        "li": 15,
+        "si": 0,
+        "a": "It is about",
+        "b": "a lost duckling.",
+        "n": 6
+      },
+      {
+        "li": 16,
+        "si": 1,
+        "a": "Anna, you are",
+        "b": "doing it again.",
+        "n": 6
+      },
+      {
+        "li": 22,
+        "si": 1,
+        "a": "But it is awesome that an",
+        "b": "80-year-old grandmother wins a car race.",
+        "n": 12
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "Hello, and welcome",
+        "b": "to The News.",
+        "n": 6
+      },
+      {
+        "li": 26,
+        "si": 1,
+        "a": "But when she does, she often",
+        "b": "says, “Nothing can stop me now!",
+        "n": 12
+      },
+      {
+        "li": 27,
+        "si": 0,
+        "a": "I am very",
+        "b": "happy for her!",
+        "n": 6
+      },
+      {
+        "li": 35,
+        "si": 0,
+        "a": "Hello and welcome",
+        "b": "to The News.",
+        "n": 6
+      },
+      {
+        "li": 36,
+        "si": 1,
+        "a": "They are taking the money for",
+        "b": "the party from the children’s library.",
+        "n": 12
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "The duck’s mother",
+        "b": "can not find ‘im.",
+        "n": 7
+      },
+      {
+        "li": 15,
+        "si": 2,
+        "a": "But a family",
+        "b": "gives him a home.",
+        "n": 7
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "Hello , and",
+        "b": "welcome to The News.",
+        "n": 7
+      },
+      {
+        "li": 28,
+        "si": 1,
+        "a": "Anna, you cannot",
+        "b": "say you are happy.",
+        "n": 7
+      },
+      {
+        "li": 32,
+        "si": 2,
+        "a": "You can’t have",
+        "b": "them in The News.",
+        "n": 7
+      },
+      {
+        "li": 38,
+        "si": 1,
+        "a": "Anna, you cannot",
+        "b": "say you are angry!",
+        "n": 7
+      },
+      {
+        "li": 42,
+        "si": 0,
+        "a": "This is",
+        "b": "going to be a very long day.",
+        "n": 9
       }
     ],
     "lle1-19": [
@@ -982,6 +1717,167 @@
         "a": "Anna, I have good news",
         "b": "and I have bad news.",
         "n": 10
+      },
+      {
+        "li": 9,
+        "si": 1,
+        "a": "No … okay,",
+        "b": "the bad news.",
+        "n": 6
+      },
+      {
+        "li": 10,
+        "si": 0,
+        "a": "The bad news is you are",
+        "b": "not good at reading the news.",
+        "n": 12
+      },
+      {
+        "li": 13,
+        "si": 1,
+        "a": "You are firing",
+        "b": "me in July.",
+        "n": 6
+      },
+      {
+        "li": 15,
+        "si": 2,
+        "a": "I am not",
+        "b": "reading the news.",
+        "n": 6
+      },
+      {
+        "li": 17,
+        "si": 2,
+        "a": "But what does",
+        "b": "all that mean?",
+        "n": 6
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "… or in the",
+        "b": "deep, dark ocean …",
+        "n": 8
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "I always ride",
+        "b": "the Metro to work.",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 3,
+        "a": "Riding the Metro",
+        "b": "is cool and fast.",
+        "n": 7
+      },
+      {
+        "li": 4,
+        "si": 1,
+        "a": "I have important",
+        "b": "news to tell you.",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "Which do you want",
+        "b": "to hear first?",
+        "n": 7
+      },
+      {
+        "li": 11,
+        "si": 1,
+        "a": "I am very",
+        "b": "sorry to hear that.",
+        "n": 7
+      },
+      {
+        "li": 16,
+        "si": 0,
+        "a": "Well, you are",
+        "b": "good at asking questions.",
+        "n": 7
+      },
+      {
+        "li": 16,
+        "si": 1,
+        "a": "You are good",
+        "b": "at talking to people.",
+        "n": 7
+      },
+      {
+        "li": 16,
+        "si": 2,
+        "a": "You are good",
+        "b": "at showing your feelings.",
+        "n": 7
+      },
+      {
+        "li": 16,
+        "si": 3,
+        "a": "And you are",
+        "b": "great at being silly.",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "I have a new",
+        "b": "assignment for you!",
+        "n": 7
+      },
+      {
+        "li": 20,
+        "si": 1,
+        "a": "Start thinking of",
+        "b": "ideas for the show.",
+        "n": 7
+      },
+      {
+        "li": 21,
+        "si": 1,
+        "a": "I can show children what",
+        "b": "it’s like in outer space ...",
+        "n": 11
+      },
+      {
+        "li": 24,
+        "si": 1,
+        "a": "Please go think of",
+        "b": "more … at your desk.",
+        "n": 9
+      },
+      {
+        "li": 25,
+        "si": 1,
+        "a": "What other things",
+        "b": "can I show them?",
+        "n": 7
+      },
+      {
+        "li": 25,
+        "si": 7,
+        "a": "The important thing is to",
+        "b": "know what you are good at.",
+        "n": 11
+      },
+      {
+        "li": 12,
+        "si": 0,
+        "a": "So, starting next month",
+        "b": "you will not read the news.",
+        "n": 10
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "Your skills are perfect for a new",
+        "b": "show … a children’s show.",
+        "n": 12
       }
     ],
     "lle1-20": [
@@ -1040,6 +1936,90 @@
         "a": "No, I mean drive a",
         "b": "taxi or drive a bus.",
         "n": 10
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "No, I always fall",
+        "b": "asleep when I drive.",
+        "n": 8
+      },
+      {
+        "li": 24,
+        "si": 3,
+        "a": "You can be a",
+        "b": "teacher in a school.",
+        "n": 8
+      },
+      {
+        "li": 26,
+        "si": 1,
+        "a": "You can be a",
+        "b": "chef in a restaurant.",
+        "n": 8
+      },
+      {
+        "li": 30,
+        "si": 0,
+        "a": "How many followers",
+        "b": "do you have?",
+        "n": 6
+      },
+      {
+        "li": 37,
+        "si": 1,
+        "a": "Excuse me, I",
+        "b": "have to go.",
+        "n": 6
+      },
+      {
+        "li": 39,
+        "si": 0,
+        "a": "I’m going to",
+        "b": "be a writer!",
+        "n": 6
+      },
+      {
+        "li": 12,
+        "si": 0,
+        "a": "Pete, I am",
+        "b": "good at asking questions.",
+        "n": 7
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "Do you mean",
+        "b": "drive a race car?",
+        "n": 7
+      },
+      {
+        "li": 21,
+        "si": 2,
+        "a": "First, you need",
+        "b": "a race car ...",
+        "n": 7
+      },
+      {
+        "li": 27,
+        "si": 5,
+        "a": "I’m gonna write about",
+        "b": "my feelings in my blog.",
+        "n": 9
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "Pete, that's",
+        "b": "a lot of followers!",
+        "n": 6
+      },
+      {
+        "li": 21,
+        "si": 1,
+        "a": "It’s really hard",
+        "b": "to be a race car driver.",
+        "n": 9
       }
     ],
     "lle1-21": [
@@ -1098,6 +2078,167 @@
         "a": "Then I can come with you",
         "b": "to the party on Saturday night.",
         "n": 12
+      },
+      {
+        "li": 13,
+        "si": 0,
+        "a": "Everyone has to bring",
+        "b": "something or do something.",
+        "n": 8
+      },
+      {
+        "li": 13,
+        "si": 1,
+        "a": "You can bring food,",
+        "b": "or you can perform.",
+        "n": 8
+      },
+      {
+        "li": 16,
+        "si": 2,
+        "a": "(Anna is in a",
+        "b": "club reciting a poem)",
+        "n": 8
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "In this country, nobody",
+        "b": "recites poetry at parties.",
+        "n": 8
+      },
+      {
+        "li": 22,
+        "si": 1,
+        "a": "I can do",
+        "b": "a card trick.",
+        "n": 6
+      },
+      {
+        "li": 22,
+        "si": 2,
+        "a": "(Anna is doing",
+        "b": "a card trick)",
+        "n": 6
+      },
+      {
+        "li": 28,
+        "si": 1,
+        "a": "And I really",
+        "b": "want to perform.",
+        "n": 6
+      },
+      {
+        "li": 30,
+        "si": 1,
+        "a": "You can sing",
+        "b": "at the party.",
+        "n": 6
+      },
+      {
+        "li": 30,
+        "si": 2,
+        "a": "Now, I have to",
+        "b": "go shopping for food.",
+        "n": 8
+      },
+      {
+        "li": 33,
+        "si": 1,
+        "a": "I have to",
+        "b": "help Marsha shop.",
+        "n": 6
+      },
+      {
+        "li": 35,
+        "si": 0,
+        "a": "*The song Trouble in Mind was",
+        "b": "written by jazz pianist Richard M.",
+        "n": 12
+      },
+      {
+        "li": 0,
+        "si": 1,
+        "a": "Washington, D.C. has",
+        "b": "some great coffee shops.",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "My favorite is this",
+        "b": "one -- Busboys & Poets.",
+        "n": 9
+      },
+      {
+        "li": 1,
+        "si": 0,
+        "a": "Actually it’s more",
+        "b": "than a coffee shop.",
+        "n": 7
+      },
+      {
+        "li": 1,
+        "si": 1,
+        "a": "It’s also a bookstore,",
+        "b": "a restaurant and a theater!",
+        "n": 9
+      },
+      {
+        "li": 4,
+        "si": 1,
+        "a": "I have to",
+        "b": "get my driver’s license.",
+        "n": 7
+      },
+      {
+        "li": 11,
+        "si": 1,
+        "a": "I have to help",
+        "b": "my friend with the party.",
+        "n": 9
+      },
+      {
+        "li": 28,
+        "si": 2,
+        "a": "You know, there is",
+        "b": "one thing I can do.",
+        "n": 9
+      },
+      {
+        "li": 28,
+        "si": 3,
+        "a": "(Anna plays a song",
+        "b": "on the ukulele and sings)",
+        "n": 9
+      },
+      {
+        "li": 21,
+        "si": 1,
+        "a": "Um …",
+        "b": "can you do anything else?",
+        "n": 7
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "Your card",
+        "b": "is the 10 of diamonds!",
+        "n": 7
+      },
+      {
+        "li": 27,
+        "si": 0,
+        "a": "Anna, maybe",
+        "b": "you can just bring food.",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 2,
+        "a": "And I",
+        "b": "have to practice my song!",
+        "n": 7
       }
     ],
     "lle1-22": [
@@ -1155,6 +2296,160 @@
         "si": 1,
         "a": "When you go camping, you",
         "b": "cook, sleep and play outdoors!",
+        "n": 10
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "When I go camping, Anna, I",
+        "b": "like to go hiking and fishing.",
+        "n": 12
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "Another popular summer vacation is",
+        "b": "going to an amusement park.",
+        "n": 10
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "I love cotton",
+        "b": "candy … !",
+        "n": 6
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "One of the most popular vacations",
+        "b": "is … going to the beach!",
+        "n": 12
+      },
+      {
+        "li": 0,
+        "si": 1,
+        "a": "My favorite season is",
+        "b": "summer because of summer vacation!",
+        "n": 9
+      },
+      {
+        "li": 0,
+        "si": 4,
+        "a": "Today, I’m planning",
+        "b": "the show with Amelia.",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 5,
+        "a": "This is the first",
+        "b": "time we are working together.",
+        "n": 9
+      },
+      {
+        "li": 0,
+        "si": 6,
+        "a": "I hope we",
+        "b": "can work well together.",
+        "n": 7
+      },
+      {
+        "li": 2,
+        "si": 0,
+        "a": "I want to",
+        "b": "talk about summer vacation.",
+        "n": 7
+      },
+      {
+        "li": 3,
+        "si": 1,
+        "a": "Are you going",
+        "b": "on vacation this summer?",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 1,
+        "a": "I can go",
+        "b": "on vacation next summer.",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "Then we can",
+        "b": "show pictures and video.",
+        "n": 7
+      },
+      {
+        "li": 16,
+        "si": 1,
+        "a": "For now, we'll",
+        "b": "call it “The Show.",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "Today we are going to",
+        "b": "take you on a summer vacation!",
+        "n": 11
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "You will see popular",
+        "b": "things to do on vacation!",
+        "n": 9
+      },
+      {
+        "li": 36,
+        "si": 0,
+        "a": "But right now,",
+        "b": "it’s time to work!",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 3,
+        "a": "I can teach what families",
+        "b": "in the U.S. do during summer vacation.",
+        "n": 12
+      },
+      {
+        "li": 21,
+        "si": 1,
+        "a": "Those are fun things",
+        "b": "to do when you go camping!",
+        "n": 10
+      },
+      {
+        "li": 6,
+        "si": 2,
+        "a": "This show will",
+        "b": "be a lot of fun too!",
+        "n": 9
+      },
+      {
+        "li": 8,
+        "si": 0,
+        "a": "First, we’re",
+        "b": "going to introduce the subject.",
+        "n": 7
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "Okay, let’s",
+        "b": "talk about the next vacation.",
+        "n": 7
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "This show is",
+        "b": "going to be a lot of fun.",
         "n": 10
       }
     ],
@@ -1214,6 +2509,83 @@
         "a": "Excuse me, I’ll",
         "b": "have the shrimp.",
         "n": 6
+      },
+      {
+        "li": 1,
+        "si": 0,
+        "a": "Today I’m having",
+        "b": "lunch with my boss.",
+        "n": 7
+      },
+      {
+        "li": 3,
+        "si": 2,
+        "a": "Weaver for lunch",
+        "b": "at noon, aren’t we?",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "Okay, I’ll be",
+        "b": "back in 15 minutes.",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "What country do",
+        "b": "I want to visit?",
+        "n": 7
+      },
+      {
+        "li": 32,
+        "si": 2,
+        "a": "So, here is 1, 2,",
+        "b": "3 dollars back from your 10.",
+        "n": 11
+      },
+      {
+        "li": 34,
+        "si": 1,
+        "a": "Is she dancing",
+        "b": "by that food truck?",
+        "n": 7
+      },
+      {
+        "li": 39,
+        "si": 0,
+        "a": "(Caty and Jonathan",
+        "b": "shake their heads “no”)",
+        "n": 7
+      },
+      {
+        "li": 43,
+        "si": 1,
+        "a": "And it does",
+        "b": "not cost a lot.",
+        "n": 7
+      },
+      {
+        "li": 1,
+        "si": 2,
+        "a": "Weaver says we’re going",
+        "b": "on a trip around the world.",
+        "n": 10
+      },
+      {
+        "li": 25,
+        "si": 1,
+        "a": "Okay, I’ll",
+        "b": "have the beef then.",
+        "n": 6
+      },
+      {
+        "li": 8,
+        "si": 0,
+        "a": "So, where",
+        "b": "is this world food restaurant?",
+        "n": 7
       }
     ],
     "lle1-24": [
@@ -1272,6 +2644,139 @@
         "a": "This year one of the",
         "b": "cultures was the Basque culture.",
         "n": 10
+      },
+      {
+        "li": 10,
+        "si": 0,
+        "a": "They are cooking",
+        "b": "traditional Basque food.",
+        "n": 6
+      },
+      {
+        "li": 13,
+        "si": 2,
+        "a": "But this game",
+        "b": "is called pilota.",
+        "n": 6
+      },
+      {
+        "li": 16,
+        "si": 0,
+        "a": "The whole day was",
+        "b": "a lot of fun!",
+        "n": 8
+      },
+      {
+        "li": 17,
+        "si": 1,
+        "a": "I want to write my friends",
+        "b": "and tell them about my day!",
+        "n": 12
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "… So, I wanted to",
+        "b": "tell you about my day!",
+        "n": 10
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "Please, my friend, come",
+        "b": "visit Washington, D.C. soon.",
+        "n": 8
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "So, I am",
+        "b": "writing her a letter!",
+        "n": 7
+      },
+      {
+        "li": 2,
+        "si": 1,
+        "a": "I see something new",
+        "b": "every day -- like yesterday.",
+        "n": 9
+      },
+      {
+        "li": 2,
+        "si": 2,
+        "a": "Yesterday started like",
+        "b": "a usual work day.",
+        "n": 7
+      },
+      {
+        "li": 3,
+        "si": 0,
+        "a": "I said, \"Yesterday started",
+        "b": "like a usual work day.",
+        "n": 9
+      },
+      {
+        "li": 6,
+        "si": 2,
+        "a": "Every year the",
+        "b": "festival shows different cultures.",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 0,
+        "a": "There was dancing",
+        "b": "and food and games!",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 0,
+        "a": "I am dancing",
+        "b": "a traditional Basque dance.",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "At the festival, I",
+        "b": "danced a traditional Basque dance!",
+        "n": 9
+      },
+      {
+        "li": 13,
+        "si": 0,
+        "a": "They played a game with",
+        "b": "their hands and a small ball.",
+        "n": 11
+      },
+      {
+        "li": 15,
+        "si": 0,
+        "a": "They are making",
+        "b": "a traditional Basque ship.",
+        "n": 7
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "They cooked a lot of",
+        "b": "traditional Basque food.",
+        "n": 8
+      },
+      {
+        "li": 18,
+        "si": 2,
+        "a": "There is a lot",
+        "b": "to do!",
+        "n": 6
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "This festival",
+        "b": "is a lot of fun!",
+        "n": 7
       }
     ],
     "lle1-25": [
@@ -1330,6 +2835,90 @@
         "a": "Where is my",
         "b": "Jefferson Fun Fact?",
         "n": 6
+      },
+      {
+        "li": 0,
+        "si": 1,
+        "a": "This city has",
+        "b": "many monuments and memorials.",
+        "n": 7
+      },
+      {
+        "li": 2,
+        "si": 0,
+        "a": "I want to",
+        "b": "learn more about them.",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 0,
+        "a": "I know I",
+        "b": "should be more careful.",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 0,
+        "a": "You have to find",
+        "b": "things that aren't really there.",
+        "n": 9
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "How can you find",
+        "b": "things that aren’t really there?",
+        "n": 9
+      },
+      {
+        "li": 13,
+        "si": 1,
+        "a": "I want to",
+        "b": "learn about U.S. presidents.",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "I am looking",
+        "b": "for the bald eagle.",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 2,
+        "a": "It should be",
+        "b": "near the Washington Monument.",
+        "n": 7
+      },
+      {
+        "li": 26,
+        "si": 1,
+        "a": "I see lots of",
+        "b": "American flags on Independence Day!",
+        "n": 9
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "In his lifetime, Thomas",
+        "b": "Jefferson wrote about 19,000 letters!",
+        "n": 9
+      },
+      {
+        "li": 30,
+        "si": 0,
+        "a": "*See an explanation of this",
+        "b": "sentence in the Learning Strategy section.",
+        "n": 11
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "What symbol",
+        "b": "are you looking for now?",
+        "n": 7
       }
     ],
     "lle1-26": [
@@ -1388,6 +2977,69 @@
         "a": "Now, I should",
         "b": "be more careful.",
         "n": 6
+      },
+      {
+        "li": 14,
+        "si": 1,
+        "a": "Dan: Did you",
+        "b": "find any symbols?",
+        "n": 6
+      },
+      {
+        "li": 15,
+        "si": 0,
+        "a": "Yes, I found three",
+        "b": "and won 120 points!",
+        "n": 8
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "Anna, look out",
+        "b": "for that tree!",
+        "n": 6
+      },
+      {
+        "li": 8,
+        "si": 2,
+        "a": "So, the Statue",
+        "b": "of Liberty works well.",
+        "n": 7
+      },
+      {
+        "li": 15,
+        "si": 2,
+        "a": "But, did you",
+        "b": "find the bald eagle?",
+        "n": 7
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "I learned a lot",
+        "b": "about presidents with this game.",
+        "n": 9
+      },
+      {
+        "li": 19,
+        "si": 1,
+        "a": "But I ought",
+        "b": "to be more careful.",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "First one",
+        "b": "to find it wins?",
+        "n": 6
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "This game",
+        "b": "is a lot of fun.",
+        "n": 7
       }
     ],
     "lle1-27": [
@@ -1446,6 +3098,125 @@
         "a": "When did you",
         "b": "start feeling sick?",
         "n": 6
+      },
+      {
+        "li": 25,
+        "si": 1,
+        "a": "But I don’t need",
+        "b": "to know all that.",
+        "n": 8
+      },
+      {
+        "li": 31,
+        "si": 2,
+        "a": "I want you to",
+        "b": "drink lots of water.",
+        "n": 8
+      },
+      {
+        "li": 31,
+        "si": 3,
+        "a": "Rest in bed and",
+        "b": "get lots of sleep.",
+        "n": 8
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "That is what my",
+        "b": "boss said to do.",
+        "n": 8
+      },
+      {
+        "li": 34,
+        "si": 1,
+        "a": "I mean, I don’t want",
+        "b": "to make my co-workers sick.",
+        "n": 10
+      },
+      {
+        "li": 37,
+        "si": 1,
+        "a": "I need water, sleep and",
+        "b": "um … lots of movies!",
+        "n": 10
+      },
+      {
+        "li": 37,
+        "si": 2,
+        "a": "Well, the doctor didn’t",
+        "b": "say anything about movies.",
+        "n": 8
+      },
+      {
+        "li": 0,
+        "si": 3,
+        "a": "there are a lot of",
+        "b": "great things to do.",
+        "n": 9
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "In the morning,",
+        "b": "I painted for hours.",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 1,
+        "a": "Why can’t you",
+        "b": "come to work today?",
+        "n": 7
+      },
+      {
+        "li": 10,
+        "si": 0,
+        "a": "I slept a lot and",
+        "b": "I drank a lot of water.",
+        "n": 11
+      },
+      {
+        "li": 28,
+        "si": 2,
+        "a": "The thermometer was in",
+        "b": "my hot cup of coffee.",
+        "n": 9
+      },
+      {
+        "li": 32,
+        "si": 2,
+        "a": "Bennett, when can",
+        "b": "I go to work?",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 0,
+        "a": "Don’t go to work",
+        "b": "for a couple of days.",
+        "n": 9
+      },
+      {
+        "li": 19,
+        "si": 1,
+        "a": "Do you have a",
+        "b": "sore throat?",
+        "n": 6
+      },
+      {
+        "li": 31,
+        "si": 1,
+        "a": "5 degrees",
+        "b": "is not too high.",
+        "n": 6
+      },
+      {
+        "li": 35,
+        "si": 1,
+        "a": "Call me back",
+        "b": "in a couple of days.",
+        "n": 8
       }
     ],
     "lle1-28": [
@@ -1503,6 +3274,90 @@
         "si": 1,
         "a": "There were cars",
         "b": "in the street.",
+        "n": 6
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "Why is everyone",
+        "b": "honking at us?",
+        "n": 6
+      },
+      {
+        "li": 37,
+        "si": 0,
+        "a": "Yes, it did",
+        "b": "not go well.",
+        "n": 6
+      },
+      {
+        "li": 37,
+        "si": 1,
+        "a": "But, I practiced and",
+        "b": "passed the second time!",
+        "n": 8
+      },
+      {
+        "li": 42,
+        "si": 3,
+        "a": "I guess we",
+        "b": "walk from here!",
+        "n": 6
+      },
+      {
+        "li": 43,
+        "si": 1,
+        "a": "If you want to see the",
+        "b": "White House, you need to walk.",
+        "n": 12
+      },
+      {
+        "li": 2,
+        "si": 0,
+        "a": "Anna, did you",
+        "b": "get your driver’s license?",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 1,
+        "a": "But I did",
+        "b": "pass the second time.",
+        "n": 7
+      },
+      {
+        "li": 13,
+        "si": 0,
+        "a": "(to herself) Okay,",
+        "b": "Anna, start the car.",
+        "n": 7
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "When I’m nervous,",
+        "b": "I talk to myself.",
+        "n": 7
+      },
+      {
+        "li": 40,
+        "si": 0,
+        "a": "There it is",
+        "b": "… the White House!",
+        "n": 7
+      },
+      {
+        "li": 43,
+        "si": 0,
+        "a": "Sometimes you can see more",
+        "b": "of Washington, D.C. in a car.",
+        "n": 11
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "Okay, when you are",
+        "b": "ready, turn.",
         "n": 6
       }
     ],
@@ -1562,6 +3417,97 @@
         "a": "And it’s good",
         "b": "to remember them.",
         "n": 6
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "Let’s go make our",
+        "b": "childhood dreams come true.",
+        "n": 8
+      },
+      {
+        "li": 29,
+        "si": 0,
+        "a": "We’re going to the",
+        "b": "Air & Space Museum!",
+        "n": 8
+      },
+      {
+        "li": 3,
+        "si": 1,
+        "a": "Today was a",
+        "b": "busy day at work.",
+        "n": 7
+      },
+      {
+        "li": 3,
+        "si": 2,
+        "a": "And I still",
+        "b": "have work to do!",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "They have shows",
+        "b": "where Abraham Lincoln died?",
+        "n": 7
+      },
+      {
+        "li": 11,
+        "si": 1,
+        "a": "You know, Marsha, that",
+        "b": "advertisement reminds me of something.",
+        "n": 9
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "At the playground the",
+        "b": "other children played silly games.",
+        "n": 9
+      },
+      {
+        "li": 15,
+        "si": 4,
+        "a": "They also played",
+        "b": "ball But not me.",
+        "n": 7
+      },
+      {
+        "li": 15,
+        "si": 5,
+        "a": "I loved to read",
+        "b": "serious books about U.S. presidents.",
+        "n": 9
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "I know it’s",
+        "b": "a silly childhood dream.",
+        "n": 7
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "When I was a kid,",
+        "b": "I studied the stars and planets.",
+        "n": 11
+      },
+      {
+        "li": 23,
+        "si": 1,
+        "a": "I wanted to",
+        "b": "fly into outer space!",
+        "n": 7
+      },
+      {
+        "li": 32,
+        "si": 1,
+        "a": "Okay, next week, we'll",
+        "b": "come here and be astronauts.",
+        "n": 9
       }
     ],
     "lle1-30": [
@@ -1619,6 +3565,111 @@
         "si": 0,
         "a": "How many crabs",
         "b": "do you want?",
+        "n": 6
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "You should get",
+        "b": "the larger crabs.",
+        "n": 6
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "Then I want a",
+        "b": "dozen large crabs, please!",
+        "n": 8
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "Let’s see … I",
+        "b": "have shrimp and crabs.",
+        "n": 8
+      },
+      {
+        "li": 23,
+        "si": 1,
+        "a": "And a friend is bringing a",
+        "b": "salad and many ears of corn-on-the-cob.",
+        "n": 12
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "Is that all the",
+        "b": "seafood that you need?",
+        "n": 8
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "Anna, you love",
+        "b": "to eat seafood.",
+        "n": 6
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "Well … this afternoon I",
+        "b": "am going on a boat.",
+        "n": 10
+      },
+      {
+        "li": 5,
+        "si": 1,
+        "a": "You know, it’s not",
+        "b": "easy to be a writer.",
+        "n": 9
+      },
+      {
+        "li": 9,
+        "si": 1,
+        "a": "They have the",
+        "b": "freshest seafood in town.",
+        "n": 7
+      },
+      {
+        "li": 12,
+        "si": 0,
+        "a": "First, I want",
+        "b": "to buy some shrimp.",
+        "n": 7
+      },
+      {
+        "li": 15,
+        "si": 0,
+        "a": "(yells to co-worker) Give",
+        "b": "her a pound of shrimp!",
+        "n": 9
+      },
+      {
+        "li": 28,
+        "si": 1,
+        "a": "Did you grow",
+        "b": "up on the water?",
+        "n": 7
+      },
+      {
+        "li": 29,
+        "si": 2,
+        "a": "And I love",
+        "b": "being on the water.",
+        "n": 7
+      },
+      {
+        "li": 32,
+        "si": 2,
+        "a": "Is it a",
+        "b": "motorboat or a sailboat?",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "You came",
+        "b": "to the right place.",
         "n": 6
       }
     ],
@@ -1678,6 +3729,146 @@
         "a": "The Metro was a lot faster",
         "b": "than a bus, taxi or bike.",
         "n": 12
+      },
+      {
+        "li": 33,
+        "si": 1,
+        "a": "And now I’m",
+        "b": "at Nationals Park!",
+        "n": 6
+      },
+      {
+        "li": 33,
+        "si": 10,
+        "a": "Does anyone have",
+        "b": "an extra ticket?",
+        "n": 6
+      },
+      {
+        "li": 34,
+        "si": 0,
+        "a": "Next time, you should",
+        "b": "buy your ticket online.",
+        "n": 8
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "Today, I am",
+        "b": "going to Nationals Park.",
+        "n": 7
+      },
+      {
+        "li": 4,
+        "si": 1,
+        "a": "A taxi is",
+        "b": "faster than a bus.",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 0,
+        "a": "In fact, I wanted",
+        "b": "to be a baseball player.",
+        "n": 9
+      },
+      {
+        "li": 13,
+        "si": 1,
+        "a": "I am going to",
+        "b": "see a Nationals baseball game!",
+        "n": 9
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "That is why",
+        "b": "I’m taking a taxi.",
+        "n": 7
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "Anna, Anna, that’s",
+        "b": "not a good idea.",
+        "n": 7
+      },
+      {
+        "li": 20,
+        "si": 1,
+        "a": "A bicycle is",
+        "b": "faster than a taxi.",
+        "n": 7
+      },
+      {
+        "li": 21,
+        "si": 2,
+        "a": "A car is",
+        "b": "faster than your bicycle.",
+        "n": 7
+      },
+      {
+        "li": 22,
+        "si": 0,
+        "a": "In D.C. traffic sometimes a",
+        "b": "bicycle is faster than a car.",
+        "n": 11
+      },
+      {
+        "li": 25,
+        "si": 1,
+        "a": "I really want to",
+        "b": "learn how to ride one.",
+        "n": 9
+      },
+      {
+        "li": 33,
+        "si": 3,
+        "a": "So many people",
+        "b": "like to watch baseball.",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 9,
+        "a": "But I really want",
+        "b": "to watch a baseball game.",
+        "n": 9
+      },
+      {
+        "li": 35,
+        "si": 3,
+        "a": "Being early is",
+        "b": "better than being late.",
+        "n": 7
+      },
+      {
+        "li": 10,
+        "si": 1,
+        "a": "Have fun",
+        "b": "at the game, Anna.",
+        "n": 6
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "Anna, you should go",
+        "b": "a lot earlier than 7 o’clock.",
+        "n": 10
+      },
+      {
+        "li": 22,
+        "si": 1,
+        "a": "And right now,",
+        "b": "there is a lot of traffic.",
+        "n": 9
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "Okay, Anna,",
+        "b": "you can use my bicycle.",
+        "n": 7
       }
     ],
     "lle1-32": [
@@ -1736,6 +3927,181 @@
         "a": "I know that we",
         "b": "can find it, Anna!",
         "n": 8
+      },
+      {
+        "li": 25,
+        "si": 1,
+        "a": "MINDY, now I am",
+        "b": "on a snowy mountain!",
+        "n": 8
+      },
+      {
+        "li": 26,
+        "si": 0,
+        "a": "That is a good place",
+        "b": "to learn how to ski.",
+        "n": 10
+      },
+      {
+        "li": 29,
+        "si": 1,
+        "a": "MINDY, I am",
+        "b": "in the ocean!",
+        "n": 6
+      },
+      {
+        "li": 33,
+        "si": 1,
+        "a": "And get me out",
+        "b": "of here … now!",
+        "n": 8
+      },
+      {
+        "li": 34,
+        "si": 2,
+        "a": "Next week, you can watch part",
+        "b": "two of “The Time Traveling Treehouse!",
+        "n": 12
+      },
+      {
+        "li": 40,
+        "si": 0,
+        "a": "Well, you can watch",
+        "b": "the ending next week!",
+        "n": 8
+      },
+      {
+        "li": 42,
+        "si": 0,
+        "a": "Don’t forget to",
+        "b": "watch next week!",
+        "n": 6
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "Coworker 1: But",
+        "b": "we are not children!",
+        "n": 7
+      },
+      {
+        "li": 14,
+        "si": 2,
+        "a": "” This is not",
+        "b": "a usual treehouse.",
+        "n": 7
+      },
+      {
+        "li": 14,
+        "si": 4,
+        "a": "That is why it’s",
+        "b": "called \"The Time Traveling Treehouse.",
+        "n": 9
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "My name means Massive",
+        "b": "Information Navigation Device, for You!",
+        "n": 9
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "Kids from all over",
+        "b": "the world ask us questions.",
+        "n": 9
+      },
+      {
+        "li": 27,
+        "si": 0,
+        "a": "Yes, MINDY, but it",
+        "b": "cannot teach us about baseball!",
+        "n": 9
+      },
+      {
+        "li": 27,
+        "si": 1,
+        "a": "And I don’t",
+        "b": "know how to ski!",
+        "n": 7
+      },
+      {
+        "li": 29,
+        "si": 2,
+        "a": "An ocean cannot",
+        "b": "teach us about baseball!",
+        "n": 7
+      },
+      {
+        "li": 30,
+        "si": 1,
+        "a": "The ocean can",
+        "b": "teach us about surfing.",
+        "n": 7
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "Yes, MINDY, it can teach",
+        "b": "us about surfing … and sharks!",
+        "n": 11
+      },
+      {
+        "li": 32,
+        "si": 1,
+        "a": "I need to",
+        "b": "fix my navigation device",
+        "n": 7
+      },
+      {
+        "li": 36,
+        "si": 0,
+        "a": "Coworker 2: Will",
+        "b": "Anna find the answer?",
+        "n": 7
+      },
+      {
+        "li": 37,
+        "si": 0,
+        "a": "Coworker 3: Please",
+        "b": "tell me the ending!",
+        "n": 7
+      },
+      {
+        "li": 23,
+        "si": 1,
+        "a": "MINDY, we need",
+        "b": "to find her an answer!",
+        "n": 8
+      },
+      {
+        "li": 2,
+        "si": 0,
+        "a": "Some people are",
+        "b": "going to watch your children’s show.",
+        "n": 9
+      },
+      {
+        "li": 6,
+        "si": 0,
+        "a": "Today you are",
+        "b": "going to watch my new show.",
+        "n": 9
+      },
+      {
+        "li": 7,
+        "si": 0,
+        "a": "Coworker 2:",
+        "b": "What is the show about?",
+        "n": 7
+      },
+      {
+        "li": 34,
+        "si": 1,
+        "a": "Is Anna",
+        "b": "going to be lost forever?",
+        "n": 7
       }
     ],
     "lle1-33": [
@@ -1794,6 +4160,104 @@
         "a": "Each time a runner runs across",
         "b": "home plate, they score a run!",
         "n": 12
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "MINDY, MINDY, we",
+        "b": "found the answer!",
+        "n": 6
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "Coworker 1: But time",
+        "b": "travel is not real.",
+        "n": 8
+      },
+      {
+        "li": 22,
+        "si": 0,
+        "a": "Yeah, time travel",
+        "b": "is so silly.",
+        "n": 6
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "I will try",
+        "b": "one more time, Anna.",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 1,
+        "a": "I am at a",
+        "b": "playground with a baseball field!",
+        "n": 9
+      },
+      {
+        "li": 7,
+        "si": 3,
+        "a": "I can teach",
+        "b": "children about baseball here!",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "Give me a call",
+        "b": "when you find the answer.",
+        "n": 9
+      },
+      {
+        "li": 16,
+        "si": 0,
+        "a": "First, the pitcher pitches",
+        "b": "the ball to the batter.",
+        "n": 9
+      },
+      {
+        "li": 16,
+        "si": 2,
+        "a": "Then, the runner",
+        "b": "runs to first base.",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "Each time a batter bats,",
+        "b": "the runners run around the bases.",
+        "n": 11
+      },
+      {
+        "li": 17,
+        "si": 2,
+        "a": "There are nine",
+        "b": "innings in a game.",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "It’s time to",
+        "b": "return to the treehouse.",
+        "n": 7
+      },
+      {
+        "li": 20,
+        "si": 2,
+        "a": "Coworker 2: I",
+        "b": "liked the time travel.",
+        "n": 7
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "MINDY, I want",
+        "b": "to go to China!",
+        "n": 7
       }
     ],
     "lle1-34": [
@@ -1852,6 +4316,111 @@
         "a": "She won’t say",
         "b": "\"no,\" will she?",
         "n": 6
+      },
+      {
+        "li": 45,
+        "si": 1,
+        "a": "I have another",
+        "b": "costume for you!",
+        "n": 6
+      },
+      {
+        "li": 51,
+        "si": 1,
+        "a": "But I am not",
+        "b": "going to read minds.",
+        "n": 8
+      },
+      {
+        "li": 51,
+        "si": 2,
+        "a": "I might play",
+        "b": "some rock music!",
+        "n": 6
+      },
+      {
+        "li": 1,
+        "si": 2,
+        "a": "Children and adults wear",
+        "b": "costumes and go to parties!",
+        "n": 9
+      },
+      {
+        "li": 9,
+        "si": 1,
+        "a": "I can do a",
+        "b": "genie trick like read minds!",
+        "n": 9
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "Okay, tell me",
+        "b": "what I am thinking.",
+        "n": 7
+      },
+      {
+        "li": 44,
+        "si": 1,
+        "a": "I might not",
+        "b": "go to the party.",
+        "n": 7
+      },
+      {
+        "li": 47,
+        "si": 1,
+        "a": "You told me",
+        "b": "you like rock music.",
+        "n": 7
+      },
+      {
+        "li": 51,
+        "si": 0,
+        "a": "I am ready",
+        "b": "for the Halloween party!",
+        "n": 7
+      },
+      {
+        "li": 2,
+        "si": 0,
+        "a": "In fact, there is a",
+        "b": "Halloween party tonight.",
+        "n": 8
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "Tonight, there is a",
+        "b": "Halloween party.",
+        "n": 6
+      },
+      {
+        "li": 13,
+        "si": 2,
+        "a": "This is",
+        "b": "going to be fun!",
+        "n": 6
+      },
+      {
+        "li": 35,
+        "si": 2,
+        "a": "you might",
+        "b": "have a wedding very soon!",
+        "n": 7
+      },
+      {
+        "li": 38,
+        "si": 0,
+        "a": "I will",
+        "b": "have a wedding, won’t I?",
+        "n": 7
+      },
+      {
+        "li": 44,
+        "si": 0,
+        "a": "I don’t want",
+        "b": "to be a genie for Halloween.",
+        "n": 9
       }
     ],
     "lle1-35": [
@@ -1909,6 +4478,76 @@
         "si": 1,
         "a": "I bought everything",
         "b": "on the list.",
+        "n": 6
+      },
+      {
+        "li": 13,
+        "si": 0,
+        "a": "Anna, these are",
+        "b": "the wrong ingredients!",
+        "n": 6
+      },
+      {
+        "li": 15,
+        "si": 0,
+        "a": "Anna, this is the",
+        "b": "shopping list for breakfast.",
+        "n": 8
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "What are we",
+        "b": "going to do?",
+        "n": 6
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "But, sometimes it's",
+        "b": "more fun to cook.",
+        "n": 7
+      },
+      {
+        "li": 3,
+        "si": 0,
+        "a": "Yes, I told you:",
+        "b": "I have the shopping list.",
+        "n": 9
+      },
+      {
+        "li": 4,
+        "si": 2,
+        "a": "Anna, please buy all",
+        "b": "the ingredients on the list.",
+        "n": 9
+      },
+      {
+        "li": 8,
+        "si": 4,
+        "a": "But I did",
+        "b": "spend too much time!",
+        "n": 7
+      },
+      {
+        "li": 14,
+        "si": 0,
+        "a": "These ingredients are",
+        "b": "all on the list!",
+        "n": 7
+      },
+      {
+        "li": 14,
+        "si": 1,
+        "a": "I took this",
+        "b": "list from the counter.",
+        "n": 7
+      },
+      {
+        "li": 2,
+        "si": 1,
+        "a": "Do you have the",
+        "b": "shopping list?",
         "n": 6
       }
     ],
@@ -1968,6 +4607,48 @@
         "a": "The eggs are inside",
         "b": "the cabinet under the sink.",
         "n": 9
+      },
+      {
+        "li": 7,
+        "si": 0,
+        "a": "Anna, why are",
+        "b": "the eggs in here?",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 0,
+        "a": "On the farm, we",
+        "b": "always put the eggs there.",
+        "n": 9
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "How else can",
+        "b": "the chickens see them?",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "What are you going to",
+        "b": "make with these ingredients?",
+        "n": 9
+      },
+      {
+        "li": 12,
+        "si": 0,
+        "a": "I made my",
+        "b": "favorite recipe: peanut-butter-banana pancakes!",
+        "n": 7
+      },
+      {
+        "li": 19,
+        "si": 1,
+        "a": "When something goes wrong",
+        "b": "with your plan, just change the plan!",
+        "n": 11
       }
     ],
     "lle1-37": [
@@ -2026,6 +4707,139 @@
         "a": "That's another thing",
         "b": "that is different.",
         "n": 6
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "People in the",
+        "b": "country are friendly.",
+        "n": 6
+      },
+      {
+        "li": 15,
+        "si": 3,
+        "a": "\" Here, no",
+        "b": "one says \"hello.",
+        "n": 6
+      },
+      {
+        "li": 16,
+        "si": 2,
+        "a": "But I don't think",
+        "b": "city people are rude.",
+        "n": 8
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "But you are",
+        "b": "from the country.",
+        "n": 6
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "and they will say",
+        "b": "\"hello\" to more people!",
+        "n": 8
+      },
+      {
+        "li": 23,
+        "si": 2,
+        "a": "I'm glad you",
+        "b": "found my bag.",
+        "n": 6
+      },
+      {
+        "li": 24,
+        "si": 1,
+        "a": "Let's go say",
+        "b": "\"hello\" to people.",
+        "n": 6
+      },
+      {
+        "li": 25,
+        "si": 3,
+        "a": "And as we like to say,",
+        "b": "you can always agree to disagree!",
+        "n": 12
+      },
+      {
+        "li": 26,
+        "si": 0,
+        "a": "Listen to short videos and test",
+        "b": "your listening skills with this quiz.",
+        "n": 12
+      },
+      {
+        "li": 8,
+        "si": 2,
+        "a": "When I first came",
+        "b": "here, I felt lost ...",
+        "n": 9
+      },
+      {
+        "li": 10,
+        "si": 0,
+        "a": "I like to",
+        "b": "live in the city.",
+        "n": 7
+      },
+      {
+        "li": 12,
+        "si": 1,
+        "a": "It has more",
+        "b": "culture than the country.",
+        "n": 7
+      },
+      {
+        "li": 12,
+        "si": 3,
+        "a": "Every night, there",
+        "b": "is theater and music.",
+        "n": 7
+      },
+      {
+        "li": 14,
+        "si": 2,
+        "a": "And I like to",
+        "b": "watch all the different people.",
+        "n": 9
+      },
+      {
+        "li": 15,
+        "si": 4,
+        "a": "\" I think",
+        "b": "city people are rude.",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "I live in the city",
+        "b": "and I said \"hello\" to you.",
+        "n": 11
+      },
+      {
+        "li": 20,
+        "si": 2,
+        "a": "\" to people",
+        "b": "-- to many people!",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "So, do you like living",
+        "b": "in the country or in the city?",
+        "n": 12
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "We don't",
+        "b": "have to agree with people.",
+        "n": 7
       }
     ],
     "lle1-38": [
@@ -2084,6 +4898,153 @@
         "a": "So, tell me",
         "b": "about your job.",
         "n": 6
+      },
+      {
+        "li": 16,
+        "si": 1,
+        "a": "I make a children’s show",
+        "b": "called the “Time Traveling Treehouse.",
+        "n": 10
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "Anna, that is the",
+        "b": "best job for you!",
+        "n": 8
+      },
+      {
+        "li": 17,
+        "si": 2,
+        "a": "We played in that old treehouse",
+        "b": "behind my family’s house for hours!",
+        "n": 12
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "We thought it",
+        "b": "really time traveled!",
+        "n": 6
+      },
+      {
+        "li": 18,
+        "si": 2,
+        "a": "It is really good",
+        "b": "to talk to you.",
+        "n": 8
+      },
+      {
+        "li": 18,
+        "si": 4,
+        "a": "But old friends",
+        "b": "are the best.",
+        "n": 6
+      },
+      {
+        "li": 19,
+        "si": 1,
+        "a": "Our hometown isn’t",
+        "b": "the same now.",
+        "n": 6
+      },
+      {
+        "li": 20,
+        "si": 2,
+        "a": "Penelope, why don't you move here",
+        "b": "and live with me and Marsha?",
+        "n": 12
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "Anna, I can’t",
+        "b": "leave our hometown.",
+        "n": 6
+      },
+      {
+        "li": 21,
+        "si": 1,
+        "a": "You forget -- I",
+        "b": "love my job, too.",
+        "n": 8
+      },
+      {
+        "li": 26,
+        "si": 3,
+        "a": "I am the luckiest",
+        "b": "woman in Washington, D.C.",
+        "n": 8
+      },
+      {
+        "li": 1,
+        "si": 1,
+        "a": "I am really",
+        "b": "happy to see you!",
+        "n": 7
+      },
+      {
+        "li": 4,
+        "si": 0,
+        "a": "Let me help",
+        "b": "you with your bags.",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 0,
+        "a": "I have so",
+        "b": "much to tell you.",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 2,
+        "a": "We can talk over",
+        "b": "a hot cup of tea.",
+        "n": 9
+      },
+      {
+        "li": 10,
+        "si": 2,
+        "a": "And she says I’m",
+        "b": "the messiest cook she knows.",
+        "n": 9
+      },
+      {
+        "li": 12,
+        "si": 1,
+        "a": "But now, Marsha",
+        "b": "is a good friend.",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 1,
+        "a": "Do you remember",
+        "b": "when we were little?",
+        "n": 7
+      },
+      {
+        "li": 22,
+        "si": 1,
+        "a": "You are the most",
+        "b": "famous turkey farmer I know!",
+        "n": 9
+      },
+      {
+        "li": 24,
+        "si": 1,
+        "a": "Let’s go eat dinner at",
+        "b": "one of D.C.’s most famous restaurants.",
+        "n": 11
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "I’m really excited",
+        "b": "to be in Washington, D.C.!",
+        "n": 8
       }
     ],
     "lle1-39": [
@@ -2142,6 +5103,111 @@
         "a": "I'll use it before",
         "b": "I go to work.",
         "n": 8
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "Your hair does",
+        "b": "not look good.",
+        "n": 6
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "Hair Be Good did",
+        "b": "this to my hair.",
+        "n": 8
+      },
+      {
+        "li": 26,
+        "si": 1,
+        "a": "You said in your ad",
+        "b": "it was a perfect product.",
+        "n": 10
+      },
+      {
+        "li": 30,
+        "si": 1,
+        "a": "Just the ones",
+        "b": "with my friends.",
+        "n": 6
+      },
+      {
+        "li": 0,
+        "si": 1,
+        "a": "Winter weather in Washington,",
+        "b": "D.C. can be really windy.",
+        "n": 9
+      },
+      {
+        "li": 0,
+        "si": 7,
+        "a": "I am tired",
+        "b": "of my untidy hair.",
+        "n": 7
+      },
+      {
+        "li": 1,
+        "si": 0,
+        "a": "Are you tired",
+        "b": "of your untidy hair?",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 1,
+        "a": "Hair Be Good",
+        "b": "works and it’s inexpensive.",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 5,
+        "a": "My delivery will",
+        "b": "arrive in 2 days.",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 2,
+        "a": "Okay, Hair Be Good,",
+        "b": "make my untidy hair tidy!",
+        "n": 9
+      },
+      {
+        "li": 12,
+        "si": 1,
+        "a": "I used a new",
+        "b": "product called Hair Be Good.",
+        "n": 9
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "Why don’t you go home",
+        "b": "and take care of … this.",
+        "n": 11
+      },
+      {
+        "li": 23,
+        "si": 0,
+        "a": "What did you",
+        "b": "do to your hair?",
+        "n": 7
+      },
+      {
+        "li": 29,
+        "si": 0,
+        "a": "Anna, you don’t believe everything",
+        "b": "you see in ads, do you?",
+        "n": 11
+      },
+      {
+        "li": 32,
+        "si": 3,
+        "a": "You should call it",
+        "b": "\"Hair Be Really, Really Bad!",
+        "n": 9
       }
     ],
     "lle1-40": [
@@ -2200,6 +5266,104 @@
         "a": "You don't need to",
         "b": "say \"slowly\" and \"quietly.",
         "n": 8
+      },
+      {
+        "li": 13,
+        "si": 5,
+        "a": "I say my line first,",
+        "b": "then you say your line.",
+        "n": 10
+      },
+      {
+        "li": 16,
+        "si": 1,
+        "a": "You need to",
+        "b": "say it earlier.",
+        "n": 6
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "I was too",
+        "b": "early, wasn't I?",
+        "n": 6
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "The costume is",
+        "b": "in the back.",
+        "n": 6
+      },
+      {
+        "li": 26,
+        "si": 0,
+        "a": "Oh, Anna, that",
+        "b": "fits you perfectly!",
+        "n": 6
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "My new year",
+        "b": "is starting awesomely!",
+        "n": 6
+      },
+      {
+        "li": 28,
+        "si": 2,
+        "a": "I have a great",
+        "b": "idea for my tree.",
+        "n": 8
+      },
+      {
+        "li": 0,
+        "si": 3,
+        "a": "I want to be",
+        "b": "an actor on the stage!",
+        "n": 9
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "Can you speak more loudly",
+        "b": "and a little more, um, seriously?",
+        "n": 11
+      },
+      {
+        "li": 14,
+        "si": 0,
+        "a": "'You will never get",
+        "b": "out of these woods alive!",
+        "n": 9
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "'… get out",
+        "b": "of the woods alive.",
+        "n": 7
+      },
+      {
+        "li": 27,
+        "si": 1,
+        "a": "I'm a tree in",
+        "b": "… \"The Woods Are Alive!",
+        "n": 9
+      },
+      {
+        "li": 23,
+        "si": 1,
+        "a": "I think that I",
+        "b": "have the perfect part for you.",
+        "n": 10
+      },
+      {
+        "li": 13,
+        "si": 3,
+        "a": "\" Alright,",
+        "b": "let's try the last scene.",
+        "n": 7
       }
     ],
     "lle1-41": [
@@ -2257,6 +5421,90 @@
         "si": 0,
         "a": "“TEAMWORK works best",
         "b": "with a team.",
+        "n": 6
+      },
+      {
+        "li": 22,
+        "si": 0,
+        "a": "So, Anna, do you",
+        "b": "understand what I want?",
+        "n": 8
+      },
+      {
+        "li": 34,
+        "si": 0,
+        "a": "Welcome to The",
+        "b": "Time Traveling Treehouse!",
+        "n": 6
+      },
+      {
+        "li": 35,
+        "si": 1,
+        "a": "Did I give",
+        "b": "you enough cats?",
+        "n": 6
+      },
+      {
+        "li": 36,
+        "si": 1,
+        "a": "I think we",
+        "b": "need more cats!",
+        "n": 6
+      },
+      {
+        "li": 5,
+        "si": 1,
+        "a": "Anna, this chart shows the",
+        "b": "audience of The Time Traveling Treehouse.",
+        "n": 11
+      },
+      {
+        "li": 5,
+        "si": 3,
+        "a": "Your audience is",
+        "b": "going down, down, DOWN!",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "If you look at this",
+        "b": "chart, you will see something good.",
+        "n": 11
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "“WORKING HARD looks hard",
+        "b": "because it really is hard.",
+        "n": 9
+      },
+      {
+        "li": 24,
+        "si": 1,
+        "a": "There is a",
+        "b": "problem in the Treehouse.",
+        "n": 7
+      },
+      {
+        "li": 34,
+        "si": 1,
+        "a": "Today you will learn about",
+        "b": "a very popular pet … cats!",
+        "n": 11
+      },
+      {
+        "li": 17,
+        "si": 1,
+        "a": "” Well,",
+        "b": "it's a cute cat.",
+        "n": 6
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "No, it is not",
+        "b": "big enough.",
         "n": 6
       }
     ],
@@ -2316,6 +5564,202 @@
         "a": "” She was yelling, “Hey,",
         "b": "come back with my umbrella!",
         "n": 10
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "I had no time",
+        "b": "to be afraid, Guy.",
+        "n": 8
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "The robbers got",
+        "b": "on a bus.",
+        "n": 6
+      },
+      {
+        "li": 20,
+        "si": 1,
+        "a": "So, I ran",
+        "b": "after the bus.",
+        "n": 6
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "While I was running,",
+        "b": "I tripped and fell.",
+        "n": 8
+      },
+      {
+        "li": 22,
+        "si": 0,
+        "a": "And that is the time",
+        "b": "that you hurt your arm?",
+        "n": 10
+      },
+      {
+        "li": 23,
+        "si": 1,
+        "a": "While I was lying on the",
+        "b": "ground, someone stepped on my arm!",
+        "n": 12
+      },
+      {
+        "li": 25,
+        "si": 2,
+        "a": "Well, then the robbers got",
+        "b": "themselves kicked off the bus.",
+        "n": 10
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "Well, Guy, by this time,",
+        "b": "I was feeling very hungry.",
+        "n": 10
+      },
+      {
+        "li": 33,
+        "si": 2,
+        "a": "My co-worker is stuck",
+        "b": "in a vending machine.",
+        "n": 8
+      },
+      {
+        "li": 36,
+        "si": 0,
+        "a": "That’s all from",
+        "b": "News Channel XYZ.",
+        "n": 6
+      },
+      {
+        "li": 36,
+        "si": 1,
+        "a": "This is Guy",
+        "b": "Newsman saying goodbye.",
+        "n": 6
+      },
+      {
+        "li": 4,
+        "si": 0,
+        "a": "Anna, what did you see",
+        "b": "and what happened to your arm?",
+        "n": 11
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "Guy, I was",
+        "b": "minding my own business.",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 0,
+        "a": "I left work",
+        "b": "to get some lunch.",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 1,
+        "a": "Then suddenly, I",
+        "b": "heard a woman yelling.",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "She was hitting",
+        "b": "them with her umbrella.",
+        "n": 7
+      },
+      {
+        "li": 10,
+        "si": 1,
+        "a": "At that time, I",
+        "b": "was not fighting the robbers.",
+        "n": 9
+      },
+      {
+        "li": 14,
+        "si": 0,
+        "a": "They grabbed her",
+        "b": "bag and ran away!",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 1,
+        "a": "Well, I had time while",
+        "b": "I was resting on a bench.",
+        "n": 11
+      },
+      {
+        "li": 27,
+        "si": 2,
+        "a": "The police came",
+        "b": "and took them away.",
+        "n": 7
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "Anna, I'm calling",
+        "b": "for help right now.",
+        "n": 7
+      },
+      {
+        "li": 35,
+        "si": 0,
+        "a": "I was really hungry",
+        "b": "and the bag was stuck.",
+        "n": 9
+      },
+      {
+        "li": 37,
+        "si": 0,
+        "a": "Okay, we have to find",
+        "b": "ourselves another story, guys.",
+        "n": 9
+      },
+      {
+        "li": 18,
+        "si": 2,
+        "a": "I had",
+        "b": "a lot of time.",
+        "n": 6
+      },
+      {
+        "li": 27,
+        "si": 1,
+        "a": "You've got to pay",
+        "b": "when you get on a bus.",
+        "n": 10
+      },
+      {
+        "li": 30,
+        "si": 0,
+        "a": "Then, when",
+        "b": "did you hurt yourself?",
+        "n": 6
+      },
+      {
+        "li": 31,
+        "si": 1,
+        "a": "So, I went to",
+        "b": "my office to get a snack.",
+        "n": 10
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "Is that",
+        "b": "when you hurt your arm?",
+        "n": 7
       }
     ],
     "lle1-43": [
@@ -2374,6 +5818,104 @@
         "a": "Tell your Mom to",
         "b": "have a nice trip!",
         "n": 8
+      },
+      {
+        "li": 16,
+        "si": 0,
+        "a": "I do wish",
+        "b": "I could help.",
+        "n": 6
+      },
+      {
+        "li": 22,
+        "si": 0,
+        "a": "(Anna hears a child",
+        "b": "crying through the phone.",
+        "n": 8
+      },
+      {
+        "li": 22,
+        "si": 2,
+        "a": "And could you",
+        "b": "give me $20?",
+        "n": 6
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "I’ll pay you",
+        "b": "back the money.",
+        "n": 6
+      },
+      {
+        "li": 25,
+        "si": 2,
+        "a": "(off-camera to niece) That",
+        "b": "was very, very, bad!",
+        "n": 8
+      },
+      {
+        "li": 33,
+        "si": 3,
+        "a": "-- won't you",
+        "b": "give me money?",
+        "n": 6
+      },
+      {
+        "li": 4,
+        "si": 1,
+        "a": "Would you be",
+        "b": "able to come downtown?",
+        "n": 7
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "Well, I was wondering if",
+        "b": "you could give me some money.",
+        "n": 11
+      },
+      {
+        "li": 14,
+        "si": 1,
+        "a": "I'm at the",
+        "b": "airport with my mother.",
+        "n": 7
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "Anna, I’m not",
+        "b": "worried about the money.",
+        "n": 7
+      },
+      {
+        "li": 27,
+        "si": 0,
+        "a": "I was talking",
+        "b": "to my niece, Anna.",
+        "n": 7
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "Well, Plans A, B, C,",
+        "b": "D and E did not work.",
+        "n": 11
+      },
+      {
+        "li": 33,
+        "si": 0,
+        "a": "(singing) Won't you give, could",
+        "b": "-- Thank you very much, sir!",
+        "n": 11
+      },
+      {
+        "li": 5,
+        "si": 2,
+        "a": "I have to give",
+        "b": "a big presentation in one hour.",
+        "n": 10
       }
     ],
     "lle1-44": [
@@ -2432,6 +5974,160 @@
         "a": "They are only",
         "b": "fat and sugar.",
         "n": 6
+      },
+      {
+        "li": 35,
+        "si": 0,
+        "a": "And I have",
+        "b": "lots of friends!!",
+        "n": 6
+      },
+      {
+        "li": 36,
+        "si": 3,
+        "a": "I am sick and tired",
+        "b": "of the both of you!!",
+        "n": 10
+      },
+      {
+        "li": 37,
+        "si": 0,
+        "a": "I know what",
+        "b": "you two need!",
+        "n": 6
+      },
+      {
+        "li": 40,
+        "si": 0,
+        "a": "You two need",
+        "b": "to cool off!",
+        "n": 6
+      },
+      {
+        "li": 4,
+        "si": 0,
+        "a": "Well, Anna, go",
+        "b": "to the Giant supermarket.",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 1,
+        "a": "Do you know what",
+        "b": "the web says about celery?",
+        "n": 9
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "“Celery is 95 percent water",
+        "b": "- 100 percent NOT ice cream.",
+        "n": 11
+      },
+      {
+        "li": 12,
+        "si": 0,
+        "a": "Healthy*: Anna, you",
+        "b": "mustn’t eat junk food.",
+        "n": 7
+      },
+      {
+        "li": 16,
+        "si": 0,
+        "a": "Will you two please",
+        "b": "be nice to each other?",
+        "n": 9
+      },
+      {
+        "li": 16,
+        "si": 1,
+        "a": "It is important",
+        "b": "to eat healthy foods.",
+        "n": 7
+      },
+      {
+        "li": 16,
+        "si": 2,
+        "a": "But, a little junk",
+        "b": "food will not kill me.",
+        "n": 9
+      },
+      {
+        "li": 26,
+        "si": 1,
+        "a": "I love the",
+        "b": "smells of a bakery!",
+        "n": 7
+      },
+      {
+        "li": 30,
+        "si": 1,
+        "a": "You know, you are",
+        "b": "really no fun at all.",
+        "n": 9
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "And you must think",
+        "b": "having high cholesterol is fun.",
+        "n": 9
+      },
+      {
+        "li": 32,
+        "si": 1,
+        "a": "That is why",
+        "b": "you don’t have friends!",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 0,
+        "a": "And that is why",
+        "b": "your cholesterol is so high!",
+        "n": 9
+      },
+      {
+        "li": 34,
+        "si": 0,
+        "a": "My cholesterol is",
+        "b": "none of your business!!",
+        "n": 7
+      },
+      {
+        "li": 43,
+        "si": 0,
+        "a": "\"Healthy\" and \"Junky\" are Anna's",
+        "b": "thoughts about what she should eat.",
+        "n": 11
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "Take this cart",
+        "b": "to the frozen food aisle!",
+        "n": 8
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "Okay, we are",
+        "b": "in the frozen food aisle!",
+        "n": 8
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "You don’t",
+        "b": "have to buy bread.",
+        "n": 6
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "I am not",
+        "b": "going to tell you two again!",
+        "n": 9
       }
     ],
     "lle1-45": [
@@ -2490,6 +6186,195 @@
         "a": "this land was made",
         "b": "for you and me!",
         "n": 8
+      },
+      {
+        "li": 19,
+        "si": 1,
+        "a": "We’ll be eating lunch",
+        "b": "in about 2 hours.",
+        "n": 8
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "I can’t wait to",
+        "b": "see The Big Apple!",
+        "n": 8
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "No, we won’t",
+        "b": "be seeing that.",
+        "n": 6
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "Marsha, it’s on my other",
+        "b": "list -- Best Roadside Sights.",
+        "n": 10
+      },
+      {
+        "li": 33,
+        "si": 0,
+        "a": "(Marsha grabs the paper and",
+        "b": "throws it out the window.",
+        "n": 10
+      },
+      {
+        "li": 34,
+        "si": 5,
+        "a": "(lifts up large",
+        "b": "book, starts reading)",
+        "n": 6
+      },
+      {
+        "li": 38,
+        "si": 1,
+        "a": "Marsha, you are",
+        "b": "a great listener.",
+        "n": 6
+      },
+      {
+        "li": 42,
+        "si": 1,
+        "a": "I will just",
+        "b": "exit the highway.",
+        "n": 6
+      },
+      {
+        "li": 42,
+        "si": 2,
+        "a": "We will be going south",
+        "b": "… in just a minute.",
+        "n": 10
+      },
+      {
+        "li": 47,
+        "si": 0,
+        "a": "Well, we saw everything on",
+        "b": "page 1 of the list.",
+        "n": 10
+      },
+      {
+        "li": 48,
+        "si": 0,
+        "a": "What do you",
+        "b": "mean \"page 1?",
+        "n": 6
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "So, we are going",
+        "b": "on a road trip together!",
+        "n": 9
+      },
+      {
+        "li": 6,
+        "si": 0,
+        "a": "And I want",
+        "b": "to see Mount Rushmore!",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 1,
+        "a": "There are so",
+        "b": "many places to see!",
+        "n": 7
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "Okay, we will be arriving",
+        "b": "in New York City very soon!",
+        "n": 11
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "Marsha, in ten minutes,",
+        "b": "guess what we’ll be seeing?",
+        "n": 9
+      },
+      {
+        "li": 30,
+        "si": 0,
+        "a": "The largest rocking",
+        "b": "chair in the world!",
+        "n": 7
+      },
+      {
+        "li": 36,
+        "si": 0,
+        "a": "… and that is why",
+        "b": "I am so afraid of sheep.",
+        "n": 11
+      },
+      {
+        "li": 40,
+        "si": 0,
+        "a": "We will be entering",
+        "b": "North Dakota any minute now!",
+        "n": 9
+      },
+      {
+        "li": 41,
+        "si": 1,
+        "a": "We are going",
+        "b": "in the wrong direction!",
+        "n": 7
+      },
+      {
+        "li": 41,
+        "si": 2,
+        "a": "We want to",
+        "b": "go to South Dakota!",
+        "n": 7
+      },
+      {
+        "li": 43,
+        "si": 0,
+        "a": "Then we will be",
+        "b": "very near to Mount Rushmore!",
+        "n": 9
+      },
+      {
+        "li": 46,
+        "si": 0,
+        "a": "And we saw",
+        "b": "everything on the list!",
+        "n": 7
+      },
+      {
+        "li": 49,
+        "si": 1,
+        "a": "Here are pages",
+        "b": "2, 3 and 4!",
+        "n": 7
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "to the redwood forest",
+        "b": "to the Gulf stream waters ...",
+        "n": 10
+      },
+      {
+        "li": 14,
+        "si": 0,
+        "a": "(sings) \"…from California",
+        "b": "to the New York island ...",
+        "n": 9
+      },
+      {
+        "li": 44,
+        "si": 1,
+        "a": "Dead presidents’ heads",
+        "b": "on the side of a mountain!",
+        "n": 9
       }
     ],
     "lle1-46": [
@@ -2548,6 +6433,90 @@
         "a": "The balloon will help",
         "b": "your friends find you.",
         "n": 8
+      },
+      {
+        "li": 30,
+        "si": 2,
+        "a": "You get a seat in the",
+        "b": "restaurant - I will find you!",
+        "n": 12
+      },
+      {
+        "li": 0,
+        "si": 0,
+        "a": "Have a nice",
+        "b": "day at work Marsha!",
+        "n": 7
+      },
+      {
+        "li": 1,
+        "si": 2,
+        "a": "Do you have pen",
+        "b": "and paper I can borrow?",
+        "n": 9
+      },
+      {
+        "li": 3,
+        "si": 0,
+        "a": "We are meeting",
+        "b": "at this restaurant tonight.",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 1,
+        "a": "And I don’t get",
+        "b": "my paycheck until next week.",
+        "n": 9
+      },
+      {
+        "li": 8,
+        "si": 4,
+        "a": "I’ll just have to",
+        "b": "borrow a couple of things.",
+        "n": 9
+      },
+      {
+        "li": 10,
+        "si": 1,
+        "a": "I can lend",
+        "b": "you my stapler, Anna.",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 1,
+        "a": "These scissors -- they are",
+        "b": "the sharpest scissors in the office.",
+        "n": 11
+      },
+      {
+        "li": 28,
+        "si": 0,
+        "a": "Many people loaned or",
+        "b": "shared their supplies with me.",
+        "n": 9
+      },
+      {
+        "li": 28,
+        "si": 1,
+        "a": "Some people really",
+        "b": "love their office supplies.",
+        "n": 7
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "Sometimes all the money in the world",
+        "b": "can’t buy the perfect gift.",
+        "n": 12
+      },
+      {
+        "li": 27,
+        "si": 1,
+        "a": "That is a lot of",
+        "b": "office supplies!",
+        "n": 7
       }
     ],
     "lle1-47": [
@@ -2606,6 +6575,146 @@
         "a": "Pete, when I was a teenager,",
         "b": "I was fixing cars -- myself.",
         "n": 12
+      },
+      {
+        "li": 24,
+        "si": 3,
+        "a": "When I say “go,”",
+        "b": "you start the engine.",
+        "n": 8
+      },
+      {
+        "li": 32,
+        "si": 0,
+        "a": "Well, you did",
+        "b": "not help, Anna.",
+        "n": 6
+      },
+      {
+        "li": 38,
+        "si": 0,
+        "a": "I can’t be",
+        "b": "out of gas.",
+        "n": 6
+      },
+      {
+        "li": 39,
+        "si": 3,
+        "a": "You can watch the rest",
+        "b": "of your online video course.",
+        "n": 10
+      },
+      {
+        "li": 39,
+        "si": 4,
+        "a": "It’ll be faster if I",
+        "b": "go … in a flash.",
+        "n": 10
+      },
+      {
+        "li": 40,
+        "si": 0,
+        "a": "Dan (in the online",
+        "b": "video course): “Lesson 11.",
+        "n": 8
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "Right now, I",
+        "b": "am fixing my car.",
+        "n": 7
+      },
+      {
+        "li": 3,
+        "si": 1,
+        "a": "I was planning",
+        "b": "to visit some friends.",
+        "n": 7
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "Pete, I think",
+        "b": "I found your problem.",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 2,
+        "a": "So I took",
+        "b": "out the extra ones.",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 2,
+        "a": "Pete, can you",
+        "b": "fix a car yourself?",
+        "n": 7
+      },
+      {
+        "li": 10,
+        "si": 0,
+        "a": "Yes, you CAN",
+        "b": "fix your car yourself!",
+        "n": 7
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "And I watched",
+        "b": "the first 10 lessons.",
+        "n": 7
+      },
+      {
+        "li": 16,
+        "si": 1,
+        "a": "(puts a useless",
+        "b": "tool in her hand).",
+        "n": 7
+      },
+      {
+        "li": 18,
+        "si": 0,
+        "a": "But, Anna, I",
+        "b": "don’t need your ...",
+        "n": 7
+      },
+      {
+        "li": 30,
+        "si": 0,
+        "a": "This car is",
+        "b": "stupid … stupid, stupid!",
+        "n": 7
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "Pete, kicking the",
+        "b": "tires will not help.",
+        "n": 7
+      },
+      {
+        "li": 38,
+        "si": 1,
+        "a": "(looks at gauge)",
+        "b": "I’m out of gas.",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 3,
+        "a": "I must feel the key",
+        "b": "in the ignition and turn it myself.",
+        "n": 12
+      },
+      {
+        "li": 40,
+        "si": 1,
+        "a": "Always make sure you have a",
+        "b": "full tank of gas!",
+        "n": 10
       }
     ],
     "lle1-48": [
@@ -2664,6 +6773,174 @@
         "a": "Have you been to the",
         "b": "Museum of the American Indian?",
         "n": 10
+      },
+      {
+        "li": 10,
+        "si": 1,
+        "a": "I’ve visited that",
+        "b": "museum many times.",
+        "n": 6
+      },
+      {
+        "li": 12,
+        "si": 0,
+        "a": "I’ll put that",
+        "b": "on my list.",
+        "n": 6
+      },
+      {
+        "li": 14,
+        "si": 2,
+        "a": "Wow, you know so",
+        "b": "much about D.C.’s museums.",
+        "n": 8
+      },
+      {
+        "li": 19,
+        "si": 0,
+        "a": "I've never been",
+        "b": "to D.C.’s zoo.",
+        "n": 6
+      },
+      {
+        "li": 19,
+        "si": 1,
+        "a": "I've never been",
+        "b": "to any zoos!",
+        "n": 6
+      },
+      {
+        "li": 20,
+        "si": 0,
+        "a": "You have never",
+        "b": "seen zoo animals?",
+        "n": 6
+      },
+      {
+        "li": 23,
+        "si": 3,
+        "a": "I’ve written my own",
+        "b": "must-see zoo animal list!",
+        "n": 8
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "Have fun at the",
+        "b": "zoo and thanks, Anna!",
+        "n": 8
+      },
+      {
+        "li": 26,
+        "si": 2,
+        "a": "Jean, the tourist, helped me",
+        "b": "see more of my city.",
+        "n": 10
+      },
+      {
+        "li": 2,
+        "si": 2,
+        "a": "I really feel",
+        "b": "like we’ve met before.",
+        "n": 7
+      },
+      {
+        "li": 4,
+        "si": 2,
+        "a": "I think I’ve",
+        "b": "seen all the museums.",
+        "n": 7
+      },
+      {
+        "li": 5,
+        "si": 1,
+        "a": "So, tell me,",
+        "b": "which museums are good?",
+        "n": 7
+      },
+      {
+        "li": 7,
+        "si": 0,
+        "a": "I want to",
+        "b": "see an unusual museum.",
+        "n": 7
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "I have always",
+        "b": "liked American Indian culture.",
+        "n": 7
+      },
+      {
+        "li": 14,
+        "si": 1,
+        "a": "I’ll write that",
+        "b": "on my list, too!",
+        "n": 7
+      },
+      {
+        "li": 15,
+        "si": 0,
+        "a": "Well, I have lived",
+        "b": "here for over a year.",
+        "n": 9
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "I grew up",
+        "b": "on a farm, Jean.",
+        "n": 7
+      },
+      {
+        "li": 21,
+        "si": 1,
+        "a": "I've known farm",
+        "b": "animals my whole life.",
+        "n": 7
+      },
+      {
+        "li": 22,
+        "si": 1,
+        "a": "If you have never seen",
+        "b": "a real, live elephant, you must.",
+        "n": 11
+      },
+      {
+        "li": 26,
+        "si": 1,
+        "a": "And I have seen",
+        "b": "every animal on my list!",
+        "n": 9
+      },
+      {
+        "li": 26,
+        "si": 3,
+        "a": "But where have",
+        "b": "I seen her before?",
+        "n": 7
+      },
+      {
+        "li": 13,
+        "si": 0,
+        "a": "Well, if you like plants,",
+        "b": "you can visit the U.S. Botanic Gardens.",
+        "n": 12
+      },
+      {
+        "li": 25,
+        "si": 0,
+        "a": "Have fun",
+        "b": "at the museums, Jean!",
+        "n": 6
+      },
+      {
+        "li": 12,
+        "si": 1,
+        "a": "(writes on list)",
+        "b": "Do you have any other suggestions?",
+        "n": 9
       }
     ],
     "lle1-49": [
@@ -2722,6 +6999,146 @@
         "a": "I am sneaking down a",
         "b": "long, dark, small air duct.",
         "n": 10
+      },
+      {
+        "li": 14,
+        "si": 4,
+        "a": "I sneaked down",
+        "b": "an air duct.",
+        "n": 6
+      },
+      {
+        "li": 17,
+        "si": 0,
+        "a": "Umm … have you",
+        "b": "ever cracked a code?",
+        "n": 8
+      },
+      {
+        "li": 20,
+        "si": 1,
+        "a": "I’ve never cracked",
+        "b": "a code before.",
+        "n": 6
+      },
+      {
+        "li": 20,
+        "si": 6,
+        "a": "I've cracked the",
+        "b": "code, Agent Peacock!",
+        "n": 6
+      },
+      {
+        "li": 22,
+        "si": 1,
+        "a": "Spies have to be",
+        "b": "in really good shape!",
+        "n": 8
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "The International Spy",
+        "b": "Museum is awesome!",
+        "n": 6
+      },
+      {
+        "li": 24,
+        "si": 1,
+        "a": "Agent Peacock, I",
+        "b": "completed the mission!",
+        "n": 6
+      },
+      {
+        "li": 0,
+        "si": 0,
+        "a": "It is no secret",
+        "b": "that Washington, D.C. has spies.",
+        "n": 9
+      },
+      {
+        "li": 0,
+        "si": 7,
+        "a": "Weaver, has sent me",
+        "b": "here … on a mission!",
+        "n": 9
+      },
+      {
+        "li": 2,
+        "si": 2,
+        "a": "This is Agent",
+        "b": "Flamingo, reporting for duty.",
+        "n": 7
+      },
+      {
+        "li": 5,
+        "si": 0,
+        "a": "Yeah, it’s for our",
+        "b": "new show -- “D.C. Secrets.",
+        "n": 9
+      },
+      {
+        "li": 8,
+        "si": 0,
+        "a": "Agent Peacock, I’m",
+        "b": "at an air duct!",
+        "n": 7
+      },
+      {
+        "li": 9,
+        "si": 0,
+        "a": "Yes, spies sometimes",
+        "b": "sneak down air ducts.",
+        "n": 7
+      },
+      {
+        "li": 11,
+        "si": 1,
+        "a": "You know, spies aren’t",
+        "b": "afraid of a little darkness.",
+        "n": 9
+      },
+      {
+        "li": 12,
+        "si": 1,
+        "a": "It’s just an air duct",
+        "b": "-- a dark, small air duct.",
+        "n": 11
+      },
+      {
+        "li": 14,
+        "si": 0,
+        "a": "Okay, I will",
+        "b": "think of the team.",
+        "n": 7
+      },
+      {
+        "li": 20,
+        "si": 4,
+        "a": "I'm still trying",
+        "b": "to crack the code.",
+        "n": 7
+      },
+      {
+        "li": 25,
+        "si": 2,
+        "a": "Now, I have another",
+        "b": "very important mission for you.",
+        "n": 9
+      },
+      {
+        "li": 12,
+        "si": 5,
+        "a": "I’m having",
+        "b": "a little trouble breathing.",
+        "n": 6
+      },
+      {
+        "li": 14,
+        "si": 1,
+        "a": "I’m thinking",
+        "b": "of the team, Agent Peacock!",
+        "n": 7
       }
     ],
     "lle1-50": [
@@ -2780,6 +7197,146 @@
         "a": "So, going back to school",
         "b": "makes me a little nervous.",
         "n": 10
+      },
+      {
+        "li": 21,
+        "si": 0,
+        "a": "The professor told us",
+        "b": "to bring our drafts.",
+        "n": 8
+      },
+      {
+        "li": 25,
+        "si": 1,
+        "a": "Sorry I'm late, but the snow",
+        "b": "storm made getting here really difficult.",
+        "n": 12
+      },
+      {
+        "li": 30,
+        "si": 4,
+        "a": "In fact, violins are",
+        "b": "part of the solution!",
+        "n": 8
+      },
+      {
+        "li": 0,
+        "si": 0,
+        "a": "Hello, and welcome to",
+        "b": "Georgetown University in Washington, D.C.!",
+        "n": 9
+      },
+      {
+        "li": 0,
+        "si": 4,
+        "a": "Students have been",
+        "b": "studying here since 1792!",
+        "n": 7
+      },
+      {
+        "li": 1,
+        "si": 0,
+        "a": "Hey, are you",
+        "b": "finished with your report?",
+        "n": 7
+      },
+      {
+        "li": 2,
+        "si": 1,
+        "a": "I have been writing",
+        "b": "and re-writing since last night!",
+        "n": 9
+      },
+      {
+        "li": 2,
+        "si": 2,
+        "a": "The subject is",
+        "b": "really interesting to me.",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 0,
+        "a": "How long has",
+        "b": "the class been waiting?",
+        "n": 7
+      },
+      {
+        "li": 8,
+        "si": 3,
+        "a": "Excuse me, do you have a",
+        "b": "pencil sharpener I can borrow?",
+        "n": 11
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "So, how long have",
+        "b": "you been studying at Georgetown?",
+        "n": 9
+      },
+      {
+        "li": 16,
+        "si": 1,
+        "a": "Just pay attention",
+        "b": "and do your best!",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 1,
+        "a": "You know, I",
+        "b": "have been paying attention.",
+        "n": 7
+      },
+      {
+        "li": 17,
+        "si": 2,
+        "a": "But sometimes I still",
+        "b": "feel like I don’t understand.",
+        "n": 9
+      },
+      {
+        "li": 25,
+        "si": 2,
+        "a": "I see you’ve",
+        "b": "been waiting very patiently.",
+        "n": 7
+      },
+      {
+        "li": 25,
+        "si": 4,
+        "a": "Who wants to",
+        "b": "give their talk first?",
+        "n": 7
+      },
+      {
+        "li": 29,
+        "si": 0,
+        "a": "Here is my report",
+        "b": "on “Violins in the City.",
+        "n": 9
+      },
+      {
+        "li": 31,
+        "si": 0,
+        "a": "Violins create beautiful music that",
+        "b": "can fill a city with hope.",
+        "n": 11
+      },
+      {
+        "li": 34,
+        "si": 1,
+        "a": "The topic is",
+        "b": "“Violence in the city.",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 0,
+        "a": "If we put a violin",
+        "b": "in the hands of every child …",
+        "n": 12
       }
     ],
     "lle1-51": [
@@ -2838,6 +7395,139 @@
         "a": "I’ve just found",
         "b": "my new goal.",
         "n": 6
+      },
+      {
+        "li": 0,
+        "si": 0,
+        "a": "D.C. is a",
+        "b": "popular city for marathons!",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 2,
+        "a": "Many marathons raise money for",
+        "b": "charity, you know - good works.",
+        "n": 11
+      },
+      {
+        "li": 3,
+        "si": 0,
+        "a": "I just ran",
+        "b": "… from over there.",
+        "n": 7
+      },
+      {
+        "li": 4,
+        "si": 0,
+        "a": "Do you want",
+        "b": "to sit down, Anna?",
+        "n": 7
+      },
+      {
+        "li": 4,
+        "si": 2,
+        "a": "(Anna takes the bottle",
+        "b": "and tries to return it.",
+        "n": 9
+      },
+      {
+        "li": 5,
+        "si": 1,
+        "a": "I didn’t know",
+        "b": "you like to run.",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 1,
+        "a": "In fact, this weekend, I",
+        "b": "will run in my first marathon.",
+        "n": 11
+      },
+      {
+        "li": 9,
+        "si": 2,
+        "a": "Why do you",
+        "b": "ask … like that?",
+        "n": 7
+      },
+      {
+        "li": 10,
+        "si": 0,
+        "a": "What do you know",
+        "b": "about running in a marathon?",
+        "n": 9
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "But I’m running",
+        "b": "in a special race.",
+        "n": 7
+      },
+      {
+        "li": 24,
+        "si": 0,
+        "a": "(At the race: an",
+        "b": "announcer calls out race information)",
+        "n": 9
+      },
+      {
+        "li": 25,
+        "si": 1,
+        "a": "I am here",
+        "b": "to enter the race!",
+        "n": 7
+      },
+      {
+        "li": 26,
+        "si": 0,
+        "a": "But ma’am you",
+        "b": "can’t enter the race.",
+        "n": 7
+      },
+      {
+        "li": 30,
+        "si": 1,
+        "a": "You really can’t",
+        "b": "run with the children.",
+        "n": 7
+      },
+      {
+        "li": 31,
+        "si": 2,
+        "a": "I was only",
+        "b": "thinking of my goal.",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 1,
+        "a": "And I get",
+        "b": "to wear a medal.",
+        "n": 7
+      },
+      {
+        "li": 33,
+        "si": 2,
+        "a": "(to child who",
+        "b": "finished race) Good job!",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 1,
+        "a": "A marathon",
+        "b": "is a long race.",
+        "n": 6
+      },
+      {
+        "li": 27,
+        "si": 1,
+        "a": "How am I",
+        "b": "going to meet my goal?",
+        "n": 8
       }
     ],
     "lle1-52": [
@@ -2896,6 +7586,153 @@
         "a": "Kelly, I will be",
         "b": "acting in three movies.",
         "n": 8
+      },
+      {
+        "li": 12,
+        "si": 1,
+        "a": "Let me guess -- you’re playing",
+        "b": "a tree in all of them!",
+        "n": 12
+      },
+      {
+        "li": 15,
+        "si": 1,
+        "a": "I’ll make the movies",
+        "b": "and then come back.",
+        "n": 8
+      },
+      {
+        "li": 17,
+        "si": 2,
+        "a": "I had to",
+        "b": "make a change.",
+        "n": 6
+      },
+      {
+        "li": 17,
+        "si": 6,
+        "a": "But I will",
+        "b": "never stop trying.",
+        "n": 6
+      },
+      {
+        "li": 0,
+        "si": 1,
+        "a": "I did it -",
+        "b": "Washington, D.C. is my home.",
+        "n": 9
+      },
+      {
+        "li": 0,
+        "si": 3,
+        "a": "I have met people",
+        "b": "from all over the world.",
+        "n": 9
+      },
+      {
+        "li": 0,
+        "si": 6,
+        "a": "And I've taken",
+        "b": "a lot of chances.",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 8,
+        "a": "Wait for it…",
+        "b": "and 3, 2, 1…",
+        "n": 7
+      },
+      {
+        "li": 1,
+        "si": 1,
+        "a": "” Many people",
+        "b": "dream of becoming actors.",
+        "n": 7
+      },
+      {
+        "li": 2,
+        "si": 1,
+        "a": "In fact, she acted in",
+        "b": "my play, “The Woods Are Alive!",
+        "n": 11
+      },
+      {
+        "li": 2,
+        "si": 3,
+        "a": "She really brought the part",
+        "b": "of Tree Number 15 to life!",
+        "n": 11
+      },
+      {
+        "li": 6,
+        "si": 0,
+        "a": "It’s great to",
+        "b": "see you too, Anna.",
+        "n": 7
+      },
+      {
+        "li": 6,
+        "si": 1,
+        "a": "I see you are",
+        "b": "still wearing your tree costume.",
+        "n": 9
+      },
+      {
+        "li": 11,
+        "si": 2,
+        "a": "And the third",
+        "b": "is an action movie.",
+        "n": 7
+      },
+      {
+        "li": 14,
+        "si": 1,
+        "a": "I think big things are",
+        "b": "going to happen for you, Anna.",
+        "n": 11
+      },
+      {
+        "li": 16,
+        "si": 0,
+        "a": "I’m sure your",
+        "b": "family is very proud.",
+        "n": 7
+      },
+      {
+        "li": 0,
+        "si": 5,
+        "a": "And I",
+        "b": "have a great job!",
+        "n": 6
+      },
+      {
+        "li": 4,
+        "si": 1,
+        "a": "Here, here,",
+        "b": "let me help you.",
+        "n": 6
+      },
+      {
+        "li": 6,
+        "si": 2,
+        "a": "Does this have anything",
+        "b": "to do with your big news?",
+        "n": 10
+      },
+      {
+        "li": 11,
+        "si": 0,
+        "a": "Well, the first",
+        "b": "is a science fiction movie.",
+        "n": 8
+      },
+      {
+        "li": 11,
+        "si": 1,
+        "a": "The second",
+        "b": "is a romantic comedy.",
+        "n": 6
       }
     ]
   }

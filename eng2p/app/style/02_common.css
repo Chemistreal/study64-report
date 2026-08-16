@@ -2,25 +2,25 @@
 /* **`px` 로 적으면 글자 크기 설정을 안 따라온다** (T394). `01_tokens.css` 가
    바로 그 말을 적어 두었는데 화면 제목만 `px` 로 남아 있었다.
    "더 크게" 를 눌러도 제목만 24px 그대로였다. 다른 글은 다 20% 커진다. */
-h2{font-size:clamp(1.5rem,4.2vw,2rem);font-weight:820;letter-spacing:-.035em;margin:40px 0 6px;line-height:1.15;
+h2{font-size:clamp(1.5rem,4.2vw,2rem);font-weight:820;letter-spacing:-.035em;margin:40px 0 var(--sp3);line-height:1.15;
   background:linear-gradient(96deg,var(--fg),var(--a2) 130%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
-h2:first-of-type{margin-top:30px}
-h3{font-size:var(--fs6);font-weight:750;margin:30px 0 8px;letter-spacing:-.018em}
-.lede{color:var(--mut);font-size:var(--fs4);margin:0 0 18px}
-p{margin:0 0 12px}
+h2:first-of-type{margin-top:var(--sp12)}
+h3{font-size:var(--fs6);font-weight:750;margin:var(--sp12) 0 var(--sp4);letter-spacing:-.018em}
+.lede{color:var(--mut);font-size:var(--fs4);margin:0 0 var(--sp9)}
+p{margin:0 0 var(--sp6)}
 section[hidden]{display:none}
 section{animation:rise .32s cubic-bezier(.2,.7,.3,1)}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.card{border:1px solid var(--edge);border-radius:16px;padding:20px;margin:14px 0;
+.card{border:1px solid var(--edge);border-radius:var(--r8);padding:var(--sp10);margin:var(--sp7) 0;
   background:var(--card);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   box-shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 8px 30px rgba(10,10,30,.05);transition:.22s}
 .card:hover{border-color:var(--line)}
-.card.tight{padding:15px}
+.card.tight{padding:var(--sp7)}
 .card.hero{background:linear-gradient(140deg,var(--card),var(--card2));border-color:var(--edge);box-shadow:var(--glow)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row{display:flex;gap:var(--sp5);flex-wrap:wrap;align-items:center}
 .row.end{justify-content:flex-end}
-.grid{display:grid;gap:12px}
+.grid{display:grid;gap:var(--sp6)}
 .g2{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
 /* 148px 짜리 칸 셋이면 좁은 화면에서 넘친다. 글자를 키우면 더 그렇다.
    **칸 수를 줄이는 것이 넘치는 것보다 낫다.** T178 */
@@ -33,7 +33,7 @@ input[type=range]{width:100%;min-width:0}
 .mut{color:var(--mut)}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .small{font-size:var(--fs3);overflow-wrap:anywhere}
-hr{border:0;border-top:1px solid var(--edge);margin:28px 0}
+hr{border:0;border-top:1px solid var(--edge);margin:var(--sp12) 0}
 
 /* **주 단추 규격.** 한 화면에서 다음에 할 일을 가리키는 단추다.
    책상에 놓고 흘끗 보고 누른다. 그 거리에서 보이고 눌려야 한다.
@@ -41,14 +41,14 @@ hr{border:0;border-top:1px solid var(--edge);margin:28px 0}
    높이 48px, 글자 14px, 굵기 650. 셋 다 check_friction.js 가 지킨다.
    전에는 44px 에 13.5px 이었다. 44는 손가락이 겨우 닿는 값이지
    흘끗 보고 누르는 값이 아니다. */
-button.b{background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;border:0;font:inherit;
-  font-size:var(--fs5);font-weight:650;min-height:48px;padding:9px 18px;border-radius:10px;cursor:pointer;
+button.b{background:linear-gradient(96deg,var(--a1),var(--a2));color:var(--onacc);border:0;font:inherit;
+  font-size:var(--fs5);font-weight:650;min-height:48px;padding:var(--sp4) var(--sp9);border-radius:var(--r5);cursor:pointer;
   box-shadow:var(--glow);transition:.18s}
 button.b:hover{transform:translateY(-1px);filter:brightness(1.08)}
 button.g{background:var(--card2);color:var(--fg);border:1px solid var(--edge);font:inherit;
-  font-size:var(--fs4);padding:8px 16px;border-radius:10px;cursor:pointer;transition:.18s}
+  font-size:var(--fs4);padding:var(--sp4) var(--sp8);border-radius:var(--r5);cursor:pointer;transition:.18s}
 button.g:hover{border-color:var(--a1);color:var(--fg)}
-button.g.on{border-color:transparent;background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;font-weight:650}
+button.g.on{border-color:transparent;background:linear-gradient(96deg,var(--a1),var(--a2));color:var(--onacc);font-weight:650}
 button:disabled{opacity:.38;cursor:not-allowed}
 /* 누를 자리 최소치. 손가락 하나가 44px 이다.
    **주 단추는 그보다 크다.** 44는 겨우 닿는 값이지 흘끗 보고 누르는 값이 아니다.
@@ -75,39 +75,41 @@ section[role=region]:focus,section[role=region]:focus-visible,
 .printonly{display:none}
 /* 본문으로 건너뛰기. **초점을 받을 때만 보인다** */
 .skip{position:absolute;left:12px;top:-64px;z-index:60;
-  background:var(--a1);color:#fff;font-weight:700;font-size:var(--fs6);
-  padding:12px 16px;border-radius:0 0 12px 12px;text-decoration:none}
+  background:var(--a1);color:var(--onacc);font-weight:700;font-size:var(--fs6);
+  padding:var(--sp6) var(--sp8);border-radius:0 0 var(--r6) var(--r6);text-decoration:none}
 .skip:focus{top:0}
 input:focus-visible,select:focus-visible,textarea:focus-visible{outline:0;border-color:var(--a1);box-shadow:0 0 0 3px rgba(99,102,241,.22)}
 input,select,textarea{
   font:inherit;font-size:var(--fs5);color:var(--fg);background:var(--bg2);
-  border:1px solid var(--edge);border-radius:10px;padding:9px 11px;width:100%;transition:.16s;
+  border:1px solid var(--edge);border-radius:var(--r5);padding:var(--sp4) var(--sp5);width:100%;transition:.16s;
 }
 input:focus,select:focus,textarea:focus{outline:0;border-color:var(--a1);box-shadow:0 0 0 3px rgba(99,102,241,.16)}
 textarea{resize:vertical;min-height:96px;font-family:var(--mono);font-size:var(--fs3);line-height:1.65}
-label.f{display:block;font-size:var(--fs2);color:var(--mut);margin-bottom:5px;letter-spacing:.01em}
+label.f{display:block;font-size:var(--fs2);color:var(--mut);margin-bottom:var(--sp2);letter-spacing:.01em}
 input[type=number]{font-family:var(--mono)}
 input[type=checkbox]{width:auto;accent-color:var(--a1)}
 input[type=range]{padding:0;accent-color:var(--a1);background:none;border:0}
 
-table{border-collapse:collapse;width:100%;font-size:var(--fs4);margin:8px 0}
-th,td{border-bottom:1px solid var(--edge);padding:9px 9px;text-align:left;vertical-align:top}
+table{border-collapse:collapse;width:100%;font-size:var(--fs4);margin:var(--sp4) 0}
+th,td{border-bottom:1px solid var(--edge);padding:var(--sp4) var(--sp4);text-align:left;vertical-align:top}
 th{color:var(--mut);font-weight:600;font-size:var(--fs2);letter-spacing:.03em;text-transform:none}
 td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
 tbody tr:hover td{background:var(--card2)}
-.scroll{overflow-x:auto;border-radius:12px}
+.scroll{overflow-x:auto;border-radius:var(--r6)}
 
-.tag{display:inline-block;font-size:var(--fs2);font-weight:600;padding:2px 10px;border:1px solid var(--edge);
-  border-radius:99px;color:var(--mut);white-space:nowrap;background:var(--card2)}
+.tag{display:inline-block;font-size:var(--fs2);font-weight:600;padding:var(--sp1) var(--sp5);border:1px solid var(--edge);
+  border-radius:var(--rfull);color:var(--mut);white-space:nowrap;background:var(--card2)}
 /* 흰 글자를 얹는 바탕이라 밝은 색을 못 쓴다 (T338). `#14b8a6` 이 2.49 였다.
    1년 검사가 누적 시간을 앱이 세게 고치면서 통과 표가 처음으로 화면에 떴고
    그때 `check_contrast.js` 가 잡았다. **안 그려지던 자리는 안 재진다.**
-   `--ok` 와 `--warn` 은 짙은 판에서 밝은 색으로 바뀌므로 바탕으로 안 쓴다. */
-.tag.w{color:#fff;border-color:transparent;background:linear-gradient(96deg,#c2185b,#9f1239)}
-.tag.o{color:#fff;border-color:transparent;background:linear-gradient(96deg,#0f766e,#115e59)}
-.tag.a{color:#fff;border-color:transparent;background:linear-gradient(96deg,var(--a1),var(--a2))}
-.note{border-left:3px solid var(--a1);border-radius:0 10px 10px 0;padding:10px 14px;color:var(--mut);
-  font-size:var(--fs4);margin:12px 0;background:var(--card2)}
+   `--ok` 와 `--warn` 은 짙은 판에서 밝은 색으로 바뀌므로 바탕으로 안 쓴다.
+   T407 에 이 자리의 낱값 넷에 이름을 줬다. `--warnbg1 --warnbg2 --okbg1 --okbg2` 다.
+   **값이 `--warn` `--ok` 와 같아도 그 둘을 여기 쓰면 안 된다.** 위가 그 까닭이다. */
+.tag.w{color:var(--onacc);border-color:transparent;background:linear-gradient(96deg,var(--warnbg1),var(--warnbg2))}
+.tag.o{color:var(--onacc);border-color:transparent;background:linear-gradient(96deg,var(--okbg1),var(--okbg2))}
+.tag.a{color:var(--onacc);border-color:transparent;background:linear-gradient(96deg,var(--a1),var(--a2))}
+.note{border-left:3px solid var(--a1);border-radius:0 var(--r5) var(--r5) 0;padding:var(--sp5) var(--sp7);color:var(--mut);
+  font-size:var(--fs4);margin:var(--sp6) 0;background:var(--card2)}
 .note.w{border-color:var(--warn);color:var(--warn)}
 .note b{color:var(--fg)}
 /* **색이 다시 다그치면 안 된다** (T389). 왼쪽 선만 남긴다.
@@ -120,45 +122,45 @@ tbody tr:hover td{background:var(--card2)}
 
    자르지 않는다. **이름을 자르면 누구인지 모른다.**
    넘치는 대신 배지 안에서 줄을 바꾼다. 짧은 이름은 어차피 한 줄이다. */
-.rb{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs3);font-weight:700;
-  padding:3px 11px;border-radius:99px;color:#fff;
+.rb{display:inline-flex;align-items:center;gap:var(--sp3);font-size:var(--fs3);font-weight:700;
+  padding:var(--sp1) var(--sp5);border-radius:var(--rfull);color:var(--onacc);
   max-width:100%;overflow-wrap:anywhere}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
 /* 흰 글자를 얹는 바탕이라 밝게 못 간다. `--a3t` 는 글자용이라 여기 안 쓴다. T223 */
 .rb.b{background:linear-gradient(96deg,var(--b1),var(--b2))}
-.cliproles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
-.roleunit{display:flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:12px;
-  padding:9px 11px;background:var(--card2);color:var(--mut);transition:.2s}
+.cliproles{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp5);margin-bottom:var(--sp4)}
+.roleunit{display:flex;align-items:center;gap:var(--sp4);border:1px solid var(--edge);border-radius:var(--r6);
+  padding:var(--sp4) var(--sp5);background:var(--card2);color:var(--mut);transition:.2s}
 .roleunit .small{line-height:1.35}
 .roleunit.active{color:var(--fg);border-color:var(--a1);background:var(--card);
   box-shadow:0 0 0 3px rgba(99,102,241,.10),var(--glow);transform:translateY(-1px)}
 .roleunit.b.active{border-color:var(--a3);box-shadow:0 0 0 3px rgba(21,94,117,.14),var(--glow)}
-.rolehint{min-height:20px;color:var(--mut);font-size:var(--fs3);margin-bottom:10px}
+.rolehint{min-height:20px;color:var(--mut);font-size:var(--fs3);margin-bottom:var(--sp5)}
 @media(max-width:520px){.cliproles{grid-template-columns:1fr}}
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left}
-.duo>div{border:1px solid var(--edge);border-radius:12px;padding:12px;background:var(--card2)}
-.duo .who{font-size:var(--fs4);font-weight:700;margin-bottom:7px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp5);text-align:left}
+.duo>div{border:1px solid var(--edge);border-radius:var(--r6);padding:var(--sp6);background:var(--card2)}
+.duo .who{font-size:var(--fs4);font-weight:700;margin-bottom:var(--sp3)}
 .duo .what{font-size:var(--fs6);color:var(--mut);line-height:1.6}
 /* 이 기기가 어느 쪽인지. 두 사람이 각자 기기를 보는 자리라 자기 것이 커야 한다. */
-.duo>div{padding:11px 13px;border:1px solid var(--edge);border-radius:12px;background:var(--card)}
+.duo>div{padding:var(--sp5) var(--sp6);border:1px solid var(--edge);border-radius:var(--r6);background:var(--card)}
 .duo>div.mine{border-color:var(--a1);background:var(--card2);box-shadow:var(--glow)}
 .duo>div.mine .what{color:var(--fg);font-size:var(--fs7)}
 .duo>div.other{opacity:.62}
-.sidepick{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:12px;
+.sidepick{display:flex;gap:var(--sp4);align-items:center;justify-content:center;margin-top:var(--sp6);
   font-size:var(--fs3);color:var(--mut);flex-wrap:wrap}
 /* 글자 크기를 고르는 자리다. **여기가 44px 아래면 크게 보려는 사람이
    그 단추부터 못 누른다** (T394) */
-.sidepick button{padding:7px 13px;min-height:44px;border-radius:9px;border:1px solid var(--edge);
+.sidepick button{padding:var(--sp3) var(--sp6);min-height:44px;border-radius:var(--r4);border:1px solid var(--edge);
   background:var(--card);color:var(--fg);font-size:var(--fs3);font-weight:650;cursor:pointer}
-.sidepick button.on{border-color:var(--a1);background:var(--a1);color:#fff}
+.sidepick button.on{border-color:var(--a1);background:var(--a1);color:var(--onacc)}
 /* 링 안의 세션 남은 시간. 블록 시간만 보면 두 시간 중 어디인지 모른다. */
-.tleft{font-size:var(--fs5);color:var(--mut);margin-top:5px;font-family:var(--mono)}
+.tleft{font-size:var(--fs5);color:var(--mut);margin-top:var(--sp2);font-family:var(--mono)}
 /* 기록 묶음. 세션 전에는 접어 둔다. 첫 화면은 오늘 할 것만 보여 준다. */
-.recgate{display:flex;gap:10px;align-items:center;justify-content:space-between;
-  padding:13px 16px;border:1px dashed var(--edge);border-radius:12px;margin:14px 0}
+.recgate{display:flex;gap:var(--sp5);align-items:center;justify-content:space-between;
+  padding:var(--sp6) var(--sp8);border:1px dashed var(--edge);border-radius:var(--r6);margin:var(--sp7) 0}
 /* 이어서 하기. 끊긴 세션이 있으면 오늘 한 장 위에 뜬다. */
-.resume{display:flex;gap:12px;align-items:center;justify-content:space-between;
-  padding:12px 15px;border:1px solid var(--a3);border-radius:12px;margin-top:12px;
+.resume{display:flex;gap:var(--sp6);align-items:center;justify-content:space-between;
+  padding:var(--sp6) var(--sp7);border:1px solid var(--a3);border-radius:var(--r6);margin-top:var(--sp6);
   background:var(--card2)}
 .resume b{font-size:var(--fs5)}
 .resume .small{font-size:var(--fs3);color:var(--mut)}
@@ -166,14 +168,14 @@ tbody tr:hover td{background:var(--card2)}
 
 
 /* 고리 셋. 오늘과 이번 주와 1년. **글자 없이 한눈에 본다.** */
-.rings{display:flex;align-items:center;gap:13px;margin-top:8px}
+.rings{display:flex;align-items:center;gap:var(--sp6);margin-top:var(--sp4)}
 .rings svg{width:92px;height:92px;flex:none}
 .rings .rv{transition:stroke-dashoffset .5s ease}
-.rings .rlab{display:grid;gap:4px;font-size:var(--fs3);color:var(--mut)}
+.rings .rlab{display:grid;gap:var(--sp2);font-size:var(--fs3);color:var(--mut)}
 .rings .rlab b{color:var(--fg);font-weight:650}
-.rings .rlab div{display:flex;align-items:center;gap:7px}
+.rings .rlab div{display:flex;align-items:center;gap:var(--sp3)}
 /* 점 크기가 어느 고리인지를 말한다 (T389). 색은 셋 다 같다 */
-.rings .rlab i{width:9px;height:9px;border-radius:99px;flex:none}
+.rings .rlab i{width:9px;height:9px;border-radius:var(--rfull);flex:none}
 .rings .rlab i[data-dot="11"]{width:11px;height:11px}
 .rings .rlab i[data-dot="9"]{width:9px;height:9px}
 .rings .rlab i[data-dot="7"]{width:7px;height:7px}
@@ -188,28 +190,28 @@ button.b .mut,button.b .small.mut,.bigtap .mut{color:rgba(255,255,255,.92)}
 /* 눌리는 칸은 바탕이 더 밝다 (T389). 안 눌리는 칸과 눈으로 갈린다 */
 .todaysheet .gto{position:relative;display:block;width:100%;text-align:left;font:inherit;
   cursor:pointer;border:1px solid var(--edge);background:var(--bg2);color:var(--fg);
-  border-radius:12px;padding:9px 30px 9px 12px;transition:.15s}
+  border-radius:var(--r6);padding:var(--sp4) var(--sp12) var(--sp4) var(--sp6);transition:.15s}
 .todaysheet .gto:hover{border-color:var(--a1);background:var(--bg2)}
 .todaysheet .gto .gmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);
   color:var(--mut);font-size:var(--fs6)}
 .todaysheet .gto:hover .gmark{color:var(--a1t)}
 /* 누를 자리는 44px 아래로 안 내려간다. 손가락 하나가 그만큼이다. */
 .todaysheet .gto{min-height:44px}
-.todaysheet .lec.gto{font-size:var(--fs8);font-weight:750;margin-bottom:2px;padding-top:8px;padding-bottom:8px}
+.todaysheet .lec.gto{font-size:var(--fs8);font-weight:750;margin-bottom:var(--sp1);padding-top:var(--sp4);padding-bottom:var(--sp4)}
 /* 미리 보기 띠. 시계가 안 돈다는 것을 그 자리에서 말한다. */
-.peekbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:var(--fs4);
+.peekbar{display:flex;align-items:center;gap:var(--sp4);flex-wrap:wrap;font-size:var(--fs4);
   color:var(--mut);background:var(--card2);border:1px solid var(--edge);
-  border-radius:11px;padding:8px 11px;margin-bottom:10px}
+  border-radius:var(--r5);padding:var(--sp4) var(--sp5);margin-bottom:var(--sp5)}
 .peekbar b{color:var(--fg)}
 .peekbar button{margin-left:auto}
 
 /* 강의 본문. **읽으라고 만든 글이다.** 줄 간격과 폭을 읽기에 맞춘다. */
 .lecbody{font-size:var(--fs6);line-height:1.72;max-width:44em}
-.lecbody h4{margin:20px 0 8px;font-size:var(--fs7);color:var(--a1t)}
-.lecbody h4:first-child{margin-top:2px}
-.lecbody p{margin:0 0 9px}
-.lecbody .lecli{margin:0 0 6px;padding-left:15px;position:relative}
+.lecbody h4{margin:var(--sp10) 0 var(--sp4);font-size:var(--fs7);color:var(--a1t)}
+.lecbody h4:first-child{margin-top:var(--sp1)}
+.lecbody p{margin:0 0 var(--sp4)}
+.lecbody .lecli{margin:0 0 var(--sp3);padding-left:var(--sp7);position:relative}
 .lecbody .lecli::before{content:"\00b7";position:absolute;left:4px;color:var(--mut)}
-.lecbody .lectab{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:var(--fs5)}
-.lecbody .lectab th,.lecbody .lectab td{border:1px solid var(--line);padding:6px 9px;text-align:left}
+.lecbody .lectab{width:100%;border-collapse:collapse;margin:var(--sp4) 0 var(--sp6);font-size:var(--fs5)}
+.lecbody .lectab th,.lecbody .lectab td{border:1px solid var(--line);padding:var(--sp3) var(--sp4);text-align:left}
 .lecbody .lectab th{background:var(--card2);font-weight:650}

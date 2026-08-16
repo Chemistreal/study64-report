@@ -12,7 +12,7 @@
 | eng2p_card_q1_101_150.md | 142 | 79 | 63 | eng2p_ground_card_q1_101_150.md |
 | eng2p_card_q2_001_050.md | 163 | 77 | 86 | eng2p_ground_card_q2_001_050.md |
 | eng2p_card_q2_051_100.md | 102 | 52 | 50 | eng2p_ground_card_q2_051_100.md |
-| eng2p_card_q2_101_150.md | 66 | 26 | 40 | eng2p_ground_card_q2_101_150.md |
+| eng2p_card_q2_101_150.md | 66 | 27 | 39 | eng2p_ground_card_q2_101_150.md |
 | eng2p_card_q3_001_050.md | 135 | 75 | 60 | eng2p_ground_card_q3_001_050.md |
 | eng2p_card_q3_051_100.md | 108 | 74 | 34 | eng2p_ground_card_q3_051_100.md |
 | eng2p_card_q3_101_150.md | 75 | 54 | 21 | eng2p_ground_card_q3_101_150.md |
@@ -29,5 +29,5 @@
 | out/input 4편 | 61 | 52 | 9 | eng2p_ground_input.md |
 | out/tasks 48편 | 67 | 42 | 25 | eng2p_ground_tasks.md |
 
-합계 재료 2712개 / 근거 있음 1584개 / **근거 없음 1128개 (42%)**
+합계 재료 2712개 / 근거 있음 1585개 / **근거 없음 1127개 (42%)**
 

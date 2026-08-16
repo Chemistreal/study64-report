@@ -4132,6 +4132,15 @@ window.ENG2P_GROUND={
     ]
    },
    {
+    "t": "until next time",
+    "at": [
+     "lle1-03:23",
+     "lle1-08:29",
+     "lle1-09:23",
+     "lle1-11:27"
+    ]
+   },
+   {
     "t": "it should be",
     "at": [
      "lle1-25:19",

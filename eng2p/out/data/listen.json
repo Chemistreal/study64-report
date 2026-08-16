@@ -26,7 +26,7 @@
       "say": "한국어는 음절마다 같은 길이로 간다. 영어는 강한 자리만 길다. 또박또박 다 같은 길이로 났는지 듣는다. 길고 짧음이 있었으면 짚을 것이 없다."
     }
   },
-  "per": 9,
+  "per": 36,
   "items": {
     "lle1-01": [
       {
@@ -95,6 +95,16 @@
         "kind": "darkl",
         "word": "call",
         "li": 11
+      },
+      {
+        "kind": "cluster",
+        "word": "Right",
+        "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "Apartment",
+        "li": 14
       }
     ],
     "lle1-03": [
@@ -189,6 +199,31 @@
         "kind": "cluster",
         "word": "And",
         "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "world",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
+      },
+      {
+        "kind": "cluster",
+        "word": "And",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
       }
     ],
     "lle1-05": [
@@ -273,6 +308,31 @@
         "kind": "cluster",
         "word": "from",
         "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 15
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 16
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "want",
+        "li": 27
       }
     ],
     "lle1-07": [
@@ -320,6 +380,46 @@
         "kind": "darkl",
         "word": "all",
         "li": 22
+      },
+      {
+        "kind": "darkl",
+        "word": "building",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "darkl",
+        "word": "social",
+        "li": 32
+      },
+      {
+        "kind": "cluster",
+        "word": "news",
+        "li": 39
+      },
+      {
+        "kind": "darkl",
+        "word": "well",
+        "li": 42
+      },
+      {
+        "kind": "darkl",
+        "word": "talk",
+        "li": 45
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 46
+      },
+      {
+        "kind": "cluster",
+        "word": "Right",
+        "li": 48
       }
     ],
     "lle1-08": [
@@ -367,6 +467,26 @@
         "kind": "beat",
         "word": "",
         "li": 15
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "darkl",
+        "word": "still",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "sound",
+        "li": 29
       }
     ],
     "lle1-09": [
@@ -414,6 +534,26 @@
         "kind": "beat",
         "word": "",
         "li": 17
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "cluster",
+        "word": "thank",
+        "li": 21
       }
     ],
     "lle1-10": [
@@ -461,6 +601,26 @@
         "kind": "cluster",
         "word": "apartment",
         "li": 13
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 14
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 16
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
       }
     ],
     "lle1-11": [
@@ -508,6 +668,41 @@
         "kind": "cluster",
         "word": "bank",
         "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "well",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 15
+      },
+      {
+        "kind": "darkl",
+        "word": "sells",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "fast",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
       }
     ],
     "lle1-12": [
@@ -555,6 +750,86 @@
         "kind": "cluster",
         "word": "different",
         "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "and",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 26
+      },
+      {
+        "kind": "darkl",
+        "word": "feel",
+        "li": 27
+      },
+      {
+        "kind": "darkl",
+        "word": "old",
+        "li": 29
+      },
+      {
+        "kind": "cluster",
+        "word": "Tree",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "tells",
+        "li": 31
+      },
+      {
+        "kind": "cluster",
+        "word": "and",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 33
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 34
+      },
+      {
+        "kind": "si",
+        "word": "sister",
+        "li": 35
+      },
+      {
+        "kind": "cluster",
+        "word": "brother",
+        "li": 36
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 37
+      },
+      {
+        "kind": "darkl",
+        "word": "children",
+        "li": 38
       }
     ],
     "lle1-13": [
@@ -649,6 +924,61 @@
         "kind": "cluster",
         "word": "green",
         "li": 11
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 12
+      },
+      {
+        "kind": "darkl",
+        "word": "formal",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "clothes",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "darkl",
+        "word": "gold",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
+      },
+      {
+        "kind": "darkl",
+        "word": "feel",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "help",
+        "li": 29
+      },
+      {
+        "kind": "cluster",
+        "word": "Thanks",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "help",
+        "li": 32
       }
     ],
     "lle1-15": [
@@ -696,6 +1026,101 @@
         "kind": "darkl",
         "word": "tall",
         "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 13
+      },
+      {
+        "kind": "cluster",
+        "word": "two",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 15
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "work",
+        "li": 19
+      },
+      {
+        "kind": "darkl",
+        "word": "still",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "cluster",
+        "word": "short",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "glasses",
+        "li": 23
+      },
+      {
+        "kind": "cluster",
+        "word": "blue",
+        "li": 25
+      },
+      {
+        "kind": "darkl",
+        "word": "Call",
+        "li": 29
+      },
+      {
+        "kind": "darkl",
+        "word": "Talk",
+        "li": 30
+      },
+      {
+        "kind": "cluster",
+        "word": "behind",
+        "li": 33
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 35
+      },
+      {
+        "kind": "si",
+        "word": "sit",
+        "li": 36
+      },
+      {
+        "kind": "darkl",
+        "word": "beautiful",
+        "li": 38
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 40
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 41
       }
     ],
     "lle1-16": [
@@ -743,6 +1168,121 @@
         "kind": "darkl",
         "word": "Memorial",
         "li": 13
+      },
+      {
+        "kind": "cluster",
+        "word": "Thank",
+        "li": 14
+      },
+      {
+        "kind": "cluster",
+        "word": "find",
+        "li": 16
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "from",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "speak",
+        "li": 23
+      },
+      {
+        "kind": "cluster",
+        "word": "speak",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 26
+      },
+      {
+        "kind": "cluster",
+        "word": "museums",
+        "li": 27
+      },
+      {
+        "kind": "cluster",
+        "word": "Thanks",
+        "li": 29
+      },
+      {
+        "kind": "darkl",
+        "word": "welcome",
+        "li": 30
+      },
+      {
+        "kind": "cluster",
+        "word": "find",
+        "li": 31
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 35
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 36
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 38
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 39
+      },
+      {
+        "kind": "cluster",
+        "word": "politicians",
+        "li": 40
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 41
+      },
+      {
+        "kind": "si",
+        "word": "seeing",
+        "li": 46
+      },
+      {
+        "kind": "darkl",
+        "word": "carousel",
+        "li": 47
       }
     ],
     "lle1-17": [
@@ -790,6 +1330,86 @@
         "kind": "darkl",
         "word": "always",
         "li": 11
+      },
+      {
+        "kind": "cluster",
+        "word": "Playing",
+        "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 14
+      },
+      {
+        "kind": "cluster",
+        "word": "night",
+        "li": 15
+      },
+      {
+        "kind": "darkl",
+        "word": "always",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "always",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "night",
+        "li": 18
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "darkl",
+        "word": "children",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "world",
+        "li": 23
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
+      },
+      {
+        "kind": "cluster",
+        "word": "errands",
+        "li": 28
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 29
+      },
+      {
+        "kind": "cluster",
+        "word": "two",
+        "li": 31
       }
     ],
     "lle1-18": [
@@ -837,6 +1457,116 @@
         "kind": "cluster",
         "word": "fact",
         "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "trying",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "welcome",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 15
+      },
+      {
+        "kind": "cluster",
+        "word": "Stop",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "story",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "darkl",
+        "word": "welcome",
+        "li": 19
+      },
+      {
+        "kind": "cluster",
+        "word": "Stop",
+        "li": 21
+      },
+      {
+        "kind": "darkl",
+        "word": "old",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "Just",
+        "li": 23
+      },
+      {
+        "kind": "darkl",
+        "word": "welcome",
+        "li": 25
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 34
+      },
+      {
+        "kind": "darkl",
+        "word": "welcome",
+        "li": 35
+      },
+      {
+        "kind": "darkl",
+        "word": "children",
+        "li": 36
+      },
+      {
+        "kind": "cluster",
+        "word": "News",
+        "li": 38
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 39
+      },
+      {
+        "kind": "cluster",
+        "word": "right",
+        "li": 40
+      },
+      {
+        "kind": "cluster",
+        "word": "first",
+        "li": 41
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 42
       }
     ],
     "lle1-19": [
@@ -884,6 +1614,71 @@
         "kind": "beat",
         "word": "",
         "li": 11
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "Next",
+        "li": 13
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 15
+      },
+      {
+        "kind": "si",
+        "word": "silly",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 17
+      },
+      {
+        "kind": "darkl",
+        "word": "skills",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "start",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "darkl",
+        "word": "children",
+        "li": 21
+      },
+      {
+        "kind": "cluster",
+        "word": "dark",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "darkl",
+        "word": "skills",
+        "li": 25
       }
     ],
     "lle1-20": [
@@ -931,6 +1726,106 @@
         "kind": "cluster",
         "word": "help",
         "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "help",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "Tons",
+        "li": 19
+      },
+      {
+        "kind": "cluster",
+        "word": "Next",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "darkl",
+        "word": "always",
+        "li": 23
+      },
+      {
+        "kind": "darkl",
+        "word": "school",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "restaurant",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
+      },
+      {
+        "kind": "cluster",
+        "word": "blog",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "blog",
+        "li": 29
+      },
+      {
+        "kind": "cluster",
+        "word": "followers",
+        "li": 30
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 32
+      },
+      {
+        "kind": "darkl",
+        "word": "well",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 35
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 37
+      },
+      {
+        "kind": "cluster",
+        "word": "doesn",
+        "li": 41
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 42
       }
     ],
     "lle1-21": [
@@ -978,6 +1873,96 @@
         "kind": "cluster",
         "word": "night",
         "li": 9
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 10
+      },
+      {
+        "kind": "darkl",
+        "word": "help",
+        "li": 11
+      },
+      {
+        "kind": "cluster",
+        "word": "sounds",
+        "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 13
+      },
+      {
+        "kind": "cluster",
+        "word": "perform",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "else",
+        "li": 21
+      },
+      {
+        "kind": "cluster",
+        "word": "card",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "card",
+        "li": 23
+      },
+      {
+        "kind": "cluster",
+        "word": "card",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "just",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "just",
+        "li": 27
+      },
+      {
+        "kind": "si",
+        "word": "sings",
+        "li": 28
+      },
+      {
+        "kind": "darkl",
+        "word": "always",
+        "li": 29
+      },
+      {
+        "kind": "si",
+        "word": "sing",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "help",
+        "li": 31
+      },
+      {
+        "kind": "darkl",
+        "word": "help",
+        "li": 33
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 35
       }
     ],
     "lle1-22": [
@@ -1025,6 +2010,96 @@
         "kind": "darkl",
         "word": "children",
         "li": 10
+      },
+      {
+        "kind": "cluster",
+        "word": "ask",
+        "li": 11
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "try",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "welcome",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "welcome",
+        "li": 17
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "cluster",
+        "word": "things",
+        "li": 21
+      },
+      {
+        "kind": "darkl",
+        "word": "talk",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "last",
+        "li": 31
+      },
+      {
+        "kind": "cluster",
+        "word": "most",
+        "li": 32
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 36
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 37
       }
     ],
     "lle1-23": [
@@ -1072,6 +2147,96 @@
         "kind": "darkl",
         "word": "will",
         "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "want",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 23
+      },
+      {
+        "kind": "cluster",
+        "word": "shrimp",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "want",
+        "li": 26
+      },
+      {
+        "kind": "cluster",
+        "word": "try",
+        "li": 30
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 34
+      },
+      {
+        "kind": "cluster",
+        "word": "costs",
+        "li": 36
+      },
+      {
+        "kind": "cluster",
+        "word": "Thanks",
+        "li": 37
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 38
+      },
+      {
+        "kind": "cluster",
+        "word": "and",
+        "li": 39
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 40
+      },
+      {
+        "kind": "cluster",
+        "word": "dessert",
+        "li": 41
+      },
+      {
+        "kind": "cluster",
+        "word": "dessert",
+        "li": 42
+      },
+      {
+        "kind": "darkl",
+        "word": "travel",
+        "li": 43
       }
     ],
     "lle1-24": [
@@ -1119,6 +2284,51 @@
         "kind": "beat",
         "word": "",
         "li": 9
+      },
+      {
+        "kind": "cluster",
+        "word": "traditional",
+        "li": 10
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 11
+      },
+      {
+        "kind": "darkl",
+        "word": "handball",
+        "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 13
+      },
+      {
+        "kind": "cluster",
+        "word": "traditional",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "traditional",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "want",
+        "li": 17
+      },
+      {
+        "kind": "darkl",
+        "word": "tell",
+        "li": 18
       }
     ],
     "lle1-25": [
@@ -1166,6 +2376,81 @@
         "kind": "beat",
         "word": "",
         "li": 9
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 10
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 11
+      },
+      {
+        "kind": "cluster",
+        "word": "want",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "should",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "symbols",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "symbol",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "ought",
+        "li": 20
+      },
+      {
+        "kind": "si",
+        "word": "signed",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 26
+      },
+      {
+        "kind": "cluster",
+        "word": "Fact",
+        "li": 27
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "darkl",
+        "word": "symbol",
+        "li": 29
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 30
       }
     ],
     "lle1-26": [
@@ -1213,6 +2498,46 @@
         "kind": "darkl",
         "word": "all",
         "li": 8
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 9
+      },
+      {
+        "kind": "darkl",
+        "word": "should",
+        "li": 10
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 11
+      },
+      {
+        "kind": "cluster",
+        "word": "find",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "bald",
+        "li": 15
+      },
+      {
+        "kind": "cluster",
+        "word": "First",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "tree",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
       }
     ],
     "lle1-27": [
@@ -1260,6 +2585,111 @@
         "kind": "beat",
         "word": "",
         "li": 10
+      },
+      {
+        "kind": "darkl",
+        "word": "should",
+        "li": 12
+      },
+      {
+        "kind": "darkl",
+        "word": "call",
+        "li": 13
+      },
+      {
+        "kind": "cluster",
+        "word": "herself",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "help",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 17
+      },
+      {
+        "kind": "si",
+        "word": "sick",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "ask",
+        "li": 19
+      },
+      {
+        "kind": "cluster",
+        "word": "throat",
+        "li": 20
+      },
+      {
+        "kind": "si",
+        "word": "sick",
+        "li": 23
+      },
+      {
+        "kind": "darkl",
+        "word": "felt",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "right",
+        "li": 27
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "Please",
+        "li": 29
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 31
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 32
+      },
+      {
+        "kind": "cluster",
+        "word": "work",
+        "li": 33
+      },
+      {
+        "kind": "si",
+        "word": "sick",
+        "li": 34
+      },
+      {
+        "kind": "darkl",
+        "word": "Call",
+        "li": 35
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 36
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 37
       }
     ],
     "lle1-28": [
@@ -1307,6 +2737,86 @@
         "kind": "cluster",
         "word": "Great",
         "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "talking",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 15
+      },
+      {
+        "kind": "cluster",
+        "word": "Please",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "turn",
+        "li": 20
+      },
+      {
+        "kind": "darkl",
+        "word": "almost",
+        "li": 22
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "darkl",
+        "word": "yell",
+        "li": 25
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 32
+      },
+      {
+        "kind": "cluster",
+        "word": "Hands",
+        "li": 33
+      },
+      {
+        "kind": "cluster",
+        "word": "sound",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 37
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 38
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 41
+      },
+      {
+        "kind": "darkl",
+        "word": "walk",
+        "li": 42
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 43
       }
     ],
     "lle1-29": [
@@ -1354,6 +2864,76 @@
         "kind": "darkl",
         "word": "girl",
         "li": 13
+      },
+      {
+        "kind": "si",
+        "word": "silly",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "si",
+        "word": "silly",
+        "li": 18
+      },
+      {
+        "kind": "si",
+        "word": "silly",
+        "li": 19
+      },
+      {
+        "kind": "cluster",
+        "word": "studied",
+        "li": 23
+      },
+      {
+        "kind": "darkl",
+        "word": "childhood",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 26
+      },
+      {
+        "kind": "darkl",
+        "word": "childhood",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "Space",
+        "li": 29
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "childhood",
+        "li": 31
+      },
+      {
+        "kind": "cluster",
+        "word": "point",
+        "li": 32
+      },
+      {
+        "kind": "si",
+        "word": "seeing",
+        "li": 35
       }
     ],
     "lle1-30": [
@@ -1401,6 +2981,106 @@
         "kind": "cluster",
         "word": "First",
         "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 13
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "yells",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "Walk",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "crabs",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "want",
+        "li": 19
+      },
+      {
+        "kind": "darkl",
+        "word": "should",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 23
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "credit",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 29
+      },
+      {
+        "kind": "darkl",
+        "word": "sail",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 31
+      },
+      {
+        "kind": "darkl",
+        "word": "full",
+        "li": 32
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 33
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 34
+      },
+      {
+        "kind": "darkl",
+        "word": "culture",
+        "li": 35
       }
     ],
     "lle1-31": [
@@ -1448,6 +3128,71 @@
         "kind": "darkl",
         "word": "baseball",
         "li": 10
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 13
+      },
+      {
+        "kind": "cluster",
+        "word": "should",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "cluster",
+        "word": "traffic",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "point",
+        "li": 23
+      },
+      {
+        "kind": "cluster",
+        "word": "Thanks",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "learn",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 33
+      },
+      {
+        "kind": "darkl",
+        "word": "should",
+        "li": 34
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 35
       }
     ],
     "lle1-32": [
@@ -1495,6 +3240,136 @@
         "kind": "cluster",
         "word": "please",
         "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "Welcome",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "means",
+        "li": 17
+      },
+      {
+        "kind": "darkl",
+        "word": "travel",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "right",
+        "li": 19
+      },
+      {
+        "kind": "cluster",
+        "word": "first",
+        "li": 20
+      },
+      {
+        "kind": "cluster",
+        "word": "asks",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "place",
+        "li": 26
+      },
+      {
+        "kind": "darkl",
+        "word": "baseball",
+        "li": 27
+      },
+      {
+        "kind": "cluster",
+        "word": "try",
+        "li": 28
+      },
+      {
+        "kind": "darkl",
+        "word": "baseball",
+        "li": 29
+      },
+      {
+        "kind": "darkl",
+        "word": "yell",
+        "li": 30
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 31
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 32
+      },
+      {
+        "kind": "cluster",
+        "word": "please",
+        "li": 33
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 34
+      },
+      {
+        "kind": "darkl",
+        "word": "Will",
+        "li": 35
+      },
+      {
+        "kind": "darkl",
+        "word": "Will",
+        "li": 36
+      },
+      {
+        "kind": "darkl",
+        "word": "tell",
+        "li": 37
+      },
+      {
+        "kind": "cluster",
+        "word": "next",
+        "li": 40
+      },
+      {
+        "kind": "cluster",
+        "word": "next",
+        "li": 42
       }
     ],
     "lle1-33": [
@@ -1542,6 +3417,76 @@
         "kind": "beat",
         "word": "",
         "li": 9
+      },
+      {
+        "kind": "cluster",
+        "word": "play",
+        "li": 10
+      },
+      {
+        "kind": "darkl",
+        "word": "ball",
+        "li": 11
+      },
+      {
+        "kind": "darkl",
+        "word": "ball",
+        "li": 12
+      },
+      {
+        "kind": "darkl",
+        "word": "ball",
+        "li": 13
+      },
+      {
+        "kind": "cluster",
+        "word": "Runners",
+        "li": 14
+      },
+      {
+        "kind": "cluster",
+        "word": "field",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "fast",
+        "li": 19
+      },
+      {
+        "kind": "darkl",
+        "word": "still",
+        "li": 20
+      },
+      {
+        "kind": "si",
+        "word": "silly",
+        "li": 21
+      },
+      {
+        "kind": "si",
+        "word": "silly",
+        "li": 22
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
       }
     ],
     "lle1-34": [
@@ -1589,6 +3534,141 @@
         "kind": "beat",
         "word": "",
         "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "careful",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "tell",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "First",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "cluster",
+        "word": "study",
+        "li": 21
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "Right",
+        "li": 25
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 26
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 27
+      },
+      {
+        "kind": "cluster",
+        "word": "think",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "help",
+        "li": 31
+      },
+      {
+        "kind": "cluster",
+        "word": "minds",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 35
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 36
+      },
+      {
+        "kind": "darkl",
+        "word": "WILL",
+        "li": 37
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 38
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 39
+      },
+      {
+        "kind": "cluster",
+        "word": "hard",
+        "li": 42
+      },
+      {
+        "kind": "cluster",
+        "word": "want",
+        "li": 44
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 45
+      },
+      {
+        "kind": "cluster",
+        "word": "star",
+        "li": 46
+      },
+      {
+        "kind": "darkl",
+        "word": "told",
+        "li": 47
+      },
+      {
+        "kind": "cluster",
+        "word": "right",
+        "li": 48
       }
     ],
     "lle1-35": [
@@ -1636,6 +3716,66 @@
         "kind": "cluster",
         "word": "And",
         "li": 8
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 9
+      },
+      {
+        "kind": "cluster",
+        "word": "bought",
+        "li": 10
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 11
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "ingredients",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 15
+      },
+      {
+        "kind": "cluster",
+        "word": "list",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "floor",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "guests",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 23
+      },
+      {
+        "kind": "cluster",
+        "word": "story",
+        "li": 26
       }
     ],
     "lle1-36": [
@@ -1683,6 +3823,41 @@
         "kind": "beat",
         "word": "",
         "li": 9
+      },
+      {
+        "kind": "cluster",
+        "word": "plan",
+        "li": 10
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 11
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 12
+      },
+      {
+        "kind": "darkl",
+        "word": "call",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 15
+      },
+      {
+        "kind": "cluster",
+        "word": "guests",
+        "li": 16
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
       }
     ],
     "lle1-37": [
@@ -1730,6 +3905,76 @@
         "kind": "beat",
         "word": "",
         "li": 9
+      },
+      {
+        "kind": "darkl",
+        "word": "culture",
+        "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "and",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 15
+      },
+      {
+        "kind": "cluster",
+        "word": "friendly",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "point",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "from",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 20
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 22
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "darkl",
+        "word": "always",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "short",
+        "li": 26
       }
     ],
     "lle1-38": [
@@ -1777,6 +4022,71 @@
         "kind": "beat",
         "word": "",
         "li": 10
+      },
+      {
+        "kind": "cluster",
+        "word": "hard",
+        "li": 11
+      },
+      {
+        "kind": "si",
+        "word": "silliest",
+        "li": 12
+      },
+      {
+        "kind": "darkl",
+        "word": "always",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "tell",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "best",
+        "li": 17
+      },
+      {
+        "kind": "darkl",
+        "word": "talk",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
+      },
+      {
+        "kind": "cluster",
+        "word": "crying",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "cluster",
+        "word": "didn",
+        "li": 22
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "great",
+        "li": 26
       }
     ],
     "lle1-39": [
@@ -1824,6 +4134,56 @@
         "kind": "beat",
         "word": "",
         "li": 12
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 13
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "bought",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "bought",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 29
+      },
+      {
+        "kind": "cluster",
+        "word": "Just",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 31
+      },
+      {
+        "kind": "darkl",
+        "word": "should",
+        "li": 32
       }
     ],
     "lle1-40": [
@@ -1871,6 +4231,66 @@
         "kind": "darkl",
         "word": "walking",
         "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "try",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "woods",
+        "li": 19
+      },
+      {
+        "kind": "cluster",
+        "word": "wasn",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "returns",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "fits",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 28
       }
     ],
     "lle1-41": [
@@ -1918,6 +4338,76 @@
         "kind": "beat",
         "word": "",
         "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 17
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 19
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 21
+      },
+      {
+        "kind": "cluster",
+        "word": "understand",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "understand",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "Problem",
+        "li": 25
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 29
+      },
+      {
+        "kind": "cluster",
+        "word": "wants",
+        "li": 30
+      },
+      {
+        "kind": "cluster",
+        "word": "work",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 33
+      },
+      {
+        "kind": "darkl",
+        "word": "Welcome",
+        "li": 34
+      },
+      {
+        "kind": "cluster",
+        "word": "cats",
+        "li": 35
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 36
       }
     ],
     "lle1-42": [
@@ -1965,6 +4455,116 @@
         "kind": "beat",
         "word": "",
         "li": 10
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "next",
+        "li": 13
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 14
+      },
+      {
+        "kind": "cluster",
+        "word": "hurt",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "robbers",
+        "li": 20
+      },
+      {
+        "kind": "darkl",
+        "word": "fell",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "ground",
+        "li": 23
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 25
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
+      },
+      {
+        "kind": "cluster",
+        "word": "And",
+        "li": 28
+      },
+      {
+        "kind": "darkl",
+        "word": "yourself",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 31
+      },
+      {
+        "kind": "darkl",
+        "word": "help",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 33
+      },
+      {
+        "kind": "cluster",
+        "word": "hurt",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 35
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 36
+      },
+      {
+        "kind": "cluster",
+        "word": "find",
+        "li": 37
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 38
       }
     ],
     "lle1-43": [
@@ -2012,6 +4612,66 @@
         "kind": "si",
         "word": "See",
         "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "could",
+        "li": 14
+      },
+      {
+        "kind": "cluster",
+        "word": "trip",
+        "li": 15
+      },
+      {
+        "kind": "darkl",
+        "word": "could",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "Plan",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 26
+      },
+      {
+        "kind": "darkl",
+        "word": "talking",
+        "li": 27
+      },
+      {
+        "kind": "cluster",
+        "word": "thanks",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "and",
+        "li": 32
+      },
+      {
+        "kind": "si",
+        "word": "singing",
+        "li": 33
       }
     ],
     "lle1-44": [
@@ -2059,6 +4719,116 @@
         "kind": "darkl",
         "word": "Healthy",
         "li": 12
+      },
+      {
+        "kind": "si",
+        "word": "silly",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "Will",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "cart",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "frozen",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "darkl",
+        "word": "tell",
+        "li": 25
+      },
+      {
+        "kind": "darkl",
+        "word": "smell",
+        "li": 26
+      },
+      {
+        "kind": "cluster",
+        "word": "fresh",
+        "li": 27
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "mustn",
+        "li": 29
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "cholesterol",
+        "li": 31
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 32
+      },
+      {
+        "kind": "cluster",
+        "word": "And",
+        "li": 33
+      },
+      {
+        "kind": "darkl",
+        "word": "cholesterol",
+        "li": 34
+      },
+      {
+        "kind": "cluster",
+        "word": "And",
+        "li": 35
+      },
+      {
+        "kind": "si",
+        "word": "sick",
+        "li": 36
+      },
+      {
+        "kind": "cluster",
+        "word": "two",
+        "li": 37
+      },
+      {
+        "kind": "darkl",
+        "word": "cool",
+        "li": 40
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 41
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 43
       }
     ],
     "lle1-45": [
@@ -2106,6 +4876,141 @@
         "kind": "darkl",
         "word": "talk",
         "li": 11
+      },
+      {
+        "kind": "si",
+        "word": "sing",
+        "li": 13
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 14
+      },
+      {
+        "kind": "cluster",
+        "word": "forest",
+        "li": 15
+      },
+      {
+        "kind": "darkl",
+        "word": "Will",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "stopping",
+        "li": 17
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 24
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 25
+      },
+      {
+        "kind": "si",
+        "word": "seeing",
+        "li": 28
+      },
+      {
+        "kind": "darkl",
+        "word": "world",
+        "li": 30
+      },
+      {
+        "kind": "si",
+        "word": "seeing",
+        "li": 31
+      },
+      {
+        "kind": "cluster",
+        "word": "list",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 33
+      },
+      {
+        "kind": "cluster",
+        "word": "And",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 36
+      },
+      {
+        "kind": "darkl",
+        "word": "feel",
+        "li": 38
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 40
+      },
+      {
+        "kind": "cluster",
+        "word": "want",
+        "li": 41
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 42
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 43
+      },
+      {
+        "kind": "cluster",
+        "word": "presidents",
+        "li": 44
+      },
+      {
+        "kind": "darkl",
+        "word": "beautiful",
+        "li": 45
+      },
+      {
+        "kind": "cluster",
+        "word": "And",
+        "li": 46
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 47
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 49
+      },
+      {
+        "kind": "si",
+        "word": "singer",
+        "li": 50
       }
     ],
     "lle1-46": [
@@ -2153,6 +5058,81 @@
         "kind": "cluster",
         "word": "stapler",
         "li": 9
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 10
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 11
+      },
+      {
+        "kind": "cluster",
+        "word": "stapler",
+        "li": 13
+      },
+      {
+        "kind": "cluster",
+        "word": "scissors",
+        "li": 14
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 17
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "And",
+        "li": 20
+      },
+      {
+        "kind": "cluster",
+        "word": "gift",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 31
       }
     ],
     "lle1-47": [
@@ -2200,6 +5180,106 @@
         "kind": "cluster",
         "word": "yourself",
         "li": 10
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 11
+      },
+      {
+        "kind": "cluster",
+        "word": "lessons",
+        "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "and",
+        "li": 13
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "tools",
+        "li": 15
+      },
+      {
+        "kind": "darkl",
+        "word": "tool",
+        "li": 16
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 17
+      },
+      {
+        "kind": "darkl",
+        "word": "tools",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "cluster",
+        "word": "trust",
+        "li": 22
+      },
+      {
+        "kind": "si",
+        "word": "sit",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "stupid",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 31
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 32
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 33
+      },
+      {
+        "kind": "cluster",
+        "word": "Turn",
+        "li": 34
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 38
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 39
+      },
+      {
+        "kind": "cluster",
+        "word": "tank",
+        "li": 40
       }
     ],
     "lle1-48": [
@@ -2247,6 +5327,96 @@
         "kind": "cluster",
         "word": "sculptures",
         "li": 8
+      },
+      {
+        "kind": "si",
+        "word": "seen",
+        "li": 9
+      },
+      {
+        "kind": "darkl",
+        "word": "peaceful",
+        "li": 10
+      },
+      {
+        "kind": "darkl",
+        "word": "always",
+        "li": 11
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "plants",
+        "li": 13
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 15
+      },
+      {
+        "kind": "cluster",
+        "word": "museums",
+        "li": 16
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 18
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 19
+      },
+      {
+        "kind": "si",
+        "word": "seen",
+        "li": 20
+      },
+      {
+        "kind": "cluster",
+        "word": "grew",
+        "li": 21
+      },
+      {
+        "kind": "si",
+        "word": "seen",
+        "li": 22
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 23
+      },
+      {
+        "kind": "cluster",
+        "word": "and",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "darkl",
+        "word": "animal",
+        "li": 26
+      },
+      {
+        "kind": "darkl",
+        "word": "well",
+        "li": 27
       }
     ],
     "lle1-49": [
@@ -2294,6 +5464,91 @@
         "kind": "cluster",
         "word": "spies",
         "li": 9
+      },
+      {
+        "kind": "darkl",
+        "word": "small",
+        "li": 10
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 11
+      },
+      {
+        "kind": "darkl",
+        "word": "small",
+        "li": 12
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "will",
+        "li": 14
+      },
+      {
+        "kind": "cluster",
+        "word": "next",
+        "li": 16
+      },
+      {
+        "kind": "cluster",
+        "word": "cracked",
+        "li": 17
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 19
+      },
+      {
+        "kind": "darkl",
+        "word": "still",
+        "li": 20
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 21
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "breaking",
+        "li": 23
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "cluster",
+        "word": "Great",
+        "li": 25
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 26
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 27
+      },
+      {
+        "kind": "darkl",
+        "word": "Special",
+        "li": 31
       }
     ],
     "lle1-50": [
@@ -2341,6 +5596,116 @@
         "kind": "cluster",
         "word": "found",
         "li": 10
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 11
+      },
+      {
+        "kind": "si",
+        "word": "since",
+        "li": 12
+      },
+      {
+        "kind": "darkl",
+        "word": "school",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "Well",
+        "li": 14
+      },
+      {
+        "kind": "si",
+        "word": "See",
+        "li": 15
+      },
+      {
+        "kind": "cluster",
+        "word": "Just",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "still",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "draft",
+        "li": 19
+      },
+      {
+        "kind": "darkl",
+        "word": "told",
+        "li": 21
+      },
+      {
+        "kind": "cluster",
+        "word": "think",
+        "li": 22
+      },
+      {
+        "kind": "cluster",
+        "word": "didn",
+        "li": 23
+      },
+      {
+        "kind": "cluster",
+        "word": "professor",
+        "li": 24
+      },
+      {
+        "kind": "si",
+        "word": "see",
+        "li": 25
+      },
+      {
+        "kind": "cluster",
+        "word": "Please",
+        "li": 26
+      },
+      {
+        "kind": "cluster",
+        "word": "Thanks",
+        "li": 28
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 29
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 30
+      },
+      {
+        "kind": "darkl",
+        "word": "beautiful",
+        "li": 31
+      },
+      {
+        "kind": "darkl",
+        "word": "child",
+        "li": 33
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 34
+      },
+      {
+        "kind": "darkl",
+        "word": "Until",
+        "li": 35
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 36
       }
     ],
     "lle1-51": [
@@ -2388,6 +5753,91 @@
         "kind": "cluster",
         "word": "training",
         "li": 12
+      },
+      {
+        "kind": "cluster",
+        "word": "started",
+        "li": 13
+      },
+      {
+        "kind": "darkl",
+        "word": "all",
+        "li": 14
+      },
+      {
+        "kind": "darkl",
+        "word": "special",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 17
+      },
+      {
+        "kind": "darkl",
+        "word": "well",
+        "li": 18
+      },
+      {
+        "kind": "cluster",
+        "word": "Thanks",
+        "li": 19
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 24
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 25
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 26
+      },
+      {
+        "kind": "darkl",
+        "word": "goal",
+        "li": 27
+      },
+      {
+        "kind": "darkl",
+        "word": "children",
+        "li": 28
+      },
+      {
+        "kind": "cluster",
+        "word": "perfect",
+        "li": 29
+      },
+      {
+        "kind": "darkl",
+        "word": "children",
+        "li": 30
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 31
+      },
+      {
+        "kind": "si",
+        "word": "sick",
+        "li": 32
+      },
+      {
+        "kind": "cluster",
+        "word": "just",
+        "li": 33
+      },
+      {
+        "kind": "cluster",
+        "word": "turn",
+        "li": 35
       }
     ],
     "lle1-52": [
@@ -2435,6 +5885,51 @@
         "kind": "cluster",
         "word": "three",
         "li": 9
+      },
+      {
+        "kind": "darkl",
+        "word": "tell",
+        "li": 10
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 11
+      },
+      {
+        "kind": "cluster",
+        "word": "great",
+        "li": 12
+      },
+      {
+        "kind": "darkl",
+        "word": "world",
+        "li": 13
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 14
+      },
+      {
+        "kind": "cluster",
+        "word": "and",
+        "li": 15
+      },
+      {
+        "kind": "beat",
+        "word": "",
+        "li": 16
+      },
+      {
+        "kind": "darkl",
+        "word": "feel",
+        "li": 17
+      },
+      {
+        "kind": "cluster",
+        "word": "thank",
+        "li": 18
       }
     ]
   }

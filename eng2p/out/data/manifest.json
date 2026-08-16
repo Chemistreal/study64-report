@@ -10,13 +10,13 @@
     },
     {
       "file": "cards.js",
-      "bytes": 450461,
-      "sha256": "4a59311c34ba0b422b33f3b3528cba8aee484028dd3109ddcd1e67502eebe0cd"
+      "bytes": 450732,
+      "sha256": "9940304440e823c29fc5864474ab9642e2be9fd060aa52313aa3ad9097f1724f"
     },
     {
       "file": "cards.json",
-      "bytes": 578605,
-      "sha256": "751f42819a0f766419dd9b85da28798f6d84a05fadf46853194fbe6decc8bab0"
+      "bytes": 578876,
+      "sha256": "4a5fc5120f1f9ba420389599fc38e3bf0939f4b56b51d6ba73a6d28c8fce8337"
     },
     {
       "file": "chunks.js",
@@ -45,18 +45,18 @@
     },
     {
       "file": "ground.js",
-      "bytes": 85933,
-      "sha256": "b5ed01fb45f1dc3807302cfcbe435f766c0296211a9fc158342eff2f7e430b71"
+      "bytes": 86065,
+      "sha256": "bebe47b5ef338c1817f7712b1baa72fc2a15b6827da7baaa1b16a2d76153d188"
     },
     {
       "file": "halves.js",
-      "bytes": 31387,
-      "sha256": "63aeee0369853cfcaf4e55b8f9c62f8d846312a5a9304a54126815bc763347ca"
+      "bytes": 83482,
+      "sha256": "e159d50497cb01023c606448372956baec5dc04b909eb685e9570a7e07205909"
     },
     {
       "file": "halves.json",
-      "bytes": 57450,
-      "sha256": "98f0c2a76d9fccde02be5b55a1d09ad82dfa16a5d052430bf997304de5770109"
+      "bytes": 153769,
+      "sha256": "511eeeb81642fc770e9dd76d43aed1e5055c39c7b48e8465fd3d74fbb519fb4e"
     },
     {
       "file": "handouts.js",
@@ -115,13 +115,13 @@
     },
     {
       "file": "wall.js",
-      "bytes": 57914,
-      "sha256": "6d550e0a45ef0343e951a5a19a816f44ba8113eda8ab3629382f278e14761ae2"
+      "bytes": 58185,
+      "sha256": "92472a8e1421620f831098230be0b888234a703cbd187bb66af2e6abe49fbf11"
     },
     {
       "file": "wall.json",
-      "bytes": 73418,
-      "sha256": "afe071c853711aa895df5d40996aa42224767b0c12489e6aaadd95c941a56b5b"
+      "bytes": 73689,
+      "sha256": "945643d4eba06864b7482b6c0a4478889d1923a1db7f36f35cc80fee69e02e23"
     },
     {
       "file": "situ.js",
@@ -320,13 +320,13 @@
     },
     {
       "file": "listen.js",
-      "bytes": 19981,
-      "sha256": "f925c78ee5cf6215104feb5d1d8ad0f86f789cbc49dff04e4deb150b85640359"
+      "bytes": 46821,
+      "sha256": "3229f5a0c35e40a27141f23683fca8e3691547f8d725791796f5977738deef23"
     },
     {
       "file": "listen.json",
-      "bytes": 40995,
-      "sha256": "996627b1a65644268ef6c75b32898de201cee3ddb868a8b8a007e4ff681840cb"
+      "bytes": 98591,
+      "sha256": "721c067245956b55e9c9682c55b245bcc4ce1a1f10e19787c359669e18470355"
     },
     {
       "file": "pairs.js",
@@ -360,13 +360,13 @@
     },
     {
       "file": "swaps.js",
-      "bytes": 21043,
-      "sha256": "1a68d19b94aa74d2ac0d9e74402b3698766eb6aa9c9d8a2c73be8c3093e8fe00"
+      "bytes": 57447,
+      "sha256": "115bc19700494542f97f5fd2b09f86a1f2ecb9f40b07820a45851318e52849f1"
     },
     {
       "file": "swaps.json",
-      "bytes": 47931,
-      "sha256": "2f32d02f7eab96bdf0d686633fbdff2cf37a1422b2f67195d7a453e862470c41"
+      "bytes": 131759,
+      "sha256": "cb390811e1da534e2d3e69b7a75c5b4b8c7ccf8412c17a6e5c24572f40ccf43c"
     },
     {
       "file": "tasks.js",

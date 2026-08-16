@@ -7,17 +7,17 @@ svg .act{stroke:url(#actg);stroke-width:2.6;fill:none;stroke-linecap:round;strok
 svg text{fill:var(--mut);font-size:var(--fs1);font-family:var(--mono)}
 
 /* ---------- 규칙 카드 ---------- */
-.wallcard{border:1px solid var(--edge);border-radius:18px;padding:24px;background:var(--card);
+.wallcard{border:1px solid var(--edge);border-radius:var(--r9);padding:var(--sp11);background:var(--card);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--glow)}
-.wallcard h4{margin:0 0 2px;font-size:var(--fs6);font-weight:750}
-.wallcard ul{margin:6px 0 0;padding-left:18px}
-.wallcard li{margin:4px 0;font-size:var(--fs4)}
-.wc-sec{border-top:1px solid var(--edge);margin-top:16px;padding-top:14px}
+.wallcard h4{margin:0 0 var(--sp1);font-size:var(--fs6);font-weight:750}
+.wallcard ul{margin:var(--sp3) 0 0;padding-left:var(--sp9)}
+.wallcard li{margin:var(--sp2) 0;font-size:var(--fs4)}
+.wc-sec{border-top:1px solid var(--edge);margin-top:var(--sp8);padding-top:var(--sp7)}
 
-.lreitem{border:1px solid var(--edge);border-radius:12px;padding:13px;margin:9px 0;font-size:var(--fs4);
+.lreitem{border:1px solid var(--edge);border-radius:var(--r6);padding:var(--sp6);margin:var(--sp4) 0;font-size:var(--fs4);
   background:var(--card2);transition:.18s}
 .lreitem:hover{border-color:var(--line)}
-.lreitem .hd2{display:flex;gap:10px;align-items:baseline;justify-content:space-between}
+.lreitem .hd2{display:flex;gap:var(--sp5);align-items:baseline;justify-content:space-between}
 .del{background:none;border:0;color:var(--mut);cursor:pointer;font:inherit;font-size:var(--fs3);padding:0}
 .del:hover{color:var(--warn)}
 
@@ -25,116 +25,116 @@ svg text{fill:var(--mut);font-size:var(--fs1);font-family:var(--mono)}
 .res .f{color:var(--warn);font-weight:600}
 .res .w2{color:var(--acc)}
 
-footer{border-top:1px solid var(--edge);margin-top:60px;padding:20px 0;color:var(--mut);font-size:var(--fs3)}
+footer{border-top:1px solid var(--edge);margin-top:60px;padding:var(--sp10) 0;color:var(--mut);font-size:var(--fs3)}
 
 /* 스테퍼 */
-.stp{display:flex;gap:6px;align-items:stretch}
+.stp{display:flex;gap:var(--sp3);align-items:stretch}
 .stp input{text-align:center}
 .stp button{flex:none;width:42px;background:var(--card2);border:1px solid var(--edge);color:var(--fg);
-  font:inherit;font-size:var(--fs8);border-radius:10px;cursor:pointer;line-height:1;transition:.16s}
+  font:inherit;font-size:var(--fs8);border-radius:var(--r5);cursor:pointer;line-height:1;transition:.16s}
 .stp button:hover{border-color:var(--a1)}
-.bigtap{width:100%;padding:17px;font-size:var(--fs7);font-weight:750;border-radius:14px;
-  background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;border:0;cursor:pointer;
+.bigtap{width:100%;padding:var(--sp8);font-size:var(--fs7);font-weight:750;border-radius:var(--r7);
+  background:linear-gradient(96deg,var(--a1),var(--a2));color:var(--onacc);border:0;cursor:pointer;
   font-family:inherit;box-shadow:var(--glow);transition:.18s;letter-spacing:-.01em}
 .bigtap:hover{transform:translateY(-1px);filter:brightness(1.08)}
 .bigtap.alt{background:var(--card2);color:var(--fg);border:1px solid var(--edge);box-shadow:none}
 .bigtap.alt:hover{border-color:var(--a1)}
 
 /* 복습 */
-.revcard{border:1px solid var(--edge);border-radius:18px;padding:30px 22px;text-align:center;
+.revcard{border:1px solid var(--edge);border-radius:var(--r9);padding:var(--sp12) var(--sp10);text-align:center;
   background:linear-gradient(155deg,var(--card),var(--card2));backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);box-shadow:var(--glow)}
-.revq{font-size:var(--fs9);font-weight:750;margin:12px 0 4px;line-height:1.4;letter-spacing:-.02em}
+.revq{font-size:var(--fs9);font-weight:750;margin:var(--sp6) 0 var(--sp2);line-height:1.4;letter-spacing:-.02em}
 .revmeta{font-size:var(--fs3);color:var(--mut)}
-.reva{font-size:var(--fs10);font-weight:800;margin:16px 0 6px;letter-spacing:-.025em;
+.reva{font-size:var(--fs10);font-weight:800;margin:var(--sp8) 0 var(--sp3);letter-spacing:-.025em;
   background:linear-gradient(96deg,var(--a1),var(--a2) 60%,var(--a3));
   -webkit-background-clip:text;background-clip:text;color:transparent;animation:rise .3s}
-.revbox{display:flex;gap:4px;justify-content:center;margin:16px 0 0}
-.revbox i{width:28px;height:4px;background:var(--edge);display:block;border-radius:99px}
+.revbox{display:flex;gap:var(--sp2);justify-content:center;margin:var(--sp8) 0 0}
+.revbox i{width:28px;height:4px;background:var(--edge);display:block;border-radius:var(--rfull)}
 .revbox i.on{background:linear-gradient(90deg,var(--a1),var(--a2))}
 .undo{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:60;
-  background:linear-gradient(96deg,var(--a1),var(--a2));color:#fff;border-radius:12px;padding:11px 16px;
-  font-size:var(--fs4);display:flex;gap:14px;align-items:center;box-shadow:0 10px 34px rgba(0,0,0,.3);animation:rise .25s}
-.undo button{background:none;border:0;color:#fff;font:inherit;font-weight:750;text-decoration:underline;cursor:pointer}
-kbd{font-family:var(--mono);font-size:var(--fs2);border:1px solid var(--edge);border-radius:5px;
-  padding:2px 6px;color:var(--fg);background:var(--card2)}
+  background:linear-gradient(96deg,var(--a1),var(--a2));color:var(--onacc);border-radius:var(--r6);padding:var(--sp5) var(--sp8);
+  font-size:var(--fs4);display:flex;gap:var(--sp7);align-items:center;box-shadow:0 10px 34px rgba(0,0,0,.3);animation:rise .25s}
+.undo button{background:none;border:0;color:var(--onacc);font:inherit;font-weight:750;text-decoration:underline;cursor:pointer}
+kbd{font-family:var(--mono);font-size:var(--fs2);border:1px solid var(--edge);border-radius:var(--r2);
+  padding:var(--sp1) var(--sp3);color:var(--fg);background:var(--card2)}
 
 /* 클립 */
-.drop{border:2px dashed var(--edge);border-radius:16px;padding:34px 18px;text-align:center;
+.drop{border:2px dashed var(--edge);border-radius:var(--r8);padding:34px var(--sp9);text-align:center;
   background:var(--card2);transition:.2s;cursor:pointer}
 .drop:hover,.drop.over{border-color:var(--a1);background:var(--card);box-shadow:var(--glow)}
-.scrub{position:relative;height:44px;border-radius:12px;background:var(--card2);
-  border:1px solid var(--edge);overflow:hidden;cursor:pointer;margin:14px 0 6px}
+.scrub{position:relative;height:44px;border-radius:var(--r6);background:var(--card2);
+  border:1px solid var(--edge);overflow:hidden;cursor:pointer;margin:var(--sp7) 0 var(--sp3)}
 .scrub canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .scrub .rng{position:absolute;top:0;bottom:0;z-index:1;background:linear-gradient(90deg,var(--au1),var(--au2));opacity:.55}
 .scrub.looping .rng{animation:loopRange 1.15s ease-in-out infinite alternate}
 .scrub .ph{position:absolute;top:0;bottom:0;z-index:4;width:2px;background:var(--fg)}
 .scrub .mk{position:absolute;top:0;bottom:0;z-index:3;width:2px;background:var(--a3)}
-.scrub .lb{position:absolute;bottom:3px;z-index:5;font-size:var(--fs1);font-family:var(--mono);color:var(--mut);padding:0 4px}
-.waveinfo{min-height:18px;color:var(--mut);font-size:var(--fs2);margin-bottom:8px}
+.scrub .lb{position:absolute;bottom:3px;z-index:5;font-size:var(--fs1);font-family:var(--mono);color:var(--mut);padding:0 var(--sp2)}
+.waveinfo{min-height:18px;color:var(--mut);font-size:var(--fs2);margin-bottom:var(--sp4)}
 @keyframes loopRange{from{opacity:.42}to{opacity:.78}}
-.clip{border:1px solid var(--edge);border-radius:12px;padding:12px;margin:9px 0;background:var(--card2);transition:.18s}
+.clip{border:1px solid var(--edge);border-radius:var(--r6);padding:var(--sp6);margin:var(--sp4) 0;background:var(--card2);transition:.18s}
 .clip:hover{border-color:var(--a1)}
 .clip.on{border-color:var(--a2);box-shadow:var(--glow)}
 .tc{font-family:var(--mono);font-variant-numeric:tabular-nums}
-#mediaHost video{width:100%;max-height:230px;border-radius:12px;background:#000;display:block}
+#mediaHost video{width:100%;max-height:230px;border-radius:var(--r6);background:var(--vidbg);display:block}
 #mediaHost audio{width:100%;display:block}
 
 /* 미디어 라이브러리 */
-.libstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
-.libstat{border:1px solid var(--edge);border-radius:14px;padding:14px;background:var(--card2)}
+.libstats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp5);margin:var(--sp7) 0}
+.libstat{border:1px solid var(--edge);border-radius:var(--r7);padding:var(--sp7);background:var(--card2)}
 .libstat b{display:block;font-family:var(--mono);font-size:var(--fs10);line-height:1.2}
 .libstat span{font-size:var(--fs2);color:var(--mut)}
-.libtoolbar{display:grid;grid-template-columns:minmax(220px,2fr) 1fr 1fr;gap:9px}
-.libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:10px;margin-top:10px}
-.mitem{border:1px solid var(--edge);border-radius:14px;padding:14px;background:var(--card2);transition:.18s;min-width:0}
+.libtoolbar{display:grid;grid-template-columns:minmax(220px,2fr) 1fr 1fr;gap:var(--sp4)}
+.libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:var(--sp5);margin-top:var(--sp5)}
+.mitem{border:1px solid var(--edge);border-radius:var(--r7);padding:var(--sp7);background:var(--card2);transition:.18s;min-width:0}
 .mitem:hover{border-color:var(--a1);box-shadow:var(--glow)}
 .mitem.on{border-color:var(--a2);box-shadow:var(--glow)}
 .mitem.done{background:linear-gradient(135deg,var(--card2),rgba(15,118,110,.09))}
-.mthumb{display:block;width:100%;aspect-ratio:1200/630;object-fit:cover;border-radius:10px;
-  margin-bottom:11px;background:var(--edge)}
-.mitem h4{font-size:var(--fs7);line-height:1.4;margin:7px 0 8px;overflow-wrap:anywhere}
+.mthumb{display:block;width:100%;aspect-ratio:1200/630;object-fit:cover;border-radius:var(--r5);
+  margin-bottom:var(--sp5);background:var(--edge)}
+.mitem h4{font-size:var(--fs7);line-height:1.4;margin:var(--sp3) 0 var(--sp4);overflow-wrap:anywhere}
 .mitem .mnum{font-family:var(--mono);font-size:var(--fs2);color:var(--mut);letter-spacing:.04em}
-.mitem .macts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.mitem .macts{display:flex;gap:var(--sp3);flex-wrap:wrap;margin-top:var(--sp5)}
 /* **`font:inherit` 는 굵기까지 지운다.** 이 줄이 뒤에 와서
    `button.b` 의 굵기 650 을 400 으로 되돌리고 있었다. 미디어 탭의 주 행동인
    "음성 듣기" 가 그래서 옆 단추와 똑같아 보였다. T172 에 재다가 나왔다.
    주 단추는 여기서 다시 세운다. */
-.mitem .macts button,.mitem .macts a,.mitem .macts summary{font:inherit;font-size:var(--fs2);padding:7px 10px;border-radius:8px;min-height:44px}
-.mitem .macts button.b{font-size:var(--fs4);font-weight:650;min-height:48px;padding-inline:14px}
+.mitem .macts button,.mitem .macts a,.mitem .macts summary{font:inherit;font-size:var(--fs2);padding:var(--sp3) var(--sp5);border-radius:var(--r4);min-height:44px}
+.mitem .macts button.b{font-size:var(--fs4);font-weight:650;min-height:48px;padding-inline:var(--sp7)}
 .mitem .macts a{color:var(--acc);border:1px solid var(--edge);text-decoration:none;background:var(--card2)}
-.mpasses{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
-.mpass{font-size:var(--fs1);padding:3px 8px;border:1px solid var(--edge);border-radius:99px;color:var(--mut);background:var(--card2)}
+.mpasses{display:flex;gap:var(--sp2);flex-wrap:wrap;margin-top:var(--sp4)}
+.mpass{font-size:var(--fs1);padding:var(--sp1) var(--sp4);border:1px solid var(--edge);border-radius:var(--rfull);color:var(--mut);background:var(--card2)}
 .mpass.done{color:var(--ok);border-color:rgba(15,118,110,.28);font-weight:700}
 .mresources{position:relative}
 .mresources summary{list-style:none;display:flex;align-items:center;cursor:pointer;color:var(--acc);border:1px solid var(--edge);background:var(--card2)}
 .mresources summary::-webkit-details-marker{display:none}
-.mresourcebox{position:absolute;right:0;bottom:calc(100% + 7px);z-index:8;min-width:160px;padding:7px;display:grid;gap:4px;
-  border:1px solid var(--edge);border-radius:11px;background:var(--bg2);box-shadow:0 12px 34px rgba(10,10,30,.22)}
+.mresourcebox{position:absolute;right:0;bottom:calc(100% + 7px);z-index:8;min-width:160px;padding:var(--sp3);display:grid;gap:var(--sp2);
+  border:1px solid var(--edge);border-radius:var(--r5);background:var(--bg2);box-shadow:0 12px 34px rgba(10,10,30,.22)}
 .mresourcebox a{display:flex;align-items:center}
 .libplayer{overflow:hidden}
-.libplayer h3{font-size:var(--fs8);margin:2px 0 5px}
-#libMediaHost{margin:14px 0 10px;min-height:54px}
+.libplayer h3{font-size:var(--fs8);margin:var(--sp1) 0 var(--sp2)}
+#libMediaHost{margin:var(--sp7) 0 var(--sp5);min-height:54px}
 #libMediaHost audio{width:100%;display:block}
-#libMediaHost video{width:100%;max-height:440px;display:block;background:#000;border-radius:12px}
-.libmode{display:flex;gap:6px;flex-wrap:wrap}
+#libMediaHost video{width:100%;max-height:440px;display:block;background:var(--vidbg);border-radius:var(--r6)}
+.libmode{display:flex;gap:var(--sp3);flex-wrap:wrap}
 .libmode button{flex:1;min-width:108px}
-.licrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;color:var(--mut);font-size:var(--fs2)}
-.libresources{margin-top:12px;border-top:1px solid var(--edge);padding-top:10px}
+.licrow{display:flex;gap:var(--sp4);flex-wrap:wrap;align-items:center;margin-top:var(--sp5);color:var(--mut);font-size:var(--fs2)}
+.libresources{margin-top:var(--sp6);border-top:1px solid var(--edge);padding-top:var(--sp5)}
 .libresources summary{cursor:pointer;color:var(--acc);font-size:var(--fs3);min-height:44px;display:flex;align-items:center}
 @media(max-width:620px){
   .libtoolbar{grid-template-columns:1fr 1fr}.libtoolbar>div:first-child{grid-column:1/-1}
-  .libstats{grid-template-columns:1fr}.libstat{display:flex;align-items:center;gap:10px}.libstat b{font-size:var(--fs8)}
+  .libstats{grid-template-columns:1fr}.libstat{display:flex;align-items:center;gap:var(--sp5)}.libstat b{font-size:var(--fs8)}
 }
 
 /* 자료 카드 */
-.src{border:1px solid var(--edge);border-radius:14px;padding:16px;background:var(--card2);min-width:0;overflow-wrap:anywhere;
-  margin:10px 0;transition:.2s}
+.src{border:1px solid var(--edge);border-radius:var(--r7);padding:var(--sp8);background:var(--card2);min-width:0;overflow-wrap:anywhere;
+  margin:var(--sp5) 0;transition:.2s}
 .src:hover{border-color:var(--a1);box-shadow:var(--glow)}
-.src h4{margin:0 0 2px;font-size:var(--fs6);font-weight:750}
+.src h4{margin:0 0 var(--sp1);font-size:var(--fs6);font-weight:750}
 .src a{color:var(--acc);text-decoration:none;font-size:var(--fs4);word-break:break-all}
 .src a:hover{text-decoration:underline}
-.src .lic{font-size:var(--fs2);color:var(--mut);margin:6px 0}
+.src .lic{font-size:var(--fs2);color:var(--mut);margin:var(--sp3) 0}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
@@ -193,7 +193,7 @@ kbd{font-family:var(--mono);font-size:var(--fs2);border:1px solid var(--edge);bo
   .card,.wallcard{background:#fff;box-shadow:none;backdrop-filter:none;border-color:#999}
   section[hidden]{display:none}
   /* 오늘 한 장은 종이에서 제일 큰 것이 강 제목이어야 한다. */
-  .todaysheet{border:1.5px solid #000;background:#fff;padding:14px 16px}
+  .todaysheet{border:1.5px solid #000;background:#fff;padding:var(--sp7) var(--sp8)}
   .todaysheet .lec.gto{font-size:var(--fs9)}
   .todaysheet .lec b{color:#000}
   .todaysheet .g{border-color:#999}
@@ -223,7 +223,7 @@ kbd{font-family:var(--mono);font-size:var(--fs2);border:1px solid var(--edge);bo
   z-index:70;width:min(340px,calc(100vw - 28px));max-height:80vh;overflow:auto;
   box-shadow:0 18px 60px rgba(10,10,30,.34)}
 .keyhelp .card{margin:0;background:var(--bg2)}
-.keyhelp td{padding:7px 6px;vertical-align:middle}
+.keyhelp td{padding:var(--sp3) var(--sp3);vertical-align:middle}
 .keyhelp td:first-child{width:64px}
 
 /* 찾기 결과 (T395). **한 줄이 한 자리다.**
@@ -231,21 +231,21 @@ kbd{font-family:var(--mono);font-size:var(--fs2);border:1px solid var(--edge);bo
    우리가 적은 것은 갈 데가 없다. 그날 화면으로 돌아갈 길이 없기 때문이다. */
 .fdrow{display:block;width:100%;text-align:left;font:inherit;color:var(--fg);
   border:0;border-top:1px solid var(--edge);background:none;
-  padding:11px 2px;min-height:44px}
+  padding:var(--sp5) var(--sp1);min-height:44px}
 .fdrow:first-child{border-top:0}
-button.fdrow{cursor:pointer;position:relative;padding-right:22px}
+button.fdrow{cursor:pointer;position:relative;padding-right:var(--sp10)}
 button.fdrow:hover{background:var(--bg2)}
 button.fdrow::after{content:"\2192";position:absolute;right:4px;top:50%;
   transform:translateY(-50%);color:var(--mut)}
 .fdhead{font-size:var(--fs6);line-height:1.45;overflow-wrap:anywhere}
 .fdhead b{color:var(--a1t);font-weight:800}
-.fdrow .small{margin-top:3px;overflow-wrap:anywhere}
-.fdrow .tag{margin-right:5px;vertical-align:1px}
-.fdmore{margin-top:10px;width:100%}
-.fdnone{margin:-4px 0 4px}
-#fdOut h3{margin-top:22px}
-#fdOut h3:first-child{margin-top:16px}
-.fdmore{margin-top:10px;width:100%}
+.fdrow .small{margin-top:var(--sp1);overflow-wrap:anywhere}
+.fdrow .tag{margin-right:var(--sp2);vertical-align:1px}
+.fdmore{margin-top:var(--sp5);width:100%}
+.fdnone{margin:-var(--sp2) 0 var(--sp2)}
+#fdOut h3{margin-top:var(--sp10)}
+#fdOut h3:first-child{margin-top:var(--sp8)}
+.fdmore{margin-top:var(--sp5);width:100%}
 
 /* =========================================================================
    한 손 조작. **손전화에서는 탭을 아래로 내린다.**
@@ -259,10 +259,10 @@ button.fdrow::after{content:"\2192";position:absolute;right:4px;top:50%;
    자리 규칙이 이미 있어서 앞에 두면 그것에 덮인다. T171 에 그렇게 해 보고 알았다.
    ========================================================================= */
 /* 세션이 끝난 뒤에 쓰는 칸 (T389). 접혀 있어도 제목은 그대로 읽힌다 */
-.afterfold{margin-top:22px}
+.afterfold{margin-top:var(--sp10)}
 /* 접고 펴는 자리다. **글만 있어도 누르는 자리는 44px 이어야 한다** (T394) */
 .afterfold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;
-  gap:9px;padding:2px 0;min-height:44px}
+  gap:var(--sp4);padding:var(--sp1) 0;min-height:44px}
 .afterfold>summary::-webkit-details-marker{display:none}
 .afterfold>summary h3{display:inline;margin:0}
 .afterfold>summary::after{content:"";width:8px;height:8px;margin-left:auto;
@@ -273,13 +273,13 @@ button.fdrow::after{content:"\2192";position:absolute;right:4px;top:50%;
 
 @media (max-width:560px){
   header{position:static;backdrop-filter:none}
-  .hd{padding:12px 16px 0}
+  .hd{padding:var(--sp6) var(--sp8) 0}
   nav{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:50;max-width:none;
-      margin:0;padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+      margin:0;padding:var(--sp3) var(--sp4) calc(var(--sp3) + env(safe-area-inset-bottom));
       background:var(--bg2);border-top:1px solid var(--line);
       box-shadow:0 -8px 28px rgba(10,10,30,.10);
-      justify-content:space-between;gap:2px}
-  nav>button,.navmore summary{flex:1;min-width:0;padding:11px 4px;font-size:var(--fs3);
+      justify-content:space-between;gap:var(--sp1)}
+  nav>button,.navmore summary{flex:1;min-width:0;padding:var(--sp5) var(--sp2);font-size:var(--fs3);
       min-height:46px;justify-content:center}
   /* **띠를 기준으로 잡게 하려면 이 자리가 기준이 되면 안 된다.**
      `.navmore` 가 relative 라 메뉴가 그 좁은 폭 안에 갇혔다. */
@@ -299,14 +299,14 @@ button.fdrow::after{content:"\2192";position:absolute;right:4px;top:50%;
 @media print{ nav{position:static;display:none} }
 
 /* 48주 길 지도. 주마다 칸 하나, 칸 안에 여섯 날. */
-.wmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin-top:4px}
-.wcell{display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 3px;
-  border:1px solid var(--edge);border-radius:10px;background:var(--card2);
+.wmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:var(--sp3);margin-top:var(--sp2)}
+.wcell{display:flex;flex-direction:column;align-items:center;gap:var(--sp2);padding:var(--sp3) var(--sp1);
+  border:1px solid var(--edge);border-radius:var(--r5);background:var(--card2);
   font:inherit;color:var(--mut);cursor:pointer;min-height:52px;transition:.15s}
 .wcell:hover{border-color:var(--a1);color:var(--fg)}
 .wcell .wno{font-family:var(--mono);font-size:var(--fs2)}
-.wcell .wdots{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.wcell .wdots i{width:5px;height:5px;border-radius:99px;background:var(--edge)}
+.wcell .wdots{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp1)}
+.wcell .wdots i{width:5px;height:5px;border-radius:var(--rfull);background:var(--edge)}
 .wcell .wdots i.on{background:var(--a1)}
 .wcell.done{background:var(--bg2)}
 .wcell.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(21,94,117,.16);color:var(--fg)}
@@ -315,62 +315,67 @@ button.fdrow::after{content:"\2192";position:absolute;right:4px;top:50%;
 /* 달력상 지금 있어야 할 주. 진도 주와 다를 때만 나온다. */
 .wcell.cal{border-style:dashed;border-color:var(--warn);color:var(--warn)}
 .wlegend i.lg.cal{border-style:dashed;border-color:var(--warn)}
-.wtally{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:var(--fs3);color:var(--mut)}
+.wtally{display:flex;gap:var(--sp6);flex-wrap:wrap;margin-top:var(--sp5);font-size:var(--fs3);color:var(--mut)}
 .wtally b{color:var(--fg);font-family:var(--mono);font-size:var(--fs5)}
 .wtally .warn{color:var(--warn)}
 .wtally .warn b{color:var(--warn)}
-.wnote{margin-top:6px;font-size:var(--fs3);color:var(--mut);line-height:1.6}
-.wlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:var(--fs3);color:var(--mut)}
-.wlegend span{display:flex;align-items:center;gap:5px}
-.wlegend i.lg{width:11px;height:11px;border-radius:3px;border:1px solid var(--edge);background:var(--card2)}
+.wnote{margin-top:var(--sp3);font-size:var(--fs3);color:var(--mut);line-height:1.6}
+.wlegend{display:flex;gap:var(--sp7);flex-wrap:wrap;margin-top:var(--sp5);font-size:var(--fs3);color:var(--mut)}
+.wlegend span{display:flex;align-items:center;gap:var(--sp2)}
+.wlegend i.lg{width:11px;height:11px;border-radius:var(--r1);border:1px solid var(--edge);background:var(--card2)}
 .wlegend i.lg.done{background:var(--bg2)}
 .wlegend i.lg.now{border-color:var(--a3);box-shadow:0 0 0 2px rgba(21,94,117,.16)}
-.wdetail{margin-top:12px;padding:12px;border:1px solid var(--edge);border-radius:12px;background:var(--card2)}
-.wdetail h4{margin:0 0 8px;font-size:var(--fs6)}
+.wdetail{margin-top:var(--sp6);padding:var(--sp6);border:1px solid var(--edge);border-radius:var(--r6);background:var(--card2)}
+.wdetail h4{margin:0 0 var(--sp4);font-size:var(--fs6)}
 .wlec{display:block;width:100%;text-align:left;font:inherit;font-size:var(--fs5);
-  border:1px solid var(--edge);border-radius:10px;background:var(--bg2);color:var(--fg);
-  padding:9px 11px;margin-bottom:6px;cursor:pointer;min-height:44px}
+  border:1px solid var(--edge);border-radius:var(--r5);background:var(--bg2);color:var(--fg);
+  padding:var(--sp4) var(--sp5);margin-bottom:var(--sp3);cursor:pointer;min-height:44px}
 .wlec:hover{border-color:var(--a1)}
-.wlec .wtrack{color:var(--mut);font-size:var(--fs3);margin-left:6px}
-.wdetail .wsets{font-size:var(--fs3);color:var(--mut);margin-top:4px;overflow-wrap:anywhere}
-.wdetail .wsub{font-size:var(--fs3);color:var(--mut);margin:-3px 0 6px 2px;font-family:var(--mono)}
+.wlec .wtrack{color:var(--mut);font-size:var(--fs3);margin-left:var(--sp3)}
+.wdetail .wsets{font-size:var(--fs3);color:var(--mut);margin-top:var(--sp2);overflow-wrap:anywhere}
+.wdetail .wsub{font-size:var(--fs3);color:var(--mut);margin:-var(--sp1) 0 var(--sp3) var(--sp1);font-family:var(--mono)}
 .wmed{display:inline-block;font:inherit;font-size:var(--fs3);border:1px solid var(--edge);
-  border-radius:9px;background:var(--bg2);color:var(--acc);padding:8px 11px;margin:0 0 8px;
+  border-radius:var(--r4);background:var(--bg2);color:var(--acc);padding:var(--sp4) var(--sp5);margin:0 0 var(--sp4);
   cursor:pointer;min-height:44px}
 .wmed:hover{border-color:var(--a1)}
-/* 띠를 누를 수 있게. 단추지만 띠처럼 보인다. */
+/* 띠를 누를 수 있게. 단추지만 띠처럼 보인다.
+
+   **높이를 못 박는다** (T405). 이 자리는 안쪽 여백이 높이를 정하고 있었다.
+   여백 단을 접으면서 1px 이 줄었더니 43px 이 됐고 44px 선에 걸렸다.
+   여백으로 터치 크기를 맞추면 다음에 여백을 건드릴 때 또 깨진다.
+   **크기를 지키는 값은 크기를 지키는 자리에 적는다.** */
 .bandgo{display:block;width:100%;text-align:left;font:inherit;color:inherit;
-  background:none;border:0;padding:0;cursor:pointer}
+  background:none;border:0;padding:0;cursor:pointer;min-height:44px}
 .bandgo:hover .weekband i{opacity:.85}
 
 /* 짝 맞추기. 사람이 눈으로 읽고 손으로 치는 자리다 (T235).
    **읽는 거리가 다르다.** 자기 화면을 보는 것이 아니라 상대에게 읽어 주는 것이라
    한 칸 크게 두고 자간을 벌린다. 글자 하나를 잘못 읽으면 그것으로 끝이다. */
 .paircode{font-size:var(--fs10);font-weight:650;letter-spacing:.16em;
-  margin:10px 0 6px;padding:12px 14px;text-align:center;
-  border:1px solid var(--edge);border-radius:12px;background:var(--sub);
+  margin:var(--sp5) 0 var(--sp3);padding:var(--sp6) var(--sp7);text-align:center;
+  border:1px solid var(--edge);border-radius:var(--r6);background:var(--sub);
   color:var(--fg);overflow-wrap:anywhere}
-.pairtab{width:100%;border-collapse:collapse;margin-top:12px;font-size:var(--fs5)}
-.pairtab th,.pairtab td{border-bottom:1px solid var(--line);padding:7px 9px;text-align:left}
+.pairtab{width:100%;border-collapse:collapse;margin-top:var(--sp6);font-size:var(--fs5)}
+.pairtab th,.pairtab td{border-bottom:1px solid var(--line);padding:var(--sp3) var(--sp4);text-align:left}
 .pairtab th{color:var(--mut);font-weight:600;font-size:var(--fs3)}
 /* 색으로만 가르지 않는다. 왼쪽에 띠를 세워 색을 못 보는 눈에도 갈리게 한다. */
 .pairtab tr.pd-heavy td{color:var(--warn);font-weight:650}
-.pairtab tr.pd-heavy td:first-child{border-left:3px solid var(--warn);padding-left:6px}
+.pairtab tr.pd-heavy td:first-child{border-left:3px solid var(--warn);padding-left:var(--sp3)}
 .pairtab tr.pd-light td{color:var(--mut)}
-.pairtab tr.pd-light td:first-child{border-left:3px solid var(--line);padding-left:6px}
+.pairtab tr.pd-light td:first-child{border-left:3px solid var(--line);padding-left:var(--sp3)}
 .note.g{border-color:var(--ok);color:var(--ok)}
 .note.g b{color:var(--ok)}
 
 /* 합치기 표. 두 쪽 값을 나란히 두고 누르는 것이 고르는 것이다 (T237).
    **고른 것이 눈에 보여야 한다.** 일곱 줄에서 하나만 안 골랐을 때 그것이 보여야 한다. */
-.mgtab{width:100%;border-collapse:collapse;margin-top:10px;font-size:var(--fs5)}
-.mgtab th,.mgtab td{border-bottom:1px solid var(--line);padding:6px 7px;
+.mgtab{width:100%;border-collapse:collapse;margin-top:var(--sp5);font-size:var(--fs5)}
+.mgtab th,.mgtab td{border-bottom:1px solid var(--line);padding:var(--sp3) var(--sp3);
   text-align:left;vertical-align:top}
 .mgtab th{color:var(--mut);font-weight:600;font-size:var(--fs3)}
 .mgtab td:first-child{color:var(--mut)}
 .mgpick{display:block;width:100%;text-align:left;font:inherit;font-size:var(--fs4);
-  border:1px dashed var(--edge);border-radius:9px;background:var(--bg2);color:var(--fg);
-  padding:8px 9px;cursor:pointer;min-height:44px;overflow-wrap:anywhere}
+  border:1px dashed var(--edge);border-radius:var(--r4);background:var(--bg2);color:var(--fg);
+  padding:var(--sp4) var(--sp4);cursor:pointer;min-height:44px;overflow-wrap:anywhere}
 .mgpick:hover{border-color:var(--a1)}
 .mgpick.on{border-style:solid;border-color:var(--ok);background:var(--sub);font-weight:650}
 
@@ -381,6 +386,6 @@ button.fdrow::after{content:"\2192";position:absolute;right:4px;top:50%;
 .relgap{color:var(--warn)}
 
 /* 되돌아보기 녹음이 읽을 줄 (T334). 다섯 번 읽는 줄이라 크게 둔다. */
-.voiceline{margin:8px 0;border:1px solid var(--acc);border-radius:12px;
-  padding:12px;font-size:var(--fs7);line-height:1.6;overflow-wrap:anywhere}
+.voiceline{margin:var(--sp4) 0;border:1px solid var(--acc);border-radius:var(--r6);
+  padding:var(--sp6);font-size:var(--fs7);line-height:1.6;overflow-wrap:anywhere}
 
