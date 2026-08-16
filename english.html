@@ -2965,6 +2965,7 @@ function loadSession(){
   var s=S.session;
   if(!s) return false;
   if(s.date!==realToday()){
+    if(!s.at || (Date.now()-s.at)>SESSION_HOLD) return false;
     if(addDays(s.date,1)!==realToday()) return false;   // 그저께 것은 아니다
   }
   SESSION_DAY=s.date;

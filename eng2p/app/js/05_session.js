@@ -26,6 +26,7 @@ function loadSession(){
      날짜만 보면 22시에 시작한 세션이 0시 1분에 새로고침 한 번으로 없어진다.
      날이 다르면 얼마나 지났는지를 본다. 여섯 시간 안이면 그 세션이다. */
   if(s.date!==realToday()){
+    if(!s.at || (Date.now()-s.at)>SESSION_HOLD) return false;
     if(addDays(s.date,1)!==realToday()) return false;   // 그저께 것은 아니다
   }
   SESSION_DAY=s.date;
