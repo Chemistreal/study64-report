@@ -75,6 +75,8 @@ CARDS = ROOT / "out" / "cards"
 TR = ROOT.parent / "media" / "english" / "transcripts"
 ITEM = re.compile(r"^\s{2,}(\d+)\.\s+(.+?)\s*$")
 HANGUL = re.compile(r"[가-힣]")
+# 한국어 설명 안에 박힌 영어. `ground.py` 의 SPAN 과 같은 자다
+INLINE = re.compile(r"[A-Za-z][A-Za-z'’]*(?:\s+[A-Za-z][A-Za-z'’]*)+")
 
 
 def corpus_words():
@@ -108,18 +110,36 @@ def wordlist():
 
 
 def outside_words(vocab):
-    """카드 재료에 나오는 낱말 중 대본에 없는 것. {낱말: 몇 번}."""
+    """카드 재료에 나오는 낱말 중 대본에 없는 것. {낱말: 몇 번}.
+
+    **두 자리를 본다.** 영어만 있는 재료 줄과 **한국어 설명에 박힌 영어**다.
+
+    뒤엣것이 T425 에 늘어났다. 전에는 한글이 한 자라도 섞이면 통째로 건너뛰었다.
+    그런데 카드가 `3초 안에 Let me think 나 Hold on 을 낸다` 처럼 설명 안에
+    영어를 박아 둔다. 그것도 두 사람이 읽고 따라 말하는 영어다.
+    `ground.py` 의 `inline_materials` 가 세트와 조준표에서 같은 일을 한다.
+
+    낱말 둘 이상이 이어진 자리만 꺼낸다. 하나짜리는 용어라 안 꺼낸다.
+    머리말(`검증` `신뢰도`)은 뺀다. **내가 적은 메모는 재료가 아니다.**
+    """
     out = {}
     for f in sorted(CARDS.glob("eng2p_card_q*.md")):
         if "plan" in f.name:
             continue
         for line in f.read_text(encoding="utf-8").split("\n"):
-            m = ITEM.match(line)
-            if not m or HANGUL.search(m.group(2)):
+            s = line.strip()
+            if not s or s.startswith("검증") or s.startswith("신뢰도"):
                 continue
-            for w in re.findall(r"[a-z]+", m.group(2).lower()):
-                if w not in vocab:
-                    out[w] = out.get(w, 0) + 1
+            m = ITEM.match(line)
+            if m and not HANGUL.search(m.group(2)):
+                texts = [m.group(2)]
+            else:
+                texts = [x.group(0).strip() for x in INLINE.finditer(s)
+                         if len(x.group(0).split()) >= 2]
+            for text in texts:
+                for w in re.findall(r"[a-z]+", text.lower()):
+                    if w not in vocab:
+                        out[w] = out.get(w, 0) + 1
     return out
 
 
