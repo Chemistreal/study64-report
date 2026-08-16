@@ -114,8 +114,15 @@ tbody tr:hover td{background:var(--card2)}
    글까지 경보색으로 칠하면 `tone.md` 가 허락한 문장도 겁으로 읽힌다. */
 
 /* 역할 배지. 2인 전제를 화면 어디서나 보이게 한다. */
+/* 역할 배지. **이름이 여기 들어간다** (T401).
+   `white-space:nowrap` 이라 긴 이름이 화면 밖으로 나갔다. 27자 이름에서
+   390px 화면이 397px 이 됐고 가로로 밀어야 읽혔다.
+
+   자르지 않는다. **이름을 자르면 누구인지 모른다.**
+   넘치는 대신 배지 안에서 줄을 바꾼다. 짧은 이름은 어차피 한 줄이다. */
 .rb{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;font-weight:700;
-  padding:3px 11px;border-radius:99px;color:#fff;white-space:nowrap}
+  padding:3px 11px;border-radius:99px;color:#fff;
+  max-width:100%;overflow-wrap:anywhere}
 .rb.a{background:linear-gradient(96deg,var(--a1),var(--a2))}
 /* 흰 글자를 얹는 바탕이라 밝게 못 간다. `--a3t` 는 글자용이라 여기 안 쓴다. T223 */
 .rb.b{background:linear-gradient(96deg,var(--b1),var(--b2))}
