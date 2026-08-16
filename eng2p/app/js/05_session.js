@@ -8,21 +8,36 @@ var T={idx:0,left:BLOCKS[0].m*60,run:false,tick:null};
    전에는 T 가 메모리에만 있었다. 새로고침 한 번에 40분이 사라졌다.
    ========================================================================= */
 function saveSession(){
-  S.session={date:today(), idx:T.idx, left:T.left, at:Date.now()};
+  /* **세션이 시작된 날을 굳힌다** (T400). 자정을 넘겨도 한 날이다.
+     여기서 `today()` 를 부르면 그 값이 이미 `SESSION_DAY` 다. */
+  if(!SESSION_DAY) SESSION_DAY=realToday();
+  S.session={date:SESSION_DAY, idx:T.idx, left:T.left, at:Date.now()};
   /* 바로 쓴다. save() 는 120밀리초 미룬다.
      세션 상태는 그 사이에 창이 닫히면 잃는 값이고, 잃으면 40분을 다시 한다. */
   saveNow();
 }
+/* 세션을 이어 갈 수 있는 동안 (T400). 두 시간 세션에 쉬는 틈을 얹었다.
+   이보다 오래되면 어제 것이고 이어 가지 않는다. */
+var SESSION_HOLD=6*60*60*1000;
 function loadSession(){
   var s=S.session;
-  if(!s || s.date!==today()) return false;   // 어제 것은 안 이어 간다
+  if(!s) return false;
+  /* **자정을 넘긴 세션을 버리면 두 시간이 사라진다** (T400).
+     날짜만 보면 22시에 시작한 세션이 0시 1분에 새로고침 한 번으로 없어진다.
+     날이 다르면 얼마나 지났는지를 본다. 여섯 시간 안이면 그 세션이다. */
+  if(s.date!==realToday()){
+    if(addDays(s.date,1)!==realToday()) return false;   // 그저께 것은 아니다
+  }
+  SESSION_DAY=s.date;
   if(s.idx==null || s.left==null) return false;
   T.idx=Math.max(0,Math.min(BLOCKS.length-1, s.idx));
   T.left=Math.max(0, Math.min(BLOCKS[T.idx].m*60, s.left));
   T.run=false;                                // 이어 가려면 눌러야 한다. 저절로 안 돈다
   return true;
 }
-function clearSession(){ S.session=null; save(); }
+/* **세션이 끝나면 오늘이 시계를 따른다** (T400).
+   이 줄이 없으면 자정을 넘긴 다음 날 내내 어제로 보인다. */
+function clearSession(){ S.session=null; SESSION_DAY=null; save(); }
 /* 남은 세션 시간. 이어서 하기 안내에 쓴다. */
 function sessionLeftMin(){
   var s=T.left;

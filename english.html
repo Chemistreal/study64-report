@@ -1965,7 +1965,16 @@ function mmss(s){
 function addDays(s,n){var d=parseISO(s); d.setDate(d.getDate()+n); return iso(d);}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
-function today(){return iso(new Date());}
+function realToday(){return iso(new Date());}
+var SESSION_DAY=null;
+function today(){
+  if(SESSION_DAY){
+    var r=realToday();
+    if(SESSION_DAY===r || addDays(SESSION_DAY,1)===r) return SESSION_DAY;
+    SESSION_DAY=null;
+  }
+  return realToday();
+}
 function roleOf(d){ return parseISO(d).getDate()%2===0 ? "a" : "b"; }
 var pending={};
 var failed={};
@@ -2947,19 +2956,25 @@ function renderRings(pl,weekDone,rec){
 var T={idx:0,left:BLOCKS[0].m*60,run:false,tick:null};
 
 function saveSession(){
-  S.session={date:today(), idx:T.idx, left:T.left, at:Date.now()};
+  if(!SESSION_DAY) SESSION_DAY=realToday();
+  S.session={date:SESSION_DAY, idx:T.idx, left:T.left, at:Date.now()};
   saveNow();
 }
+var SESSION_HOLD=6*60*60*1000;
 function loadSession(){
   var s=S.session;
-  if(!s || s.date!==today()) return false;   // 어제 것은 안 이어 간다
+  if(!s) return false;
+  if(s.date!==realToday()){
+    if(addDays(s.date,1)!==realToday()) return false;   // 그저께 것은 아니다
+  }
+  SESSION_DAY=s.date;
   if(s.idx==null || s.left==null) return false;
   T.idx=Math.max(0,Math.min(BLOCKS.length-1, s.idx));
   T.left=Math.max(0, Math.min(BLOCKS[T.idx].m*60, s.left));
   T.run=false;                                // 이어 가려면 눌러야 한다. 저절로 안 돈다
   return true;
 }
-function clearSession(){ S.session=null; save(); }
+function clearSession(){ S.session=null; SESSION_DAY=null; save(); }
 function sessionLeftMin(){
   var s=T.left;
   for(var i=T.idx+1;i<BLOCKS.length;i++) s+=BLOCKS[i].m*60;

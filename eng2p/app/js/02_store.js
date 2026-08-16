@@ -227,6 +227,39 @@ function mmss(s){
 function addDays(s,n){var d=parseISO(s); d.setDate(d.getDate()+n); return iso(d);}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
-function today(){return iso(new Date());}
+/* 시계가 가리키는 날. **사본 이름과 "지금" 을 재는 자리가 이것을 쓴다** */
+function realToday(){return iso(new Date());}
+/* 이 앱의 오늘 (T400).
+
+   ## 한 세션이 두 날로 갈렸다
+
+   두 시간짜리 세션이다. 저녁에 시작하면 자정을 넘긴다.
+   22시에 시작하면 블록 4는 자정 뒤다. 그때 이런 일이 났다.
+
+       블록 1에 적은 것은 어제 칸에 들어간다
+       블록 4에 적은 것은 오늘 칸에 들어간다
+       **어느 날도 status 가 안 붙는다.** 둘 다 미완으로 남는다
+       연속일이 0이 된다
+
+   두 사람은 두 시간을 다 돌았는데 어느 날도 "한 날" 로 안 남는다.
+   `day(today())` 를 부르는 자리가 106곳이라 그 자리를 하나씩 못 고친다.
+   **오늘이 무엇인가를 한 자리에서 정한다.**
+
+   세션이 도는 동안은 그 세션이 **시작된 날**이 오늘이다.
+   두 사람에게는 아직 그날 세션이고 화면도 그렇게 말해야 한다.
+
+   ## 안 끝난 세션이 오늘을 영영 어제로 만들면 안 된다
+
+   세션은 두 시간이라 하루를 안 넘는다. 하루보다 벌어지면 그것은
+   안 끝나고 남은 세션이다. 그때는 이 값을 버리고 시계를 따른다. */
+var SESSION_DAY=null;
+function today(){
+  if(SESSION_DAY){
+    var r=realToday();
+    if(SESSION_DAY===r || addDays(SESSION_DAY,1)===r) return SESSION_DAY;
+    SESSION_DAY=null;
+  }
+  return realToday();
+}
 function roleOf(d){ return parseISO(d).getDate()%2===0 ? "a" : "b"; }
 
