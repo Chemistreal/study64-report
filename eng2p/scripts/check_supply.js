@@ -248,7 +248,7 @@ let n = 0;
     if (grow.length)
       console.log("  늘릴 자루 " + grow.length + "개: " +
                   grow.map((x) => x.id).join(" ") +
-                  " (docs/roadmap.md 12.19 T414~T416)");
+                  " (docs/roadmap.md 12.19 T416~T418)");
   }
   console.log("");
   console.log("**기계가 안 보는 것: 두 사람이 \"어제 이거 했잖아\" 라고 말하는가**");

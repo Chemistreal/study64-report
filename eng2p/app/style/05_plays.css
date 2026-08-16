@@ -16,48 +16,48 @@
   background:var(--bg2);margin-bottom:6px;overflow-wrap:anywhere}
 .vhid{flex:1 1 30%;min-width:120px;display:flex;align-items:center;justify-content:center;
   border:1px dashed var(--edge);border-radius:10px;background:var(--sub);
-  color:var(--mut);font-size:0.75rem;text-align:center;padding:10px}
+  color:var(--mut);font-size:var(--fs3);text-align:center;padding:10px}
 /* 거울 판의 읽을 낱말 (T259). **읽는 쪽 화면에만 있다.**
    상 건너에서 읽으라고 크게 둔다. 두 사람이 마주 앉아 있고 (기준서 2.1)
    기기는 상 위에 놓인 채다. 작은 글씨는 손에 들어야 읽히고
    손에 들면 상대 쪽으로 화면이 기운다. */
-.mirword{font-size:2.6rem;font-weight:700;letter-spacing:0.02em;
+.mirword{font-size:var(--fs13);font-weight:700;letter-spacing:0.02em;
   margin:10px 0 4px;overflow-wrap:anywhere}
 /* 한 줄 바꾸기 (T262). 대본 한 줄을 상 건너에서 읽는다.
    거울 판의 낱말 하나보다 길어서 그만큼 크게는 못 둔다. 대신 줄 간격을 벌린다. */
-.swpline{font-size:1.125rem;line-height:1.7;margin:10px 0 6px;overflow-wrap:anywhere}
+.swpline{font-size:var(--fs8);line-height:1.7;margin:10px 0 6px;overflow-wrap:anywhere}
 .swpmark{background:var(--sub);border-bottom:2px solid var(--warn);padding:0 2px;border-radius:3px}
-.swpswap{display:flex;align-items:center;gap:8px;font-size:1.125rem;
+.swpswap{display:flex;align-items:center;gap:8px;font-size:var(--fs8);
   border:1px solid var(--edge);border-radius:10px;background:var(--bg2);
   padding:9px 11px;margin-bottom:6px;overflow-wrap:anywhere}
 /* 내 소리는 네가 (T265). 듣는 쪽이 무엇을 들을지를 읽는 자리다.
    본문보다 크게 둔다. 읽고 나서 귀로 옮겨 가야 한다. */
-.hrmsay{font-size:0.9375rem;line-height:1.65;margin:8px 0 6px;
+.hrmsay{font-size:var(--fs6);line-height:1.65;margin:8px 0 6px;
   border-left:3px solid var(--a1);padding-left:11px}
 /* 전달 놀이 (T268). 원문과 적은 것을 나란히 놓고 틀어진 자리를 짚는다.
    **짚은 자리가 이 판의 산출물이다.** 틀린 표시가 아니라 다음에 들을 자리다. */
-.rlyline{font-size:1rem;line-height:1.75;margin:4px 0 10px;padding:9px 11px;
+.rlyline{font-size:var(--fs7);line-height:1.75;margin:4px 0 10px;padding:9px 11px;
   border:1px solid var(--edge);border-radius:10px;background:var(--bg2);
   overflow-wrap:anywhere}
 .rlyoff{background:var(--sub);border-bottom:2px solid var(--warn);
   padding:0 3px;border-radius:3px}
 /* 이어달리기 (T271). 마디 수가 이 판의 전부다. 상 건너에서 둘이 같이 본다. */
-.chnbig{font-size:2.2rem;font-weight:750;letter-spacing:-.02em;margin:10px 0 2px}
+.chnbig{font-size:var(--fs12);font-weight:750;letter-spacing:-.02em;margin:10px 0 2px}
 .chnbig b{font-family:var(--mono)}
 .chnpool{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
 .chnpool .small{flex:1 0 100%;margin-bottom:2px}
 .chnk{border:1px solid var(--edge);border-radius:99px;background:var(--card2);
-  padding:5px 11px;font-size:0.84375rem}
+  padding:5px 11px;font-size:var(--fs4)}
 /* 겹치면 지운다 (T276). 맞힐 것은 둘 다 본다. 크게 둔다. */
-.ovltgt{font-size:1.75rem;font-weight:750;letter-spacing:-.02em;margin:4px 0 4px;
+.ovltgt{font-size:var(--fs11);font-weight:750;letter-spacing:-.02em;margin:4px 0 4px;
   overflow-wrap:anywhere}
 /* 배속 사다리 (T280). 지금 칸이 어디인지가 한눈에 보여야 한다.
    위가 빠른 칸이다. 오르는 것이라 위로 쌓는다. */
 .ladbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
 .ladrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
-  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut)}
+  border-bottom:1px solid var(--edge);font-size:var(--fs4);color:var(--mut)}
 .ladrow:last-child{border-bottom:0}
-.ladrow b{flex:none;min-width:2.6em;font-size:1rem}
+.ladrow b{flex:none;min-width:2.6em;font-size:var(--fs7)}
 .ladrow.on{background:var(--sub);color:var(--fg);font-weight:600}
 .ladrow.on b{color:var(--acc)}
 /* **투명도가 대비를 깎는다** (T389). 0.55 를 곱하니 짙은 판에서 2.55 가 됐다.
@@ -67,18 +67,18 @@
    상 건너에서 둘이 같이 본다. 받는 쪽이 시계를 못 보면 압박이 안 된다. */
 .walclock{display:flex;gap:12px;align-items:baseline;margin:12px 0 4px;
   border:1px solid var(--edge);border-radius:12px;background:var(--bg2);padding:10px 14px}
-.walclock b{font-size:2.6rem;font-weight:750;line-height:1;min-width:2ch}
-.walclock span{font-size:0.8125rem;color:var(--mut)}
+.walclock b{font-size:var(--fs13);font-weight:750;line-height:1;min-width:2ch}
+.walclock span{font-size:var(--fs4);color:var(--mut)}
 .walclock.relay{border-color:var(--warn);background:var(--sub)}
 .walmat{margin-top:10px}
 .walmat>div{padding:9px 11px;border:1px solid var(--edge);border-radius:10px;
-  background:var(--bg2);margin-bottom:6px;overflow-wrap:anywhere;font-size:1.0625rem}
+  background:var(--bg2);margin-bottom:6px;overflow-wrap:anywhere;font-size:var(--fs7)}
 
 /* 한 사람만 본다 (T289). 다섯 요소 중 이 판이 낼 둘만 도드라져야 한다.
    나머지 셋도 보인다. 쥔 사람은 그 상황을 통째로 알아야 그 사람처럼 말한다. */
 .sitbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
 .sitrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
-  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut);
+  border-bottom:1px solid var(--edge);font-size:var(--fs4);color:var(--mut);
   overflow-wrap:anywhere}
 .sitrow:last-child{border-bottom:0}
 .sitrow b{flex:none;min-width:5em}
@@ -89,18 +89,18 @@
    넣은 자리(2와 4)는 흐리게 둔다. **있는 값과 넣은 자리를 눈으로 가른다.** */
 .wavbox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;overflow:hidden}
 .wavrow{display:flex;gap:10px;align-items:baseline;padding:9px 12px;
-  border-bottom:1px solid var(--edge);font-size:0.84375rem;color:var(--mut)}
+  border-bottom:1px solid var(--edge);font-size:var(--fs4);color:var(--mut)}
 .wavrow:last-child{border-bottom:0}
 .wavrow b{flex:none;min-width:1.6em}
 .wavrow.mid{background:var(--bg2)}
 .wavrow.on{background:var(--sub);color:var(--fg);font-weight:650}
 .wavrow.on b{color:var(--acc)}
-.wavnow{margin-left:auto;font-size:0.75rem;color:var(--a1t);flex:none}
+.wavnow{margin-left:auto;font-size:var(--fs3);color:var(--a1t);flex:none}
 
 /* 누구 말이야 (T295). 쓸 자리를 둘 다 본다. 감출 것이 없다. 정답이 없다. */
 .whobox{margin-top:12px;border:1px solid var(--edge);border-radius:12px;
   background:var(--bg2);padding:12px 14px}
-.whowhere{font-size:1.125rem;line-height:1.6;overflow-wrap:anywhere;margin-bottom:4px}
+.whowhere{font-size:var(--fs8);line-height:1.6;overflow-wrap:anywhere;margin-bottom:4px}
 /* **판 이름을 붙여 좁힌다.** 처음에 `.row button.on` 으로 적었더니
    자료 탭의 분기 단추를 물어 대비 검사가 빨간불이 됐다 (T295).
    이미 쓰이는 class 이름에 규칙을 얹으면 내가 모르는 자리가 같이 바뀐다. */
@@ -111,26 +111,26 @@
    어느 과에서 왔는지를 옆에 둔다. **어디서 왔는지가 남아야 믿고 쓴다.** */
 .rskbox{margin-top:10px;border:1px solid var(--edge);border-radius:12px;
   background:var(--bg2);padding:10px 12px}
-.rskline{font-size:1.0625rem;line-height:1.6;padding:5px 0;overflow-wrap:anywhere}
+.rskline{font-size:var(--fs7);line-height:1.6;padding:5px 0;overflow-wrap:anywhere}
 
 /* 끼어들기 (T301). 읽을 거리를 둘 다 본다. 압박은 언제 끊길지를 모르는 데서 온다. */
 .cutbox{margin-top:10px;border:1px solid var(--edge);border-radius:12px;
   background:var(--bg2);padding:10px 12px}
-.cutline{font-size:1rem;line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
+.cutline{font-size:var(--fs7);line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
 
 /* 말 겹치기 (T304). 자기 줄만 본다. 상 건너에서 읽을 일이 없어 본문 크기로 둔다.
    셋을 세는 자리는 크게 둔다. 화면을 안 보고 있어도 곁눈에 든다. */
-.clsline{font-size:1.125rem;line-height:1.7;margin:10px 0 6px;padding:10px 12px;
+.clsline{font-size:var(--fs8);line-height:1.7;margin:10px 0 6px;padding:10px 12px;
   border:1px solid var(--edge);border-radius:12px;background:var(--bg2);
   overflow-wrap:anywhere}
-.clscue{font-size:2rem;font-weight:750;line-height:1;align-self:center;
+.clscue{font-size:var(--fs12);font-weight:750;line-height:1;align-self:center;
   min-width:2.5ch;color:var(--acc)}
 
 /* 거꾸로 판정 (T307). 재료는 판정하는 쪽 화면에만 있다. 기준은 그 옆에 둔다.
    기준을 눈에 띄게 두는 까닭이 있다. **정답이 없는 자리에서 저것이 전부다.** */
 .flpmat{margin:10px 0 6px;border:1px solid var(--edge);border-radius:12px;
   background:var(--bg2);padding:8px 12px}
-.flpmat>div{font-size:1rem;line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
+.flpmat>div{font-size:var(--fs7);line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
 .flppass{margin:8px 0 6px;border:1px solid var(--acc);border-radius:12px;
   padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
 
@@ -142,10 +142,10 @@
    건네는 1초에 화면이 켜져 있다. 덮지 않으면 그 1초에 다 보인다. */
 .socover{border:1px solid var(--edge);border-radius:12px;background:var(--sub);
   padding:24px 18px;text-align:center}
-.sotitle{font-size:1.25rem;font-weight:700;color:var(--fg);margin-bottom:8px}
-.somsg{color:var(--mut);font-size:0.875rem;margin-bottom:14px}
-.socover button{min-height:48px;padding:12px 22px;font-size:1rem}
-.soflag{display:inline-block;font-size:0.75rem;color:var(--a1t);
+.sotitle{font-size:var(--fs9);font-weight:700;color:var(--fg);margin-bottom:8px}
+.somsg{color:var(--mut);font-size:var(--fs5);margin-bottom:14px}
+.socover button{min-height:48px;padding:12px 22px;font-size:var(--fs7)}
+.soflag{display:inline-block;font-size:var(--fs3);color:var(--a1t);
   border:1px solid var(--edge);border-radius:8px;padding:3px 8px;margin-left:6px}
 
 /* 이 기기가 어느 쪽인가를 화면 전체로 (T242).
@@ -161,7 +161,7 @@
 body.side-a .sideband{background:linear-gradient(96deg,var(--a1),var(--a2))}
 body.side-b .sideband{background:linear-gradient(96deg,var(--b1),var(--b2))}
 body.side-none .sideband{background:var(--line)}
-.sidetag{position:fixed;top:6px;right:8px;z-index:61;font-size:0.6875rem;font-weight:800;
+.sidetag{position:fixed;top:6px;right:8px;z-index:61;font-size:var(--fs2);font-weight:800;
   padding:2px 9px;border-radius:99px;color:#fff;pointer-events:none;letter-spacing:.04em}
 body.side-a .sidetag{background:var(--a1)}
 body.side-b .sidetag{background:var(--b1)}
@@ -186,7 +186,7 @@ body.turn-flash .sidetag{transform:scale(1.12)}
 .veilcover[hidden]{display:none}
 .veilbox{max-width:340px;text-align:center;border:1px solid var(--edge);
   border-radius:14px;background:var(--sub);padding:26px 20px}
-.veilbox button{min-height:48px;padding:12px 22px;font-size:1rem;margin-top:12px}
+.veilbox button{min-height:48px;padding:12px 22px;font-size:var(--fs7);margin-top:12px}
 /* **`visibility` 로는 안 된다.** 물려받는 값이라 밑에서 되살아나는 자리가 있었다.
    재 보니 `.wrap` 이 hidden 인데 그 안 `.card` 가 visible 로 나왔다.
    왜 그런지를 캐는 것보다 물려받지 않는 것으로 바꾸는 것이 낫다.
@@ -199,12 +199,12 @@ body.veil-on>*:not(.veilcover){display:none}
   max-width:420px;background:var(--card);border:1px solid var(--edge);
   border-radius:12px;padding:10px 12px;box-shadow:var(--glow)}
 .wheredock .row{margin-top:8px;gap:8px}
-#focusWhere{font-size:0.75rem;letter-spacing:.02em}
+#focusWhere{font-size:var(--fs3);letter-spacing:.02em}
 
 /* 줄 번호 (T248). **둘이 같은 것을 가리키려면 이름이 있어야 한다.**
    번호는 원본 차례에서 나온다. 보이는 것만 세면 두 기기가 다르게 센다. */
 .lno{flex:none;display:inline-block;min-width:1.6em;text-align:right;
-  font-family:var(--mono);font-size:0.75rem;color:var(--mut);margin-right:7px}
+  font-family:var(--mono);font-size:var(--fs3);color:var(--mut);margin-right:7px}
 .syncscript .scline .lno{width:1.8em}
 
 /* 따로 쓰고 같이 펴기 (T310). 함정과 물음이 둘 다 보인다. 감출 것은 답뿐이다.
@@ -221,13 +221,13 @@ body.veil-on>*:not(.veilcover){display:none}
    날짜를 도드라지게 둔다. **판정하는 사람이 그것을 보고 맞다 아니다를 정한다.** */
 .rclmat{margin:8px 0 6px;border:1px solid var(--edge);border-radius:12px;
   background:var(--bg2);padding:8px 12px}
-.rclmat>div{font-size:1rem;line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
+.rclmat>div{font-size:var(--fs7);line-height:1.7;padding:3px 0;overflow-wrap:anywhere}
 .rclans{margin:8px 0 6px;border:1px solid var(--acc);border-radius:12px;
   padding:10px 12px;line-height:1.6;overflow-wrap:anywhere}
-.rcld{font-size:.875rem;padding:2px 8px;border-radius:999px;
+.rcld{font-size:var(--fs5);padding:2px 8px;border-radius:999px;
   border:1px solid var(--edge);background:var(--bg2)}
 
 /* 오늘의 한 판 (T316). 이름 하나가 이 화면의 전부다. 크게 둔다. */
 .odyname{margin:10px 0 6px;border:1px solid var(--acc);border-radius:12px;
   padding:12px;line-height:1.5}
-.odyname b{font-size:1.25rem}
+.odyname b{font-size:var(--fs9)}

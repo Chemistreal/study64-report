@@ -245,6 +245,7 @@ scripts/check_split.js 갈린 자리 17판. **조건을 만들어 놓고 뜨는�
 scripts/check_beat.js  마디 133판. **파형을 지어 넣는다.** 음성 파일을 저장소에 안 넣는다
 scripts/check_play_screen.js 판 화면. **답이 짚는 쪽 화면에 정말 없는가.** 그려서 견준다
 scripts/check_supply.js 자루가 도는 속도 28판. **자료가 아니라 뽑는 법이 모자랐다**
+scripts/check_type.js 활자 단 207판. **세는 것이 아니라 막는다.** 세어 두면 는다
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
 scripts/rehearse_session.js 한 세션 두 시간. 블록 안에서 바뀌는 자리 열넷을 뜬다

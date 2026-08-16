@@ -31,6 +31,34 @@
   --mono:ui-monospace,SFMono-Regular,SF Mono,Menlo,monospace;
   --sans:-apple-system,BlinkMacSystemFont,Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
 }
+/* **활자 단.** T389 가 스물아홉이라고 세고 남겨 뒀는데 T404 에 서른넷이었다.
+   그중 스물둘이 0.5px 간격이다. `0.71875rem` 은 11.5px 이고 `0.75rem` 은 12px 이다.
+   **그 둘을 가르는 눈이 없다.** 나란히 놓고 봐도 같아 보인다.
+
+   가르지도 못하는 것을 서른네 벌 들고 있으면 새 칸을 만들 때마다
+   가장 가까운 것을 고르는 대신 새 값을 적게 된다. 서른넷이 그렇게 늘었다.
+
+   **0.5px 을 없앤다.** 1px 차이는 뜻이 있을 수 있어 남긴다.
+   서른넷이 열셋이 됐고 `check_type.js` 가 여기 없는 값을 막는다.
+
+   `rem` 이라 `html{font-size}` 세 단이 이 열셋을 통째로 끌고 간다.
+   `px` 로 적으면 글자 크기를 키워도 그 자리만 안 커진다. */
+:root{
+  --fs1:0.625rem;    /* 10px 눈금 글자와 배지. 판 화면의 작은 표시 */
+  --fs2:0.6875rem;   /* 11px */
+  --fs3:0.75rem;     /* 12px 제일 많이 쓴다 */
+  --fs4:0.8125rem;   /* 13px */
+  --fs5:0.875rem;    /* 14px */
+  --fs6:0.9375rem;   /* 15px **본문이다.** `body` 가 이 값이다 */
+  --fs7:1rem;        /* 16px */
+  --fs8:1.125rem;    /* 18px */
+  --fs9:1.3125rem;   /* 21px */
+  --fs10:1.5rem;     /* 24px */
+  --fs11:1.75rem;    /* 28px */
+  --fs12:2rem;       /* 32px */
+  --fs13:2.6rem;     /* 42px 판 화면에서 마주 앉아 보는 글자 */
+}
+
 /* **글자 크기 세 단.** 마주 앉아 흘끗 보는 거리에서 읽혀야 한다.
    그 거리는 사람마다 다르고 나이가 들면 더 다르다. 1년을 쓰는 물건이다.
 
@@ -45,7 +73,7 @@ html,body{margin:0;padding:0}
 html{scroll-padding-top:112px}
 body{
   background:var(--bg); color:var(--fg); font-family:var(--sans);
-  font-size:0.9375rem; line-height:1.65; letter-spacing:-.011em;
+  font-size:var(--fs6); line-height:1.65; letter-spacing:-.011em;
   -webkit-font-smoothing:antialiased; word-break:keep-all; position:relative; min-height:100vh;
 }
 /* 배경 오로라 */
@@ -71,18 +99,18 @@ header{position:sticky;top:0;z-index:30;backdrop-filter:blur(18px) saturate(150%
    **오늘 화면이 20px 자랐다.** 3% 여유 안이라 검사는 통과했다.
    `docs/friction.md` 가 T167 에 그 여유를 그렇게 쓰지 말라고 적어 뒀다.
    여백을 0으로 두면 보이는 것은 그대로고 낭독기만 달라진다. T260 */
-.brand{margin:0;font-size:0.9375rem;font-weight:800;letter-spacing:-.02em;
+.brand{margin:0;font-size:var(--fs6);font-weight:800;letter-spacing:-.02em;
   background:linear-gradient(96deg,var(--a1),var(--a2) 45%,var(--a3t));
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .brand span{color:var(--mut);font-weight:500;-webkit-text-fill-color:var(--mut)}
 .hd .grow{flex:1}
-.tbtn{background:var(--card2);border:1px solid var(--edge);color:var(--mut);font:inherit;font-size:0.75rem;
+.tbtn{background:var(--card2);border:1px solid var(--edge);color:var(--mut);font:inherit;font-size:var(--fs3);
   padding:5px 12px;border-radius:99px;cursor:pointer;transition:.18s}
 .tbtn:hover{color:var(--fg);border-color:var(--a1);box-shadow:var(--glow)}
 nav{max-width:920px;margin:0 auto;padding:10px 20px 12px;display:flex;gap:4px;align-items:center;position:relative}
 nav button{
   background:none;border:1px solid transparent;color:var(--mut);border-radius:99px;
-  font:inherit;font-size:0.84375rem;padding:7px 14px;cursor:pointer;white-space:nowrap;transition:.18s;
+  font:inherit;font-size:var(--fs4);padding:7px 14px;cursor:pointer;white-space:nowrap;transition:.18s;
 }
 nav button:hover{color:var(--fg);background:var(--card2)}
 nav button[aria-current="page"]{
@@ -90,7 +118,7 @@ nav button[aria-current="page"]{
   background:linear-gradient(96deg,var(--a1),var(--a2));box-shadow:var(--glow)}
 .navmore{margin-left:auto;position:relative;flex:none}
 .navmore summary{list-style:none;display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid transparent;
-  border-radius:99px;color:var(--mut);font-size:0.84375rem;cursor:pointer;white-space:nowrap;transition:.18s}
+  border-radius:99px;color:var(--mut);font-size:var(--fs4);cursor:pointer;white-space:nowrap;transition:.18s}
 .navmore summary::-webkit-details-marker{display:none}
 /* 화살표를 글자로 안 쓰고 선으로 그린다. 글꼴에 없으면 네모로 나오기 때문이다. T152 */
 .navmore summary::after{content:"";width:7px;height:7px;margin-top:-3px;

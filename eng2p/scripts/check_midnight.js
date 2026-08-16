@@ -48,21 +48,22 @@ let n = 0;
 
 /* 시계를 세운다. `__adv(밀리초)` 로 민다. **이 검사 안에서만 감싼다.**
  *
- * 민 만큼을 저장소에 남긴다. **안 남기면 새로고침에 시계가 되돌아간다.**
- * 처음에는 안 남겼다. 그래서 자정을 넘기고 새로고침하는 판이
- * 사실은 **자정을 안 넘긴 채로 돌고 있었다.** 깸을 심었는데 안 잡혀서 알았다.
- * `addInitScript` 는 페이지가 뜰 때마다 다시 도는데 그때 오프셋이 0이 된다.
- * 새로고침을 쓰는 검사에서 시계를 감쌀 때는 그 값이 살아남아야 한다. */
-function clockAt(h, m) {
+ * 새로고침을 건너 시계를 밀 때는 **민 만큼을 아무 데도 안 남긴다.**
+ * 처음에는 `localStorage` 에 남겼다 (T400). 그런데 기계가 바쁘면 그 값이
+ * 새로고침에 되돌아갔다. 여덟을 나란히 돌리면 셋이 그랬다.
+ * 주소에 실어도 봤다. `location.search` 는 멀쩡한데 읽은 값이 0이었다.
+ *
+ * **남기지 않고 다시 세운다.** `addInitScript` 를 새 시각으로 한 번 더 걸면
+ * 나중 것이 나중에 돌아서 그 시각이 이긴다. 새로고침을 건너 뛰는 것이 아니라
+ * **새로고침 뒤의 시각을 처음부터 그 시각으로 세우는 것**이다.
+ * 남길 것이 없으면 되돌아갈 것도 없다. T404
+ */
+function clockAt(day, h, m) {
   return `(() => {
-    const base = new Date(2026, 7, 20, ${h}, ${m}, 0).getTime();
-    const K = "__clock_off";
+    const base = new Date(2026, 7, ${day}, ${h}, ${m}, 0).getTime();
     let off = 0;
-    try { off = Number(localStorage.getItem(K) || 0) || 0; } catch (e) {}
-    window.__adv = (ms) => {
-      off += ms;
-      try { localStorage.setItem(K, String(off)); } catch (e) {}
-    };
+    window.__adv = (ms) => { off += ms; };
+    window.__getoff = () => off;
     const R = Date;
     function F(...a) { if (a.length) return new R(...a); return new R(base + off); }
     F.now = () => base + off; F.parse = R.parse; F.UTC = R.UTC; F.prototype = R.prototype;
@@ -75,7 +76,7 @@ function clockAt(h, m) {
 
   async function open(h, m) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
-    await ctx.addInitScript(clockAt(h, m));
+    await ctx.addInitScript(clockAt(20, h, m));
     const page = await ctx.newPage();
     await page.goto(PAGE);
     await page.waitForTimeout(700);
@@ -84,6 +85,26 @@ function clockAt(h, m) {
     await page.click("#obGo");
     await page.waitForTimeout(500);
     return { ctx, page };
+  }
+
+  /* **다 뜰 때까지 기다린다.** 800밀리초를 세는 것이 아니다.
+     고정 대기는 기계가 바쁠 때 모자란다. 파이프라인은 브라우저를 여럿 띄우고
+     이 판은 그 한복판에서 돈다. 로그 한 줄을 넣었더니 통과하는 것을 보고 알았다.
+     **잰 값이 대기 시간에 따라 달라지면 그것은 값이 아니다.** */
+  async function ready(page) {
+    await page.waitForFunction(
+      () => typeof today === "function" && typeof S !== "undefined",
+      null, { timeout: 15000 });
+    await page.waitForTimeout(300);
+  }
+
+  /* 새로고침하되 **그 뒤의 시각을 새로 세운다.** 민 만큼을 안 남긴다.
+     `addInitScript` 를 한 번 더 걸면 나중 것이 나중에 돌아서 그 시각이 이긴다.
+     남길 것이 없으면 되돌아갈 것도 없다 (T404). */
+  async function reopenAt(ctx, page, day, h, m) {
+    await ctx.addInitScript(clockAt(day, h, m));
+    await page.reload();
+    await ready(page);
   }
 
   /* 1. **한 세션이 한 날에 모이는가.** 이 검사의 고갱이다 */
@@ -164,10 +185,7 @@ function clockAt(h, m) {
     await page.waitForTimeout(600);
     await page.evaluate(() => { gotoBlock(2); });
     await page.waitForTimeout(400);
-    await page.evaluate(() => window.__adv(30 * 60 * 1000));
-    await page.waitForTimeout(200);
-    await page.reload();
-    await page.waitForTimeout(800);
+    await reopenAt(ctx, page, 21, 0, 10);      /* 23:40 에서 30분 뒤 */
     const got = await page.evaluate(() => ({
       sess: !!S.session, idx: typeof T !== "undefined" ? T.idx : null,
       today: today(), real: realToday() }));
@@ -190,9 +208,7 @@ function clockAt(h, m) {
     await page.click("#tOne");
     await page.waitForTimeout(600);
     /* 열 시간을 민다. 아침에 앱을 여는 자리다 */
-    await page.evaluate(() => window.__adv(10 * 60 * 60 * 1000));
-    await page.reload();
-    await page.waitForTimeout(800);
+    await reopenAt(ctx, page, 21, 9, 40);      /* 열 시간 뒤. 아침에 여는 자리 */
     const got = await page.evaluate(() => ({
       today: today(), real: realToday(),
       going: typeof T !== "undefined" && T.run === true }));
