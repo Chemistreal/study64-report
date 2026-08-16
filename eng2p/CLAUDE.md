@@ -253,6 +253,7 @@ scripts/check_radius.js 모서리 단 139판. **알약은 사다리 밖이라 �
 scripts/check_color.js 색 157판. **값이 같아도 같은 색이 아니다.** 짙은 판에서 갈린다
 scripts/check_write.js 적는 칸 272판. **안 이어진 칸은 소리를 안 낸다**
 scripts/check_unused.js 안 나오는 자료 105판. **수는 그대로인데 목록이 바뀌는 것도 잡는다**
+scripts/check_grade.py 등급과 재료. **등급은 파일에 붙는데 재료는 줄에 있다**
 docs/play_unused.md   1년 내내 한 번도 안 뜨는 자료. **기준선 표가 여기 있다**
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
