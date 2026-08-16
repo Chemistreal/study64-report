@@ -215,13 +215,13 @@
     },
     {
       "file": "tally.js",
-      "bytes": 3125,
-      "sha256": "0b2747bcb2c0076700515d113b905546fa6dfec4ea540c5586629881479cd9b9"
+      "bytes": 3127,
+      "sha256": "b90e5cf093dcaba477b42484b87692ac550b4a70d39e6ad8a060ad8ae0870b2a"
     },
     {
       "file": "tally.json",
-      "bytes": 4215,
-      "sha256": "f7d28efb53efc0a1fc16b3d587beb6d8c3829d4520a73f07b4dc71c62c0755fa"
+      "bytes": 4217,
+      "sha256": "140771e648778912539489993ee38e07aaa39e24de5e76ce2c792d19869fdaeb"
     },
     {
       "file": "quest.js",
