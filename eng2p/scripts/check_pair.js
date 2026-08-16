@@ -179,6 +179,10 @@ const SEED = (arg) => {
 
   /* 4. 합친다. 합치고 나면 갈린 자리가 없어야 한다. */
   const exported = await A.evaluate(() => JSON.stringify(S));
+  /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+  await B.evaluate(() => window.mergePlan ? null :
+    new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
   const merged = await B.evaluate((raw) => {
     const other = JSON.parse(raw);
     const pl = mergePlan(S, other);
@@ -249,6 +253,10 @@ const SEED = (arg) => {
     if (!/시작일/.test(codeSame.shown))
       fails.push("시작일을 견주라는 말이 없다");
   }
+  /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+  await A.evaluate(() => window.mergePlan ? null :
+    new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
   const asked = await A.evaluate((raw) => {
     const pl = mergePlan(S, JSON.parse(raw));
     return pl.ask.map((q) => q.path);

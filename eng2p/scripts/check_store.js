@@ -329,6 +329,10 @@ const fails = [];
   {
     n++;
     const { ctx, page } = await fresh();
+    /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+    await page.evaluate(() => window.mergePlan ? null :
+      new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
     const m = await page.evaluate(() => {
       const td = today(), d1 = addDays(td, -1), d3 = addDays(td, -3);
       const mine = { box: 1, due: addDays(td, 1), ran: d3, hist: [d3] };
@@ -351,6 +355,10 @@ const fails = [];
                                                     ran: m.d1, hist: [m.d1] }))
       fails.push("한쪽에만 있는 카드가 그대로 안 온다: " + JSON.stringify(m.only));
     /* **합치기를 통째로 돌려서도 본다.** 위는 조각 하나만 본 것이다 */
+    /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+    await page.evaluate(() => window.mergePlan ? null :
+      new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
     const whole = await page.evaluate(() => {
       const td = today(), d1 = addDays(td, -1), d3 = addDays(td, -3);
       /* **진짜 꼴로 적는다** (T312, T358). 갈래 둘이 있는 꼴이다 */

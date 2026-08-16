@@ -28,6 +28,8 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 MAN = ROOT / "out" / "manual" / "eng2p_manual.md"
 APP = ROOT.parent / "english.html"
+# 합치기는 늦게 읽는 묶음에 있다 (T396). 앱 한 파일만 읽으면 못 찾는다
+LATE = ROOT / "out" / "app" / "late.js"
 
 FAIL = []
 PAIR = ROOT / "docs" / "pair.md"
@@ -163,7 +165,9 @@ def check_merge(app, man):
         FAIL.append("docs/merge.md 가 없다")
         return
     doc = MERGE.read_text(encoding="utf-8")
-    m = re.search(r"var MG_LOCAL=\[([^\]]*)\]", app)
+    # **앱은 한 파일이 아니다** (T396). 합치기는 out/app/late.js 에 있다
+    src = app + (LATE.read_text(encoding="utf-8") if LATE.exists() else "")
+    m = re.search(r"var MG_LOCAL=\[([^\]]*)\]", src)
     if not m:
         FAIL.append("앱에서 MG_LOCAL 을 못 읽었다")
         return
@@ -183,7 +187,7 @@ def check_merge(app, man):
     for k in sorted(said - code):
         FAIL.append("docs/merge.md 3.1 은 %s 가 안 건너간다는데 앱의 MG_LOCAL 에 없다" % k)
     # 세션 중 막기. 매뉴얼이 그렇게 적어 뒀으면 앱에 그 자리가 있어야 한다.
-    if "세션 중에는 안 합친다" in man and "function mergeBusy" not in app:
+    if "세션 중에는 안 합친다" in man and "function mergeBusy" not in src:
         FAIL.append("매뉴얼은 세션 중에 안 합친다는데 앱에 그 자리가 없다")
     if "function mergeBusy" in app and "세션 중에는 안 합친다" not in man:
         FAIL.append("앱이 세션 중에 막는데 매뉴얼이 그 말을 안 한다")

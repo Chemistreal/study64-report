@@ -81,6 +81,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     no("이쪽만 돌았는데 저쪽 갈래도 " + split.yours + "장 늘었다");
 
   /* ---- 2. 합쳐도 갈래가 안 섞인다 ---------------------------------------- */
+  /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+  await page.evaluate(() => window.mergePlan ? null :
+    new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
   const merged = await page.evaluate(() => {
     const mine = JSON.parse(JSON.stringify(S));
     const theirs = JSON.parse(JSON.stringify(S));

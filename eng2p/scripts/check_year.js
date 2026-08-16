@@ -275,6 +275,10 @@ const AHEAD_ON = 21;
   /* ---- 5. 두 기기가 1년을 따로 돌고 합칠 때 (T340) ----------------------
      짝 맞추기는 날마다 하는 것이 규격이다 (매뉴얼 0장). 그런데 안 할 수 있다.
      **1년을 따로 돌고 나서 합치는 판을 아무도 안 봤다.** */
+  /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+  await page.evaluate(() => window.mergePlan ? null :
+    new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
   const two = await page.evaluate(() => {
     const mk = (n, tag) => {
       const days = {}; let k = 0, c = 0;
@@ -329,6 +333,10 @@ const AHEAD_ON = 21;
     no("그날 상태가 288개 다른데 물음이 " + two.ask3 + "개다. 상태는 골라야 한다");
 
   /* 많이 물을 때 통째로 고르는 자리가 있는가 */
+  /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+  await page.evaluate(() => window.mergePlan ? null :
+    new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
   const many = await page.evaluate(() => {
     go("ledger");
     MG.name = "저쪽 기기"; MG.pick = {};
@@ -367,6 +375,10 @@ const AHEAD_ON = 21;
   if (!/개 더/.test(many.txt)) no("안 그린 것이 몇 개인지를 안 적는다");
 
   /* 통째로 고르면 다 정해진다 */
+  /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+  await page.evaluate(() => window.mergePlan ? null :
+    new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
   const all = await page.evaluate(() => {
     document.getElementById("mgAllT").click();
     return { picked: Object.keys(MG.pick).length, asks: MG.plan.ask.length };

@@ -50,7 +50,7 @@ OUT = os.path.join(ROOT, "out", "data")
 RULES = os.path.join(ROOT, "docs", "play_rules.md")
 APPJS = os.path.join(ROOT, "app", "js", "25_play.js")
 PLAYDIR = os.path.join(ROOT, "app", "play")
-MERGE = os.path.join(ROOT, "app", "js", "23_merge.js")
+MERGE = os.path.join(ROOT, "app", "late", "32_merge.js")
 
 WAYS = {"더한다": "add", "같은 수다": "same", "큰 것을 든다": "max",
         "한 기기가 센다": "one", "그 판을 따른다": "follow"}
@@ -211,7 +211,7 @@ def main():
         "grade": "A",
         "gradeWhy": "영어가 없다. 규칙서와 화면을 대 본 것이라 세면 나온다.",
         "generator": "scripts/derive_tally.py",
-        "source": "docs/play_rules.md 14장, app/play/, app/js/23_merge.js",
+        "source": "docs/play_rules.md 14장, app/play/, app/late/32_merge.js",
         "ways": {v: k for k, v in WAYS.items()},
         "merged": False,
         "mergedWhy": "합친 값을 어느 기기에 적으면 그때 개인 칸이 생긴다. "

@@ -189,6 +189,10 @@ function tidy(s) {
 
   /* 6. 합친다 */
   const raw = await A.evaluate(() => JSON.stringify(S));
+  /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+  await B.evaluate(() => window.mergePlan ? null :
+    new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
   const after = await B.evaluate(async (r) => {
     const pl = mergePlan(S, JSON.parse(r));
     MG.plan = pl; MG.pick = {}; MG.name = "상대.json";

@@ -71,9 +71,15 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* 오늘 것까지 넷 */
     set(d.slice(0, 4).map((x) => [x, "normal"]));
     out.four = streak();
-    /* 오늘을 아직 안 했다. 어제부터 셋 */
+    /* 오늘을 아직 안 했다. 어제부터 셋.
+
+       **오늘이 세션일일 때만 그렇게 읽힌다** (T396 에 걸렸다).
+       `days()` 는 일요일을 건너뛰므로 일요일에 돌리면 `d[0]` 이 어제(토)다.
+       그러면 이 줄은 "제일 가까운 세션일을 걸렀다" 가 되고 연속일은 0이 맞다.
+       검사가 요일을 안 보고 늘 3을 바랐다. **날짜가 바뀌자 붉어졌다.** */
     set(d.slice(1, 4).map((x) => [x, "normal"]));
     out.yesterday = streak();
+    out.todayIsSession = parseISO(today()).getDay() !== 0;
     /* 가운데가 비었다 */
     set([[d[0], "normal"], [d[2], "normal"], [d[3], "normal"]]);
     out.gap = streak();
@@ -104,8 +110,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
 
   if (got.four !== 4) no("잇달아 넷인데 " + got.four + " 이 나온다");
-  if (got.yesterday !== 3)
-    no("오늘을 안 했고 어제부터 셋인데 " + got.yesterday + " 이 나온다");
+  /* 오늘이 세션일이면 오늘 것은 아직 안 해도 안 끊긴다. 셋이 나와야 한다.
+     일요일이면 `d[0]` 이 어제고 그것을 걸렀으니 끊긴 것이 맞다. */
+  const wantY = got.todayIsSession ? 3 : 0;
+  if (got.yesterday !== wantY)
+    no("오늘을 안 했고 어제부터 셋인데 " + got.yesterday + " 이 나온다" +
+       (got.todayIsSession ? "" : " (오늘이 일요일이라 0이 맞다)"));
   if (got.gap !== 1) no("가운데가 비었는데 " + got.gap + " 이 나온다. 끊겨야 한다");
   if (got.emg !== 3)
     no("가운데가 비상판인데 " + got.emg + " 이 나온다. 안 끊기고 안 늘어 셋이어야 한다");
@@ -468,6 +478,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     no("갈래에 오늘의 한 판이 없다. 판을 세는 길이 필요하다");
 
   /* **오늘의 한 판을 열면 날 기록에 적히는가** (T325). `rhit` 가 아니다 */
+  /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+  await page.evaluate(() => window.mergePlan ? null :
+    new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
   const one = await page.evaluate(() => {
     S.days = {}; S.rhit = {}; saveNow();
     const r = day(today());

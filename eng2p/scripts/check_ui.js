@@ -2462,6 +2462,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
        **부딪치는 판을 일부러 만든다.** 안 부딪치는 판으로 재면 물음이 0으로 나오고
        물음이 0이면 이 파일이 있는 이유가 안 걸린다. T237 */
+    /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+    await pw.evaluate(() => window.mergePlan ? null :
+      new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
     const mg = await pw.evaluate(() => {
       const A = { names: { a: "남편", b: "아내" }, start: "2026-01-05",
         days: { "2026-01-05": { status: "normal", h: 2, speak: 12, cards: 30, lre: 2,
@@ -2579,6 +2583,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* 넷. 가장자리. **아무것도 안 바뀌는 판과 숫자가 뛰는 판이 같은 말을 하면 안 된다.**
        전에는 둘 다 "셈만 맞춰진다" 였다. 늘어나는 것만 세고 바뀌는 것을 안 셌기 때문이다.
        그리고 낡은 파일과 빈 파일과 세 번 합치기에서 안 깨지는지도 본다. T238 */
+    /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+    await pw.evaluate(() => window.mergePlan ? null :
+      new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
     const edge = await pw.evaluate(() => {
       const me = { names: { a: "남편", b: "아내" }, start: "2026-01-05",
         days: { "2026-01-05": { status: "normal", h: 2, speak: 12, cards: 30, lre: 2,
@@ -2665,6 +2673,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
        그날 상태는 진도를 정하는 값인데 기록 없음에서 정상으로 조용히 바뀌고 있었다.
        두 화면을 나란히 읽다가 보였다. 합치기 칸이 "부딪치는 자리가 없다" 라고만
        적고 넘어갔다. T255 */
+    /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+    await pw.evaluate(() => window.mergePlan ? null :
+      new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
     const fill = await pw.evaluate(() => {
       const base = { names: { a: "남편", b: "아내" }, start: "2026-01-05",
         media: { done: {}, fav: {}, pass: {} }, cardDue: {}, rot: [], clips: [],
@@ -2685,6 +2697,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!fill.chg.some((x) => /적은 것|블록 1과 4/.test(x)))
       bad.push("빈 칸이 글로 채워지는 것을 안 보인다: " + fill.chg.join(" / "));
     /* 화면. 안 바뀌는 판과 세션 중을 가려 말하는가 */
+    /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+    await pw.evaluate(() => window.mergePlan ? null :
+      new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
     const mgs = await pw.evaluate(async () => {
       go("ledger");
       await new Promise((r) => setTimeout(r, 300));
@@ -2949,6 +2965,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         bad.push("건넸는데 앞 사람 몫이 그대로다: " + solo.took.mine[0]);
     }
     /* 돌려 보기 값 셋은 안 건너간다. 기기가 둘인 쪽 파일을 받아도 이 기기 것이다. */
+    /* 합치기는 늦게 읽는다 (T396). 부르기 전에 묶음을 읽어 둔다. 두 번은 안 읽는다 */
+    await pw.evaluate(() => window.mergePlan ? null :
+      new Promise((ok) => loadScript("late", "eng2p/out/app/late.js", ok)));
+
     const soloLocal = await pw.evaluate(() => {
       const me = { names: { a: "남편", b: "아내" }, start: "2026-01-05", days: {},
         media: { done: {}, fav: {}, pass: {} }, cardDue: {}, rot: [], clips: [],
