@@ -80,6 +80,9 @@ const SPOT = [
     sel: "#bakPick", how: "kids", what: "대장 탭의 사본에서 되살리기" },
   { piece: "31_find.js", tab: "find", fn: "renderFind",
     sel: "#fdOut", how: "kids", what: "찾기 탭의 결과 자리" },
+  /* 합치기는 그릴 것이 없을 때 빈 칸으로 둔다. 그래서 함수가 오는지를 잰다 */
+  { piece: "32_merge.js", tab: "ledger", fn: "mergePlan",
+    sel: null, how: "fn", what: "대장 탭의 합치기" },
   { piece: "24_script.js", tab: "clip", fn: "renderScript",
     sel: "#scList", how: "kids", what: "클립 탭의 대본 자리" },
   { piece: "25_clips.js", tab: "clip", fn: "renderClip",

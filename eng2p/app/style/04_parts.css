@@ -217,6 +217,15 @@ kbd{font-family:var(--mono);font-size:0.6875rem;border:1px solid var(--edge);bor
   .afterfold>summary::after{display:none!important}
 }
 
+/* 글쇠 목록 (T396). **화면 한가운데에 띄운다.** ? 를 누른 사람은
+   그것을 보러 온 것이라 자리를 옮겨 찾게 하지 않는다. */
+.keyhelp{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  z-index:70;width:min(340px,calc(100vw - 28px));max-height:80vh;overflow:auto;
+  box-shadow:0 18px 60px rgba(10,10,30,.34)}
+.keyhelp .card{margin:0;background:var(--bg2)}
+.keyhelp td{padding:7px 6px;vertical-align:middle}
+.keyhelp td:first-child{width:64px}
+
 /* 찾기 결과 (T395). **한 줄이 한 자리다.**
    갈 데가 있는 줄은 단추고 없는 줄은 글이다. 둘이 눈으로 갈려야 한다.
    우리가 적은 것은 갈 데가 없다. 그날 화면으로 돌아갈 길이 없기 때문이다. */

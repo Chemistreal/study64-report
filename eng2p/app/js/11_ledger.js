@@ -229,22 +229,10 @@ $("#exMd").onclick=function(){
   copy(L.join("\n"), $("#fMsg"));
   alert("대장 마크다운을 복사했다.");
 };
-/* 합치기. **덮는 것이 아니다.** docs/merge.md 가 갈래 넷을 정했다. T237 */
-$("#mgBtn").onclick=function(){ $("#mgFile").click(); };
-$("#mgFile").onchange=function(e){
-  var f=e.target.files[0]; if(!f) return;
-  var r=new FileReader();
-  r.onload=function(){
-    try{
-      var o=JSON.parse(r.result);
-      if(!o.days) throw 0;
-      MG.plan=mergePlan(S,o); MG.pick={}; MG.name=f.name;
-      renderMerge();
-      $("#mgBox").scrollIntoView({block:"nearest"});
-    }catch(err){ alert("JSON 형식이 아니다."); }
-  };
-  r.readAsText(f); e.target.value="";
-};
+/* 합치기는 제 조각이 제 단추를 든다 (T396). `late/32_merge.js` 다.
+   **열자마자 읽는 코드가 늦게 오는 함수를 부르면 안 된다.**
+   여기서 파일을 받아 넘기려니 `mergePlan` 을 이름으로 불러야 했고
+   `check_late.js` 가 그것을 잡았다. 단추째로 그 조각에 넘겼다. */
 $("#imBtn").onclick=function(){ $("#imFile").click(); };
 $("#imFile").onchange=function(e){
   var f=e.target.files[0]; if(!f) return;

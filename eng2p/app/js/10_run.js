@@ -207,18 +207,90 @@ document.addEventListener("touchend",function(e){
 },{passive:true});
 
 
-/* 키보드 단축키. 데스크톱에서 세션 중 마우스를 안 잡게 한다. */
+/* 키보드 단축키. 데스크톱에서 세션 중 마우스를 안 잡게 한다.
+
+   ## 적어 둔 목록과 실제가 어긋나 있었다 (T396)
+
+   규칙 탭에 목록이 있었는데 거기 없는 글쇠가 셋이었다.
+   `P` 와 `왼쪽` 과 `오른쪽` 이다. **두 벌로 적으면 한쪽만 고치는 날이 온다.**
+   T389 에 색 이름으로 겪은 것과 같다.
+
+   이제 표가 하나다. 이 표가 원본이고 규칙 탭과 `?` 목록이 그것을 읽는다.
+   검사가 셋이 같은지 잰다.
+
+   ## 빈칸이 세션을 시작하고 있었다 (T396)
+
+   `Space` 가 늘 `#tStart` 를 눌렀다. 오늘 화면을 내리려고 빈칸을 치면
+   **두 시간짜리 세션이 시작된다.** 그 손짓은 내리려던 것이지 시작하려던 것이
+   아니다. 세션이 도는 중에만 먹게 했다.
+
+   시작은 큰 단추가 화면 가운데에 있다. 그것을 못 찾을 일이 없다. */
+var KEYS=[
+  {k:[" "],                name:"Space", what:"세션 멈춤과 다시", run:true,
+   run_only:"세션 중에만. 밖에서는 화면을 내린다"},
+  {k:["n","arrowright"],   name:"N",     alt:"→", what:"다음 블록", run:true},
+  {k:["p","arrowleft"],    name:"P",     alt:"←", what:"이전 블록", run:true},
+  {k:["l"],                name:"L",     what:"LRE 하나 올림"},
+  {k:["h"],                name:"H",     what:"화면 가리기와 풀기"},
+  {k:["?"],                name:"?",     what:"이 목록"},
+  {k:["1","2","3","4","5","6","7","8","9"], name:"1~9", what:"탭 이동"}
+];
+/* 세션 안인가. **멈춰 있어도 세션 안이다.** 빈칸으로 다시 켜야 하기 때문이다.
+
+   `T.run` 만 보면 안 된다. 그것은 시계가 도는가지 세션 안인가가 아니다.
+   일시정지하면 `T.run` 이 false 가 되고 그러면 빈칸으로 다시 못 켠다.
+   `S.session` 은 세션을 시작할 때 생기고 마칠 때 `clearSession()` 이 지운다.
+   그리고 **어제 것은 안 센다.** 날짜가 오늘이어야 한다. */
+function keyRunning(){
+  if(typeof T!=="undefined" && T && T.run===true) return true;
+  return !!(S.session && S.session.date===today());
+}
+/* `?` 목록. 규칙 탭과 같은 표를 읽는다 */
+function keyHelpRows(){
+  return KEYS.map(function(x){
+    return {key:x.name+(x.alt?" "+x.alt:""), what:x.what,
+            when:x.run?(x.run_only||"세션 중에만"):"어디서나"};
+  });
+}
+function renderKeyList(box){
+  if(!box) return;
+  var h='<table><tbody>';
+  keyHelpRows().forEach(function(r){
+    h+='<tr><td><kbd>'+esc(r.key)+'</kbd></td><td>'+esc(r.what)+
+       '</td><td class="small mut">'+esc(r.when)+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  box.innerHTML=h;
+}
+function keyHelpToggle(){
+  var box=$("#keyHelp"); if(!box) return;
+  if(!box.hidden){ box.hidden=true; return; }
+  box.innerHTML='<div class="card tight"><div class="row" style="justify-content:space-between">'+
+    '<b>글쇠</b><button class="g" type="button" id="keyHelpX">닫기</button></div>'+
+    '<div class="small mut" style="margin:6px 0 10px">적는 칸에 손이 가 있을 때는 안 먹는다.</div>'+
+    '<div id="keyHelpBody"></div></div>';
+  renderKeyList($("#keyHelpBody"));
+  box.hidden=false;
+  var x=$("#keyHelpX"); if(x) x.onclick=function(){ box.hidden=true; };
+}
 document.addEventListener("keydown",function(e){
   var tag=(e.target.tagName||"").toLowerCase();
   if(tag==="input"||tag==="textarea"||tag==="select"||e.metaKey||e.ctrlKey||e.altKey) return;
+  if(e.target&&e.target.isContentEditable) return;
+  var k=(e.key||"").toLowerCase();
   var vis=TABS.filter(function(x){return x[0]!=="SEP";});
-  if(e.key===" "){ e.preventDefault(); $("#tStart").click(); return; }
-  if(e.key==="n"||e.key==="N"||e.key==="ArrowRight"){ $("#tSkip").click(); return; }
-  if(e.key==="p"||e.key==="P"||e.key==="ArrowLeft"){ $("#tPrev").click(); return; }
-  if(e.key==="l"||e.key==="L"){ var b=$("#lrePlus"); if(b){ b.click(); flash("LRE +1"); } return; }
+  /* **빈칸은 세션 중에만 먹는다.** 밖에서는 화면을 내리는 손짓이다 */
+  if(k===" "){
+    if(!keyRunning()) return;
+    e.preventDefault(); $("#tStart").click(); return;
+  }
+  if(k==="n"||k==="arrowright"){ if(!keyRunning()) return; $("#tSkip").click(); return; }
+  if(k==="p"||k==="arrowleft"){ if(!keyRunning()) return; $("#tPrev").click(); return; }
+  if(k==="?"){ e.preventDefault(); keyHelpToggle(); return; }
+  if(k==="l"){ var b=$("#lrePlus"); if(b){ b.click(); flash("LRE +1"); } return; }
   /* **손이 화면에서 멀 때 칠 수 있어야 한다.** 상대가 다가오는 것을 보고
      단추를 찾아 누르는 사이에 이미 보인다. 덮여 있을 때도 같은 키로 푼다. T244 */
-  if(e.key==="h"||e.key==="H"){ veilToggle(); return; }
+  if(k==="h"){ veilToggle(); return; }
   if(veiled()) return;             // 덮여 있으면 다른 키는 안 듣는다
   var n=parseInt(e.key,10);
   if(n>=1&&n<=vis.length){ go(vis[n-1][0]); }

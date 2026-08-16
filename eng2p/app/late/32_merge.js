@@ -342,7 +342,32 @@ function mgText(v){
    두 시간 중에 합칠 이유도 없다. 짝을 맞추는 자리는 세션이 끝난 뒤다 (10.11). */
 function mergeBusy(){ return typeof T!=="undefined" && T.run; }
 
+/* 파일 고르는 자리도 여기서 든다 (T396). 전에는 `11_ledger.js` 에 있었는데
+   그것은 열자마자 읽는 조각이고 거기서 `mergePlan` 을 이름으로 불렀다.
+   **아직 없는 함수를 부르는 자리**가 되므로 단추째로 옮겼다.
+   이 자리는 `renderMerge()` 가 그릴 때 붙으므로 그때는 이미 다 읽혀 있다. */
+function mergeBind(){
+  var b=$("#mgBtn"); if(!b || b.dataset.bound) return;
+  b.dataset.bound="1";
+  b.onclick=function(){ $("#mgFile").click(); };
+  $("#mgFile").onchange=function(e){
+    var f=e.target.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var o=JSON.parse(r.result);
+        if(!o.days) throw 0;
+        MG.plan=mergePlan(S,o); MG.pick={}; MG.name=f.name;
+        renderMerge();
+        $("#mgBox").scrollIntoView({block:"nearest"});
+      }catch(err){ alert("JSON 형식이 아니다."); }
+    };
+    r.readAsText(f); e.target.value="";
+  };
+}
+
 function renderMerge(){
+  mergeBind();
   var box=$("#mgBox"); if(!box) return;
   if(!MG.plan){ box.hidden=true; box.innerHTML=""; return; }
   box.hidden=false;

@@ -62,7 +62,7 @@ function go(name){
   if(name==="ledger"){ renderLedger(); renderRest(); lateDo("renderWeekCheck");
                        lateDo("renderOpen"); lateDo("renderBakPick");
                        lateDo("renderAsk"); lateDo("renderTrack");
-                       renderPair(); renderMerge(); }
+                       renderPair(); lateDo("renderMerge"); }
   /* **드물게 여는 탭 넷은 늦게 읽는다** (T313 뒤). 21.3KB 라 열자마자 읽을 값이 아니다.
      판 탭이 쓰는 길과 같다 (T259). 다른 점은 **여기는 그릴 자리가 이미 화면에 있다**는
      것이다. 칸은 `body/` 조각에 있고 그리는 코드만 늦게 온다. */
@@ -73,10 +73,7 @@ function go(name){
   if(name==="rot") lateDo("renderRot");
   /* 찾기는 늦게 읽는다 (T395). 자료 넷을 뒤지는데 그 넷이 1MB 다.
      **날마다 여는 자리가 아니다.** 찾을 때만 읽는다. */
-  if(name==="find"){
-    lateDo("renderFind");
-    var fq=$("#fdQ"); if(fq) fq.focus();
-  }
+  if(name==="find") lateDo("renderFind");
   if(name==="check") lateDo("checkBind");
   if(name==="rules"){ lateDo("renderRules"); renderSplit(); }
   if(name==="play") renderPlayTab();
@@ -92,6 +89,10 @@ function go(name){
     var sec=$("#t-"+name);
     if(sec && typeof sec.focus==="function"){ try{ sec.focus({preventScroll:true}); }catch(e){ sec.focus(); } }
   }
+  /* **찾기는 칸에 손을 놓는다.** 찾으러 온 사람이 한 번 더 짚게 하지 않는다.
+     구역 초점보다 뒤에 온다. 앞에 두면 구역 초점이 이것을 도로 지운다.
+     칸이 그 구역 안이라 낭독기는 구역 이름부터 읽는다. */
+  if(name==="find"){ var fq=$("#fdQ"); if(fq) fq.focus(); }
   NAV_READY=true;
 }
 var NAV_READY=false;

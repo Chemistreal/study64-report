@@ -220,6 +220,9 @@ $("#srcCopy").onclick=function(){
    규칙 탭
    ========================================================================= */
 function renderRules(){
+  /* 단축키 표는 `10_run.js` 의 `KEYS` 가 원본이다 (T396).
+     여기에 손으로 적어 두었더니 실제에 있는 글쇠 셋이 빠져 있었다. */
+  if(typeof renderKeyList==="function") renderKeyList($("#keyList"));
   var w=$("#wall"); w.innerHTML="";
   var h=el("div");
   h.appendChild(el("h4",null,"2인 영어 세션 규칙 카드"));
