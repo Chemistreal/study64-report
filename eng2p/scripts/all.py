@@ -35,6 +35,9 @@ STEPS = [
     ("파생", "derive_handout.py", [], True),
     ("파생", "derive_index.py", [], True),
     ("파생", "derive_bundle.py", [], True),
+    # **종이가 필요하다고 적어 두고 그 종이를 안 만들었다.** 기기가 없는 날에
+    # 두 사람 앞에 있는 것은 강의록 한 장뿐이었다. T399
+    ("파생", "derive_play_paper.py", [], True),
     ("파생", "derive_data.py", [], True),
     ("파생", "derive_transcripts.py", [], True),
     ("파생", "derive_audiolen.py", [], True),
@@ -135,6 +138,7 @@ STEPS = [
     # **판정은 사람이 하고 규칙은 기계가 본다.** 규칙서와 로드맵 12.9 가 같은 말을 하는지,
     # 못 했을 때 칸에 벌이 있는지, 기록할 값에 사람이 남는지를 스무 판 전수로 본다.
     ("대조", "check_play.py", [], True),
+    ("대조", "check_play_paper.py", [], True),
     ("화면", "check_ui.js", [], False),
     # **마찰은 고쳐 놓으면 다시 나빠진다.** 화면에 뭘 더할 때마다 한 번씩 는다.
     # 그리고 나빠지는 것이 안 보인다. 누름이 하나 늘어도 화면은 멀쩡해 보인다.
