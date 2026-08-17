@@ -47,6 +47,9 @@ var FLP={seats:["판정하는 쪽","답하는 쪽"]};
 function flpPool(){
   var d=DATA.flip, pl=(typeof plan==="function")?plan():null;
   if(!d || !d.cards || !pl || !pl.cards || !pl.quarter) return [];
+  /* 뽑는 법이 첫 세션부터 되짚는다 (T409). 되짚으려면 차림표 48주가 다 있어야 한다.
+     **반만 들고 세면 기기마다 읽은 만큼이 달라 덱이 갈린다.** 읽고 다시 그린다. */
+  if(!roundHistory(renderFlip)) return [];
   return d.cards.filter(function(c){
     return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
   });
@@ -62,7 +65,9 @@ function flpDeck(){
     var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
     if(kept.length===rec.deck.length) return kept;
   }
-  var out=roundPick("flip", pool, d.end);
+  /* **그때 자루가 몇이었는지를 같이 준다** (T409). 카드는 강이 나갈 때마다 늘고
+     늘어난 자루로 나머지셈을 하면 자리가 튄다. 되짚을 때 그 크기를 쓴다. */
+  var out=roundPick("flip", pool, d.end, function(s){ return roundCardsAt(d.cards, s); });
   rec.deck=out.map(function(c){ return c.id; });
   save();
   return out;

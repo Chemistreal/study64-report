@@ -45,6 +45,9 @@ var WAL={seats:["단서를 띄우는 쪽","받는 쪽"], stage:"ask"};
 function walPool(){
   var d=DATA.wall, pl=(typeof plan==="function")?plan():null;
   if(!d || !d.cards || !pl || !pl.cards || !pl.quarter) return [];
+  /* 뽑는 법이 첫 세션부터 되짚는다 (T409). 되짚으려면 차림표 48주가 다 있어야 한다.
+     **반만 들고 세면 기기마다 읽은 만큼이 달라 덱이 갈린다.** 읽고 다시 그린다. */
+  if(!roundHistory(renderWall)) return [];
   return d.cards.filter(function(c){
     return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
   });
@@ -75,8 +78,15 @@ function walDeck(){
   });
   var rest=pool.filter(function(c){ return !used[c.id]; });
   /* **미룬 것 뒤를 순환으로 채운다** (T403). 날마다 새로 섞던 때는
-     아흔넷을 들고도 어제 낸 열 중 몇이 오늘 또 왔다. 겹친 날이 73.6%였다. */
-  if(out.length<d.end) out=out.concat(roundPick("wall", rest, d.end-out.length));
+     아흔넷을 들고도 어제 낸 열 중 몇이 오늘 또 왔다. 겹친 날이 73.6%였다.
+
+     **그때 자루가 몇이었는지를 같이 준다** (T409). 카드는 강이 나갈 때마다 늘고
+     늘어난 자루로 나머지셈을 하면 자리가 튄다. 되짚을 때 그 크기를 쓴다.
+     **미룬 장이 있는 날은 그 크기가 미룬 수만큼 어긋난다.** 미룬 장을 뺀 자루에서
+     뽑기 때문이다. 미루는 것은 드물고 어긋나 봐야 한두 장이라 그냥 둔다. */
+  if(out.length<d.end)
+    out=out.concat(roundPick("wall", rest, d.end-out.length,
+                             function(s){ return roundCardsAt(d.cards, s); }));
   out=out.slice(0, d.end);
   rec.deck=out.map(function(c){ return c.id; });
   save();

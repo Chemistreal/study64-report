@@ -46,6 +46,11 @@ function ladPiece(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
+  /* **`roundPick` 으로 바꿔 봤다가 되돌렸다** (T413~T415).
+     자루가 6이고 한 과가 엿새 도니 여섯을 다 낼 줄 알았는데
+     309 중 199가 163으로 **줄었다.** 자루가 작을 때 커서 걸음과 자루 크기가
+     맞물려 같은 자리를 되풀이한다. 까닭을 다 못 밝혀서 되돌린다.
+     **고쳐서 나빠지면 안 고친 것만 못하다.** `docs/play_unused.md` 에 적어 뒀다. */
   return rows[roundSeed("ladder",0)%rows.length];
 }
 function ladLine(li){

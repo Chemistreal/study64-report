@@ -51,6 +51,20 @@ function cutLines(){
   }).filter(function(x){ return x.split(/\s+/).length>=4; });
   return ls.length ? ls : null;
 }
+/* 그날 읽을 여섯 줄. **함수로 뺀다.**
+
+   여기 있던 `lines.slice(0,6)` 이 대본 앞 여섯 줄만 냈다 (T413~T415).
+   뽑는 것이 아니라 자르는 것이라 한 과가 엿새 도는 내내 같은 여섯 줄이었고
+   1370줄 중 312줄만 떴다. 어제 낸 것을 또 낸 날이 67%다.
+
+   **함수로 뺀 까닭이 따로 있다.** 그리는 자리에 셈을 두면 검사기가 그것을
+   못 부르고 제 안에 똑같은 셈을 한 벌 더 갖게 된다. 그러면 앱을 고쳐도
+   검사기가 안 따라오고, 실제로 `check_unused.js` 가 그렇게 만들어져 있었다.
+   앱을 고쳤는데 잰 값이 312 그대로였다. **둘이 같은 함수를 봐야 한다.** */
+function cutShow(){
+  var ls=cutLines();
+  return ls ? roundPick("cutin", ls, 6) : [];
+}
 /* 오늘의 신호 벌. **두 기기가 같은 씨앗을 가지니 같은 벌을 고른다.** */
 function cutDeck(){
   var d=DATA.cutin;
@@ -159,7 +173,7 @@ function renderCutin(){
      '그러면 역할이 뒤집힌다. <b>언제 날지는 아무도 모른다.</b></div>';
 
   h+='<div class="cutbox">';
-  lines.slice(0,6).forEach(function(x){
+  cutShow().forEach(function(x){
     h+='<div class="cutline">'+esc(x)+'</div>';
   });
   h+='</div>';

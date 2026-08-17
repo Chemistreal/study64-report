@@ -39,6 +39,12 @@ function ovlTarget(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
+  /* **`roundPick` 으로 바꿔 봤다가 되돌렸다** (T413~T415).
+     배속 사다리와 파장이 같은 고침에서 199에서 163으로 **줄었다.**
+     자루가 작을 때 커서 걸음과 자루 크기가 맞물려 같은 자리를 되풀이한다.
+     이 판은 자루가 커서 다를 수 있는데 `check_unused.js` 가 셋을 묶어 보고
+     제 안의 거울로 재서 하나만 고치면 잰 값이 안 따라온다.
+     **셋을 같이 다루는 것이 맞다.** `docs/play_unused.md` 에 적어 뒀다. */
   return rows[roundSeed("overlap",0)%rows.length].c;
 }
 function ovlRec(){ return playRec("overlap", {rounds:0, wiped:0, hit:0}); }

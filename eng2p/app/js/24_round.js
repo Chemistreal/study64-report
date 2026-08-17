@@ -16,7 +16,7 @@
 /* 넷을 한 수로 접는다. 짝 코드의 검사 글자와 같은 꼴이다.
    자리마다 무게를 달리 줘야 자리를 바꿔 넣은 것이 다른 수가 된다.
 
-   `day` 를 안 주면 오늘이다. **주는 자리가 하나 있다** (T403). `roundPick` 이
+   `day` 를 안 주면 오늘이다. **주는 자리가 하나 있다** (T403, T409). `roundPick` 이
    날마다 안 섞으려고 오늘 대신 시작일을 넣는다. 거기 말고는 안 준다. */
 function roundSeed(playId, step, day){
   var s=String(S.start||"")+"|"+(day||today())+"|"+String(playId)+"|"+String(step|0);
@@ -50,53 +50,164 @@ function roundOrder(n, seed){
   return a;
 }
 
-/* 시작일부터 며칠째인가. **일요일도 센다.** 세션 수가 아니라 날 수다.
-   자리를 옮기는 데만 쓰므로 쉬는 날을 빼고 셀 이유가 없다.
-   빼려면 기록을 봐야 하는데 기록은 기기마다 다르다 (round.md 2장). */
-function roundDayNo(){
-  if(!S.start) return 0;
-  var a=parseISO(S.start), b=parseISO(today());
-  if(!a || !b) return 0;
-  var n=Math.round((b-a)/86400000);
-  return n>0 ? n : 0;
+/* 몇 번째 세션인가 (T409). **날이 아니라 세션을 센다.**
+   `plan()` 이 `S.days` 에서 끝낸 세션 수를 센다. 그 기록은 두 기기가 맞추는 것이라
+   이 수는 두 기기에서 같다. **시계를 안 읽는다.** 자정을 넘겨도 안 바뀐다.
+
+   **`plan().session` 이 아니라 `done` 에서 낸다.** 앞엣것은 288에서 멈춘다.
+   288세션을 다 돌고도 계속 도는 날이 있고 (`docs/year.md` 6장) 멈춘 수를 쓰면
+   그날부터 커서가 서서 **어제 낸 것을 날마다 그대로 낸다.** */
+function roundSess(){
+  var pl=(typeof plan==="function")?plan():null;
+  return pl ? (pl.done|0)+1 : 1;
+}
+
+/* 그 세션의 배정 (T409). **`plan()` 을 세션 번호로 다시 돌린 것이다.**
+   `plan()` 은 오늘 것만 준다. 지난 세션 자루를 다시 세우려면 그때 배정이 있어야 하고
+   그것은 기기 기록이 아니라 차림표에서 나온다. 세션 번호가 같으면 값도 같다. */
+function roundPlanAt(sess){
+  var idx=Math.max(0, Math.min((sess|0)-1, 287));
+  var week=Math.floor(idx/6)+1, day=(idx%6)+1;
+  var out={session:idx+1, week:week, day:day, quarter:null, cards:null, media:null};
+  var W=(typeof IDX!=="undefined" && IDX && IDX.weeks) ? IDX.weeks[week-1] : null;
+  if(!W) return out;
+  out.quarter=W.quarter;
+  var dd=(W.days||[])[day-1]||null;
+  if(!dd) return out;
+  var L=(W.lectures||[]).filter(function(x){ return x.no===dd.lecture; })[0];
+  if(L){ out.cards=L.cards; out.media=L.media; }
+  return out;
+}
+/* 되짚으려면 차림표 48주가 다 있어야 한다 (T409).
+   앱은 오늘 분기만 읽어 둔다 (T245). **반만 들고 되짚으면 기기마다 읽은 만큼이 달라
+   커서가 갈리고 두 기기가 다른 것을 낸다.** 그래서 다 읽기 전에는 안 낸다. */
+var ROUND_IDX={asked:false, after:[]};
+function roundHistory(again){
+  if(typeof haveQuarter!=="function" || typeof needAllWeeks!=="function") return true;
+  var qs=["Q1","Q2","Q3","Q4"], i;
+  for(i=0;i<qs.length;i++) if(!haveQuarter(qs[i])) break;
+  if(i>=qs.length) return true;
+  if(typeof again==="function") ROUND_IDX.after.push(again);
+  if(!ROUND_IDX.asked){
+    ROUND_IDX.asked=true;
+    needAllWeeks(function(){
+      var fs=ROUND_IDX.after; ROUND_IDX.after=[];
+      fs.forEach(function(f){ f(); });
+    });
+  }
+  return false;
+}
+/* 그 세션에 카드 자루가 몇이었나 (T409). 카드를 쓰는 판 셋이 규칙이 같다.
+   **그날 강까지 나온 것만 쓴다.** 카드 번호 차례라 자루는 앞에서부터만 자라고
+   어제 있던 것이 오늘 빠지지 않는다. 그래서 개수 하나로 그때 자루를 다시 세운다. */
+function roundCardsAt(rows, sess){
+  var pl=roundPlanAt(sess), n=0, i, c;
+  if(!pl.quarter || !pl.cards) return 0;
+  for(i=0;i<rows.length;i++){
+    c=rows[i];
+    if(c.q < pl.quarter || (c.q===pl.quarter && c.no <= pl.cards.to)) n++;
+  }
+  return n;
+}
+
+/* 낱마다 붙는 고정 자리 (T409). **자루 크기가 안 들어간다.**
+   자루를 통째로 섞으면 섞는 셈에 자루 크기가 들어가고 카드가 한 장 늘면 차례가
+   통째로 바뀐다. 여기서는 낱이 제 이름만으로 자리를 받는다. 자루가 자라도
+   이미 있던 낱의 자리는 그대로고 새 낱이 사이에 끼어들 뿐이다. */
+function roundSpot(playId, key){
+  var s=String(playId)+"|"+String(key);
+  var n=7;
+  for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))%2147483647;
+  n^=n>>>13; n=(n*1274126177)%2147483647; n^=n>>>7;
+  return n<0 ? n+2147483647 : n;
+}
+/* 낱의 이름. `id` 가 있으면 그것이고 없으면 낱 자체를 글월로 적은 것이다.
+   **자루에서의 번호를 이름으로 안 쓴다.** 자루가 자라면 번호가 밀린다. */
+function roundName(x, i){
+  if(x==null) return "#"+i;
+  if(typeof x!=="object") return String(x);
+  if(x.id!=null) return String(x.id);
+  if(x.no!=null) return "no"+x.no;
+  try{ return JSON.stringify(x); }catch(e){ return "#"+i; }
+}
+/* 자루를 자리 차례로 줄 세운다. 돌려주는 것은 자루에서의 번호와 자리다. */
+function roundLine(playId, list){
+  var a=[], i;
+  for(i=0;i<list.length;i++) a.push({i:i, p:roundSpot(playId, roundName(list[i], i))});
+  a.sort(function(x,y){ return x.p-y.p || x.i-y.i; });
+  return a;
+}
+/* 그때 자루에 들어 있던 것만 남긴다. **앞의 m개다.** 위의 `roundCardsAt` 참고. */
+function roundLive(line, m){
+  var a=[], i;
+  for(i=0;i<line.length;i++) if(line[i].i<m) a.push(line[i]);
+  return a;
+}
+/* 커서에서 잇대어 k개를 집는다. **끝에 닿으면 앞으로 돈다.**
+   잇대어 집으므로 개수는 언제나 정확히 k다. 줄이 자리 차례라 반씩 갈라 찾는다. */
+function roundRun(live, k, cur){
+  var L=live.length, out={pick:[], end:cur}, lo=0, hi=L, mid, i, e;
+  if(!L) return out;
+  if(k>L) k=L;
+  while(lo<hi){ mid=(lo+hi)>>1; if(live[mid].p<cur) lo=mid+1; else hi=mid; }
+  if(lo>=L) lo=0;
+  for(i=0;i<k;i++){ e=live[(lo+i)%L]; out.pick.push(e.i); out.end=e.p+1; }
+  return out;
 }
 
 /* 그날 낼 것을 고른다. **어제 낸 것을 오늘 또 내지 않는다.**
 
-   판마다 `roundOrder` 로 날마다 새로 섞고 앞에서 몇을 뗐다.
-   그러면 **어제 뗀 것이 오늘 또 걸린다.** 판 열둘을 288일 돌려 봤더니
-   자루에 여유가 있는데도 겹친 날이 이랬다 (T403).
+   ## 앞의 판정이 틀렸다 (T409)
 
-     3초 벽    73.6%    아흔넷을 들고 열을 내는데 어제 것이 또 나왔다
-     전달      62.9%
-     누구 말   54.1%
-     못 알아들은 척  45.8%
-     거꾸로 판정    44.5%    예순여덟을 들고 다섯을 낸다
+   T403 이 날마다 섞는 것을 그만두고 한 바퀴에 한 번 섞게 고쳤다. 겹침이
+   73.6% 에서 33% 로 내려갔고 거기서 안 내려갔다. `docs/friction.md` 9장이
+   남은 3할을 **자루가 자라기 때문**이라고 적었다. **그것이 틀렸다.**
+   자란 날과 안 자란 날을 갈라 재 봤더니 값이 같았다 (3초 벽 32.5% 대 27.9%).
 
-   `play_data.md` 6장이 이것을 **자료가 모자란 것으로 읽었다.**
-   자료는 있었다. 뽑는 법이 자료를 안 썼다.
+   진짜 까닭은 씨앗이 `today()` 를 물고 있는 것이었다. **날이 바뀌면 자루가
+   그대로여도 섞은 차례가 통째로 다시 굴러간다.** 자루가 아니라 날짜였다.
 
-   그래서 **섞는 것을 날마다 안 한다.** 한 바퀴에 한 번 섞고 날마다 자리를 옮긴다.
-   자루가 n이고 한 판에 k를 내면 n/k 날 동안 같은 것이 두 번 안 나온다.
+   ## 자리를 낱에 주고 커서를 굴린다
+
+   낱마다 자루 크기가 안 들어가는 고정 자리를 준다 (`roundSpot`). 자루를 그
+   자리로 줄 세우고 커서에서 **잇대어** N개를 집는다. 잇대어 집으므로 개수는
+   언제나 정확히 N이고, 오늘 집는 것은 다 커서 위에 있어서 커서 아래에 있던
+   어제 것과 안 겹친다.
+
+   커서는 **첫 세션부터 되짚어 잇는다.** 지난 세션 자루는 `plan()` 이 세션
+   번호에서 순수하게 파생시키므로 기록을 안 보고 다시 셀 수 있다 (`sizeAt`).
+   세션마다 자루 크기로 나눠 자리를 내면 자루가 자랄 때 그 나머지셈이 튀는데,
+   되짚어 이으면 자란 것이 커서를 안 건드린다.
+
+   `sizeAt` 을 안 주면 자루가 내내 오늘 크기였던 것으로 친다. 과마다 자루가
+   통째로 갈리는 판이 그렇다. 그 판은 자루가 안 자라서 되짚을 것이 없다.
 
    **기록을 안 본다.** 기기끼리 말할 길이 없어서 기록은 갈린다 (round.md 2장).
-   여기 드는 것은 시작일과 오늘과 자루 크기뿐이고 셋 다 두 기기에서 같다. */
-function roundPick(playId, list, take){
-  var n=(list||[]).length, out=[], i;
+   여기 드는 것은 세션 번호와 자루와 낱 이름뿐이고 셋 다 두 기기에서 같다.
+   **시계를 안 읽는다.** `today()` 가 이 함수에서 빠졌다. */
+function roundPick(playId, list, take, sizeAt){
+  var n=(list||[]).length, out=[], i, m;
   take=Math.max(1, take|0);
+  if(!n) return out;
+  var line=roundLine(playId, list);
   /* 자루가 낼 것보다 작으면 다 낸다. **그래도 차례는 섞는다.**
-     안 섞으면 파일 차례가 그대로 나오고 그것은 날마다 같다. */
+     안 섞으면 파일 차례가 그대로 나온다. 씨앗의 날짜 자리에 시작일을 넣고
+     회 자리에 세션 번호를 넣어 **오늘을 뺀다.** */
   if(n<=take){
-    var o0=roundOrder(n, roundSeed(playId, 0));
+    var o0=roundOrder(n, roundSeed(playId, roundSess(), String(S.start||"x")));
     for(i=0;i<n;i++) out.push(list[o0[i]]);
     return out;
   }
-  var at=roundDayNo()*take, lap=Math.floor(at/n);
-  /* 바퀴마다 다시 섞는다. **안 섞으면 n/k 날마다 같은 묶음이 통째로 돈다.**
-     씨앗의 날짜 자리에 시작일을 넣어 **오늘을 뺀다.** 그것이 이 함수의 전부다. */
-  var ord=roundOrder(n, roundSeed(playId, lap, String(S.start||"x")));
-  var off=at%n;
-  for(i=0;i<take;i++) out.push(list[ord[(off+i)%n]]);
+  var sess=roundSess(), cur=0, at=n, live=roundLive(line, n);
+  for(i=1;i<sess;i++){
+    m=sizeAt ? (sizeAt(i)|0) : n;
+    if(m>n) m=n;
+    if(m<=0) continue;                 /* 그 세션에는 이 판이 안 돌았다 */
+    if(m!==at){ live=roundLive(line, m); at=m; }
+    cur=roundRun(live, take, cur).end;
+  }
+  if(at!==n) live=roundLive(line, n);
+  roundRun(live, take, cur).pick.forEach(function(j){ out.push(list[j]); });
   return out;
 }
 

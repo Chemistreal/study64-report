@@ -42,6 +42,9 @@ function whoToday(){
 function whoPool(){
   var d=DATA.whose, pl=whoToday();
   if(!d || !d.sets || !pl || !pl.cards || !pl.quarter) return [];
+  /* 뽑는 법이 첫 세션부터 되짚는다 (T409). 되짚으려면 차림표 48주가 다 있어야 한다.
+     **반만 들고 세면 기기마다 읽은 만큼이 달라 덱이 갈린다.** 읽고 다시 그린다. */
+  if(!roundHistory(renderWhose)) return [];
   return d.sets.filter(function(c){
     return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
   });
@@ -62,7 +65,9 @@ function whoRec(){ return playRec("whose", {same:0, split:0, pick:null}); }
 function whoDeck(){
   var d=DATA.whose, pool=whoPool();
   if(!d || !pool.length) return [];
-  var out=roundPick("whose", pool, d.rounds);
+  /* **그때 자루가 몇이었는지를 같이 준다** (T409). 쓸 자리는 강이 나갈 때마다 늘고
+     늘어난 자루로 나머지셈을 하면 자리가 튄다. 되짚을 때 그 크기를 쓴다. */
+  var out=roundPick("whose", pool, d.rounds, function(s){ return roundCardsAt(d.sets, s); });
   return out;
 }
 /* 갈린 자리. **그 주의 것이다.** 주 이레째 점검이 이것을 읽는다. */

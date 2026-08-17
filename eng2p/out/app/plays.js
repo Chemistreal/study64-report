@@ -1523,6 +1523,7 @@ var WAL={seats:["단서를 띄우는 쪽","받는 쪽"], stage:"ask"};
 function walPool(){
   var d=DATA.wall, pl=(typeof plan==="function")?plan():null;
   if(!d || !d.cards || !pl || !pl.cards || !pl.quarter) return [];
+  if(!roundHistory(renderWall)) return [];
   return d.cards.filter(function(c){
     return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
   });
@@ -1542,7 +1543,9 @@ function walDeck(){
     if(by[id] && !used[id]){ out.push(by[id]); used[id]=1; }
   });
   var rest=pool.filter(function(c){ return !used[c.id]; });
-  if(out.length<d.end) out=out.concat(roundPick("wall", rest, d.end-out.length));
+  if(out.length<d.end)
+    out=out.concat(roundPick("wall", rest, d.end-out.length,
+                             function(s){ return roundCardsAt(d.cards, s); }));
   out=out.slice(0, d.end);
   rec.deck=out.map(function(c){ return c.id; });
   save();
@@ -2331,6 +2334,7 @@ function whoToday(){
 function whoPool(){
   var d=DATA.whose, pl=whoToday();
   if(!d || !d.sets || !pl || !pl.cards || !pl.quarter) return [];
+  if(!roundHistory(renderWhose)) return [];
   return d.sets.filter(function(c){
     return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
   });
@@ -2340,7 +2344,7 @@ function whoRec(){ return playRec("whose", {same:0, split:0, pick:null}); }
 function whoDeck(){
   var d=DATA.whose, pool=whoPool();
   if(!d || !pool.length) return [];
-  var out=roundPick("whose", pool, d.rounds);
+  var out=roundPick("whose", pool, d.rounds, function(s){ return roundCardsAt(d.sets, s); });
   return out;
 }
 function whoSplit(w){
@@ -2706,6 +2710,10 @@ function cutLines(){
   }).filter(function(x){ return x.split(/\s+/).length>=4; });
   return ls.length ? ls : null;
 }
+function cutShow(){
+  var ls=cutLines();
+  return ls ? roundPick("cutin", ls, 6) : [];
+}
 function cutDeck(){
   var d=DATA.cutin;
   if(!d || !d.decks || !d.decks.length) return null;
@@ -2806,7 +2814,7 @@ function renderCutin(){
      '그러면 역할이 뒤집힌다. <b>언제 날지는 아무도 모른다.</b></div>';
 
   h+='<div class="cutbox">';
-  lines.slice(0,6).forEach(function(x){
+  cutShow().forEach(function(x){
     h+='<div class="cutline">'+esc(x)+'</div>';
   });
   h+='</div>';
@@ -3063,6 +3071,7 @@ var FLP={seats:["판정하는 쪽","답하는 쪽"]};
 function flpPool(){
   var d=DATA.flip, pl=(typeof plan==="function")?plan():null;
   if(!d || !d.cards || !pl || !pl.cards || !pl.quarter) return [];
+  if(!roundHistory(renderFlip)) return [];
   return d.cards.filter(function(c){
     return c.q < pl.quarter || (c.q === pl.quarter && c.no <= pl.cards.to);
   });
@@ -3077,7 +3086,7 @@ function flpDeck(){
     var kept=rec.deck.map(function(id){ return by[id]; }).filter(Boolean);
     if(kept.length===rec.deck.length) return kept;
   }
-  var out=roundPick("flip", pool, d.end);
+  var out=roundPick("flip", pool, d.end, function(s){ return roundCardsAt(d.cards, s); });
   rec.deck=out.map(function(c){ return c.id; });
   save();
   return out;

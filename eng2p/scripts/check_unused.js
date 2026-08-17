@@ -222,10 +222,12 @@ let n = 0;
     U.cutin = txAll;
     P.cutin = () => txPairs(cutToday()).map((p) => cutToday() + "#" + p[0]);
     D.cutin = () => {
-      const m = cutToday(), ps = txPairs(m);
+      /* **앱의 함수를 그대로 부른다.** 여기 셈을 옮겨 적으면 앱을 고쳐도
+         이 검사가 안 따라온다. 실제로 그랬다 (T413~T415 뒤). */
+      const m = cutToday(), ps = txPairs(m), by = {};
       if (!ps.length || !cutDeck()) return [];
-      /* 화면이 `lines.slice(0,6)` 으로 그린다. **뽑는 것이 아니라 앞에서 뗀다.** */
-      return ps.slice(0, 6).map((p) => m + "#" + p[0]);
+      ps.forEach((p) => { if (by[p[1]] == null) by[p[1]] = p[0]; });
+      return (cutShow() || []).map((x) => m + "#" + (by[x] == null ? "?" : by[x]));
     };
 
     U.mirror = () => (mirPool() || []).map((p) => p.g + "|" + p.a + "/" + p.b);
@@ -439,12 +441,17 @@ let n = 0;
      반만 고쳐 수가 그대로인 날에도 여기서 갈린다. */
   n += 2;
   const S = got.shape;
-  if (S.cutinDays && S.cutinHead === S.cutinDays)
-    console.log("\n  꼴  끼어들기가 " + S.cutinDays + "날 다 **과의 앞 여섯 줄**을 냈다. " +
-                "뽑는 것이 아니라 앞에서 뗀다 (`app/play/cutin.js` 의 `lines.slice(0,6)`)");
+  /* **고쳤다.** 그래서 판정을 뒤집었다 (T413~T415 뒤).
+     앞 여섯을 내는 날이 하나라도 있으면 되돌아간 것이다.
+     처음 이 판을 만들 때는 결함이 있는 쪽을 기준선으로 박았는데,
+     고치고 나면 그 기준선이 **고친 것을 되돌리라고 시키는 자**가 된다. */
+  if (S.cutinDays && S.cutinHead === 0)
+    console.log("\n  꼴  끼어들기가 " + S.cutinDays + "날 다 자루를 돌려 냈다. " +
+                "앞에서 떼던 것을 고쳤다 (`app/play/cutin.js` 의 `cutShow`)");
   else
-    fails.push("끼어들기의 뽑는 법이 바뀌었다. " + S.cutinDays + "날 중 " + S.cutinHead +
-               "날만 앞 여섯이다. docs/play_unused.md 4장을 고친다");
+    fails.push("끼어들기가 " + S.cutinDays + "날 중 " + S.cutinHead +
+               "날 과의 앞 여섯 줄을 냈다. **되돌아갔다.** " +
+               "cutShow 가 roundPick 을 부르는지 본다");
   if (S.seedDays && S.seedPick === S.seedDays)
     console.log("  꼴  겹치면 지운다와 배속 사다리와 파장이 " + S.seedDays +
                 "번 다 `roundSeed % 자루` 로 집었다. **T403 의 `roundPick` 이 이 셋에 안 왔다**");
