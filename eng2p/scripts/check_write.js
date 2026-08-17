@@ -351,8 +351,22 @@ if (!chromium || !fs.existsSync(CHROME)) {
   report(false);
 }
 
+/* **자리와 사람은 다르다** (T427).
+
+   `S.device` 는 **사람**이고 (`devicePerson`) 안 바뀐다.
+   화면이 그리는 칸 이름은 **자리**가 정한다 (`deviceSide`).
+   그리고 자리는 날마다 뒤바뀐다.
+
+       deviceSide() = roleOf(today())==="a" ? ... : ...
+
+   그래서 `S.device="a"` 로 박아 두면 자리가 b 인 날에 `aimA` 가 아니라
+   `aimB` 가 그려지고 이 검사가 **그 요일에만 붉어진다.**
+   실제로 월요일에 걸렸다. 앱이 아니라 검사가 자리와 사람을 안 가른 것이다.
+
+   그날 자리가 a 가 되도록 사람을 고른다. 이 저장소에서 요일 때문에
+   붉어진 것이 세 번째다 (T396 뒤, T427 의 연속일). */
 const SEED = 'localStorage.clear(); S.onboarded=true; S.names.a="가람"; ' +
-             'S.names.b="나래"; S.device="a"; saveNow();';
+             'S.names.b="나래"; S.device=(roleOf(today())==="a"?"a":"b"); saveNow();';
 
 /* 칸에 값을 넣는다. 갈래마다 넣을 것이 다르다.
    **글이 아니라 함수로 넘긴다.** 글로 넘기면 인자가 안 건너가고

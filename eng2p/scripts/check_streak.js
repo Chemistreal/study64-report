@@ -504,8 +504,17 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     return page.$eval("#missLine", (e) => e.innerText);
   };
   /* 어제가 결석이고 오늘은 아직 안 했다 */
+  /* **시작일을 같이 세운다** (T427). 안 세우면 **월요일에만 붉어진다.**
+     `missYesterday()` 는 어제부터 거꾸로 걷는데 첫 자리가 일요일이면
+     그날은 기록이 없고, 그 날짜가 `S.start` 보다 이르면
+     "시작하기 전 날은 안 한 날이 아니라 없는 날이다" (T389) 로 걸려 null 이 된다.
+     결석을 토요일에 적어 놓고 앱은 일요일에서 멈춘 것이다.
+
+     이 저장소에서 요일 때문에 붉어진 것이 두 번째다 (T396 뒤).
+     **요일에 따라 답이 달라지는 검사는 그 요일을 만들어 놓고 재야 한다.** */
   const m1 = await miss(() => {
     S.days = {}; S.rest = {};
+    S.start = addDays(today(), -30);
     let d = addDays(today(), -1);
     while (parseISO(d).getDay() === 0) d = addDays(d, -1);
     S.days[d] = { status: "absent", speak: 0, cards: 0, lre: 0, unres: [], coll: [] };
