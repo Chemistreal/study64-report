@@ -195,6 +195,10 @@ RTX 3050 4GB 라 라이다를 언리얼에 직접 넣지 않는다. 걸어 다�
 
 ## 7. 받아 둔 것
 
+**2026-10-07 받은 것.** 1211개, 10.3GB. Kenney 3D와 소리, Poly Haven HDRI와 질감, ambientCG 질감, OpenGameArt CC0 곡,
+지형(1m, 0.5m, 10m, 땅과 바다 밑), 라이다 점군 64장, TIGER, 주 GIS, 땅 덮개, 항공 모자이크, 하와이 문헌 17권, Tatoeba 영어 문장.
+**미국 정부 PDF 여섯(USCIS 안내서와 시민 문항, Ready.gov 허리케인과 쓰나미)은 403 으로 막혔다.** 이 환경의 자동 접근을 막는 것으로 보인다. PC 의 브라우저로 받는다.
+
 파일은 저장소 밖에 둔다. 목록과 해시와 출처는 `tools/game/assets.json` 이다.
 받는 법은 `tools/game/fetch_assets.py`. 나중에 PC 의 D 드라이브로 옮긴다.
 
