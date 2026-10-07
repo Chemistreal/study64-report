@@ -99,6 +99,12 @@ STEPS = [
     ("파생", "derive_track.py", [], True),
     ("파생", "derive_hold.py", [], True),
     ("파생", "derive_more.py", [], True),
+    # **확장층** (docs/expansion.md). 라디오, 잡담, 안내문, 읽을거리, 48주 달력. 하루 120분을 밀어내지 않는다
+    ("파생", "derive_ext_radio.py", [], True),
+    ("파생", "derive_ext_smalltalk.py", [], False),
+    ("파생", "derive_ext_notices.py", [], True),
+    ("파생", "derive_ext_readers.py", [], True),
+    ("파생", "derive_ext_calendar.py", [], True),
     ("파생", "derive_manifest.py", [], True),
     # 미디어 표. 받은 미디어가 온전한지 보는 자리다. T152 에 대 보니 264 중 56이 틀렸다.
     ("파생", "derive_media_manifest.py", [], True),
@@ -136,6 +142,8 @@ STEPS = [
     ("대조", "check_ground_cite.py", [], True),
     ("대조", "check_refs.py", [], True),
     ("대조", "check_data.py", [], True),
+    # 확장층 열일곱 판. 판마다 일부러 깬 것을 잡는지도 본다 (--break)
+    ("대조", "check_ext.py", ["--break"], True),
     # 매뉴얼이 앱의 값을 말한다. **설명하는 글은 설명 대상보다 늦게 낡는다.**
     ("대조", "check_manual.py", [], True),
     # 회전 대장은 손으로 쓰는 파일이다. 손으로 올리는 숫자는 언젠가 안 올라간다.

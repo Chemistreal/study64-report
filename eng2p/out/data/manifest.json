@@ -1,8 +1,58 @@
 {
   "note": "out/data 의 파생 자료마다 크기와 해시다. 받은 것이 온전한지 보는 표다. 손으로 고치지 않는다. scripts/derive_manifest.py 를 다시 돌린다.",
   "generator": "scripts/derive_manifest.py",
-  "count": 76,
+  "count": 86,
   "files": [
+    {
+      "file": "ext_calendar.js",
+      "bytes": 41239,
+      "sha256": "841bab6e489ee12909791a99a71994687ae1718223f90e873230fc311ed48b51"
+    },
+    {
+      "file": "ext_calendar.json",
+      "bytes": 55491,
+      "sha256": "7a28ad51bb7ebf001eb70802486c2ffac2ce964f62ed5e36f136a8b7564395c8"
+    },
+    {
+      "file": "ext_notices.js",
+      "bytes": 56206,
+      "sha256": "e2c75eb118125b0c0e099dd7057592ffea5340dd1d3836be2db05b722bfdfe09"
+    },
+    {
+      "file": "ext_notices.json",
+      "bytes": 64491,
+      "sha256": "79be991647cc5c5faa751557c956cff17e9c0ef683a1054ba8cf250608071ea3"
+    },
+    {
+      "file": "ext_radio.js",
+      "bytes": 701672,
+      "sha256": "df6919f62b83cd622fe63a5d017372bbbef282323aef2ae0e746edbce20cf392"
+    },
+    {
+      "file": "ext_radio.json",
+      "bytes": 843447,
+      "sha256": "cc629898ad4cbe2d8810b738c837199848ab779f65ae798bb96115c2f4c90b7b"
+    },
+    {
+      "file": "ext_readers.js",
+      "bytes": 37244,
+      "sha256": "09f0ecbc23482f3891cd18cc202ff3c05d084c978fbb27186e9bfefc9535f2c7"
+    },
+    {
+      "file": "ext_readers.json",
+      "bytes": 47205,
+      "sha256": "ebc44591e010c52f9c87c37f13467a3d3b3a702b1fc8bf651f327020018d6155"
+    },
+    {
+      "file": "ext_smalltalk.js",
+      "bytes": 739066,
+      "sha256": "f5c445cfe93a41a5c1584b88436856556765a79e904d457d69c3ac27eeba0c8d"
+    },
+    {
+      "file": "ext_smalltalk.json",
+      "bytes": 897162,
+      "sha256": "5116276f15f608c64ce43922866b7db8de8b5384993f130c3ee407e7a62a5908"
+    },
     {
       "file": "audiolen.js",
       "bytes": 1471,
