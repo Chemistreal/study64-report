@@ -353,15 +353,19 @@ def texts(L):
 GOV = [
     ("uscis_M-618_welcome_guide.pdf", "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf",
      "PD-USGov (그림 제외)", "https://www.uscis.gov/citizenship/learn-about-citizenship/new-immigrants"),
-    ("uscis_100q_civics_2008.pdf", "https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q.pdf",
-     "PD-USGov", "https://www.uscis.gov/citizenship"),
+    # 2008년판 100문항 대신 2025년판 128문항 (2025-10-20 부터 신청자가 본다. docs/expansion.md 11장)
+    ("uscis_2025_civics_128q.pdf",
+     "https://www.uscis.gov/sites/default/files/document/questions-and-answers/2025-Civics-Test-128-Questions-and-Answers.pdf",
+     "PD-USGov", "https://www.uscis.gov/citizenship/find-study-materials-and-resources/study-for-the-test"),
     ("uscis_reading_vocab.pdf", "https://www.uscis.gov/sites/default/files/document/guides/reading_vocab.pdf",
      "PD-USGov", "https://www.uscis.gov/citizenship"),
     ("uscis_writing_vocab.pdf", "https://www.uscis.gov/sites/default/files/document/guides/writing_vocab.pdf",
      "PD-USGov", "https://www.uscis.gov/citizenship"),
-    ("ready_hurricanes.pdf", "https://www.ready.gov/sites/default/files/2025-03/ready_hurricanes-info-sheet.pdf",
+    # 주소를 고쳤다. 2025-03 경로는 ready.gov 쪽이 거는 주소가 아니었다. /hurricanes 와 /tsunamis 쪽이 실제로 거는 것
+    # (game_store/gov/README.md 에 받은 날 확인한 해시가 있다. 허리케인 8c1ce13c..., 쓰나미 54aaedeb...)
+    ("ready_hurricanes.pdf", "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
      "PD-USGov (사진 로고 제외)", "https://www.ready.gov/hurricanes"),
-    ("ready_tsunamis.pdf", "https://www.ready.gov/sites/default/files/2025-03/ready_tsunamis-info-sheet.pdf",
+    ("ready_tsunamis.pdf", "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
      "PD-USGov (사진 로고 제외)", "https://www.ready.gov/tsunamis"),
 ]
 
@@ -377,15 +381,21 @@ def gov(L):
 
 # Tatoeba 영어 문장 (CC BY 2.0 FR). **영어 쪽만** 쓴다. 한국어 짝은 번역 경유라 안 받는다.
 # 문장마다 저자가 붙은 자세한 판을 받는다. 출처를 적어야 한다
+# 확장층 잡담 (`docs/expansion.md` 4장) 이 거르는 데 셋을 더 쓴다. 영어 모어 저자, 꼬리표, CC0 문장.
+# **links 파일과 다른 언어 파일은 안 받는다.** 한국어 짝을 만들 길을 처음부터 막는다
 TATOEBA = [
     ("eng_sentences_detailed.tsv.bz2", "https://downloads.tatoeba.org/exports/per_language/eng/eng_sentences_detailed.tsv.bz2"),
+    ("eng_tags.tsv.bz2", "https://downloads.tatoeba.org/exports/per_language/eng/eng_tags.tsv.bz2"),
+    ("user_languages.tar.bz2", "https://downloads.tatoeba.org/exports/user_languages.tar.bz2"),
+    ("eng_sentences_CC0.tsv.bz2", "https://downloads.tatoeba.org/exports/per_language/eng/eng_sentences_CC0.tsv.bz2"),
 ]
 
 
 def tatoeba(L):
     for name, url in TATOEBA:
+        lic = "CC0-1.0" if "CC0" in name else "CC-BY-2.0-FR (문장마다 저자 표기)"
         try:
-            keep(L, "tatoeba", name, url, "CC-BY-2.0-FR (문장마다 저자 표기)", "https://tatoeba.org/en/downloads")
+            keep(L, "tatoeba", name, url, lic, "https://tatoeba.org/en/downloads")
         except Exception as e:
             print("  [실패] tatoeba " + name + ": " + str(e)[:80])
         save(L)
