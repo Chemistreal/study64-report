@@ -1,43 +1,24 @@
 {
   "permissions": {
     "allow": [
+      "Bash",
       "Read",
       "Edit",
       "Write",
+      "Glob",
+      "Grep",
       "WebSearch",
       "WebFetch",
-      "Bash(python3:*)",
-      "Bash(node:*)",
-      "Bash(npm:*)",
-      "Bash(pip:*)",
-      "Bash(git:*)",
-      "Bash(cd:*)",
-      "Bash(ls:*)",
-      "Bash(cat:*)",
-      "Bash(sed:*)",
-      "Bash(head:*)",
-      "Bash(tail:*)",
-      "Bash(grep:*)",
-      "Bash(find:*)",
-      "Bash(wc:*)",
-      "Bash(du:*)",
-      "Bash(cp:*)",
-      "Bash(mv:*)",
-      "Bash(mkdir:*)",
-      "Bash(curl:*)",
-      "Bash(wget:*)",
-      "Bash(unzip:*)",
-      "Bash(zip:*)",
-      "Bash(tar:*)",
-      "Bash(gdal*:*)",
-      "Bash(ogr2ogr:*)",
-      "Bash(sha256sum:*)"
+      "Agent",
+      "NotebookEdit"
     ],
     "deny": [
       "Edit(eng2p/docs/spec.md)",
       "Write(eng2p/docs/spec.md)",
       "Bash(git push --force:*)",
-      "Bash(git push -f:*)"
+      "Bash(git push -f:*)",
+      "Bash(git clean:*)",
+      "Bash(rm -rf /:*)"
     ]
   }
 }

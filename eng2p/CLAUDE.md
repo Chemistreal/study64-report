@@ -257,6 +257,13 @@ scripts/check_grade.py 등급과 재료. **등급은 파일에 붙는데 재료�
 docs/game.md          **게임이 모든 공부를 대체한다** (2026-10-07). 호놀룰루에서 사는 1년. 무대 표가 원본
 docs/world.md         게임의 이야기. 48주 한 화씩, **그 주 고비는 그 주 강으로만 풀린다.** 이름은 두 사람이 짓는다
 docs/auto.md          **자동 개선 루프.** Routine 이 매시간 깨운다. 할 일 표 위에서부터 하나씩. 지킬 것은 그대로
+docs/town.md          동네. **실제보다 화려하게.** 배경 지형만 실제, 동네는 지은 것. 표가 원본
+docs/sources.md       게임에 들여오는 자료의 출처와 권리. **PD, CC0, CC BY 만.** 사용자가 정할 것 셋
+docs/scenes.md        장면 (G3). 뼈대는 셈, **대사는 이미 들은 VOA 대본 줄 그대로.** 이름 자리만 바꾼다
+scripts/derive_scenes.py 장면 288세션을 낸다. 지은 영어, 안 들은 과, 없는 사람이면 안 낸다
+scripts/derive_town.py 동네 표를 맞춰 보고 out/game/town.json 을 낸다. 어긋나면 안 낸다
+tools/game/fetch_assets.py 게임 자료를 저장소 밖에 받는다. CC0 만. 목록과 해시는 tools/game/assets.json
+tools/game/fetch_assets.ps1 PC 에서 목록대로 D 드라이브에 받고 해시를 맞춘다. pc_busy.lock 이 있으면 안 돈다
 scripts/derive_game.js 게임이 받을 288세션. **앱을 띄워 앱의 셈을 그대로 부른다.** C++ 로 다시 안 짠다
 scripts/check_game.py 게임 1년에 자료가 다 들어갔나. **하나라도 빠지면 1년 동안 못 본다**
 out/game/sessions.json 게임 세션 288개. 파생물이다. 손으로 안 고친다
