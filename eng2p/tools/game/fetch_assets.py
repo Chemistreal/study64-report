@@ -71,9 +71,15 @@ def get(url, binary=False, tries=4):
             time.sleep(2 ** (i + 1))
 
 
+# 받는 동안에는 저장소 밖에 쓴다. 끝날 때만 저장소 목록을 바꾼다.
+# 받는 내내 저장소 파일이 바뀌면 커밋할 때마다 반쯤 받은 목록이 들어간다
+WORK = os.path.join(STORE, "assets.json")
+
+
 def load():
-    if os.path.exists(LIST):
-        return json.load(open(LIST, encoding="utf-8"))
+    for p in (WORK, LIST):
+        if os.path.exists(p):
+            return json.load(open(p, encoding="utf-8"))
     return {"note": "게임 자료 목록. 파일은 저장소 밖에 있다. tools/game/fetch_assets.py 가 쓴다.",
             "store": "GitHub 릴리스, 나중에 PC D 드라이브", "items": []}
 
@@ -82,6 +88,15 @@ def save(L):
     L["items"].sort(key=lambda x: (x["source"], x["file"]))
     L["count"] = len(L["items"])
     L["bytes"] = sum(x["bytes"] for x in L["items"])
+    os.makedirs(STORE, exist_ok=True)
+    with open(WORK, "w", encoding="utf-8") as f:
+        json.dump(L, f, ensure_ascii=False, indent=1)
+        f.write("\n")
+
+
+def publish(L):
+    """다 받은 뒤 저장소 목록을 바꾼다."""
+    save(L)
     with open(LIST, "w", encoding="utf-8") as f:
         json.dump(L, f, ensure_ascii=False, indent=1)
         f.write("\n")
@@ -388,6 +403,7 @@ def main():
             except Exception as e:
                 print("  [실패] " + name + ": " + str(e)[:120])
             save(L)
+    publish(L)
     print("자료 %d개 / %.1f MB / 저장 %s" % (L["count"], L["bytes"] / 1e6, STORE))
 
 
