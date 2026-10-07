@@ -1425,6 +1425,15 @@
    "sha256": "bd7765156cabef6d2ec6b7069347e8e54fd801faef2228ada674b4be9bf707cd"
   },
   {
+   "source": "facts",
+   "file": "facts/noaa_normals_USW00022521_1991-2020_monthly.json",
+   "url": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=normals-monthly-1991-2020&stations=USW00022521&format=json&dataTypes=MLY-TMAX-NORMAL,MLY-TMIN-NORMAL,MLY-TAVG-NORMAL,MLY-PRCP-NORMAL,MLY-PRCP-AVGNDS-GE010HI",
+   "page": "https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals",
+   "license": "PD gov (NOAA NCEI)",
+   "bytes": 2307,
+   "sha256": "3a3d56a32e3ca4c75e8521bef2b8a403f7519c736e06ff713bd9f32dd67f2896"
+  },
+  {
    "source": "geo",
    "file": "geo/dem_05m/4QFJ120560.tif",
    "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/HI_Kahoo_Lanai_Maui_Molo_Oahu_DEM_2022_10335/blk_2/4QFJ120560.tif",
@@ -5709,6 +5718,114 @@
    "sha256": "217244ecfb9ed6c5d79f9c281f9c1f6e4290ea358ced85192522b6218431bc08"
   },
   {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Beretania_Street_photograph_by_Frank_Davey_(PPWD-8-7-017)_500px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Beretania_Street%2C_photograph_by_Frank_Davey_%28PPWD-8-7-017%29.jpg/500px-Beretania_Street%2C_photograph_by_Frank_Davey_%28PPWD-8-7-017%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Beretania_Street,_photograph_by_Frank_Davey_(PPWD-8-7-017).jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-8-7-017; photographer: Frank Davey; between circa 1897 and circa 1899. Standard-size Commons rendition",
+   "bytes": 61605,
+   "sha256": "09f45c86a3d2a369e1772010aa47b3bc6f5c19377a5c478808f1ecad3e3b1b31"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Fort_and_King_Streets_Honolulu_photograph_by_Frank_Davey_(PP-38-6-005)_500px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Fort_and_King_Streets%2C_Honolulu%2C_photograph_by_Frank_Davey_%28PP-38-6-005%29.jpg/500px-Fort_and_King_Streets%2C_Honolulu%2C_photograph_by_Frank_Davey_%28PP-38-6-005%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Fort_and_King_Streets,_Honolulu,_photograph_by_Frank_Davey_(PP-38-6-005).jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PP-38-6-005; photographer: Frank Davey; circa 1900. Standard-size Commons rendition",
+   "bytes": 58065,
+   "sha256": "743d0bb4b0973f41f32a175fed11c69f39ce8354545ec98b437f3939ca453475"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Honolulu_from_Merchant_Street_in_1885_1920px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Honolulu_from_Merchant_Street_in_1885.jpg/1920px-Honolulu_from_Merchant_Street_in_1885.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Honolulu_from_Merchant_Street_in_1885.jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-8-7.025; photographer: unknown; circa 1885. Standard-size Commons rendition",
+   "bytes": 627921,
+   "sha256": "a2896b07fb449ccc80c431f740cb07a6d083d888f65c1e7ad02d2d6438328167"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Hotel_Street_Honolulu_1890_(PPWD-8-8-001)_1920px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Hotel_Street%2C_Honolulu%2C_1890_%28PPWD-8-8-001%29.jpg/1920px-Hotel_Street%2C_Honolulu%2C_1890_%28PPWD-8-8-001%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Hotel_Street,_Honolulu,_1890_(PPWD-8-8-001).jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-8-8-001; photographer: unknown; circa 1890. Standard-size Commons rendition",
+   "bytes": 379942,
+   "sha256": "c77a096ac38808f54a39685abd5611f277b2436381599522e9dc9d5edfcd92fb"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Nuuanu_River_from_the_King_Street_bridge_Honolulu_(PPWD-8-8-009)_500px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Nuuanu_River_from_the_King_Street_bridge%2C_Honolulu_%28PPWD-8-8-009%29.jpg/500px-Nuuanu_River_from_the_King_Street_bridge%2C_Honolulu_%28PPWD-8-8-009%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Nuuanu_River_from_the_King_Street_bridge,_Honolulu_(PPWD-8-8-009).jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-8-8-009; photographer: unknown; circa 1890. Standard-size Commons rendition",
+   "bytes": 38609,
+   "sha256": "3e9aeab8abc5dd1b391b11858577fca39c2a66531c453531463fa57839d03934"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Nuuanu_Valley_from_Government_Building_photograph_by_Frank_Davey_(PPWD-8-7-022)_1280px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Nuuanu_Valley%2C_from_Government_Building%2C_photograph_by_Frank_Davey_%28PPWD-8-7-022%29.jpg/1280px-Nuuanu_Valley%2C_from_Government_Building%2C_photograph_by_Frank_Davey_%28PPWD-8-7-022%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Nuuanu_Valley,_from_Government_Building,_photograph_by_Frank_Davey_(PPWD-8-7-022).jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-8-7-022; photographer: Frank Davey; between circa 1897 and circa 1899. Standard-size Commons rendition",
+   "bytes": 172598,
+   "sha256": "f161788947addaa1db2c7e327c59ff54882ac26d1a92470fbfa7fc1aacf7d06f"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Outrigger_canoe_at_Waikiki_photograph_by_Frank_Davey_(PPWD-19-5-013_original)_1920px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Outrigger_canoe_at_Waikiki%2C_photograph_by_Frank_Davey_%28PPWD-19-5-013%2C_original%29.jpg/1920px-Outrigger_canoe_at_Waikiki%2C_photograph_by_Frank_Davey_%28PPWD-19-5-013%2C_original%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Outrigger_canoe_at_Waikiki,_photograph_by_Frank_Davey_(PPWD-19-5-013,_original).jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-19-5-013; photographer: Frank Davey; between 1894 and 1898. Standard-size Commons rendition",
+   "bytes": 575703,
+   "sha256": "fd348dad350322763823c3a29b877acdaefb193ac0ec41f27b64380a4602033b"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Punahou_Street_Showing_of_Night-Blooming_Cereus_photograph_by_Frank_Davey_(PPWD-17-3-027)_1920px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Punahou_Street%2C_Showing_of_Night-Blooming_Cereus%2C_photograph_by_Frank_Davey_%28PPWD-17-3-027%29.jpg/1920px-Punahou_Street%2C_Showing_of_Night-Blooming_Cereus%2C_photograph_by_Frank_Davey_%28PPWD-17-3-027%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Punahou_Street,_Showing_of_Night-Blooming_Cereus,_photograph_by_Frank_Davey_(PPWD-17-3-027).jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-17-3-027; photographer: Frank Davey; circa 1900. Standard-size Commons rendition",
+   "bytes": 750758,
+   "sha256": "3d5552be1d820e594f601b833549b9f9195ab4f745487aa027a7952f54df4d17"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/Queen_Street_Honolulu_Hawaii_c._1900_(PPWD-9-1.010)_1920px.jpg",
+   "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Queen_Street%2C_Honolulu%2C_Hawaii%2C_c._1900_%28PPWD-9-1.010%29.jpg/1920px-Queen_Street%2C_Honolulu%2C_Hawaii%2C_c._1900_%28PPWD-9-1.010%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Queen_Street,_Honolulu,_Hawaii,_c._1900_(PPWD-9-1.010).jpg",
+   "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-9-1.010; photographer: unknown; circa 1900. Standard-size Commons rendition",
+   "bytes": 646735,
+   "sha256": "91520a3e9bb83ca0ca77a398d970643a01dc68db0e81779e664d1d163fb68e14"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/README.md",
+   "url": "(generated)",
+   "page": "(generated)",
+   "license": "metadata/attribution file written in this pass",
+   "bytes": 4262,
+   "sha256": "cdfd40baa7c686de2444c3015842ff4a72f38429f8b71d947c8ca6e8a4120d4e"
+  },
+  {
+   "source": "hsa_via_commons",
+   "file": "hsa_via_commons/manifest.json",
+   "url": "(generated)",
+   "page": "(generated)",
+   "license": "metadata/attribution file written in this pass",
+   "bytes": 6661,
+   "sha256": "1cac086d0f683b937ac4ac7482bc50d3879e65ac28338a2e4b4d46ad397fa02f"
+  },
+  {
+   "source": "internal_only",
+   "file": "internal_only/README.md",
+   "url": "(generated)",
+   "page": "(generated)",
+   "license": "own README (do-not-redistribute notice)",
+   "bytes": 1823,
+   "sha256": "843d4ed418de449ebef1585ed591835beaf4f993fbb0e3fbeb3c564345ae0fe5"
+  },
+  {
    "source": "kenney",
    "file": "kenney/kenney_3d-road-tiles.zip",
    "url": "https://kenney.nl/media/pages/assets/3d-road-tiles/3fbfaa7ec8-1677581262/kenney_3d-road-tiles.zip",
@@ -6637,6 +6754,366 @@
   },
   {
    "source": "loc",
+   "file": "loc/pre1931_immigrant_life/2014693357_japanese-on-sisal-plantation-hawaii_13386u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/ggbain/13300/13386u.tif",
+   "page": "https://www.loc.gov/item/2014693357/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Japanese on Sisal Plantation, Hawaii (1910-01-01): Bain News Service photograph ca. 1910-1915; LOC: No known restrictions on publication",
+   "bytes": 24792602,
+   "sha256": "b6e189934cdedfedc6875bf1cc2276cc5ef9cbea66b46c9a92c2ab91d0295479"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_immigrant_life/2016648991_japanese-cutting-sisal-on-hawaiian-plantation_3a41749u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3a40000/3a41000/3a41700/3a41749u.tif",
+   "page": "https://www.loc.gov/item/2016648991/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Japanese cutting sisal on Hawaiian plantation (1910-01-01): Bain News Service photograph ca. 1910; LOC: No known restrictions on publication",
+   "bytes": 1774842,
+   "sha256": "ea825300d712eeccae84b76cdc7070b1409e85273e6b337cfb6154f3efaee8a2"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_immigrant_life/2016648993_japanese-women-and-men-sitting-on-benches-hawaii_3a41751u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3a40000/3a41000/3a41700/3a41751u.tif",
+   "page": "https://www.loc.gov/item/2016648993/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). [Japanese women and men sitting on benches, Hawaii] (1910-01-01): Bain News Service photograph ca. 1910; LOC: No known restrictions on publication",
+   "bytes": 1559578,
+   "sha256": "58e0316357937ea83cffc9bb283d7c6bcc41401e9813b663ae9dfe4d54a66148"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_immigrant_life/2016650365_japanese-arriving-in-honolulu-three-quarters-are-e_3a38806u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3a30000/3a38000/3a38800/3a38806u.tif",
+   "page": "https://www.loc.gov/item/2016650365/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Japanese arriving in Honolulu, three quarters are ex-soldiers (1910-01-01): Bain News Service photograph ca. 1910; LOC: No known restrictions on publication",
+   "bytes": 1710266,
+   "sha256": "6ddf8fc2eea14165b60b2ae79d202630c510378d8475870b69d7b53001e7b162"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_immigrant_life/2016824528_filling-weighing-and-sewing-sacks-of-raw-sugar-at-_30938u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/npcc/30900/30938u.tif",
+   "page": "https://www.loc.gov/item/2016824528/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Filling, weighing and sewing sacks of raw sugar at Plantation mill, Hawaiian Islands (1910-01-01): National Photo Company photograph 1910-1920; LOC: No known restrictions on publication",
+   "bytes": 36951120,
+   "sha256": "fdb93515635c505749475e0a438760f73bd4ee1ce2122b7f76e2555df0561eb1"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_immigrant_life/2017670069_chinese-and-japanese-youngsters-in-junior-division_04112u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/anrc/04100/04112u.tif",
+   "page": "https://www.loc.gov/item/2017670069/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Chinese and Japanese youngsters in Junior Division American Red Cross Parade at Honolulu (1919): American National Red Cross photograph, Honolulu, received 23 Sep 1919; LOC: No known restrictions on publication",
+   "bytes": 73206032,
+   "sha256": "c19d47f0562519ea84b7b7d63a9ba9c0e3f3e5b5190ce12e0d55424ddde099bf"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_immigrant_life/2017679958_hawaii-a-korean-mother-and-her-baby-they-come-regu_14947u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/anrc/14900/14947u.tif",
+   "page": "https://www.loc.gov/item/2017679958/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Hawaii. A Korean mother and her baby. They come regularly to the monthly baby conference held under ARC auspices in Hilo, Hawaii (1919): American National Red Cross photograph, Hilo, 1919-1929 (Korean mother and baby); LOC: No known restrictions on publication",
+   "bytes": 73570018,
+   "sha256": "9751965682fecc89f915531460782a2efd736c2cc074bdedde1e166190541e06"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_immigrant_life/manifest.json",
+   "url": "(generated)",
+   "page": "(generated)",
+   "license": "metadata/attribution file written in this pass",
+   "bytes": 4747,
+   "sha256": "390794933f5970b87f8a9c1cec5d430154f58eb8bc380cfba365ee793a8ca3f4"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2007675442_street-scene-in-honolulu_3b08998u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3b00000/3b08000/3b08900/3b08998u.tif",
+   "page": "https://www.loc.gov/item/2007675442/",
+   "license": "PD by date (published before 1931). Street scene in Honolulu (1874-01-01): photograph 1874 (creator long dead; unpublished-or-published, PD either way by date); LOC rights label \"not evaluated\"",
+   "bytes": 1599554,
+   "sha256": "c4f2cd1f9dcac7a686d02233896ed7a9218f3918d6a4cbda836115129eca77f7"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2014682545_main-st-honolulu-fancy-goods_02550u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/ggbain/02500/02550u.tif",
+   "page": "https://www.loc.gov/item/2014682545/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Main St., Honolulu - Fancy goods (1900-01-01): Bain News Service photograph ca. 1900; LOC: No known restrictions on publication",
+   "bytes": 31233710,
+   "sha256": "22e53b357ac184070e817720430e2ff02fc203001ba8d2e4045cf30e8d4b6067"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2016648994_looking-down-nunami-st-in-chinese-quarter-honolulu_3a41752u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3a40000/3a41000/3a41700/3a41752u.tif",
+   "page": "https://www.loc.gov/item/2016648994/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). [Looking down Nunami St. in Chinese quarter, Honolulu] (1908-01-01): photograph ca. 1908; LOC: No known restrictions on publication",
+   "bytes": 1711802,
+   "sha256": "d75769ce75a4af4be099e6200b907867af87b8e73cc536d8e4a1b9d3a2f1653a"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2016649418_honolulu-hawaii-view-of-main-street_3a38476u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3a30000/3a38000/3a38400/3a38476u.tif",
+   "page": "https://www.loc.gov/item/2016649418/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). [Honolulu, Hawaii, view of Main Street] (1900-01-01): Bain News Service photograph 1900-1909; LOC: No known restrictions on publication",
+   "bytes": 1725642,
+   "sha256": "b5afbaef5b026571eddf7483e78391f51d4e3d9b3d65c500bcddce2dc3967f61"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2016812140_japanese-store-honolulu_4a20736u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/det/4a20000/4a20000/4a20700/4a20736u.tif",
+   "page": "https://www.loc.gov/item/2016812140/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). [Japanese store, Honolulu] (1895-01-01): Detroit Publishing Co. photograph, 1895-1910; LOC: No known restrictions on publication",
+   "bytes": 20461598,
+   "sha256": "b78517050f990b1cdd17ab4fe4f8cdda349248cbd4a6c9464afa8682eebcde60"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2016821274_road-to-waikiki-honolulu_19694u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/npcc/19600/19694u.tif",
+   "page": "https://www.loc.gov/item/2016821274/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Road to Waikiki, Honolulu (1908-01-01): National Photo Company photograph 1908-1919; LOC: No known restrictions on publication",
+   "bytes": 25367562,
+   "sha256": "ad8643322b136c1308c1ac393c6d053be3977054e8cbcc8f37b28c71bacc3ea2"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2016824519_steamer-loading-sugar-alongside-dock-in-honolulu-h_30929u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/npcc/30900/30929u.tif",
+   "page": "https://www.loc.gov/item/2016824519/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Steamer loading sugar alongside dock in Honolulu, [Hawaiian Islands]; cargo capacity 12,000 tons. The small steamers are discharging sugar into large one. (1910-01-01): National Photo Company photograph 1910-1920; LOC: No known restrictions on publication",
+   "bytes": 36508752,
+   "sha256": "b59f1d4d835d0bd595f1c49ad7bfda50d9c03cf142f3c935e9d2283334b89465"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2017674320_honolulu-hawaii-japanese-and-chinese-workers_08535u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/anrc/08500/08535u.tif",
+   "page": "https://www.loc.gov/item/2017674320/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Honolulu, Hawaii, Japanese and Chinese Workers (1918): American National Red Cross photograph, July 1918; LOC: No known restrictions on publication",
+   "bytes": 75878726,
+   "sha256": "d6280b85293bb49afa2bc9415f62dcc5176798a347740e26d38fd56c9d6f4ed8"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647366_the-new-canal-constructed-under-american-rule-hono_1s12024u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12024u.tif",
+   "page": "https://www.loc.gov/item/2018647366/",
+   "license": "PD by date (published before 1931). The new canal, constructed under American rule, Honolulu, Hawaiian Islands (1902-01-01): stereograph published 1902 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "7850ba9b47377e40193e1743c3fb9fdae7ea4572bf16112c5e5e1c6ac6f79279"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647389_the-united-states-army-transport-warren-coaling-at_1s12049u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12049u.tif",
+   "page": "https://www.loc.gov/item/2018647389/",
+   "license": "PD by date (published before 1931). The United States Army transport \"Warren\" coaling at Honolulu, Hawaiian Islands (1902-01-01): stereograph published 1902 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "55fb355030dcc3076c9b0d1bdabbe74a060feaabc0d8726da66ba1f6ccda16c4"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647390_the-steamboat-landing-honolulu-hawaiian-islands_1s12050u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12050u.tif",
+   "page": "https://www.loc.gov/item/2018647390/",
+   "license": "PD by date (published before 1931). The steamboat landing, Honolulu, Hawaiian Islands (1896-01-01): stereograph published 1896 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "e5b5f7b0c57de442c984524bb8ee5e59ec45f7aaffc8622b8e58028eeba4df90"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647391_crowds-and-carriages-at-the-pier-to-meet-an-ocean-_1s12051u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12051u.tif",
+   "page": "https://www.loc.gov/item/2018647391/",
+   "license": "PD by date (published before 1931). Crowds and carriages at the pier to meet an ocean-liner, Honolulu, H. Is. (1910-01-01): stereograph published 1910 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "9424134dcf57d44d4b9980df6541523a6e7a1a226d4d84b250f08344e75aeadd"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647392_general-view-of-honolulu-from-the-southwest-hawaii_1s12052u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12052u.tif",
+   "page": "https://www.loc.gov/item/2018647392/",
+   "license": "PD by date (published before 1931). General view of Honolulu from the southwest, Hawaiian Islands (1902-01-01): stereograph published 1902 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "e01f9352a49ffcb78b5505b37c97b37ae2af871b66460f576a8a9fd033252eaa"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647395_west-from-punohbowl-s-lower-slope-over-bowery-stre_1s12056u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12056u.tif",
+   "page": "https://www.loc.gov/item/2018647395/",
+   "license": "PD by date (published before 1931). West from Punohbowl's lower slope, over bowery streets of Honolulu, H. Is. (1910-01-01): stereograph published 1910 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "d1536044e7ede01dd2ad7d97b0726bcecaa3516c76bdd8f9a606086381232e04"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647400_honolulu-n-w-from-airy-height-of-the-punch-bowl-to_1s12061u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12061u.tif",
+   "page": "https://www.loc.gov/item/2018647400/",
+   "license": "PD by date (published before 1931). Honolulu, N.W. from airy height of the Punch-bowl to the sea, H. Is. (1910-01-01): stereograph published 1910 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "023ca736e110e3a6ebaf7e2b76980bfe57d204487c7af1406dff727f6be14526"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647402_the-western-portion-of-honolulu-from-the-road-to-t_1s12063u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12063u.tif",
+   "page": "https://www.loc.gov/item/2018647402/",
+   "license": "PD by date (published before 1931). The western portion of Honolulu, from the road to the Punch Bowl, Hawaii (1902-01-01): stereograph published 1902 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "b1af909da8cdd6fb302da9be822033f2774aa48c9d818c32be356c5feaff6b58"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647424_king-street-the-principal-business-thoroughfare-of_1s12085u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12085u.tif",
+   "page": "https://www.loc.gov/item/2018647424/",
+   "license": "PD by date (published before 1931). King Street, the principal business thoroughfare of Honolulu, Hawaiian Islands (1902-01-01): stereograph published 1902 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "f18ca7639791e2c98241a8894ecd8cd20a50dd2c29e535090384ef545ed162ae"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647425_one-of-the-shady-thoroughfares-of-honolulu-hawaiia_1s12086u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12086u.tif",
+   "page": "https://www.loc.gov/item/2018647425/",
+   "license": "PD by date (published before 1931). One of the shady thoroughfares of Honolulu, Hawaiian Islands (1903-01-01): stereograph published 1903 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "5ee6c4e2ef6811af4228c1a812022b58a84a72fbaa6b05bd8c31c61725454719"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647426_fort-street-looking-north-honolulu-hawaiian-island_1s12087u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12087u.tif",
+   "page": "https://www.loc.gov/item/2018647426/",
+   "license": "PD by date (published before 1931). Fort Street looking north, Honolulu, Hawaiian Islands (1903-01-01): stereograph published 1903 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "7ed852a18206034f2f0a99f3e5524fae0e4acd339d6cb4c2f1406bbad81205c5"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647427_a-beautiful-residence-street-honolulu-hawaiian-isl_1s12088u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12088u.tif",
+   "page": "https://www.loc.gov/item/2018647427/",
+   "license": "PD by date (published before 1931). A beautiful residence street, Honolulu, Hawaiian Islands (1906-01-01): stereograph published 1906 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "23bfa1c15ba92e081371d0aa94a92a57f412eea2ee473a9137e36e456994e000"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647428_the-main-street-of-honolulu-h-i_1s12089u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12089u.tif",
+   "page": "https://www.loc.gov/item/2018647428/",
+   "license": "PD by date (published before 1931). The Main Street of Honolulu, H.I. (1902-01-01): stereograph published 1902 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "8861ec31f97d1ea51d4553f2a8074b1d1b7750456092cb5e764cb60712d4e49a"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018647429_everyday-business-on-fort-st-outlook-n-to-pacific-_1s12090u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12000/1s12090u.tif",
+   "page": "https://www.loc.gov/item/2018647429/",
+   "license": "PD by date (published before 1931). Everyday business on Fort St. - outlook N. to Pacific Heights, Honolulu, H. Is. (1910-01-01): stereograph published 1910 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "3a83a3472b38d7bdf283385e878fa48939f3750951fa6f73daf5a8f148243620"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2018648574_diamond-head-from-kapiolani-park-honolulu-hawaiian_1s12150u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/stereo/1s10000/1s12000/1s12100/1s12150u.tif",
+   "page": "https://www.loc.gov/item/2018648574/",
+   "license": "PD by date (published before 1931). Diamond Head from Kapiolani Park, Honolulu, Hawaiian Islands (1896-01-01): stereograph published 1896 (Underwood/Keystone/H.C. White series); LOC: No known restrictions on publication",
+   "bytes": 56400988,
+   "sha256": "c5bf4a1f6d7785f2cc46d152fadc3250f55e3f552d0b45f502b972fe582d4fb3"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2025665309_steamer-day-honolulu_1a03667u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pcrd/1a00000/1a03000/1a03600/1a03667u.tif",
+   "page": "https://www.loc.gov/item/2025665309/",
+   "license": "PD by date (published before 1931). Steamer Day, Honolulu (1924): postcard published 1924; LOC: No known restrictions on publication",
+   "bytes": 11268282,
+   "sha256": "ca065a807547a3d9fc7ab0c8cdaeaba69fd5482f8090897594eaf2ad0eb767bd"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2025665355_fort-street-honolulu_1a03713u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pcrd/1a00000/1a03000/1a03700/1a03713u.tif",
+   "page": "https://www.loc.gov/item/2025665355/",
+   "license": "PD by date (published before 1931). Fort Street, Honolulu (1909): postcard published by The Paradise Postcard Co., Honolulu H.T., \"Printed in Saxony\" divided back (=> 1907-1914), no copyright notice; LOC date 1909; LOC rights label \"not evaluated\" - PD by publication date",
+   "bytes": 22614666,
+   "sha256": "1a69907303ef2d4be3987341a764f01c4132ee05e6bbbaf9f8cd0d4bcb02607e"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2025665365_honolulu-from-punchbowl_1a03723u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pcrd/1a00000/1a03000/1a03700/1a03723u.tif",
+   "page": "https://www.loc.gov/item/2025665365/",
+   "license": "PD by date (published before 1931). Honolulu from Punchbowl (1909): postcard published by The Paradise Postcard Co., Honolulu H.T., \"Printed in Saxony\" divided back (=> printed 1907-1914), no copyright notice; LOC date 1909; LOC rights label \"not evaluated\" - PD by publication date",
+   "bytes": 22500110,
+   "sha256": "98d08e9a8fe823eb67b8e536d9458c1afb78e6e2797c5f956d756f6d471dca4e"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/2025665369_waikiki-beach-honolulu_1a03727u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pcrd/1a00000/1a03000/1a03700/1a03727u.tif",
+   "page": "https://www.loc.gov/item/2025665369/",
+   "license": "PD by date (published before 1931). Waikiki Beach, Honolulu (1909): postcard published by The Paradise Postcard Co., Honolulu H.T., \"Printed in Saxony\" divided back (=> 1907-1914), no copyright notice; LOC date 1909; LOC rights label \"not evaluated\" - PD by publication date",
+   "bytes": 22328340,
+   "sha256": "f68a8a99c6fe6fa3b0d5cd122fce6eac9bee258bd200250e15241c779a68259c"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/89715909_japanese-residences-honolulu_3b44470u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3b40000/3b44000/3b44400/3b44470u.tif",
+   "page": "https://www.loc.gov/item/89715909/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). Japanese residences, Honolulu (1900-01-01): photograph 1900-1915; LOC: No known restrictions on publication",
+   "bytes": 1578034,
+   "sha256": "fa3fdb55640b30311ddab2dd8ada3bf93f09db7f376241a0b931cfc743445fca"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/90714803_panorama-of-waikiki-beach-and-ocean-honolulu-hawai_3c01960u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3c00000/3c01000/3c01900/3c01960u.tif",
+   "page": "https://www.loc.gov/item/90714803/",
+   "license": "PD by date (published before 1931). [Panorama of Waikiki beach and ocean, Honolulu, Hawaii] (1904-01-01): panoramic photograph copyright 1904 (published c1904)",
+   "bytes": 13371268,
+   "sha256": "85f4e1c123b01df58801865ae270c94b47fde2a74f7f3d2134cb6f617f112ab6"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/91796057_stores-on-fort-street-honolulu-hawaii_3c04480u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3c00000/3c04000/3c04400/3c04480u.tif",
+   "page": "https://www.loc.gov/item/91796057/",
+   "license": "PD by date (created before 1931; LOC \"No known restrictions on publication\"). [Stores on Fort Street, Honolulu, Hawaii] (1900-01-01): photograph 1900-1915; LOC: No known restrictions on publication",
+   "bytes": 13449108,
+   "sha256": "92c4bd11da1a9c2d5e9f5a3920b8024e992ef94ba80f9557f3cd2ac32c2c7bdd"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/92513811_surf-riders-honolulu-cwb_98298u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/ppmsca/98200/98298u.tif",
+   "page": "https://www.loc.gov/item/92513811/",
+   "license": "PD by date (published before 1931). Surf riders, Honolulu / CWB. (1920): photograph by CWB, copyright 1921 (published c1921); LOC: No known restrictions on publication",
+   "bytes": 202666751,
+   "sha256": "af8bc696051cfe0ee4aea46e5b6e3200304477208869862f13bea337fbd18e91"
+  },
+  {
+   "source": "loc",
+   "file": "loc/pre1931_photos/manifest.json",
+   "url": "(generated)",
+   "page": "(generated)",
+   "license": "metadata/attribution file written in this pass",
+   "bytes": 21777,
+   "sha256": "22eb511354da6649820bdd9692e9a6c90114709ec6b7d734cd5f280a213634e4"
+  },
+  {
+   "source": "loc",
    "file": "loc/sanborn_honolulu_1914/01537_1914-0000L.jp2",
    "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0000L.jp2",
    "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
@@ -6742,6 +7219,33 @@
    "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
    "bytes": 7671997,
    "sha256": "14dab0440dbde20525d1cf110a7431af7d8e08f263f05b017ddf9ab9c3277e96"
+  },
+  {
+   "source": "odbl_reference",
+   "file": "odbl_reference/ODbL_NOTICE.md",
+   "url": "(generated)",
+   "page": "(generated)",
+   "license": "own query / notice file",
+   "bytes": 2557,
+   "sha256": "96df49fe585cb2f915b05d5f0a64be312613bb86bff2ebfd18db112be95daa62"
+  },
+  {
+   "source": "odbl_reference",
+   "file": "odbl_reference/query_core.overpass",
+   "url": "(generated)",
+   "page": "(generated)",
+   "license": "own query / notice file",
+   "bytes": 352,
+   "sha256": "ffa03f5860ae53a7f094feed1efc3686fd617001bb0272b07b1b26143001eee3"
+  },
+  {
+   "source": "odbl_reference",
+   "file": "odbl_reference/query_shoreline.overpass",
+   "url": "(generated)",
+   "page": "(generated)",
+   "license": "own query / notice file",
+   "bytes": 370,
+   "sha256": "20f0d2202ccfea994569a897e459c747300f0499cbd38037ced6591316f1edde"
   },
   {
    "source": "oga",
@@ -11595,6 +12099,6 @@
    "sha256": "0a850b3b80e17989314ff905bea023c09c72d0a7b0f7e48a83fe8685b66a256f"
   }
  ],
- "count": 1288,
- "bytes": 11259569823
+ "count": 1344,
+ "bytes": 12826769798
 }

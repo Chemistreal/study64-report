@@ -732,14 +732,14 @@ world.md 3.2 의 세션(1903 이야기)에서는 아래 줄을 안 쓴다. 원�
 | 174 | 3 | 두 사람 | Let's do it! | lle1-22 |
 | 175 | 3 | Ms. Evans | Now, I have another very important mission for you. | lle1-49 |
 | 175 | 3 | 두 사람 | No. | lle1-49 |
-| 175 | 3 | Ms. Evans | Why not? What is wrong? | lle1-27 |
+| 175 | 3 | Ms. Evans | Why not? | lle1-27 |
 | 175 | 3 | 두 사람 | I don't know. | lle1-21 |
 | 176 | 2 | Tom | Can you help me? | lle1-21 |
 | 176 | 2 | 두 사람 | Excuse me, I have to go. | lle1-20 |
 | 176 | 2 | Tom | Okay. | lle1-10 |
 | 178 | 3 | Ms. Evans | Would you like to help us? | lle1-51 |
 | 178 | 3 | 두 사람 | I'm sorry. | lle1-51 |
-| 178 | 3 | Ms. Evans | Why not? What is wrong? | lle1-27 |
+| 178 | 3 | Ms. Evans | Why not? | lle1-27 |
 | 178 | 3 | 두 사람 | Today was a busy day at work. And I still have work to do! | lle1-29 |
 | 179 | 3 | Mr. Ortiz | Excuse me. Can you help me? | lle1-30 |
 | 179 | 3 | 두 사람 | Yes, I can. Let me help. | lle1-20 |
@@ -994,7 +994,7 @@ world.md 3.2 의 세션(1903 이야기)에서는 아래 줄을 안 쓴다. 원�
 | 248 | 3 | Mr. Kahale | Tell us your name. | lle1-42 |
 | 248 | 3 | Mr. Kahale | So, what happened next? | lle1-42 |
 | 248 | 3 | 두 사람 | Then what happened? | lle1-42 |
-| 250 | 3 | 두 사람 | Excuse me. Can you help me? | lle1-30 |
+| 250 | 3 | 두 사람 | Excuse me. | lle1-30 |
 | 250 | 3 | Ben | {A}, I can't. I'm too busy. | lle1-43 |
 | 250 | 3 | 두 사람 | That's okay. | lle1-43 |
 | 250 | 3 | Ben | I do wish I could help. | lle1-43 |

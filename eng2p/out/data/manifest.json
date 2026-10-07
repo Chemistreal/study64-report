@@ -5,23 +5,23 @@
   "files": [
     {
       "file": "ext_calendar.js",
-      "bytes": 41239,
-      "sha256": "841bab6e489ee12909791a99a71994687ae1718223f90e873230fc311ed48b51"
+      "bytes": 41248,
+      "sha256": "c8620c10609d77525ee8365a0383754e699a670104ef331e8a25b0fcfaaa68f9"
     },
     {
       "file": "ext_calendar.json",
-      "bytes": 55491,
-      "sha256": "7a28ad51bb7ebf001eb70802486c2ffac2ce964f62ed5e36f136a8b7564395c8"
+      "bytes": 55506,
+      "sha256": "6761f2e3d35695ee74a4313b0c2ef642906e3e876b200ee53718639ecae451a0"
     },
     {
       "file": "ext_notices.js",
       "bytes": 56206,
-      "sha256": "e2c75eb118125b0c0e099dd7057592ffea5340dd1d3836be2db05b722bfdfe09"
+      "sha256": "e61eeb0d8893935865756dec9384f098bad056ecdab9c448bd65c81d4ea1db53"
     },
     {
       "file": "ext_notices.json",
       "bytes": 64491,
-      "sha256": "79be991647cc5c5faa751557c956cff17e9c0ef683a1054ba8cf250608071ea3"
+      "sha256": "24c8bc838882cdd1a88914804c1d43df078b477fe2cb7be7782c5b878bb2062b"
     },
     {
       "file": "ext_radio.js",
@@ -36,22 +36,22 @@
     {
       "file": "ext_readers.js",
       "bytes": 37244,
-      "sha256": "09f0ecbc23482f3891cd18cc202ff3c05d084c978fbb27186e9bfefc9535f2c7"
+      "sha256": "300cd33aa431a6e1847cfe167d38086c89ec3445351f54445c447ebaed09cbc9"
     },
     {
       "file": "ext_readers.json",
       "bytes": 47205,
-      "sha256": "ebc44591e010c52f9c87c37f13467a3d3b3a702b1fc8bf651f327020018d6155"
+      "sha256": "3b2420fa42b7ca7668830114573bc1130f439f273485079c28af0b4deedc2437"
     },
     {
       "file": "ext_smalltalk.js",
-      "bytes": 739066,
-      "sha256": "f5c445cfe93a41a5c1584b88436856556765a79e904d457d69c3ac27eeba0c8d"
+      "bytes": 738891,
+      "sha256": "7ea94291b8f69d08d78dad4a3f1c2b0580bbce8c19e06463c804a7b138a5e4c6"
     },
     {
       "file": "ext_smalltalk.json",
-      "bytes": 897162,
-      "sha256": "5116276f15f608c64ce43922866b7db8de8b5384993f130c3ee407e7a62a5908"
+      "bytes": 896981,
+      "sha256": "4040267840606984ec5a8d63530a1a04e4b05107029ce0c3470a3d4aa54e5fcd"
     },
     {
       "file": "audiolen.js",
