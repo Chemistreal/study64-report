@@ -256,6 +256,7 @@ scripts/check_unused.js 안 나오는 자료 105판. **수는 그대로인데 �
 scripts/check_grade.py 등급과 재료. **등급은 파일에 붙는데 재료는 줄에 있다**
 docs/game.md          **게임이 모든 공부를 대체한다** (2026-10-07). 호놀룰루에서 사는 1년. 무대 표가 원본
 docs/world.md         게임의 이야기. 48주 한 화씩, **그 주 고비는 그 주 강으로만 풀린다.** 이름은 두 사람이 짓는다
+docs/auto.md          **자동 개선 루프.** Routine 이 매시간 깨운다. 할 일 표 위에서부터 하나씩. 지킬 것은 그대로
 scripts/derive_game.js 게임이 받을 288세션. **앱을 띄워 앱의 셈을 그대로 부른다.** C++ 로 다시 안 짠다
 scripts/check_game.py 게임 1년에 자료가 다 들어갔나. **하나라도 빠지면 1년 동안 못 본다**
 out/game/sessions.json 게임 세션 288개. 파생물이다. 손으로 안 고친다
