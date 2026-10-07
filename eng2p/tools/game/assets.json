@@ -5637,6 +5637,60 @@
    "sha256": "8bc1bfe474516f171fcbad087b6711e0d9497e5f13157f05a05113a511c8d28e"
   },
   {
+   "source": "gov",
+   "file": "gov/fema_ready_hurricane_info-sheet_V-1006_2023-09.pdf",
+   "url": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+   "page": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+   "license": "PD-USGov (로고 사진 제외)",
+   "bytes": 350589,
+   "sha256": "8c1ce13ca829752e92b149a6e02a66bc238843464046ea0d7a2ae5961d472e8a"
+  },
+  {
+   "source": "gov",
+   "file": "gov/fema_ready_tsunami_info-sheet_V-1011.pdf",
+   "url": "https://www.decal.ga.gov/documents/attachments/Tsunamis-English.pdf",
+   "page": "https://www.decal.ga.gov/documents/attachments/Tsunamis-English.pdf",
+   "license": "PD-USGov (로고 사진 제외). ready.gov 원본과 해시 같음",
+   "bytes": 337586,
+   "sha256": "54aaedeb7e15b8eee90f85c96cf9c5ed14a13688bc3de8f05e278ee91ef4ac5a"
+  },
+  {
+   "source": "gov",
+   "file": "gov/uscis_100q_civics-2008_rev01-19.pdf",
+   "url": "https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q.pdf",
+   "page": "https://www.uscis.gov/sites/default/files/document/questions-and-answers/100q.pdf",
+   "license": "PD-USGov",
+   "bytes": 302640,
+   "sha256": "a19050dcb6f64f97596c75089459de3a5ff8a84606924b26f149669ac7c4a379"
+  },
+  {
+   "source": "gov",
+   "file": "gov/uscis_M-618_welcome-guide_rev09-15.pdf",
+   "url": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf",
+   "page": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf",
+   "license": "PD-USGov (사진은 원본 그대로일 때만. 따로 안 쓴다)",
+   "bytes": 3746667,
+   "sha256": "4f5ff672e5999d6380489841bfd2f3d60d872590ea44708cba880d65fdf3a2a8"
+  },
+  {
+   "source": "gov",
+   "file": "gov/uscis_reading_vocab_rev08-08.pdf",
+   "url": "https://www.uscis.gov/sites/default/files/document/guides/reading_vocab.pdf",
+   "page": "https://www.uscis.gov/sites/default/files/document/guides/reading_vocab.pdf",
+   "license": "PD-USGov",
+   "bytes": 189179,
+   "sha256": "56be9761b36d44afdbf6efeb825330232bd089d55eb1cf2865d00999a98db04a"
+  },
+  {
+   "source": "gov",
+   "file": "gov/uscis_writing_vocab_rev08-08.pdf",
+   "url": "https://www.uscis.gov/sites/default/files/document/guides/writing_vocab.pdf",
+   "page": "https://www.uscis.gov/sites/default/files/document/guides/writing_vocab.pdf",
+   "license": "PD-USGov",
+   "bytes": 185852,
+   "sha256": "217244ecfb9ed6c5d79f9c281f9c1f6e4290ea358ced85192522b6218431bc08"
+  },
+  {
    "source": "kenney",
    "file": "kenney/kenney_3d-road-tiles.zip",
    "url": "https://kenney.nl/media/pages/assets/3d-road-tiles/3fbfaa7ec8-1677581262/kenney_3d-road-tiles.zip",
@@ -10902,6 +10956,6 @@
    "sha256": "eb941ccc32707c990465880667b5da74350ede945cf49b217278dbd2df3c62c0"
   }
  ],
- "count": 1211,
- "bytes": 10311973845
+ "count": 1217,
+ "bytes": 10317086358
 }
