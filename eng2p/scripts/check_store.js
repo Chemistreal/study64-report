@@ -388,7 +388,8 @@ const fails = [];
     await ctx.close();
   }
 
-  /* 12. 막힌 카드를 모으되 **간격을 안 바꾼다** (T359) */
+  /* 12. 막힌 카드를 모으고 **한 칸 내린다** (T359, 개정문 24).
+     전에는 간격을 안 바꾸는 것을 쟀다. 기준서 8.4 가 "못 한 카드는 한 칸 내린다" 로 정했다 */
   {
     n++;
     const { ctx, page } = await fresh();
@@ -403,12 +404,13 @@ const fails = [];
       markCardStuck("Q1-001");
       markCardStuck("Q1-002");
       const after = cardOne("Q1-001");
-      return { before: before, after: after, list: stuckCards(),
+      return { before: before, after: after, list: stuckCards(), want: addDays(td, 1),
                otherSide: (cardDue()["Q1-001"][cardSide() === "a" ? "b" : "a"] || {}).stuck };
     });
-    /* **간격을 안 바꾼다.** 상자도 다음 날짜도 그대로다 */
-    if (st.after.box !== st.before.box || st.after.due !== st.before.due)
-      fails.push("막혔다를 눌렀더니 간격이 바뀐다: " +
+    /* **두 번 막혔으니 두 칸이다.** 3일 칸(상자 2)에서 바닥 1일 칸까지 내린다.
+       바닥 밑으로는 안 빠진다. 다음 날 다시 온다 */
+    if (st.after.box !== 1 || st.after.due !== st.want)
+      fails.push("막혔다를 두 번 눌렀는데 1일 칸으로 안 내렸다: " +
                  JSON.stringify(st.before) + " -> " + JSON.stringify(st.after));
     if (st.after.stuck !== 2) fails.push("막힌 수가 " + st.after.stuck + "이다");
     /* **많이 막힌 것이 앞에 온다.** 무작위를 안 쓴다 */
