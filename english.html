@@ -2755,8 +2755,8 @@ function emgStuckSay(){
   return '<div class="note"><b>막힌 카드 '+st.length+'장이 있다.</b> '+
     '이 10분에 그것부터 돈다. <span class="mono">'+
     esc(st.slice(0,6).join(" ")) + (st.length>6 ? " …" : "") + '</span><br>'+
-    '<span class="small">간격은 강의가 정한 대로 그대로 간다. '+
-    '이것은 그 밖에서 도는 자리다. <b>이 기기 사람 것이다.</b></span></div>';
+    '<span class="small">막힌 카드는 간격에서 한 칸 내려 다시 온다. '+
+    '이것은 그 밖에서 한 번 더 도는 자리다. <b>이 기기 사람 것이다.</b></span></div>';
 }
 var TABS=[["today","오늘","learn"],["review","복습","learn"],["sound","소리","learn"],["clip","클립","learn"],["media","미디어","learn"],["play","판","learn"],
           ["find","찾기","manage"],
@@ -3309,6 +3309,7 @@ function cardIdx(){
 function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
 
 
+var SPACING=[1,3,7,21,60,120];
 function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
 
 function cardSide(){
@@ -3345,11 +3346,7 @@ function cardLecture(id){
   }
   return null;
 }
-function spacingDays(no){
-  var lec=DATA.lectures; if(!lec) return null;
-  var L=(lec.items||[]).filter(function(x){return x.no===no;})[0];
-  return (L && L.spacing && L.spacing.days && L.spacing.days.length) ? L.spacing.days : null;
-}
+function spacingDays(no){ return SPACING; }
 function cardRanDays(cur, td){
   var h=(cur && cur.hist && cur.hist.length) ? cur.hist.slice()
       : (cur && cur.ran ? [cur.ran] : []);
@@ -3369,8 +3366,9 @@ function ranOn(d){
 function markCardRun(id, lectureNo){
   var days=spacingDays(lectureNo), td=today();
   var cur=cardOne(id), hist=cardRanDays(cur, td);
-  if(!days){ cardSet(id,{box:0, due:null, ran:td, hist:hist}); save(); syncCardCount(); return; }
   var box=cur && cur.box ? cur.box : 0;
+  if(box>0 && cur.due && cur.due>td){
+    cardSet(id,{box:box, due:cur.due, ran:td, hist:hist}); save(); syncCardCount(); return; }
   if(box>=days.length){ cardSet(id,{box:box, due:null, ran:td, hist:hist}); save(); syncCardCount(); return; }
   cardSet(id,{box:box+1, due:addDays(td, days[box]), ran:td, hist:hist});
   save(); syncCardCount();
@@ -3387,8 +3385,8 @@ function syncCardCount(){
 }
 function markCardStuck(id){
   var cur=cardOne(id) || {box:0, due:null, ran:null, hist:[]};
-  var n=(cur.stuck|0)+1;
-  cardSet(id, {box:cur.box, due:cur.due, ran:cur.ran,
+  var n=(cur.stuck|0)+1, b=Math.max(1,(cur.box|0)-1);
+  cardSet(id, {box:b, due:addDays(today(), SPACING[b-1]), ran:cur.ran,
                hist:(cur.hist||[]).slice(), stuck:n});
   save();
 }

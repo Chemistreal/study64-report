@@ -4,7 +4,7 @@
  *
  *     트랙 진도    같이 지난 것이라 안 갈린다 (T343)
  *     카드 간격    답한 사람 것이라 갈린다 (T358)
- *     막힌 카드    사람별로 쌓이고 간격을 안 바꾼다 (T359)
+ *     막힌 카드    사람별로 쌓이고 사다리에서 한 칸 내린다 (T359, 개정문 24)
  *
  * 자리마다는 이미 잰다. **갈린 채로 오래 도는 것을 안 재 봤다.**
  * `check_year.js` 가 1년을 도는 검사고 이것은 그 1년을 **둘로 갈라서** 돈다.
@@ -13,7 +13,7 @@
  *
  *     갈린 채로 가는가        한쪽만 돌면 한쪽만 는다
  *     안 섞이는가             합쳐도 갈래가 안 섞인다
- *     간격이 안 바뀌는가      막힌 것이 쌓여도 다음 날짜가 그대로다
+ *     한 칸씩 내리는가        막힐 때마다 한 칸 내리고 맨 아래(1일)에서 멈춘다
  *     나란히 안 놓는가        화면 어디에도 두 사람 수가 같이 안 뜬다
  *
  * 사용법:
@@ -105,18 +105,28 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (!merged.b || merged.b.box !== 2)
     no("합쳤더니 저쪽 갈래가 안 왔다: " + JSON.stringify(merged.b));
 
-  /* ---- 3. 막힌 것이 쌓여도 간격이 안 바뀐다 ------------------------------ */
+  /* ---- 3. 막히면 한 칸 내린다. 맨 아래는 1일이다 ------------------------ */
+  /* 전에는 간격을 안 바꾸는 것을 쟀다 (T359). 개정문 24 가 사다리를 정하면서
+     **못 한 카드는 한 칸 내린다** 로 바뀌었다 (기준서 8.4, 2026-10-07). */
   const stuck = await page.evaluate(() => {
+    /* 사다리 위쪽(21일 칸)에 있던 카드다. 한 번 막히면 7일 칸으로 내려야 한다 */
+    cardSet("Q1-001", { box: 4, due: today(), ran: today(), hist: [today()] });
     const before = JSON.parse(JSON.stringify(cardOne("Q1-001")));
+    markCardStuck("Q1-001");
+    const one = JSON.parse(JSON.stringify(cardOne("Q1-001")));
     /* 1년 동안 한 카드가 스무 번 막혔다고 친다 */
-    for (let i = 0; i < 20; i++) markCardStuck("Q1-001");
+    for (let i = 0; i < 19; i++) markCardStuck("Q1-001");
     const after = cardOne("Q1-001");
-    return { before: before, after: after,
+    return { before: before, after: after, one: one, tomorrow: addDays(today(), 1),
+             week: addDays(today(), 7),
              list: stuckCards().length, first: stuckCards()[0] };
   });
-  if (stuck.after.box !== stuck.before.box || stuck.after.due !== stuck.before.due)
-    no("스무 번 막혔더니 간격이 바뀐다: " +
+  /* 스무 번 내려도 바닥은 1칸이고 다음 날 다시 온다. 0칸으로 빠지면 안 돈다 */
+  if (stuck.after.box !== 1 || stuck.after.due !== stuck.tomorrow)
+    no("스무 번 막혔더니 맨 아래 칸(1일)이 아니다: " +
        JSON.stringify(stuck.before) + " -> " + JSON.stringify(stuck.after));
+  if (stuck.one.box !== stuck.before.box - 1 || stuck.one.due !== stuck.week)
+    no("21일 칸에서 한 번 막혔는데 7일 칸으로 안 내렸다: " + JSON.stringify(stuck.one));
   if (stuck.after.stuck !== 20) no("막힌 수가 " + stuck.after.stuck + "이다");
   if (stuck.first !== "Q1-001")
     no("제일 많이 막힌 것이 앞에 안 온다: " + stuck.first);

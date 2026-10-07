@@ -14,11 +14,16 @@ function setCardIdx(i){ S.card={k:cardKey(), i:i}; save(); renderBlockPane(); }
 
 
 /* =========================================================================
-   카드 간격 반복. 강의가 정한 간격을 쓴다.
-   96편이 블록 4에 한 문장씩 적고 있다. 88편이 1일 3일 7일이고
-   86 90 92 95강이 30일, 96강이 60일, 48 70 72강은 다시 안 돈다.
-   **앱이 간격을 새로 정하지 않는다.** 강의가 정한 값을 그대로 쓴다.
+   카드 간격 반복. **기준서 8.4 의 사다리를 쓴다** (개정문 24, 2026-10-07).
+   1일 3일 7일 21일 60일 120일. 제 날에 돌면 한 칸 오르고 막히면 한 칸 내린다.
+
+   전에는 강의가 정한 간격을 썼다. 88편이 1일 3일 7일이라 **7일에서 끝났다.**
+   그리고 같은 카드가 세 세션 내리 오늘 범위에 뜨는데 돌 때마다 상자가 올라서
+   1일 3일 7일 세 칸을 사흘 만에 다 써 버렸다. 600장이 3일 몰아치기 뒤 사라졌다.
+   그래서 둘을 고쳤다. **사다리를 늘렸고 제 날 전에 돈 것은 칸을 안 올린다.**
+   강의 블록 4 의 간격 문장은 사다리의 앞 칸을 적은 것으로 읽는다.
    ========================================================================= */
+var SPACING=[1,3,7,21,60,120];
 function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
 
 /* 카드 간격을 사람별로 (T358). `docs/cards_person.md` 가 규격이다.
@@ -89,11 +94,9 @@ function cardLecture(id){
   }
   return null;
 }
-function spacingDays(no){
-  var lec=DATA.lectures; if(!lec) return null;
-  var L=(lec.items||[]).filter(function(x){return x.no===no;})[0];
-  return (L && L.spacing && L.spacing.days && L.spacing.days.length) ? L.spacing.days : null;
-}
+/* 강마다 다르던 값을 안 읽는다. **카드는 다 같은 사다리를 탄다** (기준서 8.4).
+   48 70 72강처럼 "다시 안 돈다" 던 카드도 오른다. 1년에 다섯 번은 나와야 한다 */
+function spacingDays(no){ return SPACING; }
 /* 돈 날을 **여러 개** 남긴다 (T312).
 
    `ran` 은 마지막 한 번이다. 어제 그거 판이 어제와 사흘 전과 이레 전 것을 묻는데
@@ -119,11 +122,15 @@ function ranOn(d){
   }
   return out.sort();
 }
+/* **제 날 전에 돈 것은 칸을 안 올린다.** 돈 날만 남긴다.
+   오늘 범위는 세 세션 내리 뜬다. 그때마다 오르면 사다리가 사흘에 닳는다.
+   다음 날짜가 없는데 상자가 남았으면 옛 사다리를 다 돈 카드다. 그 자리에서 잇는다. */
 function markCardRun(id, lectureNo){
   var days=spacingDays(lectureNo), td=today();
   var cur=cardOne(id), hist=cardRanDays(cur, td);
-  if(!days){ cardSet(id,{box:0, due:null, ran:td, hist:hist}); save(); syncCardCount(); return; }
   var box=cur && cur.box ? cur.box : 0;
+  if(box>0 && cur.due && cur.due>td){
+    cardSet(id,{box:box, due:cur.due, ran:td, hist:hist}); save(); syncCardCount(); return; }
   if(box>=days.length){ cardSet(id,{box:box, due:null, ran:td, hist:hist}); save(); syncCardCount(); return; }
   cardSet(id,{box:box+1, due:addDays(td, days[box]), ran:td, hist:hist});
   save(); syncCardCount();
@@ -143,12 +150,13 @@ function syncCardCount(){
   if(n>(r.cards||0)){ r.cards=n; save(); }
   return n;
 }
-/* 막힌 카드 (T359). **간격을 안 바꾼다.**
+/* 막힌 카드 (T359). **한 칸 내린다** (개정문 24, 2026-10-07).
 
-   강의가 간격을 정한다. 앱이 새로 정하지 않는다 (이 파일 머리말).
-   그러니 막혔다고 다음 날짜를 당기지 않는다. 그것은 강의가 정한 값을 앱이 뒤집는 것이다.
+   전에는 간격을 안 바꿨다. 강의가 정한 값을 앱이 뒤집지 않으려고 그랬다.
+   기준서 8.4 가 사다리를 정하면서 내리는 것도 정했다. 그래서 내린다.
+   맨 아래 칸은 1일이다. 막히면 적어도 다음 날 다시 온다.
 
-   **대신 따로 모은다.** 막힌 카드가 한 덱이 되고 그 덱은 간격 밖에서 돈다.
+   **따로도 모은다.** 막힌 카드가 한 덱이 되고 그 덱은 간격 밖에서 돈다.
    비상판 인출 10분이 그 자리다. 매뉴얼 11.2 가 그것을 인출이라고 부른다.
 
    ## 사람별이다
@@ -161,8 +169,8 @@ function syncCardCount(){
    세면 그것이 곧 빚이 된다 (원칙 4). 목록에서 앞에 오는 것으로만 쓴다. */
 function markCardStuck(id){
   var cur=cardOne(id) || {box:0, due:null, ran:null, hist:[]};
-  var n=(cur.stuck|0)+1;
-  cardSet(id, {box:cur.box, due:cur.due, ran:cur.ran,
+  var n=(cur.stuck|0)+1, b=Math.max(1,(cur.box|0)-1);
+  cardSet(id, {box:b, due:addDays(today(), SPACING[b-1]), ran:cur.ran,
                hist:(cur.hist||[]).slice(), stuck:n});
   save();
 }
@@ -339,7 +347,8 @@ function renderCardView(pl){
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
     'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
   var m=cardOne(c.id);
-  /* 다시 낼 카드는 오늘 강의 것이 아니다. 그 카드가 붙은 강의 간격을 써야 한다. */
+  /* 다시 낼 카드는 오늘 강의 것이 아니다. 강을 찾아 넘긴다.
+     사다리는 하나라 지금은 간격이 강마다 안 다르다 (기준서 8.4). 자리는 남긴다. */
   var ownLec=cardLecture(c.id) || pl.lectureNo;
   var sp=spacingDays(ownLec);
   if(sp) h+='<div class="meta"><b>간격</b> '+sp.join("일 · ")+'일'+
