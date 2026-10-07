@@ -365,8 +365,8 @@
     },
     {
       "file": "lecturetext.js",
-      "bytes": 805795,
-      "sha256": "d73bed1bd6f6d638cefdef2d5f4743c96887c7845089fddc2977d358530e4fdc"
+      "bytes": 811509,
+      "sha256": "003a019b55e0d641115d51dec317dcfe309891121b99ef1ff684314f7ff0c863"
     },
     {
       "file": "listen.js",
@@ -400,13 +400,13 @@
     },
     {
       "file": "sets.js",
-      "bytes": 330456,
-      "sha256": "aecc9da01d5b2cbc34f3f12bb27a6beb170121e9203ca5ea8435910e18020bac"
+      "bytes": 363276,
+      "sha256": "536d0a9a79824c50e21d5fbdf3ee04137032776a65ed64e09c5d5b2249574a8e"
     },
     {
       "file": "sets.json",
-      "bytes": 504697,
-      "sha256": "91600869ee80d9e23870f35b73ce8d8140a7c75715e0a5d670ef6345ea8d4640"
+      "bytes": 545581,
+      "sha256": "51408069aa326b68ec718c58cf9105d8410c88a3b46023130342d97f959335b2"
     },
     {
       "file": "swaps.js",
