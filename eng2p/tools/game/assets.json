@@ -1939,6 +1939,60 @@
   },
   {
    "source": "polyhaven",
+   "file": "polyhaven/tex/ceramic_roof_01/ceramic_roof_01_ao_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/ceramic_roof_01/ceramic_roof_01_ao_2k.jpg",
+   "page": "https://polyhaven.com/a/ceramic_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 1301232,
+   "sha256": "a01539eec3ef2d20e2a88f9c559c63a4cfd8869a0d3fb10ccf1bd600a570b5a3"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/ceramic_roof_01/ceramic_roof_01_arm_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/ceramic_roof_01/ceramic_roof_01_arm_2k.jpg",
+   "page": "https://polyhaven.com/a/ceramic_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 584982,
+   "sha256": "7c488de95dd0a6638f0a827d1b1b91fd5b5b791d261b05dbb9db855f42bd8ea4"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/ceramic_roof_01/ceramic_roof_01_diff_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/ceramic_roof_01/ceramic_roof_01_diff_2k.jpg",
+   "page": "https://polyhaven.com/a/ceramic_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 1718697,
+   "sha256": "c379cae4c7443b5d0b47a351e8b8ede8bf70ed986b7fbad8ac92ef3717605609"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/ceramic_roof_01/ceramic_roof_01_disp_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/ceramic_roof_01/ceramic_roof_01_disp_2k.jpg",
+   "page": "https://polyhaven.com/a/ceramic_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 487347,
+   "sha256": "18086cebef7757841720d3953c0d2dafddf35ec3de3f66d949275bfc4ad96c63"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/ceramic_roof_01/ceramic_roof_01_nor_gl_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/ceramic_roof_01/ceramic_roof_01_nor_gl_2k.jpg",
+   "page": "https://polyhaven.com/a/ceramic_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 2357322,
+   "sha256": "6be43ec2513045a1bf20073e1be5d77bad6d58bbb6e7d95de4facee24328c620"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/ceramic_roof_01/ceramic_roof_01_rough_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/ceramic_roof_01/ceramic_roof_01_rough_2k.jpg",
+   "page": "https://polyhaven.com/a/ceramic_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 919148,
+   "sha256": "6701a1c67dbc4639961449f861278ae378627f0c2a052bdbf0b185250b436c4e"
+  },
+  {
+   "source": "polyhaven",
    "file": "polyhaven/tex/checkered_pavement_tiles/checkered_pavement_tiles_ao_2k.jpg",
    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/checkered_pavement_tiles/checkered_pavement_tiles_ao_2k.jpg",
    "page": "https://polyhaven.com/a/checkered_pavement_tiles",
@@ -1990,6 +2044,60 @@
    "license": "CC0-1.0",
    "bytes": 2292082,
    "sha256": "e0653f317ce69c17a4a23438678340e59d4bfa8e9f9a565ec1fb648d5827d422"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/clay_roof_tiles_02/clay_roof_tiles_02_ao_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_roof_tiles_02/clay_roof_tiles_02_ao_2k.jpg",
+   "page": "https://polyhaven.com/a/clay_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 2053038,
+   "sha256": "c49e8cc0175ed764ca3e25c4bfeb71184acb80049570959be8def17e271e943e"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/clay_roof_tiles_02/clay_roof_tiles_02_arm_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_roof_tiles_02/clay_roof_tiles_02_arm_2k.jpg",
+   "page": "https://polyhaven.com/a/clay_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 2014906,
+   "sha256": "8e7cb954ebff60591bb19fb950f6e85727793caca16077bc2b42222e050efbb7"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/clay_roof_tiles_02/clay_roof_tiles_02_diff_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_roof_tiles_02/clay_roof_tiles_02_diff_2k.jpg",
+   "page": "https://polyhaven.com/a/clay_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 3459427,
+   "sha256": "570e1878985993bf81433d785b4fa2d4ab9f6d32447706193089b11ff0851731"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/clay_roof_tiles_02/clay_roof_tiles_02_disp_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_roof_tiles_02/clay_roof_tiles_02_disp_2k.jpg",
+   "page": "https://polyhaven.com/a/clay_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 1011709,
+   "sha256": "9e289eef96763ea7f7034cb3d1997adf7f84c692dd76edbaf9512aaf35fce3b0"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/clay_roof_tiles_02/clay_roof_tiles_02_nor_gl_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_roof_tiles_02/clay_roof_tiles_02_nor_gl_2k.jpg",
+   "page": "https://polyhaven.com/a/clay_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 3526539,
+   "sha256": "762e2f18ba063fe3c587955be9f8a0a6e8e75cee4057e188970d1ec70a880194"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/clay_roof_tiles_02/clay_roof_tiles_02_rough_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/clay_roof_tiles_02/clay_roof_tiles_02_rough_2k.jpg",
+   "page": "https://polyhaven.com/a/clay_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 1392056,
+   "sha256": "a70d571203b80f763a6bcd4463330d8e2a5480ee6e29b559d1a05f1a61d5a81e"
   },
   {
    "source": "polyhaven",
@@ -3217,6 +3325,114 @@
   },
   {
    "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_01/grey_roof_01_ao_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_ao_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 804437,
+   "sha256": "4bfcb51e2a27ad5de4617ee112bfc758fded2c93c90292e238550b605b34be4d"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_01/grey_roof_01_arm_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_arm_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 807658,
+   "sha256": "797d17bc80f144c5106755f339705a9a6f291f927f9d709914486e9e4e7992cb"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_01/grey_roof_01_diff_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_diff_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 1388588,
+   "sha256": "880583ff7508599b1dd6e83a6c70604120ad35f7ad187b1e98457c1a9d7b54ed"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_01/grey_roof_01_disp_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_disp_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 647905,
+   "sha256": "c9dcb421c8dde1ff38d8e1d4a6e00e89ea33307edb0fb673bb3ca59e52dcfe05"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_01/grey_roof_01_nor_gl_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_nor_gl_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 1750511,
+   "sha256": "2e2dbd57a8a1a09936b2a92373408c7658033966ffee25eddfe98b5988491da3"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_01/grey_roof_01_rough_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_01/grey_roof_01_rough_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_01",
+   "license": "CC0-1.0",
+   "bytes": 1354799,
+   "sha256": "166a04d67faebc17b3efdd05a9ce4786ac99e4d7ed67abfcd05bca8dd0c3eb36"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_tiles_02/grey_roof_tiles_02_ao_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_tiles_02/grey_roof_tiles_02_ao_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 1320080,
+   "sha256": "b7568ea8a7b7e25e8eebd60c6611d84d7a7f7f4246e3ba4bb79a632b35f623b8"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_tiles_02/grey_roof_tiles_02_arm_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_tiles_02/grey_roof_tiles_02_arm_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 702157,
+   "sha256": "cdafc65c4cee9ca999090f2a433ed28846cf3ca625bdc26435fe807b9c15b966"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_tiles_02/grey_roof_tiles_02_diff_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_tiles_02/grey_roof_tiles_02_diff_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 1530646,
+   "sha256": "6a95a3d95a8d8b96f02caf9639f5ceaa814d0faae96f351d1e594b4d4feeb6d7"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_tiles_02/grey_roof_tiles_02_disp_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_tiles_02/grey_roof_tiles_02_disp_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 398755,
+   "sha256": "04d25367f9af5e0e5a86e8dd845533fc28b862dd2768d255408c421884d9f152"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_tiles_02/grey_roof_tiles_02_nor_gl_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_tiles_02/grey_roof_tiles_02_nor_gl_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 2553079,
+   "sha256": "95136d3c44c314838f3b62961986b64cdacfb54b6646302b1dab671eaefa5cca"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/grey_roof_tiles_02/grey_roof_tiles_02_rough_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/grey_roof_tiles_02/grey_roof_tiles_02_rough_2k.jpg",
+   "page": "https://polyhaven.com/a/grey_roof_tiles_02",
+   "license": "CC0-1.0",
+   "bytes": 1410010,
+   "sha256": "97ce152c2023b9847e5134bdd555fc0c1f77f24034cf53bd71a810a03fb352b7"
+  },
+  {
+   "source": "polyhaven",
    "file": "polyhaven/tex/interior_tiles/interior_tiles_ao_2k.jpg",
    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/interior_tiles/interior_tiles_ao_2k.jpg",
    "page": "https://polyhaven.com/a/interior_tiles",
@@ -4072,6 +4288,114 @@
   },
   {
    "source": "polyhaven",
+   "file": "polyhaven/tex/roof_09/roof_09_ao_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_09/roof_09_ao_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_09",
+   "license": "CC0-1.0",
+   "bytes": 599507,
+   "sha256": "67c37836db4b7ab2b1dc8e0d374da3f2e31f4cb7936b57cacaec50b12bcd18a9"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_09/roof_09_arm_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_09/roof_09_arm_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_09",
+   "license": "CC0-1.0",
+   "bytes": 1059238,
+   "sha256": "e2b871754fbd10d21b41a1d8a4239d7f50d7a0270e9e4e3da809d674b86b5052"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_09/roof_09_diff_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_09/roof_09_diff_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_09",
+   "license": "CC0-1.0",
+   "bytes": 2059711,
+   "sha256": "09c72186e2787dc4b77c21386eb2e2bf0349354af4747c6343c5aa344451601d"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_09/roof_09_disp_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_09/roof_09_disp_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_09",
+   "license": "CC0-1.0",
+   "bytes": 340947,
+   "sha256": "c7b77a316fab3df1593b83a66f7f4ad00c4bbddb632965c2651b7bfc0743b838"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_09/roof_09_nor_gl_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_09/roof_09_nor_gl_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_09",
+   "license": "CC0-1.0",
+   "bytes": 1055465,
+   "sha256": "5096bb0bf99f2b9bac9ad0b1939435b4b99178017e3d70fac15969133d0cc44d"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_09/roof_09_rough_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_09/roof_09_rough_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_09",
+   "license": "CC0-1.0",
+   "bytes": 1889815,
+   "sha256": "2af588b0ba770febda87538881254e0b7a83710a46a168f53130de8ade93c330"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_slates_03/roof_slates_03_ao_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_slates_03/roof_slates_03_ao_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_slates_03",
+   "license": "CC0-1.0",
+   "bytes": 2772007,
+   "sha256": "bb9fead7c988e5ae9df406a7daa3bb6a2e10156dd41fa1f954a52d50ea15a426"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_slates_03/roof_slates_03_arm_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_slates_03/roof_slates_03_arm_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_slates_03",
+   "license": "CC0-1.0",
+   "bytes": 3128318,
+   "sha256": "d3bae518a1eb1473dc1d6636a5c9c9358e3869739de6d50453ddd9de18a98023"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_slates_03/roof_slates_03_diff_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_slates_03/roof_slates_03_diff_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_slates_03",
+   "license": "CC0-1.0",
+   "bytes": 2083015,
+   "sha256": "955eb467fc609e4509c2354f0b88755ffa137dac352b651efed95026f4a6aa5c"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_slates_03/roof_slates_03_disp_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_slates_03/roof_slates_03_disp_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_slates_03",
+   "license": "CC0-1.0",
+   "bytes": 588742,
+   "sha256": "84e305c7d08f0de5b32de510377e01989197c4a0af22ba19a94a0b151c5075a0"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_slates_03/roof_slates_03_nor_gl_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_slates_03/roof_slates_03_nor_gl_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_slates_03",
+   "license": "CC0-1.0",
+   "bytes": 2741713,
+   "sha256": "f797ad9756e6584736831cf07f79872440a6a4811c80f9bcedd3b20b05c7596d"
+  },
+  {
+   "source": "polyhaven",
+   "file": "polyhaven/tex/roof_slates_03/roof_slates_03_rough_2k.jpg",
+   "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/roof_slates_03/roof_slates_03_rough_2k.jpg",
+   "page": "https://polyhaven.com/a/roof_slates_03",
+   "license": "CC0-1.0",
+   "bytes": 49508,
+   "sha256": "bd583b73aa9c496f0d8012c2d6acaa704d6acce912d7de1d5af723bbeffa9942"
+  },
+  {
+   "source": "polyhaven",
    "file": "polyhaven/tex/rust_coarse_01/rust_coarse_01_ao_2k.jpg",
    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/rust_coarse_01/rust_coarse_01_ao_2k.jpg",
    "page": "https://polyhaven.com/a/rust_coarse_01",
@@ -4773,6 +5097,6 @@
    "sha256": "d2c3db7cd6e2cd23535ae68fc7f8f913d10f37df47531f2c93987386e4d875ca"
   }
  ],
- "count": 530,
- "bytes": 2007034209
+ "count": 566,
+ "bytes": 2060897223
 }
