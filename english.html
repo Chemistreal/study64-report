@@ -1089,7 +1089,7 @@ body.veil-on>*:not(.veilcover){display:none}
       <div style="flex:1;min-width:190px">
         <div class="small mut">오늘 <span class="mono" id="todayDate"></span></div>
         <div class="sessionrole" id="todayRole"></div>
-        <div class="small mut">날짜로 자동 교대. 협의하면 편중된다</div>
+        <div class="small mut">세션마다 자동 교대. 협의하면 편중된다</div>
       </div>
       <button class="bigtap sessionstart" id="tOne">세션 시작</button>
     </div>
@@ -2024,7 +2024,12 @@ function today(){
   }
   return realToday();
 }
-function roleOf(d){ return parseISO(d).getDate()%2===0 ? "a" : "b"; }
+function sessionNoOn(d){
+  var n=0;
+  for(var k in S.days){ if(k<d && S.days[k] && S.days[k].status==="normal") n++; }
+  return n+1;
+}
+function roleOf(d){ return sessionNoOn(d)%2===1 ? "a" : "b"; }
 var pending={};
 var failed={};
 function dataFailed(key){ return !!failed[key]; }
@@ -4855,8 +4860,8 @@ function renderWeek(){
   rows.push('<tr><td colspan="4"><b>합계</b> <span class="mut small">'+hh.toFixed(2).replace(/\.?0+$/,"")+'h</span></td><td class="n"><b>'+sp+'</b></td><td class="n"><b>'+cd+'</b></td><td class="n"><b>'+lr+'</b></td><td></td></tr>');
   $("#weekTable").innerHTML=rows.join("");
   var who=$("#weekWho");
-  if(who) who.innerHTML='<b>A</b> 짝수 날 '+esc(S.names.a)+' · '+
-    '<b>B</b> 홀수 날 '+esc(S.names.b)+
+  if(who) who.innerHTML='<b>A</b> 홀수 세션 '+esc(S.names.a)+' · '+
+    '짝수 세션 '+esc(S.names.b)+
     ' <span class="small mut">숫자는 그날 둘이 같이 한 값이다. 자리가 정하는 값이 아니다.</span>';
 }
 $("#wPrev").onclick=function(){S.wk--;save();renderWeek();renderAlerts();};
@@ -4900,7 +4905,7 @@ $("#exJson").onclick=function(){
 $("#exMd").onclick=function(){
   var L=["# eng2p 진행 대장 내보내기","","생성일: "+today(),"시작일: "+S.start,
     "누적 시간: "+totalHours()+"h","",
-    "A 짝수 날 "+S.names.a+" · B 홀수 날 "+S.names.b+". 숫자는 둘이 같이 한 값이다.","",
+    "A 홀수 세션 "+S.names.a+" · 짝수 세션 "+S.names.b+". 숫자는 둘이 같이 한 값이다.","",
     "| 일자 | 자리 | 수행 | 발화(분) | 드릴(장) | LRE | 미해결 |","|---|---|---|---|---|---|---|"];
   allDays().forEach(function(d){
     var r=S.days[d];
