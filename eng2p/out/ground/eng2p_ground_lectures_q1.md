@@ -54,11 +54,11 @@
 | q1_l005 34줄 | seat / sheet | **근거 없음** |
 | q1_l005 35줄 | sip / ship | **근거 없음** |
 | q1_l005 36줄 | sin / shin | **근거 없음** |
-| q1_l006 131줄 | street | lle1-01:8 / lle1-03:19 / lle1-03:23 / lle1-11:2 외 3 |
-| q1_l006 132줄 | asked | **근거 없음** |
-| q1_l006 133줄 | Wednesday | lle1-17:19 / lle1-17:20 |
-| q1_l006 134줄 | business | lle1-11:28 / lle1-42:6 / lle1-44:35 |
-| q1_l006 135줄 | beautiful | lle1-05:1 / lle1-05:2 / lle1-05:3 / lle1-12:1 외 15 |
+| q1_l006 130줄 | street | lle1-01:8 / lle1-03:19 / lle1-03:23 / lle1-11:2 외 3 |
+| q1_l006 131줄 | asked | **근거 없음** |
+| q1_l006 132줄 | Wednesday | lle1-17:19 / lle1-17:20 |
+| q1_l006 133줄 | business | lle1-11:28 / lle1-42:6 / lle1-44:35 |
+| q1_l006 134줄 | beautiful | lle1-05:1 / lle1-05:2 / lle1-05:3 / lle1-12:1 외 15 |
 | q1_l007 21줄 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
 | q1_l007 22줄 | got to | lle1-42:28 |
 | q1_l007 23줄 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |

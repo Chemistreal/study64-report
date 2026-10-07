@@ -83,8 +83,10 @@ ls out/lectures | tail -3    # 직전 제작물 확인
 python3 scripts/all.py
 ```
 
-**한 줄이다.** 파생 마흔과 검사 쉰하나와 상태 갱신 셋, 아흔넷을 정해진 순서로 돈다.
-브라우저 검사까지 다 돌면 6분쯤 걸린다. 화면 검사가 브라우저를 띄운다. 손볼 때는 `--quick` 으로 파생과 대조만 돈다.
+**한 줄이다.** 걸음은 `scripts/all.py` 의 `STEPS` 표가 쥐고 끝에 몇 걸음이었는지 찍는다.
+2026-10-07 에 백스물셋이었다. 파생 마흔여섯, 어긋남 하나, 규격 아홉, 대조 열다섯, 화면 마흔아홉, 상태 갱신 셋이다.
+브라우저 검사까지 차례대로 다 돌면 20분쯤 걸린다 (감사에서 잰 값 20.5분). 화면 검사가 브라우저를 띄운다.
+손볼 때는 `--quick` 으로 파생과 대조만 돈다. 예순하나 걸음에 25초쯤이다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
 검사가 열이 되고 나서 순서를 기억으로 돌리는 것을 그만뒀다.
@@ -119,7 +121,7 @@ scripts/check_media.py  미디어 카탈로그 검사
 scripts/check_sound.py  소리 자리 69판. **적은 자리를 센 적이 없었다.** 하나 늘면 실패한다
 scripts/check_sound_screen.js 소리 화면 22판. **코드가 아니라 사람이 읽는 글을 훑는다**
 scripts/check_cando.js 안 되는 자리 43판. **안 된다 / 왜 / 그럼 무엇을 셋을 잰다**
-scripts/check_tone.js 말투 44판. **주석이 아니라 화면 글을 훑는다.** 4566줄
+scripts/check_tone.js 말투 44판. **주석이 아니라 화면 글을 훑는다.** 4500~4700줄. 늦게 그려지는 탭이 있으면 덜 훑는다
 scripts/check_wait.js 기다림 30판. **자료를 막아 놓고 본다.** 영영 여는 중이었다
 scripts/check_cards_plan.py 카드 유형 총량을 기준서 8.1과 대조
 scripts/derive_handout.py 강의에서 강의록을 파생. 강의의 검사기이기도 하다
@@ -195,20 +197,20 @@ scripts/check_ground_cite.py 인용이 정말 그 줄을 가리키는지. 3360�
 scripts/check_audio.py 길이가 적힌 세 자리(카탈로그·대본 머리말·mp3)가 같은 말을 하는지
 out/data/               파생된 자료. 손으로 안 고친다
 out/data/index.json     48주 차림표. 앱은 머리와 오늘 분기만 읽는다 (index_head/index_q*)
-out/data/manifest.json  파생 자료 열여섯의 크기와 해시. 받은 것이 온전한지 보는 표
+out/data/manifest.json  파생 자료의 크기와 해시 (2026-10-07 에 86개). 받은 것이 온전한지 보는 표
 out/data/*.js           같은 내용을 script 로 읽는 판. **앱은 이쪽을 읽는다**
                         file:// 에서 fetch 가 막히기 때문이다. 종이와 같이 쓰는 물건이라
                         내려받아 여는 것이 정상이고 그때도 돌아야 한다
-scripts/derive_manifest.py 파생 자료의 크기와 해시. **맨 나중에 돈다.** 적어 둔 열여섯을 찾는다
+scripts/derive_manifest.py 파생 자료의 크기와 해시. **맨 나중에 돈다.** 적어 둔 이름을 다 찾고 몇 개인지 찍는다
 scripts/derive_media_manifest.py 미디어 표의 크기와 해시를 다시 잰다. 275개 157MB
 scripts/check_spec.py  기준서를 검사한다. **개수가 아니라 알고 있는 실패 목록과 견준다**
 scripts/check_app.py   앱의 한국어를 규격 검사에 건다. **조각을 본다.** 파생물은 주석이 빠져 있다
-app/                   **앱의 원본.** 조각 쉰셋이다. english.html 은 이것에서 나온다
+app/                   **앱의 원본.** 조각 여든여섯이다 (english.html 마흔아홉, late 열일곱, play 스물). 수는 derive_app.py 가 찍는다
 app/js/03a_data.js     자료를 읽는 자리. **못 읽은 것을 기억한다** (T387). 흩어지면 처리가 갈린다
 app/play/              판 화면. **english.html 에 안 들어간다.** 판 탭을 열 때 읽는다
-app/late/              드물게 여는 조각 열넷. **english.html 에 안 들어간다.** 그 자리를 열 때 읽는다
+app/late/              드물게 여는 조각 열일곱. **english.html 에 안 들어간다.** 그 자리를 열 때 읽는다
 out/app/plays.js       판 묶음. 파생물이다. 손으로 안 고친다
-out/app/late.js        조각 열넷 묶음. 파생물이다. 93KB 를 여기로 뺐다 (T313 뒤, T331 뒤, T336, T344, T361, T365, T367, T369, T374, T380, T382)
+out/app/late.js        조각 열일곱 묶음. 파생물이다. 118KB 를 여기로 뺐다 (T313 뒤, T331 뒤, T336, T344, T361, T365, T367, T369, T374, T380, T382)
 app/order.txt          합치는 차례. 이 파일이 곧 앱의 차례다
 scripts/derive_app.py  조각을 합쳐 ../english.html 을 만든다. **주석은 조각에만 남는다**
 scripts/check_manual.py 설명하는 글과 앱을 견준다. 매뉴얼 넷과 짝 코드 자리 폭
@@ -339,7 +341,7 @@ repair는 되묻기, 자기수정, 끊김 처리, 이해 확인, 시간 벌기, 
 강의를 한 편씩 쓰면서 카드를 붙이면 이 총량이 반드시 어긋난다.
 `out/cards/eng2p_card_plan_q1.md` 가 배정의 기준이고 강의는 거기에 맞춘다.
 
-- 판정형 정답은 A면에만. B면 노출 금지
+- 판정형 정답은 A면에만. A면은 게임이 쥐고 두 사람 다 안 본다 (기준서 8.2, 13.2)
 - 압박형 제한시간은 숫자 (Q2 5초, Q3 3초, Q4 2초)
 - 확장형은 변형 축 명시
 - 역할형은 상황, 관계, 목적, 레지스터, 종료 조건 5요소 필수
