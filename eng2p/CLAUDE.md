@@ -254,6 +254,10 @@ scripts/check_color.js 색 157판. **값이 같아도 같은 색이 아니다.**
 scripts/check_write.js 적는 칸 272판. **안 이어진 칸은 소리를 안 낸다**
 scripts/check_unused.js 안 나오는 자료 105판. **수는 그대로인데 목록이 바뀌는 것도 잡는다**
 scripts/check_grade.py 등급과 재료. **등급은 파일에 붙는데 재료는 줄에 있다**
+docs/game.md          **게임이 모든 공부를 대체한다** (2026-10-07). 호놀룰루에서 사는 1년. 무대 표가 원본
+scripts/derive_game.js 게임이 받을 288세션. **앱을 띄워 앱의 셈을 그대로 부른다.** C++ 로 다시 안 짠다
+scripts/check_game.py 게임 1년에 자료가 다 들어갔나. **하나라도 빠지면 1년 동안 못 본다**
+out/game/sessions.json 게임 세션 288개. 파생물이다. 손으로 안 고친다
 docs/play_unused.md   1년 내내 한 번도 안 뜨는 자료. **기준선 표가 여기 있다**
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
