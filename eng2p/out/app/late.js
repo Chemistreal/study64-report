@@ -2346,9 +2346,9 @@ function renderAsk(){
   }else{
     h+='<p class="small mut"><b>열두 달이 지났다. 이제 연다.</b> '+
        '적을 때의 나와 지금의 나가 같은 것을 말하는지 본다.</p>';
-    h+='<div class="note small"><b>먼저 읽는다.</b> 730시간은 원어민급에 필요한 '+
-       '2,000~2,500시간의 약 30%다. 12개월차에 "이 정도야?" 라고 느끼는 것은 '+
-       '실패 신호가 아니라 <b>30% 지점의 정상 신호</b>다 (매뉴얼 1장 2항).</div>';
+    h+='<div class="note small"><b>먼저 읽는다.</b> 576시간은 원어민급에 필요한 '+
+       '2,000~2,500시간의 약 25%다. 12개월차에 "이 정도야?" 라고 느끼는 것은 '+
+       '실패 신호가 아니라 <b>25% 지점의 정상 신호</b>다 (매뉴얼 1장 2항).</div>';
     h+=e.items.map(function(x){
       return '<div class="blank"><b class="mono">'+x.week+'주차</b> '+esc(x.text)+'</div>';
     }).join("");
@@ -2610,7 +2610,7 @@ function renderRules(){
   var w=$("#wall"); w.innerHTML="";
   var h=el("div");
   h.appendChild(el("h4",null,"2인 영어 세션 규칙 카드"));
-  h.appendChild(el("div","small mut","오늘의 A : 짝수 날 = "+S.names.a+" / 홀수 날 = "+S.names.b));
+  h.appendChild(el("div","small mut","오늘의 A : 홀수 세션 = "+S.names.a+" / 짝수 세션 = "+S.names.b));
   w.appendChild(h);
   var s1=el("div","wc-sec");
   var t=el("table");

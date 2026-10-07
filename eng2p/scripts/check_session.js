@@ -99,7 +99,7 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
                                              lec: plan().lectureNo }));
     if (got.w !== wk) { fails.push(wk + "주로 못 갔다. " + got.w + "주가 됐다"); continue; }
 
-    /* B 쪽이 되는 사람을 골라 넣는다. 화면 쪽은 날마다 뒤집힌다 (T216). */
+    /* B 쪽이 되는 사람을 골라 넣는다. 화면 쪽은 세션마다 뒤집힌다 (T216). */
     await page.evaluate(() => { S.device = roleOf(today()) === "a" ? "b" : "a"; save(); });
     /* **회차를 주마다 돌린다.** 안 그러면 늘 1회차만 본다.
        블록 4는 회차마다 다른 것을 묻는다 (T214). 1회차는 지점, 2회차는 덩어리,
@@ -130,7 +130,7 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
       });
       /* 블록마다 그 자리에만 있는 것을 하나씩 본다. **다 있는 것을 보면 안 걸린다.**
          블록 1은 **자기 쪽 칸만** 뜬다. 그것이 그 자리의 장치다.
-         기기 쪽은 날마다 뒤집히므로 어느 칸인지도 그때 정해진다 (T216). */
+         기기 쪽은 세션마다 뒤집히므로 어느 칸인지도 그때 정해진다 (T216). */
       const mySide = await page.evaluate(() => (deviceSide() || "a").toUpperCase());
       const need = [
         ["이 주에 찾을 것", "aim" + mySide],

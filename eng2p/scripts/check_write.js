@@ -355,16 +355,18 @@ if (!chromium || !fs.existsSync(CHROME)) {
 
    `S.device` 는 **사람**이고 (`devicePerson`) 안 바뀐다.
    화면이 그리는 칸 이름은 **자리**가 정한다 (`deviceSide`).
-   그리고 자리는 날마다 뒤바뀐다.
+   그리고 자리는 세션마다 뒤바뀐다 (개정문 11번. 전에는 날짜 홀짝이었다).
 
        deviceSide() = roleOf(today())==="a" ? ... : ...
+       roleOf(d)    = 그날 전에 끝낸 정상 세션 수 + 1 이 홀수면 "a"
 
-   그래서 `S.device="a"` 로 박아 두면 자리가 b 인 날에 `aimA` 가 아니라
-   `aimB` 가 그려지고 이 검사가 **그 요일에만 붉어진다.**
+   그래서 `S.device="a"` 로 박아 두면 자리가 b 인 세션에 `aimA` 가 아니라
+   `aimB` 가 그려진다. 날짜 규칙일 때는 이 검사가 **그 요일에만 붉어졌다.**
    실제로 월요일에 걸렸다. 앱이 아니라 검사가 자리와 사람을 안 가른 것이다.
 
-   그날 자리가 a 가 되도록 사람을 고른다. 이 저장소에서 요일 때문에
-   붉어진 것이 세 번째다 (T396 뒤, T427 의 연속일). */
+   SEED 는 저장소를 비운다. 그러면 1번 세션이고 자리 a 가 사람1 이다.
+   **그래도 규칙을 손으로 박지 않고 `roleOf` 로 고른다.** 규칙은 check_role.js 가 잰다.
+   이 저장소에서 요일 때문에 붉어진 것이 세 번째였다 (T396 뒤, T427 의 연속일). */
 const SEED = 'localStorage.clear(); S.onboarded=true; S.names.a="가람"; ' +
              'S.names.b="나래"; S.device=(roleOf(today())==="a"?"a":"b"); saveNow();';
 

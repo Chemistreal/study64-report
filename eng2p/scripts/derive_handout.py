@@ -307,8 +307,11 @@ def pick_stuck(name, b):
     return None
 
 
-def pick_role(b):
-    m = re.search(r"^역할은 날짜로 정해(?:진다|져 있다)\.\s*(.+)$", b[2], flags=re.M)
+def pick_role(name, b):
+    # 개정문 11번 (2026-10-07). 날짜 규칙 문장은 이제 안 받는다. 남아 있으면 역할 줄이 빈다
+    m = re.search(r"^역할은 세션 번호로 정해(?:진다|져 있다)\.\s*(.+)$", b[2], flags=re.M)
+    if not m and re.search(r"^역할은 날짜로 정해", b[2], flags=re.M):
+        miss(name, "역할", "블록 3이 옛 날짜 규칙을 든다. 세션 번호로 적는다 (개정문 11번)")
     return m.group(1).strip() if m else None
 
 
@@ -428,7 +431,7 @@ def main():
         cards, sec, med, per = pick_cards(f.name, b, quarter)
         rec, notes = pick_record(f.name, b)
         stuck = pick_stuck(f.name, b)
-        role = pick_role(b)
+        role = pick_role(f.name, b)
         if not check_only:
             OUT.mkdir(parents=True, exist_ok=True)
             body = render(snum, title, one, eng, engsrc, split, segs, cards, sec, med,

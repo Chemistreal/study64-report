@@ -226,7 +226,7 @@ function renderRules(){
   var w=$("#wall"); w.innerHTML="";
   var h=el("div");
   h.appendChild(el("h4",null,"2인 영어 세션 규칙 카드"));
-  h.appendChild(el("div","small mut","오늘의 A : 짝수 날 = "+S.names.a+" / 홀수 날 = "+S.names.b));
+  h.appendChild(el("div","small mut","오늘의 A : 홀수 세션 = "+S.names.a+" / 짝수 세션 = "+S.names.b));
   w.appendChild(h);
   var s1=el("div","wc-sec");
   var t=el("table");

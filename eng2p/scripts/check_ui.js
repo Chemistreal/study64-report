@@ -119,8 +119,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const bad = [];
     const sets = (DATA.sets && DATA.sets.items) || [];
     if (!sets.length) return ["세트 자료를 못 읽었다"];
-    /* **`S.device` 는 사람이고 화면 쪽은 날마다 뒤집힌다.** T216
-       사람을 박아 두면 하루걸러 A 화면 판과 B 화면 판이 서로 바뀐다. */
+    /* **`S.device` 는 사람이고 화면 쪽은 세션마다 뒤집힌다.** T216
+       사람을 박아 두면 한 세션 걸러 A 화면 판과 B 화면 판이 서로 바뀐다. */
     const asB = roleOf(today()) === "a" ? "b" : "a";
     const asA = asB === "a" ? "b" : "a";
     for (const s of sets) {
@@ -170,8 +170,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const bad = [];
     const cards = (DATA.cards && DATA.cards.items) || [];
     if (!cards.length) return ["카드 자료를 못 읽었다"];
-    /* **`S.device` 는 사람이고 화면 쪽은 날마다 뒤집힌다.** T216
-       사람을 박아 두면 하루걸러 B면 판이 A면을 보게 된다. 쪽으로 골라 넣는다. */
+    /* **`S.device` 는 사람이고 화면 쪽은 세션마다 뒤집힌다.** T216
+       사람을 박아 두면 한 세션 걸러 B면 판이 A면을 보게 된다. 쪽으로 골라 넣는다. */
     const asB = roleOf(today()) === "a" ? "b" : "a";
     const asA = asB === "a" ? "b" : "a";
     for (const c of cards) {
@@ -342,9 +342,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const bad = [];
     const pl = plan();
     const sid = pl.set, lec = pl.lectureNo;
-    /* **`S.device` 는 사람이고 화면 쪽은 날마다 뒤집힌다.**
-       `deviceSide()` 가 `roleOf(today())` 를 곱해서 정한다.
-       사람을 박아 두면 하루걸러 이 판이 뒤집힌다. 쪽으로 골라 넣는다. T216 */
+    /* **`S.device` 는 사람이고 화면 쪽은 세션마다 뒤집힌다.**
+       `deviceSide()` 가 `roleOf(today())` 를 곱해서 정한다. 그 값은 세션 번호의 홀짝이다
+       (개정문 11번. 전에는 날짜 홀짝이었다). 사람을 박아 두면 한 세션 걸러 이 판이 뒤집힌다.
+       쪽으로 골라 넣는다. T216 */
     const asA = roleOf(today()) === "a" ? "a" : "b";
     const asB = roleOf(today()) === "a" ? "b" : "a";
     S.device = asA; const sa = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
@@ -1964,9 +1965,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* **블록 2 3단계가 1단계에서 가린 목록을 펴는가.**
        1단계 코드가 "빠진 것은 3단계에서 갈린다" 고 적어 놓고 안 폈다.
        B 는 그 목록을 세션 내내 한 번도 못 봤다. T212 */
-    /* **`S.device` 는 사람이고 화면 쪽은 날마다 뒤집힌다.** `deviceSide()` 가
-       `roleOf(today())` 를 곱해서 정한다. 사람을 박아 두면 하루걸러 검사가 뒤집힌다.
-       실제로 날이 바뀌면서 세 판이 실패했다. **B 쪽이 되는 사람을 골라 넣는다.** T216 */
+    /* **`S.device` 는 사람이고 화면 쪽은 세션마다 뒤집힌다.** `deviceSide()` 가
+       `roleOf(today())` 를 곱해서 정한다. 사람을 박아 두면 한 세션 걸러 검사가 뒤집힌다.
+       날짜 규칙일 때 날이 바뀌면서 세 판이 실패했다. **B 쪽이 되는 사람을 골라 넣는다.** T216 */
     await pw.evaluate(() => {
       S.device = roleOf(today()) === "a" ? "b" : "a"; save(); gotoBlock(1);
     });
@@ -2797,9 +2798,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       bad.push("열여섯 회에서 자리가 " + rd.mine + " 대 " + rd.yours + " 다. 반반이어야 한다");
     /* **어느 쪽으로 시작하는지는 안 본다. 도는지만 본다.**
        `roundFirst` 는 `deviceSide()` 를 타고 그것은 `roleOf(오늘)` 을 탄다.
-       `roleOf` 는 날짜 홀짝이라 **날마다 통째로 뒤집힌다** (T216).
-       기대값을 "010101" 로 박아 두면 이틀에 하루 빨간불이 된다.
-       실제로 그렇게 났다. 앱이 깨진 것이 아니라 검사가 하루만 맞게 적혀 있었다.
+       `roleOf` 는 세션 번호 홀짝이라 **세션마다 통째로 뒤집힌다** (T216, 개정문 11번).
+       기대값을 "010101" 로 박아 두면 두 세션에 한 번 빨간불이 된다.
+       날짜 홀짝일 때 실제로 그렇게 났다. 앱이 깨진 것이 아니라 검사가 하루만 맞게 적혀 있었다.
        T253 에 `check_pair.js` 를 여러 날 훑게 고쳤는데 여기는 안 고쳤다. T276 */
     const turns = (a, every) => {
       for (let i = 1; i < a.length; i++) {
@@ -2812,7 +2813,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!turns(rd.e3, 3)) bad.push("세 회마다 안 돈다: " + rd.e3.join(""));
     if (rd.next.join(",") !== "4,4,8") bad.push("다음 바뀌는 회를 틀리게 센다: " + rd.next.join(","));
     if (rd.paMine === rd.pbMine) bad.push("두 기기가 같은 몫을 본다: " + rd.paMine);
-    /* 어느 기기가 앞을 보는지는 날마다 뒤집힌다. **서로 채우는지만 본다.** */
+    /* 어느 기기가 앞을 보는지는 세션마다 뒤집힌다. **서로 채우는지만 본다.** */
     if (rd.pa === rd.pb || rd.pa.split("").sort().join("") !== "뒤앞" ||
         rd.pb.split("").sort().join("") !== "뒤앞")
       bad.push("몫이 서로 안 채운다: " + rd.pa + " " + rd.pb);
@@ -2982,7 +2983,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       bad.push("합치기가 돌려 보기 값을 건드린다: " + soloLocal.join(","));
 
     /* **이 기기가 어느 쪽인가를 화면 전체로.** 글자 한 줄이면 흘끗 봐서 안 보인다.
-       기기 쪽은 날마다 뒤집히고 (T216) 판 안에서 자리가 또 돈다 (T239). T242 */
+       기기 쪽은 세션마다 뒤집히고 (T216) 판 안에서 자리가 또 돈다 (T239). T242 */
     const band = await (async () => {
       const got = {};
       for (const who of ["a", "b", null]) {
@@ -3004,16 +3005,24 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
           bg: getComputedStyle(document.querySelector(".sideband")).backgroundImage,
           side: deviceSide() }));
         if (who === "a") {
-          /* **날이 바뀌면 뒤집힌다.** 세션 중에 자정을 넘길 수 있다. */
+          /* **세션을 마친 다음 날 뒤집힌다** (개정문 11번). 전에는 날짜 홀짝이라
+             날만 바뀌면 뒤집혔다. 이제는 세션 번호다. 그래서 둘을 다 잰다.
+               안 마치고 날만 바뀐다    그대로다. 결석과 쉰 날은 번호를 안 올린다
+               오늘을 마치고 날이 바뀐다 뒤집힌다
+             세션 중에 자정을 넘겨도 그날 번호라 안 뒤집힌다. check_midnight.js 가 잰다. */
           got.flip = await q.evaluate(() => {
-            const real = today;
+            const real = today, d0 = real();
             const was = document.getElementById("sideTag").textContent;
-            window.today = function () { return addDays(real(), 1); };
+            window.today = function () { return addDays(d0, 1); };
+            tick();
+            const idle = document.getElementById("sideTag").textContent;
+            day(d0).status = "normal";
             tick();
             const now = { cls: document.body.className,
                           tag: document.getElementById("sideTag").textContent };
+            delete S.days[d0];
             window.today = real; tick();
-            return { was, now, back: document.getElementById("sideTag").textContent };
+            return { was, idle, now, back: document.getElementById("sideTag").textContent };
           });
           /* 다른 자리가 class 를 통째로 써 버려도 다음 초에 돌아와야 한다. */
           got.wipe = await q.evaluate(() => {
@@ -3046,8 +3055,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (band.a.bg === band.b.bg) bad.push("두 기기의 띠 색이 같다");
     if (band["null"].cls[1] !== "none")
       bad.push("쪽을 안 골랐는데 한쪽으로 뜬다: " + band["null"].cls[1]);
+    if (band.flip.idle !== band.flip.was)
+      bad.push("세션을 안 마쳤는데 날만 바뀌어 쪽 표시가 뒤집혔다: " + band.flip.was +
+               " -> " + band.flip.idle + ". 날짜가 아니라 세션 번호다");
     if (band.flip.was === band.flip.now.tag)
-      bad.push("날이 바뀌었는데 쪽 표시가 그대로다: " + band.flip.was);
+      bad.push("세션을 마치고 날이 바뀌었는데 쪽 표시가 그대로다: " + band.flip.was);
     if (band.flip.back !== band.flip.was) bad.push("날을 되돌렸는데 쪽 표시가 안 돌아온다");
     if (!/side-(a|b|none)/.test(band.wipe))
       bad.push("몸통 class 가 지워졌더니 쪽 띠가 안 돌아온다: " + band.wipe);

@@ -193,7 +193,7 @@ def lectures():
             "criteria": criteria(rec),
             "notMeasured": [re.split(r"(?<=다)\.\s", x)[0] for x in notes],
             "stuck": H.pick_stuck(f.name, b),
-            "role": H.pick_role(b),
+            "role": H.pick_role(f.name, b),
             "spacing": spacing_of(b),
         })
     return rows
@@ -490,7 +490,7 @@ def manifest(lec, card, sett, hand, emg, task):
         ls = sorted(byweek[w], key=lambda x: x["no"])
         # 한 주가 여섯 세션이고 강이 둘이다. 앞 사흘이 앞 강이고 뒤 사흘이 뒤 강이다.
         # 세트가 그렇게 붙어 있다. 48주 전수로 3/3 인 것을 T94 에서 확인했다.
-        # 역할은 여기서 안 정한다. 짝수 날 홀수 날이라 달력을 봐야 한다.
+        # 역할은 여기서 안 정한다. 홀수 세션 짝수 세션이라 진행 대장을 봐야 한다 (개정문 11번).
         days = []
         ids = sorted(set_by_week.get(w, []))
         for d, sid in enumerate(ids, 1):
@@ -525,8 +525,9 @@ def manifest(lec, card, sett, hand, emg, task):
             {"no": 3, "name": "페어 드릴", "minutes": 30, "uses": "cards"},
             {"no": 4, "name": "공동 입력", "minutes": 20, "uses": "media"},
         ],
-        # 역할은 달력을 봐야 정해진다. 규칙만 적는다.
-        "roleRule": "짝수 날은 남편이 A, 홀수 날은 아내가 A다",
+        # 역할은 진행 대장의 정상 수행 횟수를 봐야 정해진다. 규칙만 적는다.
+        # 세트 번호와 세션 번호는 밀리지 않으면 같지만 규칙은 세션 번호다.
+        "roleRule": "홀수 세션은 남편이 A, 짝수 세션은 아내가 A다",
         "weeks": weeks,
         "counts": {
             "lectures": len(lec), "cards": len(card), "sets": len(sett),

@@ -44,8 +44,8 @@ function cardDue(){ if(!S.cardDue) S.cardDue={}; return S.cardDue; }
    **반만 고치면 옛 꼴과 새 꼴이 섞이고 그때 잃는 것이 1년치 간격이다.** */
 function cardSide(){
   /* **자리가 아니라 사람이다** (T360 이 잡았다).
-     처음에 `deviceSide()` 를 썼다. 그것은 **그날의 A/B 자리**고 날마다 뒤집힌다.
-     그러면 같은 사람의 카드가 하루걸러 다른 갈래에 쌓인다.
+     처음에 `deviceSide()` 를 썼다. 그것은 **그 세션의 A/B 자리**고 세션마다 뒤집힌다.
+     그러면 같은 사람의 카드가 한 세션 걸러 다른 갈래에 쌓인다.
      `devicePerson()` 이 이 기기를 쓰는 **사람**이다. 그것이 안 뒤집힌다. */
   var d=(typeof devicePerson==="function") ? devicePerson() : null;
   if(d==="a"||d==="b") return d;

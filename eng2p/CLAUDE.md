@@ -239,7 +239,7 @@ scripts/check_ahead.js 미리 아는 것과 봉투 72판. **표는 있었는데 
 scripts/check_year.js  1년을 통째로 돈다 324판. **막는 값이 세는 값이 되면 안 된다**
 scripts/check_track.js 트랙 진도 29판. **고르지 않은 것이 정상이라고 말한다**
 scripts/check_adapt.js 적응 16판. **갈린 채로 오래 도는가.** 자리와 사람은 다르다
-scripts/check_role.js  역할 교대 13판. **잰 값을 박아 둔다.** 고치는 것이 아니다
+scripts/check_role.js  역할 교대 35판. **세션 번호로 교대** (개정문 11, 2026-10-07). 같은 자리 연달아 0 이어야 한다
 scripts/check_versus.js 견줌 18판. **코드가 아니라 화면을 훑는다.** 이름 옆의 숫자
 scripts/check_reach.js 닿는 길 28판. **만든 것과 닿는 것은 다르다**
 scripts/check_late.js  늦게 읽는 조각 91판. **파일은 멀쩡하고 화면만 빈다.** 탭을 열어 본다

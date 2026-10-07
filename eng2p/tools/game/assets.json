@@ -1407,6 +1407,24 @@
    "sha256": "8339d38a45315e2bbb8d4af7f08e5a68cd9b225101d22c2b2e80013e1a2d6fc2"
   },
   {
+   "source": "archive_org",
+   "file": "archive_org/aquaticresources01jord/aquaticresources01jord.pdf",
+   "url": "https://archive.org/download/aquaticresources01jord/aquaticresources01jord.pdf",
+   "page": "https://archive.org/details/aquaticresources01jord",
+   "license": "Public domain (1905 U.S. Government publication: Bulletin of the U.S. Fish Commission vol. 23, pt. 1; archive.org possible-copyright-status NOT_IN_COPYRIGHT). Digitized by Smithsonian Libraries / BHL",
+   "bytes": 42906101,
+   "sha256": "4e74e824c5095c1e876001e8e0c7a05b0d601b830680a2ad2c6efd56f0ebda6d"
+  },
+  {
+   "source": "archive_org",
+   "file": "archive_org/aquaticresources01jord/aquaticresources01jord_jp2.zip",
+   "url": "https://archive.org/download/aquaticresources01jord/aquaticresources01jord_jp2.zip",
+   "page": "https://archive.org/details/aquaticresources01jord",
+   "license": "Public domain (1905 U.S. Government publication: Bulletin of the U.S. Fish Commission vol. 23, pt. 1; archive.org possible-copyright-status NOT_IN_COPYRIGHT). Digitized by Smithsonian Libraries / BHL",
+   "bytes": 268872135,
+   "sha256": "bd7765156cabef6d2ec6b7069347e8e54fd801faef2228ada674b4be9bf707cd"
+  },
+  {
    "source": "geo",
    "file": "geo/dem_05m/4QFJ120560.tif",
    "url": "https://noaa-nos-coastal-lidar-pds.s3.amazonaws.com/dem/HI_Kahoo_Lanai_Maui_Molo_Oahu_DEM_2022_10335/blk_2/4QFJ120560.tif",
@@ -6169,6 +6187,15 @@
   },
   {
    "source": "kenney",
+   "file": "kenney/kenney_road-textures.zip",
+   "url": "https://kenney.nl/media/pages/assets/road-textures/dbe293b0ed-1677578348/kenney_road-textures.zip",
+   "page": "https://kenney.nl/assets/road-textures",
+   "license": "CC0-1.0",
+   "bytes": 514391,
+   "sha256": "cca05f646465605815acc490dc005e20a83b4a74eccb4451ff34a01a0befa10c"
+  },
+  {
+   "source": "kenney",
    "file": "kenney/kenney_rpg-audio.zip",
    "url": "https://kenney.nl/media/pages/assets/rpg-audio/8e99002d76-1677590336/kenney_rpg-audio.zip",
    "page": "https://kenney.nl/assets/rpg-audio",
@@ -6184,6 +6211,15 @@
    "license": "CC0-1.0",
    "bytes": 5875104,
    "sha256": "119340f351a5098ad814f78719438c0da355a9ce8a4c8a3af6a8d48aa3d49e04"
+  },
+  {
+   "source": "kenney",
+   "file": "kenney/kenney_skyboxes.zip",
+   "url": "https://kenney.nl/media/pages/assets/skyboxes/6736ff5c10-1784123473/kenney_skyboxes.zip",
+   "page": "https://kenney.nl/assets/skyboxes",
+   "license": "CC0-1.0",
+   "bytes": 4972122,
+   "sha256": "ff339713105fe1b777ecafa0b66094e8fb1431cfcf88df761b9ad015aadf4028"
   },
   {
    "source": "kenney",
@@ -6283,6 +6319,429 @@
    "license": "CC0-1.0",
    "bytes": 1870991,
    "sha256": "cd1470c1cf441c7f46d0944ae6d0d897242365dc97677c5079b3238965d659f3"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0023_washington-place/057997pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0023/photos/057997pu.tif",
+   "page": "https://www.loc.gov/item/hi0023/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 1. Southwest (front facade, distant view) - Washington Place, 320 South Beretania Street, Honolulu, Honolulu County, HI",
+   "bytes": 17847496,
+   "sha256": "b8f57c5d13ba450f1d61c8a2d019f663a3f68e39ee5abded7d7f34c8ea70cd4d"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0023_washington-place/057998pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0023/photos/057998pu.tif",
+   "page": "https://www.loc.gov/item/hi0023/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 2. Southwest facade, close view - Washington Place, 320 South Beretania Street, Honolulu, Honolulu County, HI",
+   "bytes": 17752488,
+   "sha256": "ba81d631a0c670431c139d1e8986c4eb767a930e799c75fb11ad39511f077be5"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0023_washington-place/057999pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0023/photos/057999pu.tif",
+   "page": "https://www.loc.gov/item/hi0023/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 3. Southwest facade, axial view - Washington Place, 320 South Beretania Street, Honolulu, Honolulu County, HI",
+   "bytes": 17902504,
+   "sha256": "4f6b9d20a809f68ca235aef86affe23a6e201ffa4378132708fe30f32d552b56"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0023_washington-place/058000pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0023/photos/058000pu.tif",
+   "page": "https://www.loc.gov/item/hi0023/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 4. Southeast (side) elevation, covered terrace - Washington Place, 320 South Beretania Street, Honolulu, Honolulu County, HI",
+   "bytes": 18222544,
+   "sha256": "127ec89d23d5f33527c26fc89d83effaa6afd8d836e3e5a9166f66baf354ddc7"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0029_old-post-office/00001a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0029/sheet/00001a.tif",
+   "page": "https://www.loc.gov/item/hi0029/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,22- (sheet 1 of 10) - Old Post Office, Merchant & Bethel Streets, Honolulu, Honolulu County, HI",
+   "bytes": 520398,
+   "sha256": "d76a5d01986aeb7aed18821ce4da399d912711209b3c3450fc49e42ee7e9e1bc"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0029_old-post-office/00002a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0029/sheet/00002a.tif",
+   "page": "https://www.loc.gov/item/hi0029/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,22- (sheet 2 of 10) - Old Post Office, Merchant & Bethel Streets, Honolulu, Honolulu County, HI",
+   "bytes": 359202,
+   "sha256": "6a8b8cd6736ed89765f1f9b81473ba9953a0c4968a38eef8ff78dd510e84fd6d"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0029_old-post-office/057960pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0029/photos/057960pu.tif",
+   "page": "https://www.loc.gov/item/hi0029/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 1.  NORTHWEST AND SOUTHWEST ELEVATIONS - Old Post Office, Merchant & Bethel Streets, Honolulu, Honolulu County, HI",
+   "bytes": 17817496,
+   "sha256": "0ecb170fff30ab9d886a3d71e38e6a13f09ffe78d410db2700811256f2f7a357"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0029_old-post-office/057961pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0029/photos/057961pu.tif",
+   "page": "https://www.loc.gov/item/hi0029/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 2.  DETAIL, WEST CORNER ENTRANCE - Old Post Office, Merchant & Bethel Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16914406,
+   "sha256": "980ad163a6fd570a66c158dc5fa8e2a75137dd4db40b789c2d334126a1892926"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0032_mission-frame-house/057909pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0032/photos/057909pu.tif",
+   "page": "https://www.loc.gov/item/hi0032/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 1.  NORTH (FRONT) FACADE, FROM NORTHEAST - Mission Frame House, King & Kawaiahao Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16987642,
+   "sha256": "3f2d4513881a14080f15389478e10c7132506fcea0ffe274e78f05e9dda79740"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0032_mission-frame-house/057910pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0032/photos/057910pu.tif",
+   "page": "https://www.loc.gov/item/hi0032/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 2.  WEST SIDE, SHOWING PORTION OF PRINT SHOP - Mission Frame House, King & Kawaiahao Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16954866,
+   "sha256": "f2844166f2cf76c2dbf8a04d6bd72a2ebe3815db283ded6ad76d10f7f099e4aa"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0032_mission-frame-house/057911pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0032/photos/057911pu.tif",
+   "page": "https://www.loc.gov/item/hi0032/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 3.  SOUTH (PEAR), FROM SOUTHEAST - Mission Frame House, King & Kawaiahao Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16808360,
+   "sha256": "c7c8449d42ba1dcd613946011b15ee4fdbf92cccd08dc4b1325b473ec241408d"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0032_mission-frame-house/057912pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0032/photos/057912pu.tif",
+   "page": "https://www.loc.gov/item/hi0032/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 4.  EAST END - Mission Frame House, King & Kawaiahao Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16825008,
+   "sha256": "ac5839aa71a37d45684941af53b27912db65e6ef86c001ab198c3f89adc0de1b"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0040_ali-iolani-hale/00001a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0040/sheet/00001a.tif",
+   "page": "https://www.loc.gov/item/hi0040/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,3- (sheet 1 of 12) - Ali'Iolani Hale, 463 South King Street, Honolulu, Honolulu County, HI",
+   "bytes": 454308,
+   "sha256": "aebdc1172e71dfaca6f57f533306490931b690d3662ebb73590485f0fadbd2f3"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0040_ali-iolani-hale/00002a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0040/sheet/00002a.tif",
+   "page": "https://www.loc.gov/item/hi0040/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,3- (sheet 2 of 12) - Ali'Iolani Hale, 463 South King Street, Honolulu, Honolulu County, HI",
+   "bytes": 538618,
+   "sha256": "c7dc6d77d3ac345ef62847de904c755bd5961c4b0d5b5b8a00ea5ffc5c02f41b"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0040_ali-iolani-hale/058025pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0040/photos/058025pu.tif",
+   "page": "https://www.loc.gov/item/hi0040/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 1.  NORTHEAST (FRONT) ELEVATION, GENERAL VIEW SHOWING SETTING - Ali'Iolani Hale, 463 South King Street, Honolulu, Honolulu County, HI",
+   "bytes": 17060698,
+   "sha256": "0d68a65e50700660af571c0b8cb60fc0d931ab628a4ca690d47dffa4581f7cc1"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0040_ali-iolani-hale/058026pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0040/photos/058026pu.tif",
+   "page": "https://www.loc.gov/item/hi0040/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 2.  NORTHEAST ELEVATION, CLOSER VIEW - Ali'Iolani Hale, 463 South King Street, Honolulu, Honolulu County, HI",
+   "bytes": 16940780,
+   "sha256": "56d2787573f1b65a11bb6cc7c325ccafa162dc59f80274908de42cfd431fd911"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0046_iolani-barracks/00001a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0046/sheet/00001a.tif",
+   "page": "https://www.loc.gov/item/hi0046/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,10- (sheet 1 of 6) - Iolani Barracks, Richards & Hotel Streets, Honolulu, Honolulu County, HI",
+   "bytes": 417738,
+   "sha256": "29d9a4a6e2e81176426c66076dd2ce91728eefbb0d7c4de96363593af66b8026"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0046_iolani-barracks/00002a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0046/sheet/00002a.tif",
+   "page": "https://www.loc.gov/item/hi0046/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,10- (sheet 2 of 6) - Iolani Barracks, Richards & Hotel Streets, Honolulu, Honolulu County, HI",
+   "bytes": 412562,
+   "sha256": "b1e70816e3e66c2e3f3e3d2ee59fc9478bcf9fd85f1a831f51153ffce46a3556"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0046_iolani-barracks/057822pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0046/photos/057822pu.tif",
+   "page": "https://www.loc.gov/item/hi0046/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 1.  SOUTHWEST FACADE FROM WEST - Iolani Barracks, Richards & Hotel Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16791660,
+   "sha256": "74b8f30d03b3714603569aedab9fa14cfc5b12753aad62b184bc0ad1f25c1199"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0046_iolani-barracks/057823pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0046/photos/057823pu.tif",
+   "page": "https://www.loc.gov/item/hi0046/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 2.  SOUTHWEST FACADE, AXIAL VIEW - Iolani Barracks, Richards & Hotel Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16727988,
+   "sha256": "e74ae8222c773865939cf1746557c603c6f648ba7f86ce151a0b0326af53b5e2"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0047_iolani-palace/00001a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0047/sheet/00001a.tif",
+   "page": "https://www.loc.gov/item/hi0047/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,8- (sheet 1 of 22) - Iolani Palace, King & Richards Streets, Honolulu, Honolulu County, HI",
+   "bytes": 270180,
+   "sha256": "110072a5a45f47261a3281a44f34e85011ca54b692bcbad64e75f9924eb33a1e"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0047_iolani-palace/00002a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0047/sheet/00002a.tif",
+   "page": "https://www.loc.gov/item/hi0047/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,8- (sheet 2 of 22) - Iolani Palace, King & Richards Streets, Honolulu, Honolulu County, HI",
+   "bytes": 597000,
+   "sha256": "ca5437254d2d04bf8d6600a794649e3a9d4df0495b9646fee24b270b947897bc"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0047_iolani-palace/058082pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0047/photos/058082pu.tif",
+   "page": "https://www.loc.gov/item/hi0047/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 1.  SOUTHWEST (FRONT) FACADE AND GROUNDS - Iolani Palace, King & Richards Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16645136,
+   "sha256": "16b6a92e7855204081a9bc1a5dbde40a0625630c4c151ef7d8f2f7f0a86c9f96"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0047_iolani-palace/058083pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0047/photos/058083pu.tif",
+   "page": "https://www.loc.gov/item/hi0047/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 2.  SOUTHWEST FACADE, OBLIQUE VIEW - Iolani Palace, King & Richards Streets, Honolulu, Honolulu County, HI",
+   "bytes": 17882504,
+   "sha256": "067c78d7a42c7552db630de1354201788ba4c922c5f19a7edde0d68c2e1c419d"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0050_kawaiahao-church/00001a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0050/sheet/00001a.tif",
+   "page": "https://www.loc.gov/item/hi0050/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,13- (sheet 1 of 10) - Kawaiahao Church, Punchbowl & King Streets, Honolulu, Honolulu County, HI",
+   "bytes": 547838,
+   "sha256": "4c2c117aa352feeba382523d5f4147e1111c875c987f478c01831016688fded7"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0050_kawaiahao-church/00002a.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0050/sheet/00002a.tif",
+   "page": "https://www.loc.gov/item/hi0050/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: HABS HI,2-HONLU,13- (sheet 2 of 10) - Kawaiahao Church, Punchbowl & King Streets, Honolulu, Honolulu County, HI",
+   "bytes": 449884,
+   "sha256": "7cd4b7886eb97fb3696f3dac3e076abd2b3b2cb38c0d9daf3a81da0fde8da237"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0050_kawaiahao-church/057848pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0050/photos/057848pu.tif",
+   "page": "https://www.loc.gov/item/hi0050/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 1.  WEST (FRONT) ELEVATION, OBLIQUE VIEW - Kawaiahao Church, Punchbowl & King Streets, Honolulu, Honolulu County, HI",
+   "bytes": 16734190,
+   "sha256": "f8b1cb79260df17590827df057f85ce8d3168ac3d0006b4813537c00abb02b67"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0050_kawaiahao-church/057849pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0000/hi0050/photos/057849pu.tif",
+   "page": "https://www.loc.gov/item/hi0050/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: 2.  WEST ELEVATION, AXIAL VIEW - Kawaiahao Church, Punchbowl & King Streets, Honolulu, Honolulu County, HI",
+   "bytes": 17832496,
+   "sha256": "3437683744cca1a0138e57c9895a1229cdba87231ec7c7fb41cb826079c4267d"
+  },
+  {
+   "source": "loc",
+   "file": "loc/habs/hi0839_hawaii-theatre/225743pu.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/hi/hi0800/hi0839/photos/225743pu.tif",
+   "page": "https://www.loc.gov/item/hi0839/",
+   "license": "Public domain - HABS (U.S. Government work); LOC: No known restrictions on images made by the U.S. Government. Caption: Oblique view of southeast elevation - Hawaii Theatre, 1130 Bethel Street, Honolulu, Honolulu County, HI",
+   "bytes": 20496178,
+   "sha256": "7c0daf927bff943a15847baba94a77cd4b227ff63eb0c93d879c9b33bfad1286"
+  },
+  {
+   "source": "loc",
+   "file": "loc/panoramic/2007662075_honolulu-hawaii_6a19105u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pan/6a19000/6a19100/6a19105u.tif",
+   "page": "https://www.loc.gov/item/2007662075/",
+   "license": "Public domain - LOC: No known restrictions on publication (Bonine, R. (Robert K.), copyright claimant; 1910)",
+   "bytes": 12153444,
+   "sha256": "3418840a48e0501b9c3a379e4c374eaa7005264573a8fe67c1eb3cb24fb25d7a"
+  },
+  {
+   "source": "loc",
+   "file": "loc/panoramic/2007662077_honolulu-harbor_6a03624u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pan/6a03000/6a03600/6a03624u.tif",
+   "page": "https://www.loc.gov/item/2007662077/",
+   "license": "Public domain - LOC: No known restrictions on publication (Moses, Ernest, copyright claimant; 1910)",
+   "bytes": 6968348,
+   "sha256": "adae977d51c0486d042783674b2ed66f4a7a3a103e95782a7de2bc02f67096ca"
+  },
+  {
+   "source": "loc",
+   "file": "loc/panoramic/2007662081_hawaiian-hotel_6a03651u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pan/6a03000/6a03600/6a03651u.tif",
+   "page": "https://www.loc.gov/item/2007662081/",
+   "license": "Public domain - LOC: No known restrictions on publication (Vaniman, Melvin, 1866-1912, copyright claimant; 1902)",
+   "bytes": 4183425,
+   "sha256": "51155fe31ab71db8075a40b942108dc620bb83f316e5b34580b74a1e8a5b8555"
+  },
+  {
+   "source": "loc",
+   "file": "loc/panoramic/2007662083_beach-at-waikiki_6a03663u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pan/6a03000/6a03600/6a03663u.tif",
+   "page": "https://www.loc.gov/item/2007662083/",
+   "license": "Public domain - LOC: No known restrictions on publication (King, Will Cowdell, copyright claimant; 1902)",
+   "bytes": 4328345,
+   "sha256": "13071c6a186d91da2f487228777ae6ce7eb933d89771e337d245c465a0629d5d"
+  },
+  {
+   "source": "loc",
+   "file": "loc/panoramic/2007662085_the-port-city-of-honolulu_6a03677u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pan/6a03000/6a03600/6a03677u.tif",
+   "page": "https://www.loc.gov/item/2007662085/",
+   "license": "Public domain - LOC: No known restrictions on publication (Perkins, R. W. (Roscoe W.), copyright claimant; 1913)",
+   "bytes": 5834834,
+   "sha256": "79220c414dfed6cc4a6becbd1931a7fe221e08426f8d97f362b4d1789651face"
+  },
+  {
+   "source": "loc",
+   "file": "loc/panoramic/2007662086_the-port-city-of-honolulu_6a03684u.tif",
+   "url": "https://tile.loc.gov/storage-services/master/pnp/pan/6a03000/6a03600/6a03684u.tif",
+   "page": "https://www.loc.gov/item/2007662086/",
+   "license": "Public domain - LOC: No known restrictions on publication (Perkins, R. W. (Roscoe W.), copyright claimant; 1913)",
+   "bytes": 6488126,
+   "sha256": "f7ab4f552c866fdba3cfdae12d064b7fbdccb974511ca97810389add03049fc9"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0000L.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0000L.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7788753,
+   "sha256": "82e3fe2f8b62f433b26c946f8123179c0d06d365f2f189b86e95a814c05d8584"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0000R.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0000R.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7887139,
+   "sha256": "ce2d00d4b2c8c72515264520a68e2e040ac37922577ad4d2f4e569fac1845aad"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0038.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0038.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7722098,
+   "sha256": "3946506a1a95c13bae592b61a992f0642e9843a4d14e6c83c6b01b89efbddf0b"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0039.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0039.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7666153,
+   "sha256": "f9deb2321f1a26c59e6ab50130f9ee23edb9589fdf8e2a99c24ad97bf412f844"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0040.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0040.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7666154,
+   "sha256": "5811b873b9bd91158032508112d450de1cc9510ea4e68659eeed5a1ca7bc3f0c"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0053.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0053.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7666149,
+   "sha256": "7f31dfd0473ef9620608957f63a293f2132072ca3720b2087569c0cb4a1427e0"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0057.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0057.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7675320,
+   "sha256": "1a6f7d1fedcd99e5a8375236001e458bb979d75cd7f25e61dac6e1747b500e2b"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0117.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0117.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7694216,
+   "sha256": "47d88da3cf18be9aaac8a9a287b0c101927c78772b211196a06707f710d80aba"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0118.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0118.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7694215,
+   "sha256": "e27e98d33e6de3fa87427e2102dd6e9471889d43a0d4a7b86b9ba815a2d7112f"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0119.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0119.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7694213,
+   "sha256": "6f0356f37d1bb562fd4bb0bc72ab1e843f6421aad795ea5e0e231beddec51637"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-0120.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0120.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7694215,
+   "sha256": "123d507f7485ad7f8e0f037b3a4eb561c7a9abd66009a048ff7d0bc64fcd4b57"
+  },
+  {
+   "source": "loc",
+   "file": "loc/sanborn_honolulu_1914/01537_1914-cbd.jp2",
+   "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-cbd.jp2",
+   "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
+   "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
+   "bytes": 7671997,
+   "sha256": "14dab0440dbde20525d1cf110a7431af7d8e08f263f05b017ddf9ab9c3277e96"
   },
   {
    "source": "oga",
@@ -10954,8 +11413,188 @@
    "license": "PD (1898)",
    "bytes": 652956,
    "sha256": "eb941ccc32707c990465880667b5da74350ede945cf49b217278dbd2df3c62c0"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/avocado_POM00004411.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00004411.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Arnold, Mary Daisy, ca. 1873-1955; Persea Lyon; 1917",
+   "bytes": 7565652,
+   "sha256": "4f7f97fe03706cd1fa8b4626e17b7d1daac23a5b7314a1db9e37d38f4ebbf9cc"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/avocado_POM00004413.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00004413.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Steadman, Royal Charles, b. 1875; Persea McCann; 1918",
+   "bytes": 6507179,
+   "sha256": "dd7e6c0ec81c0db7b02ef3a4efc8ab462a274a8963e2231ab31181924a3de761"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/avocado_POM00004570.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00004570.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Steadman, Royal Charles, b. 1875; Persea Fuerte; 1918",
+   "bytes": 6256278,
+   "sha256": "95b675fb3680610e056d06f83252fd46278dda8ab62282c1f49cc3063b2eb819"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/avocado_POM00004571.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00004571.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Newton, Amanda Almira, ca. 1860-1943; Persea Fuerte; 1917",
+   "bytes": 7338762,
+   "sha256": "a56e12bca740bb15a28af309cb1a512f8e37483810dd80f1f707a640bac965ce"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/banana_POM00000780.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00000780.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Shull, James Marion, 1872-1948; Musa ; ",
+   "bytes": 7934536,
+   "sha256": "2a665551c09598f0dd3b5a1285edba18e9b752213bdcad0cb2df89acc86100d2"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/banana_POM00000781.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00000781.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Shull, James Marion, 1872-1948; Musa ; ",
+   "bytes": 8490146,
+   "sha256": "dde62fc0b45e018fbf16e5954da9e7aa4856724e7ffc3c464aa16c2113ae3635"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/banana_POM00000782.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00000782.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Shull, James Marion, 1872-1948; Musa ; 1919",
+   "bytes": 8426756,
+   "sha256": "8588f629019882d0698262466efeb7c81e278f097d2fcce3f9116a13e2fd3f98"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/guava_POM00007458.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00007458.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Newton, Amanda Almira, ca. 1860-1943; Psidium guajava Red Fleshed; 1906",
+   "bytes": 7885286,
+   "sha256": "25c7ab05d9d752ae2f30e4b202387f447383361aaf442aa14496d500bff9e377"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/guava_POM00007459.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00007459.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Steadman, Royal Charles, b. 1875; Psidium guajava Guava; 1931",
+   "bytes": 5828339,
+   "sha256": "85e9e7892cddd0a59454b33df5078e03df470a8af1b35ddfd42a91bd3c3c8528"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/guava_POM00007460.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00007460.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Newton, Amanda Almira, ca. 1860-1943; Psidium guajava Guava; 1914",
+   "bytes": 7929093,
+   "sha256": "9f075d04451fafada661b864d27a6dc4460f0e4ee8dd859745eadd774f64696d"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/mango_POM00000865.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00000865.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Newton, Amanda Almira, ca. 1860-1943; Mangifera indica Maharajah; 1910",
+   "bytes": 7443100,
+   "sha256": "c9f287eca633655d8b3d33c076e88d25b24dfd08fa9c81f9307342f8061fc630"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/mango_POM00001854.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00001854.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Krieger, L.C.C. (Louis Charles Christopher), 1873-1940; Mangifera indica Gola Alphonse; 1918",
+   "bytes": 5887633,
+   "sha256": "7d4ebcfbcc82142fdcd54ebf694b687923ad7fd1be9838de8472b9b9ce74a493"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/mango_POM00001856.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00001856.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Steadman, Royal Charles, b. 1875; Mangifera indica Carabao; 1925",
+   "bytes": 8152425,
+   "sha256": "74e560434ffaa2b1f7f99dd70ccf3017b2647a33069b49cec4aa049ef8ab2471"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/mango_POM00004297.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00004297.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Passmore, Deborah Griscom, 1840-1911; Mangifera indica Haden; 1910",
+   "bytes": 8405429,
+   "sha256": "51a2b402e21996bce89ff107a24ec208a08b462e671419c2513ba0126d06200a"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/papaya_POM00000137.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00000137.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Passmore, Deborah Griscom, 1840-1911; Carica papaya ; 1903",
+   "bytes": 8222406,
+   "sha256": "31fe3f012a6111ecdf266198dd01305501c9e142c5224e99aa8240e8154c9665"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/papaya_POM00007391.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00007391.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Arnold, Mary Daisy, ca. 1873-1955; Carica papaya ; 1912",
+   "bytes": 9447507,
+   "sha256": "949d6ea6391671e319df9a126634c2a4e6607764f7e5311a0d13ae4377845f7f"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/papaya_POM00007392.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00007392.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Arnold, Mary Daisy, ca. 1873-1955; Carica papaya ; 1912",
+   "bytes": 8818267,
+   "sha256": "bbbe0fbd643e035daee0ecaf233447c1652e5185c5217e49955ca5315ab319b9"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/pineapple_POM00007369.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00007369.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Shull, James Marion, 1872-1948; Ananas comosus Pineapple; 1919",
+   "bytes": 9263836,
+   "sha256": "65433ee836095ab33982da07a2f408e5d5b7d87a14ca2a4cc825aef48650e360"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/pineapple_POM00007370.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00007370.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Shull, James Marion, 1872-1948; Ananas comosus Pineapple; 1919",
+   "bytes": 8895889,
+   "sha256": "7bda0c697c1343107eab19bcf91d934f8b474de99bb3497c400e246b3cef4623"
+  },
+  {
+   "source": "usda_pomological",
+   "file": "usda_pomological/pineapple_POM00007371.jpg",
+   "url": "https://archive.org/download/usda-pomological-watercolor-collection/POM00007371.jpg",
+   "page": "https://archive.org/details/usda-pomological-watercolor-collection",
+   "license": "Public domain (U.S. Government work). Attribution requested: U.S. Department of Agriculture Pomological Watercolor Collection. Rare and Special Collections, National Agricultural Library, Beltsville, MD 20705. Artist: Shull, James Marion, 1872-1948; Ananas comosus ; 1919",
+   "bytes": 8330885,
+   "sha256": "0a850b3b80e17989314ff905bea023c09c72d0a7b0f7e48a83fe8685b66a256f"
   }
  ],
- "count": 1217,
- "bytes": 10317086358
+ "count": 1288,
+ "bytes": 11259569823
 }

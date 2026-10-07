@@ -1561,7 +1561,7 @@ for (let i = 1; i < cspec.deck.length; i++) {
 | 도나 | 판마다 다르다 | **이 판은 안 돈다** |
 | 무엇으로 | `roundFirst` | `devicePerson` |
 
-이 판은 `deviceSide` 를 안 쓴다. 그것은 날마다 뒤집힌다 (`roleOf`).
+이 판은 `deviceSide` 를 안 쓴다. 그것은 세션마다 뒤집힌다 (`roleOf`).
 자리가 안 도는 판에서 몫만 도는 것은 규칙서에 없는 일이다.
 `devicePerson` 이 그대로 몫을 정한다. **사람1이 늘 앞줄이다.**
 

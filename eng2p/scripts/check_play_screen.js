@@ -222,7 +222,7 @@ const RESET = () => {
   }
   const A = dev.a, B = dev.b;
 
-  /* 어느 쪽이 읽는 쪽인가는 날마다 뒤집힌다 (`roleOf`). **재서 정한다.** */
+  /* 어느 쪽이 읽는 쪽인가는 세션마다 뒤집힌다 (`roleOf`). **재서 정한다.** */
   const isReader = (p) => p.evaluate(() => !!document.querySelector(".mirword"));
   let reader = (await isReader(A)) ? A : B;
   let pointer = reader === A ? B : A;
@@ -1326,7 +1326,7 @@ const RESET = () => {
   if (!(await shower.$("#walGo"))) no("3초 벽: 띄우는 쪽에 시계 단추가 없다");
 
   /* ---- 67. 자리가 자료가 적은 장수마다 바뀐다 ---------------------------
-     **날짜에 안 매인다.** 어느 쪽이 먼저인지는 날마다 뒤집히고 (roleOf)
+     **날짜에 안 매인다.** 어느 쪽이 먼저인지는 세션마다 뒤집히고 (roleOf)
      바뀌는 자리만 잰다. check_ui.js 가 T276 에 고친 것과 같은 꼴이다. */
   const seatSeq = [];
   for (let i = 0; i < wspec.swap * 2; i++) {
@@ -2620,8 +2620,8 @@ const RESET = () => {
       no("말 겹치기: " + tag + " 화면에 상대 줄이 있다. 보이면 겹치는 것을 피하게 된다");
   }
 
-  /* ---- 143. 몫이 날마다 안 뒤집힌다 -------------------------------------
-     `deviceSide` 는 `roleOf` 로 날마다 뒤집힌다. **몫은 그러면 안 된다** (T304).
+  /* ---- 143. 몫이 세션마다 안 뒤집힌다 -----------------------------------
+     `deviceSide` 는 `roleOf` 로 세션마다 뒤집힌다. **몫은 그러면 안 된다** (T304).
      자리가 안 도는 판에서 몫만 도는 것은 규칙서에 없는 일이다. */
   const lFlip = await A.evaluate(() => {
     const was = clsMine();

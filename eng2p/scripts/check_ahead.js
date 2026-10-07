@@ -229,9 +229,12 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   if (!/트랙 비중/.test(open.txt) || !/새 앱/.test(open.txt))
     no("열두 달이 지났는데 안이 안 열린다: " + open.txt.slice(0, 60));
   if (!/25주차/.test(open.txt)) no("언제 적은 것인지가 없다");
-  if (!/30%/.test(open.txt))
+  /* 기준서 1.1 이 576시간에 약 25% 다 (개정문 1번). 730 과 30% 는 옛 값이다 */
+  if (!/576시간/.test(open.txt) || !/25%/.test(open.txt))
     no("여는 날 눈금 문장이 없다. 실망이 개정 요청을 다 옳게 보이게 만든다");
-  if (open.txt.indexOf("30%") > open.txt.indexOf("트랙 비중"))
+  if (/730시간|30%/.test(open.txt))
+    no("여는 날 눈금 문장이 옛 값 730시간 30% 를 든다. 기준서 1.1 은 576시간 25% 다");
+  if (open.txt.indexOf("25%") > open.txt.indexOf("트랙 비중"))
     no("적어 둔 것이 눈금 문장보다 먼저 나온다. 눈금부터 본다");
 
   /* **0건이면 아예 안 뜬다.** 0인데 뜨면 그것은 잔소리다 (T181) */

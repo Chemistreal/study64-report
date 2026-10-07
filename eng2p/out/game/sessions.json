@@ -5,7 +5,7 @@
  "generator": "scripts/derive_game.js",
  "source": "english.html 의 plan() 과 판마다의 덱 함수, out/data, docs/game.md 4장",
  "start": "2026-08-10",
- "roleRule": "짝수 날은 남편이 A, 홀수 날은 아내가 A다",
+ "roleRule": "홀수 세션은 남편이 A, 짝수 세션은 아내가 A다",
  "runtime": {
   "recall": "두 사람이 막힌 카드에서 짠다. 기록이 있어야 정해져서 미리 못 뽑는다"
  },

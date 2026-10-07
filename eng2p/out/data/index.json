@@ -28,7 +28,7 @@
       "uses": "media"
     }
   ],
-  "roleRule": "짝수 날은 남편이 A, 홀수 날은 아내가 A다",
+  "roleRule": "홀수 세션은 남편이 A, 짝수 세션은 아내가 A다",
   "counts": {
     "lectures": 96,
     "cards": 600,

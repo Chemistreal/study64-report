@@ -171,8 +171,8 @@ function renderWeek(){
   $("#weekTable").innerHTML=rows.join("");
   /* 누가 A인지는 여기 한 줄이다. 줄마다 이름을 적으면 그 줄의 숫자가 그 사람 것으로 읽힌다 */
   var who=$("#weekWho");
-  if(who) who.innerHTML='<b>A</b> 짝수 날 '+esc(S.names.a)+' · '+
-    '<b>B</b> 홀수 날 '+esc(S.names.b)+
+  if(who) who.innerHTML='<b>A</b> 홀수 세션 '+esc(S.names.a)+' · '+
+    '짝수 세션 '+esc(S.names.b)+
     ' <span class="small mut">숫자는 그날 둘이 같이 한 값이다. 자리가 정하는 값이 아니다.</span>';
 }
 $("#wPrev").onclick=function(){S.wk--;save();renderWeek();renderAlerts();};
@@ -218,7 +218,7 @@ $("#exJson").onclick=function(){
 $("#exMd").onclick=function(){
   var L=["# eng2p 진행 대장 내보내기","","생성일: "+today(),"시작일: "+S.start,
     "누적 시간: "+totalHours()+"h","",
-    "A 짝수 날 "+S.names.a+" · B 홀수 날 "+S.names.b+". 숫자는 둘이 같이 한 값이다.","",
+    "A 홀수 세션 "+S.names.a+" · 짝수 세션 "+S.names.b+". 숫자는 둘이 같이 한 값이다.","",
     "| 일자 | 자리 | 수행 | 발화(분) | 드릴(장) | LRE | 미해결 |","|---|---|---|---|---|---|---|"];
   allDays().forEach(function(d){
     var r=S.days[d];
