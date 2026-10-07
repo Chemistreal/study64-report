@@ -60,7 +60,10 @@ PARTICLES = ("으로는|으로|에서|에게|처럼|까지|부터|마다|이나|
 # 금지하는 문장. 마크다운 줄에 이것이 있으면 (a) 를 안 건다.
 NEGATION = re.compile(
     r"(안 넣|안 쓴|안 쓰|안 만든|안 만들|안 그린|안 그리|안 한다|안 된다|안 더하|않는다|않고|않게|"
-    r"쓰지 않|넣지 않|만들지 않|그리지 않|두지 않|금지|하지 마|뺀다|빼고|"
+    r"쓰지 않|넣지 않|만들지 않|그리지 않|두지 않|닫지 않|금지|하지 마|뺀다|빼고|"
+    # 2026-10-07 합칠 때 더했다. "퀘스트가 아니고", "안 붙이고", "안 준다", "안 하는 것" 이
+    # 금지 문장인데 실패로 잡혔다. 아홉 줄 다 그랬다
+    r"아니고|아니다|안 붙|안 준|안 하는|안 건다|"
     r"\bnever\b|\bdo not\b|\bdon't\b|\bnot used\b)")
 
 VOA_CELL = re.compile(r"\|\s*lle1-\d+\s*\|\s*$")
@@ -295,6 +298,9 @@ def rule_b(u, rules):
 def rule_c(u, rules):
     text = u["text"]
     if not rules["song_any"].search(text):
+        return
+    # 금지하는 마크다운 문장은 (a) 처럼 봐 준다 ("집들이 끝에 쓰지 않는다")
+    if u["md"] and NEGATION.search(text):
         return
     songs = [(t, rx.search(text)) for t, rx in rules["song"]]
     songs = [(t, m) for t, m in songs if m]

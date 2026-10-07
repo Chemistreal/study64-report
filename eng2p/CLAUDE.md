@@ -262,6 +262,7 @@ docs/town.md          동네. **실제보다 화려하게.** 배경 지형만 �
 docs/sources.md       게임에 들여오는 자료의 출처와 권리. **PD, CC0, CC BY 만.** 사용자가 정할 것 셋
 docs/scenes.md        장면 (G3). 뼈대는 셈, **대사는 이미 들은 VOA 대본 줄 그대로.** 이름 자리만 바꾼다
 docs/expansion.md     확장층 (라디오, Tatoeba 잡담, 안내문, 읽을거리, 48주 달력). 원문 docs/ext_notices.md, docs/ext_readers.md
+docs/culture.md       하와이 문화 지침 (자문 대신 자체 조사, 출처 32). scripts/check_culture.py 가 금지어, 하와이어 철자(U+02BB), 노래 쓰임을 본다
 scripts/derive_ext_*.py 확장층을 낸다. scripts/check_ext.py 가 열일곱 판을 보고 깬 시험도 한다
 scripts/derive_scenes.py 장면 288세션을 낸다. 지은 영어, 안 들은 과, 없는 사람이면 안 낸다
 scripts/derive_town.py 동네 표를 맞춰 보고 out/game/town.json 을 낸다. 어긋나면 안 낸다
