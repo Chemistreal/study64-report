@@ -13,7 +13,7 @@
   "{B틀린철자}"
  ],
  "count": 288,
- "lines": 20,
+ "lines": 1062,
  "sessions": [
   {
    "s": 1,
@@ -699,7 +699,14 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "Oh, hi, {A}. How's it going?",
+       "from": "lle1-06",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -787,7 +794,20 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "How's it going?",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's going great.",
+       "from": "lle1-06",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -866,7 +886,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Where is the gym?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "The gym is across from the lounge. It's next to the mailroom. Go that way.",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "No, {A}! Not that way! Go that way!",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Across from the lounge. Right. Thanks!",
+       "from": "lle1-06",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -963,7 +1008,20 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Is it windy today?",
+       "from": "lle1-09",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "No, it is not windy today.",
+       "from": "lle1-09",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -1059,7 +1117,20 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Is it sunny today?",
+       "from": "lle1-09",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Yes, {A}. It is sunny.",
+       "from": "lle1-09",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-022",
@@ -1139,7 +1210,20 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "How's it going?",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's going great. How's it going with you?",
+       "from": "lle1-06",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -1193,7 +1277,20 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "See you.",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "See you, {A}!",
+       "from": "lle1-06",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -1218,7 +1315,26 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Then at the bus station turn left. Then walk straight ahead.",
+       "from": "lle1-10",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks!",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "No, {A}! Not that way! Go that way!",
+       "from": "lle1-06",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -1235,7 +1351,20 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "My apartment is near a coffee shop.",
+       "from": "lle1-10",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "{A}, Which coffee shop? There are three coffee shops.",
+       "from": "lle1-10",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-029",
@@ -1310,7 +1439,38 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Where is the gym?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "The gym is across from the lounge. It's next to the mailroom. Go that way.",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "The gym is across from … what?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "The gym is across from the lounge.",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Across from the lounge. Right. Thanks!",
+       "from": "lle1-06",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -1384,7 +1544,38 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "This is not the gym.",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "That's right, {A}. This is the mailroom.",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "The gym is across from the lounge. It is behind the lobby.",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Right. Right. See you.",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "See you, {A}!",
+       "from": "lle1-06",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -1484,7 +1675,32 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Is there a post office near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Um, no. The post office is far from here. But there is a mailbox across from the store.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is there a bank near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "There is a bank behind you.",
+       "from": "lle1-11",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-035",
@@ -1550,7 +1766,26 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Where is the library?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "It is on this street on the corner.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's go!",
+       "from": "lle1-11",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -1650,7 +1885,38 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Ortiz",
+       "say": "Is there a post office near here?",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Um, no. The post office is far from here. But there is a mailbox across from the store.",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Is there a bank near here?",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "There is a bank behind you.",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Thanks, {A}. You know our neighborhood so well.",
+       "from": "lle1-11",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-035",
@@ -1725,7 +1991,38 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "{A}, here's your coffee.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks!",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm thinking about my family. I'm feeling homesick.",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -1809,7 +2106,38 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Oh, hi, {A}. How's it going?",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's going great. How's it going with you?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "{B}, I want to work out.",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "I want to work out too! Join me!",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm good.",
+       "from": "lle1-06",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -1911,7 +2239,38 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm feeling homesick.",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure!",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Photos really help.",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -1995,7 +2354,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I like to exercise. I like to shop. I like to garden. But today I feel bored.",
+       "from": "lle1-13",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "When I feel bored I always look for something unusual to do!",
+       "from": "lle1-13",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "I hear music. Let's go see!",
+       "from": "lle1-13",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What is going on here?",
+       "from": "lle1-13",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -2180,7 +2564,56 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "{A}, here's your coffee.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks!",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm thinking about my family. I'm feeling homesick.",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure! I have some photos.",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "Thanks for showing me your family photos.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I do feel better. Thanks for listening.",
+       "from": "lle1-12",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -2276,7 +2709,32 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "How about jeans and a t-shirt?",
+       "from": "lle1-14",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Yes, the right size for you is medium.",
+       "from": "lle1-14",
+       "wait": false
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Do you have cash?",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I do!",
+       "from": "lle1-11",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q1-056",
@@ -2361,7 +2819,26 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's too small.",
+       "from": "lle1-14",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "Yes, it is too small.",
+       "from": "lle1-14",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -2462,7 +2939,26 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Ortiz",
+       "say": "Do you have more cash?",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "No. Is there a bank near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "There is a bank behind you.",
+       "from": "lle1-11",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-056",
@@ -2555,7 +3051,26 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "How about a hat?",
+       "from": "lle1-14",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Mm, take off the hat. That's better.",
+       "from": "lle1-14",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks.",
+       "from": "lle1-14",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q1-064",
@@ -2731,7 +3246,50 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Ortiz",
+       "say": "Hi, {A}. What's going on?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Not much. How about you?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Busy as usual.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's too small.",
+       "from": "lle1-14",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Yes, the right size for you is medium. Let's try again.",
+       "from": "lle1-14",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh. Thanks!",
+       "from": "lle1-14",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "That looks great.",
+       "from": "lle1-14",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-064",
@@ -2803,7 +3361,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Now, {A}, remember.",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "Are you ready?",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Stop!",
+       "from": "lle1-18",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -2892,7 +3475,26 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Now, {A}, remember.",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "Stop! {A}, you are doing it again.",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-18",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -2990,7 +3592,26 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "This is going to be a very long day.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "I have an idea.",
+       "from": "lle1-18",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -3079,7 +3700,20 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "That's too bad. It's really hot today.",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes it is.",
+       "from": "lle1-19",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -3128,7 +3762,20 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "When you arrive, please come to my office. I have important news to tell you.",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Of course.",
+       "from": "lle1-19",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -3154,7 +3801,26 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "{A}, I have good news and I have bad news. Which do you want to hear first?",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "The good news. No … okay, the bad news.",
+       "from": "lle1-19",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Now, {A}, remember.",
+       "from": "lle1-18",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -3238,7 +3904,38 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Now, {A}, remember.",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Okay. I got it.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Are you ready?",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "That's right! Now you've got it!",
+       "from": "lle1-18",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -3331,7 +4028,32 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "Hi, {A}. What's going on?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Not much. How about you?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "Busy as usual.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "Lena",
+       "say": "I'm going to teach children how to play the ukulele.",
+       "from": "lle1-17",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -3423,7 +4145,26 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "What do you and your family do together?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "We always eat dinner together and sometimes we play board games.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Playing board games is fun, too!",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q1-084",
@@ -3499,7 +4240,26 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "I am busy on Monday night. I'm going to jog in the park with my friend. Do you jog?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh! I always jog. Well, sometimes I jog. Okay, I never jog.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "I always feel great after I jog.",
+       "from": "lle1-17",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -3574,7 +4334,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Are you busy this Thursday at 6pm?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm busy. I am going to tap dance with my friends Thursday night.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Tap dancing? That sounds fun!",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm still learning. But it is fun!",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -3670,7 +4455,26 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Who is that woman in the picture?",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "She is my mom's sister.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh. I see.",
+       "from": "lle1-09",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q1-090",
@@ -3741,7 +4545,38 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "Hi, {A}. What's going on?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Not much. How about you?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "Busy as usual.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "Lena",
+       "say": "I'm going to teach children how to play the ukulele.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "The world does need more ukulele players.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -3810,7 +4645,26 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am really nervous.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -3910,7 +4764,26 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Ortiz",
+       "say": "Are you busy now?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm busy.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Okay. See you soon.",
+       "from": "lle1-10",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-095",
@@ -4059,7 +4932,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Is it windy today?",
+       "from": "lle1-09",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "No, it is not windy today.",
+       "from": "lle1-09",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is it sunny today?",
+       "from": "lle1-09",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Yes, {A}. It is sunny.",
+       "from": "lle1-09",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -4235,7 +5133,38 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am really nervous.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure!",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I do feel better. Thanks for listening.",
+       "from": "lle1-12",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -4323,7 +5252,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "{A}! Over here!",
+       "from": "lle1-10",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "Oh, hi, {A}. How's it going?",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's going great. How's it going with you?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Let's try that again.",
+       "from": "lle1-01",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -4420,7 +5374,38 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "Hi {A}!",
+       "from": "lle1-10",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Hi there!",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "Nice to meet you.",
+       "from": "lle1-01",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Nice to meet you.",
+       "from": "lle1-01",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "See you soon!",
+       "from": "lle1-10",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -4516,7 +5501,32 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Ortiz",
+       "say": "Hi! Are you {A}?",
+       "from": "lle1-01",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes! Hi there!",
+       "from": "lle1-01",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "How's it going?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Hi, {A}. It's going great. How's it going with you?",
+       "from": "lle1-06",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-108",
@@ -4587,7 +5597,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Oh, hi, {A}. How's it going?",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's going great. How's it going with you?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Is there a post office near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "The post office is far from here. But there is a mailbox across from the store.",
+       "from": "lle1-11",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -4687,7 +5722,32 @@
      "people": [
       "Mr. Ortiz"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Ortiz",
+       "say": "Hi {A}!",
+       "from": "lle1-10",
+       "wait": false
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "Do you have cash?",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "No. Is there a bank near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Mr. Ortiz",
+       "say": "There is a bank behind you.",
+       "from": "lle1-11",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q1-115",
@@ -4753,7 +5813,50 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "How's it going?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Hi, {A}. It's going great. How's it going with you?",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is there a bank near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "It is on this street on the corner.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks!",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "See you, {A}!",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "See you.",
+       "from": "lle1-06",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -4837,7 +5940,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Remember to check the forecast -- the right forecast.",
+       "from": "lle1-09",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is it windy today?",
+       "from": "lle1-09",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -4935,7 +6063,32 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "{A}, here's your coffee.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "Lena",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is it windy today?",
+       "from": "lle1-09",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "Yes, {A}.",
+       "from": "lle1-09",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -5162,7 +6315,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "What is going on here?",
+       "from": "lle1-13",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Remember to check the forecast -- the right forecast.",
+       "from": "lle1-09",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh. I see.",
+       "from": "lle1-09",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -5197,7 +6369,32 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What is going on here?",
+       "from": "lle1-13",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure!",
+       "from": "lle1-12",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -5272,7 +6469,44 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is it windy today?",
+       "from": "lle1-09",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "No, it is not windy today.",
+       "from": "lle1-09",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is it sunny today?",
+       "from": "lle1-09",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Yes, {A}. It is sunny.",
+       "from": "lle1-09",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh. I see.",
+       "from": "lle1-09",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -5355,7 +6589,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Something is wrong.",
+       "from": "lle1-14",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "Let me see.",
+       "from": "lle1-14",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's try again.",
+       "from": "lle1-14",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Sorry, {A}. I have to help other friends.",
+       "from": "lle1-14",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -5589,7 +6848,38 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Are you busy this Thursday at 6pm?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm busy.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Are you busy on Friday night?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let me see.",
+       "from": "lle1-14",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "How about on Wednesday night?",
+       "from": "lle1-17",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -5676,7 +6966,32 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Lena",
+       "say": "How about on Wednesday night?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Wednesday night I am not busy. Oh, no, wait. This Wednesday night I will be busy.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Lena",
+       "say": "What are you doing?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm not busy Monday night.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -5745,7 +7060,44 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Are you busy this Thursday at 6pm?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm busy.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "How about on Wednesday night?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Wednesday night I am not busy. Oh, no, wait. This Wednesday night I will be busy.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm not busy Monday night.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Sure!",
+       "from": "lle1-17",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -5823,7 +7175,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Great. Are you ready?",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I am really nervous.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "I have an idea.",
+       "from": "lle1-18",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -6042,7 +7419,32 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Oh, hi, {A}. How's it going?",
+       "from": "lle1-06",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's going great. How's it going with you?",
+       "from": "lle1-06",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "When you arrive, please come to my office. I have important news to tell you.",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Of course. Good-bye.",
+       "from": "lle1-19",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -6119,7 +7521,32 @@
       "Lena",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "Great. Are you ready?",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am really nervous.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "That's right! Now you've got it!",
+       "from": "lle1-18",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -6178,7 +7605,56 @@
      "people": [
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hi there!",
+       "from": "lle1-19",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Great. Are you ready?",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "{A}, I have good news and I have bad news. Which do you want to hear first?",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let me see.",
+       "from": "lle1-14",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "The good news.",
+       "from": "lle1-19",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Well, you are good at asking questions. You are good at talking to people.",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Of course. Good-bye.",
+       "from": "lle1-19",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -6246,7 +7722,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Hi there!",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Can you come with me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure. That sounds like fun.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -6338,7 +7839,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Hi there!",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure. That sounds like fun.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Great!",
+       "from": "lle1-21",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -6495,7 +8021,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Sure.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Okay, let's try it!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's do it!",
+       "from": "lle1-22",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -6661,7 +8212,50 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hi there!",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Sure. That sounds like fun.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Can you come with me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure!",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Okay, let's try it!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's do it!",
+       "from": "lle1-22",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -6744,7 +8338,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Hi there!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Yesterday was the most amazing day.",
+       "from": "lle1-24",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "It's okay.",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -6836,7 +8455,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "Okay, let's try it!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "And I wanted a break.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Right!",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -6993,7 +8637,38 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Hi, {A}! Have a seat.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks. This was a good idea.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired. Today was a busy day at work.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Hmm, that's too bad.",
+       "from": "lle1-29",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -7085,7 +8760,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Hi, {A}! Have a seat.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired. Today was a busy day at work. And I still have work to do!",
+       "from": "lle1-29",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -7159,7 +8859,50 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Hi, {A}! Have a seat.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired. Today was a busy day at work.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday was the most amazing day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I see something new every day -- like yesterday. Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "And I wanted a break.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -7251,7 +8994,38 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Hi, {A}! Have a seat.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-18",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -7342,7 +9116,26 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "Did you grow up on the water?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "No, I didn't.",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Is that everything you need?",
+       "from": "lle1-30",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q2-025",
@@ -7408,7 +9201,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Hi, {A}. What's going on?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Not much.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired. Today was a busy day at work.",
+       "from": "lle1-29",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -7500,7 +9318,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "{A}, what took you so long?",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I love shopping!",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I bought everything on the list.",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Let me see.",
+       "from": "lle1-35",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -7666,7 +9509,50 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Hi, {A}! Have a seat.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "And I wanted a break. So, I walked and walked … and walked. Then, I saw something! It was a festival -- a big festival!",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "That sounds like fun.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I love shopping! And, I did not spend too much money. Oh, no! But I did spend too much time!",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Um-hum, I can believe that.",
+       "from": "lle1-29",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -7758,7 +9644,38 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "My favorite season is summer because of summer vacation!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "When I go camping, {A}, I like to go hiking and fishing.",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Okay.",
+       "from": "lle1-36",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Is that everything you need?",
+       "from": "lle1-30",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q2-037",
@@ -7926,7 +9843,32 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "I always feel great after I jog.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Do you jog?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Okay, I never jog. But I will try because it is good for you.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q2-037",
@@ -8010,7 +9952,38 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "{A}! I am really happy to see you!",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Me too!",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "So, tell me about your job.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I love my work!",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Okay.",
+       "from": "lle1-36",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q2-043",
@@ -8178,7 +10151,56 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "{A}! I am really happy to see you!",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Me too!",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "So, tell me about your job.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I love my work!",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "How about you?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "I'm still learning. But it is fun!",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "That sounds fun!",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "It is really good to talk to you.",
+       "from": "lle1-38",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q2-043",
@@ -8253,7 +10275,38 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Are you busy this Thursday at 6pm?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What?",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Everyone has to bring something or do something. You can bring food, or you can perform.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Great!",
+       "from": "lle1-21",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -8344,7 +10397,32 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "I have to help my friend with the party. Can you help me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What?",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q2-049",
@@ -8419,7 +10497,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "{A}, what took you so long? Our guests will be here soon!",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "When do our guests arrive?",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "They arrive in 30 minutes!",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Wait a minute.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -8493,7 +10596,44 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Excuse me. Can you help me?",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Sure! What do you need?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Everyone has to bring something or do something.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "I can help with that.",
+       "from": "lle1-48",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "You can bring food, or you can perform.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'll write that on my list!",
+       "from": "lle1-48",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -8668,7 +10808,44 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I bought everything on the list.",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Let me see.",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "Wow, thanks.",
+       "from": "lle1-48",
+       "wait": false
+      },
+      {
+       "who": "Grace",
+       "say": "We always eat dinner together and sometimes we play board games.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Playing board games is fun, too!",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I can help with that.",
+       "from": "lle1-48",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -8751,7 +10928,44 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Can you hear me?",
+       "from": "lle1-49",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Wait here.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "Hi, {A}. What's going on?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Not much.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -8842,7 +11056,32 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "So, tell me about your job.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I love my work!",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Wait a minute.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "Ben",
+       "say": "Is that everything you need?",
+       "from": "lle1-30",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q2-061",
@@ -9000,7 +11239,38 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Please, please, sit down.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Wait here.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "{A}, tell us more.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Wait a minute.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -9166,7 +11436,56 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Please, please, sit down.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Wait here.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I said, \"Yesterday started like a usual work day.\"",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "{A}, tell us more.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "And I wanted a break. So, I walked and walked … and walked. Then, I saw something!",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Well, thank you for sharing your news and so much more with us, {A}.",
+       "from": "lle1-52",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -9241,7 +11560,38 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Playing board games is fun, too!",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "It's okay.",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -9339,7 +11689,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "I love the beach!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Me too!",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -9508,7 +11883,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "My favorite season is summer because of summer vacation!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Me, too.",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "I love the beach!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "But I love the water. And I love being on the water.",
+       "from": "lle1-30",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -9601,7 +12001,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Guess what I wanted to be?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What?",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "I wanted to be... an astronaut.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -9676,7 +12101,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "My favorite season is summer because of summer vacation!",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "One of the most popular vacations is … going to the beach!",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "That sounds like fun.",
+       "from": "lle1-21",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -9759,7 +12209,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Well, {A}, please share that news with us.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday was the most amazing day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Wait a minute.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "It's okay.",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -9851,7 +12326,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "{A}, tell us more.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "And I wanted a break.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-18",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -10066,7 +12566,32 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired. Today was a busy day at work. And I still have work to do!",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Hmm, that's too bad.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's get to work.",
+       "from": "lle1-29",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -10174,7 +12699,50 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "{A}, tell us more.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "And I wanted a break. So, I walked and walked … and walked. Then, I saw something! It was a festival -- a big festival!",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "There was dancing and food and games!",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Honestly.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "That sounds like fun.",
+       "from": "lle1-21",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -10257,7 +12825,44 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Sure! What do you need?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "How much money can you spend?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "But what does all that mean?",
+       "from": "lle1-19",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "How much money can you spend?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Let's try that again.",
+       "from": "lle1-01",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -10349,7 +12954,26 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Where is your apartment?",
+       "from": "lle1-10",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -10440,7 +13064,32 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Is there a bank near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "There is a bank behind you.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is there a post office near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "The post office is far from here.",
+       "from": "lle1-11",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q2-098",
@@ -10506,7 +13155,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Let me see.",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "It is on this street on the corner.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "But what does all that mean?",
+       "from": "lle1-19",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "The post office is far from here. But there is a mailbox across from the store.",
+       "from": "lle1-11",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -10657,7 +13331,32 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Don't worry, {A}.",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -10682,7 +13381,50 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Sure! What do you need?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is there a bank near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "It is on this street on the corner.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Is there a post office near here?",
+       "from": "lle1-11",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "The post office is far from here. But there is a mailbox across from the store.",
+       "from": "lle1-11",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Good point.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Well, thanks for your help.",
+       "from": "lle1-30",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -10770,7 +13512,38 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "I have some photos.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Who are they?",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Photos really help.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Okay, let's try it!",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-18",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -10867,7 +13640,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm thinking about my family.",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -11034,7 +13832,32 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "I have so much to tell you.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Who are they?",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "At first it was hard.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "And it's good to remember them.",
+       "from": "lle1-29",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -11175,7 +13998,32 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I have some photos.",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Who are they?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have so much to tell you.",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Photos really help.",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -11200,7 +14048,44 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I have so much to tell you.",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "At first it was hard.",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "But I like remembering my old home, too.",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "And it's good to remember them.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "It is really good to talk to you.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks for listening.",
+       "from": "lle1-12",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -11284,7 +14169,38 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Happy New Year!",
+       "from": "lle1-40",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Some people, at the start of a new year, make a resolution -- a promise to yourself to be better.",
+       "from": "lle1-40",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I thought about my resolution carefully.",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "{A}, you are speaking too softly.",
+       "from": "lle1-40",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-40",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -11377,7 +14293,32 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Happy New Year!",
+       "from": "lle1-40",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Happy New Year!",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Wish me luck!",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "That sounds like fun.",
+       "from": "lle1-21",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -11599,7 +14540,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I thought about my resolution carefully.",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "I'll write that on my list, too!",
+       "from": "lle1-48",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Well, thanks for your help. See you later!",
+       "from": "lle1-30",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -11625,7 +14585,26 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Happy New Year!",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "{A}, you are speaking too softly.",
+       "from": "lle1-40",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-40",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -11714,7 +14693,44 @@
      "people": [
       "Mrs. Tanaka"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Happy New Year!",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Some people, at the start of a new year, make a resolution -- a promise to yourself to be better.",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I thought about my resolution carefully.",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "Yes, that is loud enough.",
+       "from": "lle1-40",
+       "wait": false
+      },
+      {
+       "who": "Mrs. Tanaka",
+       "say": "That sounds like fun.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Well, thanks for your help. See you later!",
+       "from": "lle1-30",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -11811,7 +14827,44 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure. That sounds like fun.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "Our guests will be here soon!",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "This is going to be a very long day.",
+       "from": "lle1-18",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -11899,7 +14952,38 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "They arrive in 30 minutes!",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "Think of the team!",
+       "from": "lle1-49",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Got it!",
+       "from": "lle1-49",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "So, tell me about your job.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I love my work!",
+       "from": "lle1-38",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -11995,7 +15079,32 @@
      "people": [
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "Is that everything you need?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Cash or credit?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Credit, please.",
+       "from": "lle1-30",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q2-137",
@@ -12075,7 +15184,26 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "That is amazing! {A}, tell us more.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have met people from all over the world.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I've made many good friends.",
+       "from": "lle1-52",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -12217,7 +15345,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "So, tell me about your job.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired. Today was a busy day at work.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "That's too bad.",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -12251,7 +15398,44 @@
       "Rosa",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Rosa",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Looking back over the past year, I've done so many amazing things! I have met people from all over the world. I've made many good friends.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "That is amazing! {A}, tell us more.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I had to make a change. So, I took some chances. Sometimes I succeeded. Sometimes I failed. But I will never stop trying.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "Rosa",
+       "say": "{A}, you made it work!",
+       "from": "lle1-36",
+       "wait": false
+      },
+      {
+       "who": "Rosa",
+       "say": "Well, thanks for your help.",
+       "from": "lle1-30",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -12330,7 +15514,20 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Where are you from?",
+       "from": "lle1-02",
+       "wait": false
+      },
+      {
+       "who": "Malia",
+       "say": "Nice to meet you!",
+       "from": "lle1-02",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -12350,7 +15547,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "I have a new assignment for you!",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure. That sounds like fun.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Okay, let's try it!",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-001",
@@ -12431,7 +15653,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "I have to go now.",
+       "from": "lle1-02",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -12532,7 +15773,26 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Are you busy on Friday night?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Will you be busy all day?",
+       "from": "lle1-21",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-001",
@@ -12603,7 +15863,26 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "What's wrong?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired. Today was a busy day at work. And I still have work to do!",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "That's too bad.",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -12740,7 +16019,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I am sorry.",
+       "from": "lle1-03",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry, I can't come with you.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Let's try that again.",
+       "from": "lle1-01",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -12785,7 +16083,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Are you busy on Friday night?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am sorry.",
+       "from": "lle1-03",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm busy.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Of course.",
+       "from": "lle1-19",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-008",
@@ -12846,7 +16169,26 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "How are you two?",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Sure! What do you need?",
+       "from": "lle1-30",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -12866,7 +16208,26 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Excuse me?",
+       "from": "lle1-03",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-013",
@@ -12942,7 +16303,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "But you learn a little more every day.",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "{A}, do you have a pen?",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes. I have a pen in my bag.",
+       "from": "lle1-04",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -13038,7 +16418,26 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Excuse me.",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Are you ready?",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-18",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-013",
@@ -13114,7 +16513,20 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Really, {A}? Can you help me?",
+       "from": "lle1-20",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes, I can. Let me help.",
+       "from": "lle1-20",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -13261,7 +16673,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "So, what's wrong?",
+       "from": "lle1-20",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Excuse me. Can you help me?",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Sure! What do you need?",
+       "from": "lle1-30",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -13286,7 +16717,20 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Sure! What do you need?",
+       "from": "lle1-30",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -13306,7 +16750,20 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Excuse me. Can you help me?",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Yes, I can. Let me help.",
+       "from": "lle1-20",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-019",
@@ -13377,7 +16834,38 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Hey, {A}, my friend is having a party on Saturday. Can you come with me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry, I can't come with you.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Will you be busy all day?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "That's too bad.",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -13483,7 +16971,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Are you ready?",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Just be back by noon.",
+       "from": "lle1-49",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Of course.",
+       "from": "lle1-19",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-026",
@@ -13559,7 +17072,32 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Are you busy this Thursday at 6pm?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm busy.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "How about on Wednesday night?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Wednesday night I am not busy. Oh, no, wait. This Wednesday night I will be busy.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -13655,7 +17193,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "When you arrive, please come to my office.",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry, I can't hear you.",
+       "from": "lle1-20",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "When you arrive, please come to my office. I have important news to tell you.",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Of course.",
+       "from": "lle1-19",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-032",
@@ -13807,7 +17370,38 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Hey, {A}, my friend is having a party on Saturday. Can you come with me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "When?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "The party is at night.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh. Then I can come with you to the party on Saturday night.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Great!",
+       "from": "lle1-21",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -13913,7 +17507,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Just the facts, {A}.",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Right.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "You should be more careful.",
+       "from": "lle1-25",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry!",
+       "from": "lle1-25",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-038",
@@ -13994,7 +17613,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "In the morning, I painted for hours. In the afternoon, I cut wood.",
+       "from": "lle1-27",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "But I don't need to know all that.",
+       "from": "lle1-27",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -14186,7 +17824,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Not now!",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "Look first!",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Please don't yell at me!",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "I'm sorry!",
+       "from": "lle1-28",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-045",
@@ -14257,7 +17920,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Why? What happened?",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "That sounds awful.",
+       "from": "lle1-28",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -14348,7 +18030,38 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Look first!",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I know.",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "When something goes wrong with your plan, just change the plan!",
+       "from": "lle1-36",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "Good point.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "Okay, let's try it!",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-045",
@@ -14409,7 +18122,32 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Hi, {A}! Have a seat.",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have an idea.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Why?",
+       "from": "lle1-36",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -14505,7 +18243,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired. Today was a busy day at work. And I still have work to do!",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "I'm really busy too, {A}. Let's get to work.",
+       "from": "lle1-29",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -14601,7 +18358,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Okay. What do you want?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have an idea.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Why?",
+       "from": "lle1-36",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Working outdoors is nice.",
+       "from": "lle1-29",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-050",
@@ -14869,7 +18651,50 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Okay. What do you want?",
+       "from": "lle1-30",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have an idea.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Why?",
+       "from": "lle1-36",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Most days of the week, people are really busy. But it's important to find time to be with your friends!",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Working outdoors is nice.",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Good idea.",
+       "from": "lle1-39",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's do it!",
+       "from": "lle1-22",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-056",
@@ -14961,7 +18786,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Now, I have another very important mission for you.",
+       "from": "lle1-49",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "No.",
+       "from": "lle1-49",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Why not? What is wrong?",
+       "from": "lle1-27",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-063",
@@ -15038,7 +18888,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Can you help me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Excuse me, I have to go.",
+       "from": "lle1-20",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "Okay.",
+       "from": "lle1-10",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -15222,7 +19091,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Would you like to help us?",
+       "from": "lle1-51",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm sorry.",
+       "from": "lle1-51",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Why not? What is wrong?",
+       "from": "lle1-27",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Today was a busy day at work. And I still have work to do!",
+       "from": "lle1-29",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-069",
@@ -15376,7 +19270,20 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Are you busy on Friday night?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm busy.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -15386,7 +19293,20 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Hey, {A}, my friend is having a party on Saturday. Can you come with me?",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry, I can't come with you.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -15396,7 +19316,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Would you like to help us?",
+       "from": "lle1-51",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm sorry.",
+       "from": "lle1-51",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Today was a busy day at work. And I still have work to do!",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "I'm sorry to hear that.",
+       "from": "lle1-27",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-069",
@@ -15482,7 +19427,26 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "So, {A}, what's the plan for the show?",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have a plan.",
+       "from": "lle1-36",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "{A}, what do you mean?",
+       "from": "lle1-27",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-075",
@@ -15563,7 +19527,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Hi, {A}. What's going on?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Not much.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Busy as usual.",
+       "from": "lle1-17",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -15710,7 +19693,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "So, tell me about your job.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I love my work!",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -15755,7 +19757,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "So, {A}, what's the plan for the show?",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have a plan.",
+       "from": "lle1-36",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Excuse me?",
+       "from": "lle1-03",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "First, we're going to introduce the subject.",
+       "from": "lle1-22",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-082",
@@ -15927,7 +19954,26 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "So, {A}, what's the plan for the show?",
+       "from": "lle1-22",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "First, we're going to introduce the subject. Then we can show pictures and video.",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Great idea!",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-082",
@@ -15968,7 +20014,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "So, tell me about your job.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have met people from all over the world. I've made many good friends. And I have a great job!",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Your friends sound great!",
+       "from": "lle1-38",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -16003,7 +20068,38 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Hi, {A}! Hi, {B}!",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "How are you two?",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "Malia",
+       "say": "I am great!",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "How's the new apartment?",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry, I can't hear you.",
+       "from": "lle1-20",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -16089,7 +20185,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "{A}, do you have a pen?",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes. I have a pen in my bag.",
+       "from": "lle1-04",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "Let's get coffee!",
+       "from": "lle1-04",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -16261,7 +20376,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Hi, {A}. Hi, {B}.",
+       "from": "lle1-20",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "So, what's wrong? You look sad.",
+       "from": "lle1-20",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am tired.",
+       "from": "lle1-29",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -16443,7 +20577,56 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Hi, {A}! Hi, {B}!",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "How are you two?",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am great!",
+       "from": "lle1-04",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "How about you?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Busy as usual.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's get coffee!",
+       "from": "lle1-04",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Sure, let's go!",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "Yes! Let's go!",
+       "from": "lle1-28",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -16544,7 +20727,38 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "I have a new assignment for you!",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I can help with that.",
+       "from": "lle1-48",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "{A}, what do you mean?",
+       "from": "lle1-27",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Let me help.",
+       "from": "lle1-20",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-101",
@@ -16605,7 +20819,38 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Can you help me?",
+       "from": "lle1-20",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes, I can. Let me help.",
+       "from": "lle1-20",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "They're in your phone. See?",
+       "from": "lle1-25",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "I see.",
+       "from": "lle1-25",
+       "wait": false
+      },
+      {
+       "who": "Malia",
+       "say": "Got it.",
+       "from": "lle1-25",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -16696,7 +20941,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "Yeah. But you learn a little more every day.",
+       "from": "lle1-04",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have a plan.",
+       "from": "lle1-36",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Okay, let's try it!",
+       "from": "lle1-22",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -16787,7 +21051,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "First, we're going to introduce the subject. Then we can show pictures and video.",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "How is this going to help?",
+       "from": "lle1-20",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "I didn't know that.",
+       "from": "lle1-26",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-106",
@@ -16914,7 +21203,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I am a little nervous.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "You don't need to be nervous.",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "Good luck!",
+       "from": "lle1-25",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -16959,7 +21267,44 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Are you ready?",
+       "from": "lle1-18",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have a plan.",
+       "from": "lle1-36",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "First, we're going to introduce the subject. Then we can show pictures and video.",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Finally, we can read the questions and tell them where to learn more.",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "I didn't know that.",
+       "from": "lle1-26",
+       "wait": false
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Good job!",
+       "from": "lle1-33",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-106",
@@ -17035,7 +21380,38 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Why? What happened?",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Well, yesterday I felt fine.",
+       "from": "lle1-27",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "In the morning, I painted for hours.",
+       "from": "lle1-27",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "{A}, what do you mean?",
+       "from": "lle1-27",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "But I don't need to know all that.",
+       "from": "lle1-27",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -17116,7 +21492,32 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "How are you these days?",
+       "from": "lle1-29",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Why? What happened?",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -17227,7 +21628,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "Why? What happened?",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry, I can't hear you.",
+       "from": "lle1-20",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "But I don't need to know all that.",
+       "from": "lle1-27",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-112",
@@ -17308,7 +21734,32 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "What happened?",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I did! But it was not easy.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Why? What happened?",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -17490,7 +21941,44 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Tom",
+       "say": "Why? What happened?",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yesterday started like a usual work day.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "{A}, what do you mean?",
+       "from": "lle1-27",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes, it did not go well. But, I practiced and passed the second time!",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Tom",
+       "say": "Great.",
+       "from": "lle1-28",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-119",
@@ -17577,7 +22065,38 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Our guests will be here soon!",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What?",
+       "from": "lle1-51",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "When do our guests arrive?",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "They arrive in 30 minutes!",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What are we going to do?",
+       "from": "lle1-35",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-125",
@@ -17644,7 +22163,32 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "Are you busy this Thursday at 6pm?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Wednesday night I am not busy.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "How about on Wednesday night?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh, no, wait. This Wednesday night I will be busy.",
+       "from": "lle1-17",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -17741,7 +22285,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "What are we going to do?",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "Grace",
+       "say": "When something goes wrong with your plan, just change the plan!",
+       "from": "lle1-36",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I can fix this.",
+       "from": "lle1-35",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -17838,7 +22401,26 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Is something wrong?",
+       "from": "lle1-39",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh, no! This is not good.",
+       "from": "lle1-39",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "It's not what?",
+       "from": "lle1-39",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-131",
@@ -17976,7 +22558,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Daniel",
+       "say": "Is something wrong?",
+       "from": "lle1-39",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I can fix this.",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "Good idea.",
+       "from": "lle1-39",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -18022,7 +22623,44 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Is something wrong?",
+       "from": "lle1-39",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "When do our guests arrive?",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "They arrive in 30 minutes!",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I can fix this.",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Okay. I got it.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "Good job! That was fast.",
+       "from": "lle1-33",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-131",
@@ -18113,7 +22751,32 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Well, {A}, please share that news with us.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I am a little nervous.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "{A}, you are speaking too softly.",
+       "from": "lle1-40",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "Sorry, I can't hear you.",
+       "from": "lle1-20",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-138",
@@ -18179,7 +22842,26 @@
      "people": [
       "Malia"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Malia",
+       "say": "{A}, tell us more.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have so much to tell you.",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Malia",
+       "say": "Yes, that is loud enough.",
+       "from": "lle1-40",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 2,
@@ -18275,7 +22957,26 @@
       "Malia",
       "Tom"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I am a little nervous.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "You don't need to be nervous.",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "Grace",
+       "say": "I think big things are going to happen for you, {A}.",
+       "from": "lle1-52",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -18371,7 +23072,26 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "How long have you been training?",
+       "from": "lle1-51",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I started today.",
+       "from": "lle1-51",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "{A}, training a little every day is a good habit to get into. Not all at once!",
+       "from": "lle1-51",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q3-144",
@@ -18508,7 +23228,26 @@
       "라디오",
       "Daniel"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I have met people from all over the world. I've made many good friends.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "Daniel",
+       "say": "That is amazing!",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "Daniel",
+       "say": "Okay, well, good luck, {A}!",
+       "from": "lle1-51",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -18553,7 +23292,50 @@
       "Tom",
       "Malia"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ms. Evans",
+       "say": "Well, {A}, please share that news with us.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have met people from all over the world. I've made many good friends.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I had to make a change. So, I took some chances. Sometimes I succeeded. Sometimes I failed. But I will never stop trying.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I've just found my new goal.",
+       "from": "lle1-51",
+       "wait": true
+      },
+      {
+       "who": "Ms. Evans",
+       "say": "That is amazing!",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "Tom",
+       "say": "Good job!",
+       "from": "lle1-33",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "We did it, {B}!",
+       "from": "lle1-45",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q3-144",
@@ -18624,7 +23406,20 @@
      "people": [
       "라디오"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Excuse me!",
+       "from": "lle1-03",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Hi!",
+       "from": "lle1-34",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -18633,7 +23428,20 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "{A}, what's wrong?",
+       "from": "lle1-34",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "This is hard.",
+       "from": "lle1-34",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -18725,7 +23533,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "Hi!",
+       "from": "lle1-34",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "What do you need?",
+       "from": "lle1-34",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure! First, what do you do?",
+       "from": "lle1-34",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-001",
@@ -18799,7 +23626,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I might go. I might not go.",
+       "from": "lle1-34",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Of course you will go.",
+       "from": "lle1-34",
+       "wait": false
+      },
+      {
+       "who": "Grace",
+       "say": "Have fun, {A}!",
+       "from": "lle1-34",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -18873,7 +23719,26 @@
      "people": [
       "라디오"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Excuse me.",
+       "from": "lle1-16",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Do you have time for a couple of questions?",
+       "from": "lle1-16",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Have fun!",
+       "from": "lle1-16",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -18974,7 +23839,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Kahale",
+       "say": "Sure, I have time.",
+       "from": "lle1-16",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "What is your name and where are you from?",
+       "from": "lle1-16",
+       "wait": false
+      },
+      {
+       "who": "Ben",
+       "say": "Have fun!",
+       "from": "lle1-16",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-007",
@@ -19039,7 +23923,32 @@
      "people": [
       "라디오"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hello!",
+       "from": "lle1-16",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Do you have time for a couple of questions?",
+       "from": "lle1-16",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "What is your name and where are you from?",
+       "from": "lle1-16",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Have fun!",
+       "from": "lle1-16",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 2,
@@ -19131,7 +24040,32 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Hi {A}, how are you?",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm doing great!",
+       "from": "lle1-15",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "It's a beautiful day, isn't it?",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes, it is.",
+       "from": "lle1-15",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -19223,7 +24157,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "{A}, today the weather is beautiful, isn't it?",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes, it is.",
+       "from": "lle1-15",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "I love people-watching too!",
+       "from": "lle1-15",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-013",
@@ -19297,7 +24250,32 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Come and join us!",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "No need to hurry.",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure!",
+       "from": "lle1-15",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Let's sit!",
+       "from": "lle1-15",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -19380,7 +24358,38 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Come in.",
+       "from": "lle1-07",
+       "wait": false
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Well, {A}, welcome.",
+       "from": "lle1-07",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thank you.",
+       "from": "lle1-07",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Are you excited?",
+       "from": "lle1-07",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes, I am excited!",
+       "from": "lle1-07",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -19472,7 +24481,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hi there! I'm {A}.",
+       "from": "lle1-07",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Nice to meet you!",
+       "from": "lle1-07",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What are you doing?",
+       "from": "lle1-07",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-019",
@@ -19546,7 +24574,56 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Hi {A}, how are you?",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm doing great!",
+       "from": "lle1-15",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "It's a beautiful day, isn't it?",
+       "from": "lle1-15",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Yes, it is.",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What are you doing?",
+       "from": "lle1-07",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I love people-watching too!",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Come and join us!",
+       "from": "lle1-15",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thank you.",
+       "from": "lle1-07",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -19683,7 +24760,32 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Excuse me. Can you help me?",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "So sorry, but I am busy.",
+       "from": "lle1-07",
+       "wait": false
+      },
+      {
+       "who": "Sarah",
+       "say": "Okay, I'll be back in 15 minutes.",
+       "from": "lle1-23",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "This day is not going well.",
+       "from": "lle1-07",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -19717,7 +24819,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I love your apartment building, {A}. Is your rent expensive?",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Well, I have a roommate. So, we split the rent.",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Remember, {A}. Be careful!",
+       "from": "lle1-34",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -19859,7 +24980,26 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Sarah",
+       "say": "And it does not cost a lot.",
+       "from": "lle1-23",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Really?",
+       "from": "lle1-29",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "What are we going to do?",
+       "from": "lle1-35",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -19947,7 +25087,32 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Are you busy?",
+       "from": "lle1-08",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Yes, I'm busy.",
+       "from": "lle1-08",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Okay. See you later, maybe.",
+       "from": "lle1-08",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Maybe I'll see you later.",
+       "from": "lle1-08",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -20035,7 +25200,26 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Wait a minute. Are you busy now?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "I'm a little busy.",
+       "from": "lle1-08",
+       "wait": false
+      },
+      {
+       "who": "Sarah",
+       "say": "Come by this afternoon.",
+       "from": "lle1-08",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -20123,7 +25307,50 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Sarah",
+       "say": "Come in.",
+       "from": "lle1-08",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I want to say I'm sorry for yesterday.",
+       "from": "lle1-08",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "It's okay, {A}.",
+       "from": "lle1-08",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Excuse me. Can you help me?",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "I can fix this.",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "Sarah",
+       "say": "And it does not cost a lot.",
+       "from": "lle1-23",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thank you.",
+       "from": "lle1-07",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -20166,7 +25393,32 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Kahale",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sure!",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Are you okay, {A}?",
+       "from": "lle1-51",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-039",
@@ -20240,7 +25492,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Why? What happened?",
+       "from": "lle1-28",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "So, I walked and walked … and walked. Then, I saw something!",
+       "from": "lle1-24",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -20415,7 +25686,32 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hello, everyone.",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh well.",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Why? What happened?",
+       "from": "lle1-28",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-045",
@@ -20489,7 +25785,38 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "Let's try again.",
+       "from": "lle1-32",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "So, I walked and walked … and walked.",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Then, I saw something!",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "That is right, {A}.",
+       "from": "lle1-32",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -20581,7 +25908,38 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hello, everyone. I'm {A}, and thanks for coming!",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "It started fine.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "So, I walked and walked … and walked. Then, I saw something!",
+       "from": "lle1-24",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks for listening.",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Well, thank you for sharing your news and so much more with us, {A}.",
+       "from": "lle1-52",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-045",
@@ -20655,7 +26013,38 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I'm thinking about my family.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "This is what happened.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Wow!",
+       "from": "lle1-23",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Good!",
+       "from": "lle1-41",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Okay then.",
+       "from": "lle1-07",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -20738,7 +26127,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I have some photos.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Wow!",
+       "from": "lle1-23",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Please don't worry.",
+       "from": "lle1-41",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -20904,7 +26312,32 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "This is a family tree.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Who are they?",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Why?",
+       "from": "lle1-37",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Okay then.",
+       "from": "lle1-07",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -20987,7 +26420,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Our hometown isn't the same now.",
+       "from": "lle1-38",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Are you okay?",
+       "from": "lle1-37",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I'm thinking about my family.",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -21070,7 +26522,56 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I'm thinking about my family.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Do you want to talk about it?",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Sure! I have some photos.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Who are they?",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "This is what happened.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Why?",
+       "from": "lle1-37",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "They make history come alive!",
+       "from": "lle1-16",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I do feel better. Thanks for listening.",
+       "from": "lle1-12",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -21162,7 +26663,38 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Kahale",
+       "say": "Hello, everyone.",
+       "from": "lle1-32",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Well, {A}, please share that news with us.",
+       "from": "lle1-52",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Hello, everyone.",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Okay then.",
+       "from": "lle1-07",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-063",
@@ -21250,7 +26782,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Kahale",
+       "say": "Tell us your name.",
+       "from": "lle1-42",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "So, what happened next?",
+       "from": "lle1-42",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Then what happened?",
+       "from": "lle1-42",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-063",
@@ -21426,7 +26977,32 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Excuse me. Can you help me?",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "{A}, I can't. I'm too busy.",
+       "from": "lle1-43",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "That's okay.",
+       "from": "lle1-43",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "I do wish I could help.",
+       "from": "lle1-43",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-070",
@@ -21514,7 +27090,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Kahale",
+       "say": "Please don't worry.",
+       "from": "lle1-41",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Here's the plan.",
+       "from": "lle1-41",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks!",
+       "from": "lle1-43",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-070",
@@ -21602,7 +27197,50 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hello, everyone. I'm {A}, and thanks for coming!",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Here's the plan.",
+       "from": "lle1-41",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Tell us your name.",
+       "from": "lle1-42",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Excuse me. Can you help me?",
+       "from": "lle1-30",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Yes, I can. Let me help.",
+       "from": "lle1-20",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's get to work!",
+       "from": "lle1-41",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Good job, team.",
+       "from": "lle1-41",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-070",
@@ -21691,7 +27329,32 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hello, everyone. I'm {A}, and thanks for coming!",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't remember the name.",
+       "from": "lle1-51",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Are you okay, {A}?",
+       "from": "lle1-51",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "This is hard.",
+       "from": "lle1-34",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-077",
@@ -21780,7 +27443,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Kahale",
+       "say": "I know what you two need!",
+       "from": "lle1-44",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "When something goes wrong with your plan, just change the plan!",
+       "from": "lle1-36",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Good idea.",
+       "from": "lle1-31",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-077",
@@ -21958,7 +27640,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "Don't be nervous. Just pay attention and do your best!",
+       "from": "lle1-50",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "That is great advice.",
+       "from": "lle1-50",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "But sometimes I still feel like I don't understand.",
+       "from": "lle1-50",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-084",
@@ -22042,7 +27743,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I don't remember the name.",
+       "from": "lle1-51",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "But don't worry.",
+       "from": "lle1-50",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-084",
@@ -22126,7 +27846,38 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hello, everyone. I'm {A}, and thanks for coming!",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh, no!",
+       "from": "lle1-50",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-40",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Sometimes I succeeded. Sometimes I failed. But I will never stop trying.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "That is amazing!",
+       "from": "lle1-52",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-084",
@@ -22201,7 +27952,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "We are celebrating at 7pm tonight. Did you forget?",
+       "from": "lle1-46",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "What is happening tonight?",
+       "from": "lle1-46",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Don't forget!",
+       "from": "lle1-46",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -22210,7 +27980,20 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "Is something wrong?",
+       "from": "lle1-39",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I forgot about that!",
+       "from": "lle1-38",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-090",
@@ -22285,7 +28068,20 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Do you have pen and paper I can borrow?",
+       "from": "lle1-46",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Of course.",
+       "from": "lle1-46",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -22294,7 +28090,32 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Can I borrow your scissors? Sorry to bother you.",
+       "from": "lle1-46",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Yes, I can lend them to you, but you must return them.",
+       "from": "lle1-46",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "And I'll bring them back tomorrow.",
+       "from": "lle1-46",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Good.",
+       "from": "lle1-46",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-090",
@@ -22369,7 +28190,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Many people loaned or shared their supplies with me.",
+       "from": "lle1-46",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Sometimes all the money in the world can't buy the perfect gift.",
+       "from": "lle1-46",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "That is great advice.",
+       "from": "lle1-50",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -22462,7 +28302,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "How can I help? I was planning to visit some friends. But if you need help, I can help.",
+       "from": "lle1-47",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Great! But we need teamwork.",
+       "from": "lle1-47",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Okay.",
+       "from": "lle1-47",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-096",
@@ -22532,7 +28391,38 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Are you busy on Friday night?",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Yes.",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "Grace",
+       "say": "How about on Wednesday night?",
+       "from": "lle1-17",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Wednesday night I am not busy. Oh, no, wait. This Wednesday night I will be busy.",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Wait a minute. Are you busy now?",
+       "from": "lle1-17",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -22620,7 +28510,44 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Looking back over the past year, I've done so many amazing things!",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "New friends are good. But old friends are the best.",
+       "from": "lle1-38",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I can go on vacation next summer.",
+       "from": "lle1-22",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "You can trust me.",
+       "from": "lle1-47",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "That's a great idea!",
+       "from": "lle1-37",
+       "wait": false
+      },
+      {
+       "who": "Ben",
+       "say": "Good luck!",
+       "from": "lle1-34",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-096",
@@ -22689,7 +28616,32 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Come by this afternoon.",
+       "from": "lle1-08",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Excuse me?",
+       "from": "lle1-03",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry.",
+       "from": "lle1-07",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I might go. I might not go.",
+       "from": "lle1-34",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -22821,7 +28773,38 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Sarah",
+       "say": "Hi, {A}! What do you need?",
+       "from": "lle1-34",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Come in.",
+       "from": "lle1-07",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Thank you.",
+       "from": "lle1-07",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Well, have a seat!",
+       "from": "lle1-15",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Okay.",
+       "from": "lle1-34",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -22855,7 +28838,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Are you going?",
+       "from": "lle1-34",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "I might.",
+       "from": "lle1-34",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Okay.",
+       "from": "lle1-34",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -22938,7 +28940,38 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Do you have time for a couple of questions?",
+       "from": "lle1-16",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Sure, I have time.",
+       "from": "lle1-16",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Who are they?",
+       "from": "lle1-12",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "This is my mother and this is my father.",
+       "from": "lle1-12",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thanks for showing me your family photos.",
+       "from": "lle1-12",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -23104,7 +29137,32 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I love having my friends over. Come on!",
+       "from": "lle1-10",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Great!",
+       "from": "lle1-10",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Come by this afternoon.",
+       "from": "lle1-08",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Sure!",
+       "from": "lle1-16",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -23153,7 +29211,26 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Come in.",
+       "from": "lle1-07",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Thank you.",
+       "from": "lle1-07",
+       "wait": false
+      },
+      {
+       "who": "Sarah",
+       "say": "Thanks. This was a good idea.",
+       "from": "lle1-29",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -23241,7 +29318,32 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Sarah",
+       "say": "Is something wrong?",
+       "from": "lle1-39",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "It's not starting!",
+       "from": "lle1-47",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Then what happened?",
+       "from": "lle1-42",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "This is hard.",
+       "from": "lle1-34",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -23275,7 +29377,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "So, what happened next?",
+       "from": "lle1-42",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "Okay.",
+       "from": "lle1-34",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -23417,7 +29538,32 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Sarah",
+       "say": "I can fix this. Do you trust me?",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Yes.",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "This is wrong!",
+       "from": "lle1-39",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "What's wrong?",
+       "from": "lle1-47",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -23451,7 +29597,14 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "We don't have to agree with people. They have their opinions. We have ours.",
+       "from": "lle1-37",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -23505,7 +29658,20 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Sarah",
+       "say": "I disagree.",
+       "from": "lle1-37",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "That's a good point.",
+       "from": "lle1-37",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -23539,7 +29705,20 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "When something goes wrong with your plan, just change the plan!",
+       "from": "lle1-36",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I have an idea.",
+       "from": "lle1-37",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -23548,7 +29727,20 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "Is that what she wants?",
+       "from": "lle1-41",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-120",
@@ -23681,7 +29873,38 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Sarah",
+       "say": "Is something wrong?",
+       "from": "lle1-39",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Sorry. Let me try again.",
+       "from": "lle1-18",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "It's not starting!",
+       "from": "lle1-47",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "I can fix this.",
+       "from": "lle1-35",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thank you.",
+       "from": "lle1-07",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -23724,7 +29947,32 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Am I late?",
+       "from": "lle1-50",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "You're a little late. But don't worry.",
+       "from": "lle1-50",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Everyone has to bring something or do something. You can bring food, or you can perform.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I don't know.",
+       "from": "lle1-21",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-127",
@@ -23807,7 +30055,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Ben",
+       "say": "{A}, you should go a lot earlier than 7 o'clock.",
+       "from": "lle1-31",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Good point.",
+       "from": "lle1-31",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Being early is better than being late.",
+       "from": "lle1-31",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-127",
@@ -23881,7 +30148,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "This is hard.",
+       "from": "lle1-34",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "{A}, training a little every day is a good habit to get into. Not all at once!",
+       "from": "lle1-51",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "That is great advice.",
+       "from": "lle1-50",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -23973,7 +30259,32 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Kahale",
+       "say": "Okay, team.",
+       "from": "lle1-41",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Here's the plan.",
+       "from": "lle1-41",
+       "wait": false
+      },
+      {
+       "who": "Ben",
+       "say": "Are you sure?",
+       "from": "lle1-41",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Let's get to work!",
+       "from": "lle1-41",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-133",
@@ -24047,7 +30358,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "Grace",
+       "say": "Everyone has different skills. You have skills. I have skills. The important thing is to know what you are good at.",
+       "from": "lle1-19",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "I'm still learning. But it is fun!",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Have fun, {A}!",
+       "from": "lle1-34",
+       "wait": false
+      }
+     ]
     },
     {
      "no": 3,
@@ -24139,7 +30469,44 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Being early is better than being late.",
+       "from": "lle1-31",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Most days of the week, people are really busy. But it's important to find time to be with your friends!",
+       "from": "lle1-17",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "We don't have to agree with people. They have their opinions. We have ours.",
+       "from": "lle1-37",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "When something goes wrong with your plan, just change the plan!",
+       "from": "lle1-36",
+       "wait": true
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Good job, team.",
+       "from": "lle1-41",
+       "wait": false
+      },
+      {
+       "who": "Ben",
+       "say": "That's a great idea!",
+       "from": "lle1-37",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-133",
@@ -24216,7 +30583,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Come and join us!",
+       "from": "lle1-15",
+       "wait": true
+      },
+      {
+       "who": "Mr. and Mrs. Lee",
+       "say": "What is happening tonight?",
+       "from": "lle1-46",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh, dear.",
+       "from": "lle1-32",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -24225,7 +30611,20 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "Mr. Kahale",
+       "say": "Who wants to give their talk first?",
+       "from": "lle1-50",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Who me?",
+       "from": "lle1-50",
+       "wait": true
+      }
+     ],
      "cards": [
       {
        "id": "Q4-139",
@@ -24311,7 +30710,26 @@
       "Mr. Kahale",
       "Ben"
      ],
-     "lines": [],
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Come and join us!",
+       "from": "lle1-15",
+       "wait": true
+      },
+      {
+       "who": "Ben",
+       "say": "Sure. That sounds like fun.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "Mr. Kahale",
+       "say": "Great!",
+       "from": "lle1-10",
+       "wait": false
+      }
+     ],
      "cards": [
       {
        "id": "Q4-139",
@@ -24437,7 +30855,26 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Hello, everyone. I'm {A}, and thanks for coming!",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Oh, dear.",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Please don't worry.",
+       "from": "lle1-41",
+       "wait": false
+      }
+     ]
     }
    ]
   },
@@ -24474,7 +30911,26 @@
       "Mr. and Mrs. Lee",
       "Grace"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "I am a little nervous.",
+       "from": "lle1-28",
+       "wait": true
+      },
+      {
+       "who": "Grace",
+       "say": "Don't be nervous. Just pay attention and do your best!",
+       "from": "lle1-50",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "That is great advice. You know, I have been paying attention. But sometimes I still feel like I don't understand.",
+       "from": "lle1-50",
+       "wait": true
+      }
+     ]
     },
     {
      "no": 3,
@@ -24609,7 +31065,26 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "Our guests will be here soon!",
+       "from": "lle1-35",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Can I help? I'm not busy right now.",
+       "from": "lle1-21",
+       "wait": false
+      },
+      {
+       "who": "두 사람",
+       "say": "Thank you.",
+       "from": "lle1-07",
+       "wait": true
+      }
+     ]
     }
    ]
   },
@@ -24695,7 +31170,44 @@
      "people": [
       "Sarah"
      ],
-     "lines": []
+     "lines": [
+      {
+       "who": "두 사람",
+       "say": "That's our guests!",
+       "from": "lle1-36",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Hello, everyone. I'm {A}, and thanks for coming!",
+       "from": "lle1-32",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Well, I have lived here for over a year.",
+       "from": "lle1-48",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "I have met people from all over the world. I've made many good friends.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "두 사람",
+       "say": "Sometimes I succeeded. Sometimes I failed. But I will never stop trying.",
+       "from": "lle1-52",
+       "wait": true
+      },
+      {
+       "who": "Sarah",
+       "say": "Thank you. Thank you so much for having me here.",
+       "from": "lle1-52",
+       "wait": false
+      }
+     ]
     }
    ]
   }

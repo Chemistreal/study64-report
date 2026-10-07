@@ -95,10 +95,10 @@ python3 scripts/all.py
 ## 파일 배치
 
 ```
-docs/spec.md            상위 규격. 수정 금지. 개정은 사용자만
+docs/spec.md            상위 규격. **2026-10-07 부터 고칠 수 있다** (사용자). 고칠 때는 개정문을 먼저 적고 check_spec.py 를 통과시킨다
 docs/audio_intake.md    외부 제작 음성 반입 규격 (승격 확정. 기준서 9장 부속)
 docs/audio_timing.md    소리 시간 표시 조사 (T126). 어림 표의 근거와 한계
-docs/spec_amendments.md 기준서 개정문 8건. 사용자가 spec.md 에 붙일 문안
+docs/spec_amendments.md 기준서 개정문. 2026-10-07 부터 spec.md 에 직접 붙일 수 있다
 docs/roadmap.md         완료까지의 턴 단위 계획. 매 턴 갱신한다
 docs/collab.md          공동 개발 규약 (종료. 기록으로만 남긴다)
 tasks/                  조수 지시서 (종료. 기록으로만 남긴다)
@@ -389,7 +389,7 @@ repair는 되묻기, 자기수정, 끊김 처리, 이해 확인, 시간 벌기, 
 
 ## 하지 말 것
 
-- docs/spec.md 수정. 개정문은 docs/spec_amendments.md 에 적고 사용자가 붙인다
+- ~~docs/spec.md 수정~~ 2026-10-07 사용자가 풀었다. 개정문을 먼저 적고 붙인다. 강제 푸시도 풀었다. 그래도 남의 커밋을 지우는 강제 푸시는 안 한다
 - 검사 스크립트 통과 없이 세션 종료
 - 확신 없는 표현을 A등급으로 쓰기
 - 1인 수행 가능한 과제 쓰기

@@ -32,6 +32,12 @@ OUT = os.path.join(ROOT, "out", "game", "scenes.json")
 
 FAIL = []
 
+# 실제 상표. derive_town.py 의 목록을 같이 쓰고 대본에 나오는 놀이 상표를 더한다.
+# VOA 대본에도 상표가 섞여 있다 (lle1-17 의 보드게임 이름). 대본 줄 그대로여도 안 된다
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from derive_town import BRANDS  # noqa: E402
+BRANDS = BRANDS + ["Scrabble", "Monopoly", "Lego", "Frisbee", "Kleenex", "Uber", "Google", "Facebook"]
+
 # 카드 유형이 장면 갈래가 된다 (game.md 5장)
 GENRE = {"판정": "확인", "압박": "시간", "확장": "다른 날 다른 주문",
          "역할": "퀘스트", "repair": "되묻기"}
@@ -134,6 +140,9 @@ def main():
     who = {c[0]: [p.strip() for p in c[3].split(",") if p.strip()]
            for c in rows(section(doc("town.md"), "## 5. 장소"), 6)}
 
+    # 48주 집들이에는 4장 인물 표의 사람이 다 온다 (world.md 5.4). 그 주 새 집에는 누구나 있을 수 있다
+    cast = {c[0] for c in rows(section(doc("world.md"), "## 4. 인물"), 5)}
+
     # 대사. scenes.md 3장
     lines = {}
     heard = {}
@@ -159,13 +168,18 @@ def main():
             continue
         if src not in heard[s]:
             FAIL.append("세션 %d 대사가 아직 안 들은 %s 에서 왔다: %s" % (s, src, text))
+        for brand in BRANDS:
+            # 대소문자를 가린다. "target", "spam" 같은 보통 낱말을 상표로 잡지 않으려고
+            if re.search(r"\b" + re.escape(brand) + r"\b", text):
+                FAIL.append("세션 %d 대사에 실제 상표가 있다 (%s): %s" % (s, brand, text))
         if not grounded(text, cache[src]):
             FAIL.append("세션 %d 대사가 %s 한 마디 안의 이어진 문장이 아니다: %s" % (s, src, text))
         place = stage.get(S[s - 1]["quarter"], [None] * 4)[b - 1] if 1 <= b <= 4 else None
         if place is None:
             FAIL.append("세션 %d 대사의 블록이 1~4 가 아니다" % s)
             continue
-        if spk != "두 사람" and spk not in who.get(place, []):
+        guests = cast if (S[s - 1]["week"] == 48 and b == 4) else set()
+        if spk != "두 사람" and spk not in who.get(place, []) and spk not in guests:
             FAIL.append("세션 %d 블록 %d 의 %s 에 %s 가 없다 (town.md 5장)" % (s, b, place, spk))
         lines.setdefault((s, b), []).append({"who": spk, "say": text, "from": src,
                                             "wait": spk == "두 사람"})
@@ -192,6 +206,15 @@ def main():
                     "episode": {"no": x["week"], "title": e.get("title"), "crux": e.get("crux"),
                                 "layers": e.get("layers", [])},
                     "blocks": blocks})
+
+    # 주마다 장면이 있는 세션이 넷 이상인가 (scenes.md 2장). 대사 없는 주는 이야기 없이 공부만 하는 주다
+    per = {}
+    for o in out:
+        if any(b["lines"] for b in o["blocks"]):
+            per[o["week"]] = per.get(o["week"], 0) + 1
+    thin = [w for w in range(1, 49) if per.get(w, 0) < 4]
+    if thin:
+        FAIL.append("장면 세션이 넷보다 적은 주: " + " ".join(map(str, thin[:12])))
 
     # 판정형 답이 실리지 않았나. 카드 자료의 답 글이 장면 어디에도 없어야 한다
     blob = json.dumps(out, ensure_ascii=False)

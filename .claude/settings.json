@@ -13,10 +13,6 @@
       "NotebookEdit"
     ],
     "deny": [
-      "Edit(eng2p/docs/spec.md)",
-      "Write(eng2p/docs/spec.md)",
-      "Bash(git push --force:*)",
-      "Bash(git push -f:*)",
       "Bash(git clean:*)",
       "Bash(rm -rf /:*)"
     ]

@@ -28,7 +28,7 @@ CLAUDE.md 의 지킬 것이 다 그대로다. 루프라서 더 조심할 것만 
 
 | 안 하는 것 | 왜 |
 |---|---|
-| `docs/spec.md` 고치기 | 사용자 파일이다. 개정은 `docs/spec_amendments.md` 에 |
+| ~~`docs/spec.md` 고치기~~ | 2026-10-07 사용자가 풀었다. 개정문을 먼저 적고 `check_spec.py` 를 통과시킨 뒤 붙인다 |
 | `Chemistreal/game` 저장소에 쓰기 | 참고만 한다 (메모) |
 | 음성 파일과 저작권 클립을 저장소에 넣기 | Pages 가 공개다 |
 | 퍼블릭 도메인, CC0, CC BY 밖의 자료를 저장소에 넣기 | ODbL 과 BY-SA 는 사용자가 정한다 |
