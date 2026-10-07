@@ -202,6 +202,10 @@ RTX 3050 4GB 라 라이다를 언리얼에 직접 넣지 않는다. 걸어 다�
 파일은 저장소 밖에 둔다. 목록과 해시와 출처는 `tools/game/assets.json` 이다.
 받는 법은 `tools/game/fetch_assets.py`. 나중에 PC 의 D 드라이브로 옮긴다.
 
+**확장층이 더 받은 것 (2026-10-07, `docs/expansion.md`).** VOA American Stories 목록 30쪽 361편과 America's National Parks 48편의 쪽 HTML 을 `game_store/voa_ext/` 에 받았다 (해시는 그 안 index.json, 거른 까닭은 judge_report.tsv). 받는 법은 `scripts/derive_ext_radio.py --fetch` 다.
+Tatoeba 는 eng_tags, user_languages, eng_sentences_CC0 셋을 더한다. **links 파일과 다른 언어 파일은 여전히 안 받는다.**
+fetch_assets.py 의 정부 목록은 두 곳을 고쳤다. 시민 문항은 2008년판 100문항 대신 2025년판 128문항이고, Ready.gov 허리케인과 쓰나미는 그 쪽이 실제로 거는 주소(2024-07, 2020-03 경로)로 바꿨다. 이미 받은 사본의 해시는 `game_store/gov/README.md` 에 있다.
+
 ## 8. 사용자가 정할 것
 
 | 물음 | 무엇이 걸리나 |

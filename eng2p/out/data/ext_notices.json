@@ -1,0 +1,1437 @@
+{
+ "note": "동네 안내문. docs/ext_notices.md 에서 파생. 손으로 안 고친다. scripts/derive_ext_notices.py 를 다시 돌린다.",
+ "grade": "B",
+ "gradeWhy": "사실은 미국 정부 자료(퍼블릭 도메인)에서 줄마다 근거를 달았다. 영어 문장은 새로 썼고 원어민 확인 전이다.",
+ "generator": "scripts/derive_ext_notices.py",
+ "source": "docs/ext_notices.md (USCIS M-618 rev. 09/15, FEMA V-1006, FEMA V-1011)",
+ "license": "PD-USGov",
+ "docs": {
+  "M618": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf",
+  "HUR": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+  "TSU": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf"
+ },
+ "verifyLog": "검증로그: 2026-10-07 / 정부 PDF 원문과 사실 대조 / 보류 / 영어는 spec 5.2 표본 검증 대기",
+ "lines": 92,
+ "wordCount": 864,
+ "count": 24,
+ "items": [
+  {
+   "id": "n01",
+   "week": 1,
+   "quarter": "Q1",
+   "kind": "게시판",
+   "place": "숙소 로비",
+   "title": "Call 911",
+   "wordCount": 26,
+   "extCount": 20,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=85",
+     "quote": "Call 911 to: Report a fire ... Request emergency medical help",
+     "ref": "M618 #page=85 (책 79쪽) \"Call 911 to: Report a fire ... Request emergency medical help\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=86",
+     "quote": "If you do not speak English, tell the operator what language you speak. An interpreter should come on the line.",
+     "ref": "M618 #page=86 (책 80쪽) \"If you do not speak English, tell the operator what language you speak. An interpreter should come on the line.\""
+    },
+    {
+     "id": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=86",
+     "quote": "When the operator answers, there will be silence on the phone for several seconds. Do not hang up.",
+     "ref": "M618 #page=86 (책 80쪽) \"When the operator answers, there will be silence on the phone for several seconds. Do not hang up.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 79~80쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Fire? Call 911.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=85",
+     "quote": "Call 911 to: Report a fire ... Request emergency medical help",
+     "grade": "B"
+    },
+    {
+     "text": "A person is very sick? Call 911.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=85",
+     "quote": "Call 911 to: Report a fire ... Request emergency medical help",
+     "grade": "B"
+    },
+    {
+     "text": "Wait. Do not hang up.",
+     "fact": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=86",
+     "quote": "When the operator answers, there will be silence on the phone for several seconds. Do not hang up.",
+     "grade": "B"
+    },
+    {
+     "text": "You do not speak English? Say your language. A person will help you.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=86",
+     "quote": "If you do not speak English, tell the operator what language you speak. An interpreter should come on the line.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n02",
+   "week": 3,
+   "quarter": "Q1",
+   "kind": "게시판",
+   "place": "버스 정류장",
+   "title": "The City Bus",
+   "wordCount": 43,
+   "extCount": 16,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=49",
+     "quote": "Anyone can ride public transportation for a small fee.",
+     "ref": "M618 #page=49 (책 43쪽) \"Anyone can ride public transportation for a small fee.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=49",
+     "quote": "In some places, you can buy a card to use for several trips on trains or buses. You can also pay for each trip separately.",
+     "ref": "M618 #page=49 (책 43쪽) \"In some places, you can buy a card to use for several trips on trains or buses. You can also pay for each trip separately.\""
+    },
+    {
+     "id": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=49",
+     "quote": "Taxis are more expensive than public transportation.",
+     "ref": "M618 #page=49 (책 43쪽) \"Taxis are more expensive than public transportation.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 43쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Anyone can ride the city bus.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=49",
+     "quote": "Anyone can ride public transportation for a small fee.",
+     "grade": "B"
+    },
+    {
+     "text": "It is not a lot of money.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=49",
+     "quote": "Anyone can ride public transportation for a small fee.",
+     "grade": "B"
+    },
+    {
+     "text": "You can buy a bus card at the store. Use it every day.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=49",
+     "quote": "In some places, you can buy a card to use for several trips on trains or buses. You can also pay for each trip separately.",
+     "grade": "B"
+    },
+    {
+     "text": "Or you can pay with cash on the bus.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=49",
+     "quote": "In some places, you can buy a card to use for several trips on trains or buses. You can also pay for each trip separately.",
+     "grade": "B"
+    },
+    {
+     "text": "A taxi is more money than the bus.",
+     "fact": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=49",
+     "quote": "Taxis are more expensive than public transportation.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n03",
+   "week": 4,
+   "quarter": "Q1",
+   "kind": "게시판",
+   "place": "숙소 로비",
+   "title": "A Bank Account",
+   "wordCount": 43,
+   "extCount": 12,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=54",
+     "quote": "A bank account is a safe place to keep your money. ... Checking accounts and savings accounts are two common ones.",
+     "ref": "M618 #page=54 (책 48쪽) \"A bank account is a safe place to keep your money. ... Checking accounts and savings accounts are two common ones.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=54",
+     "quote": "When you open an account, you will be asked to prove your identity.",
+     "ref": "M618 #page=54 (책 48쪽) \"When you open an account, you will be asked to prove your identity.\""
+    },
+    {
+     "id": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=54",
+     "quote": "It is not safe to carry around large amounts of cash or to leave cash in your home",
+     "ref": "M618 #page=54 (책 48쪽) \"It is not safe to carry around large amounts of cash or to leave cash in your home\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 48쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "A bank is a safe place for your money.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=54",
+     "quote": "A bank account is a safe place to keep your money. ... Checking accounts and savings accounts are two common ones.",
+     "grade": "B"
+    },
+    {
+     "text": "Do you want a bank account? Take your card with your name and photo.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=54",
+     "quote": "When you open an account, you will be asked to prove your identity.",
+     "grade": "B"
+    },
+    {
+     "text": "Do not keep a lot of cash in your room.",
+     "fact": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=54",
+     "quote": "It is not safe to carry around large amounts of cash or to leave cash in your home",
+     "grade": "B"
+    },
+    {
+     "text": "Do not carry a lot of cash on the street.",
+     "fact": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=54",
+     "quote": "It is not safe to carry around large amounts of cash or to leave cash in your home",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n04",
+   "week": 5,
+   "quarter": "Q1",
+   "kind": "게시판",
+   "place": "시장",
+   "title": "Get a Receipt",
+   "wordCount": 26,
+   "extCount": 8,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=29",
+     "quote": "Try to avoid paying cash for services. Make sure you get a receipt for your payment. Be sure to keep your original documents.",
+     "ref": "M618 #page=29 (책 23쪽) \"Try to avoid paying cash for services. Make sure you get a receipt for your payment. Be sure to keep your original documents.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 23쪽 원문 대조 / 보류 / 원문은 이민 상담 비용 대목이다. 영수증을 받으라는 사실만 가져왔다",
+   "note": "원문은 이민 서비스에 돈을 낼 때다. 게임에서는 동네 가게로 옮겼다. 사실 줄은 \"돈을 내면 영수증을 받아 둔다\" 하나다",
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "When you pay, ask for a receipt.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=29",
+     "quote": "Try to avoid paying cash for services. Make sure you get a receipt for your payment. Be sure to keep your original documents.",
+     "grade": "B"
+    },
+    {
+     "text": "Keep the receipt in a safe place.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=29",
+     "quote": "Try to avoid paying cash for services. Make sure you get a receipt for your payment. Be sure to keep your original documents.",
+     "grade": "B"
+    },
+    {
+     "text": "Do you want to return something? Take the receipt to the store.",
+     "fact": null,
+     "src": null,
+     "quote": null,
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n05",
+   "week": 7,
+   "quarter": "Q1",
+   "kind": "게시판",
+   "place": "숙소 로비",
+   "title": "Know Your Neighbors",
+   "wordCount": 35,
+   "extCount": 7,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "To help keep your neighborhood safe, get to know your neighbors. Talk with them about how to handle an emergency in your area.",
+     "ref": "M618 #page=83 (책 77쪽) \"To help keep your neighborhood safe, get to know your neighbors. Talk with them about how to handle an emergency in your area.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 77쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Say hello to the people on your street.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "To help keep your neighborhood safe, get to know your neighbors. Talk with them about how to handle an emergency in your area.",
+     "grade": "B"
+    },
+    {
+     "text": "Learn their names.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "To help keep your neighborhood safe, get to know your neighbors. Talk with them about how to handle an emergency in your area.",
+     "grade": "B"
+    },
+    {
+     "text": "Talk with them about a bad storm. What will you do? Where will you go?",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "To help keep your neighborhood safe, get to know your neighbors. Talk with them about how to handle an emergency in your area.",
+     "grade": "B"
+    },
+    {
+     "text": "A good neighbor helps you, and you help them.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "To help keep your neighborhood safe, get to know your neighbors. Talk with them about how to handle an emergency in your area.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n06",
+   "week": 10,
+   "quarter": "Q1",
+   "kind": "게시판",
+   "place": "숙소 로비",
+   "title": "A Hurricane Is Coming",
+   "wordCount": 38,
+   "extCount": 12,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Know your evacuation zone",
+     "ref": "HUR 1쪽 \"Know your evacuation zone\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Gather enough food, water and emergency supplies to last you several days.",
+     "ref": "HUR 2쪽 \"Gather enough food, water and emergency supplies to last you several days.\""
+    },
+    {
+     "id": "f3",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Evacuate immediately if told to do so. If not, take shelter from high winds in ... an interior room.",
+     "ref": "HUR 1쪽 \"Evacuate immediately if told to do so. If not, take shelter from high winds in ... an interior room.\""
+    },
+    {
+     "id": "f4",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "If you do not evacuate, take shelter indoors and stay away from windows and doors.",
+     "ref": "HUR 2쪽 \"If you do not evacuate, take shelter indoors and stay away from windows and doors.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1006 1~2쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "A big storm is coming this week.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Know your evacuation zone",
+     "grade": "B"
+    },
+    {
+     "text": "Have food and water for many days.",
+     "fact": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Gather enough food, water and emergency supplies to last you several days.",
+     "grade": "B"
+    },
+    {
+     "text": "Ask the front desk: Where do we go?",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Know your evacuation zone",
+     "grade": "B"
+    },
+    {
+     "text": "They say go? Go now.",
+     "fact": "f3",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Evacuate immediately if told to do so. If not, take shelter from high winds in ... an interior room.",
+     "grade": "B"
+    },
+    {
+     "text": "You stay here? Stay inside, away from the windows and doors.",
+     "fact": "f4",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "If you do not evacuate, take shelter indoors and stay away from windows and doors.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n07",
+   "week": 10,
+   "quarter": "Q1",
+   "kind": "방송",
+   "place": "숙소 라디오",
+   "title": "Storm Radio 1",
+   "wordCount": 31,
+   "extCount": 9,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Monitor weather reports and updates ... Be on alert for heavy rain.",
+     "ref": "HUR 2쪽 \"Monitor weather reports and updates ... Be on alert for heavy rain.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Turn around, don't drown! Do not walk, swim or drive through floodwaters.",
+     "ref": "HUR 1쪽 \"Turn around, don't drown! Do not walk, swim or drive through floodwaters.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1006 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "This is the weather. Heavy rain is coming tonight.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Monitor weather reports and updates ... Be on alert for heavy rain.",
+     "grade": "B"
+    },
+    {
+     "text": "Do not walk in the water on the street.",
+     "fact": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Turn around, don't drown! Do not walk, swim or drive through floodwaters.",
+     "grade": "B"
+    },
+    {
+     "text": "Do not drive in the water.",
+     "fact": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Turn around, don't drown! Do not walk, swim or drive through floodwaters.",
+     "grade": "B"
+    },
+    {
+     "text": "Listen to the radio for more news.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Monitor weather reports and updates ... Be on alert for heavy rain.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n08",
+   "week": 10,
+   "quarter": "Q1",
+   "kind": "방송",
+   "place": "숙소 라디오",
+   "title": "Storm Radio 2",
+   "wordCount": 23,
+   "extCount": 7,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Plan to text or message because you may not be able to make or receive phone calls.",
+     "ref": "HUR 2쪽 \"Plan to text or message because you may not be able to make or receive phone calls.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Only use generators outdoors and away from windows.",
+     "ref": "HUR 1쪽 \"Only use generators outdoors and away from windows.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1006 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "The phones are very busy.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Plan to text or message because you may not be able to make or receive phone calls.",
+     "grade": "B"
+    },
+    {
+     "text": "Send a text to your family. Do not call.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Plan to text or message because you may not be able to make or receive phone calls.",
+     "grade": "B"
+    },
+    {
+     "text": "Is your power out? Never use a generator inside.",
+     "fact": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Only use generators outdoors and away from windows.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n09",
+   "week": 11,
+   "quarter": "Q1",
+   "kind": "게시판",
+   "place": "진료소",
+   "title": "The Clinic",
+   "wordCount": 34,
+   "extCount": 8,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=76",
+     "quote": "Most communities have at least one health care facility that provides free or low-cost services. These are sometimes called clinics or community health centers.",
+     "ref": "M618 #page=76 (책 70쪽) \"Most communities have at least one health care facility that provides free or low-cost services. These are sometimes called clinics or community health centers.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=76",
+     "quote": "If you need immediate medical care, you can go to the emergency room of the nearest hospital",
+     "ref": "M618 #page=76 (책 70쪽) \"If you need immediate medical care, you can go to the emergency room of the nearest hospital\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 70쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "This is a clinic. A doctor can see you here.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=76",
+     "quote": "Most communities have at least one health care facility that provides free or low-cost services. These are sometimes called clinics or community health centers.",
+     "grade": "B"
+    },
+    {
+     "text": "It does not cost a lot of money.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=76",
+     "quote": "Most communities have at least one health care facility that provides free or low-cost services. These are sometimes called clinics or community health centers.",
+     "grade": "B"
+    },
+    {
+     "text": "Please make an appointment at the front desk.",
+     "fact": null,
+     "src": null,
+     "quote": null,
+     "grade": "B"
+    },
+    {
+     "text": "Very sick at night? Go to the hospital.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=76",
+     "quote": "If you need immediate medical care, you can go to the emergency room of the nearest hospital",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n10",
+   "week": 12,
+   "quarter": "Q1",
+   "kind": "게시판",
+   "place": "숙소 로비",
+   "title": "Keep Your Papers Safe",
+   "wordCount": 24,
+   "extCount": 9,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Keep important documents in a dry, safe place such as a fireproof and waterproof box, and create password-protected digital copies.",
+     "ref": "HUR 2쪽 \"Keep important documents in a dry, safe place such as a fireproof and waterproof box, and create password-protected digital copies.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1006 2쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Keep your important papers in a dry and safe place.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Keep important documents in a dry, safe place such as a fireproof and waterproof box, and create password-protected digital copies.",
+     "grade": "B"
+    },
+    {
+     "text": "Take a photo of each paper with your phone.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Keep important documents in a dry, safe place such as a fireproof and waterproof box, and create password-protected digital copies.",
+     "grade": "B"
+    },
+    {
+     "text": "Then you have a copy.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Keep important documents in a dry, safe place such as a fireproof and waterproof box, and create password-protected digital copies.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n11",
+   "week": 14,
+   "quarter": "Q2",
+   "kind": "게시판",
+   "place": "도서관",
+   "title": "Your Number Card",
+   "wordCount": 43,
+   "extCount": 10,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=59",
+     "quote": "Leaving your Social Security card at home in a safe place. Do not carry it with you.",
+     "ref": "M618 #page=59 (책 53쪽) \"Leaving your Social Security card at home in a safe place. Do not carry it with you.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=59",
+     "quote": "Making sure you know and trust the people or businesses you give your personal information to",
+     "ref": "M618 #page=59 (책 53쪽) \"Making sure you know and trust the people or businesses you give your personal information to\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 53쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Do you have a Social Security card? Keep it at home in a safe place.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=59",
+     "quote": "Leaving your Social Security card at home in a safe place. Do not carry it with you.",
+     "grade": "B"
+    },
+    {
+     "text": "Do not carry it with you every day.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=59",
+     "quote": "Leaving your Social Security card at home in a safe place. Do not carry it with you.",
+     "grade": "B"
+    },
+    {
+     "text": "Someone on the phone asks for your number? Do not say it.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=59",
+     "quote": "Making sure you know and trust the people or businesses you give your personal information to",
+     "grade": "B"
+    },
+    {
+     "text": "Give your number only to people you know.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=59",
+     "quote": "Making sure you know and trust the people or businesses you give your personal information to",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n12",
+   "week": 23,
+   "quarter": "Q2",
+   "kind": "게시판",
+   "place": "숙소 로비",
+   "title": "Check Your Storm Kit",
+   "wordCount": 38,
+   "extCount": 5,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Prepare a disaster kit that includes a flashlight, portable radio, extra batteries, blankets, first-aid supplies, and enough canned or packaged food and bottled water to last for at least three days.",
+     "ref": "M618 #page=82 (책 76쪽) \"Prepare a disaster kit that includes a flashlight, portable radio, extra batteries, blankets, first-aid supplies, and enough canned or packaged food and bottled water to last for at least three days.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Keep all of these things in one place where it is easy to find them.",
+     "ref": "M618 #page=82 (책 76쪽) \"Keep all of these things in one place where it is easy to find them.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 76쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "It is a new year. Look at your storm kit.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Prepare a disaster kit that includes a flashlight, portable radio, extra batteries, blankets, first-aid supplies, and enough canned or packaged food and bottled water to last for at least three days.",
+     "grade": "B"
+    },
+    {
+     "text": "You need a light, a radio, and batteries.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Prepare a disaster kit that includes a flashlight, portable radio, extra batteries, blankets, first-aid supplies, and enough canned or packaged food and bottled water to last for at least three days.",
+     "grade": "B"
+    },
+    {
+     "text": "You need food and water for three days.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Prepare a disaster kit that includes a flashlight, portable radio, extra batteries, blankets, first-aid supplies, and enough canned or packaged food and bottled water to last for at least three days.",
+     "grade": "B"
+    },
+    {
+     "text": "Put it all in one place. Then you can find it fast.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Keep all of these things in one place where it is easy to find them.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n13",
+   "week": 24,
+   "quarter": "Q2",
+   "kind": "게시판",
+   "place": "도서관",
+   "title": "A First-Aid Kit",
+   "wordCount": 36,
+   "extCount": 8,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "Keep a first-aid kit at home, at work, and in your car. A first-aid kit has items you can use for small injuries or for pain, such as bandages ...",
+     "ref": "M618 #page=83 (책 77쪽) \"Keep a first-aid kit at home, at work, and in your car. A first-aid kit has items you can use for small injuries or for pain, such as bandages ...\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "You can take a first-aid training class through your local Red Cross.",
+     "ref": "M618 #page=83 (책 77쪽) \"You can take a first-aid training class through your local Red Cross.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 77쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Keep a first-aid kit at home, at work, and in your car.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "Keep a first-aid kit at home, at work, and in your car. A first-aid kit has items you can use for small injuries or for pain, such as bandages ...",
+     "grade": "B"
+    },
+    {
+     "text": "It has things for small cuts and pain.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "Keep a first-aid kit at home, at work, and in your car. A first-aid kit has items you can use for small injuries or for pain, such as bandages ...",
+     "grade": "B"
+    },
+    {
+     "text": "You can take a first-aid class. Ask at the front desk of the library.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "You can take a first-aid training class through your local Red Cross.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n14",
+   "week": 25,
+   "quarter": "Q3",
+   "kind": "게시판",
+   "place": "사무실",
+   "title": "Your Number for Work",
+   "wordCount": 46,
+   "extCount": 7,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=34",
+     "quote": "Your Social Security number is also used by financial institutions and other agencies ... You may be asked for your Social Security number when you rent an apartment",
+     "ref": "M618 #page=34 (책 28쪽) \"Your Social Security number is also used by financial institutions and other agencies ... You may be asked for your Social Security number when you rent an apartment\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=34",
+     "quote": "The Social Security office can provide an interpreter free of charge to help you apply for a Social Security number.",
+     "ref": "M618 #page=34 (책 28쪽) \"The Social Security office can provide an interpreter free of charge to help you apply for a Social Security number.\""
+    },
+    {
+     "id": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=35",
+     "quote": "You should receive your Social Security card about two weeks after the SSA has all documents needed for your application.",
+     "ref": "M618 #page=35 (책 29쪽) \"You should receive your Social Security card about two weeks after the SSA has all documents needed for your application.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 28~29쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "A new job will ask for your Social Security number.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=34",
+     "quote": "Your Social Security number is also used by financial institutions and other agencies ... You may be asked for your Social Security number when you rent an apartment",
+     "grade": "B"
+    },
+    {
+     "text": "A bank will ask for it too.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=34",
+     "quote": "Your Social Security number is also used by financial institutions and other agencies ... You may be asked for your Social Security number when you rent an apartment",
+     "grade": "B"
+    },
+    {
+     "text": "Do you need help in your language? The office will find a person for you. It is free.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=34",
+     "quote": "The Social Security office can provide an interpreter free of charge to help you apply for a Social Security number.",
+     "grade": "B"
+    },
+    {
+     "text": "Your card comes in the mail. It takes about two weeks.",
+     "fact": "f3",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=35",
+     "quote": "You should receive your Social Security card about two weeks after the SSA has all documents needed for your application.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n15",
+   "week": 27,
+   "quarter": "Q3",
+   "kind": "게시판",
+   "place": "해변",
+   "title": "Tsunami: When the Ground Shakes",
+   "wordCount": 59,
+   "extCount": 10,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "If you are in a tsunami area and there is an earthquake, first protect yourself from the earthquake. Drop, Cover, and Hold On.",
+     "ref": "TSU 2쪽 \"If you are in a tsunami area and there is an earthquake, first protect yourself from the earthquake. Drop, Cover, and Hold On.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "When the shaking stops ... move immediately to a safe place as high and as far inland as possible.",
+     "ref": "TSU 2쪽 \"When the shaking stops ... move immediately to a safe place as high and as far inland as possible.\""
+    },
+    {
+     "id": "f3",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Be alert to signs of a tsunami, such as a sudden rise or draining of ocean waters.",
+     "ref": "TSU 1쪽 \"Be alert to signs of a tsunami, such as a sudden rise or draining of ocean waters.\""
+    },
+    {
+     "id": "f4",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Evacuation routes are often marked by a wave with an arrow in the direction of higher ground.",
+     "ref": "TSU 2쪽 \"Evacuation routes are often marked by a wave with an arrow in the direction of higher ground.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1011 1~2쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Is the ground shaking? First, get down. Cover your head. Hold on.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "If you are in a tsunami area and there is an earthquake, first protect yourself from the earthquake. Drop, Cover, and Hold On.",
+     "grade": "B"
+    },
+    {
+     "text": "When it stops, walk up and away from the water. Go high. Go now.",
+     "fact": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "When the shaking stops ... move immediately to a safe place as high and as far inland as possible.",
+     "grade": "B"
+    },
+    {
+     "text": "Is the ocean water going away very fast? Do not look. Go.",
+     "fact": "f3",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Be alert to signs of a tsunami, such as a sudden rise or draining of ocean waters.",
+     "grade": "B"
+    },
+    {
+     "text": "Look for the signs with a wave and an arrow. They show the way up.",
+     "fact": "f4",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Evacuation routes are often marked by a wave with an arrow in the direction of higher ground.",
+     "grade": "B"
+    },
+    {
+     "text": "Do not wait for the radio.",
+     "fact": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "When the shaking stops ... move immediately to a safe place as high and as far inland as possible.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n16",
+   "week": 31,
+   "quarter": "Q3",
+   "kind": "게시판",
+   "place": "새 집",
+   "title": "Smoke Alarms",
+   "wordCount": 31,
+   "extCount": 6,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Make sure you have smoke alarms on the ceiling near bedrooms and on each level of your house. Check the alarm each month to make sure it works. Replace the batteries in your smoke alarms at least once a year.",
+     "ref": "M618 #page=82 (책 76쪽) \"Make sure you have smoke alarms on the ceiling near bedrooms and on each level of your house. Check the alarm each month to make sure it works. Replace the batteries in your smoke alarms at least once a year.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 76쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "A smoke alarm makes a loud sound when there is smoke.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Make sure you have smoke alarms on the ceiling near bedrooms and on each level of your house. Check the alarm each month to make sure it works. Replace the batteries in your smoke alarms at least once a year.",
+     "grade": "B"
+    },
+    {
+     "text": "Put one near every bedroom.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Make sure you have smoke alarms on the ceiling near bedrooms and on each level of your house. Check the alarm each month to make sure it works. Replace the batteries in your smoke alarms at least once a year.",
+     "grade": "B"
+    },
+    {
+     "text": "Check it every month. Push the button.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Make sure you have smoke alarms on the ceiling near bedrooms and on each level of your house. Check the alarm each month to make sure it works. Replace the batteries in your smoke alarms at least once a year.",
+     "grade": "B"
+    },
+    {
+     "text": "Put in new batteries one time every year.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Make sure you have smoke alarms on the ceiling near bedrooms and on each level of your house. Check the alarm each month to make sure it works. Replace the batteries in your smoke alarms at least once a year.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n17",
+   "week": 33,
+   "quarter": "Q3",
+   "kind": "게시판",
+   "place": "사무실",
+   "title": "Where We Meet",
+   "wordCount": 31,
+   "extCount": 3,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Practice with your family how to get out of your house in case of a fire or other emergency. ... Plan a place to meet",
+     "ref": "M618 #page=82 (책 76쪽) \"Practice with your family how to get out of your house in case of a fire or other emergency. ... Plan a place to meet\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 76쪽 원문 대조 / 보류 / 원문은 집과 가족이다. 사무실로 옮겼다",
+   "note": "원문은 가족과 집이다. 게임에서는 일터 동료로 옮겼다. 사실 줄은 \"나가는 길을 연습하고 만날 곳을 정한다\" 다",
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Do you know the way out of this office? Walk it one time this week.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Practice with your family how to get out of your house in case of a fire or other emergency. ... Plan a place to meet",
+     "grade": "B"
+    },
+    {
+     "text": "We meet at the big tree in front of the building.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Practice with your family how to get out of your house in case of a fire or other emergency. ... Plan a place to meet",
+     "grade": "B"
+    },
+    {
+     "text": "Wait there. We count everyone.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Practice with your family how to get out of your house in case of a fire or other emergency. ... Plan a place to meet",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n18",
+   "week": 34,
+   "quarter": "Q3",
+   "kind": "게시판",
+   "place": "사무실",
+   "title": "Drop, Cover, Hold On",
+   "wordCount": 35,
+   "extCount": 11,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Drop to your hands and knees. Cover your head and neck with your arms. Hold on to any sturdy furniture until the shaking stops.",
+     "ref": "TSU 2쪽 \"Drop to your hands and knees. Cover your head and neck with your arms. Hold on to any sturdy furniture until the shaking stops.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1011 2쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "When the ground shakes, get down on your hands and knees.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Drop to your hands and knees. Cover your head and neck with your arms. Hold on to any sturdy furniture until the shaking stops.",
+     "grade": "B"
+    },
+    {
+     "text": "Cover your head and neck with your arms.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Drop to your hands and knees. Cover your head and neck with your arms. Hold on to any sturdy furniture until the shaking stops.",
+     "grade": "B"
+    },
+    {
+     "text": "Get under a strong desk or table and hold on.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Drop to your hands and knees. Cover your head and neck with your arms. Hold on to any sturdy furniture until the shaking stops.",
+     "grade": "B"
+    },
+    {
+     "text": "Stay there until the shaking stops.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+     "quote": "Drop to your hands and knees. Cover your head and neck with your arms. Hold on to any sturdy furniture until the shaking stops.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n19",
+   "week": 38,
+   "quarter": "Q4",
+   "kind": "게시판",
+   "place": "동네 게시판",
+   "title": "A Plan With Your Neighbors",
+   "wordCount": 45,
+   "extCount": 5,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "Talk with them about how to handle an emergency in your area. If you have neighbors with disabilities, see if they will need special help in the event of an emergency.",
+     "ref": "M618 #page=83 (책 77쪽) \"Talk with them about how to handle an emergency in your area. If you have neighbors with disabilities, see if they will need special help in the event of an emergency.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Ask a friend or family member living in another area to be the main person your family will call if you are separated in an emergency.",
+     "ref": "M618 #page=82 (책 76쪽) \"Ask a friend or family member living in another area to be the main person your family will call if you are separated in an emergency.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 76~77쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Talk with your neighbors about a storm plan.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "Talk with them about how to handle an emergency in your area. If you have neighbors with disabilities, see if they will need special help in the event of an emergency.",
+     "grade": "B"
+    },
+    {
+     "text": "Does a neighbor need help to walk or to see? Ask them now, not in the storm.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=83",
+     "quote": "Talk with them about how to handle an emergency in your area. If you have neighbors with disabilities, see if they will need special help in the event of an emergency.",
+     "grade": "B"
+    },
+    {
+     "text": "Choose one friend in a different city. Everyone in the family calls that friend.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Ask a friend or family member living in another area to be the main person your family will call if you are separated in an emergency.",
+     "grade": "B"
+    },
+    {
+     "text": "Then you know where everyone is.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Ask a friend or family member living in another area to be the main person your family will call if you are separated in an emergency.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n20",
+   "week": 42,
+   "quarter": "Q4",
+   "kind": "게시판",
+   "place": "동네 게시판",
+   "title": "Fire Safety Meeting",
+   "wordCount": 47,
+   "extCount": 8,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Practice with your family how to get out of your house in case of a fire or other emergency. Make sure your children know what the smoke alarm sounds like and what to do if they hear it.",
+     "ref": "M618 #page=82 (책 76쪽) \"Practice with your family how to get out of your house in case of a fire or other emergency. Make sure your children know what the smoke alarm sounds like and what to do if they hear it.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Choose one spot outside of your home to meet and another spot outside of your neighborhood, in case you cannot return home.",
+     "ref": "M618 #page=82 (책 76쪽) \"Choose one spot outside of your home to meet and another spot outside of your neighborhood, in case you cannot return home.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 76쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Fire safety meeting this Saturday at the community center.",
+     "fact": null,
+     "src": null,
+     "quote": null,
+     "grade": "B"
+    },
+    {
+     "text": "We will practice how to get out of a house fast.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Practice with your family how to get out of your house in case of a fire or other emergency. Make sure your children know what the smoke alarm sounds like and what to do if they hear it.",
+     "grade": "B"
+    },
+    {
+     "text": "Bring your children. They need to know the sound of the smoke alarm.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Practice with your family how to get out of your house in case of a fire or other emergency. Make sure your children know what the smoke alarm sounds like and what to do if they hear it.",
+     "grade": "B"
+    },
+    {
+     "text": "Choose two places to meet. One near your house. One far from your street.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=82",
+     "quote": "Choose one spot outside of your home to meet and another spot outside of your neighborhood, in case you cannot return home.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n21",
+   "week": 46,
+   "quarter": "Q4",
+   "kind": "게시판",
+   "place": "새 집",
+   "title": "The Power Is Out",
+   "wordCount": 35,
+   "extCount": 8,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=84",
+     "quote": "Have a television or radio in your home that works on batteries in case electricity in your area is temporarily lost.",
+     "ref": "M618 #page=84 (책 78쪽) \"Have a television or radio in your home that works on batteries in case electricity in your area is temporarily lost.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=84",
+     "quote": "Listen to the radio or television for instructions.",
+     "ref": "M618 #page=84 (책 78쪽) \"Listen to the radio or television for instructions.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / M618 78쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "Keep a radio that works with batteries.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=84",
+     "quote": "Have a television or radio in your home that works on batteries in case electricity in your area is temporarily lost.",
+     "grade": "B"
+    },
+    {
+     "text": "When the power goes out, turn on the radio and listen.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=84",
+     "quote": "Listen to the radio or television for instructions.",
+     "grade": "B"
+    },
+    {
+     "text": "The radio will tell you what to do.",
+     "fact": "f2",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=84",
+     "quote": "Listen to the radio or television for instructions.",
+     "grade": "B"
+    },
+    {
+     "text": "Keep new batteries for it in your storm kit.",
+     "fact": "f1",
+     "src": "https://www.uscis.gov/sites/default/files/document/guides/M-618.pdf#page=84",
+     "quote": "Have a television or radio in your home that works on batteries in case electricity in your area is temporarily lost.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n22",
+   "week": 47,
+   "quarter": "Q4",
+   "kind": "게시판",
+   "place": "동네 게시판",
+   "title": "Storm Season",
+   "wordCount": 39,
+   "extCount": 9,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Hurricanes ... are most active in September.",
+     "ref": "HUR 1쪽 \"Hurricanes ... are most active in September.\""
+    },
+    {
+     "id": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Sign up to receive emergency alerts and notifications from your local emergency management office.",
+     "ref": "HUR 2쪽 \"Sign up to receive emergency alerts and notifications from your local emergency management office.\""
+    },
+    {
+     "id": "f3",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Secure outdoor items and furniture or move them indoors.",
+     "ref": "HUR 2쪽 \"Secure outdoor items and furniture or move them indoors.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1006 1~2쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "The storm months are coming. Big storms come most often in September.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Hurricanes ... are most active in September.",
+     "grade": "B"
+    },
+    {
+     "text": "Get the storm news on your phone.",
+     "fact": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Sign up to receive emergency alerts and notifications from your local emergency management office.",
+     "grade": "B"
+    },
+    {
+     "text": "Before a storm, bring your chairs and tables inside the house.",
+     "fact": "f3",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Secure outdoor items and furniture or move them indoors.",
+     "grade": "B"
+    },
+    {
+     "text": "Then you will know when a storm is coming.",
+     "fact": "f2",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Sign up to receive emergency alerts and notifications from your local emergency management office.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n23",
+   "week": 47,
+   "quarter": "Q4",
+   "kind": "방송",
+   "place": "새 집 라디오",
+   "title": "Storm Radio 3",
+   "wordCount": 27,
+   "extCount": 5,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Practice going to a safe shelter for high winds ... a small, interior windowless room in a sturdy building.",
+     "ref": "HUR 2쪽 \"Practice going to a safe shelter for high winds ... a small, interior windowless room in a sturdy building.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1006 2쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "This is the weather. Strong wind is coming tonight.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Practice going to a safe shelter for high winds ... a small, interior windowless room in a sturdy building.",
+     "grade": "B"
+    },
+    {
+     "text": "Find a small room with no windows in your home.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Practice going to a safe shelter for high winds ... a small, interior windowless room in a sturdy building.",
+     "grade": "B"
+    },
+    {
+     "text": "Stay in that room until the wind stops.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "Practice going to a safe shelter for high winds ... a small, interior windowless room in a sturdy building.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "n24",
+   "week": 47,
+   "quarter": "Q4",
+   "kind": "방송",
+   "place": "새 집 라디오",
+   "title": "Storm Radio 4",
+   "wordCount": 29,
+   "extCount": 5,
+   "facts": [
+    {
+     "id": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "If you experience flooding, go to the highest level of the building ... but do not climb into a closed attic.",
+     "ref": "HUR 2쪽 \"If you experience flooding, go to the highest level of the building ... but do not climb into a closed attic.\""
+    }
+   ],
+   "verifyLog": "검증로그: 2026-10-07 / FEMA V-1006 2쪽 원문 대조 / 보류 / 영어 원어민 확인 전",
+   "note": null,
+   "license": "PD-USGov",
+   "licenseNote": "사실만 가져왔다. 영어는 새로 썼다. 공식 안내문이라고 표시하지 않는다",
+   "grade": "B",
+   "label": "학습용 인공물. 공식 안내문이 아니다",
+   "lines": [
+    {
+     "text": "There is water in some streets tonight.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "If you experience flooding, go to the highest level of the building ... but do not climb into a closed attic.",
+     "grade": "B"
+    },
+    {
+     "text": "Is there water in your building? Go up to a higher floor.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "If you experience flooding, go to the highest level of the building ... but do not climb into a closed attic.",
+     "grade": "B"
+    },
+    {
+     "text": "Do not go into a closed room under the roof.",
+     "fact": "f1",
+     "src": "https://www.ready.gov/sites/default/files/2024-07/ready.gov_hurricane_info-sheet.pdf",
+     "quote": "If you experience flooding, go to the highest level of the building ... but do not climb into a closed attic.",
+     "grade": "B"
+    }
+   ]
+  }
+ ]
+}

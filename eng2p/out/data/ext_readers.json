@@ -1,0 +1,1728 @@
+{
+ "note": "도서관 책. docs/ext_readers.md 에서 파생. 손으로 안 고친다. scripts/derive_ext_readers.py 를 다시 돌린다.",
+ "grade": "B",
+ "gradeWhy": "줄거리와 사실은 퍼블릭 도메인 원작에 있다. 쉬운 영어는 새로 썼고 원어민과 하와이 문화 감수 전이다.",
+ "generator": "scripts/derive_ext_readers.py",
+ "source": "docs/ext_readers.md (Gutenberg #66547, #329)",
+ "license": "PD(US,KR)",
+ "verifyLog": "검증로그: 2026-10-07 / 원작 줄거리 대조 / 보류 / spec 5.2 표본 검증과 원주민 감수자 대기",
+ "limits": {
+  "Q1": {
+   "min": 60,
+   "max": 150,
+   "sentenceMax": 8,
+   "extCapPct": 10.0
+  },
+  "Q2": {
+   "min": 100,
+   "max": 300,
+   "sentenceMax": 10,
+   "extCapPct": 26.0
+  },
+  "Q3": {
+   "min": 200,
+   "max": 500,
+   "sentenceMax": 14,
+   "extCapPct": 20.0
+  },
+  "Q4": {
+   "min": 350,
+   "max": 800,
+   "sentenceMax": 18,
+   "extCapPct": 15.0
+  }
+ },
+ "lines": 362,
+ "wordCount": 3526,
+ "count": 10,
+ "items": [
+  {
+   "id": "r01",
+   "week": 16,
+   "quarter": "Q2",
+   "book": "Legends of Old Honolulu (1915)",
+   "author": "W. D. Westervelt (1849~1939)",
+   "authorDied": 1939,
+   "src": "https://www.gutenberg.org/ebooks/66547 II. Legendary Places in Honolulu",
+   "title": "The Name Honolulu",
+   "part": "1/2",
+   "frame": "This book is from 1915. A man from outside Hawaiʻi wrote it. Hawaiian families tell these stories in their own way.",
+   "removed": "장 안의 사원, 제물, 유령, 상어 신, 하인 대목 전부",
+   "note": null,
+   "verifyLog": "검증로그: 2026-10-07 / #66547 II장 첫 세 문단 대조 (이름 뜻, Kou, 물 많은 밭) / 보류 / 지명 뜻은 하와이어 사전과 감수자 확인 전",
+   "wordCount": 152,
+   "extRatio": 25.5,
+   "extCount": 36,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "This is a very old name.",
+     "grade": "B"
+    },
+    {
+     "text": "Honolulu has two parts, hono and lulu.",
+     "grade": "B"
+    },
+    {
+     "text": "Some people say it means a quiet place.",
+     "grade": "B"
+    },
+    {
+     "text": "Old Hawaiian people said it means a lot of calm.",
+     "grade": "B"
+    },
+    {
+     "text": "It was not the name of the harbor.",
+     "grade": "B"
+    },
+    {
+     "text": "It was the name of good farm land.",
+     "grade": "B"
+    },
+    {
+     "text": "That land had a lot of water.",
+     "grade": "B"
+    },
+    {
+     "text": "People grew taro there.",
+     "grade": "B"
+    },
+    {
+     "text": "Long ago this town had a different name.",
+     "grade": "B"
+    },
+    {
+     "text": "People called it Kou.",
+     "grade": "B"
+    },
+    {
+     "text": "Kou was the name of a chief.",
+     "grade": "B"
+    },
+    {
+     "text": "A king of Oʻahu gave him this land.",
+     "grade": "B"
+    },
+    {
+     "text": "His name was Kākuhihewa.",
+     "grade": "B"
+    },
+    {
+     "text": "The king gave land to many chiefs.",
+     "grade": "B"
+    },
+    {
+     "text": "Each place got the name of its chief.",
+     "grade": "B"
+    },
+    {
+     "text": "Then people said Kou for many years.",
+     "grade": "B"
+    },
+    {
+     "text": "Around the year 1800, the name changed to Honolulu.",
+     "grade": "B"
+    },
+    {
+     "text": "Today you can walk in this town.",
+     "grade": "B"
+    },
+    {
+     "text": "Look at the names of the streets.",
+     "grade": "B"
+    },
+    {
+     "text": "Many names are old Hawaiian names.",
+     "grade": "B"
+    },
+    {
+     "text": "Ask your neighbor about the names.",
+     "grade": "B"
+    },
+    {
+     "text": "Your neighbor may know a different story.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r02",
+   "week": 17,
+   "quarter": "Q2",
+   "book": "Legends of Old Honolulu (1915)",
+   "author": "W. D. Westervelt (1849~1939)",
+   "authorDied": 1939,
+   "src": "https://www.gutenberg.org/ebooks/66547 II. Legendary Places in Honolulu",
+   "title": "Old Games in Kou",
+   "part": "2/2",
+   "frame": "This book is from 1915. A man from outside Hawaiʻi wrote it. Hawaiian families tell these stories in their own way.",
+   "removed": "내기에 목숨을 건 대목, 사원 자리, 유령이 모이던 곳, Punchbowl 제물, 은행 건물 이름",
+   "note": null,
+   "verifyLog": "검증로그: 2026-10-07 / #66547 II장 Kawaiahaʻo, Ke-kau-kukui, maika, Māmala 대목 대조 / 보류 / 놀이 이름과 표기는 감수자 확인 전",
+   "wordCount": 134,
+   "extRatio": 24.6,
+   "extCount": 31,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "Kou had places for games.",
+     "grade": "B"
+    },
+    {
+     "text": "One game was kōnane.",
+     "grade": "B"
+    },
+    {
+     "text": "You play it on a flat stone.",
+     "grade": "B"
+    },
+    {
+     "text": "The stone has many small holes.",
+     "grade": "B"
+    },
+    {
+     "text": "You need black stones and white stones.",
+     "grade": "B"
+    },
+    {
+     "text": "Two people play together.",
+     "grade": "B"
+    },
+    {
+     "text": "The chiefs loved this game.",
+     "grade": "B"
+    },
+    {
+     "text": "Another game used a round stone.",
+     "grade": "B"
+    },
+    {
+     "text": "People rolled it on a long, flat road.",
+     "grade": "B"
+    },
+    {
+     "text": "The road was near the sea.",
+     "grade": "B"
+    },
+    {
+     "text": "The chiefs came to watch.",
+     "grade": "B"
+    },
+    {
+     "text": "In Kou there was also good water.",
+     "grade": "B"
+    },
+    {
+     "text": "It was the water of a chief named Hao.",
+     "grade": "B"
+    },
+    {
+     "text": "In Hawaiian, it is Kawaiahaʻo.",
+     "grade": "B"
+    },
+    {
+     "text": "Today a big old church has that name.",
+     "grade": "B"
+    },
+    {
+     "text": "The waves near the harbor had a name too.",
+     "grade": "B"
+    },
+    {
+     "text": "They had the name of a woman, Māmala.",
+     "grade": "B"
+    },
+    {
+     "text": "She loved to ride the waves.",
+     "grade": "B"
+    },
+    {
+     "text": "She also loved to play kōnane.",
+     "grade": "B"
+    },
+    {
+     "text": "Next time, walk to the harbor.",
+     "grade": "B"
+    },
+    {
+     "text": "Look at the waves.",
+     "grade": "B"
+    },
+    {
+     "text": "Say her name.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r03",
+   "week": 42,
+   "quarter": "Q4",
+   "book": "Island Nights' Entertainments (1893) 안 The Bottle Imp (1891)",
+   "author": "Robert Louis Stevenson (1850~1894)",
+   "authorDied": 1894,
+   "src": "https://www.gutenberg.org/ebooks/329 The Bottle Imp",
+   "title": "The Bottle Imp 1. The House on the Hill",
+   "part": "1/8",
+   "frame": "A man from Scotland wrote this story in 1891. He lived in Samoa. A Hawaiian newspaper printed it in Hawaiian the same year.",
+   "removed": "악마와 지옥이라는 말, 병을 가졌던 실존 인물 이름 (Napoleon, Cook)",
+   "note": null,
+   "verifyLog": "검증로그: 2026-10-07 / #329 2844~3010줄 대조 / 보류 / 영어 원어민 확인 전",
+   "wordCount": 420,
+   "extRatio": 13.0,
+   "extCount": 52,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "Keawe was a young man from the island of Hawaiʻi.",
+     "grade": "B"
+    },
+    {
+     "text": "He did not have much money, but he was strong and smart.",
+     "grade": "B"
+    },
+    {
+     "text": "He could read and write well.",
+     "grade": "B"
+    },
+    {
+     "text": "He worked on ships, and he was very good at it.",
+     "grade": "B"
+    },
+    {
+     "text": "One day Keawe wanted to see the big world.",
+     "grade": "B"
+    },
+    {
+     "text": "He got a job on a ship to San Francisco.",
+     "grade": "B"
+    },
+    {
+     "text": "San Francisco was a big city with many rich people.",
+     "grade": "B"
+    },
+    {
+     "text": "One hill had many beautiful houses.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe walked up the hill with fifty dollars in his pocket.",
+     "grade": "B"
+    },
+    {
+     "text": "He looked at the houses and thought, \"These people must be very happy.\"",
+     "grade": "B"
+    },
+    {
+     "text": "One house was not very big, but it was perfect.",
+     "grade": "B"
+    },
+    {
+     "text": "The windows were very clear and clean.",
+     "grade": "B"
+    },
+    {
+     "text": "A man looked out of the window at Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "The man was old, and his face was very sad.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe looked at the man, and the man looked at Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "Each man wanted the life of the other man.",
+     "grade": "B"
+    },
+    {
+     "text": "The man smiled and asked Keawe to come in.",
+     "grade": "B"
+    },
+    {
+     "text": "He showed Keawe every room in the house.",
+     "grade": "B"
+    },
+    {
+     "text": "\"This is a beautiful house,\" said Keawe. \"Why are you sad?\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"You can have a house like this,\" said the man. \"Do you have any money?\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I have fifty dollars,\" said Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Then you can buy this,\" said the man.",
+     "grade": "B"
+    },
+    {
+     "text": "He took out a bottle.",
+     "grade": "B"
+    },
+    {
+     "text": "The bottle was white like milk, with many colors in it.",
+     "grade": "B"
+    },
+    {
+     "text": "Something moved inside it, like a shadow and a fire.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Try to break it,\" said the man.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe threw it on the floor many times, but it did not break.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Something lives in this bottle,\" said the man.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Tell it what you want. Then you will have it. Money, a house, anything.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Why do you want to sell it?\" asked Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I am old, and I have everything,\" said the man.",
+     "grade": "B"
+    },
+    {
+     "text": "\"But there is a problem. You must sell it for less money than you paid.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"If you sell it for the same money, it comes back to you.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"And you must sell it before the end of your life.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"If you still have it at the end, you will lose everything, forever.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I paid ninety dollars for it,\" said the man.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Give me your fifty dollars. Then ask the bottle for your money back.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe was afraid, but he gave the man the money.",
+     "grade": "B"
+    },
+    {
+     "text": "He held the bottle and said, \"I want my fifty dollars back.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Right away, his pocket was heavy with money again.",
+     "grade": "B"
+    },
+    {
+     "text": "\"This is a very strange bottle,\" said Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Now it is your bottle,\" said the man. \"Goodbye.\"",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r04",
+   "week": 43,
+   "quarter": "Q4",
+   "book": "Island Nights' Entertainments (1893) 안 The Bottle Imp (1891)",
+   "author": "Robert Louis Stevenson (1850~1894)",
+   "authorDied": 1894,
+   "src": "https://www.gutenberg.org/ebooks/329 The Bottle Imp",
+   "title": "The Bottle Imp 2. It Always Comes Back",
+   "part": "2/8",
+   "frame": "A man from Scotland wrote this story in 1891. He lived in Samoa. A Hawaiian newspaper printed it in Hawaiian the same year.",
+   "removed": "삼촌과 사촌의 죽음 (삼촌이 땅을 넘겨준 것으로 바꿨다), 악마라는 말",
+   "note": "원작에서는 삼촌이 죽고 사촌이 바다에서 죽어 땅이 Keawe 에게 온다. 여기서는 늙은 삼촌이 땅과 돈을 넘겨준다",
+   "verifyLog": "검증로그: 2026-10-07 / #329 3010~3170줄 대조 / 보류 / 줄거리를 하나 바꿨다. 원작은 삼촌과 사촌이 죽는다",
+   "wordCount": 388,
+   "extRatio": 12.1,
+   "extCount": 44,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "Keawe walked in the street with the bottle under his arm.",
+     "grade": "B"
+    },
+    {
+     "text": "He counted his money. It was all there.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Maybe it is true,\" he thought. \"Let me try one more thing.\"",
+     "grade": "B"
+    },
+    {
+     "text": "He put the bottle down on the street and walked away.",
+     "grade": "B"
+    },
+    {
+     "text": "He looked back two times. The bottle was still there.",
+     "grade": "B"
+    },
+    {
+     "text": "Then he turned a corner.",
+     "grade": "B"
+    },
+    {
+     "text": "Right away, something hit his arm.",
+     "grade": "B"
+    },
+    {
+     "text": "It was the bottle, in the pocket of his coat.",
+     "grade": "B"
+    },
+    {
+     "text": "On the way to his ship, Keawe saw a small store.",
+     "grade": "B"
+    },
+    {
+     "text": "The man in the store sold old and strange things from many places.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe showed him the bottle.",
+     "grade": "B"
+    },
+    {
+     "text": "The bottle was very beautiful, so the man paid sixty dollars for it.",
+     "grade": "B"
+    },
+    {
+     "text": "He put it in his window.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe went back to his ship and opened his box.",
+     "grade": "B"
+    },
+    {
+     "text": "The bottle was in the box.",
+     "grade": "B"
+    },
+    {
+     "text": "It came back faster than Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe had a friend on the ship. His name was Lopaka.",
+     "grade": "B"
+    },
+    {
+     "text": "\"What is wrong?\" asked Lopaka.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe told him everything.",
+     "grade": "B"
+    },
+    {
+     "text": "\"This is very strange,\" said Lopaka.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Ask the bottle for something. If it works, I will buy it from you.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I want a ship of my own,\" said Lopaka. \"Then I can sell things to all the islands.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe said, \"I want a beautiful house on the Kona coast, where I was born.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I want a big garden with flowers, and glass in every window.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I want to live there with my friends and my family.\"",
+     "grade": "B"
+    },
+    {
+     "text": "The ship went back to Honolulu.",
+     "grade": "B"
+    },
+    {
+     "text": "When they got off the ship, a friend met Keawe on the beach.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Your uncle is very old now,\" said the friend.",
+     "grade": "B"
+    },
+    {
+     "text": "\"He wants to rest. He is giving you his land and his money.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe was surprised.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Maybe the bottle did this,\" said Lopaka. \"Let us find a man to build the house.\"",
+     "grade": "B"
+    },
+    {
+     "text": "They went to a man who made pictures of houses.",
+     "grade": "B"
+    },
+    {
+     "text": "He showed Keawe a picture.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe looked at it and almost cried out.",
+     "grade": "B"
+    },
+    {
+     "text": "It was the house from his dream, every part of it.",
+     "grade": "B"
+    },
+    {
+     "text": "\"How much money will this house cost?\" asked Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "The man thought, and wrote some numbers on a paper.",
+     "grade": "B"
+    },
+    {
+     "text": "It was the same money that Keawe got from his uncle.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe and Lopaka looked at each other.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I will have this house,\" thought Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "\"But I will not ask the bottle for one more thing.\"",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r05",
+   "week": 44,
+   "quarter": "Q4",
+   "book": "Island Nights' Entertainments (1893) 안 The Bottle Imp (1891)",
+   "author": "Robert Louis Stevenson (1850~1894)",
+   "authorDied": 1894,
+   "src": "https://www.gutenberg.org/ebooks/329 The Bottle Imp",
+   "title": "The Bottle Imp 3. The Bright House",
+   "part": "3/8",
+   "frame": "A man from Scotland wrote this story in 1891. He lived in Samoa. A Hawaiian newspaper printed it in Hawaiian the same year.",
+   "removed": "옛 왕들이 묻힌 절벽과 무덤 길, 하인을 부르는 원작의 말 (Chinaman), 악마라는 말",
+   "note": null,
+   "verifyLog": "검증로그: 2026-10-07 / #329 3170~3290줄 대조 / 보류 / 영어 원어민 확인 전",
+   "wordCount": 410,
+   "extRatio": 13.9,
+   "extCount": 54,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "Keawe and Lopaka went away on a long trip on the sea.",
+     "grade": "B"
+    },
+    {
+     "text": "They did not want to ask the bottle for anything more.",
+     "grade": "B"
+    },
+    {
+     "text": "When they came back, the house was ready.",
+     "grade": "B"
+    },
+    {
+     "text": "They took a small ship down the coast to Kona.",
+     "grade": "B"
+    },
+    {
+     "text": "The house stood high on the side of the mountain.",
+     "grade": "B"
+    },
+    {
+     "text": "Above it, the forest went up into the clouds and the rain.",
+     "grade": "B"
+    },
+    {
+     "text": "Below it, black rock went down to the sea.",
+     "grade": "B"
+    },
+    {
+     "text": "There were flowers of every color in the garden.",
+     "grade": "B"
+    },
+    {
+     "text": "There were fruit trees on the left and on the right.",
+     "grade": "B"
+    },
+    {
+     "text": "The house was three floors high.",
+     "grade": "B"
+    },
+    {
+     "text": "Every floor had a wide porch all around it.",
+     "grade": "B"
+    },
+    {
+     "text": "The windows were as clear as water and as bright as day.",
+     "grade": "B"
+    },
+    {
+     "text": "There were pictures on the walls and clocks that made music.",
+     "grade": "B"
+    },
+    {
+     "text": "From the front porch, Keawe could see the ships on the sea.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe and Lopaka sat on the porch.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Is it all the way you wanted it?\" asked Lopaka.",
+     "grade": "B"
+    },
+    {
+     "text": "\"It is better than my dream,\" said Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I gave you my word, and I will buy the bottle,\" said Lopaka.",
+     "grade": "B"
+    },
+    {
+     "text": "\"But first I want to see the thing inside it, one time.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I am afraid of it,\" said Keawe. \"But I want to see it too.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Thing in the bottle,\" said Keawe, \"show yourself to us.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Right away, it looked out of the bottle and went back in, very fast.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe and Lopaka sat like two stones.",
+     "grade": "B"
+    },
+    {
+     "text": "It was night before they could say a word.",
+     "grade": "B"
+    },
+    {
+     "text": "Then Lopaka gave Keawe the money and took the bottle.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I am a man of my word,\" said Lopaka.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I will get my ship, and then I will sell this bottle fast.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Please go now, tonight,\" said Keawe. \"I cannot sleep when it is in my house.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Take a light. Take any picture you like from my house.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Lopaka went down the mountain in the dark.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe stood on the porch and watched the small light go down the road.",
+     "grade": "B"
+    },
+    {
+     "text": "The next day was very bright, and Keawe was happy.",
+     "grade": "B"
+    },
+    {
+     "text": "He lived in his new house, and every day was a good day.",
+     "grade": "B"
+    },
+    {
+     "text": "He read the Honolulu newspapers on the back porch.",
+     "grade": "B"
+    },
+    {
+     "text": "People came from far away to see his beautiful rooms.",
+     "grade": "B"
+    },
+    {
+     "text": "They called it the Great House, and sometimes the Bright House.",
+     "grade": "B"
+    },
+    {
+     "text": "Everything in it was clean and bright, like the morning.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe sang when he walked in the rooms.",
+     "grade": "B"
+    },
+    {
+     "text": "When a ship went by on the sea, he put up his flag.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r06",
+   "week": 45,
+   "quarter": "Q4",
+   "book": "Island Nights' Entertainments (1893) 안 The Bottle Imp (1891)",
+   "author": "Robert Louis Stevenson (1850~1894)",
+   "authorDied": 1894,
+   "src": "https://www.gutenberg.org/ebooks/329 The Bottle Imp",
+   "title": "The Bottle Imp 4. Kōkua",
+   "part": "4/8",
+   "frame": "A man from Scotland wrote this story in 1891. He lived in Samoa. A Hawaiian newspaper printed it in Hawaiian the same year.",
+   "removed": "병의 이름과 섬의 이름 (원작의 Chinese Evil, Molokai, Kalaupapa), 밤에 걷는 옛 죽은 이들, 무덤 길",
+   "note": "원작은 이 병을 이름으로 부르고 Molokai 로 보내지는 일을 말한다. 여기서는 \"피부에 난 병\" 과 \"Kōkua 와 결혼할 수 없다\" 만 남겼다",
+   "verifyLog": "검증로그: 2026-10-07 / #329 3290~3420줄 대조 / 보류 / 병 이름을 안 쓴다 (sources.md 3.5). 감수자 확인 전",
+   "wordCount": 450,
+   "extRatio": 10.7,
+   "extCount": 45,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "One day Keawe rode his horse to Kailua to visit some friends.",
+     "grade": "B"
+    },
+    {
+     "text": "The next morning he rode home fast. He wanted to see his house.",
+     "grade": "B"
+    },
+    {
+     "text": "Near the sea he saw a young woman. She came up out of the water.",
+     "grade": "B"
+    },
+    {
+     "text": "She put on her red dress and stood by the road.",
+     "grade": "B"
+    },
+    {
+     "text": "Her eyes were bright and kind.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe stopped his horse.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I know everyone here,\" he said. \"Why do I not know you?\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I am Kōkua, the daughter of Kiano,\" she said. \"I just came back from Oʻahu. Who are you?\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I will tell you later,\" said Keawe. \"First, tell me one thing. Are you married?\"",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua laughed. \"You ask a lot of questions,\" she said. \"Are you married?\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"No,\" said Keawe. \"I saw your eyes, and my heart went to you like a bird.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"If you do not like me, tell me, and I will go home.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"If you like me, I will come to your father's house tonight.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua did not say a word. She looked at the sea and laughed.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I think that means yes,\" said Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "At her father's house, Kiano knew Keawe's name.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua heard the name and knew about the Bright House.",
+     "grade": "B"
+    },
+    {
+     "text": "That night they talked and laughed together.",
+     "grade": "B"
+    },
+    {
+     "text": "The next day Keawe talked with Kōkua again.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I did not tell you my name,\" he said, \"because I have a big house.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I want you to like the man, not the house.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Do you want me to go?\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"No,\" said Kōkua. This time she did not laugh.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe rode home up the mountain, and he sang all the way.",
+     "grade": "B"
+    },
+    {
+     "text": "That night he wanted a hot bath.",
+     "grade": "B"
+    },
+    {
+     "text": "But in the bathroom he stopped singing.",
+     "grade": "B"
+    },
+    {
+     "text": "He saw a mark on his skin.",
+     "grade": "B"
+    },
+    {
+     "text": "He knew this mark. It was a bad sickness.",
+     "grade": "B"
+    },
+    {
+     "text": "People with this sickness had to leave their homes.",
+     "grade": "B"
+    },
+    {
+     "text": "He could not marry Kōkua now.",
+     "grade": "B"
+    },
+    {
+     "text": "All night Keawe walked around and around the porch.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I can leave my house,\" he thought. \"But I cannot leave Kōkua.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Late in the night, he thought of the bottle.",
+     "grade": "B"
+    },
+    {
+     "text": "\"The bottle can make me well,\" he thought.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I was afraid of it. But I must find it again, for Kōkua.\"",
+     "grade": "B"
+    },
+    {
+     "text": "The next day a ship was going to Honolulu.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I will go to Honolulu and find Lopaka,\" Keawe thought.",
+     "grade": "B"
+    },
+    {
+     "text": "In the morning he rode down the mountain in the rain.",
+     "grade": "B"
+    },
+    {
+     "text": "He sat with the people who waited for the ship, but he did not talk.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Keawe of the Bright House is very sad today,\" they said.",
+     "grade": "B"
+    },
+    {
+     "text": "From the ship he looked for Kōkua's house on the beach.",
+     "grade": "B"
+    },
+    {
+     "text": "A small red dress moved by the door.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I will find the bottle for you,\" he said quietly.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r07",
+   "week": 46,
+   "quarter": "Q4",
+   "book": "Island Nights' Entertainments (1893) 안 The Bottle Imp (1891)",
+   "author": "Robert Louis Stevenson (1850~1894)",
+   "authorDied": 1894,
+   "src": "https://www.gutenberg.org/ebooks/329 The Bottle Imp",
+   "title": "The Bottle Imp 5. One Cent",
+   "part": "5/8",
+   "frame": "A man from Scotland wrote this story in 1891. He lived in Samoa. A Hawaiian newspaper printed it in Hawaiian the same year.",
+   "removed": "젊은 사람이 가게 돈을 훔친 대목, 술잔, 지옥 불, 실존 악단장 이름 (Berger)",
+   "note": null,
+   "verifyLog": "검증로그: 2026-10-07 / #329 3420~3600줄 대조 / 보류 / 영어 원어민 확인 전",
+   "wordCount": 415,
+   "extRatio": 14.5,
+   "extCount": 57,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "The ship came to Honolulu in the evening.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe asked everyone for Lopaka.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Lopaka has a ship now,\" they said. \"He went far away to the south.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe went to see a lawyer, a friend of Lopaka.",
+     "grade": "B"
+    },
+    {
+     "text": "The lawyer had a new house by the beach, and he looked very happy.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Lopaka sold a bottle to someone,\" said Keawe. \"Do you know who has it now?\"",
+     "grade": "B"
+    },
+    {
+     "text": "The lawyer's face changed. \"I do not know,\" he said. \"But ask this man.\"",
+     "grade": "B"
+    },
+    {
+     "text": "For many days Keawe went from one house to another.",
+     "grade": "B"
+    },
+    {
+     "text": "Everywhere he saw new clothes and new houses and happy people.",
+     "grade": "B"
+    },
+    {
+     "text": "\"These are the people who had the bottle,\" he thought.",
+     "grade": "B"
+    },
+    {
+     "text": "\"When I find a sad face, I will find the bottle.\"",
+     "grade": "B"
+    },
+    {
+     "text": "At last someone sent him to a young man on Beretania Street.",
+     "grade": "B"
+    },
+    {
+     "text": "The young man had a new house and new lights in the windows.",
+     "grade": "B"
+    },
+    {
+     "text": "But his face was white, and his eyes were dark and tired.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I want to buy the bottle,\" said Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "The young man almost fell down.",
+     "grade": "B"
+    },
+    {
+     "text": "\"You want to buy it?\" he said. \"Do you know the price now?\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"How much did you pay for it?\" asked Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Two cents,\" said the young man.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe stopped. Two cents! Then the next price was one cent.",
+     "grade": "B"
+    },
+    {
+     "text": "And no one can sell it for less than one cent.",
+     "grade": "B"
+    },
+    {
+     "text": "The man who buys it for one cent can never sell it.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Please buy it!\" cried the young man.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I did a bad thing, and I needed the bottle. Now I am afraid.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe thought of Kōkua.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Give me the bottle,\" he said. \"Here are five cents. Give me four cents back.\"",
+     "grade": "B"
+    },
+    {
+     "text": "The young man was ready. He gave Keawe the bottle and the money.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe held the bottle and said, \"I want to be well.\"",
+     "grade": "B"
+    },
+    {
+     "text": "In his room, he looked at his skin.",
+     "grade": "B"
+    },
+    {
+     "text": "The mark was gone. He was well.",
+     "grade": "B"
+    },
+    {
+     "text": "But now Keawe felt cold all over.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I have the bottle now,\" he thought. \"And I can never sell it.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"At the end of my life, I will lose everything, forever.\"",
+     "grade": "B"
+    },
+    {
+     "text": "He was too afraid to stay in his room.",
+     "grade": "B"
+    },
+    {
+     "text": "That night a band played music at the hotel.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe walked among the happy people, but he did not hear the music.",
+     "grade": "B"
+    },
+    {
+     "text": "Then the band played a song. It was a song he sang with Kōkua.",
+     "grade": "B"
+    },
+    {
+     "text": "He stood and listened.",
+     "grade": "B"
+    },
+    {
+     "text": "\"It is done now,\" he thought. \"I did it for Kōkua.\"",
+     "grade": "B"
+    },
+    {
+     "text": "He went back to Hawaiʻi on the first ship.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r08",
+   "week": 47,
+   "quarter": "Q4",
+   "book": "Island Nights' Entertainments (1893) 안 The Bottle Imp (1891)",
+   "author": "Robert Louis Stevenson (1850~1894)",
+   "authorDied": 1894,
+   "src": "https://www.gutenberg.org/ebooks/329 The Bottle Imp",
+   "title": "The Bottle Imp 6. The Small Coins of Tahiti",
+   "part": "6/8",
+   "frame": "A man from Scotland wrote this story in 1891. He lived in Samoa. A Hawaiian newspaper printed it in Hawaiian the same year.",
+   "removed": "지옥 불, 사람들이 성호를 긋는 대목, 아이들이 비명을 지르며 달아나는 대목",
+   "note": null,
+   "verifyLog": "검증로그: 2026-10-07 / #329 3600~3760줄 대조 / 보류 / 영어 원어민 확인 전",
+   "wordCount": 397,
+   "extRatio": 13.7,
+   "extCount": 51,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "Keawe married Kōkua, and they lived in the Bright House.",
+     "grade": "B"
+    },
+    {
+     "text": "When they were together, Keawe was calm.",
+     "grade": "B"
+    },
+    {
+     "text": "But when he was alone, he thought about the bottle and he cried.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua sang all day in the house, like a bird.",
+     "grade": "B"
+    },
+    {
+     "text": "But after some time, she stopped singing.",
+     "grade": "B"
+    },
+    {
+     "text": "They sat on different porches, far from each other.",
+     "grade": "B"
+    },
+    {
+     "text": "One day Keawe found Kōkua on the floor. She was crying.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Before, you were the happiest man on the island,\" she said.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Then you married me, and you stopped smiling. What is wrong with me?\"",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe sat by her side.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Nothing is wrong with you,\" he said. \"Now I will tell you everything.\"",
+     "grade": "B"
+    },
+    {
+     "text": "He told her the whole story, from the beginning.",
+     "grade": "B"
+    },
+    {
+     "text": "\"You did this for me?\" said Kōkua. \"Then I am not afraid.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I went to school in Honolulu. I am not a child. I will help you.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"You say there is nothing less than one cent. But the world is big.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"In France, they have a very small coin. It is called a centime.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Five centimes are about one cent.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Let us go to Tahiti. The French live there, and they use centimes.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"We can sell it for four centimes, or three, or two, or one.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe held her hands. \"Then let us go,\" he said.",
+     "grade": "B"
+    },
+    {
+     "text": "The next day Kōkua put the bottle in a box with their best clothes.",
+     "grade": "B"
+    },
+    {
+     "text": "\"We must look rich,\" she said. \"Then people will believe in the bottle.\"",
+     "grade": "B"
+    },
+    {
+     "text": "They told people they were going on a trip.",
+     "grade": "B"
+    },
+    {
+     "text": "They went to Honolulu, then to San Francisco, then to Tahiti.",
+     "grade": "B"
+    },
+    {
+     "text": "After a long trip, they came to the town of Papeʻete.",
+     "grade": "B"
+    },
+    {
+     "text": "They saw white houses by the sea, and green mountains behind them.",
+     "grade": "B"
+    },
+    {
+     "text": "They got a house in the town.",
+     "grade": "B"
+    },
+    {
+     "text": "They asked the bottle for money, so they had horses and fine clothes.",
+     "grade": "B"
+    },
+    {
+     "text": "People in the town talked about the rich strangers from Hawaiʻi.",
+     "grade": "B"
+    },
+    {
+     "text": "Soon they could speak the language of Tahiti. It is like Hawaiian.",
+     "grade": "B"
+    },
+    {
+     "text": "Then they started to sell the bottle.",
+     "grade": "B"
+    },
+    {
+     "text": "But it was very hard.",
+     "grade": "B"
+    },
+    {
+     "text": "Some people did not believe them and laughed.",
+     "grade": "B"
+    },
+    {
+     "text": "Other people believed them and were afraid.",
+     "grade": "B"
+    },
+    {
+     "text": "Soon people walked away when Keawe and Kōkua came near.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe and Kōkua were very sad.",
+     "grade": "B"
+    },
+    {
+     "text": "At night they sat in their house and did not say a word.",
+     "grade": "B"
+    },
+    {
+     "text": "Sometimes they put the bottle on the floor and looked at it all night.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r09",
+   "week": 48,
+   "quarter": "Q4",
+   "book": "Island Nights' Entertainments (1893) 안 The Bottle Imp (1891)",
+   "author": "Robert Louis Stevenson (1850~1894)",
+   "authorDied": 1894,
+   "src": "https://www.gutenberg.org/ebooks/329 The Bottle Imp",
+   "title": "The Bottle Imp 7. Kōkua Buys the Bottle",
+   "part": "7/8",
+   "frame": "A man from Scotland wrote this story in 1891. He lived in Samoa. A Hawaiian newspaper printed it in Hawaiian the same year.",
+   "removed": "노인이 Kōkua 를 마녀라 부르는 대목, 지옥 불과 연기, 땅바닥에 누워 우는 대목",
+   "note": null,
+   "verifyLog": "검증로그: 2026-10-07 / #329 3760~3900줄 대조 / 보류 / 영어 원어민 확인 전",
+   "wordCount": 395,
+   "extRatio": 12.2,
+   "extCount": 46,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "One night Kōkua woke up, and Keawe was not in the bed.",
+     "grade": "B"
+    },
+    {
+     "text": "She looked out the door.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe was in the garden, under the trees. He was crying.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua wanted to run to him, but she stopped.",
+     "grade": "B"
+    },
+    {
+     "text": "\"He is crying because of me,\" she thought.",
+     "grade": "B"
+    },
+    {
+     "text": "\"He took the bottle for me. Now I will take it for him.\"",
+     "grade": "B"
+    },
+    {
+     "text": "She took four small coins and went out into the dark street.",
+     "grade": "B"
+    },
+    {
+     "text": "Under a tree, she found an old man. He was poor and alone, and he was sick.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Will you help me?\" said Kōkua. \"I am a daughter of Hawaiʻi, far from home.\"",
+     "grade": "B"
+    },
+    {
+     "text": "She told him the whole story.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Go to my husband,\" she said. \"Buy the bottle for four centimes.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"He will sell it to you. Then I will buy it from you for three.\"",
+     "grade": "B"
+    },
+    {
+     "text": "The old man looked at her for a long time. \"Give me the money,\" he said.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua waited in the street alone.",
+     "grade": "B"
+    },
+    {
+     "text": "The wind was loud in the trees, and she was very afraid.",
+     "grade": "B"
+    },
+    {
+     "text": "Then the old man came back with the bottle.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Your husband cried like a child,\" he said. \"Tonight he will sleep well.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Ask the bottle to make you well,\" said Kōkua.",
+     "grade": "B"
+    },
+    {
+     "text": "\"No,\" said the old man. \"I am old. I do not want anything from it.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua tried to take the bottle, but her hand stopped.",
+     "grade": "B"
+    },
+    {
+     "text": "\"You are afraid,\" said the old man kindly. \"I can keep it.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"No!\" said Kōkua. \"Here is your money. Give me the bottle.\"",
+     "grade": "B"
+    },
+    {
+     "text": "She held the bottle under her dress and walked home.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe was asleep, like a child.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Now you can sleep, my husband,\" she said quietly.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Tomorrow you can sing and laugh. I will not sing again.\"",
+     "grade": "B"
+    },
+    {
+     "text": "In the morning Keawe told her the good news.",
+     "grade": "B"
+    },
+    {
+     "text": "\"The bottle is gone!\" he said. \"An old man bought it last night.\"",
+     "grade": "B"
+    },
+    {
+     "text": "He laughed, ate a big breakfast, and talked about going home.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua did not eat. She did not talk.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Why are you sad?\" asked Keawe. \"I am free!\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I feel bad for the old man,\" said Kōkua.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe got angry, because he knew she was right.",
+     "grade": "B"
+    },
+    {
+     "text": "\"You should be happy for me,\" he said, and he went out.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua sat alone in the house.",
+     "grade": "B"
+    },
+    {
+     "text": "No one will buy the bottle for two centimes, she thought.",
+     "grade": "B"
+    },
+    {
+     "text": "She took the bottle out and looked at it, and she was very afraid.",
+     "grade": "B"
+    }
+   ]
+  },
+  {
+   "id": "r10",
+   "week": 48,
+   "quarter": "Q4",
+   "book": "Island Nights' Entertainments (1893) 안 The Bottle Imp (1891)",
+   "author": "Robert Louis Stevenson (1850~1894)",
+   "authorDied": 1894,
+   "src": "https://www.gutenberg.org/ebooks/329 The Bottle Imp",
+   "title": "The Bottle Imp 8. The Last Price",
+   "part": "8/8",
+   "frame": "A man from Scotland wrote this story in 1891. He lived in Samoa. A Hawaiian newspaper printed it in Hawaiian the same year.",
+   "removed": "술 마시는 대목 전부, 늙은 선원의 과거 (감옥), 때리겠다는 말, 아내를 의심하게 만드는 말",
+   "note": "원작에서는 Keawe 가 하루 종일 술을 마시고 선원도 취해 있다. 여기서는 Keawe 가 시내를 걷다가 늙은 선원을 만난다",
+   "verifyLog": "검증로그: 2026-10-07 / #329 3900~4100줄 대조 / 보류 / 줄거리를 하나 바꿨다. 원작은 Keawe 가 선원과 술을 마신다",
+   "wordCount": 365,
+   "extRatio": 13.9,
+   "extCount": 48,
+   "license": "PD(US,KR)",
+   "licenseNote": "원작은 미국과 한국 퍼블릭 도메인. 다시 쓴 영어는 이 저장소의 것",
+   "grade": "B",
+   "label": "학습용 인공물. 원작을 쉬운 영어로 다시 쓴 것",
+   "lines": [
+    {
+     "text": "Keawe walked in the town all day.",
+     "grade": "B"
+    },
+    {
+     "text": "He was angry, but he knew Kōkua was right.",
+     "grade": "B"
+    },
+    {
+     "text": "In the evening he met an old sailor from a big ship.",
+     "grade": "B"
+    },
+    {
+     "text": "The sailor had a hard face, and he was not afraid of anything.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe went home for some money.",
+     "grade": "B"
+    },
+    {
+     "text": "He opened the back door quietly.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua was on the floor with a lamp.",
+     "grade": "B"
+    },
+    {
+     "text": "In front of her was a white bottle, with a long neck.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua was crying and holding her hands together.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe stood at the door for a long time.",
+     "grade": "B"
+    },
+    {
+     "text": "Then he understood. The old man did not keep the bottle.",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua bought it from him. She did it for Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe closed the door quietly.",
+     "grade": "B"
+    },
+    {
+     "text": "Then he came in the front door, and the bottle was gone.",
+     "grade": "B"
+    },
+    {
+     "text": "\"I am going out again,\" said Keawe. \"I need some money.\"",
+     "grade": "B"
+    },
+    {
+     "text": "He looked in the box. The bottle was not there.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Kōkua,\" he said, \"I was not kind to you today. Please forget it.\"",
+     "grade": "B"
+    },
+    {
+     "text": "Kōkua held him and cried. \"I only wanted a kind word,\" she said.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe went out to the old sailor at the corner.",
+     "grade": "B"
+    },
+    {
+     "text": "\"My wife has a bottle,\" said Keawe.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Here are two centimes. Go and buy the bottle from her.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Then bring it to me, and I will buy it from you for one.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"Do not tell her about me.\"",
+     "grade": "B"
+    },
+    {
+     "text": "The sailor laughed, but he went.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe waited in the dark street.",
+     "grade": "B"
+    },
+    {
+     "text": "His heart was heavy. \"Now it is my turn,\" he thought.",
+     "grade": "B"
+    },
+    {
+     "text": "After a long time, the sailor came back.",
+     "grade": "B"
+    },
+    {
+     "text": "He had the bottle in his coat.",
+     "grade": "B"
+    },
+    {
+     "text": "\"Give it to me,\" said Keawe. \"Here is one centime.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"No,\" said the sailor. \"This is a very good bottle. I will keep it.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"You do not understand,\" said Keawe. \"You can never sell it.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"At the end of your life, you will lose everything, forever.\"",
+     "grade": "B"
+    },
+    {
+     "text": "\"I am not afraid,\" said the sailor. \"I will keep it. Good night.\"",
+     "grade": "B"
+    },
+    {
+     "text": "He walked away down the street, and the bottle went with him.",
+     "grade": "B"
+    },
+    {
+     "text": "Keawe ran home to Kōkua, fast like the wind.",
+     "grade": "B"
+    },
+    {
+     "text": "That night they were very happy.",
+     "grade": "B"
+    },
+    {
+     "text": "They went home to Hawaiʻi.",
+     "grade": "B"
+    },
+    {
+     "text": "And they lived in peace in the Bright House for all their days.",
+     "grade": "B"
+    }
+   ]
+  }
+ ]
+}
