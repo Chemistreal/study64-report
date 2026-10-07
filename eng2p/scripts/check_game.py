@@ -9,7 +9,7 @@
 
     강 96 / 세트 288 / 카드 600 / 실제 녹음 52과 / 비상판 80 / 48주
 
-그리고 하루의 꼴을 본다. 블록 넷이 120분인가, 블록 1에서 둘이 다른 곳에 있는가,
+그리고 하루의 꼴을 본다. 블록 넷이 120분인가, 두 사람이 늘 같은 곳에 있는가,
 무대가 문서 표와 같은가.
 
 **덱이 담은 영어는 여기서 안 본다.** 판 자료에서 왔고 그 자료는
@@ -95,12 +95,19 @@ def main():
         FAIL.append("블록 넷이 120분이 아니다: %s" %
                     " ".join("%s:%s" % (b.get("no"), b.get("minutes")) for b in blocks))
 
-    # 4. 무대가 문서 표와 같은가. **문서가 원본이다**
     src = open(DOC, encoding="utf-8").read()
+
+    # 3b. **블록 넷 다 같이 하고 같이 말한다** (개정문 20번). 대화 금지 블록이 남으면 실패다
+    n += 1
+    quiet = [str(b.get("no")) for b in blocks if not (b.get("talk") and b.get("together"))]
+    if quiet:
+        FAIL.append("같이 말하지 않는 블록이 있다: %s. 하루 내내 붙어서 같이 한다" % " ".join(quiet))
+
+    # 4. 무대가 문서 표와 같은가. **문서가 원본이다**
     table = {}
     for m in re.finditer(r"^\| (Q\d) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \| "
-                         r"([^|]+?) \| ([^|]+?) \|\s*$", src, re.M):
-        table[m.group(1)] = [m.group(i).strip() for i in range(2, 8)]
+                         r"([^|]+?) \|\s*$", src, re.M):
+        table[m.group(1)] = [m.group(i).strip() for i in range(2, 7)]
     n += 1
     if sorted(table) != ["Q1", "Q2", "Q3", "Q4"]:
         FAIL.append("docs/game.md 4장 무대 표에서 분기 넷을 못 읽었다")
@@ -108,7 +115,7 @@ def main():
     for x in S:
         t = table.get(x["quarter"])
         p = x.get("places") or {}
-        got = [x.get("stage"), p.get("1a"), p.get("1b"), p.get("2"), p.get("3"), p.get("4")]
+        got = [x.get("stage"), p.get("1"), p.get("2"), p.get("3"), p.get("4")]
         if t != got:
             bad.append(x["s"])
     n += 1
@@ -116,11 +123,59 @@ def main():
         FAIL.append("무대가 문서 표와 다른 세션이 %d개다 (%s). derive_game.js 를 다시 돌린다"
                     % (len(bad), " ".join(map(str, bad[:5]))))
 
-    # 5. **블록 1에서 둘이 다른 곳에 있는가.** 각자 듣기라 서로 안 보는 것이 규칙이다
+    # 5. **두 사람이 늘 같이 있는가** (2026-10-07 결정).
+    #    처음에는 블록 1 에서 둘을 다른 곳에 두고 그것을 이 판이 지켰다.
+    #    기준서 2.3 이 블록 1 을 "같은 공간, 각자 헤드폰" 으로 적어 둔 것을 안 읽은 것이었다.
+    #    지금은 블록마다 장소가 하나여야 한다. 사람별 장소 칸이 생기면 실패다.
     n += 1
-    same = [q for q, t in table.items() if t[1] == t[2]]
-    if same:
-        FAIL.append("블록 1에서 A 와 B 가 같은 곳에 있다: %s. 각자 듣기가 안 선다" % " ".join(same))
+    split = [x["s"] for x in S if set((x.get("places") or {}).keys()) != {"1", "2", "3", "4"}]
+    if split:
+        FAIL.append("블록마다 장소가 하나가 아닌 세션이 %d개다 (%s). 두 사람은 늘 같이 있다"
+                    % (len(split), " ".join(map(str, split[:5]))))
+
+    # 5b. **가리기에 기대던 판이 다 새 꼴을 받았나** (1.3, 2026-10-07).
+    #     두 사람 사이에 가린 것이 없어지면 가리기로 돌던 판은 그대로 못 돈다.
+    #     `solo_plays.md` 3장이 "그대로" 라고 안 적은 판이 그 판들이다.
+    #     하나라도 새 꼴 없이 남으면 게임에서 그 판은 돌 길이 없다.
+    solo = open(os.path.join(ROOT, "docs", "solo_plays.md"), encoding="utf-8").read()
+    hid = []
+    # **3장 표만 읽는다.** 같은 꼴 표가 7장에도 있다 (종이로 도는가). 둘을 섞으면 안 된다
+    head = re.search(r"^\| # \| 판 \| 갈래 \| 어떻게 \|", solo, re.M)
+    t3 = solo[head.start():] if head else ""
+    t3 = t3[:t3.find("\n\n")] if "\n\n" in t3 else t3
+    for m in re.finditer(r"^\| (\d+) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|\s*$", t3, re.M):
+        no, name, how = int(m.group(1)), m.group(2).strip(), m.group(3).strip()
+        if no <= 19 and "그대로" not in how:
+            hid.append(name)
+    sec = src[src.find("### 1.3"):src.find("## 2.")] if "### 1.3" in src else ""
+    done = [m.group(1).strip() for m in re.finditer(r"^\| ([^|]+?) \| [^|]+? \| [^|]+? \|\s*$", sec, re.M)]
+    n += 2
+    if len(hid) < 10:
+        FAIL.append("solo_plays.md 3장에서 가리기 판을 %d개만 읽었다" % len(hid))
+    left = [h for h in hid if h not in done]
+    if left:
+        FAIL.append("가리기에 기대던 판 %d개가 새 꼴을 못 받았다: %s. docs/game.md 1.3 에 적는다"
+                    % (len(left), " ".join(left)))
+
+    # 5c. **이야기가 48주를 빠짐없이 덮는가** (`docs/world.md` 5장).
+    #     한 주가 한 화다. 빠진 주는 이야기 없이 공부만 하는 주가 된다.
+    #     화가 놓인 분기가 그 주 과제집의 분기와 다르면 이야기가 강과 어긋난다.
+    world = open(os.path.join(ROOT, "docs", "world.md"), encoding="utf-8").read()
+    wq = {}
+    for blk in re.finditer(r"^### 5\.\d (Q\d) .*?(?=^### |^## )", world, re.M | re.S):
+        for m in re.finditer(r"^\| (\d+) \| [^|]+? \| [^|]+? \| [^|]+? \| [^|]+? \|\s*$",
+                             blk.group(0), re.M):
+            wq.setdefault(int(m.group(1)), []).append(blk.group(1))
+    tq = {t["week"]: t["quarter"] for t in data("tasks")["items"]}
+    n += 2
+    left = [w for w in range(1, 49) if len(wq.get(w, [])) != 1]
+    if left:
+        FAIL.append("docs/world.md 5장에 화가 한 번씩이 아닌 주가 %d개다: %s"
+                    % (len(left), " ".join(map(str, left[:8]))))
+    off = [w for w in wq if tq.get(w) not in wq[w]]
+    if off:
+        FAIL.append("docs/world.md 5장 화의 분기가 과제집과 다른 주가 있다: %s"
+                    % " ".join(map(str, sorted(off)[:8])))
 
     # 6. 판. 그날 고른 판이 있고 덱이 비지 않는다
     n += 2

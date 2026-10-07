@@ -50,12 +50,13 @@ catch (e) {
 function stages() {
   const src = fs.readFileSync(DOC, "utf8");
   const out = {};
-  const re = /^\| (Q\d) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|\s*$/gm;
+  /* 블록마다 장소가 하나다. **두 사람이 늘 같이 있다** (2026-10-07) */
+  const re = /^\| (Q\d) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|\s*$/gm;
   let m;
   while ((m = re.exec(src))) {
     out[m[1]] = { stage: m[2].trim(),
-                  places: { "1a": m[3].trim(), "1b": m[4].trim(), "2": m[5].trim(),
-                            "3": m[6].trim(), "4": m[7].trim() } };
+                  places: { "1": m[3].trim(), "2": m[4].trim(),
+                            "3": m[5].trim(), "4": m[6].trim() } };
   }
   return out;
 }
@@ -152,6 +153,11 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
     missed.forEach((k) => console.log("[실패] " + k + " 덱을 못 뽑았다: " + got.miss[k]));
     process.exit(1);
   }
+
+  /* **블록 넷 다 같이 하고 같이 말한다** (2026-10-07, 개정문 20번).
+     앱의 블록 표는 기준서 2.3 그대로라 블록 1 이 대화 금지다. 게임은 그것을 깼다.
+     그 값을 여기서 덮는다. 앱 쪽 표는 기준서가 바뀌기 전에는 그대로 둔다. */
+  got.blocks = (got.blocks || []).map((b) => Object.assign({}, b, { together: true, talk: true }));
 
   got.sessions.forEach((r) => {
     const st = ST[r.quarter];
