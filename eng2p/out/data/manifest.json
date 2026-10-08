@@ -1,8 +1,28 @@
 {
   "note": "out/data 의 파생 자료마다 크기와 해시다. 받은 것이 온전한지 보는 표다. 손으로 고치지 않는다. scripts/derive_manifest.py 를 다시 돌린다.",
   "generator": "scripts/derive_manifest.py",
-  "count": 86,
+  "count": 90,
   "files": [
+    {
+      "file": "audiolen.json",
+      "bytes": 1448,
+      "sha256": "210e1a0d289ca46b7cab7cb8ab042dab12dce7b83cd005a38baeeb8b68b53dd7"
+    },
+    {
+      "file": "cues.json",
+      "bytes": 23985,
+      "sha256": "30ad7cb771c8f4c4fb1c1272b70bb8201cd798306133351a6b7220df9ee769ff"
+    },
+    {
+      "file": "lecturetext.json",
+      "bytes": 811483,
+      "sha256": "617105cac1d2216c56064535888d758381fbf7d9b678b5d90f8f1fa670b6a5dc"
+    },
+    {
+      "file": "transcripts.json",
+      "bytes": 114861,
+      "sha256": "90fd4e014dc2e34240c43299535cb8302553df7a37cc828bbe790fb2d8905499"
+    },
     {
       "file": "ext_calendar.js",
       "bytes": 41248,

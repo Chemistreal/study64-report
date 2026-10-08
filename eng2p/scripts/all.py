@@ -193,12 +193,23 @@ STEPS = [
     # **장면의 대사는 들은 녹음의 줄 그대로다** (docs/scenes.md). 지은 영어, 아직 안 들은 과,
     # 그 자리에 없는 사람이 하나라도 있으면 장면을 안 낸다. 세션 JSON 다음에 돈다
     ("화면", "derive_scenes.py", [], False),
+    # **게임이 쥐는 자료** (docs/game_data.md). 판정 열쇠, 역할 카드의 NPC 대답, NPC 목소리 줄 목록,
+    # 덱의 라디오 인물 이름. 대답은 목소리 줄 목록보다 앞이다 (목소리 줄 목록이 대답을 읽는다)
+    ("화면", "derive_judge.py", [], False),
+    ("화면", "derive_replies.py", [], False),
+    ("화면", "derive_voicelist.py", [], False),
+    ("화면", "derive_deck_names.py", [], False),
+    ("대조", "check_gamedata.py", ["--break"], False),
     # **동네는 문서가 원본이다** (docs/town.md). 장소 열넷이 무대 표와 같고 사람이 인물 표에
     # 있고 건물이 안 겹치고 실제 상표가 없어야 JSON 을 낸다. 언리얼이 이것을 읽어 동네를 짓는다
     ("규격", "derive_town.py", [], False),
     # **문화 지침** (docs/culture.md). 표를 읽어 금지어, 하와이어 철자, 노래 쓰임을 본다.
     # 장면과 동네 JSON 이 나온 다음에 돈다. 옛 값을 안 보게
     ("규격", "check_culture.py", [], False),
+    # **두 노트북이 같은 자료를 쥐는가** (docs/game_results.md 10). out/game 의 파일이 다 나온 다음에
+    # 크기와 해시와 dataHash 를 적는다. 하나라도 안 나왔으면 실패다 (--strict)
+    ("파생", "derive_game_manifest.py", ["--strict"], False),
+    ("화면", "check_game.py", ["--manifest"], False),
     # **잃으면 제일 아픈 것이 기록이다.** 1년치가 브라우저 한 곳에만 있다.
     # 깨진 기록을 조용히 버리는지, 미뤄 둔 저장이 창 닫힐 때 흘러가는지를 본다.
     # 공동 연속일. **날을 세지 사람을 안 센다.** T321

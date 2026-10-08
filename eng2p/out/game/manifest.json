@@ -1,7 +1,7 @@
 {
  "note": "게임 Data 폴더에 들어가는 *.json 의 크기와 해시, 그리고 두 노트북이 맞춰 보는 dataHash 다. 손으로 고치지 않는다. scripts/derive_game_manifest.py 를 다시 돌린다.",
  "generator": "scripts/derive_game_manifest.py",
- "dataHash": "381fd82394bc7d7d11a0a90df39546c64dd5602c8b15a7551c6c0d5a457e3ad1",
+ "dataHash": "7febd3af7f2454c5834e220c6944a9fec4e59785daf06129e5bbadbfd3515359",
  "algorithm": {
   "name": "dataHash/1",
   "files": "Data/*.json 중 manifest.json 과 *.local.json 을 뺀 것",
@@ -9,13 +9,31 @@
   "line": "이름 + ':' + 파일 바이트의 sha256 소문자 16진수",
   "hash": "줄마다 LF 를 붙여 이은 글(끝에도 LF 하나)의 UTF-8 바이트 sha256 소문자 16진수"
  },
- "count": 5,
+ "count": 10,
  "files": [
   {
    "file": "cards.json",
    "bytes": 578876,
    "sha256": "4a5fc5120f1f9ba420389599fc38e3bf0939f4b56b51d6ba73a6d28c8fce8337",
    "from": "out/data/cards.json"
+  },
+  {
+   "file": "deck_names.json",
+   "bytes": 507647,
+   "sha256": "3cb075f7b90e9839cf0906996b5c1465986ed33f4015a1342ed97da5b4abd83c",
+   "from": "out/game/deck_names.json"
+  },
+  {
+   "file": "judge.json",
+   "bytes": 61161,
+   "sha256": "e416888a58dd7e6f46581e320df16f9507ff7651196907a4edfb96aa565afdde",
+   "from": "out/game/judge.json"
+  },
+  {
+   "file": "replies.json",
+   "bytes": 51540,
+   "sha256": "a78fa032d762e73badbe39612a14bd998ccc6423e8b1cdc4dbf2cfe1abaaa98f",
+   "from": "out/game/replies.json"
   },
   {
    "file": "results_schema.json",
@@ -36,19 +54,25 @@
    "from": "out/game/sessions.json"
   },
   {
+   "file": "spelling_rule.json",
+   "bytes": 3770,
+   "sha256": "2be58df30bea8dbeaf2df22d35f8a8237b920fd7b65bae0fa69a827ed9f8dca3",
+   "from": "out/game/spelling_rule.json"
+  },
+  {
    "file": "town.json",
    "bytes": 15986,
    "sha256": "14a59afaf04e935b3d2fa6b7883ff752ba847368151bd5f9d4b9623b2ffaba2c",
    "from": "out/game/town.json"
+  },
+  {
+   "file": "voicelist.json",
+   "bytes": 269228,
+   "sha256": "113754ea3f1a0319da19af15bb50963b6522f572f49e02a1a276de5ca19460d7",
+   "from": "out/game/voicelist.json"
   }
  ],
- "pending": [
-  "spelling_rule.json",
-  "judge.json",
-  "replies.json",
-  "voicelist.json",
-  "deck_names.json"
- ],
+ "pending": [],
  "unlisted": [],
  "testVector": {
   "files": {

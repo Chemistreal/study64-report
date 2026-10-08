@@ -1,0 +1,207 @@
+{
+ "note": "틀린 철자 규칙 하나. 기준 구현은 Speech/hnlspeech/names.py wrong_spelling(rule=f13). 언리얼 FHnlSlots::Misspell 과 hnlspeech 가 이 목록을 그대로 내야 한다. 손으로 안 고친다.",
+ "rule": "f13",
+ "rule_text": "이름의 영문자만 남겨 대문자로 한다. 이웃한 같은 글자가 처음 나오는 자리에서 하나를 뺀다 (Anna -> A-N-A, 대본 lle1-01 과 같다). 그런 자리가 없으면 두 번째 자음을 한 번 더 쓴다 (Mina -> M-I-N-N-A). 자음이 하나뿐이면 그 자음을, 자음이 없으면 첫 글자를 겹친다. 글자 사이는 하이픈. 바른 철자와 늘 다르다",
+ "vectors": [
+  {
+   "name": "Anna",
+   "spelled": "A-N-N-A",
+   "wrong": "A-N-A"
+  },
+  {
+   "name": "Pete",
+   "spelled": "P-E-T-E",
+   "wrong": "P-E-T-T-E"
+  },
+  {
+   "name": "Mina",
+   "spelled": "M-I-N-A",
+   "wrong": "M-I-N-N-A"
+  },
+  {
+   "name": "Jo",
+   "spelled": "J-O",
+   "wrong": "J-J-O"
+  },
+  {
+   "name": "A",
+   "spelled": "A",
+   "wrong": "A-A"
+  },
+  {
+   "name": "Junho",
+   "spelled": "J-U-N-H-O",
+   "wrong": "J-U-N-N-H-O"
+  },
+  {
+   "name": "Sora",
+   "spelled": "S-O-R-A",
+   "wrong": "S-O-R-R-A"
+  },
+  {
+   "name": "Minjun",
+   "spelled": "M-I-N-J-U-N",
+   "wrong": "M-I-N-N-J-U-N"
+  },
+  {
+   "name": "Seoyeon",
+   "spelled": "S-E-O-Y-E-O-N",
+   "wrong": "S-E-O-Y-Y-E-O-N"
+  },
+  {
+   "name": "Hyunwoo",
+   "spelled": "H-Y-U-N-W-O-O",
+   "wrong": "H-Y-U-N-W-O"
+  },
+  {
+   "name": "Eric",
+   "spelled": "E-R-I-C",
+   "wrong": "E-R-I-C-C"
+  },
+  {
+   "name": "Emma",
+   "spelled": "E-M-M-A",
+   "wrong": "E-M-A"
+  },
+  {
+   "name": "Liam",
+   "spelled": "L-I-A-M",
+   "wrong": "L-I-A-M-M"
+  },
+  {
+   "name": "Olivia",
+   "spelled": "O-L-I-V-I-A",
+   "wrong": "O-L-I-V-V-I-A"
+  },
+  {
+   "name": "Noah",
+   "spelled": "N-O-A-H",
+   "wrong": "N-O-A-H-H"
+  },
+  {
+   "name": "Sophia",
+   "spelled": "S-O-P-H-I-A",
+   "wrong": "S-O-P-P-H-I-A"
+  },
+  {
+   "name": "Jin",
+   "spelled": "J-I-N",
+   "wrong": "J-I-N-N"
+  },
+  {
+   "name": "Yuna",
+   "spelled": "Y-U-N-A",
+   "wrong": "Y-U-N-N-A"
+  },
+  {
+   "name": "Ben",
+   "spelled": "B-E-N",
+   "wrong": "B-E-N-N"
+  },
+  {
+   "name": "Lee",
+   "spelled": "L-E-E",
+   "wrong": "L-E"
+  },
+  {
+   "name": "Kim",
+   "spelled": "K-I-M",
+   "wrong": "K-I-M-M"
+  },
+  {
+   "name": "Park",
+   "spelled": "P-A-R-K",
+   "wrong": "P-A-R-R-K"
+  },
+  {
+   "name": "Dana",
+   "spelled": "D-A-N-A",
+   "wrong": "D-A-N-N-A"
+  },
+  {
+   "name": "Hannah",
+   "spelled": "H-A-N-N-A-H",
+   "wrong": "H-A-N-A-H"
+  },
+  {
+   "name": "Eli",
+   "spelled": "E-L-I",
+   "wrong": "E-L-L-I"
+  },
+  {
+   "name": "Ivy",
+   "spelled": "I-V-Y",
+   "wrong": "I-V-Y-Y"
+  },
+  {
+   "name": "Max",
+   "spelled": "M-A-X",
+   "wrong": "M-A-X-X"
+  },
+  {
+   "name": "Zoe",
+   "spelled": "Z-O-E",
+   "wrong": "Z-Z-O-E"
+  },
+  {
+   "name": "Jiho",
+   "spelled": "J-I-H-O",
+   "wrong": "J-I-H-H-O"
+  },
+  {
+   "name": "Chaewon",
+   "spelled": "C-H-A-E-W-O-N",
+   "wrong": "C-H-H-A-E-W-O-N"
+  },
+  {
+   "name": "Daniel",
+   "spelled": "D-A-N-I-E-L",
+   "wrong": "D-A-N-N-I-E-L"
+  },
+  {
+   "name": "Grace",
+   "spelled": "G-R-A-C-E",
+   "wrong": "G-R-R-A-C-E"
+  },
+  {
+   "name": "Ellie",
+   "spelled": "E-L-L-I-E",
+   "wrong": "E-L-I-E"
+  },
+  {
+   "name": "Aaron",
+   "spelled": "A-A-R-O-N",
+   "wrong": "A-R-O-N"
+  },
+  {
+   "name": "Bob",
+   "spelled": "B-O-B",
+   "wrong": "B-O-B-B"
+  },
+  {
+   "name": "Anne",
+   "spelled": "A-N-N-E",
+   "wrong": "A-N-E"
+  },
+  {
+   "name": "Mary",
+   "spelled": "M-A-R-Y",
+   "wrong": "M-A-R-R-Y"
+  },
+  {
+   "name": "Tom",
+   "spelled": "T-O-M",
+   "wrong": "T-O-M-M"
+  },
+  {
+   "name": "Sam",
+   "spelled": "S-A-M",
+   "wrong": "S-A-M-M"
+  },
+  {
+   "name": "Dohyun",
+   "spelled": "D-O-H-Y-U-N",
+   "wrong": "D-O-H-H-Y-U-N"
+  }
+ ]
+}

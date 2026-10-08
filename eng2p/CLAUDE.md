@@ -277,6 +277,9 @@ scripts/game_tick.js  결과 기록에서 다음 날(next.json)을 뽑는다. No
 scripts/derive_game_manifest.py out/game 파일의 크기와 해시와 dataHash
 out/game/results_schema.json, out/game/manifest.json 파생물. 손으로 안 고친다
 tools/game/results_fixture/ 결과 합치기와 틱의 기준 시험 자료. 소리와 글이 없는 사실뿐이다
+docs/game_data.md     게임이 쥐는 자료 설명. 판정 열쇠(judge.json), NPC 대답(replies.json), 목소리 줄(voicelist.json), 덱 이름 처리(deck_names.json)
+scripts/derive_judge.py, derive_replies.py, derive_voicelist.py, derive_deck_names.py 위 넷을 낸다. scripts/check_gamedata.py 가 스물일곱 판을 보고 깬 시험도 한다
+out/game/spelling_rule.json 틀린 철자 규칙 f13 의 기준 목록 40개. game 저장소 Data/spelling_rule.json 과 같다
 out/game/sessions.json 게임 세션 288개. 파생물이다. 손으로 안 고친다
 docs/play_unused.md   1년 내내 한 번도 안 뜨는 자료. **기준선 표가 여기 있다**
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
