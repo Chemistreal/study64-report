@@ -272,6 +272,11 @@ tools/game/fetch_assets.py 게임 자료를 저장소 밖에 받는다. CC0 만.
 tools/game/fetch_assets.ps1 PC 에서 목록대로 D 드라이브에 받고 해시를 맞춘다. pc_busy.lock 이 있으면 안 돈다
 scripts/derive_game.js 게임이 받을 288세션. **앱을 띄워 앱의 셈을 그대로 부른다.** C++ 로 다시 안 짠다
 scripts/check_game.py 게임 1년에 자료가 다 들어갔나. **하나라도 빠지면 1년 동안 못 본다**
+docs/game_results.md  게임 결과 기록 약속. 사실만 적는 JSONL, 두 노트북 결과를 덮지 않고 합치는 규칙, dataHash 계산법
+scripts/game_tick.js  결과 기록에서 다음 날(next.json)을 뽑는다. Node 만 있으면 돈다. --selftest 60판
+scripts/derive_game_manifest.py out/game 파일의 크기와 해시와 dataHash
+out/game/results_schema.json, out/game/manifest.json 파생물. 손으로 안 고친다
+tools/game/results_fixture/ 결과 합치기와 틱의 기준 시험 자료. 소리와 글이 없는 사실뿐이다
 out/game/sessions.json 게임 세션 288개. 파생물이다. 손으로 안 고친다
 docs/play_unused.md   1년 내내 한 번도 안 뜨는 자료. **기준선 표가 여기 있다**
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
