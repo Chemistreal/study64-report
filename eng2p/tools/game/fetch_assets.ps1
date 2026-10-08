@@ -1,4 +1,4 @@
-# 게임 자료를 PC 의 D 드라이브에 받는다 (docs/auto.md 3장 7번).
+﻿# 게임 자료를 PC 의 D 드라이브에 받는다 (docs/auto.md 3장 7번).
 #
 # 목록은 tools/game/assets.json 이다. 클라우드에서 fetch_assets.py 가 받으면서 적은 주소와 해시다.
 # 같은 주소에서 받고 해시가 같은지 본다. 다르면 그 파일을 실패로 적고 다음으로 간다.
@@ -19,6 +19,8 @@ if (Test-Path "C:\SeochoOps\pc_busy.lock") {
     exit 2
 }
 
+# Windows PowerShell 5.1 은 진행 표시를 그리느라 받기가 수십 배 느려진다 (2026-10-08 PC 에서 확인)
+$ProgressPreference = 'SilentlyContinue'
 $L = Get-Content -Raw -Encoding UTF8 $List | ConvertFrom-Json
 $ok = 0; $skip = 0; $bad = @()
 foreach ($x in $L.items) {
