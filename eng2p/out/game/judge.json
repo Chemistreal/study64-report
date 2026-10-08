@@ -1,0 +1,4343 @@
+{
+ "note": "판정형 카드 140장의 기계 열쇠다. out/data/cards.json 의 a.answer 와 a.pass 에서 읽는다. 손으로 안 고친다. scripts/derive_judge.py 를 다시 돌린다.",
+ "grade": "B",
+ "gradeWhy": "열쇠 값은 카드 글을 옮긴 것이라 A 다. 산문 답을 읽은 표(game_data.md 3.1)와 NPC 가 읽는 쪽의 해시 배정은 사람이 읽은 것이라 B 다.",
+ "generator": "scripts/derive_judge.py",
+ "source": "out/data/cards.json (판정 140장), docs/game_data.md 3장",
+ "visibility": "game-only",
+ "visibilityNote": "정답 열쇠다. 게임이 쥐고 판단하는 데만 쓴다. 화면, 말풍선, 가이드북, 결과 JSON 어디에도 안 낸다 (기준서 8.2, 13.2, game.md 1.3).",
+ "forms": [
+  "tokens",
+  "number",
+  "label",
+  "side",
+  "flag",
+  "position",
+  "npc_pick",
+  "open"
+ ],
+ "inputs": [
+  "tap_word",
+  "count",
+  "choose",
+  "speak",
+  "speak_ko",
+  "write",
+  "tap_position",
+  "observe"
+ ],
+ "count": 140,
+ "keyed": 136,
+ "open": 4,
+ "unparsed": [],
+ "passMismatch": [
+  "Q1-009",
+  "Q1-021",
+  "Q1-044"
+ ],
+ "cards": [
+  {
+   "id": "Q1-001",
+   "no": 1,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "tap_word",
+   "key": {
+    "form": "tokens",
+    "match": "word",
+    "items": [
+     {
+      "of": [
+       "Pete"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Anna"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "want",
+       "book"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "has",
+       "car"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "need",
+       "plan"
+      ],
+      "need": 2
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-002",
+   "no": 2,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "tap_word",
+   "key": {
+    "form": "tokens",
+    "match": "word",
+    "items": [
+     {
+      "of": [
+       "Nice",
+       "meet"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "cook",
+       "kitchen"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "sleep",
+       "bedroom"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "gym",
+       "across",
+       "lounge"
+      ],
+      "need": 3
+     },
+     {
+      "of": [
+       "Today",
+       "eighteen",
+       "degrees"
+      ],
+      "need": 3
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-003",
+   "no": 3,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     4,
+     4,
+     4,
+     5,
+     6
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-004",
+   "no": 4,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "options": [
+     [
+      "It is cold.",
+      "It is very cold outside."
+     ],
+     [
+      "I want it.",
+      "I want a big one."
+     ],
+     [
+      "She has one.",
+      "She has a new car."
+     ],
+     [
+      "We go there.",
+      "We go there every day."
+     ],
+     [
+      "It is warm.",
+      "It is warm and sunny."
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-008",
+   "no": 8,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-009",
+   "no": 9,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 5,
+   "kShown": 4,
+   "nShown": 5,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "derived": "한 줄 산문: 모두 같다"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-010",
+   "no": 10,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "options": [
+     [
+      "sport",
+      "support"
+     ],
+     [
+      "play",
+      "polite"
+     ],
+     [
+      "blue",
+      "below"
+     ],
+     [
+      "print",
+      "parade"
+     ],
+     [
+      "cream",
+      "career"
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-011",
+   "no": 11,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "derived": "한 줄 산문: 모두 같다"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-014",
+   "no": 14,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "tap_position",
+   "key": {
+    "form": "position",
+    "items": [
+     2,
+     2,
+     3,
+     2,
+     3
+    ],
+    "words": [
+     "street",
+     "spring",
+     "school",
+     "strong",
+     "splash"
+    ],
+    "derived": "표 3.1: 대괄호 자리"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-015",
+   "no": 15,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "derived": "한 줄 산문: 모두 같다"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-016",
+   "no": 16,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "pair": true,
+    "items": [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    "derived": "한 줄 산문: 앞뒤 낱말의 음절"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-017",
+   "no": 17,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "derived": "한 줄 산문: 모두 같다"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-018",
+   "no": 18,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     1,
+     1,
+     2,
+     2
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-021",
+   "no": 21,
+   "quarter": "Q1",
+   "n": 2,
+   "k": 2,
+   "kShown": 1,
+   "nShown": 2,
+   "input": "choose",
+   "key": {
+    "form": "npc_pick",
+    "pick": "two_of_all",
+    "options": [
+     "book",
+     "cat",
+     "map",
+     "bed",
+     "dog"
+    ],
+    "plan": [
+     3,
+     4
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-022",
+   "no": 22,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "npc_pick",
+    "pick": "pair",
+    "options": [
+     [
+      "right",
+      "light"
+     ],
+     [
+      "rock",
+      "lock"
+     ],
+     [
+      "pray",
+      "play"
+     ],
+     [
+      "correct",
+      "collect"
+     ],
+     [
+      "road",
+      "load"
+     ]
+    ],
+    "plan": [
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-023",
+   "no": 23,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "끝",
+     "끝",
+     "끝",
+     "끝",
+     "끝"
+    ],
+    "labels": [
+     "앞",
+     "끝"
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-024",
+   "no": 24,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "options": [
+     [
+      "like",
+      "mile"
+     ],
+     [
+      "love",
+      "full"
+     ],
+     [
+      "learn",
+      "girl"
+     ],
+     [
+      "leg",
+      "tell"
+     ],
+     [
+      "long",
+      "ball"
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-025",
+   "no": 25,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "있음",
+     "있음",
+     "있음",
+     "있음",
+     "있음"
+    ],
+    "labels": [
+     "있음",
+     "없음"
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-028",
+   "no": 28,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     true,
+     false,
+     true,
+     false,
+     true
+    ],
+    "flagLabel": "l 을 뺀 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-029",
+   "no": 29,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "npc_pick",
+    "pick": "pair",
+    "options": [
+     [
+      "she",
+      "see"
+     ],
+     [
+      "sheet",
+      "seat"
+     ],
+     [
+      "ship",
+      "sip"
+     ],
+     [
+      "shore",
+      "sore"
+     ],
+     [
+      "shy",
+      "sigh"
+     ]
+    ],
+    "plan": [
+     1,
+     1,
+     0,
+     1,
+     0
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-030",
+   "no": 30,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "npc_pick",
+    "pick": "pair",
+    "options": [
+     [
+      "sea",
+      "she"
+     ],
+     [
+      "sell",
+      "shell"
+     ],
+     [
+      "sock",
+      "shock"
+     ],
+     [
+      "save",
+      "shave"
+     ],
+     [
+      "sign",
+      "shine"
+     ]
+    ],
+    "plan": [
+     1,
+     1,
+     0,
+     0,
+     1
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-031",
+   "no": 31,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "tap_word",
+   "key": {
+    "form": "tokens",
+    "match": "word",
+    "items": [
+     {
+      "of": [
+       "see"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "She"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "see"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "She",
+       "sheet"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "sit",
+       "seat"
+      ],
+      "need": 2
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-037",
+   "no": 37,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     1,
+     2,
+     2,
+     3
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-038",
+   "no": 38,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "options": [
+     [
+      "Wednesday",
+      "education"
+     ],
+     [
+      "business",
+      "information"
+     ],
+     [
+      "chocolate",
+      "American"
+     ],
+     [
+      "every",
+      "experience"
+     ],
+     [
+      "camera",
+      "difficulty"
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-041",
+   "no": 41,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "going to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "want to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "got to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "have to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "ought to"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "재료 그대로"
+   },
+   "source": "answer+material"
+  },
+  {
+   "id": "Q1-042",
+   "no": 42,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "going to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "going to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "going to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "going to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "going to"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "한 줄 산문: 모두 같다"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-043",
+   "no": 43,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "got to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "have to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "ought to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "got to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "has to"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-044",
+   "no": 44,
+   "quarter": "Q1",
+   "n": 2,
+   "k": 2,
+   "kShown": 1,
+   "nShown": 2,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     false,
+     true,
+     false,
+     true,
+     false
+    ],
+    "flagLabel": "줄어든 쪽이 실제로 안 쓰이는 자리"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-049",
+   "no": 49,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "want to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "have to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "has to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "got to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "ought to"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "재료 그대로"
+   },
+   "source": "answer+material"
+  },
+  {
+   "id": "Q1-050",
+   "no": 50,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "want to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "has to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "have to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "wants to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "got to"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-051",
+   "no": 51,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "want to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "has to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "have to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "want to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "has to"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-052",
+   "no": 52,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "소유",
+     "의무",
+     "소유",
+     "의무",
+     "소유"
+    ],
+    "labels": [
+     "소유",
+     "의무"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-056",
+   "no": 56,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "a lot of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "out of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "kind of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "sort of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "got to"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "재료 그대로"
+   },
+   "source": "answer+material"
+  },
+  {
+   "id": "Q1-057",
+   "no": 57,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "lot of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "out of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "kind of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "sort of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "out of"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-058",
+   "no": 58,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "npc_pick",
+    "pick": "order",
+    "options": [
+     "a lot of",
+     "out of",
+     "kind of",
+     "sort of",
+     "want to"
+    ],
+    "plan": [
+     1,
+     0,
+     1,
+     0,
+     0
+    ],
+    "derived": "표 3.1: 흘린 쪽이 몇 번째"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-059",
+   "no": 59,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     4,
+     4,
+     3,
+     3,
+     3
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-062",
+   "no": 62,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "a lot of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "out of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "kind of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "sort of"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "has to"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "재료 그대로"
+   },
+   "source": "answer+material"
+  },
+  {
+   "id": "Q1-064",
+   "no": 64,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "what are you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "would you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "could you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "should have"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "would have"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "재료 그대로",
+    "alsoCount": [
+     3,
+     2,
+     2,
+     2,
+     2
+    ]
+   },
+   "source": "answer+material"
+  },
+  {
+   "id": "Q1-065",
+   "no": 65,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "what are you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "would you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "could you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "should have"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "would have"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-066",
+   "no": 66,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "options": [
+     [
+      "I should go.",
+      "I should have gone."
+     ],
+     [
+      "We could help.",
+      "We could have helped."
+     ],
+     [
+      "She would call.",
+      "She would have called."
+     ],
+     [
+      "They should wait.",
+      "They should have waited."
+     ],
+     [
+      "He could try.",
+      "He could have tried."
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-069",
+   "no": 69,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "what are you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "would you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "should have"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "could have"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "ought to"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "재료 그대로"
+   },
+   "source": "answer+material"
+  },
+  {
+   "id": "Q1-071",
+   "no": 71,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     2,
+     3,
+     3,
+     3,
+     2
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-072",
+   "no": 72,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     3,
+     3,
+     4,
+     3,
+     4
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-073",
+   "no": 73,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "options": [
+     [
+      "an apple",
+      "a pear"
+     ],
+     [
+      "turn it off",
+      "turn the light off"
+     ],
+     [
+      "look at it",
+      "look at the sky"
+     ],
+     [
+      "pick it up",
+      "pick the book up"
+     ],
+     [
+      "come in",
+      "come here"
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-075",
+   "no": 75,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "줄어든 것",
+     "옮겨 간 것",
+     "줄어든 것",
+     "옮겨 간 것",
+     "줄어든 것"
+    ],
+    "labels": [
+     "줄어든 것",
+     "옮겨 간 것"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-078",
+   "no": 78,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     2,
+     2,
+     2,
+     2
+    ],
+    "derived": "낱말 목록의 개수",
+    "words": [
+     [
+      "can"
+     ],
+     [
+      "was",
+      "at"
+     ],
+     [
+      "are",
+      "from"
+     ],
+     [
+      "are",
+      "at"
+     ],
+     [
+      "is",
+      "a"
+     ]
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-079",
+   "no": 79,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "options": [
+     [
+      "I CAN go.",
+      "I can GO."
+     ],
+     [
+      "She WAS there.",
+      "She was THERE."
+     ],
+     [
+      "We ARE ready.",
+      "We are READY."
+     ],
+     [
+      "You WERE right.",
+      "You were RIGHT."
+     ],
+     [
+      "He IS coming.",
+      "He is COMING."
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-080",
+   "no": 80,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "a",
+     "a",
+     "첫 a 와 끝 a",
+     "끝 e",
+     "첫 o"
+    ],
+    "labels": [
+     "a",
+     "첫 a 와 끝 a",
+     "끝 e",
+     "첫 o"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-084",
+   "no": 84,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "I want a book"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "I sleep in the bedroom"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "The gym is across from the lounge"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Every day I check the forecast"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "One day is cold and windy"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-085",
+   "no": 85,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "write",
+   "key": {
+    "form": "tokens",
+    "match": "word",
+    "items": [
+     {
+      "of": [
+       "going",
+       "store"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "works",
+       "big",
+       "office"
+      ],
+      "need": 3
+     },
+     {
+      "of": [
+       "meet",
+       "tomorrow"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "have",
+       "lot",
+       "time"
+      ],
+      "need": 3
+     },
+     {
+      "of": [
+       "reading",
+       "new",
+       "book"
+      ],
+      "need": 3
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-087",
+   "no": 87,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "options": [
+     [
+      "I want it.",
+      "I want a big new book."
+     ],
+     [
+      "She works.",
+      "She works in a big office today."
+     ],
+     [
+      "We can meet.",
+      "We can meet you at the park tomorrow."
+     ],
+     [
+      "They have time.",
+      "They have a lot of free time now."
+     ],
+     [
+      "He is reading.",
+      "He is reading a new book about history."
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-090",
+   "no": 90,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "npc_pick",
+    "pick": "pair",
+    "options": [
+     [
+      "I",
+      "book"
+     ],
+     [
+      "She",
+      "here"
+     ],
+     [
+      "We",
+      "now"
+     ],
+     [
+      "They",
+      "car"
+     ],
+     [
+      "He",
+      "me"
+     ]
+    ],
+    "plan": [
+     0,
+     1,
+     1,
+     1,
+     0
+    ],
+    "derived": "표 3.1: 대괄호 낱말"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-091",
+   "no": 91,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "word",
+    "items": [
+     {
+      "of": [
+       "I"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "book"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "here"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "She"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "now"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-095",
+   "no": 95,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "내리는 것",
+     "올리는 것",
+     "내리는 것",
+     "내리는 것",
+     "올리는 것"
+    ],
+    "labels": [
+     "내리는 것",
+     "올리는 것"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-096",
+   "no": 96,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "options": [
+     [
+      "You are ready.",
+      "You are ready?"
+     ],
+     [
+      "She is here.",
+      "She is here?"
+     ],
+     [
+      "He called you.",
+      "He called you?"
+     ],
+     [
+      "They left already.",
+      "They left already?"
+     ],
+     [
+      "It is done.",
+      "It is done?"
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-097",
+   "no": 97,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "평서문",
+     "yes 로 답하는 질문",
+     "의문사 질문",
+     "yes 로 답하는 질문",
+     "의문사 질문"
+    ],
+    "labels": [
+     "평서문",
+     "yes 로 답하는 질문",
+     "의문사 질문"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-101",
+   "no": 101,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "seconds": 3,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "Where are you from"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Who is your friend"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Nice to meet you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "I am from"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "I have to go now"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-102",
+   "no": 102,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     4,
+     4,
+     4,
+     5,
+     5
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-103",
+   "no": 103,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "덩어리",
+     "그냥 낱말을 이어 붙인 것",
+     "덩어리",
+     "그냥 낱말을 이어 붙인 것",
+     "덩어리"
+    ],
+    "labels": [
+     "덩어리",
+     "그냥 낱말을 이어 붙인 것"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-108",
+   "no": 108,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "seconds": 3,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "Hi",
+       "Hello"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Nice to meet you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Good to see you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Hi",
+       "Hello"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "How are you"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-109",
+   "no": 109,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "tap_word",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "Where is"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Where is"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Where is"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Where is"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Where is"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "한 줄 산문: 모두 같다"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-110",
+   "no": 110,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "My apartment is"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "I am from"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "She is",
+       "He is"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "It is on"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "I am"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-115",
+   "no": 115,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "seconds": 3,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "Could you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Can you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Would you mind"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Can you"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Can you say that again"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-116",
+   "no": 116,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "seconds": 3,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "Sure",
+       "Of course",
+       "No problem",
+       "Sorry",
+       "I cannot"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Sure",
+       "Of course",
+       "No problem",
+       "Sorry",
+       "I cannot"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Sure",
+       "Of course",
+       "No problem",
+       "Sorry",
+       "I cannot"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Sure",
+       "Of course",
+       "No problem",
+       "Sorry",
+       "I cannot"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Sure",
+       "Of course",
+       "No problem",
+       "Sorry",
+       "I cannot"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "받아들이는 응답과 거절 어느 것이든 하나"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-127",
+   "no": 127,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "1형",
+     "2형",
+     "3형",
+     "1형",
+     "3형"
+    ],
+    "labels": [
+     "1형",
+     "2형",
+     "3형"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-128",
+   "no": 128,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "격식",
+     "중립",
+     "친근",
+     "격식",
+     "중립"
+    ],
+    "labels": [
+     "격식",
+     "중립",
+     "친근"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-129",
+   "no": 129,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "seconds": 3,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "격식",
+     "친근",
+     "중립",
+     "친근",
+     "격식"
+    ],
+    "labels": [
+     "격식",
+     "친근",
+     "중립"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-134",
+   "no": 134,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "word",
+    "items": [
+     {
+      "of": [
+       "always",
+       "sometimes",
+       "never"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "not busy",
+       "busy"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "good",
+       "bad"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "Monday",
+       "Tuesday"
+      ],
+      "need": 2
+     },
+     {
+      "of": [
+       "works",
+       "worked"
+      ],
+      "need": 2
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-135",
+   "no": 135,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "1형 바꿔 넣기",
+     "3형 멈춤 표시",
+     "2형 취소하고 잇기",
+     "1형 바꿔 넣기",
+     "3형 멈춤 표시"
+    ],
+    "labels": [
+     "1형 바꿔 넣기",
+     "3형 멈춤 표시",
+     "2형 취소하고 잇기"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-136",
+   "no": 136,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "observe",
+   "key": {
+    "form": "open",
+    "how": "behavior",
+    "rule": "restart_detect",
+    "why": "답이 낱말이 아니라 행동이다. 처음부터 다시 시작하면 실패이고 고친 자리부터 이어 가면 성공이다"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q1-139",
+   "no": 139,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "speak_ko",
+   "key": {
+    "form": "label",
+    "items": [
+     "목요일 저녁 6시",
+     "금요일 저녁",
+     "월요일 저녁",
+     "공원",
+     "오늘 밤 극장"
+    ],
+    "labels": [
+     "목요일 저녁 6시",
+     "금요일 저녁",
+     "월요일 저녁",
+     "공원",
+     "오늘 밤 극장"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-140",
+   "no": 140,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "options": [
+     [
+      "on Friday",
+      "at Friday"
+     ],
+     [
+      "at 6pm",
+      "on 6pm"
+     ],
+     [
+      "in the park",
+      "on the park"
+     ],
+     [
+      "this Thursday",
+      "on this Thursday"
+     ],
+     [
+      "go to work",
+      "go at work"
+     ]
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-141",
+   "no": 141,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 3,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "Are you busy this Thursday at 6pm"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Are you busy on Friday night"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "I am busy on Monday"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "Let's meet in the park"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "I am going to the theater tonight"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-144",
+   "no": 144,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "1묶음 짧은 소리",
+     "2묶음 생각한다는 표시",
+     "3묶음 되풀이하기",
+     "1묶음 짧은 소리",
+     "2묶음 생각한다는 표시"
+    ],
+    "labels": [
+     "1묶음 짧은 소리",
+     "2묶음 생각한다는 표시",
+     "3묶음 되풀이하기"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q1-145",
+   "no": 145,
+   "quarter": "Q1",
+   "n": 5,
+   "k": 4,
+   "input": "observe",
+   "key": {
+    "form": "open",
+    "how": "behavior",
+    "rule": "korean_detect",
+    "why": "답이 낱말이 아니라 소리의 갈래다. 한국어 소리가 나오면 그 항목은 실패이고 영어 소리로 자리를 잡으면 성공이다"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q2-001",
+   "no": 1,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "side",
+    "items": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "options": [
+     [
+      "Sure!",
+      "That is something I can do for you."
+     ],
+     [
+      "Me too!",
+      "I also have the same feeling about it."
+     ],
+     [
+      "Not much.",
+      "There is not very much happening with me."
+     ],
+     [
+      "I will.",
+      "I am going to do that thing later today."
+     ],
+     [
+      "Why?",
+      "Can you tell me the reason for that?"
+     ]
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q2-007",
+   "no": 7,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "시작",
+     "마무리",
+     "시작",
+     "마무리",
+     "마무리"
+    ],
+    "labels": [
+     "시작",
+     "마무리"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-008",
+   "no": 8,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "되돌리기",
+     "확인",
+     "되돌리기",
+     "확인",
+     "되돌리기"
+    ],
+    "labels": [
+     "되돌리기",
+     "확인"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-009",
+   "no": 9,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 3,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "시간",
+     "의견",
+     "이야기",
+     "시간",
+     "의견"
+    ],
+    "labels": [
+     "시간",
+     "의견",
+     "이야기"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-013",
+   "no": 13,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "있음",
+     "없음",
+     "있음",
+     "없음",
+     "있음"
+    ],
+    "labels": [
+     "있음",
+     "없음"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-014",
+   "no": 14,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 3,
+   "input": "observe",
+   "key": {
+    "form": "open",
+    "how": "free",
+    "rule": "no_fixed_answer",
+    "why": "정해진 답이 없다. 짐작이 뒤에 올 말과 어울리면 맞고 안 된다고 말하면 센다"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q2-019",
+   "no": 19,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "give me"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "let me"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "do not know"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "going to"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "want to"
+      ],
+      "need": 1
+     }
+    ],
+    "derived": "재료 그대로"
+   },
+   "source": "answer+material"
+  },
+  {
+   "id": "Q2-020",
+   "no": 20,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     2,
+     2,
+     1,
+     2,
+     1
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-025",
+   "no": 25,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "반대",
+     "같은 방향",
+     "예를 들어",
+     "같은 방향",
+     "반대"
+    ],
+    "labels": [
+     "반대",
+     "같은 방향",
+     "예를 들어"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-026",
+   "no": 26,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "맞음",
+     "안 맞음",
+     "안 맞음",
+     "맞음",
+     "맞음"
+    ],
+    "labels": [
+     "맞음",
+     "안 맞음"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-031",
+   "no": 31,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     true,
+     false,
+     false,
+     true,
+     true
+    ],
+    "flagLabel": "빈자리가 있는 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-037",
+   "no": 37,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "그대로 넘기기",
+     "물어서 넘기기",
+     "확인하면서",
+     "이어 달라고",
+     "그대로 넘기기"
+    ],
+    "labels": [
+     "그대로 넘기기",
+     "물어서 넘기기",
+     "확인하면서",
+     "이어 달라고"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-038",
+   "no": 38,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     false,
+     true,
+     false,
+     true,
+     false
+    ],
+    "flagLabel": "되돌림이 있는 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-043",
+   "no": 43,
+   "quarter": "Q2",
+   "n": 3,
+   "k": 2,
+   "input": "speak",
+   "key": {
+    "form": "tokens",
+    "match": "phrase",
+    "items": [
+     {
+      "of": [
+       "I am",
+       "to see you"
+      ],
+      "need": 2,
+      "gap": true
+     },
+     {
+      "of": [
+       "I",
+       "to go"
+      ],
+      "need": 2,
+      "gap": true
+     },
+     {
+      "of": [
+       "First we"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-044",
+   "no": 44,
+   "quarter": "Q2",
+   "n": 3,
+   "k": 2,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "세 번째",
+     "세 번째",
+     "세 번째"
+    ],
+    "labels": [
+     "세 번째"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-049",
+   "no": 49,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     2,
+     2,
+     2,
+     2,
+     2
+    ],
+    "derived": "한 줄 산문: 모두 같다"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-050",
+   "no": 50,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 3,
+   "input": "observe",
+   "key": {
+    "form": "open",
+    "how": "agreement",
+    "rule": "counts_agree",
+    "why": "정해진 개수가 없다. 두 사람이 센 값이 같으면 맞은 것으로 센다"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q2-055",
+   "no": 55,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "지나간 때",
+     "가까운 때",
+     "겪은 적",
+     "지나간 때",
+     "겪은 적"
+    ],
+    "labels": [
+     "지나간 때",
+     "가까운 때",
+     "겪은 적"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-056",
+   "no": 56,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     false,
+     true,
+     false,
+     false,
+     true
+    ],
+    "flagLabel": "틀린 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-061",
+   "no": 61,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "무",
+     "늦",
+     "자리",
+     "무",
+     "자리"
+    ],
+    "labels": [
+     "무",
+     "늦",
+     "자리"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-062",
+   "no": 62,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "063",
+     "064",
+     "065",
+     "063 을 먼저",
+     "063 과 064 를 둘 다"
+    ],
+    "labels": [
+     "063",
+     "064",
+     "065",
+     "063 을 먼저",
+     "063 과 064 를 둘 다"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-073",
+   "no": 73,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "약하게",
+     "그냥",
+     "세게",
+     "약하게",
+     "세게"
+    ],
+    "labels": [
+     "약하게",
+     "그냥",
+     "세게"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-074",
+   "no": 74,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     false,
+     true,
+     true,
+     false,
+     false
+    ],
+    "flagLabel": "세기가 흐려진 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-080",
+   "no": 80,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "1형",
+     "2형",
+     "3형",
+     "1형",
+     "3형"
+    ],
+    "labels": [
+     "1형",
+     "2형",
+     "3형"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-081",
+   "no": 81,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 3,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "1형",
+     "3형",
+     "2형",
+     "1형",
+     "3형"
+    ],
+    "labels": [
+     "1형",
+     "3형",
+     "2형"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-092",
+   "no": 92,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "소리로",
+     "되물어",
+     "못 알아들었다고",
+     "되물어",
+     "못 알아들었다고"
+    ],
+    "labels": [
+     "소리로",
+     "되물어",
+     "못 알아들었다고"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-093",
+   "no": 93,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     true,
+     false,
+     true,
+     false,
+     true
+    ],
+    "flagLabel": "확인이 있는 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-098",
+   "no": 98,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "tap_word",
+   "key": {
+    "form": "tokens",
+    "match": "word",
+    "items": [
+     {
+      "of": [
+       "apartment"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "kitchen"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "fish"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "bread"
+      ],
+      "need": 1
+     },
+     {
+      "of": [
+       "works",
+       "here"
+      ],
+      "need": 1
+     }
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-099",
+   "no": 99,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 3,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     true,
+     true,
+     true,
+     false,
+     false
+    ],
+    "flagLabel": "강세가 조동사에 오는 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-111",
+   "no": 111,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "들으라고 알리기",
+     "순서",
+     "고비",
+     "끝",
+     "순서"
+    ],
+    "labels": [
+     "들으라고 알리기",
+     "순서",
+     "고비",
+     "끝"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-112",
+   "no": 112,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 3,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "알리기 없음",
+     "끝 없음",
+     "순서 없음",
+     "알리기와 끝 둘 다 없음",
+     "없음"
+    ],
+    "labels": [
+     "알리기 없음",
+     "끝 없음",
+     "순서 없음",
+     "알리기와 끝 둘 다 없음",
+     "없음"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-124",
+   "no": 124,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     true,
+     true,
+     false,
+     true,
+     false
+    ],
+    "flagLabel": "겹치는 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-125",
+   "no": 125,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 3,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     true,
+     true,
+     true,
+     false,
+     false
+    ],
+    "flagLabel": "가운데가 빠지는 것"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-130",
+   "no": 130,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "알리기",
+     "묶어 말하기",
+     "다음 정하기",
+     "끝내기",
+     "묶어 말하기"
+    ],
+    "labels": [
+     "알리기",
+     "묶어 말하기",
+     "다음 정하기",
+     "끝내기"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q2-131",
+   "no": 131,
+   "quarter": "Q2",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     false,
+     true,
+     false,
+     true,
+     false
+    ],
+    "flagLabel": "닫는 자리"
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-001",
+   "no": 1,
+   "quarter": "Q3",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "flag",
+    "items": [
+     false,
+     true,
+     false,
+     true,
+     false
+    ],
+    "flagLabel": "3초를 넘김",
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q3-008",
+   "no": 8,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "1층",
+     "2층",
+     "3층",
+     "1층",
+     "2층",
+     "3층",
+     "1층",
+     "2층",
+     "3층",
+     "1층"
+    ],
+    "labels": [
+     "1층",
+     "2층",
+     "3층"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-009",
+   "no": 9,
+   "quarter": "Q3",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "multi": true,
+    "items": [
+     [
+      "3층"
+     ],
+     [
+      "2층"
+     ],
+     [
+      "1층"
+     ],
+     [
+      "2층",
+      "3층"
+     ],
+     [
+      "1층"
+     ]
+    ],
+    "labels": [
+     "3층",
+     "2층",
+     "1층"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-019",
+   "no": 19,
+   "quarter": "Q3",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "첫째",
+     "셋째",
+     "둘째",
+     "넷째",
+     "첫째"
+    ],
+    "labels": [
+     "첫째",
+     "셋째",
+     "둘째",
+     "넷째"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-026",
+   "no": 26,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "조건",
+     "조건",
+     "때",
+     "조건",
+     "조건",
+     "때",
+     "조건",
+     "조건",
+     "때",
+     "조건"
+    ],
+    "labels": [
+     "조건",
+     "때"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-038",
+   "no": 38,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "1계단",
+     "2계단",
+     "1계단",
+     "2계단",
+     "1계단",
+     "2계단",
+     "1계단",
+     "2계단",
+     "1계단",
+     "2계단"
+    ],
+    "labels": [
+     "1계단",
+     "2계단"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-045",
+   "no": 45,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "1조각",
+     "2조각",
+     "3조각",
+     "1조각",
+     "2조각",
+     "3조각",
+     "1조각",
+     "2조각",
+     "3조각",
+     "1조각"
+    ],
+    "labels": [
+     "1조각",
+     "2조각",
+     "3조각"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-046",
+   "no": 46,
+   "quarter": "Q3",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "multi": true,
+    "items": [
+     [
+      "1조각"
+     ],
+     [
+      "3조각"
+     ],
+     [
+      "2조각"
+     ],
+     [
+      "1조각",
+      "3조각"
+     ],
+     [
+      "3조각"
+     ]
+    ],
+    "labels": [
+     "1조각",
+     "3조각",
+     "2조각"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-050",
+   "no": 50,
+   "quarter": "Q3",
+   "n": 8,
+   "k": 6,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "이유 먼저",
+     "결과 먼저",
+     "이유 먼저",
+     "결과 먼저",
+     "아님",
+     "이유 먼저",
+     "아님",
+     "결과 먼저"
+    ],
+    "labels": [
+     "이유 먼저",
+     "결과 먼저",
+     "아님"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-056",
+   "no": 56,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "되물어 받기",
+     "맞장구",
+     "되물어 받기",
+     "되풀이",
+     "맞장구",
+     "되물어 받기",
+     "되풀이",
+     "맞장구",
+     "되풀이",
+     "아님"
+    ],
+    "labels": [
+     "되물어 받기",
+     "맞장구",
+     "되풀이",
+     "아님"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-069",
+   "no": 69,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "조건",
+     "가정",
+     "조건",
+     "가정",
+     "조건",
+     "가정",
+     "조건",
+     "가정",
+     "조건",
+     "가정"
+    ],
+    "labels": [
+     "조건",
+     "가정"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-070",
+   "no": 70,
+   "quarter": "Q3",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "못 가름",
+     "가정",
+     "못 가름",
+     "가정",
+     "조건"
+    ],
+    "labels": [
+     "조건",
+     "가정",
+     "못 가름"
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q3-075",
+   "no": 75,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "LRE",
+     "내용을 놓고 한 이야기",
+     "LRE",
+     "내용을 놓고 한 이야기",
+     "LRE",
+     "내용을 놓고 한 이야기",
+     "LRE",
+     "내용을 놓고 한 이야기",
+     "LRE",
+     "내용을 놓고 한 이야기"
+    ],
+    "labels": [
+     "LRE",
+     "내용을 놓고 한 이야기"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-082",
+   "no": 82,
+   "quarter": "Q3",
+   "n": 8,
+   "k": 6,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "명사 앞만",
+     "명사 뒤만",
+     "문장 뒤",
+     "명사 뒤만",
+     "명사 앞만",
+     "둘 다인 것",
+     "둘 다인 것",
+     "명사 뒤만"
+    ],
+    "labels": [
+     "명사 앞만",
+     "명사 뒤만",
+     "문장 뒤",
+     "둘 다인 것"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-094",
+   "no": 94,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "둘 다에게",
+     "Pete 에게",
+     "Anna 에게",
+     "Anna 에게",
+     "Anna 에게",
+     "Pete 에게",
+     "Anna 에게",
+     "Anna 에게",
+     "사람이 아니라 기계에게",
+     "Anna 에게"
+    ],
+    "labels": [
+     "둘 다에게",
+     "Pete 에게",
+     "Anna 에게",
+     "사람이 아니라 기계에게"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-101",
+   "no": 101,
+   "quarter": "Q3",
+   "n": 8,
+   "k": 6,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "무엇인지",
+     "어떻게 하는지",
+     "무엇인지",
+     "어떻게 하는지",
+     "어떻게 하는지",
+     "무엇인지",
+     "왜 그런지",
+     "어떻게 하는지"
+    ],
+    "labels": [
+     "무엇인지",
+     "어떻게 하는지",
+     "왜 그런지"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-102",
+   "no": 102,
+   "quarter": "Q3",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     2,
+     1,
+     2,
+     1,
+     3
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-119",
+   "no": 119,
+   "quarter": "Q3",
+   "n": 10,
+   "k": 8,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "낱말이 바뀐 것",
+     "표시가 붙은 것",
+     "표시가 붙은 것",
+     "낱말이 바뀐 것",
+     "표시가 붙은 것",
+     "낱말이 바뀐 것",
+     "표시가 붙은 것",
+     "아님",
+     "낱말이 바뀐 것",
+     "아님"
+    ],
+    "labels": [
+     "낱말이 바뀐 것",
+     "표시가 붙은 것",
+     "아님"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-138",
+   "no": 138,
+   "quarter": "Q3",
+   "n": 8,
+   "k": 6,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "같은 틀",
+     "다른 틀",
+     "같은 틀",
+     "다른 틀",
+     "같은 틀",
+     "다른 틀",
+     "같은 틀",
+     "다른 틀"
+    ],
+    "labels": [
+     "같은 틀",
+     "다른 틀"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q3-139",
+   "no": 139,
+   "quarter": "Q3",
+   "n": 6,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "다른 틀",
+     "다른 틀",
+     "다른 틀",
+     "다른 틀",
+     "같은 틀",
+     "같은 틀"
+    ],
+    "labels": [
+     "같은 틀",
+     "다른 틀"
+    ],
+    "derived": "표 3.1"
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q4-001",
+   "no": 1,
+   "quarter": "Q4",
+   "n": 5,
+   "k": 4,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     1,
+     2,
+     2,
+     1,
+     2
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q4-013",
+   "no": 13,
+   "quarter": "Q4",
+   "n": 6,
+   "k": 5,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "여는 자리",
+     "받는 자리",
+     "받는 자리",
+     "닫는 자리",
+     "넓히는 자리",
+     "받는 자리"
+    ],
+    "labels": [
+     "여는 자리",
+     "받는 자리",
+     "닫는 자리",
+     "넓히는 자리"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q4-039",
+   "no": 39,
+   "quarter": "Q4",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "나열",
+     "순서 표시",
+     "순서 표시",
+     "순서 표시",
+     "낱말 다시 쓰기"
+    ],
+    "labels": [
+     "나열",
+     "순서 표시",
+     "낱말 다시 쓰기"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q4-040",
+   "no": 40,
+   "quarter": "Q4",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "나열",
+     "순서 표시",
+     "나열",
+     "순서 표시",
+     "나열"
+    ],
+    "labels": [
+     "나열",
+     "순서 표시"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q4-090",
+   "no": 90,
+   "quarter": "Q4",
+   "n": 6,
+   "k": 5,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "배경",
+     "사건",
+     "배경",
+     "사건",
+     "배경",
+     "사건"
+    ],
+    "labels": [
+     "배경",
+     "사건"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q4-091",
+   "no": 91,
+   "quarter": "Q4",
+   "n": 6,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     [
+      "배경",
+      "사건"
+     ],
+     [
+      "배경"
+     ],
+     [
+      "사건"
+     ],
+     [
+      "배경"
+     ],
+     [
+      "배경"
+     ],
+     [
+      "사건"
+     ]
+    ],
+    "labels": [
+     "배경",
+     "사건"
+    ],
+    "derived": "표 3.1",
+    "multi": true
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q4-096",
+   "no": 96,
+   "quarter": "Q4",
+   "n": 5,
+   "k": 3,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     [
+      "2단계",
+      "4단계"
+     ],
+     [
+      "1단계",
+      "2단계",
+      "4단계"
+     ],
+     [
+      "2단계",
+      "4단계"
+     ],
+     [
+      "1단계"
+     ],
+     [
+      "1단계",
+      "2단계",
+      "3단계",
+      "4단계"
+     ]
+    ],
+    "labels": [
+     "1단계",
+     "2단계",
+     "3단계",
+     "4단계"
+    ],
+    "derived": "표 3.1",
+    "multi": true
+   },
+   "source": "table"
+  },
+  {
+   "id": "Q4-127",
+   "no": 127,
+   "quarter": "Q4",
+   "n": 5,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "안 부딪힘",
+     "안 부딪힘",
+     "좁은 쪽이 맡음",
+     "좁은 쪽이 맡음",
+     "안 부딪힘"
+    ],
+    "labels": [
+     "안 부딪힘",
+     "좁은 쪽이 맡음"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q4-128",
+   "no": 128,
+   "quarter": "Q4",
+   "n": 6,
+   "k": 4,
+   "input": "choose",
+   "key": {
+    "form": "label",
+    "items": [
+     "어느 쪽도 안 닿음",
+     "79강",
+     "87강",
+     "어느 쪽도 안 닿음",
+     "38강",
+     "어느 쪽도 안 닿음"
+    ],
+    "labels": [
+     "어느 쪽도 안 닿음",
+     "79강",
+     "87강",
+     "38강"
+    ]
+   },
+   "source": "answer"
+  },
+  {
+   "id": "Q4-145",
+   "no": 145,
+   "quarter": "Q4",
+   "n": 5,
+   "k": 5,
+   "input": "count",
+   "key": {
+    "form": "number",
+    "items": [
+     12,
+     7,
+     14,
+     4,
+     6
+    ]
+   },
+   "source": "answer"
+  }
+ ]
+}

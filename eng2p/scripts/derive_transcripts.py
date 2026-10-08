@@ -25,7 +25,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPO = ROOT.parent
 SRC = REPO / "media" / "english" / "transcripts"
-OUT = ROOT / "out" / "data" / "transcripts.js"
+OUT = ROOT / "out" / "data" / "transcripts.js"   # 짝: transcripts.json
 
 
 def body_of(text):
@@ -68,9 +68,10 @@ def main():
         "count": len(items),
         "items": items,
     }
-    OUT.write_text("window.ENG2P_TRANSCRIPTS=%s;\n"
-                   % json.dumps(body, ensure_ascii=False, indent=2),
-                   encoding="utf-8")
+    text = json.dumps(body, ensure_ascii=False, indent=2)
+    OUT.write_text("window.ENG2P_TRANSCRIPTS=%s;\n" % text, encoding="utf-8")
+    # 게임(언리얼)이 읽는 .json 짝. 내용이 .js 와 같다. check_gamedata.py 가 같은지 본다 (docs/game_data.md 7장)
+    OUT.with_suffix(".json").write_text(text + "\n", encoding="utf-8")
     n = sum(len(v) for v in items.values())
     print("%s / 대본 %d편 %d줄 (%.0fKB)"
           % (OUT.relative_to(ROOT), len(items), n, OUT.stat().st_size / 1024))

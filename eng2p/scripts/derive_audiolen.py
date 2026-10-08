@@ -99,8 +99,10 @@ def main():
         "count": len(items),
         "items": items,
     }
-    OUT.write_text("window.ENG2P_AUDIOLEN=%s;\n"
-                   % json.dumps(body, ensure_ascii=False, indent=2), encoding="utf-8")
+    text = json.dumps(body, ensure_ascii=False, indent=2)
+    OUT.write_text("window.ENG2P_AUDIOLEN=%s;\n" % text, encoding="utf-8")
+    # 게임이 읽는 .json 짝. 내용이 .js 와 같다 (docs/game_data.md 7장)
+    OUT.with_suffix(".json").write_text(text + "\n", encoding="utf-8")
     tot = sum(items.values())
     print("%s / 소리 %d개 %.1f분 (%.0fKB)"
           % (OUT.relative_to(ROOT), len(items), tot / 60, OUT.stat().st_size / 1024))

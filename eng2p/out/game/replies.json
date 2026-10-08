@@ -1,0 +1,2321 @@
+{
+ "note": "역할형 카드 105장의 NPC 응답 줄이다. 줄은 이미 들은 VOA 대본의 한 마디 안에서 이어진 문장 그대로다. 손으로 안 고친다. scripts/derive_replies.py 를 다시 돌린다.",
+ "grade": "B",
+ "gradeWhy": "줄은 대본 그대로라 A 다. 카드의 목적을 어느 반응 갈래로 보는지와 후보 순서는 사람이 정한 표(game_data.md 4장)라 B 다.",
+ "generator": "scripts/derive_replies.py",
+ "source": "out/data/cards.json (역할형 105, repair 형 95), out/game/sessions.json, media/english/transcripts, docs/game_data.md 4장",
+ "retry": {
+  "say": "Let's try that again.",
+  "from": "lle1-01",
+  "heardAt": 1,
+  "why": "NPC 가 못 알아들었을 때 하는 줄이다 (game.md 6장). 모든 카드에 쓴다"
+ },
+ "functions": {
+  "grant": {
+   "gesture": "emote-yes",
+   "meaning": "부탁을 들어준다"
+  },
+  "agree": {
+   "gesture": "emote-yes",
+   "meaning": "정해진 것을 받아 닫는다"
+  },
+  "approve": {
+   "gesture": "emote-yes",
+   "meaning": "제안이 좋다고 받는다"
+  },
+  "sympathize": {
+   "gesture": "idle",
+   "meaning": "불평을 듣고 안됐다고 한다"
+  },
+  "take_apology": {
+   "gesture": "emote-yes",
+   "meaning": "사과를 받아 준다"
+  },
+  "thanks": {
+   "gesture": "emote-yes",
+   "meaning": "칭찬을 받는다"
+  },
+  "accept_refusal": {
+   "gesture": "idle",
+   "meaning": "거절을 받아들이고 물러난다"
+  },
+  "acknowledge": {
+   "gesture": "emote-yes",
+   "meaning": "듣고 알았다고 한다"
+  }
+ },
+ "counts": {
+  "role": 105,
+  "grounded": 92,
+  "full": 59,
+  "partial": 33,
+  "gestureOnly": 13,
+  "repair": 95,
+  "repairWithReply": 1,
+  "repairSkipped": 94
+ },
+ "repairNote": "repair 형 95장 가운데 A 면 지시가 NPC 에게 대화 반응 한 줄을 시키는 카드만 줄을 준다 (4.4). 나머지는 읽기 연습이거나 말없이 보는 카드라 NPC 대사가 아니다.",
+ "cards": [
+  {
+   "id": "Q1-132",
+   "quarter": "Q1",
+   "firstSession": 58,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "요청",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "answer",
+   "reply": {
+    "say": "Sure!",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q1-137",
+   "quarter": "Q1",
+   "firstSession": 61,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "요청",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "answer",
+   "reply": {
+    "say": "Sure!",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q1-138",
+   "quarter": "Q1",
+   "firstSession": 61,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "설명",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q1-142",
+   "quarter": "Q1",
+   "firstSession": 64,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "요청",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "settle",
+   "reply": {
+    "say": "Sure!",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q1-143",
+   "quarter": "Q1",
+   "firstSession": 64,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "설명",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q1-146",
+   "quarter": "Q1",
+   "firstSession": 67,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "요청",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "content",
+   "reply": {
+    "say": "Sure!",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q1-147",
+   "quarter": "Q1",
+   "firstSession": 67,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "설명",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q1-148",
+   "quarter": "Q1",
+   "firstSession": 70,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "요청",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q1-149",
+   "quarter": "Q1",
+   "firstSession": 70,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "요청",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q1-150",
+   "quarter": "Q1",
+   "firstSession": 70,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "설명",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q2-006",
+   "quarter": "Q2",
+   "firstSession": 73,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "제안",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "answer",
+   "reply": {
+    "say": "Sure!",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q2-012",
+   "quarter": "Q2",
+   "firstSession": 76,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "설명",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q2-042",
+   "quarter": "Q2",
+   "firstSession": 91,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "불평",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "sympathize",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q2-072",
+   "quarter": "Q2",
+   "firstSession": 101,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "사과",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "content",
+   "reply": {
+    "say": "It's okay.",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q2-078",
+   "quarter": "Q2",
+   "firstSession": 109,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "제안",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Great idea!",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q2-079",
+   "quarter": "Q2",
+   "firstSession": 109,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "칭찬",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q2-085",
+   "quarter": "Q2",
+   "firstSession": 112,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "불평",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q2-109",
+   "quarter": "Q2",
+   "firstSession": 124,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "사과",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "settle",
+   "reply": {
+    "say": "It's okay.",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q2-110",
+   "quarter": "Q2",
+   "firstSession": 124,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "불평",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q2-116",
+   "quarter": "Q2",
+   "firstSession": 127,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "제안",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Great idea!",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q2-117",
+   "quarter": "Q2",
+   "firstSession": 127,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "칭찬",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q2-135",
+   "quarter": "Q2",
+   "firstSession": 136,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "칭찬",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q2-136",
+   "quarter": "Q2",
+   "firstSession": 136,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "제안",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Great idea!",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q2-143",
+   "quarter": "Q2",
+   "firstSession": 139,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "사과",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "settle",
+   "reply": {
+    "say": "It's okay.",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q2-150",
+   "quarter": "Q2",
+   "firstSession": 142,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "칭찬",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q3-007",
+   "quarter": "Q3",
+   "firstSession": 145,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "거절",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q3-014",
+   "quarter": "Q3",
+   "firstSession": 151,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "거절",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q3-015",
+   "quarter": "Q3",
+   "firstSession": 151,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "거절",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q3-016",
+   "quarter": "Q3",
+   "firstSession": 151,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "불동의",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-017",
+   "quarter": "Q3",
+   "firstSession": 151,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "불동의",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-031",
+   "quarter": "Q3",
+   "firstSession": 157,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "불동의",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-033",
+   "quarter": "Q3",
+   "firstSession": 160,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "불동의",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-044",
+   "quarter": "Q3",
+   "firstSession": 163,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "제안",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Great idea!",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-055",
+   "quarter": "Q3",
+   "firstSession": 167,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "사과",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "settle",
+   "reply": {
+    "say": "It's okay.",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-064",
+   "quarter": "Q3",
+   "firstSession": 171,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "제안",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Good idea.",
+    "from": "lle1-39",
+    "heardAt": 169,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-065",
+   "quarter": "Q3",
+   "firstSession": 171,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "거절",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q3-066",
+   "quarter": "Q3",
+   "firstSession": 171,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "거절",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q3-067",
+   "quarter": "Q3",
+   "firstSession": 171,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "불평",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-081",
+   "quarter": "Q3",
+   "firstSession": 181,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "불동의",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-087",
+   "quarter": "Q3",
+   "firstSession": 184,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "불평",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-089",
+   "quarter": "Q3",
+   "firstSession": 187,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "칭찬",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q3-107",
+   "quarter": "Q3",
+   "firstSession": 196,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "거절",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "accept",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q3-108",
+   "quarter": "Q3",
+   "firstSession": 196,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "불동의",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-109",
+   "quarter": "Q3",
+   "firstSession": 196,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "설명",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q3-110",
+   "quarter": "Q3",
+   "firstSession": 196,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "사과",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "settle",
+   "reply": {
+    "say": "It's okay.",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-117",
+   "quarter": "Q3",
+   "firstSession": 199,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "요청",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "settle",
+   "reply": {
+    "say": "Of course.",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q3-124",
+   "quarter": "Q3",
+   "firstSession": 202,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "거절",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q3-126",
+   "quarter": "Q3",
+   "firstSession": 205,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "설명",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "Really?",
+    "from": "lle1-29",
+    "heardAt": 82,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q3-136",
+   "quarter": "Q3",
+   "firstSession": 208,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "불동의",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q3-149",
+   "quarter": "Q3",
+   "firstSession": 214,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "칭찬",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-006",
+   "quarter": "Q4",
+   "firstSession": 217,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "칭찬",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-008",
+   "quarter": "Q4",
+   "firstSession": 220,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "사과",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "accept",
+   "reply": {
+    "say": "It's okay.",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-009",
+   "quarter": "Q4",
+   "firstSession": 220,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "불평",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "sympathize",
+   "endType": "content",
+   "reply": {
+    "say": "I am very sorry to hear that.",
+    "from": "lle1-19",
+    "heardAt": 29,
+    "completes": false
+   },
+   "gesture": "idle",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-010",
+   "quarter": "Q4",
+   "firstSession": 220,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "불평",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "sympathize",
+   "endType": "content",
+   "reply": {
+    "say": "I am very sorry to hear that.",
+    "from": "lle1-19",
+    "heardAt": 29,
+    "completes": false
+   },
+   "gesture": "idle",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-011",
+   "quarter": "Q4",
+   "firstSession": 220,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "불동의",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-012",
+   "quarter": "Q4",
+   "firstSession": 220,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "요청",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "settle",
+   "reply": {
+    "say": "Of course.",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-017",
+   "quarter": "Q4",
+   "firstSession": 223,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "사과",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "settle",
+   "reply": {
+    "say": "No problem.",
+    "from": "lle1-45",
+    "heardAt": 171,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-018",
+   "quarter": "Q4",
+   "firstSession": 223,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "제안",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Good idea.",
+    "from": "lle1-39",
+    "heardAt": 169,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-024",
+   "quarter": "Q4",
+   "firstSession": 226,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "거절",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q4-026",
+   "quarter": "Q4",
+   "firstSession": 229,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "협상",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-027",
+   "quarter": "Q4",
+   "firstSession": 229,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "협상",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-028",
+   "quarter": "Q4",
+   "firstSession": 229,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "협상",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-029",
+   "quarter": "Q4",
+   "firstSession": 229,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "협상",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-030",
+   "quarter": "Q4",
+   "firstSession": 229,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "협상",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-033",
+   "quarter": "Q4",
+   "firstSession": 232,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "불평",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "sympathize",
+   "endType": "content",
+   "reply": {
+    "say": "That's too bad.",
+    "from": "lle1-19",
+    "heardAt": 29,
+    "completes": false
+   },
+   "gesture": "idle",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-044",
+   "quarter": "Q4",
+   "firstSession": 235,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "설명",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-046",
+   "quarter": "Q4",
+   "firstSession": 237,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "잡담",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-047",
+   "quarter": "Q4",
+   "firstSession": 237,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "잡담",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-048",
+   "quarter": "Q4",
+   "firstSession": 237,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "잡담",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q4-049",
+   "quarter": "Q4",
+   "firstSession": 237,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "잡담",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q4-050",
+   "quarter": "Q4",
+   "firstSession": 237,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "제안",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Good idea.",
+    "from": "lle1-39",
+    "heardAt": 169,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-059",
+   "quarter": "Q4",
+   "firstSession": 241,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "불동의",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "Really?",
+    "from": "lle1-29",
+    "heardAt": 82,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-060",
+   "quarter": "Q4",
+   "firstSession": 241,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "칭찬",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thank you.",
+    "from": "lle1-52",
+    "heardAt": 101,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-064",
+   "quarter": "Q4",
+   "firstSession": 243,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "칭찬",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-065",
+   "quarter": "Q4",
+   "firstSession": 243,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "불동의",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-066",
+   "quarter": "Q4",
+   "firstSession": 243,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "거절",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q4-067",
+   "quarter": "Q4",
+   "firstSession": 243,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "사과",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "settle",
+   "reply": {
+    "say": "No problem.",
+    "from": "lle1-45",
+    "heardAt": 171,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-068",
+   "quarter": "Q4",
+   "firstSession": 243,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "제안",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Good idea.",
+    "from": "lle1-39",
+    "heardAt": 169,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-071",
+   "quarter": "Q4",
+   "firstSession": 245,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "사과",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "settle",
+   "reply": {
+    "say": "That's okay.",
+    "from": "lle1-07",
+    "heardAt": 226,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-078",
+   "quarter": "Q4",
+   "firstSession": 253,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "불평",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "sympathize",
+   "endType": "content",
+   "reply": {
+    "say": "That's too bad.",
+    "from": "lle1-19",
+    "heardAt": 29,
+    "completes": false
+   },
+   "gesture": "idle",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-085",
+   "quarter": "Q4",
+   "firstSession": 256,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "잡담",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q4-086",
+   "quarter": "Q4",
+   "firstSession": 256,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "잡담",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q4-087",
+   "quarter": "Q4",
+   "firstSession": 256,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "잡담",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q4-088",
+   "quarter": "Q4",
+   "firstSession": 256,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "잡담",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q4-089",
+   "quarter": "Q4",
+   "firstSession": 256,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "잡담",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "count",
+   "reply": null,
+   "gesture": "idle",
+   "reason": "끝 조건이 횟수나 시간으로 닫힌다. 한 줄이 아니라 몸짓과 시계가 맡는다"
+  },
+  {
+   "id": "Q4-095",
+   "quarter": "Q4",
+   "firstSession": 259,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "설명",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "Really?",
+    "from": "lle1-29",
+    "heardAt": 82,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-099",
+   "quarter": "Q4",
+   "firstSession": 262,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "칭찬",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thank you.",
+    "from": "lle1-52",
+    "heardAt": 101,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-108",
+   "quarter": "Q4",
+   "firstSession": 268,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "요청",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "content",
+   "reply": {
+    "say": "Of course.",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-109",
+   "quarter": "Q4",
+   "firstSession": 268,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "불동의",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-110",
+   "quarter": "Q4",
+   "firstSession": 268,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "불평",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "sympathize",
+   "endType": "content",
+   "reply": {
+    "say": "I am very sorry to hear that.",
+    "from": "lle1-19",
+    "heardAt": 29,
+    "completes": false
+   },
+   "gesture": "idle",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-111",
+   "quarter": "Q4",
+   "firstSession": 268,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "칭찬",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "thanks",
+   "endType": "content",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-112",
+   "quarter": "Q4",
+   "firstSession": 268,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "사과",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "accept",
+   "reply": {
+    "say": "That's okay.",
+    "from": "lle1-07",
+    "heardAt": 226,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-114",
+   "quarter": "Q4",
+   "firstSession": 271,
+   "elements": {
+    "situation": true,
+    "relation": "동료",
+    "purpose": "거절",
+    "register": "중립",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "content",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": false
+   },
+   "gesture": "idle",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-121",
+   "quarter": "Q4",
+   "firstSession": 274,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "협상",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-122",
+   "quarter": "Q4",
+   "firstSession": 274,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "협상",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-123",
+   "quarter": "Q4",
+   "firstSession": 274,
+   "elements": {
+    "situation": true,
+    "relation": "처음 만난 사람",
+    "purpose": "협상",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-124",
+   "quarter": "Q4",
+   "firstSession": 274,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "협상",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-125",
+   "quarter": "Q4",
+   "firstSession": 274,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "협상",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "agree",
+   "endType": "settle",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-132",
+   "quarter": "Q4",
+   "firstSession": 277,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "제안",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Great idea!",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-140",
+   "quarter": "Q4",
+   "firstSession": 283,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "요청",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "grant",
+   "endType": "answer",
+   "reply": {
+    "say": "Sure!",
+    "from": "lle1-12",
+    "heardAt": 19,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-141",
+   "quarter": "Q4",
+   "firstSession": 283,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "제안",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "approve",
+   "endType": "settle",
+   "reply": {
+    "say": "Great idea!",
+    "from": "lle1-22",
+    "heardAt": 76,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  },
+  {
+   "id": "Q4-142",
+   "quarter": "Q4",
+   "firstSession": 283,
+   "elements": {
+    "situation": true,
+    "relation": "서비스 상황",
+    "purpose": "설명",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "acknowledge",
+   "endType": "content",
+   "reply": {
+    "say": "I see.",
+    "from": "lle1-09",
+    "heardAt": 10,
+    "completes": false
+   },
+   "gesture": "emote-yes",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-143",
+   "quarter": "Q4",
+   "firstSession": 283,
+   "elements": {
+    "situation": true,
+    "relation": "상사와 권위",
+    "purpose": "불평",
+    "register": "격식",
+    "endCondition": true
+   },
+   "fn": "sympathize",
+   "endType": "content",
+   "reply": {
+    "say": "I am very sorry to hear that.",
+    "from": "lle1-19",
+    "heardAt": 29,
+    "completes": false
+   },
+   "gesture": "idle",
+   "reason": "줄은 첫 반응이다. 끝 조건은 NPC 가 새 말을 해야 닫히고 그것은 대본 줄로 못 채운다. 나머지는 몸짓이다"
+  },
+  {
+   "id": "Q4-144",
+   "quarter": "Q4",
+   "firstSession": 283,
+   "elements": {
+    "situation": true,
+    "relation": "친한 친구",
+    "purpose": "거절",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "accept_refusal",
+   "endType": "accept",
+   "reply": {
+    "say": "Okay.",
+    "from": "lle1-10",
+    "heardAt": 13,
+    "completes": true
+   },
+   "gesture": "idle",
+   "reason": null
+  },
+  {
+   "id": "Q4-149",
+   "quarter": "Q4",
+   "firstSession": 286,
+   "elements": {
+    "situation": true,
+    "relation": "배우자와 가족",
+    "purpose": "사과",
+    "register": "친근",
+    "endCondition": true
+   },
+   "fn": "take_apology",
+   "endType": "accept",
+   "reply": {
+    "say": "No problem.",
+    "from": "lle1-45",
+    "heardAt": 171,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  }
+ ],
+ "repair": [
+  {
+   "id": "Q3-012",
+   "quarter": "Q3",
+   "firstSession": 148,
+   "fn": "thanks",
+   "reply": {
+    "say": "Thanks!",
+    "from": "lle1-06",
+    "heardAt": 7,
+    "completes": true
+   },
+   "gesture": "emote-yes",
+   "reason": null
+  }
+ ]
+}
