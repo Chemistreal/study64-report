@@ -1,0 +1,67 @@
+{
+ "note": "게임 Data 폴더에 들어가는 *.json 의 크기와 해시, 그리고 두 노트북이 맞춰 보는 dataHash 다. 손으로 고치지 않는다. scripts/derive_game_manifest.py 를 다시 돌린다.",
+ "generator": "scripts/derive_game_manifest.py",
+ "dataHash": "381fd82394bc7d7d11a0a90df39546c64dd5602c8b15a7551c6c0d5a457e3ad1",
+ "algorithm": {
+  "name": "dataHash/1",
+  "files": "Data/*.json 중 manifest.json 과 *.local.json 을 뺀 것",
+  "order": "파일 이름 ordinal (글자 코드 순서, 대소문자 구분)",
+  "line": "이름 + ':' + 파일 바이트의 sha256 소문자 16진수",
+  "hash": "줄마다 LF 를 붙여 이은 글(끝에도 LF 하나)의 UTF-8 바이트 sha256 소문자 16진수"
+ },
+ "count": 5,
+ "files": [
+  {
+   "file": "cards.json",
+   "bytes": 578876,
+   "sha256": "4a5fc5120f1f9ba420389599fc38e3bf0939f4b56b51d6ba73a6d28c8fce8337",
+   "from": "out/data/cards.json"
+  },
+  {
+   "file": "results_schema.json",
+   "bytes": 29704,
+   "sha256": "76d471cf0cb707b0c1b27d6656cab48206ab74dad8a8380ec690e8e0e60d626a",
+   "from": "out/game/results_schema.json"
+  },
+  {
+   "file": "scenes.json",
+   "bytes": 586905,
+   "sha256": "98cabd99de621c1696bc339c5087b45a64fee8a6afe5fdc18f6b456e99696116",
+   "from": "out/game/scenes.json"
+  },
+  {
+   "file": "sessions.json",
+   "bytes": 2376909,
+   "sha256": "3632a75517b30a6b4ae5e82ca61ab11aeb1599ecc3b1c55e01821fe60bb7dabe",
+   "from": "out/game/sessions.json"
+  },
+  {
+   "file": "town.json",
+   "bytes": 15986,
+   "sha256": "14a59afaf04e935b3d2fa6b7883ff752ba847368151bd5f9d4b9623b2ffaba2c",
+   "from": "out/game/town.json"
+  }
+ ],
+ "pending": [
+  "spelling_rule.json",
+  "judge.json",
+  "replies.json",
+  "voicelist.json",
+  "deck_names.json"
+ ],
+ "unlisted": [],
+ "testVector": {
+  "files": {
+   "a.json": "{\"a\":1}\n",
+   "B.json": "[]",
+   "manifest.json": "{\"dataHash\":\"ignored\"}\n",
+   "x.local.json": "{}\n",
+   "c.txt": "not json\n"
+  },
+  "lines": [
+   "B.json:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "a.json:e346432021b04179518d9614f3560ccd71354a4ee101ddcb893d6959a9d6301c"
+  ],
+  "dataHash": "bc65574e3451669e9be07235ba8ae7bac0f2abcbfce1f9232565f544133bf515"
+ }
+}

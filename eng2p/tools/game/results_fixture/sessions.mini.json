@@ -1,0 +1,18 @@
+{
+ "note": "시험용 작은 세션표. 규칙(runtime.recallRule, spacing.byOutcome)은 진짜 out/game/sessions.json 에서 빌려 쓴다. 카드는 진짜 id 이고 판은 가짜다",
+ "start": "2026-11-02",
+ "sessions": [
+  {"s": 1, "cards": ["Q1-001", "Q1-002", "Q1-003"], "pick": "mirror"},
+  {"s": 2, "cards": ["Q1-001", "Q1-002", "Q1-003"], "pick": "chain"},
+  {"s": 3, "cards": ["Q1-001", "Q1-002", "Q1-003"], "pick": "clash"},
+  {"s": 4, "cards": ["Q1-004", "Q1-005", "Q1-006"], "pick": "cutin"},
+  {"s": 5, "cards": ["Q1-004", "Q1-005", "Q1-006"], "pick": "hearme"},
+  {"s": 6, "cards": ["Q1-004", "Q1-005", "Q1-006"], "pick": "ladder"},
+  {"s": 7, "cards": ["Q1-007", "Q1-008", "Q1-009"], "pick": "mirror"},
+  {"s": 8, "cards": ["Q1-007", "Q1-008", "Q1-009"], "pick": "overlap"},
+  {"s": 9, "cards": ["Q1-007", "Q1-008", "Q1-009"], "pick": "reask"},
+  {"s": 10, "cards": ["Q1-010", "Q1-011", "Q1-012"], "pick": "rebound"},
+  {"s": 11, "cards": ["Q1-013", "Q1-014", "Q1-015"], "pick": "recall"},
+  {"s": 12, "cards": ["Q1-013", "Q1-014", "Q1-015"], "pick": "relay"}
+ ]
+}
