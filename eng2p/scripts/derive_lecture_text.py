@@ -93,6 +93,8 @@ def main():
     text = json.dumps(body, ensure_ascii=False, separators=(",", ":"))
     (OUT / "lecturetext.js").write_text(
         "window.ENG2P_LECTURETEXT=%s;\n" % text, encoding="utf-8")
+    # 게임이 읽는 .json 짝. 내용이 .js 와 같다 (docs/game_data.md 7장)
+    (OUT / "lecturetext.json").write_text(text + "\n", encoding="utf-8")
     chars = sum(len(b["body"]) for it in items.values() for b in it["blocks"])
     print("out/data/lecturetext.js / 강의 %d편 %d블록 %d자 (%.0fKB)"
           % (len(items), sum(len(i["blocks"]) for i in items.values()), chars,
