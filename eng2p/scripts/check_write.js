@@ -73,8 +73,7 @@ const fs = require("fs");
 const HERE = path.resolve(__dirname, "..");
 const ROOT = path.resolve(HERE, "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = process.env.CHROMIUM_PATH ||
-  "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
+const H = require("./lib/browser_harness");
 
 /* 조각마다 적는 자리가 몇이고 이름이 무엇인가. **이 표가 문이다.**
    n 은 이름 없는 자리까지 센 수고 ids 는 글자로 적힌 이름이다.
@@ -341,15 +340,12 @@ function report(browserRan) {
   process.exit(fails.length ? 1 : 0);
 }
 
-let chromium = null;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { chromium = null; }
-if (!chromium || !fs.existsSync(CHROME)) {
-  /* 앞의 판이 이미 실패했으면 건너뜀이라고 적지 않는다.
-     **건너뛴 것과 실패한 것을 한 줄에 섞으면 실패가 통과처럼 보인다.** */
-  if (!censusFails) console.log("[건너뜀] 브라우저가 없다: " + CHROME);
-  report(false);
+/* 앞의 판이 이미 실패했으면 건너뜀이라고 적지 않는다.
+   **건너뛴 것과 실패한 것을 한 줄에 섞으면 실패가 통과처럼 보인다.** */
+if (!H.loadPlaywright() || !H.findChromium()) {
+  if (censusFails) report(false);
 }
+const { chromium, CHROME } = H.need("적는 칸");     // 없으면 여기서 건너뛴다 (종료 코드 77)
 
 /* **자리와 사람은 다르다** (T427).
 

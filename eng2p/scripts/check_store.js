@@ -27,18 +27,10 @@ const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 const KEY = "eng2p.v1";
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("저장소 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require("playwright-core").chromium; }
-catch (e) { skip("playwright-core 가 없다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("저장소");
 
 /* **한 자리에서 던지면 그때까지 모은 실패가 다 사라졌다** (T391).
    실패 목록이 async 안에 있어서 아래 catch 가 오류 한 줄만 찍고 끝냈다.

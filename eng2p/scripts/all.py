@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""파생과 검사를 정해진 순서로 다 돌린다. 세션 종료 절차다.
+"""파생과 검사를 정해진 순서로 다 돈다. 세션 종료 절차다.
 
-걸음이 마흔다섯이 됐다. 순서도 있다. 그것을 기억으로 돌리면 언젠가 하나를 뺀다.
+걸음이 백서른 개를 넘었다 (정확한 수는 맨 끝 줄이 찍는다). 순서도 있다.
+그것을 기억으로 돌리면 언젠가 하나를 뺀다.
 **뺀 검사는 안 돌린 것이 아니라 통과한 것처럼 보인다.** 그래서 한 자리에 모은다.
 
 순서에는 이유가 있다.
@@ -13,23 +14,69 @@
 5. 상태 파일을 갱신한다. 검사가 다 끝난 뒤의 값이어야 맞다
 
 사용법:
-    python3 scripts/all.py           # 다 돌린다
-    python3 scripts/all.py --quick   # 파생과 대조만. 손볼 때 쓴다
+    python3 scripts/all.py                 # 다 돈다 (병렬. 작업자 수는 --jobs. 아래 "병렬" 참고)
+    python3 scripts/all.py --serial        # 한 걸음씩 차례대로. 예전 방식 그대로
+    python3 scripts/all.py --jobs N        # 작업자 N 개 (기본 min(6, 코어 수). 1 이면 --serial)
+    python3 scripts/all.py --quick         # 파생과 대조만. 손볼 때 쓴다. 늘 차례대로 돈다
+    python3 scripts/all.py --allow-skip    # 건너뛴 검사를 실패로 안 센다 (도구가 없는 기계에서만)
+    python3 scripts/all.py --plan          # 선 계획만 찍고 끝낸다 (돌리지 않는다)
+    python3 scripts/all.py --only A,B      # 이름이 A 나 B 인 걸음만 (고치는 중에 한두 개 볼 때. 요약에 "일부만" 이 붙는다)
+    python3 scripts/all.py --times FILE    # 걸음마다 걸린 시간을 JSON 으로 남긴다
+
+## 건너뛴 검사는 실패다
+
+브라우저나 PDF 도구가 없으면 검사는 스스로 `[건너뜀]` 을 찍고 나간다. 전에는 이것이 종료 코드 0 이라
+브라우저 검사 마흔여섯이 다 건너뛰어도 all.py 가 초록불이었다. 이제는 **건너뜀이 하나라도 있으면
+종료 코드 1** 이다. 일부러 건너뛰려면 `--allow-skip` 이다 (그때만 0, 건너뜀 수는 요약에 남는다).
+
+- 건너뜀의 표지는 둘이다. 종료 코드 77 (scripts/lib/browser_harness.js 의 `skip()`) 과
+  출력의 `[건너뜀]` 같은 글. 종료 코드 0 인데 글만 있는 옛 검사도 잡으려고 둘 다 본다
+- 자식에게 `REQUIRE_BROWSER=1` `REQUIRE_PDF=1` 을 건넨다. 뿌리 `tests/` 와 `tools/` 의 검사가
+  건너뛰지 않고 스스로 빨간불을 낸다. `--allow-skip` 이면 이 둘을 지우고 `ENG2P_ALLOW_SKIP=1` 을 켠다
+- `--quick` 은 브라우저를 안 띄우는 걸음 예순하나만 돈다. 그래서 브라우저 건너뜀이 안 난다.
+  그 안에서 난 건너뜀 (저장소 밖 원본이 없는 ext 파생 하나) 은 똑같이 실패다
+- 걸음이 시간 초과 (기본 900초) 로 죽어도 실패다
+
+## 병렬
+
+걸음 백서른한 개 중 브라우저를 띄우는 마흔여섯이 시간의 91% 를 먹고 CPU 는 놀고 있다.
+그래서 화면 검사를 나란히 돌린다. **차례가 뜻을 가지는 사슬은 한 선에 그대로 둔다.**
+
+- **파생 선**: 파생 마흔일곱 + 어긋남 하나. 적힌 차례대로 하나씩. 제일 먼저. 이게 끝나야 나머지가 시작한다
+- **게임 선**: derive_game.js → check_game.py → derive_scenes.py → derive_judge/replies/voicelist/deck_names
+  → check_gamedata → derive_town → check_culture → derive_game_manifest --strict → check_game --manifest.
+  차례대로 하나씩. 서로 out/game 을 쓰고 읽는다
+- **점검 선**: 규격과 대조 파이썬 검사. 차례대로 하나씩 (check_ext 가 out/data 에 임시 파일을 만든다)
+- **화면 선**: 브라우저 검사마다 선 하나. 서로 읽기만 한다. check_ui.js 는 셋으로 쪼개 돈다
+- **리허설 선**: rehearse*.js 는 out/manual 에 글을 쓴다. 점검 선 (check.py 가 그 글을 읽는다) 이 끝난 뒤에 돈다
+- **상태 선**: 마지막. 다른 선이 다 끝난 뒤 차례대로 (파일 수를 센다)
+
+선 사이에는 "다 끝난 뒤에" 만 있다. 차례 실행에서 앞서 있던 걸음만 기다리게 한다 (`--plan` 이 검사한다).
+출력은 작업자 수와 상관없이 **걸음의 원래 차례**로 찍는다. 진행 줄만 끝나는 차례로 stderr 에 나간다.
+자세한 것은 docs/pipeline.md.
 
 하나라도 실패하면 종료 코드 1이다. 통과한 것도 다 보여 준다.
-규격: CLAUDE.md 세션 종료 절차
+규격: CLAUDE.md 세션 종료 절차, docs/pipeline.md
 """
+import json
+import os
 import pathlib
+import re
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import par_run  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 S = ROOT / "scripts"
 
 # (묶음, 스크립트, 인자, 빠른 판에도 도는가)
 STEPS = [
-    # **앱도 파생물이다.** app/ 조각 서른셋을 합쳐 english.html 을 만든다.
+    # **앱도 파생물이다.** app/ 조각을 합쳐 english.html 을 만든다.
     # 제일 먼저 돈다. 뒤의 검사가 다 그 파일을 본다.
     ("파생", "derive_app.py", [], True),
     ("파생", "derive_handout.py", [], True),
@@ -303,36 +350,315 @@ STEPS = [
     ("상태", "update_status.py", [], False),
 ]
 
+# ---------------------------------------------------------------- 병렬 규칙
+#
+# STEPS 의 모양은 그대로다 (네 칸). 병렬에 필요한 것은 여기서 따로 적는다.
+# 걸음은 선 하나에 속하고 (lane_of), 선은 "다른 선이 다 끝난 뒤에" 만 적는다 (lane_needs).
+# 차례 실행과 뜻이 같은지는 par_run.check_plan 이 본다 (--plan, 그리고 병렬로 돌기 전에 늘).
 
-def main():
-    quick = "--quick" in sys.argv
-    rows, failed = [], []
-    t0 = time.time()
-    for group, script, args, in_quick in STEPS:
-        if quick and not in_quick:
+# 게임 사슬. 서로 out/game 을 쓰고 읽는다. STEPS 에 적힌 차례대로 한 선에서 돈다.
+# derive_game.js -> check_game.py -> derive_scenes.py -> derive_judge/replies/voicelist/deck_names
+# -> check_gamedata -> derive_town -> check_culture -> derive_game_manifest --strict -> check_game --manifest
+GAME_CHAIN = ("derive_game.js", "check_game.py", "derive_scenes.py", "derive_judge.py",
+              "derive_replies.py", "derive_voicelist.py", "derive_deck_names.py",
+              "check_gamedata.py", "derive_town.py", "check_culture.py", "derive_game_manifest.py")
+
+# 병렬일 때 쪼개 도는 걸음 -> 부분 수 (`--part k/n` 을 받는다). 차례 실행은 안 쪼갠다
+SPLIT = {"check_ui.js": 3}
+
+# 예상 초. 긴 선을 먼저 시작하는 데만 쓴다. 틀려도 결과는 같고 벽시계만 는다 (감사에서 잰 값)
+EST = {"check_ui.js#1/3": 130, "check_ui.js#2/3": 30, "check_ui.js#3/3": 90,
+       "check_write.js": 130, "check_play_screen.js": 100, "check_pages.py": 95,
+       "derive_ext_smalltalk.py": 66, "check_size.js": 60, "check_find.js": 45,
+       "check_input.js": 45, "check_tone.js": 45, "check_wait.js": 35, "check_store.js": 30,
+       "rehearse.js": 26, "check_session.js": 25, "check_friction.js": 25, "check_contrast.js": 22,
+       "check_midnight.js": 20, "check_split.js": 20, "check_pair.js": 19,
+       "rehearse_session.js": 19, "check_late.js": 18, "derive_game.js": 19}
+
+SKIP_RC = 77          # scripts/lib/browser_harness.js 의 skip() 이 쓰는 종료 코드
+# 종료 코드가 0 이어도 글로 건너뜀을 말하는 옛 검사 (check_pages.py 의 뿌리 검사, 일부 파생기)
+SKIP_RE = re.compile(r"\[건너뜀\]|건너뜀[:：]|건너뛰었다\. 통과가 아니다|건너뛴다\. 통과가 아니다"
+                     r"|안 돌렸다\. 통과가 아니다")
+DEFAULT_TIMEOUT = 900
+
+
+def lane_of(group, script):
+    """걸음이 속한 선. 같은 선은 적힌 차례대로 하나씩 돈다."""
+    if script in GAME_CHAIN:
+        return "게임"
+    if group in ("파생", "어긋남"):
+        return "파생"
+    if group in ("규격", "대조"):
+        return "점검"
+    if group == "상태":
+        return "상태"
+    if script.startswith("rehearse"):
+        return "리허설:" + script          # out/manual 에 글을 쓴다. 점검 선 뒤에 돈다
+    return "화면:" + script                 # 읽기만 한다. 걸음마다 선 하나
+
+
+def lane_needs(lanes):
+    """선마다 "이 선들이 통째로 끝난 뒤에" 시작한다. 쪼갠 부분의 선 (`화면:check_ui.js#2/3`) 은
+    `#` 앞의 이름으로 규칙을 찾는다."""
+    have = set(lanes)
+    need = {}
+    for ln in lanes:
+        base = ln.split("#")[0]
+        if base == "파생":
+            need[ln] = set()
+        elif base == "상태":
+            need[ln] = have - {ln}
+        elif base.startswith("리허설:"):
+            need[ln] = {"파생", "점검"} & have
+        else:
+            need[ln] = {"파생"} & have
+    return need
+
+
+def cmd_of(script, args):
+    base = ["node", str(S / script)] if script.endswith(".js") else [sys.executable, str(S / script)]
+    return base + list(args)
+
+
+def build_jobs(split):
+    """STEPS 전체를 작업으로. split 이면 SPLIT 의 걸음을 부분으로 나눈다."""
+    jobs = []
+    for i, (group, script, args, in_quick) in enumerate(STEPS):
+        lane = lane_of(group, script)
+        n = SPLIT.get(script) if split and not args else None
+        if n:
+            for k in range(1, n + 1):
+                tag = "%d/%d" % (k, n)
+                jobs.append(par_run.Job(
+                    key="%03d:%s#%s" % (i, script, tag), step=i,
+                    cmd=cmd_of(script, ["--part", tag]),
+                    lane="%s#%s" % (lane, tag), weight=EST.get("%s#%s" % (script, tag), 5),
+                    label="%s#%s" % (script, tag)))
+        else:
+            jobs.append(par_run.Job(
+                key="%03d:%s" % (i, script), step=i, cmd=cmd_of(script, args), lane=lane,
+                weight=EST.get(script, 12 if script.endswith(".js") else 1), label=script))
+    return jobs
+
+
+def plan_for(jobs):
+    return lane_needs(sorted({j.lane for j in jobs}))
+
+
+def show_plan(jobs, workers):
+    needs = plan_for(jobs)
+    by = {}
+    for j in jobs:
+        by.setdefault(j.lane, []).append(j)
+    print("선 계획 (작업자 %d). 선 안은 적힌 차례대로, 선 사이는 '다 끝난 뒤에' 만 있다" % workers)
+    order = sorted(by, key=lambda ln: (min(j.step for j in by[ln]), ln))
+    for ln in order:
+        js = by[ln]
+        w = sum(j.weight for j in js)
+        nd = ", ".join(sorted(needs[ln])) or "-"
+        if len(needs[ln]) > 6:
+            nd = "나머지 선 전부 (%d개)" % len(needs[ln])
+        print("  %-26s 걸음 %3d / 예상 %5.0f초 / 기다림 %s" % (ln, len(js), w, nd))
+    bad = par_run.check_plan(jobs, needs)
+    for b in bad:
+        print("[실패] " + b)
+    print("선 %d개 / 걸음 %d개 / %s" % (len(by), len(jobs), "차례 실행과 뜻이 같다" if not bad else "계획이 어긋난다"))
+    return 0 if not bad else 1
+
+
+# ---------------------------------------------------------------- 결과 읽기
+
+def lines_of(text):
+    return [x for x in text.strip().split("\n") if x.strip()]
+
+
+def kind_of(r):
+    """ok / fail / skip. 건너뜀은 종료 코드 77 이거나 출력에 건너뜀 글이 있는 것."""
+    if r.timed_out:
+        return "fail"
+    if r.rc not in (0, SKIP_RC):
+        return "fail"
+    if r.rc == SKIP_RC or SKIP_RE.search(r.out):
+        return "skip"
+    return "ok"
+
+
+def merge(parts):
+    """쪼갠 걸음의 부분 결과를 걸음 하나로 합친다. 부분의 합이 걸음이다."""
+    if len(parts) == 1:
+        return parts[0]
+    rc = 0
+    if any(p.timed_out for p in parts):
+        rc = 124
+    else:
+        bad = [p.rc for p in parts if p.rc not in (0, SKIP_RC)]
+        rc = bad[0] if bad else (SKIP_RC if any(p.rc == SKIP_RC for p in parts) else 0)
+    return par_run.Result(
+        key=parts[0].key, rc=rc, out="\n".join(p.out for p in parts),
+        err="\n".join(p.err for p in parts), secs=sum(p.secs for p in parts),
+        timed_out=any(p.timed_out for p in parts))
+
+
+def detail_of(parts, kind):
+    """실패한 걸음의 실패 줄만. 경고가 일흔아홉이라 그대로 쏟으면 실패가 묻힌다."""
+    if kind == "skip":
+        hit = [x for p in parts for x in lines_of(p.out) if SKIP_RE.search(x)]
+        return ("건너뛰었다. 통과가 아니다 (일부러면 --allow-skip)\n" +
+                "\n".join((hit or lines_of(parts[0].out))[:6]))
+    out = []
+    for p in parts:
+        if kind == "fail" and p.rc in (0, SKIP_RC) and not p.timed_out:
             continue
-        # 화면 검사만 node 로 돈다. 브라우저가 없으면 스스로 건너뛰고 0을 낸다.
-        cmd = (["node", str(S / script)] if script.endswith(".js")
-               else [sys.executable, str(S / script)]) + args
-        r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(ROOT))
-        # 마지막 뜻있는 줄이 그 검사의 판정이다.
-        lines = [x for x in r.stdout.strip().split("\n") if x.strip()]
-        last = lines[-1] if lines else "(출력 없음)"
-        # 건너뛴 것과 통과한 것을 가른다. 둘 다 종료 코드가 0이라 그것만으로는 안 갈린다.
-        skipped = "[건너뜀]" in r.stdout
-        rows.append((group, script, r.returncode, last, skipped))
-        if r.returncode != 0:
-            # 실패 줄만 보여 준다. 경고가 일흔아홉이라 그대로 쏟으면 실패가 묻힌다.
-            bad = [x for x in lines if "[실패]" in x or "실패" in x and "0개" not in x]
-            failed.append((script, "\n".join(bad[:40]) or r.stdout.strip()[-800:]))
+        crashed = re.search(r"Page crashed|Target crashed|ERR_FAILED", p.out + p.err)
+        lines = lines_of(p.out)
+        bad = [x for x in lines if "[실패]" in x or "실패" in x and "0개" not in x]
+        txt = "\n".join(bad[:40]) or p.out.strip()[-800:]
+        if p.timed_out:
+            txt = (txt + "\n" + lines_of(p.err)[-1]).strip()
+        elif not txt.strip() and p.err.strip():
+            txt = p.err.strip()[-800:]
+        if crashed:
+            # 코드 탓이 아닐 때가 많다. 디스크가 차면 크로미움이 이렇게 죽는다 (2026-10-09 에 겪었다)
+            txt += "\n[힌트] 브라우저가 죽었다. 디스크 빈 곳 (df -h) 과 메모리를 먼저 본다"
+        out.append(txt)
+    return "\n".join(out)
 
-    w = max(len(s) for _, s, _, _, _ in rows)
+
+def tools_probe(env):
+    """브라우저 검사가 돌 수 있는 기계인가. 한 줄로 말해 준다."""
+    try:
+        r = subprocess.run(["node", str(S / "lib" / "browser_harness.js"), "--probe"],
+                           capture_output=True, text=True, timeout=30, env=env, cwd=str(ROOT))
+        txt = (r.stdout.strip().splitlines() or ["(출력 없음)"])[-1]
+        return r.returncode == 0, txt
+    except (OSError, subprocess.TimeoutExpired) as e:
+        return False, "node 를 못 돌렸다: %s" % e
+
+
+# ---------------------------------------------------------------- 돌기
+
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(prog="all.py", add_help=True,
+                                 description="파생과 검사를 정해진 순서로 다 돈다 (세션 종료 절차)")
+    ap.add_argument("--quick", action="store_true", help="파생과 대조만. 늘 차례대로 돈다")
+    ap.add_argument("--allow-skip", action="store_true", help="건너뛴 검사를 실패로 안 센다")
+    ap.add_argument("--serial", action="store_true", help="한 걸음씩 차례대로 (--jobs 1 과 같다)")
+    ap.add_argument("--jobs", type=int, default=None,
+                    help="작업자 수 (기본 min(6, 코어 수))")
+    ap.add_argument("--plan", action="store_true", help="선 계획만 찍고 끝낸다")
+    ap.add_argument("--only", metavar="A,B", help="이름이 맞는 걸음만 (세션 종료 절차가 아니다)")
+    ap.add_argument("--times", metavar="FILE", help="걸음마다 걸린 시간을 JSON 으로 남긴다")
+    ap.add_argument("--timeout", type=float, default=DEFAULT_TIMEOUT,
+                    help="걸음 하나의 시간 초과 초 (기본 %d)" % DEFAULT_TIMEOUT)
+    a = ap.parse_args(sys.argv[1:] if argv is None else argv)
+
+    cpu = os.cpu_count() or 2
+    workers = a.jobs if a.jobs is not None else min(6, cpu)
+    if workers < 1:
+        ap.error("--jobs 는 1 이상이다")
+    serial = a.serial or workers == 1 or a.quick
+    quick = a.quick
+
+    env = dict(os.environ)
+    if a.allow_skip:
+        # 일부러 건너뛰는 날. 자식도 건너뛴 채 0 으로 나가게 하고 "필수" 표지는 치운다
+        env["ENG2P_ALLOW_SKIP"] = "1"
+        env.pop("REQUIRE_BROWSER", None)
+        env.pop("REQUIRE_PDF", None)
+    else:
+        env.pop("ENG2P_ALLOW_SKIP", None)
+        env["REQUIRE_BROWSER"] = "1"      # 뿌리 tests/ 가 건너뛰지 않고 스스로 빨간불
+        env["REQUIRE_PDF"] = "1"          # tools/worksheet_leak.py 도 같다
+
+    jobs = build_jobs(split=not serial)
+    if a.plan:
+        return show_plan(build_jobs(split=True), workers if workers > 1 else min(6, cpu))
+    if not serial:
+        bad = par_run.check_plan(jobs, plan_for(jobs))
+        if bad:
+            print("[실패] 병렬 계획이 차례 실행과 뜻이 다르다. all.py 의 lane_of 를 고친다")
+            for b in bad:
+                print("  " + b)
+            return 1
+
+    if not quick:
+        try:
+            free = shutil.disk_usage(tempfile.gettempdir()).free // (1024 * 1024)
+            if free < 300:
+                sys.stderr.write("[경고] 임시 폴더의 빈 곳이 %dMB 뿐이다. 크로미움이 'Page crashed' 로 "
+                                 "죽을 수 있다 (죽으면 실패로 센다)\n" % free)
+        except OSError:
+            pass
+        ok, line = tools_probe(env)
+        sys.stderr.write("[도구] %s\n" % line)
+        if not ok and not a.allow_skip:
+            n = sum(1 for g, s, ar, q in STEPS if s.endswith(".js") and not q)
+            sys.stderr.write("[경고] 브라우저 도구가 없다. 화면 검사는 건너뛰고 건너뜀은 실패다 "
+                             "(--allow-skip 이면 안 센다)\n")
+
+    sel = [i for i, (g, s, ar, q) in enumerate(STEPS) if not quick or q]
+    if a.only:
+        want = {x.strip() for x in a.only.split(",") if x.strip()}
+        unknown = want - {s for g, s, ar, q in STEPS}
+        if unknown:
+            ap.error("STEPS 에 없는 이름: " + ", ".join(sorted(unknown)))
+        sel = [i for i in sel if STEPS[i][1] in want]
+        if not sel:
+            ap.error("--only 에 맞는 걸음이 없다 (--quick 이 빼지 않았는가)")
+    sel_set = set(sel)
+    jobs = [j for j in jobs if j.step in sel_set]
+    total = len(jobs)
+    done = [0]
+
+    def progress(job, r):
+        done[0] += 1
+        mark = {"ok": "OK  ", "fail": "실패", "skip": "건너뜀"}[kind_of(r)]
+        sys.stderr.write("  [%3d/%d] %s %6.1f초 %s\n" % (done[0], total, mark, r.secs, job.label))
+        sys.stderr.flush()
+
+    t0 = time.time()
+    if serial:
+        res = par_run.run_serial(jobs, str(ROOT), env, a.timeout, None if quick else progress)
+    else:
+        res = par_run.run_parallel(jobs, plan_for(jobs), workers, str(ROOT), env,
+                                   a.timeout, progress)
+    wall = time.time() - t0
+
+    # 걸음마다 부분을 모은다. 원래 차례대로.
+    by_step = {}
+    for j in jobs:
+        by_step.setdefault(j.step, []).append(res[j.key])
+    rows, failed, nskip = [], [], 0
+    for i in sel:
+        group, script, args, in_quick = STEPS[i]
+        parts = by_step[i]
+        r = merge(parts)
+        kind = kind_of(r)
+        # 마지막 뜻있는 줄이 그 검사의 판정이다. 쪼갠 걸음은 실패한 부분의 줄을 앞세운다
+        pick = next((p for p in parts if kind_of(p) != "ok"), parts[-1])
+        ls = lines_of(pick.out)
+        last = ls[-1] if ls else "(출력 없음)"
+        if len(parts) > 1:
+            last = "[%d부분] %s" % (len(parts), last)
+        rows.append((group, script, kind, last))
+        if kind == "skip":
+            nskip += 1
+            if not a.allow_skip:
+                failed.append((script, detail_of(parts, "skip")))
+        elif kind == "fail":
+            failed.append((script, detail_of(parts, "fail")))
+
+    w = max(len(s) for _, s, _, _ in rows)
     cur = None
-    for group, script, code, last, skipped in rows:
+    for group, script, kind, last in rows:
         if group != cur:
             print("\n[%s]" % group)
             cur = group
-        mark = "건너뜀" if skipped else ("OK  " if code == 0 else "실패")
+        if kind == "skip":
+            mark = "건너뜀" if a.allow_skip else "실패"
+        else:
+            mark = "OK  " if kind == "ok" else "실패"
         print("  %s %-*s  %s" % (mark, w, script, last))
 
     if failed:
@@ -340,11 +666,27 @@ def main():
         for script, out in failed:
             print("\n### %s 가 실패했다\n%s" % (script, out))
 
-    nskip = sum(1 for r in rows if r[4])
-    print("\n%.1f초 / %d개 중 실패 %d개%s%s"
-          % (time.time() - t0, len(rows), len(failed),
-             " / 건너뜀 %d개" % nskip if nskip else "",
-             " (빠른 판)" if quick else ""))
+    sk = ""
+    if nskip:
+        sk = " (건너뜀 %d개 포함)" % nskip if not a.allow_skip else " / 건너뜀 %d개 (--allow-skip)" % nskip
+    mode = " (빠른 판)" if quick else ("" if serial else " / 병렬 %d" % workers)
+    if a.only:
+        mode += " / 일부만 (--only). 세션 종료 절차가 아니다"
+    print("\n%.1f초 / %d개 중 실패 %d개%s%s" % (wall, len(rows), len(failed), sk, mode))
+
+    if not quick:
+        tot = sum(r.secs for r in res.values())
+        slow = sorted(((r.secs, k) for k, r in res.items()), reverse=True)[:5]
+        sys.stderr.write("[시간] 벽시계 %.0f초 / 걸음 합 %.0f초 / 배율 %.1f / 느린 다섯: %s\n" % (
+            wall, tot, tot / wall if wall else 0,
+            ", ".join("%s %.0f" % (k.split(":", 1)[1], s) for s, k in slow)))
+    if a.times:
+        pathlib.Path(a.times).write_text(json.dumps(
+            {"wall": round(wall, 1), "workers": 1 if serial else workers, "quick": quick,
+             "steps": [[j.step, j.label, round(res[j.key].secs, 1), res[j.key].rc,
+                        round(res[j.key].start - t0, 1), round(res[j.key].end - t0, 1)]
+                       for j in jobs]},
+            ensure_ascii=False, indent=1), encoding="utf-8")
     return 1 if failed else 0
 
 

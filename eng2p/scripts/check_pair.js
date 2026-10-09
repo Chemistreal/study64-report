@@ -29,17 +29,9 @@ const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("짝 동기 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require("playwright-core").chromium; }
-catch (e) { skip("playwright-core 가 없다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("짝 동기");
 
 /* 두 기기가 같은 시작일과 같은 날들을 들고 있어야 한다. 거기서부터 갈리면
    갈리는 것이 당연해서 아무것도 안 재게 된다. **같은 데서 출발시킨다.**

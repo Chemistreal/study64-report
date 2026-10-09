@@ -31,18 +31,10 @@ const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 const FRICTION = path.join(ROOT, "eng2p", "docs", "friction.md");
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("쌓인 뒤 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { skip("playwright 를 못 찾았다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("쌓인 뒤", { clock: "date" });   // `performance.now()` 로 ms 를 잰다. 하네스의 가짜 시계는 `performance` 를 바꾸므로 Date 만 옮기는 방식을 쓴다
 
 /* 기준선은 `docs/friction.md` 7장 표에서 읽는다. **여기 안 적는다.**
    두 자리에 적으면 한쪽만 고치는 날이 온다 (T396). */

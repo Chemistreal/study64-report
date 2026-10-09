@@ -20,16 +20,9 @@ const path = require("path");
 
 const HERE = path.resolve(__dirname, "..");
 const PAGE = "file://" + path.join(HERE, "..", "english.html");
-const CHROME = process.env.CHROMIUM_PATH ||
-  "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-if (!fs.existsSync(CHROME)) {
-  console.log("안 되는 자리 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { console.log("안 되는 자리 검사를 안 돌렸다. 통과가 아니다."); process.exit(0); }
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("안 되는 자리");
 
 /* 자리 여덟. `docs/cando.md` 3장이 같은 표다.
    why  왜 안 되는지가 그 글에 있는가 (낱말로 잡는다)

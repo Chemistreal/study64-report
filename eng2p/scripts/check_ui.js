@@ -55,25 +55,34 @@ const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("화면 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("화면");
 
-let chromium;
-try {
-  chromium = require("playwright-core").chromium;
-} catch (e) {
-  skip("playwright-core 가 없다");
-}
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+/* ## 셋으로 쪼개 돌 수 있다 (`--part k/3`)
+ *
+ * 한 프로세스가 240초를 혼자 걸렸다. 병렬 실행기가 여섯으로 돌려도 이 하나가 벽이었다.
+ * 쪼개는 금은 **상태를 이어 받는가**로 긋는다.
+ *
+ *     1  공유 화면 한 장에서 차례로 쌓는 절 (1~28, 14~16). 앞 절이 만든 상태를 뒤 절이 이어 받는다.
+ *        그래서 안 쪼갠다. 잰 값 127초
+ *     2  절마다 새 화면을 띄우는 절 (29~35). 앞에서 쥔 것이 없다. 28초
+ *     3  `write` 묶음. 제 화면과 제 컨텍스트만 쓴다. 86초
+ *
+ * `--part` 가 없으면 셋을 차례로 다 돈다 (전과 같다). 어느 절이 어느 부분인지는
+ * 아래 `runs("A")` `runs("B")` `runs("C")` 가 쥔다. 부분의 합이 전체다:
+ * 요약 글도 부분마다 제 몫만 찍고 합치면 전체 글이 된다.
+ */
+const PART = H.partArg();
+if (PART && PART.n !== 3) { console.log("[실패] check_ui.js 는 --part k/3 만 받는다"); process.exit(1); }
+const runs = (u) => !PART || PART.k === { A: 1, B: 2, C: 3 }[u];
 
 (async () => {
   const fails = [];
   const browser = await chromium.launch({ executablePath: CHROME });
+  /* 요약이 쓰는 개수. 1부분이 채운다. 2, 3부분에서는 안 쓴다 */
+  let nsets = 0, ncards = 0;
+  if (runs("A")) {
   const page = await browser.newPage({ viewport: { width: 900, height: 900 } });
   const errs = [];
   page.on("pageerror", (e) => errs.push(e.message));
@@ -259,7 +268,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
      있는지는 여기서 보고 누르는 것은 그 자리에서 다시 찾는다.
      T260 에 `check_play_screen.js` 의 `tap()` 이 같은 이유로 생겼다. */
-  const b1 = await page.$("[data-media=\"lib\"]");
+  const b1 = await H.has(page, "[data-media=\"lib\"]");
   if (!b1) fails.push("블록 1에 미디어 탭으로 가는 단추가 없다");
   else {
     await page.click("[data-media=\"lib\"]", { timeout: 5000 });
@@ -274,7 +283,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   //    fetch 로 가져오면 로컬에서 막힌다. 블록 4는 대본을 보는 블록이다.
   await page.evaluate(() => { go("today"); gotoBlock(3); });
   await page.waitForTimeout(300);
-  const mb = await page.$("[data-media=\"lib\"]");
+  const mb = await H.has(page, "[data-media=\"lib\"]");
   if (mb) {
     await page.click("[data-media=\"lib\"]", { timeout: 5000 });
     await page.waitForTimeout(1500);
@@ -416,8 +425,8 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
   // 개수는 여기서 잡는다. 아래 검사가 페이지를 다시 열면 DATA 가 비고
   // 요약이 0판으로 나온다. **0판인데 통과로 보이면 안 돌린 것이 통과가 된다.**
-  const ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
-  const nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
+  ncards = await page.evaluate(() => (DATA.cards && DATA.cards.items || []).length);
+  nsets = await page.evaluate(() => (DATA.sets && DATA.sets.items || []).length);
   if (!ncards) fails.push("카드 자료가 안 열렸다");
   if (!nsets) fails.push("세트 자료가 안 열렸다");
 
@@ -1304,7 +1313,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     return bad;
   });
   named.forEach((m) => fails.push("이름: " + m));
+  }   // runs("A") 끝. 아래는 절마다 새 화면을 띄운다
 
+  if (runs("B")) {
   /* 29. **미리 보기가 세션 상태를 안 건드리는가.**
      오늘 칸을 눌러 재료를 열었을 뿐인데 "블록 2에서 멈췄다"가 되면 안 된다.
      보는 것과 하는 것은 다르다. T168 에서 그 갈래를 만들었으니 여기서 지킨다. */
@@ -1320,7 +1331,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
     const before = await p2.evaluate(() => ({ idx: T.idx, left: T.left, sess: S.session }));
     // 세트 칸을 누른다. 블록 2가 펴져야 한다
-    const set = await p2.$('[data-go="b:1"]');
+    const set = await H.has(p2, '[data-go="b:1"]');
     if (!set) bad.push("오늘 칸에 세트로 가는 자리가 없다");
     else {
       await p2.click('[data-go="b:1"]', { timeout: 5000 });
@@ -1349,7 +1360,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     }
 
     // 강의 본문. 30만자라 누를 때 읽는다. 읽고 여섯 블록이 다 나오는지 본다
-    const lec = await p2.$('[data-go^="l:"]');
+    const lec = await H.has(p2, '[data-go^="l:"]');
     if (!lec) bad.push("오늘 칸에 강의 본문으로 가는 자리가 없다");
     else {
       await p2.click('[data-go^="l:"]', { timeout: 5000 });
@@ -1699,7 +1710,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     await p6.goto(PAGE);
     await p6.waitForTimeout(520);
 
-    const open = await p6.$('[data-go="map"]');
+    const open = await H.has(p6, '[data-go="map"]');
     if (!open) { bad.push("48주 띠를 누를 수가 없다"); await ctx4.close(); return bad; }
     await p6.click('[data-go="map"]', { timeout: 5000 });
     await p6.waitForTimeout(420);
@@ -1740,10 +1751,10 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
      ["비상판 36", "비상판"], ["250자", "과제"]].forEach(function (p) {
       if (d.txt.indexOf(p[0]) < 0) bad.push("그 주 " + p[1] + " 이 안 적혀 있다");
     });
-    const med = await p6.$$(".wmed");
-    if (med.length !== 2) bad.push("소리로 가는 자리가 " + med.length + "개다. 둘이어야 한다");
+    const nmed = await p6.locator(".wmed").count();
+    if (nmed !== 2) bad.push("소리로 가는 자리가 " + nmed + "개다. 둘이어야 한다");
     else {
-      await med[1].click();
+      await p6.locator(".wmed").nth(1).click();     // 손잡이를 안 쥐고 이름으로 누른다
       await p6.waitForTimeout(620);
       const g = await p6.evaluate(() => ({
         tab: !document.querySelector("#t-media").hidden,
@@ -1924,12 +1935,13 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!/끄기/.test(on9.txt)) fails.push("첫 화면: 되돌릴 자리가 없다");
     await c9.close();
   }
+  }   // runs("B") 끝
 
   /* **적는 칸에서 손이 안 끊기는가.**
      블록 칸은 세션이 도는 동안 매초 다시 그려진다. 값이 그리는 글 안에 있으면
      한 글자 칠 때마다 글이 달라지고 칸이 통째로 갈린다. 그러면 치던 글이 사라진다.
      화면을 열어 보는 것으로는 안 보인다. **1초를 기다려 봐야 보인다.** T211 */
-  const write = await (async () => {
+  const write = !runs("C") ? [] : await (async () => {
     const bad = [];
     const ctxw = await browser.newContext({ viewport: { width: 390, height: 844 },
                                             reducedMotion: "reduce" });
@@ -2275,8 +2287,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     /* **끊긴 세션이 조용히 사라지고 있었다.** 어제 것은 안 이어 가는 것이 맞지만
        아무 말도 없이 사라지면 앱이 잃어버린 것인지 원래 그런 것인지 모른다.
        그리고 오래 쉬고 온 자리는 이어 가는 것이 아니라 다시 하는 자리다. T225 */
+    /* **얼마나 지났는지는 화면의 시계로 센다.** 노드의 `Date.now()` 를 건네면 화면 시계
+       (하네스가 고정한 날) 와 날이 어긋나서 "멈춘 지 7591분" 이 된다. `ago` 를 받아 화면 안에서 뺀다 */
     const resumeCase = async (sess) => {
       await pw.evaluate((s) => {
+        if (s.ago != null) { s.at = Date.now() - s.ago; delete s.ago; }
         S.session = s; save();
         T.idx = s.idx; T.left = s.left; T.run = false;
         clearInterval(T.tick); syncSessionFocus(); renderToday();
@@ -2285,13 +2300,13 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       return (await pw.textContent("#resumeBox")).replace(/\s+/g, " ");
     };
     const td = await pw.evaluate(() => today());
-    const old2 = await resumeCase({ date: "2020-01-01", idx: 2, left: 600, at: Date.now() - 86400000 });
+    const old2 = await resumeCase({ date: "2020-01-01", idx: 2, left: 600, ago: 86400000 });
     if (old2.indexOf("이어 가지 않는다") < 0)
       bad.push("어제 세션이 조용히 사라진다: " + old2.slice(0, 60));
-    const near = await resumeCase({ date: td, idx: 1, left: 600, at: Date.now() - 5 * 60000 });
+    const near = await resumeCase({ date: td, idx: 1, left: 600, ago: 5 * 60000 });
     if (near.indexOf("멈춘 지 5분") < 0) bad.push("멈춘 지 얼마인지 안 말한다: " + near.slice(0, 60));
     if (near.indexOf("처음부터") >= 0) bad.push("5분 쉬었는데 처음부터를 권한다");
-    const far = await resumeCase({ date: td, idx: 1, left: 600, at: Date.now() - 120 * 60000 });
+    const far = await resumeCase({ date: td, idx: 1, left: 600, ago: 120 * 60000 });
     if (far.indexOf("이 블록 처음부터") < 0)
       bad.push("두 시간 쉬었는데 처음부터가 없다: " + far.slice(0, 80));
     await pw.evaluate(() => { S.session = null; save(); T.idx = 0;
@@ -2384,7 +2399,11 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       if (run.left === "10:00") bad.push("비상판 시계가 안 돈다");
       if (run.go.indexOf("일시정지") < 0) bad.push("도는 중인데 단추가 시작 그대로다: " + run.go);
       await pw.evaluate(() => { EMGCLK.left = 1; });
-      await pw.waitForTimeout(1500);
+      /* **청크로 넘어가는 그 순간을 기다려서 읽는다.** 1.5초를 자고 읽으면 그 사이 시계가 한 칸 더 돌아
+         `04:59` 가 된다 (넘어간 뒤 다음 칸까지 1초뿐이라 여유가 0.2초였다. 부하가 걸린 날 한 번 났다).
+         단언은 그대로다: 청크로 넘어갔고, 넘어간 화면이 5분이다. */
+      await H.waitFn(pw, () => /청크/.test((document.getElementById("emgWhat") || {}).textContent || ""),
+                     null, 8000).catch(() => {});
       const nx = await pw.evaluate(() => ({
         what: document.getElementById("emgWhat").textContent,
         left: document.getElementById("emgLeft").textContent }));
@@ -3579,18 +3598,24 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
 
   fails.forEach((m) => console.log("[실패] " + m));
   console.log("");
-  console.log("첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
-              "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
-              "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
-              "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
-              "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
-              "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
-              "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판 / "+
-              "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
-              "소리 여섯 6판 / 소리 끄기 1판 / 진동 12판 / 끈 채로 남기 7판 / 화면 켜 두기 11판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
-              "돌아올 길 2폭 x 6판 = 12판 / 적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
-              "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판 / 합치기 가장자리 16판 / " +
-              "주 되짚기 12판");
+  /* 요약은 부분마다 제 몫만 찍는다. 셋을 이으면 (` / `) 전체 글이 된다 (`--part` 가 없으면 다 찍는다) */
+  const SUM = {
+    A: "첫 화면 1판 / 배정 288판 / 세트 뷰어 " + nsets + "개 x 3 = " + nsets * 3 +
+       "판 / 진행표 96판 / 카드 뷰어 " + ncards + "개 x 3 = " + ncards * 3 +
+       "판 / 대본 52판 / 세션 리허설 1판 / 세션 안 재생 1판 / 대본 동기 1판 / " +
+       "어림 바로잡기 1판 / 대본 화면 52과 x 2 = 104판 / 되풀이 1판 / " +
+       "여러 줄 되풀이 1판 / 대본 가리기 1판 / 망 없이 세션 1판 / " +
+       "배속 1판 / 근거 줄 1판 / 종이 1판 / 52과 전수 재생 52판 / " +
+       "마지막 줄 되풀이 1판 / 연속 30일 1판 / 회차 3회 x 2자리 = 6판 / 한 과 두 강 1판 / 이름 1판",
+    B: "미리 보기 1판 / 강의 본문 1판 / 손가락 밀기 4판 / 조작줄 이전 1판 / " +
+       "소리 여섯 6판 / 소리 끄기 1판 / 진동 12판 / 끈 채로 남기 7판 / 화면 켜 두기 11판 / 미는 방향 4판 / 길 지도 18판 / 지도 진행 9판 / " +
+       "돌아올 길 2폭 x 6판 = 12판",
+    C: "적는 칸 10판 / 회차별 대조 3회차 x 2 + 판정 2 = 8판 / " +
+       "짝 코드 코덱 10판 / 짝 코드 화면 9판 / 합치기 22판 / 합치기 가장자리 16판 / " +
+       "주 되짚기 12판",
+  };
+  console.log((PART ? "[부분 " + PART.k + "/" + PART.n + "] " : "") +
+              ["A", "B", "C"].filter(runs).map((u) => SUM[u]).join(" / "));
   console.log("실패 " + fails.length);
   process.exit(fails.length ? 1 : 0);
 })().catch((e) => { console.log("[실패] " + e.message); process.exit(1); });
