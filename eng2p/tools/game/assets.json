@@ -5675,8 +5675,8 @@
   {
    "source": "gov",
    "file": "gov/fema_ready_tsunami_info-sheet_V-1011.pdf",
-   "url": "https://www.decal.ga.gov/documents/attachments/Tsunamis-English.pdf",
-   "page": "https://www.decal.ga.gov/documents/attachments/Tsunamis-English.pdf",
+   "url": "https://www.ready.gov/sites/default/files/2020-03/tsunami-information-sheet.pdf",
+   "page": "https://www.ready.gov/tsunamis",
    "license": "PD-USGov (로고 사진 제외). ready.gov 원본과 해시 같음",
    "bytes": 337586,
    "sha256": "54aaedeb7e15b8eee90f85c96cf9c5ed14a13688bc3de8f05e278ee91ef4ac5a"
@@ -5797,33 +5797,6 @@
    "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-9-1.010; photographer: unknown; circa 1900. Standard-size Commons rendition",
    "bytes": 646735,
    "sha256": "91520a3e9bb83ca0ca77a398d970643a01dc68db0e81779e664d1d163fb68e14"
-  },
-  {
-   "source": "hsa_via_commons",
-   "file": "hsa_via_commons/README.md",
-   "url": "(generated)",
-   "page": "(generated)",
-   "license": "metadata/attribution file written in this pass",
-   "bytes": 4262,
-   "sha256": "cdfd40baa7c686de2444c3015842ff4a72f38429f8b71d947c8ca6e8a4120d4e"
-  },
-  {
-   "source": "hsa_via_commons",
-   "file": "hsa_via_commons/manifest.json",
-   "url": "(generated)",
-   "page": "(generated)",
-   "license": "metadata/attribution file written in this pass",
-   "bytes": 6661,
-   "sha256": "1cac086d0f683b937ac4ac7482bc50d3879e65ac28338a2e4b4d46ad397fa02f"
-  },
-  {
-   "source": "internal_only",
-   "file": "internal_only/README.md",
-   "url": "(generated)",
-   "page": "(generated)",
-   "license": "own README (do-not-redistribute notice)",
-   "bytes": 1823,
-   "sha256": "843d4ed418de449ebef1585ed591835beaf4f993fbb0e3fbeb3c564345ae0fe5"
   },
   {
    "source": "kenney",
@@ -6817,15 +6790,6 @@
   },
   {
    "source": "loc",
-   "file": "loc/pre1931_immigrant_life/manifest.json",
-   "url": "(generated)",
-   "page": "(generated)",
-   "license": "metadata/attribution file written in this pass",
-   "bytes": 4747,
-   "sha256": "390794933f5970b87f8a9c1cec5d430154f58eb8bc380cfba365ee793a8ca3f4"
-  },
-  {
-   "source": "loc",
    "file": "loc/pre1931_photos/2007675442_street-scene-in-honolulu_3b08998u.tif",
    "url": "https://tile.loc.gov/storage-services/master/pnp/cph/3b00000/3b08000/3b08900/3b08998u.tif",
    "page": "https://www.loc.gov/item/2007675442/",
@@ -7105,15 +7069,6 @@
   },
   {
    "source": "loc",
-   "file": "loc/pre1931_photos/manifest.json",
-   "url": "(generated)",
-   "page": "(generated)",
-   "license": "metadata/attribution file written in this pass",
-   "bytes": 21777,
-   "sha256": "22eb511354da6649820bdd9692e9a6c90114709ec6b7d734cd5f280a213634e4"
-  },
-  {
-   "source": "loc",
    "file": "loc/sanborn_honolulu_1914/01537_1914-0000L.jp2",
    "url": "https://tile.loc.gov/storage-services/service/gmd/gmd438m/g4384m/g4384hm/g015371914/01537_1914-0000L.jp2",
    "page": "https://www.loc.gov/resource/g4384hm.g015371914/",
@@ -7219,33 +7174,6 @@
    "license": "Public domain - LOC: 'The content of the Library of Congress online Sanborn Maps Collection is in the public domain and is free to use and reuse.' Credit: Library of Congress, Geography and Map Division, Sanborn Maps Collection. Sanborn Map Co., 1914",
    "bytes": 7671997,
    "sha256": "14dab0440dbde20525d1cf110a7431af7d8e08f263f05b017ddf9ab9c3277e96"
-  },
-  {
-   "source": "odbl_reference",
-   "file": "odbl_reference/ODbL_NOTICE.md",
-   "url": "(generated)",
-   "page": "(generated)",
-   "license": "own query / notice file",
-   "bytes": 2557,
-   "sha256": "96df49fe585cb2f915b05d5f0a64be312613bb86bff2ebfd18db112be95daa62"
-  },
-  {
-   "source": "odbl_reference",
-   "file": "odbl_reference/query_core.overpass",
-   "url": "(generated)",
-   "page": "(generated)",
-   "license": "own query / notice file",
-   "bytes": 352,
-   "sha256": "ffa03f5860ae53a7f094feed1efc3686fd617001bb0272b07b1b26143001eee3"
-  },
-  {
-   "source": "odbl_reference",
-   "file": "odbl_reference/query_shoreline.overpass",
-   "url": "(generated)",
-   "page": "(generated)",
-   "license": "own query / notice file",
-   "bytes": 370,
-   "sha256": "20f0d2202ccfea994569a897e459c747300f0499cbd38037ced6591316f1edde"
   },
   {
    "source": "oga",
@@ -12099,6 +12027,6 @@
    "sha256": "0a850b3b80e17989314ff905bea023c09c72d0a7b0f7e48a83fe8685b66a256f"
   }
  ],
- "count": 1344,
- "bytes": 12826769798
+ "count": 1336,
+ "bytes": 12826727249
 }

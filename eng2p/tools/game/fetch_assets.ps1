@@ -29,11 +29,15 @@ foreach ($x in $L.items) {
     if (Test-Path $to) {
         if ((Get-FileHash -Algorithm SHA256 $to).Hash.ToLower() -eq $x.sha256) { $skip++; continue }
     }
-    try {
-        Invoke-WebRequest -Uri $x.url -OutFile $to -UseBasicParsing -TimeoutSec 600
-    } catch {
-        $bad += "$($x.file) : $($_.Exception.Message)"; continue
+    $got = $false
+    $err = ""
+    foreach ($try in 1..3) {
+        try {
+            Invoke-WebRequest -Uri $x.url -OutFile $to -UseBasicParsing -TimeoutSec 600 -UserAgent "study64-game-fetch/1.0 (public-domain and CC0 asset mirror for a private game)"
+            $got = $true; break
+        } catch { $err = $_.Exception.Message; Start-Sleep -Seconds (4 * $try) }
     }
+    if (-not $got) { $bad += "$($x.file) : $err"; continue }
     if ((Get-FileHash -Algorithm SHA256 $to).Hash.ToLower() -ne $x.sha256) {
         $bad += "$($x.file) : 해시가 다르다. 출처가 파일을 바꿨다"
         continue
