@@ -5778,7 +5778,9 @@
    "page": "https://commons.wikimedia.org/wiki/File:Outrigger_canoe_at_Waikiki,_photograph_by_Frank_Davey_(PPWD-19-5-013,_original).jpg",
    "license": "PD by date (created before 1906). Credit: Hawaii State Archives. Call Number: PPWD-19-5-013; photographer: Frank Davey; between 1894 and 1898. Standard-size Commons rendition",
    "bytes": 575703,
-   "sha256": "fd348dad350322763823c3a29b877acdaefb193ac0ec41f27b64380a4602033b"
+   "sha256": "fd348dad350322763823c3a29b877acdaefb193ac0ec41f27b64380a4602033b",
+   "volatile": true,
+   "note": "출처가 받을 때마다 조금 다른 파일을 준다 (썸네일 재생성, OCR 재생성). 2026-10-09 PC 에서 해시가 클라우드와 달랐다. 해시 불일치를 경고만 한다"
   },
   {
    "source": "hsa_via_commons",
@@ -11837,7 +11839,8 @@
    "license": "PD-USGov (1916)",
    "bytes": 632666,
    "sha256": "7f206fcfc9571a596e2a86649d25d7415bd97090f0d3bb502b872834e7d4da6b",
-   "note": "원본이 바뀌어 2026-10-09 PC 에서 다시 쟀다"
+   "note": "출처가 받을 때마다 조금 다른 파일을 준다 (썸네일 재생성, OCR 재생성). 2026-10-09 PC 에서 해시가 클라우드와 달랐다. 해시 불일치를 경고만 한다",
+   "volatile": true
   },
   {
    "source": "texts",

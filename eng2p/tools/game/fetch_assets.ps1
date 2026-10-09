@@ -22,12 +22,13 @@ if (Test-Path "C:\SeochoOps\pc_busy.lock") {
 # Windows PowerShell 5.1 은 진행 표시를 그리느라 받기가 수십 배 느려진다 (2026-10-08 PC 에서 확인)
 $ProgressPreference = 'SilentlyContinue'
 $L = Get-Content -Raw -Encoding UTF8 $List | ConvertFrom-Json
-$ok = 0; $skip = 0; $bad = @()
+$ok = 0; $skip = 0; $warn = 0; $bad = @()
 foreach ($x in $L.items) {
     $to = Join-Path $Dest ($x.file -replace "/", "\")
     New-Item -ItemType Directory -Force -Path (Split-Path $to) | Out-Null
     if (Test-Path $to) {
         if ((Get-FileHash -Algorithm SHA256 $to).Hash.ToLower() -eq $x.sha256) { $skip++; continue }
+        if ($x.volatile) { $skip++; continue }
     }
     $got = $false
     $err = ""
@@ -39,6 +40,12 @@ foreach ($x in $L.items) {
     }
     if (-not $got) { $bad += "$($x.file) : $err"; continue }
     if ((Get-FileHash -Algorithm SHA256 $to).Hash.ToLower() -ne $x.sha256) {
+        # 받을 때마다 조금 다른 파일을 주는 출처(썸네일, OCR 문서)는 목록에 volatile 로 적는다. 경고만 하고 둔다
+        if ($x.volatile) {
+            Write-Host ("  [경고] {0} : 해시가 다르다. volatile 이라 그대로 둔다" -f $x.file)
+            $warn++
+            continue
+        }
         $bad += "$($x.file) : 해시가 다르다. 출처가 파일을 바꿨다"
         continue
     }
@@ -50,5 +57,5 @@ foreach ($x in $L.items) {
 $L.items | Select-Object source, file, license, page | Export-Csv -Encoding UTF8 -NoTypeInformation (Join-Path $Dest "CREDITS.csv")
 
 foreach ($b in $bad) { Write-Host "[실패] $b" }
-Write-Host ("받음 {0} / 이미 있음 {1} / 실패 {2} / {3}" -f $ok, $skip, $bad.Count, $Dest)
+Write-Host ("받음 {0} / 이미 있음 {1} / 경고 {2} / 실패 {3} / {4}" -f $ok, $skip, $warn, $bad.Count, $Dest)
 if ($bad.Count) { exit 1 }
