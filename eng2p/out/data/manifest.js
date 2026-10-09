@@ -80,13 +80,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "cards.js",
-      "bytes": 450732,
-      "sha256": "9940304440e823c29fc5864474ab9642e2be9fd060aa52313aa3ad9097f1724f"
+      "bytes": 453900,
+      "sha256": "2aac57d1e3f7810adae23641fa6d9441912e1dd84d89e8b3ce117cf4fe10962f"
     },
     {
       "file": "cards.json",
-      "bytes": 578876,
-      "sha256": "4a5fc5120f1f9ba420389599fc38e3bf0939f4b56b51d6ba73a6d28c8fce8337"
+      "bytes": 582044,
+      "sha256": "6fae9ab26f8bedc06ccbc0e0084e32d903187216d88ddfd09481cc1917b2e7ee"
     },
     {
       "file": "chunks.js",
@@ -185,23 +185,23 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "wall.js",
-      "bytes": 58185,
-      "sha256": "92472a8e1421620f831098230be0b888234a703cbd187bb66af2e6abe49fbf11"
+      "bytes": 58605,
+      "sha256": "ec768ec14fa6b0c086ad857e5fb2e580dbc7abaead8e3163109037e1159b7740"
     },
     {
       "file": "wall.json",
-      "bytes": 73689,
-      "sha256": "945643d4eba06864b7482b6c0a4478889d1923a1db7f36f35cc80fee69e02e23"
+      "bytes": 74109,
+      "sha256": "646af1509dd366d3cf61183e4617ddb765d7b3a4ac90b0cd5449fd128082ad8f"
     },
     {
       "file": "situ.js",
-      "bytes": 42643,
-      "sha256": "eb83109dc8f4122a2dc6ecf64796d7783ee0514b8e6f81f92efa1932c566d59a"
+      "bytes": 43591,
+      "sha256": "b2128d7b10137db94d55fe18d889aec64846d74218ff42e0f921267b7a032525"
     },
     {
       "file": "situ.json",
-      "bytes": 55525,
-      "sha256": "11db11031a5aec4686cbed81f5b15bc7bb90b5738961596d26dbdb9be6764452"
+      "bytes": 56473,
+      "sha256": "8c7f83184dc34974276e15a8a12968e1bd82bfade1c3d8037122690a9313c26e"
     },
     {
       "file": "wave.js",
@@ -255,13 +255,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "flip.js",
-      "bytes": 40351,
-      "sha256": "c745cc2af0845005ec4a0c070b46768ddcbe19bffd417e46d8ffc0a23d5995d9"
+      "bytes": 40553,
+      "sha256": "ce84b56029f16ac9ed24486c547f56e8519a25f5d11a4e320759f3ad5f4c5d86"
     },
     {
       "file": "flip.json",
-      "bytes": 50658,
-      "sha256": "f8cb2110bbd5d14bb56ee915534e25d05eeec690ef3599bd5848efe3012d46e5"
+      "bytes": 50860,
+      "sha256": "dbdfc2e5572ac1b07b3e9c99a3844bb95820fc7e28684449143349e09ffb64fc"
     },
     {
       "file": "onepick.js",

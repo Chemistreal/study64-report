@@ -3,7 +3,7 @@
 
 게임은 두 사람이 말하거나 누른 것을 **정답을 보이지 않고** 채점해야 한다 (기준서 8.2, 13.2).
 카드의 `a.answer` 는 사람이 읽는 글이다. "1) Pete  2) Anna" 도 있고
-"다섯 개 모두 1음절이다" 도 있고 "읽은 쪽을 A면 아래 빈칸에 표시해 두고" 도 있다.
+"다섯 개 모두 1음절이다" 도 있고 "읽은 쪽은 게임이 쥐고 있다가 둘이 고른 뒤에 알려 준다" 도 있다.
 이 파일은 그 글을 **게임이 읽는 꼴**로 옮긴다. 새로 짓는 것은 없다.
 
     통과선        a.pass 에서 k 와 n 을 읽는다. b.pass 와 다르면 kShown 에 같이 적는다
@@ -352,7 +352,7 @@ def key_of(card, manual):
         return {"form": "tokens", "match": "phrase",
                 "items": [{"of": [m.group(1)], "need": 1}] * n,
                 "derived": "한 줄 산문: 모두 같다"}, "answer"
-    m = re.fullmatch(r"B는 (?:A가 )?흘린 덩어리(?:가 원래 어느 낱말들인지|의 원형(?:과 낱말 수)?)(?:을|를)? 낸다\. 재료 그대로다\.", ans)
+    m = re.fullmatch(r"(?:B는|둘은) (?:(?:A가|NPC 가) )?흘린 덩어리(?:가 원래 어느 낱말들인지|의 원형(?:과 낱말 수)?)(?:을|를)? 낸다\. 재료 그대로다\.", ans)
     if m:
         items = [{"of": [x], "need": 1} for x in material_of(card)]
         k = {"form": "tokens", "match": "phrase", "items": items, "derived": "재료 그대로"}
