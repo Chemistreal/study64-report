@@ -255,13 +255,13 @@
     },
     {
       "file": "flip.js",
-      "bytes": 40553,
-      "sha256": "ce84b56029f16ac9ed24486c547f56e8519a25f5d11a4e320759f3ad5f4c5d86"
+      "bytes": 40611,
+      "sha256": "412f792863e150f16d52c9152e8c28b44c80a206860588203da074e5f09282ee"
     },
     {
       "file": "flip.json",
-      "bytes": 50860,
-      "sha256": "dbdfc2e5572ac1b07b3e9c99a3844bb95820fc7e28684449143349e09ffb64fc"
+      "bytes": 50918,
+      "sha256": "4614467b905d8e5b9970505f33b7eca63100e316b255e39e470a6942b6ba61c9"
     },
     {
       "file": "onepick.js",

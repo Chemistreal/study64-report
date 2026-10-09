@@ -84,9 +84,11 @@ python3 scripts/all.py
 ```
 
 **한 줄이다.** 걸음은 `scripts/all.py` 의 `STEPS` 표가 쥐고 끝에 몇 걸음이었는지 찍는다.
-2026-10-07 에 백스물셋이었다. 파생 마흔여섯, 어긋남 하나, 규격 아홉, 대조 열다섯, 화면 마흔아홉, 상태 갱신 셋이다.
-브라우저 검사까지 차례대로 다 돌면 20분쯤 걸린다 (감사에서 잰 값 20.5분). 화면 검사가 브라우저를 띄운다.
-손볼 때는 `--quick` 으로 파생과 대조만 돈다. 예순하나 걸음에 25초쯤이다.
+2026-10-09 에 백서른아홉이다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물하나, 화면 쉰일곱, 상태 갱신 셋이다 (check_ui.js 는 셋으로 쪼개 돌아 141번 돈다).
+기본은 **병렬**이다 (`scripts/par_run.py`, 일꾼 `min(6, cpu)`). 브라우저 검사까지 다 돌아 8분쯤 걸린다 (측정 427~492초). `--serial` 은 차례대로 21분쯤이다. 화면 검사가 브라우저를 띄운다.
+**건너뜀은 실패다.** 브라우저나 크로미움을 못 찾으면 `all.py` 가 1 로 끝난다. 일부러 건너뛸 때만 `--allow-skip`. 그 밖에 `--jobs N` `--only` `--times` `--timeout` `--plan`. 자세한 것은 `docs/pipeline.md`.
+이 컨테이너에서는 `NODE_PATH=/opt/node22/lib/node_modules` 와 루트 `tests/` 의 `npm install` (PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1) 이 있어야 브라우저 걸음이 돈다.
+손볼 때는 `--quick` 으로 파생과 대조만 돈다. 예순다섯 걸음에 25초쯤이다.
 
 순서에 이유가 있다. 파생을 먼저 해야 옛 값을 검사하지 않는다.
 검사가 열이 되고 나서 순서를 기억으로 돌리는 것을 그만뒀다.
@@ -121,7 +123,7 @@ scripts/check_media.py  미디어 카탈로그 검사
 scripts/check_sound.py  소리 자리 69판. **적은 자리를 센 적이 없었다.** 하나 늘면 실패한다
 scripts/check_sound_screen.js 소리 화면 22판. **코드가 아니라 사람이 읽는 글을 훑는다**
 scripts/check_cando.js 안 되는 자리 43판. **안 된다 / 왜 / 그럼 무엇을 셋을 잰다**
-scripts/check_tone.js 말투 44판. **주석이 아니라 화면 글을 훑는다.** 4500~4700줄. 늦게 그려지는 탭이 있으면 덜 훑는다
+scripts/check_tone.js 말투 45판. **주석이 아니라 화면 글을 훑는다.** 4667줄 (바닥값 4667 미만이면 실패). 늦게 그려지는 탭이 있으면 덜 훑는다
 scripts/check_wait.js 기다림 30판. **자료를 막아 놓고 본다.** 영영 여는 중이었다
 scripts/check_cards_plan.py 카드 유형 총량을 기준서 8.1과 대조
 scripts/derive_handout.py 강의에서 강의록을 파생. 강의의 검사기이기도 하다
@@ -230,7 +232,9 @@ docs/bench_axes.md    앱 서른둘을 열여섯 축에. **빈 자리가 이 과
 scripts/check_derived.py 파생물이 원본과 어긋났는지 다시 뽑아 견준다
 scripts/check_data.py  JSON 과 강의록이 같은 값을 드는지 견준다 (다른 파생물끼리)
 scripts/all.py         파생과 검사를 정해진 순서로 다 돈다. 세션 종료는 이것 하나다
-scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다. 없으면 건너뛴다 (통과 아님)
+scripts/par_run.py    all.py 의 병렬 실행기 (차례 선 계획 `--plan`, 깸 시험 `--selftest`). docs/pipeline.md
+scripts/lib/browser_harness.js 브라우저 검사 41개가 같이 쓰는 도구 찾기, 건너뜀, 시계 고정(2026-10-14 수 12:00, ENG2P_PIN 으로 바꿈), 기다림
+scripts/check_ui.js    화면 검사. 브라우저로 띄워 본다 (`--part k/3` 으로 셋으로 쪼개 병렬). 없으면 종료 코드 77 로 건너뛰고 all.py 는 그것을 실패로 센다
 scripts/check_session.js 블록 넷을 실제로 돌린다 48판. **끝난 자리가 다음 일을 시키고 있었다**
 scripts/check_pair.js  **기기 둘을 나란히 몬다.** 스무 회와 짝 코드와 합치기
 scripts/check_streak.js 연속일과 회복권과 퀘스트 69판. **날을 세지 사람을 안 센다**

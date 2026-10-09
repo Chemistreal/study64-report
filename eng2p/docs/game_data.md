@@ -415,8 +415,9 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 
 ### 10.3 판이 붙는 블록
 
-게임 코드 안의 대체 표(`PlayRunner.cpp FitBlockFor`)와 같은 값이다. **이 표가 원본이다.** 앱 자료의 `fit` 이 이 표와 다르면 `derive_game_optional.py` 가 실패한다.
-다르게 하려면 이 표와 게임의 대체 표와 앱 `derive_blocks.py` 를 같이 고친다. `oneday` 는 그날 정해진 판을 따라가는 자리라 블록 셋 모두다. 로더는 첫 값을 쓴다.
+게임 코드 안의 대체 표(`PlayRunner.cpp FitBlockFor`)와 같은 값이다. **이 표가 원본이다.** `out/game/playblocks.json` 의 `fit` 은 이 표 값이다.
+앱 자료의 `fit` 은 "붙을 수 있는 자리"라서 이 표보다 넓을 수 있다 (2026-10-09 블록 1 이 함께 듣기가 된 뒤 대본을 쓰는 판은 블록 1 과 4 에 다 붙을 수 있다. 게임은 블록 4 만 쓴다).
+이 표의 자리를 앱이 허용하지 않을 때만 `derive_game_optional.py` 가 실패한다. 다르게 하려면 이 표와 게임의 대체 표와 앱 `derive_blocks.py` 를 같이 고친다. `oneday` 는 그날 정해진 판을 따라가는 자리라 블록 셋 모두다. 로더는 첫 값을 쓴다.
 
 | 판 | 붙는 블록 |
 |---|---|
@@ -450,27 +451,29 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 **근거 문구**는 game.md 1.3 표 해당 줄의 "이제" 칸에 그대로 있어야 한다. 문구에 "NPC" 가 있으면 `npc`, "게임이" 가 있으면 `game`, 둘 다 없거나 `-` 이면 `none` 이다.
 이 표는 사람이 읽고 정한 것이라 B등급이다. 앱 `hold.json` 이 정했던 자리와 다른 판이 다섯이다. NPC 가 다른 자리를 맡는 판이 셋(twohalf, reask, flip)이고 사람 자리가 사라지고 게임이 띄우는 판이 둘(hearme, wall)이다.
 
+**2026-10-09 쥐는 자리가 전부 `-` 가 됐다.** 개정문 22 23 으로 앱의 자리 이름이 먼저 하는 쪽과 이어 하는 쪽(예: 먼저 고르는 쪽, 이어 고르는 쪽)이 됐고 정보를 쥐는 자리는 없어졌다. 쥐는 것은 NPC 와 게임이다. NPC 는 두 사람이 앉는 자리에 안 앉고 말의 출처일 뿐이다.
+
 | 판 | 쥐는 쪽 | 쥐는 자리 | 쥐는 것 | 근거 문구 |
 |---|---|---|---|---|
-| mirror | npc | 읽는 쪽 | 둘 중 어느 낱말인지 | NPC 가 둘 중 하나를 말한다 |
-| swapline | npc | 읽는 쪽 | 바꾼 낱말 | NPC 가 한 낱말을 바꿔 말한다 |
+| mirror | npc | - | 둘 중 어느 낱말인지 | NPC 가 둘 중 하나를 말한다 |
+| swapline | npc | - | 바꾼 낱말 | NPC 가 한 낱말을 바꿔 말한다 |
 | hearme | game | - | 다시 말할 자리 | 게임이 들려준 자리를 같이 다시 말한다 |
 | relay | npc | - | 전할 줄 | NPC 가 한 번 말한다 |
 | chain | none | - | - | - |
-| twohalf | npc | 뒤를 받는 쪽 | 뒤 절반 | 뒤 절반은 NPC 가 쥔다 |
+| twohalf | npc | - | 뒤 절반 | 뒤 절반은 NPC 가 쥔다 |
 | overlap | none | - | - | 둘이 같이 적는다 |
 | ladder | none | - | - | - |
 | wall | game | - | 단서 | 게임이 단서를 띄운다 |
 | rebound | none | - | - | - |
-| onesee | npc | 상황을 쥔 쪽 | 상황 | NPC 만 상황을 안다 |
-| wave | npc | 세기를 쥔 쪽 | 세기 | NPC 가 세기를 쥔다 |
+| onesee | npc | - | 상황 | NPC 만 상황을 안다 |
+| wave | npc | - | 세기 | NPC 가 세기를 쥔다 |
 | whose | none | - | - | - |
-| reask | npc | 뭉개는 쪽 | 뭉갤 줄 | NPC 가 못 알아들은 척한다 |
+| reask | npc | - | 뭉갤 줄 | NPC 가 못 알아들은 척한다 |
 | cutin | none | - | - | - |
 | clash | none | - | - | - |
-| flip | npc | 답하는 쪽 | 답 | NPC 가 답하고 둘이 같이 판정한다 |
+| flip | npc | - | 답 | NPC 가 답하고 둘이 같이 판정한다 |
 | apart | none | - | - | 둘이 같이 쓴다 |
-| recall | npc | 내는 쪽 | 어제 카드 | NPC 가 어제 카드를 낸다 |
+| recall | npc | - | 어제 카드 | NPC 가 어제 카드를 낸다 |
 | oneday | none | - | - | - |
 
 `hold.json` 의 `hold` 는 로더가 읽는 칸이고 뜻은 "NPC 가 앉는 자리"다 (`FHnlPlayRules.Hold`). `by` 가 `npc` 가 아니면 비어 있다.

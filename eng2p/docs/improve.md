@@ -140,3 +140,5 @@
 | 2026-10-08 | **`near` 판정은 사다리 칸을 그대로 둔다** (`spacing.byOutcome`). 기준서 8.4 에는 아직 안 적혀 있어 개정문 28 로 올린다 | 4a 가 남긴 물음 3. 사용자가 권한을 넘겼다 |
 | 2026-10-08 | `Data/*.json` 은 바이트가 그대로여야 해시가 맞는다. game 저장소에 `.gitattributes` 로 `Data/*.json -text` | 4a 물음 5. 윈도우 줄바꿈 변환이 해시를 깬다 |
 | 2026-10-09 | **틱이 PC 에서 도는 길** (docs/game_results.md 12장). Node 는 `Tools/get_node.ps1` 이 공식 zip 에서 `node.exe` 만 꺼내 `Tools\node\` 에 (해시 둘 맞춤). 틱 묶음은 `out/tick/manifest.json` 이 적은 29개를 `Tools/sync_tick.ps1` 이 받아 `Tools\brain\` 에 저장소와 같은 배치로. 손으로 돌리는 길은 `Tools/run_tick.ps1` | 4a 물음 6 의 구현. `check_tick_e2e.py` 가 49일 끝에서 끝까지 본다 |
+| 2026-10-09 | **게임 자료는 앱 자료가 바뀌면 같이 움직여야 한다.** 개정문 20 22 23 뒤 앱의 판 자리 이름과 붙는 블록이 바뀌었는데 게임 계약 표(game_data.md 10.3, 10.4)는 그대로여서 선택 자료 파생이 뒤늦게 빨개졌다. 계약 표를 원본으로 두고 앱이 허용하는지만 보게 했다 | derive_game_optional.py, docs/game_data.md |
+| 2026-10-09 | **검사를 만들고 all.py 에 안 달면 없는 것과 같다.** 여덟 검사가 파일로만 있고 걸음에 없어 몇 시간 뒤에야 두 가지 진짜 어긋남(flip 의 splits, 선택 자료)이 드러났다. 새 검사는 만든 날 all.py 에 단다 | scripts/all.py |

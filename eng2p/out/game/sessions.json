@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "appHash": "61341a0651c3ef193814591b594da52783739e058997b1c9652e5340b4d3fa75",
+ "appHash": "e03de071b2aa3407c574e3f7e9bd3d6c886e990e2517c0bc09a9c07ebf082d81",
  "note": "게임이 받을 1년치 세션. 앱을 띄워 288세션을 걷고 앱의 셈을 그대로 불러 뽑는다. 손으로 안 고친다. scripts/derive_game.js 를 다시 돌린다.",
  "grade": "B",
  "gradeWhy": "덱이 담은 영어는 판 자료가 진 등급을 그대로 진다. 판 자료 중 B등급이 있다.",

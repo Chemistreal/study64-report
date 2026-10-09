@@ -114,10 +114,12 @@ def build_playblocks(src, fit, fail):
         want = fit.get(p["id"])
         if want is None:
             fail.append("10.3 표에 판이 없다: " + p["id"])
-        elif want != p["fit"]:
-            fail.append("판 %s 이 붙는 블록이 앱 자료(%s)와 10.3 표(%s)가 다르다. 게임의 대체 표도 같이 고친다"
-                        % (p["id"], p["fit"], want))
-        plays.append({"id": p["id"], "name": p["name"], "min": p["min"], "src": p["src"], "fit": p["fit"]})
+        elif not set(want) <= set(p["fit"]):
+            # 앱의 fit 은 "붙을 수 있는 자리"다 (블록 1 이 함께 듣기가 된 뒤 대본 쓰는 판은 1 과 4 에 다 붙을 수 있다).
+            # 게임은 10.3 표가 정한 자리만 쓴다. 표의 자리를 앱이 허용하지 않으면 그때만 실패다
+            fail.append("판 %s 의 10.3 표 자리(%s)를 앱이 허용하지 않는다(앱 fit %s). 표와 앱 derive_blocks.py 를 같이 고친다"
+                        % (p["id"], want, p["fit"]))
+        plays.append({"id": p["id"], "name": p["name"], "min": p["min"], "src": p["src"], "fit": list(want or p["fit"])})
     for k in fit:
         if k not in {p["id"] for p in plays}:
             fail.append("10.3 표에만 있는 판: " + k)

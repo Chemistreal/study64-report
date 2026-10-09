@@ -191,6 +191,14 @@ STEPS = [
     ("대조", "check_data.py", [], True),
     # 확장층 열일곱 판. 판마다 일부러 깬 것을 잡는지도 본다 (--break)
     ("대조", "check_ext.py", ["--break"], True),
+    # **권리 검사** (docs/rights_audit.md). 저장소에는 퍼블릭 도메인, CC0, CC BY 만 두고 예외는 Santa Barbara 말뭉치 하나다 (사용자 결정 2026-10-09).
+    # 판마다 일부러 깬 것을 잡는지도 본다 (--break)
+    ("대조", "check_rights.py", ["--break"], True),
+    # **옛 A/B 역할 말씨가 강의, 강의 밖의 글, 카드 600장에 남아 있지 않다** (기준서 8.2, 개정문 22 23).
+    # 규칙이 바뀌어도 글이 옛 말을 하면 두 사람은 옛 규칙으로 논다. 말씨를 든 검사라 --break 로 한계도 본다
+    ("대조", "check_lecture_info_gap.py", ["--break"], True),
+    ("대조", "check_role_wording.py", ["--break"], True),
+    ("대조", "check_card_info_gap.py", ["--break"], True),
     # 매뉴얼이 앱의 값을 말한다. **설명하는 글은 설명 대상보다 늦게 낡는다.**
     ("대조", "check_manual.py", [], True),
     # 회전 대장은 손으로 쓰는 파일이다. 손으로 올리는 숫자는 언젠가 안 올라간다.
@@ -246,6 +254,10 @@ STEPS = [
     ("화면", "derive_replies.py", [], False),
     ("화면", "derive_voicelist.py", [], False),
     ("화면", "derive_deck_names.py", [], False),
+    # **게임이 있으면 읽는 선택 자료 여덟** (docs/game_data.md 10장). 앱 파일은 게임 로더가 그대로 못 읽어서 읽는 꼴로 다시 낸다.
+    # 매니페스트(derive_game_manifest --strict)가 이 여덟을 적으므로 그 앞이다
+    ("화면", "derive_game_optional.py", [], False),
+    ("대조", "check_gameopt.py", ["--break"], False),
     ("대조", "check_gamedata.py", ["--break"], False),
     # **동네는 문서가 원본이다** (docs/town.md). 장소 열넷이 무대 표와 같고 사람이 인물 표에
     # 있고 건물이 안 겹치고 실제 상표가 없어야 JSON 을 낸다. 언리얼이 이것을 읽어 동네를 짓는다
@@ -257,6 +269,9 @@ STEPS = [
     # 크기와 해시와 dataHash 를 적는다. 하나라도 안 나왔으면 실패다 (--strict)
     ("파생", "derive_game_manifest.py", ["--strict"], False),
     ("화면", "check_game.py", ["--manifest"], False),
+    # **하루 끝 틱이 PC 에서 돌 파일 묶음의 표** (out/tick/manifest.json, docs/game_results.md 8장)와 49일을 이어 가는 끝에서 끝 시험
+    ("화면", "derive_tick_bundle.py", [], False),
+    ("화면", "check_tick_e2e.py", ["--break"], False),
     # **잃으면 제일 아픈 것이 기록이다.** 1년치가 브라우저 한 곳에만 있다.
     # 깨진 기록을 조용히 버리는지, 미뤄 둔 저장이 창 닫힐 때 흘러가는지를 본다.
     # 공동 연속일. **날을 세지 사람을 안 센다.** T321

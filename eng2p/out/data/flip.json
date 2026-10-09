@@ -14,7 +14,7 @@
   "count": 68,
   "blank": 0,
   "noAnswer": 1,
-  "splits": 68,
+  "splits": 9,
   "short": [
     {
       "lecture": 25,
@@ -60,7 +60,7 @@
         "Okay then."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "덩어리를 듣고 시작 자리인지 마무리 자리인지 말한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -78,7 +78,7 @@
         "And you?"
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "되돌리기와 확인 둘 중 하나로 답한다. 헷갈리면 상대가 말해야 하는지로 가른다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -96,7 +96,7 @@
         "My favorite is"
       ],
       "pass": "둘이 5개 중 3개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "시간, 의견, 이야기 중 하나로 답한다.",
       "bPass": "5개 중 3개 이상."
     },
@@ -114,7 +114,7 @@
         "You know, this job is great."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "문장 앞에 붙은 덩어리가 있으면 있다고 말한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -168,7 +168,7 @@
         "I do not know."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "문장에서 줄어든 자리가 몇 개인지 센다. 손가락으로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -186,7 +186,7 @@
         "It rained. Still, we went out."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "두 문장을 잇는 말이 어느 방향인지 말한다. 같은 방향, 반대, 예 셋 중 하나다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -204,7 +204,7 @@
         "He is busy. Still, he came."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "잇는 말이 두 문장의 관계에 맞는지 맞다 아니다로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -222,7 +222,7 @@
         "What do you need? [쉼] Some coffee."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "대화를 듣고 두 사람 사이에 빈자리가 있었는지 말한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -258,7 +258,7 @@
         "And you?"
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "되돌리는 덩어리를 듣고 네 묶음 중 하나로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -276,7 +276,7 @@
         "Where is the flour? In the refrigerator."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "대화 끝에 차례가 넘어갔는지 말한다. 넘어갔으면 있음이다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -308,7 +308,7 @@
         "How about you? / What do you think? / I have to go."
       ],
       "pass": "둘이 3개 중 2개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "셋 중 자리가 다른 하나를 고른다.",
       "bPass": "3개 중 2개 이상."
     },
@@ -380,7 +380,7 @@
         "I have never seen that."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "시간 덩어리를 듣고 세 묶음 중 하나로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -398,7 +398,7 @@
         "I have visited it last summer."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "문장이 맞는지 아닌지 말한다. 어디가 틀렸는지는 안 말해도 된다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -416,7 +416,7 @@
         "영어가 나왔는데 시간 자리에 의견 덩어리를 냈다"
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "남의 사례를 듣고 무, 늦, 자리 셋 중 하나로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -434,7 +434,7 @@
         "무와 늦이 반씩 나온 자리"
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "판정 결과를 듣고 어느 카드를 돌릴지 말한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -470,7 +470,7 @@
         "I love coming here."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "의견을 듣고 약하게, 그냥, 세게 중 하나로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -488,7 +488,7 @@
         "I guess I like it."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "문장에서 세기가 하나로 잡히는지 말한다. 섞였으면 흐려진 것이다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -506,7 +506,7 @@
         "needed"
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "낱말을 듣고 1형, 2형, 3형 중 하나로 답한다. 낱말은 다시 말하지 않는다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -524,7 +524,7 @@
         "They started the show."
       ],
       "pass": "둘이 5개 중 3개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "문장을 듣고 표시가 든 낱말의 형을 말한다.",
       "bPass": "5개 중 3개 이상."
     },
@@ -542,7 +542,7 @@
         "Say that again"
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "확인 표현을 듣고 네 묶음 중 하나로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -560,7 +560,7 @@
         "Today was busy. Hmm, that's too bad."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "두 번째 말이 앞의 말을 받았는지 말한다. 안 받았으면 없음이다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -578,7 +578,7 @@
         "She works here."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "문장을 듣고 제일 세게 나온 낱말을 짚는다. 하나만 짚는다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -596,7 +596,7 @@
         "It is my favorite."
       ],
       "pass": "둘이 5개 중 3개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "문장을 듣고 강세가 짧은 낱말에 있었는지 말한다.",
       "bPass": "5개 중 3개 이상."
     },
@@ -614,7 +614,7 @@
         "After that, I walked home."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "이야기 토막을 듣고 네 묶음 중 하나로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -632,7 +632,7 @@
         "You know what? First I went out. And then it rained. So yeah, that's it."
       ],
       "pass": "둘이 5개 중 3개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "이야기를 듣고 네 묶음 중 빠진 것을 말한다. 다 있으면 없다고 말한다.",
       "bPass": "5개 중 3개 이상."
     },
@@ -650,7 +650,7 @@
         "to eat"
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "두 낱말을 듣고 자음이 겹쳤는지 말한다. 어느 자음인지는 안 말한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -668,7 +668,7 @@
         "look at"
       ],
       "pass": "둘이 5개 중 3개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "두 낱말을 듣고 사이에서 소리가 하나 빠졌는지 말한다.",
       "bPass": "5개 중 3개 이상."
     },
@@ -686,7 +686,7 @@
         "Sounds good."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "마무리 토막을 듣고 네 묶음 중 하나로 답한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -704,7 +704,7 @@
         "Well, they are all good."
       ],
       "pass": "둘이 5개 중 4개 이상 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "뒤에 오는 말을 듣고 여는 자리인지 닫는 자리인지 말한다.",
       "bPass": "5개 중 4개 이상."
     },
@@ -722,7 +722,7 @@
         "Are you okay, Anna? (3초 쉼) I just ran from over there."
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "답이 나오기까지 3초를 넘겼는지만 말한다. 내용은 안 따진다",
       "bPass": "5개 중 4개 이상."
     },
@@ -745,7 +745,7 @@
         "But I can't code."
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "못 한다는 표시인지 이유인지 대안인지 말한다. 셋 중 하나로 답한다",
       "bPass": "10개 중 8개 이상."
     },
@@ -763,7 +763,7 @@
         "I have to go now. How about tomorrow?"
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "세 층 중 무엇이 빠졌는지 말한다. 둘이 빠진 것도 있다",
       "bPass": "5개 중 4개 이상."
     },
@@ -781,7 +781,7 @@
         "질문을 받고 15초 뒤에 무슨 뜻인지 물었다"
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "못 알아들음, 못 정함, 안 나옴, 차례 판단 넷 중 하나로 답한다. 초를 단서로 쓴다",
       "bPass": "5개 중 4개 이상."
     },
@@ -804,7 +804,7 @@
         "If you want, we can stop now."
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "조건인지 때인지 말한다. 그 일이 일어날지 모르면 조건이다",
       "bPass": "10개 중 8개 이상."
     },
@@ -827,7 +827,7 @@
         "How's the new apartment?"
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "1계단인지 2계단인지 말한다. 답이 둘 중 하나면 1계단이다",
       "bPass": "10개 중 8개 이상."
     },
@@ -850,7 +850,7 @@
         "I know I should be more careful."
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "인정인지 뒤집기인지 근거인지 말한다. 셋 중 하나로 답한다",
       "bPass": "10개 중 8개 이상."
     },
@@ -868,7 +868,7 @@
         "You're right. Still, I want to try it."
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "세 조각 중 무엇이 빠졌는지 말한다. 둘이 빠진 것도 있다",
       "bPass": "5개 중 4개 이상."
     },
@@ -889,7 +889,7 @@
         "But today I am watching a puppet show because it's Shakespeare's birthday!"
       ],
       "pass": "둘이 8개 중 6개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "이유가 먼저인지 결과가 먼저인지 말한다. 조건이면 둘 다 아니라고 답한다",
       "bPass": "8개 중 6개 이상."
     },
@@ -912,7 +912,7 @@
         "I am in apartment C2. / Marsha is my roommate."
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "맞장구인지 되풀이인지 되물어 받기인지 말한다. 셋 다 아니면 아니라고 답한다",
       "bPass": "10개 중 8개 이상."
     },
@@ -935,7 +935,7 @@
         "I wish it were sunny today."
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "조건인지 가정인지 말한다. 일어날 수 있으면 조건이다",
       "bPass": "10개 중 8개 이상."
     },
@@ -953,7 +953,7 @@
         "When you get there,"
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "앞 조각만 듣고 조건인지 가정인지 말한다. 못 가르겠으면 못 가르겠다고 답한다",
       "bPass": "5개 중 4개 이상."
     },
@@ -976,7 +976,7 @@
         "그 사람이 무슨 뜻으로 말했는지 둘이 이야기한다"
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "언어를 놓고 한 이야기인지 내용을 놓고 한 이야기인지 말한다. 언어 쪽이면 LRE 다",
       "bPass": "10개 중 8개 이상."
     },
@@ -997,7 +997,7 @@
         "Winter weather in Washington, D.C. can be really windy."
       ],
       "pass": "둘이 8개 중 6개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "붙은 조각이 어느 자리에 왔는지 다 말한다. 둘이면 둘 다 말한다",
       "bPass": "8개 중 6개 이상."
     },
@@ -1020,7 +1020,7 @@
         "Ashley: Do you want some water? (Anna 가 숨차 있다)"
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "누구에게 한 말인지 말한다. 둘 다에게 하는 것도 있고 사람이 아닌 것도 있다",
       "bPass": "10개 중 8개 이상."
     },
@@ -1041,7 +1041,7 @@
         "When you find an American symbol, you win points."
       ],
       "pass": "둘이 8개 중 6개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "무엇인지인지 어떻게 하는지인지 왜 그런지인지 말한다. 셋 중 하나로 답한다",
       "bPass": "8개 중 6개 이상."
     },
@@ -1059,7 +1059,7 @@
         "It's a kind of game. You play it on your phone because it is free."
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "세 자리 중 몇 개가 들었는지 수로 답한다. 문장 수가 아니라 자리 수다",
       "bPass": "5개 중 4개 이상."
     },
@@ -1082,7 +1082,7 @@
         "I did passed the second time."
       ],
       "pass": "둘이 10개 중 8개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "낱말이 바뀌었는지 앞에 표시가 붙었는지 말한다. 틀린 문장이 둘 섞여 있고 그것은 둘 다 아니라고 답한다",
       "bPass": "10개 중 8개 이상. 틀린 둘은 따라 말하지 않는다."
     },
@@ -1103,7 +1103,7 @@
         "I love running. / I am a little nervous."
       ],
       "pass": "둘이 8개 중 6개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "같은 틀인지 다른 틀인지 말한다. 안 바뀌는 부분이 낱말 단위로 같아야 같은 틀이다",
       "bPass": "8개 중 6개 이상."
     },
@@ -1122,7 +1122,7 @@
         "Did you get your driver's license? / Did you pass the test the first time?"
       ],
       "pass": "둘이 6개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "같은 틀인지 다른 틀인지 말한다. 첫 낱말이 같아도 다른 틀일 수 있다",
       "bPass": "6개 중 4개 이상."
     },
@@ -1140,7 +1140,7 @@
         "Anna: Well, have a seat! It is fun to see how people are different or the same. / Keyana: It is. For example, Anna, you are tall. (뒤 줄임) / Anna: And Keyana, you and Ashley have brown eyes; I have blue eyes."
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "Anna 가 낸 토막이 몇 개인지 말한다. 문장 수는 안 센다",
       "bPass": "5개 중 4개 이상."
     },
@@ -1159,7 +1159,7 @@
         "It is."
       ],
       "pass": "둘이 6개 중 5개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "여는 자리, 받는 자리, 넓히는 자리, 닫는 자리 중 하나로 답한다",
       "bPass": "6개 중 5개 이상."
     },
@@ -1177,7 +1177,7 @@
         "(앞 줄임) Anna, this chart shows the audience of The Time Traveling Treehouse. If you look at it, you will see something bad. (뒤 줄임)"
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "나열인지 순서 표시인지 낱말 다시 쓰기인지 하나로 답한다",
       "bPass": "5개 중 4개 이상."
     },
@@ -1195,7 +1195,7 @@
         "I might go. I might not go. I don't have a costume. Can you help me?"
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "나열인지 순서 표시인지 낱말 다시 쓰기인지 하나로 답한다. 표시가 있어도 나열일 수 있다",
       "bPass": "5개 중 4개 이상."
     },
@@ -1214,7 +1214,7 @@
         "So, I ran after the bus."
       ],
       "pass": "둘이 6개 중 5개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "배경인지 사건인지 하나로 답한다. 낱말 뜻은 안 따진다",
       "bPass": "6개 중 5개 이상."
     },
@@ -1233,7 +1233,7 @@
         "So, I went to my office to get a snack."
       ],
       "pass": "둘이 6개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "배경인지 사건인지 하나로 답한다. 한 문장에 둘이 다 있으면 둘 다 말한다",
       "bPass": "6개 중 4개 이상."
     },
@@ -1251,7 +1251,7 @@
         "Pete: Sorry, Anna. I'll go get some."
       ],
       "pass": "둘이 5개 중 3개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "1단계 신호, 2단계 정리, 3단계 인사, 4단계 다음 약속 중 무엇이 빠졌는지 말한다",
       "bPass": "5개 중 3개 이상."
     },
@@ -1269,7 +1269,7 @@
         "79강 순서 표시는 문장 앞에 온다 / 87강 움직임에만 ing 가 붙는다"
       ],
       "pass": "둘이 5개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "안 부딪힘, 좁은 쪽이 맡음, 하나가 틀림, 어느 쪽도 안 닿음 중 하나로 답한다",
       "bPass": "5개 중 4개 이상."
     },
@@ -1288,7 +1288,7 @@
         "I might go. I might not go."
       ],
       "pass": "둘이 6개 중 4개 이상을 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "여덟 규칙 중 어느 것이 닿는지 말한다. 안 닿으면 안 닿는다고 말한다",
       "bPass": "6개 중 4개 이상."
     },
@@ -1306,7 +1306,7 @@
         "94강 6개 / 96강 11개"
       ],
       "pass": "둘이 5개 중 5개를 다 맞히면 성공.",
-      "splits": true,
+      "splits": false,
       "bIns": "두 값 중 어느 쪽으로 판정할지 말한다. 값의 뜻은 안 따진다",
       "bPass": "5개 중 5개."
     }
