@@ -1,8 +1,10 @@
 /* =========================================================================
    카드 뷰어. 블록 3에서 그날 카드 범위를 한 장씩 돈다.
-   **기준서가 정한 것 하나가 여기서 화면 규칙이 된다. 판정형 정답은 A면에만 있다.**
-   한 기기에 A면과 B면을 같이 띄우면 그 규칙이 화면에서 깨진다.
-   기기 쪽을 안 고르면 A면을 보여 준다. 블록 3에서 B 는 카드를 안 본다.
+   **기준서가 정한 것 하나가 여기서 화면 규칙이 된다. 판정형 정답은 두 사람 다 안 본다.**
+   A면은 출제 면이고 B면은 반응 면이다. A면은 NPC 와 게임이 쥔다 (기준서 8.2, 개정문 23).
+   이 앱에는 NPC 가 없어서 게임 없이 돌리는 날은 A 차례인 사람이 출제 면을 소리 내어 읽는다.
+   **그래도 정답과 판정형 비고는 어느 화면에도 안 띄운다.** 판정은 게임이 한다 (기준서 9.4).
+   A 와 B 는 정보를 쥐는 자리가 아니라 먼저 말하는 차례다. 기기 쪽을 안 고르면 A면을 보여 준다.
    ========================================================================= */
 function cardKey(){ var pl=plan(); return today()+"|"+(pl.cards?pl.cards.from:0)+"|"+(S.cardMode||"today"); }
 function cardIdx(){
@@ -322,7 +324,7 @@ function renderCardView(pl){
   var i=Math.max(0,Math.min(list.length-1,cardIdx()));
   var c=list[i];
   var mine=deviceSide();
-  var side = mine==="b" ? "b" : "a";     // 안 고르면 A면. 블록 3에서 B 는 카드를 안 본다
+  var side = mine==="b" ? "b" : "a";     // 안 고르면 A면. A면은 출제 면, B면은 반응 면이다
   var f=c[side]||{};
 
   var h='<div class="cardview"><div class="top">'+
@@ -338,14 +340,16 @@ function renderCardView(pl){
   if(f.axis) h+='<div class="meta"><b>변형축</b> '+esc(f.axis)+'</div>';
   if(f.material && f.material.length)
     h+='<ol>'+f.material.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';
-  if(f.note) h+='<div class="meta"><b>비고</b> '+esc(f.note)+'</div>';
+  /* **판정형은 정답도 비고도 안 띄운다.** 비고가 정답을 그대로 풀어 쓴 장이 있다
+     (`derive_flip.py` 가 거꾸로 판정에서 둘 다 뺀 것과 같은 까닭이다).
+     정답은 게임이 쥔다. 두 사람 다 안 본다 (기준서 8.2, 13.2). 앱은 정답을 어디에도 안 그린다. */
+  if(f.note && c.type!=="판정") h+='<div class="meta"><b>비고</b> '+esc(f.note)+'</div>';
   if(f.model) h+='<div class="meta"><b>모범 답안</b> '+esc(f.model)+'</div>';
-  if(f.answer) h+='<div class="ans"><b>정답</b> '+esc(f.answer)+'</div>';
   if(f.pass) h+='<div class="meta"><b>통과 기준</b> '+esc(f.pass)+'</div>';
   h+=renderCardClock(c, mine);
   h+=renderGround(c);
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
-    'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
+    'A면(출제 면)을 보여 주는 중이다. 정답은 어느 화면에도 없다.</div>';
   var m=cardOne(c.id);
   /* 다시 낼 카드는 오늘 강의 것이 아니다. 강을 찾아 넘긴다.
      사다리는 하나라 지금은 간격이 강마다 안 다르다 (기준서 8.4). 자리는 남긴다. */

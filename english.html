@@ -328,7 +328,6 @@ body.session-focus .sidepick button{padding:var(--sp5) var(--sp8);font-size:var(
 .setstep.now h5{color:var(--a1t)}
 .setstep .body{margin-top:var(--sp3);font-size:var(--fs6);line-height:1.65}
 .setstep ol{margin:var(--sp3) 0 0;padding-left:var(--sp10);font-size:var(--fs6);line-height:1.7}
-.setstep .hid{font-size:var(--fs4);color:var(--mut);font-style:italic}
 .setstep .blank{display:block;margin-top:var(--sp3);padding:var(--sp4) var(--sp5);border:1px dashed var(--edge);
   border-radius:var(--r4);font-size:var(--fs4);color:var(--mut)}
 .cardview{margin-top:var(--sp6);padding:var(--sp7) var(--sp8);border:1px solid var(--a1);border-radius:var(--r6);
@@ -339,8 +338,6 @@ body.session-focus .sidepick button{padding:var(--sp5) var(--sp8);font-size:var(
 .cardview .ins{margin-top:var(--sp4);font-size:var(--fs7);line-height:1.6;font-weight:600}
 .cardview ol{margin:var(--sp5) 0 0;padding-left:var(--sp10);font-size:var(--fs7);line-height:1.85}
 .cardview .meta{margin-top:var(--sp5);font-size:var(--fs4);color:var(--mut);line-height:1.6}
-.cardview .ans{margin-top:var(--sp5);padding:var(--sp5) var(--sp6);border:1px dashed var(--a3);border-radius:var(--r4);
-  font-size:var(--fs5)}
 .cardnav{display:flex;gap:var(--sp4);justify-content:center;margin-top:var(--sp5);flex-wrap:wrap}
 .cardnav button{padding:var(--sp5) var(--sp7);border-radius:var(--r4);border:1px solid var(--edge);
   background:var(--card);color:var(--fg);font-size:var(--fs5);font-weight:650;cursor:pointer;min-height:42px}
@@ -1705,7 +1702,7 @@ body.veil-on>*:not(.veilcover){display:none}
 <!-- ========== 규칙 ========== -->
 <section id="t-play" role="region" aria-labelledby="h-play" tabindex="-1" hidden>
   <h2 id="h-play">판</h2>
-  <p class="lede noprint">한 판은 4~5분이다. 블록 안에서 돈다. <b>판마다 두 화면이 다른 것을 보인다.</b> 두 기기를 나란히 놓고 각자 자기 화면만 본다.</p>
+  <p class="lede noprint">한 판은 4~5분이다. 블록 안에서 돈다. 두 사람이 같이 한다. <b>앱에는 NPC 가 없어서 몇 판은 두 화면이 다른 것을 보인다.</b> 그 판에는 게임에서 어떻게 도는지가 같이 적혀 있다.</p>
   <div class="row" id="playList"></div>
   <p class="printonly">위는 판 목록이다. <b>판 하나를 열고 인쇄하면</b> 그 판의 종이 자리가 나온다.
     여기서 그냥 인쇄하면 목록만 나온다.</p>
@@ -1774,15 +1771,15 @@ body.veil-on>*:not(.veilcover){display:none}
 "use strict";
 
 var BLOCKS=[
- {n:"병렬 침묵",m:40,d:"같은 공간, 각자 헤드폰. 말 걸지 않는다.",
-  da:"시간을 본다. 40분이 되면 다음 블록으로 넘긴다.",
-  db:"같은 방에서 각자 듣는다. 말을 걸지 않는다. 같이 있는 것 자체가 장치다."},
- {n:"대조 교차",m:30,d:"설명 8분, 재구성 8분, 상호 검토 10분, 기록 4분.",
-  da:"8분 설명한다. 그다음 8분은 말하지 않는다. 질문에도 답하지 않는다.",
-  db:"8분 재구성한다. 예시 추가, 반례 제시, 상황 적용, 요약 압축 중 하나로."},
- {n:"페어 드릴",m:30,d:"출제와 반응. 시간 압박을 건다.",
-  da:"카드 A면만 본다. 예측 불가능한 순서로 던진다. 정답은 넘기지 않는다.",
-  db:"카드를 보지 않는다. 제한 시간 안에 반응한다. 정확성보다 속도가 먼저다."},
+ {n:"함께 듣기",m:40,d:"같은 공간, 같은 자료를 함께 듣는다. 말해도 된다.",
+  da:"재생과 시간을 맡는다. 40분이 되면 다음 블록으로 넘긴다.",
+  db:"같이 듣고 들린 것을 바로 말한다. 막히면 서로 묻는다."},
+ {n:"대조 교차",m:30,d:"NPC 설명 8분, 같이 재구성 8분, 상호 검토 10분, 기록 4분.",
+  da:"2단계에서 먼저 말한다. 3단계에서는 B가 먼저 말하니 잇는다.",
+  db:"2단계에서 A 다음에 잇는다. 3단계에서 먼저 말한다."},
+ {n:"페어 드릴",m:30,d:"NPC 출제와 같이 반응. 시간 압박을 건다.",
+  da:"먼저 반응한다. 게임이 없는 날은 출제 면을 소리 내어 읽는다. 정답은 어느 화면에도 없다.",
+  db:"A 다음에 잇는다. 제한 시간 안에 같이 반응한다. 정확성보다 속도가 먼저다."},
  {n:"공동 입력",m:20,d:"같은 자료를 함께 듣는다.",
   da:"재생과 구간 반복을 맡는다. 1회 소리, 2회 청크, 3회 의미.",
   db:"들은 것을 회차마다 한 줄로 적는다. 끝나고 서로 대조한다."}
@@ -1840,7 +1837,7 @@ var REL_Q=[
  {k:"ask",  l:"질문 발생 (누가 더 묻는가)",opt:["비슷","A쪽","B쪽"]}
 ];
 var RX={
- share:{t:"발화 지분 편중",p:"타이머 고정",d:"대조 교차 2단계에서 B 재구성 8분을 타이머로 잰다. 그 8분 동안 A는 말하지 않는다. 질문에도 답하지 않는다. 침묵을 채우려고 A가 끼어드는 게 원인이다."},
+ share:{t:"발화 지분 편중",p:"타이머 고정",d:"대조 교차 2단계 8분을 반으로 가른다. 뒤 4분은 적게 말한 쪽이 잇는 시간이고 타이머로 잰다. 그 4분 동안 많이 말한 쪽은 말하지 않는다. 질문에도 답하지 않는다. 침묵을 채우려고 다른 쪽이 끼어드는 게 원인이다."},
  fix:{t:"수정 일방향",p:"교정 횟수 상한",d:"한 세션에서 상대를 고쳐 주는 횟수를 각자 3회로 제한한다. 넘기면 적어 뒀다가 판정 세션으로 보낸다."},
  lead:{t:"주도권 고정",p:"개시권 이양",d:"2주 동안 대조 교차의 주제 선택과 종료 선언을 열세인 쪽이 전담한다. 날짜 교대와 별개로 도는 임시 조치다."},
  gap:{t:"인식 불일치",p:"3단계 형식 강제",d:"2주 동안 상호 검토에서 '나는 이렇게 이해했다'와 '내가 이해한 게 너랑 다른 것 같다' 두 형식만 쓴다. '틀렸다', '아니야', '그게 아니라'를 쓰지 않는다."}
@@ -1858,7 +1855,7 @@ var BAN_B=[
  ["슬랭 생성","수명이 지식 컷오프보다 짧음"],["1인 수행 가능 지시","2인 전제 위반"],
  ["측정 불가능한 통과 기준","진행 판정 불가"],["'자연스러워지면' 류","기준이 아니라 감상"],
  ["원인 없는 오류 나열","블록 2 존재 이유 상실"],["카드 지시문 3문장 초과","실행 중 읽기 부담"],
- ["판정형 정답의 B면 노출","판정 무의미화"],["인공물 표기 없는 1층 대화","실제 영어로 오인"],
+ ["판정형 정답을 두 사람에게 노출","판정 무의미화. 정답은 게임이 쥔다"],["인공물 표기 없는 1층 대화","실제 영어로 오인"],
  ["신뢰도 표시 누락","검증 대상 식별 불가"],["'말수 적으면 손해' 전제","연구와 배치. 내적 언어화 무시"]
 ];
 var FAILPT=[
@@ -3187,7 +3184,6 @@ function renderSetPane(pl){
   }
   var s=(sets.items||[]).filter(function(x){return x.id===pl.set;})[0];
   if(!s) return '<div class="k">대조 교차 세트</div><div class="v">'+esc(pl.set||"(없음)")+'</div>';
-  var mine=deviceSide();
   var used=BLOCKS[1].m*60-Math.max(0,T.left), acc=0, curStep=0;
   s.steps.forEach(function(st,i){
     if(used>=acc) curStep=i;
@@ -3195,8 +3191,14 @@ function renderSetPane(pl){
   });
   if(T.run && SWAP.step!==null && SWAP.step!==curStep){
     tone("swap");
-    var who=(curStep===0||curStep===2)?"A":"B";
-    setTimeout(function(){ flash((curStep+1)+"단계 · 이제 "+who+" 차례다"); },0);
+    var A0=roleOf(today())==="a"?S.names.a:S.names.b;
+    var B0=roleOf(today())==="a"?S.names.b:S.names.a;
+    var say=[
+      "NPC 설명을 같이 듣는다",
+      "같이 재구성한다 · "+A0+" 먼저, "+B0+" 이어서",
+      "상호 검토 · "+B0+" 먼저",
+      "같이 적는다"][curStep];
+    setTimeout(function(){ flash((curStep+1)+"단계 · "+say); },0);
   }
   SWAP.step=T.run?curStep:null;
   var h='<div class="k">이 블록에 쓰는 것 · 대조 교차 세트</div><div class="v">'+esc(s.id)+'</div>';
@@ -3206,28 +3208,24 @@ function renderSetPane(pl){
     var body="";
     if(st.step===1){
       body='<div class="body"><b>설명 대상</b> '+esc(f["설명 대상"]||"")+'</div>';
-      if(mine==="b"){
-        body+='<div class="hid">필수 포함 요소는 B 화면에 안 띄운다. '+
-              'A 의 설명만 듣고 재구성한다. 빠진 것은 3단계에서 갈린다.</div>';
-      }else if(st.items && st.items.length){
-        body+='<ol>'+st.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';
+      if(st.items && st.items.length){
+        body+='<div class="n">NPC 가 설명에 넣는 요소 · 둘이 같이 듣는다</div>'+
+              '<ol>'+st.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';
       }
     }else if(st.step===2){
       body='<div class="body"><b>'+esc(f["재구성 방식"]||"")+'</b><br>'+esc(f["지시"]||"")+'</div>';
+      var A2=roleOf(today())==="a"?S.names.a:S.names.b;
+      var B2=roleOf(today())==="a"?S.names.b:S.names.a;
+      body+='<div class="note w"><b>2단계는 '+esc(jo(A2,"이","가"))+' 먼저 말하고 '+
+        esc(jo(B2,"이","가"))+' 잇는다.</b> 둘이 같이 재구성한다.</div>';
     }else if(st.step===3){
       body='<div class="body">'+esc(f["본문"]||"")+'</div>';
       if(f["규칙"]) body+='<div class="body"><b>규칙</b> '+esc(f["규칙"])+'</div>';
-      var s1=(s.steps||[]).filter(function(x){return x.step===1;})[0];
-      if(curStep>=2 && s1 && s1.items && s1.items.length){
-        body+='<div class="body"><b>1단계에 들어갔어야 하는 것</b>'+
-          '<ol>'+s1.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>'+
-          '<div class="n">2단계까지 B 화면에서 가려 뒀던 것이다. '+
-          '빠진 것이 있으면 그것이 불일치 지점이다.</div></div>';
-      }
       var b3=(roleOf(today())==="a") ? S.names.b : S.names.a;
+      var a3=(roleOf(today())==="a") ? S.names.a : S.names.b;
       body+='<div class="note w"><b>3단계는 '+esc(jo(b3,"이","가"))+
-        ' 먼저 말한다.</b> 1단계에서 설명한 사람이 먼저 말하지 않는다. '+
-        '설명한 쪽이 먼저 말하면 그 자리가 그대로 굳는다.</div>';
+        ' 먼저 말한다.</b> 2단계는 '+esc(jo(a3,"이","가"))+' 먼저 말했으니 이번에는 바꾼다. '+
+        '먼저 말하는 자리가 굳지 않게 한다. 1단계 요소 중 빠진 것이 있으면 그것이 불일치 지점이다.</div>';
       body+='<div class="body">'+xchkWrite()+'</div>';
     }else{
       var rec=day(today());
@@ -3273,8 +3271,6 @@ function renderSetPane(pl){
     if(el) el.oninput=function(){ day(today()).lre=+el.value||0; save();
       var f=document.getElementById("fLre"); if(f) f.value=el.value; };
   },0);
-  if(!mine) h+='<div class="n">이 기기를 쓰는 사람을 안 골랐다. '+
-               '두 쪽을 다 보여 주는 중이다. B 는 1단계 목록을 안 본다.</div>';
   return h;
 }
 
@@ -3501,7 +3497,7 @@ function renderCardView(pl){
   var i=Math.max(0,Math.min(list.length-1,cardIdx()));
   var c=list[i];
   var mine=deviceSide();
-  var side = mine==="b" ? "b" : "a";     // 안 고르면 A면. 블록 3에서 B 는 카드를 안 본다
+  var side = mine==="b" ? "b" : "a";     // 안 고르면 A면. A면은 출제 면, B면은 반응 면이다
   var f=c[side]||{};
 
   var h='<div class="cardview"><div class="top">'+
@@ -3517,14 +3513,13 @@ function renderCardView(pl){
   if(f.axis) h+='<div class="meta"><b>변형축</b> '+esc(f.axis)+'</div>';
   if(f.material && f.material.length)
     h+='<ol>'+f.material.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';
-  if(f.note) h+='<div class="meta"><b>비고</b> '+esc(f.note)+'</div>';
+  if(f.note && c.type!=="판정") h+='<div class="meta"><b>비고</b> '+esc(f.note)+'</div>';
   if(f.model) h+='<div class="meta"><b>모범 답안</b> '+esc(f.model)+'</div>';
-  if(f.answer) h+='<div class="ans"><b>정답</b> '+esc(f.answer)+'</div>';
   if(f.pass) h+='<div class="meta"><b>통과 기준</b> '+esc(f.pass)+'</div>';
   h+=renderCardClock(c, mine);
   h+=renderGround(c);
   if(!mine) h+='<div class="cardwarn">이 기기를 쓰는 사람을 안 골랐다. '+
-    'A면을 보여 주는 중이다. 블록 3에서 B 는 카드를 안 본다.</div>';
+    'A면(출제 면)을 보여 주는 중이다. 정답은 어느 화면에도 없다.</div>';
   var m=cardOne(c.id);
   var ownLec=cardLecture(c.id) || pl.lectureNo;
   var sp=spacingDays(ownLec);
@@ -3645,8 +3640,8 @@ var ROUND_FOCUS = [null,
   "1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다.",
   "2회차 초점은 청크다. 낱말이 아니라 덩어리로 끊어 듣는다.",
   "3회차 초점은 의미다. 이제 무슨 말인지를 듣는다."];
-var SEAT_NOTE = {alone: "각자 헤드폰이다. 말을 걸지 않는다.",
-                 together: "같은 자료를 같이 듣는다. A가 재생을 맡는다."};
+var SEAT_NOTE = {find: "같은 자료를 같이 듣는다. 들린 것을 바로 말하고 서로 물어도 된다. A가 재생을 맡는다.",
+                 match: "같은 자료를 같이 듣는다. A가 재생을 맡는다."};
 
 function lecRound(){ var r=mediaRec(); if(!r.lec) r.lec={}; return r.lec; }
 function lecPass(no){ return no==null ? 0 : Math.min(lecRound()[no]||0, 3); }
@@ -3697,7 +3692,7 @@ function aimPhase(pl){
   var on=(used<listen)?"listen":"check";
   if(T.run && PHASE.at!==null && PHASE.at!==on){
     tone("swap");
-    setTimeout(function(){ flash(on==="check"?"이제 따로 적은 것을 편다":"같이 듣는 자리다"); },0);
+    setTimeout(function(){ flash(on==="check"?"이제 찾은 것을 견준다":"같이 듣는 자리다"); },0);
   }
   PHASE.at=T.run?on:null;
   var left=Math.max(0,Math.ceil((on==="listen"?listen-used:BLOCKS[3].m*60-used)/60));
@@ -3715,7 +3710,7 @@ function renderAimPane(pl, seat, round){
   }
   var w=aimWeek(pl);
   if(!w) return '<div class="n">'+pl.week+'주 조준표 과제를 못 찾았다.</div>';
-  if(seat==="alone"){
+  if(seat==="find"){
     var task=aimTask(w,pl), c=aimCollect(pl);
     var h='<div class="aim"><div class="k">이 주에 찾을 것 · '+pl.week+'주</div>'+
           '<div class="v big">'+esc(task||"")+'</div>'+
@@ -3725,21 +3720,20 @@ function renderAimPane(pl, seat, round){
       h+='<div class="n">이 주는 강마다 과제가 다르다. 위엣것이 '+pl.lectureNo+'강 것이다.</div>';
     if(c) h+='<div class="k">주마다 적어 올 것</div><div class="v">'+esc(c.text)+'</div>'+
             (c.layer2?'<div class="n">2층 채집이다. 지어내지 않고 본 것을 그대로 적는다.</div>':"");
-    return h+aimWrite("alone")+'</div>';
+    return h+aimWrite("find")+'</div>';
   }
   var x=aimCross(pl,round);
   h2b=aimPhase(pl);
   var h2='<div class="aim">'+h2b+'<div class="k">같이 듣고 맞춰 보는 법 · '+round+'회차</div>';
   h2+='<div class="v">'+esc(x?x.how:"")+'</div>';
   h2+='<div class="n">누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.</div>';
-  return h2+aimWrite("together",round)+'</div>';
+  return h2+aimWrite("match",round)+'</div>';
 }
 
 var AIMLABEL={1:["표시한 지점","표시한 지점"],
               2:["끊어 들은 덩어리","끊어 들은 덩어리"],
               3:["요약","보탤 것"]};
 function aimWrite(seat, round){
-  var mine=deviceSide();
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
   var lab=AIMLABEL[round]||AIMLABEL[1];
@@ -3748,16 +3742,12 @@ function aimWrite(seat, round){
            '<textarea id="aim'+side.toUpperCase()+'" rows="2" '+
            'placeholder="한 줄로 적는다"></textarea></label>';
   }
-  if(seat==="alone"){
-    var h='<div class="k">여기 적는다</div>';
-    if(mine==="a") h+=box("a",A,"찾은 자리")+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
-    else if(mine==="b") h+=box("b",B,"찾은 자리")+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
-    else h+=box("a",A,"찾은 자리")+box("b",B,"찾은 자리")+
-      '<div class="n">이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. '+
-      '따로 적는 자리라 서로 안 보는 것이 낫다.</div>';
-    return h;
+  if(seat==="find"){
+    return '<div class="k">여기 적는다</div>'+box("a",A,"찾은 자리")+box("b",B,"찾은 자리")+
+      '<div class="n">둘이 같이 듣고 이야기하면서 찾은 자리를 적는다. 서로 보여도 된다. '+
+      '블록 4에서 둘이 찾은 자리를 견준다.</div>';
   }
-  var h2='<div class="k">따로 적은 것을 편다</div>'+box("a",A,lab[0])+box("b",B,lab[1]);
+  var h2='<div class="k">찾은 것을 견준다</div>'+box("a",A,lab[0])+box("b",B,lab[1]);
   if(round===3)
     return h2+'<div class="n" id="aimSay">어긋난 것은 미해결 LRE 로 적는다. '+
            '누가 맞았는지는 정하지 않는다.</div>';
@@ -3821,7 +3811,7 @@ function renderMediaPane(pl, seat){
   var full=done>=3;
   var focus = (full ? "세 회차를 다 끝냈다. 오늘은 다시 듣기다. 초점은 의미다."
                     : ROUND_FOCUS[round]) + " " + SEAT_NOTE[seat];
-  var after = full && seat==="together"
+  var after = full && seat==="match"
     ? '<div class="n">이 과는 세 회차를 다 돌았다. 다음 강의 과는 다음 세션에 뜬다. '+
       '지금 남은 시간은 다시 듣기와 대조에 쓴다.</div>' : "";
   var soundQ1 = (pl.quarter==="Q1" && pl.track==="소리");
@@ -3840,7 +3830,7 @@ function renderMediaPane(pl, seat){
   h+='<div class="cardnav">'+
     '<button type="button" data-media="audio">소리</button>'+
     (it.video?'<button type="button" data-media="video">영상</button>':"")+
-    (done<3 && !locked && seat==="together" ?
+    (done<3 && !locked && seat==="match" ?
       '<button type="button" data-media="pass">'+round+'회차 끝냈다로 적기</button>' : "")+
     '<button type="button" data-media="loop" class="'+(SESS.loop!=null?"on":"")+'">'+
       (SESS.loop!=null?"되풀이 끄기":"이 줄 되풀이")+'</button>'+
@@ -4271,13 +4261,13 @@ function renderBlockPane(){
            (n?'<div class="n">'+esc(n)+'</div>':"");
   }
   if(i===0){
-    h=renderMediaPane(pl,"alone");
+    h=renderMediaPane(pl,"find");
   }else if(i===1){
     h=renderSetPane(pl);
   }else if(i===2){
     h=renderDrillPane(pl);
   }else{
-    h=renderMediaPane(pl,"together");
+    h=renderMediaPane(pl,"match");
   }
   if(PEEK!=null){
     h='<div class="peekbar"><b>미리 보기</b> 블록 '+(PEEK+1)+" "+esc(BLOCKS[PEEK].n)+
@@ -5789,7 +5779,16 @@ function roundRun(live, k, cur){
   return out;
 }
 
-function roundPick(playId, list, take, sizeAt){
+function roundRuns(poolKey, sess){
+  var k=0, i;
+  for(i=1;i<sess;i++) if(roundPlanAt(i).media===poolKey) k++;
+  return k;
+}
+function roundWait(again){
+  return roundHistory(again) ? "" : dataWait("차림표 48주를","index");
+}
+
+function roundPick(playId, list, take, sizeAt, poolKey){
   var n=(list||[]).length, out=[], i, m;
   take=Math.max(1, take|0);
   if(!n) return out;
@@ -5797,6 +5796,12 @@ function roundPick(playId, list, take, sizeAt){
   if(n<=take){
     var o0=roundOrder(n, roundSeed(playId, roundSess(), String(S.start||"x")));
     for(i=0;i<n;i++) out.push(list[o0[i]]);
+    return out;
+  }
+  if(poolKey!=null){
+    if(!roundHistory()) return out;
+    var st=(roundRuns(poolKey, roundSess())*take)%n;
+    for(i=0;i<take;i++) out.push(list[line[(st+i)%n].i]);
     return out;
   }
   var sess=roundSess(), cur=0, at=n, live=roundLive(line, n);
@@ -6238,7 +6243,9 @@ function playHoldSay(id){
   var x=(d.plays||[]).filter(function(p){ return p.id===id; })[0];
   if(!x || !x.hold) return "";
   return '<b>정보를 쥐는 자리는 '+esc(x.hold)+'이다.</b> '+
-    '<b>덜 되는 쪽</b>이 그 자리를 맡는다 (원칙 3). 누가 맡을지는 앱이 안 정한다. ';
+    '<b>덜 되는 쪽</b>이 그 자리를 맡는다 (원칙 3). 누가 맡을지는 앱이 안 정한다. '+
+    (x.game ? '<span class="mut">앱에는 NPC 가 없어서 사람이 쥔다. 게임에서는 이렇게 돈다. '+
+              esc(x.game)+'</span> ' : "");
 }
 
 function playRec(id, blank){

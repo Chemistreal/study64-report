@@ -236,17 +236,24 @@ function renderSidePick(A,B){
 
 /* =========================================================================
    블록 2. 대조 교차 세트를 네 단계로 편다.
-   **B 는 1단계의 필수 포함 요소를 그 자리에서 안 본다.**
-   B 가 목록을 보면서 들으면 재구성이 아니라 목록 대조가 된다.
-   A 가 무엇을 빠뜨렸는지는 3단계 상호 검토에서 갈린다. 그것이 이 세트의 장치다.
-   기기 쪽을 안 고르면 다 보여 준다. 기기가 하나인 날도 있다. 그때는 종이 규칙으로 돈다.
+   **두 사람이 같은 것을 본다** (기준서 2.3 9.2, 개정문 22 23).
+   1단계는 NPC 가 설명하고 둘이 같이 듣는다. 2단계는 둘이 같이 재구성한다.
+   A 가 먼저 말하고 B 가 잇는다. 3단계는 B 가 먼저 말한다.
+   **A 와 B 는 정보를 쥐는 자리가 아니라 먼저 말하는 차례다.**
+
+   전에는 1단계 필수 포함 요소를 B 화면에서 가렸다. B 가 목록을 보면서 들으면
+   재구성이 아니라 목록 대조가 된다는 까닭이었다. 개정문 22 가 그 까닭을 없앴다.
+   두 사람 사이에 가린 정보를 두지 않는다. 가리는 것은 NPC 와 게임이 쥔다.
+   이 앱에는 NPC 가 없다. 그래서 요소 목록은 **둘에게 다** 보이고
+   무엇을 듣고 무엇을 같이 재구성하는지를 말해 주는 길잡이로 쓴다.
+   기기 쪽을 골라도 안 골라도 화면이 같다. 기기가 하나인 날도 종이 규칙이 따로 없다.
    ========================================================================= */
 /* 지금 몇 단계인지를 들고 있는 자리. 바뀔 때만 알리려면 앞 값이 있어야 한다. */
 var SWAP={step:null};
 /* 3단계 상호 검토에서 각자 적는 칸.
    본문이 "합의 지점 1개 이상, 불일치 지점 1개 이상을 각자 적는다" 고 시킨다.
-   **시키는데 적을 자리가 없었다.** 블록 1과 다른 점이 하나 있다.
-   여기는 서로 보는 자리다. 같이 검토하는 10분이라 가리면 검토가 안 된다. T212 */
+   **시키는데 적을 자리가 없었다.** 각자 적는 칸이지만 서로 보는 자리다.
+   같이 검토하는 10분이라 가리면 검토가 안 된다. T212 */
 function xchkWrite(){
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
@@ -279,7 +286,6 @@ function renderSetPane(pl){
   }
   var s=(sets.items||[]).filter(function(x){return x.id===pl.set;})[0];
   if(!s) return '<div class="k">대조 교차 세트</div><div class="v">'+esc(pl.set||"(없음)")+'</div>';
-  var mine=deviceSide();
   /* 30분 안에서 지금 몇 단계인지는 시간이 이미 알고 있다. 8 8 10 4 로 나뉜다.
      화면이 그것을 안 쓰면 두 사람이 시계를 따로 본다. 블록 타이머가 있는데 그렇다. */
   var used=BLOCKS[1].m*60-Math.max(0,T.left), acc=0, curStep=0;
@@ -287,14 +293,21 @@ function renderSetPane(pl){
     if(used>=acc) curStep=i;
     acc+=st.minutes*60;
   });
-  /* **단계가 바뀌면 말하는 사람이 바뀐다.** 1단계는 A 가 설명하고 2단계는 B 가 재구성한다.
+  /* **단계가 바뀌면 하는 일이 바뀐다.** 1단계는 NPC 설명을 같이 듣고
+     2단계는 A 가 먼저 말하고 B 가 잇는다. 3단계는 B 가 먼저 말한다.
      시간이 그 자리를 정하는데 화면만 바뀌고 아무 소리가 없었다.
-     두 사람은 서로를 보고 말하는 중이라 화면을 안 본다. 그래서 교대를 놓친다.
+     두 사람은 서로를 보고 말하는 중이라 화면을 안 본다. 그래서 바뀜을 놓친다.
      세션이 도는 중일 때만 알린다. 미리 보기에서는 안 울린다. T176 */
   if(T.run && SWAP.step!==null && SWAP.step!==curStep){
     tone("swap");
-    var who=(curStep===0||curStep===2)?"A":"B";
-    setTimeout(function(){ flash((curStep+1)+"단계 · 이제 "+who+" 차례다"); },0);
+    var A0=roleOf(today())==="a"?S.names.a:S.names.b;
+    var B0=roleOf(today())==="a"?S.names.b:S.names.a;
+    var say=[
+      "NPC 설명을 같이 듣는다",
+      "같이 재구성한다 · "+A0+" 먼저, "+B0+" 이어서",
+      "상호 검토 · "+B0+" 먼저",
+      "같이 적는다"][curStep];
+    setTimeout(function(){ flash((curStep+1)+"단계 · "+say); },0);
   }
   SWAP.step=T.run?curStep:null;
   var h='<div class="k">이 블록에 쓰는 것 · 대조 교차 세트</div><div class="v">'+esc(s.id)+'</div>';
@@ -303,50 +316,39 @@ function renderSetPane(pl){
     var f=st.fields||{};
     var body="";
     if(st.step===1){
+      /* **둘에게 같은 것이 보인다.** 가린 정보를 두지 않는다 (개정문 22).
+         목록은 NPC 설명에 들어 있는 요소다. 무엇을 들을지를 둘에게 다 준다. */
       body='<div class="body"><b>설명 대상</b> '+esc(f["설명 대상"]||"")+'</div>';
-      if(mine==="b"){
-        /* B 화면에서는 목록을 가린다. 이 한 줄이 이 세트의 장치를 지킨다. */
-        body+='<div class="hid">필수 포함 요소는 B 화면에 안 띄운다. '+
-              'A 의 설명만 듣고 재구성한다. 빠진 것은 3단계에서 갈린다.</div>';
-      }else if(st.items && st.items.length){
-        body+='<ol>'+st.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';
+      if(st.items && st.items.length){
+        body+='<div class="n">NPC 가 설명에 넣는 요소 · 둘이 같이 듣는다</div>'+
+              '<ol>'+st.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';
       }
     }else if(st.step===2){
       body='<div class="body"><b>'+esc(f["재구성 방식"]||"")+'</b><br>'+esc(f["지시"]||"")+'</div>';
+      /* **먼저 말하는 차례다.** 정보를 쥔 사람이 아니다 (기준서 8.2).
+         세트 48개가 "A가 먼저 말하고 B가 잇는다" 고 적는다. 이름으로 바꿔 화면에 낸다. */
+      var A2=roleOf(today())==="a"?S.names.a:S.names.b;
+      var B2=roleOf(today())==="a"?S.names.b:S.names.a;
+      body+='<div class="note w"><b>2단계는 '+esc(jo(A2,"이","가"))+' 먼저 말하고 '+
+        esc(jo(B2,"이","가"))+' 잇는다.</b> 둘이 같이 재구성한다.</div>';
     }else if(st.step===3){
       body='<div class="body">'+esc(f["본문"]||"")+'</div>';
       if(f["규칙"]) body+='<div class="body"><b>규칙</b> '+esc(f["규칙"])+'</div>';
-      /* **1단계에서 가린 것을 여기서 편다.**
-         1단계 코드에 "빠진 것은 3단계에서 갈린다" 고 적어 놓고 안 폈다.
-         B 는 그 목록을 세션 내내 한 번도 못 봤다. 그러면 무엇이 빠졌는지를
-         A 가 말해 줘야 하고, 그것은 A 가 채점하는 자리가 된다.
-         **목록을 펴면 둘이 같은 것을 보고 갈린다.** T212 */
-      /* **3단계에 그려 두기만 하면 새어 나간다.** 네 단계가 한 칸에 다 그려진다.
-         B 가 1단계에서 아래로 밀면 3단계 목록이 그대로 보인다. 그러면 격차가 없다.
-         `check_ui.js` 가 그것을 잡았다. 세트 288개 중 셋에서 났다.
-         **시간이 3단계에 닿아야 편다.** 그 전에는 아예 안 그린다. */
-      var s1=(s.steps||[]).filter(function(x){return x.step===1;})[0];
-      if(curStep>=2 && s1 && s1.items && s1.items.length){
-        body+='<div class="body"><b>1단계에 들어갔어야 하는 것</b>'+
-          '<ol>'+s1.items.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>'+
-          '<div class="n">2단계까지 B 화면에서 가려 뒀던 것이다. '+
-          '빠진 것이 있으면 그것이 불일치 지점이다.</div></div>';
-      }
       /* **누가 먼저 말하는지를 적는다** (T350).
 
-         세트 48개가 머리글에 이렇게 적어 놨다.
-
-             1단계에서 설명한 사람이 3단계에서 먼저 말하지 않는다.
-
+         세트 48개가 머리글에 3단계는 B가 먼저 말한다고 적는다.
          **종이에만 있었다.** 앱은 그 말을 어디에서도 안 했다.
          세션 중에 세트 파일을 펴는 사람은 없다 (매뉴얼 0장).
-         안 적으면 설명한 쪽이 그대로 먼저 말하고 그것이 자리가 굳는 자리다.
+         안 적으면 2단계에서 먼저 말한 쪽이 그대로 먼저 말하고 그것이 자리가 굳는 자리다.
 
-         누가 1단계 설명이었는지는 앱이 안다. 그날 A다. 그러니 3단계 첫마디는 B다. */
+         **1단계 설명은 NPC 가 한다.** 그래서 이유가 바뀌었다 (개정문 23).
+         전에는 설명한 사람이 먼저 말하지 않는다 였다. 지금은 2단계에서
+         먼저 말한 쪽이 3단계에서 뒤로 간다. 2단계는 A, 3단계는 B 가 연다. */
       var b3=(roleOf(today())==="a") ? S.names.b : S.names.a;
+      var a3=(roleOf(today())==="a") ? S.names.a : S.names.b;
       body+='<div class="note w"><b>3단계는 '+esc(jo(b3,"이","가"))+
-        ' 먼저 말한다.</b> 1단계에서 설명한 사람이 먼저 말하지 않는다. '+
-        '설명한 쪽이 먼저 말하면 그 자리가 그대로 굳는다.</div>';
+        ' 먼저 말한다.</b> 2단계는 '+esc(jo(a3,"이","가"))+' 먼저 말했으니 이번에는 바꾼다. '+
+        '먼저 말하는 자리가 굳지 않게 한다. 1단계 요소 중 빠진 것이 있으면 그것이 불일치 지점이다.</div>';
       /* 각자 적는다. 본문이 "각자 적는다" 고 시키는데 적을 자리가 없었다. */
       body+='<div class="body">'+xchkWrite()+'</div>';
     }else{
@@ -403,8 +405,6 @@ function renderSetPane(pl){
     if(el) el.oninput=function(){ day(today()).lre=+el.value||0; save();
       var f=document.getElementById("fLre"); if(f) f.value=el.value; };
   },0);
-  if(!mine) h+='<div class="n">이 기기를 쓰는 사람을 안 골랐다. '+
-               '두 쪽을 다 보여 주는 중이다. B 는 1단계 목록을 안 본다.</div>';
   return h;
 }
 

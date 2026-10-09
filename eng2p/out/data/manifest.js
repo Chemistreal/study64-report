@@ -140,8 +140,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "index_head.js",
-      "bytes": 755,
-      "sha256": "c5bfc31c1b35e79d99978d429d46315f388ceed044d4c0650664e05a71491374"
+      "bytes": 790,
+      "sha256": "aeb55a5908c3c7bf2aa2fc98ab09eb969d89c0968f4a93f2998ac354f61cce6a"
     },
     {
       "file": "index_q1.js",
@@ -275,13 +275,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "playblocks.js",
-      "bytes": 5714,
-      "sha256": "8b329a44f09af562a991c5a22bb6796d55b3b872027d319aeaa1670c5c002574"
+      "bytes": 5166,
+      "sha256": "aefabacf907ccd3360f64198202ee317dafb55cdbf7e6d6ed27e7c10dd1ec39b"
     },
     {
       "file": "playblocks.json",
-      "bytes": 8831,
-      "sha256": "a38fdc79f830cb390e3b1c351021c88cfbfe5ac9eefd815d8eb1efb87aa2b2c4"
+      "bytes": 8401,
+      "sha256": "2e0ea43ac701eedf964b2525f1c25fa400ba6b7b620cdce47a5bfac959563264"
     },
     {
       "file": "tally.js",
@@ -345,13 +345,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "hold.js",
-      "bytes": 4377,
-      "sha256": "c4802c91823338a47d83693de57860d9fba650e10bcaf4d7fac67dc22e8207f6"
+      "bytes": 5859,
+      "sha256": "aec66e8b23db4c2da78a0cfddb77955aaf4832e021ef4f8b3bd64792491481bd"
     },
     {
       "file": "hold.json",
-      "bytes": 6026,
-      "sha256": "520736f8dd40be59ee5f45e1efdad165f76fe4c8145c7f9a3080f660ef6ec7a0"
+      "bytes": 7676,
+      "sha256": "4e23e8e3e248cc754f7df570d90f1fc6c96f2740eb8ff8b981b78898a6b627c3"
     },
     {
       "file": "more.js",

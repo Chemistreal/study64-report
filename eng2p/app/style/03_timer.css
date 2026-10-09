@@ -63,7 +63,6 @@ body.session-focus .sidepick button{padding:var(--sp5) var(--sp8);font-size:var(
 .setstep.now h5{color:var(--a1t)}
 .setstep .body{margin-top:var(--sp3);font-size:var(--fs6);line-height:1.65}
 .setstep ol{margin:var(--sp3) 0 0;padding-left:var(--sp10);font-size:var(--fs6);line-height:1.7}
-.setstep .hid{font-size:var(--fs4);color:var(--mut);font-style:italic}
 .setstep .blank{display:block;margin-top:var(--sp3);padding:var(--sp4) var(--sp5);border:1px dashed var(--edge);
   border-radius:var(--r4);font-size:var(--fs4);color:var(--mut)}
 /* 카드 뷰어. 한 장씩 본다. 여러 장을 한 화면에 놓으면 다음 것이 눈에 들어온다. */
@@ -75,8 +74,6 @@ body.session-focus .sidepick button{padding:var(--sp5) var(--sp8);font-size:var(
 .cardview .ins{margin-top:var(--sp4);font-size:var(--fs7);line-height:1.6;font-weight:600}
 .cardview ol{margin:var(--sp5) 0 0;padding-left:var(--sp10);font-size:var(--fs7);line-height:1.85}
 .cardview .meta{margin-top:var(--sp5);font-size:var(--fs4);color:var(--mut);line-height:1.6}
-.cardview .ans{margin-top:var(--sp5);padding:var(--sp5) var(--sp6);border:1px dashed var(--a3);border-radius:var(--r4);
-  font-size:var(--fs5)}
 .cardnav{display:flex;gap:var(--sp4);justify-content:center;margin-top:var(--sp5);flex-wrap:wrap}
 .cardnav button{padding:var(--sp5) var(--sp7);border-radius:var(--r4);border:1px solid var(--edge);
   background:var(--card);color:var(--fg);font-size:var(--fs5);font-weight:650;cursor:pointer;min-height:42px}

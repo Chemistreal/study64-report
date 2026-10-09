@@ -3622,6 +3622,12 @@ const RESET = () => {
     }, x.id);
     if (t.indexOf("정보를 쥐는 자리는 " + x.hold) < 0) holdMiss.push(x.id);
     else if (!/덜 되는 쪽/.test(t)) holdMiss.push(x.id + "(누가 맡나)");
+    /* **앱 화면이 옛 꼴이라는 것과 게임 꼴을 같이 말하는가** (개정문 22). 앱에는 NPC 가 없어
+       이 아홉 판은 사람이 정보를 쥔다. 기준서 2.3 이 사람 사이의 가림을 없앴으므로
+       그 사실을 숨기면 안 된다. 게임에서 어떻게 도는지가 그 자리에 적혀 있어야 한다 */
+    else if (t.indexOf("앱에는 NPC 가 없어서 사람이 쥔다") < 0 || t.indexOf("게임에서는 이렇게 돈다") < 0)
+      holdMiss.push(x.id + "(게임 꼴)");
+    else if (!x.game || t.indexOf(x.game.slice(0, 12)) < 0) holdMiss.push(x.id + "(게임 꼴 글)");
   }
   if (holdMiss.length)
     no("정보를 쥐는 자리를 안 알려 주는 판이 있다: " + holdMiss.slice(0, 4).join(" "));

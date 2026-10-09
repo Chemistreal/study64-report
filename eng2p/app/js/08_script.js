@@ -380,18 +380,18 @@ function renderBlockPane(){
     return '<div class="k">'+esc(k)+'</div><div class="v">'+esc(v)+'</div>'+
            (n?'<div class="n">'+esc(n)+'</div>':"");
   }
-  /* **블록은 회차를 안 정한다.** 자리만 정한다. 블록 1은 각자 듣는 자리이고
-     블록 4는 같이 듣는 자리다. 회차는 그 과를 몇 번 돌았는가가 정한다.
+  /* **블록은 회차를 안 정한다.** 자리만 정한다. 블록 1은 같이 듣고 찾는 자리(find)이고
+     블록 4는 같이 듣고 맞춰 보는 자리(match)다. 회차는 그 과를 몇 번 돌았는가가 정한다.
      T153 리허설에서 블록이 회차를 정하고 있었고, 이튿날부터 화면이
      "1회차" 라고 하는데 버튼은 "3회차" 라고 했다. 스물넷 중 여덟 칸이 그랬다. */
   if(i===0){
-    h=renderMediaPane(pl,"alone");
+    h=renderMediaPane(pl,"find");
   }else if(i===1){
     h=renderSetPane(pl);
   }else if(i===2){
     h=renderDrillPane(pl);
   }else{
-    h=renderMediaPane(pl,"together");
+    h=renderMediaPane(pl,"match");
   }
   if(PEEK!=null){
     h='<div class="peekbar"><b>미리 보기</b> 블록 '+(PEEK+1)+" "+esc(BLOCKS[PEEK].n)+

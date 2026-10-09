@@ -518,12 +518,14 @@ def manifest(lec, card, sett, hand, emg, task):
         })
     return {
         # 블록 넷은 288세션이 다 같다. 매뉴얼 2.2다. 한 번만 적는다.
+        # **블록 1 은 "함께 듣기" 다** (기준서 2.3, 개정문 20). 전에는 병렬 침묵이었고 talk 가 False 였다.
+        # 네 블록이 다 같이 하고 말한다. talk 를 네 줄에 다 적어 두 블록만 적어 둔 빈칸을 없앤다.
         "blocks": [
-            {"no": 1, "name": "병렬 침묵", "minutes": 40, "talk": False,
+            {"no": 1, "name": "함께 듣기", "minutes": 40, "talk": True,
              "uses": "media"},
-            {"no": 2, "name": "대조 교차", "minutes": 30, "uses": "set"},
-            {"no": 3, "name": "페어 드릴", "minutes": 30, "uses": "cards"},
-            {"no": 4, "name": "공동 입력", "minutes": 20, "uses": "media"},
+            {"no": 2, "name": "대조 교차", "minutes": 30, "talk": True, "uses": "set"},
+            {"no": 3, "name": "페어 드릴", "minutes": 30, "talk": True, "uses": "cards"},
+            {"no": 4, "name": "공동 입력", "minutes": 20, "talk": True, "uses": "media"},
         ],
         # 역할은 진행 대장의 정상 수행 횟수를 봐야 정해진다. 규칙만 적는다.
         # 세트 번호와 세션 번호는 밀리지 않으면 같지만 규칙은 세션 번호다.

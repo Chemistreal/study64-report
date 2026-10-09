@@ -47,12 +47,9 @@ function wavPiece(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  /* **`roundPick` 으로 바꿔 봤다가 되돌렸다** (T413~T415).
-     자루가 6이고 한 과가 엿새 도니 여섯을 다 낼 줄 알았는데
-     309 중 199가 163으로 **줄었다.** 자루가 작을 때 커서 걸음과 자루 크기가
-     맞물려 같은 자리를 되풀이한다. 까닭을 다 못 밝혀서 되돌린다.
-     **고쳐서 나빠지면 안 고친 것만 못하다.** `docs/play_unused.md` 에 적어 뒀다. */
-  return rows[roundSeed("wave",0)%rows.length];
+  /* **자루를 과가 도는 횟수로 걷는다** (poolKey, 2026-10-09). 배속 사다리와 같은 고침이다.
+     전에는 `roundSeed % 자루` 로 날마다 하나를 집었다. `docs/play_unused.md` 4.0 을 본다. */
+  return roundPick("wave", rows, 1, null, mid)[0]||null;
 }
 function wavLine(li){
   var t=DATA.transcripts, mid=wavToday();
@@ -136,6 +133,8 @@ function renderWave(){
     if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderWave(); });
     return;
   }
+  var wait=roundWait(renderWave);
+  if(wait){ box.innerHTML=wait; return; }
   var d=DATA.wave, it=wavPiece();
   if(!it){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 줄이 없다. '+

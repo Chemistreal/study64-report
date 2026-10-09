@@ -29,7 +29,7 @@ function hrmItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var out=roundPick("hearme", rows, HRM.n);
+  var out=roundPick("hearme", rows, HRM.n, null, mid);   /* 과가 도는 횟수로 걷는다 (poolKey) */
   return out;
 }
 function hrmLine(li){
@@ -85,6 +85,8 @@ function renderHearme(){
       '이 판은 오늘 과의 대본으로 돈다.</div></div>';
     return;
   }
+  var wait=roundWait(renderHearme);
+  if(wait){ box.innerHTML=wait; return; }
   var items=hrmItems();
   if(!items){
     box.innerHTML='<div class="card"><div class="note w">'+esc(mid)+

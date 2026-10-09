@@ -16,6 +16,17 @@
     python3 scripts/check_play.py
 
 규격: docs/play.md, docs/play_rules.md, docs/roadmap.md 12.9, docs/solo_plays.md
+
+## 개정문 22 뒤에 하나가 늘었다 (2026-10-09)
+
+**두 사람 사이에 가린 정보를 두지 않는다.** 가리는 것은 NPC 와 게임이 쥔다 (기준서 2.3 8.2).
+가리기에 기대던 열세 판의 아홉 줄을 그 꼴로 다시 적었다. 이 검사가 그것을 지킨다.
+
+    열세 판의 아홉 줄에 "한 사람 화면에만 뜬다" 류의 옛 말이 없다
+    열세 판의 판정 칸이 사람 하나가 아니다 (게임이나 둘이 같이나 기준이다)
+    스무 판의 역할 칸이 정보를 쥔 자리를 적지 않는다 (먼저 말하는 차례를 적는다)
+    규칙서 15장 오른쪽 칸이 docs/game.md 1.3 "이제" 칸과 같다
+    15장 둘째 칸에 자리가 적힌 판 수가 out/data/hold.json 과 같다 (앱 화면이 옛 꼴로 남은 곳)
 """
 import io
 import os
@@ -29,6 +40,16 @@ ROADMAP = os.path.join(ROOT, "docs", "roadmap.md")
 DATA = os.path.join(ROOT, "docs", "play_data.md")
 SOLO = os.path.join(ROOT, "docs", "solo_plays.md")
 MANUAL = os.path.join(ROOT, "out", "manual", "eng2p_manual.md")
+GAME = os.path.join(ROOT, "docs", "game.md")
+HOLD = os.path.join(ROOT, "out", "data", "hold.json")
+
+# 개정문 22 앞의 말. 한 사람에게만 뜨거나 한 사람이 쥔다는 말이다. 아홉 줄에 이것이 있으면 옛 꼴이다.
+# **"화면에 있다" 는 막지 않는다.** 둘이 같이 보는 것은 가린 정보가 아니다.
+HIDE_OLD = re.compile(r"화면에만|화면에 [^|]*뜬다|쥔 쪽|쥐는 쪽|쥔 사람|서로 안 보|"
+                      r"안 보여 준다|(쪽|사람|화면)만 본다|읽는 쪽|듣는 쪽|띄우는 쪽|뭉개는 쪽|뭉갠 사람|"
+                      r"읽은 사람|감춘|숨긴")
+# 역할 칸에 정보를 쥔 자리를 적으면 안 된다 (기준서 8.2: A 와 B 는 먼저 말하는 차례)
+HOLD_ROLE = re.compile(r"쥔|쥐는")
 
 # 한 기기로 도는 갈래 셋. `docs/solo_plays.md` 2장이 정했다. T249
 SOLO_KINDS = ["그대로", "돌려 보기", "종이", "고른 판을 따른다"]
@@ -202,6 +223,96 @@ def check_solo(books, fails):
     return len(rows)
 
 
+def game_table():
+    """docs/game.md 1.3 표. 판 이름 -> 이제 칸. **게임 쪽 원본이다.**"""
+    if not os.path.exists(GAME):
+        return {}
+    txt = io.open(GAME, encoding="utf-8").read()
+    a = txt.find("### 1.3")
+    b = txt.find("\n## 2.", a if a >= 0 else 0)
+    sec = txt[a:b] if a >= 0 else ""
+    out = {}
+    for m in re.finditer(r"^\| ([^|]+?) \| ([^|]+?) \| ([^|]+?) \|\s*$", sec, re.M):
+        name = strip(m.group(1)).strip()
+        if name in ("판", "") or name.startswith("-"):
+            continue
+        out[name] = strip(m.group(3)).strip()
+    return out
+
+
+def screen_table():
+    """규칙서 15장 표. 판 이름 -> (앱 화면이 쥐는 자리, 앱 화면이 하는 일, 게임에서)."""
+    txt = io.open(RULES, encoding="utf-8").read()
+    i = txt.find("## 15. 앱 화면이 옛 꼴로 남은 열셋")
+    out = {}
+    if i < 0:
+        return out
+    for line in txt[i:].split("\n"):
+        line = line.strip()
+        if not line.startswith("|") or "---" in line:
+            continue
+        c = [strip(x.strip()) for x in line.strip("|").split("|")]
+        if len(c) == 4 and c[0] != "판":
+            out[c[0]] = (c[1], c[2], c[3])
+    return out
+
+
+def check_hide(books, fails):
+    """가린 정보를 사람 사이에 안 두는가. 개정문 22 (2026-10-07), 규칙서 0장과 15장.
+
+    **아홉 줄이 옛 꼴로 돌아가면 여기서 잡는다.** 셋을 본다.
+    하나. 열세 판의 아홉 줄에 옛 말(한 사람 화면에만)이 없고 판정이 사람 하나가 아니다.
+    둘. 스무 판의 역할 칸이 정보를 쥔 자리를 적지 않는다.
+    셋. 15장이 게임 쪽 표(game.md 1.3)와 같고 앱 화면에 남은 수가 hold.json 과 같다.
+    """
+    g, sc = game_table(), screen_table()
+    if len(g) != 13:
+        fails.append("docs/game.md 1.3 에서 가리기 판을 %d개 읽었다. 열셋이어야 한다" % len(g))
+    for n in g:
+        if n not in sc:
+            fails.append("규칙서 15장에 '%s' 가 없다 (game.md 1.3 에는 있다)" % n)
+    for n in sc:
+        if n not in g:
+            fails.append("규칙서 15장의 '%s' 가 game.md 1.3 에 없다" % n)
+    for n in g:
+        if n in sc and sc[n][2] != g[n]:
+            fails.append("'%s' 15장 오른쪽 칸이 game.md 1.3 과 다르다" % n)
+    byname = dict((n.strip(), dict(r)) for n, r in books)
+    for n in g:
+        cell = byname.get(n)
+        if not cell:
+            fails.append("규칙서에 가리기 판 '%s' 의 아홉 줄이 없다" % n)
+            continue
+        text = " | ".join(cell.get(k, "") for k in ROWS)   # 칸 사이를 세로줄로 가른다. 정규식이 칸을 넘어 물면 안 된다
+        hit = HIDE_OLD.search(text)
+        if hit:
+            fails.append("%s: 아홉 줄에 옛 가림 말이 남았다 ('%s'). 가리는 것은 NPC 와 게임이 쥔다" % (n, hit.group(0)))
+        if re.search(r"(?<!두 )사람", cell.get("판정", "")):
+            fails.append("%s: 판정 칸이 사람 하나다 (%s). 판정은 게임이거나 둘이 같이거나 기준이다"
+                         % (n, cell["판정"][:24]))
+        if not any(w in cell.get("도는 차례", "") for w in ("NPC", "게임", "같이 쓴다")):
+            fails.append("%s: 도는 차례에 NPC 도 게임도 없다. 가리는 쪽이 누구인지 안 적었다" % n)
+    for n, cell in byname.items():
+        if HOLD_ROLE.search(cell.get("역할", "")):
+            fails.append("%s: 역할 칸이 정보를 쥔 자리를 적는다. 역할은 먼저 말하는 차례다 (기준서 8.2)" % n)
+    seats = sorted(n for n, v in sc.items() if v[0] != "없음")
+    if len(seats) != 9:
+        fails.append("규칙서 15장 둘째 칸에 자리가 적힌 판이 %d개다. 앱 화면이 옛 꼴로 남은 곳은 아홉이다" % len(seats))
+    if os.path.exists(HOLD):
+        import json
+        h = json.load(io.open(HOLD, encoding="utf-8"))
+        got = sorted(x["name"] for x in h["plays"] if x["hold"])
+        if got != seats:
+            fails.append("hold.json 에서 쥐는 자리가 있는 판이 15장과 다르다: %s / %s"
+                         % (" ".join(got), " ".join(seats)))
+        miss = [x["name"] for x in h["plays"] if x["name"] in g and not x.get("game")]
+        if miss:
+            fails.append("hold.json 에 게임에서 쥐는 것이 빈 판이 있다: %s" % " ".join(miss))
+    else:
+        fails.append("out/data/hold.json 이 없다. derive_hold.py 를 먼저 돈다")
+    return len(g)
+
+
 def main():
     fails = []
     books = rulebook()
@@ -294,18 +405,20 @@ def main():
 
     # **기계가 못 보는 것을 여기 적어 둔다.** 안 적으면 통과가 전부인 줄 안다
     by_app = [n for n, j in judges.items() if j.startswith("앱")]
+    by_game = [n for n, j in judges.items() if j.startswith("게임")]
     print("  판 %d개 / 아홉 줄 규격 / 분 합 %d분" % (len(books), sum(mins)))
-    print("  사람이 판정하는 판 %d, 앱이 판정하는 판 %d" %
-          (len(judges) - len(by_app), len(by_app)))
+    print("  게임이 판정하는 판 %d, 앱이 판정하는 판 %d, 그 밖(둘이 같이, 기준, 정해진 사람) %d" %
+          (len(by_game), len(by_app), len(judges) - len(by_game) - len(by_app)))
     print("  역할이 없다고 적은 판 %d / 자료가 없는 판 %d" % (roleless, len(none_here)))
     print("  **기계가 안 보는 것: 재미, 판정의 옳고 그름, 자료의 질**")
     # **찍기 전에 부른다.** 뒤에 두면 세기만 하고 안 보여 준다. 실제로 그랬다.
     nsolo = check_solo(books, fails)
+    nhide = check_hide(books, fails)
     for m in fails:
         print("[실패] " + m)
     print("")
-    print("놀이 규칙서 %d판 / 한 기기 갈래 %d판 / 실패 %d"
-          % (len(books), nsolo, len(fails)))
+    print("놀이 규칙서 %d판 / 한 기기 갈래 %d판 / 가리기 판 %d (NPC 와 게임이 쥔다) / 실패 %d"
+          % (len(books), nsolo, nhide, len(fails)))
     return 1 if fails else 0
 
 

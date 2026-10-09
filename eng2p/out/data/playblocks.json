@@ -1,17 +1,32 @@
 {
-  "note": "판 스무 개가 블록 넷 중 어디에 붙는가. 자료와 말과 분으로 정한다. 블록 1은 비어 있고 그것이 맞다. 손으로 안 고친다. scripts/derive_blocks.py 를 다시 돌린다.",
+  "note": "판 스무 개가 블록 넷 중 어디에 붙을 수 있는가. 자료와 분으로 정한다. 네 블록이 다 같이 하고 말하는 블록이라 말은 자리를 안 정한다 (개정문 20). 손으로 안 고친다. scripts/derive_blocks.py 를 다시 돌린다.",
   "grade": "A",
-  "gradeWhy": "영어가 없다. 규칙서의 쓰는 것과 도는 차례와 분을 index.json 의 블록 넷과 대 본 것이다. 셋 다 세면 나온다.",
+  "gradeWhy": "영어가 없다. 규칙서의 쓰는 것과 분을 index.json 의 블록 넷과 대 본 것이다. 둘 다 세면 나온다.",
   "generator": "scripts/derive_blocks.py",
   "source": "docs/play_rules.md, out/data/index.json, docs/play.md 원칙 6",
   "blocks": [
     {
       "no": 1,
-      "name": "병렬 침묵",
+      "name": "함께 듣기",
       "minutes": 40,
       "uses": "media",
-      "together": false,
-      "plays": []
+      "together": true,
+      "plays": [
+        "mirror",
+        "swapline",
+        "hearme",
+        "relay",
+        "chain",
+        "twohalf",
+        "overlap",
+        "ladder",
+        "rebound",
+        "wave",
+        "reask",
+        "cutin",
+        "clash",
+        "oneday"
+      ]
     },
     {
       "no": 2,
@@ -63,10 +78,8 @@
       ]
     }
   ],
-  "empty": [
-    1
-  ],
-  "emptyWhy": "블록 1은 40분 병렬 침묵이다. 병렬은 각자 따로라는 뜻이다. 판 스무 개가 다 둘이 하는 판이라 붙을 것이 없다. 적어서 동시에 펴는 판도 상대를 기다리므로 병렬이 아니다. 빈 자리를 채우려고 판을 넣으면 블록 1이 블록 1이 아니게 된다.",
+  "empty": [],
+  "placementWhy": "블록 1 은 함께 듣기이고 블록 4 와 같은 자료(대본이 있는 52과)를 쓴다. 그래서 대본을 쓰는 판이 두 블록에 다 붙을 수 있다. 옮긴 판은 없다. 이 표는 붙을 수 있는 자리다. 하루에 도는 판은 두 판까지다 (기준서 2.3).",
   "plays": [
     {
       "id": "mirror",
@@ -77,10 +90,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -94,10 +107,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -111,10 +124,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -128,10 +141,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -145,10 +158,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -162,10 +175,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -179,10 +192,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -196,10 +209,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -216,7 +229,7 @@
         3
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
+        "1번은 media 를 쓴다",
         "2번은 set 를 쓴다",
         "4번은 media 를 쓴다"
       ]
@@ -230,10 +243,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -250,7 +263,7 @@
         3
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
+        "1번은 media 를 쓴다",
         "2번은 set 를 쓴다",
         "4번은 media 를 쓴다"
       ]
@@ -264,10 +277,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -284,7 +297,7 @@
         3
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
+        "1번은 media 를 쓴다",
         "2번은 set 를 쓴다",
         "4번은 media 를 쓴다"
       ]
@@ -298,10 +311,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -315,10 +328,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -332,10 +345,10 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         4
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
         "2번은 set 를 쓴다",
         "3번은 cards 를 쓴다"
       ]
@@ -352,7 +365,7 @@
         3
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
+        "1번은 media 를 쓴다",
         "2번은 set 를 쓴다",
         "4번은 media 를 쓴다"
       ]
@@ -369,7 +382,7 @@
         2
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
+        "1번은 media 를 쓴다",
         "3번은 cards 를 쓴다",
         "4번은 media 를 쓴다"
       ]
@@ -386,7 +399,7 @@
         3
       ],
       "why": [
-        "1번은 각자 따로 하는 블록이다",
+        "1번은 media 를 쓴다",
         "2번은 set 를 쓴다",
         "4번은 media 를 쓴다"
       ]
@@ -400,13 +413,12 @@
       "together": true,
       "talk": true,
       "fit": [
+        1,
         2,
         3,
         4
       ],
-      "why": [
-        "1번은 각자 따로 하는 블록이다"
-      ]
+      "why": []
     }
   ]
 }

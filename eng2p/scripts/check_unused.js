@@ -173,9 +173,11 @@ let n = 0;
 
     U.overlap = U.chain;
     P.overlap = () => mapDay(media(), DATA.chunks);
+    /* **판이 쓰는 함수를 그대로 부른다.** 전에는 `roundSeed % 자루` 를 여기서 흉내 냈다.
+       사다리와 파장은 앱 함수를 불렀고 이 판만 거울이라 하나만 고치면 잰 값이 안 따라왔다. */
     D.overlap = () => {
-      const m = media(), r = (DATA.chunks.items || {})[m] || [];
-      return r.length ? [m + "#" + (roundSeed("overlap", 0) % r.length)] : [];
+      const m = media();
+      return at(m, (DATA.chunks.items || {})[m] || [], [ovlPick()].filter(Boolean));
     };
 
     U.hearme = () => mapAll(DATA.listen);
@@ -307,7 +309,12 @@ let n = 0;
 
     /* 결함의 **꼴**을 짚는 자리. 수가 아니라 뽑는 법 자체를 견준다.
        수만 보면 뽑는 법을 반만 고쳐도 수가 그대로일 수 있다. */
-    const shape = { cutinHead: 0, cutinDays: 0, seedPick: 0, seedDays: 0 };
+    const shape = { cutinHead: 0, cutinDays: 0, pickDays: 0, sameDays: 0, repeat: 0, runs: 0 };
+    /* 과가 있는 자루를 걷는 판 셋. 한 과 안에서 자루를 다 돌기 전에 같은 낱을 두 번 내면 안 된다.
+       (판, 과) 마다 낸 차례를 모아 뒀다가 끝에서 본다. */
+    const POOLS = ["overlap", "ladder", "wave"];
+    const seq = {};
+    let lastPick = {};
 
     /* 오늘의 한 판은 **세션을 마친 뒤**에 열린다. 그래서 그 하나만 늦게 잰다. */
     const LATE = { oneday: 1, onedayPick: 1 };
@@ -342,15 +349,22 @@ let n = 0;
           if (want === cur) shape.cutinHead += 1;
         }
       }
-      /* 셋이 `roundSeed % 자루` 로 하나를 집는가. **`roundPick` 을 안 쓴다.**
-         T403 이 고친 자리가 이 셋에는 안 왔다. 그 꼴을 여기서 못 박는다. */
-      ["overlap", "ladder", "wave"].forEach((id) => {
+      /* 셋이 과가 도는 횟수로 자루를 걷는가 (poolKey, 2026-10-09).
+         전에는 `roundSeed % 자루` 로 하나를 집었다. 그 꼴이 돌아오면 어제와 같은 날이 생기고
+         한 과 안에서 자루를 다 돌기 전에 같은 낱이 또 나온다. 수가 아니라 **꼴**을 본다.
+         어제와 같은 날은 과가 이어서 도는 날만 센다. 과가 바뀌면 자루가 다르다. */
+      const medias = media();
+      POOLS.forEach((id) => {
         const src = (id === "overlap") ? DATA.chunks : DATA.relay;
-        const m = media(), r = ((src && src.items) ? src.items[m] : null) || [];
+        const r = ((src && src.items) ? src.items[medias] : null) || [];
         if (!r.length) return;
-        shape.seedDays += 1;
-        const want = m + "#" + (roundSeed(id, 0) % r.length);
-        if ((D[id]() || [])[0] === want) shape.seedPick += 1;
+        const k = (D[id]() || [])[0];
+        if (k == null) return;
+        shape.pickDays += 1;
+        if (lastPick[id] && lastPick[id].m === medias && lastPick[id].k === k) shape.sameDays += 1;
+        lastPick[id] = { m: medias, k: k };
+        const key = id + "|" + medias;
+        (seq[key] = seq[key] || { n: r.length, ks: [] }).ks.push(k);
       });
 
       /* 카드를 그날 돈 것으로 적는다. 그날 배정된 새 카드와 차례가 된 카드다. */
@@ -368,6 +382,13 @@ let n = 0;
     }
     window.today = real;
     window.save = realSave; window.saveNow = realNow;
+
+    /* 한 과가 도는 동안 자루를 다 돌기 전에 같은 낱이 또 나왔는가 */
+    for (const key in seq) {
+      const q = seq[key], head = q.ks.slice(0, q.n);
+      shape.runs += 1;
+      if (new Set(head).size !== head.length) shape.repeat += 1;
+    }
 
     const out = { shape: shape, rows: {} };
     for (const id in U) {
@@ -452,12 +473,16 @@ let n = 0;
     fails.push("끼어들기가 " + S.cutinDays + "날 중 " + S.cutinHead +
                "날 과의 앞 여섯 줄을 냈다. **되돌아갔다.** " +
                "cutShow 가 roundPick 을 부르는지 본다");
-  if (S.seedDays && S.seedPick === S.seedDays)
-    console.log("  꼴  겹치면 지운다와 배속 사다리와 파장이 " + S.seedDays +
-                "번 다 `roundSeed % 자루` 로 집었다. **T403 의 `roundPick` 이 이 셋에 안 왔다**");
+  /* **판정을 뒤집었다** (2026-10-09). 전에는 셋이 `roundSeed % 자루` 로 집는 것을 못 박았다.
+     고치고 나면 그 기준선이 고친 것을 되돌리라고 시키는 자가 된다 (끼어들기 때와 같다).
+     지금은 어제와 같은 날이 없고 한 과 안에서 자루를 다 돌기 전에 같은 낱이 안 나오는 것을 못 박는다. */
+  if (S.pickDays && S.sameDays === 0 && S.repeat === 0)
+    console.log("  꼴  겹치면 지운다와 배속 사다리와 파장이 " + S.pickDays + "번 다 과가 도는 횟수로 자루를 걸었다. " +
+                "어제와 같은 날 0, 자루를 다 돌기 전에 같은 낱이 또 나온 (판, 과) 0 / " + S.runs);
   else
-    fails.push("셋 중 하나의 뽑는 법이 바뀌었다. " + S.seedDays + "번 중 " + S.seedPick +
-               "번만 씨앗으로 집었다. docs/play_unused.md 4장을 고친다");
+    fails.push("셋의 뽑는 꼴이 되돌아갔다. " + S.pickDays + "번 중 어제와 같은 날 " + S.sameDays +
+               ", 같은 낱이 먼저 또 나온 (판, 과) " + S.repeat + " / " + S.runs +
+               ". `roundPick` 의 poolKey 를 본다 (docs/play_unused.md 4.0)");
 
   fails.forEach((m) => console.log("[실패] " + m));
 

@@ -9,10 +9,10 @@
  *
  * 무엇을 보는가.
  *
- *     블록 1   오늘 과, 이 주에 찾을 것, 적는 칸
- *     블록 2   네 단계, 1단계 목록이 B 화면에서 가려짐, 적는 칸
+ *     블록 1   오늘 과, 이 주에 찾을 것, 적는 칸 둘이 둘에게 다 뜸 (함께 듣기. 말해도 된다)
+ *     블록 2   네 단계, 1단계 요소가 둘에게 다 뜸, 2단계는 A 먼저, 3단계는 B 먼저, 적는 칸
  *     블록 3   구간, 카드, 돈 카드 수와 발화 분 칸
- *     블록 4   맞춰 보는 법, 두 칸, 회차 단추
+ *     블록 4 맞춰 보는 법, 두 칸, 회차 단추
  *
  * 사용법:
  *     node scripts/check_session.js
@@ -129,11 +129,10 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
           fails.push(wk + "주 블록 " + (i + 1) + " 에 '" + b + "' 가 남아 있다");
       });
       /* 블록마다 그 자리에만 있는 것을 하나씩 본다. **다 있는 것을 보면 안 걸린다.**
-         블록 1은 **자기 쪽 칸만** 뜬다. 그것이 그 자리의 장치다.
-         기기 쪽은 세션마다 뒤집히므로 어느 칸인지도 그때 정해진다 (T216). */
-      const mySide = await page.evaluate(() => (deviceSide() || "a").toUpperCase());
+         블록 1은 **두 칸이 다** 뜬다 (개정문 20 22). 전에는 자기 쪽 칸만 떴다.
+         기기 쪽은 세션마다 뒤집히므로 어느 쪽 칸이든 B 쪽이 되는 사람에게도 둘 다 떠야 한다 (T216). */
       const need = [
-        ["이 주에 찾을 것", "aim" + mySide],
+        ["이 주에 찾을 것", "aimA"],
         ["1단계", "setLre"],
         ["이 블록이 남기는 것", "drCards"],
         ["맞춰 보는 법", "aimA"],
@@ -152,12 +151,32 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
       const has = await page.evaluate((id) => !!document.getElementById(id), need[1]);
       if (!has)
         fails.push(wk + "주 블록 " + (i + 1) + " 에 적는 칸(" + need[1] + ")이 없다");
-      /* 블록 2는 B 화면에서 1단계 목록을 가려야 한다. 그 주 세트로 확인한다. */
-      if (i === 1 && txt.indexOf("B 화면에 안 띄운다") < 0)
-        fails.push(wk + "주 블록 2 가 B 화면에서 목록을 안 가린다");
-      /* **3단계 첫마디가 누구인지를 적는가** (T350).
-         세트 48개가 "1단계에서 설명한 사람이 3단계에서 먼저 말하지 않는다" 고
-         적어 놨는데 그 말이 종이에만 있었다. 세션 중에 세트 파일을 펴는 사람은 없다. */
+      /* 블록 1 은 B 쪽이 되는 사람 화면에도 두 칸이 다 있다. 가린 정보를 두지 않는다. */
+      if (i === 0) {
+        const both = await page.evaluate(() =>
+          !!document.getElementById("aimA") && !!document.getElementById("aimB"));
+        if (!both) fails.push(wk + "주 블록 1 이 B 쪽 화면에 두 칸을 다 안 낸다");
+        if (/상대 칸은 이 기기에 안 뜬다|각자 헤드폰|말을 걸지 않는다/.test(txt))
+          fails.push(wk + "주 블록 1 에 옛 침묵 문장이 남았다");
+      }
+      /* 블록 2 는 B 쪽이 되는 사람 화면에도 1단계 요소가 다 뜬다. 그 주 세트로 확인한다.
+         전에는 여기서 B 화면이 목록을 가리는지를 봤다. 개정문 22 가 그것을 없앴다. */
+      if (i === 1) {
+        const miss = await page.evaluate(() => {
+          const st = (DATA.sets.items || []).filter((x) => x.id === plan().set)[0];
+          const items = ((st && st.steps || [])[0] || {}).items || [];
+          const t = document.querySelector("#blockPane").innerText;
+          return { n: items.length, miss: items.filter((x) => t.indexOf(x) < 0).length };
+        });
+        if (!miss.n) fails.push(wk + "주 블록 2 세트에 1단계 요소가 없다");
+        else if (miss.miss) fails.push(wk + "주 블록 2 에서 1단계 요소 " + miss.miss + "개가 B 쪽 화면에 안 뜬다");
+        if (/안 띄운다|가려 뒀던/.test(txt))
+          fails.push(wk + "주 블록 2 에 옛 가림 문장이 남았다");
+      }
+      /* **2단계와 3단계 첫마디가 누구인지를 적는가** (T350, 개정문 23).
+         세트 48개가 "2단계는 A가 먼저 말하고 B가 잇는다. 3단계는 B가 먼저 말한다" 고
+         적어 놨는데 그 말이 종이에만 있었다. 세션 중에 세트 파일을 펴는 사람은 없다.
+         1단계 설명은 NPC 가 한다. 그래서 전의 "설명한 사람이 먼저 말하지 않는다" 는 없어졌다. */
       if (i === 1) {
         const say = await page.evaluate(() => {
           const p = document.querySelector("#blockPane");
@@ -173,15 +192,31 @@ const BAD = ["undefined", "여는 중이다", "NaN", "[object",
           /* 조사가 받침을 따라 바뀐다. 이 와 가 를 둘 다 본다 */
           if (!/(이|가) 먼저 말한다/.test(say))
             fails.push(wk + "주 블록 2 3단계가 누가 먼저 말하는지를 안 적는다");
-          if (!/설명한 사람이 먼저 말하지 않는다/.test(say))
-            fails.push(wk + "주 블록 2 3단계가 왜 그런지를 안 적는다");
-          /* **설명한 쪽이 아니어야 한다.** 그날 A가 1단계 설명이다 */
-          /* 조사가 붙는다. 앱이 받침을 보고 이/가 를 고른다 */
-          const who = await page.evaluate(() =>
-            jo(roleOf(today()) === "a" ? S.names.b : S.names.a, "이", "가"));
-          if (say.indexOf(who + " 먼저 말한다") < 0)
-            fails.push(wk + "주 블록 2 3단계 첫마디가 설명한 쪽이다");
+          if (/설명한 사람이 먼저 말하지 않는다/.test(say))
+            fails.push(wk + "주 블록 2 3단계에 옛 이유(설명한 사람)가 남았다. 설명은 NPC 가 한다");
+          if (!/먼저 말했으니 이번에는 바꾼다/.test(say))
+            fails.push(wk + "주 블록 2 3단계가 왜 바꾸는지를 안 적는다");
+          /* **2단계 첫마디였던 쪽이 아니어야 한다.** 그날 A가 2단계를 연다 */
+          const who = await page.evaluate(() => ({
+            b: jo(roleOf(today()) === "a" ? S.names.b : S.names.a, "이", "가"),
+            a: jo(roleOf(today()) === "a" ? S.names.a : S.names.b, "이", "가") }));
+          if (say.indexOf(who.b + " 먼저 말한다") < 0)
+            fails.push(wk + "주 블록 2 3단계 첫마디가 B 쪽이 아니다");
+          if (say.indexOf(who.a + " 먼저 말했으니") < 0)
+            fails.push(wk + "주 블록 2 3단계가 2단계를 연 쪽을 A 로 안 적는다");
         }
+        /* 2단계 칸이 A 가 먼저 말하고 B 가 잇는다고 적는가 */
+        const say2 = await page.evaluate(() => {
+          const p = document.querySelector("#blockPane");
+          const st = [...p.querySelectorAll(".setstep")]
+            .filter((e) => /^2단계 ·/.test(e.innerText.trim()))[0];
+          return st ? st.innerText : "";
+        });
+        const who2 = await page.evaluate(() => ({
+          a: jo(roleOf(today()) === "a" ? S.names.a : S.names.b, "이", "가"),
+          b: jo(roleOf(today()) === "a" ? S.names.b : S.names.a, "이", "가") }));
+        if (say2.indexOf("2단계는 " + who2.a + " 먼저 말하고 " + who2.b + " 잇는다") < 0)
+          fails.push(wk + "주 블록 2 2단계가 A 먼저 B 이어서를 안 적는다");
       }
     }
     await page.evaluate(() => { T.run = false; clearInterval(T.tick); });

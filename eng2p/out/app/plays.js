@@ -195,7 +195,7 @@ function swpRows(){
 }
 function swpItems(){
   var rows=swpRows(); if(!rows || !rows.length) return null;
-  var out=roundPick("swapline", rows, SWP.n);
+  var out=roundPick("swapline", rows, SWP.n, null, swpToday());   /* 과가 도는 횟수로 걷는다 (poolKey) */
   return out;
 }
 function swpLine(li){
@@ -249,6 +249,8 @@ function renderSwapline(){
       '이 판은 오늘 과의 대본으로 돈다. 오늘 배정이 정해져야 시작한다.</div></div>';
     return;
   }
+  var wait=roundWait(renderSwapline);
+  if(wait){ box.innerHTML=wait; return; }
   var items=swpItems();
   if(!items || !items.length){
     box.innerHTML='<div class="card"><div class="note w">'+esc(mid)+
@@ -387,7 +389,7 @@ function hrmItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  var out=roundPick("hearme", rows, HRM.n);
+  var out=roundPick("hearme", rows, HRM.n, null, mid);   /* 과가 도는 횟수로 걷는다 (poolKey) */
   return out;
 }
 function hrmLine(li){
@@ -441,6 +443,8 @@ function renderHearme(){
       '이 판은 오늘 과의 대본으로 돈다.</div></div>';
     return;
   }
+  var wait=roundWait(renderHearme);
+  if(wait){ box.innerHTML=wait; return; }
   var items=hrmItems();
   if(!items){
     box.innerHTML='<div class="card"><div class="note w">'+esc(mid)+
@@ -1110,13 +1114,14 @@ function ovlToday(){
   var pl=(typeof plan==="function")?plan():null;
   return pl && pl.media ? pl.media : null;
 }
-function ovlTarget(){
+function ovlPick(){
   var d=DATA.chunks, mid=ovlToday();
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  return rows[roundSeed("overlap",0)%rows.length].c;
+  return roundPick("overlap", rows, 1, null, mid)[0]||null;
 }
+function ovlTarget(){ var it=ovlPick(); return it ? it.c : null; }
 function ovlRec(){ return playRec("overlap", {rounds:0, wiped:0, hit:0}); }
 
 function ovlSame(a, b){
@@ -1160,6 +1165,8 @@ function renderOverlap(){
     if(!dataFailed("chunks")) loadData("chunks","ENG2P_CHUNKS",function(){ renderOverlap(); });
     return;
   }
+  var wait=roundWait(renderOverlap);
+  if(wait){ box.innerHTML=wait; return; }
   var mid=ovlToday(), tgt=ovlTarget();
   if(!tgt){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 청크가 없다. '+
@@ -1320,7 +1327,7 @@ function ladPiece(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  return rows[roundSeed("ladder",0)%rows.length];
+  return roundPick("ladder", rows, 1, null, mid)[0]||null;
 }
 function ladLine(li){
   var t=DATA.transcripts, mid=ladToday();
@@ -1407,6 +1414,8 @@ function renderLadder(){
     needMedia(function(){ renderLadder(); });
     return;
   }
+  var wait=roundWait(renderLadder);
+  if(wait){ box.innerHTML=wait; return; }
   var d=DATA.ladder, it=ladPiece();
   if(!it){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 토막이 없다. '+
@@ -2134,7 +2143,7 @@ function wavPiece(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  return rows[roundSeed("wave",0)%rows.length];
+  return roundPick("wave", rows, 1, null, mid)[0]||null;
 }
 function wavLine(li){
   var t=DATA.transcripts, mid=wavToday();
@@ -2210,6 +2219,8 @@ function renderWave(){
     if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderWave(); });
     return;
   }
+  var wait=roundWait(renderWave);
+  if(wait){ box.innerHTML=wait; return; }
   var d=DATA.wave, it=wavPiece();
   if(!it){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 줄이 없다. '+
@@ -2521,7 +2532,7 @@ function rskLines(){
     return String(x).replace(/^[A-Z][A-Za-z .'-]{0,20}:\s*/, "");
   }).filter(function(x){ return x.split(/\s+/).length>=4; });
   if(!ls.length) return null;
-  var out=roundPick("reask", ls, RSK.n);
+  var out=roundPick("reask", ls, RSK.n, null, rskToday());
   return out;
 }
 function rskStep(s){
@@ -2580,6 +2591,8 @@ function renderReask(){
     if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderReask(); });
     return;
   }
+  var wait=roundWait(renderReask);
+  if(wait){ box.innerHTML=wait; return; }
   var d=DATA.reask, lines=rskLines();
   if(!lines){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 대본이 없다. '+
@@ -2712,7 +2725,7 @@ function cutLines(){
 }
 function cutShow(){
   var ls=cutLines();
-  return ls ? roundPick("cutin", ls, 6) : [];
+  return ls ? roundPick("cutin", ls, 6, null, cutToday()) : [];
 }
 function cutDeck(){
   var d=DATA.cutin;
@@ -2781,6 +2794,8 @@ function renderCutin(){
     if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderCutin(); });
     return;
   }
+  var wait=roundWait(renderCutin);
+  if(wait){ box.innerHTML=wait; return; }
   var d=DATA.cutin, lines=cutLines(), deck=cutDeck();
   if(!lines || !deck){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 대본이나 '+
