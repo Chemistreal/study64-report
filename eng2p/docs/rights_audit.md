@@ -2,6 +2,7 @@
 
 신뢰도: B 채집 (저장소 파일과 공식 원문을 대조했다. 원문을 연 줄과 목록만 본 줄을 표마다 갈랐다)
 검증로그: 2026-10-09 / 사용자가 1번과 2번을 정했다(말뭉치를 쓴다, 두 문서를 맞춘다). check_rights.py 알려진 위반 목록을 없앴다 / 통과 / 판 아홉, 깸 시험 열여섯 가지 모두 잡음, 실패 0
+검증로그: 2026-10-09 / 말뭉치 대본 TRN 60, CHAT 60 을 공식 UCSB 주소에서 받아 해시를 `tools/game/assets.json` 에 적었다(두 번 받아 해시 같음). check_rights.py 판 1, 2, 7 에 말뭉치 예외와 깸 시험 열한 가지를 더했다 / 통과 / 판 아홉, 깸 시험 스물일곱 가지 모두 잡음, 실패 0. 받은 대본 파일은 저장소에 안 넣었다
 검증로그: 2026-10-09 / scripts/check_rights.py 실행(판 아홉, 깸 시험 아홉판 모두 잡음)과 공식 원문 열람(VOA 재사용 안내, Tatoeba 이용약관 6.2과 내려받기 쪽, 깃허브 릴리스 목록) / 보류 / 법률 판단은 사용자가 한다. 못 연 원문은 표에 "확인 못 함" 으로 남겼다
 상위 규격: docs/sources.md / CLAUDE.md
 작성일: 2026-10-09
@@ -40,7 +41,7 @@
 | Tatoeba 영어 문장 (`ext_smalltalk` 2,580줄: CC BY 2.0 FR 2,044, CC0 536) | 확장층 잡담(NPC 한 줄) | CC BY 2.0 FR. 일부 CC0 1.0 | **저자 이름을 댄다.** 줄마다 id, owner, src 를 가진다(검사 판 4). 파일에 표기 문구가 있다 | https://tatoeba.org/en/terms_of_use 6.2, https://tatoeba.org/en/downloads | **확인함.** "CC-BY 2.0 FR ... a condition of attribution", "These files are released under CC BY 2.0 FR. A part of our sentences are also available under CC0 1.0" | 4장 표와 같다 |
 | 구텐베르크 책 둘(`ext_readers` 10편, 원작 #66547 과 #329) | 도서관 책 | PD(US,KR). 한국에서도 퍼블릭 도메인이어야 한다는 규칙 | 없다 | https://www.gutenberg.org/ | 목록만 | 3장 |
 | USCIS M-618, FEMA 허리케인과 쓰나미 안내(`ext_notices` 24편) | 동네 안내문. 사실만 새 영어로 쓴다 | PD-USGov. M-618 은 고치지 않은 배포만 허락하고 Ready.gov 는 고치지 않기를 바란다 | 원문 문장을 옮기지 않는다. 로고와 사진과 기관 이름을 화면에 안 쓴다. "학습용 인공물" 표시를 단다 | `docs/ext_notices.md` 1장 | 목록만(원문 PDF 는 `game_store/gov/` 사본과 대조했다고 그 문서가 적었다) | 2장 |
-| `tools/game/assets.json` (1,336개 12.83GB: CC0 727, 퍼블릭 도메인 607, CC BY 2) | 게임 에셋 목록. 파일은 저장소 밖 | 갈래별. 허용 밖 0(검사 판 1) | CC BY 둘(ESA WorldCover, Tatoeba)은 출처 표기 | 게임 저장소 `Docs/licenses_KO.md` 6장 | 반쯤 확인함. CC0 셋(ambientCG, Poly Haven, Kenney)과 ESA, Tatoeba 는 원문을 읽었다. 나머지는 목록만 | 5장, 6장 |
+| `tools/game/assets.json` (1,456개 12.83GB: CC0 727, 퍼블릭 도메인 607, CC BY 2, 말뭉치 대본 120) | 게임 에셋 목록. 파일은 저장소 밖 | 갈래별. 허용 밖 0(검사 판 1). 말뭉치 대본 120개(TRN 60, CHAT 60, 6.8MB)는 CC BY-ND 3.0 US 로 **이 갈래 하나만** 예외 | CC BY 둘(ESA WorldCover, Tatoeba)은 출처 표기. 말뭉치 항목은 `credit` 칸에 저작자 표기를 단다(판 2가 본다) | 게임 저장소 `Docs/licenses_KO.md` 6장 | 반쯤 확인함. CC0 셋(ambientCG, Poly Haven, Kenney)과 ESA, Tatoeba 는 원문을 읽었다. 나머지는 목록만 | 5장, 6장, 4장 말뭉치 줄 |
 | LibriVox | 탐색 출처로만 등록. 파일 없음 | 미국에서 녹음은 퍼블릭 도메인(RIGHTS.md) | 개별 작품을 한국에서 배포하기 전에 원작자 사망연도 확인 | https://librivox.org/pages/public-domain/ | 목록만 | 없음 |
 | YouTube | 임베드 아이디만 보관(`youtubeIds`). `english.html` 에 youtube 글자 0건 | 서비스 약관 | 내려받기, 추출, 재업로드 안 함 | https://www.youtube.com/static?template=terms | 목록만 | 없음 |
 | 글꼴 | `english.html` 은 글꼴 파일도 글꼴 서버도 없다(`@font-face` 없음, 밖의 주소 검사 87파일 통과) | 해당 없음 | 없다 | - | 확인함(파일 검사) | 5장 |
@@ -53,19 +54,20 @@
 
 | 판 | 보는 것 | 지금 결과 |
 |---|---|---|
-| 1 assets_license | `tools/game/assets.json` 의 권리 칸이 CC0, 퍼블릭 도메인, CC BY 중 하나 | 통과(1,336개) |
-| 2 assets_ccby | CC BY 항목에 출처 주소 | 통과 |
+| 1 assets_license | `tools/game/assets.json` 의 권리 칸이 CC0, 퍼블릭 도메인, CC BY 중 하나. **예외: `source` 가 `sbcsae` 이고 권리 칸이 정확히 `CC-BY-ND-3.0-US` 인 대본(.trn, .cha) 항목.** 주소가 `sbcsae.json` 의 공식 UCSB 주소여야 하고 60쌍이 한 번씩 다 있어야 한다. 소리 항목은 못 들어온다 | 통과(1,456개) |
+| 2 assets_ccby | CC BY 항목에 출처 주소. 말뭉치 항목은 저작자 표기(`credit`)가 정해진 한 줄과 같아야 한다 | 통과 |
 | 3 ext_license | `out/data/ext_*.json` 의 파일과 편 권리 칸이 허용 다섯 중 하나 | 통과(2,703편) |
 | 4 ext_ccby_credit | Tatoeba 줄의 저자, 원문 주소, 표기 문구, 저자 목록 | 통과 |
 | 5 media_license | `media/english/manifest.json` 권리 글이 알려진 셋 | 통과 |
 | 6 registry_license | `registry.json` 에 BY-ND(말뭉치 하나 말고), BY-NC, BY-SA 가 없음 | 통과 |
-| 7 santa_barbara | 저장소에 말뭉치 소리나 자른 파일이 없음. 등록부 60건의 권리 키와 `allowedTreatment`(고치지 않은 채 배포), 저작 기관 | 통과 |
+| 7 santa_barbara | 저장소에 말뭉치 소리나 자른 파일이나 대본 원문(.trn, .cha)이 없음. 등록부 60건의 권리 키와 `allowedTreatment`(고치지 않은 채 배포), 저작 기관 | 통과 |
 | 8 no_external | `english.html` 과 `app/` 이 밖의 주소에서 글꼴, 스크립트, 이미지를 불러오지 않음 | 통과(87파일) |
 | 9 no_font_files | 저장소에 글꼴 파일이 없음 | 통과 |
 
 **알려진 위반은 이제 없다** (사용자가 말뭉치를 쓰기로 해서 목록을 없앴다). `--strict` 는 받기만 하고 하는 일은 같다.
 
-깸 시험(`--break`): 판마다 실패를 심어 잡는지 본다. 심은 것은 CC-BY-NC 항목, 빈 권리 칸, 출처 없는 CC BY, 허용 밖 편 권리, 저자 없는 Tatoeba 줄, 표기 문구 삭제, 낯선 매체 권리 글, 새 BY-NC 권리 항목, 새 말뭉치 파일, 구글 글꼴 `<link>`, 글꼴 파일이다. 열여섯 가지(판 6 에 새 BY-ND 키, 판 7 에 말뭉치 소리 파일, 바뀐 배포 꼴, 모자란 건수 포함)를 모두 잡았고 깨끗한 현재 자료는 실패 0 으로 통과했다.
+깸 시험(`--break`): 판마다 실패를 심어 잡는지 본다. 심은 것은 CC-BY-NC 항목, 빈 권리 칸, 출처 없는 CC BY, 허용 밖 편 권리, 저자 없는 Tatoeba 줄, 표기 문구 삭제, 낯선 매체 권리 글, 새 BY-NC 권리 항목, 새 말뭉치 파일, 구글 글꼴 `<link>`, 글꼴 파일이다. 스물일곱 가지(판 6 에 새 BY-ND 키, 판 7 에 말뭉치 소리 파일, 대본 원문 파일, 바뀐 배포 꼴, 모자란 건수 포함)를 모두 잡았고 깨끗한 현재 자료는 실패 0 으로 통과했다.
+판 1, 2 에 새로 심은 열한 가지는 **말뭉치 예외가 새지 않는지** 본다. 다른 출처에 같은 `CC-BY-ND-3.0-US` 글, 말뭉치 항목에 다른 ND 버전이나 NC, 공식 주소가 아닌 사본 주소, 모자란 쌍, 겹친 쌍, 소리 항목, 빈 저작자 표기, 바꾼 저작자 표기, 출처 주소 없음이다.
 
 사용법:
 

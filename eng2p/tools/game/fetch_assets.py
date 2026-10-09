@@ -18,6 +18,7 @@
     texts       하와이 문헌. 구텐베르크 등. 미국과 한국 둘 다 퍼블릭 도메인
     gov         미국 정부 생활 안내 PDF. 퍼블릭 도메인
     tatoeba     Tatoeba 영어 문장. CC BY. 영어 쪽만
+    sbcsae      Santa Barbara 말뭉치 대본(TRN, CHAT) 120개. CC BY-ND 3.0 US. **고치지 않은 원본만.** 소리는 여기서 안 받는다
 
 사용법:
     python3 tools/game/fetch_assets.py kenney
@@ -102,9 +103,10 @@ def publish(L):
         f.write("\n")
 
 
-def keep(L, source, name, url, license, page, sub=""):
+def keep(L, source, name, url, license, page, sub="", ua=None, extra=None):
     """한 파일을 받는다. 이미 같은 주소로 받았으면 건너뛴다.
-    지형 타일은 한 장이 수백 MB 라 메모리에 안 올리고 흘려 받으며 해시를 센다."""
+    지형 타일은 한 장이 수백 MB 라 메모리에 안 올리고 흘려 받으며 해시를 센다.
+    ua: 이 출처에만 쓸 User-Agent 머리. extra: 항목에 더 적을 칸(예: 저작자 표기 credit)."""
     have = {x["url"] for x in L["items"]}
     if url in have:
         return
@@ -115,7 +117,7 @@ def keep(L, source, name, url, license, page, sub=""):
     n = 0
     for i in range(4):
         try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=300) as r, \
+            with urllib.request.urlopen(urllib.request.Request(url, headers=ua or UA), timeout=300) as r, \
                     open(fn, "wb") as f:
                 h, n = hashlib.sha256(), 0
                 while True:
@@ -130,11 +132,14 @@ def keep(L, source, name, url, license, page, sub=""):
             if i == 3:
                 raise
             time.sleep(2 ** (i + 1))
-    L["items"].append({
+    item = {
         "source": source, "file": os.path.join(source, sub, name).replace("\\", "/"),
         "url": url, "page": page, "license": license, "bytes": n,
         "sha256": h.hexdigest(),
-    })
+    }
+    if extra:
+        item.update(extra)
+    L["items"].append(item)
     print("  %-10s %8d KB  %s" % (source, n // 1024, name))
 
 
@@ -401,11 +406,38 @@ def tatoeba(L):
         save(L)
 
 
+# Santa Barbara 말뭉치 대본 (CC BY-ND 3.0 US). 사용자가 쓰기로 정했다 (2026-10-09, docs/sources.md 1장 예외, 4장 말뭉치 줄).
+# **ND 의 조건: 고친 판을 남에게 주지 않는다, 저작자를 적는다.** 그래서
+#   - 대본은 고치지 않은 채 받아 해시만 목록에 적는다. 파일은 저장소에 안 넣는다 (PC 에 받는다)
+#   - 항목마다 credit 칸에 저작자 표기를 적는다. check_rights.py 판 1 이 이 칸을 본다
+#   - 소리(WAV)는 여기서 안 받는다. 공식 Box 쪽지에서 PC 로 받는다 (게임 저장소 Tools/fetch_sbc_audio.ps1)
+# 목록은 media/english/archive/sbcsae.json 의 transcriptTrn, transcriptChat 60쌍이다.
+SBC_CATALOG = os.path.join(HERE, "..", "..", "..", "media", "english", "archive", "sbcsae.json")
+SBC_LICENSE = "CC-BY-ND-3.0-US"
+SBC_PAGE = "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english"
+SBC_CREDIT = "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+# 저장소 주소만 적는다 (사용자 이메일 같은 개인 정보는 어디에도 안 보낸다)
+UA_SBC = {"User-Agent": "study64-game-fetch/1.0 (https://github.com/Chemistreal/study64-report)"}
+
+
+def sbcsae(L):
+    cat = json.load(open(SBC_CATALOG, encoding="utf-8"))
+    for it in cat["items"]:
+        sid = it["sourceId"]
+        for key, sub, ext in (("transcriptTrn", "trn", "trn"), ("transcriptChat", "cha", "cha")):
+            try:
+                keep(L, "sbcsae", "%s.%s" % (sid, ext), it[key], SBC_LICENSE, SBC_PAGE, sub, ua=UA_SBC, extra={"credit": SBC_CREDIT})
+            except Exception as e:
+                print("  [실패] sbcsae %s.%s: %s" % (sid, ext, str(e)[:80]))
+            time.sleep(0.3)
+        save(L)
+
+
 def main():
     what = sys.argv[1:] or ["all"]
     L = load()
     for name, fn in (("kenney", kenney), ("polyhaven", polyhaven), ("ambientcg", ambientcg), ("oga", oga),
-                     ("geo", geo), ("texts", texts), ("gov", gov), ("tatoeba", tatoeba)):
+                     ("geo", geo), ("texts", texts), ("gov", gov), ("tatoeba", tatoeba), ("sbcsae", sbcsae)):
         if "all" in what or name in what:
             print("== " + name)
             try:
