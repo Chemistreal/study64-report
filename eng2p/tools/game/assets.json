@@ -11708,8 +11708,9 @@
    "url": "https://www.gutenberg.org/cache/epub/18450/pg18450.txt",
    "page": "https://www.gutenberg.org/ebooks/18450  Thrum, Hawaiian Folk Tales",
    "license": "PD (US, KR)",
-   "bytes": 423061,
-   "sha256": "23eeb2821b18b107514c18581c50bbd136852a976b80f10905c9f52b20b03405"
+   "bytes": 423065,
+   "sha256": "2637e881e397add0497d139436dc6bbabf5f5f7c0f7623edff28f2d226572854",
+   "note": "원본이 바뀌어 2026-10-09 PC 에서 다시 쟀다"
   },
   {
    "source": "texts",
@@ -11834,8 +11835,9 @@
    "url": "https://archive.org/stream/cu31924092400245/cu31924092400245_djvu.txt",
    "page": "US Dept of Labor, Labor Conditions in Hawaii",
    "license": "PD-USGov (1916)",
-   "bytes": 632669,
-   "sha256": "2847a817955724ee633ad62c13443e00769b620b6320ccc4c183e351b5595031"
+   "bytes": 632666,
+   "sha256": "7f206fcfc9571a596e2a86649d25d7415bd97090f0d3bb502b872834e7d4da6b",
+   "note": "원본이 바뀌어 2026-10-09 PC 에서 다시 쟀다"
   },
   {
    "source": "texts",
@@ -12028,5 +12030,5 @@
   }
  ],
  "count": 1336,
- "bytes": 12826727249
+ "bytes": 12826727250
 }

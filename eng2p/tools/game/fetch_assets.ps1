@@ -33,7 +33,7 @@ foreach ($x in $L.items) {
     $err = ""
     foreach ($try in 1..3) {
         try {
-            Invoke-WebRequest -Uri $x.url -OutFile $to -UseBasicParsing -TimeoutSec 600 -UserAgent "study64-game-fetch/1.0 (public-domain and CC0 asset mirror for a private game)"
+            Invoke-WebRequest -Uri $x.url -OutFile $to -UseBasicParsing -TimeoutSec 600 -UserAgent "study64-game-fetch/1.0 (https://github.com/Chemistreal/game; public-domain and CC0 asset mirror for a private non-commercial game)"
             $got = $true; break
         } catch { $err = $_.Exception.Message; Start-Sleep -Seconds (4 * $try) }
     }
