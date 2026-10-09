@@ -19,8 +19,10 @@
 | `out/game/replies.json` | `scripts/derive_replies.py` | 역할형 카드 105장에서 NPC 가 할 말을 고른다 | 말풍선과 소리. 줄은 대본 그대로다 |
 | `out/game/voicelist.json` | `scripts/derive_voicelist.py` | 소유자 PC 가 NPC 소리를 미리 렌더하는 일감이다 | 아니오 |
 | `out/game/deck_names.json` | `scripts/derive_deck_names.py` | 판 덱 글 가운데 NPC 가 읽어도 되는 것과 이름 바꾸기를 정한다 | 아니오 |
-| `out/data/transcripts.json` `audiolen.json` `cues.json` `lecturetext.json` | 기존 파생기 넷이 `.js` 와 같이 쓴다 | JS 껍질 없이 읽는다 | 아니오 |
+| `out/data/transcripts.json` `audiolen.json` `cues.json` `lecturetext.json` | 기존 파생기 넷이 `.js` 와 같이 쓴다 | 도구가 JS 껍질 없이 읽는다. **게임 로더는 이 껍질({note, generator, count, items})을 못 벗긴다.** 게임이 읽는 판은 10장이다 | 아니오 |
 | `scripts/check_gamedata.py` | | 위 자료가 서로 맞고 대본 그대로인지 본다 | |
+| `out/game/{sets,emergency,playblocks,tally,hold,transcripts,cues,audiolen}.json` | `scripts/derive_game_optional.py` | 게임 로더가 있으면 읽는 선택 자료 여덟. 10장 | 일부 (세트 단계 이름, 비상판 제목, 대본) |
+| `scripts/check_gameopt.py` | | 위 여덟이 로더가 읽는 모양이고 앱과 같은 말을 하고 열쇠가 안 샜는지 본다 | |
 
 ## 2. 지키는 것
 
@@ -327,6 +329,7 @@ clash 의 who 칸은 라디오 화자 이름표다. 화면에 안 낸다. 대본
 `transcripts` `audiolen` `cues` `lecturetext` 는 `.js` 만 있었다. 앱은 `file://` 에서 fetch 가 막혀 `.js` 를 읽는다. 게임은 JSON 을 읽는다.
 각 파생기가 `.js` 를 쓰면서 같은 내용의 `.json` 을 같이 쓴다. **`.js` 는 한 글자도 안 바뀐다.** 내용이 같은지는 `check_data.py` 의 짝 검사와 `check_gamedata.py` 의 pairs 규칙이 둘 다 본다.
 `out/data/manifest.json` 의 EXPECT 에 네 파일을 더해야 한다 (9장).
+**게임 Data 로 가는 것은 이 짝이 아니다.** 이 짝은 맨 위에 `note` `generator` `count` `items` 가 있고 로더는 과 번호가 맨 위에 있는 지도만 읽는다. 그대로 복사하면 대본, 줄 시각, 소리 길이가 알림 없이 빈다. 10장이 과 번호를 맨 위로 올린 판을 `out/game/` 에 낸다.
 
 ## 8. 검사
 
@@ -363,3 +366,169 @@ clash 의 who 칸은 라디오 화자 이름표다. 화면에 안 낸다. 대본
 
 `scripts/derive_manifest.py` 의 EXPECT 에 `audiolen.json` `cues.json` `lecturetext.json` `transcripts.json` 넷을 더한다. 안 더하면 "적어 두지 않은 파일이 있다" 로 실패한다.
 순서는 `derive_replies.py` 가 `derive_voicelist.py` 앞이다. 목소리 목록이 응답 파일을 읽는다.
+
+## 10. 선택 자료 여덟 (sets emergency playblocks tally hold transcripts cues audiolen)
+
+게임 로더(`HnlDataSubsystem.cpp`)는 이 여덟을 **있으면 읽고 없으면 "not present (optional until ...)" 알림만 낸다.** 멈추지 않으니 없어도 게임이 돈다.
+그런데 알림만 나고 돌아서 **안 읽힌 채로도 모른다.** 앱 쪽 `out/data/` 에 같은 이름이 이미 있었지만 그대로 복사하면 셋이 문제였다.
+
+| 문제 | 까닭 | 고친 곳 |
+|---|---|---|
+| 대본, 어림 시각, 소리 길이가 말없이 비어 버린다 | 앱 파일은 `{note, generator, count, items:{과: ...}}` 다. 로더는 과 번호가 **맨 위에** 있는 지도나 칸이 하나뿐인 껍질만 벗긴다. 칸이 넷 이상이라 껍질을 안 벗기고 `items` 는 배열이 아니라 지도라서 건너뛴다. 알림도 없다 | 과 번호를 맨 위로 올려 낸다 |
+| 판 붙는 블록 표가 옛 값을 든다 | `blocks`, `empty`, `together`, `why` 가 블록 1 을 "따로 하는 블록"이라고 적는다. 게임은 블록 1 도 둘이 붙어 앉는다 (game.md 4장) | 옛 칸을 안 싣는다. 붙는 블록은 10.3 표와 견준다 |
+| 쥐는 자리가 사람 자리를 말한다 | 앱 `hold.json` 은 "읽는 쪽 화면에만 뜬다" 처럼 한 사람이 가리던 때의 말이다. 게임은 NPC 가 쥔다 (game.md 1.3) | 10.4 표대로 `by` 와 NPC 가 앉는 자리를 낸다 |
+
+### 10.1 파일과 쓰임
+
+원본은 앱 파일(`out/data/`)이고 **영어는 하나도 안 짓는다.** 글은 앱 파일 그대로, 고르는 일은 표와 해시가 한다. 여덟 모두 `out/game/` 에 있고 `manifest.json` 의 지문에 든다.
+
+| 파일 | 원본 | 게임이 하는 일 | 못 읽으면 |
+|---|---|---|---|
+| `sets.json` | `out/data/sets.json` | 블록 2 맞춰 보기 절차의 단계 이름과 분을 화면에 띄운다 (`UHnlManualActivity` set) | "종이 세트 카드를 따른다" 안내 |
+| `emergency.json` | `out/data/emergency.json` | 바쁜 날 15분 심부름의 제목과 청크를 띄운다 | 제목이 빈다 |
+| `playblocks.json` | `out/data/playblocks.json` + 10.3 표 | 그날 판이 어느 블록에 붙는지 (`FitBlockFor`가 `fit[0]`) | C++ 안의 대체 표 (10.3 과 같은 값) |
+| `tally.json` | `out/data/tally.json` | 판의 회마다 셈을 합치는 법 (`Tally` 가 `how` 를 읽는다) | 모두 더하기 |
+| `hold.json` | `out/data/hold.json` + 10.4 표 | NPC 가 판에서 쥐는 것과 거울 판에서 말할 낱말 (10.5) | 거울은 덱 차례 짝홀 |
+| `transcripts.json` | `out/data/transcripts.json` | 라디오 대본 줄. 한 줄 바꾸기, 내 소리는 네가, 라디오 화면에 쓴다 | 대본이 빈다 |
+| `cues.json` | `out/data/cues.json` | 줄 시작 초(어림). 내 소리는 네가가 라디오를 틀 자리 | 0초 |
+| `audiolen.json` | `out/data/audiolen.json` | 과의 길이(초). 라디오 활동의 길이 | 0초 |
+
+`out/data/*.js` 와 `out/data/*.json` 은 그대로다 (앱이 읽는다). `lecturetext.json` 과 `tasks.json` 은 7장과 10.6 이 말한다.
+
+### 10.2 로더가 읽는 모양
+
+JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 안 바뀌면 **그 항목만 말없이 빠진다** (`JsonObjectToUStruct` 가 거짓을 주고 로더는 건너뛴다). 칸 이름은 로더 구조체 칸의 첫 글자를 소문자로 한 것이다. 없는 칸은 기본값이다. 로더가 모르는 칸은 건너뛴다.
+
+| 파일 | 맨 위에서 찾는 배열 | 항목 칸 | 수 |
+|---|---|---|---|
+| `sets.json` | `items` (없으면 `sets`) | `no` `id` `week` `quarter` `lecture` `steps[{step name minutes fields{글자:글자} items[글자]}]`. `id` 가 빈 항목은 건너뛴다 | 288 |
+| `emergency.json` | `items` (없으면 `errands`) | `no` `title` `quarter` `lecture` `minutes{글자:정수}` `pull` `chunks[글자]` | 80 |
+| `playblocks.json` | `plays` (없으면 `items`) | `id` `name` `min` `src` `fit[정수]`. `id` 가 빈 항목은 건너뛴다 | 20 |
+| `tally.json` | `plays` (없으면 `items`) | `id` `how` (add same max one follow). 로더는 `how` `hold` `turns` `seats` 를 같은 판 id 로 합친다 | 20 |
+| `hold.json` | `plays` (없으면 `items`) | `id` `hold` `turns` `seats[글자]` 가 로더 칸이다. `name` `by` `holds` `basis` `pick` 은 로더가 아직 안 읽는 새 칸이다 (10.5) | 20 |
+| `transcripts.json` | 없음. 과 번호가 맨 위 | 과 번호 -> `["Who: line", ...]`. 배열이 아닌 칸은 건너뛴다 | 52 |
+| `cues.json` | 없음. 과 번호가 맨 위 | 과 번호 -> `[시작 초, ...]`. 줄 번호는 대본과 같다. 배열이 아닌 칸은 건너뛴다 | 52 |
+| `audiolen.json` | 없음. 과 번호가 맨 위 | 과 번호 -> 초. **수가 아닌 칸만 건너뛴다.** 맨 위에 수 칸(`count`)을 두면 과로 들어간다 | 52 |
+
+세 지도의 맨 위 글자 칸(`note` `generator` `unit` `method`)과 참거짓 칸(`estimate`)은 로더가 형으로 걸러서 무시한다.
+**맨 위에 칸이 정확히 하나만 있으면 로더가 그 안으로 들어간다.** 지도가 53칸이라 걱정이 없지만 검사가 본다.
+
+### 10.3 판이 붙는 블록
+
+게임 코드 안의 대체 표(`PlayRunner.cpp FitBlockFor`)와 같은 값이다. **이 표가 원본이다.** 앱 자료의 `fit` 이 이 표와 다르면 `derive_game_optional.py` 가 실패한다.
+다르게 하려면 이 표와 게임의 대체 표와 앱 `derive_blocks.py` 를 같이 고친다. `oneday` 는 그날 정해진 판을 따라가는 자리라 블록 셋 모두다. 로더는 첫 값을 쓴다.
+
+| 판 | 붙는 블록 |
+|---|---|
+| mirror | 4 |
+| swapline | 4 |
+| hearme | 4 |
+| relay | 4 |
+| chain | 4 |
+| twohalf | 4 |
+| overlap | 4 |
+| ladder | 4 |
+| wall | 3 |
+| rebound | 4 |
+| onesee | 3 |
+| wave | 4 |
+| whose | 3 |
+| reask | 4 |
+| cutin | 4 |
+| clash | 4 |
+| flip | 3 |
+| apart | 2 |
+| recall | 3 |
+| oneday | 2,3,4 |
+
+블록 1 에는 판이 안 붙는다. 앱 파일의 `empty: [1]` 이 하던 말이다. 이제 `fit` 에 1 이 없다는 사실로만 남고 검사가 본다.
+
+### 10.4 판마다 쥐는 쪽
+
+판에서 정보를 쥔 쪽이다. **쥐는 쪽**은 `npc` NPC 가 쥔다 / `game` 게임이 화면에 띄운다 / `none` 가린 것이 없다.
+`npc` 인 판은 **쥐는 자리**가 NPC 가 앉는 자리(앱 `seats` 안의 이름)이고 `-` 이면 NPC 는 말의 출처일 뿐 앉는 자리가 없다.
+**근거 문구**는 game.md 1.3 표 해당 줄의 "이제" 칸에 그대로 있어야 한다. 문구에 "NPC" 가 있으면 `npc`, "게임이" 가 있으면 `game`, 둘 다 없거나 `-` 이면 `none` 이다.
+이 표는 사람이 읽고 정한 것이라 B등급이다. 앱 `hold.json` 이 정했던 자리와 다른 판이 다섯이다. NPC 가 다른 자리를 맡는 판이 셋(twohalf, reask, flip)이고 사람 자리가 사라지고 게임이 띄우는 판이 둘(hearme, wall)이다.
+
+| 판 | 쥐는 쪽 | 쥐는 자리 | 쥐는 것 | 근거 문구 |
+|---|---|---|---|---|
+| mirror | npc | 읽는 쪽 | 둘 중 어느 낱말인지 | NPC 가 둘 중 하나를 말한다 |
+| swapline | npc | 읽는 쪽 | 바꾼 낱말 | NPC 가 한 낱말을 바꿔 말한다 |
+| hearme | game | - | 다시 말할 자리 | 게임이 들려준 자리를 같이 다시 말한다 |
+| relay | npc | - | 전할 줄 | NPC 가 한 번 말한다 |
+| chain | none | - | - | - |
+| twohalf | npc | 뒤를 받는 쪽 | 뒤 절반 | 뒤 절반은 NPC 가 쥔다 |
+| overlap | none | - | - | 둘이 같이 적는다 |
+| ladder | none | - | - | - |
+| wall | game | - | 단서 | 게임이 단서를 띄운다 |
+| rebound | none | - | - | - |
+| onesee | npc | 상황을 쥔 쪽 | 상황 | NPC 만 상황을 안다 |
+| wave | npc | 세기를 쥔 쪽 | 세기 | NPC 가 세기를 쥔다 |
+| whose | none | - | - | - |
+| reask | npc | 뭉개는 쪽 | 뭉갤 줄 | NPC 가 못 알아들은 척한다 |
+| cutin | none | - | - | - |
+| clash | none | - | - | - |
+| flip | npc | 답하는 쪽 | 답 | NPC 가 답하고 둘이 같이 판정한다 |
+| apart | none | - | - | 둘이 같이 쓴다 |
+| recall | npc | 내는 쪽 | 어제 카드 | NPC 가 어제 카드를 낸다 |
+| oneday | none | - | - | - |
+
+`hold.json` 의 `hold` 는 로더가 읽는 칸이고 뜻은 "NPC 가 앉는 자리"다 (`FHnlPlayRules.Hold`). `by` 가 `npc` 가 아니면 비어 있다.
+쥐는 것(`holds`)은 화면 글이 아니라 설명이다. **정답이 아니다.** 어느 낱말인지는 거울 배정(10.5)이 정하고 그 밖의 판은 덱과 카드가 정한다.
+
+### 10.5 거울 판에서 NPC 가 말할 낱말
+
+게임 코드는 지금 거울의 `Held = 회 번호 % 2` 로 NPC 가 말할 낱말을 정한다 ("Replaced by hold.json rules at M3"). 이 값을 데이터로 옮긴다. **난수를 안 쓴다.**
+`hold.json` 의 거울 항목에 `pick.plan` 이 있다. 세션 번호 -> 글자 하나가 한 회다. `0` 이면 덱 항목의 `a`(첫 낱말), `1` 이면 `b` 를 NPC 가 말한다.
+
+| 칸 | 뜻 |
+|---|---|
+| `pick.plan["12"]` | 12번 세션의 거울 덱. 길이가 그 덱 회 수와 같다 (지금은 모두 8) |
+| 규칙 | 세션마다 0 과 1 이 같은 수. 회 번호를 `sha1("mirror:세션:번호")` 의 사전순으로 놓고 앞쪽 절반이 1 이다. 홀수면 `sha1("mirror:세션:n")` 의 홀짝이 어느 쪽이 하나 더 많은지 정한다 |
+| 왜 해시인가 | 두 노트북이 같은 값을 읽는다. 난수도 시계도 없다. 짝홀 번갈아는 읽는 쪽이 패턴을 외운다 |
+
+한 세션에 덱이 없는 판은 `plan` 에 그 세션이 없다. 거울 덱은 288세션 모두 있다 (앱도 하루 한 판이지만 덱은 다 뽑혀 있다, game.md 5.1).
+다른 판은 덱이 NPC 의 말을 이미 정한다. 한 줄 바꾸기는 `li` `wi` `to`, 둘이 한 문장은 `a` `b`, 못 알아들은 척은 줄, 파장은 `li`, 카드 판은 카드와 `judge.json` 의 `plan` 이다.
+**거울만 정할 것이 남아 있었다.**
+
+### 10.6 못 한 것과 한계
+
+| # | 무엇 | 까닭 |
+|---|---|---|
+| 1 | `lecturetext.json` (강의 본문, 822KB)은 안 올린다 | 로더가 안 읽는다. 가이드북 단계에서 올린다. 올리면 안 읽는 파일 때문에 지문이 바뀐다 |
+| 2 | `tasks.json` (주 과제)은 안 올린다 | 게임이 일기 활동에서 "tasks.json not synced yet" 를 띄우지만 로더에 맞출 구조체가 없다. 칸을 지어내지 않는다 |
+| 3 | `cues.json` 은 어림이다 (`estimate: true`) | 실측은 소유자 PC 에서 단어 시각을 잰 뒤다 (G9). 줄 시각을 지어내지 않는다 |
+| 4 | 10.4 표는 B등급이다 | 사람이 game.md 1.3 을 읽고 정했다. 4주 리허설에서 NPC 가 쥐는 것이 맞는지 두 사람 귀로 본다 |
+| 5 | 세트와 비상판 글의 말투는 안 고친다 | 앱 마크다운이 원본이다. "각자 적는다" 같은 말이 세트에 아직 있다 (game.md 1.1 은 같이 적는다) |
+| 6 | 대본 줄 셋은 이름표가 아닌 앞토막이 `: ` 로 끝난다 | lle1-26 의 1번("Anna remembers that Dan said: ..."), lle1-50 의 36번, lle1-51 의 24번("(At the race: ...)")이다. 줄 번호는 0부터다. 로더(`TranscriptLine`)는 첫 `: ` 앞을 이름표로 보고 잘라서 `Said` 가 토막 난다. 대본은 그대로 둔다 (대본 그대로가 규칙이다). 이 줄들을 판이 쓰면 줄이 잘려 나온다 |
+| 7 | 거울 배정을 게임이 읽으려면 로더가 `pick.plan` 을 읽어야 한다 | 이 저장소는 게임 코드를 안 고친다. 10.2 표의 새 칸 넷(`by` `holds` `basis` `pick`)을 게임이 맞춘다 |
+
+### 10.7 검사 (`scripts/check_gameopt.py`)
+
+`check_gamedata.py` 와 같은 꼴이다. 파생기와 다른 코드로 로더가 읽는 대로 다시 읽는다. `--break` 를 주면 규칙마다 일부러 어긴 자료로 그 규칙이 잡는지 본다.
+
+| 규칙 | 보는 것 |
+|---|---|
+| shape | 여덟이 10.2 표대로 읽힌다. 항목 수가 맞고 칸 형이 맞고 맨 위에 수 칸이 없고 껍질이 아닌 지도다 |
+| cover | 세션 288개의 세트, 비상판, 과, 판이 다 있다. 판 id 가 playblocks, tally, hold 에서 같다 |
+| media | 줄 시각 수가 대본 줄 수와 같고 0초에서 시작해 안 줄고 과의 길이보다 작다. 앱 파일과 내용이 같다. 이름표가 아닌 앞토막을 자르는 줄은 10.6 6번 셋뿐이다 |
+| fit | 붙는 블록이 10.3 표와 같고 1 이 없고 옛 칸(`blocks` `empty` `together` `why`)이 없다 |
+| hold | 10.4 표와 같다. 근거 문구가 game.md 1.3 줄에 그대로 있고 쥐는 쪽이 문구에서 나온다. 자리가 앱 `seats` 안에 있다 |
+| pick | 거울 배정이 288세션이고 길이가 덱과 같고 0 과 1 이 같은 수이고 해시 규칙으로 다시 센 값과 같다 |
+| secret | 판정 열쇠(카드 답)가 여덟 어디에도 없다 |
+| chars | 금지 문자(em-dash, U+FFFD)가 여덟에 없고 세트와 비상판에 슬랭과 상표(scenes.md 2.4 의 슬랭, 상표 줄과 상표 목록)가 없다. 실명 줄은 NPC 대사용이라 안 건다 (비상판 청크에 D.C. 가 있다). 판정 열쇠 파일의 표시가 없다 |
+| fresh | 여덟이 원본을 다시 읽어 낸 것과 같다. 앱 파일을 바꾸고 안 뽑았거나 손으로 고쳤으면 다르다 |
+| manifest | 여덟이 `derive_game_manifest.py` 의 목록에 있다 |
+
+**기계가 안 보는 것: 10.4 표가 판의 뜻을 바르게 옮겼는가.** 근거 문구는 사람이 읽는다.
+
+### 10.8 파이프라인에 넣는 법
+
+`derive_game_optional.py` 는 `derive_scenes.py` 다음 `derive_judge.py` 앞이나 뒤 어디든 된다 (앱 자료와 sessions.json 만 읽는다). `check_culture.py` 가 `out/game/*.json` 을 훑으므로 그 앞이다.
+
+| 묶음 | 스크립트 | 인자 | 빠른 판 |
+|---|---|---|---|
+| 화면 | derive_game_optional.py | | 예 |
+| 대조 | check_gameopt.py | --break | 예 |
+
+`derive_game_manifest.py` 의 `LATER` 에 여덟 이름이 들어 있다. 하나라도 없으면 `--strict` 가 실패한다. **지문(`dataHash`)이 바뀐다.** 두 노트북이 같은 `manifest.json` 으로 Data 를 다시 받아야 한다 (`Tools/sync_data.ps1`).

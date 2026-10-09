@@ -1,0 +1,192 @@
+{
+ "note": "판 스무 개가 붙는 블록. 게임은 표를 읽을 뿐 정하지 않는다. out/data/playblocks.json 에서 id name min src fit 만 옮겼다. 블록 1 이 따로 하는 블록이라는 옛 칸은 안 싣는다. 손으로 안 고친다. scripts/derive_game_optional.py 를 다시 돌린다.",
+ "grade": "A",
+ "gradeWhy": "판 규칙서의 쓰는 것과 도는 차례와 분을 앱이 센 값이다. 붙는 블록은 10.3 표(게임의 대체 표)와 같다.",
+ "generator": "scripts/derive_game_optional.py",
+ "source": "out/data/playblocks.json, docs/game_data.md 10.3",
+ "count": 20,
+ "plays": [
+  {
+   "id": "mirror",
+   "name": "거울",
+   "min": 4,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "swapline",
+   "name": "한 줄 바꾸기",
+   "min": 5,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "hearme",
+   "name": "내 소리는 네가",
+   "min": 5,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "relay",
+   "name": "전달 놀이",
+   "min": 5,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "chain",
+   "name": "이어달리기",
+   "min": 5,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "twohalf",
+   "name": "둘이 한 문장",
+   "min": 4,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "overlap",
+   "name": "겹치면 지운다",
+   "min": 4,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "ladder",
+   "name": "배속 사다리",
+   "min": 5,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "wall",
+   "name": "3초 벽",
+   "min": 4,
+   "src": "cards",
+   "fit": [
+    3
+   ]
+  },
+  {
+   "id": "rebound",
+   "name": "되받아치기",
+   "min": 4,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "onesee",
+   "name": "한 사람만 본다",
+   "min": 5,
+   "src": "cards",
+   "fit": [
+    3
+   ]
+  },
+  {
+   "id": "wave",
+   "name": "파장",
+   "min": 5,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "whose",
+   "name": "누구 말이야",
+   "min": 4,
+   "src": "cards",
+   "fit": [
+    3
+   ]
+  },
+  {
+   "id": "reask",
+   "name": "못 알아들은 척",
+   "min": 4,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "cutin",
+   "name": "끼어들기",
+   "min": 3,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "clash",
+   "name": "말 겹치기",
+   "min": 4,
+   "src": "media",
+   "fit": [
+    4
+   ]
+  },
+  {
+   "id": "flip",
+   "name": "거꾸로 판정",
+   "min": 5,
+   "src": "cards",
+   "fit": [
+    3
+   ]
+  },
+  {
+   "id": "apart",
+   "name": "따로 쓰고 같이 펴기",
+   "min": 5,
+   "src": "set",
+   "fit": [
+    2
+   ]
+  },
+  {
+   "id": "recall",
+   "name": "어제 그거",
+   "min": 5,
+   "src": "cards",
+   "fit": [
+    3
+   ]
+  },
+  {
+   "id": "oneday",
+   "name": "오늘의 한 판",
+   "min": 5,
+   "src": "any",
+   "fit": [
+    2,
+    3,
+    4
+   ]
+  }
+ ]
+}
