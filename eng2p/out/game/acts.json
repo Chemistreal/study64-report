@@ -66,7 +66,7 @@
   }
  ],
  "release": {
-  "throughSession": 288,
+  "throughSession": 48,
   "rule": "이 번호보다 큰 세션은 게임이 '곧 열려요' 로 잠근다. 세션이 하나씩 완성 기준을 넘길 때 올린다."
  },
  "captions": {
