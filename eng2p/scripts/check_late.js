@@ -33,18 +33,9 @@ const fs = require("fs");
 const HERE = path.resolve(__dirname, "..");
 const ROOT = path.resolve(HERE, "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = process.env.CHROMIUM_PATH ||
-  "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("늦게 읽는 조각 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { skip("playwright 를 못 찾았다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("늦게 읽는 조각");
 
 /* 늦게 읽는 자리마다 한 줄. **조각 하나에 두 자리일 수 있다** (자료 탭과 규칙 탭).
  *   piece 어느 조각인가

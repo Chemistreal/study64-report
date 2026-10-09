@@ -24,18 +24,9 @@ const fs = require("fs");
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
 const DOC = path.join(__dirname, "..", "docs", "friction.md");
-const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("마찰 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-
-let chromium;
-try { chromium = require("playwright-core").chromium; }
-catch (e) { skip("playwright-core 가 없다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("마찰");
 if (!fs.existsSync(DOC)) { console.log("[실패] " + DOC + " 가 없다"); process.exit(1); }
 
 /* 기준선을 문서에서 읽는다. 표의 칸은 이름과 값과 방향이다. */
@@ -135,9 +126,9 @@ function seedScript() {
     await p.goto(PAGE);
     await p.waitForTimeout(450);
     let taps = 0;
-    const go = await p.$("#resumeGo");
-    if (!go) fails.push("끊긴 데서 이어: 이어서 하기 단추가 없다");
-    else { await go.click(); taps++; }
+    const hasGo = await H.has(p, "#resumeGo");
+    if (!hasGo) fails.push("끊긴 데서 이어: 이어서 하기 단추가 없다");
+    else { await p.click("#resumeGo"); taps++; }      // 손잡이를 안 쥐고 이름으로 누른다
     await p.waitForTimeout(250);
     const st = await p.evaluate(() => ({ run: !!(window.T && T.run), idx: window.T ? T.idx : -1 }));
     if (!st.run) fails.push("끊긴 데서 이어: 세션이 안 돈다");

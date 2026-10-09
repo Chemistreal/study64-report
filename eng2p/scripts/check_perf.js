@@ -23,17 +23,9 @@ const fs = require("fs");
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
 const DOC = path.join(__dirname, "..", "docs", "friction.md");
-const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("성능 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require("playwright-core").chromium; }
-catch (e) { skip("playwright-core 가 없다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("성능", { clock: "date" });   // `performance.getEntriesByType("navigation")` 를 읽는다. 가짜 시계는 이것을 빈 배열로 바꾼다. Date 만 옮긴다
 
 /* 기준선을 문서에서 읽는다. friction.md 와 같은 규칙이다.
    **문서와 검사가 같은 값을 봐야 한다.** */

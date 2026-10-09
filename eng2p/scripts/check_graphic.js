@@ -29,18 +29,10 @@ const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 const MIN = 3;
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("그림 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { skip("playwright 를 못 찾았다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("그림");
 
 /* 재는 짝. **이 표가 규격이다.** 여기 없는 그림은 안 재진다.
      a, b   견줄 두 자리. `stroke` 면 선 색이고 아니면 바탕색이다

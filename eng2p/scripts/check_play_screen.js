@@ -114,17 +114,9 @@ const flatSp = (x) => String(x).replace(/\s+/g, " ").trim();
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("판 화면 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require("playwright-core").chromium; }
-catch (e) { skip("playwright-core 가 없다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("판 화면");
 
 /* 두 기기가 같은 데서 출발한다. 거기서부터 갈리면 갈리는 것이 당연해서
    아무것도 안 재게 된다. `check_pair.js` 와 같은 씨앗이다. */
@@ -161,8 +153,12 @@ function no(msg) { fails.push(msg); console.log("[실패] " + msg); }
    없는 것을 누르면 기본 30초를 기다리다 터진다. 터지면 그 뒤가 다 안 돈다.
    깨진 앱에서 검사가 오래 걸리는 것이 아니라 **아무 말도 안 하게 된다.** */
 async function tap(page, sel, why) {
-  const el = await page.$(sel);
-  if (!el || !(await el.isVisible())) { no(why + ": " + sel + " 가 화면에 없다"); return false; }
+  /* **있는지는 잠깐 기다려서 본다.** 전에는 `page.$` 로 바로 보고 없으면 바로 실패였다.
+     판 화면은 따로 읽는 파일이라 (T259) 기계가 바쁜 날에는 눌리기 전에 아직 안 그려져 있다.
+     "#twhYes 가 화면에 없다" 가 여섯 기계 병렬에서 두 판에 한 판 났다 (감사 0.3).
+     **없는 것은 여전히 실패다.** 4초 안에 안 뜨면 같은 말로 실패한다. */
+  try { await page.waitForSelector(sel, { state: "visible", timeout: 4000 }); }
+  catch (e) { no(why + ": " + sel + " 가 화면에 없다"); return false; }
   /* **쥔 손으로 안 누르고 이름으로 누른다.** 판 화면은 누를 때마다 `innerHTML` 을
      통째로 갈아 끼운다. 위에서 잡아 둔 손잡이가 그 사이에 떨어져 나가면
      "Element is not attached to the DOM" 이 난다.
@@ -177,6 +173,14 @@ async function tap(page, sel, why) {
   try { await page.click(sel, { timeout: 8000 }); return true; }
   catch (e) { no(why + ": " + sel + " 를 못 눌렀다"); return false; }
 }
+
+/* 있어야 하는 자리는 잠깐 기다려서 본다 (`H.has`). 없어야 하는 자리는 `p.$` 로 바로 본다. */
+const there = (p, sel) => H.has(p, sel);
+
+/* 시계가 끝나기를 기다린다. **고정 1.5초를 자는 대신 그 글이 뜰 때까지** (상한 8초).
+   안 뜨면 조용히 넘어가고 바로 아래 단언이 같은 말로 잡는다 (단언은 그대로다). */
+const untilText = (p, want) =>
+  H.waitText(p, "#playPane", want, 8000).catch(() => {}).then(() => H.settle(p, "#playPane"));
 
 /* 판을 처음부터 다시. **회와 셈을 같이 지운다.** 회만 지우면 앞선 판정이 남는다. */
 const RESET = () => {
@@ -218,6 +222,7 @@ const RESET = () => {
       await browser.close();
       process.exit(1);
     }
+    await H.settle(page, "#playPane");
     dev[who] = page;
   }
   const A = dev.a, B = dev.b;
@@ -363,7 +368,7 @@ const RESET = () => {
                             roundStepSet("mirror", 0); renderMirror(); });
   await tap(rd, "#mirGo", "4분 시계");
   await rd.evaluate(() => { MIRCLK.left = 1; });
-  await rd.waitForTimeout(1500);
+  await untilText(rd, "4분이 됐다");
   const over = await text(rd);
   if (!over.includes("4분이 됐다"))
     no("4분 시계가 다 됐는데 화면이 끝났다는 말을 안 한다");
@@ -386,7 +391,12 @@ const RESET = () => {
          "그러면 어느 판의 오타든 여기서 터진다.** node --check out/app/plays.js 를 본다");
       throw e;
     }
+    /* **함수가 생겼다고 그려진 것이 아니다.** 판이 쥔 자료 (hold, halves, pairs ...) 는
+       따로 읽는다. 자료가 오는 동안 칸은 "여는 중이다" 다. 그 칸을 보고 나아가면
+       "이대로 안 돈다" 같은 첫 글을 못 찾는다 (둘이 한 문장이 부하 아래서 그렇게 났다).
+       자료가 다 오고 그 칸의 글이 가라앉을 때까지 기다린다. 하한 400 은 그대로다. */
     await p.waitForTimeout(400);
+    await H.settle(p, "#playPane");
   };
   const SWRESET = () => {
     S.rstep = {}; S.rseat = {}; S.rhit = {}; S.solo = false; S.soloHand = false;
@@ -500,7 +510,7 @@ const RESET = () => {
   await A.evaluate(SWRESET);
   await tap(A, "#swpGo", "5분 시계");
   await A.evaluate(() => { SWPCLK.left = 1; });
-  await A.waitForTimeout(1500);
+  await untilText(A, "5분이 됐다");
   if (!(await text(A)).includes("5분이 됐다"))
     no("한 줄 바꾸기: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
@@ -622,7 +632,7 @@ const RESET = () => {
   await A.evaluate(HRRESET);
   await tap(A, "#hrmGo", "5분 시계");
   await A.evaluate(() => { HRMCLK.left = 1; });
-  await A.waitForTimeout(1500);
+  await untilText(A, "5분이 됐다");
   if (!(await text(A)).includes("5분이 됐다"))
     no("내 소리는 네가: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
@@ -757,7 +767,7 @@ const RESET = () => {
   await A.evaluate(RLRESET);
   await tap(A, "#rlyGo", "5분 시계");
   await A.evaluate(() => { RLYCLK.left = 1; });
-  await A.waitForTimeout(1500);
+  await untilText(A, "5분이 됐다");
   if (!(await text(A)).includes("5분이 됐다"))
     no("전달 놀이: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
@@ -850,7 +860,7 @@ const RESET = () => {
   await tap(A, "#chnAdd", "이었다");
   await tap(A, "#chnGo", "5분 시계");
   await A.evaluate(() => { CHNCLK.left = 1; });
-  await A.waitForTimeout(1500);
+  await untilText(A, "5분이 됐다");
   const chDone = await text(A);
   if (!chDone.includes("5분이 됐다"))
     no("이어달리기: 5분 시계가 다 됐는데 끝났다는 말을 안 한다");
@@ -975,7 +985,7 @@ const RESET = () => {
   await A.evaluate(TWRESET);
   await tap(A, "#twhGo", "4분 시계");
   await A.evaluate(() => { TWHCLK.left = 1; });
-  await A.waitForTimeout(1500);
+  await untilText(A, "4분이 됐다");
   if (!(await text(A)).includes("4분이 됐다"))
     no("둘이 한 문장: 4분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
@@ -1103,7 +1113,7 @@ const RESET = () => {
   await A.evaluate(OVRESET);
   await tap(A, "#ovlGo", "4분 시계");
   await A.evaluate(() => { OVLCLK.left = 1; });
-  await A.waitForTimeout(1500);
+  await untilText(A, "4분이 됐다");
   if (!(await text(A)).includes("4분이 됐다"))
     no("겹치면 지운다: 4분 시계가 다 됐는데 끝났다는 말을 안 한다");
 
@@ -1211,7 +1221,7 @@ const RESET = () => {
     no("A등급 자료에 통과 판정 금지가 붙었다");
   await tap(A, "#ladGo", "시계");
   await A.evaluate(() => { LADCLK.left = 1; });
-  await A.waitForTimeout(1500);
+  await untilText(A, /분이 됐다/);
   const ldOver = await text(A);
   if (!/분이 됐다/.test(ldOver))
     no("배속 사다리: 시계가 다 됐는데 끝났다는 말을 안 한다");
@@ -1322,8 +1332,8 @@ const RESET = () => {
   for (const sel of ["#walHit", "#walGo"])
     if (await taker.$(sel)) no("3초 벽: 받는 쪽에 " + sel + " 가 있다");
   for (const sel of ["#walNext", "#walDefer"])
-    if (!(await taker.$(sel))) no("3초 벽: 받는 쪽에 " + sel + " 가 없다");
-  if (!(await shower.$("#walGo"))) no("3초 벽: 띄우는 쪽에 시계 단추가 없다");
+    if (!(await there(taker, sel))) no("3초 벽: 받는 쪽에 " + sel + " 가 없다");
+  if (!(await there(shower, "#walGo"))) no("3초 벽: 띄우는 쪽에 시계 단추가 없다");
 
   /* ---- 67. 자리가 자료가 적은 장수마다 바뀐다 ---------------------------
      **날짜에 안 매인다.** 어느 쪽이 먼저인지는 세션마다 뒤집히고 (roleOf)
@@ -1347,13 +1357,13 @@ const RESET = () => {
   const wsec = await shower.evaluate(() => walDeck()[roundStep("wall")].sec);
   await tap(shower, "#walGo", "제한시간 재기");
   await shower.evaluate(() => { WCLK.left = 1; });
-  await shower.waitForTimeout(1400);
+  await untilText(shower, "대신 받는다");
   const relayTxt = await text(shower);
   if (!relayTxt.includes("대신 받는다"))
     no("3초 벽: 시간이 다 됐는데 대신 받는다는 말이 없다");
   if (relayTxt.indexOf(String(wsec) + "초") < 0)
     no("3초 벽: 대신 받는 자리에 제한시간이 안 적혔다. 덜 주면 그것이 벌이 된다");
-  if (!(await shower.$("#walMiss")))
+  if (!(await there(shower, "#walMiss")))
     no("3초 벽: 대신 받는 자리에 둘 다 못 받았다가 없다");
   if ((await shower.evaluate(() => roundStep("wall"))) !== 0)
     no("3초 벽: 시간이 다 됐다고 장이 넘어갔다. 대신 받을 차례가 남았다");
@@ -1470,7 +1480,7 @@ const RESET = () => {
   for (const sel of ["#rbdOn", "#rbdStop"])
     if (await catcher.$(sel))
       no("되받아치기: 받는 쪽에 " + sel + " 가 있다. 쉼은 던진 쪽이 듣는다");
-  if (!(await catcher.$("#rbdSaid")))
+  if (!(await there(catcher, "#rbdSaid")))
     no("되받아치기: 받는 쪽에 자리를 미는 단추가 없다. 안 밀면 판 표시가 갈린다");
 
   /* ---- 76. 받는 쪽에 큰 수가 없다. **안 세는 것과 0인 것은 다르다** ----- */
@@ -1522,7 +1532,7 @@ const RESET = () => {
   const after = await rbRec(catcher);
   if (after.best !== (before.best || 0) || after.stops !== (before.stops || 0))
     no("되받아치기: 받는 쪽 단추가 셈을 건드렸다. 그 자리는 판정이 아니다");
-  if (!(await catcher.$("#rbdOn")))
+  if (!(await there(catcher, "#rbdOn")))
     no("되받아치기: 받는 쪽이 눌렀는데 자리가 안 바뀌었다");
   if ((await thrower.evaluate(() => roundStep("rebound"))) !==
       (await catcher.evaluate(() => roundStep("rebound"))))
@@ -1534,7 +1544,7 @@ const RESET = () => {
   thrower = (await A.evaluate(() => !!document.querySelector("#rbdOn"))) ? A : B;
   for (let i = 0; i < 4; i++) {
     await tap(thrower, "#rbdOn", "쉼 없이 " + (i + 1));
-    if (!(await thrower.$("#rbdOn")))
+    if (!(await there(thrower, "#rbdOn")))
       no("되받아치기: 쉼이 안 났는데 자리가 바뀌었다: " + (i + 1) + "번째");
   }
 
@@ -1638,7 +1648,7 @@ const RESET = () => {
   for (const sel of ["#oneHit", "#oneGive", "#oneAsked"])
     if (await finder.$(sel))
       no("한 사람만 본다: 알아내는 쪽에 " + sel + " 가 있다. 답은 쥔 쪽만 안다");
-  if (!(await finder.$("#oneNext")))
+  if (!(await there(finder, "#oneNext")))
     no("한 사람만 본다: 알아내는 쪽에 자리를 미는 단추가 없다");
 
   /* ---- 88. 자리가 한 장마다 바뀐다 -------------------------------------- */
@@ -1859,7 +1869,7 @@ const RESET = () => {
   /* ---- 100. 판정 단추가 쥔 쪽에만 있다 ---------------------------------- */
   if ((await vGuess.$$("[data-wav]")).length)
     no("파장: 맞히는 쪽에 자리를 대는 단추가 있다. 판정은 쥔 사람이 한다");
-  if (!(await vGuess.$("#wavNext")))
+  if (!(await there(vGuess, "#wavNext")))
     no("파장: 맞히는 쪽에 자리를 미는 단추가 없다");
   if ((await vHold.$$("[data-wav]")).length !== vspec.size)
     no("파장: 쥔 쪽의 단추가 눈금 칸수와 다르다");
@@ -2036,7 +2046,7 @@ const RESET = () => {
       no("누구 말이야: 고르기 전에 " + sel + " 가 떴다. 안 고르고 판정할 수 없다");
   await tap(A, '[data-who="' + hspec.regs[0] + '"]', "하나 고른다");
   for (const sel of ["#whoSame", "#whoSplit"])
-    if (!(await A.$(sel)))
+    if (!(await there(A, sel)))
       no("누구 말이야: 고르고 나서도 " + sel + " 가 안 뜬다");
 
   /* ---- 111. 같았다와 갈렸다가 다르게 센다 -------------------------------- */
@@ -2147,6 +2157,7 @@ const RESET = () => {
   const wcOff = await A.evaluate(async () => {
     go("ledger");
     await new Promise((ok) => setTimeout(ok, 400));
+    await window.__idle({ sel: "#weekCheck" });     // 늦게 읽는 조각이 올 때까지. 하한 400 은 그대로
     return document.querySelector("#weekCheck").innerText;
   });
   if (/갈린 자리/.test(wcOff))
@@ -2157,6 +2168,7 @@ const RESET = () => {
                                     who: "검사가 넣은 상대", day: today() }];
     save(); go("ledger"); lateDo("renderWeekCheck");
     await new Promise((ok) => setTimeout(ok, 400));
+    await window.__idle({ sel: "#weekCheck" });     // 늦게 읽는 조각이 올 때까지. 하한 400 은 그대로
     return document.querySelector("#weekCheck").innerText;
   });
   if (!put.includes("검사가 넣은 자리"))
@@ -2256,7 +2268,7 @@ const RESET = () => {
   for (const sel of ["#rskOpen", "#rskNext"])
     if (await kMud.$(sel))
       no("못 알아들은 척: 뭉개는 쪽에 " + sel + " 가 있다");
-  if (!(await kAsk.$("#rskOpen"))) no("못 알아들은 척: 되묻는 쪽에 보기 단추가 없다");
+  if (!(await there(kAsk, "#rskOpen"))) no("못 알아들은 척: 되묻는 쪽에 보기 단추가 없다");
 
   /* ---- 123. 보기는 열기 전에 없고 열면 **자료 그대로** 뜬다 -------------- */
   const kNow = await kAsk.evaluate(() => rskStep(roundStep("reask")));
@@ -2316,7 +2328,7 @@ const RESET = () => {
      **한 줄 더 밀어 이 기기를 다시 뭉개는 쪽으로 만든다.**
      처음에 다른 기기를 보게 짜서 이 검사의 첫 실패가 검사 탓이었다 (T299). */
   await tap(kMud, "#rskNext", "한 줄 더 민다");
-  if (!(await kMud.$("#rskAlone")))
+  if (!(await there(kMud, "#rskAlone")))
     no("못 알아들은 척: 두 줄을 밀었는데 자리가 안 돌아왔다");
   await tap(kMud, "#rskShown", "보기를 보고 말했다");
   kr = await kRec(kMud);
@@ -2426,7 +2438,7 @@ const RESET = () => {
   if ((await A.evaluate(() => !!document.querySelector("#cutGo"))) ===
       (await B.evaluate(() => !!document.querySelector("#cutGo"))))
     no("끼어들기: 시계 단추가 두 기기에 다 있거나 다 없다. 한 기기만 든다");
-  if (!(await cOff.$("#cutFlip")))
+  if (!(await there(cOff, "#cutFlip")))
     no("끼어들기: 시계를 안 든 기기에 회를 미는 단추가 없다");
   if (await cOff.$("#cutGo"))
     no("끼어들기: 시계를 안 든 기기에 시계 단추가 있다");
@@ -2439,14 +2451,14 @@ const RESET = () => {
   /* ---- 131. 신호 시각에 닿으면 시계가 멈추고 신호가 뜬다 ----------------- */
   await tap(cHold, "#cutGo", "시계를 켠다");
   await cHold.evaluate(() => { CUTCLK.left = DATA.cutin.sec - cutDeck()[0]; });
-  await cHold.waitForTimeout(1600);
+  await untilText(cHold, "신호가 났다");
   const cSig = await text(cHold);
   if (!cSig.includes("신호가 났다"))
     no("끼어들기: 신호 시각에 닿았는데 화면이 아무 말도 안 한다");
   if (!(await cHold.evaluate(() => !CUTCLK.t)))
     no("끼어들기: 신호가 났는데 시계가 계속 간다. 끼어드는 동안 다음 신호가 온다");
   for (const sel of ["#cutIn", "#cutNo"])
-    if (!(await cHold.$(sel))) no("끼어들기: 신호 뒤에 " + sel + " 가 없다");
+    if (!(await there(cHold, sel))) no("끼어들기: 신호 뒤에 " + sel + " 가 없다");
 
   /* ---- 132. 한 번 못 하면 회가 안 늘고 두 번째 신호가 뜬다 --------------- */
   const cRec = (p) => p.evaluate(() => S.rhit["cutin|" + today()] || {});
@@ -2639,8 +2651,9 @@ const RESET = () => {
   if (lCue.length !== 1)
     no("말 겹치기: 신호 단추가 " + lCue.length + "개다. 한 기기만 낸다");
   for (const [tag, p] of [["a", A], ["b", B]]) {
-    const has = !!(await p.$("#clsCueGo"));
     const isA = (await lWho(p)) === "a";
+    /* 있어야 하는 쪽만 기다려서 본다. 없어야 하는 쪽은 바로 본다 */
+    const has = isA ? !!(await there(p, "#clsCueGo")) : !!(await p.$("#clsCueGo"));
     if (has !== isA)
       no("말 겹치기: " + tag + " 기기의 신호 단추가 몫과 안 맞는다");
   }
@@ -2890,7 +2903,7 @@ const RESET = () => {
     const oRec = await fRec(other);
     if ((oRec.split || 0) + (oRec.stuck || 0) !== 0)
       no("거꾸로 판정: 답하는 쪽의 다음 장이 셈을 건드렸다. 이 기기는 판정을 안 했다");
-    if (!(await other.$("#flpStuck")))
+    if (!(await there(other, "#flpStuck")))
       no("거꾸로 판정: 자리가 바뀌었는데 저쪽에 판정 단추가 안 갔다");
     await tap(other, "#flpStuck", "못 가른다");
     fr = await fRec(other);
@@ -3029,7 +3042,7 @@ const RESET = () => {
       no("따로 쓰고 같이 펴기: " + tag + " 화면에 오늘 물음이 없다");
     if (!/역할이 없다/.test(t))
       no("따로 쓰고 같이 펴기: " + tag + " 화면이 역할이 없다는 것을 안 적는다");
-    if (!(await p.$("#aptIn")))
+    if (!(await there(p, "#aptIn")))
       no("따로 쓰고 같이 펴기: " + tag + " 에 적는 칸이 없다");
   }
 
@@ -3278,7 +3291,7 @@ const RESET = () => {
     const give = (await rFirst(A)) ? A : B;
     const take = give === A ? B : A;
     if (await take.$("#rclHit")) no("어제 그거: 받는 쪽에 판정 단추가 있다");
-    if (!(await take.$("#rclNext"))) no("어제 그거: 받는 쪽에 넘기는 단추가 없다");
+    if (!(await there(take, "#rclNext"))) no("어제 그거: 받는 쪽에 넘기는 단추가 없다");
     if (!/판정이 아니라/.test(await text(take)))
       no("어제 그거: 넘기는 단추가 판정이 아니라는 말이 없다");
     await tap(take, "#rclNext", "저쪽이 눌렀다. 다음 장");
@@ -3301,7 +3314,7 @@ const RESET = () => {
     if ((await give.evaluate(() => roundStep("recall"))) !== 1)
       no("어제 그거: 맞았다를 눌렀는데 장이 안 넘어갔다");
     /* **다섯 장마다 바뀐다.** 한 장 밀렸다고 자리가 바뀌면 안 된다 */
-    if (!(await give.$("#rclHit")))
+    if (!(await there(give, "#rclHit")))
       no("어제 그거: 한 장 돌았는데 자리가 바뀌었다. 다섯 장마다여야 한다");
     await tap(give, "#rclMiss", "못 맞혔다");
     r = await rRec(give);
@@ -3319,7 +3332,7 @@ const RESET = () => {
     const seat = [];
     for (let i = 0; i <= 5; i++) {
       await give.evaluate((n) => { roundStepSet("recall", n); renderRecall(); }, i);
-      seat.push(!!(await give.$("#rclHit")));
+      seat.push(!!(await give.$("#rclHit")));   // 그린 직후다. 있고 없고를 바로 본다 (없어야 하는 칸이 있다)
     }
     if (!(seat[0] && seat[4] && !seat[5]))
       no("어제 그거: 자리가 다섯 장마다 안 바뀐다. 판정 단추가 " +
@@ -3500,7 +3513,7 @@ const RESET = () => {
   /* ---- 177. 열면 그 판으로 가고 **적는 것이 먼저다** --------------------- */
   {
     const pick = await A.evaluate(() => (odyRow() || {}).row.pick);
-    if (!(await A.$("#odyGo"))) no("오늘의 한 판: 여는 단추가 없다");
+    if (!(await there(A, "#odyGo"))) no("오늘의 한 판: 여는 단추가 없다");
     if (!/한 번 열면 못 무른다/.test(await text(A)))
       no("오늘의 한 판: 못 무른다는 말이 없다");
     await tap(A, "#odyGo", "판을 연다");
@@ -3569,10 +3582,16 @@ const RESET = () => {
 
        T311 에 같은 것을 겪었다. 거기서는 화면의 두 자리였고 여기는 두 상태다.
        **한 화면에만 있는 말을 고른다.** 닫은 뒤에만 있는 말이 이것이다. */
+    /* **저쪽 화면은 표가 온 뒤에 그려서 본다.** 저쪽은 앞에서 한 번 그려 두고 한참 안 만졌다.
+       그때 표 (`DATA.onepick`) 가 아직 안 와 있었으면 "여는 중이다" 로 남아 있다 (이쪽은 아래에서
+       같은 일을 한다). 상태를 보는 판정이라 낡은 화면이 아니라 지금 상태로 그려서 본다. */
+    await B.waitForFunction(() => !!DATA.onepick, null, { timeout: 30000 })
+      .catch(() => no("오늘의 한 판: 저쪽이 표를 못 읽었다"));
+    await B.evaluate(() => renderOneday());
     const t = await text(B);
     if (/오늘 것은 끝났다/.test(t))
       no("오늘의 한 판: 이쪽에서 닫았는데 저쪽도 닫혔다. 셈이 안 건너간다");
-    if (!(await B.$("#odyGo")))
+    if (!(await there(B, "#odyGo")))
       no("오늘의 한 판: 저쪽 기기에 여는 단추가 없다");
   }
 
@@ -3599,6 +3618,7 @@ const RESET = () => {
     const t = await A.evaluate(async (x) => {
       PLAY.at = x; renderPlayTab();
       await new Promise((ok) => setTimeout(ok, 250));
+      await window.__idle({ sel: "#playPane" });    // 판 자료가 올 때까지. 하한 250 은 그대로
       return document.getElementById("playPane").innerText;
     }, pid);
     if (!/회를 하나 넘긴다/.test(t)) seatSay.push(pid);
@@ -3618,6 +3638,7 @@ const RESET = () => {
     const t = await A.evaluate(async (id) => {
       PLAY.at = id; renderPlayTab();
       await new Promise((ok) => setTimeout(ok, 250));
+      await window.__idle({ sel: "#playPane" });    // 판 자료가 올 때까지. 하한 250 은 그대로
       return document.getElementById("playPane").innerText;
     }, x.id);
     if (t.indexOf("정보를 쥐는 자리는 " + x.hold) < 0) holdMiss.push(x.id);

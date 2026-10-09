@@ -20,22 +20,10 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 const OUT = path.join(__dirname, "..", "out", "manual", "eng2p_rehearsal_w1.md");
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("리허설을 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-
-let chromium;
-try {
-  chromium = require("playwright-core").chromium;
-} catch (e) {
-  skip("playwright-core 가 없다");
-}
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("리허설");
 
 // 카드 칸은 {from,to} 다. 그대로 이으면 화면에 [object Object] 가 뜬다.
 function cardRange(c) {

@@ -36,16 +36,9 @@ const path = require("path");
 
 const HERE = path.resolve(__dirname, "..");
 const PAGE = "file://" + path.join(HERE, "..", "english.html");
-const CHROME = process.env.CHROMIUM_PATH ||
-  "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-if (!fs.existsSync(CHROME)) {
-  console.log("소리 화면 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { console.log("소리 화면 검사를 안 돌렸다. 통과가 아니다."); process.exit(0); }
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("소리 화면");
 
 /* 판정 안 한다는 말이 뜨는 자리 다섯. **자리마다 말할 것이 다르다** */
 const SAYS = [

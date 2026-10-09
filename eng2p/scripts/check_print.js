@@ -29,21 +29,13 @@ const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = process.env.CHROMIUM_PATH || "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 /* A4 폭을 96dpi 로 잰 값에서 여백을 뺀 값. 종이는 좁다 */
 const PAPER = 794;
 const TABS = ["today", "review", "sound", "clip", "media", "play",
               "find", "src", "ledger", "verify", "quarter", "check", "rot", "rules"];
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("인쇄 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { skip("playwright 를 못 찾았다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("인쇄");
 
 const fails = [];
 let n = 0;

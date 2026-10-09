@@ -25,18 +25,9 @@ const fs = require("fs");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = process.env.CHROMIUM_PATH ||
-  "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("역할 교대 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { skip("playwright 를 못 찾았다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("역할 교대");
 
 /* 시작일. **날짜가 역할을 안 정하므로 어느 날에서 시작해도 값이 같아야 한다.**
    그래서 둘을 돈다. 앞엣것이 옛 검사가 마흔여덟을 잰 날이다. */

@@ -28,16 +28,9 @@ const path = require("path");
 
 const HERE = path.resolve(__dirname, "..");
 const PAGE = "file://" + path.join(HERE, "..", "english.html");
-const CHROME = process.env.CHROMIUM_PATH ||
-  "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 
-if (!fs.existsSync(CHROME)) {
-  console.log("말투 검사를 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require(process.env.PLAYWRIGHT_MODULE || "playwright").chromium; }
-catch (e) { console.log("말투 검사를 안 돌렸다. 통과가 아니다."); process.exit(0); }
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("말투");
 
 /* 다그치는 말 갈래 다섯. `tone.md` 2장이 같은 표다.
    **칭찬도 한 갈래다.** 칭찬이 있으면 없을 때가 못한 것이 된다 */
@@ -61,12 +54,15 @@ const TABS = ["today", "review", "sound", "clip", "media", "find", "src", "ledge
 const fails = [];
 const no = (m) => fails.push(m);
 let seen = 0;
+/* 훑은 줄을 갈래마다 센다. 아래 선이 이 수를 본다 (FLOOR) */
+const seenBy = { tab: 0, peek: 0, play: 0 };
 
-function scan(lines, where) {
+function scan(lines, where, grp) {
   (lines || []).forEach((ln) => {
     const s = String(ln).trim();
     if (!s) return;
     seen++;
+    seenBy[grp]++;
     if (NOT.test(s)) return;
     KINDS.forEach((g) => {
       g.ws.forEach((w) => {
@@ -138,10 +134,13 @@ function scan(lines, where) {
     const txt = await page.evaluate(async (x) => {
       go(x);
       await new Promise((ok) => setTimeout(ok, 900));
+      /* **늦게 읽는 탭이 안 그려졌으면 덜 훑고 통과한다.** 하한 900 은 그대로 두고
+         자료가 다 오고 글이 가라앉을 때까지 더 기다린다 (부하가 걸린 날 4668줄이 4485줄이 됐다) */
+      await window.__idle({ sel: "#t-" + x });
       return window.__lines("#t-" + x);
     }, t);
     if (txt === null) { no("탭 " + t + " 이 없다"); continue; }
-    scan(txt, "탭 " + t);
+    scan(txt, "탭 " + t, "tab");
   }
 
   /* 눌러야 열리는 덮개 셋. **탭만 열면 안 뜬다** (`split.md` 와 같은 자리).
@@ -160,10 +159,11 @@ function scan(lines, where) {
       if (n === 2) { PEEKMAP = false; PEEKLEC = null; PEEK = 0; }
       renderBlockPane();
       await new Promise((ok) => setTimeout(ok, 600));
+      await window.__idle({ sel: "#blockPane" });
       return window.__lines("#blockPane");
     }, i);
     if (txt === null) { no("덮개 " + PEEKS[i][0] + " 가 안 열린다"); continue; }
-    scan(txt, "덮개 " + PEEKS[i][0]);
+    scan(txt, "덮개 " + PEEKS[i][0], "peek");
   }
 
   /* 판 스물도 연다. **판 화면에도 같은 말투가 걸린다** */
@@ -174,10 +174,11 @@ function scan(lines, where) {
       await new Promise((ok) => setTimeout(ok, 400));
       PLAY.at = x; renderPlayTab();
       await new Promise((ok) => setTimeout(ok, 700));
+      await window.__idle({ sel: "#t-play" });
       return window.__lines("#t-play");
     }, id);
     if (txt === null) { no("판 " + id + " 자리가 없다"); continue; }
-    scan(txt, "판 " + id);
+    scan(txt, "판 " + id, "play");
   }
 
   /* **밀림이 정말 만들어졌는가.** 안 만들어졌으면 위 훑기가 반쪽이다 */
@@ -196,7 +197,24 @@ function scan(lines, where) {
   if (doc.indexOf("같은 사실을 두 가지로 적을 수 있으면") < 0)
     no("tone.md 3장에 무엇을 대신 적는지의 규칙이 없다");
 
+  /* ---- 훑은 양에 아래 선 ------------------------------------------------
+     **덜 훑고 통과하는 길이 열려 있었다.** 늦게 그려지는 탭이 안 그려진 채로 읽으면
+     그 탭의 줄이 통째로 빠지는데 다그치는 줄이 하나도 없으니 초록불이 났다.
+     부하 아래에서 4668줄이 4485줄이 됐고 줄 수에는 아래 선이 없었다.
+     선은 지금 값이다. 줄면 실패다. 앱의 글이 정말 줄었으면 그때 선을 내리고 까닭을 적는다.
+     (오르는 것은 막지 않는다. 글이 늘면 선만 올린다.) */
   if (errs.length) no("화면 오류 " + errs.length + "개: " + errs.slice(0, 2).join(" / "));
+  /* 선은 하네스의 기본 날짜 (수요일) 에서 잰 값이다. 판 화면의 글은 날에 따라 달라서
+     (월요일은 판이 1703줄, 수요일은 1627줄) 요일 스윕 (ENG2P_PIN) 에서는 선을 안 건다. */
+  const FLOOR = process.env.ENG2P_PIN ? { tab: 0, peek: 0, play: 0 }
+                                       : { tab: 2759, peek: 281, play: 1627 };
+  [["tab", "탭"], ["peek", "덮개"], ["play", "판"]].forEach(([k, nm]) => {
+    if (seenBy[k] < FLOOR[k])
+      no(nm + " 에서 훑은 줄이 " + seenBy[k] + " 이다. 선은 " + FLOOR[k] +
+         " 다. 덜 훑고 통과하면 안 된다 (늦게 그려진 칸이 없는지 본다)");
+  });
+  console.log("훑은 줄 탭 " + seenBy.tab + " / 덮개 " + seenBy.peek + " / 판 " + seenBy.play +
+              " (선 " + FLOOR.tab + " / " + FLOOR.peek + " / " + FLOOR.play + ")");
 
   await browser.close();
   fails.forEach((m) => console.log("[실패] " + m));

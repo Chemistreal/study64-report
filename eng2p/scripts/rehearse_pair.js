@@ -21,18 +21,10 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const PAGE = "file://" + path.join(ROOT, "english.html");
-const CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome";
 const OUT = path.join(__dirname, "..", "out", "manual", "eng2p_rehearsal_pair.md");
 
-function skip(why) {
-  console.log("[건너뜀] " + why);
-  console.log("두 기기 리허설을 안 돌렸다. 통과가 아니다.");
-  process.exit(0);
-}
-let chromium;
-try { chromium = require("playwright-core").chromium; }
-catch (e) { skip("playwright-core 가 없다"); }
-if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
+const H = require("./lib/browser_harness");
+const { chromium, CHROME } = H.need("두 기기 리허설", { clock: false });   // 문서를 쓴다. 본문의 날짜와 검증로그의 날짜가 같은 (진짜) 날이어야 한다
 
 const SEED = (who) => {
   function iso(d) { var z = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
