@@ -250,7 +250,7 @@ Kokoro 는 1.15 를 넘으면 음절이 뭉개져 상한이 1.15 다. 폴백은 
 | Ms. Evans | kokoro | af_sarah | piper | en_US-libritts-high | 0.9 | 0.96 | 1.02 | 1.06 | 600 | 450 | 300 | 220 | - |
 | Malia | kokoro | af_nova | piper | en_US-libritts-high | 0.9 | 0.98 | 1.06 | 1.1 | 550 | 400 | 250 | 170 | - |
 | Tom | kokoro | am_puck | piper | en_US-libritts-high | 0.95 | 1.02 | 1.12 | 1.15 | 520 | 370 | 220 | 140 | - |
-| Mr. Lee | piper | en_US-norman-medium | piper | en_US-norman-medium | 0.82 | 0.86 | 0.9 | 0.92 | 850 | 700 | 550 | 470 | - |
+| Mr. Lee | kokoro | am_adam | piper | en_US-norman-medium | 0.82 | 0.86 | 0.9 | 0.92 | 850 | 700 | 550 | 470 | - |
 | Mrs. Lee | piper | en_US-kristin-medium | piper | en_US-kristin-medium | 0.86 | 0.92 | 0.98 | 1.02 | 650 | 500 | 350 | 270 | - |
 | Mr. Kahale | kokoro | am_onyx | piper | en_US-john-medium | 0.88 | 0.94 | 1.0 | 1.04 | 650 | 500 | 350 | 270 | - |
 | Sarah | kokoro | af_alloy | piper | en_US-libritts-high | 0.9 | 0.96 | 1.02 | 1.08 | 600 | 450 | 300 | 220 | - |

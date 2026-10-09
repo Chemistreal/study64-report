@@ -13026,8 +13026,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13059,8 +13059,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13093,8 +13093,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13129,8 +13129,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13163,8 +13163,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13197,8 +13197,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13231,8 +13231,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13265,8 +13265,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13300,8 +13300,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13334,8 +13334,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13369,8 +13369,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13403,8 +13403,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13437,8 +13437,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13472,8 +13472,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13506,8 +13506,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13540,8 +13540,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13574,8 +13574,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13608,8 +13608,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13642,8 +13642,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13676,8 +13676,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13710,8 +13710,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
@@ -13744,8 +13744,8 @@
    "synthetic": true,
    "audioGrade": "C-gen",
    "voice": {
-    "engine": "piper",
-    "id": "en_US-norman-medium",
+    "engine": "kokoro",
+    "id": "am_adam",
     "fallback": {
      "engine": "piper",
      "id": "en_US-norman-medium"
