@@ -907,7 +907,7 @@ def results_fixture(G):
     for nback in rule.get("back", []):
         if s - nback >= 1:
             for cid in miss_by.get(s - nback, ()):
-                pool[cid] = (nback, s - nback, date_of.get(s - nback))
+                pool.setdefault(cid, (nback, s - nback, date_of.get(s - nback)))   # 가장 가까운 세션 몫 한 번 (8.5)
     got = exp.get("recall") or []
     is_recall = rows[s - 1]["pick"] == "recall" if s <= len(rows) else False
     want_n = min(rule.get("max", 0), len(pool)) if is_recall else 0
