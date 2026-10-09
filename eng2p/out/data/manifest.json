@@ -420,13 +420,13 @@
     },
     {
       "file": "sets.js",
-      "bytes": 363276,
-      "sha256": "536d0a9a79824c50e21d5fbdf3ee04137032776a65ed64e09c5d5b2249574a8e"
+      "bytes": 363228,
+      "sha256": "769ee1c604903275ad3b10bd869b9d99785e4ed98558a48c916f99d1420c3ada"
     },
     {
       "file": "sets.json",
-      "bytes": 545581,
-      "sha256": "51408069aa326b68ec718c58cf9105d8410c88a3b46023130342d97f959335b2"
+      "bytes": 545533,
+      "sha256": "b59d0f1f3fa34eb1ab2a2c6aeb5429f94a85cdf19f25b1690c073dba44923f05"
     },
     {
       "file": "swaps.js",
