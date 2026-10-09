@@ -1,7 +1,7 @@
 {
  "note": "게임 Data 폴더에 들어가는 *.json 의 크기와 해시, 그리고 두 노트북이 맞춰 보는 dataHash 다. 손으로 고치지 않는다. scripts/derive_game_manifest.py 를 다시 돌린다.",
  "generator": "scripts/derive_game_manifest.py",
- "dataHash": "7febd3af7f2454c5834e220c6944a9fec4e59785daf06129e5bbadbfd3515359",
+ "dataHash": "0b2a3488d59ee15d80d6e986a1dc2c269bfbf61772f46e53fddb03820b46a4ae",
  "algorithm": {
   "name": "dataHash/1",
   "files": "Data/*.json 중 manifest.json 과 *.local.json 을 뺀 것",
@@ -9,13 +9,25 @@
   "line": "이름 + ':' + 파일 바이트의 sha256 소문자 16진수",
   "hash": "줄마다 LF 를 붙여 이은 글(끝에도 LF 하나)의 UTF-8 바이트 sha256 소문자 16진수"
  },
- "count": 10,
+ "count": 18,
  "files": [
+  {
+   "file": "audiolen.json",
+   "bytes": 1372,
+   "sha256": "cd49c13b391dc2fdc4bbafe2f0bac4bd5e2a3c5b9dc01defe4422a2571d4a4e8",
+   "from": "out/game/audiolen.json"
+  },
   {
    "file": "cards.json",
    "bytes": 578876,
    "sha256": "4a5fc5120f1f9ba420389599fc38e3bf0939f4b56b51d6ba73a6d28c8fce8337",
    "from": "out/data/cards.json"
+  },
+  {
+   "file": "cues.json",
+   "bytes": 16842,
+   "sha256": "7aa8bef5cc67675bbd8d757bc13d4e32afc22a64d547ca866884ac3768b79c95",
+   "from": "out/game/cues.json"
   },
   {
    "file": "deck_names.json",
@@ -24,10 +36,28 @@
    "from": "out/game/deck_names.json"
   },
   {
+   "file": "emergency.json",
+   "bytes": 43362,
+   "sha256": "d23704457a61e78430327121d9e8ce0add2eba489fc9434da044d3becfab5602",
+   "from": "out/game/emergency.json"
+  },
+  {
+   "file": "hold.json",
+   "bytes": 12835,
+   "sha256": "a06f85fefb38d48f1249427aa05544322ae6a54bafd0ec1054ca40f5c8aec11d",
+   "from": "out/game/hold.json"
+  },
+  {
    "file": "judge.json",
    "bytes": 61161,
    "sha256": "e416888a58dd7e6f46581e320df16f9507ff7651196907a4edfb96aa565afdde",
    "from": "out/game/judge.json"
+  },
+  {
+   "file": "playblocks.json",
+   "bytes": 2888,
+   "sha256": "28369fdf6e2107173e81d565e0619673fcee281f01b58ce688df142ad7b63e3b",
+   "from": "out/game/playblocks.json"
   },
   {
    "file": "replies.json",
@@ -54,16 +84,34 @@
    "from": "out/game/sessions.json"
   },
   {
+   "file": "sets.json",
+   "bytes": 456164,
+   "sha256": "bfe5c51a1a5bb648ee51096bc4923a18df4eec89b698b0049172600f1a39198b",
+   "from": "out/game/sets.json"
+  },
+  {
    "file": "spelling_rule.json",
    "bytes": 3770,
    "sha256": "2be58df30bea8dbeaf2df22d35f8a8237b920fd7b65bae0fa69a827ed9f8dca3",
    "from": "out/game/spelling_rule.json"
   },
   {
+   "file": "tally.json",
+   "bytes": 2207,
+   "sha256": "7d5e9ff5e0bb829b5e38b18b3cf72a658e6b5972608a957de1a96faf686f28d0",
+   "from": "out/game/tally.json"
+  },
+  {
    "file": "town.json",
    "bytes": 15986,
    "sha256": "14a59afaf04e935b3d2fa6b7883ff752ba847368151bd5f9d4b9623b2ffaba2c",
    "from": "out/game/town.json"
+  },
+  {
+   "file": "transcripts.json",
+   "bytes": 107902,
+   "sha256": "956e33496a04ea142711048dc3e1fbf4cea75ea850b9202b97713d5ce251aa89",
+   "from": "out/game/transcripts.json"
   },
   {
    "file": "voicelist.json",

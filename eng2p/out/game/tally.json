@@ -1,0 +1,124 @@
+{
+ "note": "판마다 셈을 합치는 법. 게임은 how 를 읽고 셈을 C++ 에 박지 않는다. out/data/tally.json 에서 옮겼다. 손으로 안 고친다. scripts/derive_game_optional.py 를 다시 돌린다.",
+ "grade": "A",
+ "gradeWhy": "규칙서 14장 표를 앱이 파생한 것이다. 앱 화면 이름 칸(screen)은 게임이 안 읽어 뺐다.",
+ "generator": "scripts/derive_game_optional.py",
+ "source": "out/data/tally.json",
+ "ways": {
+  "add": "더한다",
+  "same": "같은 수다",
+  "max": "큰 것을 든다",
+  "one": "한 기기가 센다",
+  "follow": "그 판을 따른다"
+ },
+ "byHow": {
+  "add": 9,
+  "follow": 1,
+  "max": 2,
+  "one": 1,
+  "same": 7
+ },
+ "count": 20,
+ "plays": [
+  {
+   "id": "mirror",
+   "name": "거울",
+   "how": "add"
+  },
+  {
+   "id": "swapline",
+   "name": "한 줄 바꾸기",
+   "how": "add"
+  },
+  {
+   "id": "hearme",
+   "name": "내 소리는 네가",
+   "how": "add"
+  },
+  {
+   "id": "relay",
+   "name": "전달 놀이",
+   "how": "same"
+  },
+  {
+   "id": "chain",
+   "name": "이어달리기",
+   "how": "same"
+  },
+  {
+   "id": "twohalf",
+   "name": "둘이 한 문장",
+   "how": "same"
+  },
+  {
+   "id": "overlap",
+   "name": "겹치면 지운다",
+   "how": "same"
+  },
+  {
+   "id": "ladder",
+   "name": "배속 사다리",
+   "how": "max"
+  },
+  {
+   "id": "wall",
+   "name": "3초 벽",
+   "how": "add"
+  },
+  {
+   "id": "rebound",
+   "name": "되받아치기",
+   "how": "max"
+  },
+  {
+   "id": "onesee",
+   "name": "한 사람만 본다",
+   "how": "add"
+  },
+  {
+   "id": "wave",
+   "name": "파장",
+   "how": "add"
+  },
+  {
+   "id": "whose",
+   "name": "누구 말이야",
+   "how": "same"
+  },
+  {
+   "id": "reask",
+   "name": "못 알아들은 척",
+   "how": "add"
+  },
+  {
+   "id": "cutin",
+   "name": "끼어들기",
+   "how": "one"
+  },
+  {
+   "id": "clash",
+   "name": "말 겹치기",
+   "how": "same"
+  },
+  {
+   "id": "flip",
+   "name": "거꾸로 판정",
+   "how": "add"
+  },
+  {
+   "id": "apart",
+   "name": "따로 쓰고 같이 펴기",
+   "how": "same"
+  },
+  {
+   "id": "recall",
+   "name": "어제 그거",
+   "how": "add"
+  },
+  {
+   "id": "oneday",
+   "name": "오늘의 한 판",
+   "how": "follow"
+  }
+ ]
+}

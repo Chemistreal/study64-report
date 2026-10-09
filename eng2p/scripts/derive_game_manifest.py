@@ -44,7 +44,11 @@ MANIFEST = GAME / "manifest.json"
 # 이 이름들은 꼭 있어야 한다. 하나라도 없으면 실패다 (적어 둔 것을 찾는다. 훑으면 빠진 것이 안 보인다)
 REQUIRED = ["sessions.json", "scenes.json", "town.json", "results_schema.json", "cards.json"]
 # 다른 갈래가 내리고 있는 것. 게임 Data 폴더에 들어갈 이름이다.
-LATER = ["spelling_rule.json", "judge.json", "replies.json", "voicelist.json", "deck_names.json"]
+LATER = ["spelling_rule.json", "judge.json", "replies.json", "voicelist.json", "deck_names.json",
+         # 선택 자료 여덟 (docs/game_data.md 10장, scripts/derive_game_optional.py). 게임은 없어도 돌지만
+         # 있어야 NPC 가 판에서 쥐고 라디오 대본이 나온다. 하나라도 빠지면 --strict 가 실패한다
+         "sets.json", "emergency.json", "playblocks.json", "tally.json", "hold.json",
+         "transcripts.json", "cues.json", "audiolen.json"]
 
 ALGORITHM = {
     "name": "dataHash/1",
