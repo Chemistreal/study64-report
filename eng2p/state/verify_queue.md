@@ -2,7 +2,7 @@
 
 # B등급 검증 대기열
 
-갱신일: 2026-10-07
+갱신일: 2026-10-09
 
 이 목록은 자동 생성된다. 직접 수정하지 않는다.
 검증은 Claude Code가 아니라 대화 세션에서 웹 검색으로 한다.
@@ -86,6 +86,9 @@ B등급 목록을 담을 수 있고 그때는 그 파일이 `검증대상:` 을 
 | out/dialog/eng2p_dialog_q4_004.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 | 검증 |
 | out/dialog/eng2p_dialog_q4_005.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 | 검증 |
 | out/dialog/eng2p_dialog_q4_006.md | 1층 대화의 자연스러움과 2층 자료의 성질 판정 | 보류 | 보류 | 검증 |
+| out/emergency/eng2p_emg_001_020.md | 52과 대본에 없고 다른 B등급 목록에도 없는 청크 표현 12개: She has a car / should have gone / Would you mind waiting / I am going to the store / I want a book / I am from Korea / Could you wait here / Would you mind closing the door / Can you say it slowly / You mean the library / Could you close the door / Close the door | 대기 | 로그 없음 |  |
+| out/emergency/eng2p_emg_021_040.md | 52과 대본에 없고 다른 B등급 목록에도 없는 청크 표현 4개: I am happy to see you / I need to go / First we eat / I do like it | 대기 | 로그 없음 |  |
+| out/emergency/eng2p_emg_041_060.md | 52과 대본에 없고 다른 B등급 목록에도 없는 청크 표현 3개: Hold on / Do you have a minute / what did you ask | 대기 | 로그 없음 |  |
 | out/input/eng2p_input_q1.md | 대체 재료 유형 5종의 조건 충족 여부와 라이선스 표기 | 완료 | 통과 |  |
 | out/input/eng2p_input_q2.md | 대체 재료 유형 5종의 조건 충족 여부 | 보류 | 보류 | 검증 |
 | out/input/eng2p_input_q3.md | 대체 재료 유형 5종의 조건 충족 여부와 3인 자료 확보 가능성 | 보류 | 보류 | 검증 |
@@ -177,7 +180,7 @@ B등급 목록을 담을 수 있고 그때는 그 파일이 `검증대상:` 을 
 | out/lectures/eng2p_q4_l095.md | 화용 넷을 동시에 지키는 것이 종합이라는 정의와 넷 사이의 순서 | 보류 | 보류 | 확정 |
 | out/lectures/eng2p_q4_l096.md | 마감 측정의 두 번 재기와 낮은 쪽 판정, 그리고 남은 것을 적는 절차 | 보류 | 보류 | 확정 |
 
-대기 0건 / 보류 106건 / 전체 120건
+대기 3건 / 보류 106건 / 전체 123건
 
 보류 106건의 갈래: **검증 60건** / 확정 37건 / 실행 9건
 

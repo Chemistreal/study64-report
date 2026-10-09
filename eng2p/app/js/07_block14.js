@@ -18,9 +18,18 @@ var ROUND_FOCUS = [null,
   "1회차 초점은 소리다. 무슨 말인지 말고 어디가 줄었는지를 듣는다.",
   "2회차 초점은 청크다. 낱말이 아니라 덩어리로 끊어 듣는다.",
   "3회차 초점은 의미다. 이제 무슨 말인지를 듣는다."];
-/* 자리마다 하는 것이 다르다. 회차와 따로다. */
-var SEAT_NOTE = {alone: "각자 헤드폰이다. 말을 걸지 않는다.",
-                 together: "같은 자료를 같이 듣는다. A가 재생을 맡는다."};
+/* 자리마다 하는 것이 다르다. 회차와 따로다.
+
+   **자리 이름이 "alone" 과 "together" 였다. 개정문 20 이 그 이름을 거짓으로 만들었다.**
+   블록 1 은 이제 같이 듣고 같이 말한다. 블록 1 도 둘이 같이 있다.
+   둘이 가르는 것은 같이냐 따로냐가 아니라 **무엇을 하는 자리냐**다.
+
+     find    블록 1 함께 듣기. 같이 듣고 말하면서 이 주에 찾을 것을 찾는다
+     match   블록 4 공동 입력. 같이 듣고 찾은 것을 견줘 맞춰 본다
+
+   끝냈다 단추가 match 에만 있는 까닭은 그대로다. 하루에 회차가 둘씩 오르면 안 된다. */
+var SEAT_NOTE = {find: "같은 자료를 같이 듣는다. 들린 것을 바로 말하고 서로 물어도 된다. A가 재생을 맡는다.",
+                 match: "같은 자료를 같이 듣는다. A가 재생을 맡는다."};
 
 /* 오늘 도는 회차. **한 과를 사흘 돈다. 하루가 한 회차다.**
    하루에 자리가 둘(블록 1과 4)인데 그 둘은 같은 회차다.
@@ -41,7 +50,7 @@ function roundNow(no){ return Math.min(lecPass(no)+1, 3); }
    **40분 동안 화면이 "조준표 과제대로 듣는다" 고만 말했다.** T208 진단이다.
    어느 과제인지는 종이에 있었다. 종이를 펴면 화면과 종이가 둘 다 켜진다.
 
-   자리마다 펴는 것이 다르다. 블록 1은 각자 찾으며 듣는 자리라 **찾을 것**이고
+   자리마다 펴는 것이 다르다. 블록 1은 같이 듣고 말하며 찾는 자리라 **찾을 것**이고
    블록 4는 같이 듣고 맞춰 보는 자리라 **대조하는 법**이다.
    둘을 다 펴면 40분짜리 지시와 20분짜리 지시가 한 화면에 겹친다.
    ========================================================================= */
@@ -105,7 +114,7 @@ function aimPhase(pl){
   var on=(used<listen)?"listen":"check";
   if(T.run && PHASE.at!==null && PHASE.at!==on){
     tone("swap");
-    setTimeout(function(){ flash(on==="check"?"이제 따로 적은 것을 편다":"같이 듣는 자리다"); },0);
+    setTimeout(function(){ flash(on==="check"?"이제 찾은 것을 견준다":"같이 듣는 자리다"); },0);
   }
   PHASE.at=T.run?on:null;
   var left=Math.max(0,Math.ceil((on==="listen"?listen-used:BLOCKS[3].m*60-used)/60));
@@ -124,7 +133,7 @@ function renderAimPane(pl, seat, round){
   }
   var w=aimWeek(pl);
   if(!w) return '<div class="n">'+pl.week+'주 조준표 과제를 못 찾았다.</div>';
-  if(seat==="alone"){
+  if(seat==="find"){
     var task=aimTask(w,pl), c=aimCollect(pl);
     /* **초점을 두 곳이 말하면 두 사람이 어느 쪽인지 모른다.**
        위 줄이 회차 초점을 말한다. 기준서 10.3 이 정한 것이고 하루가 한 회차다.
@@ -139,14 +148,14 @@ function renderAimPane(pl, seat, round){
       h+='<div class="n">이 주는 강마다 과제가 다르다. 위엣것이 '+pl.lectureNo+'강 것이다.</div>';
     if(c) h+='<div class="k">주마다 적어 올 것</div><div class="v">'+esc(c.text)+'</div>'+
             (c.layer2?'<div class="n">2층 채집이다. 지어내지 않고 본 것을 그대로 적는다.</div>':"");
-    return h+aimWrite("alone")+'</div>';
+    return h+aimWrite("find")+'</div>';
   }
   var x=aimCross(pl,round);
   h2b=aimPhase(pl);
   var h2='<div class="aim">'+h2b+'<div class="k">같이 듣고 맞춰 보는 법 · '+round+'회차</div>';
   h2+='<div class="v">'+esc(x?x.how:"")+'</div>';
   h2+='<div class="n">누가 맞았는지 정하지 않는다. 어긋났다는 것만 적는다.</div>';
-  return h2+aimWrite("together",round)+'</div>';
+  return h2+aimWrite("match",round)+'</div>';
 }
 
 /* 적는 칸. **적으라고 하는데 적을 칸이 없었다.** T208 진단이다.
@@ -154,11 +163,13 @@ function renderAimPane(pl, seat, round){
 
    자리마다 다르다.
 
-     블록 1   각자 적는다. **서로 안 보인다.** 그것이 이 자리의 장치다
-     블록 4   둘 것을 펴고 겹친 수와 안 겹친 수를 같이 센다
+     블록 1   같이 듣고 말하면서 적는다. **두 칸이 둘에게 다 보인다.** 가린 것이 없다
+     블록 4   둘 것을 견주고 겹친 수와 안 겹친 수를 같이 센다
 
-   기기가 하나면 가릴 수 없다. 그때는 두 칸을 다 보이고 그 사실을 말한다.
-   D단계가 기기 둘을 만들면 그 말이 없어진다. */
+   **전에는 블록 1 에서 상대 칸을 안 보였다.** 각자 헤드폰이라 서로 안 보이는 것이
+   그 자리의 장치였다. 개정문 20 과 22 가 그 장치를 없앴다. 이제 두 칸을 다 그린다.
+   적는 사람은 둘이 정한다. 말하면서 적는 자리라 한 사람이 둘을 다 적어도 된다.
+   블록 4 의 견줌은 그대로다. 둘이 찾은 자리를 놓고 겹친 수를 센다. */
 /* **회차마다 대조하는 것이 다르다.** 조준표 6장이 그렇게 정한다.
    1회차는 표시한 지점을 세고, 2회차는 덩어리를 견주고, 3회차는 요약을 맞춘다.
    같은 칸 두 개로 셋을 다 받되 **이름과 판정이 회차마다 다르다.** T214
@@ -170,7 +181,6 @@ var AIMLABEL={1:["표시한 지점","표시한 지점"],
               2:["끊어 들은 덩어리","끊어 들은 덩어리"],
               3:["요약","보탤 것"]};
 function aimWrite(seat, round){
-  var mine=deviceSide();
   var A=roleOf(today())==="a"?S.names.a:S.names.b;
   var B=roleOf(today())==="a"?S.names.b:S.names.a;
   var lab=AIMLABEL[round]||AIMLABEL[1];
@@ -180,16 +190,12 @@ function aimWrite(seat, round){
            '<textarea id="aim'+side.toUpperCase()+'" rows="2" '+
            'placeholder="한 줄로 적는다"></textarea></label>';
   }
-  if(seat==="alone"){
-    var h='<div class="k">여기 적는다</div>';
-    if(mine==="a") h+=box("a",A,"찾은 자리")+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
-    else if(mine==="b") h+=box("b",B,"찾은 자리")+'<div class="n">상대 칸은 이 기기에 안 뜬다. 블록 4에서 같이 편다.</div>';
-    else h+=box("a",A,"찾은 자리")+box("b",B,"찾은 자리")+
-      '<div class="n">이 기기를 쓰는 사람을 안 골랐다. 두 칸을 다 보여 주는 중이다. '+
-      '따로 적는 자리라 서로 안 보는 것이 낫다.</div>';
-    return h;
+  if(seat==="find"){
+    return '<div class="k">여기 적는다</div>'+box("a",A,"찾은 자리")+box("b",B,"찾은 자리")+
+      '<div class="n">둘이 같이 듣고 이야기하면서 찾은 자리를 적는다. 서로 보여도 된다. '+
+      '블록 4에서 둘이 찾은 자리를 견준다.</div>';
   }
-  var h2='<div class="k">따로 적은 것을 편다</div>'+box("a",A,lab[0])+box("b",B,lab[1]);
+  var h2='<div class="k">찾은 것을 견준다</div>'+box("a",A,lab[0])+box("b",B,lab[1]);
   /* 3회차는 세는 것이 아니라 맞추는 것이다. 셈 칸을 안 낸다. */
   if(round===3)
     return h2+'<div class="n" id="aimSay">어긋난 것은 미해결 LRE 로 적는다. '+
@@ -271,7 +277,7 @@ function renderMediaPane(pl, seat){
   /* **다 끝내고 나서 무엇을 하는지가 화면에 없었다.** 세 회차를 마치면
      그 과는 끝인데 화면은 다시 듣기라고만 했다. 그 과가 끝났다는 것과
      다음이 무엇인지는 회전 탭에 있고 세션 중에는 거기까지 안 간다. T219 */
-  var after = full && seat==="together"
+  var after = full && seat==="match"
     ? '<div class="n">이 과는 세 회차를 다 돌았다. 다음 강의 과는 다음 세션에 뜬다. '+
       '지금 남은 시간은 다시 듣기와 대조에 쓴다.</div>' : "";
   /* 기준서와 CLAUDE.md 가 금지한 것 하나가 여기서 화면 규칙이 된다.
@@ -301,8 +307,8 @@ function renderMediaPane(pl, seat){
   h+='<div class="cardnav">'+
     '<button type="button" data-media="audio">소리</button>'+
     (it.video?'<button type="button" data-media="video">영상</button>':"")+
-    /* **그날 마지막 자리에만 둔다.** 각자 듣는 자리에도 두면 하루에 둘씩 오른다. */
-    (done<3 && !locked && seat==="together" ?
+    /* **그날 마지막 자리에만 둔다.** 블록 1 에도 두면 하루에 둘씩 오른다. */
+    (done<3 && !locked && seat==="match" ?
       '<button type="button" data-media="pass">'+round+'회차 끝냈다로 적기</button>' : "")+
     '<button type="button" data-media="loop" class="'+(SESS.loop!=null?"on":"")+'">'+
       (SESS.loop!=null?"되풀이 끄기":"이 줄 되풀이")+'</button>'+

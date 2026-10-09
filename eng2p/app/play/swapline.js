@@ -35,7 +35,7 @@ function swpRows(){
    **모자라면 모자란 대로 돈다.** 이웃 과에서 안 가져온다. */
 function swpItems(){
   var rows=swpRows(); if(!rows || !rows.length) return null;
-  var out=roundPick("swapline", rows, SWP.n);
+  var out=roundPick("swapline", rows, SWP.n, null, swpToday());   /* 과가 도는 횟수로 걷는다 (poolKey) */
   return out;
 }
 /* 대본 한 줄. 화자표를 뗀다. 화자 이름은 이 판이 쓰는 것이 아니다. */
@@ -92,6 +92,8 @@ function renderSwapline(){
       '이 판은 오늘 과의 대본으로 돈다. 오늘 배정이 정해져야 시작한다.</div></div>';
     return;
   }
+  var wait=roundWait(renderSwapline);
+  if(wait){ box.innerHTML=wait; return; }
   var items=swpItems();
   if(!items || !items.length){
     box.innerHTML='<div class="card"><div class="note w">'+esc(mid)+

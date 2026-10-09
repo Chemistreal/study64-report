@@ -34,19 +34,16 @@ function ovlToday(){
   return pl && pl.media ? pl.media : null;
 }
 /* 맞힐 것. **앱이 고르고 둘 다 안다.** 씨앗에서 나오므로 두 기기가 같다. */
-function ovlTarget(){
+function ovlPick(){
   var d=DATA.chunks, mid=ovlToday();
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  /* **`roundPick` 으로 바꿔 봤다가 되돌렸다** (T413~T415).
-     배속 사다리와 파장이 같은 고침에서 199에서 163으로 **줄었다.**
-     자루가 작을 때 커서 걸음과 자루 크기가 맞물려 같은 자리를 되풀이한다.
-     이 판은 자루가 커서 다를 수 있는데 `check_unused.js` 가 셋을 묶어 보고
-     제 안의 거울로 재서 하나만 고치면 잰 값이 안 따라온다.
-     **셋을 같이 다루는 것이 맞다.** `docs/play_unused.md` 에 적어 뒀다. */
-  return rows[roundSeed("overlap",0)%rows.length].c;
+  /* **자루를 과가 도는 횟수로 걷는다** (poolKey, 2026-10-09). 사다리와 파장과 같은 고침이다.
+     셋을 같이 다룬다. `check_unused.js` 가 이 함수를 그대로 부른다 (`docs/play_unused.md` 4.0). */
+  return roundPick("overlap", rows, 1, null, mid)[0]||null;
 }
+function ovlTarget(){ var it=ovlPick(); return it ? it.c : null; }
 function ovlRec(){ return playRec("overlap", {rounds:0, wiped:0, hit:0}); }
 
 /* 글자만 견준다. **뜻은 안 본다.** 그것은 못 검사한다.
@@ -92,6 +89,8 @@ function renderOverlap(){
     if(!dataFailed("chunks")) loadData("chunks","ENG2P_CHUNKS",function(){ renderOverlap(); });
     return;
   }
+  var wait=roundWait(renderOverlap);
+  if(wait){ box.innerHTML=wait; return; }
   var mid=ovlToday(), tgt=ovlTarget();
   if(!tgt){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 청크가 없다. '+

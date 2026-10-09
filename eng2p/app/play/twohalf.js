@@ -32,6 +32,10 @@ function twhItems(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
+  /* **poolKey 를 안 준다** (2026-10-09). 과가 도는 횟수로 걸으면 938 이 1054 로 늘지만
+     어제와 같은 앞 절반이 3% 에서 4% 로 는다 (`check_supply.js`). 한 과 안에 앞 절반이 같은 줄이 있다
+     ("Is there a" 가 은행과 우체국에 다 있다). 줄 세우기가 그것을 모른다. 자료를 고치는 날 켠다
+     (`docs/play_unused.md` 4.0.2). */
   var out=roundPick("twohalf", rows, TWH.n);
   return out;
 }

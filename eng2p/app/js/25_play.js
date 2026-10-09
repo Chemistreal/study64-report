@@ -143,8 +143,13 @@ function playHoldSay(id){
   if(!d){ loadData("hold","ENG2P_HOLD",function(){ renderPlayPane(); }); return ""; }
   var x=(d.plays||[]).filter(function(p){ return p.id===id; })[0];
   if(!x || !x.hold) return "";
+  /* **게임에서는 이렇게 돈다** (개정문 22). 두 사람 사이에 가린 정보를 두지 않는다.
+     앱에는 NPC 가 없어서 이 자리를 사람이 쥔다. 그 사실과 게임 꼴을 같이 말한다.
+     `out/data/hold.js` 의 game 칸이 규칙서 15장 오른쪽 칸이고 game.md 1.3 과 같다. */
   return '<b>정보를 쥐는 자리는 '+esc(x.hold)+'이다.</b> '+
-    '<b>덜 되는 쪽</b>이 그 자리를 맡는다 (원칙 3). 누가 맡을지는 앱이 안 정한다. ';
+    '<b>덜 되는 쪽</b>이 그 자리를 맡는다 (원칙 3). 누가 맡을지는 앱이 안 정한다. '+
+    (x.game ? '<span class="mut">앱에는 NPC 가 없어서 사람이 쥔다. 게임에서는 이렇게 돈다. '+
+              esc(x.game)+'</span> ' : "");
 }
 
 /* 그날의 셈. **판정은 규칙서가 정한 사람이 하고 그 자리가 판 안에서 바뀐다.**

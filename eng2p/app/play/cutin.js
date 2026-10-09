@@ -63,7 +63,8 @@ function cutLines(){
    앱을 고쳤는데 잰 값이 312 그대로였다. **둘이 같은 함수를 봐야 한다.** */
 function cutShow(){
   var ls=cutLines();
-  return ls ? roundPick("cutin", ls, 6) : [];
+  /* 과가 도는 횟수로 걷는다 (poolKey, 2026-10-09). 앞 여섯 줄을 고친 다음 남은 83줄이 이것이다 */
+  return ls ? roundPick("cutin", ls, 6, null, cutToday()) : [];
 }
 /* 오늘의 신호 벌. **두 기기가 같은 씨앗을 가지니 같은 벌을 고른다.** */
 function cutDeck(){
@@ -139,6 +140,8 @@ function renderCutin(){
     if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderCutin(); });
     return;
   }
+  var wait=roundWait(renderCutin);
+  if(wait){ box.innerHTML=wait; return; }
   var d=DATA.cutin, lines=cutLines(), deck=cutDeck();
   if(!lines || !deck){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 대본이나 '+

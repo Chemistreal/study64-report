@@ -8,9 +8,9 @@
  *
  * 1. 첫 화면이 뜨는가. 콘솔에 오류가 없는가
  * 2. 오늘 배정이 288세션 전 구간에서 나오는가
- * 3. 세트 뷰어 288개 × 기기 세 상태에서 B 화면에 1단계 목록이 안 새는가
+ * 3. 세트 뷰어 288개 × 기기 세 상태에서 1단계 요소가 둘에게 다 뜨고 화면이 기기 쪽에 안 갈리는가
  * 4. 블록 3 진행표가 96편 다 구간을 둘 이상 내는가
- * 5. 카드 뷰어 600장 × 기기 세 상태에서 판정형 정답이 B면에 안 새는가
+ * 5. 카드 뷰어 600장 × 기기 세 상태에서 정답이 어느 화면에도 안 뜨는가
  * 6. 다시 낼 카드 600장이 다 어느 강에 붙는지 찾아지는가
  * 7. 96편의 미디어가 카탈로그에 있고 다른 탭에서도 세션 조작줄이 떠 있는가
  * 8. 대본이 file:// 에서 뜨는가. 52편이 다 있는가
@@ -37,7 +37,9 @@
  * 28. 서른 날을 몰아도 진도와 배정이 안 어긋나는가
  *
  * 셋째와 다섯째와 아홉째가 이 검사의 핵심이다. 셋 다 기준서가 정한 것이다.
- * **B 가 목록을 보면 세트의 장치가 깨지고 정답을 보면 판정이 성립하지 않는다.**
+ * **두 사람 사이에 가린 정보를 두지 않는다. 정답은 두 사람 다 안 본다** (기준서 2.3 8.2, 개정문 22 23).
+ * 전에는 B 화면에서 1단계 목록을 가렸고 B면에서 정답을 가렸다. 지금은 둘에게 다 뜨는지와
+ * 정답이 어느 화면에도 안 뜨는지를 본다. 가리는 쪽이 사람에서 게임으로 옮겨 갔다.
  * 한 세트를 눈으로 보고 넘어가면 나머지 287개는 안 본 것이다.
  *
  * 쓰는 법:
@@ -124,6 +126,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const asB = roleOf(today()) === "a" ? "b" : "a";
     const asA = asB === "a" ? "b" : "a";
     for (const s of sets) {
+      const hs = [];
       for (const side of [asA, asB, null]) {
         S.device = side;
         let h;
@@ -134,13 +137,20 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
           if (h.indexOf(k) < 0) bad.push(s.id + " " + side + " " + k + " 없음");
         });
         if (h.indexOf("undefined") >= 0) bad.push(s.id + " " + side + " 빈 값이 찍혔다");
+        /* **1단계 요소는 기기 쪽이 어디든 둘에게 다 뜬다.** 개정문 22. 가린 정보를 두지 않는다 */
         const items = ((s.steps || [])[0] || {}).items || [];
         for (const it of items) {
-          const has = h.indexOf(esc(it)) >= 0;
-          if (side === asB && has) bad.push(s.id + " B 화면에 1단계 목록이 새어 나왔다");
-          if (side === asA && !has) bad.push(s.id + " A 화면에 1단계 목록이 빠졌다");
+          if (h.indexOf(esc(it)) < 0)
+            bad.push(s.id + " " + side + " 화면에서 1단계 요소가 빠졌다");
         }
+        /* 가린다는 말도 가리는 모양(옛 .hid 칸)도 없어야 한다 */
+        if (/안 띄운다|class="hid"|가려 뒀던/.test(h))
+          bad.push(s.id + " " + side + " 화면에 옛 가림 문장이 남았다");
+        hs.push(h);
       }
+      /* **기기 쪽을 골라도 안 골라도 화면이 같다.** 세 상태가 한 글자도 안 다르다 */
+      if (hs[0] !== hs[1] || hs[1] !== hs[2])
+        bad.push(s.id + " 기기 쪽에 따라 세트 화면이 다르다. 두 사람이 같은 것을 봐야 한다");
     }
     return bad;
   });
@@ -165,7 +175,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
   });
   drill.slice(0, 8).forEach((m) => fails.push("진행표: " + m));
 
-  // 5. 카드 뷰어 600장 × 기기 세 상태. **판정형 정답이 B면에 새면 안 된다.**
+  // 5. 카드 뷰어 600장 × 기기 세 상태. **정답은 어느 화면에도 안 뜬다.** 게임이 쥔다 (기준서 8.2 13.2).
   const card = await page.evaluate(() => {
     const bad = [];
     const cards = (DATA.cards && DATA.cards.items) || [];
@@ -183,8 +193,16 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
         catch (e) { bad.push(c.id + " " + side + " 예외 " + e.message); continue; }
         if (!h) { bad.push(c.id + " " + side + " 빈 화면"); continue; }
         if (h.indexOf("undefined") >= 0) bad.push(c.id + " " + side + " 빈 값이 찍혔다");
-        if (c.type === "판정" && side === asB && h.indexOf("정답") >= 0)
-          bad.push(c.id + " B면에 정답이 떴다");
+        /* 정답 칸도 정답 글도 판정형 비고도 어느 쪽 화면에도 없다. 전에는 A면에는 떴다.
+           짧은 정답이 지시문에 우연히 들어 있는 장이 있어 글은 긴 것만 견준다 */
+        if (h.indexOf("<b>정답</b>") >= 0 || h.indexOf('class="ans"') >= 0)
+          bad.push(c.id + " " + side + " 화면에 정답 칸이 떴다");
+        const ans = ((c.a || {}).answer || "").trim();
+        if (ans.length > 12 && h.indexOf(esc(ans)) >= 0)
+          bad.push(c.id + " " + side + " 화면에 정답 글이 떴다");
+        const note = ((c.a || {}).note || "").trim();
+        if (c.type === "판정" && note && h.indexOf(esc(note)) >= 0)
+          bad.push(c.id + " " + side + " 화면에 판정형 비고가 떴다. 정답을 풀어 쓴 장이 있다");
       }
     }
     return bad;
@@ -282,9 +300,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const it = MEDIA[0];
     const old = it.grade;
     it.grade = "C-gen";
-    // 둘째 자리는 회차가 아니라 **자리**다. T154 에 바뀌었다. 단추는 같이 듣는 자리에만 난다.
-    const q1 = renderMediaPane({ media: it.id, quarter: "Q1", track: "소리" }, "together");
-    const q2 = renderMediaPane({ media: it.id, quarter: "Q2", track: "청크" }, "together");
+    // 둘째 자리는 회차가 아니라 **자리**다. T154 에 바뀌었다. 단추는 맞춰 보는 자리(match, 블록 4)에만 난다.
+    const q1 = renderMediaPane({ media: it.id, quarter: "Q1", track: "소리" }, "match");
+    const q2 = renderMediaPane({ media: it.id, quarter: "Q2", track: "청크" }, "match");
     it.grade = old;
     if (q1.indexOf("C-real 로만") < 0) bad.push("C-gen 인데 Q1 소리에서 안 막았다");
     if (q1.indexOf("끝냈다로 적기") >= 0) bad.push("C-gen 인데 Q1 소리에 판정 단추가 있다");
@@ -350,8 +368,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const asB = roleOf(today()) === "a" ? "b" : "a";
     S.device = asA; const sa = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
     S.device = asB; const sb = renderSetPane({ set: sid, lectureNo: lec, quarter: pl.quarter });
-    if (sa.indexOf("B 화면에 안 띄운다") >= 0) bad.push("A 기기에 B용 안내가 떴다");
-    if (sb.indexOf("B 화면에 안 띄운다") < 0) bad.push("B 기기에 가림 안내가 없다");
+    /* **두 기기가 같은 세트 화면을 낸다.** 가린 정보를 두지 않는다 (개정문 22) */
+    if (sa !== sb) bad.push("두 기기의 세트 화면이 다르다. 가린 것이 없어야 한다");
+    if (/안 띄운다|가려 뒀던/.test(sa + sb)) bad.push("세트 화면에 옛 가림 안내가 남았다");
     S.device = asA; const ca = renderCardView(pl);
     S.device = asB; const cb = renderCardView(pl);
     if (ca.indexOf(">A면") < 0 && ca.indexOf("A면 ·") < 0) bad.push("A 기기가 A면을 안 본다");
@@ -1962,9 +1981,9 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     if (!four.a || !four.b) bad.push("블록 4 에 두 칸이 다 안 뜬다");
     if (!four.same || !four.diff) bad.push("블록 4 에 겹친 수 세는 칸이 없다");
     if (four.shown !== "앞뒤") bad.push("블록 1 에 적은 것이 블록 4 에 안 뜬다: " + four.shown);
-    /* **블록 2 3단계가 1단계에서 가린 목록을 펴는가.**
-       1단계 코드가 "빠진 것은 3단계에서 갈린다" 고 적어 놓고 안 폈다.
-       B 는 그 목록을 세션 내내 한 번도 못 봤다. T212 */
+    /* **블록 2 는 둘에게 같은 것을 보인다** (개정문 22). 1단계 요소가 처음부터 뜨고
+       2단계는 A 가 먼저, 3단계는 B 가 먼저 말한다고 화면이 적는다. 가린 것이 없으니 펴는 일도 없다.
+       전에는 B 화면에서 목록을 가렸다가 3단계에서 폈다. 그 검사를 이 검사로 바꿨다. */
     /* **`S.device` 는 사람이고 화면 쪽은 세션마다 뒤집힌다.** `deviceSide()` 가
        `roleOf(today())` 를 곱해서 정한다. 사람을 박아 두면 한 세션 걸러 검사가 뒤집힌다.
        날짜 규칙일 때 날이 바뀌면서 세 판이 실패했다. **B 쪽이 되는 사람을 골라 넣는다.** T216 */
@@ -1972,25 +1991,35 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
       S.device = roleOf(today()) === "a" ? "b" : "a"; save(); gotoBlock(1);
     });
     await pw.waitForTimeout(800);
-    /* **1단계 동안에는 아직 안 보여야 한다.** 네 단계가 한 칸에 다 그려지므로
-       그려 두기만 하면 아래로 밀어 볼 수 있다. 시간이 닿아야 편다. */
-    const early = await pw.evaluate(() =>
-      document.querySelector("#blockPane").innerText.indexOf("1단계에 들어갔어야 하는 것") >= 0);
-    if (early) bad.push("블록 2 1단계인데 3단계 목록이 벌써 그려져 있다");
     const two = await pw.evaluate(() => {
       const txt = document.querySelector("#blockPane").innerText;
-      return { hid: txt.indexOf("필수 포함 요소는 B 화면에 안 띄운다") >= 0,
+      const st = (DATA.sets.items || []).filter((x) => x.id === plan().set)[0];
+      const items = ((st.steps || [])[0] || {}).items || [];
+      const A = roleOf(today()) === "a" ? S.names.a : S.names.b;
+      const B = roleOf(today()) === "a" ? S.names.b : S.names.a;
+      return { miss: items.filter((it) => txt.indexOf(it) < 0).length, n: items.length,
+               old: /안 띄운다|가려 뒀던/.test(txt),
+               step2: txt.indexOf("2단계는 " + jo(A, "이", "가") + " 먼저 말하고") >= 0,
                wa: !!document.getElementById("xchA"),
                wb: !!document.getElementById("xchB") };
     });
-    if (!two.hid) bad.push("블록 2 1단계가 B 화면에서 목록을 안 가린다");
+    if (!two.n) bad.push("블록 2 세트에 1단계 요소가 없다");
+    if (two.miss) bad.push("블록 2 1단계 요소 " + two.miss + "개가 B 쪽 화면에 안 뜬다. 둘에게 다 떠야 한다");
+    if (two.old) bad.push("블록 2 에 옛 가림 문장이 남았다");
+    if (!two.step2) bad.push("블록 2 2단계가 누가 먼저 말하는지를 안 적는다");
     if (!two.wa || !two.wb) bad.push("블록 2 3단계에 각자 적는 칸이 없다");
-    /* 시간을 3단계로 밀어 놓고 다시 본다. 8 + 8 분이 지나야 3단계다. */
+    /* 시간을 3단계로 밀어 놓고 다시 본다. 8 + 8 분이 지나야 3단계다. 요소는 그대로 떠 있고
+       3단계 첫마디가 B 라고 적는다. 1단계 요소를 새로 펴지 않는다 (가린 적이 없다) */
     await pw.evaluate(() => { T.left = 30 * 60 - 17 * 60; paintTimer(); });
     await pw.waitForTimeout(600);
-    const late = await pw.evaluate(() =>
-      document.querySelector("#blockPane").innerText.indexOf("1단계에 들어갔어야 하는 것") >= 0);
-    if (!late) bad.push("블록 2 3단계에 닿았는데 가린 목록을 안 편다");
+    const late = await pw.evaluate(() => {
+      const txt = document.querySelector("#blockPane").innerText;
+      const B = roleOf(today()) === "a" ? S.names.b : S.names.a;
+      return { reopen: txt.indexOf("1단계에 들어갔어야 하는 것") >= 0,
+               first: txt.indexOf("3단계는 " + jo(B, "이", "가") + " 먼저 말한다") >= 0 };
+    });
+    if (late.reopen) bad.push("블록 2 3단계가 가렸던 목록을 다시 편다. 가린 적이 없다");
+    if (!late.first) bad.push("블록 2 3단계가 B 가 먼저 말한다고 안 적는다");
     /* **블록 4 는 회차마다 대조하는 것이 다르다.** 조준표 6장이 그렇게 정한다.
        세 회차를 다 돌아 본다. 이름이 바뀌는지와 3회차에 셈 칸이 없어지는지다. T214 */
     for (const r of [1, 2, 3]) {
@@ -2103,7 +2132,7 @@ if (!fs.existsSync(CHROME)) skip("크로미움을 못 찾았다: " + CHROME);
     const ph2 = await pw.evaluate(() => {
       const e = document.querySelector(".phase"); return e ? e.innerText : ""; });
     if (ph2.indexOf("맞춰 보는 자리") < 0) bad.push("블록 4 가 맞춰 보는 자리로 안 넘어간다: " + ph2);
-    if ((await pw.textContent("#fMsg")).indexOf("따로 적은 것을 편다") < 0)
+    if ((await pw.textContent("#fMsg")).indexOf("찾은 것을 견준다") < 0)
       bad.push("블록 4 자리가 바뀌는데 아무 말이 없다");
     /* **회차는 사흘에 하나씩 오르는 값이다.** 잘못 누르면 그날 것이 사라지고
        그것이 눈에 안 띈다. 올리는 자리인데도 되돌릴 수 있어야 한다. T219 */

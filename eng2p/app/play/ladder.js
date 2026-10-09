@@ -46,12 +46,11 @@ function ladPiece(){
   if(!d || !d.items || !mid) return null;
   var rows=d.items[mid]||[];
   if(!rows.length) return null;
-  /* **`roundPick` 으로 바꿔 봤다가 되돌렸다** (T413~T415).
-     자루가 6이고 한 과가 엿새 도니 여섯을 다 낼 줄 알았는데
-     309 중 199가 163으로 **줄었다.** 자루가 작을 때 커서 걸음과 자루 크기가
-     맞물려 같은 자리를 되풀이한다. 까닭을 다 못 밝혀서 되돌린다.
-     **고쳐서 나빠지면 안 고친 것만 못하다.** `docs/play_unused.md` 에 적어 뒀다. */
-  return rows[roundSeed("ladder",0)%rows.length];
+  /* **자루를 과가 도는 횟수로 걷는다** (poolKey, 2026-10-09).
+     전에는 `roundSeed % 자루` 로 날마다 하나를 집었고, `roundPick` 으로 바꿨더니 163 으로 나빠져 되돌렸다
+     (T413~T415). 까닭은 커서가 세션 번호로 굴러 다음 토막에서 같은 자리를 밟는 것이었다.
+     과가 몇 번 돌았나로 세면 토막이 둘이어도 이어진다 (`docs/play_unused.md` 4.0). */
+  return roundPick("ladder", rows, 1, null, mid)[0]||null;
 }
 function ladLine(li){
   var t=DATA.transcripts, mid=ladToday();
@@ -146,6 +145,8 @@ function renderLadder(){
     needMedia(function(){ renderLadder(); });
     return;
   }
+  var wait=roundWait(renderLadder);
+  if(wait){ box.innerHTML=wait; return; }
   var d=DATA.ladder, it=ladPiece();
   if(!it){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 토막이 없다. '+

@@ -259,11 +259,42 @@ def main():
             if want[str(i)] not in man:
                 FAIL.append("매뉴얼에 %d회차 가림(%s) 이 안 적혀 있다" % (i, want[str(i)]))
 
-    # 4. 끝냈다 단추 자리. 앱은 같이 듣는 자리에만 낸다. 매뉴얼도 그렇게 말해야 한다.
-    if 'seat==="together"' not in app:
-        FAIL.append("앱이 끝냈다 단추를 자리로 안 가른다")
+    # 4. 끝냈다 단추 자리. 앱은 블록 4 의 맞춰 보는 자리(match)에만 낸다.
+    #    **자리 이름이 alone/together 였다.** 블록 1 도 같이 하게 되면서 그 이름이 거짓이 됐다 (개정문 20).
+    #    둘이 가르는 것은 같이냐 아니냐가 아니라 무엇을 하는 자리냐다. 매뉴얼도 그렇게 말해야 한다.
+    if 'seat==="match"' not in app:
+        FAIL.append("앱이 끝냈다 단추를 맞춰 보는 자리(match)로 안 가른다")
+    for old in ('seat==="alone"', 'seat==="together"', '"alone"', '"together"'):
+        if old in app:
+            FAIL.append("앱에 옛 자리 이름 %s 가 남아 있다. 블록 1 은 이제 같이 한다" % old)
     if "블록 4에만 있다" not in man and "블록 4에서 회차 끝냈다" not in man:
         FAIL.append("매뉴얼에 끝냈다 단추가 블록 4에만 있다는 말이 없다")
+
+    # 5. **네 블록이 다 같이 하고 말한다** (기준서 2.3, 개정문 20 22 23).
+    #    블록 1 이 "병렬 침묵, 각자 헤드폰, 말 걸지 않는다" 였다. 그 이름과 그 말이 앱이나 매뉴얼
+    #    어디에 남아 있으면 실패다. 이름을 맞추는 줄(1번)은 둘이 같은 이름이면 통과라서
+    #    옛 이름으로 같이 틀려도 지나갔다. 그래서 이름이 무엇이어야 하는지를 여기서 못 박는다.
+    if blocks and blocks[0][0] != "함께 듣기":
+        FAIL.append("앱의 블록 1 이름이 '%s' 다. 기준서 2.3 은 '함께 듣기' 다" % blocks[0][0])
+    consts = re.search(r"var BLOCKS=\[.*?\n\];", app, re.S)
+    consts = consts.group(0) if consts else ""
+    for bad in ("병렬 침묵", "각자 헤드폰", "말 걸지 않는다", "말을 걸지 않는다", "대화 금지"):
+        if bad in consts:
+            FAIL.append("앱의 블록 상수에 옛 말 '%s' 이 남아 있다" % bad)
+        if bad in man.split("### 2.3", 1)[0].split("### 2.2", 1)[-1] and bad != "대화 금지":
+            FAIL.append("매뉴얼 2.2 에 옛 말 '%s' 이 남아 있다" % bad)
+    if "말해도 된다" not in consts:
+        FAIL.append("앱의 블록 1 지시가 말해도 된다고 안 한다")
+    # 매뉴얼 2.2 표의 대화 칸. 네 줄 다 허용이나 필수여야 한다. 금지가 하나라도 있으면 실패다
+    talk = re.findall(r"^\| [1-4] [^|]+ \| \d+분 \|[^|]*\| ([^|]+) \|", man, re.M)
+    if len(talk) != 4:
+        FAIL.append("매뉴얼 2.2 표에서 대화 칸 넷을 못 읽었다: %d개" % len(talk))
+    elif [t.strip() for t in talk][:2] != ["허용", "필수"] or any("금지" in t for t in talk):
+        FAIL.append("매뉴얼 2.2 의 대화 칸이 허용 필수 필수 ... 가 아니다: %s" % " ".join(t.strip() for t in talk))
+    # 앱이 B 화면에서 목록을 가리는 문장을 다시 들이지 않았는가 (개정문 22)
+    for bad in ("B 화면에 안 띄운다", "B 는 1단계 목록을 안 본다", "가려 뒀던 것이다"):
+        if bad in app:
+            FAIL.append("앱이 다시 사람 사이에 정보를 가린다: '%s'" % bad)
 
     nfield = check_pair(app)
     check_pair_manual(app, man)
@@ -272,7 +303,7 @@ def main():
     for f in FAIL:
         print("[실패] %s" % f)
     print()
-    print("매뉴얼과 앱 대조 / 블록 4개 / 회차 3개 / 가림 3개 / 단추 자리 1개 / "
+    print("매뉴얼과 앱 대조 / 블록 4개 / 회차 3개 / 가림 3개 / 단추 자리 1개 / 블록 1 함께 듣기 / "
           "짝 코드 자리 %d개 / 실패 %d" % (nfield, len(FAIL)))
     return 1 if FAIL else 0
 

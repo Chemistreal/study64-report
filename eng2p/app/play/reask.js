@@ -49,7 +49,9 @@ function rskLines(){
     return String(x).replace(/^[A-Z][A-Za-z .'-]{0,20}:\s*/, "");
   }).filter(function(x){ return x.split(/\s+/).length>=4; });
   if(!ls.length) return null;
-  var out=roundPick("reask", ls, RSK.n);
+  /* 과가 도는 횟수로 걷는다 (poolKey, 2026-10-09). 감사의 시제품은 534 로 나빠졌다고 했는데
+     이 함수로 재면 996 에서 1177 이다 (`docs/play_unused.md` 4.0.1). */
+  var out=roundPick("reask", ls, RSK.n, null, rskToday());
   return out;
 }
 /* 이 줄의 강도. **줄마다 다르고 두 기기가 같은 값을 낸다.** */
@@ -110,6 +112,8 @@ function renderReask(){
     if(!dataFailed("transcripts")) loadData("transcripts","ENG2P_TRANSCRIPTS",function(){ renderReask(); });
     return;
   }
+  var wait=roundWait(renderReask);
+  if(wait){ box.innerHTML=wait; return; }
   var d=DATA.reask, lines=rskLines();
   if(!lines){
     box.innerHTML='<div class="card"><div class="note w">오늘 과의 대본이 없다. '+

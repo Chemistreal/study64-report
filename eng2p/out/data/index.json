@@ -4,27 +4,30 @@
   "blocks": [
     {
       "no": 1,
-      "name": "병렬 침묵",
+      "name": "함께 듣기",
       "minutes": 40,
-      "talk": false,
+      "talk": true,
       "uses": "media"
     },
     {
       "no": 2,
       "name": "대조 교차",
       "minutes": 30,
+      "talk": true,
       "uses": "set"
     },
     {
       "no": 3,
       "name": "페어 드릴",
       "minutes": 30,
+      "talk": true,
       "uses": "cards"
     },
     {
       "no": 4,
       "name": "공동 입력",
       "minutes": 20,
+      "talk": true,
       "uses": "media"
     }
   ],

@@ -41,6 +41,14 @@ CLAUDE.md 가 B등급을 이렇게 적었다. 연어와 청크 목록, 레지스
 강의록 97편이 앞의 것을 이미 하고 있다. 원본을 적고 손으로 적은 줄이 없다고 적었다.
 비상판과 세트와 A등급 강의는 **같은 일을 하면서 표기만 빠졌다.** 그것이 결함이다.
 
+## 비상판의 열아홉은 문을 지나야 한다 (2026-10-09)
+
+비상판 청크 줄에는 **52과 대본에도 없고 B등급 목록에도 없는 표현**이 있다. `verify_plan.md` 9.3 이 열아홉이라고 셌다.
+그 열아홉은 A등급 파일에만 있어서 큐가 가리키지 못했다. 지금은 비상판 네 편이 `원본:` 과 `검증대상:` 을 적는다.
+이 검사가 그 열아홉을 **다시 센다.** 대본에 없는지는 `ground.find` 가, B등급에 있는지는 B등급 파일의 목록 재료(`ground.materials`)가 정한다.
+셈이 달라져 스물이 되면 그 한 표현이 `검증대상:` 에 적혀야 하고 `state/verify_queue.md` 에 있어야 한다.
+**손으로 센 열아홉을 못 박지 않는다.** 안 박으면 새 표현이 비상판에 들어와도 그 자리에서 잡힌다.
+
 쓰는 법:
     python3 scripts/check_grade.py
 
@@ -81,14 +89,14 @@ SKIP = ("/ground/", "/data/", "/app/")
 # 고치는 길은 둘이다. 목록의 집을 `원본:` 으로 대든지 `검증대상:` 을 적든지다.
 # **하나를 고치면 이 표에서 그 줄을 뺀다.** 표를 내리는 것이 이 구간의 일이다.
 #
-# 0을 바로 걸지 않은 까닭이 있다. 지금 열여섯이고 이 턴에 고칠 권한이 없었다.
-# 늘 실패하는 검사기는 아무도 안 본다. 안 보는 검사기는 없는 것과 같다.
+# 0을 바로 걸지 않은 까닭이 있다. 늘 실패하는 검사기는 아무도 안 본다.
+# 안 보는 검사기는 없는 것과 같다.
 # **대신 표에 없는 파일이 어긋나면 바로 실패다. 구멍이 안 커진다.**
+#
+# 2026-10-09 에 비상판 넷(61자리)이 `원본:` 과 `검증대상:` 을 적어 표에서 빠졌다.
+# 남은 열하나(14자리)는 강의 일곱과 세트 넷이다. `out/lectures/` 와 `out/sets/` 는 이 줄을 단 쪽이 아니라
+# 그 본문을 쓰는 쪽의 파일이라 이 턴에 안 고쳤다. 고치면 이 표에서 그 줄을 뺀다.
 BASELINE = {
-    "eng2p_emg_001_020.md": 18,
-    "eng2p_emg_021_040.md": 13,
-    "eng2p_emg_041_060.md": 14,
-    "eng2p_emg_061_080.md": 16,
     "eng2p_q1_l002.md": 1,
     "eng2p_q1_l003.md": 1,
     "eng2p_q1_l004.md": 1,
@@ -196,6 +204,59 @@ def files():
         yield p
 
 
+def door(fails):
+    """비상판의 근거 없고 B에도 없는 표현이 큐에 닿는가. (표현 수, 파일 수)를 낸다.
+
+    **셋을 본다.** 하나. 그 표현이 비상판의 `검증대상:` 에 적혀 있는가.
+    둘. `state/verify_queue.md` 에 그 표현이 글자로 있는가. 셋. 비상판이 `원본:` 을 적었는가.
+    같은 표현은 비상판 전체에서 한 번만 적히면 된다.
+    문이 열려 있어도 표현이 안 지나가면 파일 이름만 큐에 있고 무엇을 볼지는 비어 있다 (`verify_plan.md` 12.5).
+    """
+    try:
+        import ground
+    except Exception as e:                       # 대본 자리가 없으면 못 센다. 센 척하지 않는다
+        fails.append("ground.py 를 못 읽어 비상판의 근거 없는 표현을 못 센다: %s" % e)
+        return 0, 0
+    term = {"dark l", "clear l", "schwa", "flap t", "glottal stop"}
+
+    def nrm(x):
+        return " ".join(re.sub(r"[^a-z0-9]+", " ", x.lower()).split())
+
+    tr = ground.load_transcripts()
+    bmat = set()
+    for p in files():
+        t = p.read_text(encoding="utf-8")
+        if head(t)[0] != "B":
+            continue
+        for _tag, x in ground.materials(p):
+            if ground.is_list(x):
+                bmat.add(nrm(x))
+    q = QUEUE.read_text(encoding="utf-8") if QUEUE.exists() else ""
+    total, nfile, have = {}, 0, ""
+    for p in sorted((OUT / "emergency").glob("*.md")):
+        text = p.read_text(encoding="utf-8")
+        f = head(text)[2]
+        if not f.get("원본"):
+            fails.append("%s 에 원본: 이 없다. 청크 줄이 어디서 왔는지 적는다" % p.name)
+        have += " " + f.get("검증대상", "").lower()
+        if f.get("검증대상"):
+            nfile += 1
+        for _tag, x in ground.materials(p):
+            if x.lower() in term or len(x.split()) < 2:
+                continue                         # 한 낱말과 음운 이름은 검증 큐가 안 받는다
+            if ground.find(x, tr) or nrm(x) in bmat:
+                continue
+            total.setdefault(x, p.name)
+    # **같은 표현이 여러 편에 있으면 한 번만 넘긴다** (`derive_verify_list.py` 와 같은 규칙).
+    # 그래서 편마다가 아니라 비상판 전체에서 한 번 적혀 있으면 된다. `Hold on` 이 두 편에 있다.
+    for x, name in sorted(total.items()):
+        if x.lower() not in have:
+            fails.append("%s: 대본에도 B등급 목록에도 없는 표현 '%s' 가 어느 비상판 검증대상에도 없다" % (name, x))
+        elif x not in q:
+            fails.append("'%s' 가 비상판 검증대상에 있는데 큐에 없다. collect_b.py 를 돌린다" % x)
+    return len(total), nfile
+
+
 def main():
     if not OUT.exists():
         print("[실패] %s 가 없다" % OUT)
@@ -252,8 +313,13 @@ def main():
                 fails.append("%s 가 검증대상을 적었는데 큐에 없다. collect_b.py 를 돌린다"
                              % p.name)
 
+    n_door, f_door = door(fails)
+
     for m in fails:
         print("[실패] " + m)
+    print()
+    print("비상판에서 대본에도 B등급 목록에도 없는 표현 %d개 / 검증대상을 적은 편 %d / **큐에 닿는다**"
+          % (n_door, f_door))
     print()
     print("== 등급은 A인데 목록을 담고 표기가 빠진 자리 ==")
     for p, pl in sorted(rows, key=lambda x: -len(x[1])):

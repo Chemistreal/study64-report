@@ -155,37 +155,44 @@ function roundRun(live, k, cur){
   return out;
 }
 
+/* 그 과가 지금까지 몇 번 돌았나 (poolKey. 아래 `roundPick` 을 본다). */
+function roundRuns(poolKey, sess){
+  var k=0, i;
+  for(i=1;i<sess;i++) if(roundPlanAt(i).media===poolKey) k++;
+  return k;
+}
+/* 과 단위 자루를 읽기 전에 부른다. 준비가 안 됐으면 보여 줄 글을, 됐으면 빈 글을 준다. */
+function roundWait(again){
+  return roundHistory(again) ? "" : dataWait("차림표 48주를","index");
+}
+
 /* 그날 낼 것을 고른다. **어제 낸 것을 오늘 또 내지 않는다.**
 
    ## 앞의 판정이 틀렸다 (T409)
-
-   T403 이 날마다 섞는 것을 그만두고 한 바퀴에 한 번 섞게 고쳤다. 겹침이
-   73.6% 에서 33% 로 내려갔고 거기서 안 내려갔다. `docs/friction.md` 9장이
-   남은 3할을 **자루가 자라기 때문**이라고 적었다. **그것이 틀렸다.**
+   T403 이 한 바퀴에 한 번 섞게 고쳐 겹침이 73.6% 에서 33% 로 내려갔고 거기서 안 내려갔다.
+   `docs/friction.md` 9장은 남은 3할을 자루가 자라기 때문이라고 적었다. **틀렸다.**
    자란 날과 안 자란 날을 갈라 재 봤더니 값이 같았다 (3초 벽 32.5% 대 27.9%).
-
-   진짜 까닭은 씨앗이 `today()` 를 물고 있는 것이었다. **날이 바뀌면 자루가
-   그대로여도 섞은 차례가 통째로 다시 굴러간다.** 자루가 아니라 날짜였다.
+   진짜 까닭은 씨앗이 `today()` 를 물고 있는 것이었다. 날이 바뀌면 자루가 그대로여도 차례가 다시 굴렀다.
 
    ## 자리를 낱에 주고 커서를 굴린다
+   낱마다 자루 크기가 안 들어가는 고정 자리를 준다 (`roundSpot`). 자루를 그 자리로 줄 세우고
+   커서에서 **잇대어** N개를 집는다. 개수는 언제나 정확히 N이고 어제 것과 안 겹친다.
+   커서는 **첫 세션부터 되짚어 잇는다.** 지난 세션 자루는 `plan()` 이 세션 번호에서 순수하게 파생시키므로
+   기록 없이 다시 센다 (`sizeAt`). 자란 것이 커서를 안 건드린다.
+   `sizeAt` 을 안 주면 자루가 내내 오늘 크기였던 것으로 친다. **기록을 안 본다.** 드는 것은 세션 번호와 자루와 낱 이름뿐이고 두 기기에서 같다. **시계를 안 읽는다.**
 
-   낱마다 자루 크기가 안 들어가는 고정 자리를 준다 (`roundSpot`). 자루를 그
-   자리로 줄 세우고 커서에서 **잇대어** N개를 집는다. 잇대어 집으므로 개수는
-   언제나 정확히 N이고, 오늘 집는 것은 다 커서 위에 있어서 커서 아래에 있던
-   어제 것과 안 겹친다.
+   ## 자루가 과마다 갈리면 커서를 과가 도는 횟수로 센다 (poolKey, 2026-10-09)
 
-   커서는 **첫 세션부터 되짚어 잇는다.** 지난 세션 자루는 `plan()` 이 세션
-   번호에서 순수하게 파생시키므로 기록을 안 보고 다시 셀 수 있다 (`sizeAt`).
-   세션마다 자루 크기로 나눠 자리를 내면 자루가 자랄 때 그 나머지셈이 튀는데,
-   되짚어 이으면 자란 것이 커서를 안 건드린다.
+   다섯째 인자 `poolKey` 는 자루가 **한 과의 것**이라는 표시다. 과 이름(media)을 준다.
+   그런 판의 커서가 세션 번호로 굴렀다. 그런데 52과는 1년에 96토막으로 나뉘어 돈다.
+   세션 번호로 굴리면 다음 토막에서 같은 자리를 다시 밟는다. 주 6세션과 자루 6이 맞물린 것이다
+   (`docs/play_unused.md` 4.0). `poolKey` 를 주면 커서를 **그 과가 지금까지 몇 번 돌았나**로 센다.
+   `roundPlanAt(i).media` 를 세면 나오는 수라 기록을 안 보고 시계를 안 읽는다. 둘째 토막이 첫째가 멈춘 데서 잇는다.
+   오늘 집는 것은 줄 세운 자루의 `(돈 횟수 x take) % n` 번째부터 잇대어 take 개다. 자루가 안 자라므로 `sizeAt` 은 없다.
 
-   `sizeAt` 을 안 주면 자루가 내내 오늘 크기였던 것으로 친다. 과마다 자루가
-   통째로 갈리는 판이 그렇다. 그 판은 자루가 안 자라서 되짚을 것이 없다.
-
-   **기록을 안 본다.** 기기끼리 말할 길이 없어서 기록은 갈린다 (round.md 2장).
-   여기 드는 것은 세션 번호와 자루와 낱 이름뿐이고 셋 다 두 기기에서 같다.
-   **시계를 안 읽는다.** `today()` 가 이 함수에서 빠졌다. */
-function roundPick(playId, list, take, sizeAt){
+   **차림표 48주가 다 있어야 센다.** 반만 들고 세면 기기마다 값이 갈린다. 다 읽기 전에는 빈 자루를 준다.
+   부르는 쪽이 `roundWait` 로 먼저 기다린다. */
+function roundPick(playId, list, take, sizeAt, poolKey){
   var n=(list||[]).length, out=[], i, m;
   take=Math.max(1, take|0);
   if(!n) return out;
@@ -196,6 +203,13 @@ function roundPick(playId, list, take, sizeAt){
   if(n<=take){
     var o0=roundOrder(n, roundSeed(playId, roundSess(), String(S.start||"x")));
     for(i=0;i<n;i++) out.push(list[o0[i]]);
+    return out;
+  }
+  if(poolKey!=null){
+    /* 차림표를 다 읽기 전에는 센 값이 기기마다 다르다. 안 센다. */
+    if(!roundHistory()) return out;
+    var st=(roundRuns(poolKey, roundSess())*take)%n;
+    for(i=0;i<take;i++) out.push(list[line[(st+i)%n].i]);
     return out;
   }
   var sess=roundSess(), cur=0, at=n, live=roundLive(line, n);
