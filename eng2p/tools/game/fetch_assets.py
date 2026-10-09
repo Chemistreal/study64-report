@@ -11,7 +11,9 @@
 
 출처마다 받는 법이 다르다.
     kenney      자산 쪽에서 zip 주소를 읽는다. CC0
-    polyhaven   공식 API. CC0
+    polyhaven   공식 API. CC0 (HDRI, 질감)
+    polyhaven_models  Poly Haven 사진 스캔 **모델**(glTF 1K 한 벌). CC0. **파일을 안 받는다.** 파일 목록 API 가 주는 md5 와 크기를 항목에 적는다
+                (사진처럼 보이는 모델이 필요하다 2026-10-09). 고른 목록은 게임 저장소 Tools/realistic_picks.json 이다
     ambientcg   공식 API. CC0
     oga         OpenGameArt 쪽에서 파일 주소를 읽는다. 쪽마다 CC0 를 확인한다
     geo         지형, 해저, 라이다, 길, 해안선, 땅 덮개. 퍼블릭 도메인, CC0, CC BY
@@ -20,15 +22,25 @@
     tatoeba     Tatoeba 영어 문장. CC BY. 영어 쪽만
     sbcsae      Santa Barbara 말뭉치 대본(TRN, CHAT) 120개. CC BY-ND 3.0 US. **고치지 않은 원본만.** 소리는 여기서 안 받는다
 
+**해시는 두 가지다.** 받아서 잰 항목은 `sha256`, 받지 않고 API 값을 옮긴 항목(Poly Haven 모델)은 `md5`. 둘 다 `bytes` 가 있다.
+md5 만 있는 항목은 PC 가 받은 뒤 md5 로 맞추고, **처음 잰 sha256 을 PC 의 `SHA256_FIRST.json` 에 적는다** (그 뒤로는 그 값이 기준이다).
+
 사용법:
     python3 tools/game/fetch_assets.py kenney
-    python3 tools/game/fetch_assets.py all
+    python3 tools/game/fetch_assets.py all                      # 모델은 안 돈다 (고른 목록이 필요하다)
+    python3 tools/game/fetch_assets.py polyhaven_models --picks ../game/Tools/realistic_picks.json --catalog ../game/Tools/realistic_models.json
+    python3 tools/game/fetch_assets.py verify --store D:/HonoluluGame/assets [--prefix polyhaven/models/]   # 받은 파일을 목록과 맞춘다 (sha256, 없으면 md5)
+    python3 tools/game/fetch_assets.py sample --ids Shelf_01,wooden_table_02 [--keep]   # 작은 모델 몇 개만 받아 md5 와 glTF 가 가리키는 파일을 맞추고 지운다
+    python3 tools/game/fetch_assets.py selftest                 # 네트워크 없이: md5 맞춤, 나쁜 파일 줄 거르기, glTF 삼각형 세기, LOD 가르기
 """
+import datetime
 import hashlib
 import json
 import os
 import re
+import shutil
 import sys
+import tempfile
 import time
 import urllib.request
 
@@ -433,12 +445,396 @@ def sbcsae(L):
         save(L)
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# 사진 스캔 모델 (Poly Haven 모델, CC0). 2026-10-09 사용자 결정: 그래픽은 사진처럼 (게임 저장소 Docs/art_direction_KO.md 0장).
+#
+# **권리 원문을 열어 확인했다 (2026-10-09).** https://polyhaven.com/license : "All assets (HDRIs, textures and 3D models) ... are licensed as CC0".
+# API 약관(https://github.com/Poly-Haven/Public-API/blob/master/ToS.md 2.4, 2.5): 호출마다 **앱 이름이 맞는 고유 User-Agent** 를 단다.
+# 크레딧("Powered by Poly Haven")은 **살아 있는 API 를 앱 안에서 부를 때만** 의무다. 우리는 목록을 한 번 만들 뿐 게임이 API 를 안 부른다. 그래도 출처 화면에 한 줄은 넣는다.
+# 사이트 약관 3.2 는 허락 없는 긁어오기를 막는다. 우리는 **공식 API 만** 쓰고(쪽을 긁지 않는다) 한 번에 한 건씩, 쉬며 부른다.
+#
+# 파일은 안 받는다. API 가 파일마다 url, md5, size 를 준다. 그 값을 항목에 옮긴다 (sha256 이 아니라 md5 칸).
+# **해상도는 1K 만이다.** (2K 이상은 4GB 카드 예산 밖이다. Docs/perf_KO.md 5장.) 모델 하나 = glTF 본체 + .bin + 질감 jpg 몇 장.
+MODEL_RES = "1k"
+MODEL_DIR = "polyhaven/models"
+API = "https://api.polyhaven.com"
+# 앱 이름이 맞는 고유 User-Agent. 저장소 주소만 적는다 (사용자 이메일 같은 개인 정보는 어디에도 안 보낸다)
+UA_API = {"User-Agent": "Chemistreal-honolulu-assetlist/1.0 (https://github.com/Chemistreal/game)"}
+MODEL_HOST = "dl.polyhaven.org"
+# 메시 하나의 삼각형이 이만큼 넘으면 줄여서 쓴다. 이만큼 넘으면 기본으로 안 받고 안 가져온다 (optional). 게임 저장소 Docs/perf_KO.md 5장: 모델 하나 약 5만 이하
+LOD_REDUCE = 50000
+LOD_HEAVY = 300000
+LOD_NONE = 1000         # perf_KO.md 5장: 삼각형 1000 넘는 메시는 LOD 2~3단. 이하는 LOD 가 필요 없다
+
+
+def hash_kind(it):
+    """항목이 쓰는 해시 갈래. sha256 칸이 있으면 sha256, 없고 md5 가 있으면 md5, 둘 다 없으면 None"""
+    if it.get("sha256"):
+        return "sha256"
+    if it.get("md5"):
+        return "md5"
+    return None
+
+
+def file_digest(path, algo):
+    h = hashlib.new(algo)
+    with open(path, "rb") as f:
+        while True:
+            b = f.read(1 << 20)
+            if not b:
+                break
+            h.update(b)
+    return h.hexdigest()
+
+
+def check_file(path, it):
+    """디스크 파일이 목록 항목과 맞는가. -> (ok, 갈래, 글).
+    크기(bytes)를 먼저 본다. 해시는 sha256 칸이 있으면 sha256, 없고 md5 가 있으면 md5 로 맞춘다. 둘 다 없으면 못 맞춘다(실패)."""
+    if not os.path.isfile(path):
+        return False, None, "파일이 없다"
+    n = os.path.getsize(path)
+    if it.get("bytes") is not None and n != it["bytes"]:
+        return False, None, "크기 %d != 목록 %s" % (n, it["bytes"])
+    kind = hash_kind(it)
+    if kind is None:
+        return False, None, "목록에 sha256 도 md5 도 없다"
+    got = file_digest(path, kind)
+    if got != str(it[kind]).lower():
+        return False, kind, "%s 가 다르다 (받은 %s, 목록 %s)" % (kind, got[:12], str(it[kind])[:12])
+    return True, kind, got
+
+
+def model_files(aid, files):
+    """API 파일 목록에서 1K glTF 한 벌 -> [(항목 안 상대 경로, url, md5, 크기)]. 첫째가 .gltf 본체. 1K glTF 가 없으면 None.
+    상대 경로는 glTF 가 읽는 그대로다 (예: textures/x_diff_1k.jpg, x.bin). 어긋난 경로와 밖의 주소는 거른다."""
+    g = ((files.get("gltf") or {}).get(MODEL_RES) or {}).get("gltf")
+    if not g or "include" not in g or not g.get("url"):
+        return None
+    out = [(os.path.basename(g["url"]), g["url"], g["md5"], g["size"])]
+    for rel, f in sorted(g["include"].items()):
+        out.append((rel, f["url"], f["md5"], f["size"]))
+    for rel, url, md5, size in out:
+        bad = (rel.startswith("/") or ".." in rel.split("/") or "\\" in rel or not url.startswith("https://%s/" % MODEL_HOST)
+               or not re.fullmatch(r"[0-9a-f]{32}", str(md5)) or not isinstance(size, int) or size <= 0)
+        if bad:
+            raise ValueError("%s: 믿을 수 없는 파일 줄 %r" % (aid, rel))
+        if re.search(r"_(2|4|8|16)k\b", rel):
+            raise ValueError("%s: 1K 가 아닌 파일이 끼었다: %s" % (aid, rel))
+    return out
+
+
+def gltf_stats(doc):
+    """glTF 본체(JSON)를 읽어 삼각형을 센다. **API 의 polycount 는 원본(블렌더) 수라 glTF 와 다르다** (예: grass_bermuda_01 API 22만, glTF 941).
+    UE 로 들어오는 것은 glTF 안의 삼각형이다. -> {"tris": 장면 전체, "trisMaxMesh": 메시 하나 가장 큰 것, "meshes": 메시 수, ...}"""
+    acc = doc.get("accessors", [])
+
+    def tris(mesh):
+        n = 0
+        for p in mesh.get("primitives", []):
+            if p.get("mode", 4) != 4:
+                continue
+            idx = p.get("indices", p.get("attributes", {}).get("POSITION"))
+            n += acc[idx]["count"] // 3
+        return n
+
+    per = [tris(m) for m in doc.get("meshes", [])]
+    used = [n["mesh"] for n in doc.get("nodes", []) if "mesh" in n]
+    mats = doc.get("materials", [])
+    return {"tris": sum(per[i] for i in used), "trisMaxMesh": max(per) if per else 0, "meshes": len(per),
+            "materials": len(mats), "alpha": sorted({m.get("alphaMode", "OPAQUE") for m in mats}),
+            "extensions": sorted(doc.get("extensionsUsed", []))}
+
+
+def lod_class(tris_max_mesh):
+    """메시 하나의 삼각형에서 줄일 필요를 가른다. none(1000 이하) / auto(5만 이하, LOD 자동 2단) / reduce(30만 이하, LOD0 을 5만으로 줄인다) / heavy(넘으면 기본으로 안 받는다)"""
+    if tris_max_mesh > LOD_HEAVY:
+        return "heavy"
+    if tris_max_mesh > LOD_REDUCE:
+        return "reduce"
+    if tris_max_mesh > LOD_NONE:
+        return "auto"
+    return "none"
+
+
+def model_items(aid, files, optional):
+    """한 모델의 항목들. md5 와 크기는 API 값이다 (받지 않았다)."""
+    mf = model_files(aid, files)
+    if mf is None:
+        return None
+    items = []
+    for rel, url, md5, size in mf:
+        it = {"source": "polyhaven", "file": "%s/%s/%s" % (MODEL_DIR, aid, rel), "url": url,
+              "page": "https://polyhaven.com/a/" + aid, "license": "CC0-1.0", "bytes": size, "md5": md5, "model": aid}
+        if optional:
+            it["optional"] = True
+        items.append(it)
+    return items
+
+
+def get_ua(url, binary=False, tries=3):
+    for i in range(tries):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=UA_API), timeout=120) as r:
+                b = r.read()
+                return b if binary else b.decode("utf-8", "replace")
+        except Exception:
+            if i == tries - 1:
+                raise
+            time.sleep(2 ** (i + 1))
+
+
+def opt(name, default=None):
+    """--name 값 꼴 인자"""
+    a = sys.argv
+    for i, x in enumerate(a):
+        if x == name and i + 1 < len(a):
+            return a[i + 1]
+        if x.startswith(name + "="):
+            return x.split("=", 1)[1]
+    return default
+
+
+def polyhaven_models(L, picks_path=None, catalog_path=None):
+    """고른 모델(게임 저장소 Tools/realistic_picks.json)의 1K glTF 한 벌을 목록에 적는다. 파일은 안 받는다.
+    이미 있는 주소는 값만 맞춘다. 목록에서 항목을 지우지는 않는다. catalog_path 가 있으면 게임 쪽 표(Tools/realistic_models.json)도 쓴다."""
+    if not picks_path:
+        print("  [건너뜀] polyhaven_models: --picks (게임 저장소 Tools/realistic_picks.json) 가 필요하다")
+        return
+    picks = json.load(open(picks_path, encoding="utf-8"))
+    meta = json.loads(get_ua(API + "/assets?t=models"))
+    by_url = {x["url"]: x for x in L["items"]}
+    models, miss, added, changed = [], [], 0, 0
+    for slot in picks["slots"]:
+        for pm in slot["models"]:
+            aid = pm["id"]
+            if aid not in meta:
+                miss.append("%s: Poly Haven 모델 목록에 없다" % aid)
+                continue
+            time.sleep(0.2)
+            files = json.loads(get_ua("%s/files/%s" % (API, aid)))
+            items = model_items(aid, files, bool(pm.get("optional")))
+            if items is None:
+                miss.append("%s: 1K glTF 가 없다" % aid)
+                continue
+            # .gltf 본체만 읽는다 (JSON, 수십 KB 이하). md5 를 API 값과 맞추고 삼각형을 센다. .bin 과 질감은 안 받는다
+            body = get_ua(items[0]["url"], binary=True)
+            if hashlib.md5(body).hexdigest() != items[0]["md5"] or len(body) != items[0]["bytes"]:
+                miss.append("%s: .gltf 의 md5 나 크기가 API 값과 다르다" % aid)
+                continue
+            st = gltf_stats(json.loads(body))
+            for it in items:
+                old = by_url.get(it["url"])
+                if old is None:
+                    L["items"].append(it)
+                    by_url[it["url"]] = it
+                    added += 1
+                elif any(old.get(k) != it.get(k) for k in ("bytes", "md5", "file", "license", "model", "optional")):
+                    old.update(it)
+                    if not it.get("optional"):
+                        old.pop("optional", None)
+                    changed += 1
+            m = meta[aid]
+            bin_bytes = sum(x["bytes"] for x in items if x["file"].endswith(".bin"))
+            total = sum(x["bytes"] for x in items)
+            lod = lod_class(st["trisMaxMesh"])
+            models.append({
+                "id": aid, "slot": slot["id"], "folder": slot["folder"], "name": m["name"], "category": m.get("category", ""),
+                "use": pm["use"], **({"note": pm["note"]} if pm.get("note") else {}),
+                "polycount": m["polycount"], "tris": st["tris"], "trisMaxMesh": st["trisMaxMesh"], "meshes": st["meshes"], "lod": lod,
+                "materials": st["materials"], "alpha": st["alpha"], "gltfExtensions": st["extensions"],
+                "optional": bool(pm.get("optional")), "brand_check": bool(pm.get("brand_check")),
+                "bytes": total, "bin_bytes": bin_bytes, "files": len(items), "textures": sum(1 for x in items if "/textures/" in x["file"]),
+                "dims_m": [round(d / 1000.0, 2) for d in (m.get("dimensions") or [0, 0, 0])],
+                "authors": sorted(m.get("authors", {}).keys()), "native_res": max(m.get("max_resolution") or [0]),
+                "gltf": "%s/%s_%s.gltf" % (aid, aid, MODEL_RES), "page": "https://polyhaven.com/a/" + aid,
+            })
+            print("  %-28s %-10s API %8d glTF %8d (메시 최대 %7d x %2d) %6.2f MB %s" % (
+                aid, slot["id"], m["polycount"], st["tris"], st["trisMaxMesh"], st["meshes"], total / 1e6, lod))
+    for x in miss:
+        print("  [못 씀] " + x)
+    print("  모델 %d개 / 파일 %d개 새로 / %d개 값 바뀜" % (len(models), added, changed))
+    if catalog_path and models and not miss:
+        core = sum(m["bytes"] for m in models if not m["optional"])
+        cat = {
+            "note": "Poly Haven 사진 스캔 모델 표. fetch_assets.py polyhaven_models 가 만든다 (API 값). 손으로 안 고친다. 고를 목록은 Tools/realistic_picks.json",
+            "source": "Poly Haven (CC0), 공식 API", "api": API, "resolution": MODEL_RES, "generated": datetime.date.today().isoformat(),
+            "lodRule": {"noneUnder": LOD_NONE, "reduceOver": LOD_REDUCE, "heavyOver": LOD_HEAVY,
+                        "text": "glTF 안의 삼각형(메시 하나 가장 큰 것, trisMaxMesh) 1000 이하 none(LOD 필요 없음), 5만 이하 auto(LOD 자동 2단), 30만 이하 reduce(LOD0 을 5만으로 줄인다), 넘으면 heavy(기본으로 안 받고 안 가져온다). polycount 는 API 의 원본 수라 glTF 와 다르다"},
+            "count": len(models), "bytes": sum(m["bytes"] for m in models), "bytesCore": core,
+            "bytesOptional": sum(m["bytes"] for m in models if m["optional"]),
+            "lodCounts": {k: sum(1 for m in models if m["lod"] == k) for k in ("none", "auto", "reduce", "heavy")},
+            "slotLabels": {s["id"]: s["label"] for s in picks["slots"]},
+            "models": models,
+            "missing": picks.get("missing", []),
+        }
+        with open(catalog_path, "w", encoding="utf-8") as f:
+            json.dump(cat, f, ensure_ascii=False, indent=1)
+            f.write("\n")
+        print("  표 %s 에 썼다 (모델 %d / 기본 %.1f MB / optional %.1f MB)" % (catalog_path, len(models), core / 1e6, cat["bytesOptional"] / 1e6))
+    elif miss:
+        print("  [실패] 못 쓴 모델이 있어 표는 안 썼다")
+
+
+def selftest():
+    """네트워크 없이 새 길을 시험한다: md5 로 맞추기(깨진 것 잡기), 믿을 수 없는 파일 줄 거르기, glTF 삼각형 세기, LOD 가르기. -> 실패 수"""
+    bad = 0
+
+    def check(cond, msg):
+        nonlocal bad
+        print(("ok   " if cond else "FAIL ") + msg)
+        bad += 0 if cond else 1
+
+    d = tempfile.mkdtemp(prefix="hnl_selftest_")
+    try:
+        p = os.path.join(d, "a.bin")
+        with open(p, "wb") as f:
+            f.write(b"hello")
+        md5 = hashlib.md5(b"hello").hexdigest()
+        sha = hashlib.sha256(b"hello").hexdigest()
+        check(check_file(p, {"bytes": 5, "md5": md5})[:2] == (True, "md5"), "md5 만 있는 항목이 md5 로 맞는다")
+        check(check_file(p, {"bytes": 5, "sha256": sha})[:2] == (True, "sha256"), "sha256 항목은 sha256 으로 맞는다")
+        check(check_file(p, {"bytes": 5, "sha256": sha, "md5": "0" * 32})[:2] == (True, "sha256"), "둘 다 있으면 sha256 이 먼저다")
+        check(not check_file(p, {"bytes": 5, "md5": "0" * 32})[0], "틀린 md5 를 잡는다")
+        check(not check_file(p, {"bytes": 6, "md5": md5})[0], "틀린 크기를 잡는다")
+        check(not check_file(p, {"bytes": 5})[0], "해시가 없으면 못 맞춘다 (실패)")
+        check(not check_file(os.path.join(d, "none"), {"bytes": 5, "md5": md5})[0], "없는 파일은 실패")
+        check(hash_kind({"sha256": "x", "md5": "y"}) == "sha256" and hash_kind({"md5": "y"}) == "md5" and hash_kind({}) is None, "hash_kind")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+    good = {"gltf": {"1k": {"gltf": {"url": "https://dl.polyhaven.org/file/m/Models/gltf/1k/x/x_1k.gltf", "md5": "a" * 32, "size": 100,
+                                     "include": {"x.bin": {"url": "https://dl.polyhaven.org/file/m/Models/gltf/8k/x/x.bin", "md5": "b" * 32, "size": 200},
+                                                 "textures/x_diff_1k.jpg": {"url": "https://dl.polyhaven.org/file/m/Models/jpg/1k/x/x_diff_1k.jpg", "md5": "c" * 32, "size": 300}}}}}}
+    mf = model_files("x", good)
+    check(mf is not None and [r[0] for r in mf] == ["x_1k.gltf", "textures/x_diff_1k.jpg", "x.bin"], "1K glTF 한 벌: 본체가 첫째, 나머지는 경로 순서")
+    check(model_files("x", {"gltf": {"2k": {}}}) is None and model_files("x", {}) is None, "1K glTF 가 없으면 None")
+
+    def mutate(fn):
+        c = json.loads(json.dumps(good))
+        fn(c["gltf"]["1k"]["gltf"])
+        try:
+            model_files("x", c)
+        except ValueError:
+            return True
+        return False
+
+    check(mutate(lambda g: g["include"].update({"../evil.bin": dict(g["include"]["x.bin"])})), "밖으로 나가는 경로(..)를 거른다")
+    check(mutate(lambda g: g["include"].update({"/abs.bin": dict(g["include"]["x.bin"])})), "절대 경로를 거른다")
+    check(mutate(lambda g: g["include"]["x.bin"].update(url="https://example.invalid/x.bin")), "다른 주소를 거른다")
+    check(mutate(lambda g: g["include"]["x.bin"].update(md5="zz")), "이상한 md5 를 거른다")
+    check(mutate(lambda g: g["include"].update({"textures/x_diff_2k.jpg": dict(g["include"]["x.bin"])})), "2K 이름을 거른다")
+    check(mutate(lambda g: g["include"]["x.bin"].update(size=0)), "크기 0 을 거른다")
+    items = model_items("x", good, True)
+    check(len(items) == 3 and all(i["optional"] and i["md5"] and "sha256" not in i and i["license"] == "CC0-1.0" for i in items),
+          "항목: md5 꼴, optional, CC0, sha256 칸 없음")
+    check(items[0]["file"] == "polyhaven/models/x/x_1k.gltf" and items[1]["file"] == "polyhaven/models/x/textures/x_diff_1k.jpg", "항목 경로는 glTF 가 읽는 그대로")
+    doc = {"accessors": [{"count": 30}, {"count": 12}, {"count": 60}],
+           "meshes": [{"primitives": [{"attributes": {"POSITION": 1}, "indices": 0}]}, {"primitives": [{"attributes": {"POSITION": 1}, "indices": 2}]}],
+           "nodes": [{"mesh": 0}, {"mesh": 1}, {"mesh": 1}], "materials": [{"alphaMode": "MASK"}, {}], "extensionsUsed": ["KHR_materials_ior"]}
+    st = gltf_stats(doc)
+    check(st["tris"] == 10 + 20 + 20 and st["trisMaxMesh"] == 20 and st["meshes"] == 2 and st["alpha"] == ["MASK", "OPAQUE"],
+          "glTF 삼각형: 노드마다 센다 (같은 메시를 두 번 쓰면 두 번)")
+    check([lod_class(n) for n in (500, 1000, 1001, 50000, 50001, 300000, 300001)] == ["none", "none", "auto", "auto", "reduce", "reduce", "heavy"],
+          "LOD 가르기 경계")
+    print("selftest:", "ok" if not bad else "실패 %d" % bad)
+    return bad
+
+
+def verify(L, store, prefix=""):
+    """받아 둔 파일을 목록과 맞춘다 (sha256, 없으면 md5). 없는 파일은 '없음' 으로 센다 (실패 아님). -> 어긋난 수"""
+    ok = miss = bad = 0
+    kinds = {"sha256": 0, "md5": 0}
+    for it in L["items"]:
+        if not it["file"].startswith(prefix):
+            continue
+        p = os.path.join(store, *it["file"].split("/"))
+        if not os.path.exists(p):
+            miss += 1
+            continue
+        good, kind, msg = check_file(p, it)
+        if good:
+            ok += 1
+            kinds[kind] += 1
+        else:
+            bad += 1
+            print("  [어긋남] %s: %s" % (it["file"], msg))
+    print("verify: 맞음 %d (sha256 %d, md5 %d) / 없음 %d / 어긋남 %d / 접두사 %r" % (ok, kinds["sha256"], kinds["md5"], miss, bad, prefix))
+    return bad
+
+
+def sample(L, ids, keep=False):
+    """작은 모델 몇 개만 받아 (1) md5 와 크기를 API 값과 맞추고 (2) glTF 가 가리키는 파일(.bin, 질감)이 항목에 다 있는지 본다.
+    (3) PC 가 적을 SHA256_FIRST 꼴(처음 잰 sha256)을 보여 준다. 다 보고 지운다 (--keep 이면 둔다). -> 어긋난 수"""
+    work = tempfile.mkdtemp(prefix="hnl_sample_", dir=os.environ.get("SAMPLE_DIR") or None)
+    bad = 0
+    try:
+        for aid in ids:
+            its = [x for x in L["items"] if x.get("model") == aid]
+            if not its:
+                print("  [없음] %s: 목록에 항목이 없다" % aid)
+                bad += 1
+                continue
+            for it in its:
+                p = os.path.join(work, *it["file"].split("/"))
+                os.makedirs(os.path.dirname(p), exist_ok=True)
+                with open(p, "wb") as f:
+                    f.write(get_ua(it["url"], binary=True))
+                good, kind, msg = check_file(p, it)
+                if not good:
+                    bad += 1
+                    print("  [어긋남] %s: %s" % (it["file"], msg))
+            gl = [x for x in its if x["file"].endswith(".gltf")]
+            if len(gl) != 1:
+                bad += 1
+                print("  [어긋남] %s: .gltf 본체가 %d개다" % (aid, len(gl)))
+                continue
+            gpath = os.path.join(work, *gl[0]["file"].split("/"))
+            doc = json.load(open(gpath, encoding="utf-8"))
+            refs = [b.get("uri") for b in doc.get("buffers", [])] + [im.get("uri") for im in doc.get("images", [])]
+            have = {x["file"].split("/", 3)[3] for x in its}        # polyhaven/models/<id>/<rel>
+            lost = [r for r in refs if r and not r.startswith("data:") and r not in have]
+            if lost:
+                bad += 1
+                print("  [어긋남] %s: glTF 가 가리키는 파일이 항목에 없다: %s" % (aid, lost[:3]))
+            first = {x["file"]: {"sha256": file_digest(os.path.join(work, *x["file"].split("/")), "sha256"), "md5": x["md5"], "bytes": x["bytes"]}
+                     for x in its if os.path.exists(os.path.join(work, *x["file"].split("/")))}
+            print("  %-26s 파일 %d개 %7.2f MB / glTF 가 가리키는 파일 %d개 모두 항목에 있다=%s / 처음 잰 sha256 예: %s" % (
+                aid, len(its), sum(x["bytes"] for x in its) / 1e6, len(refs), not lost,
+                next(iter(first.values()))["sha256"][:16] if first else "-"))
+    finally:
+        if keep:
+            print("  받은 파일을 둔다: " + work)
+        else:
+            shutil.rmtree(work, ignore_errors=True)
+    print("sample: 어긋남 %d" % bad)
+    return bad
+
+
 def main():
-    what = sys.argv[1:] or ["all"]
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    flagvals = {opt(f) for f in ("--picks", "--catalog", "--store", "--prefix", "--ids") if opt(f)}
+    what = [a for a in args if a not in flagvals] or ["all"]
+    known = {"all", "verify", "sample", "selftest", "kenney", "polyhaven", "ambientcg", "oga", "geo", "texts", "gov", "tatoeba", "sbcsae", "polyhaven_models"}
+    if what[0] == "selftest":
+        sys.exit(1 if selftest() else 0)
+    unknown = [a for a in what if a not in known]
+    if unknown:
+        # 모르는 이름이면 아무것도 안 한다 (예전에는 목록을 그대로 다시 써 버렸다)
+        print("[멈춤] 모르는 이름: %s (있는 이름: %s)" % (", ".join(unknown), ", ".join(sorted(known))))
+        sys.exit(2)
     L = load()
+    if what[0] == "verify":
+        sys.exit(1 if verify(L, opt("--store") or STORE, opt("--prefix") or "") else 0)
+    if what[0] == "sample":
+        ids = [x for x in (opt("--ids") or "").split(",") if x]
+        if not ids:
+            print("[멈춤] --ids 가 필요하다 (예: --ids Shelf_01,wooden_table_02)")
+            sys.exit(2)
+        sys.exit(1 if sample(L, ids, "--keep" in sys.argv) else 0)
     for name, fn in (("kenney", kenney), ("polyhaven", polyhaven), ("ambientcg", ambientcg), ("oga", oga),
-                     ("geo", geo), ("texts", texts), ("gov", gov), ("tatoeba", tatoeba), ("sbcsae", sbcsae)):
-        if "all" in what or name in what:
+                     ("geo", geo), ("texts", texts), ("gov", gov), ("tatoeba", tatoeba), ("sbcsae", sbcsae),
+                     ("polyhaven_models", lambda L: polyhaven_models(L, opt("--picks"), opt("--catalog")))):
+        # all 은 모델을 안 돈다 (고른 목록이 필요하다). 이름으로 불러야 돈다
+        if name in what or ("all" in what and name != "polyhaven_models"):
             print("== " + name)
             try:
                 fn(L)

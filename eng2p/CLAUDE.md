@@ -268,8 +268,8 @@ docs/culture.md       하와이 문화 지침 (자문 대신 자체 조사, 출�
 scripts/derive_ext_*.py 확장층을 낸다. scripts/check_ext.py 가 열일곱 판을 보고 깬 시험도 한다
 scripts/derive_scenes.py 장면 288세션을 낸다. 지은 영어, 안 들은 과, 없는 사람이면 안 낸다
 scripts/derive_town.py 동네 표를 맞춰 보고 out/game/town.json 을 낸다. 어긋나면 안 낸다
-tools/game/fetch_assets.py 게임 자료를 저장소 밖에 받는다. CC0 만. 목록과 해시는 tools/game/assets.json
-tools/game/fetch_assets.ps1 PC 에서 목록대로 D 드라이브에 받고 해시를 맞춘다. pc_busy.lock 이 있으면 안 돈다
+tools/game/fetch_assets.py 게임 자료를 저장소 밖에 받는다. CC0 만. 목록과 해시는 tools/game/assets.json (해시는 sha256, 사진 스캔 모델 Poly Haven 은 받지 않고 API 의 md5. `polyhaven_models`, `verify`, `sample`)
+tools/game/fetch_assets.ps1 PC 에서 목록대로 D 드라이브에 받고 해시를 맞춘다 (md5 만 있으면 md5 로 맞추고 처음 잰 sha256 을 SHA256_FIRST.json 에). pc_busy.lock 이 있으면 안 돈다
 scripts/derive_game.js 게임이 받을 288세션. **앱을 띄워 앱의 셈을 그대로 부른다.** C++ 로 다시 안 짠다
 scripts/check_game.py 게임 1년에 자료가 다 들어갔나. **하나라도 빠지면 1년 동안 못 본다**
 docs/game_results.md  게임 결과 기록 약속. 사실만 적는 JSONL, 두 노트북 결과를 덮지 않고 합치는 규칙, dataHash 계산법

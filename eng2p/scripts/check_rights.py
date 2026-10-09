@@ -10,7 +10,8 @@ ND 가 막는 것은 고친 판을 남에게 주는 것이므로, 말뭉치는 �
     1 assets_license   tools/game/assets.json 의 license 칸이 CC0, 퍼블릭 도메인, CC BY 중 하나. 칸이 비거나 허용 밖이면 실패.
                        **예외: source 가 sbcsae 이고 license 가 정확히 CC-BY-ND-3.0-US 인 대본(.trn, .cha) 항목.** 주소는 sbcsae.json 의
                        공식 UCSB 주소여야 하고(고친 사본 금지) 60쌍이 빠짐없이 있어야 한다. 다른 출처의 ND, NC, SA 는 계속 실패
-    2 assets_ccby      CC BY 항목에 출처 주소(page 나 url)가 있다. 없으면 출처 표기를 못 한다. 말뭉치 ND 항목은 저작자 표기(credit)도 있어야 한다
+    2 assets_ccby      CC BY 항목에 출처 주소(page 나 url)가 있다. 없으면 출처 표기를 못 한다. 말뭉치 ND 항목은 저작자 표기(credit)도 있어야 한다.
+                       md5 꼴(아래 10)의 CC BY 항목은 저작자(credit)도 있어야 한다 (CC0 는 표기가 필요 없다)
     3 ext_license      out/data/ext_*.json 의 파일과 편 권리 칸이 허용 다섯 중 하나
     4 ext_ccby_credit  Tatoeba(CC BY 2.0 FR) 줄마다 저자(owner)와 원문 주소가 있고, 파일에 표기 문구와 저자 목록이 있다
     5 media_license    media/english/manifest.json 의 권리 칸이 알려진 셋 중 하나
@@ -18,6 +19,10 @@ ND 가 막는 것은 고친 판을 남에게 주는 것이므로, 말뭉치는 �
     7 santa_barbara    Santa Barbara 말뭉치: 저장소에 소리, 자른 파일, 대본 원문(.trn, .cha)이 없다. 등록부 60건이 고치지 않은 채 배포한다는 꼴과 저작자 표기를 갖췄다
     8 no_external      english.html 과 eng2p/app 이 밖의 주소에서 글꼴, 스크립트, 이미지를 불러오지 않는다
     9 no_font_files    저장소에 글꼴 파일(ttf, otf, woff)이 없다 (글꼴은 PC 에만. sources.md 5장)
+   10 assets_hash      assets.json 의 모든 항목이 무결성을 맞출 수 있다: sha256(64자 16진수) 가 있거나, **md5(32자) 만 있는 새 꼴**이다. 크기(bytes)는 양수.
+                       md5 만 있는 꼴(받지 않고 출처 API 값을 옮긴 항목)은 **Poly Haven 사진 스캔 모델 하나뿐이다** (2026-10-09):
+                       source polyhaven, file polyhaven/models/<model>/..., 주소는 https://dl.polyhaven.org/, 권리 CC0-1.0, 1K 만(_2k 이상 이름 금지),
+                       model 마다 .gltf(이름 <model>_1k.gltf) 하나와 .bin 과 질감이 있고 optional 칸이 한결같다
 
 **알려진 위반은 없다** (2026-10-09 사용자가 말뭉치를 쓰기로 정해서 알려진 목록을 없앴다). `--strict` 는 예전 인자라 받기만 하고 하는 일은 같다.
 
@@ -89,6 +94,16 @@ SBC_LICENSE_KEY = "cc-by-nd-3.0-us"
 SBC_TREATMENT = "redistribute-unchanged-with-attribution"
 AUDIO_SUFFIX = {".wav", ".mp3", ".flac", ".m4a", ".ogg", ".opus", ".aac", ".aif", ".aiff"}
 TRANSCRIPT_SUFFIX = {".trn", ".cha"}   # 말뭉치 대본 원문. 저장소에 안 둔다 (PC 에 받고, 고치지 않은 원본은 릴리스에만)
+
+# assets.json 에서 sha256 대신 md5 만 적는 단 하나의 꼴: Poly Haven 사진 스캔 모델 (사용자 결정 2026-10-09: 그래픽은 사진처럼)
+# 받지 않고 공식 API 가 준 md5 와 크기를 옮겼다. PC 가 받아 md5 로 맞추고 처음 잰 sha256 을 SHA256_FIRST.json 에 적는다
+RE_SHA256 = re.compile(r"^[0-9a-f]{64}$")
+RE_MD5 = re.compile(r"^[0-9a-f]{32}$")
+MODEL_SOURCE = "polyhaven"
+MODEL_DIR = "polyhaven/models/"
+MODEL_HOST = "https://dl.polyhaven.org/"
+RE_BIG_RES = re.compile(r"_(2|4|8|16)k\b")
+MODEL_EXT = {".gltf", ".bin", ".jpg", ".jpeg", ".png"}
 
 # assets.json 에 말뭉치 대본 항목이 허용되는 단 하나의 꼴 (사용자 결정 2026-10-09)
 SBC_ASSET_SOURCE = "sbcsae"
@@ -216,7 +231,74 @@ def c_assets_ccby(ctx):
             f.append("%s: 표기 의무가 있는 항목(%s)인데 출처 주소가 없다" % (it.get("file"), k))
         if k == "SBC-ND" and it.get("credit") != SBC_CREDIT:
             f.append("%s: 말뭉치 대본인데 저작자 표기(credit)가 정해진 줄과 다르거나 없다" % it.get("file"))
+        if k == "CCBY" and is_md5_only(it) and not str(it.get("credit") or "").strip():
+            f.append("%s: md5 꼴의 CC BY 항목인데 저작자 표기(credit)가 없다" % it.get("file"))
     return f, []
+
+
+def is_md5_only(it):
+    """sha256 칸이 없고 md5 칸이 있는 새 꼴인가"""
+    return not it.get("sha256") and bool(it.get("md5"))
+
+
+def hash_problems(it):
+    """항목 하나가 무결성을 맞출 수 있는 꼴인가. -> [실패 글] (모델 묶음 검사는 c_assets_hash 가 따로 본다)"""
+    f = []
+    name = it.get("file")
+    sha, md5 = it.get("sha256"), it.get("md5")
+    if not sha and not md5:
+        return ["%s: sha256 도 md5 도 없다. 받은 파일을 맞출 수 없다" % name]
+    if sha and not RE_SHA256.match(str(sha)):
+        f.append("%s: sha256 이 64자 소문자 16진수가 아니다" % name)
+    if md5 and not RE_MD5.match(str(md5)):
+        f.append("%s: md5 가 32자 소문자 16진수가 아니다" % name)
+    b = it.get("bytes")
+    if not isinstance(b, int) or isinstance(b, bool) or b <= 0:
+        f.append("%s: bytes 가 양수 정수가 아니다" % name)
+    if is_md5_only(it):
+        # md5 만 있는 꼴은 사진 스캔 모델 하나뿐이다
+        model = it.get("model")
+        parts = str(name).split("/")
+        ok_path = (str(name).startswith(MODEL_DIR) and len(parts) >= 4 and parts[2] == model and ".." not in parts and "\\" not in str(name))
+        if it.get("source") != MODEL_SOURCE or not ok_path:
+            f.append("%s: md5 만 있는 꼴은 source polyhaven 의 %s<model>/ 아래 파일뿐이다" % (name, MODEL_DIR))
+        if not str(it.get("url", "")).startswith(MODEL_HOST):
+            f.append("%s: md5 꼴인데 주소가 %s 가 아니다" % (name, MODEL_HOST))
+        if classify(it.get("license")) not in ("CC0", "CCBY"):
+            f.append("%s: md5 꼴인데 권리 칸이 CC0 나 CC BY 가 아니다" % name)
+        if os.path.splitext(str(name).lower())[1] not in MODEL_EXT:
+            f.append("%s: 모델 항목의 파일 갈래가 아니다 (gltf, bin, jpg, png)" % name)
+        if RE_BIG_RES.search(str(name)):
+            f.append("%s: 1K 가 아닌 파일이다 (_2k 이상). 4GB 카드 예산 밖이다" % name)
+        if it.get("optional") not in (None, True):
+            f.append("%s: optional 칸은 true 나 없음이다" % name)
+        if it.get("page") != "https://polyhaven.com/a/%s" % model:
+            f.append("%s: page 가 모델 쪽이 아니다 (https://polyhaven.com/a/%s)" % (name, model))
+    return f
+
+
+def c_assets_hash(ctx):
+    """판 10: 모든 항목이 sha256 이나 md5 로 맞출 수 있다. md5 꼴의 모델은 gltf 하나, bin 하나 이상, 질감 하나 이상이 한 벌이다"""
+    f = []
+    models = {}
+    for it in ctx["assets"].get("items", []):
+        f += hash_problems(it)
+        if is_md5_only(it) and it.get("model"):
+            models.setdefault(it["model"], []).append(it)
+    for model, its in sorted(models.items()):
+        names = [str(x.get("file")) for x in its]
+        gl = [n for n in names if n.endswith(".gltf")]
+        if gl != ["%s%s/%s_1k.gltf" % (MODEL_DIR, model, model)]:
+            f.append("%s: .gltf 본체가 <model>_1k.gltf 하나여야 한다 (%s)" % (model, gl[:2]))
+        if not any(n.endswith(".bin") for n in names):
+            f.append("%s: .bin 이 없다. glTF 가 읽을 파일이 모자란다" % model)
+        if not any("/textures/" in n for n in names):
+            f.append("%s: 질감(textures/)이 없다" % model)
+        if len({bool(x.get("optional")) for x in its}) != 1:
+            f.append("%s: 파일마다 optional 칸이 다르다. 한 모델은 한꺼번에 받거나 말아야 한다" % model)
+        if len(set(names)) != len(names):
+            f.append("%s: 같은 파일이 두 번 있다" % model)
+    return f[:20], []
 
 
 def c_ext_license(ctx):
@@ -306,6 +388,7 @@ CHECKS = [
     ("assets_license", c_assets_license), ("assets_ccby", c_assets_ccby), ("ext_license", c_ext_license),
     ("ext_ccby_credit", c_ext_ccby_credit), ("media_license", c_media_license), ("registry_license", c_registry_license),
     ("santa_barbara", c_santa_barbara), ("no_external", c_no_external), ("no_font_files", c_no_font_files),
+    ("assets_hash", c_assets_hash),
 ]
 
 
@@ -409,10 +492,76 @@ def breaks(ctx):
     def mut_font(c):
         c["font_files"] = c["font_files"] + ["media/x.woff2"]
 
+    # --- 판 10 과 모델 항목(md5 꼴)의 깸. 모델 항목은 새 꼴이라 새 심기가 필요하다
+    def model_items(c, k=0):
+        ids = sorted({x["model"] for x in c["assets"]["items"] if x.get("model")})
+        return [x for x in c["assets"]["items"] if x.get("model") == ids[k]]
+
+    def old_item(c):
+        return [x for x in c["assets"]["items"] if not x.get("model") and x.get("sha256")][0]
+
+    def mut_assets_model_nc(c):
+        model_items(c)[0]["license"] = "CC-BY-NC-4.0"
+
+    def mut_assets_ccby_md5_no_credit(c):
+        for x in model_items(c):
+            x["license"] = "CC-BY-4.0 (Someone)"
+
+    def mut_hash_none(c):
+        del old_item(c)["sha256"]
+
+    def mut_hash_sha_short(c):
+        old_item(c)["sha256"] = "abc"
+
+    def mut_hash_md5_short(c):
+        model_items(c)[0]["md5"] = "abc"
+
+    def mut_hash_md5_upper(c):
+        model_items(c)[0]["md5"] = model_items(c)[0]["md5"].upper()
+
+    def mut_hash_md5_other_source(c):
+        # 오래된 항목(받아서 잰 것)을 md5 꼴로 바꿔 놓는다: md5 꼴은 모델 하나뿐이어야 한다
+        x = old_item(c)
+        del x["sha256"]
+        x["md5"] = "0" * 32
+
+    def mut_hash_host(c):
+        model_items(c)[0]["url"] = "https://example.invalid/file/x.bin"
+
+    def mut_hash_2k(c):
+        for x in model_items(c):
+            if "/textures/" in x["file"]:
+                x["file"] = x["file"].replace("_1k", "_2k")
+                break
+
+    def mut_hash_no_gltf(c):
+        its = model_items(c)
+        c["assets"]["items"].remove([x for x in its if x["file"].endswith(".gltf")][0])
+
+    def mut_hash_no_bin(c):
+        its = model_items(c)
+        c["assets"]["items"].remove([x for x in its if x["file"].endswith(".bin")][0])
+
+    def mut_hash_no_tex(c):
+        for x in [x for x in model_items(c) if "/textures/" in x["file"]]:
+            c["assets"]["items"].remove(x)
+
+    def mut_hash_optional_mixed(c):
+        model_items(c)[0]["optional"] = True
+
+    def mut_hash_bytes_zero(c):
+        model_items(c)[0]["bytes"] = 0
+
+    def mut_hash_dup(c):
+        c["assets"]["items"].append(dict(model_items(c)[0]))
+
+    def mut_hash_page(c):
+        model_items(c)[0]["page"] = "https://example.invalid/a/x"
+
     plan = {
         "assets_license": [mut_assets_license, mut_assets_license_empty, mut_assets_nd_other_source, mut_assets_sbc_nd_other_version,
-                           mut_assets_sbc_nc, mut_assets_sbc_wrong_url, mut_assets_sbc_missing, mut_assets_sbc_dup, mut_assets_sbc_audio],
-        "assets_ccby": [mut_assets_ccby, mut_assets_sbc_credit_empty, mut_assets_sbc_credit_changed, mut_assets_sbc_no_page],
+                           mut_assets_sbc_nc, mut_assets_sbc_wrong_url, mut_assets_sbc_missing, mut_assets_sbc_dup, mut_assets_sbc_audio, mut_assets_model_nc],
+        "assets_ccby": [mut_assets_ccby, mut_assets_sbc_credit_empty, mut_assets_sbc_credit_changed, mut_assets_sbc_no_page, mut_assets_ccby_md5_no_credit],
         "ext_license": [mut_ext_license, mut_ext_license_file],
         "ext_ccby_credit": [mut_ext_credit_owner, mut_ext_credit_text, mut_ext_credit_owners],
         "media_license": [mut_media],
@@ -420,6 +569,9 @@ def breaks(ctx):
         "santa_barbara": [mut_sb, mut_sb_transcript, mut_sb_treatment, mut_sb_count],
         "no_external": [mut_external],
         "no_font_files": [mut_font],
+        "assets_hash": [mut_hash_none, mut_hash_sha_short, mut_hash_md5_short, mut_hash_md5_upper, mut_hash_md5_other_source, mut_hash_host,
+                        mut_hash_2k, mut_hash_no_gltf, mut_hash_no_bin, mut_hash_no_tex, mut_hash_optional_mixed, mut_hash_bytes_zero,
+                        mut_hash_dup, mut_hash_page],
     }
     fns = dict(CHECKS)
     missed = []
@@ -462,8 +614,10 @@ def main():
         k = classify_item(it)
         kinds[k] = kinds.get(k, 0) + 1
     n_known = sum(len(k) for _, k in res.values())
-    print("판 %d / 실패 %d / 알려진 위반 %d / assets %d (%s) / ext 편 %d / Santa Barbara 파일 %d / 밖의 주소 검사 %d파일" % (
-        len(CHECKS), n_fail, n_known, len(items), ", ".join("%s %d" % kv for kv in sorted(kinds.items())),
+    n_md5 = sum(1 for it in items if is_md5_only(it))
+    n_models = len({it.get("model") for it in items if is_md5_only(it)})
+    print("판 %d / 실패 %d / 알려진 위반 %d / assets %d (%s; md5 꼴 %d = 모델 %d개) / ext 편 %d / Santa Barbara 파일 %d / 밖의 주소 검사 %d파일" % (
+        len(CHECKS), n_fail, n_known, len(items), ", ".join("%s %d" % kv for kv in sorted(kinds.items())), n_md5, n_models,
         sum(len(ctx["ext"][n].get("items", [])) for n in EXT_NAMES), len(ctx["sb_files"]), ctx["scanned"]))
     if "--summary" in sys.argv:
         lic = {}
