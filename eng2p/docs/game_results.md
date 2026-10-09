@@ -377,7 +377,7 @@ C++ 의 host 합치기는 `host.jsonl` + `guest.jsonl` 에서 `expected_merged.j
 
 종료 코드는 0 됐다 / 1 쓰임새나 줄이 틀렸다 / 2 환경이 안 맞다 (앱이 낡았다, 세션 파일이 없다).
 **틱이 실패하면 게임은 `next.json` 없이 돈다**: 세션 번호는 저장된 다음 번호, 자리는 `sessions.json` 의 규칙, 어제 그거는 비운다. 다른 판으로 안 바꾼다.
-틱은 Node 와 이 저장소가 있는 노트북에서만 돈다 (11장 물음 2).
+틱은 Node 와 틱 묶음(이 저장소의 사본이든 PC 의 `Tools\brain\` 이든)이 있는 노트북에서만 돈다 (11장 물음 2, 12장).
 
 ### 8.2 `next.json`
 
@@ -444,6 +444,7 @@ C++ 는 규칙을 읽어 `s` 가 홀수면 `odd`, 짝수면 `even` 을 쓰고 `r
 | 일요일 | 월요일의 어제가 일요일이라 늘 빈다 (앱 감사 22번, 2026-10-07) | 세션으로 세니 안 빈다 |
 | 시작 조건 | 세 날이 다 있어야 연다 | 없는 날은 건너뛰고 있는 만큼 돈다 (T274) |
 | 장수 | 열 장 | `recallRule.max` (앱의 `var d={end:10}` 에서 읽는다) |
+| 같은 카드 | 날마다 따로 뽑아서 같은 카드가 두 번 든다 | 1, 3, 7 세션 전에 다 못 한 카드는 **가장 가까운 세션 몫으로 한 번만** 든다 (`n` 이 작은 쪽). 맨 아래 칸에서 되풀이해 못 한 카드가 흔해서, 그대로 두면 열 장 덱에 같은 카드가 두 번 나온다 |
 | 섞는 차례 | `roundOrder(roundSeed("recall", n))` | 같은 함수. 씨앗의 날짜 자리에는 세션이 하루씩 오르는 가짜 달력을 놓는다 |
 | 기록 | 이 기기 것 | 합친 결과 (두 노트북) |
 
@@ -586,5 +587,52 @@ Data 의 지문이 `manifest.json` 의 것과 다르면 sync 가 덜 됐거나 �
 | 6 | 사람별 사다리가 한쪽 노트북 줄이 빠지면 그쪽 사람 몫만 비어 버린다 | `gaps` 가 세션 단위로만 알린다. 사람 단위 빠짐은 못 본다 |
 | 7 | 한 세션 안에서 방을 연 쪽이 바뀌는 경우(host 가 죽고 guest 가 이어받음) | 안 다룬다. 새 시도로 보고 R9 로 처리된다 |
 | 8 | 줄에 `place` 같은 한국어 낱말이 있다 | 합치기 비교가 바이트 기준이라 괜찮다. 영어 칸에는 안 쓴다 |
+
+## 12. PC 에서 틱이 도는 길 (2026-10-09)
+
+PC1 에는 Node 도 이 저장소도 없다. 틱이 PC 에서 돌려면 **Node 와 틱 묶음** 둘이 있어야 하고 둘 다 해시를 맞춰 받는다.
+게임 저장소의 `Tools\get_node.ps1` `Tools\sync_tick.ps1` `Tools\run_tick.ps1` 이 한다.
+
+| 무엇 | 어디서 오나 | 놓이는 곳 (`D:\HonoluluGame`) | 맞추는 것 |
+|---|---|---|---|
+| Node 휴대판 | nodejs.org 공식 Windows zip (22 LTS). 설치 없음 | `Tools\node\node.exe` | zip 의 SHA-256 을 같은 폴더의 `SHASUMS256.txt` 와 스크립트에 박은 값 둘에 맞춘다. 푼 `node.exe` 가 버전을 답한다 |
+| 틱 묶음 | `out/tick/manifest.json` (`derive_tick_bundle.py`)이 적은 29개: `game_tick.js` + 앱 조각 + `cards.js` + `results_schema.json` + `english.html` | `Tools\brain\` (**저장소와 같은 자리 배치**라 틱을 안 고친다) | 파일마다 크기와 SHA-256, 표의 `tickHash`, `appHash` 가 `sessions.json` 의 것과 같다 |
+| 부르기 | 게임이 방장 노트북에서 끝날 때 자동 (`-HnlBrainScript=Tools\brain\eng2p\scripts\game_tick.js`) 이나 손으로 `Tools\run_tick.ps1` | `<LocalRoot>\Brain\next.json` | 같은 인자 (8.1). 틱이 실패하면 게임은 `next.json` 없이 돈다 |
+
+처음 한 번:
+
+    powershell -ExecutionPolicy Bypass -File Tools\get_node.ps1
+    powershell -ExecutionPolicy Bypass -File Tools\sync_data.ps1
+    powershell -ExecutionPolicy Bypass -File Tools\sync_tick.ps1
+    powershell -ExecutionPolicy Bypass -File Tools\run_tick.ps1        # 결과가 있으면 손으로 한 번 돌려 본다
+
+게임에는 `-HnlBrainScript=D:\HonoluluGame\Tools\brain\eng2p\scripts\game_tick.js` 를 준다. node 는 게임이 `-HnlNode=` 나
+`Tools\node\node.exe` 나 PATH 의 `node` 순으로 찾는다.
+
+**낡음을 세 겹으로 막는다.** (1) `derive_tick_bundle.py` 는 표의 `appHash` 가 `sessions.json` 의 것과 다르면 표를 안 쓴다.
+(2) `run_tick.ps1` 은 놓인 묶음을 표로 다시 세고, `Data\results_schema.json` 이 묶음의 것과 다르면 종료 코드 3 으로 선다.
+(3) 틱 자신이 `sessions.json` 의 `appHash` 를 묶음의 앱과 견주고 다르면 종료 코드 2 로 선다 (8.6).
+
+**쉰 날 아침.** 게임은 `next.json` 의 `today` 가 오늘이 아니면 그 파일을 **버리고** 저장된 번호와 `roleRule` 로 논다 (복습 덱 없이).
+틱은 플레이한 날의 다음 날로 `next.json` 을 만들기 때문에 하루를 쉬면 그 파일이 하루 늦다. 쉰 날의 아침에는
+`Tools\run_tick.ps1 -Morning` 을 게임 전에 한 번 돈다 (오늘을 이 PC 의 날짜로). 복습 덱은 날짜가 늦을수록 늘기만 해서
+(제 날이 된 카드가 더해진다) 어제 덱을 품는다. 게임이 이것을 스스로 하지는 않는다 (남은 일).
+
+**검사.** `python3 scripts/check_tick_e2e.py` 가 49일을 하루씩 이어 간다: 아침에 `next.json` 읽기, 낮에 그 덱으로 놀며 방장 줄과 손님 줄 쓰기,
+저녁에 게임과 같은 인자로 틱 부르기. 보통 날 43, 멈춘 날, 바쁜 날 둘, 짧은 날, 쉰 날 둘, 손님 파일이 하루 늦게 오는 날 일곱이고,
+세션 31~36(다지기 주)과 어제 그거 날 11 27 43 을 지난다. 매일 앱 코드를 안 쓰는 파이썬 계산(기준서 8.4 문장)과
+`s` `through` `gaps` `seatA` `pick` `review` `unseen` `recall` `merge` 를 견주고, 입력을 바꿔(한 벌 더, 뒤집어 한 파일에 CRLF 와 BOM,
+손님 줄을 방장 파일에 이어 붙임, 합친 글 다시 넣기) 같은 답인지, Results 가 그대로인지를 본다. 카드 넷의 212일(간격 1 3 7 21 60 120,
+near, 제 날 전, 못함, 건너뜀, 사람별 칸)은 손으로 센 표와 견준다. `--break` 는 틀린 틱 열여덟 가지를 만들어 다 잡는지 본다.
+틱은 표가 적은 29개만 복사한 묶음으로 돈다. 묶음이 모자라면 PC 에서 돌기 전에 여기서 실패한다.
+
+이 검사가 찾은 틈:
+
+| 틈 | 고친 곳 |
+|---|---|
+| 어제 그거 덱에 같은 카드가 두 번 든다 (1, 3, 7 세션 전에 다 못 한 카드) | `game_tick.js` `recall()` 가 가까운 세션 몫으로 한 번. 8.5 표 |
+| 게임이 바쁜 날도 `nextSession` 을 올려 틱이 세션 하나를 건너뛴다 | game 저장소 `SessionSubsystem.cpp` `EndDay` (보통 날만 올린다). `--break` 의 "게임이 바쁜 날 번호를 올림" 이 그 틈을 만든다 |
+| PC1 에 Node 가 없어 게임이 `node` 를 못 찾는다 | `Tools\get_node.ps1` 과 `LaunchBrainTick` 의 `-HnlNode=` |
+| 쉰 날 뒤 `next.json` 이 하루 늦어 게임이 버린다 | `run_tick.ps1 -Morning` (손으로). 게임이 스스로 다시 돌리는 것은 남았다 |
 
 **기계가 안 보는 것: 두 사람이 그 화면 앞에서 영어를 입 밖에 내는가.** 이 문서는 줄이 맞는지, 합쳐지는지, 같은 답이 나오는지까지만 건다.

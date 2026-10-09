@@ -335,10 +335,16 @@ class Brain {
   recall(s, missBy, dateOf, rule) {
     const C = this.ctx;
     const syn = (k) => C.addDays(SYN0, k);
-    const pool = {};
-    rule.back.forEach((n) => {
+    /* 같은 카드를 여러 세션에서 못 했으면 가장 가까운 세션 몫으로 한 번만 든다. 앱의 rclDeck 은 날마다 따로 뽑아서
+       그대로 두면 열 장 덱에 같은 카드가 두 번 나온다 (맨 아래 칸에서 되풀이해 못 한 카드가 흔하다) */
+    const pool = {}, taken = new Set();
+    rule.back.slice().sort((a, b) => a - b).forEach((n) => {
       const k = s - n;
-      if (k >= 1) pool[syn(k)] = [...(missBy.get(k) || [])].sort();
+      if (k >= 1) {
+        const ids = [...(missBy.get(k) || [])].sort().filter((id) => !taken.has(id));
+        ids.forEach((id) => taken.add(id));
+        pool[syn(k)] = ids;
+      }
     });
     C.ranOn = (d) => (pool[d] || []).slice();
     this.setToday(syn(s));
@@ -661,6 +667,17 @@ function selftest() {
       x.cards.concat(x.review).forEach((id) => brain.applyCard({ t: "card_run", id: id, outcome: "pass", seat: "team", date: x.date }));
     });
     ok("명목 1년: 다 통과한 기록의 review 가 sessions.json 288세션과 같다", bad.length === 0, "다른 세션 " + bad.slice(0, 6).join(" ")); }
+
+  /* 5b. 어제 그거는 같은 카드를 두 번 안 담는다. 1세션 전과 3세션 전과 7세션 전에 다 못 한 카드는 가장 가까운 쪽 한 번이다 */
+  { const rule = sf.runtime.recallRule;
+    const miss = new Map([[26, new Set(["Q1-001", "Q1-002", "Q1-003"])], [24, new Set(["Q1-001", "Q1-004"])], [20, new Set(["Q1-001", "Q1-002", "Q1-005"])]]);
+    const dates = new Map([[26, "2026-12-02"], [24, "2026-11-30"], [20, "2026-11-25"]]);
+    brain.reset(sf.start);
+    const deck = brain.recall(27, miss, dates, rule), ids = deck.map((x) => x.id);
+    const by = {}; deck.forEach((x) => { by[x.id] = x.n; });
+    ok("어제 그거: 같은 카드를 두 번 못 해도 덱에는 한 번, 가장 가까운 세션 몫으로 든다",
+       deck.length === 5 && new Set(ids).size === 5 && by["Q1-001"] === 1 && by["Q1-002"] === 1 && by["Q1-003"] === 1 && by["Q1-004"] === 3 && by["Q1-005"] === 7,
+       JSON.stringify(deck)); }
 
   /* 6. 먼저 말을 여는 사람. 앱의 roleOf 로 낸 288개와 규칙이 같고 틱의 답도 같다 */
   { const rv = sf.roleVectors || [], rr = sf.roleRule || {};

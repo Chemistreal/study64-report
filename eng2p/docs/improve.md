@@ -139,3 +139,4 @@
 | 2026-10-08 | **틱 위치:** `game_tick.js` 는 Node 만 있으면 돈다(브라우저 없음). Node 휴대판과 앱 조각 묶음(`Brain/`)을 PC1 과 PC2 패키지에 같이 넣는다. 방을 연 쪽이 어느 노트북이든 자기 노트북에서 틱을 돌린다 | 4a 가 남긴 물음 6. PC1 만 호스트로 못 박으면 PC1 이 꺼진 날 못 한다 |
 | 2026-10-08 | **`near` 판정은 사다리 칸을 그대로 둔다** (`spacing.byOutcome`). 기준서 8.4 에는 아직 안 적혀 있어 개정문 28 로 올린다 | 4a 가 남긴 물음 3. 사용자가 권한을 넘겼다 |
 | 2026-10-08 | `Data/*.json` 은 바이트가 그대로여야 해시가 맞는다. game 저장소에 `.gitattributes` 로 `Data/*.json -text` | 4a 물음 5. 윈도우 줄바꿈 변환이 해시를 깬다 |
+| 2026-10-09 | **틱이 PC 에서 도는 길** (docs/game_results.md 12장). Node 는 `Tools/get_node.ps1` 이 공식 zip 에서 `node.exe` 만 꺼내 `Tools\node\` 에 (해시 둘 맞춤). 틱 묶음은 `out/tick/manifest.json` 이 적은 29개를 `Tools/sync_tick.ps1` 이 받아 `Tools\brain\` 에 저장소와 같은 배치로. 손으로 돌리는 길은 `Tools/run_tick.ps1` | 4a 물음 6 의 구현. `check_tick_e2e.py` 가 49일 끝에서 끝까지 본다 |

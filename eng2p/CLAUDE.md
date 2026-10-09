@@ -273,8 +273,10 @@ tools/game/fetch_assets.ps1 PC 에서 목록대로 D 드라이브에 받고 해�
 scripts/derive_game.js 게임이 받을 288세션. **앱을 띄워 앱의 셈을 그대로 부른다.** C++ 로 다시 안 짠다
 scripts/check_game.py 게임 1년에 자료가 다 들어갔나. **하나라도 빠지면 1년 동안 못 본다**
 docs/game_results.md  게임 결과 기록 약속. 사실만 적는 JSONL, 두 노트북 결과를 덮지 않고 합치는 규칙, dataHash 계산법
-scripts/game_tick.js  결과 기록에서 다음 날(next.json)을 뽑는다. Node 만 있으면 돈다. --selftest 60판
+scripts/game_tick.js  결과 기록에서 다음 날(next.json)을 뽑는다. Node 만 있으면 돈다. --selftest 61판
 scripts/derive_game_manifest.py out/game 파일의 크기와 해시와 dataHash
+scripts/derive_tick_bundle.py PC 에서 틱이 돌려면 필요한 29개 파일의 표 out/tick/manifest.json. game 저장소 Tools/sync_tick.ps1 이 받는다
+scripts/check_tick_e2e.py 틱을 49일 이어 돌려 독립 계산과 견준다. 멱등, 교환, 합침, 사다리 212일, --break 열여덟
 out/game/results_schema.json, out/game/manifest.json 파생물. 손으로 안 고친다
 tools/game/results_fixture/ 결과 합치기와 틱의 기준 시험 자료. 소리와 글이 없는 사실뿐이다
 docs/game_data.md     게임이 쥐는 자료 설명. 판정 열쇠(judge.json), NPC 대답(replies.json), 목소리 줄(voicelist.json), 덱 이름 처리(deck_names.json)
