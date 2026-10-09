@@ -84,7 +84,7 @@ python3 scripts/all.py
 ```
 
 **한 줄이다.** 걸음은 `scripts/all.py` 의 `STEPS` 표가 쥐고 끝에 몇 걸음이었는지 찍는다.
-2026-10-09 에 백서른아홉이다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물하나, 화면 쉰일곱, 상태 갱신 셋이다 (check_ui.js 는 셋으로 쪼개 돌아 141번 돈다).
+2026-10-10 에 백마흔하나다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물둘, 화면 쉰여덟, 상태 갱신 셋이다 (check_ui.js 는 셋으로 쪼개 돌아 143번 돈다).
 기본은 **병렬**이다 (`scripts/par_run.py`, 일꾼 `min(6, cpu)`). 브라우저 검사까지 다 돌아 8분쯤 걸린다 (측정 427~492초). `--serial` 은 차례대로 21분쯤이다. 화면 검사가 브라우저를 띄운다.
 **건너뜀은 실패다.** 브라우저나 크로미움을 못 찾으면 `all.py` 가 1 로 끝난다. 일부러 건너뛸 때만 `--allow-skip`. 그 밖에 `--jobs N` `--only` `--times` `--timeout` `--plan`. 자세한 것은 `docs/pipeline.md`.
 이 컨테이너에서는 `NODE_PATH=/opt/node22/lib/node_modules` 와 루트 `tests/` 의 `npm install` (PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1) 이 있어야 브라우저 걸음이 돈다.
@@ -283,10 +283,11 @@ scripts/derive_tick_bundle.py PC 에서 틱이 돌려면 필요한 29개 파일�
 scripts/check_tick_e2e.py 틱을 49일 이어 돌려 독립 계산과 견준다. 멱등, 교환, 합침, 사다리 212일, --break 열여덟
 out/game/results_schema.json, out/game/manifest.json 파생물. 손으로 안 고친다
 tools/game/results_fixture/ 결과 합치기와 틱의 기준 시험 자료. 소리와 글이 없는 사실뿐이다
-docs/game_data.md     게임이 쥐는 자료 설명. 판정 열쇠(judge.json), NPC 대답(replies.json), 목소리 줄(voicelist.json), 덱 이름 처리(deck_names.json)
+docs/game_data.md     게임이 쥐는 자료 설명. 판정 열쇠(judge.json), NPC 대답(replies.json), 목소리 줄(voicelist.json), 덱 이름 처리(deck_names.json), 구간표(acts.json, 11장)
 scripts/derive_judge.py, derive_replies.py, derive_voicelist.py, derive_deck_names.py 위 넷을 낸다. scripts/check_gamedata.py 가 스물일곱 판을 보고 깬 시험도 한다
 out/game/spelling_rule.json 틀린 철자 규칙 f13 의 기준 목록 40개. game 저장소 Data/spelling_rule.json 과 같다
 out/game/sessions.json 게임 세션 288개. 파생물이다. 손으로 안 고친다
+out/game/acts.json 세션 번호 기준 구간표. **막이 아니라 세션 단위다.** 목표 등급 구간은 계획 숫자(144/288/432/576시간)와 기준선 표에서 파생하고 손으로 경계를 안 쓴다. 공개 한계와 듣기 뒤 영어 자막 정책을 든다. scripts/derive_acts.py, scripts/check_acts.py (깸 시험 28). game 저장소 Data/acts.json 과 같다
 docs/play_unused.md   1년 내내 한 번도 안 뜨는 자료. **기준선 표가 여기 있다**
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다

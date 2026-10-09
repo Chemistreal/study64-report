@@ -96,7 +96,7 @@ python3 scripts/all.py --only check_role.js                                     
 |---|---|---|
 | **파생** | 파생 마흔일곱 + 어긋남 하나 | 원본이 바뀌었으면 파생물이 옛 값이다. 앞 파생물을 뒤 파생기가 읽는다 (`derive_input` 은 앞의 판 파생기를 다 센다, `derive_manifest` 는 맨 뒤). 차례대로. **제일 먼저. 끝나야 나머지가 시작한다.** 안에서 `derive_ext_smalltalk.py` 가 66초 |
 | **점검** | 규격과 대조 파이썬 검사 스물셋 | 읽기만 한다 (`check_ext.py --break` 가 `out/data` 에 임시 파일 하나를 만들었다 지운다). 한 선에서 차례대로. 파생 뒤 |
-| **게임** | 열둘 | `derive_game.js` → `check_game.py` → `derive_scenes.py` → `derive_judge/replies/voicelist/deck_names` → `check_gamedata` → `derive_town` → `check_culture` → `derive_game_manifest --strict` → `check_game --manifest`. 서로 `out/game` 을 쓰고 읽는다. 차례대로. 파생 뒤 |
+| **게임** | 열넷 | `derive_game.js` → `check_game.py` → `derive_scenes.py` → `derive_judge/replies/voicelist/deck_names` → `derive_acts` → `check_gamedata` → `derive_town` → `check_culture` → `derive_game_manifest --strict` → `check_game --manifest` → `check_acts`. 서로 `out/game` 을 쓰고 읽는다. 차례대로. 파생 뒤 |
 | **화면:이름** | 화면 검사마다 하나 (`check_pages.py` 포함. 게임 사슬에 든 것은 뺀다) | 서로 읽기만 한다 (`english.html`, `out/app`, `out/data`). 파생 뒤. `check_ui.js` 는 세 선으로 쪼갠다 (5장) |
 | **리허설:이름** | `rehearse.js` `rehearse_session.js` `rehearse_pair.js` | `out/manual` 에 글을 쓴다. `check.py` (점검 선) 가 그 글을 읽으므로 점검 선 뒤. 파생 뒤 |
 | **상태** | 셋 | 파일 수를 센다. 다른 선이 다 끝난 뒤 차례대로 |

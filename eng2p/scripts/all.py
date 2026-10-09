@@ -43,8 +43,8 @@
 그래서 화면 검사를 나란히 돌린다. **차례가 뜻을 가지는 사슬은 한 선에 그대로 둔다.**
 
 - **파생 선**: 파생 마흔일곱 + 어긋남 하나. 적힌 차례대로 하나씩. 제일 먼저. 이게 끝나야 나머지가 시작한다
-- **게임 선**: derive_game.js → check_game.py → derive_scenes.py → derive_judge/replies/voicelist/deck_names
-  → check_gamedata → derive_town → check_culture → derive_game_manifest --strict → check_game --manifest.
+- **게임 선**: derive_game.js → check_game.py → derive_scenes.py → derive_judge/replies/voicelist/deck_names → derive_acts
+  → check_gamedata → derive_town → check_culture → derive_game_manifest --strict → check_game --manifest → check_acts.
   차례대로 하나씩. 서로 out/game 을 쓰고 읽는다
 - **점검 선**: 규격과 대조 파이썬 검사. 차례대로 하나씩 (check_ext 가 out/data 에 임시 파일을 만든다)
 - **화면 선**: 브라우저 검사마다 선 하나. 서로 읽기만 한다. check_ui.js 는 셋으로 쪼개 돈다
@@ -254,6 +254,9 @@ STEPS = [
     ("화면", "derive_replies.py", [], False),
     ("화면", "derive_voicelist.py", [], False),
     ("화면", "derive_deck_names.py", [], False),
+    # **세션 번호 기준 구간표** (docs/game_data.md 11장). 막이 아니라 세션 단위다. 구간은 계획 숫자와 기준선 표에서 파생하고
+    # 손으로 경계를 안 쓴다. 공개 한계(release.throughSession)와 듣기 뒤 자막 정책도 여기서 낸다
+    ("화면", "derive_acts.py", [], False),
     # **게임이 있으면 읽는 선택 자료 여덟** (docs/game_data.md 10장). 앱 파일은 게임 로더가 그대로 못 읽어서 읽는 꼴로 다시 낸다.
     # 매니페스트(derive_game_manifest --strict)가 이 여덟을 적으므로 그 앞이다
     ("화면", "derive_game_optional.py", [], False),
@@ -269,6 +272,8 @@ STEPS = [
     # 크기와 해시와 dataHash 를 적는다. 하나라도 안 나왔으면 실패다 (--strict)
     ("파생", "derive_game_manifest.py", ["--strict"], False),
     ("화면", "check_game.py", ["--manifest"], False),
+    # 구간표가 계획 숫자에서 다시 센 것과 같고 매니페스트가 그 파일의 크기와 해시를 맞게 적었는가. 매니페스트 뒤에 돈다
+    ("대조", "check_acts.py", ["--break"], False),
     # **하루 끝 틱이 PC 에서 돌 파일 묶음의 표** (out/tick/manifest.json, docs/game_results.md 8장)와 49일을 이어 가는 끝에서 끝 시험
     ("화면", "derive_tick_bundle.py", [], False),
     ("화면", "check_tick_e2e.py", ["--break"], False),
@@ -372,11 +377,12 @@ STEPS = [
 # 차례 실행과 뜻이 같은지는 par_run.check_plan 이 본다 (--plan, 그리고 병렬로 돌기 전에 늘).
 
 # 게임 사슬. 서로 out/game 을 쓰고 읽는다. STEPS 에 적힌 차례대로 한 선에서 돈다.
-# derive_game.js -> check_game.py -> derive_scenes.py -> derive_judge/replies/voicelist/deck_names
-# -> check_gamedata -> derive_town -> check_culture -> derive_game_manifest --strict -> check_game --manifest
+# derive_game.js -> check_game.py -> derive_scenes.py -> derive_judge/replies/voicelist/deck_names -> derive_acts
+# -> check_gamedata -> derive_town -> check_culture -> derive_game_manifest --strict -> check_game --manifest -> check_acts
 GAME_CHAIN = ("derive_game.js", "check_game.py", "derive_scenes.py", "derive_judge.py",
-              "derive_replies.py", "derive_voicelist.py", "derive_deck_names.py",
-              "check_gamedata.py", "derive_town.py", "check_culture.py", "derive_game_manifest.py")
+              "derive_replies.py", "derive_voicelist.py", "derive_deck_names.py", "derive_acts.py",
+              "check_gamedata.py", "derive_town.py", "check_culture.py", "derive_game_manifest.py",
+              "check_acts.py")
 
 # 병렬일 때 쪼개 도는 걸음 -> 부분 수 (`--part k/n` 을 받는다). 차례 실행은 안 쪼갠다
 SPLIT = {"check_ui.js": 3}

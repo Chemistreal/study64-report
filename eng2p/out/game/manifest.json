@@ -1,7 +1,7 @@
 {
  "note": "게임 Data 폴더에 들어가는 *.json 의 크기와 해시, 그리고 두 노트북이 맞춰 보는 dataHash 다. 손으로 고치지 않는다. scripts/derive_game_manifest.py 를 다시 돌린다.",
  "generator": "scripts/derive_game_manifest.py",
- "dataHash": "90983707598925be29e36399f7cd5a8cf5ddb5443e2f2c07439cf2db3df78f1c",
+ "dataHash": "4c35d51b249a5088dd3f605f43e0698250283152895b5cb73ec7a21e0d9455a7",
  "algorithm": {
   "name": "dataHash/1",
   "files": "Data/*.json 중 manifest.json 과 *.local.json 을 뺀 것",
@@ -9,8 +9,14 @@
   "line": "이름 + ':' + 파일 바이트의 sha256 소문자 16진수",
   "hash": "줄마다 LF 를 붙여 이은 글(끝에도 LF 하나)의 UTF-8 바이트 sha256 소문자 16진수"
  },
- "count": 18,
+ "count": 19,
  "files": [
+  {
+   "file": "acts.json",
+   "bytes": 2564,
+   "sha256": "beef35e72434c5962a2af1a64c15eb817a802e9edd3a60582a5c8f8a26f8b1cc",
+   "from": "out/game/acts.json"
+  },
   {
    "file": "audiolen.json",
    "bytes": 1372,

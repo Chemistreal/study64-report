@@ -48,7 +48,9 @@ LATER = ["spelling_rule.json", "judge.json", "replies.json", "voicelist.json", "
          # 선택 자료 여덟 (docs/game_data.md 10장, scripts/derive_game_optional.py). 게임은 없어도 돌지만
          # 있어야 NPC 가 판에서 쥐고 라디오 대본이 나온다. 하나라도 빠지면 --strict 가 실패한다
          "sets.json", "emergency.json", "playblocks.json", "tally.json", "hold.json",
-         "transcripts.json", "cues.json", "audiolen.json"]
+         "transcripts.json", "cues.json", "audiolen.json",
+         # 세션 번호 기준 구간표 (docs/game_data.md 11장, scripts/derive_acts.py). 막이 아니라 세션 단위다
+         "acts.json"]
 
 ALGORITHM = {
     "name": "dataHash/1",

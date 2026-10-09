@@ -523,7 +523,7 @@ C++ 로 옮기면 이 모양이다.
     DataHash = SHA256Hex(UTF8(Text))      // 소문자
 
 Data 폴더는 이 저장소의 `out/game/*.json` 전부와 `out/data/cards.json` 을 **바이트 그대로 복사한 것**이다
-(`sessions.json scenes.json town.json cards.json results_schema.json` 과 다른 갈래가 내리는 `spelling_rule.json judge.json replies.json voicelist.json deck_names.json`, 선택 자료 여덟 `sets.json emergency.json playblocks.json tally.json hold.json transcripts.json cues.json audiolen.json` 은 game_data.md 10장). 그래서 선택 자료가 바뀌면 `dataHash` 도 바뀐다.
+(`sessions.json scenes.json town.json cards.json results_schema.json` 과 다른 갈래가 내리는 `spelling_rule.json judge.json replies.json voicelist.json deck_names.json`, 선택 자료 여덟 `sets.json emergency.json playblocks.json tally.json hold.json transcripts.json cues.json audiolen.json` 은 game_data.md 10장, 세션 번호 기준 구간표 `acts.json` 은 game_data.md 11장). 그래서 선택 자료가 바뀌면 `dataHash` 도 바뀐다.
 `results_schema.json` 도 센다. 줄 모양이 다른 노트북끼리는 만나면 안 되기 때문이다.
 복사는 바이트로 한다. `Get-Content`/`Set-Content` 나 git 의 autocrlf 가 줄바꿈을 바꾸면 지문이 바뀐다.
 

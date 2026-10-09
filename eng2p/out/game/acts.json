@@ -1,0 +1,84 @@
+{
+ "schemaVersion": 1,
+ "note": "게임이 받는 세션 번호 기준 구간표. 막(Act)을 두지 않는다. 세션 번호마다의 목표 등급(CEFR)은 계획 숫자와 기준선 표에서 파생했고 손으로 경계를 쓰지 않았다. 손으로 안 고친다. scripts/derive_acts.py 를 다시 돌린다.",
+ "grade": "B",
+ "gradeWhy": "기준선은 케임브리지 영어가 말하는 안내된 학습 시간의 근사 안내다. 보증이 아니고 개인차가 크다.",
+ "generator": "scripts/derive_acts.py",
+ "source": "out/game/sessions.json (세션 수, 블록 분), out/data/badge.json (누적 시간 통과선), docs/game_data.md 11장 표, docs/spec.md 13.1",
+ "basis": "기준선은 케임브리지 영어가 말하는 안내된 학습 시간의 근사 안내(A1 100시간 이하, A2 200시간 이하, B1 400시간 이하, B2 600시간 이하)다. 보증이 아니고 개인차가 크다. 세션의 등급은 그 세션이 끝난 때의 누적 시간으로 정한다. 시작의 소리와 글자(Pre-A1)는 A1 에 든다. 게임 밖 연결이 없어서 576시간 끝의 B2 는 낙관적인 목표다.",
+ "plan": {
+  "sessions": 288,
+  "hoursPerSession": 2,
+  "totalHours": 576,
+  "passHours": [
+   144,
+   288,
+   432,
+   576
+  ]
+ },
+ "thresholds": [
+  {
+   "cefr": "A1",
+   "maxHours": 100
+  },
+  {
+   "cefr": "A2",
+   "maxHours": 200
+  },
+  {
+   "cefr": "B1",
+   "maxHours": 400
+  },
+  {
+   "cefr": "B2",
+   "maxHours": 600
+  }
+ ],
+ "levels": [
+  {
+   "cefr": "A1",
+   "fromSession": 1,
+   "toSession": 50,
+   "fromHours": 0,
+   "toHours": 100
+  },
+  {
+   "cefr": "A2",
+   "fromSession": 51,
+   "toSession": 100,
+   "fromHours": 100,
+   "toHours": 200
+  },
+  {
+   "cefr": "B1",
+   "fromSession": 101,
+   "toSession": 200,
+   "fromHours": 200,
+   "toHours": 400
+  },
+  {
+   "cefr": "B2",
+   "fromSession": 201,
+   "toSession": 288,
+   "fromHours": 400,
+   "toHours": 576
+  }
+ ],
+ "release": {
+  "throughSession": 288,
+  "rule": "이 번호보다 큰 세션은 게임이 '곧 열려요' 로 잠근다. 세션이 하나씩 완성 기준을 넘길 때 올린다."
+ },
+ "captions": {
+  "duringListening": "off",
+  "afterListening": "en",
+  "koreanTranslation": false,
+  "why": "영어 글은 듣기를 끝낸 뒤에만 보인다. 듣는 동안은 지금처럼 글이 없다. 한국어 자막과 번역은 안 된다 (기준서 13.1)."
+ },
+ "extension": {
+  "fromSession": 289,
+  "target": "C1",
+  "status": "later",
+  "why": "288 뒤의 세션은 같은 방식으로 나중에 천천히 이어 붙인다. 막을 새로 만들지 않는다."
+ }
+}

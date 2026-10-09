@@ -23,6 +23,8 @@
 | `scripts/check_gamedata.py` | | 위 자료가 서로 맞고 대본 그대로인지 본다 | |
 | `out/game/{sets,emergency,playblocks,tally,hold,transcripts,cues,audiolen}.json` | `scripts/derive_game_optional.py` | 게임 로더가 있으면 읽는 선택 자료 여덟. 10장 | 일부 (세트 단계 이름, 비상판 제목, 대본) |
 | `scripts/check_gameopt.py` | | 위 여덟이 로더가 읽는 모양이고 앱과 같은 말을 하고 열쇠가 안 샜는지 본다 | |
+| `out/game/acts.json` | `scripts/derive_acts.py` | 세션 번호마다의 목표 등급 구간, 공개 한계, 듣기 뒤 자막 정책, 288 뒤 계획. 11장 | 일부 (잠긴 세션 안내) |
+| `scripts/check_acts.py` | | acts.json 이 계획 숫자와 표에서 나온 것과 같고 매니페스트가 맞는지 본다 | |
 
 ## 2. 지키는 것
 
@@ -535,3 +537,91 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 | 대조 | check_gameopt.py | --break | 예 |
 
 `derive_game_manifest.py` 의 `LATER` 에 여덟 이름이 들어 있다. 하나라도 없으면 `--strict` 가 실패한다. **지문(`dataHash`)이 바뀐다.** 두 노트북이 같은 `manifest.json` 으로 Data 를 다시 받아야 한다 (`Tools/sync_data.ps1`).
+
+## 11. 세션 단위 구간표 (acts.json)
+
+게임이 세션 번호(1~288)마다 알아야 할 것 넷이 있다. 목표 등급, 어디까지 열려 있는가, 듣기 뒤 자막이 되는가, 288 뒤에 늘릴 자리다.
+**막(Act)을 두지 않는다** (사용자 결정 2026-10-10, game 저장소 `Docs/acts_KO.md` 5장). 단위는 세션 번호뿐이다.
+구간을 사람이 손으로 쓰지 않는다. `out/game/acts.json` 은 계획 숫자와 이 장의 표에서 `scripts/derive_acts.py` 가 낸다. `scripts/check_acts.py` 가 다른 코드로 다시 센다.
+
+| 칸 | 어디서 오나 |
+|---|---|
+| `plan.sessions` | `sessions.json` 의 `count` (288) |
+| `plan.hoursPerSession` | `sessions.json` 블록 넷의 분 합계(40+30+30+20=120)를 60 으로 나눈 값 (2) |
+| `plan.totalHours` `plan.passHours` | 앱 `PASS` 의 누적 시간 통과선 144/288/432/576 (`out/data/badge.json` 의 `hrs`). 끝 값이 총시간이다. 세션 수 곱하기 세션당 시간과 같아야 한다 |
+| `thresholds` `levels` | 11.1 표. 세션 s 의 끝 누적 시간(세션당 시간 곱하기 s)이 처음 들어가는 한도의 등급이다. 이웃한 같은 등급은 접는다 |
+| `release.throughSession` | 11.2 표 |
+| `captions` | 11.3 표 |
+| `extension` | 11.4 표. `fromSession` 은 세션 수 더하기 1 이다 (289) |
+
+2026-10-10 판의 구간은 A1 1~50(0~100시간), A2 51~100(100~200), B1 101~200(200~400), B2 201~288(400~576)이다. **표에서 나온 값이지 적은 값이 아니다.**
+시작의 소리와 글자(Pre-A1)는 A1 에 든다. 최신 값은 `acts.json` 이 가진다.
+
+### 11.1 기준선 (누적 시간 한도)
+
+**케임브리지 영어가 말하는 안내된 학습 시간의 근사 안내다. 보증이 아니고 개인차가 크다.** 그래서 B등급이다.
+시간이 한도와 같으면 그 등급이다 (A1 은 100시간 이하). 게임 밖 연결이 없어서 576시간 끝의 B2 는 낙관적인 목표다 (`Docs/quality_audit_KO.md` 의 정직한 한계).
+
+| 등급 | 누적 시간 한도 | 뜻 |
+|---|---|---|
+| A1 | 100 | 약 90~100시간. 소리와 기초 문장 |
+| A2 | 200 | 약 180~200시간. 일상 거래와 짧은 대화 |
+| B1 | 400 | 약 350~400시간. 자기 이야기와 의견 |
+| B2 | 600 | 약 500~600시간. 빠른 말과 추상 주제 |
+
+### 11.2 공개 한계
+
+| 칸 | 값 | 뜻 |
+|---|---|---|
+| throughSession | 288 | 이 번호까지의 세션만 연다. 더 큰 세션은 게임이 '곧 열려요' 로 잠근다. 세션이 하나씩 완성 기준을 넘길 때 올린다. 지금은 288 이라 아무것도 안 잠긴다 |
+
+값을 낮추면 뒤 세션이 잠긴다. `0` 부터 `plan.sessions` 까지의 정수만 된다. 바꾸면 `acts.json` 과 `manifest.json` 이 바뀌고 `dataHash` 가 바뀐다. 두 노트북이 Data 를 같이 다시 받는다.
+
+### 11.3 자막
+
+현재 동작을 지킨다. 블록 1 은 듣는 동안 글자도 자막도 없다 (`Docs/quality_audit_KO.md` V4). 사용자가 듣기를 끝낸 **뒤** 영어 글만 보이게 풀었다 (2026-10-10).
+한국어 자막과 번역은 기준서 13.1 이 전 구간 금지다. 이 표는 영어 글만 풀었다. `derive_acts.py` 가 13.1 의 그 줄을 아직 읽을 수 있어야 낸다.
+
+| 칸 | 값 | 뜻 |
+|---|---|---|
+| duringListening | off | 듣는 동안은 글을 안 보인다 |
+| afterListening | en | 듣기를 끝낸 뒤 영어 글을 보인다 (`off` 면 안 보인다) |
+| koreanTranslation | false | 한국어 자막과 번역. 언제나 거짓이다 |
+
+### 11.4 288 뒤
+
+| 칸 | 값 | 뜻 |
+|---|---|---|
+| target | C1 | 289번 세션부터 이어 붙일 목표 등급 |
+| status | later | 지금은 세션이 없다. 막을 새로 만들지 않고 같은 방식으로 나중에 늘린다 |
+
+### 11.5 검사 (`scripts/check_acts.py`)
+
+`check_gamedata.py` 와 같은 꼴이다. 파생기와 다른 코드로 다시 센다. `--break` 를 주면 규칙마다 일부러 어긴 자료로 그 규칙이 잡는지 본다.
+
+| 규칙 | 보는 것 |
+|---|---|
+| keys | 맨 위 칸이 정해진 열셋이고 형이 맞다. 자막 칸은 문자열 둘과 참거짓 하나다. 빠진 칸이 없다 |
+| plan | 세션 수가 `sessions.json` 과 같고 세션당 시간이 블록 분에서 나오고 총시간이 앱 `PASS`(`app/js/01_const.js`) 의 마지막 통과선과 같다 |
+| ranges | 구간이 1에서 시작해 288 에서 끝나고 틈과 겹침이 없다. 등급이 A1 A2 B1 B2 차례로 올라가고 이웃이 같은 등급이 없다. 시간이 세션 번호와 맞다 |
+| derive | 세션 288개를 하나씩 다시 세어 구간의 등급과 같다. 기준선이 11.1 표와 같다 |
+| release | `throughSession` 이 0~288 정수다 |
+| captions | 한국어 번역이 참이 아니다. 기준서 13.1 줄이 그대로 있다. 듣는 동안이 켜져 있지 않다 |
+| extension | 289 와 C1 과 later 다 |
+| chars | 금지 문자(em-dash, U+FFFD)와 한국어 밖의 비 ASCII 가 없고 줄바꿈이 LF 뿐이다 |
+| manifest | `manifest.json` 이 `acts.json` 을 적고 있고 크기와 해시가 지금 파일과 같다 (해시 어긋남) |
+| fresh | 파생기를 다시 돌린 것과 같은 바이트다. 손으로 고친 것이 없다 |
+
+**기계가 안 보는 것: 기준선이 이 두 사람에게 맞는가.** 근사 안내라서 사람이 4주 리허설과 분기 점검에서 본다.
+
+### 11.6 파이프라인에 넣는 법
+
+`derive_acts.py` 는 `derive_deck_names.py` 다음, `check_gamedata.py` 앞의 게임 선에 둔다 (`sessions.json` 이 먼저 나와야 한다). `check_culture.py` 가 `out/game/*.json` 을 훑으므로 그 앞이다.
+`check_acts.py` 는 `derive_game_manifest.py` 뒤에 두어야 매니페스트를 견줄 수 있다. 둘 다 브라우저가 필요 없다. 이웃 게임 선 걸음처럼 빠른 판(`--quick`)에서는 뺐다.
+
+| 묶음 | 스크립트 | 인자 | 빠른 판 |
+|---|---|---|---|
+| 화면 | derive_acts.py | | 아니오 (게임 선) |
+| 대조 | check_acts.py | --break | 아니오 (게임 선) |
+
+`derive_game_manifest.py` 의 `LATER` 에 `acts.json` 이 들어 있다. **지문(`dataHash`)이 바뀐다.** 두 노트북이 같은 `manifest.json` 으로 Data 를 다시 받아야 한다 (`Tools/sync_data.ps1`). 게임의 `Data/acts.json` 은 이 파일의 바이트 그대로 복사한 것이다.
