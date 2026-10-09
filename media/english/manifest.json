@@ -8,7 +8,7 @@
   "summary": {
     "lessons": 52,
     "files": 275,
-    "bytes": 164705529
+    "bytes": 164706194
   },
   "files": [
     {
@@ -32,9 +32,9 @@
     {
       "path": "media/english/RIGHTS.md",
       "role": "rights-ledger",
-      "bytes": 3408,
+      "bytes": 4073,
       "mime": "text/markdown",
-      "sha256": "8af2953268089f3fad589b47d52770d98d346f19850a9350c3d5cb9e900635c7",
+      "sha256": "91086db24b4c399d48106d5ffe2270097ce6b4c605de30a349947633018e6f0e",
       "license": "Repository operations file, not VOA material."
     },
     {

@@ -20,10 +20,10 @@ var SOURCES=[
   u:"https://librivox.org",
   good:"원문 텍스트가 있어 소리와 글자를 붙일 수 있다. 강세 박자 관찰에 좋다. 화자가 많아 목소리 변이를 준다.",
   bad:"낭독체다. 녹음 품질이 들쭉날쭉하다. 2층 아님."},
- {n:"Santa Barbara Corpus of Spoken American English", lic:"CC BY-ND 3.0 US. 가공 금지. 자르거나 편집해서 재배포하지 않는다",
+ {n:"Santa Barbara Corpus of Spoken American English", lic:"CC BY-ND 3.0 US. 저작자(Du Bois 외, UCSB)를 적는다. 고친 판을 남에게 주지 않는다. 원본은 그대로 배포 가능. 쓰기로 정함(2026-10-09)",
   u:"https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
   good:"2층 전용이다. 미국 각지의 자연 대화 60건, 각 20분 내외. 전사가 무료이고 인토네이션 단위로 타임스탬프가 붙어 있어 어디서 끊기고 겹치는지 눈으로 확인된다.",
-  bad:"Q1에는 너무 빠르다. Q2 3층 대조판부터 쓴다. 음성은 Internet Archive 사본을 쓴다: https://archive.org/details/santabarbara_201509"}
+  bad:"Q1에는 너무 빠르다. Q2 3층 대조판부터 쓴다. 음성은 UCSB 공식 Box 쪽지(archive/sbcsae.json 의 audioOriginal)에서 PC 로 받는다. 저장소에는 소리를 안 둔다"}
 ];
 var SRC_COND={
  1:{len:"2~4분",spd:"느림. Level One 급",spk:"1~2인",top:"일상, 집, 음식",

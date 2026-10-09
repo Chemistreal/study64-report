@@ -2,7 +2,8 @@
 """권리 검사 (docs/rights_audit.md). 도구 쪽(앱, 강의 자료에 쓴 외부 자료)이 docs/sources.md 규칙을 지키는가.
 
 규칙 (CLAUDE.md, docs/sources.md 1장, 사용자 지시): 저장소에는 퍼블릭 도메인, CC0, CC BY 만 둔다.
-BY-SA, BY-NC, BY-ND, 권리 불명은 안 된다. **Santa Barbara 말뭉치는 쓰지 않는다** (사용자 결정 2026-10-09).
+BY-SA, BY-NC, BY-ND, 권리 불명은 안 된다. **예외는 하나다: Santa Barbara 말뭉치(CC BY-ND 3.0 US)** (사용자가 쓰기로 정했다, 2026-10-09).
+ND 가 막는 것은 고친 판을 남에게 주는 것이므로, 말뭉치는 쓰되 저장소에 소리나 고친 파일은 안 둔다 (판 7).
 
 판 열: **판마다 깸 시험이 있다.** `--break` 는 판마다 실패를 하나 심어 그 판이 잡는지 본다. 안 잡는 판이 하나라도 있으면 실패다.
 
@@ -11,18 +12,16 @@ BY-SA, BY-NC, BY-ND, 권리 불명은 안 된다. **Santa Barbara 말뭉치는 �
     3 ext_license      out/data/ext_*.json 의 파일과 편 권리 칸이 허용 다섯 중 하나
     4 ext_ccby_credit  Tatoeba(CC BY 2.0 FR) 줄마다 저자(owner)와 원문 주소가 있고, 파일에 표기 문구와 저자 목록이 있다
     5 media_license    media/english/manifest.json 의 권리 칸이 알려진 셋 중 하나
-    6 registry_license media/english/archive/registry.json 의 licenses 에 BY-ND, BY-NC, BY-SA 가 새로 생기지 않았다
-    7 santa_barbara    Santa Barbara 말뭉치를 말하는 파일이 새로 늘지 않았다
+    6 registry_license media/english/archive/registry.json 의 licenses 에 BY-ND(말뭉치 하나 말고), BY-NC, BY-SA 가 없다
+    7 santa_barbara    Santa Barbara 말뭉치: 저장소에 소리, 자른 파일이 없다. 등록부 60건이 고치지 않은 채 배포한다는 꼴과 저작자 표기를 갖췄다
     8 no_external      english.html 과 eng2p/app 이 밖의 주소에서 글꼴, 스크립트, 이미지를 불러오지 않는다
     9 no_font_files    저장소에 글꼴 파일(ttf, otf, woff)이 없다 (글꼴은 PC 에만. sources.md 5장)
 
-**알려진 위반.** 판 6, 7 은 지금 이미 있는 것(등록부와 언급 스물일곱 파일)을 `[알려진]` 으로 보여 주고 실패로 세지 않는다.
-사용자가 지우거나 남기기로 정하기 전까지 숨기지 않으려고 매번 찍는다. `--strict` 면 알려진 것도 실패다.
-**새로** 생기면 `[실패]` 다.
+**알려진 위반은 없다** (2026-10-09 사용자가 말뭉치를 쓰기로 정해서 알려진 목록을 없앴다). `--strict` 는 예전 인자라 받기만 하고 하는 일은 같다.
 
 사용법:
     python3 scripts/check_rights.py            # 검사
-    python3 scripts/check_rights.py --strict   # 알려진 위반도 실패로 센다 (정리가 끝난 뒤)
+    python3 scripts/check_rights.py --strict   # 같다 (알려진 위반이 없어졌다)
     python3 scripts/check_rights.py --break    # 검사 + 깸 시험
     python3 scripts/check_rights.py --summary  # 갈래별 개수
 
@@ -75,21 +74,13 @@ MEDIA_LICENSE_HEADS = (
     "Registry only. No corpus transcript text or audio.",
 )
 
-# 알려진 위반. 2026-10-09 기준. 사용자가 Santa Barbara 를 안 쓰기로 했는데 흔적이 남아 있다.
-KNOWN_REGISTRY_LICENSES = {"cc-by-nd-3.0-us"}
+# BY-ND 가 허용되는 단 하나: Santa Barbara 말뭉치 (사용자 결정 2026-10-09)
+SBC_LICENSE_KEY = "cc-by-nd-3.0-us"
+SBC_TREATMENT = "redistribute-unchanged-with-attribution"
+AUDIO_SUFFIX = {".wav", ".mp3", ".flac", ".m4a", ".ogg", ".opus", ".aac", ".aif", ".aiff"}
 BAD_REGISTRY_KEY = re.compile(r"(^|[-_ ])(nd|nc|sa)([-_ ]|$)", re.I)
 SB_PATTERN = re.compile(r"santa.?barbara|sbcsae", re.I)
-KNOWN_SB_FILES = {
-    "eng2p/app/body/07_src.html", "eng2p/app/late/23_docs.js", "eng2p/docs/audio_intake.md", "eng2p/docs/hstage.md",
-    "eng2p/docs/sound.md", "eng2p/out/app/late.js", "eng2p/out/data/input.js", "eng2p/out/data/input.json",
-    "eng2p/out/ground/eng2p_ground_input.md", "eng2p/out/input/eng2p_input_q1.md", "eng2p/out/input/eng2p_input_q2.md",
-    "eng2p/out/input/eng2p_input_q3.md", "eng2p/out/input/eng2p_input_q4.md", "eng2p/out/manual/eng2p_handover.md",
-    "eng2p/scripts/derive_media_manifest.py", "eng2p/state/journal.md", "eng2p/state/verify_list.md", "english.html",
-    "media/english/README.md", "media/english/RIGHTS.md", "media/english/archive/README.md", "media/english/archive/RELEASE.md",
-    "media/english/archive/registry.json", "media/english/archive/sbcsae.json", "media/english/manifest.json",
-    "media/english/tools/collect_media.py", "media/english/tools/validate_media.py",
-}
-# 이 검사 자신과 점검 문서는 Santa Barbara 를 말하는 것이 일이다
+# 말뭉치를 말하는 파일은 이제 얼마든지 있어도 된다. 개수만 센다
 SB_EXEMPT = {"eng2p/docs/rights_audit.md", "eng2p/scripts/check_rights.py"}
 
 TEXT_SUFFIX = {".md", ".json", ".js", ".html", ".py", ".yml", ".yaml", ".txt", ".ps1", ".css", ".csv", ".tsv"}
@@ -150,6 +141,7 @@ def load():
             for m in LOAD_RE.finditer(t):
                 loads.append((p, t[m.start():m.start() + 80].replace("\n", " ")))
     ctx["sb_files"] = sorted(sb)
+    ctx["sbc_catalog"] = read_json(os.path.join(REPO, "media", "english", "archive", "sbcsae.json"))
     ctx["loads"] = loads
     ctx["scanned"] = scanned
     ctx["font_files"] = [p for p in files if os.path.splitext(p)[1].lower() in FONT_SUFFIX]
@@ -223,24 +215,31 @@ def c_media_license(ctx):
 
 
 def c_registry_license(ctx):
-    fatal, known = [], []
+    fatal = []
     for k, v in (ctx["registry"].get("licenses") or {}).items():
         bad = BAD_REGISTRY_KEY.search(k) or NOT_ALLOWED.search(str(v.get("name", "")))
-        if not bad:
-            continue
-        if k in KNOWN_REGISTRY_LICENSES:
-            known.append("archive/registry.json licenses[%r] = %s (Santa Barbara 의 BY-ND)" % (k, v.get("name")))
-        else:
-            fatal.append("archive/registry.json licenses[%r]: BY-ND, BY-NC, BY-SA 계열이 새로 생겼다" % k)
-    return fatal, known
+        if bad and k != SBC_LICENSE_KEY:
+            fatal.append("archive/registry.json licenses[%r]: BY-ND, BY-NC, BY-SA 계열이 있다 (BY-ND 는 Santa Barbara 말뭉치 하나만 허용)" % k)
+    return fatal, []
 
 
 def c_santa_barbara(ctx):
-    new = [p for p in ctx["sb_files"] if p not in KNOWN_SB_FILES]
-    known = [p for p in ctx["sb_files"] if p in KNOWN_SB_FILES]
-    fatal = ["Santa Barbara 말뭉치를 말하는 새 파일: %s" % p for p in new]
-    kn = ["Santa Barbara 흔적 %d개 파일 (사용자는 안 쓰기로 했다. 정리 전까지 알려진 것으로 센다)" % len(known)] if known else []
-    return fatal, kn
+    """말뭉치는 써도 된다. 단 ND 의 조건을 지킨다: 저장소에 소리와 자른 파일을 안 둔다, 60건이 고치지 않은 채 배포한다는 꼴을 갖춘다"""
+    fatal = []
+    for p in ctx["files"]:
+        low = p.lower()
+        if os.path.splitext(low)[1] in AUDIO_SUFFIX and (SB_PATTERN.search(low) or re.search(r"(^|[/_.-])sbc\d*", low)):
+            fatal.append("%s: 말뭉치 소리나 자른 소리가 저장소에 있다. 소리는 PC 에만 둔다" % p)
+    cat = ctx["sbc_catalog"]
+    items = cat.get("items") or []
+    if len(items) != 60:
+        fatal.append("sbcsae.json: 60건이어야 한다 (%d건)" % len(items))
+    if cat.get("license") != SBC_LICENSE_KEY or not cat.get("licenseUrl") or not cat.get("source"):
+        fatal.append("sbcsae.json: license, licenseUrl, source(저작 기관) 중 빈 것이 있다")
+    for it in items:
+        if it.get("license") != SBC_LICENSE_KEY or it.get("allowedTreatment") != SBC_TREATMENT:
+            fatal.append("sbcsae.json %s: 권리 키나 allowedTreatment 가 고치지 않은 채 배포하는 꼴이 아니다" % it.get("id"))
+    return fatal[:20], []
 
 
 def c_no_external(ctx):
@@ -300,7 +299,16 @@ def breaks(ctx):
         c["registry"].setdefault("licenses", {})["cc-by-nc-4.0"] = {"name": "Creative Commons Attribution-NonCommercial 4.0"}
 
     def mut_sb(c):
-        c["sb_files"] = c["sb_files"] + ["eng2p/out/lectures/new_lecture.md"]
+        c["files"] = c["files"] + ["media/english/audio/sbc001_cut.wav"]
+
+    def mut_sb_treatment(c):
+        c["sbc_catalog"]["items"][0]["allowedTreatment"] = "edit-and-share"
+
+    def mut_sb_count(c):
+        c["sbc_catalog"]["items"] = c["sbc_catalog"]["items"][:-1]
+
+    def mut_registry_nd(c):
+        c["registry"].setdefault("licenses", {})["cc-by-nd-4.0"] = {"name": "Creative Commons Attribution-NoDerivatives 4.0"}
 
     def mut_external(c):
         c["loads"] = c["loads"] + [("english.html", '<link href="https://fonts.googleapis.com/css2?family=X"')]
@@ -314,8 +322,8 @@ def breaks(ctx):
         "ext_license": [mut_ext_license, mut_ext_license_file],
         "ext_ccby_credit": [mut_ext_credit_owner, mut_ext_credit_text, mut_ext_credit_owners],
         "media_license": [mut_media],
-        "registry_license": [mut_registry],
-        "santa_barbara": [mut_sb],
+        "registry_license": [mut_registry, mut_registry_nd],
+        "santa_barbara": [mut_sb, mut_sb_treatment, mut_sb_count],
         "no_external": [mut_external],
         "no_font_files": [mut_font],
     }
@@ -330,7 +338,7 @@ def breaks(ctx):
             print("  [%s] %s / %s" % ("잡음" if ok else "놓침", name, m.__name__))
             if not ok:
                 missed.append("%s/%s" % (name, m.__name__))
-    # 거꾸로: 깨끗한 자료는 통과해야 한다 (너무 빡빡해서 늘 실패하는 검사는 쓸모없다). 알려진 것만 있는 지금 상태가 기준이다
+    # 거꾸로: 깨끗한 자료는 통과해야 한다 (너무 빡빡해서 늘 실패하는 검사는 쓸모없다)
     base = run(ctx)
     clean_fail = [n for n, (f, _) in base.items() if f]
     print("  [%s] 현재 자료는 실패 0 이어야 한다 (실패 판: %s)" % ("통과" if not clean_fail else "놓침", ", ".join(clean_fail) or "없음"))

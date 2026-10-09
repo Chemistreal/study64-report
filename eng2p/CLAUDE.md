@@ -261,7 +261,7 @@ docs/world.md         게임의 이야기. 48주 한 화씩, **그 주 고비는
 docs/auto.md          **자동 개선 루프.** Routine 이 매시간 깨운다. 할 일 표 위에서부터 하나씩. 지킬 것은 그대로
 docs/improve.md       **개선 목록 전부** (2026-10-07). 학습, 이야기, 문화, 말 판정, 언리얼, 앱, 디자인. 상태와 사용자 물음
 docs/town.md          동네. **실제보다 화려하게.** 배경 지형만 실제, 동네는 지은 것. 표가 원본
-docs/sources.md       게임에 들여오는 자료의 출처와 권리. **PD, CC0, CC BY 만.** 사용자가 정할 것 셋
+docs/sources.md       게임에 들여오는 자료의 출처와 권리. **PD, CC0, CC BY 만. 예외 하나: Santa Barbara 말뭉치(BY-ND, 사용자가 쓰기로 정함 2026-10-09).** 사용자가 정할 것 셋
 docs/scenes.md        장면 (G3). 뼈대는 셈, **대사는 이미 들은 VOA 대본 줄 그대로.** 이름 자리만 바꾼다
 docs/expansion.md     확장층 (라디오, Tatoeba 잡담, 안내문, 읽을거리, 48주 달력). 원문 docs/ext_notices.md, docs/ext_readers.md
 docs/culture.md       하와이 문화 지침 (자문 대신 자체 조사, 출처 32). scripts/check_culture.py 가 금지어, 하와이어 철자(U+02BB), 노래 쓰임을 본다

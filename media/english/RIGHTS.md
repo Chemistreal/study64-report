@@ -20,12 +20,15 @@ VOA 공식 안내는 Learning English의 텍스트, MP3, 사진, 영상이 퍼�
 
 ## Santa Barbara Corpus of Spoken American English
 
-- 상태: 원본 그대로 재배포 가능, 파생본 배포 금지
+- 상태: 원본 그대로 재배포 가능, 파생본 배포 금지. **쓰기로 정했다 (사용자 결정 2026-10-09)**
 - 라이선스: CC BY-ND 3.0 US
+- 저작자 표기: Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara
 - 공식 목록·권리 표기: https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english
 - 라이선스 전문: https://creativecommons.org/licenses/by-nd/3.0/us/
 - 구현: TRN·CHAT 파일은 원본 그대로 ZIP에 넣는다. WAV는 공식 Box 링크만 보존한다.
-- 금지: 구간 자르기, 노이즈 제거, 음량 보정, 포맷 변환, 대본 교정본을 원본처럼 재배포하기
+- 금지: 구간 자르기, 노이즈 제거, 음량 보정, 포맷 변환, 대본 교정본을 원본처럼 재배포하기. **저장소, 릴리스, Pages 에 올리는 것에 걸리는 말이다.**
+- 게임에서 쓰는 법: 소리는 PC `D:\HonoluluGame\assets` 안에서만 받고 자르고 쓴다. 두 노트북 밖으로 안 낸다. 게임을 남에게 줄 때는 이 절을 다시 본다
+- `docs/sources.md` 1장 예외 한 줄과 4장 말뭉치 줄이 이 절과 같은 말을 한다. `scripts/check_rights.py` 판 6, 7 이 저장소에 소리나 고친 파일이 없는지 본다
 
 페이지에는 자연 대화 60건의 음성, 전사, 타임스탬프가 제공되며, 저작자와 인용 형식도 함께 제시돼 있다. `archive/sbcsae.json`은 60건 모두의 설명과 WAV·TRN·CHAT 원본 주소를 기록한다.
 

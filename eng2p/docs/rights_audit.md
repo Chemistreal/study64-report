@@ -1,6 +1,7 @@
 # 권리 점검. 도구 쪽(앱, 강의 자료에 쓴 외부 자료)
 
 신뢰도: B 채집 (저장소 파일과 공식 원문을 대조했다. 원문을 연 줄과 목록만 본 줄을 표마다 갈랐다)
+검증로그: 2026-10-09 / 사용자가 1번과 2번을 정했다(말뭉치를 쓴다, 두 문서를 맞춘다). check_rights.py 알려진 위반 목록을 없앴다 / 통과 / 판 아홉, 깸 시험 열여섯 가지 모두 잡음, 실패 0
 검증로그: 2026-10-09 / scripts/check_rights.py 실행(판 아홉, 깸 시험 아홉판 모두 잡음)과 공식 원문 열람(VOA 재사용 안내, Tatoeba 이용약관 6.2과 내려받기 쪽, 깃허브 릴리스 목록) / 보류 / 법률 판단은 사용자가 한다. 못 연 원문은 표에 "확인 못 함" 으로 남겼다
 상위 규격: docs/sources.md / CLAUDE.md
 작성일: 2026-10-09
@@ -12,8 +13,8 @@
 
 | # | 무엇 | 왜 문제인가 | 지금 상태 | 정하는 사람 |
 |---|---|---|---|---|
-| 1 | **Santa Barbara 말뭉치가 아직 저장소와 릴리스에 있다** | 사용자는 안 쓰기로 했다(2026-10-09). 라이선스는 CC BY-ND 3.0 US 이고 `docs/sources.md` 1장은 BY-ND 를 "안 된다" 로 적는다 | (가) 공개 저장소의 릴리스 `english-media-v1` 에 `sbcsae-transcripts.zip` (6,844,416바이트)이 2026-08-07 부터 올라가 있다. 깃허브 API 로 읽기만 했다. (나) 추적하는 파일 27개가 말뭉치를 말한다(`check_rights.py` 가 매번 찍는다). (다) `media/english/archive/registry.json` 에 `cc-by-nd-3.0-us` 권리 항목과 `sbcsae` 묶음이 있다. (라) `out/input/eng2p_input_q1.md` 76행은 "2층은 Santa Barbara Corpus 를 Q2 3층 대조판부터 쓴다" 고 계획한다. (마) 앱 출처 화면 `app/body/07_src.html` 이 말뭉치를 소개한다. (바) 워크플로 `.github/workflows/archive-english-media.yml` 은 다시 돌면 같은 zip 을 다시 올린다 | 사용자. 릴리스 파일을 지울지, 목록과 계획에서 뺄지 |
-| 2 | `media/english/RIGHTS.md` 와 `docs/sources.md` 가 다르게 말한다 | RIGHTS.md 는 말뭉치를 "원본 그대로 재배포 가능" 이라 적고, sources.md 규칙은 BY-ND 를 막는다. 말뭉치 줄이 sources.md 4장 표에 없다 | 이 점검은 기존 파일을 고치지 않았다 | 사용자 |
+| 1 | ~~Santa Barbara 말뭉치가 저장소와 릴리스에 있다~~ **정했다 (2026-10-09, 사용자): 쓴다** | 예전 지시는 안 쓰기였고 라이선스는 CC BY-ND 3.0 US 다 | 규칙을 바꿨다. `docs/sources.md` 1장에 예외 한 줄, 4장에 말뭉치 줄. 릴리스 `english-media-v1` 의 `sbcsae-transcripts.zip` 은 **지우지 않는다**(고치지 않은 원본 TRN, CHAT 이라 ND 가 허락하는 배포다). 말뭉치를 말하는 파일 27개는 이제 위반이 아니다. ND 가 막는 것(고친 판을 남에게 주기)은 판 7 이 지킨다: 저장소에 소리와 자른 파일이 없다, 등록부 60건이 고치지 않은 채 배포하는 꼴과 저작자 표기를 갖췄다 | 끝남 |
+| 2 | ~~`media/english/RIGHTS.md` 와 `docs/sources.md` 가 다르게 말한다~~ **맞췄다 (2026-10-09)** | RIGHTS.md 는 "원본 그대로 재배포 가능, 파생본 배포 금지" 라 적고 sources.md 는 BY-ND 를 막았다 | 두 문서가 같은 말을 한다. RIGHTS.md 에 사용자 결정, 저작자 표기, 게임에서 쓰는 법(소리는 PC 안에서만)을 더했고, sources.md 1장 예외와 4장 줄이 같은 내용을 적는다. 앱 출처 화면(`app/body/07_src.html`, `app/late/23_docs.js`)도 맞췄다. 그때 앱이 "음성은 Internet Archive 사본" 이라 적은 것이 틀렸다(그 쪽은 책 스캔 PDF 뿐이고 소리가 없다). 소리는 UCSB 공식 Box 쪽지(`audioOriginal`)다 | 끝남 |
 | 3 | Tatoeba 저자 표기가 앱이 아니라 게임에서 보인다 | CC BY 2.0 FR 은 저자 이름을 대야 쓸 수 있다. 문장마다 저자(owner)는 `out/data/ext_smalltalk.json` 에 있다(206명) | 앱 코드에는 이 줄을 보여 주는 곳이 없다. 게임에 들어오는 날 게임의 출처 화면이 저자 목록을 보여야 한다 | 게임 쪽 일(`Scripts/make_credits.py`) |
 | 4 | 뿌리 쪽 PRISM 화면(`index.html` 외)이 구글 글꼴 서버에서 글꼴을 불러온다 | 글꼴 다섯(Hahmlet, IBM Plex Sans KR, IBM Plex Mono, Noto Serif KR, Noto Sans KR)이다. 사용자가 허용한 글꼴은 Pretendard 와 Noto Sans KR 뿐이다. 나머지 넷의 라이선스는 이번에 안 열었다 | `english.html`(eng2p 도구)은 밖의 주소를 하나도 안 부른다(검사 확인). 범위 밖이라 고치지 않았다 | 사용자 |
 | 5 | VOA 사진의 통신사 표기 | VOA 안내는 AP, Reuters, AFP 사진은 다시 올리지 못한다고 한다. 저장소의 대표 이미지 52장(`media/english/images/`)이 모두 VOA 자체 사진인지는 이미지마다 안 봤다 | `check_ext.py` 의 `agency` 판은 라디오 **글** 만 본다 | 확인 못 함 |
@@ -44,7 +45,7 @@
 | YouTube | 임베드 아이디만 보관(`youtubeIds`). `english.html` 에 youtube 글자 0건 | 서비스 약관 | 내려받기, 추출, 재업로드 안 함 | https://www.youtube.com/static?template=terms | 목록만 | 없음 |
 | 글꼴 | `english.html` 은 글꼴 파일도 글꼴 서버도 없다(`@font-face` 없음, 밖의 주소 검사 87파일 통과) | 해당 없음 | 없다 | - | 확인함(파일 검사) | 5장 |
 | Common Voice, LibriSpeech, speechocean762, Google Ngram, Open English WordNet, game-icons.net | 계획에만 있다. 저장소에 파일이 없다(이름 검색 0건) | `sources.md` 가 "된다" 로 적었다 | CC BY 는 출처 표기 | `docs/sources.md` 4장, 5장 | 목록만 | 4장, 5장 |
-| Santa Barbara 말뭉치 | 1번 표 | CC BY-ND 3.0 US | 1번 표 | `media/english/RIGHTS.md` | 1번 표 | 말뭉치 줄이 없고 BY-ND 규칙만 있다 |
+| Santa Barbara 말뭉치 (자연 대화 60건) | 2층 실제 말소리. Q2 3층 대조판부터 | CC BY-ND 3.0 US | 저작자(Du Bois 외, UCSB) 표기. 고친 판을 남에게 주지 않는다 | `media/english/RIGHTS.md` | 목록만(원문은 8월에 열었다) | 4장 마지막 줄 (2026-10-09 더함) |
 
 ## 4. 검사 스크립트 `scripts/check_rights.py`
 
@@ -57,38 +58,37 @@
 | 3 ext_license | `out/data/ext_*.json` 의 파일과 편 권리 칸이 허용 다섯 중 하나 | 통과(2,703편) |
 | 4 ext_ccby_credit | Tatoeba 줄의 저자, 원문 주소, 표기 문구, 저자 목록 | 통과 |
 | 5 media_license | `media/english/manifest.json` 권리 글이 알려진 셋 | 통과 |
-| 6 registry_license | `registry.json` 에 BY-ND, BY-NC, BY-SA 가 새로 안 생김 | **알려진 1건** (`cc-by-nd-3.0-us`) |
-| 7 santa_barbara | 말뭉치를 말하는 파일이 새로 안 늘어남 | **알려진 27파일** |
+| 6 registry_license | `registry.json` 에 BY-ND(말뭉치 하나 말고), BY-NC, BY-SA 가 없음 | 통과 |
+| 7 santa_barbara | 저장소에 말뭉치 소리나 자른 파일이 없음. 등록부 60건의 권리 키와 `allowedTreatment`(고치지 않은 채 배포), 저작 기관 | 통과 |
 | 8 no_external | `english.html` 과 `app/` 이 밖의 주소에서 글꼴, 스크립트, 이미지를 불러오지 않음 | 통과(87파일) |
 | 9 no_font_files | 저장소에 글꼴 파일이 없음 | 통과 |
 
-**알려진 위반은 실패로 세지 않고 매번 찍는다.** 사용자가 1번을 정하기 전에는 `check_rights.py` 가 늘 실패해서 아무도 안 보게 되는 것을 막으려는 설계다. 정리가 끝나면 `--strict` 로 바꿔 알려진 것까지 실패로 센다.
-새 파일이 말뭉치를 말하기 시작하면(7), 새 BY-ND 권리가 생기면(6) 곧바로 `[실패]` 다.
+**알려진 위반은 이제 없다** (사용자가 말뭉치를 쓰기로 해서 목록을 없앴다). `--strict` 는 받기만 하고 하는 일은 같다.
 
-깸 시험(`--break`): 판마다 실패를 심어 잡는지 본다. 심은 것은 CC-BY-NC 항목, 빈 권리 칸, 출처 없는 CC BY, 허용 밖 편 권리, 저자 없는 Tatoeba 줄, 표기 문구 삭제, 낯선 매체 권리 글, 새 BY-NC 권리 항목, 새 말뭉치 파일, 구글 글꼴 `<link>`, 글꼴 파일이다. 열세 가지를 모두 잡았고 깨끗한 현재 자료는 실패 0 으로 통과했다.
+깸 시험(`--break`): 판마다 실패를 심어 잡는지 본다. 심은 것은 CC-BY-NC 항목, 빈 권리 칸, 출처 없는 CC BY, 허용 밖 편 권리, 저자 없는 Tatoeba 줄, 표기 문구 삭제, 낯선 매체 권리 글, 새 BY-NC 권리 항목, 새 말뭉치 파일, 구글 글꼴 `<link>`, 글꼴 파일이다. 열여섯 가지(판 6 에 새 BY-ND 키, 판 7 에 말뭉치 소리 파일, 바뀐 배포 꼴, 모자란 건수 포함)를 모두 잡았고 깨끗한 현재 자료는 실패 0 으로 통과했다.
 
 사용법:
 
 ```
 python3 scripts/check_rights.py              # 검사
-python3 scripts/check_rights.py --strict     # 알려진 위반도 실패
+python3 scripts/check_rights.py --strict     # 같다 (알려진 위반이 없어졌다)
 python3 scripts/check_rights.py --break      # 깸 시험
 ```
 
-**`scripts/all.py` 에는 넣지 않았다.** 넣을 줄은 `check_ext.py` 줄(146행) 바로 아래다.
+**`scripts/all.py` 에 넣을 줄은 `check_ext.py` 줄 바로 아래다.** (5c 가 `all.py` 를 맡고 있어 합친 뒤에 넣는다.)
 
 ```
     ("대조", "check_rights.py", ["--break"], True),
 ```
 
-알려진 위반이 남아 있는 동안은 종료 코드 0 이다. 사용자가 1번을 정해 정리한 뒤에는 인자를 `["--strict", "--break"]` 로 바꾼다.
+알려진 위반이 없으므로 종료 코드 0 은 정말 통과다.
 
 ## 5. 확인 못 함 (메인이 PC 에서 볼 것)
 
 | # | 무엇 | 어디를 보나 |
 |---|---|---|
 | 1 | VOA 대표 이미지 52장의 통신사 표기 | 레슨 쪽 `https://learningenglish.voanews.com/` 의 각 레슨 사진 크레딧. 또는 `media/english/lessons/lle1-NN.json` 의 `heroImageOriginal` 주소가 가리키는 이미지의 출처 줄 |
-| 2 | 릴리스 `english-media-v1` 의 `sbcsae-transcripts.zip` 을 지울지 | https://github.com/Chemistreal/study64-report/releases/tag/english-media-v1 (사용자 결정. 이 점검은 읽기만 했다) |
+| 2 | (끝남) 릴리스 `english-media-v1` 의 `sbcsae-transcripts.zip` 은 지우지 않기로 했다 | 사용자 결정 2026-10-09 |
 | 3 | 구글 글꼴 넷(Hahmlet, IBM Plex Sans KR, IBM Plex Mono, Noto Serif KR)의 라이선스 | https://fonts.google.com 의 각 글꼴 License 칸. 사용자가 허용한 것은 Noto Sans KR 과 Pretendard 뿐이다 |
 | 4 | 구텐베르크 #66547, #329 의 저자 사망연도(한국 퍼블릭 도메인 규칙) | https://www.gutenberg.org/ebooks/66547 , /329 |
 | 5 | 안내문 원본 PDF 사본의 해시 | `game_store/gov/README.md` (저장소 밖. 이 세션에서는 못 연다) |
@@ -96,8 +96,7 @@ python3 scripts/check_rights.py --break      # 깸 시험
 
 ## 6. 가정과 한계
 
-- 판단 기준은 `docs/sources.md` 1장과 사용자 지시(CC0, 퍼블릭 도메인, CC BY 만. Santa Barbara 안 씀)다. 그 기준 자체를 이 문서가 바꾸지 않았다.
+- 판단 기준은 `docs/sources.md` 1장과 사용자 지시(CC0, 퍼블릭 도메인, CC BY 만. **예외 하나: Santa Barbara 말뭉치, 2026-10-09 사용자 결정**)다. ND 는 사용자의 결정으로 쓰되 조건(고친 판을 남에게 주지 않기, 저작자 표기)은 그대로 둔다.
+- 이 문서는 법률 자문이 아니다. 사용자가 "모든 권리 다 허용" 이라고 했고, 이 문서는 그것을 위 세 곳(말뭉치, 두 문서 맞추기, PC2의 GPL 렌더)에 한해 적용했다. 다른 갈래(NC, SA 등)까지 푸는 뜻이면 사용자가 따로 말해야 한다.
 - `check_rights.py` 의 허용 갈래 판별은 권리 글의 앞 낱말만 본다. `NC`, `SA`, `ND` 가 글 어디에 있어도 막는다. 새 표기법이 나오면 오탐이 날 수 있고 그때는 막는 쪽이 맞다.
-- 알려진 파일 27개는 2026-10-09 기준 목록이다. 정리하면 스크립트의 `KNOWN_SB_FILES` 에서 지운다.
 - 깃허브 릴리스는 읽기만 했다. 어떤 것도 지우거나 바꾸지 않았다.
-- 기존 파일은 하나도 고치지 않았다. 새 파일은 이 문서와 `scripts/check_rights.py` 둘이다.
