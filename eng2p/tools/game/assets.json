@@ -11687,6 +11687,1206 @@
    "sha256": "d2c3db7cd6e2cd23535ae68fc7f8f913d10f37df47531f2c93987386e4d875ca"
   },
   {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC001.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC001.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 61692,
+   "sha256": "5db6721050918195eea840e7061f7808692f5330e69d40a1ab9d5a22f9dd40c8",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC002.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC002.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 76017,
+   "sha256": "47d6b287e135036578764d950cf32616064789f243f7eb952eb0726ce65301a1",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC003.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC003.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 76653,
+   "sha256": "c14918f94d540174265d13de9d4660b4b9da3d71946276fdb9c60043f3f51058",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC004.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC004.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 69895,
+   "sha256": "e38835e9323b50ea79eb8de62578bee7583d0ed167ded3c399ddc56c16681234",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC005.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC005.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 41374,
+   "sha256": "3313c4765044055180f9710b70bcd314b8c28c0d490673acddb7238fc381d834",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC006.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC006.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 92586,
+   "sha256": "0024bd6557e0f53761f9acc8b4f09dee2ca73232a4e89d235f8a19264d5280fd",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC007.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC007.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 36843,
+   "sha256": "d5d65b67c040f16c0389a0025d91600a63f5931517147cb064194a0bd81a253b",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC008.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC008.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 73326,
+   "sha256": "5285538a1c310b5fb2480ad7ff2ad6313bbbf9ad739851b35e314fd9a2d21c88",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC009.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC009.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 37433,
+   "sha256": "e2edd110904b4746bcfb6b58c85678150a1559798f207f3d8e510230269df017",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC010.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC010.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 53052,
+   "sha256": "24f06f67c83f4d4673de3cf6f0a5c42b7ff874c4c45fbb5c7a9e603fa2f43607",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC011.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC011.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 51238,
+   "sha256": "5a09e15d574da4c60abcd53605e5064c88745a199998e30d6ac11aed3ce5c5ed",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC012.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC012.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 52056,
+   "sha256": "1e90a81dd6b3d9b5c11dbfde93747ba4401a22f52f27602d2668c8d900abc5b4",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC013.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC013.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 136365,
+   "sha256": "0ffd4bd95fc874ccfd5b8cba33daa707d4f72aaccd3ba7862cb5fe0456a841cc",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC014.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC014.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 61902,
+   "sha256": "74ad5c41e4e21fd93e31e597951bb30eabfe15c72d7018095fe75516bd156c3f",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC015.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC015.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 100860,
+   "sha256": "71ef0838c52252bc1ca89686d7d4a93d362eab3a2c48982f8f054ac6f201a997",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC016.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC016.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 77806,
+   "sha256": "34abaad9ece3589a6e53ac648521bd99a69228202d7a35893141f87c0b9e1484",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC017.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC017.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 54811,
+   "sha256": "96bcd8155d4730295db83357b08ed11f2bfabad4abcee31026d53893b1bbc535",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC018.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC018.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 25609,
+   "sha256": "6c6b83182546b859238397ba1d413e051da1cd8e405e8725dd1f6fc50d4c9004",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC019.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC019.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 67306,
+   "sha256": "7f7c388959b69020e23a16993854fa2a97ecc6fb030488d89dedfadc4feef419",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC020.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC020.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 42342,
+   "sha256": "7526414f9490a7ec7ea7c53c984385f9e1cad2b94caad0f027ea989ca3a3d9e6",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC021.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC021.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 62618,
+   "sha256": "5a304f1f57324e2a2919997cb9b7421a4a58e015232c45d74acb57259056fe98",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC022.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC022.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 33861,
+   "sha256": "7747a3d50805b22fcd47ae63355a800b4e8900aa7764571d8cc30ebcba531158",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC023.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC023.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 85861,
+   "sha256": "7073beeb24ea71db048fd798a98ab75a01280c45062a0bd2297a6ed640885662",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC024.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC024.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 42361,
+   "sha256": "f8d12ec5cbc5d7e88c89d0e1c1ae637d9d28518d93d3c159b841c9b5d8331f1c",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC025.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC025.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 36880,
+   "sha256": "9908c02a12e592e3411457a22b07e4fbab8924d2c175a7cf95ae77db1f5d381d",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC026.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC026.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 47277,
+   "sha256": "f51182ada6c25d0a2f7e30b6c52faea9302196ff867d119549c60a4e64ad14f0",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC027.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC027.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 37624,
+   "sha256": "71970001d413bf3b0bf72366fbaad623e8b335bac4a2e785c74eb98277a64f3f",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC028.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC028.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 76623,
+   "sha256": "d98779656acd4cc7c9c04ce0d983dabd08e8b88c6be90286df7392c1a7b2c665",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC029.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC029.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 63620,
+   "sha256": "a0b42253c4d55cf1fe16b6a775362206bdf398b6f2792ee60fb53b9ef069ac43",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC030.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC030.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 39172,
+   "sha256": "4cc9b428e41f878dea1c045e82ce787aaa256ba1af52c474221960ff9839baff",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC031.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC031.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 83037,
+   "sha256": "a3e37d35c554fda5623707eed730015b562cd7786d8883a39564edfa914c14bc",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC032.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC032.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 102366,
+   "sha256": "46b854c6a2dba8b0dd4c0a6cf2664f660f90eb5b11a18e07cf675ca457a1fe0d",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC033.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC033.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 50852,
+   "sha256": "f45998689b571e20ee5d632a4dabffe8423cfdc00ed3b57e970e06c63361d43d",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC034.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC034.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 36431,
+   "sha256": "6f47ccd0f6cc45cd886c970e810d3986b122297311d01805162d3513db31e68a",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC035.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC035.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 79615,
+   "sha256": "f289271029ed5a02ceffeeee7ef3c89e7c0e9b30c9e169bc39731e511620cbd8",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC036.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC036.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 102135,
+   "sha256": "85a56ead7bd40368961df93285855c77c3f89851e4cce151b7b1b6a764b755d7",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC037.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC037.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 50477,
+   "sha256": "0df8e66ad9aee2e04ee602e4dc8f84d09437b6cdb8b7e1b3feb89260949bbb29",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC038.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC038.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 39399,
+   "sha256": "2faaa5374ea1d36cdb1570a6fe138ca997cefa49a913db307a00912ba9340cc0",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC039.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC039.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 67815,
+   "sha256": "eb2808a3caf5948bfd1c93e07e2e3fab87f237f61060be7467d524a075d61f67",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC040.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC040.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 36920,
+   "sha256": "5871ffcce2ae9f005afce0a32c4cb73ec3261a1ea03653250b722d907d4c9278",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC041.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC041.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 46893,
+   "sha256": "84e1fc085cd6b9d1543cdfa7af7bb0cb2b60444476ac2082964537f2ba7263ea",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC042.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC042.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 38953,
+   "sha256": "1e2ee2c503031927d6e7654882a2b6da41d4454e4947b877747ccd50a012fea2",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC043.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC043.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 77809,
+   "sha256": "199943a3c602b185906ba47ffdf180df8821ca1b93fc430dc62c2f491de7f7d0",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC044.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC044.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 73380,
+   "sha256": "55c89b7faa93cdb85a97eb0549fc2897ae161305d4c97002688d35c0c334e928",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC045.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC045.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 57274,
+   "sha256": "80d36282e7fb45d84fca6d65e524b295fded183e3795f326e85ffc044ddf8ecd",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC046.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC046.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 37408,
+   "sha256": "12a7bcd3154b4f509f6b6deb2004502ee6bf432c00269094c4ce623f201a10cc",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC047.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC047.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 55444,
+   "sha256": "f204f0a0d481e71ef8cc48650455823e75dce99ad8c8b3d59599da6d405ff7df",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC048.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC048.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 57310,
+   "sha256": "736379369515f1b56db20f598dff3211dab854c48380b1223d5c7faaa16e710c",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC049.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC049.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 75362,
+   "sha256": "d4862aaf0cb0dd12c91c2a749b04b523a573f5c50b740253d394815f3a1f532c",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC050.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC050.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 48978,
+   "sha256": "30686bffde75eca94713f6ea3f579763a218310fc5e5d68284d8d19cb167167a",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC051.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC051.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 90020,
+   "sha256": "4e2f2c79bb616270894ceaa5ff4083469ba6cfc54194fd046105a5b931e780a6",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC052.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC052.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 80092,
+   "sha256": "9d094b115d78aa2c7139f9dc279f2bb9d399de6e87c288dd5d70b36fca0b8cc3",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC053.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC053.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 44487,
+   "sha256": "3476819f0c37879b2afe7ba0edf0ce7a8d65f8d87124f09a640a2785a605ef7b",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC054.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC054.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 32276,
+   "sha256": "af56820e3adf89a864b3943a666ebd91cf06232326e3478c150c3f682021b62f",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC055.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC055.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 42141,
+   "sha256": "a0f9983e3dd502eb24c5850f22e1cd14788bfd801c8f371110a7306ae5f1b21a",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC056.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC056.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 87503,
+   "sha256": "aefc823ad8420fa6494e1e90c6aa42d4cfc092e1eed3df9624aef862abd16797",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC057.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC057.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 48991,
+   "sha256": "d29c531772acdc86fa92673794e0efae70645a2acdaecccca931ec30c4af471e",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC058.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC058.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 49409,
+   "sha256": "cdef02595ae638c5b98181c8e45ae173bc0ec37b94cc73a4036d43aba457619a",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC059.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC059.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 102323,
+   "sha256": "5688efcab91ab69765b1411b515593cb43e402f5d666bd9bcacc6afac3100375",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/cha/SBC060.cha",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC060.cha",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 49660,
+   "sha256": "ce0bdd9c40b4629ef3164302be9ee5a33e68e7d2bd50dcc8ec9c75ada35fd8f2",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC001.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC001.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 61965,
+   "sha256": "1da23c35673c2eb418310c0afaf9cf22f5dd4ebb1b99c092b40eb96bae941e92",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC002.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC002.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 68792,
+   "sha256": "6e7bf5ec824c8a43021ee88632336e030f0914a00e1448cb3234c04dc71a3e02",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC003.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC003.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 71650,
+   "sha256": "b6416ae4c700ecfe6d70ab20d6cf5c3833ae40eb4cb471f7140292aebbee74a7",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC004.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC004.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 63202,
+   "sha256": "b0921bd2c8f9e2189a6f22987a4874f09092f9b381899ae572beb6807099392a",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC005.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC005.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 38907,
+   "sha256": "3c537a69be481e8e96add188437211c4c6a767ddb9f8de106ae5503a689f5e51",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC006.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC006.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 84305,
+   "sha256": "a7193e9f2ecd9b0f1d56d89b8ea365d7de157f0c8d4fbf4c5d1bfea31cd44a85",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC007.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC007.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 36412,
+   "sha256": "43df12fd575b8bcc32aa1f0f00d7a3495e3abea9832ea2a60fa70fca7b18a600",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC008.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC008.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 70265,
+   "sha256": "46b749dca11dc70a612c4316884a92e6f47418921f033ad343f9c9798ef6618d",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC009.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC009.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 34643,
+   "sha256": "c316f4f2c0024126fa43facb83e0d4e73f589a46abbaacfffa7cacb916268978",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC010.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC010.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 49983,
+   "sha256": "ed5618e724f7f8989f93a1b8882b5830a57130840cd154ed613e7eb2497ea993",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC011.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC011.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 47021,
+   "sha256": "22b76de096d91d76043ea9901a3a97d064011b248aa16ee4e47b4ab0ac6c4dbe",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC012.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC012.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 51946,
+   "sha256": "af0d767bdec67f6b039c8adfe77758b146d7b0c942c5063121ce6c264340cdc6",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC013.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC013.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 110659,
+   "sha256": "4c35a1ae1cebaa2ad00d09fe1ea3a898eeb04b48d6817e43c429db22823e5cff",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC014.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC014.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 61670,
+   "sha256": "e5fbf98c5a6fe48ecf95aecad3df609022d595bac4fb889671c1b161f99b9f7b",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC015.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC015.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 86999,
+   "sha256": "f48a18af2a735b0c394724e670106d3b9e5f141a6d0017091691b15afccd9403",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC016.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC016.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 67377,
+   "sha256": "f898d85f4d8012fdb5f7a1c2ebac30c5589613565fa2fe3f2940c25c84591817",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC017.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC017.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 48142,
+   "sha256": "18e6208f9540dcc63cd8c9638e188a3fbc92dcf88a3ddf695c37786d38480e80",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC018.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC018.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 22864,
+   "sha256": "50218d36f7cedaac0851e150a910b1487d3bc58e2120d5673884ea31274576d6",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC019.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC019.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 56651,
+   "sha256": "546ce84a0dceb6cf3e4ed01f6a9511eee291347cd19e7c10133b03e18f1fc991",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC020.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC020.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 38387,
+   "sha256": "724ad3bcf9cbd8ff03fec8e50d643fed7a004ff4445c61a5acb96c47b0539635",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC021.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC021.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 54320,
+   "sha256": "e096bce7d865499e5a02a3057bfb61f36f2e5140dfb7a643fed840eb6660d61c",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC022.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC022.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 29794,
+   "sha256": "74a3c2cccc314a2092ec877b72b28bd70e2d05fa94a9e0c3090e7e8418e26a50",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC023.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC023.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 70988,
+   "sha256": "591842734cee126f1310383716c69343063fac16b8f4c6876e0cd47340dc8a66",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC024.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC024.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 36666,
+   "sha256": "aa82f801e64cbff53f39596093e5212170798ad4eff590784d33739b44b56751",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC025.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC025.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 33816,
+   "sha256": "e9c5d1389b12715a52479dfac7de0ce8d8051f2ea6fa7ef7f1d328f8c66c3cdd",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC026.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC026.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 43542,
+   "sha256": "99c79d9df199cb0e3152fa1dec8ea064c107354c3c046d8a4e1ee0fee9a69da2",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC027.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC027.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 32909,
+   "sha256": "1616aae6b909ab2196567e6c2f834d6838394b03b2062a50b178781580404c1b",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC028.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC028.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 61330,
+   "sha256": "72ec3a2d6d8f91450f8079b533f8e6e13d4b73a7db30143da1643bb78fed6b8e",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC029.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC029.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 55936,
+   "sha256": "4050e995b063bab1f92b6abb86df5e28a0c801b84a5474cceb20d1202a097318",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC030.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC030.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 35591,
+   "sha256": "9043616f4eddc1b47616c859a26868d43314a83ca12e1cc5ed67efdcd783743b",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC031.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC031.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 67471,
+   "sha256": "10eb0707ad6ca747980ec2406fb272c307e923c3ad3b6e4d4c09f183427778d3",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC032.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC032.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 79820,
+   "sha256": "ce233e7833df10a455a438de993010ac2828ad079c6930b1cd9017fd2a627a31",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC033.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC033.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 35659,
+   "sha256": "f19fe20849fff734ee2db76cde026eeb99d9d6446f9f66a831014b63243f00b1",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC034.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC034.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 32539,
+   "sha256": "848df149033606d163846a1eea1e64c4f2cd4b16ba866fa075223df8fcac9def",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC035.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC035.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 61968,
+   "sha256": "2d07b11c55e95c074855c56b57eadbd3ff8c067a71a0df3f9fc69f37f503ef4b",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC036.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC036.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 79354,
+   "sha256": "b1645e1688365377d086cd3d6708ecaaeac7a4b6a293d38dc9a337b250ce242d",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC037.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC037.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 42824,
+   "sha256": "d2a808926e224cd824f9e3167c39e3ff01e2cd8e5da3471c17db0bb489d323e4",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC038.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC038.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 36481,
+   "sha256": "dfb71333766397b915a2b737b3fcf83ad7cd988d60cfc2e7aedc3a399ad51217",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC039.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC039.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 57196,
+   "sha256": "6f3343b4a166cf128a58b6642b238f4f76c20e32019201cb08616d871bc5446d",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC040.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC040.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 35141,
+   "sha256": "2344bc29e9ecf15a9c13d5904ecbb0576dc4da25584a0dfa66b7f2dddcd7c9de",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC041.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC041.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 40708,
+   "sha256": "20f99b535e3db8075ccf48e8180876baeadf476414c78e56ddaea8bf052a5cf7",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC042.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC042.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 32787,
+   "sha256": "7dab8962a8d18704e8e1dc4b3d4ba38c804d0f8b64305b8b5c3ac362118a1ae7",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC043.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC043.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 68435,
+   "sha256": "d8c85ae474a2ce7a3dd6af1b7ffa2bb977ce4e0bd8144c9ad2033e0c525551a1",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC044.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC044.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 66215,
+   "sha256": "d4b4333bc67e19c01a69cec15ed8ddee80b4ae016efaeb9ef85f9427d3ce4d73",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC045.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC045.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 52235,
+   "sha256": "b1de460e03c673c8ee9c7073f19b92a9b69b4fec30adbe14648e2e09b852f1b1",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC046.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC046.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 33323,
+   "sha256": "cf92f5d12b750d84094d19dcedd1f57af607787f5ae7f1a251adb1250bff6aa2",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC047.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC047.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 49212,
+   "sha256": "f03f359938a7cff438554cc8c0b982a92c2160d3e268cdc9df56fa81e8df005f",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC048.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC048.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 42943,
+   "sha256": "d49823837e78f688364a5d4c8e8b0885fd7f54970c39cd0dd2f6991e84676dd1",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC049.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC049.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 56131,
+   "sha256": "e9e579edad8658b87848183a1bbaf20da080a1584761ec32959ef8faf1438d76",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC050.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC050.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 40252,
+   "sha256": "2c744e8610ebad2e02e746024b661596076a2aa1237b301e15ae207b76b70c5a",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC051.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC051.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 71910,
+   "sha256": "842530a5957f9c326b3979ae8dff0f5e251ae6c1ca0d380846a84e0c2d8a9297",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC052.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC052.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 69580,
+   "sha256": "c9de54cb601c49185099647fa4de57a96a81b34d86149d1e82243983d5df4cd0",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC053.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC053.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 39972,
+   "sha256": "602b77b7fea8e9baa9adf6f7d52f059f03604cb9a1f26063450b77e37cf42ee4",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC054.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC054.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 28905,
+   "sha256": "501e3aa6a0b58f7902c8e0973f6eb00f059a48628d618f9ad98c15e01bb156e1",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC055.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC055.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 36403,
+   "sha256": "a46ff27694108c8c2e7c8b62e8e6a0ffed344b92e10f00c1179452198259ba8d",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC056.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC056.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 73895,
+   "sha256": "9fe0396a77ec76defe82172bbe53b8f6149f58994703cb476d644df535013747",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC057.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC057.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 43565,
+   "sha256": "8d36c89c92fcefe3ec89876c10652fc9cd7561c2491559796d811d09556e86f2",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC058.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC058.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 43925,
+   "sha256": "5d5cffe92b096705ad6fb1b6bb75e01f77b4d7d597ec4e4707cef5bffb171910",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC059.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC059.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 79250,
+   "sha256": "4dc7fcea5a8379db1a312f15e6d1178ef7ccef6c8ea6b5b335f9bff46ff30fe2",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
+   "source": "sbcsae",
+   "file": "sbcsae/trn/SBC060.trn",
+   "url": "https://www.linguistics.ucsb.edu/sites/default/files/sitefiles/research/SBC/SBC060.trn",
+   "page": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english",
+   "license": "CC-BY-ND-3.0-US",
+   "bytes": 44779,
+   "sha256": "d2893e56be72346d466ce7bac1bf74b35ba65fca6b719251de150feeffb5484f",
+   "credit": "Du Bois, John W., et al., Santa Barbara Corpus of Spoken American English, Parts 1-4, University of California, Santa Barbara"
+  },
+  {
    "source": "tatoeba",
    "file": "tatoeba/eng_sentences_detailed.tsv.bz2",
    "url": "https://downloads.tatoeba.org/exports/per_language/eng/eng_sentences_detailed.tsv.bz2",
@@ -12032,6 +13232,6 @@
    "sha256": "0a850b3b80e17989314ff905bea023c09c72d0a7b0f7e48a83fe8685b66a256f"
   }
  ],
- "count": 1336,
- "bytes": 12826727250
+ "count": 1456,
+ "bytes": 12833556683
 }
