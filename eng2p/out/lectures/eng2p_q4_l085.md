@@ -58,6 +58,7 @@ Anna: I'm hungry. When I'm hungry, I only want to eat junk food! But I know I sh
 ## 3. 역할 지정
 
 세션 블록 3 페어 드릴에서 쓴다.
+NPC 가 카드를 내고 정답은 게임이 쥔다. A와 B는 먼저 말하는 차례다.
 
 세 지점을 각각 만든다. 만들어야 연습이 된다.
 

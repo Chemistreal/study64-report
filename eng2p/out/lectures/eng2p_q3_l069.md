@@ -66,6 +66,7 @@ Coworker 3: You know, I still don't like children's shows, but I like this child
 ## 3. 역할 지정
 
 세션 블록 3 페어 드릴에서 쓴다.
+NPC 가 카드를 내고 정답은 게임이 쥔다. A와 B는 먼저 말하는 차례다.
 
 이 강은 오해를 일부러 만든다. 안 만들면 연습할 자리가 없다.
 A가 지시를 하나 주는데 일부러 헷갈리게 준다.

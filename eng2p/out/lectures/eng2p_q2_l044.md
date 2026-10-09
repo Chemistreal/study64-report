@@ -64,6 +64,7 @@ Anna: Marsha is the nicest person I know in this city. Sometimes she worries too
 ## 3. 역할 지정
 
 세션 블록 3 페어 드릴에서 쓴다.
+NPC 가 카드를 내고 정답은 게임이 쥔다. A와 B는 먼저 말하는 차례다.
 
 A가 시간을 잰다. 39강과 같다. 총 시간과 멈춤 횟수를 센다.
 다른 것은 하나 더 센다. 이야기 부분이 몇 초였는지다.
