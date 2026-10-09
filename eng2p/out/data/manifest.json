@@ -15,8 +15,8 @@
     },
     {
       "file": "lecturetext.json",
-      "bytes": 811483,
-      "sha256": "617105cac1d2216c56064535888d758381fbf7d9b678b5d90f8f1fa670b6a5dc"
+      "bytes": 822169,
+      "sha256": "1807d00604f835cd954e9d7ed398196de36228c148a3fa1360a01b82ce1be240"
     },
     {
       "file": "transcripts.json",
@@ -130,13 +130,13 @@
     },
     {
       "file": "handouts.js",
-      "bytes": 175904,
-      "sha256": "3f025440c97b94777a1d31b48e0fbacf3e7ddbfbe3690fa84fd3740a2276da97"
+      "bytes": 175959,
+      "sha256": "d0b94a5048403aa77eb231a80e41738fdfd9ba31134be0c8c0d1f53769f78e94"
     },
     {
       "file": "handouts.json",
-      "bytes": 223032,
-      "sha256": "c4ae6d44a0be772165bd927c93e73b5fdeb1a84c2357b936952de992533a9ade"
+      "bytes": 223087,
+      "sha256": "d4a2b3261b8edd701ca596770e73377cc3b64c76bf84ad8713790aa289d72c53"
     },
     {
       "file": "index_head.js",
@@ -375,18 +375,18 @@
     },
     {
       "file": "lectures.js",
-      "bytes": 184401,
-      "sha256": "4c7c5862184545e29f4b01892b020b2f8840d965000fe020a4fe0957ec988b20"
+      "bytes": 184462,
+      "sha256": "0d0d165f87e1259ad729f78e3e75f1b25a6e4d641a82a47591547cee48acebfd"
     },
     {
       "file": "lectures.json",
-      "bytes": 357188,
-      "sha256": "663bd11593c5b005be7ad3877a202a5c7df1b41604f472d59d8118c207afd9e7"
+      "bytes": 357249,
+      "sha256": "209db8658128d72d442233f91a1e5ae0f7f2e77c8c6d5676ecab8b3a10c43bcc"
     },
     {
       "file": "lecturetext.js",
-      "bytes": 811509,
-      "sha256": "003a019b55e0d641115d51dec317dcfe309891121b99ef1ff684314f7ff0c863"
+      "bytes": 822195,
+      "sha256": "be7a7ba012c9242021033604b51186b468c202fc4cb3224ea2084be2b3aae21f"
     },
     {
       "file": "listen.js",

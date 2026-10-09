@@ -82,10 +82,10 @@
 | q3_l060 27줄 | I wish | lle1-20:43 / lle1-43:15 |
 | q3_l060 35줄 | Ashley: I love running. In fact, this weekend, I will run in my first marathon. | lle1-51:7 |
 | q3_l060 43줄 | Ashley: Do you want to sit down, Anna? Do you want some water? | lle1-51:5 |
-| q3_l061 100줄 | I don't know | lle1-14:1 / lle1-20:12 / lle1-20:32 / lle1-21:7 외 3 |
-| q3_l061 101줄 | What is that | **근거 없음** |
-| q3_l061 102줄 | How do you say it | **근거 없음** |
-| q3_l061 103줄 | Is that right | **근거 없음** |
+| q3_l061 101줄 | I don't know | lle1-14:1 / lle1-20:12 / lle1-20:32 / lle1-21:7 외 3 |
+| q3_l061 102줄 | What is that | **근거 없음** |
+| q3_l061 103줄 | How do you say it | **근거 없음** |
+| q3_l061 104줄 | Is that right | **근거 없음** |
 | q3_l062 25줄 | Pete: It is not a pen. It is a book. It is a big book. | lle1-04:12 |
 | q3_l062 32줄 | Anna: Yes. I have a pen in my bag. | lle1-04:10 |
 | q3_l062 37줄 | Marsha: The supermarket is at 1500 Irving Street. It is near the apartment. | lle1-03:19 |

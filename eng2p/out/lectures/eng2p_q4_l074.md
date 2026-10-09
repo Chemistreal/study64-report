@@ -62,6 +62,7 @@ Sabrina: I like history. So, I like walking around and looking at all the monume
 ## 3. 역할 지정
 
 세션 블록 3 페어 드릴에서 쓴다.
+NPC 가 카드를 내고 정답은 게임이 쥔다. A와 B는 먼저 말하는 차례다.
 
 **처음 만난 사람도 배역이다.** 부부가 서로에게 처음 만난 척을 한다.
 51강 상사 배역과 같은 장치인데 여기는 더 어색하다. 서로를 아는 사이라서다.
