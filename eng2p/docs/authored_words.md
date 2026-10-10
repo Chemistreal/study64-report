@@ -22,8 +22,7 @@ card cash dollar cent twenty thirty forty fifty hundred check cup glass plate bo
 ```
 
 ```A2
-bill tip receipt waiter waitress server hungry thirsty delicious tasty fresh spicy sweet sour dessert noodle bowl
-fork spoon knife napkin straw refill share reservation seat wait ready bring recommend special lemonade
+bill tip receipt waiter waitress server hungry thirsty delicious tasty fresh spicy sweet sour dessert noodle bowl fork spoon knife napkin straw refill share reservation seat wait ready bring recommend special lemonade
 ```
 
 ```B1
@@ -37,8 +36,7 @@ buy pay price shop store size color red blue green black white big small
 ```
 
 ```A2
-cheap expensive sale discount cashier wallet receipt fit shirt shorts dress shoes hat sunglasses sunscreen towel
-gift souvenir wrap return exchange change available
+cheap expensive sale discount cashier wallet receipt fit shirt shorts dress shoes hat sunglasses sunscreen towel gift souvenir wrap return exchange change available
 ```
 
 ```B1
@@ -52,8 +50,7 @@ bus taxi car walk left right straight corner street map near far here there stop
 ```
 
 ```A2
-ticket station airport hotel beach park library bank pharmacy hospital doctor nurse medicine post office
-driver transfer schedule arrive leave late early minute hour block downstairs upstairs
+ticket station airport hotel beach park library bank pharmacy hospital doctor nurse medicine post office driver transfer schedule arrive leave late early minute hour block downstairs upstairs
 ```
 
 ```B1
@@ -79,8 +76,7 @@ more some any another other else very much many too also again
 ```
 
 ```A2
-would could should prefer decide choose borrow lend agree explain repeat spell
-sure certainly probably maybe actually
+would could should prefer decide choose borrow lend agree explain repeat spell sure certainly probably maybe actually
 ```
 
 ```B1
@@ -94,3 +90,45 @@ fascinating unfortunately accommodate
 ## 6. 이 등급표가 아직 안 덮는 것
 
 나들이 하나를 집필할 때마다 이 표에 낱말을 올린다. 올리지 않은 낱말이 든 줄은 `check_authored.py` 가 막는다. 그것이 일부러 둔 마찰이다. 낱말을 올리는 순간 등급을 한 번 생각하게 한다.
+
+## 7. 추가 낱말 (첫 공개 집필 라운드 A조: cookie_snack, shave_ice_snack, musubi_day, leonards_malasadas, food_truck_lunch, cheesecake_dessert)
+
+하와이 음식 이름은 그 장소에서 실제로 듣는 이름이라 올렸다. 등급은 쓰임 감으로 매겼다.
+
+```A1
+box chocolate coconut each same flavor strawberry mango lemon kind aloha cinnamon half little number piece
+six eight ten eleven twelve fourteen sixteen
+musubi malasada cookies
+```
+
+```A2
+shave enough total careful follow smell
+```
+
+## 8. 나들이 여섯 집필(part B)에서 올린 낱말
+
+neighbor_greeting, hotel_front_desk, cafe_order, convenience_store_abc, pharmacy_basic, bus_fare_question 을 쓰며 올린 낱말이다. 등급은 이 낱말이 **그 장면의 뜻으로** 어느 등급인지 본 것이다.
+
+```A1
+fine can do name number five six eight nine twelve key just of will hot large medium us soap zoo
+```
+
+```A2
+latte iced toothpaste bandage shampoo fare yet elevator pool
+```
+
+## 9. 해변, 동물원, 전망대, 물놀이 장비 (집필 part C)
+
+알라모아나 기본 쇼핑, 와이키키 해변 의자와 우산, 호놀룰루 동물원 표, 다이아몬드 헤드 전망대 길 묻기, 하나우마 장비 빌리기에서 올린 낱말이다. `rent` 는 올리지 않았다: world.md 6.2 연속성이 37주 전의 `rent` 를 막는다(월세). 그래서 빌리기는 "Two chairs, please." 로 말한다.
+
+```A1
+chair ten zoo up stay
+```
+
+```A2
+umbrella adult stair view mask touch spot
+```
+
+```B1
+fin snorkel
+```
