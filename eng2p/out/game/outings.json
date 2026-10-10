@@ -41,7 +41,7 @@
   },
   "life": 14,
   "trip": 4,
-  "authored": 1
+  "authored": 18
  },
  "missions": [
   {
@@ -77,7 +77,136 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "hello",
+      "npc": [
+       "ng-01"
+      ],
+      "pick": [
+       "ng-02",
+       "ng-03"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "hello",
+      "npc": [
+       "ng-04",
+       "ng-05"
+      ],
+      "pick": [
+       "ng-06",
+       "ng-07",
+       "ng-08"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "ng-08": "ng-09"
+      }
+     },
+     {
+      "id": "t3",
+      "scene": "name",
+      "npc": [
+       "ng-10",
+       "ng-11"
+      ],
+      "pick": [
+       "ng-12",
+       "ng-13"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "name",
+      "npc": [
+       "ng-14"
+      ],
+      "pick": [
+       "ng-15",
+       "ng-16"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "name",
+      "npc": [
+       "ng-17"
+      ],
+      "pick": [
+       "ng-18"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "chat",
+      "npc": [
+       "ng-19"
+      ],
+      "pick": [
+       "ng-20",
+       "ng-21",
+       "ng-22"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "bye",
+      "npc": [
+       "ng-23"
+      ],
+      "pick": [
+       "ng-24",
+       "ng-25"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "ng-p1",
+     "ng-p2",
+     "ng-p3",
+     "ng-p4",
+     "ng-p5",
+     "ng-p6",
+     "ng-p7",
+     "ng-p8"
+    ]
+   }
   },
   {
    "id": "hotel_front_desk",
@@ -112,7 +241,176 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "desk",
+      "npc": [],
+      "pick": [
+       "hf-01"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "desk",
+      "npc": [
+       "hf-02"
+      ],
+      "pick": [
+       "hf-03",
+       "hf-04",
+       "hf-05"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "room",
+      "npc": [
+       "hf-06"
+      ],
+      "pick": [
+       "hf-07",
+       "hf-08",
+       "hf-09",
+       "hf-10"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {
+       "hf-10": "hf-11"
+      }
+     },
+     {
+      "id": "t4",
+      "scene": "name",
+      "npc": [
+       "hf-12"
+      ],
+      "pick": [
+       "hf-13",
+       "hf-14"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "stay",
+      "npc": [
+       "hf-15"
+      ],
+      "pick": [
+       "hf-16",
+       "hf-17"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "count",
+      "npc": [
+       "hf-18"
+      ],
+      "pick": [
+       "hf-19",
+       "hf-20",
+       "hf-21"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "more",
+      "npc": [
+       "hf-22"
+      ],
+      "pick": [
+       "hf-23",
+       "hf-24",
+       "hf-25"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "bring",
+      "npc": [
+       "hf-26"
+      ],
+      "pick": [
+       "hf-27"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "ask",
+      "npc": [],
+      "pick": [
+       "hf-28",
+       "hf-29"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "hf-28": "hf-30",
+       "hf-29": "hf-30"
+      }
+     },
+     {
+      "id": "t10",
+      "scene": "ask",
+      "npc": [
+       "hf-31"
+      ],
+      "pick": [
+       "hf-32"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "hf-p1",
+     "hf-p2",
+     "hf-p3",
+     "hf-p4",
+     "hf-p5",
+     "hf-p6",
+     "hf-p7",
+     "hf-p8"
+    ]
+   }
   },
   {
    "id": "cafe_order",
@@ -147,7 +445,191 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "drink",
+      "npc": [
+       "cf-01"
+      ],
+      "pick": [
+       "cf-02",
+       "cf-03",
+       "cf-04",
+       "cf-05"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {
+       "cf-05": "cf-06"
+      }
+     },
+     {
+      "id": "t2",
+      "scene": "temp",
+      "npc": [
+       "cf-07"
+      ],
+      "pick": [
+       "cf-08",
+       "cf-09"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "size",
+      "npc": [
+       "cf-10"
+      ],
+      "pick": [
+       "cf-11",
+       "cf-12",
+       "cf-13"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "friend",
+      "npc": [
+       "cf-14"
+      ],
+      "pick": [
+       "cf-15",
+       "cf-16",
+       "cf-17"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "friend",
+      "npc": [
+       "cf-18"
+      ],
+      "pick": [
+       "cf-19",
+       "cf-20"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "go",
+      "npc": [
+       "cf-21"
+      ],
+      "pick": [
+       "cf-22",
+       "cf-23"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "name",
+      "npc": [
+       "cf-24"
+      ],
+      "pick": [
+       "cf-25",
+       "cf-26"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "food",
+      "npc": [
+       "cf-27"
+      ],
+      "pick": [
+       "cf-28",
+       "cf-29"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [
+       "cf-30"
+      ],
+      "pick": [
+       "cf-31",
+       "cf-32"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "pay",
+      "npc": [
+       "cf-33"
+      ],
+      "pick": [
+       "cf-34"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "pick",
+      "npc": [
+       "cf-35"
+      ],
+      "pick": [
+       "cf-36"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "cf-p1",
+     "cf-p2",
+     "cf-p3",
+     "cf-p4",
+     "cf-p5",
+     "cf-p6",
+     "cf-p7",
+     "cf-p8"
+    ]
+   }
   },
   {
    "id": "convenience_store_abc",
@@ -182,7 +664,162 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "shelf",
+      "npc": [
+       "ab-01"
+      ],
+      "pick": [
+       "ab-02",
+       "ab-03",
+       "ab-04"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "shelf",
+      "npc": [
+       "ab-05"
+      ],
+      "pick": [
+       "ab-06"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "shelf2",
+      "npc": [
+       "ab-07"
+      ],
+      "pick": [
+       "ab-08",
+       "ab-09",
+       "ab-10"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "shelf2",
+      "npc": [
+       "ab-11"
+      ],
+      "pick": [
+       "ab-12"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "price",
+      "npc": [],
+      "pick": [
+       "ab-13",
+       "ab-14"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {
+       "ab-13": "ab-15",
+       "ab-14": "ab-15"
+      }
+     },
+     {
+      "id": "t7",
+      "scene": "pay",
+      "npc": [
+       "ab-16"
+      ],
+      "pick": [
+       "ab-17",
+       "ab-18"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "pay",
+      "npc": [
+       "ab-19"
+      ],
+      "pick": [
+       "ab-20",
+       "ab-21",
+       "ab-22"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {
+       "ab-22": "ab-23"
+      }
+     },
+     {
+      "id": "t9",
+      "scene": "bag",
+      "npc": [
+       "ab-24"
+      ],
+      "pick": [
+       "ab-25",
+       "ab-26"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "bye",
+      "npc": [
+       "ab-27"
+      ],
+      "pick": [
+       "ab-28"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "ab-p1",
+     "ab-p2",
+     "ab-p3",
+     "ab-p4",
+     "ab-p5",
+     "ab-p6",
+     "ab-p7",
+     "ab-p8"
+    ]
+   }
   },
   {
    "id": "cookie_snack",
@@ -218,7 +855,213 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "door",
+      "npc": [
+       "cs-01"
+      ],
+      "pick": [
+       "cs-02"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "flavor",
+      "npc": [
+       "cs-03"
+      ],
+      "pick": [
+       "cs-04",
+       "cs-05"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "flavor",
+      "npc": [
+       "cs-06"
+      ],
+      "pick": [
+       "cs-07",
+       "cs-08"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "count",
+      "npc": [],
+      "pick": [
+       "cs-09"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "count",
+      "npc": [],
+      "pick": [
+       "cs-10"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "count",
+      "npc": [
+       "cs-11"
+      ],
+      "pick": [
+       "cs-12",
+       "cs-13",
+       "cs-14"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "more",
+      "npc": [
+       "cs-15"
+      ],
+      "pick": [
+       "cs-16",
+       "cs-17"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "bag",
+      "npc": [
+       "cs-18"
+      ],
+      "pick": [
+       "cs-19",
+       "cs-20"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [],
+      "pick": [
+       "cs-21"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "pay",
+      "npc": [
+       "cs-22"
+      ],
+      "pick": [
+       "cs-23",
+       "cs-24",
+       "cs-25"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "thanks",
+      "npc": [
+       "cs-26"
+      ],
+      "pick": [
+       "cs-27"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "share",
+      "npc": [],
+      "pick": [
+       "cs-28"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t13",
+      "scene": "share",
+      "npc": [],
+      "pick": [
+       "cs-29"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t14",
+      "scene": "bye",
+      "npc": [
+       "cs-30"
+      ],
+      "pick": [
+       "cs-31"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "cs-p1",
+     "cs-p2",
+     "cs-p3",
+     "cs-p4",
+     "cs-p5",
+     "cs-p6",
+     "cs-p7",
+     "cs-p8"
+    ]
+   }
   },
   {
    "id": "shave_ice_snack",
@@ -253,7 +1096,218 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "door",
+      "npc": [
+       "si-01"
+      ],
+      "pick": [
+       "si-02"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "size",
+      "npc": [
+       "si-03"
+      ],
+      "pick": [
+       "si-04",
+       "si-05",
+       "si-06"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "size",
+      "npc": [
+       "si-07"
+      ],
+      "pick": [
+       "si-08",
+       "si-09"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "flavor",
+      "npc": [
+       "si-10"
+      ],
+      "pick": [
+       "si-11",
+       "si-12"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "flavor",
+      "npc": [
+       "si-13"
+      ],
+      "pick": [
+       "si-14",
+       "si-15"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "cream",
+      "npc": [
+       "si-16"
+      ],
+      "pick": [
+       "si-17",
+       "si-18"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "spoon",
+      "npc": [
+       "si-19"
+      ],
+      "pick": [
+       "si-20",
+       "si-21"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "pay",
+      "npc": [],
+      "pick": [
+       "si-22"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [
+       "si-23"
+      ],
+      "pick": [
+       "si-24",
+       "si-25"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "pay",
+      "npc": [
+       "si-26"
+      ],
+      "pick": [
+       "si-27"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "food",
+      "npc": [
+       "si-28"
+      ],
+      "pick": [
+       "si-29"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "talk",
+      "npc": [],
+      "pick": [
+       "si-30"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t13",
+      "scene": "talk",
+      "npc": [],
+      "pick": [
+       "si-31",
+       "si-32"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t14",
+      "scene": "bye",
+      "npc": [
+       "si-33"
+      ],
+      "pick": [
+       "si-34"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "si-p1",
+     "si-p2",
+     "si-p3",
+     "si-p4",
+     "si-p5",
+     "si-p6",
+     "si-p7",
+     "si-p8"
+    ]
+   }
   },
   {
    "id": "musubi_day",
@@ -288,7 +1342,215 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "door",
+      "npc": [
+       "mu-01"
+      ],
+      "pick": [
+       "mu-02"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "talk",
+      "npc": [],
+      "pick": [
+       "mu-03"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "talk",
+      "npc": [],
+      "pick": [
+       "mu-04"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "kind",
+      "npc": [
+       "mu-05"
+      ],
+      "pick": [
+       "mu-06",
+       "mu-07",
+       "mu-08"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "count",
+      "npc": [
+       "mu-09"
+      ],
+      "pick": [
+       "mu-10",
+       "mu-11",
+       "mu-12"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "more",
+      "npc": [
+       "mu-13"
+      ],
+      "pick": [
+       "mu-14",
+       "mu-15"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "go",
+      "npc": [
+       "mu-16"
+      ],
+      "pick": [
+       "mu-17",
+       "mu-18"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "pay",
+      "npc": [],
+      "pick": [
+       "mu-19"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [
+       "mu-20"
+      ],
+      "pick": [
+       "mu-21",
+       "mu-22",
+       "mu-23"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "napkin",
+      "npc": [
+       "mu-24"
+      ],
+      "pick": [
+       "mu-25",
+       "mu-26"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "food",
+      "npc": [
+       "mu-27"
+      ],
+      "pick": [
+       "mu-28"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "eat",
+      "npc": [],
+      "pick": [
+       "mu-29"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t13",
+      "scene": "eat",
+      "npc": [],
+      "pick": [
+       "mu-30",
+       "mu-31"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t14",
+      "scene": "bye",
+      "npc": [
+       "mu-32"
+      ],
+      "pick": [
+       "mu-33"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "mu-p1",
+     "mu-p2",
+     "mu-p3",
+     "mu-p4",
+     "mu-p5",
+     "mu-p6",
+     "mu-p7",
+     "mu-p8"
+    ]
+   }
   },
   {
    "id": "waikiki_beach_chair_umbrella",
@@ -323,7 +1585,201 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "greet",
+      "npc": [
+       "bc-01"
+      ],
+      "pick": [
+       "bc-02"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n1",
+      "scene": "greet",
+      "npc": [
+       "bc-03"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "plan",
+      "npc": [],
+      "pick": [
+       "bc-04"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "plan",
+      "npc": [],
+      "pick": [
+       "bc-05"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "order",
+      "npc": [
+       "bc-06"
+      ],
+      "pick": [
+       "bc-07",
+       "bc-08",
+       "bc-09"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "bc-09": "bc-10"
+      }
+     },
+     {
+      "id": "t5",
+      "scene": "price",
+      "npc": [],
+      "pick": [
+       "bc-11",
+       "bc-12"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "bc-11": "bc-13",
+       "bc-12": "bc-13"
+      }
+     },
+     {
+      "id": "t6",
+      "scene": "more",
+      "npc": [
+       "bc-14"
+      ],
+      "pick": [
+       "bc-15"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "pay",
+      "npc": [
+       "bc-16"
+      ],
+      "pick": [
+       "bc-17"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "pay",
+      "npc": [],
+      "pick": [
+       "bc-18"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [
+       "bc-19"
+      ],
+      "pick": [
+       "bc-20",
+       "bc-21"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "place",
+      "npc": [
+       "bc-22"
+      ],
+      "pick": [
+       "bc-23"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "place",
+      "npc": [],
+      "pick": [
+       "bc-24"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {
+       "bc-24": "bc-25"
+      }
+     },
+     {
+      "id": "t12",
+      "scene": "bye",
+      "npc": [
+       "bc-26"
+      ],
+      "pick": [
+       "bc-27"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "bc-p1",
+     "bc-p2",
+     "bc-p3",
+     "bc-p4",
+     "bc-p5",
+     "bc-p6",
+     "bc-p7",
+     "bc-p8"
+    ]
+   }
   },
   {
    "id": "leonards_malasadas",
@@ -358,7 +1814,213 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "door",
+      "npc": [
+       "lm-01"
+      ],
+      "pick": [
+       "lm-02"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "count",
+      "npc": [
+       "lm-03"
+      ],
+      "pick": [
+       "lm-04",
+       "lm-05",
+       "lm-06"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "type",
+      "npc": [
+       "lm-07"
+      ],
+      "pick": [
+       "lm-08",
+       "lm-09",
+       "lm-10"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "check",
+      "npc": [],
+      "pick": [
+       "lm-11"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "check",
+      "npc": [],
+      "pick": [
+       "lm-12"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "more",
+      "npc": [
+       "lm-13"
+      ],
+      "pick": [
+       "lm-14",
+       "lm-15"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "go",
+      "npc": [
+       "lm-16"
+      ],
+      "pick": [
+       "lm-17",
+       "lm-18"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "box",
+      "npc": [],
+      "pick": [
+       "lm-19",
+       "lm-20"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [],
+      "pick": [
+       "lm-21"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "pay",
+      "npc": [
+       "lm-22"
+      ],
+      "pick": [
+       "lm-23",
+       "lm-24",
+       "lm-25"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "hot",
+      "npc": [
+       "lm-26"
+      ],
+      "pick": [
+       "lm-27"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "try",
+      "npc": [],
+      "pick": [
+       "lm-28"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t13",
+      "scene": "try",
+      "npc": [],
+      "pick": [
+       "lm-29",
+       "lm-30"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t14",
+      "scene": "bye",
+      "npc": [
+       "lm-31"
+      ],
+      "pick": [
+       "lm-32"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "lm-p1",
+     "lm-p2",
+     "lm-p3",
+     "lm-p4",
+     "lm-p5",
+     "lm-p6",
+     "lm-p7",
+     "lm-p8"
+    ]
+   }
   },
   {
    "id": "food_truck_lunch",
@@ -393,7 +2055,228 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "talk",
+      "npc": [],
+      "pick": [
+       "ft-01"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "talk",
+      "npc": [],
+      "pick": [
+       "ft-02"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "menu",
+      "npc": [
+       "ft-03"
+      ],
+      "pick": [
+       "ft-04",
+       "ft-05"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "menu",
+      "npc": [
+       "ft-06"
+      ],
+      "pick": [
+       "ft-07",
+       "ft-08"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "rice",
+      "npc": [
+       "ft-09"
+      ],
+      "pick": [
+       "ft-10",
+       "ft-11"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "spicy",
+      "npc": [
+       "ft-12"
+      ],
+      "pick": [
+       "ft-13",
+       "ft-14",
+       "ft-15"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "drink",
+      "npc": [
+       "ft-16"
+      ],
+      "pick": [
+       "ft-17",
+       "ft-18"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "pay",
+      "npc": [],
+      "pick": [
+       "ft-19"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [
+       "ft-20"
+      ],
+      "pick": [
+       "ft-21",
+       "ft-22",
+       "ft-23"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "receipt",
+      "npc": [
+       "ft-24"
+      ],
+      "pick": [
+       "ft-25",
+       "ft-26"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "number",
+      "npc": [
+       "ft-27"
+      ],
+      "pick": [
+       "ft-28"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "call",
+      "npc": [
+       "ft-29"
+      ],
+      "pick": [
+       "ft-30"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t13",
+      "scene": "food",
+      "npc": [
+       "ft-31"
+      ],
+      "pick": [
+       "ft-32"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t14",
+      "scene": "eat",
+      "npc": [],
+      "pick": [
+       "ft-33"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t15",
+      "scene": "eat",
+      "npc": [],
+      "pick": [
+       "ft-34",
+       "ft-35"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "ft-p1",
+     "ft-p2",
+     "ft-p3",
+     "ft-p4",
+     "ft-p5",
+     "ft-p6",
+     "ft-p7",
+     "ft-p8"
+    ]
+   }
   },
   {
    "id": "honolulu_zoo_ticket",
@@ -428,7 +2311,197 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "ticket",
+      "npc": [
+       "hz-01"
+      ],
+      "pick": [
+       "hz-02",
+       "hz-03",
+       "hz-04"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "ticket",
+      "npc": [
+       "hz-05"
+      ],
+      "pick": [
+       "hz-06",
+       "hz-07"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "hz-07": "hz-08"
+      }
+     },
+     {
+      "id": "t3",
+      "scene": "map",
+      "npc": [
+       "hz-09"
+      ],
+      "pick": [
+       "hz-10",
+       "hz-11"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "price",
+      "npc": [],
+      "pick": [
+       "hz-12",
+       "hz-13"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "hz-12": "hz-14",
+       "hz-13": "hz-15"
+      }
+     },
+     {
+      "id": "t5",
+      "scene": "pay",
+      "npc": [
+       "hz-16"
+      ],
+      "pick": [
+       "hz-17",
+       "hz-18"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "pay",
+      "npc": [
+       "hz-19"
+      ],
+      "pick": [
+       "hz-20"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n1",
+      "scene": "plan",
+      "npc": [
+       "hz-21"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "plan",
+      "npc": [],
+      "pick": [
+       "hz-22"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "plan",
+      "npc": [],
+      "pick": [
+       "hz-23"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "ask",
+      "npc": [],
+      "pick": [
+       "hz-24"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n2",
+      "scene": "ask",
+      "npc": [
+       "hz-25"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "ask",
+      "npc": [],
+      "pick": [
+       "hz-26"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n3",
+      "scene": "ask",
+      "npc": [
+       "hz-27"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "hz-p1",
+     "hz-p2",
+     "hz-p3",
+     "hz-p4",
+     "hz-p5",
+     "hz-p6",
+     "hz-p7",
+     "hz-p8"
+    ]
+   }
   },
   {
    "id": "pharmacy_basic",
@@ -463,7 +2536,156 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "door",
+      "npc": [
+       "ph-01"
+      ],
+      "pick": [
+       "ph-02",
+       "ph-03",
+       "ph-04",
+       "ph-05"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {
+       "ph-05": "ph-06"
+      }
+     },
+     {
+      "id": "t2",
+      "scene": "item",
+      "npc": [
+       "ph-07"
+      ],
+      "pick": [
+       "ph-08",
+       "ph-09"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "price1",
+      "npc": [],
+      "pick": [
+       "ph-10",
+       "ph-11"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {
+       "ph-10": "ph-12",
+       "ph-11": "ph-12"
+      }
+     },
+     {
+      "id": "t4",
+      "scene": "more",
+      "npc": [
+       "ph-13"
+      ],
+      "pick": [
+       "ph-14",
+       "ph-15",
+       "ph-16"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "price2",
+      "npc": [
+       "ph-17"
+      ],
+      "pick": [
+       "ph-18",
+       "ph-19"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {
+       "ph-18": "ph-20",
+       "ph-19": "ph-20"
+      }
+     },
+     {
+      "id": "t6",
+      "scene": "pay",
+      "npc": [
+       "ph-21"
+      ],
+      "pick": [
+       "ph-22",
+       "ph-23",
+       "ph-24"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "ph-24": "ph-25"
+      }
+     },
+     {
+      "id": "t7",
+      "scene": "bag",
+      "npc": [
+       "ph-26"
+      ],
+      "pick": [
+       "ph-27",
+       "ph-28"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "bye",
+      "npc": [
+       "ph-29"
+      ],
+      "pick": [
+       "ph-30"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "ph-p1",
+     "ph-p2",
+     "ph-p3",
+     "ph-p4",
+     "ph-p5",
+     "ph-p6",
+     "ph-p7",
+     "ph-p8"
+    ]
+   }
   },
   {
    "id": "cheesecake_dessert",
@@ -498,7 +2720,246 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "door",
+      "npc": [
+       "cc-01"
+      ],
+      "pick": [
+       "cc-02"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n1",
+      "scene": "door",
+      "npc": [
+       "cc-03"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "drink",
+      "npc": [
+       "cc-04"
+      ],
+      "pick": [
+       "cc-05",
+       "cc-06"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "drink",
+      "npc": [
+       "cc-07"
+      ],
+      "pick": [
+       "cc-08",
+       "cc-09"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "pick",
+      "npc": [],
+      "pick": [
+       "cc-10"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "pick",
+      "npc": [],
+      "pick": [
+       "cc-11"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "order",
+      "npc": [
+       "cc-12"
+      ],
+      "pick": [
+       "cc-13",
+       "cc-14"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "order",
+      "npc": [
+       "cc-15"
+      ],
+      "pick": [
+       "cc-16",
+       "cc-17"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "fork",
+      "npc": [],
+      "pick": [
+       "cc-18"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n2",
+      "scene": "fork",
+      "npc": [
+       "cc-19"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "cream",
+      "npc": [
+       "cc-20"
+      ],
+      "pick": [
+       "cc-21",
+       "cc-22"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "food",
+      "npc": [
+       "cc-23"
+      ],
+      "pick": [
+       "cc-24"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "eat",
+      "npc": [],
+      "pick": [
+       "cc-25"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "eat",
+      "npc": [],
+      "pick": [
+       "cc-26",
+       "cc-27"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t13",
+      "scene": "pay",
+      "npc": [],
+      "pick": [
+       "cc-28"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t14",
+      "scene": "pay",
+      "npc": [
+       "cc-29"
+      ],
+      "pick": [
+       "cc-30",
+       "cc-31",
+       "cc-32"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t15",
+      "scene": "bye",
+      "npc": [
+       "cc-33"
+      ],
+      "pick": [
+       "cc-34"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "cc-p1",
+     "cc-p2",
+     "cc-p3",
+     "cc-p4",
+     "cc-p5",
+     "cc-p6",
+     "cc-p7",
+     "cc-p8"
+    ]
+   }
   },
   {
    "id": "bus_fare_question",
@@ -533,7 +2994,154 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "board",
+      "npc": [
+       "bs-01"
+      ],
+      "pick": [
+       "bs-02",
+       "bs-03"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {
+       "bs-02": "bs-04",
+       "bs-03": "bs-05"
+      }
+     },
+     {
+      "id": "t2",
+      "scene": "fare",
+      "npc": [],
+      "pick": [
+       "bs-06",
+       "bs-07",
+       "bs-08"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {
+       "bs-06": "bs-09",
+       "bs-07": "bs-09",
+       "bs-08": "bs-09"
+      }
+     },
+     {
+      "id": "t3",
+      "scene": "pay",
+      "npc": [
+       "bs-10"
+      ],
+      "pick": [
+       "bs-11",
+       "bs-12",
+       "bs-13"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "bs-13": "bs-14"
+      }
+     },
+     {
+      "id": "t4",
+      "scene": "seat",
+      "npc": [
+       "bs-15"
+      ],
+      "pick": [
+       "bs-16"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "getoff",
+      "npc": [],
+      "pick": [
+       "bs-17",
+       "bs-18"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {
+       "bs-17": "bs-19",
+       "bs-18": "bs-19"
+      }
+     },
+     {
+      "id": "t6",
+      "scene": "ride",
+      "npc": [],
+      "pick": [
+       "bs-20",
+       "bs-21"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {
+       "bs-20": "bs-22",
+       "bs-21": "bs-22"
+      }
+     },
+     {
+      "id": "t7",
+      "scene": "stop",
+      "npc": [
+       "bs-23"
+      ],
+      "pick": [
+       "bs-24",
+       "bs-25"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "bye",
+      "npc": [
+       "bs-26"
+      ],
+      "pick": [
+       "bs-27"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "bs-p1",
+     "bs-p2",
+     "bs-p3",
+     "bs-p4",
+     "bs-p5",
+     "bs-p6",
+     "bs-p7",
+     "bs-p8"
+    ]
+   }
   },
   {
    "id": "ala_moana_basic_shopping",
@@ -569,7 +3177,203 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "shop",
+      "npc": [
+       "am-01"
+      ],
+      "pick": [
+       "am-02",
+       "am-03",
+       "am-04"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n1",
+      "scene": "shop",
+      "npc": [
+       "am-05",
+       "am-06"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "size",
+      "npc": [],
+      "pick": [
+       "am-07"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "size",
+      "npc": [],
+      "pick": [
+       "am-08"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "size",
+      "npc": [
+       "am-09"
+      ],
+      "pick": [
+       "am-10",
+       "am-11",
+       "am-12"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "size",
+      "npc": [],
+      "pick": [
+       "am-13"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n2",
+      "scene": "size",
+      "npc": [
+       "am-14"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "price",
+      "npc": [
+       "am-15"
+      ],
+      "pick": [
+       "am-16"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "am-16": "am-17"
+      }
+     },
+     {
+      "id": "t7",
+      "scene": "price",
+      "npc": [],
+      "pick": [
+       "am-18",
+       "am-19",
+       "am-20"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "am-20": "am-21"
+      }
+     },
+     {
+      "id": "t8",
+      "scene": "pay",
+      "npc": [
+       "am-22"
+      ],
+      "pick": [
+       "am-23"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [
+       "am-24"
+      ],
+      "pick": [
+       "am-25",
+       "am-26"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "pay",
+      "npc": [
+       "am-27"
+      ],
+      "pick": [
+       "am-28",
+       "am-29"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "bye",
+      "npc": [
+       "am-30"
+      ],
+      "pick": [
+       "am-31"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "am-p1",
+     "am-p2",
+     "am-p3",
+     "am-p4",
+     "am-p5",
+     "am-p6",
+     "am-p7",
+     "am-p8"
+    ]
+   }
   },
   {
    "id": "diamond_head_lookout_directions",
@@ -604,7 +3408,210 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "ask",
+      "npc": [
+       "dh-01"
+      ],
+      "pick": [
+       "dh-02",
+       "dh-03"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "way1",
+      "npc": [
+       "dh-04"
+      ],
+      "pick": [
+       "dh-05",
+       "dh-06",
+       "dh-07"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "dh-07": "dh-08"
+      }
+     },
+     {
+      "id": "t3",
+      "scene": "far",
+      "npc": [],
+      "pick": [
+       "dh-09",
+       "dh-10"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "dh-09": "dh-11",
+       "dh-10": "dh-12"
+      }
+     },
+     {
+      "id": "t4",
+      "scene": "way2",
+      "npc": [
+       "dh-13"
+      ],
+      "pick": [
+       "dh-14",
+       "dh-15"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "way2",
+      "npc": [],
+      "pick": [
+       "dh-16"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "way2",
+      "npc": [],
+      "pick": [
+       "dh-17"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "way3",
+      "npc": [
+       "dh-18"
+      ],
+      "pick": [
+       "dh-19",
+       "dh-20"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n1",
+      "scene": "stairs",
+      "npc": [
+       "dh-21"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "stairs",
+      "npc": [],
+      "pick": [
+       "dh-22"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "recap",
+      "npc": [],
+      "pick": [
+       "dh-23"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "recap",
+      "npc": [],
+      "pick": [
+       "dh-24"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "end",
+      "npc": [
+       "dh-25"
+      ],
+      "pick": [
+       "dh-26"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "bye",
+      "npc": [
+       "dh-27"
+      ],
+      "pick": [
+       "dh-28"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n2",
+      "scene": "bye",
+      "npc": [
+       "dh-29"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "dh-p1",
+     "dh-p2",
+     "dh-p3",
+     "dh-p4",
+     "dh-p5",
+     "dh-p6",
+     "dh-p7",
+     "dh-p8"
+    ]
+   }
   },
   {
    "id": "eggs_n_things_breakfast",
@@ -897,7 +3904,211 @@
      "miss": 1
     }
    },
-   "authoring": "대기"
+   "authoring": "집필 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "gear",
+      "npc": [
+       "hb-01"
+      ],
+      "pick": [
+       "hb-02",
+       "hb-03",
+       "hb-04"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "hb-04": "hb-05"
+      }
+     },
+     {
+      "id": "t2",
+      "scene": "gear",
+      "npc": [
+       "hb-06"
+      ],
+      "pick": [
+       "hb-07",
+       "hb-08"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "gear",
+      "npc": [
+       "hb-09"
+      ],
+      "pick": [
+       "hb-10",
+       "hb-11"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "size",
+      "npc": [],
+      "pick": [
+       "hb-12"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "size",
+      "npc": [],
+      "pick": [
+       "hb-13"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "size",
+      "npc": [
+       "hb-14"
+      ],
+      "pick": [
+       "hb-15",
+       "hb-16",
+       "hb-17"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "size",
+      "npc": [
+       "hb-18"
+      ],
+      "pick": [
+       "hb-19",
+       "hb-20",
+       "hb-21"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "size",
+      "npc": [
+       "hb-22"
+      ],
+      "pick": [
+       "hb-23"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "hb-23": "hb-24"
+      }
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [
+       "hb-25"
+      ],
+      "pick": [
+       "hb-26",
+       "hb-27"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "more",
+      "npc": [
+       "hb-28"
+      ],
+      "pick": [
+       "hb-29"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "safety",
+      "npc": [
+       "hb-30"
+      ],
+      "pick": [
+       "hb-31"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "safety",
+      "npc": [
+       "hb-32"
+      ],
+      "pick": [
+       "hb-33"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t13",
+      "scene": "bye",
+      "npc": [
+       "hb-34"
+      ],
+      "pick": [
+       "hb-35"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "hb-p1",
+     "hb-p2",
+     "hb-p3",
+     "hb-p4",
+     "hb-p5",
+     "hb-p6",
+     "hb-p7",
+     "hb-p8"
+    ]
+   }
   }
  ]
 }

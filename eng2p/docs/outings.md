@@ -113,24 +113,24 @@
 
 | 미션 id | 갈래 | 장소 id | 단계 | 등급 | 할 일(can-do) | 필요한 영어 기능 | 열리는 때 | 집필 | 공개 |
 |---|---|---|---|---|---|---|---|---|---|
-| `neighbor_greeting` | life | new:apartment_hallway | 0 | A1 | 이웃에게 인사하고 이름을 말한다 | 인사, 자기소개 | 3.3 | 대기 | 첫 공개 |
-| `hotel_front_desk` | life | `outrigger_reef` | 1 | A1 | 호텔 프런트에서 방 번호를 말하고 수건 같은 것을 부탁한다 | 부탁, 숫자 말하기 | 3.5 | 대기 | 첫 공개 |
-| `cafe_order` | life | `island_vintage_coffee` | 1 | A1 | 카페에서 음료 하나와 크기를 말한다 | 주문(고르기), 크기 | 4.2 | 대기 | 첫 공개 |
-| `convenience_store_abc` | life | new:abc_store_waikiki | 1 | A1 | 편의점에서 물건을 찾아 값을 묻고 계산한다 | 값 묻기, 계산 | 4.4 | 대기 | 첫 공개 |
-| `cookie_snack` | life | `honolulu_cookie_company` | 1 | A1 | 쿠키를 골라 수를 말하고 값을 내고 감사한다 | 주문(수량), 값 묻기, 감사 | 4.5 | 대기 | 첫 공개 |
-| `shave_ice_snack` | life | `waiola_shave_ice` | 1 | A1 | 맛과 크기를 골라 주문한다 | 주문(고르기), 크기 | 5.2 | 대기 | 첫 공개 |
-| `musubi_day` | life | `musubi_cafe_iyasume` | 1 | A1 | 무스비 종류를 고르고 개수를 말해 산다 | 주문(수량), 묻기 | 5.4 | 대기 | 첫 공개 |
-| `waikiki_beach_chair_umbrella` | trip | `waikiki_beach` | 1 | A1 | 해변에서 의자와 우산을 빌리고 값을 묻는다 | 빌리기, 값 묻기 | 5.6 | 대기 | 첫 공개 |
-| `leonards_malasadas` | life | `leonards_bakery` | 1 | A1 | 말라사다 개수를 말하고 포장을 부탁한다 | 주문(수량), 포장 부탁 | 7.1 | 대기 | 첫 공개 |
-| `food_truck_lunch` | life | new:food_truck_waikiki | 1 | A1 | 푸드트럭에서 메뉴 하나를 고르고 옵션을 예 아니오로 답한다 | 주문, 예 아니오 답 | 7.3 | 대기 | 첫 공개 |
-| `honolulu_zoo_ticket` | trip | `honolulu_zoo` | 1 | A1 | 동물원에서 표를 사고 몇 명인지 말한다 | 표 사기, 인원 말하기 | 7.5 | 대기 | 첫 공개 |
-| `pharmacy_basic` | life | new:pharmacy | 1 | A1 | 약국에서 필요한 물건 이름을 말하고 값을 묻는다 | 물건 말하기, 값 묻기 | 7.6 | 대기 | 첫 공개 |
-| `cheesecake_dessert` | life | `cheesecake_factory` | 1 | A1 | 디저트 하나를 고르고 음료와 함께 주문한다 | 주문(고르기), 음료 | 8.1 | 대기 | 첫 공개 |
-| `bus_fare_question` | life | new:bus_stop_kalakaua | 1 | A1 | 버스 요금을 묻고 내릴 곳을 말한다 | 요금 묻기, 장소 말하기 | 8.2 | 대기 | 첫 공개 |
-| `ala_moana_basic_shopping` | life | `ala_moana_center` | 1 | A1 | 가게에서 크기와 값을 묻고 사서 계산한다 | 크기 묻기, 값 묻기, 계산 | 8.3 | 대기 | 첫 공개 |
-| `diamond_head_lookout_directions` | trip | `diamond_head_lookout` | 1 | A1 | 전망대로 가는 길을 묻고 대답을 알아듣는다 | 길 묻기, 방향 알아듣기 | 8.4 | 대기 | 첫 공개 |
+| `neighbor_greeting` | life | new:apartment_hallway | 0 | A1 | 이웃에게 인사하고 이름을 말한다 | 인사, 자기소개 | 3.3 | 집필 완료 | 첫 공개 |
+| `hotel_front_desk` | life | `outrigger_reef` | 1 | A1 | 호텔 프런트에서 방 번호를 말하고 수건 같은 것을 부탁한다 | 부탁, 숫자 말하기 | 3.5 | 집필 완료 | 첫 공개 |
+| `cafe_order` | life | `island_vintage_coffee` | 1 | A1 | 카페에서 음료 하나와 크기를 말한다 | 주문(고르기), 크기 | 4.2 | 집필 완료 | 첫 공개 |
+| `convenience_store_abc` | life | new:abc_store_waikiki | 1 | A1 | 편의점에서 물건을 찾아 값을 묻고 계산한다 | 값 묻기, 계산 | 4.4 | 집필 완료 | 첫 공개 |
+| `cookie_snack` | life | `honolulu_cookie_company` | 1 | A1 | 쿠키를 골라 수를 말하고 값을 내고 감사한다 | 주문(수량), 값 묻기, 감사 | 4.5 | 집필 완료 | 첫 공개 |
+| `shave_ice_snack` | life | `waiola_shave_ice` | 1 | A1 | 맛과 크기를 골라 주문한다 | 주문(고르기), 크기 | 5.2 | 집필 완료 | 첫 공개 |
+| `musubi_day` | life | `musubi_cafe_iyasume` | 1 | A1 | 무스비 종류를 고르고 개수를 말해 산다 | 주문(수량), 묻기 | 5.4 | 집필 완료 | 첫 공개 |
+| `waikiki_beach_chair_umbrella` | trip | `waikiki_beach` | 1 | A1 | 해변에서 의자와 우산을 빌리고 값을 묻는다 | 빌리기, 값 묻기 | 5.6 | 집필 완료 | 첫 공개 |
+| `leonards_malasadas` | life | `leonards_bakery` | 1 | A1 | 말라사다 개수를 말하고 포장을 부탁한다 | 주문(수량), 포장 부탁 | 7.1 | 집필 완료 | 첫 공개 |
+| `food_truck_lunch` | life | new:food_truck_waikiki | 1 | A1 | 푸드트럭에서 메뉴 하나를 고르고 옵션을 예 아니오로 답한다 | 주문, 예 아니오 답 | 7.3 | 집필 완료 | 첫 공개 |
+| `honolulu_zoo_ticket` | trip | `honolulu_zoo` | 1 | A1 | 동물원에서 표를 사고 몇 명인지 말한다 | 표 사기, 인원 말하기 | 7.5 | 집필 완료 | 첫 공개 |
+| `pharmacy_basic` | life | new:pharmacy | 1 | A1 | 약국에서 필요한 물건 이름을 말하고 값을 묻는다 | 물건 말하기, 값 묻기 | 7.6 | 집필 완료 | 첫 공개 |
+| `cheesecake_dessert` | life | `cheesecake_factory` | 1 | A1 | 디저트 하나를 고르고 음료와 함께 주문한다 | 주문(고르기), 음료 | 8.1 | 집필 완료 | 첫 공개 |
+| `bus_fare_question` | life | new:bus_stop_kalakaua | 1 | A1 | 버스 요금을 묻고 내릴 곳을 말한다 | 요금 묻기, 장소 말하기 | 8.2 | 집필 완료 | 첫 공개 |
+| `ala_moana_basic_shopping` | life | `ala_moana_center` | 1 | A1 | 가게에서 크기와 값을 묻고 사서 계산한다 | 크기 묻기, 값 묻기, 계산 | 8.3 | 집필 완료 | 첫 공개 |
+| `diamond_head_lookout_directions` | trip | `diamond_head_lookout` | 1 | A1 | 전망대로 가는 길을 묻고 대답을 알아듣는다 | 길 묻기, 방향 알아듣기 | 8.4 | 집필 완료 | 첫 공개 |
 | `eggs_n_things_breakfast` | life | `eggs_n_things_saratoga` | 1 | A1 | 간단한 아침 식사를 주문하고 계산한다 | 인원 말하기, 주문, 되묻기, 계산 | 8.5 | 파일럿 완료 | 첫 공개 |
-| `hanauma_bay_gear_rental` | trip | `hanauma_bay` | 3 | A1 | 스노클링 장비를 빌릴지 예 아니오로 답하고 크기를 말한다 | 예 아니오 답, 크기 말하기 | 8.6 | 대기 | 첫 공개 |
+| `hanauma_bay_gear_rental` | trip | `hanauma_bay` | 3 | A1 | 스노클링 장비를 빌릴지 예 아니오로 답하고 크기를 말한다 | 예 아니오 답, 크기 말하기 | 8.6 | 집필 완료 | 첫 공개 |
 | `aloha_festival_parade` | event | new:kalakaua_parade_route | 1 | A1 | 퍼레이드를 보며 짧게 감탄하고 한 가지를 묻는다 | 감탄, 간단한 질문 | 7.4 | 대기 | 이후 |
 | `dukes_dinner` | life | `dukes_waikiki` | 1 | A2 | 저녁 식사를 주문하고 음식에 대해 묻는다 | 주문, 추천 묻기, 계산 | 10.5 | 대기 | 이후 |
 | `marukame_udon` | life | `marukame_udon` | 1 | A2 | 줄을 서서 우동과 고명을 고른다 | 줄 서기, 고르기, 계산 | 12.5 | 대기 | 이후 |

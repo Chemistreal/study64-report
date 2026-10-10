@@ -228,16 +228,25 @@ def breaks():
             DO.OUT_MD = old
             os.unlink(f.name)
 
+    def row_sub(text, mission, pat, repl):
+        """Changes one cell pattern inside the table row of one mission (whatever its writing status is)."""
+        out = []
+        for line in text.split("\n"):
+            if line.startswith("| `%s` |" % mission):
+                line = re.sub(pat, repl, line, count=1)
+            out.append(line)
+        return "\n".join(out)
+
     want("outings: 요구 미션 하나 지움", outing_fail(re.sub(r"^\| `cookie_snack` .*\n", "", src, flags=re.M)))
     want("outings: 등급이 세션과 다름", outing_fail(src.replace("| 2.? |", "").replace("| 4.5 | 대기 |", "| 4.5 | 대기 |").replace(
         "| A1 | 쿠키를 골라", "| B2 | 쿠키를 골라")))
-    want("outings: 다지기 주에 열림", outing_fail(src.replace("| 5.4 | 대기 | 첫 공개 |", "| 6.2 | 대기 | 첫 공개 |")))
+    want("outings: 다지기 주에 열림", outing_fail(row_sub(src, "musubi_day", r"\| 5\.4 \|", "| 6.2 |")))
     want("outings: 없는 랜드마크", outing_fail(src.replace("| `honolulu_cookie_company` | 1 |", "| `zzz_cookie` | 1 |", 1)))
     want("outings: 단계가 표와 다름", outing_fail(src.replace("| `waiola_shave_ice` | 1 | A1 |", "| `waiola_shave_ice` | 3 | A1 |")))
     want("outings: 첫 공개에 A2 미션", outing_fail(src.replace("| `cookie_snack` | life | `honolulu_cookie_company` | 1 | A1 |", "| `cookie_snack` | life | `honolulu_cookie_company` | 1 | A2 |")))
-    want("outings: 첫 공개가 공개 한계 뒤", outing_fail(src.replace("| 4.5 | 대기 | 첫 공개 |", "| 9.5 | 대기 | 첫 공개 |")))
-    want("outings: 첫 공개 생활 수가 14가 아님", outing_fail(src.replace("| 4.5 | 대기 | 첫 공개 |", "| 4.5 | 대기 | 이후 |")))
-    want("outings: 집필 상태 거짓", outing_fail(src.replace("| 4.5 | 대기 |", "| 4.5 | 집필 완료 |")))
+    want("outings: 첫 공개가 공개 한계 뒤", outing_fail(row_sub(src, "cookie_snack", r"\| 4\.5 \|", "| 9.5 |")))
+    want("outings: 첫 공개 생활 수가 14가 아님", outing_fail(row_sub(src, "cookie_snack", r"\| 첫 공개 \|", "| 이후 |")))
+    want("outings: 집필 상태 거짓", outing_fail(row_sub(src, "dukes_dinner", r"\| 대기 \|", "| 집필 완료 |")))
 
     # 장면 길과 계획
     want("scene: 글자 다른 장면 줄", [1] if not L.scene_line_ok("Good morning! How many people?", "Host", "authored:enb-01", 47)[0] else [])
