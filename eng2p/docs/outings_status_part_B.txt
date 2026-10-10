@@ -1,6 +1,0 @@
-neighbor_greeting -> 집필 완료
-hotel_front_desk -> 집필 완료
-cafe_order -> 집필 완료
-convenience_store_abc -> 집필 완료
-pharmacy_basic -> 집필 완료
-bus_fare_question -> 집필 완료

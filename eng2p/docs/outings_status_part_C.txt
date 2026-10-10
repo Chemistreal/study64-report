@@ -1,5 +1,0 @@
-ala_moana_basic_shopping -> 집필 완료
-waikiki_beach_chair_umbrella -> 집필 완료
-honolulu_zoo_ticket -> 집필 완료
-diamond_head_lookout_directions -> 집필 완료
-hanauma_bay_gear_rental -> 집필 완료

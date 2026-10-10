@@ -1,6 +1,0 @@
-cookie_snack -> 집필 완료
-shave_ice_snack -> 집필 완료
-musubi_day -> 집필 완료
-leonards_malasadas -> 집필 완료
-food_truck_lunch -> 집필 완료
-cheesecake_dessert -> 집필 완료
