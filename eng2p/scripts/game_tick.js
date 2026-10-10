@@ -533,6 +533,7 @@ function selftest() {
   const state = JSON.parse(fx("state.json"));
   const mini = composeMini(sf);
   const T = (t) => mergeLines(t.map((x, i) => ({ name: "t" + i, text: x })), schema);
+  const base0 = () => T([host, guest]);
   const nextOf = (texts, today) => {
     const m = T(texts);
     return computeNext(m.events, mini, state, { today: today, brain: brain,
@@ -565,6 +566,28 @@ function selftest() {
   mut("모르는 줄 종류", (o) => { o.t = "voice"; });
   const life = JSON.parse(host.split("\n").find((l) => l.includes('"t":"session_start"')));
   { const o = JSON.parse(JSON.stringify(life)); o.seat = "a"; ok("틀린 줄을 거른다: 세션 시작 줄에 사람 자리", validateEvent(o, schema) !== null); }
+
+  /* 1b. 나들이 줄 (결과 모양 개정 2, docs/game_results.md 4.15). 맞는 줄은 통과하고 틀린 줄은 걸리며 합쳐도 안 사라진다 */
+  { const outText = fx("outing.jsonl");
+    const outObjs = outText.split("\n").filter(Boolean).map((l) => JSON.parse(l));
+    ok("나들이 고정 줄이 다 통과한다 (outing_turn 과 activity kind outing)", outObjs.length >= 5 && outObjs.every((o) => validateEvent(o, schema) === null),
+       outObjs.map((o) => validateEvent(o, schema)).filter(Boolean).join(" / "));
+    const turn = outObjs.find((o) => o.t === "outing_turn"), mis = outObjs.find((o) => o.t === "activity");
+    const mutO = (name, base, f) => { const o = JSON.parse(JSON.stringify(base)); f(o); ok("틀린 나들이 줄을 거른다: " + name, validateEvent(o, schema) !== null); };
+    mutO("미션 id 대문자", turn, (o) => { o.mission = "Eggs"; });
+    mutO("차례 0", turn, (o) => { o.turn = 0; });
+    mutO("차례 100", turn, (o) => { o.turn = 100; });
+    mutO("outing_turn 에 block 칸", turn, (o) => { o.block = 0; });
+    mutO("outing_turn 에 미션 id 빠짐", turn, (o) => { delete o.mission; });
+    mutO("outing_turn 에 말한 글 칸 say", turn, (o) => { o.say = "Two, please."; });
+    mutO("skipped 인데 attempts 1", turn, (o) => { o.outcome = "skipped"; o.attempts = 1; });
+    mutO("activity block 5", mis, (o) => { o.block = 5; });
+    mutO("activity kind 가 목록 밖", mis, (o) => { o.kind = "outings"; });
+    mutO("activity ref 41자", mis, (o) => { o.ref = "a".repeat(41); });
+    const rest = T([host, guest, outText]);
+    ok("나들이 줄을 합쳐도 안 사라지고 버려지지 않는다", rest.stats.rejected === 0 && rest.events.length === base0().events.length + outObjs.length);
+    ok("나들이 줄이 있어도 next.json 이 같다 (틱은 읽지 않는다)", (() => { const a = Object.assign({}, nextOf([host, guest, outText], FIXTURE_TODAY)), b = nextOf([host, guest], FIXTURE_TODAY); delete a.merge; const c = Object.assign({}, b); delete c.merge; return canon(a) === canon(c); })());
+    ok("합친 글에서 나들이 줄 칸 차례가 모양 파일의 차례다", emitJsonl(rest.events, schema).split("\n").filter((l) => l.includes('"outing_turn"')).every((l) => /^\{"v":1,"t":"outing_turn","s":\d+,"e":"[^"]+","device":"[a-z]+","seat":"[a-z]+","date":"[^"]+","t0":"[^"]+","t1":"[^"]+","mission":"[a-z0-9_]+","turn":\d+,"outcome":"[a-z]+","via":"[a-z]+","attempts":\d+,"repairs":\d+\}$/.test(l))); }
 
   /* 2. 합치기 법칙 */
   const base = T([host, guest]);

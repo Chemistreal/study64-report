@@ -73,7 +73,12 @@ ENGLISH_HTML = os.path.join(ROOT, "..", "english.html")
 # 자료 계약 판 번호마다 **모양 지문**. 칸 이름(sessions.json 맨 위와 세션 줄)과 결과 줄 모양(설명 글 빼고)이 바뀌면
 # 지문이 바뀐다. 바뀌었는데 schemaVersion 을 안 올렸으면 실패다. 올렸으면 이 표에 새 판의 지문을 더한다.
 # 값을 더하는 것이 곧 "게임(C++)이 새 판을 읽게 고쳤다" 는 확인이다 (docs/game_results.md 9장).
-SHAPES = {1: "3dd2178bbff905e4cfc430a7e50b975ebe523c2f95a810fc4be9b06d286b89ac"}
+# 같은 판 번호 안의 **개정**마다도 지문을 둔다 (results_schema.json 의 revision, 없으면 1). 개정은 더하기만 한다:
+# 이미 쓴 줄(v 1)이 모두 그대로 맞아야 한다. 그것은 results_schema_gate 가 개정 1 고정본으로 본다 (docs/game_results.md 4.15).
+SHAPES = {1: {1: "3dd2178bbff905e4cfc430a7e50b975ebe523c2f95a810fc4be9b06d286b89ac",
+              2: "6e798e4551e30c936b015447442ef68454b61b866a88e3d434e1ca4f23f29798"}}
+REV1_SCHEMA = os.path.join(ROOT, "tools", "game", "results_fixture", "results_schema.rev1.json")
+OUTING_FIXTURE = os.path.join(ROOT, "tools", "game", "results_fixture", "outing.jsonl")
 
 FAIL = []
 n = 0
@@ -520,12 +525,13 @@ def contract(G, S):
         sv = G.get("schemaVersion")
         chk(RS.get("version") == sv, "results_schema.json 의 version %s 이 schemaVersion %s 와 다르다" % (RS.get("version"), sv))
         fp = shape_print(G, S, RS)
-        want = SHAPES.get(sv)
+        rev = RS.get("revision", 1)
+        want = (SHAPES.get(sv) or {}).get(rev)
         if want is None:
-            chk(False, "schemaVersion %s 의 모양 지문이 check_game.py SHAPES 에 없다. 새 판이면 지문 %s 를 더한다" % (sv, fp))
+            chk(False, "schemaVersion %s 개정 %s 의 모양 지문이 check_game.py SHAPES 에 없다. 새 판(또는 새 개정)이면 지문 %s 를 더한다" % (sv, rev, fp))
         else:
-            chk(fp == want, "모양이 바뀌었는데 schemaVersion(%s)을 안 올렸다. 지문 %s 가 표의 %s 와 다르다. "
-                "칸을 바꿨으면 schemaVersion 을 올리고 SHAPES 에 새 지문을 더한다" % (sv, fp[:12], want[:12]))
+            chk(fp == want, "모양이 바뀌었는데 schemaVersion(%s) 개정(%s)을 안 올렸다. 지문 %s 가 표의 %s 와 다르다. "
+                "칸을 바꿨으면 개정(더하기만이면)이나 schemaVersion 을 올리고 SHAPES 에 새 지문을 더한다" % (sv, rev, fp[:12], want[:12]))
 
     # 먼저 말을 여는 사람. 규칙이 구조화돼 있고 앱이 낸 288개와 한 개도 안 다르다
     rr = G.get("roleRule")
@@ -613,6 +619,33 @@ def val_value(v, sch, name, errs):
             errs.append("%s 이 너무 길다" % name)
 
 
+def widens(old, new):
+    """new 가 old 의 값을 모두 받는가 (같거나 넓다). 받으면 None, 좁아졌으면 이유 글자."""
+    if old.get("type") != new.get("type"):
+        return "type 이 다르다"
+    if ("const" in old) != ("const" in new) or old.get("const") != new.get("const"):
+        return "const 가 다르다"
+    if "enum" in old and not ("enum" in new and set(old["enum"]) <= set(new["enum"])):
+        return "enum 이 줄었다"
+    for k, lower in (("minimum", True), ("minLength", True), ("maximum", False), ("maxLength", False)):
+        if k in old:
+            if k not in new:
+                continue                                  # 제한이 없어졌다: 넓다
+            if (new[k] > old[k]) if lower else (new[k] < old[k]):
+                return "%s 가 좁아졌다 (%s -> %s)" % (k, old[k], new[k])
+        elif k in new:
+            return "%s 가 새로 생겼다" % k
+    if old.get("pattern") != new.get("pattern"):
+        q = re.compile(r"\{(\d+),(\d+)\}")
+        a, b = old.get("pattern"), new.get("pattern")
+        if not a or not b or q.sub("{}", a) != q.sub("{}", b):
+            return "pattern 이 다르다"
+        for (lo1, hi1), (lo2, hi2) in zip(q.findall(a), q.findall(b)):
+            if int(lo2) > int(lo1) or int(hi2) < int(hi1):
+                return "pattern 길이 범위가 좁아졌다"
+    return None
+
+
 def val_event(o, RS):
     if not isinstance(o, dict):
         return "객체가 아니다"
@@ -664,7 +697,7 @@ def results_schema_gate(G):
         return 0, 1
     RS = load_json(RSCHEMA)
     defs = RS.get("$defs") or {}
-    chk(len(defs) == 11 and [r.get("$ref") for r in RS.get("oneOf", [])] == ["#/$defs/" + k for k in defs],
+    chk(len(defs) == 12 and [r.get("$ref") for r in RS.get("oneOf", [])] == ["#/$defs/" + k for k in defs],
         "결과 모양의 oneOf 가 $defs 와 다르다 (줄 종류 %d가지)" % len(defs))
     chk(len(RS.get("x-forbiddenKeys") or []) >= 10, "금지 칸 목록(x-forbiddenKeys)이 없거나 짧다")
     for t, d in defs.items():
@@ -674,6 +707,26 @@ def results_schema_gate(G):
             and (props.get("v") or {}).get("const") == RS.get("version")
             and not (set(RS.get("x-forbiddenKeys", [])) & set(props)),
             "결과 줄 %s 의 모양이 겉봉/필수/금지 규칙을 못 지킨다" % t)
+
+    # 개정은 더하기만 한다: 개정 1 고정본의 모든 줄 종류, 필수 칸, 값 범위가 그대로거나 넓어졌다. 그래서 이미 쓴 줄이 다 맞다
+    if os.path.exists(REV1_SCHEMA):
+        R1 = load_json(REV1_SCHEMA)
+        chk(R1.get("version") == RS.get("version") == 1, "개정 1 고정본과 지금 모양의 판 번호가 1 이 아니다")
+        for t, d1 in (R1.get("$defs") or {}).items():
+            d2 = defs.get(t)
+            if d2 is None:
+                chk(False, "개정 1 의 줄 종류 %s 가 지금 모양에서 사라졌다 (이미 쓴 줄이 틀린 줄이 된다)" % t)
+                continue
+            chk(sorted(d1["required"]) == sorted(d2["required"]) and d2.get("additionalProperties") is False,
+                "줄 종류 %s 의 필수 칸이 개정 1 과 다르다 (칸을 더하면 옛 줄이 틀린다)" % t)
+            for k, sch1 in d1["properties"].items():
+                sch2 = d2["properties"].get(k)
+                why = "칸이 사라졌다" if sch2 is None else widens(sch1, sch2)
+                chk(why is None, "%s.%s 가 개정 1 보다 좁아졌다: %s" % (t, k, why))
+        chk(sorted(R1.get("x-forbiddenKeys", [])) == sorted(RS.get("x-forbiddenKeys", [])), "금지 칸 목록이 개정 1 과 다르다")
+        chk(RS.get("revision", 1) > R1.get("revision", 1) or RS == R1, "모양이 개정 1 고정본과 다른데 revision 이 안 올랐다")
+    else:
+        chk(False, "개정 1 고정본 %s 이 없다" % REV1_SCHEMA)
 
     # 문서 표와 견준다
     T = doc_tables(RDOC)
@@ -824,6 +877,34 @@ def results_fixture(G):
             if why:
                 bad.append("%s:%d %s" % (name, i, why))
     chk(not bad, "고정 기록 줄이 결과 모양을 못 지킨다 %d줄: %s" % (len(bad), " / ".join(bad[:2])))
+
+    # (1b) 나들이 줄 (개정 2). 모양을 통과하고, 개정 1 고정본의 모양으로는 못 쓰는 줄이다. 합쳐도 안 사라진다
+    if os.path.exists(OUTING_FIXTURE):
+        outl = read_lines(OUTING_FIXTURE)
+        badout = []
+        for i, ln in outl:
+            try:
+                why = val_event(json.loads(ln), RS)
+            except ValueError:
+                why = "json 아님"
+            if why:
+                badout.append("outing:%d %s" % (i, why))
+        chk(outl and not badout, "나들이 고정 줄이 결과 모양을 못 지킨다 %d줄: %s" % (len(badout), " / ".join(badout[:2])))
+        types = {json.loads(ln)["t"] for _, ln in outl}
+        kinds = {json.loads(ln).get("kind") for _, ln in outl}
+        chk({"outing_turn", "activity"} <= types and "outing" in kinds
+            and {json.loads(ln)["outcome"] for _, ln in outl} >= {"pass", "near", "miss"},
+            "나들이 고정 줄에 outing_turn, activity(kind outing) 와 pass near miss 가 다 있어야 한다")
+        if os.path.exists(REV1_SCHEMA):
+            R1 = load_json(REV1_SCHEMA)
+            old_ok = [i for i, ln in outl if val_event(json.loads(ln), R1) is None]
+            chk(not old_ok, "개정 1 모양으로도 통과하는 나들이 줄이 있다 (새 것을 시험하지 못한다): 줄 %s" % old_ok)
+        ev0, _ = py_merge([host, guest], RS)
+        evo, sto = py_merge([host, guest, outl], RS)
+        chk(sto["rejected"] == 0 and len(evo) == len(ev0) + len(outl),
+            "나들이 줄을 합치면 줄이 사라지거나 버려진다 (%d + %d -> %d, 버림 %d)" % (len(ev0), len(outl), len(evo), sto["rejected"]))
+    else:
+        chk(False, "나들이 고정 줄 %s 이 없다" % OUTING_FIXTURE)
 
     # (2) 파이썬 합치기가 고정된 합친 글과 바이트까지 같다 (C++ 가 맞춰야 하는 것)
     evs, st = py_merge([host, guest], RS)

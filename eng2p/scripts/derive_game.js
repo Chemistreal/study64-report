@@ -72,6 +72,11 @@ const START = "2026-08-10";
 /* 자료 계약 판 번호. sessions.json 의 칸이나 결과 줄의 모양이 바뀌면 올린다.
    결과 줄의 `v` 와 results_schema.json 의 `version` 이 이것과 같다 (check_game.py 가 본다) */
 const SCHEMA_VERSION = 1;
+/* 모양 개정 번호. **판 번호(SCHEMA_VERSION)와 다르다.** 줄의 `v` 는 1 그대로고 이미 쓴 줄은 모두 그대로 맞다.
+   개정 2 (2026-10-10): 나들이 미션 줄을 더했다. 더하기만 했다 (칸을 안 뺐고 범위를 안 좁혔다).
+   docs/game_results.md 4.15. check_game.py 가 개정 1 고정본(tools/game/results_fixture/results_schema.rev1.json)을 놓고
+   "넓히기만 했는가"를 본다 */
+const SCHEMA_REVISION = 2;
 const PLAYS_JS = path.join(HERE, "out", "app", "plays.js");
 const RECALL_JS = path.join(HERE, "app", "play", "recall.js");
 
@@ -162,7 +167,8 @@ function buildResultsSchema() {
     t0: str("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$", "시작 UTC 시각"),
     t1: str("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$", "끝 UTC 시각. t0 이상"),
   });
-  const BLOCK = { type: "integer", enum: [1, 2, 3, 4, 9], description: "블록 1~4, 9 는 바쁜 날 심부름" };
+  const BLOCK = { type: "integer", enum: [0, 1, 2, 3, 4, 9],
+    description: "블록 1~4, 9 는 바쁜 날 심부름, 0 은 블록 밖 (나들이 미션. 블록 시계에 안 든다. activity 의 kind outing 만 쓴다)" };
   const COUNT = (d) => int(0, 99, d);
   const def = (t, team, extra) => {
     const props = Object.assign(ENV(t, team), extra);
@@ -208,8 +214,13 @@ function buildResultsSchema() {
     }, unit, { hit: int(0, 999, "맞은 수"), miss: int(0, 999, "못 맞힌 수") })),
     activity: def("activity", false, Object.assign({
       block: BLOCK,
-      kind: en(["radio", "notebook", "set", "mentor", "diary", "errand", "retell"], "손으로 하는 블록 활동 종류"),
-      ref: str("^[A-Za-z0-9._-]{0,24}$", "자료 id (없으면 빈 글자)"),
+      kind: en(["radio", "notebook", "set", "mentor", "diary", "errand", "retell", "outing"],
+        "손으로 하는 블록 활동 종류. outing 은 나들이 미션 한 번의 결과 (block 0, ref 는 미션 id)"),
+      ref: str("^[A-Za-z0-9._-]{0,40}$", "자료 id (없으면 빈 글자). outing 이면 미션 id"),
+    }, unit)),
+    outing_turn: def("outing_turn", false, Object.assign({
+      mission: str("^[a-z0-9_]{3,40}$", "나들이 미션 id (outings.json missions[].id)"),
+      turn: int(1, 99, "그 미션 차례 표(game.turns)의 1부터 센 차례 번호. NPC 만 말하는 차례는 점수가 없어 줄이 없다"),
     }, unit)),
     note: def("note", true, { block: BLOCK, chars: int(0, 99999, "수첩에 쓴 글자 수. 글은 안 담는다") }),
     pause: def("pause", true, { on: { type: "boolean", description: "멈춤 켬 / 끔" } }),
@@ -220,11 +231,14 @@ function buildResultsSchema() {
     title: "호놀룰루 결과 JSONL 한 줄",
     description: "사실만 적는다. 소리, 받아쓴 글, 이름, 사람별 점수는 안 담는다. 풀이는 docs/game_results.md",
     version: SCHEMA_VERSION,
+    revision: SCHEMA_REVISION,
     generator: "scripts/derive_game.js",
     "x-forbiddenKeys": ["name", "nameA", "nameB", "who", "speaker", "player", "user", "mic", "text", "say",
                         "transcript", "heard", "audio", "path", "file", "rec", "score", "confidence", "wer"],
     "x-rules": ["t1 >= t0", "e 의 첫 글자 h/g 가 device host/guest 와 같다",
                 "date 는 달력에 있는 날이다", "한 줄은 한 JSON 객체이고 줄바꿈이 없다"],
+    "x-revisions": ["1 (2026-10-08) 줄 11가지",
+                    "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)"],
     oneOf: Object.keys(defs).map((k) => ({ $ref: "#/$defs/" + k })),
     $defs: defs,
   };
