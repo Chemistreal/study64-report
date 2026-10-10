@@ -1006,7 +1006,7 @@
 | bs-22 | ride | npc | Driver | Not yet. The next stop is the zoo. | A1 | 대답 | A | - | 아직이에요. 다음 정류장이 동물원이에요. |
 | bs-23 | stop | npc | Driver | This is the zoo! | A1 | 도착 알리기 | A | - | 동물원이에요! |
 | bs-24 | stop | option | 두 사람 | Thank you! We get off here. | A1 | 내리기 | A | - | 고맙습니다! 여기서 내려요. |
-| bs-25 | stop | option | 두 사람 | Stop here, please. | A1 | 내리기 | B | 미국 시내버스는 보통 정차 줄을 당겨 내릴 곳을 알린다. 기사에게 말로 세워 달라고 하는 것이 자연스러운지 확신이 없다 | 여기서 세워 주세요. |
+| bs-25 | stop | option | 두 사람 | Thank you! This is our stop. | A1 | 내리기 | A | - | 고맙습니다! 여기가 우리가 내릴 곳이에요. |
 | bs-26 | bye | npc | Driver | Have a nice day! | A1 | 작별 | A | - | 좋은 하루 보내세요! |
 | bs-27 | bye | wait | 두 사람 | Thank you! Bye! | A1 | 작별 | A | - | 고맙습니다! 안녕히 가세요! |
 
@@ -1363,7 +1363,7 @@
 | hb-02 | gear | option | 두 사람 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
 | hb-03 | gear | option | 두 사람 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
 | hb-04 | gear | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
-| hb-05 | gear | npc | Clerk | Sure. Masks, yes or no? | A1 | 되풀이 | B | 직원이 'yes or no?'로 되묻는 것이 자연스러운지 확신이 없다. 너무 딱딱하거나 퉁명스럽게 들릴 수 있다 | 네. 마스크요, 필요해요 아니면 아니에요? |
+| hb-05 | gear | npc | Clerk | Sure. Do you want masks? | A1 | 되풀이 | A | - | 네. 마스크 필요하세요? |
 | hb-06 | gear | npc | Clerk | And fins? | A2 | 장비 묻기 | A | - | 오리발은요? |
 | hb-07 | gear | option | A자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
 | hb-08 | gear | option | A자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |

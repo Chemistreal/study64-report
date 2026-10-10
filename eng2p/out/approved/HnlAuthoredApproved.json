@@ -1,5 +1,23 @@
 {
  "schemaVersion": 1,
  "note": "승인한 B 등급 지은 줄 id. scripts/apply_b_review.py 가 state/authored_b_review.json 에서 낸다. 손으로 안 고친다.",
- "approved": []
+ "approved": [
+  "am-13",
+  "am-27",
+  "bc-22",
+  "bs-09",
+  "bs-10",
+  "bs-14",
+  "cc-31",
+  "enb-31",
+  "ft-22",
+  "hb-30",
+  "hb-32",
+  "hf-07",
+  "hf-08",
+  "hf-09",
+  "lm-01",
+  "lm-24",
+  "si-24"
+ ]
 }

@@ -22,8 +22,8 @@
  ],
  "counts": {
   "lines": 559,
-  "selfCheckA": 540,
-  "selfCheckB": 19,
+  "selfCheckA": 542,
+  "selfCheckB": 17,
   "practice": 144
  },
  "lines": [
@@ -8021,17 +8021,17 @@
    "scene": "stop",
    "kind": "option",
    "who": "두 사람",
-   "say": "Stop here, please.",
+   "say": "Thank you! This is our stop.",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A1",
    "function": "내리기",
    "canDo": "cd-bs-1",
-   "selfCheck": "B",
-   "selfCheckWhy": "미국 시내버스는 보통 정차 줄을 당겨 내릴 곳을 알린다. 기사에게 말로 세워 달라고 하는 것이 자연스러운지 확신이 없다",
+   "selfCheck": "A",
+   "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "여기서 세워 주세요."
+   "ko": "고맙습니다! 여기가 우리가 내릴 곳이에요."
   },
   {
    "id": "bs-26",
@@ -10345,21 +10345,21 @@
    "scene": "gear",
    "kind": "npc",
    "who": "Clerk",
-   "say": "Sure. Masks, yes or no?",
+   "say": "Sure. Do you want masks?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A1",
    "function": "되풀이",
    "canDo": "cd-hb-1",
-   "selfCheck": "B",
-   "selfCheckWhy": "직원이 'yes or no?'로 되묻는 것이 자연스러운지 확신이 없다. 너무 딱딱하거나 퉁명스럽게 들릴 수 있다",
+   "selfCheck": "A",
+   "selfCheckWhy": null,
    "introduces": [
     "masks"
    ],
    "stretchWords": [
     "masks"
    ],
-   "ko": "네. 마스크요, 필요해요 아니면 아니에요?"
+   "ko": "네. 마스크 필요하세요?"
   },
   {
    "id": "hb-06",
