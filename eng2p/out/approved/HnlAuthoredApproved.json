@@ -1,0 +1,5 @@
+{
+ "schemaVersion": 1,
+ "note": "승인한 B 등급 지은 줄 id. scripts/apply_b_review.py 가 state/authored_b_review.json 에서 낸다. 손으로 안 고친다.",
+ "approved": []
+}
