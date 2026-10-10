@@ -266,8 +266,16 @@ def rule_a(u, rules):
              % (c[0][0], d[0][0], snip(text, c[0][1])))
 
 
+# 식별자(id)는 글이 아니다. `waikiki_beach`, `outing:manoa_falls` 처럼 ASCII 소문자와 밑줄, 쌍점뿐이고 밑줄이나 쌍점이 든 값은
+# 게임 저장소 HnlLandmarks.json 의 id 와 미션 id, 보상 열쇠다. 철자를 바꾸면 id 가 어긋난다 (2026-10-10, docs/outings.md).
+# 화면에 나오는 글(지명 이름)은 그대로 (b) 를 받는다
+IDENT = re.compile(r"[a-z0-9]+(?:[_:][a-z0-9]+)+")
+
+
 def rule_b(u, rules):
     if u["voa"]:
+        return
+    if IDENT.fullmatch(u["text"].strip()):
         return
     raw = URL.sub(" ", u["text"])
     if COMBINING_MACRON in raw:

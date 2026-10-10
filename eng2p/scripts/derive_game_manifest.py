@@ -52,7 +52,9 @@ LATER = ["spelling_rule.json", "judge.json", "replies.json", "voicelist.json", "
          # 세션 번호 기준 구간표 (docs/game_data.md 11장, scripts/derive_acts.py). 막이 아니라 세션 단위다
          "acts.json",
          # 입문 세션 대본 한국어 풀이 (docs/game_data.md 12장, scripts/derive_transcripts_ko.py). 게임이 있으면 읽는 선택 자료
-         "transcripts_ko.json"]
+         "transcripts_ko.json",
+         # 지은 영어와 나들이 미션 (docs/authored.md, docs/outings.md, 개정문 30번). 게임이 있으면 읽는 선택 자료. 지금 게임은 안 읽는다
+         "authored.json", "outings.json"]
 
 ALGORITHM = {
     "name": "dataHash/1",

@@ -10,6 +10,7 @@
 1. 제작 전에 docs/spec.md 의 해당 규격 절을 읽는다.
 2. 제작 후 반드시 `python3 scripts/all.py` 를 돌린다. 통과 못 하면 미완성이다.
 3. 확신 없는 영어 표현은 지어내지 말고 B등급으로 표시한다. 이것이 이 프로젝트의 1순위 규칙이다.
+   **예외 (사용자 2026-10-10, 개정문 30번): 게임에서는 필요한 영어를 `authored` 로 표시해 써도 된다.** 줄마다 자기 점검 A/B(확신 없으면 B)를 달고 관문을 통과해야 한다. docs/authored.md. 앱과 종이 교재와 2층 실제 발화는 그대로 창작 금지다
 
 ## 이 프로젝트의 구조적 위험
 
@@ -84,7 +85,7 @@ python3 scripts/all.py
 ```
 
 **한 줄이다.** 걸음은 `scripts/all.py` 의 `STEPS` 표가 쥐고 끝에 몇 걸음이었는지 찍는다.
-2026-10-10 에 백마흔셋이다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물셋, 화면 쉰아홉, 상태 갱신 셋이다 (check_ui.js 는 셋으로 쪼개 돌아 145번 돈다).
+2026-10-10 에 백마흔여섯이다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물넷, 화면 예순하나, 상태 갱신 셋이다 (check_ui.js 는 셋으로 쪼개 돌아 145번 돈다).
 기본은 **병렬**이다 (`scripts/par_run.py`, 일꾼 `min(6, cpu)`). 브라우저 검사까지 다 돌아 8분쯤 걸린다 (측정 427~492초). `--serial` 은 차례대로 21분쯤이다. 화면 검사가 브라우저를 띄운다.
 **건너뜀은 실패다.** 브라우저나 크로미움을 못 찾으면 `all.py` 가 1 로 끝난다. 일부러 건너뛸 때만 `--allow-skip`. 그 밖에 `--jobs N` `--only` `--times` `--timeout` `--plan`. 자세한 것은 `docs/pipeline.md`.
 이 컨테이너에서는 `NODE_PATH=/opt/node22/lib/node_modules` 와 루트 `tests/` 의 `npm install` (PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1) 이 있어야 브라우저 걸음이 돈다.
@@ -270,7 +271,7 @@ docs/scenes.md        장면 (G3). 뼈대는 셈, **대사는 이미 들은 VOA 
 docs/expansion.md     확장층 (라디오, Tatoeba 잡담, 안내문, 읽을거리, 48주 달력). 원문 docs/ext_notices.md, docs/ext_readers.md
 docs/culture.md       하와이 문화 지침 (자문 대신 자체 조사, 출처 32). scripts/check_culture.py 가 금지어, 하와이어 철자(U+02BB), 노래 쓰임을 본다
 scripts/derive_ext_*.py 확장층을 낸다. scripts/check_ext.py 가 열일곱 판을 보고 깬 시험도 한다
-scripts/derive_scenes.py 장면 288세션을 낸다. 지은 영어, 안 들은 과, 없는 사람이면 안 낸다
+scripts/derive_scenes.py 장면 288세션을 낸다. 말뭉치 줄은 지은 영어, 안 들은 과, 없는 사람이면 안 낸다. 근거 칸 `authored:<줄 id>` 는 지은 줄 관문(docs/authored.md)
 scripts/derive_town.py 동네 표를 맞춰 보고 out/game/town.json 을 낸다. 어긋나면 안 낸다
 tools/game/fetch_assets.py 게임 자료를 저장소 밖에 받는다. CC0 만. 목록과 해시는 tools/game/assets.json (해시는 sha256, 사진 스캔 모델 Poly Haven 은 받지 않고 API 의 md5. `polyhaven_models`, `verify`, `sample`)
 tools/game/fetch_assets.ps1 PC 에서 목록대로 D 드라이브에 받고 해시를 맞춘다 (md5 만 있으면 md5 로 맞추고 처음 잰 sha256 을 SHA256_FIRST.json 에). pc_busy.lock 이 있으면 안 돈다
@@ -282,6 +283,9 @@ scripts/derive_game_manifest.py out/game 파일의 크기와 해시와 dataHash
 scripts/derive_tick_bundle.py PC 에서 틱이 돌려면 필요한 29개 파일의 표 out/tick/manifest.json. game 저장소 Tools/sync_tick.ps1 이 받는다
 scripts/check_tick_e2e.py 틱을 49일 이어 돌려 독립 계산과 견준다. 멱등, 교환, 합침, 사다리 212일, --break 열여덟
 scripts/derive_transcripts_ko.py, scripts/check_transcripts_ko.py 입문 세션(1~50) 라디오 대본의 한국어 풀이 out/game/transcripts_ko.json. **원본은 docs/transcripts_ko.md 이고 번역은 B등급이다.** 기준서 13.1 예외 문단(개정문 29번)이 허락한 범위 안에서만. 열쇠는 `<과>#<줄 번호 1부터>`. docs/game_data.md 12장
+docs/authored.md      **지은 영어(authored).** 작성자가 필요한 영어를 쓴다 (개정문 30번). 줄마다 등급, 기능, 자기 점검 A/B. 원본 docs/authored_lines.md, 낱말 등급표 docs/authored_words.md
+scripts/derive_authored.py, scripts/check_authored.py 지은 줄을 out/game/authored.json 과 state/authored_b.md 로. 판 여덟, 깸 시험 서른둘. 말뭉치 줄의 관문은 그대로
+docs/outings.md       **나들이 미션** 55개 (첫 공개 세션 1~48 A1 은 18개: 생활 14, 여행 4). 실제 장소의 작은 미니게임, 시간 상한 없음, 세션 번호로 열림. scripts/derive_outings.py 가 out/game/outings.json 을 낸다. 파일럿은 에그스 앤 띵스 아침
 out/game/results_schema.json, out/game/manifest.json 파생물. 손으로 안 고친다
 tools/game/results_fixture/ 결과 합치기와 틱의 기준 시험 자료. 소리와 글이 없는 사실뿐이다
 docs/game_data.md     게임이 쥐는 자료 설명. 판정 열쇠(judge.json), NPC 대답(replies.json), 목소리 줄(voicelist.json), 덱 이름 처리(deck_names.json), 구간표(acts.json, 11장)

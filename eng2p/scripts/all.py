@@ -44,8 +44,8 @@
 
 - **파생 선**: 파생 마흔일곱 + 어긋남 하나. 적힌 차례대로 하나씩. 제일 먼저. 이게 끝나야 나머지가 시작한다
 - **게임 선**: derive_game.js → check_game.py → derive_scenes.py → derive_judge/replies/voicelist/deck_names → derive_acts
-  → derive_game_optional → derive_transcripts_ko → check_gamedata → derive_town → check_culture → derive_game_manifest --strict
-  → check_game --manifest → check_acts → check_transcripts_ko.
+  → derive_game_optional → derive_transcripts_ko → derive_authored → derive_outings → check_gamedata → derive_town → check_culture → derive_game_manifest --strict
+  → check_game --manifest → check_acts → check_transcripts_ko → check_authored.
   차례대로 하나씩. 서로 out/game 을 쓰고 읽는다
 - **점검 선**: 규격과 대조 파이썬 검사. 차례대로 하나씩 (check_ext 가 out/data 에 임시 파일을 만든다)
 - **화면 선**: 브라우저 검사마다 선 하나. 서로 읽기만 한다. check_ui.js 는 셋으로 쪼개 돈다
@@ -265,6 +265,10 @@ STEPS = [
     # 영어 칸이 transcripts.json 과 어긋나면 안 낸다. 매니페스트(derive_game_manifest --strict)가 적으므로 그 앞이고,
     # 영어 대본(derive_game_optional)이 먼저 나와야 해서 바로 뒤다
     ("화면", "derive_transcripts_ko.py", [], False),
+    # **지은 영어(authored)와 나들이 미션** (docs/authored.md, docs/outings.md, 기준서 개정문 30번). 원본은 docs/authored_lines.md 와 docs/outings.md.
+    # 낱말 등급, 길이, 문화, 중복, 말뭉치 베끼기 금지 관문을 못 넘으면 안 낸다. 게임이 있으면 읽는 선택 자료라 매니페스트(--strict)가 적으므로 그 앞이다
+    ("화면", "derive_authored.py", [], False),
+    ("화면", "derive_outings.py", [], False),
     ("대조", "check_gameopt.py", ["--break"], False),
     ("대조", "check_gamedata.py", ["--break"], False),
     # **동네는 문서가 원본이다** (docs/town.md). 장소 열넷이 무대 표와 같고 사람이 인물 표에
@@ -281,6 +285,8 @@ STEPS = [
     ("대조", "check_acts.py", ["--break"], False),
     # 한국어 풀이의 열쇠가 다 대본의 실제 줄이고 빈 줄이 없고 범위가 acts.json 과 같고 매니페스트가 맞는가. 매니페스트 뒤에 돈다
     ("대조", "check_transcripts_ko.py", ["--break"], False),
+    # 지은 영어의 판 여덟과 깸 시험 서른둘. 말뭉치 줄의 관문은 그대로이고 지은 줄에만 새 관문이 걸린다. 매니페스트 뒤에 돈다
+    ("대조", "check_authored.py", ["--break"], False),
     # **하루 끝 틱이 PC 에서 돌 파일 묶음의 표** (out/tick/manifest.json, docs/game_results.md 8장)와 49일을 이어 가는 끝에서 끝 시험
     ("화면", "derive_tick_bundle.py", [], False),
     ("화면", "check_tick_e2e.py", ["--break"], False),
@@ -387,13 +393,13 @@ STEPS = [
 # derive_game.js -> check_game.py -> derive_scenes.py -> derive_judge/replies/voicelist/deck_names -> derive_acts
 # -> derive_game_optional -> derive_transcripts_ko
 # -> check_gamedata -> derive_town -> check_culture -> derive_game_manifest --strict -> check_game --manifest -> check_acts
-# -> check_transcripts_ko
+# -> check_transcripts_ko -> check_authored
 # (derive_game_optional 이 out/game/transcripts.json 을 내고 derive_transcripts_ko 가 그것을 읽으므로 같은 선에 둔다)
 GAME_CHAIN = ("derive_game.js", "check_game.py", "derive_scenes.py", "derive_judge.py",
               "derive_replies.py", "derive_voicelist.py", "derive_deck_names.py", "derive_acts.py",
-              "derive_game_optional.py", "derive_transcripts_ko.py",
+              "derive_game_optional.py", "derive_transcripts_ko.py", "derive_authored.py", "derive_outings.py",
               "check_gamedata.py", "derive_town.py", "check_culture.py", "derive_game_manifest.py",
-              "check_acts.py", "check_transcripts_ko.py")
+              "check_acts.py", "check_transcripts_ko.py", "check_authored.py")
 
 # 병렬일 때 쪼개 도는 걸음 -> 부분 수 (`--part k/n` 을 받는다). 차례 실행은 안 쪼갠다
 SPLIT = {"check_ui.js": 3}

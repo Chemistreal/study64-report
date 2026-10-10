@@ -10,6 +10,8 @@
     대사가 근거 대본 한 사람의 말 안에서 이어진 문장 그대로인가
       이름 자리 {A} {B} 는 그 대본의 화자 이름만 대신한다. 대문자로 시작하는 아무 낱말이 아니다
     그 대본을 그 세션까지 이미 들었나
+      (근거 칸이 `authored:<줄 id>` 인 줄은 지은 영어다. 근거 대본, 들은 과, 이어진 문장 관문 대신 authored_lib.scene_line_ok.
+       docs/authored.md. 지금 scenes.md 에는 지은 줄이 없다)
     말하는 NPC 가 그 블록 장소에 있는 사람이거나 그 주 손님인가 (town.md 5장, 5.1, 5.2)
     인물 칸에 한 사람인가 ("Mr. and Mrs. Lee" 는 안 된다)
     48주가 다 화를 받았나. 세션마다 블록 넷이 장소와 사람을 가졌나
@@ -366,14 +368,24 @@ def main():
             FAIL.append("대사 표에 없는 세션이다: %d" % s)
             continue
         x = S[s - 1]
-        if src not in cache:
-            cache[src] = transcript(src)
-            nmcache[src] = names(src)
-        if cache[src] is None:
-            FAIL.append("세션 %d 대사의 근거 대본이 없다: %s" % (s, src))
-            continue
-        if src not in heard[s]:
-            FAIL.append("세션 %d 대사가 아직 안 들은 %s 에서 왔다: %s" % (s, src, text))
+        # 정책 2026-10-10 (docs/authored.md): 근거 칸이 `authored:<줄 id>` 면 지은 줄이다. 말뭉치 관문(근거 대본, 들은 과, grounded)은
+        # 말뭉치 줄에만 걸리고 그대로다. 지은 줄은 authored_lib 의 관문(낱말 등급, 길이 등)을 통과한 줄이어야 하고 글자가 그대로여야 한다.
+        # 막는 말, 상표, 연속성, 달력, 반복 상한, 판정형 재료 미리 말하기는 지은 줄에도 똑같이 건다
+        authored = src.startswith("authored:")
+        if authored:
+            import authored_lib as AL
+            ok, why = AL.scene_line_ok(text, spk, src, s)
+            if not ok:
+                FAIL.append("세션 %d 지은 줄 근거가 안 맞다: %s" % (s, why))
+        else:
+            if src not in cache:
+                cache[src] = transcript(src)
+                nmcache[src] = names(src)
+            if cache[src] is None:
+                FAIL.append("세션 %d 대사의 근거 대본이 없다: %s" % (s, src))
+                continue
+            if src not in heard[s]:
+                FAIL.append("세션 %d 대사가 아직 안 들은 %s 에서 왔다: %s" % (s, src, text))
         for brand in BRANDS:
             # 대소문자를 가린다. "target", "spam" 같은 보통 낱말을 상표로 잡지 않으려고
             if re.search(r"\b" + re.escape(brand) + r"\b", text):
@@ -387,7 +399,7 @@ def main():
                                 0 if kind != "슬랭" else re.I)
             if hit:
                 FAIL.append("세션 %d 대사에 막는 말이 있다 (%s %s): %s" % (s, kind, word, text))
-        if not grounded(text, cache[src], nmcache[src]):
+        if not authored and not grounded(text, cache[src], nmcache[src]):
             FAIL.append("세션 %d 대사가 %s 한 마디 안의 이어진 문장이 아니다 (이름 자리는 화자 %s 만): %s"
                         % (s, src, "/".join(nmcache[src]) or "없음", text))
         if TWO_IN_ONE.search(spk):

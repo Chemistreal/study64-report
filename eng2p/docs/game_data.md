@@ -27,12 +27,15 @@
 | `scripts/check_acts.py` | | acts.json 이 계획 숫자와 표에서 나온 것과 같고 매니페스트가 맞는지 본다 | |
 | `out/game/transcripts_ko.json` | `scripts/derive_transcripts_ko.py` (원본 `docs/transcripts_ko.md`) | 입문 세션의 듣기 뒤 대본 줄 밑에 한국어 풀이를 그린다. 12장 | 듣기 뒤 대본 밑 한 줄 |
 | `scripts/check_transcripts_ko.py` | | 모든 열쇠가 transcripts.json 의 실제 줄이고 한국어 줄이 비지 않고 세션 범위가 acts.json 과 맞는지 본다 (깸 시험) | |
+| `out/game/authored.json` | `scripts/derive_authored.py` (원본 `docs/authored_lines.md`, 낱말 `docs/authored_words.md`) | 지은 영어(authored) 줄. 줄마다 등급, 기능, 자기 점검 A/B, 새 낱말, 한국어 풀이(세션 50 이하). 13장 | 안 읽음 (로더 할 일) |
+| `out/game/outings.json` | `scripts/derive_outings.py` (원본 `docs/outings.md`) | 나들이 미션 표 (**첫 공개 18개만**: 세션 1~48, A1). 장소 id, 열리는 세션, 파일럿의 미니게임 차례. 13장 | 안 읽음 (로더 할 일) |
+| `scripts/check_authored.py` | | 지은 영어의 판 여덟과 깸 시험 (낱말 등급, 길이, 문화, 중복, 베끼기, 풀이 구간, 점검 B 목록, 미션 표) | |
 
 ## 2. 지키는 것
 
 | 규칙 | 여기서 |
 |---|---|
-| 영어를 새로 짓지 않는다 | NPC 줄은 이미 들은 대본 한 마디 안의 이어진 문장 그대로다. 이름만 `{A}` `{B}` 로 바뀐다 (scenes.md 2장). 응답 줄, 목소리 목록 줄, 바꾼 덱 글을 검사기가 파생기와 다른 코드로 다시 본다 |
+| 영어를 새로 짓지 않는다 | **(말뭉치 줄.** 지은 영어 `authored` 는 별도 선택 자료 `authored.json` 과 `outings.json`, docs/authored.md. 개정문 30번.) NPC 줄은 이미 들은 대본 한 마디 안의 이어진 문장 그대로다. 이름만 `{A}` `{B}` 로 바뀐다 (scenes.md 2장). 응답 줄, 목소리 목록 줄, 바꾼 덱 글을 검사기가 파생기와 다른 코드로 다시 본다 |
 | 들은 것만 | 줄은 그 줄을 처음 쓰는 세션까지 블록 1 에서 들은 과에 있어야 한다. 카드는 처음 나오는 세션이 기준이다 |
 | 정답은 둘 다 안 본다 | judge.json 은 게임만 쥔다. 앱 조각이 읽지 않고 장면, 응답, 목소리 목록, 덱 이름에 카드의 답이 없다 (game.md 1.3) |
 | 파생물은 손으로 안 고친다 | 네 JSON 은 원본을 다시 읽어 낸 것과 같아야 한다 (check_gamedata.py fresh) |
@@ -682,3 +685,17 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 | 대조 | check_transcripts_ko.py | --break | 아니오 (게임 선) |
 
 범위를 넓히는 순서: 새 과의 번역을 `docs/transcripts_ko.md` 에 넣는다, 기준서 13.1 예외 문단의 숫자와 11.3 표의 숫자를 같이 올린다, 두 파생기를 돌린다, game 저장소 `Data/` 를 바이트로 다시 받는다.
+
+## 13. 지은 영어와 나들이 미션 (authored.json, outings.json)
+
+둘 다 게임이 **있으면 읽는 선택 자료**다. 지금 게임은 안 읽는다(로더 할 일). 새 파일이라 `dataHash` 가 바뀌었고 기존 열여덟 파일(과 cards.json)은 바이트가 그대로다.
+
+| 파일 | 줄 | 설명 |
+|---|---|---|
+| `authored.json` | `lines[]` | `id outing scene kind who say provenance author cefr function canDo selfCheck selfCheckWhy introduces stretchWords ko? branchOf?` |
+| `authored.json` | `practice[]` | 나들이 안에서만 쓰는 연습 말 (기준서 8.1 카드 총량에 안 센다) |
+| `outings.json` | `missions[]` | `id kind placeId proposedPlaceId stage travel cefr canDo functions unlock{session week day date} reward authoring game?` |
+| `outings.json` | `rules` | `timeLimit null`, `occupiesBlock false`, `hoursCount nominal-only` (세션 계획을 안 바꾼다. docs/outings.md 4장) |
+
+규칙과 관문은 `docs/authored.md`, 배치는 `docs/outings.md`. 말뭉치 줄의 규칙(2장)은 그대로다.
+

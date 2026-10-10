@@ -1,0 +1,903 @@
+{
+ "schemaVersion": 1,
+ "note": "나들이 미션 표. 원본 docs/outings.md. 손으로 안 고친다. scripts/derive_outings.py 를 다시 돌린다. 게임은 아직 안 읽는다(선택 자료).",
+ "grade": "B",
+ "gradeWhy": "배치와 등급은 설계 판단이다. 영어는 authored (out/game/authored.json, 점검 A/B).",
+ "generator": "scripts/derive_outings.py",
+ "source": "docs/outings.md, docs/authored_lines.md, out/game/sessions.json, out/game/acts.json",
+ "rules": {
+  "timeLimit": null,
+  "occupiesBlock": false,
+  "hoursCount": "nominal-only",
+  "unlockBy": "sessionNumber",
+  "planUnchanged": {
+   "sessions": 288
+  },
+  "reward": {
+   "activity": {
+    "pass": 6,
+    "near": 5,
+    "miss": 3
+   },
+   "lineWait": {
+    "pass": 2,
+    "near": 2,
+    "miss": 1
+   },
+   "note": "Docs/level_KO.md 2장 표의 기존 단위(activity 6/5/3, line_wait 2/2/1)를 그대로 쓴다. 새 상수 없음."
+  }
+ },
+ "landmarkIdsFrom": "game Honolulu/Config/HnlLandmarks.json (snapshot in docs/outings.md 7장)",
+ "scope": {
+  "release": "first",
+  "throughSession": 48,
+  "note": "첫 공개(세션 1~48, A1) 미션만 든다. 이후 공개 라운드의 미션은 docs/outings.md 6장 표에만 있다.",
+  "laterMissions": 37
+ },
+ "counts": {
+  "missions": 18,
+  "byLevel": {
+   "A1": 18
+  },
+  "life": 14,
+  "trip": 4,
+  "authored": 1
+ },
+ "missions": [
+  {
+   "id": "neighbor_greeting",
+   "release": "first",
+   "kind": "life",
+   "placeId": null,
+   "proposedPlaceId": "apartment_hallway",
+   "stage": 0,
+   "travel": "town",
+   "cefr": "A1",
+   "canDo": "이웃에게 인사하고 이름을 말한다",
+   "functions": [
+    "인사",
+    "자기소개"
+   ],
+   "unlock": {
+    "session": 15,
+    "week": 3,
+    "day": 3,
+    "date": "2026-08-26"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:neighbor_greeting"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "hotel_front_desk",
+   "release": "first",
+   "kind": "life",
+   "placeId": "outrigger_reef",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "호텔 프런트에서 방 번호를 말하고 수건 같은 것을 부탁한다",
+   "functions": [
+    "부탁",
+    "숫자 말하기"
+   ],
+   "unlock": {
+    "session": 17,
+    "week": 3,
+    "day": 5,
+    "date": "2026-08-28"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:hotel_front_desk"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "cafe_order",
+   "release": "first",
+   "kind": "life",
+   "placeId": "island_vintage_coffee",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "카페에서 음료 하나와 크기를 말한다",
+   "functions": [
+    "주문(고르기)",
+    "크기"
+   ],
+   "unlock": {
+    "session": 20,
+    "week": 4,
+    "day": 2,
+    "date": "2026-09-01"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:cafe_order"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "convenience_store_abc",
+   "release": "first",
+   "kind": "life",
+   "placeId": null,
+   "proposedPlaceId": "abc_store_waikiki",
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "편의점에서 물건을 찾아 값을 묻고 계산한다",
+   "functions": [
+    "값 묻기",
+    "계산"
+   ],
+   "unlock": {
+    "session": 22,
+    "week": 4,
+    "day": 4,
+    "date": "2026-09-03"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:convenience_store_abc"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "cookie_snack",
+   "release": "first",
+   "kind": "life",
+   "placeId": "honolulu_cookie_company",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "쿠키를 골라 수를 말하고 값을 내고 감사한다",
+   "functions": [
+    "주문(수량)",
+    "값 묻기",
+    "감사"
+   ],
+   "unlock": {
+    "session": 23,
+    "week": 4,
+    "day": 5,
+    "date": "2026-09-04"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:cookie_snack"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "shave_ice_snack",
+   "release": "first",
+   "kind": "life",
+   "placeId": "waiola_shave_ice",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "맛과 크기를 골라 주문한다",
+   "functions": [
+    "주문(고르기)",
+    "크기"
+   ],
+   "unlock": {
+    "session": 26,
+    "week": 5,
+    "day": 2,
+    "date": "2026-09-08"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:shave_ice_snack"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "musubi_day",
+   "release": "first",
+   "kind": "life",
+   "placeId": "musubi_cafe_iyasume",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "무스비 종류를 고르고 개수를 말해 산다",
+   "functions": [
+    "주문(수량)",
+    "묻기"
+   ],
+   "unlock": {
+    "session": 28,
+    "week": 5,
+    "day": 4,
+    "date": "2026-09-10"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:musubi_day"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "waikiki_beach_chair_umbrella",
+   "release": "first",
+   "kind": "trip",
+   "placeId": "waikiki_beach",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "해변에서 의자와 우산을 빌리고 값을 묻는다",
+   "functions": [
+    "빌리기",
+    "값 묻기"
+   ],
+   "unlock": {
+    "session": 30,
+    "week": 5,
+    "day": 6,
+    "date": "2026-09-12"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:waikiki_beach_chair_umbrella"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "leonards_malasadas",
+   "release": "first",
+   "kind": "life",
+   "placeId": "leonards_bakery",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "말라사다 개수를 말하고 포장을 부탁한다",
+   "functions": [
+    "주문(수량)",
+    "포장 부탁"
+   ],
+   "unlock": {
+    "session": 37,
+    "week": 7,
+    "day": 1,
+    "date": "2026-09-21"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:leonards_malasadas"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "food_truck_lunch",
+   "release": "first",
+   "kind": "life",
+   "placeId": null,
+   "proposedPlaceId": "food_truck_waikiki",
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "푸드트럭에서 메뉴 하나를 고르고 옵션을 예 아니오로 답한다",
+   "functions": [
+    "주문",
+    "예 아니오 답"
+   ],
+   "unlock": {
+    "session": 39,
+    "week": 7,
+    "day": 3,
+    "date": "2026-09-23"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:food_truck_lunch"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "honolulu_zoo_ticket",
+   "release": "first",
+   "kind": "trip",
+   "placeId": "honolulu_zoo",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "동물원에서 표를 사고 몇 명인지 말한다",
+   "functions": [
+    "표 사기",
+    "인원 말하기"
+   ],
+   "unlock": {
+    "session": 41,
+    "week": 7,
+    "day": 5,
+    "date": "2026-09-25"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:honolulu_zoo_ticket"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "pharmacy_basic",
+   "release": "first",
+   "kind": "life",
+   "placeId": null,
+   "proposedPlaceId": "pharmacy",
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "약국에서 필요한 물건 이름을 말하고 값을 묻는다",
+   "functions": [
+    "물건 말하기",
+    "값 묻기"
+   ],
+   "unlock": {
+    "session": 42,
+    "week": 7,
+    "day": 6,
+    "date": "2026-09-26"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:pharmacy_basic"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "cheesecake_dessert",
+   "release": "first",
+   "kind": "life",
+   "placeId": "cheesecake_factory",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "디저트 하나를 고르고 음료와 함께 주문한다",
+   "functions": [
+    "주문(고르기)",
+    "음료"
+   ],
+   "unlock": {
+    "session": 43,
+    "week": 8,
+    "day": 1,
+    "date": "2026-09-28"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:cheesecake_dessert"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "bus_fare_question",
+   "release": "first",
+   "kind": "life",
+   "placeId": null,
+   "proposedPlaceId": "bus_stop_kalakaua",
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "버스 요금을 묻고 내릴 곳을 말한다",
+   "functions": [
+    "요금 묻기",
+    "장소 말하기"
+   ],
+   "unlock": {
+    "session": 44,
+    "week": 8,
+    "day": 2,
+    "date": "2026-09-29"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:bus_fare_question"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "ala_moana_basic_shopping",
+   "release": "first",
+   "kind": "life",
+   "placeId": "ala_moana_center",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "가게에서 크기와 값을 묻고 사서 계산한다",
+   "functions": [
+    "크기 묻기",
+    "값 묻기",
+    "계산"
+   ],
+   "unlock": {
+    "session": 45,
+    "week": 8,
+    "day": 3,
+    "date": "2026-09-30"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:ala_moana_basic_shopping"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "diamond_head_lookout_directions",
+   "release": "first",
+   "kind": "trip",
+   "placeId": "diamond_head_lookout",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "전망대로 가는 길을 묻고 대답을 알아듣는다",
+   "functions": [
+    "길 묻기",
+    "방향 알아듣기"
+   ],
+   "unlock": {
+    "session": 46,
+    "week": 8,
+    "day": 4,
+    "date": "2026-10-01"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:diamond_head_lookout_directions"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  },
+  {
+   "id": "eggs_n_things_breakfast",
+   "release": "first",
+   "kind": "life",
+   "placeId": "eggs_n_things_saratoga",
+   "proposedPlaceId": null,
+   "stage": 1,
+   "travel": "walk-or-fast",
+   "cefr": "A1",
+   "canDo": "간단한 아침 식사를 주문하고 계산한다",
+   "functions": [
+    "인원 말하기",
+    "주문",
+    "되묻기",
+    "계산"
+   ],
+   "unlock": {
+    "session": 47,
+    "week": 8,
+    "day": 5,
+    "date": "2026-10-02"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:eggs_n_things_breakfast"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "파일럿 완료",
+   "game": {
+    "timeLimit": null,
+    "retryable": true,
+    "turns": [
+     {
+      "id": "t1",
+      "scene": "door",
+      "npc": [
+       "enb-01"
+      ],
+      "pick": [
+       "enb-02"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n1",
+      "scene": "door",
+      "npc": [
+       "enb-03",
+       "enb-04"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t2",
+      "scene": "drink",
+      "npc": [
+       "enb-05"
+      ],
+      "pick": [
+       "enb-06",
+       "enb-07",
+       "enb-08"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "n2",
+      "scene": "drink",
+      "npc": [
+       "enb-09"
+      ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t3",
+      "scene": "order",
+      "npc": [
+       "enb-10"
+      ],
+      "pick": [
+       "enb-11"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t4",
+      "scene": "order",
+      "npc": [],
+      "pick": [
+       "enb-12"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t5",
+      "scene": "order",
+      "npc": [],
+      "pick": [
+       "enb-13"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6",
+      "scene": "order",
+      "npc": [
+       "enb-14"
+      ],
+      "pick": [
+       "enb-15",
+       "enb-16"
+      ],
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t7",
+      "scene": "order",
+      "npc": [
+       "enb-14"
+      ],
+      "pick": [
+       "enb-17",
+       "enb-18"
+      ],
+      "seat": "B",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t8",
+      "scene": "order",
+      "npc": [
+       "enb-19"
+      ],
+      "pick": [
+       "enb-20"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "food",
+      "npc": [
+       "enb-21"
+      ],
+      "pick": [
+       "enb-22"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "food",
+      "npc": [
+       "enb-23"
+      ],
+      "pick": [
+       "enb-24",
+       "enb-25",
+       "enb-26"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t11",
+      "scene": "pay",
+      "npc": [],
+      "pick": [
+       "enb-27"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
+      "scene": "pay",
+      "npc": [
+       "enb-28"
+      ],
+      "pick": [
+       "enb-29",
+       "enb-30"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "enb-30": "enb-31"
+      }
+     },
+     {
+      "id": "t13",
+      "scene": "pay",
+      "npc": [
+       "enb-32"
+      ],
+      "pick": [
+       "enb-33"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     }
+    ],
+    "result": {
+     "turnOutcomes": [
+      "pass",
+      "near",
+      "miss"
+     ],
+     "passShare": 77,
+     "nearShare": 54,
+     "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"
+    },
+    "practice": [
+     "enb-p1",
+     "enb-p2",
+     "enb-p3",
+     "enb-p4",
+     "enb-p5",
+     "enb-p6",
+     "enb-p7",
+     "enb-p8"
+    ]
+   }
+  },
+  {
+   "id": "hanauma_bay_gear_rental",
+   "release": "first",
+   "kind": "trip",
+   "placeId": "hanauma_bay",
+   "proposedPlaceId": null,
+   "stage": 3,
+   "travel": "screen-transition",
+   "cefr": "A1",
+   "canDo": "스노클링 장비를 빌릴지 예 아니오로 답하고 크기를 말한다",
+   "functions": [
+    "예 아니오 답",
+    "크기 말하기"
+   ],
+   "unlock": {
+    "session": 48,
+    "week": 8,
+    "day": 6,
+    "date": "2026-10-03"
+   },
+   "reward": {
+    "activity": {
+     "pass": 6,
+     "near": 5,
+     "miss": 3,
+     "ref": "outing:hanauma_bay_gear_rental"
+    },
+    "lineWait": {
+     "pass": 2,
+     "near": 2,
+     "miss": 1
+    }
+   },
+   "authoring": "대기"
+  }
+ ]
+}

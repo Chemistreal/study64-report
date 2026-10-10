@@ -19,6 +19,7 @@ ND 가 막는 것은 고친 판을 남에게 주는 것이므로, 말뭉치는 �
     7 santa_barbara    Santa Barbara 말뭉치: 저장소에 소리, 자른 파일, 대본 원문(.trn, .cha)이 없다. 등록부 60건이 고치지 않은 채 배포한다는 꼴과 저작자 표기를 갖췄다
     8 no_external      english.html 과 eng2p/app 이 밖의 주소에서 글꼴, 스크립트, 이미지를 불러오지 않는다
     9 no_font_files    저장소에 글꼴 파일(ttf, otf, woff)이 없다 (글꼴은 PC 에만. sources.md 5장)
+   11 authored_provenance  out/game/authored.json (지은 영어) 줄마다 provenance 가 authored, 작성자 태그, 말뭉치 근거(from) 없음, 말뭉치 대본과 8낱말 이상 이어서 같지 않음 (docs/authored.md 3장)
    10 assets_hash      assets.json 의 모든 항목이 무결성을 맞출 수 있다: sha256(64자 16진수) 가 있거나, **md5(32자) 만 있는 새 꼴**이다. 크기(bytes)는 양수.
                        md5 만 있는 꼴(받지 않고 출처 API 값을 옮긴 항목)은 **Poly Haven 사진 스캔 모델 하나뿐이다** (2026-10-09):
                        source polyhaven, file polyhaven/models/<model>/..., 주소는 https://dl.polyhaven.org/, 권리 CC0-1.0, 1K 만(_2k 이상 이름 금지),
@@ -176,6 +177,8 @@ def load():
     ctx["loads"] = loads
     ctx["scanned"] = scanned
     ctx["font_files"] = [p for p in files if os.path.splitext(p)[1].lower() in FONT_SUFFIX]
+    ctx["authored"] = read_json(os.path.join(ROOT, "out", "game", "authored.json")) if os.path.exists(
+        os.path.join(ROOT, "out", "game", "authored.json")) else {"lines": []}
     return ctx
 
 
@@ -384,11 +387,31 @@ def c_no_font_files(ctx):
     return ["글꼴 파일이 저장소에 있다: %s" % p for p in ctx["font_files"]], []
 
 
+def c_authored_provenance(ctx):
+    """판 11: 지은 영어(authored)는 권리가 작성자에게 있다. 말뭉치 줄을 지은 줄로 둔갑시키거나 긴 구절을 베끼면 안 된다.
+    VOA 는 퍼블릭 도메인이지만 Santa Barbara 말뭉치는 BY-ND 라 고친 판을 남에게 줄 수 없다. 긴 베끼기를 막는 것이 그 선을 지킨다.
+    줄마다 provenance 가 authored 이고 작성자가 있고 말뭉치 근거(from)가 없고, 말뭉치 대본과 낱말 8개 이상 이어서 같지 않다"""
+    sys.path.insert(0, HERE)
+    import authored_lib as AL
+    fatal = []
+    for ln in ctx["authored"].get("lines", []):
+        i = ln.get("id")
+        if ln.get("provenance") != "authored":
+            fatal.append("%s: provenance 가 authored 가 아니다: %s" % (i, ln.get("provenance")))
+        if "from" in ln:
+            fatal.append("%s: authored 줄에 말뭉치 근거(from)가 있다. 말뭉치 줄은 scenes.md 에 둔다" % i)
+        if not ln.get("author"):
+            fatal.append("%s: 작성자 태그가 없다" % i)
+        if AL.longest_shared(ln.get("say", "")) >= AL.COPY_FAIL:
+            fatal.append("%s: 말뭉치와 %d낱말 이상 이어서 같다" % (i, AL.COPY_FAIL))
+    return fatal[:20], []
+
+
 CHECKS = [
     ("assets_license", c_assets_license), ("assets_ccby", c_assets_ccby), ("ext_license", c_ext_license),
     ("ext_ccby_credit", c_ext_ccby_credit), ("media_license", c_media_license), ("registry_license", c_registry_license),
     ("santa_barbara", c_santa_barbara), ("no_external", c_no_external), ("no_font_files", c_no_font_files),
-    ("assets_hash", c_assets_hash),
+    ("assets_hash", c_assets_hash), ("authored_provenance", c_authored_provenance),
 ]
 
 
@@ -558,7 +581,21 @@ def breaks(ctx):
     def mut_hash_page(c):
         model_items(c)[0]["page"] = "https://example.invalid/a/x"
 
+    def mut_authored_provenance(c):
+        c["authored"]["lines"][0]["provenance"] = "corpus"
+
+    def mut_authored_from(c):
+        c["authored"]["lines"][0]["from"] = "lle1-01"
+
+    def mut_authored_author(c):
+        c["authored"]["lines"][0]["author"] = ""
+
+    def mut_authored_copy(c):
+        import authored_lib as AL
+        c["authored"]["lines"][0]["say"] = " ".join(sorted(AL.corpus_ngrams(AL.COPY_FAIL))[0])
+
     plan = {
+        "authored_provenance": [mut_authored_provenance, mut_authored_from, mut_authored_author, mut_authored_copy],
         "assets_license": [mut_assets_license, mut_assets_license_empty, mut_assets_nd_other_source, mut_assets_sbc_nd_other_version,
                            mut_assets_sbc_nc, mut_assets_sbc_wrong_url, mut_assets_sbc_missing, mut_assets_sbc_dup, mut_assets_sbc_audio, mut_assets_model_nc],
         "assets_ccby": [mut_assets_ccby, mut_assets_sbc_credit_empty, mut_assets_sbc_credit_changed, mut_assets_sbc_no_page, mut_assets_ccby_md5_no_credit],
