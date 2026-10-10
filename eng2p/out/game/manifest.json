@@ -1,7 +1,7 @@
 {
  "note": "게임 Data 폴더에 들어가는 *.json 의 크기와 해시, 그리고 두 노트북이 맞춰 보는 dataHash 다. 손으로 고치지 않는다. scripts/derive_game_manifest.py 를 다시 돌린다.",
  "generator": "scripts/derive_game_manifest.py",
- "dataHash": "1225be0e8dc8dbfedebec40f152561d0b5cfe1062f2d0dc289100e6b5d01e841",
+ "dataHash": "8227f9ced469e9f0078f9767d21ef7e1b4c3f537cc2dec3e91c821deda4fba40",
  "algorithm": {
   "name": "dataHash/1",
   "files": "Data/*.json 중 manifest.json 과 *.local.json 을 뺀 것",
@@ -9,12 +9,12 @@
   "line": "이름 + ':' + 파일 바이트의 sha256 소문자 16진수",
   "hash": "줄마다 LF 를 붙여 이은 글(끝에도 LF 하나)의 UTF-8 바이트 sha256 소문자 16진수"
  },
- "count": 19,
+ "count": 20,
  "files": [
   {
    "file": "acts.json",
-   "bytes": 2563,
-   "sha256": "ed78857bd18e77a829c161699e86835ba6214b50bf9ad61e24b2ecacc58f2a0e",
+   "bytes": 2763,
+   "sha256": "68c88fe0287c90cffadf1e3aef1d41b77afa141dc5b0de19f8171cb71b9fd032",
    "from": "out/game/acts.json"
   },
   {
@@ -118,6 +118,12 @@
    "bytes": 107902,
    "sha256": "956e33496a04ea142711048dc3e1fbf4cea75ea850b9202b97713d5ce251aa89",
    "from": "out/game/transcripts.json"
+  },
+  {
+   "file": "transcripts_ko.json",
+   "bytes": 25025,
+   "sha256": "9ee6a960955c099317e22620996a84331d82a7c121a163403fcec6ba2b9920f4",
+   "from": "out/game/transcripts_ko.json"
   },
   {
    "file": "voicelist.json",

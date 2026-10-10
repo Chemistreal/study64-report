@@ -44,7 +44,8 @@
 
 - **파생 선**: 파생 마흔일곱 + 어긋남 하나. 적힌 차례대로 하나씩. 제일 먼저. 이게 끝나야 나머지가 시작한다
 - **게임 선**: derive_game.js → check_game.py → derive_scenes.py → derive_judge/replies/voicelist/deck_names → derive_acts
-  → check_gamedata → derive_town → check_culture → derive_game_manifest --strict → check_game --manifest → check_acts.
+  → derive_game_optional → derive_transcripts_ko → check_gamedata → derive_town → check_culture → derive_game_manifest --strict
+  → check_game --manifest → check_acts → check_transcripts_ko.
   차례대로 하나씩. 서로 out/game 을 쓰고 읽는다
 - **점검 선**: 규격과 대조 파이썬 검사. 차례대로 하나씩 (check_ext 가 out/data 에 임시 파일을 만든다)
 - **화면 선**: 브라우저 검사마다 선 하나. 서로 읽기만 한다. check_ui.js 는 셋으로 쪼개 돈다
@@ -260,6 +261,10 @@ STEPS = [
     # **게임이 있으면 읽는 선택 자료 여덟** (docs/game_data.md 10장). 앱 파일은 게임 로더가 그대로 못 읽어서 읽는 꼴로 다시 낸다.
     # 매니페스트(derive_game_manifest --strict)가 이 여덟을 적으므로 그 앞이다
     ("화면", "derive_game_optional.py", [], False),
+    # **입문 세션 대본의 한국어 풀이** (docs/game_data.md 12장, 기준서 13.1 예외 = 개정문 29번). 원본은 docs/transcripts_ko.md,
+    # 영어 칸이 transcripts.json 과 어긋나면 안 낸다. 매니페스트(derive_game_manifest --strict)가 적으므로 그 앞이고,
+    # 영어 대본(derive_game_optional)이 먼저 나와야 해서 바로 뒤다
+    ("화면", "derive_transcripts_ko.py", [], False),
     ("대조", "check_gameopt.py", ["--break"], False),
     ("대조", "check_gamedata.py", ["--break"], False),
     # **동네는 문서가 원본이다** (docs/town.md). 장소 열넷이 무대 표와 같고 사람이 인물 표에
@@ -274,6 +279,8 @@ STEPS = [
     ("화면", "check_game.py", ["--manifest"], False),
     # 구간표가 계획 숫자에서 다시 센 것과 같고 매니페스트가 그 파일의 크기와 해시를 맞게 적었는가. 매니페스트 뒤에 돈다
     ("대조", "check_acts.py", ["--break"], False),
+    # 한국어 풀이의 열쇠가 다 대본의 실제 줄이고 빈 줄이 없고 범위가 acts.json 과 같고 매니페스트가 맞는가. 매니페스트 뒤에 돈다
+    ("대조", "check_transcripts_ko.py", ["--break"], False),
     # **하루 끝 틱이 PC 에서 돌 파일 묶음의 표** (out/tick/manifest.json, docs/game_results.md 8장)와 49일을 이어 가는 끝에서 끝 시험
     ("화면", "derive_tick_bundle.py", [], False),
     ("화면", "check_tick_e2e.py", ["--break"], False),
@@ -378,11 +385,15 @@ STEPS = [
 
 # 게임 사슬. 서로 out/game 을 쓰고 읽는다. STEPS 에 적힌 차례대로 한 선에서 돈다.
 # derive_game.js -> check_game.py -> derive_scenes.py -> derive_judge/replies/voicelist/deck_names -> derive_acts
+# -> derive_game_optional -> derive_transcripts_ko
 # -> check_gamedata -> derive_town -> check_culture -> derive_game_manifest --strict -> check_game --manifest -> check_acts
+# -> check_transcripts_ko
+# (derive_game_optional 이 out/game/transcripts.json 을 내고 derive_transcripts_ko 가 그것을 읽으므로 같은 선에 둔다)
 GAME_CHAIN = ("derive_game.js", "check_game.py", "derive_scenes.py", "derive_judge.py",
               "derive_replies.py", "derive_voicelist.py", "derive_deck_names.py", "derive_acts.py",
+              "derive_game_optional.py", "derive_transcripts_ko.py",
               "check_gamedata.py", "derive_town.py", "check_culture.py", "derive_game_manifest.py",
-              "check_acts.py")
+              "check_acts.py", "check_transcripts_ko.py")
 
 # 병렬일 때 쪼개 도는 걸음 -> 부분 수 (`--part k/n` 을 받는다). 차례 실행은 안 쪼갠다
 SPLIT = {"check_ui.js": 3}

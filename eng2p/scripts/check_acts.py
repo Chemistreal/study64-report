@@ -9,7 +9,8 @@
     3 ranges    구간이 1 에서 288 까지 틈과 겹침 없이 이어지고 등급이 A1 A2 B1 B2 차례로 오르며 이웃이 같지 않고 시간이 맞다
     4 derive    세션 288개를 하나씩 세어 구간의 등급과 같다. 기준선이 11.1 표와 같다
     5 release   throughSession 이 0~288 정수다
-    6 captions  한국어 번역이 거짓이다. 듣는 동안이 꺼져 있다. 기준서 13.1 의 한국어 자막 줄이 그대로 있다
+    6 captions  한국어 번역이 거짓이다. 듣는 동안이 꺼져 있다. 기준서 13.1 의 한국어 자막 줄이 그대로 있다.
+                한국어 풀이 한계(koreanTranslationThroughSession)가 0~288 정수이고 11.3 표와 기준서 13.1 예외 문단의 숫자와 같다
     7 extension 289 와 C1 과 later 다
     8 chars     금지 문자와 한국어 밖의 비 ASCII 가 없다
     9 manifest  manifest.json 이 acts.json 을 적고 크기와 해시가 지금 파일과 같고 dataHash 가 맞다
@@ -47,7 +48,8 @@ KEYS = {"schemaVersion": int, "note": str, "grade": str, "gradeWhy": str, "gener
         "extension": dict}
 SUB = {"plan": {"sessions": int, "hoursPerSession": int, "totalHours": int, "passHours": list},
        "release": {"throughSession": int, "rule": str},
-       "captions": {"duringListening": str, "afterListening": str, "koreanTranslation": bool, "why": str},
+       "captions": {"duringListening": str, "afterListening": str, "koreanTranslation": bool,
+                    "koreanTranslationThroughSession": int, "why": str},
        "extension": {"fromSession": int, "target": str, "status": str, "why": str}}
 LEVEL_KEYS = {"cefr": str, "fromSession": int, "toSession": int, "fromHours": int, "toHours": int}
 ORDER = ["A1", "A2", "B1", "B2"]
@@ -88,6 +90,20 @@ def pass_last_hours():
     return [int(x) for x in re.findall(r'\{k:"hrs"[^}]*?need:(\d+)', src)]
 
 
+def doc_gloss_through():
+    """11.3 표의 koreanTranslationThroughSession 값 (파생기의 읽는 함수를 쓰지 않고 따로 읽는다)."""
+    with open(DOC, encoding="utf-8") as f:
+        m = re.search(r"^\|\s*koreanTranslationThroughSession\s*\|\s*(\d+)\s*\|", f.read(), re.M)
+    return int(m.group(1)) if m else None
+
+
+def spec_gloss_through():
+    """기준서 13.1 예외 문단의 '한국어 풀이는 세션 1~N 에서만 보인다.' 의 N."""
+    with open(SPEC, encoding="utf-8") as f:
+        m = re.search(r"한국어 풀이는 세션 1~(\d+) 에서만 보인다\.", f.read())
+    return int(m.group(1)) if m else None
+
+
 def spec_line_ok():
     with open(SPEC, encoding="utf-8") as f:
         for line in f:
@@ -109,6 +125,8 @@ def load():
         "pass": pass_last_hours(),
         "th": doc_thresholds(),
         "spec": spec_line_ok(),
+        "docThrough": doc_gloss_through(),
+        "specThrough": spec_gloss_through(),
         "dataHash": DGM.data_hash(DGM.collect()[0]),
     }
 
@@ -247,6 +265,13 @@ def rule_captions(d):
         out.append("captions.afterListening 이 off 나 en 이 아니다: %r" % (c.get("afterListening"),))
     if not d["spec"]:
         out.append("기준서 13.1 의 '한국어 자막 / 전 구간' 줄이 없다. 풀렸으면 11.3 표와 이 검사를 같이 고친다")
+    n = c.get("koreanTranslationThroughSession")
+    plan = d["acts"].get("plan") if isinstance(d["acts"].get("plan"), dict) else {}
+    if not is_int(n) or not 0 <= n <= plan.get("sessions", 288):
+        out.append("captions.koreanTranslationThroughSession 이 0~%d 정수가 아니다: %r" % (plan.get("sessions", 288), n))
+    elif n != d["docThrough"] or n != d["specThrough"]:
+        out.append("captions.koreanTranslationThroughSession %r 이 11.3 표 %r 또는 기준서 13.1 예외 문단 %r 와 다르다"
+                   % (n, d["docThrough"], d["specThrough"]))
     return out
 
 
@@ -407,6 +432,22 @@ def breaks():
     @add("듣는 동안 영어 글을 켠다", "captions")
     def _(d):
         d["acts"]["captions"]["duringListening"] = "en"
+
+    @add("한국어 풀이 한계를 289 로 적는다", "captions")
+    def _(d):
+        d["acts"]["captions"]["koreanTranslationThroughSession"] = 289
+
+    @add("한국어 풀이 한계를 표와 다른 49 로 적는다", "captions")
+    def _(d):
+        d["acts"]["captions"]["koreanTranslationThroughSession"] = 49
+
+    @add("기준서 13.1 예외 문단의 숫자가 표와 다르다", "captions")
+    def _(d):
+        d["specThrough"] = 48
+
+    @add("한국어 풀이 한계 칸을 문자열로 바꾼다", "keys")
+    def _(d):
+        d["acts"]["captions"]["koreanTranslationThroughSession"] = "50"
 
     @add("기준서 13.1 의 한국어 자막 줄이 풀렸다", "captions")
     def _(d):

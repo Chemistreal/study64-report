@@ -73,7 +73,8 @@
   "duringListening": "off",
   "afterListening": "en",
   "koreanTranslation": false,
-  "why": "영어 글은 듣기를 끝낸 뒤에만 보인다. 듣는 동안은 지금처럼 글이 없다. 한국어 자막과 번역은 안 된다 (기준서 13.1)."
+  "koreanTranslationThroughSession": 50,
+  "why": "영어 글은 듣기를 끝낸 뒤에만 보인다. 듣는 동안은 지금처럼 글이 없다. 일반 한국어 자막과 번역은 안 된다 (기준서 13.1 표). 예외: 세션 1~50 은 듣기를 끝낸 뒤 영어 줄 밑에 한국어 풀이 한 줄이 된다 (13.1 예외 문단, 글은 transcripts_ko.json)."
  },
  "extension": {
   "fromSession": 289,

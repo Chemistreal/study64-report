@@ -11,7 +11,9 @@
               시작의 소리와 글자(Pre-A1)는 A1 에 든다
     공개      11.2 표의 throughSession. 이 번호보다 큰 세션은 게임이 '곧 열려요' 로 잠근다. 세션이 하나씩 완성 기준을
               넘길 때마다 표의 값을 올린다 (지금은 48 이라 49번부터 잠긴다)
-    자막      11.3 표. 듣는 동안은 안 보이고 듣기를 끝낸 뒤에 영어 글만 보인다. 한국어 번역은 안 된다 (기준서 13.1)
+    자막      11.3 표. 듣는 동안은 안 보이고 듣기를 끝낸 뒤에 영어 글만 보인다. 일반 한국어 번역은 안 된다 (기준서 13.1 표).
+              예외 하나: koreanTranslationThroughSession 번 세션까지는 듣기 뒤 대본 밑 한국어 풀이가 된다 (13.1 예외 문단, 개정문 29번.
+              풀이 글은 12장 transcripts_ko.json). 문단의 숫자가 11.3 표의 숫자와 같아야 낸다
     늘리기    289번 세션부터 C1 을 향해 나중에 이어 붙인다. 지금은 later
 
 **기준선은 케임브리지 영어가 말하는 안내된 학습 시간의 근사 안내다. 보증이 아니고 개인차가 크다.** 그래서 등급은 B등급이다.
@@ -160,6 +162,13 @@ def spec_forbids_korean_caption():
     return False
 
 
+def spec_korean_gloss_through():
+    """기준서 13.1 예외 문단의 '한국어 풀이는 세션 1~N 에서만 보인다.' 의 N. 없으면 None."""
+    with open(SPEC, encoding="utf-8") as f:
+        m = re.search(r"한국어 풀이는 세션 1~(\d+) 에서만 보인다\.", f.read())
+    return int(m.group(1)) if m else None
+
+
 def build(errs):
     plan = plan_numbers(errs)
     th = thresholds(errs)
@@ -189,6 +198,14 @@ def build(errs):
     if not spec_forbids_korean_caption():
         errs.append("기준서 13.1 의 '한국어 자막 / 전 구간' 줄이 없다. 풀렸으면 11.3 표와 이 파생기를 같이 고친다")
         return None
+    kt = cap.get("koreanTranslationThroughSession", "")
+    if not kt.isdigit() or not 0 <= int(kt) <= plan["sessions"]:
+        errs.append("koreanTranslationThroughSession 이 0~%d 정수가 아니다: %s" % (plan["sessions"], kt))
+        return None
+    if int(kt) != spec_korean_gloss_through():
+        errs.append("11.3 표의 koreanTranslationThroughSession %s 이 기준서 13.1 예외 문단의 숫자 %s 와 다르다. 둘을 같이 올린다"
+                    % (kt, spec_korean_gloss_through()))
+        return None
     if ext.get("target") not in ("C1",) or ext.get("status") not in ("later", "open"):
         errs.append("늘리기 칸이 C1 later 가 아니다: %s" % ext)
         return None
@@ -216,7 +233,9 @@ def build(errs):
             "duringListening": cap["duringListening"],
             "afterListening": cap["afterListening"],
             "koreanTranslation": False,
-            "why": "영어 글은 듣기를 끝낸 뒤에만 보인다. 듣는 동안은 지금처럼 글이 없다. 한국어 자막과 번역은 안 된다 (기준서 13.1).",
+            "koreanTranslationThroughSession": int(kt),
+            "why": "영어 글은 듣기를 끝낸 뒤에만 보인다. 듣는 동안은 지금처럼 글이 없다. 일반 한국어 자막과 번역은 안 된다 (기준서 13.1 표). "
+                   "예외: 세션 1~%s 은 듣기를 끝낸 뒤 영어 줄 밑에 한국어 풀이 한 줄이 된다 (13.1 예외 문단, 글은 transcripts_ko.json)." % kt,
         },
         "extension": {
             "fromSession": plan["sessions"] + 1,
@@ -237,10 +256,11 @@ def main():
     text = json.dumps(body, ensure_ascii=False, indent=1) + "\n"
     with open(OUT, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
-    print("out/game/acts.json / 세션 %d개 %d시간 / 구간 %s / 공개 %d번까지 / 자막 듣기 뒤 %s"
+    print("out/game/acts.json / 세션 %d개 %d시간 / 구간 %s / 공개 %d번까지 / 자막 듣기 뒤 %s / 한국어 풀이 1~%d번"
           % (body["plan"]["sessions"], body["plan"]["totalHours"],
              " ".join("%s %d-%d" % (r["cefr"], r["fromSession"], r["toSession"]) for r in body["levels"]),
-             body["release"]["throughSession"], body["captions"]["afterListening"]))
+             body["release"]["throughSession"], body["captions"]["afterListening"],
+             body["captions"]["koreanTranslationThroughSession"]))
     return 0
 
 

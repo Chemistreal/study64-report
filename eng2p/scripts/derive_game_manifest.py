@@ -50,7 +50,9 @@ LATER = ["spelling_rule.json", "judge.json", "replies.json", "voicelist.json", "
          "sets.json", "emergency.json", "playblocks.json", "tally.json", "hold.json",
          "transcripts.json", "cues.json", "audiolen.json",
          # 세션 번호 기준 구간표 (docs/game_data.md 11장, scripts/derive_acts.py). 막이 아니라 세션 단위다
-         "acts.json"]
+         "acts.json",
+         # 입문 세션 대본 한국어 풀이 (docs/game_data.md 12장, scripts/derive_transcripts_ko.py). 게임이 있으면 읽는 선택 자료
+         "transcripts_ko.json"]
 
 ALGORITHM = {
     "name": "dataHash/1",

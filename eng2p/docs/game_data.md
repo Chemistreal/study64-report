@@ -25,6 +25,8 @@
 | `scripts/check_gameopt.py` | | 위 여덟이 로더가 읽는 모양이고 앱과 같은 말을 하고 열쇠가 안 샜는지 본다 | |
 | `out/game/acts.json` | `scripts/derive_acts.py` | 세션 번호마다의 목표 등급 구간, 공개 한계, 듣기 뒤 자막 정책, 288 뒤 계획. 11장 | 일부 (잠긴 세션 안내) |
 | `scripts/check_acts.py` | | acts.json 이 계획 숫자와 표에서 나온 것과 같고 매니페스트가 맞는지 본다 | |
+| `out/game/transcripts_ko.json` | `scripts/derive_transcripts_ko.py` (원본 `docs/transcripts_ko.md`) | 입문 세션의 듣기 뒤 대본 줄 밑에 한국어 풀이를 그린다. 12장 | 듣기 뒤 대본 밑 한 줄 |
+| `scripts/check_transcripts_ko.py` | | 모든 열쇠가 transcripts.json 의 실제 줄이고 한국어 줄이 비지 않고 세션 범위가 acts.json 과 맞는지 본다 (깸 시험) | |
 
 ## 2. 지키는 것
 
@@ -580,13 +582,16 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 ### 11.3 자막
 
 현재 동작을 지킨다. 블록 1 은 듣는 동안 글자도 자막도 없다 (`Docs/quality_audit_KO.md` V4). 사용자가 듣기를 끝낸 **뒤** 영어 글만 보이게 풀었다 (2026-10-10).
-한국어 자막과 번역은 기준서 13.1 이 전 구간 금지다. 이 표는 영어 글만 풀었다. `derive_acts.py` 가 13.1 의 그 줄을 아직 읽을 수 있어야 낸다.
+한국어 자막은 기준서 13.1 표가 전 구간 금지다. 이 표에서 `koreanTranslation` 은 그 일반 금지를 말하고 언제나 거짓이다.
+**예외 하나 (개정문 29번, 사용자 결정 2026-10-10): 입문 세션에서는 듣기를 끝낸 뒤 영어 대본 줄 밑에 한국어 풀이 한 줄을 허용한다.** 그 범위가 `koreanTranslationThroughSession` 이다. 풀이 글은 12장이다.
+`derive_acts.py` 가 13.1 의 그 줄과 예외 문단을 읽을 수 있어야 낸다. 문단의 숫자가 이 표의 숫자와 다르면 실패한다.
 
 | 칸 | 값 | 뜻 |
 |---|---|---|
 | duringListening | off | 듣는 동안은 글을 안 보인다 |
 | afterListening | en | 듣기를 끝낸 뒤 영어 글을 보인다 (`off` 면 안 보인다) |
-| koreanTranslation | false | 한국어 자막과 번역. 언제나 거짓이다 |
+| koreanTranslation | false | 일반 한국어 자막과 번역(13.1 표 전 구간 금지). 언제나 거짓이다 |
+| koreanTranslationThroughSession | 50 | 듣기를 끝낸 뒤 대본 밑 한국어 풀이를 허용하는 마지막 세션 번호. 세션 1~이 번호가 쓰는 과의 번역이 `transcripts_ko.json` 에 다 있어야 한다. 0 이면 어느 세션도 없다. 50 은 A1 의 끝이다(11장 구간표). 이 과 열둘은 세션 48 까지와 같아서 첫 공개(48)와 A1 끝(50)의 번역 양이 같다 |
 
 ### 11.4 288 뒤
 
@@ -606,7 +611,7 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 | ranges | 구간이 1에서 시작해 288 에서 끝나고 틈과 겹침이 없다. 등급이 A1 A2 B1 B2 차례로 올라가고 이웃이 같은 등급이 없다. 시간이 세션 번호와 맞다 |
 | derive | 세션 288개를 하나씩 다시 세어 구간의 등급과 같다. 기준선이 11.1 표와 같다 |
 | release | `throughSession` 이 0~288 정수다 |
-| captions | 한국어 번역이 참이 아니다. 기준서 13.1 줄이 그대로 있다. 듣는 동안이 켜져 있지 않다 |
+| captions | 한국어 번역이 참이 아니다. `koreanTranslationThroughSession` 이 0~288 정수이고 기준서 13.1 예외 문단의 숫자와 같다. 13.1 표 줄이 그대로 있다. 듣는 동안이 켜져 있지 않다 |
 | extension | 289 와 C1 과 later 다 |
 | chars | 금지 문자(em-dash, U+FFFD)와 한국어 밖의 비 ASCII 가 없고 줄바꿈이 LF 뿐이다 |
 | manifest | `manifest.json` 이 `acts.json` 을 적고 있고 크기와 해시가 지금 파일과 같다 (해시 어긋남) |
@@ -625,3 +630,55 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 | 대조 | check_acts.py | --break | 아니오 (게임 선) |
 
 `derive_game_manifest.py` 의 `LATER` 에 `acts.json` 이 들어 있다. **지문(`dataHash`)이 바뀐다.** 두 노트북이 같은 `manifest.json` 으로 Data 를 다시 받아야 한다 (`Tools/sync_data.ps1`). 게임의 `Data/acts.json` 은 이 파일의 바이트 그대로 복사한 것이다.
+
+## 12. 대본 한국어 풀이 (transcripts_ko.json)
+
+사용자 결정 2026-10-10: 입문 세션에서는 한국어 번역을 허용한다 (기준서 13.1 예외, 개정문 29번). 게임 쪽 규칙은 이미 있다
+(game 저장소 `HnlActsCore.h` 의 `KoreanGlossAllowed`, `Docs/acts_KO.md` 7장). 이 장은 그 규칙이 읽는 **글**을 만든다.
+
+| 칸 | 값 |
+|---|---|
+| 파일 | `out/game/transcripts_ko.json` (game 저장소 `Data/transcripts_ko.json` 과 바이트가 같다) |
+| 모양 | 맨 위 지도 `{"<과 번호>#<줄 번호>": "한국어 글"}`. 줄 번호는 1부터. `lle1-01#3` 은 `transcripts.json` 의 `lle1-01` 배열 세 번째 줄이다 (게임 `HnlActsCore::KoreanLineId`, 파이썬 쌍둥이 `acts_ref.py korean_line_id`). **글자 칸은 전부 한국어 줄로 읽히므로 note 나 generator 칸을 두지 않는다** |
+| 원본 | `docs/transcripts_ko.md`. 표 한 줄이 대본 한 줄이고 영어 칸은 대본 그대로(어긋나면 실패). 한국어는 사람이 쓴 글이다 |
+| 범위 | 세션 1~`koreanTranslationThroughSession`(11.3 표, 지금 50)이 쓰는 과 전부. 지금은 열두 과 311줄: lle1-01 05 06 09 10 11 12 13 14 17 18 19 |
+| 보이는 때 | 게임이 다음 셋이 다 맞을 때만 그린다. 영어 대본이 화면에 있다 (듣기를 끝낸 뒤), 그 세션이 한계 안이다, 그 줄의 한국어가 있다 |
+| 등급 | B. 번역의 정확성은 기계가 못 잰다. 학습자 둘이 영어 제로라 어색한 줄을 가려낼 사람이 없으므로 4주 리허설에서 표시하게 한다 |
+
+### 12.1 쓰는 규칙
+
+| 규칙 | 뜻 |
+|---|---|
+| 말만 옮긴다 | `Pete:` 같은 말한 사람 이름표는 영어 줄에 있으므로 한국어에 안 쓴다 |
+| 이름은 영어로 | 사람, 장소, 프로그램, 책, 놀이 이름은 귀로 듣는 철자로 둔다. 나라 이름도 둔다 (`Mexico City, Mexico`). 언어 이름과 일반 낱말은 옮긴다 |
+| 해요체 | 성인 입문자용 평이한 말. 대본 끊김은 끊긴 대로 옮긴다 |
+| 답을 안 푼다 | 대본에 있는 말만 옮긴다. 카드나 문제의 답을 보태 풀지 않는다 |
+| 비지 않는다 | 한국어 줄이 비면 게임이 줄을 안 그리고 검사가 실패로 센다. 말이 없는 대본 줄은 "(뒤에 말이 없음)" 으로 적는다 |
+
+### 12.2 검사 (`scripts/check_transcripts_ko.py`)
+
+파생기와 다른 코드로 다시 센다. `--break` 를 주면 규칙마다 일부러 어긴 자료로 그 규칙이 잡는지 본다.
+
+| 규칙 | 보는 것 |
+|---|---|
+| shape | 맨 위가 글자 값의 지도이고 열쇠가 `<과>#<정수>` 꼴이다 |
+| keys | 모든 열쇠가 `transcripts.json` 의 실제 줄(1~줄 수)을 가리킨다 |
+| empty | 한국어 줄이 비거나 공백뿐이거나 앞뒤 공백이 있는 것이 없다 |
+| hangul | 한국어 줄에 한글이 있다. 영어 낱말 둘 이하의 짧은 조각 줄(이름만 부르는 줄)만 예외다 |
+| cover | 세션 1~N(acts.json)이 쓰는 과의 모든 줄에 한국어가 있고 다른 과는 없다 |
+| acts | `acts.json` 의 `koreanTranslationThroughSession` 이 11.3 표와 같다 |
+| chars | 금지 문자(em-dash, U+FFFD, 제어문자)가 없고 줄바꿈이 LF 뿐이다 |
+| manifest | `manifest.json` 이 이 파일을 적고 크기와 해시가 지금 파일과 같다 |
+| fresh | 파생기를 다시 돌린 것과 같은 바이트다 |
+
+### 12.3 파이프라인에 넣는 법
+
+`derive_transcripts_ko.py` 는 `derive_acts.py` 다음 게임 선에 둔다 (11.3 표를 읽고 `transcripts.json` 이 먼저 나와야 한다. `transcripts.json` 은 `derive_game_optional.py` 가 낸다).
+`check_transcripts_ko.py` 는 `derive_game_manifest.py` 뒤에 둔다. `derive_game_manifest.py` 의 `LATER` 에 `transcripts_ko.json` 이 들어 있다. **지문(`dataHash`)이 바뀐다.**
+
+| 묶음 | 스크립트 | 인자 | 빠른 판 |
+|---|---|---|---|
+| 화면 | derive_transcripts_ko.py | | 아니오 (게임 선) |
+| 대조 | check_transcripts_ko.py | --break | 아니오 (게임 선) |
+
+범위를 넓히는 순서: 새 과의 번역을 `docs/transcripts_ko.md` 에 넣는다, 기준서 13.1 예외 문단의 숫자와 11.3 표의 숫자를 같이 올린다, 두 파생기를 돌린다, game 저장소 `Data/` 를 바이트로 다시 받는다.

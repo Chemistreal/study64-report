@@ -84,7 +84,7 @@ python3 scripts/all.py
 ```
 
 **한 줄이다.** 걸음은 `scripts/all.py` 의 `STEPS` 표가 쥐고 끝에 몇 걸음이었는지 찍는다.
-2026-10-10 에 백마흔하나다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물둘, 화면 쉰여덟, 상태 갱신 셋이다 (check_ui.js 는 셋으로 쪼개 돌아 143번 돈다).
+2026-10-10 에 백마흔셋이다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물셋, 화면 쉰아홉, 상태 갱신 셋이다 (check_ui.js 는 셋으로 쪼개 돌아 145번 돈다).
 기본은 **병렬**이다 (`scripts/par_run.py`, 일꾼 `min(6, cpu)`). 브라우저 검사까지 다 돌아 8분쯤 걸린다 (측정 427~492초). `--serial` 은 차례대로 21분쯤이다. 화면 검사가 브라우저를 띄운다.
 **건너뜀은 실패다.** 브라우저나 크로미움을 못 찾으면 `all.py` 가 1 로 끝난다. 일부러 건너뛸 때만 `--allow-skip`. 그 밖에 `--jobs N` `--only` `--times` `--timeout` `--plan`. 자세한 것은 `docs/pipeline.md`.
 이 컨테이너에서는 `NODE_PATH=/opt/node22/lib/node_modules` 와 루트 `tests/` 의 `npm install` (PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1) 이 있어야 브라우저 걸음이 돈다.
@@ -281,6 +281,7 @@ scripts/game_tick.js  결과 기록에서 다음 날(next.json)을 뽑는다. No
 scripts/derive_game_manifest.py out/game 파일의 크기와 해시와 dataHash
 scripts/derive_tick_bundle.py PC 에서 틱이 돌려면 필요한 29개 파일의 표 out/tick/manifest.json. game 저장소 Tools/sync_tick.ps1 이 받는다
 scripts/check_tick_e2e.py 틱을 49일 이어 돌려 독립 계산과 견준다. 멱등, 교환, 합침, 사다리 212일, --break 열여덟
+scripts/derive_transcripts_ko.py, scripts/check_transcripts_ko.py 입문 세션(1~50) 라디오 대본의 한국어 풀이 out/game/transcripts_ko.json. **원본은 docs/transcripts_ko.md 이고 번역은 B등급이다.** 기준서 13.1 예외 문단(개정문 29번)이 허락한 범위 안에서만. 열쇠는 `<과>#<줄 번호 1부터>`. docs/game_data.md 12장
 out/game/results_schema.json, out/game/manifest.json 파생물. 손으로 안 고친다
 tools/game/results_fixture/ 결과 합치기와 틱의 기준 시험 자료. 소리와 글이 없는 사실뿐이다
 docs/game_data.md     게임이 쥐는 자료 설명. 판정 열쇠(judge.json), NPC 대답(replies.json), 목소리 줄(voicelist.json), 덱 이름 처리(deck_names.json), 구간표(acts.json, 11장)
