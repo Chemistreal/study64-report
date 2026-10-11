@@ -282,7 +282,9 @@
        "hf-07",
        "hf-08",
        "hf-09",
-       "hf-10"
+       "hf-10",
+       "hf-41",
+       "hf-42"
       ],
       "seat": "A",
       "scored": true,
@@ -363,6 +365,47 @@
      },
      {
       "id": "t9",
+      "scene": "water",
+      "npc": [],
+      "pick": [
+       "hf-33"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t10",
+      "scene": "water_pay",
+      "npc": [
+       "hf-34"
+      ],
+      "pick": [
+       "hf-35",
+       "hf-36"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {
+       "hf-35": "hf-39"
+      }
+     },
+     {
+      "id": "t11",
+      "scene": "water_pay",
+      "npc": [
+       "hf-37"
+      ],
+      "pick": [
+       "hf-38",
+       "hf-40"
+      ],
+      "seat": "either",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t12",
       "scene": "ask",
       "npc": [],
       "pick": [
@@ -377,7 +420,7 @@
       }
      },
      {
-      "id": "t10",
+      "id": "t13",
       "scene": "ask",
       "npc": [
        "hf-31"
@@ -408,7 +451,20 @@
      "hf-p5",
      "hf-p6",
      "hf-p7",
-     "hf-p8"
+     "hf-p8",
+     "hf-p9",
+     "hf-p10",
+     "hf-p11",
+     "hf-p12",
+     "hf-p13",
+     "hf-p14",
+     "hf-p15",
+     "hf-p16",
+     "hf-p17",
+     "hf-p18",
+     "hf-p19",
+     "hf-p20",
+     "hf-p21"
     ]
    }
   },
@@ -569,18 +625,32 @@
       "branch": {}
      },
      {
-      "id": "t9",
+      "id": "n1",
       "scene": "pay",
       "npc": [
        "cf-30"
       ],
+      "pick": [],
+      "seat": "either",
+      "scored": false,
+      "branch": {}
+     },
+     {
+      "id": "t9",
+      "scene": "pay",
+      "npc": [
+       "cf-39"
+      ],
       "pick": [
        "cf-31",
-       "cf-32"
+       "cf-32",
+       "cf-37"
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "cf-37": "cf-38"
+      }
      },
      {
       "id": "t10",
@@ -627,7 +697,20 @@
      "cf-p5",
      "cf-p6",
      "cf-p7",
-     "cf-p8"
+     "cf-p8",
+     "cf-p9",
+     "cf-p10",
+     "cf-p11",
+     "cf-p12",
+     "cf-p13",
+     "cf-p14",
+     "cf-p15",
+     "cf-p16",
+     "cf-p17",
+     "cf-p18",
+     "cf-p19",
+     "cf-p20",
+     "cf-p21"
     ]
    }
   },
@@ -1597,7 +1680,8 @@
        "bc-01"
       ],
       "pick": [
-       "bc-02"
+       "bc-02",
+       "bc-28"
       ],
       "seat": "either",
       "scored": true,
@@ -1675,11 +1759,14 @@
        "bc-14"
       ],
       "pick": [
-       "bc-15"
+       "bc-15",
+       "bc-29"
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "bc-29": "bc-30"
+      }
      },
      {
       "id": "t7",
@@ -1777,7 +1864,8 @@
      "bc-p5",
      "bc-p6",
      "bc-p7",
-     "bc-p8"
+     "bc-p8",
+     "bc-p9"
     ]
    }
   },
@@ -2355,11 +2443,14 @@
       ],
       "pick": [
        "hz-10",
-       "hz-11"
+       "hz-11",
+       "hz-28"
       ],
       "seat": "A",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "hz-28": "hz-29"
+      }
      },
      {
       "id": "t4",
@@ -2397,11 +2488,14 @@
        "hz-19"
       ],
       "pick": [
-       "hz-20"
+       "hz-20",
+       "hz-30"
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "hz-30": "hz-31"
+      }
      },
      {
       "id": "n1",
@@ -2499,7 +2593,9 @@
      "hz-p5",
      "hz-p6",
      "hz-p7",
-     "hz-p8"
+     "hz-p8",
+     "hz-p9",
+     "hz-p10"
     ]
    }
   },
@@ -3421,11 +3517,14 @@
       ],
       "pick": [
        "dh-02",
-       "dh-03"
+       "dh-03",
+       "dh-30"
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "dh-30": "dh-31"
+      }
      },
      {
       "id": "t2",
@@ -3525,11 +3624,14 @@
       "scene": "stairs",
       "npc": [],
       "pick": [
-       "dh-22"
+       "dh-22",
+       "dh-32"
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "dh-32": "dh-33"
+      }
      },
      {
       "id": "t9",
@@ -3609,7 +3711,9 @@
      "dh-p5",
      "dh-p6",
      "dh-p7",
-     "dh-p8"
+     "dh-p8",
+     "dh-p9",
+     "dh-p10"
     ]
    }
   },
@@ -3711,11 +3815,14 @@
        "enb-10"
       ],
       "pick": [
-       "enb-11"
+       "enb-11",
+       "enb-35"
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "enb-35": "enb-37"
+      }
      },
      {
       "id": "t4",
@@ -3774,11 +3881,14 @@
        "enb-19"
       ],
       "pick": [
-       "enb-20"
+       "enb-20",
+       "enb-34"
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "enb-34": "enb-36"
+      }
      },
      {
       "id": "t9",
@@ -3867,7 +3977,9 @@
      "enb-p5",
      "enb-p6",
      "enb-p7",
-     "enb-p8"
+     "enb-p8",
+     "enb-p9",
+     "enb-p10"
     ]
    }
   },

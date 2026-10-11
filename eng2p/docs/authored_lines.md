@@ -36,13 +36,13 @@
 
 ## 나들이: eggs_n_things_breakfast
 
-작성자: claude-sonnet-5.5 (2026-10-10)
+작성자: claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)
 장소: eggs_n_things_saratoga
 세션: 47
 목표 등급: A1
 할 일: cd-enb-1 / I can order a simple breakfast and pay in a restaurant. / 식당에서 간단한 아침 식사를 주문하고 계산할 수 있다.
 허용 이름: -
-갈래: enb-30 > enb-31
+갈래: enb-30 > enb-31, enb-34 > enb-36, enb-35 > enb-37
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -56,7 +56,7 @@
 | enb-08 | drink | option | 두 사람 | Water, please. | A1 | 음료 주문 | A | - | 물 주세요. |
 | enb-09 | drink | npc | Server | Okay. I will be right back. | A2 | 안내 | A | - | 네. 금방 올게요. |
 | enb-10 | order | npc | Server | Are you ready to order? | A1 | 주문 묻기 | A | - | 주문하시겠어요? |
-| enb-11 | order | wait | 두 사람 | Just a minute, please. | A1 | 시간 벌기 | A | - | 잠깐만요. |
+| enb-11 | order | option | 두 사람 | Just a minute, please. | A1 | 시간 벌기 | A | - | 잠깐만요. |
 | enb-12 | order | wait | A자리 | What do you want to eat, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 뭐 먹고 싶어? |
 | enb-13 | order | wait | B자리 | I want pancakes. And you? | A1 | 말하고 되묻기 | A | - | 난 팬케이크. 너는? |
 | enb-14 | order | npc | Server | Okay. What would you like? | A2 | 주문 묻기 | A | - | 네. 뭘 드릴까요? |
@@ -65,7 +65,7 @@
 | enb-17 | order | option | B자리 | I would like the pancakes, please. | A2 | 주문 | A | - | 팬케이크 주세요. |
 | enb-18 | order | option | B자리 | Can I have the pancakes, please? | A2 | 주문 | A | - | 팬케이크 먹어도 될까요? |
 | enb-19 | order | npc | Server | Anything else? | A1 | 추가 묻기 | A | - | 더 필요한 건요? |
-| enb-20 | order | wait | 두 사람 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
+| enb-20 | order | option | 두 사람 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
 | enb-21 | food | npc | Server | Here you go. Enjoy! | A1 | 음식 내기 | A | - | 여기 있어요. 맛있게 드세요! |
 | enb-22 | food | wait | 두 사람 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
 | enb-23 | food | npc | Server | Is everything okay? | A1 | 확인 | A | - | 다 괜찮으세요? |
@@ -79,8 +79,12 @@
 | enb-31 | pay | npc | Server | It is twenty-four dollars. | A1 | 값 말하기 | B | 숫자와 값은 장면용으로 정한 것이다. 실제 가격이 아니고 말투 자체는 자연스럽지만 달러 읽는 법("twenty-four dollars")이 이 등급에 맞는지 확신이 없다 | 24달러예요. |
 | enb-32 | pay | npc | Server | Thank you. Have a nice day! | A1 | 작별 | A | - | 고맙습니다. 좋은 하루 보내세요! |
 | enb-33 | pay | wait | 두 사람 | You too! Thank you! | A1 | 작별 | A | - | 당신도요! 고맙습니다! |
+| enb-34 | order | option | 두 사람 | Can I have water, please? | A1 | 물 추가 요청 | A | - | 물 좀 주시겠어요? |
+| enb-35 | order | option | 두 사람 | Where is the bathroom? | A1 | 시설 위치 묻기 | A | - | 화장실이 어디예요? |
+| enb-36 | order | npc | Server | Sure. Here is your water. | A1 | 건네기 | A | - | 그럼요. 물 여기 있어요. |
+| enb-37 | order | npc | Server | It is over there. | A1 | 위치 안내 | A | - | 저쪽에 있어요. |
 
-### 연습할 말 (이 나들이의 카드 여덟)
+### 연습할 말 (이 나들이의 연습 10개)
 
 기준서 8.1 의 카드 총량(Q1 판정 75 등)에 안 들어간다. **나들이 안에서만 쓰는 연습 말**이다. 줄 id 로 위 표를 가리킨다.
 
@@ -94,6 +98,8 @@
 | enb-p6 | Can we have the check, please? | 계산서 요청 | enb-27 | 계산서 주시겠어요? |
 | enb-p7 | How much is it? | 값 묻기 | enb-30 | 얼마예요? |
 | enb-p8 | Sorry, can you say that again? | 되묻기 | enb-25 | 죄송해요, 다시 말해 주시겠어요? |
+| enb-p9 | Can I have water, please? | 물 추가 요청 | enb-34 | 물 좀 주시겠어요? |
+| enb-p10 | Where is the bathroom? | 시설 위치 묻기 | enb-35 | 화장실이 어디예요? |
 
 ### 미니게임 차례
 
@@ -108,12 +114,12 @@
 | n1 | door | enb-03+enb-04 | - | - |
 | t2 | drink | enb-05 | enb-06/enb-07/enb-08 | 둘 중 누구든 |
 | n2 | drink | enb-09 | - | - |
-| t3 | order | enb-10 | enb-11 | 둘 중 누구든 |
+| t3 | order | enb-10 | enb-11/enb-35 | 둘 중 누구든 |
 | t4 | order | - | enb-12 | A |
 | t5 | order | - | enb-13 | B |
 | t6 | order | enb-14 | enb-15/enb-16 | A |
 | t7 | order | enb-14 | enb-17/enb-18 | B |
-| t8 | order | enb-19 | enb-20 | 둘 중 누구든 |
+| t8 | order | enb-19 | enb-20/enb-34 | 둘 중 누구든 |
 | t9 | food | enb-21 | enb-22 | 둘 중 누구든 |
 | t10 | food | enb-23 | enb-24/enb-25/enb-26 | 둘 중 누구든 |
 | t11 | pay | - | enb-27 | 둘 중 누구든 |
@@ -668,13 +674,13 @@
 
 ## 나들이: hotel_front_desk
 
-작성자: claude-sonnet-5.5 (2026-10-10)
+작성자: claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)
 장소: outrigger_reef
 세션: 17
 목표 등급: A1
 할 일: cd-hf-1 / I can say my room number and ask for towels at a hotel front desk. / 호텔 프런트에서 방 번호를 말하고 수건을 부탁할 수 있다.
 허용 이름: Outrigger Reef (아웃리거 리프. 장소 이름. 줄에는 안 쓴다)
-갈래: hf-10 > hf-11, hf-28 > hf-30, hf-29 > hf-30
+갈래: hf-10 > hf-11, hf-28 > hf-30, hf-29 > hf-30, hf-35 > hf-39
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -710,8 +716,18 @@
 | hf-30 | ask | npc | Clerk | It is over there, on the right. | A1 | 위치 안내 | A | - | 저쪽 오른쪽에 있어요. |
 | hf-31 | ask | npc | Clerk | Have a nice day! | A1 | 작별 | A | - | 좋은 하루 보내세요! |
 | hf-32 | ask | wait | 두 사람 | Thank you. You too! | A1 | 작별 | A | - | 고맙습니다. 당신도요! |
+| hf-33 | water | wait | 두 사람 | A bottle of water, please. | A1 | 물 주문 | A | - | 물 한 병 주세요. |
+| hf-34 | water_pay | npc | Clerk | Five dollars. | A1 | 값 말하기 | A | - | 5달러예요. |
+| hf-35 | water_pay | option | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
+| hf-36 | water_pay | option | 두 사람 | Five dollars. Okay. | A1 | 값 확인 | A | - | 5달러요. 알겠어요. |
+| hf-37 | water_pay | npc | Clerk | Cash or card? | A1 | 결제 묻기 | A | - | 현금이세요, 카드세요? |
+| hf-38 | water_pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
+| hf-39 | water_pay | npc | Clerk | It is five dollars. | A1 | 값 되풀이 | A | - | 5달러예요. |
+| hf-40 | water_pay | option | 두 사람 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
+| hf-41 | room | option | A자리 | Room six. | A1 | 방 번호 말하기 | A | - | 6호예요. |
+| hf-42 | room | option | A자리 | Room eight. | A1 | 방 번호 말하기 | A | - | 8호예요. |
 
-### 연습할 말 (이 나들이의 카드 여덟)
+### 연습할 말 (이 나들이의 연습 21개)
 
 기준서 8.1 의 카드 총량에 안 들어간다. 나들이 안에서만 쓰는 연습 말이다 (설명은 eggs_n_things_breakfast 장과 같다).
 
@@ -725,8 +741,23 @@
 | hf-p6 | Sorry, can you say that again? | 되묻기 | hf-10 | 죄송해요, 다시 말해 주시겠어요? |
 | hf-p7 | Where is the elevator? | 위치 묻기 | hf-28 | 엘리베이터가 어디예요? |
 | hf-p8 | No, thank you. That is all. | 끝내기 | hf-23 | 아니요, 고맙습니다. 그게 다예요. |
+| hf-p9 | My name is {B}. | 이름 말하기 | hf-13 | 제 이름은 {B}예요. |
+| hf-p10 | Two, please. | 수 말하기 | hf-19 | 두 장이요. |
+| hf-p11 | Just one, please. | 수 말하기 | hf-21 | 한 장만요. |
+| hf-p12 | Another key, please. | 부탁 | hf-24 | 열쇠 하나 더 주세요. |
+| hf-p13 | Thank you very much. | 감사 | hf-27 | 정말 고맙습니다. |
+| hf-p14 | A bottle of water, please. | 물 주문 | hf-33 | 물 한 병 주세요. |
+| hf-p15 | Five dollars. | 값 말하기 | hf-34 | 5달러예요. |
+| hf-p16 | How much is it? | 값 묻기 | hf-35 | 얼마예요? |
+| hf-p17 | Cash or card? | 결제 묻기 | hf-37 | 현금이세요, 카드세요? |
+| hf-p18 | Card, please. | 결제 | hf-38 | 카드로 할게요. |
+| hf-p19 | Cash, please. | 결제 | hf-40 | 현금으로 할게요. |
+| hf-p20 | Room six. | 방 번호 말하기 | hf-41 | 6호예요. |
+| hf-p21 | Room eight. | 방 번호 말하기 | hf-42 | 8호예요. |
 
 ### 미니게임 차례
+
+추가된 물 주문은 유료 생수 한 병을 사는 가상 상황이다. 방 번호와 5달러는 장면용 값이며 실제 호텔의 객실 체계나 제공 정책, 가격 정보가 아니다. 기존 방 번호 hf-07~09는 점검 B를 유지한다. 새 숫자 연습은 점검 A인 hf-34, hf-41, hf-42를 쓴다.
 
 규칙은 eggs_n_things_breakfast 장과 같다 (`-` 는 NPC 만 말하거나 고르는 줄이 없는 차례, `+` 는 NPC 가 이어서 말함, `/` 는 후보 중 하나만 말하면 통과).
 
@@ -734,24 +765,27 @@
 |---|---|---|---|---|
 | t1 | desk | - | hf-01 | 둘 중 누구든 |
 | t2 | desk | hf-02 | hf-03/hf-04/hf-05 | 둘 중 누구든 |
-| t3 | room | hf-06 | hf-07/hf-08/hf-09/hf-10 | A |
+| t3 | room | hf-06 | hf-07/hf-08/hf-09/hf-10/hf-41/hf-42 | A |
 | t4 | name | hf-12 | hf-13/hf-14 | B |
 | t5 | stay | hf-15 | hf-16/hf-17 | 둘 중 누구든 |
 | t6 | count | hf-18 | hf-19/hf-20/hf-21 | 둘 중 누구든 |
 | t7 | more | hf-22 | hf-23/hf-24/hf-25 | 둘 중 누구든 |
 | t8 | bring | hf-26 | hf-27 | 둘 중 누구든 |
-| t9 | ask | - | hf-28/hf-29 | 둘 중 누구든 |
-| t10 | ask | hf-31 | hf-32 | 둘 중 누구든 |
+| t9 | water | - | hf-33 | 둘 중 누구든 |
+| t10 | water_pay | hf-34 | hf-35/hf-36 | 둘 중 누구든 |
+| t11 | water_pay | hf-37 | hf-38/hf-40 | 둘 중 누구든 |
+| t12 | ask | - | hf-28/hf-29 | 둘 중 누구든 |
+| t13 | ask | hf-31 | hf-32 | 둘 중 누구든 |
 
 ## 나들이: cafe_order
 
-작성자: claude-sonnet-5.5 (2026-10-10)
+작성자: claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)
 장소: island_vintage_coffee
 세션: 20
 목표 등급: A1
 할 일: cd-cf-1 / I can order a drink and say the size at a cafe. / 카페에서 음료 하나를 주문하고 크기를 말할 수 있다.
 허용 이름: Island Vintage Coffee (아일랜드 빈티지 커피. 장소 이름. 줄에는 안 쓴다)
-갈래: cf-05 > cf-06
+갈래: cf-05 > cf-06, cf-37 > cf-38
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -791,8 +825,11 @@
 | cf-34 | pay | wait | 두 사람 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
 | cf-35 | pick | npc | Server | Here are your drinks. | A1 | 음료 내기 | A | - | 음료 나왔어요. |
 | cf-36 | pick | wait | 두 사람 | Thank you very much! | A1 | 감사 | A | - | 정말 고맙습니다! |
+| cf-37 | pay | option | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
+| cf-38 | pay | npc | Cashier | It is nine dollars. | A1 | 값 되풀이 | A | - | 9달러예요. |
+| cf-39 | pay | npc | Cashier | Cash or card? | A1 | 결제 묻기 | A | - | 현금이세요, 카드세요? |
 
-### 연습할 말 (이 나들이의 카드 여덟)
+### 연습할 말 (이 나들이의 연습 21개)
 
 기준서 8.1 의 카드 총량에 안 들어간다. 나들이 안에서만 쓰는 연습 말이다 (설명은 eggs_n_things_breakfast 장과 같다).
 
@@ -806,8 +843,23 @@
 | cf-p6 | It's {A}. | 이름 말하기 | cf-25 | {A}예요. |
 | cf-p7 | Card, please. | 결제 | cf-31 | 카드로 할게요. |
 | cf-p8 | Sorry, can you say that again? | 되묻기 | cf-05 | 죄송해요, 다시 말해 주시겠어요? |
+| cf-p9 | Tea, please. | 음료 주문 | cf-04 | 차 주세요. |
+| cf-p10 | Hot, please. | 고르기 | cf-08 | 따뜻한 걸로 주세요. |
+| cf-p11 | Small, please. | 크기 말하기 | cf-11 | 작은 걸로 주세요. |
+| cf-p12 | Large, please. | 크기 말하기 | cf-13 | 큰 걸로 주세요. |
+| cf-p13 | Orange juice, please. | 음료 주문 | cf-16 | 오렌지 주스 주세요. |
+| cf-p14 | Water, please. | 음료 주문 | cf-17 | 물 주세요. |
+| cf-p15 | Large, please. | 크기 말하기 | cf-20 | 큰 걸로 주세요. |
+| cf-p16 | A cookie, please. | 추가 주문 | cf-28 | 쿠키 하나 주세요. |
+| cf-p17 | No, thank you. That is all. | 주문 끝내기 | cf-29 | 아니요, 고맙습니다. 그게 다예요. |
+| cf-p18 | Cash, please. | 결제 | cf-32 | 현금으로 할게요. |
+| cf-p19 | How much is it? | 값 묻기 | cf-37 | 얼마예요? |
+| cf-p20 | It is nine dollars. | 값 되풀이 | cf-38 | 9달러예요. |
+| cf-p21 | Cash or card? | 결제 묻기 | cf-39 | 현금이세요, 카드세요? |
 
 ### 미니게임 차례
+
+9달러는 기존 대화의 장면용 값이다. 실제 카페의 메뉴 가격을 뜻하지 않는다. n1에서 값을 듣고 t9에서 결제 질문을 다시 들으며, 연습 목록에서 값 묻기와 숫자, 결제 질문과 대답을 먼저 듣고 말한다.
 
 규칙은 eggs_n_things_breakfast 장과 같다 (`-` 는 NPC 만 말하거나 고르는 줄이 없는 차례, `+` 는 NPC 가 이어서 말함, `/` 는 후보 중 하나만 말하면 통과).
 
@@ -821,7 +873,8 @@
 | t6 | go | cf-21 | cf-22/cf-23 | 둘 중 누구든 |
 | t7 | name | cf-24 | cf-25/cf-26 | A |
 | t8 | food | cf-27 | cf-28/cf-29 | B |
-| t9 | pay | cf-30 | cf-31/cf-32 | 둘 중 누구든 |
+| n1 | pay | cf-30 | - | - |
+| t9 | pay | cf-39 | cf-31/cf-32/cf-37 | 둘 중 누구든 |
 | t10 | pay | cf-33 | cf-34 | 둘 중 누구든 |
 | t11 | pick | cf-35 | cf-36 | 둘 중 누구든 |
 
@@ -1121,18 +1174,18 @@
 
 ## 나들이: waikiki_beach_chair_umbrella
 
-작성자: claude-sonnet-5.5 (2026-10-10)
+작성자: claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)
 장소: waikiki_beach
 세션: 30
 목표 등급: A1
 할 일: cd-bc-1 / I can rent a beach chair and an umbrella and ask the price. / 해변에서 의자와 우산을 빌리고 값을 물을 수 있다.
 허용 이름: -
-갈래: bc-09 > bc-10, bc-11 > bc-13, bc-12 > bc-13, bc-24 > bc-25
+갈래: bc-09 > bc-10, bc-11 > bc-13, bc-12 > bc-13, bc-24 > bc-25, bc-29 > bc-30
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | bc-01 | greet | npc | Clerk | Hi! Can I help you? | A1 | 인사 안내 | A | - | 안녕하세요! 도와드릴까요? |
-| bc-02 | greet | wait | 두 사람 | One minute, please. | A1 | 시간 벌기 | A | - | 잠깐만요. |
+| bc-02 | greet | option | 두 사람 | One minute, please. | A1 | 시간 벌기 | A | - | 잠깐만요. |
 | bc-03 | greet | npc | Clerk | Sure. Take your time. | A1 | 안내 | A | - | 그럼요. 천천히 하세요. |
 | bc-04 | plan | wait | A자리 | Do you want an umbrella, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 우산 쓸래? |
 | bc-05 | plan | wait | B자리 | Yes! It's very hot. | A1 | 대답과 이유 | A | - | 응! 너무 더워. |
@@ -1145,7 +1198,7 @@
 | bc-12 | price | option | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | bc-13 | price | npc | Clerk | Ten dollars each. | A1 | 값 말하기 | A | - | 하나에 10달러예요. |
 | bc-14 | more | npc | Clerk | Is that all? | A1 | 추가 묻기 | A | - | 이게 다예요? |
-| bc-15 | more | wait | 두 사람 | Yes, that's all. | A1 | 대답 | A | - | 네, 그게 다예요. |
+| bc-15 | more | option | 두 사람 | Yes, that's all. | A1 | 대답 | A | - | 네, 그게 다예요. |
 | bc-16 | pay | npc | Clerk | That's twenty dollars. | A1 | 값 말하기 | A | - | 20달러예요. |
 | bc-17 | pay | wait | A자리 | Is twenty dollars okay, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 20달러 괜찮아? |
 | bc-18 | pay | wait | B자리 | Yes, that's okay. | A1 | 대답 | A | - | 응, 괜찮아. |
@@ -1158,8 +1211,11 @@
 | bc-25 | place | npc | Clerk | No, it's near. | A1 | 대답 | A | - | 아니요, 가까워요. |
 | bc-26 | bye | npc | Clerk | Have fun! | A1 | 작별 | A | - | 즐거운 시간 보내세요! |
 | bc-27 | bye | wait | 두 사람 | Thank you! Bye! | A1 | 작별 | A | - | 고맙습니다! 안녕히 계세요! |
+| bc-28 | greet | option | 두 사람 | Can I have two chairs, please? | A1 | 바로 주문 | A | - | 의자 두 개 주세요. |
+| bc-29 | more | option | 두 사람 | Water, please. | A1 | 추가 요청 | A | - | 물 주세요. |
+| bc-30 | more | npc | Clerk | Water is over there. | A1 | 위치 안내 | A | - | 물은 저쪽에 있어요. |
 
-### 연습할 말 (이 나들이의 카드 여덟)
+### 연습할 말 (이 나들이의 연습 9개)
 
 기준서 8.1 의 카드 총량에 안 들어간다. **나들이 안에서만 쓰는 연습 말**이다. 줄 id 로 위 표를 가리킨다.
 
@@ -1173,6 +1229,7 @@
 | bc-p6 | Yes, that's all. | 대답 | bc-15 | 네, 그게 다예요. |
 | bc-p7 | Cash, please. | 결제 | bc-20 | 현금으로 할게요. |
 | bc-p8 | Is it far? | 거리 묻기 | bc-24 | 멀어요? |
+| bc-p9 | Water, please. | 추가 요청 | bc-29 | 물 주세요. |
 
 ### 미니게임 차례
 
@@ -1180,13 +1237,13 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | greet | bc-01 | bc-02 | 둘 중 누구든 |
+| t1 | greet | bc-01 | bc-02/bc-28 | 둘 중 누구든 |
 | n1 | greet | bc-03 | - | - |
 | t2 | plan | - | bc-04 | A |
 | t3 | plan | - | bc-05 | B |
 | t4 | order | bc-06 | bc-07/bc-08/bc-09 | 둘 중 누구든 |
 | t5 | price | - | bc-11/bc-12 | 둘 중 누구든 |
-| t6 | more | bc-14 | bc-15 | 둘 중 누구든 |
+| t6 | more | bc-14 | bc-15/bc-29 | 둘 중 누구든 |
 | t7 | pay | bc-16 | bc-17 | A |
 | t8 | pay | - | bc-18 | B |
 | t9 | pay | bc-19 | bc-20/bc-21 | 둘 중 누구든 |
@@ -1196,13 +1253,13 @@
 
 ## 나들이: honolulu_zoo_ticket
 
-작성자: claude-sonnet-5.5 (2026-10-10)
+작성자: claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)
 장소: honolulu_zoo
 세션: 41
 목표 등급: A1
 할 일: cd-hz-1 / I can buy zoo tickets and say how many people. / 동물원에서 표를 사고 몇 명인지 말할 수 있다.
 허용 이름: -
-갈래: hz-07 > hz-08, hz-12 > hz-14, hz-13 > hz-15
+갈래: hz-07 > hz-08, hz-12 > hz-14, hz-13 > hz-15, hz-28 > hz-29, hz-30 > hz-31
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -1225,7 +1282,7 @@
 | hz-17 | pay | option | 두 사람 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
 | hz-18 | pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
 | hz-19 | pay | npc | Cashier | Here are your tickets. | A1 | 건네기 | A | - | 표 여기 있어요. |
-| hz-20 | pay | wait | 두 사람 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
+| hz-20 | pay | option | 두 사람 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
 | hz-21 | plan | npc | Cashier | Enjoy the zoo! | A1 | 작별 | A | - | 동물원에서 즐거운 시간 보내세요! |
 | hz-22 | plan | wait | A자리 | Where do you want to go, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 어디 가고 싶어? |
 | hz-23 | plan | wait | B자리 | Everything! Let's start here. | A1 | 대답 | A | - | 다 보고 싶어! 여기서 시작하자. |
@@ -1233,8 +1290,12 @@
 | hz-25 | ask | npc | Cashier | Go straight. It's on the right. | A1 | 방향 알려 주기 | A | - | 곧장 가세요. 오른쪽에 있어요. |
 | hz-26 | ask | wait | B자리 | Straight, then right. Thank you! | A1 | 확인과 감사 | A | - | 곧장 가서 오른쪽이요. 고맙습니다! |
 | hz-27 | ask | npc | Cashier | You're welcome! | A1 | 인사 | A | - | 천만에요! |
+| hz-28 | map | option | A자리 | Where is the bathroom? | A1 | 시설 위치 묻기 | A | - | 화장실이 어디예요? |
+| hz-29 | map | npc | Cashier | It is on the right. | A1 | 위치 안내 | A | - | 오른쪽에 있어요. |
+| hz-30 | pay | option | 두 사람 | A map, please. | A1 | 추가 요청 | A | - | 지도 주세요. |
+| hz-31 | pay | npc | Cashier | Here is a map. | A1 | 건네기 | A | - | 지도 여기 있어요. |
 
-### 연습할 말 (이 나들이의 카드 여덟)
+### 연습할 말 (이 나들이의 연습 10개)
 
 기준서 8.1 의 카드 총량에 안 들어간다. **나들이 안에서만 쓰는 연습 말**이다. 줄 id 로 위 표를 가리킨다.
 
@@ -1248,6 +1309,8 @@
 | hz-p6 | Card, please. | 결제 | hz-18 | 카드로 할게요. |
 | hz-p7 | Excuse me. Where is the bathroom? | 길 묻기 | hz-24 | 실례합니다. 화장실이 어디예요? |
 | hz-p8 | Straight, then right. Thank you! | 확인과 감사 | hz-26 | 곧장 가서 오른쪽이요. 고맙습니다! |
+| hz-p9 | Where is the bathroom? | 시설 위치 묻기 | hz-28 | 화장실이 어디예요? |
+| hz-p10 | A map, please. | 추가 요청 | hz-30 | 지도 주세요. |
 
 ### 미니게임 차례
 
@@ -1257,10 +1320,10 @@
 |---|---|---|---|---|
 | t1 | ticket | hz-01 | hz-02/hz-03/hz-04 | 둘 중 누구든 |
 | t2 | ticket | hz-05 | hz-06/hz-07 | 둘 중 누구든 |
-| t3 | map | hz-09 | hz-10/hz-11 | A |
+| t3 | map | hz-09 | hz-10/hz-11/hz-28 | A |
 | t4 | price | - | hz-12/hz-13 | 둘 중 누구든 |
 | t5 | pay | hz-16 | hz-17/hz-18 | 둘 중 누구든 |
-| t6 | pay | hz-19 | hz-20 | 둘 중 누구든 |
+| t6 | pay | hz-19 | hz-20/hz-30 | 둘 중 누구든 |
 | n1 | plan | hz-21 | - | - |
 | t7 | plan | - | hz-22 | A |
 | t8 | plan | - | hz-23 | B |
@@ -1271,13 +1334,13 @@
 
 ## 나들이: diamond_head_lookout_directions
 
-작성자: claude-sonnet-5.5 (2026-10-10)
+작성자: claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)
 장소: diamond_head_lookout
 세션: 46
 목표 등급: A1
 할 일: cd-dh-1 / I can ask the way to a lookout and understand simple directions. / 전망대로 가는 길을 묻고 간단한 방향 설명을 알아들을 수 있다.
 허용 이름: -
-갈래: dh-07 > dh-08, dh-09 > dh-11, dh-10 > dh-12
+갈래: dh-07 > dh-08, dh-09 > dh-11, dh-10 > dh-12, dh-30 > dh-31, dh-32 > dh-33
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -1302,7 +1365,7 @@
 | dh-19 | way3 | option | 두 사람 | Up the stairs. Okay! | A1 | 방향 확인 | A | - | 계단 위로요. 알겠어요! |
 | dh-20 | way3 | option | 두 사람 | Up the stairs, thank you! | A1 | 방향 확인과 감사 | A | - | 계단 위로요, 고맙습니다! |
 | dh-21 | stairs | npc | Guide | The stairs are on the left. | A1 | 위치 알려 주기 | A | - | 계단은 왼쪽에 있어요. |
-| dh-22 | stairs | wait | 두 사람 | On the left. Okay! | A1 | 방향 확인 | A | - | 왼쪽이요. 알겠어요! |
+| dh-22 | stairs | option | 두 사람 | On the left. Okay! | A1 | 방향 확인 | A | - | 왼쪽이요. 알겠어요! |
 | dh-23 | recap | wait | A자리 | Straight, left, right. Okay? | A2 | 길 되짚기 | A | - | 곧장, 왼쪽, 오른쪽. 맞지? |
 | dh-24 | recap | wait | B자리 | Yes! Then up the stairs. | A1 | 길 되짚기 | A | - | 응! 그다음에 계단 위로. |
 | dh-25 | end | npc | Guide | The lookout is on the right. | A2 | 위치 알려 주기 | A | - | 전망대는 오른쪽에 있어요. |
@@ -1310,8 +1373,12 @@
 | dh-27 | bye | npc | Guide | Enjoy the view! | A1 | 작별 | A | - | 경치 즐기세요! |
 | dh-28 | bye | wait | 두 사람 | Thank you very much! | A1 | 감사 | A | - | 정말 고맙습니다! |
 | dh-29 | bye | npc | Guide | You're welcome. Have fun! | A1 | 작별 | A | - | 천만에요. 즐거운 시간 보내세요! |
+| dh-30 | ask | option | 두 사람 | Can I have a map, please? | A1 | 지도 요청 | A | - | 지도 좀 주시겠어요? |
+| dh-31 | ask | npc | Guide | Here is a map. | A1 | 건네기 | A | - | 지도 여기 있어요. |
+| dh-32 | stairs | option | 두 사람 | Where is the bathroom? | A1 | 시설 위치 묻기 | A | - | 화장실이 어디예요? |
+| dh-33 | stairs | npc | Guide | It is over there. | A1 | 위치 안내 | A | - | 저쪽에 있어요. |
 
-### 연습할 말 (이 나들이의 카드 여덟)
+### 연습할 말 (이 나들이의 연습 10개)
 
 기준서 8.1 의 카드 총량에 안 들어간다. **나들이 안에서만 쓰는 연습 말**이다. 줄 id 로 위 표를 가리킨다.
 
@@ -1325,6 +1392,8 @@
 | dh-p6 | Up the stairs. Okay! | 방향 확인 | dh-19 | 계단 위로요. 알겠어요! |
 | dh-p7 | On the right. Thank you! | 확인과 감사 | dh-26 | 오른쪽이요. 고맙습니다! |
 | dh-p8 | Thank you very much! | 감사 | dh-28 | 정말 고맙습니다! |
+| dh-p9 | Can I have a map, please? | 지도 요청 | dh-30 | 지도 좀 주시겠어요? |
+| dh-p10 | Where is the bathroom? | 시설 위치 묻기 | dh-32 | 화장실이 어디예요? |
 
 ### 미니게임 차례
 
@@ -1332,7 +1401,7 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | ask | dh-01 | dh-02/dh-03 | 둘 중 누구든 |
+| t1 | ask | dh-01 | dh-02/dh-03/dh-30 | 둘 중 누구든 |
 | t2 | way1 | dh-04 | dh-05/dh-06/dh-07 | 둘 중 누구든 |
 | t3 | far | - | dh-09/dh-10 | 둘 중 누구든 |
 | t4 | way2 | dh-13 | dh-14/dh-15 | 둘 중 누구든 |
@@ -1340,7 +1409,7 @@
 | t6 | way2 | - | dh-17 | B |
 | t7 | way3 | dh-18 | dh-19/dh-20 | 둘 중 누구든 |
 | n1 | stairs | dh-21 | - | - |
-| t8 | stairs | - | dh-22 | 둘 중 누구든 |
+| t8 | stairs | - | dh-22/dh-32 | 둘 중 누구든 |
 | t9 | recap | - | dh-23 | A |
 | t10 | recap | - | dh-24 | B |
 | t11 | end | dh-25 | dh-26 | 둘 중 누구든 |
