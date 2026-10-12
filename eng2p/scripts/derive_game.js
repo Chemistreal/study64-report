@@ -190,7 +190,7 @@ function buildResultsSchema() {
   };
   const defs = {
     session_start: def("session_start", true, {
-      mode: en(["normal", "busy", "short"], "보통 날 블록 넷(1 40분, 2 30분, 3 시계 없음, 4 20분) / 바쁜 날 15분 혼자 / 짧은 날 45분 둘이. busy 와 short 는 세션 번호를 안 올린다"),
+      mode: en(["normal", "busy", "short"], "보통 날 블록 넷(1 40분, 2 30분, 3 시계 없음, 4 20분) / 바쁜 날 15분 혼자 / 짧은 날 예상 45분 둘이(시계로 자르지 않는다). busy 와 short 는 세션 번호를 안 올린다"),
       seatA: en(["a", "b"], "그날 먼저 말을 여는 사람의 자리 (역할 A)"),
       dataHash: str("^[0-9a-f]{64}$", "그때 읽은 Data/*.json 의 dataHash"),
       game: str("^[0-9A-Za-z._-]{1,16}$", "게임 판 이름"),
@@ -590,10 +590,12 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
     },
     shortDay: {
       minutes: 45, together: true,
-      parts: [{ what: "review", minutes: 25 }, { what: "retell", minutes: 20 }],
+      /* 개정문 32. 25분과 20분을 상한으로 쓰던 칸이다. 시간으로 자르지 않으니 칸을 비운다(null).
+         `minutes` 45 는 예상 소요(안내)고 게임이 읽는 칸이라 남긴다. 복습 25분 + 다시 말하기 20분의 합이다 */
+      parts: null,
       session: false,
-      note: "2시간을 못 내는 날. 수행일로 센다. 세션 번호는 안 오르고 576시간에 안 센다. " +
-            "25분은 두 사람이 고른 길이다. 보통 날의 블록 3 을 자르는 규칙이 아니다. 25분 안에 못 돈 복습은 안 한 것으로 적지 않고(skipped 줄 없음) 칸도 안 내린다",
+      note: "2시간을 못 내는 날에 두 사람이 고르는 짧은 계획. 블록 3 몫인 간격 복습 덱과 블록 4 다시 말하기 둘이다. 수행일로 센다. 세션 번호는 안 오르고 576시간에 안 센다. " +
+            "45분(복습 25분, 다시 말하기 20분)은 예상 소요(안내)이고 상한이 아니다. 짧은 날도 시계로 자르지 않는다. 시간 때문에 복습 카드를 버리거나 건너뛰지 않고(skipped 줄 없음) 칸도 안 내린다",
     },
     blocks: got.blocks.length ? got.blocks : null,
     count: got.sessions.length,

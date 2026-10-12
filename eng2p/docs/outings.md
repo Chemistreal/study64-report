@@ -175,7 +175,7 @@ game 저장소 시험(`Scripts/test_outings_ref.py`)이 이 표가 실제 파일
 
 | id | 단계 | 한국어 이름 |
 |---|---|---|
-| `waikiki_beach` | 1 | 와이키키 해변 |
+| `waikiki_beach` | 1 | 와이키키 비치 |
 | `kapiolani_park` | 1 | 카피올라니 공원 |
 | `honolulu_zoo` | 1 | 호놀룰루 동물원 |
 | `queen_kapiolani_hotel` | 1 | 퀸 카피올라니 호텔 |
@@ -208,7 +208,7 @@ game 저장소 시험(`Scripts/test_outings_ref.py`)이 이 표가 실제 파일
 | `polynesian_cultural_center` | 3 | 폴리네시안 문화 센터 |
 | `dole_plantation` | 3 | 돌 플랜테이션 |
 | `kualoa_regional_park` | 3 | 쿠알로아 지역 공원 |
-| `lanikai_beach` | 3 | 라니카이 해변 |
+| `lanikai_beach` | 3 | 라니카이 비치 |
 | `kailua_beach_park` | 3 | 카일루아 비치 파크 |
 | `waimea_bay` | 3 | 와이메아 베이 |
 | `sunset_beach` | 3 | 선셋 비치 |

@@ -974,7 +974,7 @@ const runs = (u) => !PART || PART.k === { A: 1, B: 2, C: 3 }[u];
     btn().click(); await new Promise((r) => setTimeout(r, 700));   // veil0
     if (!shown()) bad.push("다 보임인데 글자가 안 보인다");
     const first = box().querySelector(".scl");
-    if (!first.dataset.mask || first.dataset.mask.indexOf("낱말") < 0)
+    if (!first.dataset.mask || first.dataset.mask.indexOf("단어") < 0)
       bad.push("가릴 때 보여 줄 것이 없다: " + first.dataset.mask);
     // 블록을 옮기면 회차 기본값으로 돌아간다.
     // **회차가 정한다. 블록이 아니다.** 아직 한 회차도 안 끝냈으면 1회차라 가림이다. T154

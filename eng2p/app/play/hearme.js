@@ -182,7 +182,7 @@ function hrmListener(it, kind, s, rec){
   /* **영어 낱말 뒤에 조사를 안 붙인다.** 받침이 있는 것과 없는 것이 섞이고
      `l` 이나 `all` 같은 것에는 무엇을 붙여도 어색하다. 쌍점으로 잇는다. T245 */
   var h='<div class="note" style="margin-top:10px">듣는 것: <b>'+esc(kind.name)+'</b>'+
-    (it.word ? ' · 낱말: <b>'+esc(it.word)+'</b>' : ' · 줄 전체의 박자')+'</div>'+
+    (it.word ? ' · 단어: <b>'+esc(it.word)+'</b>' : ' · 줄 전체의 박자')+'</div>'+
     '<div class="hrmsay">'+esc(kind.say)+'</div>'+
     '<div class="small mut">근거: '+esc(kind.why)+' (블록 2 근거표)</div>'+
     '<div class="note w" style="margin-top:10px">듣고 나서 <b>소리 내어 말해 준다.</b> '+

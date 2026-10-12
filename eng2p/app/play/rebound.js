@@ -150,7 +150,7 @@ function renderRebound(){
 
   h+='<div class="note" style="margin-top:10px">앞 사람 말끝을 받아 <b>바로</b> 잇는다. '+
      '<b>쉼이 없어야 한다.</b> 무슨 말인지보다 언제 들어오는지를 잰다. '+
-     '낱말이 맞물릴 것은 없다.</div>';
+     '단어가 맞물릴 것은 없다.</div>';
 
   if(first){
     h+='<div class="row" style="margin-top:8px">'+

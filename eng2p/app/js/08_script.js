@@ -80,9 +80,9 @@ var VEILNAME=["다 보임","덩어리만","가림"];
 function maskOf(line, veil){
   var body=line.replace(/^[A-Z][A-Za-z .\'-]{0,20}:\s*/,"");
   var w=body.split(/\s+/).filter(Boolean).length;
-  if(veil===2) return w+"낱말";
+  if(veil===2) return w+"단어";
   var first=(body.split(/\s+/).filter(Boolean)[0]||"");
-  return first+" ... "+w+"낱말";
+  return first+" ... "+w+"단어";
 }
 function renderSyncScript(it, round){
   var tr=DATA.transcripts, cu=DATA.cues, al=DATA.audiolen;
@@ -105,7 +105,7 @@ function renderSyncScript(it, round){
     (nfix?' · '+nfix+'줄 잡았다':'')+'</div>'+
     (veil?'<div class="syncnote"><b>'+VEILNAME[veil]+'.</b> '+
       (veil===2?'글을 보면 소리를 안 듣는다. 그래서 가린다.'
-               :'첫 낱말과 길이만 준다. 덩어리로 끊어 듣는 자리다.')+'</div>'
+               :'첫 단어와 길이만 준다. 덩어리로 끊어 듣는 자리다.')+'</div>'
         :'<div class="syncnote"><b>다 보임.</b> 이제 무슨 말인지를 본다.</div>')+
     '<div class="syncscript veil'+veil+'" id="sessScript">';
   lines.forEach(function(s,i){

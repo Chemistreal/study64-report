@@ -148,7 +148,7 @@ function renderOverlap(){
     h+='<div class="note w" style="margin-top:12px"><b>기기가 하나다. '+
        '이 판은 종이로 돈다.</b> 적는 자리가 하나면 뒤에 적는 사람이 앞사람 것을 '+
        '봤거나 <b>안 봤다는 것을 서로 못 믿는다.</b><br>'+
-       '<b>각자 종이에 단서 한 낱말을 적고 같이 뒤집는다.</b> '+
+       '<b>각자 종이에 단서 한 단어를 적고 같이 뒤집는다.</b> '+
        '겹쳤는지는 둘이 눈으로 견준다. 화면은 맞힐 것과 남은 단서만 낸다.</div>';
     h+='<div class="row" style="margin-top:10px">'+
        '<button class="b" id="ovlPaperSame">겹쳤다. 둘 다 지운다</button>'+
@@ -174,17 +174,17 @@ function renderOverlap(){
     return;
   }
   if(!open){
-    h+='<div class="note" style="margin-top:12px">단서 <b>한 낱말</b>을 적는다. '+
+    h+='<div class="note" style="margin-top:12px">단서 <b>한 단어</b>를 적는다. '+
        '<b>상대에게 안 보여 준다.</b> 다 적으면 펴는 단추가 켜진다.</div>'+
-       '<input id="ovlIn" placeholder="단서 한 낱말" autocomplete="off" '+
+       '<input id="ovlIn" placeholder="단서 한 단어" autocomplete="off" '+
        'value="'+esc(OVL.said)+'">';
     h+=revealGate(key, "ovlIn", "둘이 같이 편다");
   }else{
     h+='<div class="note g" style="margin-top:12px">폈다. 내 단서는 <b>'+
        esc(OVL.said)+'</b> 다. <b>소리 내어 말한다.</b></div>'+
-       '<div class="note">상대가 말한 낱말을 친다. '+
+       '<div class="note">상대가 말한 단어를 친다. '+
        '<b>기기끼리는 못 주고받는다.</b> 치면 그 자리에서 견준다.</div>'+
-       '<input id="ovlHeard" placeholder="상대가 말한 낱말" autocomplete="off" '+
+       '<input id="ovlHeard" placeholder="상대가 말한 단어" autocomplete="off" '+
        'value="'+esc(OVL.heard)+'">'+
        /* **판정 자리를 따로 둔다.** 글자마다 다시 그리면 커서가 튀고
           글자가 바뀔 때 안 그리면 판정이 첫 글자로 굳는다. 실제로 굳었다.

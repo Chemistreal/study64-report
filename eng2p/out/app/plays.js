@@ -234,7 +234,7 @@ function renderSwapline(){
   var p=playById("swapline");
   SWP.min=p.min;
   if(!DATA.swaps){
-    box.innerHTML=dataWait("바꿀 낱말 표를","swaps");
+    box.innerHTML=dataWait("바꿀 단어 표를","swaps");
     if(!dataFailed("swaps")) loadData("swaps","ENG2P_SWAPS",function(){ renderSwapline(); });
     return;
   }
@@ -254,7 +254,7 @@ function renderSwapline(){
   var items=swpItems();
   if(!items || !items.length){
     box.innerHTML='<div class="card"><div class="note w">'+esc(mid)+
-      ' 과에 바꿀 낱말이 없다. <b>scripts/derive_swaps.py</b> 를 돌려야 이 판이 돈다.'+
+      ' 과에 바꿀 단어가 없다. <b>scripts/derive_swaps.py</b> 를 돌려야 이 판이 돈다.'+
       '</div></div>';
     return;
   }
@@ -298,7 +298,7 @@ function renderSwapline(){
   }
   if(first===null){
     h+='<div class="note w" style="margin-top:10px"><b>이 판은 이대로 안 돈다.</b> '+
-       '바꿀 낱말이 읽는 쪽 화면에만 떠야 하는데 이 기기는 어느 쪽인지를 모른다. '+
+       '바꿀 단어가 읽는 쪽 화면에만 떠야 하는데 이 기기는 어느 쪽인지를 모른다. '+
        '대장 탭에서 이 기기 쪽을 고르거나, 기기가 하나면 규칙 탭에서 '+
        '<b>돌려 보기</b>를 켠다.</div></div>';
     box.innerHTML=h; return;
@@ -329,7 +329,7 @@ function swpReader(it, line, s, rec){
     return a+'<b class="swpmark">'+w+'</b>'+b;
   });
   var h='<div class="note" style="margin-top:10px">아래 줄을 소리 내어 읽는다. '+
-    '<b>짚어 둔 낱말만 바꿔 읽는다.</b> 나머지는 그대로다.</div>'+
+    '<b>짚어 둔 단어만 바꿔 읽는다.</b> 나머지는 그대로다.</div>'+
     '<div class="swpline">'+shown+'</div>'+
     '<div class="swpswap"><span class="lno">바꿔</span>'+
     esc(it.from)+' <b>&rarr; '+esc(it.to)+'</b></div>'+
@@ -527,7 +527,7 @@ function hrmSpeaker(line){
 }
 function hrmListener(it, kind, s, rec){
   var h='<div class="note" style="margin-top:10px">듣는 것: <b>'+esc(kind.name)+'</b>'+
-    (it.word ? ' · 낱말: <b>'+esc(it.word)+'</b>' : ' · 줄 전체의 박자')+'</div>'+
+    (it.word ? ' · 단어: <b>'+esc(it.word)+'</b>' : ' · 줄 전체의 박자')+'</div>'+
     '<div class="hrmsay">'+esc(kind.say)+'</div>'+
     '<div class="small mut">근거: '+esc(kind.why)+' (블록 2 근거표)</div>'+
     '<div class="note w" style="margin-top:10px">듣고 나서 <b>소리 내어 말해 준다.</b> '+
@@ -1219,7 +1219,7 @@ function renderOverlap(){
     h+='<div class="note w" style="margin-top:12px"><b>기기가 하나다. '+
        '이 판은 종이로 돈다.</b> 적는 자리가 하나면 뒤에 적는 사람이 앞사람 것을 '+
        '봤거나 <b>안 봤다는 것을 서로 못 믿는다.</b><br>'+
-       '<b>각자 종이에 단서 한 낱말을 적고 같이 뒤집는다.</b> '+
+       '<b>각자 종이에 단서 한 단어를 적고 같이 뒤집는다.</b> '+
        '겹쳤는지는 둘이 눈으로 견준다. 화면은 맞힐 것과 남은 단서만 낸다.</div>';
     h+='<div class="row" style="margin-top:10px">'+
        '<button class="b" id="ovlPaperSame">겹쳤다. 둘 다 지운다</button>'+
@@ -1245,17 +1245,17 @@ function renderOverlap(){
     return;
   }
   if(!open){
-    h+='<div class="note" style="margin-top:12px">단서 <b>한 낱말</b>을 적는다. '+
+    h+='<div class="note" style="margin-top:12px">단서 <b>한 단어</b>를 적는다. '+
        '<b>상대에게 안 보여 준다.</b> 다 적으면 펴는 단추가 켜진다.</div>'+
-       '<input id="ovlIn" placeholder="단서 한 낱말" autocomplete="off" '+
+       '<input id="ovlIn" placeholder="단서 한 단어" autocomplete="off" '+
        'value="'+esc(OVL.said)+'">';
     h+=revealGate(key, "ovlIn", "둘이 같이 편다");
   }else{
     h+='<div class="note g" style="margin-top:12px">폈다. 내 단서는 <b>'+
        esc(OVL.said)+'</b> 다. <b>소리 내어 말한다.</b></div>'+
-       '<div class="note">상대가 말한 낱말을 친다. '+
+       '<div class="note">상대가 말한 단어를 친다. '+
        '<b>기기끼리는 못 주고받는다.</b> 치면 그 자리에서 견준다.</div>'+
-       '<input id="ovlHeard" placeholder="상대가 말한 낱말" autocomplete="off" '+
+       '<input id="ovlHeard" placeholder="상대가 말한 단어" autocomplete="off" '+
        'value="'+esc(OVL.heard)+'">'+
        '<div id="ovlSay"></div>';
   }
@@ -1843,7 +1843,7 @@ function renderRebound(){
 
   h+='<div class="note" style="margin-top:10px">앞 사람 말끝을 받아 <b>바로</b> 잇는다. '+
      '<b>쉼이 없어야 한다.</b> 무슨 말인지보다 언제 들어오는지를 잰다. '+
-     '낱말이 맞물릴 것은 없다.</div>';
+     '단어가 맞물릴 것은 없다.</div>';
 
   if(first){
     h+='<div class="row" style="margin-top:8px">'+

@@ -450,12 +450,11 @@ def firmed(G, S, spec):
     if not tm or hours != int(tm.group(1)):
         FAIL.append("세션 %d개 x 계획 눈금 %s분 = %g시간이 기준서 1장 총 시간 %s 와 다르다"
                     % (len(S), mins, hours, tm.group(1) if tm else "?"))
-    # 짧은 날. 45분, 세션이 아니다
+    # 짧은 날. 예상 소요 45분, 세션이 아니다. **시간으로 자르지 않으니 칸 나눈 분(parts)은 없다** (개정문 32)
     sd = G.get("shortDay") or {}
-    sm = re.search(r"짧은 날은 (\d+)분이다", spec)
-    parts = sum(p.get("minutes", 0) for p in sd.get("parts") or [])
+    sm = re.search(r"짧은 날의 예상 소요는 (\d+)분이다", spec)
     n += 1
-    if not sm or sd.get("minutes") != int(sm.group(1)) or parts != sd.get("minutes") \
+    if not sm or sd.get("minutes") != int(sm.group(1)) or sd.get("parts") is not None \
             or sd.get("session") is not False or not sd.get("together"):
         FAIL.append("짧은 날이 기준서 2.5 와 다르다: %s" % json.dumps(sd, ensure_ascii=False)[:120])
     return len(S) - len(bad), len(S)
@@ -536,9 +535,11 @@ def open_block3(G, S):
         % (len(wrong), " ".join(map(str, wrong[:6]))))
     chk(not order, "오늘 카드와 복습이 겹치거나 복습에 같은 카드가 두 번인 세션이 %d개다 (%s)"
         % (len(order), " ".join(map(str, order[:6]))))
-    # 짧은 날의 25분은 보통 날을 자르는 규칙이 아니라는 말이 자료에 있다
+    # 짧은 날도 시계로 자르지 않는다 (개정문 32). 칸 나눈 분(parts)이 없고 note 가 예상 소요라고 말한다
     sd = G.get("shortDay") or {}
-    chk("보통 날의 블록 3 을 자르는 규칙이 아니다" in sd.get("note", ""), "shortDay.note 에 25분이 보통 날을 자르는 규칙이 아니라는 말이 없다")
+    chk(sd.get("parts") is None, "shortDay.parts 가 있다. 짧은 날도 시계로 자르지 않으니 분을 나눠 담는 칸이 없어야 한다")
+    chk("짧은 날도 시계로 자르지 않는다" in sd.get("note", "") and "예상 소요" in sd.get("note", ""),
+        "shortDay.note 에 짧은 날도 시계로 자르지 않는다는 말과 예상 소요라는 말이 없다")
     return ok, total
 
 
@@ -546,7 +547,7 @@ BREAKS = ["블록 3 에 30분을 되돌린다", "블록 3 clock 을 true 로 한
           "day.planMinutes 를 150 으로 적는다", "한 세션의 오늘 카드 하나를 지운다 (시계가 카드를 자른다)",
           "한 세션의 block3.minutes 를 1 줄인다", "오늘 카드와 복습에 같은 카드를 둔다",
           "결과 줄 skipped 설명이 시간이 끝났다고 한다", "day.block3.cap 을 30 으로 적는다",
-          "shortDay.note 에서 보통 날을 안 자른다는 말을 지운다"]
+          "shortDay.note 에서 짧은 날도 안 자른다는 말을 지운다", "shortDay.parts 에 25분과 20분을 되돌린다"]
 
 
 def break_open_block3(G, S):
@@ -577,7 +578,9 @@ def break_open_block3(G, S):
         elif i == 8:
             G2["day"]["block3"]["cap"] = 30
         elif i == 9:
-            G2["shortDay"]["note"] = G2["shortDay"]["note"].replace("보통 날의 블록 3 을 자르는 규칙이 아니다", "")
+            G2["shortDay"]["note"] = G2["shortDay"]["note"].replace("짧은 날도 시계로 자르지 않는다", "")
+        elif i == 10:
+            G2["shortDay"]["parts"] = [{"what": "review", "minutes": 25}, {"what": "retell", "minutes": 20}]
         return None
 
     for i, name in enumerate(BREAKS):

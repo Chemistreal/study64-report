@@ -1860,7 +1860,7 @@ function renderVoiceCmp(){
      '<span class="small">클립 탭에서 이 파일을 연다. 파일은 이 기기에 있다.</span></div>';
   if(ears.length)
     h+='<div class="n"><b>어디를 듣나</b> '+esc(ears.join(" · "))+
-       ' <span class="small mut">이 낱말들이 이 줄을 고른 까닭이다. '+
+       ' <span class="small mut">이 단어들이 이 줄을 고른 까닭이다. '+
        '나아졌는지는 앱이 안 정한다.</span></div>';
   h+='<div class="row" style="gap:8px;margin-top:8px">'+
      '<button class="g" type="button" data-vcmp="-1"'+(i?"":" disabled")+'>앞엣것</button>'+

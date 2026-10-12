@@ -1,9 +1,9 @@
 {
  "note": "하루 끝 틱(scripts/game_tick.js)이 PC 에서 돌려면 필요한 파일의 크기와 해시다. 손으로 고치지 않는다. scripts/derive_tick_bundle.py 를 다시 돌린다. PC 의 Tools\\sync_tick.ps1 이 받는다.",
  "generator": "scripts/derive_tick_bundle.py",
- "tickHash": "ed77ef752e832be7628dbd5625530c693291ab58012ebb13fe4b25b3103051f7",
- "appHash": "5fcc1006f5b60a5b2667d70cd574726c9edadc9ec8a1ac49fb4a315cedd8bf38",
- "schemaSha256": "a19bed4205f22baff1b5188f4c4a6605ed394bfbacfc4e8015f53765d5f773ff",
+ "tickHash": "11a1eeaf4985f985e151d894d3018609022024a863941f90eeb5bf31199ab406",
+ "appHash": "5db5c2dc0891db0336d90dbbd136fc971dc50610ae1c32e3c8951d95221f84fb",
+ "schemaSha256": "9eb44427a3c149a5a2d1d733065dd3558018fe819ec6094c2991ec4944944799",
  "nodeMin": 22,
  "entry": "eng2p/scripts/game_tick.js",
  "algorithm": {
@@ -17,7 +17,7 @@
   {
    "file": "english.html",
    "bytes": 298716,
-   "sha256": "e1ca2ef3202d7a71d8bf49227412c3d6d2f8ae6cfd41b13fdfc21370fb852047"
+   "sha256": "045eee00b76c763c3931f2776c03f235ca7aefce3a1d8ed0a55e614cc23f592d"
   },
   {
    "file": "eng2p/scripts/game_tick.js",
@@ -82,7 +82,7 @@
   {
    "file": "eng2p/app/js/07_block14.js",
    "bytes": 24346,
-   "sha256": "8a0705ab5d4c700fa6bf30cea816a0457c20ea23389fd7030e535888989095a3"
+   "sha256": "53c0652d25359eb8dde50dc28949567586c639ec05e300490ac634c9e7d8a31d"
   },
   {
    "file": "eng2p/app/js/07b_tone.js",
@@ -92,7 +92,7 @@
   {
    "file": "eng2p/app/js/08_script.js",
    "bytes": 26869,
-   "sha256": "22be86ba293f572b0a5f2ef3316ebc521917ba652b36d3d6a7efac23da0ca135"
+   "sha256": "0b8f77f441e6dd358ba7f6303b3dcc4233582b74794585f215a31c14fd711f4d"
   },
   {
    "file": "eng2p/app/js/09_lecture.js",
@@ -147,7 +147,7 @@
   {
    "file": "eng2p/out/app/plays.js",
    "bytes": 161448,
-   "sha256": "0bf5be322b736105295ece5ad37d396825fff6b184bf55d428cfbd735d95feb4"
+   "sha256": "59ba7f8839cc603ff41e6009fa396479d196a2463adbcea73b4e6f3b93cfa74b"
   },
   {
    "file": "eng2p/out/data/cards.js",
@@ -156,8 +156,8 @@
   },
   {
    "file": "eng2p/out/game/results_schema.json",
-   "bytes": 35854,
-   "sha256": "a19bed4205f22baff1b5188f4c4a6605ed394bfbacfc4e8015f53765d5f773ff"
+   "bytes": 35892,
+   "sha256": "9eb44427a3c149a5a2d1d733065dd3558018fe819ec6094c2991ec4944944799"
   }
  ]
 }

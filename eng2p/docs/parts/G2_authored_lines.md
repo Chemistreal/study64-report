@@ -461,7 +461,7 @@
 허용 이름: -
 갈래: tbr-02 > tbr-04, tbr-03 > tbr-04, tbr-06 > tbr-08, tbr-07 > tbr-08, tbr-10 > tbr-12, tbr-11 > tbr-12, tbr-14 > tbr-16, tbr-15 > tbr-17, tbr-20 > tbr-21, tbr-23 > tbr-25, tbr-24 > tbr-26, tbr-28 > tbr-30, tbr-29 > tbr-31, tbr-34 > tbr-35
 
-상황: 제안 장소 id는 bus_stop_kalakaua예요. 실제 TheBus의 요금이나 카드 규정을 재현하는 장면이 아니에요. 이 가상 노선은 해변으로 가며 공원 다음이 해변 정류장이에요. 한 사람 사 달러, 두 사람 팔 달러예요. 장면의 카드는 제시한 위치에서 결제돼요. 버스 뒷부분의 두 자리와 내리는 문, 해변 맞은편 건널목도 가상 장면 값이에요. 기사에게 부탁하는 말은 버스가 정차했을 때 해요. 자리 안내 뒤에는 두 사람이 앉은 채로 이동하고, 도착 안내 뒤에는 버스가 완전히 멈춘 상태에서 내려요.
+상황: 제안 장소 id는 bus_stop_kalakaua예요. 실제 TheBus의 요금이나 카드 규정을 재현하는 장면이 아니에요. 이 가상 노선은 해변으로 가며 공원 다음이 해변 정류장이에요. 한 사람 삼 달러, 두 사람 육 달러예요. 장면의 카드는 제시한 위치에서 결제돼요. 버스 뒷부분의 두 자리와 내리는 문, 해변 맞은편 건널목도 가상 장면 값이에요. 기사에게 부탁하는 말은 버스가 정차했을 때 해요. 자리 안내 뒤에는 두 사람이 앉은 채로 이동하고, 도착 안내 뒤에는 버스가 완전히 멈춘 상태에서 내려요.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -473,10 +473,10 @@
 | tbr-06 | fare | option | B자리 | How much is the fare for two people? | A2 | 두 사람 요금 묻기 | A | - | - |
 | tbr-07 | fare | option | B자리 | Where can we check the fare? | A2 | 요금 안내 위치 묻기 | A | - | - |
 | tbr-08 | fare | npc | Driver | Please check the fare on this sign. | A2 | 요금 안내판 가리키기 | B | 요금이 이 안내판에 표시된 것은 가상 장면의 설정이며 실제 버스 표시 방식은 확인하지 않았어요 | - |
-| tbr-09 | total | npc | Driver | The fare is four dollars each. | A2 | 한 사람 요금 말하기 | B | 한 사람 사 달러는 이 미션의 가상 요금이며 실제 버스 요금과 관계없어요 | - |
-| tbr-10 | total | option | A자리 | So eight dollars for both of us? | A2 | 두 사람 합계 확인하기 | A | - | - |
+| tbr-09 | total | npc | Driver | The fare is three dollars each. | A2 | 한 사람 요금 말하기 | B | 한 사람 삼 달러는 이 미션의 가상 요금이며 실제 버스 요금과 관계없어요 | - |
+| tbr-10 | total | option | A자리 | So six dollars for both of us? | A2 | 두 사람 합계 확인하기 | A | - | - |
 | tbr-11 | total | option | A자리 | Could you say the price again? | A2 | 요금 다시 말해 달라고 부탁하기 | A | - | - |
-| tbr-12 | total | npc | Driver | It's eight dollars for two people. | A2 | 두 사람 요금 다시 알려 주기 | B | 가상 요금 사 달러에 두 사람을 곱한 합계이며 실제 할인이나 이용권 규정을 담지 않아요 | - |
+| tbr-12 | total | npc | Driver | It's six dollars for two people. | A2 | 두 사람 요금 다시 알려 주기 | B | 가상 요금 삼 달러에 두 사람을 곱한 합계이며 실제 할인이나 이용권 규정을 담지 않아요 | - |
 | tbr-13 | pay | npc | Driver | Please pay here before you take a seat. | A2 | 결제 장소와 순서 안내하기 | B | 앉기 전에 이 위치에서 결제하는 것은 가상 버스 절차이며 실제 운영 규정을 단정하지 않아요 | - |
 | tbr-14 | pay | option | B자리 | Can we use this card to pay? | A2 | 카드 사용 가능 여부 묻기 | A | - | - |
 | tbr-15 | pay | option | B자리 | Please show me where to put the card. | A2 | 카드 결제 위치를 보여 달라고 부탁하기 | A | - | - |
@@ -511,7 +511,7 @@
 | tbr-p2 | We're going to the beach today. | 목적지 알리기 | tbr-03 | - |
 | tbr-p3 | How much is the fare for two people? | 두 사람 요금 묻기 | tbr-06 | - |
 | tbr-p4 | Where can we check the fare? | 요금 안내 위치 묻기 | tbr-07 | - |
-| tbr-p5 | So eight dollars for both of us? | 두 사람 합계 확인하기 | tbr-10 | - |
+| tbr-p5 | So six dollars for both of us? | 두 사람 합계 확인하기 | tbr-10 | - |
 | tbr-p6 | Could you say the price again? | 요금 다시 말해 달라고 부탁하기 | tbr-11 | - |
 | tbr-p7 | Can we use this card to pay? | 카드 사용 가능 여부 묻기 | tbr-14 | - |
 | tbr-p8 | Please show me where to put the card. | 카드 결제 위치를 보여 달라고 부탁하기 | tbr-15 | - |

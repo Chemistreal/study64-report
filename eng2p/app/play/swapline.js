@@ -77,7 +77,7 @@ function renderSwapline(){
   SWP.min=p.min;
   /* 자료 둘을 게으르게 읽는다. **대본이 112KB 다.** 이 판을 안 열면 안 읽는다. */
   if(!DATA.swaps){
-    box.innerHTML=dataWait("바꿀 낱말 표를","swaps");
+    box.innerHTML=dataWait("바꿀 단어 표를","swaps");
     if(!dataFailed("swaps")) loadData("swaps","ENG2P_SWAPS",function(){ renderSwapline(); });
     return;
   }
@@ -97,7 +97,7 @@ function renderSwapline(){
   var items=swpItems();
   if(!items || !items.length){
     box.innerHTML='<div class="card"><div class="note w">'+esc(mid)+
-      ' 과에 바꿀 낱말이 없다. <b>scripts/derive_swaps.py</b> 를 돌려야 이 판이 돈다.'+
+      ' 과에 바꿀 단어가 없다. <b>scripts/derive_swaps.py</b> 를 돌려야 이 판이 돈다.'+
       '</div></div>';
     return;
   }
@@ -145,7 +145,7 @@ function renderSwapline(){
      `docs/play_app.md` 4장. */
   if(first===null){
     h+='<div class="note w" style="margin-top:10px"><b>이 판은 이대로 안 돈다.</b> '+
-       '바꿀 낱말이 읽는 쪽 화면에만 떠야 하는데 이 기기는 어느 쪽인지를 모른다. '+
+       '바꿀 단어가 읽는 쪽 화면에만 떠야 하는데 이 기기는 어느 쪽인지를 모른다. '+
        '대장 탭에서 이 기기 쪽을 고르거나, 기기가 하나면 규칙 탭에서 '+
        '<b>돌려 보기</b>를 켠다.</div></div>';
     box.innerHTML=h; return;
@@ -186,7 +186,7 @@ function swpReader(it, line, s, rec){
     return a+'<b class="swpmark">'+w+'</b>'+b;
   });
   var h='<div class="note" style="margin-top:10px">아래 줄을 소리 내어 읽는다. '+
-    '<b>짚어 둔 낱말만 바꿔 읽는다.</b> 나머지는 그대로다.</div>'+
+    '<b>짚어 둔 단어만 바꿔 읽는다.</b> 나머지는 그대로다.</div>'+
     '<div class="swpline">'+shown+'</div>'+
     '<div class="swpswap"><span class="lno">바꿔</span>'+
     esc(it.from)+' <b>&rarr; '+esc(it.to)+'</b></div>'+
