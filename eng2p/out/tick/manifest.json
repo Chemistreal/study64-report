@@ -1,9 +1,9 @@
 {
  "note": "하루 끝 틱(scripts/game_tick.js)이 PC 에서 돌려면 필요한 파일의 크기와 해시다. 손으로 고치지 않는다. scripts/derive_tick_bundle.py 를 다시 돌린다. PC 의 Tools\\sync_tick.ps1 이 받는다.",
  "generator": "scripts/derive_tick_bundle.py",
- "tickHash": "ca64c55938495d5480bd515bc274f9d2a38b9c5a7774bd4cbd50e542120e5582",
+ "tickHash": "dfa3003371f8065348782d604be7440ec0b97e3787be6a27548f5c4a35d3d9b8",
  "appHash": "e03de071b2aa3407c574e3f7e9bd3d6c886e990e2517c0bc09a9c07ebf082d81",
- "schemaSha256": "34b9b07d40b7c7b872383cc62d5293b0f2a017b2a697f5e5f3cf7a9bd7a5c12f",
+ "schemaSha256": "0d20976f67e12c9f601869b1b5dc51e5b8fc67d5fcbffea277ead10b7af3324d",
  "nodeMin": 22,
  "entry": "eng2p/scripts/game_tick.js",
  "algorithm": {
@@ -21,8 +21,8 @@
   },
   {
    "file": "eng2p/scripts/game_tick.js",
-   "bytes": 45199,
-   "sha256": "00664422b5198287476a4678856034cb78263ec3dcfc1692c773428a06114464"
+   "bytes": 47681,
+   "sha256": "9fbdfdcb66e41597a7178f7ef6509ac5bebadd5602ebea1691d8e9f676204e80"
   },
   {
    "file": "eng2p/app/order.txt",
@@ -156,8 +156,8 @@
   },
   {
    "file": "eng2p/out/game/results_schema.json",
-   "bytes": 34197,
-   "sha256": "34b9b07d40b7c7b872383cc62d5293b0f2a017b2a697f5e5f3cf7a9bd7a5c12f"
+   "bytes": 34909,
+   "sha256": "0d20976f67e12c9f601869b1b5dc51e5b8fc67d5fcbffea277ead10b7af3324d"
   }
  ]
 }

@@ -54,7 +54,9 @@ LATER = ["spelling_rule.json", "judge.json", "replies.json", "voicelist.json", "
          # 입문 세션 대본 한국어 풀이 (docs/game_data.md 12장, scripts/derive_transcripts_ko.py). 게임이 있으면 읽는 선택 자료
          "transcripts_ko.json",
          # 지은 영어와 나들이 미션 (docs/authored.md, docs/outings.md, 개정문 30번). 게임이 있으면 읽는 선택 자료. 지금 게임은 안 읽는다
-         "authored.json", "outings.json"]
+         "authored.json", "outings.json",
+         # 기능 라벨 (docs/functions.md, 사용자 2026-10-12). 카드 600장의 기능, 미션 차례 후보 줄의 기능, 기능 -> 미션 색인. 게임이 있으면 읽는 선택 자료
+         "functions.json"]
 
 ALGORITHM = {
     "name": "dataHash/1",

@@ -75,8 +75,10 @@ const SCHEMA_VERSION = 1;
 /* 모양 개정 번호. **판 번호(SCHEMA_VERSION)와 다르다.** 줄의 `v` 는 1 그대로고 이미 쓴 줄은 모두 그대로 맞다.
    개정 2 (2026-10-10): 나들이 미션 줄을 더했다. 더하기만 했다 (칸을 안 뺐고 범위를 안 좁혔다).
    docs/game_results.md 4.15. check_game.py 가 개정 1 고정본(tools/game/results_fixture/results_schema.rev1.json)을 놓고
-   "넓히기만 했는가"를 본다 */
-const SCHEMA_REVISION = 2;
+   "넓히기만 했는가"를 본다.
+   개정 3 (2026-10-12): outing_turn 에 선택 칸 pick (고른 후보 줄 id)을 더했다. **선택 칸이다** (필수 칸을 더하지 않았다).
+   그래서 pick 이 없는 옛 줄(개정 2 까지)이 그대로 맞다. docs/game_results.md 4.15 */
+const SCHEMA_REVISION = 3;
 const PLAYS_JS = path.join(HERE, "out", "app", "plays.js");
 const RECALL_JS = path.join(HERE, "app", "play", "recall.js");
 
@@ -170,9 +172,12 @@ function buildResultsSchema() {
   const BLOCK = { type: "integer", enum: [0, 1, 2, 3, 4, 9],
     description: "블록 1~4, 9 는 바쁜 날 심부름, 0 은 블록 밖 (나들이 미션. 블록 시계에 안 든다. activity 의 kind outing 만 쓴다)" };
   const COUNT = (d) => int(0, 99, d);
-  const def = (t, team, extra) => {
+  /* optional: 선택 칸 이름들. 필수 칸은 나머지 전부다. 선택 칸은 개정으로 더한 칸뿐이다 (check_game.py OPTIONAL 표가 같은 목록을 쥔다) */
+  const def = (t, team, extra, optional) => {
     const props = Object.assign(ENV(t, team), extra);
-    return { type: "object", additionalProperties: false, required: Object.keys(props), properties: props };
+    const opt = optional || [];
+    return { type: "object", additionalProperties: false,
+             required: Object.keys(props).filter((k) => opt.indexOf(k) < 0), properties: props };
   };
   const unit = {
     outcome: OUTCOME, via: VIA,
@@ -221,7 +226,11 @@ function buildResultsSchema() {
     outing_turn: def("outing_turn", false, Object.assign({
       mission: str("^[a-z0-9_]{3,40}$", "나들이 미션 id (outings.json missions[].id)"),
       turn: int(1, 99, "그 미션 차례 표(game.turns)의 1부터 센 차례 번호. NPC 만 말하는 차례는 점수가 없어 줄이 없다"),
-    }, unit)),
+    }, unit, {
+      pick: str("^[a-z]{2,4}-[0-9]{1,3}$",
+        "선택 칸. 고른 후보 줄 id (그 차례 game.turns[].pick 중 하나, authored.json lines[].id). 말한 글이 아니고 줄 번호다. "
+        + "말 판정기가 들은 줄이거나 사람이 누른 줄이고, 어느 줄인지 못 가렸거나 outcome 이 skipped 면 칸을 뺀다"),
+    }), ["pick"]),
     note: def("note", true, { block: BLOCK, chars: int(0, 99999, "수첩에 쓴 글자 수. 글은 안 담는다") }),
     pause: def("pause", true, { on: { type: "boolean", description: "멈춤 켬 / 끔" } }),
   };
@@ -236,9 +245,11 @@ function buildResultsSchema() {
     "x-forbiddenKeys": ["name", "nameA", "nameB", "who", "speaker", "player", "user", "mic", "text", "say",
                         "transcript", "heard", "audio", "path", "file", "rec", "score", "confidence", "wer"],
     "x-rules": ["t1 >= t0", "e 의 첫 글자 h/g 가 device host/guest 와 같다",
-                "date 는 달력에 있는 날이다", "한 줄은 한 JSON 객체이고 줄바꿈이 없다"],
+                "date 는 달력에 있는 날이다", "한 줄은 한 JSON 객체이고 줄바꿈이 없다",
+                "outing_turn.pick 이 있으면 그 차례의 후보 줄 id 중 하나다 (쓰는 쪽이 지키고 out/game/functions.json 의 turns 와 check_functions.py 가 건다)"],
     "x-revisions": ["1 (2026-10-08) 줄 11가지",
-                    "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)"],
+                    "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)",
+                    "3 (2026-10-12) outing_turn 에 선택 칸 pick (고른 후보 줄 id). 필수 칸을 더하지 않았다 (v 는 1 그대로, 옛 줄이 다 맞다)"],
     oneOf: Object.keys(defs).map((k) => ({ $ref: "#/$defs/" + k })),
     $defs: defs,
   };

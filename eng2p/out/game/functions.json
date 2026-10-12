@@ -1,0 +1,8452 @@
+{
+ "version": 1,
+ "note": "기능 라벨(can-do) 자료. 카드 600장의 기능, 미션 차례의 후보 줄 기능, 기능 -> 미션 색인. 손으로 안 고친다. scripts/derive_functions.py 를 다시 돌린다. 규칙과 쓰는 법은 docs/functions.md. 게임은 아직 안 읽는다(선택 자료).",
+ "grade": "B",
+ "gradeWhy": "기능 낱말은 기준서와 지은 줄에서 온 것이라 새로 짓지 않았다. 카드에 어느 낱말을 붙이는가는 사람이 정한 규칙이고 강의 단위 라벨은 그 강의 카드 전부가 그 기능을 연습한다는 가정이다 (B).",
+ "generator": "scripts/derive_functions.py",
+ "source": [
+  "docs/spec.md 2.1 4.4",
+  "state/rotation.md 1.3 3.1",
+  "out/data/cards.json",
+  "out/data/lectures.json",
+  "out/game/authored.json",
+  "out/game/outings.json"
+ ],
+ "vocabulary": {
+  "standard10": {
+   "source": "docs/spec.md 4.4",
+   "terms": [
+    "요청",
+    "거절",
+    "제안",
+    "불동의",
+    "사과",
+    "불평",
+    "칭찬",
+    "설명",
+    "협상",
+    "잡담"
+   ]
+  },
+  "repair": {
+   "source": "docs/spec.md 2.1 repair 트랙 내용",
+   "terms": [
+    "되묻기",
+    "자기수정",
+    "끊김 처리",
+    "이해 확인",
+    "명료화 요청",
+    "시간 벌기",
+    "대화 유지"
+   ]
+  },
+  "authoredLine": {
+   "source": "out/game/authored.json lines[].function, practice[].function",
+   "count": 135
+  },
+  "authoredMission": {
+   "source": "out/game/outings.json missions[].functions",
+   "count": 26
+  }
+ },
+ "rules": {
+  "cards": "카드 자신의 라벨이 있으면 강의 것은 안 쓴다. purpose: 역할형 카드 A 면의 purpose. pass: repair형 카드 a.pass 에 repair 낱말이 그대로 있다. rotation: 강의가 state/rotation.md 3.1 에 있다. title: 청크와 repair 트랙 강의 제목에 어휘 셋의 낱말이 있다. 없으면 fn 이 비고 why 가 까닭(강의 트랙)이다",
+  "done": "해낸 차례 = outcome 이 pass 나 near (docs/game_results.md 5.1). miss 와 skipped 의 기능은 세지 않는다 (tone.md 3장: 한 것만 적는다)",
+  "turns": "미션 차례 번호는 game.turns 의 1부터 센 번호다 (NPC 만 말하는 차례도 번호를 먹는다). 점수 차례만 있다. same 은 후보 줄의 기능이 모두 같으면 그 기능, 갈리면 null (그때는 결과 줄의 pick 으로만 안다)",
+  "withScore": "기능 피드백은 점수를 대체하지 않고 점수와 함께 쓴다 (사용자 2026-10-12). 점수, 차례 결과(pass near miss), 레벨 곡선 데이터는 그대로이고 이 파일은 거기에 더한 것이다. 이 파일에는 점수가 없다. 결과 줄과 같은 키 이름을 써서 같은 행/요약에서 함께 읽는다: mission(미션 id), turn(차례 번호), outcome, pick(고른 줄 id), 카드는 id(Q1-001)",
+  "join": "결과 줄 outing_turn {mission, turn, outcome, pick} -> turns[mission][turn].pick[pick] 이 그 차례에 해낸 줄의 기능. pick 이 없으면 turns[mission][turn].same (갈리면 null 이라 기능을 모른다). card_run {id, outcome} -> cards[id].fn",
+  "again": "다시 만날 자리 = byLineFunction[해낸 줄 기능] 에서 지금 미션을 빼고 unlock 이 오늘 세션 이하인 것"
+ },
+ "whyTexts": {
+  "소리": "소리 트랙 강의다. 소리를 가려내고 따라 하는 연습이라 기준서의 기능 낱말이 없다",
+  "자동화": "자동화 트랙 강의다. 속도와 무중단을 재는 연습이라 기준서의 기능 낱말이 없다",
+  "문법": "문법 트랙 강의다. 덩어리에서 규칙을 뽑는 연습이라 기준서의 기능 낱말이 없다",
+  "청크": "청크 트랙 강의인데 제목이 기준서나 지은 줄의 기능 낱말이 아니다 (덩어리의 주제 이름이다)",
+  "repair": "repair 트랙 강의인데 제목과 카드에 기준서 2.1 의 repair 낱말이 없다",
+  "화용": "화용 트랙 강의인데 조합 등록부(state/rotation.md)에도 제목에도 없다"
+ },
+ "counts": {
+  "cards": 600,
+  "labeled": 200,
+  "unlabeled": 400,
+  "by": {
+   "purpose": 105,
+   "pass": 9,
+   "rotation": 22,
+   "title": 64
+  },
+  "cardFunctions": 18,
+  "missions": 18,
+  "scoredTurns": 213,
+  "sameFunctionTurns": 160,
+  "splitFunctionTurns": 53,
+  "lineFunctions": 72,
+  "missionFunctions": 26
+ },
+ "unlabeledByLecture": {
+  "1": [
+   "Q1-001",
+   "Q1-002",
+   "Q1-003",
+   "Q1-004",
+   "Q1-005",
+   "Q1-006",
+   "Q1-007"
+  ],
+  "2": [
+   "Q1-008",
+   "Q1-009",
+   "Q1-010",
+   "Q1-011",
+   "Q1-012",
+   "Q1-013",
+   "Q1-014"
+  ],
+  "3": [
+   "Q1-015",
+   "Q1-016",
+   "Q1-017",
+   "Q1-018",
+   "Q1-019",
+   "Q1-020",
+   "Q1-021"
+  ],
+  "4": [
+   "Q1-022",
+   "Q1-023",
+   "Q1-024",
+   "Q1-025",
+   "Q1-026",
+   "Q1-027",
+   "Q1-028"
+  ],
+  "5": [
+   "Q1-029",
+   "Q1-030",
+   "Q1-031",
+   "Q1-032",
+   "Q1-033",
+   "Q1-034"
+  ],
+  "6": [
+   "Q1-035",
+   "Q1-036",
+   "Q1-037",
+   "Q1-038",
+   "Q1-039",
+   "Q1-040"
+  ],
+  "7": [
+   "Q1-041",
+   "Q1-042",
+   "Q1-043",
+   "Q1-044",
+   "Q1-045",
+   "Q1-046",
+   "Q1-047"
+  ],
+  "8": [
+   "Q1-049",
+   "Q1-050",
+   "Q1-051",
+   "Q1-052",
+   "Q1-053",
+   "Q1-054"
+  ],
+  "9": [
+   "Q1-056",
+   "Q1-057",
+   "Q1-058",
+   "Q1-059",
+   "Q1-060",
+   "Q1-061",
+   "Q1-062",
+   "Q1-063"
+  ],
+  "10": [
+   "Q1-064",
+   "Q1-065",
+   "Q1-066",
+   "Q1-067",
+   "Q1-068",
+   "Q1-069"
+  ],
+  "11": [
+   "Q1-071",
+   "Q1-072",
+   "Q1-073",
+   "Q1-074",
+   "Q1-075",
+   "Q1-076",
+   "Q1-077"
+  ],
+  "12": [
+   "Q1-078",
+   "Q1-079",
+   "Q1-080",
+   "Q1-081",
+   "Q1-082",
+   "Q1-083"
+  ],
+  "13": [
+   "Q1-084",
+   "Q1-085",
+   "Q1-086",
+   "Q1-087",
+   "Q1-088",
+   "Q1-089"
+  ],
+  "14": [
+   "Q1-090",
+   "Q1-091",
+   "Q1-092",
+   "Q1-093",
+   "Q1-094"
+  ],
+  "15": [
+   "Q1-095",
+   "Q1-096",
+   "Q1-097",
+   "Q1-098",
+   "Q1-099",
+   "Q1-100"
+  ],
+  "16": [
+   "Q1-101",
+   "Q1-102",
+   "Q1-103",
+   "Q1-104",
+   "Q1-105",
+   "Q1-106",
+   "Q1-107"
+  ],
+  "21": [
+   "Q1-134",
+   "Q1-135",
+   "Q1-136"
+  ],
+  "22": [
+   "Q1-139",
+   "Q1-140",
+   "Q1-141"
+  ],
+  "25": [
+   "Q2-001",
+   "Q2-002",
+   "Q2-003",
+   "Q2-004",
+   "Q2-005"
+  ],
+  "26": [
+   "Q2-007",
+   "Q2-008",
+   "Q2-009",
+   "Q2-010",
+   "Q2-011"
+  ],
+  "27": [
+   "Q2-013",
+   "Q2-014",
+   "Q2-015",
+   "Q2-016",
+   "Q2-017"
+  ],
+  "28": [
+   "Q2-019",
+   "Q2-020",
+   "Q2-021",
+   "Q2-022",
+   "Q2-023",
+   "Q2-024"
+  ],
+  "29": [
+   "Q2-025",
+   "Q2-026",
+   "Q2-027",
+   "Q2-028",
+   "Q2-029",
+   "Q2-030"
+  ],
+  "30": [
+   "Q2-031",
+   "Q2-032",
+   "Q2-033",
+   "Q2-034",
+   "Q2-035",
+   "Q2-036"
+  ],
+  "31": [
+   "Q2-037",
+   "Q2-038",
+   "Q2-039",
+   "Q2-040",
+   "Q2-041"
+  ],
+  "32": [
+   "Q2-043",
+   "Q2-044",
+   "Q2-045",
+   "Q2-046",
+   "Q2-047",
+   "Q2-048"
+  ],
+  "33": [
+   "Q2-049",
+   "Q2-050",
+   "Q2-051",
+   "Q2-052",
+   "Q2-053",
+   "Q2-054"
+  ],
+  "34": [
+   "Q2-055",
+   "Q2-056",
+   "Q2-057",
+   "Q2-058",
+   "Q2-059",
+   "Q2-060"
+  ],
+  "35": [
+   "Q2-061",
+   "Q2-062",
+   "Q2-063",
+   "Q2-064",
+   "Q2-065",
+   "Q2-066"
+  ],
+  "36": [
+   "Q2-067",
+   "Q2-068",
+   "Q2-069",
+   "Q2-070",
+   "Q2-071"
+  ],
+  "37": [
+   "Q2-073",
+   "Q2-074",
+   "Q2-075",
+   "Q2-076",
+   "Q2-077"
+  ],
+  "38": [
+   "Q2-080",
+   "Q2-081",
+   "Q2-082",
+   "Q2-083",
+   "Q2-084"
+  ],
+  "39": [
+   "Q2-086",
+   "Q2-087",
+   "Q2-088",
+   "Q2-089",
+   "Q2-090",
+   "Q2-091"
+  ],
+  "41": [
+   "Q2-098",
+   "Q2-099",
+   "Q2-100",
+   "Q2-101",
+   "Q2-102",
+   "Q2-103"
+  ],
+  "43": [
+   "Q2-111",
+   "Q2-112",
+   "Q2-113",
+   "Q2-114",
+   "Q2-115"
+  ],
+  "44": [
+   "Q2-118",
+   "Q2-119",
+   "Q2-120",
+   "Q2-121",
+   "Q2-122",
+   "Q2-123"
+  ],
+  "45": [
+   "Q2-124",
+   "Q2-125",
+   "Q2-126",
+   "Q2-127",
+   "Q2-128",
+   "Q2-129"
+  ],
+  "46": [
+   "Q2-130",
+   "Q2-131",
+   "Q2-132",
+   "Q2-133",
+   "Q2-134"
+  ],
+  "48": [
+   "Q2-144",
+   "Q2-145",
+   "Q2-146",
+   "Q2-147",
+   "Q2-148",
+   "Q2-149"
+  ],
+  "49": [
+   "Q3-001",
+   "Q3-002",
+   "Q3-003",
+   "Q3-004",
+   "Q3-005",
+   "Q3-006"
+  ],
+  "52": [
+   "Q3-019",
+   "Q3-020",
+   "Q3-021",
+   "Q3-022",
+   "Q3-023",
+   "Q3-024"
+  ],
+  "53": [
+   "Q3-026",
+   "Q3-027",
+   "Q3-028",
+   "Q3-029",
+   "Q3-030"
+  ],
+  "54": [
+   "Q3-032",
+   "Q3-034",
+   "Q3-035",
+   "Q3-036",
+   "Q3-037"
+  ],
+  "55": [
+   "Q3-038",
+   "Q3-039",
+   "Q3-040",
+   "Q3-041",
+   "Q3-042",
+   "Q3-043"
+  ],
+  "57": [
+   "Q3-050",
+   "Q3-051",
+   "Q3-052",
+   "Q3-053",
+   "Q3-054"
+  ],
+  "58": [
+   "Q3-056",
+   "Q3-057",
+   "Q3-058",
+   "Q3-059",
+   "Q3-060",
+   "Q3-061",
+   "Q3-062"
+  ],
+  "60": [
+   "Q3-069",
+   "Q3-070",
+   "Q3-071",
+   "Q3-072",
+   "Q3-073",
+   "Q3-074"
+  ],
+  "61": [
+   "Q3-075",
+   "Q3-076",
+   "Q3-077",
+   "Q3-078",
+   "Q3-079",
+   "Q3-080"
+  ],
+  "62": [
+   "Q3-082",
+   "Q3-083",
+   "Q3-084",
+   "Q3-085",
+   "Q3-086"
+  ],
+  "63": [
+   "Q3-088",
+   "Q3-090",
+   "Q3-091",
+   "Q3-092",
+   "Q3-093"
+  ],
+  "64": [
+   "Q3-094",
+   "Q3-095",
+   "Q3-096",
+   "Q3-097",
+   "Q3-098",
+   "Q3-099",
+   "Q3-100"
+  ],
+  "67": [
+   "Q3-112",
+   "Q3-113",
+   "Q3-114",
+   "Q3-115",
+   "Q3-116",
+   "Q3-118"
+  ],
+  "68": [
+   "Q3-119",
+   "Q3-120",
+   "Q3-121",
+   "Q3-122",
+   "Q3-123"
+  ],
+  "69": [
+   "Q3-125",
+   "Q3-127",
+   "Q3-128",
+   "Q3-129",
+   "Q3-130"
+  ],
+  "70": [
+   "Q3-131",
+   "Q3-132",
+   "Q3-133",
+   "Q3-134",
+   "Q3-135",
+   "Q3-137"
+  ],
+  "71": [
+   "Q3-138",
+   "Q3-139",
+   "Q3-140",
+   "Q3-141",
+   "Q3-142",
+   "Q3-143"
+  ],
+  "72": [
+   "Q3-144",
+   "Q3-145",
+   "Q3-146",
+   "Q3-147",
+   "Q3-148",
+   "Q3-150"
+  ],
+  "73": [
+   "Q4-001",
+   "Q4-002",
+   "Q4-003",
+   "Q4-004",
+   "Q4-005"
+  ],
+  "76": [
+   "Q4-019",
+   "Q4-020",
+   "Q4-021",
+   "Q4-022",
+   "Q4-023"
+  ],
+  "78": [
+   "Q4-032",
+   "Q4-034",
+   "Q4-035",
+   "Q4-036",
+   "Q4-037",
+   "Q4-038"
+  ],
+  "79": [
+   "Q4-039",
+   "Q4-040",
+   "Q4-041",
+   "Q4-042",
+   "Q4-043"
+  ],
+  "81": [
+   "Q4-051",
+   "Q4-052",
+   "Q4-053",
+   "Q4-054",
+   "Q4-055",
+   "Q4-056"
+  ],
+  "84": [
+   "Q4-070",
+   "Q4-072",
+   "Q4-073",
+   "Q4-074",
+   "Q4-075",
+   "Q4-076"
+  ],
+  "85": [
+   "Q4-077",
+   "Q4-079",
+   "Q4-080",
+   "Q4-081",
+   "Q4-082",
+   "Q4-083"
+  ],
+  "87": [
+   "Q4-090",
+   "Q4-091",
+   "Q4-092",
+   "Q4-093",
+   "Q4-094"
+  ],
+  "88": [
+   "Q4-096",
+   "Q4-097",
+   "Q4-098",
+   "Q4-100"
+  ],
+  "89": [
+   "Q4-101",
+   "Q4-102",
+   "Q4-103",
+   "Q4-104",
+   "Q4-105",
+   "Q4-106"
+  ],
+  "93": [
+   "Q4-127",
+   "Q4-128",
+   "Q4-129",
+   "Q4-130",
+   "Q4-131"
+  ],
+  "94": [
+   "Q4-133",
+   "Q4-134",
+   "Q4-135",
+   "Q4-136",
+   "Q4-137",
+   "Q4-138"
+  ],
+  "96": [
+   "Q4-145",
+   "Q4-146",
+   "Q4-147",
+   "Q4-148",
+   "Q4-150"
+  ]
+ },
+ "cards": {
+  "Q1-001": {
+   "lecture": 1,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-002": {
+   "lecture": 1,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-003": {
+   "lecture": 1,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-004": {
+   "lecture": 1,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-005": {
+   "lecture": 1,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-006": {
+   "lecture": 1,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-007": {
+   "lecture": 1,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-008": {
+   "lecture": 2,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-009": {
+   "lecture": 2,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-010": {
+   "lecture": 2,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-011": {
+   "lecture": 2,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-012": {
+   "lecture": 2,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-013": {
+   "lecture": 2,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-014": {
+   "lecture": 2,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-015": {
+   "lecture": 3,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-016": {
+   "lecture": 3,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-017": {
+   "lecture": 3,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-018": {
+   "lecture": 3,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-019": {
+   "lecture": 3,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-020": {
+   "lecture": 3,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-021": {
+   "lecture": 3,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-022": {
+   "lecture": 4,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-023": {
+   "lecture": 4,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-024": {
+   "lecture": 4,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-025": {
+   "lecture": 4,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-026": {
+   "lecture": 4,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-027": {
+   "lecture": 4,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-028": {
+   "lecture": 4,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-029": {
+   "lecture": 5,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-030": {
+   "lecture": 5,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-031": {
+   "lecture": 5,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-032": {
+   "lecture": 5,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-033": {
+   "lecture": 5,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-034": {
+   "lecture": 5,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-035": {
+   "lecture": 6,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-036": {
+   "lecture": 6,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-037": {
+   "lecture": 6,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-038": {
+   "lecture": 6,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-039": {
+   "lecture": 6,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-040": {
+   "lecture": 6,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-041": {
+   "lecture": 7,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-042": {
+   "lecture": 7,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-043": {
+   "lecture": 7,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-044": {
+   "lecture": 7,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-045": {
+   "lecture": 7,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-046": {
+   "lecture": 7,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-047": {
+   "lecture": 7,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-048": {
+   "lecture": 7,
+   "track": "소리",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q1-049": {
+   "lecture": 8,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-050": {
+   "lecture": 8,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-051": {
+   "lecture": 8,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-052": {
+   "lecture": 8,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-053": {
+   "lecture": 8,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-054": {
+   "lecture": 8,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-055": {
+   "lecture": 8,
+   "track": "소리",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q1-056": {
+   "lecture": 9,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-057": {
+   "lecture": 9,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-058": {
+   "lecture": 9,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-059": {
+   "lecture": 9,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-060": {
+   "lecture": 9,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-061": {
+   "lecture": 9,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-062": {
+   "lecture": 9,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-063": {
+   "lecture": 9,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-064": {
+   "lecture": 10,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-065": {
+   "lecture": 10,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-066": {
+   "lecture": 10,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-067": {
+   "lecture": 10,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-068": {
+   "lecture": 10,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-069": {
+   "lecture": 10,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-070": {
+   "lecture": 10,
+   "track": "소리",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q1-071": {
+   "lecture": 11,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-072": {
+   "lecture": 11,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-073": {
+   "lecture": 11,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-074": {
+   "lecture": 11,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-075": {
+   "lecture": 11,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-076": {
+   "lecture": 11,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-077": {
+   "lecture": 11,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-078": {
+   "lecture": 12,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-079": {
+   "lecture": 12,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-080": {
+   "lecture": 12,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-081": {
+   "lecture": 12,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-082": {
+   "lecture": 12,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-083": {
+   "lecture": 12,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-084": {
+   "lecture": 13,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-085": {
+   "lecture": 13,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-086": {
+   "lecture": 13,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-087": {
+   "lecture": 13,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-088": {
+   "lecture": 13,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-089": {
+   "lecture": 13,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-090": {
+   "lecture": 14,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-091": {
+   "lecture": 14,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-092": {
+   "lecture": 14,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-093": {
+   "lecture": 14,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-094": {
+   "lecture": 14,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-095": {
+   "lecture": 15,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-096": {
+   "lecture": 15,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-097": {
+   "lecture": 15,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-098": {
+   "lecture": 15,
+   "track": "소리",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-099": {
+   "lecture": 15,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-100": {
+   "lecture": 15,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q1-101": {
+   "lecture": 16,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-102": {
+   "lecture": 16,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-103": {
+   "lecture": 16,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-104": {
+   "lecture": 16,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-105": {
+   "lecture": 16,
+   "track": "청크",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-106": {
+   "lecture": 16,
+   "track": "청크",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-107": {
+   "lecture": 16,
+   "track": "청크",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-108": {
+   "lecture": 17,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "인사",
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q1-109": {
+   "lecture": 17,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "인사",
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q1-110": {
+   "lecture": 17,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "인사",
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q1-111": {
+   "lecture": 17,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "인사",
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q1-112": {
+   "lecture": 17,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "인사",
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q1-113": {
+   "lecture": 17,
+   "track": "청크",
+   "type": "압박",
+   "fn": [
+    "인사",
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q1-114": {
+   "lecture": 17,
+   "track": "청크",
+   "type": "repair",
+   "fn": [
+    "인사",
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q1-115": {
+   "lecture": 18,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "요청"
+   ],
+   "by": "title"
+  },
+  "Q1-116": {
+   "lecture": 18,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "요청"
+   ],
+   "by": "title"
+  },
+  "Q1-117": {
+   "lecture": 18,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "요청"
+   ],
+   "by": "title"
+  },
+  "Q1-118": {
+   "lecture": 18,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "요청"
+   ],
+   "by": "title"
+  },
+  "Q1-119": {
+   "lecture": 18,
+   "track": "청크",
+   "type": "압박",
+   "fn": [
+    "요청"
+   ],
+   "by": "title"
+  },
+  "Q1-120": {
+   "lecture": 18,
+   "track": "청크",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q1-121": {
+   "lecture": 19,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q1-122": {
+   "lecture": 19,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q1-123": {
+   "lecture": 19,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "title"
+  },
+  "Q1-124": {
+   "lecture": 19,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q1-125": {
+   "lecture": 19,
+   "track": "repair",
+   "type": "확장",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "title"
+  },
+  "Q1-126": {
+   "lecture": 19,
+   "track": "repair",
+   "type": "압박",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "title"
+  },
+  "Q1-127": {
+   "lecture": 19,
+   "track": "repair",
+   "type": "판정",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "title"
+  },
+  "Q1-128": {
+   "lecture": 20,
+   "track": "화용",
+   "type": "판정",
+   "fn": [
+    "요청"
+   ],
+   "by": "rotation"
+  },
+  "Q1-129": {
+   "lecture": 20,
+   "track": "화용",
+   "type": "판정",
+   "fn": [
+    "요청"
+   ],
+   "by": "rotation"
+  },
+  "Q1-130": {
+   "lecture": 20,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "요청"
+   ],
+   "by": "rotation"
+  },
+  "Q1-131": {
+   "lecture": 20,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "요청"
+   ],
+   "by": "rotation"
+  },
+  "Q1-132": {
+   "lecture": 20,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q1-133": {
+   "lecture": 20,
+   "track": "화용",
+   "type": "repair",
+   "fn": [
+    "요청"
+   ],
+   "by": "rotation"
+  },
+  "Q1-134": {
+   "lecture": 21,
+   "track": "repair",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q1-135": {
+   "lecture": 21,
+   "track": "repair",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q1-136": {
+   "lecture": 21,
+   "track": "repair",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q1-137": {
+   "lecture": 21,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q1-138": {
+   "lecture": 21,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q1-139": {
+   "lecture": 22,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-140": {
+   "lecture": 22,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-141": {
+   "lecture": 22,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q1-142": {
+   "lecture": 22,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q1-143": {
+   "lecture": 22,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q1-144": {
+   "lecture": 23,
+   "track": "repair",
+   "type": "판정",
+   "fn": [
+    "시간 벌기"
+   ],
+   "by": "title"
+  },
+  "Q1-145": {
+   "lecture": 23,
+   "track": "repair",
+   "type": "판정",
+   "fn": [
+    "시간 벌기"
+   ],
+   "by": "title"
+  },
+  "Q1-146": {
+   "lecture": 23,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q1-147": {
+   "lecture": 23,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q1-148": {
+   "lecture": 24,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q1-149": {
+   "lecture": 24,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q1-150": {
+   "lecture": 24,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q2-001": {
+   "lecture": 25,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-002": {
+   "lecture": 25,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-003": {
+   "lecture": 25,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-004": {
+   "lecture": 25,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-005": {
+   "lecture": 25,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-006": {
+   "lecture": 25,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q2-007": {
+   "lecture": 26,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-008": {
+   "lecture": 26,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-009": {
+   "lecture": 26,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-010": {
+   "lecture": 26,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-011": {
+   "lecture": 26,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-012": {
+   "lecture": 26,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q2-013": {
+   "lecture": 27,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-014": {
+   "lecture": 27,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-015": {
+   "lecture": 27,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-016": {
+   "lecture": 27,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-017": {
+   "lecture": 27,
+   "track": "청크",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-018": {
+   "lecture": 27,
+   "track": "청크",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q2-019": {
+   "lecture": 28,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-020": {
+   "lecture": 28,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-021": {
+   "lecture": 28,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-022": {
+   "lecture": 28,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-023": {
+   "lecture": 28,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-024": {
+   "lecture": 28,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-025": {
+   "lecture": 29,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-026": {
+   "lecture": 29,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-027": {
+   "lecture": 29,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-028": {
+   "lecture": 29,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-029": {
+   "lecture": 29,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-030": {
+   "lecture": 29,
+   "track": "청크",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-031": {
+   "lecture": 30,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-032": {
+   "lecture": 30,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-033": {
+   "lecture": 30,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-034": {
+   "lecture": 30,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-035": {
+   "lecture": 30,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-036": {
+   "lecture": 30,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-037": {
+   "lecture": 31,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-038": {
+   "lecture": 31,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-039": {
+   "lecture": 31,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-040": {
+   "lecture": 31,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-041": {
+   "lecture": 31,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-042": {
+   "lecture": 31,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q2-043": {
+   "lecture": 32,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-044": {
+   "lecture": 32,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-045": {
+   "lecture": 32,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-046": {
+   "lecture": 32,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-047": {
+   "lecture": 32,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-048": {
+   "lecture": 32,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-049": {
+   "lecture": 33,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-050": {
+   "lecture": 33,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-051": {
+   "lecture": 33,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-052": {
+   "lecture": 33,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-053": {
+   "lecture": 33,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-054": {
+   "lecture": 33,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-055": {
+   "lecture": 34,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-056": {
+   "lecture": 34,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-057": {
+   "lecture": 34,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-058": {
+   "lecture": 34,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-059": {
+   "lecture": 34,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-060": {
+   "lecture": 34,
+   "track": "청크",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-061": {
+   "lecture": 35,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-062": {
+   "lecture": 35,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-063": {
+   "lecture": 35,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-064": {
+   "lecture": 35,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-065": {
+   "lecture": 35,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-066": {
+   "lecture": 35,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-067": {
+   "lecture": 36,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q2-068": {
+   "lecture": 36,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q2-069": {
+   "lecture": 36,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q2-070": {
+   "lecture": 36,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q2-071": {
+   "lecture": 36,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q2-072": {
+   "lecture": 36,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q2-073": {
+   "lecture": 37,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-074": {
+   "lecture": 37,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-075": {
+   "lecture": 37,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-076": {
+   "lecture": 37,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-077": {
+   "lecture": 37,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-078": {
+   "lecture": 37,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q2-079": {
+   "lecture": 37,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q2-080": {
+   "lecture": 38,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-081": {
+   "lecture": 38,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-082": {
+   "lecture": 38,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-083": {
+   "lecture": 38,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-084": {
+   "lecture": 38,
+   "track": "문법",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q2-085": {
+   "lecture": 38,
+   "track": "문법",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q2-086": {
+   "lecture": 39,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-087": {
+   "lecture": 39,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-088": {
+   "lecture": 39,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-089": {
+   "lecture": 39,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-090": {
+   "lecture": 39,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-091": {
+   "lecture": 39,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-092": {
+   "lecture": 40,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q2-093": {
+   "lecture": 40,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q2-094": {
+   "lecture": 40,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q2-095": {
+   "lecture": 40,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q2-096": {
+   "lecture": 40,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q2-097": {
+   "lecture": 40,
+   "track": "청크",
+   "type": "repair",
+   "fn": [
+    "확인"
+   ],
+   "by": "title"
+  },
+  "Q2-098": {
+   "lecture": 41,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-099": {
+   "lecture": 41,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-100": {
+   "lecture": 41,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-101": {
+   "lecture": 41,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-102": {
+   "lecture": 41,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-103": {
+   "lecture": 41,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-104": {
+   "lecture": 42,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "이해 확인",
+    "명료화 요청"
+   ],
+   "by": "title"
+  },
+  "Q2-105": {
+   "lecture": 42,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "이해 확인",
+    "명료화 요청"
+   ],
+   "by": "title"
+  },
+  "Q2-106": {
+   "lecture": 42,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "이해 확인",
+    "명료화 요청"
+   ],
+   "by": "title"
+  },
+  "Q2-107": {
+   "lecture": 42,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "이해 확인",
+    "명료화 요청"
+   ],
+   "by": "title"
+  },
+  "Q2-108": {
+   "lecture": 42,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "이해 확인",
+    "명료화 요청"
+   ],
+   "by": "title"
+  },
+  "Q2-109": {
+   "lecture": 42,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q2-110": {
+   "lecture": 42,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q2-111": {
+   "lecture": 43,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-112": {
+   "lecture": 43,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-113": {
+   "lecture": 43,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-114": {
+   "lecture": 43,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-115": {
+   "lecture": 43,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-116": {
+   "lecture": 43,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q2-117": {
+   "lecture": 43,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q2-118": {
+   "lecture": 44,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-119": {
+   "lecture": 44,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-120": {
+   "lecture": 44,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-121": {
+   "lecture": 44,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-122": {
+   "lecture": 44,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-123": {
+   "lecture": 44,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-124": {
+   "lecture": 45,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-125": {
+   "lecture": 45,
+   "track": "소리",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-126": {
+   "lecture": 45,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-127": {
+   "lecture": 45,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-128": {
+   "lecture": 45,
+   "track": "소리",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-129": {
+   "lecture": 45,
+   "track": "소리",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "소리"
+  },
+  "Q2-130": {
+   "lecture": 46,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-131": {
+   "lecture": 46,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-132": {
+   "lecture": 46,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-133": {
+   "lecture": 46,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-134": {
+   "lecture": 46,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q2-135": {
+   "lecture": 46,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q2-136": {
+   "lecture": 46,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q2-137": {
+   "lecture": 47,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "대화 유지"
+   ],
+   "by": "title"
+  },
+  "Q2-138": {
+   "lecture": 47,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "대화 유지"
+   ],
+   "by": "title"
+  },
+  "Q2-139": {
+   "lecture": 47,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "대화 유지"
+   ],
+   "by": "title"
+  },
+  "Q2-140": {
+   "lecture": 47,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "대화 유지"
+   ],
+   "by": "title"
+  },
+  "Q2-141": {
+   "lecture": 47,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "대화 유지"
+   ],
+   "by": "title"
+  },
+  "Q2-142": {
+   "lecture": 47,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "대화 유지"
+   ],
+   "by": "title"
+  },
+  "Q2-143": {
+   "lecture": 47,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q2-144": {
+   "lecture": 48,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-145": {
+   "lecture": 48,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-146": {
+   "lecture": 48,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-147": {
+   "lecture": 48,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-148": {
+   "lecture": 48,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-149": {
+   "lecture": 48,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q2-150": {
+   "lecture": 48,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q3-001": {
+   "lecture": 49,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-002": {
+   "lecture": 49,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-003": {
+   "lecture": 49,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-004": {
+   "lecture": 49,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-005": {
+   "lecture": 49,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-006": {
+   "lecture": 49,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-007": {
+   "lecture": 49,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q3-008": {
+   "lecture": 50,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "거절"
+   ],
+   "by": "title"
+  },
+  "Q3-009": {
+   "lecture": 50,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "거절"
+   ],
+   "by": "title"
+  },
+  "Q3-010": {
+   "lecture": 50,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "거절"
+   ],
+   "by": "title"
+  },
+  "Q3-011": {
+   "lecture": 50,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "거절"
+   ],
+   "by": "title"
+  },
+  "Q3-012": {
+   "lecture": 50,
+   "track": "청크",
+   "type": "repair",
+   "fn": [
+    "거절"
+   ],
+   "by": "title"
+  },
+  "Q3-013": {
+   "lecture": 51,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "요청"
+   ],
+   "by": "rotation"
+  },
+  "Q3-014": {
+   "lecture": 51,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q3-015": {
+   "lecture": 51,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q3-016": {
+   "lecture": 51,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q3-017": {
+   "lecture": 51,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q3-018": {
+   "lecture": 51,
+   "track": "화용",
+   "type": "repair",
+   "fn": [
+    "요청"
+   ],
+   "by": "rotation"
+  },
+  "Q3-019": {
+   "lecture": 52,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-020": {
+   "lecture": 52,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-021": {
+   "lecture": 52,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-022": {
+   "lecture": 52,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-023": {
+   "lecture": 52,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-024": {
+   "lecture": 52,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-025": {
+   "lecture": 52,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [
+    "되묻기"
+   ],
+   "by": "pass"
+  },
+  "Q3-026": {
+   "lecture": 53,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-027": {
+   "lecture": 53,
+   "track": "문법",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-028": {
+   "lecture": 53,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-029": {
+   "lecture": 53,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-030": {
+   "lecture": 53,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-031": {
+   "lecture": 53,
+   "track": "문법",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q3-032": {
+   "lecture": 54,
+   "track": "repair",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-033": {
+   "lecture": 54,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q3-034": {
+   "lecture": 54,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-035": {
+   "lecture": 54,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-036": {
+   "lecture": 54,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-037": {
+   "lecture": 54,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-038": {
+   "lecture": 55,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-039": {
+   "lecture": 55,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-040": {
+   "lecture": 55,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-041": {
+   "lecture": 55,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-042": {
+   "lecture": 55,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-043": {
+   "lecture": 55,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-044": {
+   "lecture": 55,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q3-045": {
+   "lecture": 56,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "불동의"
+   ],
+   "by": "title"
+  },
+  "Q3-046": {
+   "lecture": 56,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "불동의"
+   ],
+   "by": "title"
+  },
+  "Q3-047": {
+   "lecture": 56,
+   "track": "청크",
+   "type": "압박",
+   "fn": [
+    "불동의"
+   ],
+   "by": "title"
+  },
+  "Q3-048": {
+   "lecture": 56,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "불동의"
+   ],
+   "by": "title"
+  },
+  "Q3-049": {
+   "lecture": 56,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "불동의"
+   ],
+   "by": "title"
+  },
+  "Q3-050": {
+   "lecture": 57,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-051": {
+   "lecture": 57,
+   "track": "문법",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-052": {
+   "lecture": 57,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-053": {
+   "lecture": 57,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-054": {
+   "lecture": 57,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-055": {
+   "lecture": 57,
+   "track": "문법",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q3-056": {
+   "lecture": 58,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-057": {
+   "lecture": 58,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-058": {
+   "lecture": 58,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-059": {
+   "lecture": 58,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-060": {
+   "lecture": 58,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-061": {
+   "lecture": 58,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-062": {
+   "lecture": 58,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-063": {
+   "lecture": 59,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "거절"
+   ],
+   "by": "rotation"
+  },
+  "Q3-064": {
+   "lecture": 59,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q3-065": {
+   "lecture": 59,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q3-066": {
+   "lecture": 59,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q3-067": {
+   "lecture": 59,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q3-068": {
+   "lecture": 59,
+   "track": "화용",
+   "type": "repair",
+   "fn": [
+    "거절"
+   ],
+   "by": "rotation"
+  },
+  "Q3-069": {
+   "lecture": 60,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-070": {
+   "lecture": 60,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-071": {
+   "lecture": 60,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-072": {
+   "lecture": 60,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-073": {
+   "lecture": 60,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-074": {
+   "lecture": 60,
+   "track": "청크",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-075": {
+   "lecture": 61,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-076": {
+   "lecture": 61,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-077": {
+   "lecture": 61,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-078": {
+   "lecture": 61,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-079": {
+   "lecture": 61,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-080": {
+   "lecture": 61,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-081": {
+   "lecture": 61,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q3-082": {
+   "lecture": 62,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-083": {
+   "lecture": 62,
+   "track": "문법",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-084": {
+   "lecture": 62,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-085": {
+   "lecture": 62,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-086": {
+   "lecture": 62,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-087": {
+   "lecture": 62,
+   "track": "문법",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q3-088": {
+   "lecture": 63,
+   "track": "repair",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-089": {
+   "lecture": 63,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q3-090": {
+   "lecture": 63,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-091": {
+   "lecture": 63,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-092": {
+   "lecture": 63,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-093": {
+   "lecture": 63,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-094": {
+   "lecture": 64,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-095": {
+   "lecture": 64,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-096": {
+   "lecture": 64,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-097": {
+   "lecture": 64,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-098": {
+   "lecture": 64,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-099": {
+   "lecture": 64,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-100": {
+   "lecture": 64,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-101": {
+   "lecture": 65,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "설명"
+   ],
+   "by": "title"
+  },
+  "Q3-102": {
+   "lecture": 65,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "설명"
+   ],
+   "by": "title"
+  },
+  "Q3-103": {
+   "lecture": 65,
+   "track": "청크",
+   "type": "압박",
+   "fn": [
+    "설명"
+   ],
+   "by": "title"
+  },
+  "Q3-104": {
+   "lecture": 65,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "설명"
+   ],
+   "by": "title"
+  },
+  "Q3-105": {
+   "lecture": 65,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "설명"
+   ],
+   "by": "title"
+  },
+  "Q3-106": {
+   "lecture": 66,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "불동의"
+   ],
+   "by": "rotation"
+  },
+  "Q3-107": {
+   "lecture": 66,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q3-108": {
+   "lecture": 66,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q3-109": {
+   "lecture": 66,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q3-110": {
+   "lecture": 66,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q3-111": {
+   "lecture": 66,
+   "track": "화용",
+   "type": "repair",
+   "fn": [
+    "불동의"
+   ],
+   "by": "rotation"
+  },
+  "Q3-112": {
+   "lecture": 67,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-113": {
+   "lecture": 67,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-114": {
+   "lecture": 67,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-115": {
+   "lecture": 67,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-116": {
+   "lecture": 67,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-117": {
+   "lecture": 67,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q3-118": {
+   "lecture": 67,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-119": {
+   "lecture": 68,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-120": {
+   "lecture": 68,
+   "track": "문법",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-121": {
+   "lecture": 68,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-122": {
+   "lecture": 68,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-123": {
+   "lecture": 68,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q3-124": {
+   "lecture": 68,
+   "track": "문법",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q3-125": {
+   "lecture": 69,
+   "track": "repair",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-126": {
+   "lecture": 69,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q3-127": {
+   "lecture": 69,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-128": {
+   "lecture": 69,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-129": {
+   "lecture": 69,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-130": {
+   "lecture": 69,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q3-131": {
+   "lecture": 70,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-132": {
+   "lecture": 70,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-133": {
+   "lecture": 70,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-134": {
+   "lecture": 70,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-135": {
+   "lecture": 70,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-136": {
+   "lecture": 70,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q3-137": {
+   "lecture": 70,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-138": {
+   "lecture": 71,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-139": {
+   "lecture": 71,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-140": {
+   "lecture": 71,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-141": {
+   "lecture": 71,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-142": {
+   "lecture": 71,
+   "track": "청크",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-143": {
+   "lecture": 71,
+   "track": "청크",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q3-144": {
+   "lecture": 72,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-145": {
+   "lecture": 72,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-146": {
+   "lecture": 72,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-147": {
+   "lecture": 72,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-148": {
+   "lecture": 72,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q3-149": {
+   "lecture": 72,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q3-150": {
+   "lecture": 72,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-001": {
+   "lecture": 73,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-002": {
+   "lecture": 73,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-003": {
+   "lecture": 73,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-004": {
+   "lecture": 73,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-005": {
+   "lecture": 73,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-006": {
+   "lecture": 73,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q4-007": {
+   "lecture": 74,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "설명"
+   ],
+   "by": "rotation"
+  },
+  "Q4-008": {
+   "lecture": 74,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q4-009": {
+   "lecture": 74,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q4-010": {
+   "lecture": 74,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q4-011": {
+   "lecture": 74,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q4-012": {
+   "lecture": 74,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q4-013": {
+   "lecture": 75,
+   "track": "청크",
+   "type": "판정",
+   "fn": [
+    "잡담"
+   ],
+   "by": "title"
+  },
+  "Q4-014": {
+   "lecture": 75,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "잡담"
+   ],
+   "by": "title"
+  },
+  "Q4-015": {
+   "lecture": 75,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "잡담"
+   ],
+   "by": "title"
+  },
+  "Q4-016": {
+   "lecture": 75,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "잡담"
+   ],
+   "by": "title"
+  },
+  "Q4-017": {
+   "lecture": 75,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q4-018": {
+   "lecture": 75,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q4-019": {
+   "lecture": 76,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-020": {
+   "lecture": 76,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-021": {
+   "lecture": 76,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-022": {
+   "lecture": 76,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-023": {
+   "lecture": 76,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-024": {
+   "lecture": 76,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q4-025": {
+   "lecture": 77,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "협상"
+   ],
+   "by": "rotation"
+  },
+  "Q4-026": {
+   "lecture": 77,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-027": {
+   "lecture": 77,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-028": {
+   "lecture": 77,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-029": {
+   "lecture": 77,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-030": {
+   "lecture": 77,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-031": {
+   "lecture": 77,
+   "track": "화용",
+   "type": "repair",
+   "fn": [
+    "협상"
+   ],
+   "by": "rotation"
+  },
+  "Q4-032": {
+   "lecture": 78,
+   "track": "repair",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-033": {
+   "lecture": 78,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q4-034": {
+   "lecture": 78,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-035": {
+   "lecture": 78,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-036": {
+   "lecture": 78,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-037": {
+   "lecture": 78,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-038": {
+   "lecture": 78,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-039": {
+   "lecture": 79,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-040": {
+   "lecture": 79,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-041": {
+   "lecture": 79,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-042": {
+   "lecture": 79,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-043": {
+   "lecture": 79,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-044": {
+   "lecture": 79,
+   "track": "문법",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q4-045": {
+   "lecture": 80,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "잡담"
+   ],
+   "by": "rotation"
+  },
+  "Q4-046": {
+   "lecture": 80,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-047": {
+   "lecture": 80,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-048": {
+   "lecture": 80,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-049": {
+   "lecture": 80,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-050": {
+   "lecture": 80,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q4-051": {
+   "lecture": 81,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-052": {
+   "lecture": 81,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-053": {
+   "lecture": 81,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-054": {
+   "lecture": 81,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-055": {
+   "lecture": 81,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-056": {
+   "lecture": 81,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-057": {
+   "lecture": 82,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "협상"
+   ],
+   "by": "title"
+  },
+  "Q4-058": {
+   "lecture": 82,
+   "track": "청크",
+   "type": "확장",
+   "fn": [
+    "협상"
+   ],
+   "by": "title"
+  },
+  "Q4-059": {
+   "lecture": 82,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q4-060": {
+   "lecture": 82,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q4-061": {
+   "lecture": 82,
+   "track": "청크",
+   "type": "repair",
+   "fn": [
+    "협상"
+   ],
+   "by": "title"
+  },
+  "Q4-062": {
+   "lecture": 82,
+   "track": "청크",
+   "type": "repair",
+   "fn": [
+    "협상"
+   ],
+   "by": "title"
+  },
+  "Q4-063": {
+   "lecture": 83,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "제안"
+   ],
+   "by": "rotation"
+  },
+  "Q4-064": {
+   "lecture": 83,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q4-065": {
+   "lecture": 83,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q4-066": {
+   "lecture": 83,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q4-067": {
+   "lecture": 83,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q4-068": {
+   "lecture": 83,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q4-069": {
+   "lecture": 83,
+   "track": "화용",
+   "type": "repair",
+   "fn": [
+    "제안"
+   ],
+   "by": "rotation"
+  },
+  "Q4-070": {
+   "lecture": 84,
+   "track": "repair",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-071": {
+   "lecture": 84,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q4-072": {
+   "lecture": 84,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-073": {
+   "lecture": 84,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-074": {
+   "lecture": 84,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-075": {
+   "lecture": 84,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-076": {
+   "lecture": 84,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-077": {
+   "lecture": 85,
+   "track": "repair",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-078": {
+   "lecture": 85,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q4-079": {
+   "lecture": 85,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-080": {
+   "lecture": 85,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-081": {
+   "lecture": 85,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-082": {
+   "lecture": 85,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-083": {
+   "lecture": 85,
+   "track": "repair",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "repair"
+  },
+  "Q4-084": {
+   "lecture": 86,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "잡담"
+   ],
+   "by": "rotation"
+  },
+  "Q4-085": {
+   "lecture": 86,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-086": {
+   "lecture": 86,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-087": {
+   "lecture": 86,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-088": {
+   "lecture": 86,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-089": {
+   "lecture": 86,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "잡담"
+   ],
+   "by": "purpose"
+  },
+  "Q4-090": {
+   "lecture": 87,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-091": {
+   "lecture": 87,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-092": {
+   "lecture": 87,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-093": {
+   "lecture": 87,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-094": {
+   "lecture": 87,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-095": {
+   "lecture": 87,
+   "track": "문법",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q4-096": {
+   "lecture": 88,
+   "track": "청크",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q4-097": {
+   "lecture": 88,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q4-098": {
+   "lecture": 88,
+   "track": "청크",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q4-099": {
+   "lecture": 88,
+   "track": "청크",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q4-100": {
+   "lecture": 88,
+   "track": "청크",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "청크"
+  },
+  "Q4-101": {
+   "lecture": 89,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-102": {
+   "lecture": 89,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-103": {
+   "lecture": 89,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-104": {
+   "lecture": 89,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-105": {
+   "lecture": 89,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-106": {
+   "lecture": 89,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-107": {
+   "lecture": 90,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "rotation"
+  },
+  "Q4-108": {
+   "lecture": 90,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q4-109": {
+   "lecture": 90,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불동의"
+   ],
+   "by": "purpose"
+  },
+  "Q4-110": {
+   "lecture": 90,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q4-111": {
+   "lecture": 90,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "칭찬"
+   ],
+   "by": "purpose"
+  },
+  "Q4-112": {
+   "lecture": 90,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q4-113": {
+   "lecture": 91,
+   "track": "repair",
+   "type": "압박",
+   "fn": [
+    "자기수정"
+   ],
+   "by": "title"
+  },
+  "Q4-114": {
+   "lecture": 91,
+   "track": "repair",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q4-115": {
+   "lecture": 91,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "자기수정"
+   ],
+   "by": "title"
+  },
+  "Q4-116": {
+   "lecture": 91,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "자기수정"
+   ],
+   "by": "title"
+  },
+  "Q4-117": {
+   "lecture": 91,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "자기수정"
+   ],
+   "by": "title"
+  },
+  "Q4-118": {
+   "lecture": 91,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "자기수정"
+   ],
+   "by": "title"
+  },
+  "Q4-119": {
+   "lecture": 91,
+   "track": "repair",
+   "type": "repair",
+   "fn": [
+    "자기수정"
+   ],
+   "by": "title"
+  },
+  "Q4-120": {
+   "lecture": 92,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "협상"
+   ],
+   "by": "rotation"
+  },
+  "Q4-121": {
+   "lecture": 92,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-122": {
+   "lecture": 92,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-123": {
+   "lecture": 92,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-124": {
+   "lecture": 92,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-125": {
+   "lecture": 92,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "협상"
+   ],
+   "by": "purpose"
+  },
+  "Q4-126": {
+   "lecture": 92,
+   "track": "화용",
+   "type": "repair",
+   "fn": [
+    "협상"
+   ],
+   "by": "rotation"
+  },
+  "Q4-127": {
+   "lecture": 93,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-128": {
+   "lecture": 93,
+   "track": "문법",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-129": {
+   "lecture": 93,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-130": {
+   "lecture": 93,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-131": {
+   "lecture": 93,
+   "track": "문법",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "문법"
+  },
+  "Q4-132": {
+   "lecture": 93,
+   "track": "문법",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q4-133": {
+   "lecture": 94,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-134": {
+   "lecture": 94,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-135": {
+   "lecture": 94,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-136": {
+   "lecture": 94,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-137": {
+   "lecture": 94,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-138": {
+   "lecture": 94,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-139": {
+   "lecture": 95,
+   "track": "화용",
+   "type": "확장",
+   "fn": [
+    "불평"
+   ],
+   "by": "rotation"
+  },
+  "Q4-140": {
+   "lecture": 95,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "요청"
+   ],
+   "by": "purpose"
+  },
+  "Q4-141": {
+   "lecture": 95,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "제안"
+   ],
+   "by": "purpose"
+  },
+  "Q4-142": {
+   "lecture": 95,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "설명"
+   ],
+   "by": "purpose"
+  },
+  "Q4-143": {
+   "lecture": 95,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "불평"
+   ],
+   "by": "purpose"
+  },
+  "Q4-144": {
+   "lecture": 95,
+   "track": "화용",
+   "type": "역할",
+   "fn": [
+    "거절"
+   ],
+   "by": "purpose"
+  },
+  "Q4-145": {
+   "lecture": 96,
+   "track": "자동화",
+   "type": "판정",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-146": {
+   "lecture": 96,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-147": {
+   "lecture": 96,
+   "track": "자동화",
+   "type": "압박",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-148": {
+   "lecture": 96,
+   "track": "자동화",
+   "type": "확장",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  },
+  "Q4-149": {
+   "lecture": 96,
+   "track": "자동화",
+   "type": "역할",
+   "fn": [
+    "사과"
+   ],
+   "by": "purpose"
+  },
+  "Q4-150": {
+   "lecture": 96,
+   "track": "자동화",
+   "type": "repair",
+   "fn": [],
+   "by": null,
+   "why": "자동화"
+  }
+ },
+ "missions": {
+  "neighbor_greeting": {
+   "unlock": 15,
+   "functions": [
+    "인사",
+    "자기소개"
+   ],
+   "lineFunctions": [
+    "안부 대답",
+    "대답",
+    "되묻기",
+    "이름 말하기",
+    "인사",
+    "작별"
+   ]
+  },
+  "hotel_front_desk": {
+   "unlock": 17,
+   "functions": [
+    "부탁",
+    "숫자 말하기"
+   ],
+   "lineFunctions": [
+    "말 걸기",
+    "부탁",
+    "방 번호 말하기",
+    "되묻기",
+    "이름 말하기",
+    "대답",
+    "수 말하기",
+    "주문 끝내기",
+    "감사",
+    "물 주문",
+    "값 묻기",
+    "값 확인",
+    "결제",
+    "위치 묻기",
+    "작별"
+   ]
+  },
+  "cafe_order": {
+   "unlock": 20,
+   "functions": [
+    "주문(고르기)",
+    "크기"
+   ],
+   "lineFunctions": [
+    "음료 주문",
+    "되묻기",
+    "고르기",
+    "크기 말하기",
+    "이름 말하기",
+    "추가 주문",
+    "주문 끝내기",
+    "결제",
+    "값 묻기",
+    "감사"
+   ]
+  },
+  "convenience_store_abc": {
+   "unlock": 22,
+   "functions": [
+    "값 묻기",
+    "계산"
+   ],
+   "lineFunctions": [
+    "위치 묻기",
+    "감사",
+    "값 묻기",
+    "대답",
+    "결제",
+    "되묻기",
+    "작별"
+   ]
+  },
+  "cookie_snack": {
+   "unlock": 23,
+   "functions": [
+    "주문(수량)",
+    "값 묻기",
+    "감사"
+   ],
+   "lineFunctions": [
+    "인사 주문",
+    "맛 고르기",
+    "같은 것 고르기",
+    "하나씩 고르기",
+    "상대에게 묻기",
+    "말하고 되묻기",
+    "수량 말하기",
+    "대답",
+    "추가 요청",
+    "고르기",
+    "값 묻기",
+    "결제",
+    "되묻기",
+    "감사",
+    "권하기",
+    "작별"
+   ]
+  },
+  "shave_ice_snack": {
+   "unlock": 26,
+   "functions": [
+    "주문(고르기)",
+    "크기"
+   ],
+   "lineFunctions": [
+    "주문",
+    "크기 고르기",
+    "같은 것 고르기",
+    "맛 고르기",
+    "예 대답",
+    "아니오 대답",
+    "수량 말하기",
+    "값 묻기",
+    "값 내기",
+    "되묻기",
+    "감사",
+    "감탄",
+    "상대에게 묻기",
+    "대답",
+    "작별"
+   ]
+  },
+  "musubi_day": {
+   "unlock": 28,
+   "functions": [
+    "주문(수량)",
+    "묻기"
+   ],
+   "lineFunctions": [
+    "시간 벌기",
+    "상대에게 묻기",
+    "말하고 되묻기",
+    "종류 고르기",
+    "수량 말하기",
+    "대답",
+    "추가 요청",
+    "고르기",
+    "값 묻기",
+    "결제",
+    "되묻기",
+    "예 대답",
+    "아니오 대답",
+    "감사",
+    "작별"
+   ]
+  },
+  "waikiki_beach_chair_umbrella": {
+   "unlock": 30,
+   "functions": [
+    "빌리기",
+    "값 묻기"
+   ],
+   "lineFunctions": [
+    "시간 벌기",
+    "바로 주문",
+    "상대에게 묻기",
+    "대답과 이유",
+    "빌릴 것 말하기",
+    "되묻기",
+    "값 묻기",
+    "대답",
+    "추가 요청",
+    "결제",
+    "확인과 감사",
+    "거리 묻기",
+    "작별"
+   ]
+  },
+  "leonards_malasadas": {
+   "unlock": 37,
+   "functions": [
+    "주문(수량)",
+    "포장 부탁"
+   ],
+   "lineFunctions": [
+    "인사 주문",
+    "수량 말하기",
+    "고르기",
+    "반반 고르기",
+    "상대에게 묻기",
+    "대답",
+    "주문 끝내기",
+    "추가 요청",
+    "포장 부탁",
+    "값 묻기",
+    "결제",
+    "값 내기",
+    "되묻기",
+    "감사 감탄",
+    "권하기",
+    "작별"
+   ]
+  },
+  "food_truck_lunch": {
+   "unlock": 39,
+   "functions": [
+    "주문",
+    "예 아니오 답"
+   ],
+   "lineFunctions": [
+    "상대에게 묻기",
+    "말하고 되묻기",
+    "주문",
+    "같은 것 고르기",
+    "고르기",
+    "예 대답",
+    "아니오 대답",
+    "정도 말하기",
+    "음료 주문",
+    "값 묻기",
+    "결제",
+    "값 내기",
+    "되묻기",
+    "대답",
+    "대답 감사",
+    "감사"
+   ]
+  },
+  "honolulu_zoo_ticket": {
+   "unlock": 41,
+   "functions": [
+    "표 사기",
+    "인원 말하기"
+   ],
+   "lineFunctions": [
+    "인원 말하기",
+    "표 사기",
+    "확인 대답",
+    "되묻기",
+    "대답",
+    "시설 위치 묻기",
+    "값 묻기",
+    "결제",
+    "감사",
+    "추가 요청",
+    "상대에게 묻기",
+    "길 묻기",
+    "확인과 감사"
+   ]
+  },
+  "pharmacy_basic": {
+   "unlock": 42,
+   "functions": [
+    "물건 말하기",
+    "값 묻기"
+   ],
+   "lineFunctions": [
+    "물건 말하기",
+    "되묻기",
+    "크기 말하기",
+    "값 묻기",
+    "주문 끝내기",
+    "결제",
+    "대답",
+    "작별"
+   ]
+  },
+  "cheesecake_dessert": {
+   "unlock": 43,
+   "functions": [
+    "주문(고르기)",
+    "음료"
+   ],
+   "lineFunctions": [
+    "대답",
+    "음료 주문",
+    "상대에게 묻기",
+    "말하고 되묻기",
+    "주문",
+    "같은 것 고르기",
+    "부탁",
+    "예 대답",
+    "아니오 대답",
+    "감사 감탄",
+    "계산서 요청",
+    "결제",
+    "값 내기",
+    "되묻기",
+    "작별"
+   ]
+  },
+  "bus_fare_question": {
+   "unlock": 44,
+   "functions": [
+    "요금 묻기",
+    "장소 말하기"
+   ],
+   "lineFunctions": [
+    "노선 묻기",
+    "요금 묻기",
+    "건네기",
+    "되묻기",
+    "감사",
+    "내릴 곳 말하기",
+    "내릴 곳 말하기 부탁",
+    "도착 묻기",
+    "내리기",
+    "작별"
+   ]
+  },
+  "ala_moana_basic_shopping": {
+   "unlock": 45,
+   "functions": [
+    "크기 묻기",
+    "값 묻기",
+    "계산"
+   ],
+   "lineFunctions": [
+    "찾는 물건 말하기",
+    "상대에게 묻기",
+    "말하고 되묻기",
+    "크기 말하기",
+    "크기 묻기",
+    "값 묻기",
+    "사기로 하기",
+    "비싸다고 말하기",
+    "되묻기",
+    "대답",
+    "결제",
+    "작별"
+   ]
+  },
+  "diamond_head_lookout_directions": {
+   "unlock": 46,
+   "functions": [
+    "길 묻기",
+    "방향 알아듣기"
+   ],
+   "lineFunctions": [
+    "길 묻기",
+    "지도 요청",
+    "방향 확인",
+    "되묻기",
+    "거리 묻기",
+    "상대에게 묻기",
+    "대답",
+    "방향 확인과 감사",
+    "시설 위치 묻기",
+    "길 되짚기",
+    "확인과 감사",
+    "감사"
+   ]
+  },
+  "eggs_n_things_breakfast": {
+   "unlock": 47,
+   "functions": [
+    "인원 말하기",
+    "주문",
+    "되묻기",
+    "계산"
+   ],
+   "lineFunctions": [
+    "인원 말하기",
+    "음료 주문",
+    "시간 벌기",
+    "시설 위치 묻기",
+    "상대에게 묻기",
+    "말하고 되묻기",
+    "주문",
+    "주문 끝내기",
+    "물 추가 요청",
+    "감사",
+    "대답",
+    "되묻기",
+    "추가 요청",
+    "계산서 요청",
+    "결제",
+    "값 묻기",
+    "작별"
+   ]
+  },
+  "hanauma_bay_gear_rental": {
+   "unlock": 48,
+   "functions": [
+    "예 아니오 답",
+    "크기 말하기"
+   ],
+   "lineFunctions": [
+    "예 대답",
+    "아니오 대답",
+    "되묻기",
+    "상대에게 묻기",
+    "말하고 되묻기",
+    "크기 말하기",
+    "값 묻기",
+    "결제",
+    "대답",
+    "알겠다고 말하기",
+    "작별"
+   ]
+  }
+ },
+ "turns": {
+  "neighbor_greeting": {
+   "1": {
+    "id": "t1",
+    "same": "안부 대답",
+    "pick": {
+     "ng-02": "안부 대답",
+     "ng-03": "안부 대답"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": null,
+    "pick": {
+     "ng-06": "대답",
+     "ng-07": "대답",
+     "ng-08": "되묻기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": "이름 말하기",
+    "pick": {
+     "ng-12": "이름 말하기",
+     "ng-13": "이름 말하기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "이름 말하기",
+    "pick": {
+     "ng-15": "이름 말하기",
+     "ng-16": "이름 말하기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "인사",
+    "pick": {
+     "ng-18": "인사"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": "대답",
+    "pick": {
+     "ng-20": "대답",
+     "ng-21": "대답",
+     "ng-22": "대답"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": "작별",
+    "pick": {
+     "ng-24": "작별",
+     "ng-25": "작별"
+    }
+   }
+  },
+  "hotel_front_desk": {
+   "1": {
+    "id": "t1",
+    "same": "말 걸기",
+    "pick": {
+     "hf-01": "말 걸기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "부탁",
+    "pick": {
+     "hf-03": "부탁",
+     "hf-04": "부탁",
+     "hf-05": "부탁"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": null,
+    "pick": {
+     "hf-07": "방 번호 말하기",
+     "hf-08": "방 번호 말하기",
+     "hf-09": "방 번호 말하기",
+     "hf-10": "되묻기",
+     "hf-41": "방 번호 말하기",
+     "hf-42": "방 번호 말하기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "이름 말하기",
+    "pick": {
+     "hf-13": "이름 말하기",
+     "hf-14": "이름 말하기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "대답",
+    "pick": {
+     "hf-16": "대답",
+     "hf-17": "대답"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": "수 말하기",
+    "pick": {
+     "hf-19": "수 말하기",
+     "hf-20": "수 말하기",
+     "hf-21": "수 말하기"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": null,
+    "pick": {
+     "hf-23": "주문 끝내기",
+     "hf-24": "부탁",
+     "hf-25": "부탁"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "감사",
+    "pick": {
+     "hf-27": "감사"
+    }
+   },
+   "9": {
+    "id": "t9",
+    "same": "물 주문",
+    "pick": {
+     "hf-33": "물 주문"
+    }
+   },
+   "10": {
+    "id": "t10",
+    "same": null,
+    "pick": {
+     "hf-35": "값 묻기",
+     "hf-36": "값 확인"
+    }
+   },
+   "11": {
+    "id": "t11",
+    "same": "결제",
+    "pick": {
+     "hf-38": "결제",
+     "hf-40": "결제"
+    }
+   },
+   "12": {
+    "id": "t12",
+    "same": "위치 묻기",
+    "pick": {
+     "hf-28": "위치 묻기",
+     "hf-29": "위치 묻기"
+    }
+   },
+   "13": {
+    "id": "t13",
+    "same": "작별",
+    "pick": {
+     "hf-32": "작별"
+    }
+   }
+  },
+  "cafe_order": {
+   "1": {
+    "id": "t1",
+    "same": null,
+    "pick": {
+     "cf-02": "음료 주문",
+     "cf-03": "음료 주문",
+     "cf-04": "음료 주문",
+     "cf-05": "되묻기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "고르기",
+    "pick": {
+     "cf-08": "고르기",
+     "cf-09": "고르기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": "크기 말하기",
+    "pick": {
+     "cf-11": "크기 말하기",
+     "cf-12": "크기 말하기",
+     "cf-13": "크기 말하기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "음료 주문",
+    "pick": {
+     "cf-15": "음료 주문",
+     "cf-16": "음료 주문",
+     "cf-17": "음료 주문"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "크기 말하기",
+    "pick": {
+     "cf-19": "크기 말하기",
+     "cf-20": "크기 말하기"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": "고르기",
+    "pick": {
+     "cf-22": "고르기",
+     "cf-23": "고르기"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": "이름 말하기",
+    "pick": {
+     "cf-25": "이름 말하기",
+     "cf-26": "이름 말하기"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": null,
+    "pick": {
+     "cf-28": "추가 주문",
+     "cf-29": "주문 끝내기"
+    }
+   },
+   "10": {
+    "id": "t9",
+    "same": null,
+    "pick": {
+     "cf-31": "결제",
+     "cf-32": "결제",
+     "cf-37": "값 묻기"
+    }
+   },
+   "11": {
+    "id": "t10",
+    "same": "감사",
+    "pick": {
+     "cf-34": "감사"
+    }
+   },
+   "12": {
+    "id": "t11",
+    "same": "감사",
+    "pick": {
+     "cf-36": "감사"
+    }
+   }
+  },
+  "convenience_store_abc": {
+   "1": {
+    "id": "t1",
+    "same": "위치 묻기",
+    "pick": {
+     "ab-02": "위치 묻기",
+     "ab-03": "위치 묻기",
+     "ab-04": "위치 묻기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "감사",
+    "pick": {
+     "ab-06": "감사"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": "위치 묻기",
+    "pick": {
+     "ab-08": "위치 묻기",
+     "ab-09": "위치 묻기",
+     "ab-10": "위치 묻기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "감사",
+    "pick": {
+     "ab-12": "감사"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "값 묻기",
+    "pick": {
+     "ab-13": "값 묻기",
+     "ab-14": "값 묻기"
+    }
+   },
+   "6": {
+    "id": "t7",
+    "same": "대답",
+    "pick": {
+     "ab-17": "대답",
+     "ab-18": "대답"
+    }
+   },
+   "7": {
+    "id": "t8",
+    "same": null,
+    "pick": {
+     "ab-20": "결제",
+     "ab-21": "결제",
+     "ab-22": "되묻기"
+    }
+   },
+   "8": {
+    "id": "t9",
+    "same": "대답",
+    "pick": {
+     "ab-25": "대답",
+     "ab-26": "대답"
+    }
+   },
+   "9": {
+    "id": "t10",
+    "same": "작별",
+    "pick": {
+     "ab-28": "작별"
+    }
+   }
+  },
+  "cookie_snack": {
+   "1": {
+    "id": "t1",
+    "same": "인사 주문",
+    "pick": {
+     "cs-02": "인사 주문"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "맛 고르기",
+    "pick": {
+     "cs-04": "맛 고르기",
+     "cs-05": "맛 고르기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": null,
+    "pick": {
+     "cs-07": "같은 것 고르기",
+     "cs-08": "하나씩 고르기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "상대에게 묻기",
+    "pick": {
+     "cs-09": "상대에게 묻기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "말하고 되묻기",
+    "pick": {
+     "cs-10": "말하고 되묻기"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": "수량 말하기",
+    "pick": {
+     "cs-12": "수량 말하기",
+     "cs-13": "수량 말하기",
+     "cs-14": "수량 말하기"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": null,
+    "pick": {
+     "cs-16": "대답",
+     "cs-17": "추가 요청"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "고르기",
+    "pick": {
+     "cs-19": "고르기",
+     "cs-20": "고르기"
+    }
+   },
+   "9": {
+    "id": "t9",
+    "same": "값 묻기",
+    "pick": {
+     "cs-21": "값 묻기"
+    }
+   },
+   "10": {
+    "id": "t10",
+    "same": null,
+    "pick": {
+     "cs-23": "결제",
+     "cs-24": "결제",
+     "cs-25": "되묻기"
+    }
+   },
+   "11": {
+    "id": "t11",
+    "same": "감사",
+    "pick": {
+     "cs-27": "감사"
+    }
+   },
+   "12": {
+    "id": "t12",
+    "same": "권하기",
+    "pick": {
+     "cs-28": "권하기"
+    }
+   },
+   "13": {
+    "id": "t13",
+    "same": "대답",
+    "pick": {
+     "cs-29": "대답"
+    }
+   },
+   "14": {
+    "id": "t14",
+    "same": "작별",
+    "pick": {
+     "cs-31": "작별"
+    }
+   }
+  },
+  "shave_ice_snack": {
+   "1": {
+    "id": "t1",
+    "same": "주문",
+    "pick": {
+     "si-02": "주문"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "크기 고르기",
+    "pick": {
+     "si-04": "크기 고르기",
+     "si-05": "크기 고르기",
+     "si-06": "크기 고르기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": null,
+    "pick": {
+     "si-08": "같은 것 고르기",
+     "si-09": "크기 고르기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "맛 고르기",
+    "pick": {
+     "si-11": "맛 고르기",
+     "si-12": "맛 고르기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": null,
+    "pick": {
+     "si-14": "맛 고르기",
+     "si-15": "같은 것 고르기"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": null,
+    "pick": {
+     "si-17": "예 대답",
+     "si-18": "아니오 대답"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": "수량 말하기",
+    "pick": {
+     "si-20": "수량 말하기",
+     "si-21": "수량 말하기"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "값 묻기",
+    "pick": {
+     "si-22": "값 묻기"
+    }
+   },
+   "9": {
+    "id": "t9",
+    "same": null,
+    "pick": {
+     "si-24": "값 내기",
+     "si-25": "되묻기"
+    }
+   },
+   "10": {
+    "id": "t10",
+    "same": "감사",
+    "pick": {
+     "si-27": "감사"
+    }
+   },
+   "11": {
+    "id": "t11",
+    "same": "감탄",
+    "pick": {
+     "si-29": "감탄"
+    }
+   },
+   "12": {
+    "id": "t12",
+    "same": "상대에게 묻기",
+    "pick": {
+     "si-30": "상대에게 묻기"
+    }
+   },
+   "13": {
+    "id": "t13",
+    "same": "대답",
+    "pick": {
+     "si-31": "대답",
+     "si-32": "대답"
+    }
+   },
+   "14": {
+    "id": "t14",
+    "same": "작별",
+    "pick": {
+     "si-34": "작별"
+    }
+   }
+  },
+  "musubi_day": {
+   "1": {
+    "id": "t1",
+    "same": "시간 벌기",
+    "pick": {
+     "mu-02": "시간 벌기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "상대에게 묻기",
+    "pick": {
+     "mu-03": "상대에게 묻기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": "말하고 되묻기",
+    "pick": {
+     "mu-04": "말하고 되묻기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "종류 고르기",
+    "pick": {
+     "mu-06": "종류 고르기",
+     "mu-07": "종류 고르기",
+     "mu-08": "종류 고르기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "수량 말하기",
+    "pick": {
+     "mu-10": "수량 말하기",
+     "mu-11": "수량 말하기",
+     "mu-12": "수량 말하기"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": null,
+    "pick": {
+     "mu-14": "대답",
+     "mu-15": "추가 요청"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": "고르기",
+    "pick": {
+     "mu-17": "고르기",
+     "mu-18": "고르기"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "값 묻기",
+    "pick": {
+     "mu-19": "값 묻기"
+    }
+   },
+   "9": {
+    "id": "t9",
+    "same": null,
+    "pick": {
+     "mu-21": "결제",
+     "mu-22": "결제",
+     "mu-23": "되묻기"
+    }
+   },
+   "10": {
+    "id": "t10",
+    "same": null,
+    "pick": {
+     "mu-25": "예 대답",
+     "mu-26": "아니오 대답"
+    }
+   },
+   "11": {
+    "id": "t11",
+    "same": "감사",
+    "pick": {
+     "mu-28": "감사"
+    }
+   },
+   "12": {
+    "id": "t12",
+    "same": "상대에게 묻기",
+    "pick": {
+     "mu-29": "상대에게 묻기"
+    }
+   },
+   "13": {
+    "id": "t13",
+    "same": "대답",
+    "pick": {
+     "mu-30": "대답",
+     "mu-31": "대답"
+    }
+   },
+   "14": {
+    "id": "t14",
+    "same": "작별",
+    "pick": {
+     "mu-33": "작별"
+    }
+   }
+  },
+  "waikiki_beach_chair_umbrella": {
+   "1": {
+    "id": "t1",
+    "same": null,
+    "pick": {
+     "bc-02": "시간 벌기",
+     "bc-28": "바로 주문"
+    }
+   },
+   "3": {
+    "id": "t2",
+    "same": "상대에게 묻기",
+    "pick": {
+     "bc-04": "상대에게 묻기"
+    }
+   },
+   "4": {
+    "id": "t3",
+    "same": "대답과 이유",
+    "pick": {
+     "bc-05": "대답과 이유"
+    }
+   },
+   "5": {
+    "id": "t4",
+    "same": null,
+    "pick": {
+     "bc-07": "빌릴 것 말하기",
+     "bc-08": "빌릴 것 말하기",
+     "bc-09": "되묻기"
+    }
+   },
+   "6": {
+    "id": "t5",
+    "same": "값 묻기",
+    "pick": {
+     "bc-11": "값 묻기",
+     "bc-12": "값 묻기"
+    }
+   },
+   "7": {
+    "id": "t6",
+    "same": null,
+    "pick": {
+     "bc-15": "대답",
+     "bc-29": "추가 요청"
+    }
+   },
+   "8": {
+    "id": "t7",
+    "same": "상대에게 묻기",
+    "pick": {
+     "bc-17": "상대에게 묻기"
+    }
+   },
+   "9": {
+    "id": "t8",
+    "same": "대답",
+    "pick": {
+     "bc-18": "대답"
+    }
+   },
+   "10": {
+    "id": "t9",
+    "same": "결제",
+    "pick": {
+     "bc-20": "결제",
+     "bc-21": "결제"
+    }
+   },
+   "11": {
+    "id": "t10",
+    "same": "확인과 감사",
+    "pick": {
+     "bc-23": "확인과 감사"
+    }
+   },
+   "12": {
+    "id": "t11",
+    "same": "거리 묻기",
+    "pick": {
+     "bc-24": "거리 묻기"
+    }
+   },
+   "13": {
+    "id": "t12",
+    "same": "작별",
+    "pick": {
+     "bc-27": "작별"
+    }
+   }
+  },
+  "leonards_malasadas": {
+   "1": {
+    "id": "t1",
+    "same": "인사 주문",
+    "pick": {
+     "lm-02": "인사 주문"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "수량 말하기",
+    "pick": {
+     "lm-04": "수량 말하기",
+     "lm-05": "수량 말하기",
+     "lm-06": "수량 말하기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": null,
+    "pick": {
+     "lm-08": "고르기",
+     "lm-09": "고르기",
+     "lm-10": "반반 고르기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "상대에게 묻기",
+    "pick": {
+     "lm-11": "상대에게 묻기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "대답",
+    "pick": {
+     "lm-12": "대답"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": null,
+    "pick": {
+     "lm-14": "주문 끝내기",
+     "lm-15": "추가 요청"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": "고르기",
+    "pick": {
+     "lm-17": "고르기",
+     "lm-18": "고르기"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "포장 부탁",
+    "pick": {
+     "lm-19": "포장 부탁",
+     "lm-20": "포장 부탁"
+    }
+   },
+   "9": {
+    "id": "t9",
+    "same": "값 묻기",
+    "pick": {
+     "lm-21": "값 묻기"
+    }
+   },
+   "10": {
+    "id": "t10",
+    "same": null,
+    "pick": {
+     "lm-23": "결제",
+     "lm-24": "값 내기",
+     "lm-25": "되묻기"
+    }
+   },
+   "11": {
+    "id": "t11",
+    "same": "감사 감탄",
+    "pick": {
+     "lm-27": "감사 감탄"
+    }
+   },
+   "12": {
+    "id": "t12",
+    "same": "권하기",
+    "pick": {
+     "lm-28": "권하기"
+    }
+   },
+   "13": {
+    "id": "t13",
+    "same": "대답",
+    "pick": {
+     "lm-29": "대답",
+     "lm-30": "대답"
+    }
+   },
+   "14": {
+    "id": "t14",
+    "same": "작별",
+    "pick": {
+     "lm-32": "작별"
+    }
+   }
+  },
+  "food_truck_lunch": {
+   "1": {
+    "id": "t1",
+    "same": "상대에게 묻기",
+    "pick": {
+     "ft-01": "상대에게 묻기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "말하고 되묻기",
+    "pick": {
+     "ft-02": "말하고 되묻기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": "주문",
+    "pick": {
+     "ft-04": "주문",
+     "ft-05": "주문"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": null,
+    "pick": {
+     "ft-07": "같은 것 고르기",
+     "ft-08": "주문"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "고르기",
+    "pick": {
+     "ft-10": "고르기",
+     "ft-11": "고르기"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": null,
+    "pick": {
+     "ft-13": "예 대답",
+     "ft-14": "아니오 대답",
+     "ft-15": "정도 말하기"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": null,
+    "pick": {
+     "ft-17": "음료 주문",
+     "ft-18": "아니오 대답"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "값 묻기",
+    "pick": {
+     "ft-19": "값 묻기"
+    }
+   },
+   "9": {
+    "id": "t9",
+    "same": null,
+    "pick": {
+     "ft-21": "결제",
+     "ft-22": "값 내기",
+     "ft-23": "되묻기"
+    }
+   },
+   "10": {
+    "id": "t10",
+    "same": null,
+    "pick": {
+     "ft-25": "예 대답",
+     "ft-26": "아니오 대답"
+    }
+   },
+   "11": {
+    "id": "t11",
+    "same": "대답",
+    "pick": {
+     "ft-28": "대답"
+    }
+   },
+   "12": {
+    "id": "t12",
+    "same": "대답 감사",
+    "pick": {
+     "ft-30": "대답 감사"
+    }
+   },
+   "13": {
+    "id": "t13",
+    "same": "감사",
+    "pick": {
+     "ft-32": "감사"
+    }
+   },
+   "14": {
+    "id": "t14",
+    "same": "상대에게 묻기",
+    "pick": {
+     "ft-33": "상대에게 묻기"
+    }
+   },
+   "15": {
+    "id": "t15",
+    "same": "대답",
+    "pick": {
+     "ft-34": "대답",
+     "ft-35": "대답"
+    }
+   }
+  },
+  "honolulu_zoo_ticket": {
+   "1": {
+    "id": "t1",
+    "same": null,
+    "pick": {
+     "hz-02": "인원 말하기",
+     "hz-03": "표 사기",
+     "hz-04": "표 사기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": null,
+    "pick": {
+     "hz-06": "확인 대답",
+     "hz-07": "되묻기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": null,
+    "pick": {
+     "hz-10": "대답",
+     "hz-11": "대답",
+     "hz-28": "시설 위치 묻기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "값 묻기",
+    "pick": {
+     "hz-12": "값 묻기",
+     "hz-13": "값 묻기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "결제",
+    "pick": {
+     "hz-17": "결제",
+     "hz-18": "결제"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": null,
+    "pick": {
+     "hz-20": "감사",
+     "hz-30": "추가 요청"
+    }
+   },
+   "8": {
+    "id": "t7",
+    "same": "상대에게 묻기",
+    "pick": {
+     "hz-22": "상대에게 묻기"
+    }
+   },
+   "9": {
+    "id": "t8",
+    "same": "대답",
+    "pick": {
+     "hz-23": "대답"
+    }
+   },
+   "10": {
+    "id": "t9",
+    "same": "길 묻기",
+    "pick": {
+     "hz-24": "길 묻기"
+    }
+   },
+   "12": {
+    "id": "t10",
+    "same": "확인과 감사",
+    "pick": {
+     "hz-26": "확인과 감사"
+    }
+   }
+  },
+  "pharmacy_basic": {
+   "1": {
+    "id": "t1",
+    "same": null,
+    "pick": {
+     "ph-02": "물건 말하기",
+     "ph-03": "물건 말하기",
+     "ph-04": "물건 말하기",
+     "ph-05": "되묻기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "크기 말하기",
+    "pick": {
+     "ph-08": "크기 말하기",
+     "ph-09": "크기 말하기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": "값 묻기",
+    "pick": {
+     "ph-10": "값 묻기",
+     "ph-11": "값 묻기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": null,
+    "pick": {
+     "ph-14": "물건 말하기",
+     "ph-15": "물건 말하기",
+     "ph-16": "주문 끝내기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "값 묻기",
+    "pick": {
+     "ph-18": "값 묻기",
+     "ph-19": "값 묻기"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": null,
+    "pick": {
+     "ph-22": "결제",
+     "ph-23": "결제",
+     "ph-24": "되묻기"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": "대답",
+    "pick": {
+     "ph-27": "대답",
+     "ph-28": "대답"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "작별",
+    "pick": {
+     "ph-30": "작별"
+    }
+   }
+  },
+  "cheesecake_dessert": {
+   "1": {
+    "id": "t1",
+    "same": "대답",
+    "pick": {
+     "cc-02": "대답"
+    }
+   },
+   "3": {
+    "id": "t2",
+    "same": "음료 주문",
+    "pick": {
+     "cc-05": "음료 주문",
+     "cc-06": "음료 주문"
+    }
+   },
+   "4": {
+    "id": "t3",
+    "same": "음료 주문",
+    "pick": {
+     "cc-08": "음료 주문",
+     "cc-09": "음료 주문"
+    }
+   },
+   "5": {
+    "id": "t4",
+    "same": "상대에게 묻기",
+    "pick": {
+     "cc-10": "상대에게 묻기"
+    }
+   },
+   "6": {
+    "id": "t5",
+    "same": "말하고 되묻기",
+    "pick": {
+     "cc-11": "말하고 되묻기"
+    }
+   },
+   "7": {
+    "id": "t6",
+    "same": "주문",
+    "pick": {
+     "cc-13": "주문",
+     "cc-14": "주문"
+    }
+   },
+   "8": {
+    "id": "t7",
+    "same": null,
+    "pick": {
+     "cc-16": "같은 것 고르기",
+     "cc-17": "주문"
+    }
+   },
+   "9": {
+    "id": "t8",
+    "same": "부탁",
+    "pick": {
+     "cc-18": "부탁"
+    }
+   },
+   "11": {
+    "id": "t9",
+    "same": null,
+    "pick": {
+     "cc-21": "예 대답",
+     "cc-22": "아니오 대답"
+    }
+   },
+   "12": {
+    "id": "t10",
+    "same": "감사 감탄",
+    "pick": {
+     "cc-24": "감사 감탄"
+    }
+   },
+   "13": {
+    "id": "t11",
+    "same": "상대에게 묻기",
+    "pick": {
+     "cc-25": "상대에게 묻기"
+    }
+   },
+   "14": {
+    "id": "t12",
+    "same": "대답",
+    "pick": {
+     "cc-26": "대답",
+     "cc-27": "대답"
+    }
+   },
+   "15": {
+    "id": "t13",
+    "same": "계산서 요청",
+    "pick": {
+     "cc-28": "계산서 요청"
+    }
+   },
+   "16": {
+    "id": "t14",
+    "same": null,
+    "pick": {
+     "cc-30": "결제",
+     "cc-31": "값 내기",
+     "cc-32": "되묻기"
+    }
+   },
+   "17": {
+    "id": "t15",
+    "same": "작별",
+    "pick": {
+     "cc-34": "작별"
+    }
+   }
+  },
+  "bus_fare_question": {
+   "1": {
+    "id": "t1",
+    "same": "노선 묻기",
+    "pick": {
+     "bs-02": "노선 묻기",
+     "bs-03": "노선 묻기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": "요금 묻기",
+    "pick": {
+     "bs-06": "요금 묻기",
+     "bs-07": "요금 묻기",
+     "bs-08": "요금 묻기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": null,
+    "pick": {
+     "bs-11": "건네기",
+     "bs-12": "건네기",
+     "bs-13": "되묻기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "감사",
+    "pick": {
+     "bs-16": "감사"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": null,
+    "pick": {
+     "bs-17": "내릴 곳 말하기",
+     "bs-18": "내릴 곳 말하기 부탁"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": "도착 묻기",
+    "pick": {
+     "bs-20": "도착 묻기",
+     "bs-21": "도착 묻기"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": "내리기",
+    "pick": {
+     "bs-24": "내리기",
+     "bs-25": "내리기"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "작별",
+    "pick": {
+     "bs-27": "작별"
+    }
+   }
+  },
+  "ala_moana_basic_shopping": {
+   "1": {
+    "id": "t1",
+    "same": "찾는 물건 말하기",
+    "pick": {
+     "am-02": "찾는 물건 말하기",
+     "am-03": "찾는 물건 말하기",
+     "am-04": "찾는 물건 말하기"
+    }
+   },
+   "3": {
+    "id": "t2",
+    "same": "상대에게 묻기",
+    "pick": {
+     "am-07": "상대에게 묻기"
+    }
+   },
+   "4": {
+    "id": "t3",
+    "same": "말하고 되묻기",
+    "pick": {
+     "am-08": "말하고 되묻기"
+    }
+   },
+   "5": {
+    "id": "t4",
+    "same": "크기 말하기",
+    "pick": {
+     "am-10": "크기 말하기",
+     "am-11": "크기 말하기",
+     "am-12": "크기 말하기"
+    }
+   },
+   "6": {
+    "id": "t5",
+    "same": "크기 묻기",
+    "pick": {
+     "am-13": "크기 묻기"
+    }
+   },
+   "8": {
+    "id": "t6",
+    "same": "값 묻기",
+    "pick": {
+     "am-16": "값 묻기"
+    }
+   },
+   "9": {
+    "id": "t7",
+    "same": null,
+    "pick": {
+     "am-18": "사기로 하기",
+     "am-19": "비싸다고 말하기",
+     "am-20": "되묻기"
+    }
+   },
+   "10": {
+    "id": "t8",
+    "same": "대답",
+    "pick": {
+     "am-23": "대답"
+    }
+   },
+   "11": {
+    "id": "t9",
+    "same": "결제",
+    "pick": {
+     "am-25": "결제",
+     "am-26": "결제"
+    }
+   },
+   "12": {
+    "id": "t10",
+    "same": "대답",
+    "pick": {
+     "am-28": "대답",
+     "am-29": "대답"
+    }
+   },
+   "13": {
+    "id": "t11",
+    "same": "작별",
+    "pick": {
+     "am-31": "작별"
+    }
+   }
+  },
+  "diamond_head_lookout_directions": {
+   "1": {
+    "id": "t1",
+    "same": null,
+    "pick": {
+     "dh-02": "길 묻기",
+     "dh-03": "길 묻기",
+     "dh-30": "지도 요청"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": null,
+    "pick": {
+     "dh-05": "방향 확인",
+     "dh-06": "방향 확인",
+     "dh-07": "되묻기"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": "거리 묻기",
+    "pick": {
+     "dh-09": "거리 묻기",
+     "dh-10": "거리 묻기"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "방향 확인",
+    "pick": {
+     "dh-14": "방향 확인",
+     "dh-15": "방향 확인"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "상대에게 묻기",
+    "pick": {
+     "dh-16": "상대에게 묻기"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": "대답",
+    "pick": {
+     "dh-17": "대답"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": null,
+    "pick": {
+     "dh-19": "방향 확인",
+     "dh-20": "방향 확인과 감사"
+    }
+   },
+   "9": {
+    "id": "t8",
+    "same": null,
+    "pick": {
+     "dh-22": "방향 확인",
+     "dh-32": "시설 위치 묻기"
+    }
+   },
+   "10": {
+    "id": "t9",
+    "same": "길 되짚기",
+    "pick": {
+     "dh-23": "길 되짚기"
+    }
+   },
+   "11": {
+    "id": "t10",
+    "same": "길 되짚기",
+    "pick": {
+     "dh-24": "길 되짚기"
+    }
+   },
+   "12": {
+    "id": "t11",
+    "same": "확인과 감사",
+    "pick": {
+     "dh-26": "확인과 감사"
+    }
+   },
+   "13": {
+    "id": "t12",
+    "same": "감사",
+    "pick": {
+     "dh-28": "감사"
+    }
+   }
+  },
+  "eggs_n_things_breakfast": {
+   "1": {
+    "id": "t1",
+    "same": "인원 말하기",
+    "pick": {
+     "enb-02": "인원 말하기"
+    }
+   },
+   "3": {
+    "id": "t2",
+    "same": "음료 주문",
+    "pick": {
+     "enb-06": "음료 주문",
+     "enb-07": "음료 주문",
+     "enb-08": "음료 주문"
+    }
+   },
+   "5": {
+    "id": "t3",
+    "same": null,
+    "pick": {
+     "enb-11": "시간 벌기",
+     "enb-35": "시설 위치 묻기"
+    }
+   },
+   "6": {
+    "id": "t4",
+    "same": "상대에게 묻기",
+    "pick": {
+     "enb-12": "상대에게 묻기"
+    }
+   },
+   "7": {
+    "id": "t5",
+    "same": "말하고 되묻기",
+    "pick": {
+     "enb-13": "말하고 되묻기"
+    }
+   },
+   "8": {
+    "id": "t6",
+    "same": "주문",
+    "pick": {
+     "enb-15": "주문",
+     "enb-16": "주문"
+    }
+   },
+   "9": {
+    "id": "t7",
+    "same": "주문",
+    "pick": {
+     "enb-17": "주문",
+     "enb-18": "주문"
+    }
+   },
+   "10": {
+    "id": "t8",
+    "same": null,
+    "pick": {
+     "enb-20": "주문 끝내기",
+     "enb-34": "물 추가 요청"
+    }
+   },
+   "11": {
+    "id": "t9",
+    "same": "감사",
+    "pick": {
+     "enb-22": "감사"
+    }
+   },
+   "12": {
+    "id": "t10",
+    "same": null,
+    "pick": {
+     "enb-24": "대답",
+     "enb-25": "되묻기",
+     "enb-26": "추가 요청"
+    }
+   },
+   "13": {
+    "id": "t11",
+    "same": "계산서 요청",
+    "pick": {
+     "enb-27": "계산서 요청"
+    }
+   },
+   "14": {
+    "id": "t12",
+    "same": null,
+    "pick": {
+     "enb-29": "결제",
+     "enb-30": "값 묻기"
+    }
+   },
+   "15": {
+    "id": "t13",
+    "same": "작별",
+    "pick": {
+     "enb-33": "작별"
+    }
+   }
+  },
+  "hanauma_bay_gear_rental": {
+   "1": {
+    "id": "t1",
+    "same": null,
+    "pick": {
+     "hb-02": "예 대답",
+     "hb-03": "아니오 대답",
+     "hb-04": "되묻기"
+    }
+   },
+   "2": {
+    "id": "t2",
+    "same": null,
+    "pick": {
+     "hb-07": "예 대답",
+     "hb-08": "아니오 대답"
+    }
+   },
+   "3": {
+    "id": "t3",
+    "same": null,
+    "pick": {
+     "hb-10": "예 대답",
+     "hb-11": "아니오 대답"
+    }
+   },
+   "4": {
+    "id": "t4",
+    "same": "상대에게 묻기",
+    "pick": {
+     "hb-12": "상대에게 묻기"
+    }
+   },
+   "5": {
+    "id": "t5",
+    "same": "말하고 되묻기",
+    "pick": {
+     "hb-13": "말하고 되묻기"
+    }
+   },
+   "6": {
+    "id": "t6",
+    "same": "크기 말하기",
+    "pick": {
+     "hb-15": "크기 말하기",
+     "hb-16": "크기 말하기",
+     "hb-17": "크기 말하기"
+    }
+   },
+   "7": {
+    "id": "t7",
+    "same": "크기 말하기",
+    "pick": {
+     "hb-19": "크기 말하기",
+     "hb-20": "크기 말하기",
+     "hb-21": "크기 말하기"
+    }
+   },
+   "8": {
+    "id": "t8",
+    "same": "값 묻기",
+    "pick": {
+     "hb-23": "값 묻기"
+    }
+   },
+   "9": {
+    "id": "t9",
+    "same": "결제",
+    "pick": {
+     "hb-26": "결제",
+     "hb-27": "결제"
+    }
+   },
+   "10": {
+    "id": "t10",
+    "same": "대답",
+    "pick": {
+     "hb-29": "대답"
+    }
+   },
+   "11": {
+    "id": "t11",
+    "same": "알겠다고 말하기",
+    "pick": {
+     "hb-31": "알겠다고 말하기"
+    }
+   },
+   "12": {
+    "id": "t12",
+    "same": "알겠다고 말하기",
+    "pick": {
+     "hb-33": "알겠다고 말하기"
+    }
+   },
+   "13": {
+    "id": "t13",
+    "same": "작별",
+    "pick": {
+     "hb-35": "작별"
+    }
+   }
+  }
+ },
+ "byMissionFunction": {
+  "감사": [
+   "cookie_snack"
+  ],
+  "값 묻기": [
+   "convenience_store_abc",
+   "cookie_snack",
+   "waikiki_beach_chair_umbrella",
+   "pharmacy_basic",
+   "ala_moana_basic_shopping"
+  ],
+  "계산": [
+   "convenience_store_abc",
+   "ala_moana_basic_shopping",
+   "eggs_n_things_breakfast"
+  ],
+  "길 묻기": [
+   "diamond_head_lookout_directions"
+  ],
+  "되묻기": [
+   "eggs_n_things_breakfast"
+  ],
+  "묻기": [
+   "musubi_day"
+  ],
+  "물건 말하기": [
+   "pharmacy_basic"
+  ],
+  "방향 알아듣기": [
+   "diamond_head_lookout_directions"
+  ],
+  "부탁": [
+   "hotel_front_desk"
+  ],
+  "빌리기": [
+   "waikiki_beach_chair_umbrella"
+  ],
+  "숫자 말하기": [
+   "hotel_front_desk"
+  ],
+  "예 아니오 답": [
+   "food_truck_lunch",
+   "hanauma_bay_gear_rental"
+  ],
+  "요금 묻기": [
+   "bus_fare_question"
+  ],
+  "음료": [
+   "cheesecake_dessert"
+  ],
+  "인사": [
+   "neighbor_greeting"
+  ],
+  "인원 말하기": [
+   "honolulu_zoo_ticket",
+   "eggs_n_things_breakfast"
+  ],
+  "자기소개": [
+   "neighbor_greeting"
+  ],
+  "장소 말하기": [
+   "bus_fare_question"
+  ],
+  "주문": [
+   "food_truck_lunch",
+   "eggs_n_things_breakfast"
+  ],
+  "주문(고르기)": [
+   "cafe_order",
+   "shave_ice_snack",
+   "cheesecake_dessert"
+  ],
+  "주문(수량)": [
+   "cookie_snack",
+   "musubi_day",
+   "leonards_malasadas"
+  ],
+  "크기": [
+   "cafe_order",
+   "shave_ice_snack"
+  ],
+  "크기 말하기": [
+   "hanauma_bay_gear_rental"
+  ],
+  "크기 묻기": [
+   "ala_moana_basic_shopping"
+  ],
+  "포장 부탁": [
+   "leonards_malasadas"
+  ],
+  "표 사기": [
+   "honolulu_zoo_ticket"
+  ]
+ },
+ "byLineFunction": {
+  "감사": [
+   "hotel_front_desk",
+   "cafe_order",
+   "convenience_store_abc",
+   "cookie_snack",
+   "shave_ice_snack",
+   "musubi_day",
+   "food_truck_lunch",
+   "honolulu_zoo_ticket",
+   "bus_fare_question",
+   "diamond_head_lookout_directions",
+   "eggs_n_things_breakfast"
+  ],
+  "감사 감탄": [
+   "leonards_malasadas",
+   "cheesecake_dessert"
+  ],
+  "감탄": [
+   "shave_ice_snack"
+  ],
+  "값 내기": [
+   "shave_ice_snack",
+   "leonards_malasadas",
+   "food_truck_lunch",
+   "cheesecake_dessert"
+  ],
+  "값 묻기": [
+   "hotel_front_desk",
+   "cafe_order",
+   "convenience_store_abc",
+   "cookie_snack",
+   "shave_ice_snack",
+   "musubi_day",
+   "waikiki_beach_chair_umbrella",
+   "leonards_malasadas",
+   "food_truck_lunch",
+   "honolulu_zoo_ticket",
+   "pharmacy_basic",
+   "ala_moana_basic_shopping",
+   "eggs_n_things_breakfast",
+   "hanauma_bay_gear_rental"
+  ],
+  "값 확인": [
+   "hotel_front_desk"
+  ],
+  "같은 것 고르기": [
+   "cookie_snack",
+   "shave_ice_snack",
+   "food_truck_lunch",
+   "cheesecake_dessert"
+  ],
+  "거리 묻기": [
+   "waikiki_beach_chair_umbrella",
+   "diamond_head_lookout_directions"
+  ],
+  "건네기": [
+   "bus_fare_question"
+  ],
+  "결제": [
+   "hotel_front_desk",
+   "cafe_order",
+   "convenience_store_abc",
+   "cookie_snack",
+   "musubi_day",
+   "waikiki_beach_chair_umbrella",
+   "leonards_malasadas",
+   "food_truck_lunch",
+   "honolulu_zoo_ticket",
+   "pharmacy_basic",
+   "cheesecake_dessert",
+   "ala_moana_basic_shopping",
+   "eggs_n_things_breakfast",
+   "hanauma_bay_gear_rental"
+  ],
+  "계산서 요청": [
+   "cheesecake_dessert",
+   "eggs_n_things_breakfast"
+  ],
+  "고르기": [
+   "cafe_order",
+   "cookie_snack",
+   "musubi_day",
+   "leonards_malasadas",
+   "food_truck_lunch"
+  ],
+  "권하기": [
+   "cookie_snack",
+   "leonards_malasadas"
+  ],
+  "길 되짚기": [
+   "diamond_head_lookout_directions"
+  ],
+  "길 묻기": [
+   "honolulu_zoo_ticket",
+   "diamond_head_lookout_directions"
+  ],
+  "내리기": [
+   "bus_fare_question"
+  ],
+  "내릴 곳 말하기": [
+   "bus_fare_question"
+  ],
+  "내릴 곳 말하기 부탁": [
+   "bus_fare_question"
+  ],
+  "노선 묻기": [
+   "bus_fare_question"
+  ],
+  "대답": [
+   "neighbor_greeting",
+   "hotel_front_desk",
+   "convenience_store_abc",
+   "cookie_snack",
+   "shave_ice_snack",
+   "musubi_day",
+   "waikiki_beach_chair_umbrella",
+   "leonards_malasadas",
+   "food_truck_lunch",
+   "honolulu_zoo_ticket",
+   "pharmacy_basic",
+   "cheesecake_dessert",
+   "ala_moana_basic_shopping",
+   "diamond_head_lookout_directions",
+   "eggs_n_things_breakfast",
+   "hanauma_bay_gear_rental"
+  ],
+  "대답 감사": [
+   "food_truck_lunch"
+  ],
+  "대답과 이유": [
+   "waikiki_beach_chair_umbrella"
+  ],
+  "도착 묻기": [
+   "bus_fare_question"
+  ],
+  "되묻기": [
+   "neighbor_greeting",
+   "hotel_front_desk",
+   "cafe_order",
+   "convenience_store_abc",
+   "cookie_snack",
+   "shave_ice_snack",
+   "musubi_day",
+   "waikiki_beach_chair_umbrella",
+   "leonards_malasadas",
+   "food_truck_lunch",
+   "honolulu_zoo_ticket",
+   "pharmacy_basic",
+   "cheesecake_dessert",
+   "bus_fare_question",
+   "ala_moana_basic_shopping",
+   "diamond_head_lookout_directions",
+   "eggs_n_things_breakfast",
+   "hanauma_bay_gear_rental"
+  ],
+  "말 걸기": [
+   "hotel_front_desk"
+  ],
+  "말하고 되묻기": [
+   "cookie_snack",
+   "musubi_day",
+   "food_truck_lunch",
+   "cheesecake_dessert",
+   "ala_moana_basic_shopping",
+   "eggs_n_things_breakfast",
+   "hanauma_bay_gear_rental"
+  ],
+  "맛 고르기": [
+   "cookie_snack",
+   "shave_ice_snack"
+  ],
+  "물 주문": [
+   "hotel_front_desk"
+  ],
+  "물 추가 요청": [
+   "eggs_n_things_breakfast"
+  ],
+  "물건 말하기": [
+   "pharmacy_basic"
+  ],
+  "바로 주문": [
+   "waikiki_beach_chair_umbrella"
+  ],
+  "반반 고르기": [
+   "leonards_malasadas"
+  ],
+  "방 번호 말하기": [
+   "hotel_front_desk"
+  ],
+  "방향 확인": [
+   "diamond_head_lookout_directions"
+  ],
+  "방향 확인과 감사": [
+   "diamond_head_lookout_directions"
+  ],
+  "부탁": [
+   "hotel_front_desk",
+   "cheesecake_dessert"
+  ],
+  "비싸다고 말하기": [
+   "ala_moana_basic_shopping"
+  ],
+  "빌릴 것 말하기": [
+   "waikiki_beach_chair_umbrella"
+  ],
+  "사기로 하기": [
+   "ala_moana_basic_shopping"
+  ],
+  "상대에게 묻기": [
+   "cookie_snack",
+   "shave_ice_snack",
+   "musubi_day",
+   "waikiki_beach_chair_umbrella",
+   "leonards_malasadas",
+   "food_truck_lunch",
+   "honolulu_zoo_ticket",
+   "cheesecake_dessert",
+   "ala_moana_basic_shopping",
+   "diamond_head_lookout_directions",
+   "eggs_n_things_breakfast",
+   "hanauma_bay_gear_rental"
+  ],
+  "수 말하기": [
+   "hotel_front_desk"
+  ],
+  "수량 말하기": [
+   "cookie_snack",
+   "shave_ice_snack",
+   "musubi_day",
+   "leonards_malasadas"
+  ],
+  "시간 벌기": [
+   "musubi_day",
+   "waikiki_beach_chair_umbrella",
+   "eggs_n_things_breakfast"
+  ],
+  "시설 위치 묻기": [
+   "honolulu_zoo_ticket",
+   "diamond_head_lookout_directions",
+   "eggs_n_things_breakfast"
+  ],
+  "아니오 대답": [
+   "shave_ice_snack",
+   "musubi_day",
+   "food_truck_lunch",
+   "cheesecake_dessert",
+   "hanauma_bay_gear_rental"
+  ],
+  "안부 대답": [
+   "neighbor_greeting"
+  ],
+  "알겠다고 말하기": [
+   "hanauma_bay_gear_rental"
+  ],
+  "예 대답": [
+   "shave_ice_snack",
+   "musubi_day",
+   "food_truck_lunch",
+   "cheesecake_dessert",
+   "hanauma_bay_gear_rental"
+  ],
+  "요금 묻기": [
+   "bus_fare_question"
+  ],
+  "위치 묻기": [
+   "hotel_front_desk",
+   "convenience_store_abc"
+  ],
+  "음료 주문": [
+   "cafe_order",
+   "food_truck_lunch",
+   "cheesecake_dessert",
+   "eggs_n_things_breakfast"
+  ],
+  "이름 말하기": [
+   "neighbor_greeting",
+   "hotel_front_desk",
+   "cafe_order"
+  ],
+  "인사": [
+   "neighbor_greeting"
+  ],
+  "인사 주문": [
+   "cookie_snack",
+   "leonards_malasadas"
+  ],
+  "인원 말하기": [
+   "honolulu_zoo_ticket",
+   "eggs_n_things_breakfast"
+  ],
+  "작별": [
+   "neighbor_greeting",
+   "hotel_front_desk",
+   "convenience_store_abc",
+   "cookie_snack",
+   "shave_ice_snack",
+   "musubi_day",
+   "waikiki_beach_chair_umbrella",
+   "leonards_malasadas",
+   "pharmacy_basic",
+   "cheesecake_dessert",
+   "bus_fare_question",
+   "ala_moana_basic_shopping",
+   "eggs_n_things_breakfast",
+   "hanauma_bay_gear_rental"
+  ],
+  "정도 말하기": [
+   "food_truck_lunch"
+  ],
+  "종류 고르기": [
+   "musubi_day"
+  ],
+  "주문": [
+   "shave_ice_snack",
+   "food_truck_lunch",
+   "cheesecake_dessert",
+   "eggs_n_things_breakfast"
+  ],
+  "주문 끝내기": [
+   "hotel_front_desk",
+   "cafe_order",
+   "leonards_malasadas",
+   "pharmacy_basic",
+   "eggs_n_things_breakfast"
+  ],
+  "지도 요청": [
+   "diamond_head_lookout_directions"
+  ],
+  "찾는 물건 말하기": [
+   "ala_moana_basic_shopping"
+  ],
+  "추가 요청": [
+   "cookie_snack",
+   "musubi_day",
+   "waikiki_beach_chair_umbrella",
+   "leonards_malasadas",
+   "honolulu_zoo_ticket",
+   "eggs_n_things_breakfast"
+  ],
+  "추가 주문": [
+   "cafe_order"
+  ],
+  "크기 고르기": [
+   "shave_ice_snack"
+  ],
+  "크기 말하기": [
+   "cafe_order",
+   "pharmacy_basic",
+   "ala_moana_basic_shopping",
+   "hanauma_bay_gear_rental"
+  ],
+  "크기 묻기": [
+   "ala_moana_basic_shopping"
+  ],
+  "포장 부탁": [
+   "leonards_malasadas"
+  ],
+  "표 사기": [
+   "honolulu_zoo_ticket"
+  ],
+  "하나씩 고르기": [
+   "cookie_snack"
+  ],
+  "확인 대답": [
+   "honolulu_zoo_ticket"
+  ],
+  "확인과 감사": [
+   "waikiki_beach_chair_umbrella",
+   "honolulu_zoo_ticket",
+   "diamond_head_lookout_directions"
+  ]
+ },
+ "byCardFunction": {
+  "거절": [
+   "Q3-007",
+   "Q3-008",
+   "Q3-009",
+   "Q3-010",
+   "Q3-011",
+   "Q3-012",
+   "Q3-014",
+   "Q3-015",
+   "Q3-063",
+   "Q3-065",
+   "Q3-066",
+   "Q3-068",
+   "Q3-107",
+   "Q3-124",
+   "Q4-024",
+   "Q4-066",
+   "Q4-114",
+   "Q4-144"
+  ],
+  "대화 유지": [
+   "Q2-137",
+   "Q2-138",
+   "Q2-139",
+   "Q2-140",
+   "Q2-141",
+   "Q2-142"
+  ],
+  "되묻기": [
+   "Q1-048",
+   "Q1-055",
+   "Q1-070",
+   "Q1-120",
+   "Q1-121",
+   "Q1-122",
+   "Q1-123",
+   "Q1-124",
+   "Q1-125",
+   "Q1-126",
+   "Q1-127",
+   "Q2-018",
+   "Q3-025"
+  ],
+  "명료화 요청": [
+   "Q2-104",
+   "Q2-105",
+   "Q2-106",
+   "Q2-107",
+   "Q2-108"
+  ],
+  "불동의": [
+   "Q3-016",
+   "Q3-017",
+   "Q3-031",
+   "Q3-033",
+   "Q3-045",
+   "Q3-046",
+   "Q3-047",
+   "Q3-048",
+   "Q3-049",
+   "Q3-081",
+   "Q3-106",
+   "Q3-108",
+   "Q3-111",
+   "Q3-136",
+   "Q4-011",
+   "Q4-059",
+   "Q4-065",
+   "Q4-109"
+  ],
+  "불평": [
+   "Q2-042",
+   "Q2-085",
+   "Q2-110",
+   "Q3-067",
+   "Q3-087",
+   "Q4-009",
+   "Q4-010",
+   "Q4-033",
+   "Q4-078",
+   "Q4-110",
+   "Q4-139",
+   "Q4-143"
+  ],
+  "사과": [
+   "Q2-072",
+   "Q2-109",
+   "Q2-143",
+   "Q3-055",
+   "Q3-110",
+   "Q4-008",
+   "Q4-017",
+   "Q4-067",
+   "Q4-071",
+   "Q4-112",
+   "Q4-149"
+  ],
+  "설명": [
+   "Q1-138",
+   "Q1-143",
+   "Q1-147",
+   "Q1-150",
+   "Q2-012",
+   "Q3-101",
+   "Q3-102",
+   "Q3-103",
+   "Q3-104",
+   "Q3-105",
+   "Q3-109",
+   "Q3-126",
+   "Q4-007",
+   "Q4-044",
+   "Q4-095",
+   "Q4-142"
+  ],
+  "시간 벌기": [
+   "Q1-144",
+   "Q1-145"
+  ],
+  "요청": [
+   "Q1-115",
+   "Q1-116",
+   "Q1-117",
+   "Q1-118",
+   "Q1-119",
+   "Q1-128",
+   "Q1-129",
+   "Q1-130",
+   "Q1-131",
+   "Q1-132",
+   "Q1-133",
+   "Q1-137",
+   "Q1-142",
+   "Q1-146",
+   "Q1-148",
+   "Q1-149",
+   "Q3-013",
+   "Q3-018",
+   "Q3-117",
+   "Q4-012",
+   "Q4-108",
+   "Q4-140"
+  ],
+  "이해 확인": [
+   "Q2-104",
+   "Q2-105",
+   "Q2-106",
+   "Q2-107",
+   "Q2-108"
+  ],
+  "인사": [
+   "Q1-108",
+   "Q1-109",
+   "Q1-110",
+   "Q1-111",
+   "Q1-112",
+   "Q1-113",
+   "Q1-114"
+  ],
+  "자기수정": [
+   "Q4-113",
+   "Q4-115",
+   "Q4-116",
+   "Q4-117",
+   "Q4-118",
+   "Q4-119"
+  ],
+  "잡담": [
+   "Q4-013",
+   "Q4-014",
+   "Q4-015",
+   "Q4-016",
+   "Q4-045",
+   "Q4-046",
+   "Q4-047",
+   "Q4-048",
+   "Q4-049",
+   "Q4-084",
+   "Q4-085",
+   "Q4-086",
+   "Q4-087",
+   "Q4-088",
+   "Q4-089"
+  ],
+  "제안": [
+   "Q2-006",
+   "Q2-078",
+   "Q2-116",
+   "Q2-136",
+   "Q3-044",
+   "Q3-064",
+   "Q4-018",
+   "Q4-050",
+   "Q4-063",
+   "Q4-068",
+   "Q4-069",
+   "Q4-132",
+   "Q4-141"
+  ],
+  "칭찬": [
+   "Q2-079",
+   "Q2-117",
+   "Q2-135",
+   "Q2-150",
+   "Q3-089",
+   "Q3-149",
+   "Q4-006",
+   "Q4-060",
+   "Q4-064",
+   "Q4-099",
+   "Q4-107",
+   "Q4-111"
+  ],
+  "협상": [
+   "Q4-025",
+   "Q4-026",
+   "Q4-027",
+   "Q4-028",
+   "Q4-029",
+   "Q4-030",
+   "Q4-031",
+   "Q4-057",
+   "Q4-058",
+   "Q4-061",
+   "Q4-062",
+   "Q4-120",
+   "Q4-121",
+   "Q4-122",
+   "Q4-123",
+   "Q4-124",
+   "Q4-125",
+   "Q4-126"
+  ],
+  "확인": [
+   "Q1-108",
+   "Q1-109",
+   "Q1-110",
+   "Q1-111",
+   "Q1-112",
+   "Q1-113",
+   "Q1-114",
+   "Q2-092",
+   "Q2-093",
+   "Q2-094",
+   "Q2-095",
+   "Q2-096",
+   "Q2-097"
+  ]
+ }
+}

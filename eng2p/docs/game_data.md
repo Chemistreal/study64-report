@@ -29,6 +29,8 @@
 | `scripts/check_transcripts_ko.py` | | 모든 열쇠가 transcripts.json 의 실제 줄이고 한국어 줄이 비지 않고 세션 범위가 acts.json 과 맞는지 본다 (깸 시험) | |
 | `out/game/authored.json` | `scripts/derive_authored.py` (원본 `docs/authored_lines.md`, 낱말 `docs/authored_words.md`) | 지은 영어(authored) 줄. 줄마다 등급, 기능, 자기 점검 A/B, 새 낱말, 한국어 풀이(세션 50 이하). 13장 | 안 읽음 (로더 할 일) |
 | `out/game/outings.json` | `scripts/derive_outings.py` (원본 `docs/outings.md`) | 나들이 미션 표 (**첫 공개 18개만**: 세션 1~48, A1). 장소 id, 열리는 세션, 파일럿의 미니게임 차례. 13장 | 안 읽음 (로더 할 일) |
+| `out/game/functions.json` | `scripts/derive_functions.py` (규칙 `docs/functions.md`) | 기능 라벨(can-do). 카드 600장의 기능, 미션 차례 후보 줄의 기능, 기능 -> 미션 색인. 점수 없음. 점수와 같은 키 이름(mission turn outcome pick)으로 읽는다 | 안 읽음 (로더 할 일) |
+| `scripts/check_functions.py` | | 위 파일의 판 아홉과 깸 시험 (새 분류 없음, 억지 붙이기 없음, 차례 후보가 미션 표와 같음, 점수와 이름 없음) | |
 | `scripts/check_authored.py` | | 지은 영어의 판 여덟과 깸 시험 (낱말 등급, 길이, 문화, 중복, 베끼기, 풀이 구간, 점검 B 목록, 미션 표) | |
 
 ## 2. 지키는 것

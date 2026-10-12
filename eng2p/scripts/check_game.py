@@ -76,9 +76,15 @@ ENGLISH_HTML = os.path.join(ROOT, "..", "english.html")
 # 같은 판 번호 안의 **개정**마다도 지문을 둔다 (results_schema.json 의 revision, 없으면 1). 개정은 더하기만 한다:
 # 이미 쓴 줄(v 1)이 모두 그대로 맞아야 한다. 그것은 results_schema_gate 가 개정 1 고정본으로 본다 (docs/game_results.md 4.15).
 SHAPES = {1: {1: "3dd2178bbff905e4cfc430a7e50b975ebe523c2f95a810fc4be9b06d286b89ac",
-              2: "6e798e4551e30c936b015447442ef68454b61b866a88e3d434e1ca4f23f29798"}}
+              2: "6e798e4551e30c936b015447442ef68454b61b866a88e3d434e1ca4f23f29798",
+              3: "62fbc0d372f44d07fe5608ab6c3f5179bfa1724b00aad62acdfe6a3856c203cc"}}
 REV1_SCHEMA = os.path.join(ROOT, "tools", "game", "results_fixture", "results_schema.rev1.json")
+REV2_SCHEMA = os.path.join(ROOT, "tools", "game", "results_fixture", "results_schema.rev2.json")
 OUTING_FIXTURE = os.path.join(ROOT, "tools", "game", "results_fixture", "outing.jsonl")
+PICK_FIXTURE = os.path.join(ROOT, "tools", "game", "results_fixture", "outing_pick.jsonl")
+# 개정으로 더한 **선택 칸**. 필수 칸을 더하면 옛 줄이 틀리므로 필수 칸은 개정 1 의 것에서 늘 수 없다.
+# 선택 칸은 이 표에 있어야만 필수가 아닐 수 있다 (표에 없는 칸이 필수에서 빠지면 실패). 개정 3 (2026-10-12): outing_turn.pick
+OPTIONAL = {"outing_turn": ["pick"]}
 
 FAIL = []
 n = 0
@@ -702,31 +708,41 @@ def results_schema_gate(G):
     chk(len(RS.get("x-forbiddenKeys") or []) >= 10, "금지 칸 목록(x-forbiddenKeys)이 없거나 짧다")
     for t, d in defs.items():
         props = d.get("properties", {})
-        chk(d.get("additionalProperties") is False and sorted(d.get("required", [])) == sorted(props)
+        opt = OPTIONAL.get(t, [])
+        chk(d.get("additionalProperties") is False
+            and sorted(d.get("required", [])) == sorted(k for k in props if k not in opt)
+            and all(k in props for k in opt) and all(k not in d.get("required", []) for k in opt)
             and all(k in props for k in ENVELOPE) and (props.get("t") or {}).get("const") == t
             and (props.get("v") or {}).get("const") == RS.get("version")
             and not (set(RS.get("x-forbiddenKeys", [])) & set(props)),
             "결과 줄 %s 의 모양이 겉봉/필수/금지 규칙을 못 지킨다" % t)
 
-    # 개정은 더하기만 한다: 개정 1 고정본의 모든 줄 종류, 필수 칸, 값 범위가 그대로거나 넓어졌다. 그래서 이미 쓴 줄이 다 맞다
-    if os.path.exists(REV1_SCHEMA):
-        R1 = load_json(REV1_SCHEMA)
-        chk(R1.get("version") == RS.get("version") == 1, "개정 1 고정본과 지금 모양의 판 번호가 1 이 아니다")
+    # 개정은 더하기만 한다: 앞 개정 고정본(1, 2)의 모든 줄 종류, 필수 칸, 값 범위가 그대로거나 넓어졌다. 그래서 이미 쓴 줄이 다 맞다.
+    # 새 칸은 선택 칸(OPTIONAL 표)뿐이다. 필수 칸이 앞 개정과 한 칸이라도 다르면 옛 줄이 틀린 줄이 된다
+    for rev_no, rev_path in ((1, REV1_SCHEMA), (2, REV2_SCHEMA)):
+        if not os.path.exists(rev_path):
+            chk(False, "개정 %d 고정본 %s 이 없다" % (rev_no, rev_path))
+            continue
+        R1 = load_json(rev_path)
+        chk(R1.get("version") == RS.get("version") == 1, "개정 %d 고정본과 지금 모양의 판 번호가 1 이 아니다" % rev_no)
+        chk(R1.get("revision", 1) == rev_no, "개정 %d 고정본의 revision 이 %s 이다" % (rev_no, R1.get("revision", 1)))
         for t, d1 in (R1.get("$defs") or {}).items():
             d2 = defs.get(t)
             if d2 is None:
-                chk(False, "개정 1 의 줄 종류 %s 가 지금 모양에서 사라졌다 (이미 쓴 줄이 틀린 줄이 된다)" % t)
+                chk(False, "개정 %d 의 줄 종류 %s 가 지금 모양에서 사라졌다 (이미 쓴 줄이 틀린 줄이 된다)" % (rev_no, t))
                 continue
             chk(sorted(d1["required"]) == sorted(d2["required"]) and d2.get("additionalProperties") is False,
-                "줄 종류 %s 의 필수 칸이 개정 1 과 다르다 (칸을 더하면 옛 줄이 틀린다)" % t)
+                "줄 종류 %s 의 필수 칸이 개정 %d 와 다르다 (칸을 더하면 옛 줄이 틀린다. 더하려면 선택 칸으로)" % (t, rev_no))
             for k, sch1 in d1["properties"].items():
                 sch2 = d2["properties"].get(k)
                 why = "칸이 사라졌다" if sch2 is None else widens(sch1, sch2)
-                chk(why is None, "%s.%s 가 개정 1 보다 좁아졌다: %s" % (t, k, why))
-        chk(sorted(R1.get("x-forbiddenKeys", [])) == sorted(RS.get("x-forbiddenKeys", [])), "금지 칸 목록이 개정 1 과 다르다")
-        chk(RS.get("revision", 1) > R1.get("revision", 1) or RS == R1, "모양이 개정 1 고정본과 다른데 revision 이 안 올랐다")
-    else:
-        chk(False, "개정 1 고정본 %s 이 없다" % REV1_SCHEMA)
+                chk(why is None, "%s.%s 가 개정 %d 보다 좁아졌다: %s" % (t, k, rev_no, why))
+            added = sorted(set(d2["properties"]) - set(d1["properties"]))
+            allowed = OPTIONAL.get(t, []) if RS.get("revision", 1) > rev_no else []
+            chk(all(k in allowed for k in added),
+                "줄 종류 %s 에 개정 %d 에 없던 칸 %s 이 생겼는데 선택 칸 표(OPTIONAL)에 없다" % (t, rev_no, [k for k in added if k not in allowed]))
+        chk(sorted(R1.get("x-forbiddenKeys", [])) == sorted(RS.get("x-forbiddenKeys", [])), "금지 칸 목록이 개정 %d 와 다르다" % rev_no)
+        chk(RS.get("revision", 1) > R1.get("revision", 1) or RS == R1, "모양이 개정 %d 고정본과 다른데 revision 이 안 올랐다" % rev_no)
 
     # 문서 표와 견준다
     T = doc_tables(RDOC)
@@ -831,7 +847,7 @@ def py_emit(events, RS):
     out = []
     for o in events:
         order = list(RS["$defs"][o["t"]]["properties"])
-        out.append(json.dumps({k: o[k] for k in order}, ensure_ascii=False, separators=(",", ":")) + "\n")
+        out.append(json.dumps({k: o[k] for k in order if k in o}, ensure_ascii=False, separators=(",", ":")) + "\n")
     return "".join(out)
 
 
@@ -905,6 +921,46 @@ def results_fixture(G):
             "나들이 줄을 합치면 줄이 사라지거나 버려진다 (%d + %d -> %d, 버림 %d)" % (len(ev0), len(outl), len(evo), sto["rejected"]))
     else:
         chk(False, "나들이 고정 줄 %s 이 없다" % OUTING_FIXTURE)
+
+    # (1c) 고른 줄 pick (개정 3). 새 모양은 통과하고 개정 2 의 모양으로는 못 쓰는 줄이다. pick 이 없는 옛 줄은 새 모양에서도 맞는다
+    if os.path.exists(PICK_FIXTURE) and os.path.exists(REV2_SCHEMA):
+        R2 = load_json(REV2_SCHEMA)
+        pl = read_lines(PICK_FIXTURE)
+        po = [json.loads(ln) for _, ln in pl]
+        chk(pl and all(val_event(o, RS) is None for o in po),
+            "pick 고정 줄이 새 모양을 못 지킨다: %s" % " / ".join(str(val_event(o, RS)) for o in po if val_event(o, RS))[:200])
+        with_pick = [o for o in po if "pick" in o]
+        chk(len(with_pick) >= 2 and len(with_pick) < len(po) and {o["outcome"] for o in po} >= {"pass", "near", "miss"},
+            "pick 고정 줄에 pick 이 있는 줄(통과와 거의)과 없는 줄(못함)이 다 있어야 한다")
+        chk(all(val_event(o, R2) is not None for o in with_pick),
+            "pick 이 있는 줄이 개정 2 모양에서도 통과한다 (새 것을 시험하지 못한다)")
+        chk(all(val_event(o, R2) is None for o in po if "pick" not in o),
+            "pick 이 없는 줄이 개정 2 모양을 통과하지 못한다 (옛 줄이 틀리게 됐다)")
+        if os.path.exists(OUTING_FIXTURE):
+            olds = [json.loads(ln) for _, ln in read_lines(OUTING_FIXTURE)]
+            chk(all(val_event(o, RS) is None and val_event(o, R2) is None for o in olds),
+                "개정 2 의 나들이 고정 줄이 새 모양에서 틀린 줄이 됐다 (이미 쓴 줄은 맞아야 한다)")
+        for bad_name, mut in (("대문자", lambda o: o.update(pick="ENB-07")),
+                              ("글자 하나", lambda o: o.update(pick="e-07")),
+                              ("숫자 4자리", lambda o: o.update(pick="enb-0007")),
+                              ("줄 id 에 연습 꼴 enb-p1", lambda o: o.update(pick="enb-p1")),
+                              ("빈 글자", lambda o: o.update(pick="")),
+                              ("숫자 형", lambda o: o.update(pick=7)),
+                              ("글자 칸 say 를 같이", lambda o: o.update(say="Two, please.")),
+                              ("받아쓴 글 text", lambda o: o.update(text="Coffee"))):
+            o = dict(with_pick[0])
+            mut(o)
+            chk(val_event(o, RS) is not None, "틀린 pick(%s)이 모양 검사를 통과한다" % bad_name)
+        other = dict(with_pick[0], t="activity")
+        chk(val_event(other, RS) is not None, "outing_turn 이 아닌 줄 종류에 pick 이 붙어도 통과한다")
+        ev00, _ = py_merge([host, guest], RS)
+        evp, stp = py_merge([host, guest, pl], RS)
+        chk(stp["rejected"] == 0 and len(evp) == len(ev00) + len(pl), "pick 줄을 합치면 줄이 사라지거나 버려진다")
+        txt = py_emit(evp, RS)
+        chk(all(re.search(r',"repairs":\d+,"pick":"[a-z]{2,4}-\d{1,3}"\}$', ln) for ln in txt.split("\n") if '"pick"' in ln),
+            "합친 글에서 pick 이 outing_turn 맨 끝 칸이 아니다 (모양 파일의 칸 차례)")
+    else:
+        chk(False, "pick 고정 줄이나 개정 2 고정본이 없다: %s %s" % (PICK_FIXTURE, REV2_SCHEMA))
 
     # (2) 파이썬 합치기가 고정된 합친 글과 바이트까지 같다 (C++ 가 맞춰야 하는 것)
     evs, st = py_merge([host, guest], RS)

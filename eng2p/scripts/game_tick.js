@@ -589,6 +589,31 @@ function selftest() {
     ok("나들이 줄이 있어도 next.json 이 같다 (틱은 읽지 않는다)", (() => { const a = Object.assign({}, nextOf([host, guest, outText], FIXTURE_TODAY)), b = nextOf([host, guest], FIXTURE_TODAY); delete a.merge; const c = Object.assign({}, b); delete c.merge; return canon(a) === canon(c); })());
     ok("합친 글에서 나들이 줄 칸 차례가 모양 파일의 차례다", emitJsonl(rest.events, schema).split("\n").filter((l) => l.includes('"outing_turn"')).every((l) => /^\{"v":1,"t":"outing_turn","s":\d+,"e":"[^"]+","device":"[a-z]+","seat":"[a-z]+","date":"[^"]+","t0":"[^"]+","t1":"[^"]+","mission":"[a-z0-9_]+","turn":\d+,"outcome":"[a-z]+","via":"[a-z]+","attempts":\d+,"repairs":\d+\}$/.test(l))); }
 
+  const outOf0 = (m) => emitJsonl(m.events, schema);
+  /* 1c. 고른 줄 pick (결과 모양 개정 3, docs/game_results.md 4.15). 선택 칸이다. 있어도 없어도 맞고, 꼴이 틀리면 걸리고, 합쳐도 안 사라진다 */
+  { const pText = fx("outing_pick.jsonl");
+    const pObjs = pText.split("\n").filter(Boolean).map((l) => JSON.parse(l));
+    const withPick = pObjs.filter((o) => Object.prototype.hasOwnProperty.call(o, "pick"));
+    ok("pick 고정 줄이 다 통과한다 (pick 이 있는 줄과 없는 줄)", pObjs.length >= 4 && withPick.length >= 2 && withPick.length < pObjs.length
+       && pObjs.every((o) => validateEvent(o, schema) === null), pObjs.map((o) => validateEvent(o, schema)).filter(Boolean).join(" / "));
+    const mutP = (name, f) => { const o = JSON.parse(JSON.stringify(withPick[0])); f(o); ok("틀린 pick 줄을 거른다: " + name, validateEvent(o, schema) !== null); };
+    mutP("대문자", (o) => { o.pick = "ENB-07"; });
+    mutP("글자 하나", (o) => { o.pick = "e-07"; });
+    mutP("숫자 네 자리", (o) => { o.pick = "enb-0007"; });
+    mutP("연습 꼴 enb-p1", (o) => { o.pick = "enb-p1"; });
+    mutP("빈 글자", (o) => { o.pick = ""; });
+    mutP("숫자 형", (o) => { o.pick = 7; });
+    mutP("말한 글 칸 say 를 같이", (o) => { o.say = "Coffee, please."; });
+    mutP("줄 종류가 activity", (o) => { o.t = "activity"; });
+    const rp = T([host, guest, pText]);
+    ok("pick 줄을 합쳐도 안 사라지고 버려지지 않는다", rp.stats.rejected === 0 && rp.events.length === base0().events.length + pObjs.length);
+    ok("pick 줄을 두 번 넣어도 같다 (멱등)", outOf0(T([host, guest, pText, pText])) === outOf0(rp));
+    ok("합친 글에서 pick 은 outing_turn 의 맨 끝 칸이고 없는 줄에는 칸이 없다", (() => {
+      const ls = emitJsonl(rp.events, schema).split("\n").filter((l) => l.includes('"outing_turn"'));
+      return ls.length === pObjs.length && ls.every((l) => l.includes('"pick"') ? /,"repairs":\d+,"pick":"[a-z]{2,4}-[0-9]{1,3}"\}$/.test(l) : /,"repairs":\d+\}$/.test(l))
+        && ls.filter((l) => l.includes('"pick"')).length === withPick.length; })());
+    ok("pick 이 있어도 next.json 이 같다 (틱은 읽지 않는다)", (() => { const a = Object.assign({}, nextOf([host, guest, pText], FIXTURE_TODAY)), b = nextOf([host, guest], FIXTURE_TODAY); delete a.merge; const c = Object.assign({}, b); delete c.merge; return canon(a) === canon(c); })()); }
+
   /* 2. 합치기 법칙 */
   const base = T([host, guest]);
   const hl = host.split("\n").filter(Boolean), gl = guest.split("\n").filter(Boolean);

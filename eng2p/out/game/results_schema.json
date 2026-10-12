@@ -4,7 +4,7 @@
  "title": "호놀룰루 결과 JSONL 한 줄",
  "description": "사실만 적는다. 소리, 받아쓴 글, 이름, 사람별 점수는 안 담는다. 풀이는 docs/game_results.md",
  "version": 1,
- "revision": 2,
+ "revision": 3,
  "generator": "scripts/derive_game.js",
  "x-forbiddenKeys": [
   "name",
@@ -31,11 +31,13 @@
   "t1 >= t0",
   "e 의 첫 글자 h/g 가 device host/guest 와 같다",
   "date 는 달력에 있는 날이다",
-  "한 줄은 한 JSON 객체이고 줄바꿈이 없다"
+  "한 줄은 한 JSON 객체이고 줄바꿈이 없다",
+  "outing_turn.pick 이 있으면 그 차례의 후보 줄 id 중 하나다 (쓰는 쪽이 지키고 out/game/functions.json 의 turns 와 check_functions.py 가 건다)"
  ],
  "x-revisions": [
   "1 (2026-10-08) 줄 11가지",
-  "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)"
+  "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)",
+  "3 (2026-10-12) outing_turn 에 선택 칸 pick (고른 후보 줄 id). 필수 칸을 더하지 않았다 (v 는 1 그대로, 옛 줄이 다 맞다)"
  ],
  "oneOf": [
   {
@@ -1172,6 +1174,11 @@
      "minimum": 0,
      "maximum": 99,
      "description": "고친 횟수. NPC 가 다시 해 보자고 했거나 팀이 되물은 횟수 (repair 는 실패가 정상)"
+    },
+    "pick": {
+     "type": "string",
+     "pattern": "^[a-z]{2,4}-[0-9]{1,3}$",
+     "description": "선택 칸. 고른 후보 줄 id (그 차례 game.turns[].pick 중 하나, authored.json lines[].id). 말한 글이 아니고 줄 번호다. 말 판정기가 들은 줄이거나 사람이 누른 줄이고, 어느 줄인지 못 가렸거나 outcome 이 skipped 면 칸을 뺀다"
     }
    }
   },
