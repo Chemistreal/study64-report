@@ -20,6 +20,10 @@
 | 목표 등급 | 장면의 등급 (A1 A2 B1 B2). 줄마다 등급이 따로 있고 이 값을 한 단계까지 넘을 수 있다 (한 장면의 30% 까지) |
 | 할 일 | 할 일(can-do) id / 영어 / 한국어 |
 | 허용 이름 | 줄에 써도 되는 고유 이름 (실제 가게 이름 등). 비어 있으면 `-` |
+| 갈래 | `고른 줄 > NPC 줄` 쌍. 후보를 고르면 NPC 줄이 한 번 나온 뒤 다음 차례로 간다. 없으면 생략 |
+| 재개 | `차례:고른 줄 > 답 줄/답 줄`. 그 후보를 골랐으면 갈래 NPC 줄 뒤에 **같은 차례의 후보로 한 번 더 답을 받는다** (새 차례가 아니다. docs/authored.md 3.1장). 없으면 생략 |
+| 건너뜀 | `차례 if 차례:고른 줄`. 조건이 맞으면 그 차례를 하지 않는다. 없으면 생략 |
+| 상황 | 가격 모델, 장면 전제 같은 줄 밖의 장면 값 한 문단. 없으면 생략 |
 
 | 줄 칸 | 뜻 |
 |---|---|
@@ -42,12 +46,13 @@
 목표 등급: A1
 할 일: cd-enb-1 / I can order a simple breakfast and pay in a restaurant. / 식당에서 간단한 아침 식사를 주문하고 계산할 수 있다.
 허용 이름: -
-갈래: enb-30 > enb-31, enb-34 > enb-36, enb-35 > enb-37
+갈래: enb-30 > enb-31, enb-34 > enb-36, enb-35 > enb-37, enb-25 > enb-23
+재개: t10:enb-25 > enb-24/enb-26, t12:enb-30 > enb-29
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | enb-01 | door | npc | Host | Good morning! How many? | A1 | 인사 안내 | A | - | 안녕하세요! 몇 분이세요? |
-| enb-02 | door | wait | 두 사람 | Two, please. | A1 | 인원 말하기 | A | - | 두 명이요. |
+| enb-02 | door | wait | A자리 | Two, please. | A1 | 인원 말하기 | A | - | 두 명이요. |
 | enb-03 | door | npc | Host | Right this way, please. | A1 | 안내 | A | - | 이쪽으로 오세요. |
 | enb-04 | door | npc | Host | Here are your menus. | A1 | 안내 | A | - | 메뉴 여기 있어요. |
 | enb-05 | drink | npc | Server | Hi! Can I get you something to drink? | A2 | 음료 묻기 | A | - | 안녕하세요! 마실 것 좀 드릴까요? |
@@ -56,7 +61,7 @@
 | enb-08 | drink | option | 두 사람 | Water, please. | A1 | 음료 주문 | A | - | 물 주세요. |
 | enb-09 | drink | npc | Server | Okay. I will be right back. | A2 | 안내 | A | - | 네. 금방 올게요. |
 | enb-10 | order | npc | Server | Are you ready to order? | A1 | 주문 묻기 | A | - | 주문하시겠어요? |
-| enb-11 | order | option | 두 사람 | Just a minute, please. | A1 | 시간 벌기 | A | - | 잠깐만요. |
+| enb-11 | order | option | A자리 | Just a minute, please. | A1 | 시간 벌기 | A | - | 잠깐만요. |
 | enb-12 | order | wait | A자리 | What do you want to eat, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 뭐 먹고 싶어? |
 | enb-13 | order | wait | B자리 | I want pancakes. And you? | A1 | 말하고 되묻기 | A | - | 난 팬케이크. 너는? |
 | enb-14 | order | npc | Server | Okay. What would you like? | A2 | 주문 묻기 | A | - | 네. 뭘 드릴까요? |
@@ -65,22 +70,22 @@
 | enb-17 | order | option | B자리 | I would like the pancakes, please. | A2 | 주문 | A | - | 팬케이크 주세요. |
 | enb-18 | order | option | B자리 | Can I have the pancakes, please? | A2 | 주문 | A | - | 팬케이크 주세요. |
 | enb-19 | order | npc | Server | Anything else? | A1 | 추가 묻기 | A | - | 더 필요한 건요? |
-| enb-20 | order | option | 두 사람 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
+| enb-20 | order | option | A자리 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
 | enb-21 | food | npc | Server | Here you go. Enjoy! | A1 | 음식 내기 | A | - | 여기 있어요. 맛있게 드세요! |
-| enb-22 | food | wait | 두 사람 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
+| enb-22 | food | wait | B자리 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
 | enb-23 | food | npc | Server | Is everything okay? | A1 | 확인 | A | - | 다 괜찮으세요? |
-| enb-24 | food | option | 두 사람 | Yes, it is very good. | A1 | 대답 | A | - | 네, 아주 맛있어요. |
-| enb-25 | food | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
-| enb-26 | food | option | 두 사람 | Some coffee, please. | A1 | 추가 요청 | A | - | 커피 좀 주세요. |
-| enb-27 | pay | wait | 두 사람 | Can we have the check, please? | A2 | 계산서 요청 | A | - | 계산서 주시겠어요? |
+| enb-24 | food | option | B자리 | Yes, it is very good. | A1 | 대답 | A | - | 네, 아주 맛있어요. |
+| enb-25 | food | option | B자리 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| enb-26 | food | option | B자리 | Some coffee, please. | A1 | 추가 요청 | A | - | 커피 좀 주세요. |
+| enb-27 | pay | wait | B자리 | Can we have the check, please? | A2 | 계산서 요청 | A | - | 계산서 주시겠어요? |
 | enb-28 | pay | npc | Server | Sure. Will that be cash or card? | A2 | 결제 묻기 | A | - | 네. 현금이세요, 카드세요? |
 | enb-29 | pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
 | enb-30 | pay | option | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | enb-31 | pay | npc | Server | It is twenty-four dollars. | A1 | 값 말하기 | B | 숫자와 값은 장면용으로 정한 것이다. 실제 가격이 아니고 말투 자체는 자연스럽지만 달러 읽는 법("twenty-four dollars")이 이 등급에 맞는지 확신이 없다 | 24달러예요. |
 | enb-32 | pay | npc | Server | Thank you. Have a nice day! | A1 | 작별 | A | - | 고맙습니다. 좋은 하루 보내세요! |
 | enb-33 | pay | wait | 두 사람 | You too! Thank you! | A1 | 작별 | A | - | 좋은 하루 보내세요! 고맙습니다! |
-| enb-34 | order | option | 두 사람 | Can I have water, please? | A1 | 물 추가 요청 | A | - | 물 좀 주시겠어요? |
-| enb-35 | order | option | 두 사람 | Where is the bathroom? | A1 | 시설 위치 묻기 | A | - | 화장실이 어디예요? |
+| enb-34 | order | option | A자리 | Can I have water, please? | A1 | 물 추가 요청 | A | - | 물 좀 주시겠어요? |
+| enb-35 | order | option | A자리 | Where is the bathroom? | A1 | 시설 위치 묻기 | A | - | 화장실이 어디예요? |
 | enb-36 | order | npc | Server | Sure. Here is your water. | A1 | 건네기 | A | - | 그럼요. 물 여기 있어요. |
 | enb-37 | order | npc | Server | It is over there. | A1 | 위치 안내 | A | - | 저쪽에 있어요. |
 
@@ -106,23 +111,23 @@
 미션은 시간 상한이 없는 작은 미니게임이다 (docs/outings.md 3장). 차례마다 NPC 줄 하나(없을 수 있다)와 두 사람이 고르는 줄이 있다.
 `n` 으로 시작하는 차례는 NPC 만 말하는 이음 차례라 점수를 안 센다 (`고르는 줄` 이 `-`). `+` 는 NPC 가 이어서 말한다. `고르는 줄` 은 `/` 로 가른 후보 중 **하나만 말하면 통과**다 (기계가 넉넉하게 듣는다. game.md 6.1). `자리` 는 누가 말하나 (`A` `B` `둘 중 누구든`).
 결과는 차례마다 통과 / 거의 / 못함이다. **통과** = 후보 중 하나를 첫 시도에 말했다. **거의** = 되묻기(enb-25)나 한 번 더 듣고 말했다. **못함** = 건너뛰기를 골랐거나 세 번 시도해도 못 했다. 시계는 없다.
-미션 전체: 통과 차례가 77% 이상이면 통과, 54% 이상이면 거의, 그 밖에는 못함 (13차례면 10과 7). 못해도 아무것도 안 잠기고 같은 미션을 다시 열 수 있다.
+**재개 단계**: 머리말 `재개` 에 적힌 후보를 골랐으면 갈래 NPC 줄 뒤에 같은 차례의 답 후보로 한 번 더 답을 받는다. 차례 수에 안 세고 결과는 원 차례 하나로 한 번만 기록한다(재개 단계까지 답하면 `거의`). `건너뜀` 은 조건이 맞을 때 차례를 하지 않는다. 자리가 `A` 나 `B` 인 차례의 줄은 그 자리의 인물이다. 미션 전체: 통과 차례가 77% 이상이면 통과, 54% 이상이면 거의, 그 밖에는 못함 (13차례면 10과 7). 못해도 아무것도 안 잠기고 같은 미션을 다시 열 수 있다.
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | door | enb-01 | enb-02 | 둘 중 누구든 |
+| t1 | door | enb-01 | enb-02 | A |
 | n1 | door | enb-03+enb-04 | - | - |
 | t2 | drink | enb-05 | enb-06/enb-07/enb-08 | 둘 중 누구든 |
 | n2 | drink | enb-09 | - | - |
-| t3 | order | enb-10 | enb-11/enb-35 | 둘 중 누구든 |
+| t3 | order | enb-10 | enb-11/enb-35 | A |
 | t4 | order | - | enb-12 | A |
 | t5 | order | - | enb-13 | B |
 | t6 | order | enb-14 | enb-15/enb-16 | A |
 | t7 | order | enb-14 | enb-17/enb-18 | B |
-| t8 | order | enb-19 | enb-20/enb-34 | 둘 중 누구든 |
-| t9 | food | enb-21 | enb-22 | 둘 중 누구든 |
-| t10 | food | enb-23 | enb-24/enb-25/enb-26 | 둘 중 누구든 |
-| t11 | pay | - | enb-27 | 둘 중 누구든 |
+| t8 | order | enb-19 | enb-20/enb-34 | A |
+| t9 | food | enb-21 | enb-22 | B |
+| t10 | food | enb-23 | enb-24/enb-25/enb-26 | B |
+| t11 | pay | - | enb-27 | B |
 | t12 | pay | enb-28 | enb-29/enb-30 | 둘 중 누구든 |
 | t13 | pay | enb-32 | enb-33 | 둘 중 누구든 |
 
@@ -134,11 +139,14 @@
 목표 등급: A1
 할 일: cd-cookie-1 / I can choose cookies, say how many, pay, and say thank you. / 쿠키를 고르고, 몇 개인지 말하고, 값을 내고, 고맙다고 말할 수 있다.
 허용 이름: -
+갈래: cs-25 > cs-22
+재개: t10:cs-25 > cs-23/cs-24
+상황: 가상의 쿠키 가게다. 'One more, please.'(cs-17)는 진열대에서 원하는 맛의 쿠키를 손으로 가리키며 하는 말이라 맛은 몸짓이 정한다. 점원이 묻는 개수(cs-11)는 두 사람이 사는 전체 개수이고, 앞의 '네 개'(cs-10)는 서로 먹고 싶은 만큼을 주고받은 말이며 주문 수는 마지막에 둘이 함께 정한다. 11달러는 어떤 맛과 개수를 골라도 같은 가상 금액이다. 실제 가게의 메뉴나 가격이 아니다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | cs-01 | door | npc | Clerk | Hi! Can I help you? | A1 | 인사 안내 | A | - | 안녕하세요! 도와드릴까요? |
-| cs-02 | door | wait | 두 사람 | Hi! Cookies, please. | A1 | 인사 주문 | A | - | 안녕하세요! 쿠키 주세요. |
+| cs-02 | door | wait | A자리 | Hi! Cookies, please. | A1 | 인사 주문 | A | - | 안녕하세요! 쿠키 주세요. |
 | cs-03 | flavor | npc | Clerk | Chocolate or coconut? | A1 | 고르게 묻기 | A | - | 초콜릿이요, 코코넛이요? |
 | cs-04 | flavor | option | A자리 | Chocolate, please. | A1 | 맛 고르기 | A | - | 초콜릿으로 주세요. |
 | cs-05 | flavor | option | A자리 | Coconut, please. | A1 | 맛 고르기 | A | - | 코코넛으로 주세요. |
@@ -148,15 +156,15 @@
 | cs-09 | count | wait | A자리 | Two or four, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 두 개? 네 개? |
 | cs-10 | count | wait | B자리 | I want four. And you? | A1 | 말하고 되묻기 | A | - | 난 네 개. 너는? |
 | cs-11 | count | npc | Clerk | How many cookies? | A1 | 수량 묻기 | A | - | 쿠키 몇 개요? |
-| cs-12 | count | option | 두 사람 | Two cookies, please. | A1 | 수량 말하기 | A | - | 쿠키 두 개 주세요. |
-| cs-13 | count | option | 두 사람 | Four cookies, please. | A1 | 수량 말하기 | A | - | 쿠키 네 개 주세요. |
-| cs-14 | count | option | 두 사람 | Six cookies, please. | A1 | 수량 말하기 | A | - | 쿠키 여섯 개 주세요. |
+| cs-12 | count | option | A자리 | Two cookies, please. | A1 | 수량 말하기 | A | - | 쿠키 두 개 주세요. |
+| cs-13 | count | option | A자리 | Four cookies, please. | A1 | 수량 말하기 | A | - | 쿠키 네 개 주세요. |
+| cs-14 | count | option | A자리 | Six cookies, please. | A1 | 수량 말하기 | A | - | 쿠키 여섯 개 주세요. |
 | cs-15 | more | npc | Clerk | Okay. Is that all? | A1 | 추가 묻기 | A | - | 네. 이게 다예요? |
-| cs-16 | more | option | 두 사람 | Yes, that is all. | A1 | 대답 | A | - | 네, 그게 다예요. |
-| cs-17 | more | option | 두 사람 | One more, please. | A1 | 추가 요청 | A | - | 하나 더 주세요. |
+| cs-16 | more | option | B자리 | Yes, that is all. | A1 | 대답 | A | - | 네, 그게 다예요. |
+| cs-17 | more | option | B자리 | One more, please. | A1 | 추가 요청 | A | - | 하나 더 주세요. |
 | cs-18 | bag | npc | Clerk | A bag or a box? | A1 | 고르게 묻기 | A | - | 봉지에 드릴까요, 상자에 드릴까요? |
-| cs-19 | bag | option | 두 사람 | A bag, please. | A1 | 고르기 | A | - | 봉지에 주세요. |
-| cs-20 | bag | option | 두 사람 | A box, please. | A1 | 고르기 | A | - | 상자에 주세요. |
+| cs-19 | bag | option | B자리 | A bag, please. | A1 | 고르기 | A | - | 봉지에 주세요. |
+| cs-20 | bag | option | B자리 | A box, please. | A1 | 고르기 | A | - | 상자에 주세요. |
 | cs-21 | pay | wait | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | cs-22 | pay | npc | Clerk | That is eleven dollars. Cash or card? | A1 | 값 말하기 결제 묻기 | A | - | 11달러예요. 현금으로 하실까요, 카드로 하실까요? |
 | cs-23 | pay | option | 두 사람 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
@@ -188,14 +196,14 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | door | cs-01 | cs-02 | 둘 중 누구든 |
+| t1 | door | cs-01 | cs-02 | A |
 | t2 | flavor | cs-03 | cs-04/cs-05 | A |
 | t3 | flavor | cs-06 | cs-07/cs-08 | B |
 | t4 | count | - | cs-09 | A |
 | t5 | count | - | cs-10 | B |
-| t6 | count | cs-11 | cs-12/cs-13/cs-14 | 둘 중 누구든 |
-| t7 | more | cs-15 | cs-16/cs-17 | 둘 중 누구든 |
-| t8 | bag | cs-18 | cs-19/cs-20 | 둘 중 누구든 |
+| t6 | count | cs-11 | cs-12/cs-13/cs-14 | A |
+| t7 | more | cs-15 | cs-16/cs-17 | B |
+| t8 | bag | cs-18 | cs-19/cs-20 | B |
 | t9 | pay | - | cs-21 | 둘 중 누구든 |
 | t10 | pay | cs-22 | cs-23/cs-24/cs-25 | 둘 중 누구든 |
 | t11 | thanks | cs-26 | cs-27 | 둘 중 누구든 |
@@ -211,11 +219,14 @@
 목표 등급: A1
 할 일: cd-shave-1 / I can choose a flavor and a size and order shave ice. / 맛과 크기를 골라 빙수를 주문할 수 있다.
 허용 이름: -
+갈래: si-25 > si-23
+재개: t9:si-25 > si-24
+상황: 가상의 빙수 가게다. 크기, 맛, 아이스크림, 숟가락을 어떻게 골라도 두 개에 8달러로 같다. 8달러와 거스름돈은 이 장면에서만 정한 값이며 실제 가게의 가격이 아니다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | si-01 | door | npc | Clerk | Hi! What can I get you? | A1 | 인사 주문 묻기 | A | - | 안녕하세요! 뭐 드릴까요? |
-| si-02 | door | wait | 두 사람 | Shave ice, please. | A1 | 주문 | A | - | 빙수 주세요. |
+| si-02 | door | wait | A자리 | Shave ice, please. | A1 | 주문 | A | - | 빙수 주세요. |
 | si-03 | size | npc | Clerk | Small, medium, or large? | A2 | 크기 묻기 | A | - | 작은 거, 중간 거, 큰 거 중에 어떤 걸로 할까요? |
 | si-04 | size | option | A자리 | Small, please. | A1 | 크기 고르기 | A | - | 작은 걸로 주세요. |
 | si-05 | size | option | A자리 | Medium, please. | A1 | 크기 고르기 | A | - | 중간 걸로 주세요. |
@@ -230,12 +241,12 @@
 | si-14 | flavor | option | B자리 | Lemon, please. | A1 | 맛 고르기 | A | - | 레몬 맛으로 주세요. |
 | si-15 | flavor | option | B자리 | The same flavor, please. | A1 | 같은 것 고르기 | A | - | 같은 맛으로 주세요. |
 | si-16 | cream | npc | Clerk | With ice cream? | A1 | 선택 묻기 | A | - | 아이스크림도 넣을까요? |
-| si-17 | cream | option | 두 사람 | Yes, please. | A1 | 예 대답 | A | - | 네, 넣어 주세요. |
-| si-18 | cream | option | 두 사람 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
+| si-17 | cream | option | A자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 넣어 주세요. |
+| si-18 | cream | option | A자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
 | si-19 | spoon | npc | Clerk | One spoon or two? | A1 | 수량 묻기 | A | - | 숟가락은 하나요, 두 개요? |
-| si-20 | spoon | option | 두 사람 | One spoon, please. | A1 | 수량 말하기 | A | - | 숟가락 하나 주세요. |
-| si-21 | spoon | option | 두 사람 | Two spoons, please. | A1 | 수량 말하기 | A | - | 숟가락 두 개 주세요. |
-| si-22 | pay | wait | 두 사람 | How much for two? | A1 | 값 묻기 | A | - | 두 개에 얼마예요? |
+| si-20 | spoon | option | B자리 | One spoon, please. | A1 | 수량 말하기 | A | - | 숟가락 하나 주세요. |
+| si-21 | spoon | option | B자리 | Two spoons, please. | A1 | 수량 말하기 | A | - | 숟가락 두 개 주세요. |
+| si-22 | pay | wait | B자리 | How much for two? | A1 | 값 묻기 | A | - | 두 개에 얼마예요? |
 | si-23 | pay | npc | Clerk | That is eight dollars. | A1 | 값 말하기 | A | - | 8달러예요. |
 | si-24 | pay | option | 두 사람 | Here is ten dollars. | A1 | 값 내기 | B | 돈을 건네며 하는 말로 "Here you go."가 더 흔할 수 있다. 금액을 넣어 "Here is twenty dollars."라고 해도 이해는 되지만 원어민이 실제로 이렇게 말하는 빈도에는 확신이 없다 | 여기 10달러요. |
 | si-25 | pay | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
@@ -268,14 +279,14 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | door | si-01 | si-02 | 둘 중 누구든 |
+| t1 | door | si-01 | si-02 | A |
 | t2 | size | si-03 | si-04/si-05/si-06 | A |
 | t3 | size | si-07 | si-08/si-09 | B |
 | t4 | flavor | si-10 | si-11/si-12 | A |
 | t5 | flavor | si-13 | si-14/si-15 | B |
-| t6 | cream | si-16 | si-17/si-18 | 둘 중 누구든 |
-| t7 | spoon | si-19 | si-20/si-21 | 둘 중 누구든 |
-| t8 | pay | - | si-22 | 둘 중 누구든 |
+| t6 | cream | si-16 | si-17/si-18 | A |
+| t7 | spoon | si-19 | si-20/si-21 | B |
+| t8 | pay | - | si-22 | B |
 | t9 | pay | si-23 | si-24/si-25 | 둘 중 누구든 |
 | t10 | pay | si-26 | si-27 | 둘 중 누구든 |
 | t11 | food | si-28 | si-29 | 둘 중 누구든 |
@@ -291,11 +302,13 @@
 목표 등급: A1
 할 일: cd-musubi-1 / I can choose a kind of musubi, say how many, and buy it. / 무스비 종류를 고르고 개수를 말해 살 수 있다.
 허용 이름: Spam
+갈래: mu-23 > mu-20
+재개: t9:mu-23 > mu-21/mu-22
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | mu-01 | door | npc | Clerk | Hello! Welcome! | A1 | 인사 | A | - | 안녕하세요! 어서 오세요! |
-| mu-02 | door | wait | 두 사람 | Hi! One minute, please. | A1 | 시간 벌기 | A | - | 안녕하세요! 잠깐만요. |
+| mu-02 | door | wait | A자리 | Hi! One minute, please. | A1 | 시간 벌기 | A | - | 안녕하세요! 잠깐만요. |
 | mu-03 | talk | wait | A자리 | Spam or chicken, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 스팸? 닭고기? |
 | mu-04 | talk | wait | B자리 | Spam for me. And you? | A1 | 말하고 되묻기 | A | - | 난 스팸. 너는? |
 | mu-05 | kind | npc | Clerk | What kind of musubi? | A1 | 종류 묻기 | A | - | 무스비는 어떤 걸로 할까요? |
@@ -307,11 +320,11 @@
 | mu-11 | count | option | B자리 | Three, please. | A1 | 수량 말하기 | A | - | 세 개 주세요. |
 | mu-12 | count | option | B자리 | One each, please. | A1 | 수량 말하기 | A | - | 하나씩 주세요. |
 | mu-13 | more | npc | Clerk | Anything else? | A1 | 추가 묻기 | A | - | 더 필요한 건요? |
-| mu-14 | more | option | 두 사람 | No, that is all. | A1 | 대답 | A | - | 아니요, 그게 다예요. |
-| mu-15 | more | option | 두 사람 | One more Spam musubi, please. | A1 | 추가 요청 | A | - | 스팸 무스비 하나 더 주세요. |
+| mu-14 | more | option | B자리 | No, that is all. | A1 | 대답 | A | - | 아니요, 그게 다예요. |
+| mu-15 | more | option | B자리 | One more Spam musubi, please. | A1 | 추가 요청 | A | - | 스팸 무스비 하나 더 주세요. |
 | mu-16 | go | npc | Clerk | For here or to go? | A1 | 고르게 묻기 | A | - | 여기서 드실 건가요, 포장하실 건가요? |
-| mu-17 | go | option | 두 사람 | For here, please. | A1 | 고르기 | A | - | 여기서 먹을게요. |
-| mu-18 | go | option | 두 사람 | To go, please. | A1 | 고르기 | A | - | 포장해 주세요. |
+| mu-17 | go | option | B자리 | For here, please. | A1 | 고르기 | A | - | 여기서 먹을게요. |
+| mu-18 | go | option | B자리 | To go, please. | A1 | 고르기 | A | - | 포장해 주세요. |
 | mu-19 | pay | wait | A자리 | How much is one? | A1 | 값 묻기 | A | - | 하나에 얼마예요? |
 | mu-20 | pay | npc | Clerk | Each one is three dollars. | A1 | 값 말하기 | A | - | 하나에 3달러예요. |
 | mu-21 | pay | option | 두 사람 | Okay. Card, please. | A1 | 결제 | A | - | 알겠어요. 카드로 할게요. |
@@ -347,13 +360,13 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | door | mu-01 | mu-02 | 둘 중 누구든 |
+| t1 | door | mu-01 | mu-02 | A |
 | t2 | talk | - | mu-03 | A |
 | t3 | talk | - | mu-04 | B |
 | t4 | kind | mu-05 | mu-06/mu-07/mu-08 | A |
 | t5 | count | mu-09 | mu-10/mu-11/mu-12 | B |
-| t6 | more | mu-13 | mu-14/mu-15 | 둘 중 누구든 |
-| t7 | go | mu-16 | mu-17/mu-18 | 둘 중 누구든 |
+| t6 | more | mu-13 | mu-14/mu-15 | B |
+| t7 | go | mu-16 | mu-17/mu-18 | B |
 | t8 | pay | - | mu-19 | A |
 | t9 | pay | mu-20 | mu-21/mu-22/mu-23 | 둘 중 누구든 |
 | t10 | napkin | mu-24 | mu-25/mu-26 | 둘 중 누구든 |
@@ -370,15 +383,18 @@
 목표 등급: A1
 할 일: cd-mala-1 / I can say how many malasadas I want and ask for a box. / 말라사다 개수를 말하고 상자에 담아 달라고 부탁할 수 있다.
 허용 이름: -
+갈래: lm-25 > lm-22
+재개: t10:lm-25 > lm-23/lm-24
+상황: 가상의 빵집이다. 2개, 6개, 12개 중 무엇을 고르고 추가로 사든 안 사든 합계는 14달러로 같은 가상 금액이다. 14달러와 20달러는 이 장면에서만 정한 값이며 실제 가게의 가격이 아니다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | lm-01 | door | npc | Clerk | Aloha! Next, please. | A1 | 인사 부르기 | B | 가게 점원이 손님을 "Aloha! Next, please."로 부르는 것이 하와이 빵집에서 실제로 흔한지 확신이 없다. 말 자체는 쉽고 틀리지 않는다 | 안녕하세요! 다음 분 오세요. |
-| lm-02 | door | wait | 두 사람 | Hello! Malasadas, please. | A1 | 인사 주문 | A | - | 안녕하세요! 말라사다 주세요. |
+| lm-02 | door | wait | A자리 | Hello! Malasadas, please. | A1 | 인사 주문 | A | - | 안녕하세요! 말라사다 주세요. |
 | lm-03 | count | npc | Clerk | How many? | A1 | 수량 묻기 | A | - | 몇 개요? |
-| lm-04 | count | option | 두 사람 | Two, please. | A1 | 수량 말하기 | A | - | 두 개 주세요. |
-| lm-05 | count | option | 두 사람 | Six, please. | A1 | 수량 말하기 | A | - | 여섯 개 주세요. |
-| lm-06 | count | option | 두 사람 | Twelve, please. | A1 | 수량 말하기 | A | - | 열두 개 주세요. |
+| lm-04 | count | option | B자리 | Two, please. | A1 | 수량 말하기 | A | - | 두 개 주세요. |
+| lm-05 | count | option | B자리 | Six, please. | A1 | 수량 말하기 | A | - | 여섯 개 주세요. |
+| lm-06 | count | option | B자리 | Twelve, please. | A1 | 수량 말하기 | A | - | 열두 개 주세요. |
 | lm-07 | type | npc | Clerk | Sugar or cinnamon? | A1 | 고르게 묻기 | A | - | 설탕이요, 시나몬이요? |
 | lm-08 | type | option | A자리 | Sugar, please. | A1 | 고르기 | A | - | 설탕으로 주세요. |
 | lm-09 | type | option | A자리 | Cinnamon, please. | A1 | 고르기 | A | - | 시나몬으로 주세요. |
@@ -386,8 +402,8 @@
 | lm-11 | check | wait | B자리 | Is that enough, {A}? | A1 | 상대에게 묻기 | A | - | {A}, 그 정도면 충분해? |
 | lm-12 | check | wait | A자리 | Yes, that is enough. | A1 | 대답 | A | - | 응, 충분해. |
 | lm-13 | more | npc | Clerk | Anything else? | A1 | 추가 묻기 | A | - | 더 필요한 건요? |
-| lm-14 | more | option | 두 사람 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
-| lm-15 | more | option | 두 사람 | Two more, please. | A1 | 추가 요청 | A | - | 두 개 더 주세요. |
+| lm-14 | more | option | B자리 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
+| lm-15 | more | option | B자리 | Two more, please. | A1 | 추가 요청 | A | - | 두 개 더 주세요. |
 | lm-16 | go | npc | Clerk | For here or to go? | A1 | 고르게 묻기 | A | - | 여기서 드실 건가요, 포장하실 건가요? |
 | lm-17 | go | option | 두 사람 | To go, please. | A1 | 고르기 | A | - | 포장해 주세요. |
 | lm-18 | go | option | 두 사람 | For here, please. | A1 | 고르기 | A | - | 여기서 먹을게요. |
@@ -425,12 +441,12 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | door | lm-01 | lm-02 | 둘 중 누구든 |
-| t2 | count | lm-03 | lm-04/lm-05/lm-06 | 둘 중 누구든 |
+| t1 | door | lm-01 | lm-02 | A |
+| t2 | count | lm-03 | lm-04/lm-05/lm-06 | B |
 | t3 | type | lm-07 | lm-08/lm-09/lm-10 | A |
 | t4 | check | - | lm-11 | B |
 | t5 | check | - | lm-12 | A |
-| t6 | more | lm-13 | lm-14/lm-15 | 둘 중 누구든 |
+| t6 | more | lm-13 | lm-14/lm-15 | B |
 | t7 | go | lm-16 | lm-17/lm-18 | 둘 중 누구든 |
 | t8 | box | - | lm-19/lm-20 | B |
 | t9 | pay | - | lm-21 | A |
@@ -448,6 +464,9 @@
 목표 등급: A1
 할 일: cd-truck-1 / I can order a lunch plate and answer yes or no to questions. / 점심 메뉴 하나를 주문하고 질문에 예 아니오로 대답할 수 있다.
 허용 이름: -
+갈래: ft-23 > ft-20
+재개: t9:ft-23 > ft-21/ft-22
+상황: 가상의 푸드트럭이다. 메뉴, 밥이나 샐러드, 맵기, 물을 어떻게 골라도 합계는 16달러로 같은 가상 금액이다. 16달러와 20달러는 이 장면에서만 정한 값이며 실제 가게의 가격이 아니다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -460,20 +479,20 @@
 | ft-07 | menu | option | B자리 | The same, please. | A1 | 같은 것 고르기 | A | - | 같은 걸로 주세요. |
 | ft-08 | menu | option | B자리 | A chicken plate, please. | A1 | 주문 | A | - | 닭고기 메뉴 하나 주세요. |
 | ft-09 | rice | npc | Clerk | Rice or salad? | A1 | 고르게 묻기 | A | - | 밥이요, 샐러드요? |
-| ft-10 | rice | option | 두 사람 | Rice, please. | A1 | 고르기 | A | - | 밥으로 주세요. |
-| ft-11 | rice | option | 두 사람 | Salad, please. | A1 | 고르기 | A | - | 샐러드로 주세요. |
+| ft-10 | rice | option | A자리 | Rice, please. | A1 | 고르기 | A | - | 밥으로 주세요. |
+| ft-11 | rice | option | A자리 | Salad, please. | A1 | 고르기 | A | - | 샐러드로 주세요. |
 | ft-12 | spicy | npc | Clerk | Do you want it spicy? | A1 | 예 아니오 묻기 | A | - | 맵게 해 드릴까요? |
-| ft-13 | spicy | option | 두 사람 | Yes, please. | A1 | 예 대답 | A | - | 네, 그렇게 해 주세요. |
-| ft-14 | spicy | option | 두 사람 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
-| ft-15 | spicy | option | 두 사람 | A little, please. | A1 | 정도 말하기 | A | - | 조금만 맵게 해 주세요. |
+| ft-13 | spicy | option | B자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 그렇게 해 주세요. |
+| ft-14 | spicy | option | B자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
+| ft-15 | spicy | option | B자리 | A little, please. | A1 | 정도 말하기 | A | - | 조금만 맵게 해 주세요. |
 | ft-16 | drink | npc | Clerk | Do you want a drink? | A1 | 예 아니오 묻기 | A | - | 음료는 필요하세요? |
 | ft-17 | drink | option | B자리 | Water, please. | A1 | 음료 주문 | A | - | 물 주세요. |
 | ft-18 | drink | option | B자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
 | ft-19 | pay | wait | A자리 | How much is that? | A1 | 값 묻기 | A | - | 얼마예요? |
 | ft-20 | pay | npc | Clerk | That is sixteen dollars. | A1 | 값 말하기 | A | - | 16달러예요. |
-| ft-21 | pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
-| ft-22 | pay | option | 두 사람 | Here is twenty dollars. | A1 | 값 내기 | B | 돈을 건네며 하는 말로 "Here you go."가 더 흔할 수 있다. 금액을 넣어 "Here is twenty dollars."라고 해도 이해는 되지만 원어민이 실제로 이렇게 말하는 빈도에는 확신이 없다 | 여기 20달러요. |
-| ft-23 | pay | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| ft-21 | pay | option | B자리 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
+| ft-22 | pay | option | B자리 | Here is twenty dollars. | A1 | 값 내기 | B | 돈을 건네며 하는 말로 "Here you go."가 더 흔할 수 있다. 금액을 넣어 "Here is twenty dollars."라고 해도 이해는 되지만 원어민이 실제로 이렇게 말하는 빈도에는 확신이 없다 | 여기 20달러요. |
+| ft-23 | pay | option | B자리 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | ft-24 | receipt | npc | Clerk | Do you want a receipt? | A1 | 예 아니오 묻기 | A | - | 영수증 드릴까요? |
 | ft-25 | receipt | option | A자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
 | ft-26 | receipt | option | A자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
@@ -510,11 +529,11 @@
 | t2 | talk | - | ft-02 | B |
 | t3 | menu | ft-03 | ft-04/ft-05 | A |
 | t4 | menu | ft-06 | ft-07/ft-08 | B |
-| t5 | rice | ft-09 | ft-10/ft-11 | 둘 중 누구든 |
-| t6 | spicy | ft-12 | ft-13/ft-14/ft-15 | 둘 중 누구든 |
+| t5 | rice | ft-09 | ft-10/ft-11 | A |
+| t6 | spicy | ft-12 | ft-13/ft-14/ft-15 | B |
 | t7 | drink | ft-16 | ft-17/ft-18 | B |
 | t8 | pay | - | ft-19 | A |
-| t9 | pay | ft-20 | ft-21/ft-22/ft-23 | 둘 중 누구든 |
+| t9 | pay | ft-20 | ft-21/ft-22/ft-23 | B |
 | t10 | receipt | ft-24 | ft-25/ft-26 | A |
 | t11 | number | ft-27 | ft-28 | 둘 중 누구든 |
 | t12 | call | ft-29 | ft-30 | 둘 중 누구든 |
@@ -530,11 +549,14 @@
 목표 등급: A1
 할 일: cd-cheese-1 / I can choose a dessert and a drink and order them. / 디저트 하나를 고르고 음료와 함께 주문할 수 있다.
 허용 이름: Cheesecake, Factory
+갈래: cc-32 > cc-29
+재개: t14:cc-32 > cc-30/cc-31
+상황: 가상의 디저트 식당이다. 음료, 케이크, 아이스크림을 어떻게 골라도 계산서는 18달러로 같은 가상 금액이다. 18달러와 20달러는 이 장면에서만 정한 값이며 실제 메뉴의 가격이 아니다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | cc-01 | door | npc | Host | Welcome to The Cheesecake Factory! Table for two? | A2 | 인사 인원 묻기 | A | - | 치즈케이크 팩토리에 어서 오세요! 두 분이세요? |
-| cc-02 | door | wait | 두 사람 | Yes, please. | A1 | 대답 | A | - | 네, 부탁해요. |
+| cc-02 | door | wait | A자리 | Yes, please. | A1 | 대답 | A | - | 네, 부탁해요. |
 | cc-03 | door | npc | Host | Follow me, please. Here are your menus. | A1 | 안내 | A | - | 따라오세요. 메뉴 여기 있어요. |
 | cc-04 | drink | npc | Server | Hi! What would you like to drink? | A2 | 음료 묻기 | A | - | 안녕하세요! 마실 것은 뭘로 하시겠어요? |
 | cc-05 | drink | option | A자리 | Coffee, please. | A1 | 음료 주문 | A | - | 커피 주세요. |
@@ -550,13 +572,13 @@
 | cc-15 | order | npc | Server | What about you? | A1 | 상대에게 묻기 | A | - | 그쪽은요? |
 | cc-16 | order | option | B자리 | The same, please. | A1 | 같은 것 고르기 | A | - | 같은 걸로 주세요. |
 | cc-17 | order | option | B자리 | Cheesecake, please. | A1 | 주문 | A | - | 치즈케이크 주세요. |
-| cc-18 | fork | wait | 두 사람 | Can we have two forks, please? | A2 | 부탁 | A | - | 포크 두 개 주시겠어요? |
+| cc-18 | fork | wait | B자리 | Can we have two forks, please? | A2 | 부탁 | A | - | 포크 두 개 주시겠어요? |
 | cc-19 | fork | npc | Server | Sure. I will be right back. | A2 | 안내 | A | - | 그럼요. 금방 올게요. |
 | cc-20 | cream | npc | Server | Do you want ice cream with it? | A1 | 예 아니오 묻기 | A | - | 아이스크림도 같이 드릴까요? |
 | cc-21 | cream | option | A자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
 | cc-22 | cream | option | A자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
 | cc-23 | food | npc | Server | Here is your dessert. Enjoy! | A1 | 음식 내기 | A | - | 디저트 여기 있어요. 맛있게 드세요! |
-| cc-24 | food | wait | 두 사람 | Thank you! It looks so good! | A1 | 감사 감탄 | A | - | 고맙습니다! 정말 맛있어 보여요! |
+| cc-24 | food | wait | B자리 | Thank you! It looks so good! | A1 | 감사 감탄 | A | - | 고맙습니다! 정말 맛있어 보여요! |
 | cc-25 | eat | wait | A자리 | Is it good, {B}? | A1 | 상대에게 묻기 | A | - | 맛있어, {B}? |
 | cc-26 | eat | option | B자리 | Yes, it is very good. | A1 | 대답 | A | - | 응, 아주 맛있어. |
 | cc-27 | eat | option | B자리 | It is so sweet! | A1 | 대답 | A | - | 정말 달아! |
@@ -587,7 +609,7 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | door | cc-01 | cc-02 | 둘 중 누구든 |
+| t1 | door | cc-01 | cc-02 | A |
 | n1 | door | cc-03 | - | - |
 | t2 | drink | cc-04 | cc-05/cc-06 | A |
 | t3 | drink | cc-07 | cc-08/cc-09 | B |
@@ -595,10 +617,10 @@
 | t5 | pick | - | cc-11 | B |
 | t6 | order | cc-12 | cc-13/cc-14 | A |
 | t7 | order | cc-15 | cc-16/cc-17 | B |
-| t8 | fork | - | cc-18 | 둘 중 누구든 |
+| t8 | fork | - | cc-18 | B |
 | n2 | fork | cc-19 | - | - |
 | t9 | cream | cc-20 | cc-21/cc-22 | A |
-| t10 | food | cc-23 | cc-24 | 둘 중 누구든 |
+| t10 | food | cc-23 | cc-24 | B |
 | t11 | eat | - | cc-25 | A |
 | t12 | eat | - | cc-26/cc-27 | B |
 | t13 | pay | - | cc-28 | 둘 중 누구든 |
@@ -614,17 +636,18 @@
 할 일: cd-ng-1 / I can greet a neighbor and say my name. / 이웃에게 인사하고 내 이름을 말할 수 있다.
 허용 이름: Pat (이웃 NPC의 이름. 가게 이름이 아니라 인물 이름)
 갈래: ng-08 > ng-09
+재개: t2:ng-08 > ng-06/ng-07
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | ng-01 | hello | npc | Neighbor | Hello! How are you? | A1 | 인사 안부 묻기 | A | - | 안녕하세요! 어떻게 지내세요? |
-| ng-02 | hello | option | 두 사람 | I'm fine, thank you. And you? | A1 | 안부 대답 | A | - | 잘 지내요, 고맙습니다. 어떻게 지내세요? |
-| ng-03 | hello | option | 두 사람 | Good, thank you. And you? | A1 | 안부 대답 | A | - | 잘 지내요, 고맙습니다. 어떻게 지내세요? |
+| ng-02 | hello | option | A자리 | I'm fine, thank you. And you? | A1 | 안부 대답 | A | - | 잘 지내요, 고맙습니다. 어떻게 지내세요? |
+| ng-03 | hello | option | A자리 | Good, thank you. And you? | A1 | 안부 대답 | A | - | 잘 지내요, 고맙습니다. 어떻게 지내세요? |
 | ng-04 | hello | npc | Neighbor | I'm fine too. Thank you! | A1 | 안부 대답 | A | - | 저도 잘 지내요. 고맙습니다! |
 | ng-05 | hello | npc | Neighbor | Are you new here? | A1 | 묻기 | A | - | 여기 새로 오셨어요? |
-| ng-06 | hello | option | 두 사람 | Yes, we are new. | A1 | 대답 | A | - | 네, 저희는 새로 왔어요. |
-| ng-07 | hello | option | 두 사람 | Yes, we are. | A1 | 대답 | A | - | 네, 맞아요. |
-| ng-08 | hello | option | 두 사람 | Sorry, can you say that again? | A1 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| ng-06 | hello | option | B자리 | Yes, we are new. | A1 | 대답 | A | - | 네, 저희는 새로 왔어요. |
+| ng-07 | hello | option | B자리 | Yes, we are. | A1 | 대답 | A | - | 네, 맞아요. |
+| ng-08 | hello | option | B자리 | Sorry, can you say that again? | A1 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | ng-09 | hello | npc | Neighbor | Sure. Are you new here? | A1 | 되풀이 | A | - | 그럼요. 여기 새로 오셨어요? |
 | ng-10 | name | npc | Neighbor | Welcome! I'm Pat. | A1 | 환영 소개 | A | - | 환영해요! 저는 팻이에요. |
 | ng-11 | name | npc | Neighbor | What's your name? | A1 | 이름 묻기 | A | - | 이름이 뭐예요? |
@@ -634,14 +657,15 @@
 | ng-15 | name | option | B자리 | My name is {B}. | A1 | 이름 말하기 | A | - | 제 이름은 {B}예요. |
 | ng-16 | name | option | B자리 | I'm {B}. | A1 | 이름 말하기 | A | - | 저는 {B}예요. |
 | ng-17 | name | npc | Neighbor | Nice to meet you, {B}. | A1 | 인사 | A | - | 만나서 반가워요, {B}. |
-| ng-18 | name | wait | 두 사람 | Nice to meet you too. | A1 | 인사 | A | - | 저도 만나서 반가워요. |
+| ng-18 | name | wait | B자리 | Nice to meet you too. | A1 | 인사 | A | - | 저도 만나서 반가워요. |
 | ng-19 | chat | npc | Neighbor | Do you like it here? | A1 | 묻기 | A | - | 여기가 마음에 드세요? |
-| ng-20 | chat | option | 두 사람 | Yes, I like it. | A1 | 대답 | A | - | 네, 마음에 들어요. |
-| ng-21 | chat | option | 두 사람 | Yes, it is very nice. | A1 | 대답 | A | - | 네, 아주 좋아요. |
-| ng-22 | chat | option | 두 사람 | Yes, it is beautiful. | A1 | 대답 | A | - | 네, 아름다워요. |
+| ng-20 | chat | option | A자리 | Yes, I like it. | A1 | 대답 | A | - | 네, 마음에 들어요. |
+| ng-21 | chat | option | A자리 | Yes, it is very nice. | A1 | 대답 | A | - | 네, 아주 좋아요. |
+| ng-22 | chat | option | A자리 | Yes, it is beautiful. | A1 | 대답 | A | - | 네, 아름다워요. |
 | ng-23 | bye | npc | Neighbor | Well, I have to go. See you soon! | A1 | 작별 | A | - | 그럼, 저는 가 봐야 해요. 곧 또 봐요! |
 | ng-24 | bye | option | 두 사람 | Bye, Pat! See you soon! | A1 | 작별 | A | - | 안녕히 가세요, 팻! 곧 또 봐요! |
 | ng-25 | bye | option | 두 사람 | Goodbye, Pat! Have a nice day! | A1 | 작별 | A | - | 안녕히 가세요, 팻! 좋은 하루 보내세요! |
+| ng-26 | chat | wait | B자리 | Thank you, Pat! | A1 | 환영 감사 | A | - | 고맙습니다, 팻! |
 
 ### 연습할 말 (이 나들이의 카드 여덟)
 
@@ -664,12 +688,13 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | hello | ng-01 | ng-02/ng-03 | 둘 중 누구든 |
-| t2 | hello | ng-04+ng-05 | ng-06/ng-07/ng-08 | 둘 중 누구든 |
+| t1 | hello | ng-01 | ng-02/ng-03 | A |
+| t2 | hello | ng-04+ng-05 | ng-06/ng-07/ng-08 | B |
 | t3 | name | ng-10+ng-11 | ng-12/ng-13 | A |
 | t4 | name | ng-14 | ng-15/ng-16 | B |
-| t5 | name | ng-17 | ng-18 | 둘 중 누구든 |
-| t6 | chat | ng-19 | ng-20/ng-21/ng-22 | 둘 중 누구든 |
+| t5 | name | ng-17 | ng-18 | B |
+| t6 | chat | ng-19 | ng-20/ng-21/ng-22 | A |
+| t6b | chat | - | ng-26 | B |
 | t7 | bye | ng-23 | ng-24/ng-25 | 둘 중 누구든 |
 
 ## 나들이: hotel_front_desk
@@ -681,14 +706,15 @@
 할 일: cd-hf-1 / I can say my room number and ask for towels at a hotel front desk. / 호텔 프런트에서 방 번호를 말하고 수건을 부탁할 수 있다.
 허용 이름: Outrigger Reef (아웃리거 리프. 장소 이름. 줄에는 안 쓴다)
 갈래: hf-10 > hf-11, hf-28 > hf-30, hf-29 > hf-30, hf-35 > hf-39
+재개: t3:hf-10 > hf-07/hf-08/hf-09/hf-41/hf-42
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
-| hf-01 | desk | wait | 두 사람 | Excuse me. | A1 | 말 걸기 | A | - | 실례합니다. |
+| hf-01 | desk | wait | A자리 | Excuse me. | A1 | 말 걸기 | A | - | 실례합니다. |
 | hf-02 | desk | npc | Clerk | Hello! How can I help you? | A1 | 인사 안내 | A | - | 안녕하세요! 무엇을 도와드릴까요? |
-| hf-03 | desk | option | 두 사람 | We need towels, please. | A1 | 부탁 | A | - | 수건이 필요해요. |
-| hf-04 | desk | option | 두 사람 | Can we have towels, please? | A1 | 부탁 | A | - | 수건 좀 주시겠어요? |
-| hf-05 | desk | option | 두 사람 | Towels, please. | A1 | 부탁 | A | - | 수건 주세요. |
+| hf-03 | desk | option | A자리 | We need towels, please. | A1 | 부탁 | A | - | 수건이 필요해요. |
+| hf-04 | desk | option | A자리 | Can we have towels, please? | A1 | 부탁 | A | - | 수건 좀 주시겠어요? |
+| hf-05 | desk | option | A자리 | Towels, please. | A1 | 부탁 | A | - | 수건 주세요. |
 | hf-06 | room | npc | Clerk | Okay. What is your room number? | A1 | 방 번호 묻기 | A | - | 네. 방 번호를 알려 주세요. |
 | hf-07 | room | option | A자리 | Room four-one-two. | A1 | 방 번호 말하기 | B | 방 번호를 한 자리씩 읽는 말투와 하이픈 표기가 이 등급에서 자연스러운지, TTS 가 어떻게 읽을지 확신이 없다 | 412호예요. |
 | hf-08 | room | option | A자리 | It is room three-oh-five. | A1 | 방 번호 말하기 | B | 방 번호를 한 자리씩 읽는 말투와 하이픈 표기가 이 등급에서 자연스러운지, TTS 가 어떻게 읽을지 확신이 없다 | 305호예요. |
@@ -699,27 +725,27 @@
 | hf-13 | name | option | B자리 | My name is {B}. | A1 | 이름 말하기 | A | - | 제 이름은 {B}예요. |
 | hf-14 | name | option | B자리 | I'm {B}. | A1 | 이름 말하기 | A | - | 저는 {B}예요. |
 | hf-15 | stay | npc | Clerk | Thank you, {B}. Are you enjoying your stay? | A2 | 안부 묻기 | A | - | 고맙습니다, {B}. 즐겁게 지내고 계세요? |
-| hf-16 | stay | option | 두 사람 | Yes, it is very nice. | A1 | 대답 | A | - | 네, 아주 좋아요. |
-| hf-17 | stay | option | 두 사람 | Yes, we like it. | A1 | 대답 | A | - | 네, 마음에 들어요. |
+| hf-16 | stay | option | B자리 | Yes, it is very nice. | A1 | 대답 | A | - | 네, 아주 좋아요. |
+| hf-17 | stay | option | B자리 | Yes, we like it. | A1 | 대답 | A | - | 네, 마음에 들어요. |
 | hf-18 | count | npc | Clerk | Okay. How many towels? | A1 | 수 묻기 | A | - | 네. 수건 몇 장이요? |
-| hf-19 | count | option | 두 사람 | Two, please. | A1 | 수 말하기 | A | - | 두 장이요. |
-| hf-20 | count | option | 두 사람 | Four towels, please. | A1 | 수 말하기 | A | - | 수건 네 장이요. |
-| hf-21 | count | option | 두 사람 | Just one, please. | A1 | 수 말하기 | A | - | 한 장만요. |
+| hf-19 | count | option | A자리 | Two, please. | A1 | 수 말하기 | A | - | 두 장이요. |
+| hf-20 | count | option | A자리 | Four towels, please. | A1 | 수 말하기 | A | - | 수건 네 장이요. |
+| hf-21 | count | option | A자리 | Just one, please. | A1 | 수 말하기 | A | - | 한 장만요. |
 | hf-22 | more | npc | Clerk | Anything else? | A1 | 추가 묻기 | A | - | 더 필요한 건요? |
-| hf-23 | more | option | 두 사람 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
-| hf-24 | more | option | 두 사람 | Another key, please. | A1 | 부탁 | A | - | 열쇠 하나 더 주세요. |
-| hf-25 | more | option | 두 사람 | Two bottles of water, please. | A1 | 부탁 | A | - | 물 두 병 주세요. |
+| hf-23 | more | option | A자리 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
+| hf-24 | more | option | A자리 | Another key, please. | A1 | 부탁 | A | - | 열쇠 하나 더 주세요. |
+| hf-25 | more | option | A자리 | Two bottles of water, please. | A1 | 부탁 | A | - | 물 두 병 주세요. |
 | hf-26 | bring | npc | Clerk | Okay. We will bring everything soon. | A1 | 안내 | A | - | 네. 곧 모두 가져다드릴게요. |
-| hf-27 | bring | wait | 두 사람 | Thank you very much. | A1 | 감사 | A | - | 정말 고맙습니다. |
+| hf-27 | bring | wait | B자리 | Thank you very much. | A1 | 감사 | A | - | 정말 고맙습니다. |
 | hf-28 | ask | option | 두 사람 | Where is the elevator? | A1 | 위치 묻기 | A | - | 엘리베이터가 어디예요? |
 | hf-29 | ask | option | 두 사람 | Where is the pool? | A1 | 위치 묻기 | A | - | 수영장이 어디예요? |
 | hf-30 | ask | npc | Clerk | It is over there, on the right. | A1 | 위치 안내 | A | - | 저쪽 오른쪽에 있어요. |
 | hf-31 | ask | npc | Clerk | Have a nice day! | A1 | 작별 | A | - | 좋은 하루 보내세요! |
 | hf-32 | ask | wait | 두 사람 | Thank you. You too! | A1 | 작별 | A | - | 고맙습니다. 좋은 하루 보내세요! |
-| hf-33 | water | wait | 두 사람 | A bottle of water, please. | A1 | 물 주문 | A | - | 물 한 병 주세요. |
+| hf-33 | water | wait | B자리 | A bottle of water, please. | A1 | 물 주문 | A | - | 물 한 병 주세요. |
 | hf-34 | water_pay | npc | Clerk | Five dollars. | A1 | 값 말하기 | A | - | 5달러예요. |
-| hf-35 | water_pay | option | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
-| hf-36 | water_pay | option | 두 사람 | Five dollars. Okay. | A1 | 값 확인 | A | - | 5달러요. 알겠어요. |
+| hf-35 | water_pay | option | B자리 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
+| hf-36 | water_pay | option | B자리 | Five dollars. Okay. | A1 | 값 확인 | A | - | 5달러요. 알겠어요. |
 | hf-37 | water_pay | npc | Clerk | Cash or card? | A1 | 결제 묻기 | A | - | 현금으로 내시겠어요, 카드로 내시겠어요? |
 | hf-38 | water_pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
 | hf-39 | water_pay | npc | Clerk | It is five dollars. | A1 | 값 되풀이 | A | - | 5달러예요. |
@@ -763,16 +789,16 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | desk | - | hf-01 | 둘 중 누구든 |
-| t2 | desk | hf-02 | hf-03/hf-04/hf-05 | 둘 중 누구든 |
+| t1 | desk | - | hf-01 | A |
+| t2 | desk | hf-02 | hf-03/hf-04/hf-05 | A |
 | t3 | room | hf-06 | hf-07/hf-08/hf-09/hf-10/hf-41/hf-42 | A |
 | t4 | name | hf-12 | hf-13/hf-14 | B |
-| t5 | stay | hf-15 | hf-16/hf-17 | 둘 중 누구든 |
-| t6 | count | hf-18 | hf-19/hf-20/hf-21 | 둘 중 누구든 |
-| t7 | more | hf-22 | hf-23/hf-24/hf-25 | 둘 중 누구든 |
-| t8 | bring | hf-26 | hf-27 | 둘 중 누구든 |
-| t9 | water | - | hf-33 | 둘 중 누구든 |
-| t10 | water_pay | hf-34 | hf-35/hf-36 | 둘 중 누구든 |
+| t5 | stay | hf-15 | hf-16/hf-17 | B |
+| t6 | count | hf-18 | hf-19/hf-20/hf-21 | A |
+| t7 | more | hf-22 | hf-23/hf-24/hf-25 | A |
+| t8 | bring | hf-26 | hf-27 | B |
+| t9 | water | - | hf-33 | B |
+| t10 | water_pay | hf-34 | hf-35/hf-36 | B |
 | t11 | water_pay | hf-37 | hf-38/hf-40 | 둘 중 누구든 |
 | t12 | ask | - | hf-28/hf-29 | 둘 중 누구든 |
 | t13 | ask | hf-31 | hf-32 | 둘 중 누구든 |
@@ -786,6 +812,8 @@
 할 일: cd-cf-1 / I can order a drink and say the size at a cafe. / 카페에서 음료 하나를 주문하고 크기를 말할 수 있다.
 허용 이름: Island Vintage Coffee (아일랜드 빈티지 커피. 장소 이름. 줄에는 안 쓴다)
 갈래: cf-05 > cf-06, cf-37 > cf-38
+재개: t1:cf-05 > cf-02/cf-03/cf-04, t9:cf-37 > cf-31/cf-32
+상황: 가상의 카페다. 음료와 쿠키를 어떻게 골라도 합계는 9달러로 같은 가상 금액이다. 9달러는 이 장면에서만 정한 값이며 실제 카페의 가격이 아니다. 값을 되물으면 직원이 같은 금액을 한 번 더 말하고, 두 사람은 이어서 현금이나 카드를 말한다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -810,8 +838,8 @@
 | cf-19 | friend | option | B자리 | Small, please. | A1 | 크기 말하기 | A | - | 작은 걸로 주세요. |
 | cf-20 | friend | option | B자리 | Large, please. | A1 | 크기 말하기 | A | - | 큰 걸로 주세요. |
 | cf-21 | go | npc | Cashier | For here or to go? | A1 | 먹고 갈지 묻기 | A | - | 여기서 드실 거예요, 가져가실 거예요? |
-| cf-22 | go | option | 두 사람 | For here, please. | A1 | 고르기 | A | - | 여기서 먹을게요. |
-| cf-23 | go | option | 두 사람 | To go, please. | A1 | 고르기 | A | - | 가져갈게요. |
+| cf-22 | go | option | B자리 | For here, please. | A1 | 고르기 | A | - | 여기서 먹을게요. |
+| cf-23 | go | option | B자리 | To go, please. | A1 | 고르기 | A | - | 가져갈게요. |
 | cf-24 | name | npc | Cashier | What's your name? | A1 | 이름 묻기 | A | - | 이름이 뭐예요? |
 | cf-25 | name | option | A자리 | It's {A}. | A1 | 이름 말하기 | A | - | {A}예요. |
 | cf-26 | name | option | A자리 | My name is {A}. | A1 | 이름 말하기 | A | - | 제 이름은 {A}예요. |
@@ -870,7 +898,7 @@
 | t3 | size | cf-10 | cf-11/cf-12/cf-13 | A |
 | t4 | friend | cf-14 | cf-15/cf-16/cf-17 | B |
 | t5 | friend | cf-18 | cf-19/cf-20 | B |
-| t6 | go | cf-21 | cf-22/cf-23 | 둘 중 누구든 |
+| t6 | go | cf-21 | cf-22/cf-23 | B |
 | t7 | name | cf-24 | cf-25/cf-26 | A |
 | t8 | food | cf-27 | cf-28/cf-29 | B |
 | n1 | pay | cf-30 | - | - |
@@ -887,6 +915,7 @@
 할 일: cd-ab-1 / I can find things in a store, ask the price and pay. / 편의점에서 물건을 찾고 값을 묻고 계산할 수 있다.
 허용 이름: ABC Stores (실제 체인. 장소 이름. 줄에는 안 쓴다)
 갈래: ab-13 > ab-15, ab-14 > ab-15, ab-22 > ab-23
+재개: t8:ab-22 > ab-20/ab-21
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -895,19 +924,19 @@
 | ab-03 | shelf | option | A자리 | Where is the juice? | A1 | 위치 묻기 | A | - | 주스가 어디 있어요? |
 | ab-04 | shelf | option | A자리 | Where are the snacks? | A1 | 위치 묻기 | A | - | 과자가 어디 있어요? |
 | ab-05 | shelf | npc | Clerk | Over there, on the left. | A1 | 위치 안내 | A | - | 저쪽 왼쪽에 있어요. |
-| ab-06 | shelf | wait | 두 사람 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
+| ab-06 | shelf | wait | A자리 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
 | ab-07 | shelf2 | npc | Clerk | Can I help you too? | A1 | 도움 묻기 | A | - | 손님도 도와드릴까요? |
 | ab-08 | shelf2 | option | B자리 | Where is the sunscreen? | A1 | 위치 묻기 | A | - | 선크림이 어디 있어요? |
 | ab-09 | shelf2 | option | B자리 | Where are the towels? | A1 | 위치 묻기 | A | - | 수건이 어디 있어요? |
 | ab-10 | shelf2 | option | B자리 | Where are the hats? | A1 | 위치 묻기 | A | - | 모자가 어디 있어요? |
 | ab-11 | shelf2 | npc | Clerk | Over there, on the right. | A1 | 위치 안내 | A | - | 저쪽 오른쪽에 있어요. |
-| ab-12 | shelf2 | wait | 두 사람 | Thank you very much! | A1 | 감사 | A | - | 정말 고맙습니다! |
+| ab-12 | shelf2 | wait | B자리 | Thank you very much! | A1 | 감사 | A | - | 정말 고맙습니다! |
 | ab-13 | price | option | A자리 | How much is this? | A1 | 값 묻기 | A | - | 이거 얼마예요? |
 | ab-14 | price | option | A자리 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | ab-15 | price | npc | Cashier | That's three dollars. | A1 | 값 말하기 | A | - | 3달러예요. |
 | ab-16 | pay | npc | Cashier | Is that all? | A1 | 확인 | A | - | 이게 다예요? |
-| ab-17 | pay | option | 두 사람 | Yes, that is all. | A1 | 대답 | A | - | 네, 그게 다예요. |
-| ab-18 | pay | option | 두 사람 | Yes, thank you. | A1 | 대답 | A | - | 네, 고맙습니다. |
+| ab-17 | pay | option | B자리 | Yes, that is all. | A1 | 대답 | A | - | 네, 그게 다예요. |
+| ab-18 | pay | option | B자리 | Yes, thank you. | A1 | 대답 | A | - | 네, 고맙습니다. |
 | ab-19 | pay | npc | Cashier | That's six dollars. Cash or card? | A1 | 값 결제 묻기 | A | - | 6달러예요. 현금으로 하실까요, 카드로 하실까요? |
 | ab-20 | pay | option | B자리 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
 | ab-21 | pay | option | B자리 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
@@ -941,11 +970,11 @@
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
 | t1 | shelf | ab-01 | ab-02/ab-03/ab-04 | A |
-| t2 | shelf | ab-05 | ab-06 | 둘 중 누구든 |
+| t2 | shelf | ab-05 | ab-06 | A |
 | t3 | shelf2 | ab-07 | ab-08/ab-09/ab-10 | B |
-| t4 | shelf2 | ab-11 | ab-12 | 둘 중 누구든 |
+| t4 | shelf2 | ab-11 | ab-12 | B |
 | t5 | price | - | ab-13/ab-14 | A |
-| t7 | pay | ab-16 | ab-17/ab-18 | 둘 중 누구든 |
+| t7 | pay | ab-16 | ab-17/ab-18 | B |
 | t8 | pay | ab-19 | ab-20/ab-21/ab-22 | B |
 | t9 | bag | ab-24 | ab-25/ab-26 | A |
 | t10 | bye | ab-27 | ab-28 | 둘 중 누구든 |
@@ -959,6 +988,9 @@
 할 일: cd-ph-1 / I can say what I need at a pharmacy and ask the price. / 약국에서 필요한 물건 이름을 말하고 값을 물을 수 있다.
 허용 이름: -
 갈래: ph-05 > ph-06, ph-10 > ph-12, ph-11 > ph-12, ph-18 > ph-20, ph-19 > ph-20, ph-24 > ph-25
+재개: t1:ph-05 > ph-02/ph-03/ph-04, t6:ph-24 > ph-22/ph-23
+건너뜀: t5 if t4:ph-16
+상황: 가상의 약국이다. 물건 이름과 크기는 두 사람이 고르는 말이고 약의 종류나 효능은 다루지 않는다. 첫 물건 8달러, 추가 물건 4달러, 합계 12달러는 이 장면에서만 정한 값이며, 합계 12달러는 어떤 주문이든 같은 연습용 금액이다. 추가 물건이 없다고 하면 추가 물건의 값을 묻는 차례는 건너뛴다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -983,9 +1015,9 @@
 | ph-19 | price2 | option | B자리 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | ph-20 | price2 | npc | Clerk | That's four dollars. | A1 | 값 말하기 | A | - | 4달러예요. |
 | ph-21 | pay | npc | Clerk | That's twelve dollars. Cash or card? | A1 | 값 결제 묻기 | A | - | 12달러예요. 현금으로 내시겠어요, 카드로 내시겠어요? |
-| ph-22 | pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
-| ph-23 | pay | option | 두 사람 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
-| ph-24 | pay | option | 두 사람 | Sorry, can you say that again? | A1 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| ph-22 | pay | option | B자리 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
+| ph-23 | pay | option | B자리 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
+| ph-24 | pay | option | B자리 | Sorry, can you say that again? | A1 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | ph-25 | pay | npc | Clerk | Sure. Cash or card? | A1 | 되풀이 | A | - | 그럼요. 현금으로 내시겠어요, 카드로 내시겠어요? |
 | ph-26 | bag | npc | Clerk | Do you need a bag? | A1 | 봉투 묻기 | A | - | 봉투 필요하세요? |
 | ph-27 | bag | option | A자리 | Yes, please. | A1 | 대답 | A | - | 네, 주세요. |
@@ -1019,7 +1051,7 @@
 | t3 | price1 | - | ph-10/ph-11 | A |
 | t4 | more | ph-13 | ph-14/ph-15/ph-16 | B |
 | t5 | price2 | ph-17 | ph-18/ph-19 | B |
-| t6 | pay | ph-21 | ph-22/ph-23/ph-24 | 둘 중 누구든 |
+| t6 | pay | ph-21 | ph-22/ph-23/ph-24 | B |
 | t7 | bag | ph-26 | ph-27/ph-28 | A |
 | t8 | bye | ph-29 | ph-30 | 둘 중 누구든 |
 
@@ -1045,12 +1077,12 @@
 | bs-08 | fare | option | B자리 | How much is one ride? | A1 | 요금 묻기 | A | - | 한 번 타는 데 얼마예요? |
 | bs-09 | fare | npc | Driver | It is three dollars each. | A1 | 요금 말하기 | B | 요금은 장면용으로 정한 숫자다. 실제 버스 요금과 같은지, 그리고 each 로 말하는 것이 이 등급에 맞는지 확신이 없다 | 한 사람에 3달러예요. |
 | bs-10 | pay | npc | Driver | Pay here, please. | A1 | 안내 | B | 버스 기사가 요금을 받을 때 실제로 이렇게 말하는지 확신이 없다. 보통은 요금함을 가리키거나 말없이 기다릴 수 있다 | 여기에 내 주세요. |
-| bs-11 | pay | option | 두 사람 | Here you are. | A1 | 건네기 | A | - | 여기 있어요. |
-| bs-12 | pay | option | 두 사람 | Here is the money. | A1 | 건네기 | A | - | 돈 여기 있어요. |
-| bs-13 | pay | option | 두 사람 | Sorry, can you say that again? | A1 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| bs-11 | pay | option | A자리 | Here you are. | A1 | 건네기 | A | - | 여기 있어요. |
+| bs-12 | pay | option | A자리 | Here is the money. | A1 | 건네기 | A | - | 돈 여기 있어요. |
+| bs-13 | pay | option | A자리 | Sorry, can you say that again? | A1 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | bs-14 | pay | npc | Driver | Sure. Pay here, please. | A1 | 되풀이 | B | 버스 기사가 요금을 받을 때 실제로 이렇게 말하는지 확신이 없다. 보통은 요금함을 가리키거나 말없이 기다릴 수 있다 | 그럼요. 여기에 내 주세요. |
 | bs-15 | seat | npc | Driver | Thank you. Please take a seat. | A1 | 안내 | A | - | 고맙습니다. 앉으세요. |
-| bs-16 | seat | wait | 두 사람 | Thank you. | A1 | 감사 | A | - | 고맙습니다. |
+| bs-16 | seat | wait | B자리 | Thank you. | A1 | 감사 | A | - | 고맙습니다. |
 | bs-17 | getoff | option | A자리 | We get off at the zoo. | A1 | 내릴 곳 말하기 | A | - | 저희는 동물원에서 내려요. |
 | bs-18 | getoff | option | A자리 | Please tell us. We get off at the zoo. | A2 | 내릴 곳 말하기 부탁 | A | - | 알려 주세요. 저희는 동물원에서 내려요. |
 | bs-19 | getoff | npc | Driver | Okay. I will tell you when we get there. | A2 | 안내 | A | - | 네. 도착하면 말씀드릴게요. |
@@ -1086,8 +1118,8 @@
 |---|---|---|---|---|
 | t1 | board | bs-01 | bs-02/bs-03 | A |
 | t2 | fare | - | bs-06/bs-07/bs-08 | B |
-| t3 | pay | bs-10 | bs-11/bs-12/bs-13 | 둘 중 누구든 |
-| t4 | seat | bs-15 | bs-16 | 둘 중 누구든 |
+| t3 | pay | bs-10 | bs-11/bs-12/bs-13 | A |
+| t4 | seat | bs-15 | bs-16 | B |
 | t5 | getoff | - | bs-17/bs-18 | A |
 | t6 | ride | - | bs-20/bs-21 | B |
 | t7 | stop | bs-23 | bs-24/bs-25 | 둘 중 누구든 |
@@ -1106,9 +1138,9 @@
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | am-01 | shop | npc | Clerk | Hi! Can I help you? | A1 | 인사 안내 | A | - | 안녕하세요! 도와드릴까요? |
-| am-02 | shop | option | 두 사람 | I'm looking for a shirt. | A1 | 찾는 물건 말하기 | A | - | 셔츠를 찾고 있어요. |
-| am-03 | shop | option | 두 사람 | I'm looking for a hat. | A1 | 찾는 물건 말하기 | A | - | 모자를 찾고 있어요. |
-| am-04 | shop | option | 두 사람 | I'm looking for a dress. | A1 | 찾는 물건 말하기 | A | - | 원피스를 찾고 있어요. |
+| am-02 | shop | option | A자리 | I'm looking for a shirt. | A1 | 찾는 물건 말하기 | A | - | 셔츠를 찾고 있어요. |
+| am-03 | shop | option | A자리 | I'm looking for a hat. | A1 | 찾는 물건 말하기 | A | - | 모자를 찾고 있어요. |
+| am-04 | shop | option | A자리 | I'm looking for a dress. | A1 | 찾는 물건 말하기 | A | - | 원피스를 찾고 있어요. |
 | am-05 | shop | npc | Clerk | Sure! It's over here. | A1 | 안내 | A | - | 그럼요! 이쪽에 있어요. |
 | am-06 | shop | npc | Clerk | Take your time. | A1 | 안내 | A | - | 천천히 보세요. |
 | am-07 | size | wait | A자리 | What size are you, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 사이즈가 뭐예요? |
@@ -1120,11 +1152,11 @@
 | am-13 | size | wait | B자리 | Do you have this in small? | A1 | 크기 묻기 | B | 'in small'과 'in a small' 중 미국 가게에서 어느 쪽이 더 흔한지 확신이 없다. 둘 다 들린다 | 이거 작은 사이즈 있어요? |
 | am-14 | size | npc | Clerk | Let me check. Yes, we do. | A1 | 확인 | A | - | 확인해 볼게요. 네, 있어요. |
 | am-15 | price | npc | Clerk | Here you go. | A1 | 건네기 | A | - | 여기 있어요. |
-| am-16 | price | wait | 두 사람 | How much is this? | A1 | 값 묻기 | A | - | 이거 얼마예요? |
+| am-16 | price | wait | B자리 | How much is this? | A1 | 값 묻기 | A | - | 이거 얼마예요? |
 | am-17 | price | npc | Clerk | It's twenty dollars. | A1 | 값 말하기 | A | - | 20달러예요. |
-| am-18 | price | option | 두 사람 | Okay. I'll take it. | A1 | 사기로 하기 | A | - | 네. 이걸로 할게요. |
-| am-19 | price | option | 두 사람 | It's too much. | A1 | 비싸다고 말하기 | A | - | 너무 비싸요. |
-| am-20 | price | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| am-18 | price | option | B자리 | Okay. I'll take it. | A1 | 사기로 하기 | A | - | 네. 이걸로 할게요. |
+| am-19 | price | option | B자리 | It's too much. | A1 | 비싸다고 말하기 | A | - | 너무 비싸요. |
+| am-20 | price | option | B자리 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | am-21 | price | npc | Clerk | Sure. Twenty dollars. | A1 | 되풀이 | A | - | 네. 20달러예요. |
 | am-22 | pay | npc | Cashier | Is that all? | A1 | 추가 묻기 | A | - | 이게 다예요? |
 | am-23 | pay | wait | 두 사람 | Yes, that's all. | A1 | 대답 | A | - | 네, 그게 다예요. |
@@ -1158,15 +1190,15 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | shop | am-01 | am-02/am-03/am-04 | 둘 중 누구든 |
+| t1 | shop | am-01 | am-02/am-03/am-04 | A |
 | n1 | shop | am-05+am-06 | - | - |
 | t2 | size | - | am-07 | A |
 | t3 | size | - | am-08 | B |
 | t4 | size | am-09 | am-10/am-11/am-12 | A |
 | t5 | size | - | am-13 | B |
 | n2 | size | am-14 | - | - |
-| t6 | price | am-15 | am-16 | 둘 중 누구든 |
-| t7 | price | - | am-18/am-19/am-20 | 둘 중 누구든 |
+| t6 | price | am-15 | am-16 | B |
+| t7 | price | - | am-18/am-19/am-20 | B |
 | t8 | pay | am-22 | am-23 | 둘 중 누구든 |
 | t9 | pay | am-24 | am-25/am-26 | 둘 중 누구든 |
 | t10 | pay | am-27 | am-28/am-29 | A |
@@ -1181,38 +1213,39 @@
 할 일: cd-bc-1 / I can rent a beach chair and an umbrella and ask the price. / 해변에서 의자와 우산을 빌리고 값을 물을 수 있다.
 허용 이름: -
 갈래: bc-09 > bc-10, bc-11 > bc-13, bc-12 > bc-13, bc-24 > bc-25, bc-29 > bc-30
+재개: t4:bc-09 > bc-07/bc-08
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | bc-01 | greet | npc | Clerk | Hi! Can I help you? | A1 | 인사 안내 | A | - | 안녕하세요! 도와드릴까요? |
-| bc-02 | greet | option | 두 사람 | One minute, please. | A1 | 시간 벌기 | A | - | 잠깐만요. |
+| bc-02 | greet | option | A자리 | One minute, please. | A1 | 시간 벌기 | A | - | 잠깐만요. |
 | bc-03 | greet | npc | Clerk | Sure. Take your time. | A1 | 안내 | A | - | 그럼요. 천천히 하세요. |
 | bc-04 | plan | wait | A자리 | Do you want an umbrella, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 우산 쓸래? |
 | bc-05 | plan | wait | B자리 | Yes! It's very hot. | A1 | 대답과 이유 | A | - | 응! 너무 더워. |
 | bc-06 | order | npc | Clerk | Okay. What do you want? | A1 | 주문 묻기 | A | - | 네. 뭘 드릴까요? |
-| bc-07 | order | option | 두 사람 | Two chairs, please. | A1 | 빌릴 것 말하기 | A | - | 의자 두 개 주세요. |
-| bc-08 | order | option | 두 사람 | A chair and an umbrella, please. | A1 | 빌릴 것 말하기 | A | - | 의자 하나랑 우산 하나 주세요. |
-| bc-09 | order | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| bc-07 | order | option | A자리 | Two chairs, please. | A1 | 빌릴 것 말하기 | A | - | 의자 두 개 주세요. |
+| bc-08 | order | option | A자리 | A chair and an umbrella, please. | A1 | 빌릴 것 말하기 | A | - | 의자 하나랑 우산 하나 주세요. |
+| bc-09 | order | option | A자리 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | bc-10 | order | npc | Clerk | Sure. Chairs or umbrellas? | A1 | 되풀이 | A | - | 네. 의자요, 우산이요? |
-| bc-11 | price | option | 두 사람 | How much is a chair? | A1 | 값 묻기 | A | - | 의자는 얼마예요? |
-| bc-12 | price | option | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
+| bc-11 | price | option | B자리 | How much is a chair? | A1 | 값 묻기 | A | - | 의자는 얼마예요? |
+| bc-12 | price | option | B자리 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | bc-13 | price | npc | Clerk | Ten dollars each. | A1 | 값 말하기 | A | - | 하나에 10달러예요. |
 | bc-14 | more | npc | Clerk | Is that all? | A1 | 추가 묻기 | A | - | 이게 다예요? |
-| bc-15 | more | option | 두 사람 | Yes, that's all. | A1 | 대답 | A | - | 네, 그게 다예요. |
+| bc-15 | more | option | B자리 | Yes, that's all. | A1 | 대답 | A | - | 네, 그게 다예요. |
 | bc-16 | pay | npc | Clerk | That's twenty dollars. | A1 | 값 말하기 | A | - | 20달러예요. |
 | bc-17 | pay | wait | A자리 | Is twenty dollars okay, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 20달러 괜찮아? |
 | bc-18 | pay | wait | B자리 | Yes, that's okay. | A1 | 대답 | A | - | 응, 괜찮아. |
 | bc-19 | pay | npc | Clerk | Cash or card? | A1 | 결제 묻기 | A | - | 현금이세요, 카드세요? |
-| bc-20 | pay | option | 두 사람 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
-| bc-21 | pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
+| bc-20 | pay | option | B자리 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
+| bc-21 | pay | option | B자리 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
 | bc-22 | place | npc | Clerk | Your spot is on the left. | A1 | 위치 알려 주기 | B | 해변 대여소 직원이 자리를 정해 주는지는 실제 운영 방식을 모른다(장면용으로 정함). 'spot' 이라는 말은 자연스럽지만 직원이 이렇게 말하는지 확신이 없다 | 자리는 왼쪽이에요. |
 | bc-23 | place | wait | 두 사람 | On the left. Thank you! | A1 | 확인과 감사 | A | - | 왼쪽이요. 고맙습니다! |
 | bc-24 | place | wait | A자리 | Is it far? | A1 | 거리 묻기 | A | - | 멀어요? |
 | bc-25 | place | npc | Clerk | No, it's near. | A1 | 대답 | A | - | 아니요, 가까워요. |
 | bc-26 | bye | npc | Clerk | Have fun! | A1 | 작별 | A | - | 즐거운 시간 보내세요! |
 | bc-27 | bye | wait | 두 사람 | Thank you! Bye! | A1 | 작별 | A | - | 고맙습니다! 안녕히 계세요! |
-| bc-28 | greet | option | 두 사람 | Can I have two chairs, please? | A1 | 바로 주문 | A | - | 의자 두 개 주세요. |
-| bc-29 | more | option | 두 사람 | Water, please. | A1 | 추가 요청 | A | - | 물 주세요. |
+| bc-28 | greet | option | A자리 | Can I have two chairs, please? | A1 | 바로 주문 | A | - | 의자 두 개 주세요. |
+| bc-29 | more | option | B자리 | Water, please. | A1 | 추가 요청 | A | - | 물 주세요. |
 | bc-30 | more | npc | Clerk | Water is over there. | A1 | 위치 안내 | A | - | 물은 저쪽에 있어요. |
 
 ### 연습할 말 (이 나들이의 연습 9개)
@@ -1237,16 +1270,16 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | greet | bc-01 | bc-02/bc-28 | 둘 중 누구든 |
+| t1 | greet | bc-01 | bc-02/bc-28 | A |
 | n1 | greet | bc-03 | - | - |
 | t2 | plan | - | bc-04 | A |
 | t3 | plan | - | bc-05 | B |
-| t4 | order | bc-06 | bc-07/bc-08/bc-09 | 둘 중 누구든 |
-| t5 | price | - | bc-11/bc-12 | 둘 중 누구든 |
-| t6 | more | bc-14 | bc-15/bc-29 | 둘 중 누구든 |
+| t4 | order | bc-06 | bc-07/bc-08/bc-09 | A |
+| t5 | price | - | bc-11/bc-12 | B |
+| t6 | more | bc-14 | bc-15/bc-29 | B |
 | t7 | pay | bc-16 | bc-17 | A |
 | t8 | pay | - | bc-18 | B |
-| t9 | pay | bc-19 | bc-20/bc-21 | 둘 중 누구든 |
+| t9 | pay | bc-19 | bc-20/bc-21 | B |
 | t10 | place | bc-22 | bc-23 | 둘 중 누구든 |
 | t11 | place | - | bc-24 | A |
 | t12 | bye | bc-26 | bc-27 | 둘 중 누구든 |
@@ -1264,18 +1297,18 @@
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | hz-01 | ticket | npc | Cashier | Hi! How many people? | A1 | 인원 묻기 | A | - | 안녕하세요! 몇 분이세요? |
-| hz-02 | ticket | option | 두 사람 | Two, please. | A1 | 인원 말하기 | A | - | 두 명이요. |
-| hz-03 | ticket | option | 두 사람 | Two tickets, please. | A1 | 표 사기 | A | - | 표 두 장 주세요. |
-| hz-04 | ticket | option | 두 사람 | Two adults, please. | A1 | 표 사기 | A | - | 어른 두 명이요. |
+| hz-02 | ticket | option | A자리 | Two, please. | A1 | 인원 말하기 | A | - | 두 명이요. |
+| hz-03 | ticket | option | A자리 | Two tickets, please. | A1 | 표 사기 | A | - | 표 두 장 주세요. |
+| hz-04 | ticket | option | A자리 | Two adults, please. | A1 | 표 사기 | A | - | 어른 두 명이요. |
 | hz-05 | ticket | npc | Cashier | Two tickets. Is that right? | A1 | 확인 | A | - | 표 두 장이죠? 맞아요? |
-| hz-06 | ticket | option | 두 사람 | Yes, that's right. | A1 | 확인 대답 | A | - | 네, 맞아요. |
-| hz-07 | ticket | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| hz-06 | ticket | option | B자리 | Yes, that's right. | A1 | 확인 대답 | A | - | 네, 맞아요. |
+| hz-07 | ticket | option | B자리 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | hz-08 | ticket | npc | Cashier | Two tickets. | A1 | 되풀이 | A | - | 표 두 장이에요. |
 | hz-09 | map | npc | Cashier | Do you want a map? | A1 | 안내 | A | - | 지도 필요하세요? |
 | hz-10 | map | option | A자리 | Yes, please. | A1 | 대답 | A | - | 네, 주세요. |
 | hz-11 | map | option | A자리 | No, thank you. | A1 | 대답 | A | - | 아니요, 괜찮아요. |
-| hz-12 | price | option | 두 사람 | How much is a ticket? | A1 | 값 묻기 | A | - | 표는 한 장에 얼마예요? |
-| hz-13 | price | option | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
+| hz-12 | price | option | B자리 | How much is a ticket? | A1 | 값 묻기 | A | - | 표는 한 장에 얼마예요? |
+| hz-13 | price | option | B자리 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | hz-14 | price | npc | Cashier | Ten dollars each. | A1 | 값 말하기 | A | - | 한 장에 10달러예요. |
 | hz-15 | price | npc | Cashier | That's twenty dollars. | A1 | 값 말하기 | A | - | 20달러예요. |
 | hz-16 | pay | npc | Cashier | Cash or card? | A1 | 결제 묻기 | A | - | 현금이세요, 카드세요? |
@@ -1318,10 +1351,10 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | ticket | hz-01 | hz-02/hz-03/hz-04 | 둘 중 누구든 |
-| t2 | ticket | hz-05 | hz-06/hz-07 | 둘 중 누구든 |
+| t1 | ticket | hz-01 | hz-02/hz-03/hz-04 | A |
+| t2 | ticket | hz-05 | hz-06/hz-07 | B |
 | t3 | map | hz-09 | hz-10/hz-11/hz-28 | A |
-| t4 | price | - | hz-12/hz-13 | 둘 중 누구든 |
+| t4 | price | - | hz-12/hz-13 | B |
 | t5 | pay | hz-16 | hz-17/hz-18 | 둘 중 누구든 |
 | t6 | pay | hz-19 | hz-20/hz-30 | 둘 중 누구든 |
 | n1 | plan | hz-21 | - | - |
@@ -1341,31 +1374,32 @@
 할 일: cd-dh-1 / I can ask the way to a lookout and understand simple directions. / 전망대로 가는 길을 묻고 간단한 방향 설명을 알아들을 수 있다.
 허용 이름: -
 갈래: dh-07 > dh-08, dh-09 > dh-11, dh-10 > dh-12, dh-30 > dh-31, dh-32 > dh-33
+상황: 가상의 전망대 안내소다. 지도는 전망대로 가는 길을 그린 지도이고, 직원과 두 사람은 가려는 곳이 전망대라는 것을 이미 안다. 그래서 지도만 부탁해도 길 안내가 이어진다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | dh-01 | ask | npc | Guide | Hello! Can I help you? | A1 | 인사 안내 | A | - | 안녕하세요! 도와드릴까요? |
-| dh-02 | ask | option | 두 사람 | Excuse me, where is the lookout? | A2 | 길 묻기 | A | - | 실례합니다, 전망대가 어디예요? |
-| dh-03 | ask | option | 두 사람 | Where is the lookout, please? | A2 | 길 묻기 | A | - | 전망대가 어디인가요? |
+| dh-02 | ask | option | A자리 | Excuse me, where is the lookout? | A2 | 길 묻기 | A | - | 실례합니다, 전망대가 어디예요? |
+| dh-03 | ask | option | A자리 | Where is the lookout, please? | A2 | 길 묻기 | A | - | 전망대가 어디인가요? |
 | dh-04 | way1 | npc | Guide | Sure. Go straight, then turn left. | A1 | 방향 알려 주기 | A | - | 네. 곧장 가서 왼쪽으로 도세요. |
-| dh-05 | way1 | option | 두 사람 | Straight, then left. | A1 | 방향 확인 | A | - | 곧장 가서 왼쪽이요. |
-| dh-06 | way1 | option | 두 사람 | Go straight, then turn left. | A1 | 방향 확인 | A | - | 곧장 가서 왼쪽으로 돌라고요. |
-| dh-07 | way1 | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| dh-05 | way1 | option | A자리 | Straight, then left. | A1 | 방향 확인 | A | - | 곧장 가서 왼쪽이요. |
+| dh-06 | way1 | option | A자리 | Go straight, then turn left. | A1 | 방향 확인 | A | - | 곧장 가서 왼쪽으로 돌라고요. |
+| dh-07 | way1 | option | A자리 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | dh-08 | way1 | npc | Guide | Straight. Then turn left. | A1 | 되풀이 | A | - | 곧장 가세요. 그리고 왼쪽으로 도세요. |
-| dh-09 | far | option | 두 사람 | Is it far? | A1 | 거리 묻기 | A | - | 멀어요? |
-| dh-10 | far | option | 두 사람 | Is it near? | A1 | 거리 묻기 | A | - | 가까워요? |
+| dh-09 | far | option | A자리 | Is it far? | A1 | 거리 묻기 | A | - | 멀어요? |
+| dh-10 | far | option | A자리 | Is it near? | A1 | 거리 묻기 | A | - | 가까워요? |
 | dh-11 | far | npc | Guide | No, it's near. | A1 | 거리 말하기 | A | - | 아니요, 가까워요. |
 | dh-12 | far | npc | Guide | Yes, it's near. | A1 | 거리 말하기 | A | - | 네, 가까워요. |
 | dh-13 | way2 | npc | Guide | At the corner, turn right. | A1 | 방향 알려 주기 | A | - | 모퉁이에서 오른쪽으로 도세요. |
-| dh-14 | way2 | option | 두 사람 | Corner, then right. | A1 | 방향 확인 | A | - | 모퉁이에서 오른쪽이요. |
-| dh-15 | way2 | option | 두 사람 | Turn right at the corner. | A1 | 방향 확인 | A | - | 모퉁이에서 오른쪽으로 돈다고요. |
+| dh-14 | way2 | option | B자리 | Corner, then right. | A1 | 방향 확인 | A | - | 모퉁이에서 오른쪽이요. |
+| dh-15 | way2 | option | B자리 | Turn right at the corner. | A1 | 방향 확인 | A | - | 모퉁이에서 오른쪽으로 돈다고요. |
 | dh-16 | way2 | wait | A자리 | Left or right, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 왼쪽이야, 오른쪽이야? |
 | dh-17 | way2 | wait | B자리 | Right, at the corner. | A1 | 대답 | A | - | 오른쪽, 모퉁이에서. |
 | dh-18 | way3 | npc | Guide | Then go up the stairs. | A1 | 방향 알려 주기 | A | - | 그다음에 계단을 올라가세요. |
-| dh-19 | way3 | option | 두 사람 | Up the stairs. Okay! | A1 | 방향 확인 | A | - | 계단을 올라가요. 알겠어요! |
-| dh-20 | way3 | option | 두 사람 | Up the stairs, thank you! | A1 | 방향 확인과 감사 | A | - | 계단을 올라가요. 고맙습니다! |
+| dh-19 | way3 | option | B자리 | Up the stairs. Okay! | A1 | 방향 확인 | A | - | 계단을 올라가요. 알겠어요! |
+| dh-20 | way3 | option | B자리 | Up the stairs, thank you! | A1 | 방향 확인과 감사 | A | - | 계단을 올라가요. 고맙습니다! |
 | dh-21 | stairs | npc | Guide | The stairs are on the left. | A1 | 위치 알려 주기 | A | - | 계단은 왼쪽에 있어요. |
-| dh-22 | stairs | option | 두 사람 | On the left. Okay! | A1 | 방향 확인 | A | - | 왼쪽이요. 알겠어요! |
+| dh-22 | stairs | option | B자리 | On the left. Okay! | A1 | 방향 확인 | A | - | 왼쪽이요. 알겠어요! |
 | dh-23 | recap | wait | A자리 | Straight, left, right. Okay? | A2 | 길 되짚기 | A | - | 곧장, 왼쪽, 오른쪽. 맞지? |
 | dh-24 | recap | wait | B자리 | Yes! Then up the stairs. | A1 | 길 되짚기 | A | - | 응! 그다음에 계단을 올라가. |
 | dh-25 | end | npc | Guide | The lookout is on the right. | A2 | 위치 알려 주기 | A | - | 전망대는 오른쪽에 있어요. |
@@ -1373,9 +1407,9 @@
 | dh-27 | bye | npc | Guide | Enjoy the view! | A1 | 작별 | A | - | 경치 즐기세요! |
 | dh-28 | bye | wait | 두 사람 | Thank you very much! | A1 | 감사 | A | - | 정말 고맙습니다! |
 | dh-29 | bye | npc | Guide | You're welcome. Have fun! | A1 | 작별 | A | - | 천만에요. 즐거운 시간 보내세요! |
-| dh-30 | ask | option | 두 사람 | Can I have a map, please? | A1 | 지도 요청 | A | - | 지도 좀 주시겠어요? |
+| dh-30 | ask | option | A자리 | Can I have a map, please? | A1 | 지도 요청 | A | - | 지도 좀 주시겠어요? |
 | dh-31 | ask | npc | Guide | Here is a map. | A1 | 건네기 | A | - | 지도 여기 있어요. |
-| dh-32 | stairs | option | 두 사람 | Where is the bathroom? | A1 | 시설 위치 묻기 | A | - | 화장실이 어디예요? |
+| dh-32 | stairs | option | B자리 | Where is the bathroom? | A1 | 시설 위치 묻기 | A | - | 화장실이 어디예요? |
 | dh-33 | stairs | npc | Guide | It is over there. | A1 | 위치 안내 | A | - | 저쪽에 있어요. |
 
 ### 연습할 말 (이 나들이의 연습 10개)
@@ -1401,15 +1435,15 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | ask | dh-01 | dh-02/dh-03/dh-30 | 둘 중 누구든 |
-| t2 | way1 | dh-04 | dh-05/dh-06/dh-07 | 둘 중 누구든 |
-| t3 | far | - | dh-09/dh-10 | 둘 중 누구든 |
-| t4 | way2 | dh-13 | dh-14/dh-15 | 둘 중 누구든 |
+| t1 | ask | dh-01 | dh-02/dh-03/dh-30 | A |
+| t2 | way1 | dh-04 | dh-05/dh-06/dh-07 | A |
+| t3 | far | - | dh-09/dh-10 | A |
+| t4 | way2 | dh-13 | dh-14/dh-15 | B |
 | t5 | way2 | - | dh-16 | A |
 | t6 | way2 | - | dh-17 | B |
-| t7 | way3 | dh-18 | dh-19/dh-20 | 둘 중 누구든 |
+| t7 | way3 | dh-18 | dh-19/dh-20 | B |
 | n1 | stairs | dh-21 | - | - |
-| t8 | stairs | - | dh-22/dh-32 | 둘 중 누구든 |
+| t8 | stairs | - | dh-22/dh-32 | B |
 | t9 | recap | - | dh-23 | A |
 | t10 | recap | - | dh-24 | B |
 | t11 | end | dh-25 | dh-26 | 둘 중 누구든 |
@@ -1425,13 +1459,16 @@
 할 일: cd-hb-1 / I can answer yes or no for snorkel gear and say my size. / 스노클링 장비를 빌릴지 예 아니오로 답하고 내 크기를 말할 수 있다.
 허용 이름: -
 갈래: hb-04 > hb-05, hb-23 > hb-24
+재개: t1:hb-04 > hb-02/hb-03
+건너뜀: t4..t12 if t1:hb-03&t2:hb-08&t3:hb-11
+상황: 가상의 장비 대여소다. 마스크, 오리발, 숨 쉬는 관은 한 번에 빌리는 한 세트를 이루는 물건이다. 하나라도 '네'라고 하면 두 사람이 크기를 말하고 장비를 받아 20달러에 빌린다. 세 가지에 모두 '아니요'라고 하면 아무것도 빌리지 않고 인사로 끝난다. 20달러는 이 장면에서만 정한 값이며 실제 대여소의 가격이 아니다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | hb-01 | gear | npc | Clerk | Hi! Do you want masks? | A1 | 장비 묻기 | A | - | 안녕하세요! 잠수용 마스크 필요하세요? |
-| hb-02 | gear | option | 두 사람 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
-| hb-03 | gear | option | 두 사람 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
-| hb-04 | gear | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
+| hb-02 | gear | option | A자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
+| hb-03 | gear | option | A자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
+| hb-04 | gear | option | A자리 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | hb-05 | gear | npc | Clerk | Sure. Do you want masks? | A1 | 되풀이 | A | - | 네. 잠수용 마스크 필요하세요? |
 | hb-06 | gear | npc | Clerk | And fins? | A2 | 장비 묻기 | A | - | 오리발은요? |
 | hb-07 | gear | option | A자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
@@ -1450,13 +1487,13 @@
 | hb-20 | size | option | B자리 | Medium, please. | A1 | 크기 말하기 | A | - | 중간 크기로 주세요. |
 | hb-21 | size | option | B자리 | Large, please. | A1 | 크기 말하기 | A | - | 큰 크기로 주세요. |
 | hb-22 | size | npc | Clerk | Okay. Here you go. | A1 | 건네기 | A | - | 네. 여기 있어요. |
-| hb-23 | pay | wait | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
+| hb-23 | pay | wait | A자리 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | hb-24 | pay | npc | Clerk | It's twenty dollars. | A1 | 값 말하기 | A | - | 20달러예요. |
 | hb-25 | pay | npc | Clerk | Cash or card? | A1 | 결제 묻기 | A | - | 현금이세요, 카드세요? |
-| hb-26 | pay | option | 두 사람 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
-| hb-27 | pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
+| hb-26 | pay | option | B자리 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
+| hb-27 | pay | option | B자리 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
 | hb-28 | more | npc | Clerk | Is that all? | A1 | 추가 묻기 | A | - | 이게 다예요? |
-| hb-29 | more | wait | 두 사람 | Yes, that's all. | A1 | 대답 | A | - | 네, 그게 다예요. |
+| hb-29 | more | wait | B자리 | Yes, that's all. | A1 | 대답 | A | - | 네, 그게 다예요. |
 | hb-30 | safety | npc | Clerk | Do not touch the fish. | A1 | 주의 듣기 | B | 영어는 자연스럽지만 실제 하나우마 베이의 규칙 문구인지 확인하지 못했다. 직원은 'Please do not...'이라고 더 정중하게 말할 수 있다 | 물고기를 만지지 마세요. |
 | hb-31 | safety | wait | 두 사람 | Okay! Thank you. | A1 | 알겠다고 말하기 | A | - | 알겠어요! 고맙습니다. |
 | hb-32 | safety | npc | Clerk | Stay with your friend. | A1 | 주의 듣기 | B | 안전 문구로는 'Stay with your buddy.'가 더 흔할 수 있고, 직원이 장비 대여 때 이 말을 하는지 실제 절차를 모른다 | 친구와 함께 계세요. |
@@ -1485,16 +1522,16 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | gear | hb-01 | hb-02/hb-03/hb-04 | 둘 중 누구든 |
+| t1 | gear | hb-01 | hb-02/hb-03/hb-04 | A |
 | t2 | gear | hb-06 | hb-07/hb-08 | A |
 | t3 | gear | hb-09 | hb-10/hb-11 | B |
 | t4 | size | - | hb-12 | A |
 | t5 | size | - | hb-13 | B |
 | t6 | size | hb-14 | hb-15/hb-16/hb-17 | A |
 | t7 | size | hb-18 | hb-19/hb-20/hb-21 | B |
-| t8 | size | hb-22 | hb-23 | 둘 중 누구든 |
-| t9 | pay | hb-25 | hb-26/hb-27 | 둘 중 누구든 |
-| t10 | more | hb-28 | hb-29 | 둘 중 누구든 |
+| t8 | size | hb-22 | hb-23 | A |
+| t9 | pay | hb-25 | hb-26/hb-27 | B |
+| t10 | more | hb-28 | hb-29 | B |
 | t11 | safety | hb-30 | hb-31 | 둘 중 누구든 |
 | t12 | safety | hb-32 | hb-33 | 둘 중 누구든 |
 | t13 | bye | hb-34 | hb-35 | 둘 중 누구든 |

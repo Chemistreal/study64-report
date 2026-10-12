@@ -59,6 +59,20 @@ INVENTED = {"hafta", "hasta", "oughta", "dunno", "gimme", "lemme", "kinda", "sor
 
 FAIL_PREFIX = "[실패] "
 
+# 미션 구조 상한 (G10 구조 감사. docs/authored.md 3.1장). 관문은 check_authored.py 의 판 `structure`
+OUTING_LINES = (25, 40)        # 미션 한 장의 줄 수
+OUTING_SCORED = (8, 14)        # 점수 차례(고르는 줄이 있는 차례) 수. 재개 단계는 차례가 아니라 안 센다
+SEAT_FAIL = True               # 자리 몫을 실패로 거나(True) 알림으로 거나(False)
+SEAT_MIN_PCT = 35              # 고정 자리(A 또는 B)마다 점수 차례의 몫. `둘 중 누구든` 차례는 어느 자리에도 안 센다
+# 상한 예외. 미션마다 이유를 적는다. 줄을 지우거나 도달 못 하게 두지 않는다 (사용자 2026-10-12 "G10 모두 허용").
+# 예외는 상한을 넘을 때만 있어야 하고(안 넘으면 실패) 적은 값보다 늘면 실패한다.
+LIMIT_EXCEPTIONS = {
+    "hotel_front_desk": {"lines": (42, "수건과 열쇠와 물을 부탁하는 흐름(방 번호 후보 다섯 줄 hf-07~09, hf-41, hf-42 포함), 시설 위치 묻기, 물 한 병 값 계산이 한 장에 있다. 42줄이 모두 차례나 갈래로 도달하는 줄이라 지울 수 없고, 둘로 나누면 한쪽이 25줄과 8차례 아래로 떨어진다")},
+    "food_truck_lunch": {"scored": (15, "메뉴 둘, 밥, 맵기, 물, 값과 결제, 영수증, 번호 호출, 식사 이야기가 한 흐름이다. 점수 차례 15개가 서로 다른 기능이라 한 차례의 후보로 합치면 기능과 도달이 깨지고, 둘로 나누면 한쪽이 8차례 아래로 떨어진다")},
+    "cheesecake_dessert": {"scored": (15, "음료 둘, 디저트 고르기, 포크, 아이스크림, 먹으며 이야기, 계산서와 결제가 한 흐름이다. 점수 차례 15개가 서로 다른 기능이라 위와 같은 까닭으로 합치지도 나누지도 않는다")},
+    "marukame_udon": {"lines": (42, "G6 구조 수정(44584ba)이 결제 차례의 중복 질문을 없애려고 mud-41, mud-42 를 더했다. 기존 40줄은 모두 쓰이는 줄이라 지우지 않는다")},
+}
+
 
 # ------------------------------------------------------------------ 낱말
 
@@ -195,10 +209,12 @@ def gloss_limit():
     return json.load(open(ACTS, encoding="utf-8"))["captions"]["koreanTranslationThroughSession"]
 
 
-def parse_lines():
-    """docs/authored_lines.md -> (outings, fail). outings = [{id, meta, lines, practice}]"""
+def parse_lines(path=None):
+    """docs/authored_lines.md -> (outings, fail). outings = [{id, meta, lines, practice, turns}]
+
+    path 를 주면 그 파일을 읽는다 (보관본 docs/parts/G*_authored_lines.md. 구조 관문 `structure` 가 쓴다)."""
     fail = []
-    src = open(LINES_MD, encoding="utf-8").read()
+    src = open(path or LINES_MD, encoding="utf-8").read()
     outs = []
     for part in re.split(r"^(?=## 나들이: )", src, flags=re.M):
         m = re.match(r"## 나들이: (\S+)\n", part)
@@ -206,7 +222,7 @@ def parse_lines():
             continue
         o = {"id": m.group(1), "meta": {}, "lines": [], "practice": []}
         head = part.split("\n|", 1)[0]
-        for k, v in re.findall(r"^(작성자|장소|세션|목표 등급|할 일|허용 이름|갈래): (.*)$", head, re.M):
+        for k, v in re.findall(r"^(작성자|장소|세션|목표 등급|할 일|허용 이름|갈래|재개|건너뜀|상황): (.*)$", head, re.M):
             o["meta"][k] = v.strip()
         for k in ("작성자", "장소", "세션", "목표 등급", "할 일", "허용 이름"):
             if k not in o["meta"]:
@@ -361,11 +377,13 @@ def line_problems(o, table, S):
                 fail.append("%s: %d주 줄이 %s (%d주부터) 보다 앞선다" % (i, week, what, since))
         if "—" in text or "�" in text:
             fail.append("%s: 금지 문자(em-dash 등)" % i)
-        # dup
-        key = (ln["who"], DS.norm(text))
-        if key in seen_say:
-            fail.append("%s: %s 와 같은 인물의 같은 말이다" % (i, seen_say[key]))
-        seen_say[key] = i
+        # dup. NPC 는 같은 말을 되풀이하지 않는다. 두 사람 줄은 다른 질문에 "Yes, please." 처럼 같은 말을 할 수 있고(자리를 A 와 B 로
+        # 고정하면서 겹쳐졌다) 대신 **같은 차례의 후보끼리** 겹치면 실패다 (아래 turn_dup)
+        if ln["kind"] == "npc":
+            key = (ln["who"], DS.norm(text))
+            if key in seen_say:
+                fail.append("%s: %s 와 같은 인물의 같은 말이다" % (i, seen_say[key]))
+            seen_say[key] = i
         # copy
         n = longest_shared(text)
         if n >= COPY_FAIL:
@@ -383,6 +401,18 @@ def line_problems(o, table, S):
         derived[i] = {"introduces": sorted(set(newu)), "stretch": stretch, "words": len(toks)}
     if o["lines"] and over * 100 > STRETCH_LINES_PCT * len(o["lines"]):
         fail.append("%s: 목표 등급보다 높은 줄이 %d/%d (상한 %d%%)" % (oid, over, len(o["lines"]), STRETCH_LINES_PCT))
+    # turn_dup: 한 차례의 후보 중 같은 인물의 같은 말이 둘이면 선택이 아니다
+    byid = {ln["id"]: ln for ln in o["lines"]}
+    for t in o.get("turns", []):
+        seen_pick = {}
+        for pid in ([] if t["pick"] == "-" else [x.strip() for x in t["pick"].split("/")]):
+            ln = byid.get(pid)
+            if not ln:
+                continue
+            k = (ln["who"], DS.norm(ln["say"]))
+            if k in seen_pick:
+                fail.append("%s: 차례 %s 의 후보 %s 와 %s 가 같은 인물의 같은 말이다" % (oid, t["id"], seen_pick[k], pid))
+            seen_pick[k] = pid
     # 선택 묶음이 두 줄 이상이어야 선택이다
     by_scene = {}
     for ln in o["lines"]:
@@ -400,6 +430,143 @@ def line_problems(o, table, S):
         elif DS.norm(t["say"]) != DS.norm(p["say"]):
             fail.append("%s: 연습 말과 줄 %s 의 영어가 다르다" % (p["id"], p["line"]))
     return fail, note, derived
+
+
+# ------------------------------------------------------------------ 차례의 구조 (G10)
+
+def branch_map(meta):
+    """메타 `갈래: a > b, c > d` -> {a: b}. 고른 후보 a 뒤에 NPC 줄 b 가 한 번 나온다."""
+    out = {}
+    for pair in meta.get("갈래", "").split(","):
+        if ">" in pair:
+            a, b = [x.strip() for x in pair.split(">")]
+            out[a] = b
+    return out
+
+
+def parse_resume(meta):
+    """메타 `재개: t10:enb-25 > enb-24/enb-26, t12:enb-30 > enb-29` -> ([(차례, 고른 후보, [답 후보])], [꼴이 틀린 조각]).
+
+    **재개 단계**는 차례가 아니다(점수 차례 수에 안 센다). 점수 차례 안에서 고른 후보가 `고른 후보`이면 (그 후보의 갈래 NPC 줄이
+    나온 뒤) 같은 차례의 답 후보로 한 번 더 답을 받는다. 결과는 원 차례 하나로 한 번만 기록한다 (재개 단계까지 답하면 `거의`)."""
+    out, bad = [], []
+    raw = meta.get("재개", "-").strip()
+    if raw in ("", "-"):
+        return out, bad
+    for part in raw.split(","):
+        m = re.fullmatch(r"\s*([a-z0-9]+):([a-z0-9-]+)\s*>\s*([a-z0-9-]+(?:/[a-z0-9-]+)*)\s*", part)
+        if not m:
+            bad.append(part.strip())
+            continue
+        out.append((m.group(1), m.group(2), m.group(3).split("/")))
+    return out, bad
+
+
+def parse_skip(meta):
+    """메타 `건너뜀: t5 if t4:ph-16, t4..t12 if t1:hb-03&t2:hb-08` -> ([(처음, 끝, [(차례, 고른 후보)])], [꼴이 틀린 조각]).
+
+    조건이 모두 맞으면(그 차례에서 그 후보를 골랐으면) 처음~끝 차례를 하지 않고 지나간다. 건너뛴 차례는 결과를 안 낸다."""
+    out, bad = [], []
+    raw = meta.get("건너뜀", "-").strip()
+    if raw in ("", "-"):
+        return out, bad
+    for part in raw.split(","):
+        m = re.fullmatch(r"\s*([a-z0-9]+)(?:\.\.([a-z0-9]+))?\s+if\s+([a-z0-9]+:[a-z0-9-]+(?:&[a-z0-9]+:[a-z0-9-]+)*)\s*", part)
+        if not m:
+            bad.append(part.strip())
+            continue
+        conds = [tuple(x.split(":")) for x in m.group(3).split("&")]
+        out.append((m.group(1), m.group(2) or m.group(1), conds))
+    return out, bad
+
+
+def seat_counts(o):
+    """(점수 차례 수, A 고정, B 고정, 누구든). 누구든 차례는 어느 자리의 몫에도 안 센다 (G10 감사와 같은 셈)."""
+    sc = [t for t in o["turns"] if t["pick"] != "-"]
+    a = sum(1 for t in sc if t["seat"] == "A")
+    b = sum(1 for t in sc if t["seat"] == "B")
+    return len(sc), a, b, len(sc) - a - b
+
+
+def flow_problems(o):
+    """재개와 건너뜀 메타, 고정 자리 차례의 인물을 본다. 실패 목록."""
+    fail = []
+    oid = o["id"]
+    lines = {ln["id"]: ln for ln in o["lines"]}
+    turns = {t["id"]: t for t in o["turns"]}
+    order = [t["id"] for t in o["turns"]]
+    picks = {t["id"]: [] if t["pick"] == "-" else [x.strip() for x in t["pick"].split("/")] for t in o["turns"]}
+    branch = branch_map(o["meta"])
+    res, bad = parse_resume(o["meta"])
+    for b in bad:
+        fail.append("%s: 재개 메타 꼴이 틀리다: %s" % (oid, b))
+    seen = set()
+    for tid, trig, ans in res:
+        if (tid, trig) in seen:
+            fail.append("%s: 재개 %s:%s 가 두 번이다" % (oid, tid, trig))
+        seen.add((tid, trig))
+        if tid not in turns or not picks[tid]:
+            fail.append("%s: 재개 차례 %s 가 점수 차례가 아니다" % (oid, tid))
+            continue
+        if trig not in picks[tid]:
+            fail.append("%s: 재개 %s 의 고른 후보 %s 가 그 차례의 후보가 아니다" % (oid, tid, trig))
+        if trig not in branch:
+            fail.append("%s: 재개 %s:%s 에 갈래 NPC 줄이 없다 (재개 단계 앞에 들을 말이 있어야 한다)" % (oid, tid, trig))
+        for a in ans:
+            if a not in picks[tid]:
+                fail.append("%s: 재개 %s 의 답 %s 가 그 차례의 후보가 아니다" % (oid, tid, a))
+            elif lines[a]["kind"] == "npc":
+                fail.append("%s: 재개 %s 의 답 %s 가 NPC 줄이다" % (oid, tid, a))
+        if trig in ans:
+            fail.append("%s: 재개 %s 의 답에 고른 후보 %s 자신이 있다" % (oid, tid, trig))
+        if lines.get(trig, {}).get("kind") == "npc":
+            fail.append("%s: 재개 %s 의 고른 후보 %s 가 NPC 줄이다" % (oid, tid, trig))
+    skips, bad = parse_skip(o["meta"])
+    for b in bad:
+        fail.append("%s: 건너뜀 메타 꼴이 틀리다: %s" % (oid, b))
+    for fr, to, conds in skips:
+        if fr not in turns or to not in turns or order.index(fr) > order.index(to):
+            fail.append("%s: 건너뜀 범위 %s..%s 가 차례 순서에 안 맞는다" % (oid, fr, to))
+            continue
+        for ct, cp in conds:
+            if ct not in turns or order.index(ct) >= order.index(fr):
+                fail.append("%s: 건너뜀 조건 차례 %s 는 건너뛰는 %s 보다 앞이어야 한다" % (oid, ct, fr))
+            elif cp not in picks[ct]:
+                fail.append("%s: 건너뜀 조건 %s:%s 가 그 차례의 후보가 아니다" % (oid, ct, cp))
+    # 고정 자리 차례의 고르는 줄은 그 자리의 인물이다 (누구든 차례는 두 사람 줄)
+    for t in o["turns"]:
+        if t["seat"] in ("A", "B"):
+            for i in picks[t["id"]]:
+                if lines.get(i, {}).get("who") != t["seat"] + "자리":
+                    fail.append("%s: 차례 %s 는 %s 자리인데 고르는 줄 %s 의 인물이 %s 다" % (oid, t["id"], t["seat"], i, lines.get(i, {}).get("who")))
+    return fail
+
+
+def structure_problems(o):
+    """미션 한 장의 구조 상한과 자리 몫. (fail, warn). 상한 예외는 LIMIT_EXCEPTIONS."""
+    fail, warn = [], []
+    oid = o["id"]
+    exc = LIMIT_EXCEPTIONS.get(oid, {})
+    n_lines = len(o["lines"])
+    n_scored, a, b, e = seat_counts(o)
+    for key, n, (lo, hi), what in (("lines", n_lines, OUTING_LINES, "줄"), ("scored", n_scored, OUTING_SCORED, "점수 차례")):
+        inside = lo <= n <= hi
+        if key in exc:
+            cap = exc[key][0]
+            if inside:
+                fail.append("%s: %s %d개는 상한 안인데 예외표에 %s 가 있다. 예외를 지운다" % (oid, what, n, key))
+            elif n > cap or n < lo:
+                fail.append("%s: %s %d개가 예외 상한 %d 를 넘는다" % (oid, what, n, cap))
+        elif not inside:
+            fail.append("%s: %s %d개가 %d~%d 밖이다 (예외표 LIMIT_EXCEPTIONS 에 이유를 적어야 한다)" % (oid, what, n, lo, hi))
+    for k in exc:
+        if k not in ("lines", "scored"):
+            fail.append("%s: 예외표 칸 '%s' 를 모른다" % (oid, k))
+    if n_scored:
+        for seat, n in (("A", a), ("B", b)):
+            if n * 100 < SEAT_MIN_PCT * n_scored:
+                (fail if SEAT_FAIL else warn).append("%s: %s 자리 고정 차례 %d/%d = %.1f%% 가 %d%% 보다 적다 (누구든 %d)" % (oid, seat, n, n_scored, 100.0 * n / n_scored, SEAT_MIN_PCT, e))
+    return fail, warn
 
 
 def build_b_list(outs):

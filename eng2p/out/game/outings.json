@@ -92,7 +92,7 @@
        "ng-02",
        "ng-03"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -108,10 +108,16 @@
        "ng-07",
        "ng-08"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "ng-08": "ng-09"
+      },
+      "resume": {
+       "ng-08": [
+        "ng-06",
+        "ng-07"
+       ]
       }
      },
      {
@@ -152,7 +158,7 @@
       "pick": [
        "ng-18"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -167,7 +173,18 @@
        "ng-21",
        "ng-22"
       ],
-      "seat": "either",
+      "seat": "A",
+      "scored": true,
+      "branch": {}
+     },
+     {
+      "id": "t6b",
+      "scene": "chat",
+      "npc": [],
+      "pick": [
+       "ng-26"
+      ],
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -253,7 +270,7 @@
       "pick": [
        "hf-01"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -268,7 +285,7 @@
        "hf-04",
        "hf-05"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -290,6 +307,15 @@
       "scored": true,
       "branch": {
        "hf-10": "hf-11"
+      },
+      "resume": {
+       "hf-10": [
+        "hf-07",
+        "hf-08",
+        "hf-09",
+        "hf-41",
+        "hf-42"
+       ]
       }
      },
      {
@@ -316,7 +342,7 @@
        "hf-16",
        "hf-17"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -331,7 +357,7 @@
        "hf-20",
        "hf-21"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -346,7 +372,7 @@
        "hf-24",
        "hf-25"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -359,7 +385,7 @@
       "pick": [
        "hf-27"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -370,7 +396,7 @@
       "pick": [
        "hf-33"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -384,7 +410,7 @@
        "hf-35",
        "hf-36"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "hf-35": "hf-39"
@@ -522,6 +548,13 @@
       "scored": true,
       "branch": {
        "cf-05": "cf-06"
+      },
+      "resume": {
+       "cf-05": [
+        "cf-02",
+        "cf-03",
+        "cf-04"
+       ]
       }
      },
      {
@@ -592,7 +625,7 @@
        "cf-22",
        "cf-23"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -650,6 +683,12 @@
       "scored": true,
       "branch": {
        "cf-37": "cf-38"
+      },
+      "resume": {
+       "cf-37": [
+        "cf-31",
+        "cf-32"
+       ]
       }
      },
      {
@@ -711,7 +750,8 @@
      "cf-p19",
      "cf-p20",
      "cf-p21"
-    ]
+    ],
+    "situation": "가상의 카페다. 음료와 쿠키를 어떻게 골라도 합계는 9달러로 같은 가상 금액이다. 9달러는 이 장면에서만 정한 값이며 실제 카페의 가격이 아니다. 값을 되물으면 직원이 같은 금액을 한 번 더 말하고, 두 사람은 이어서 현금이나 카드를 말한다."
    }
   },
   {
@@ -776,7 +816,7 @@
       "pick": [
        "ab-06"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -804,7 +844,7 @@
       "pick": [
        "ab-12"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -833,7 +873,7 @@
        "ab-17",
        "ab-18"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -852,6 +892,12 @@
       "scored": true,
       "branch": {
        "ab-22": "ab-23"
+      },
+      "resume": {
+       "ab-22": [
+        "ab-20",
+        "ab-21"
+       ]
       }
      },
      {
@@ -952,7 +998,7 @@
       "pick": [
        "cs-02"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -1017,7 +1063,7 @@
        "cs-13",
        "cs-14"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -1031,7 +1077,7 @@
        "cs-16",
        "cs-17"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -1045,7 +1091,7 @@
        "cs-19",
        "cs-20"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -1073,7 +1119,15 @@
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "cs-25": "cs-22"
+      },
+      "resume": {
+       "cs-25": [
+        "cs-23",
+        "cs-24"
+       ]
+      }
      },
      {
       "id": "t11",
@@ -1143,7 +1197,8 @@
      "cs-p6",
      "cs-p7",
      "cs-p8"
-    ]
+    ],
+    "situation": "가상의 쿠키 가게다. 'One more, please.'(cs-17)는 진열대에서 원하는 맛의 쿠키를 손으로 가리키며 하는 말이라 맛은 몸짓이 정한다. 점원이 묻는 개수(cs-11)는 두 사람이 사는 전체 개수이고, 앞의 '네 개'(cs-10)는 서로 먹고 싶은 만큼을 주고받은 말이며 주문 수는 마지막에 둘이 함께 정한다. 11달러는 어떤 맛과 개수를 골라도 같은 가상 금액이다. 실제 가게의 메뉴나 가격이 아니다."
    }
   },
   {
@@ -1193,7 +1248,7 @@
       "pick": [
        "si-02"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -1264,7 +1319,7 @@
        "si-17",
        "si-18"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -1278,7 +1333,7 @@
        "si-20",
        "si-21"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -1289,7 +1344,7 @@
       "pick": [
        "si-22"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -1305,7 +1360,14 @@
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "si-25": "si-23"
+      },
+      "resume": {
+       "si-25": [
+        "si-24"
+       ]
+      }
      },
      {
       "id": "t10",
@@ -1389,7 +1451,8 @@
      "si-p6",
      "si-p7",
      "si-p8"
-    ]
+    ],
+    "situation": "가상의 빙수 가게다. 크기, 맛, 아이스크림, 숟가락을 어떻게 골라도 두 개에 8달러로 같다. 8달러와 거스름돈은 이 장면에서만 정한 값이며 실제 가게의 가격이 아니다."
    }
   },
   {
@@ -1439,7 +1502,7 @@
       "pick": [
        "mu-02"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -1505,7 +1568,7 @@
        "mu-14",
        "mu-15"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -1519,7 +1582,7 @@
        "mu-17",
        "mu-18"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -1547,7 +1610,15 @@
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "mu-23": "mu-20"
+      },
+      "resume": {
+       "mu-23": [
+        "mu-21",
+        "mu-22"
+       ]
+      }
      },
      {
       "id": "t10",
@@ -1683,7 +1754,7 @@
        "bc-02",
        "bc-28"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -1731,10 +1802,16 @@
        "bc-08",
        "bc-09"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "bc-09": "bc-10"
+      },
+      "resume": {
+       "bc-09": [
+        "bc-07",
+        "bc-08"
+       ]
       }
      },
      {
@@ -1745,7 +1822,7 @@
        "bc-11",
        "bc-12"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "bc-11": "bc-13",
@@ -1762,7 +1839,7 @@
        "bc-15",
        "bc-29"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "bc-29": "bc-30"
@@ -1802,7 +1879,7 @@
        "bc-20",
        "bc-21"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -1916,7 +1993,7 @@
       "pick": [
        "lm-02"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -1931,7 +2008,7 @@
        "lm-05",
        "lm-06"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -1982,7 +2059,7 @@
        "lm-14",
        "lm-15"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -2036,7 +2113,15 @@
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "lm-25": "lm-22"
+      },
+      "resume": {
+       "lm-25": [
+        "lm-23",
+        "lm-24"
+       ]
+      }
      },
      {
       "id": "t11",
@@ -2107,7 +2192,8 @@
      "lm-p6",
      "lm-p7",
      "lm-p8"
-    ]
+    ],
+    "situation": "가상의 빵집이다. 2개, 6개, 12개 중 무엇을 고르고 추가로 사든 안 사든 합계는 14달러로 같은 가상 금액이다. 14달러와 20달러는 이 장면에서만 정한 값이며 실제 가게의 가격이 아니다."
    }
   },
   {
@@ -2208,7 +2294,7 @@
        "ft-10",
        "ft-11"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -2223,7 +2309,7 @@
        "ft-14",
        "ft-15"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -2263,9 +2349,17 @@
        "ft-22",
        "ft-23"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "ft-23": "ft-20"
+      },
+      "resume": {
+       "ft-23": [
+        "ft-21",
+        "ft-22"
+       ]
+      }
      },
      {
       "id": "t10",
@@ -2363,7 +2457,8 @@
      "ft-p6",
      "ft-p7",
      "ft-p8"
-    ]
+    ],
+    "situation": "가상의 푸드트럭이다. 메뉴, 밥이나 샐러드, 맵기, 물을 어떻게 골라도 합계는 16달러로 같은 가상 금액이다. 16달러와 20달러는 이 장면에서만 정한 값이며 실제 가게의 가격이 아니다."
    }
   },
   {
@@ -2415,7 +2510,7 @@
        "hz-03",
        "hz-04"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -2429,7 +2524,7 @@
        "hz-06",
        "hz-07"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "hz-07": "hz-08"
@@ -2460,7 +2555,7 @@
        "hz-12",
        "hz-13"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "hz-12": "hz-14",
@@ -2653,6 +2748,13 @@
       "scored": true,
       "branch": {
        "ph-05": "ph-06"
+      },
+      "resume": {
+       "ph-05": [
+        "ph-02",
+        "ph-03",
+        "ph-04"
+       ]
       }
      },
      {
@@ -2714,7 +2816,15 @@
       "branch": {
        "ph-18": "ph-20",
        "ph-19": "ph-20"
-      }
+      },
+      "skipIf": [
+       [
+        {
+         "turn": "t4",
+         "pick": "ph-16"
+        }
+       ]
+      ]
      },
      {
       "id": "t6",
@@ -2727,10 +2837,16 @@
        "ph-23",
        "ph-24"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "ph-24": "ph-25"
+      },
+      "resume": {
+       "ph-24": [
+        "ph-22",
+        "ph-23"
+       ]
       }
      },
      {
@@ -2780,7 +2896,8 @@
      "ph-p6",
      "ph-p7",
      "ph-p8"
-    ]
+    ],
+    "situation": "가상의 약국이다. 물건 이름과 크기는 두 사람이 고르는 말이고 약의 종류나 효능은 다루지 않는다. 첫 물건 8달러, 추가 물건 4달러, 합계 12달러는 이 장면에서만 정한 값이며, 합계 12달러는 어떤 주문이든 같은 연습용 금액이다. 추가 물건이 없다고 하면 추가 물건의 값을 묻는 차례는 건너뛴다."
    }
   },
   {
@@ -2830,7 +2947,7 @@
       "pick": [
        "cc-02"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -2930,7 +3047,7 @@
       "pick": [
        "cc-18"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -2968,7 +3085,7 @@
       "pick": [
        "cc-24"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -3019,7 +3136,15 @@
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "cc-32": "cc-29"
+      },
+      "resume": {
+       "cc-32": [
+        "cc-30",
+        "cc-31"
+       ]
+      }
      },
      {
       "id": "t15",
@@ -3054,7 +3179,8 @@
      "cc-p6",
      "cc-p7",
      "cc-p8"
-    ]
+    ],
+    "situation": "가상의 디저트 식당이다. 음료, 케이크, 아이스크림을 어떻게 골라도 계산서는 18달러로 같은 가상 금액이다. 18달러와 20달러는 이 장면에서만 정한 값이며 실제 메뉴의 가격이 아니다."
    }
   },
   {
@@ -3140,7 +3266,7 @@
        "bs-12",
        "bs-13"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "bs-13": "bs-14"
@@ -3155,7 +3281,7 @@
       "pick": [
        "bs-16"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -3289,7 +3415,7 @@
        "am-03",
        "am-04"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -3373,7 +3499,7 @@
       "pick": [
        "am-16"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "am-16": "am-17"
@@ -3388,7 +3514,7 @@
        "am-19",
        "am-20"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "am-20": "am-21"
@@ -3520,7 +3646,7 @@
        "dh-03",
        "dh-30"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "dh-30": "dh-31"
@@ -3537,7 +3663,7 @@
        "dh-06",
        "dh-07"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "dh-07": "dh-08"
@@ -3551,7 +3677,7 @@
        "dh-09",
        "dh-10"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "dh-09": "dh-11",
@@ -3568,7 +3694,7 @@
        "dh-14",
        "dh-15"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -3604,7 +3730,7 @@
        "dh-19",
        "dh-20"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -3627,7 +3753,7 @@
        "dh-22",
        "dh-32"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {
        "dh-32": "dh-33"
@@ -3714,7 +3840,8 @@
      "dh-p8",
      "dh-p9",
      "dh-p10"
-    ]
+    ],
+    "situation": "가상의 전망대 안내소다. 지도는 전망대로 가는 길을 그린 지도이고, 직원과 두 사람은 가려는 곳이 전망대라는 것을 이미 안다. 그래서 지도만 부탁해도 길 안내가 이어진다."
    }
   },
   {
@@ -3766,7 +3893,7 @@
       "pick": [
        "enb-02"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {}
      },
@@ -3818,7 +3945,7 @@
        "enb-11",
        "enb-35"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "enb-35": "enb-37"
@@ -3884,7 +4011,7 @@
        "enb-20",
        "enb-34"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "enb-34": "enb-36"
@@ -3899,7 +4026,7 @@
       "pick": [
        "enb-22"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -3914,9 +4041,17 @@
        "enb-25",
        "enb-26"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
-      "branch": {}
+      "branch": {
+       "enb-25": "enb-23"
+      },
+      "resume": {
+       "enb-25": [
+        "enb-24",
+        "enb-26"
+       ]
+      }
      },
      {
       "id": "t11",
@@ -3925,7 +4060,7 @@
       "pick": [
        "enb-27"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
       "branch": {}
      },
@@ -3943,6 +4078,11 @@
       "scored": true,
       "branch": {
        "enb-30": "enb-31"
+      },
+      "resume": {
+       "enb-30": [
+        "enb-29"
+       ]
       }
      },
      {
@@ -4032,10 +4172,16 @@
        "hb-03",
        "hb-04"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "hb-04": "hb-05"
+      },
+      "resume": {
+       "hb-04": [
+        "hb-02",
+        "hb-03"
+       ]
       }
      },
      {
@@ -4075,7 +4221,23 @@
       ],
       "seat": "A",
       "scored": true,
-      "branch": {}
+      "branch": {},
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t5",
@@ -4086,7 +4248,23 @@
       ],
       "seat": "B",
       "scored": true,
-      "branch": {}
+      "branch": {},
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t6",
@@ -4101,7 +4279,23 @@
       ],
       "seat": "A",
       "scored": true,
-      "branch": {}
+      "branch": {},
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t7",
@@ -4116,7 +4310,23 @@
       ],
       "seat": "B",
       "scored": true,
-      "branch": {}
+      "branch": {},
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t8",
@@ -4127,11 +4337,27 @@
       "pick": [
        "hb-23"
       ],
-      "seat": "either",
+      "seat": "A",
       "scored": true,
       "branch": {
        "hb-23": "hb-24"
-      }
+      },
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t9",
@@ -4143,9 +4369,25 @@
        "hb-26",
        "hb-27"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
-      "branch": {}
+      "branch": {},
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t10",
@@ -4156,9 +4398,25 @@
       "pick": [
        "hb-29"
       ],
-      "seat": "either",
+      "seat": "B",
       "scored": true,
-      "branch": {}
+      "branch": {},
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t11",
@@ -4171,7 +4429,23 @@
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {},
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t12",
@@ -4184,7 +4458,23 @@
       ],
       "seat": "either",
       "scored": true,
-      "branch": {}
+      "branch": {},
+      "skipIf": [
+       [
+        {
+         "turn": "t1",
+         "pick": "hb-03"
+        },
+        {
+         "turn": "t2",
+         "pick": "hb-08"
+        },
+        {
+         "turn": "t3",
+         "pick": "hb-11"
+        }
+       ]
+      ]
      },
      {
       "id": "t13",
@@ -4219,7 +4509,8 @@
      "hb-p6",
      "hb-p7",
      "hb-p8"
-    ]
+    ],
+    "situation": "가상의 장비 대여소다. 마스크, 오리발, 숨 쉬는 관은 한 번에 빌리는 한 세트를 이루는 물건이다. 하나라도 '네'라고 하면 두 사람이 크기를 말하고 장비를 받아 20달러에 빌린다. 세 가지에 모두 '아니요'라고 하면 아무것도 빌리지 않고 인사로 끝난다. 20달러는 이 장면에서만 정한 값이며 실제 대여소의 가격이 아니다."
    }
   }
  ]

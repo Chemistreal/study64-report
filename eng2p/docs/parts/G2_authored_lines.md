@@ -21,13 +21,13 @@
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | dkd-01 | door | npc | Host | Good evening! Table for two? | A1 | 인사와 인원 묻기 | A | - | - |
-| dkd-02 | door | option | 두 사람 | Yes, please. | A1 | 인원 확인 | A | - | - |
-| dkd-03 | door | option | 두 사람 | Is there a table by the window? | A2 | 자리 요청 | A | - | - |
+| dkd-02 | door | option | A자리 | Yes, please. | A1 | 인원 확인 | A | - | - |
+| dkd-03 | door | option | A자리 | Is there a table by the window? | A2 | 자리 요청 | A | - | - |
 | dkd-04 | door | npc | Host | Yes. Come with me, please. | A1 | 자리 요청 수락 | B | 창가 자리의 제공 가능 여부는 실제 매장 정보가 아니라 가상 장면값이다 | - |
 | dkd-05 | door | npc | Host | Here are your menus. | A1 | 메뉴 건네기 | A | - | - |
 | dkd-06 | ready | npc | Server | Are you ready to order? | A1 | 주문 준비 묻기 | A | - | - |
-| dkd-07 | ready | option | 두 사람 | We need a minute, please. | A1 | 시간 요청 | A | - | - |
-| dkd-08 | ready | option | 두 사람 | What do you recommend? | A2 | 추천 묻기 | A | - | - |
+| dkd-07 | ready | option | A자리 | We need a minute, please. | A1 | 시간 요청 | A | - | - |
+| dkd-08 | ready | option | A자리 | What do you recommend? | A2 | 추천 묻기 | A | - | - |
 | dkd-09 | ready | npc | Server | Of course. Take your time. | A1 | 기다려 주기 | A | - | - |
 | dkd-10 | ready | npc | Server | The fish is good. It comes with rice. | A2 | 음식 구성 안내 | A | - | - |
 | dkd-11 | plan | wait | A자리 | Would you like fish or chicken, {B}? | A2 | 상대의 선택 묻기 | A | - | - |
@@ -46,13 +46,13 @@
 | dkd-24 | friend | option | B자리 | I'll have the fish, please. | A1 | 식사 주문 | A | - | - |
 | dkd-25 | friend | option | B자리 | The fish, please. Does it come with rice? | A2 | 주문과 구성 확인 | A | - | - |
 | dkd-26 | more | npc | Server | Anything else? | A1 | 추가 주문 묻기 | A | - | - |
-| dkd-27 | more | option | 두 사람 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | - |
-| dkd-28 | more | option | 두 사람 | Could we have two forks, please? | A2 | 식기 요청 | A | - | - |
+| dkd-27 | more | option | B자리 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | - |
+| dkd-28 | more | option | B자리 | Could we have two forks, please? | A2 | 식기 요청 | A | - | - |
 | dkd-29 | more | npc | Server | Of course. Here are your forks. | A1 | 식기 건네기 | A | - | - |
 | dkd-30 | food | npc | Server | Here are your meals. Enjoy! | A1 | 음식 건네기 | A | - | - |
 | dkd-31 | food | npc | Server | How is everything? | A1 | 식사 상태 묻기 | A | - | - |
-| dkd-32 | food | option | 두 사람 | It is very good, thank you. | A1 | 만족 말하기 | A | - | - |
-| dkd-33 | food | option | 두 사람 | Could we have some water, please? | A2 | 추가 음료 요청 | A | - | - |
+| dkd-32 | food | option | B자리 | It is very good, thank you. | A1 | 만족 말하기 | A | - | - |
+| dkd-33 | food | option | B자리 | Could we have some water, please? | A2 | 추가 음료 요청 | A | - | - |
 | dkd-34 | food | npc | Server | Of course. I'll bring you some water. | A1 | 요청 수락 | A | - | - |
 | dkd-35 | pay | option | 두 사람 | Can we have the check, please? | A2 | 계산서 요청 | A | - | - |
 | dkd-36 | pay | option | 두 사람 | Could we pay by card? | A2 | 결제 수단 확인 | A | - | - |
@@ -84,18 +84,18 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | door | dkd-01 | dkd-02/dkd-03 | 둘 중 누구든 |
+| t1 | door | dkd-01 | dkd-02/dkd-03 | A |
 | n1 | door | dkd-05 | - | - |
-| t2 | ready | dkd-06 | dkd-07/dkd-08 | 둘 중 누구든 |
+| t2 | ready | dkd-06 | dkd-07/dkd-08 | A |
 | t3 | plan | - | dkd-11 | A |
 | t4 | plan | - | dkd-12/dkd-13 | B |
 | t5 | drink | dkd-14 | dkd-15/dkd-16 | A |
 | t6 | friend | dkd-17 | dkd-18/dkd-19 | B |
 | t7 | dinner | dkd-20 | dkd-21/dkd-22 | A |
 | t8 | friend | dkd-17 | dkd-24/dkd-25 | B |
-| t9 | more | dkd-26 | dkd-27/dkd-28 | 둘 중 누구든 |
+| t9 | more | dkd-26 | dkd-27/dkd-28 | B |
 | n2 | food | dkd-30 | - | - |
-| t10 | food | dkd-31 | dkd-32/dkd-33 | 둘 중 누구든 |
+| t10 | food | dkd-31 | dkd-32/dkd-33 | B |
 | t11 | pay | - | dkd-35/dkd-36 | 둘 중 누구든 |
 | t12 | pay | dkd-38 | dkd-39/dkd-40 | 둘 중 누구든 |
 
@@ -117,8 +117,8 @@
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
-| mud-01 | line | option | 두 사람 | Excuse me. Is this the line? | A1 | 줄 확인 | A | - | - |
-| mud-02 | line | option | 두 사람 | Excuse me. Where do we order? | A1 | 주문 위치 묻기 | A | - | - |
+| mud-01 | line | option | A자리 | Excuse me. Is this the line? | A1 | 줄 확인 | A | - | - |
+| mud-02 | line | option | A자리 | Excuse me. Where do we order? | A1 | 주문 위치 묻기 | A | - | - |
 | mud-03 | line | npc | Clerk | Please start at this counter. | A1 | 주문 위치 안내 | B | 주문 시작 위치와 절차는 실제 매장 운영을 확인한 정보가 아니라 가상 장면값이다 | - |
 | mud-04 | line | npc | Clerk | Yes. Please wait here. | A1 | 줄 확인 대답 | A | - | - |
 | mud-05 | order | npc | Clerk | You can order here now. | A1 | 주문 시작 안내 | A | - | - |
@@ -146,14 +146,14 @@
 | mud-27 | friend | option | B자리 | An egg, please. | A1 | 고명 추가 주문 | A | - | - |
 | mud-28 | friend | option | B자리 | No extra toppings, thank you. | A2 | 추가 거절 | A | - | - |
 | mud-29 | more | npc | Cashier | Is that all? | A1 | 추가 주문 묻기 | A | - | - |
-| mud-30 | more | option | 두 사람 | Yes, that's all. | A1 | 주문 끝내기 | A | - | - |
-| mud-31 | more | option | 두 사람 | Water, please. | A1 | 음료 요청 | A | - | - |
+| mud-30 | more | option | B자리 | Yes, that's all. | A1 | 주문 끝내기 | A | - | - |
+| mud-31 | more | option | B자리 | Water, please. | A1 | 음료 요청 | A | - | - |
 | mud-32 | more | npc | Cashier | There's water by the tables. | A1 | 물 위치 안내 | B | 물을 받는 위치는 실제 매장 운영을 확인한 정보가 아니라 가상 장면값이다 | - |
 | mud-41 | pay | npc | Cashier | Are you ready to pay? | A1 | 결제 준비 묻기 | A | - | - |
-| mud-42 | pay | option | 두 사람 | Yes, we're ready. | A1 | 결제 준비 답하기 | A | - | - |
+| mud-42 | pay | option | B자리 | Yes, we're ready. | A1 | 결제 준비 답하기 | A | - | - |
 | mud-33 | pay | npc | Cashier | Cash or card? | A1 | 결제 수단 묻기 | A | - | - |
 | mud-34 | pay | option | 두 사람 | Card, please. | A1 | 결제 수단 선택 | A | - | - |
-| mud-35 | pay | option | 두 사람 | Can we see the total first? | A2 | 금액 확인 요청 | A | - | - |
+| mud-35 | pay | option | B자리 | Can we see the total first? | A2 | 금액 확인 요청 | A | - | - |
 | mud-36 | pay | npc | Cashier | Yes. The total is on the screen. | A2 | 금액 표시 안내 | B | 합계가 표시되는 방식은 실제 계산대 운영을 확인한 정보가 아니라 가상 장면값이다 | - |
 | mud-37 | seat | option | 두 사람 | Where can we sit? | A1 | 좌석 위치 묻기 | A | - | - |
 | mud-38 | seat | option | 두 사람 | Are there seats for two? | A2 | 좌석 가능 여부 묻기 | A | - | - |
@@ -185,7 +185,7 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | line | - | mud-01/mud-02 | 둘 중 누구든 |
+| t1 | line | - | mud-01/mud-02 | A |
 | t2 | order | mud-05 | mud-06/mud-07 | A |
 | t3 | temperature | mud-09 | mud-10/mud-11 | A |
 | t4 | friend | mud-13 | mud-14/mud-15 | B |
@@ -193,8 +193,8 @@
 | t6 | size | mud-20 | mud-21/mud-22 | B |
 | t7 | topping | mud-23 | mud-24/mud-25 | A |
 | t8 | friend | mud-13 | mud-27/mud-28 | B |
-| t9 | more | mud-29 | mud-30/mud-31 | 둘 중 누구든 |
-| t10 | pay | mud-41 | mud-35/mud-42 | 둘 중 누구든 |
+| t9 | more | mud-29 | mud-30/mud-31 | B |
+| t10 | pay | mud-41 | mud-35/mud-42 | B |
 | t11 | pay | mud-33 | mud-34 | 둘 중 누구든 |
 | t12 | seat | - | mud-37/mud-38 | 둘 중 누구든 |
 
@@ -246,7 +246,7 @@
 | ams-32 | receipt | option | A자리 | Yes, a receipt, please. | A2 | 영수증 요청 | A | - | - |
 | ams-33 | receipt | option | A자리 | Could you put it with the shirt? | A2 | 영수증을 물건과 함께 두도록 요청 | B | 영수증을 옷과 함께 두라는 부탁의 매장 어감을 확인하지 못했다 | - |
 | ams-34 | leave | npc | Clerk | Here are your shirt and receipt. | A2 | 물건과 영수증 건네기 | A | - | - |
-| ams-35 | leave | wait | 두 사람 | Thank you! Have a nice day. | A2 | 감사하며 작별 | A | - | - |
+| ams-35 | leave | wait | B자리 | Thank you! Have a nice day. | A2 | 감사하며 작별 | A | - | - |
 
 ### 연습할 말
 
@@ -278,7 +278,7 @@
 | t7 | pay | ams-23 | ams-24/ams-25 | B |
 | t8 | card | ams-26 | ams-27/ams-28 | B |
 | t9 | receipt | ams-31 | ams-32/ams-33 | A |
-| t10 | leave | ams-34 | ams-35 | 둘 중 누구든 |
+| t10 | leave | ams-34 | ams-35 | B |
 
 ## 나들이: grocery_store
 
@@ -771,8 +771,8 @@
 | lbc-35 | return | option | B자리 | Thank you. I'll bring it back here. | A2 | 반납 계획 제안 | A | - | - |
 | lbc-36 | return | npc | Clerk | You can bring it back to this desk. | A2 | 반납 장소 안내 | A | - | - |
 | lbc-37 | finish | npc | Clerk | Is there anything else you need? | A2 | 추가 필요 묻기 | A | - | - |
-| lbc-38 | finish | option | 두 사람 | No. That's everything. Thank you. | A2 | 마무리 감사 | A | - | - |
-| lbc-39 | finish | option | 두 사람 | Could you write down the return date? | B1 | 반납 날짜 기록 요청 | A | - | - |
+| lbc-38 | finish | option | B자리 | No. That's everything. Thank you. | A2 | 마무리 감사 | A | - | - |
+| lbc-39 | finish | option | B자리 | Could you write down the return date? | B1 | 반납 날짜 기록 요청 | A | - | - |
 | lbc-40 | finish | npc | Clerk | Of course. Here it is. | A1 | 기록 건네기 | A | - | - |
 
 ### 연습할 말
@@ -806,7 +806,7 @@
 | t7 | period | lbc-25 | lbc-26/lbc-27 | B |
 | t8 | borrow | lbc-29 | lbc-30/lbc-31 | A |
 | t9 | return | lbc-33 | lbc-34/lbc-35 | B |
-| t10 | finish | lbc-37 | lbc-38/lbc-39 | 둘 중 누구든 |
+| t10 | finish | lbc-37 | lbc-38/lbc-39 | B |
 
 ## 나들이: clinic_visit
 
@@ -818,7 +818,7 @@
 허용 이름: -
 갈래: clv-03 > clv-04, clv-07 > clv-08, clv-11 > clv-12, clv-15 > clv-16, clv-19 > clv-20, clv-26 > clv-27, clv-30 > clv-31, clv-33 > clv-35, clv-34 > clv-35, clv-37 > clv-39
 
-상황: 제안 장소는 new:clinic이다. 목이 아픈 A와 동행한 B가 가상 진료소의 접수와 문진을 연습한다. 증상 시작 시점, 당일 방문 수락, 동반 허용, 대기 위치, 진찰 및 안내서 제공은 모두 연습용 장면 값이다. 증상과 복용 목록은 선택에 따라 달라지며 병명, 약 이름, 복용량이나 치료 지시를 정하지 않는다. 마지막의 안내서는 가상 장면 속 자료이며 실제 연락처가 없다. 이 대화는 실제 진단이나 진료 절차 안내를 대신하지 않는다.
+상황: 제안 장소는 new:clinic이다. 목이 아픈 A와 동행한 B가 가상 진료소의 접수와 문진을 연습한다. 증상 시작 시점, 당일 방문 수락, 동반 허용, 대기 위치, 진찰 및 안내서 제공은 모두 연습용 장면 값이다. 증상과 복용 목록은 선택에 따라 달라지며 병명, 약 이름, 복용량이나 치료 지시를 정하지 않는다. 마지막의 안내서는 가상 장면 속 자료이며 실제 연락처가 없다. 이 대화는 실제 진단이나 진료 절차 안내를 대신하지 않는다. B는 A와 함께 왔다고 접수에서 먼저 알린다(clv-40). 다음 절차를 설명하는 단계에서는 B가 A를 대신해 직원에게 적어 달라고 하거나 천천히 설명해 달라고 부탁한다. 이때 가상 안내서가 화면에 보이고 직원이 그것을 짚어 가며 함께 훑는 것이 설명이다. 병명, 약, 복용, 치료 지시는 말하지 않는다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -854,13 +854,14 @@
 | clv-30 | exam | option | A자리 | Could you tell me what you'll do first? | B1 | 진찰 절차 설명 요청 | A | - | - |
 | clv-31 | exam | npc | Doctor | I'll look at your throat. | A2 | 진찰 내용 설명 | A | - | - |
 | clv-32 | steps | npc | Nurse | Let me explain the next steps. | B1 | 후속 안내 시작 | A | - | - |
-| clv-33 | steps | option | A자리 | Could you write them down for me? | A2 | 안내 기록 요청 | A | - | - |
-| clv-34 | steps | option | A자리 | Please explain them slowly. | A2 | 안내 속도 조절 요청 | A | - | - |
+| clv-33 | steps | option | B자리 | Could you write them down for me? | A2 | 안내 기록 요청 | A | - | - |
+| clv-34 | steps | option | B자리 | Please explain them slowly. | A2 | 안내 속도 조절 요청 | A | - | - |
 | clv-35 | steps | npc | Nurse | Of course. We'll go through them together. | B1 | 안내 도움 수락 | B | go through로 설명을 함께 살피는 구의 난이도와 화용을 확인해야 한다 | - |
 | clv-36 | finish | npc | Clerk | Here is the information from your visit. | A2 | 방문 안내서 건네기 | A | - | - |
 | clv-37 | finish | option | B자리 | Who should I call with questions? | B1 | 연락 대상 질문 | A | - | - |
 | clv-38 | finish | option | B자리 | Thank you. I'll read this at home. | A2 | 받은 정보 확인과 감사 | A | - | - |
 | clv-39 | finish | npc | Clerk | You can call the number on this page. | A2 | 연락 번호 안내 | A | - | - |
+| clv-40 | desk | wait | B자리 | I'm here with {A}. | A2 | 동행 관계 알리기 | A | - | - |
 
 ### 연습할 말
 
@@ -887,6 +888,7 @@
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
+| t0 | desk | - | clv-40 | B |
 | t1 | desk | clv-01 | clv-02/clv-03 | A |
 | t2 | name | clv-05 | clv-06/clv-07 | A |
 | t3 | wait | clv-09 | clv-10/clv-11 | B |
@@ -895,7 +897,7 @@
 | t6 | cough | clv-21 | clv-22/clv-23 | A |
 | t7 | medicine | clv-24 | clv-25/clv-26 | A |
 | t8 | exam | clv-28 | clv-29/clv-30 | A |
-| t9 | steps | clv-32 | clv-33/clv-34 | A |
+| t9 | steps | clv-32 | clv-33/clv-34 | B |
 | t10 | finish | clv-36 | clv-37/clv-38 | B |
 
 ## 나들이: ala_moana_returns

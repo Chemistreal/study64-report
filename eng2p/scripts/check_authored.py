@@ -11,6 +11,9 @@
     outings    미션 표(outing.md)가 세션 계획에 맞는다 (derive_outings.py 와 같은 관문)
     culture    authored.json 에 check_culture.py 의 금지어 표가 걸린다
     plan       미션이 세션 계획을 안 건드린다 (sessions.json 288, acts.json plan 그대로, 미션 id 가 sessions.json 에 없다)
+    structure  미션 55장(첫 공개 18 + 보관본 G2 G3 G5)의 구조: 줄 25~40, 점수 차례 8~14 (예외는 authored_lib.LIMIT_EXCEPTIONS 에 이유와 함께),
+               고정 자리(A, B)마다 점수 차례의 35% 이상 (`둘 중 누구든` 차례는 어느 자리에도 안 센다), 재개와 건너뜀 메타가 차례와 맞고,
+               고정 자리 차례의 고르는 줄 인물이 그 자리다 (docs/authored.md 3.1장)
 
 사용법:
     python3 scripts/check_authored.py
@@ -137,6 +140,47 @@ def check_culture():
     return [x for x in r.stdout.splitlines() if x.startswith("[실패]")] + ([] if r.returncode == 0 else ["check_culture 종료 코드 %d" % r.returncode])
 
 
+STRUCT_PARTS = ["docs/parts/G2_authored_lines.md", "docs/parts/G3_authored_lines.md", "docs/parts/G5_authored_lines.md"]
+
+
+def all_missions():
+    """[(미션, 파일)]. 첫 공개 18장(본문)과 보관본 37장. 보관본은 파생에 안 들어가므로 구조 관문만 건다."""
+    out = [(o, "docs/authored_lines.md") for o in L.parse_lines()[0]]
+    for rel in STRUCT_PARTS:
+        out += [(o, rel) for o in L.parse_lines(os.path.join(ROOT, rel))[0]]
+    return out
+
+
+def structure_all(missions):
+    """(실패, 알림)"""
+    fail, warn = [], []
+    seen = set()
+    for o, _ in missions:
+        if o["id"] in seen:
+            fail.append("%s: 미션 장이 두 파일에 있다" % o["id"])
+        seen.add(o["id"])
+        fail += L.flow_problems(o)
+        f, w = L.structure_problems(o)
+        fail += f
+        warn += w
+    for k in L.LIMIT_EXCEPTIONS:
+        if k not in seen:
+            fail.append("예외표의 미션 %s 가 없다" % k)
+        for key, (n, why) in L.LIMIT_EXCEPTIONS[k].items():
+            if len(why) < 20:
+                fail.append("예외표 %s.%s 에 이유가 없다" % (k, key))
+    return fail, warn
+
+
+STRUCT_WARN = []
+
+
+def check_structure():
+    fail, warn = structure_all(all_missions())
+    STRUCT_WARN[:] = warn
+    return fail
+
+
 def check_plan():
     fail = []
     S = json.load(open(L.SESS, encoding="utf-8"))
@@ -191,6 +235,7 @@ def breaks():
     want("culture: 상표", broken_outing(set_line("enb-06", say="Coffee, Starbucks, please.")))
     want("culture: 연속성(집 구하기 전 apartment)", broken_outing(set_line("enb-06", say="Coffee, apartment, please.")))
     want("dup: 같은 인물 같은 말", broken_outing(set_line("enb-03", say="Good morning! How many?", who="Host")))
+    want("dup: 같은 차례의 후보 둘이 같은 말", broken_outing(set_line("enb-26", say="Yes, it is very good.")))
     want("copy: 말뭉치 8낱말", broken_outing(set_line("enb-02", say=" ".join(sorted(L.corpus_ngrams(L.COPY_FAIL))[0]), cefr="B2")))
     want("gloss: 풀이 구간 밖", broken_outing(lambda o: o["meta"].update({"세션": "60"})))
     want("blist: B 인데 이유 없음", broken_outing(set_line("enb-31", why="-")))
@@ -264,6 +309,61 @@ def breaks():
     os.unlink(t.name)
     want("culture: 금지어(grass skirt) 파일", [1] if r.returncode != 0 else [])
 
+    # 구조 관문 (줄과 차례의 상한, 자리 몫, 재개와 건너뜀)
+    by_id = {o["id"]: o for o, _ in all_missions()}
+
+    def struct(mut, mid="cookie_snack"):
+        o = copy.deepcopy(by_id[mid])
+        mut(o)
+        return L.flow_problems(o) + L.structure_problems(o)[0]
+
+    def more_lines(o):
+        for k in range(15):
+            ln = dict(o["lines"][0])
+            ln["id"] = "zz-%02d" % k
+            o["lines"].append(ln)
+
+    def more_turns(o):
+        o["turns"] += [dict(o["turns"][1], id="tz%d" % k) for k in range(3)]
+
+    def all_a(o):
+        for t in o["turns"]:
+            if t["pick"] != "-":
+                t["seat"] = "A"
+
+    def either_all(o):
+        for t in o["turns"]:
+            if t["pick"] != "-":
+                t["seat"] = "둘 중 누구든"
+
+    want("structure: 줄이 40줄 넘음(예외 없음)", struct(more_lines))
+    want("structure: 점수 차례가 14 넘음(예외 없음)", struct(more_turns))
+    want("structure: 점수 차례가 8 밑", struct(lambda o: o.update(turns=o["turns"][:6])))
+    want("structure: 한 자리가 35% 밑", struct(all_a))
+    want("structure: 누구든만 있으면 고정 몫 0", struct(either_all))
+    want("structure: 고정 자리 차례에 다른 자리 줄", struct(lambda o: o["turns"][1].update(seat="B")))
+    want("structure: 재개의 고른 후보가 차례 후보가 아님", struct(lambda o: o["meta"].update({"재개": "t10:cs-01 > cs-23"})))
+    want("structure: 재개에 갈래 NPC 줄이 없음", struct(lambda o: o["meta"].update({"재개": "t10:cs-25 > cs-23/cs-24", "갈래": "-"})))
+    want("structure: 재개의 답이 NPC 줄", struct(lambda o: o["meta"].update({"재개": "t10:cs-25 > cs-22", "갈래": "cs-25 > cs-22"})))
+    want("structure: 재개 꼴이 틀림", struct(lambda o: o["meta"].update({"재개": "t10 cs-25"})))
+    want("structure: 건너뜀 조건이 뒤 차례", struct(lambda o: o["meta"].update({"건너뜀": "t2 if t5:cs-10"})))
+    want("structure: 건너뜀 범위 거꾸로", struct(lambda o: o["meta"].update({"건너뜀": "t5..t3 if t1:cs-02"})))
+    # 예외표
+    old = dict(L.LIMIT_EXCEPTIONS)
+    try:
+        L.LIMIT_EXCEPTIONS["cookie_snack"] = {"lines": (50, "상한 안인데 있는 예외라서 지워야 한다 지워야 한다")}
+        want("structure: 필요 없는 예외", struct(lambda o: None))
+        L.LIMIT_EXCEPTIONS.pop("cookie_snack")
+        L.LIMIT_EXCEPTIONS["hotel_front_desk"] = {"lines": (41, "예외 상한보다 줄이 많아졌다 예외 상한보다 줄이 많다")}
+        want("structure: 예외 상한을 넘음", struct(lambda o: None, "hotel_front_desk"))
+    finally:
+        L.LIMIT_EXCEPTIONS.clear()
+        L.LIMIT_EXCEPTIONS.update(old)
+    sf, _ = structure_all(all_missions())
+    print("  [%s] 현재 55장은 구조 실패 0 이어야 한다 (%d)" % ("통과" if not sf else "놓침", len(sf)))
+    if sf:
+        missed.append("structure clean")
+
     # 깨끗한 원본은 통과해야 한다
     clean = check_gates()
     print("  [%s] 현재 원본은 실패 0 이어야 한다 (%d)" % ("통과" if not clean else "놓침", len(clean)))
@@ -274,12 +374,15 @@ def breaks():
 
 def main():
     panels = [("gates", check_gates), ("fresh", check_fresh), ("blist", check_blist), ("corpus", check_corpus),
-              ("first", check_first), ("scene", check_scene), ("culture", check_culture), ("plan", check_plan)]
+              ("first", check_first), ("scene", check_scene), ("culture", check_culture), ("plan", check_plan),
+              ("structure", check_structure)]
     n = 0
     for name, fn in panels:
         for x in fn():
             print("[실패] %s: %s" % (name, x))
             n += 1
+    for w in STRUCT_WARN:
+        print("[알림] structure: " + w)
     outs, _ = L.parse_lines()
     lines = [ln for o in outs for ln in o["lines"]]
     b = sum(1 for ln in lines if ln["check"] == "B")

@@ -176,6 +176,10 @@ def game_of(o):
             branch[a] = b
     used = set()
     turns = []
+    order = [t["id"] for t in o["turns"]]
+    resume, _ = L.parse_resume(o["meta"])
+    skips, _ = L.parse_skip(o["meta"])
+    fail += L.flow_problems(o)
     for t in o["turns"]:
         npcs = [] if t["npc"] == "-" else [x.strip() for x in t["npc"].split("+")]
         npc = npcs[0] if npcs else None
@@ -193,9 +197,18 @@ def game_of(o):
             if lines.get(i, {}).get("kind") == "npc":
                 fail.append("%s: 차례 %s 의 고르는 줄 %s 가 npc 줄이다" % (o["id"], t["id"], i))
         seat = {"A": "A", "B": "B"}.get(t["seat"], "either")
-        turns.append({"id": t["id"], "scene": t["scene"], "npc": npcs, "pick": picks, "seat": seat,
-                      "scored": bool(picks),
-                      "branch": {k: v for k, v in branch.items() if k in picks}})
+        rec = {"id": t["id"], "scene": t["scene"], "npc": npcs, "pick": picks, "seat": seat,
+               "scored": bool(picks),
+               "branch": {k: v for k, v in branch.items() if k in picks}}
+        # 재개 단계: 고른 후보 -> 같은 차례에서 한 번 더 받는 답 후보 (결과는 원 차례 하나. 차례 수에 안 센다)
+        rs = {trig: ans for tid, trig, ans in resume if tid == t["id"]}
+        if rs:
+            rec["resume"] = rs
+        # 건너뜀: 조건(차례:고른 후보)이 모두 맞으면 이 차례를 하지 않는다
+        sk = [[{"turn": ct, "pick": cp} for ct, cp in conds] for fr, to, conds in skips if fr in order and to in order and order.index(fr) <= order.index(t["id"]) <= order.index(to)]
+        if sk:
+            rec["skipIf"] = sk
+        turns.append(rec)
     for b in branch.values():
         used.add(b)
     left = sorted(set(lines) - used, key=lambda x: int(x.rsplit("-", 1)[1]))
@@ -203,10 +216,13 @@ def game_of(o):
         fail.append("%s: 차례가 안 쓰는 줄: %s" % (o["id"], " ".join(left)))
     if not turns:
         fail.append("%s: 미니게임 차례 표가 비었다" % o["id"])
-    return {"timeLimit": None, "retryable": True, "turns": turns,
+    game = {"timeLimit": None, "retryable": True, "turns": turns,
             "result": {"turnOutcomes": ["pass", "near", "miss"], "passShare": 77, "nearShare": 54,
                        "rule": "차례 통과 비율 77% 이상 pass, 54% 이상 near, 그 밖에 miss. 시계 없음. 아무것도 잠그지 않는다"},
-            "practice": [p["id"] for p in o["practice"]]}, fail
+            "practice": [p["id"] for p in o["practice"]]}
+    if o["meta"].get("상황", "-").strip() not in ("", "-"):
+        game["situation"] = o["meta"]["상황"].strip()
+    return game, fail
 
 
 def main():

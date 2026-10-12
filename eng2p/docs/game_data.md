@@ -31,7 +31,7 @@
 | `out/game/outings.json` | `scripts/derive_outings.py` (원본 `docs/outings.md`) | 나들이 미션 표 (**첫 공개 18개만**: 세션 1~48, A1). 장소 id, 열리는 세션, 파일럿의 미니게임 차례. 13장 | 안 읽음 (로더 할 일) |
 | `out/game/functions.json` | `scripts/derive_functions.py` (규칙 `docs/functions.md`) | 기능 라벨(can-do). 카드 600장의 기능, 미션 차례 후보 줄의 기능, 기능 -> 미션 색인. 점수 없음. 점수와 같은 키 이름(mission turn outcome pick)으로 읽는다 | 안 읽음 (로더 할 일) |
 | `scripts/check_functions.py` | | 위 파일의 판 아홉과 깸 시험 (새 분류 없음, 억지 붙이기 없음, 차례 후보가 미션 표와 같음, 점수와 이름 없음) | |
-| `scripts/check_authored.py` | | 지은 영어의 판 여덟과 깸 시험 (낱말 등급, 길이, 문화, 중복, 베끼기, 풀이 구간, 점검 B 목록, 미션 표) | |
+| `scripts/check_authored.py` | | 지은 영어의 판 아홉과 깸 시험 (낱말 등급, 길이, 문화, 중복, 베끼기, 풀이 구간, 점검 B 목록, 미션 표, 미션 구조) | |
 
 ## 2. 지키는 것
 

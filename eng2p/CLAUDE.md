@@ -284,7 +284,7 @@ scripts/derive_tick_bundle.py PC 에서 틱이 돌려면 필요한 29개 파일�
 scripts/check_tick_e2e.py 틱을 49일 이어 돌려 독립 계산과 견준다. 멱등, 교환, 합침, 사다리 212일, --break 열여덟
 scripts/derive_transcripts_ko.py, scripts/check_transcripts_ko.py 입문 세션(1~50) 라디오 대본의 한국어 풀이 out/game/transcripts_ko.json. **원본은 docs/transcripts_ko.md 이고 번역은 B등급이다.** 기준서 13.1 예외 문단(개정문 29번)이 허락한 범위 안에서만. 열쇠는 `<과>#<줄 번호 1부터>`. docs/game_data.md 12장
 docs/authored.md      **지은 영어(authored).** 작성자가 필요한 영어를 쓴다 (개정문 30번). 줄마다 등급, 기능, 자기 점검 A/B. 원본 docs/authored_lines.md, 낱말 등급표 docs/authored_words.md
-scripts/derive_authored.py, scripts/check_authored.py 지은 줄을 out/game/authored.json 과 state/authored_b.md 로. 판 여덟, 깸 시험 서른둘. 말뭉치 줄의 관문은 그대로
+scripts/derive_authored.py, scripts/check_authored.py 지은 줄을 out/game/authored.json 과 state/authored_b.md 로. 판 아홉, 깸 시험 마흔일곱. 말뭉치 줄의 관문은 그대로
 docs/functions.md     **기능 라벨(can-do).** 점수를 대체하지 않고 점수와 함께 쓴다. 카드 600장의 기능, 미션 차례 후보 줄의 기능, 기능 -> 미션 색인. 새 분류 없음, 못 붙이는 카드는 안 붙인다. scripts/derive_functions.py, scripts/check_functions.py (깸 시험). 결과 줄 `outing_turn.pick` 은 game_results.md 4.15 개정 3. out/game/functions.json
 docs/outings.md       **나들이 미션** 55개 (첫 공개 세션 1~48 A1 은 18개: 생활 14, 여행 4). 실제 장소의 작은 미니게임, 시간 상한 없음, 세션 번호로 열림. scripts/derive_outings.py 가 out/game/outings.json 을 낸다. 파일럿은 에그스 앤 띵스 아침
 out/game/results_schema.json, out/game/manifest.json 파생물. 손으로 안 고친다

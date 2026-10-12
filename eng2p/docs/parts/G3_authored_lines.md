@@ -39,8 +39,8 @@
 | dlp-17 | pose | option | B자리 | Yes. We can see the ocean here. | A2 | 위치 수락과 설명 | A | - | - |
 | dlp-18 | pose | option | B자리 | Let us move a little closer together. | A2 | 사진 자세 제안 | A | - | - |
 | dlp-19 | ready | npc | Guide | Great. Are you both ready? | A2 | 준비 확인 | A | - | - |
-| dlp-20 | ready | option | 두 사람 | Yes. We are ready. | A2 | 준비 대답 | A | - | - |
-| dlp-21 | ready | option | 두 사람 | One moment. My hat is in the way. | A2 | 잠시 기다림 요청 | A | - | - |
+| dlp-20 | ready | option | B자리 | Yes. We are ready. | A2 | 준비 대답 | A | - | - |
+| dlp-21 | ready | option | B자리 | One moment. My hat is in the way. | A2 | 잠시 기다림 요청 | A | - | - |
 | dlp-22 | ready | npc | Guide | Great. Look at the camera. | A2 | 촬영 안내 | A | - | - |
 | dlp-23 | ready | npc | Guide | Take your time. I can wait. | A2 | 기다림 수락 | A | - | - |
 | dlp-24 | review | npc | Guide | Here is the photo. What do you think? | A2 | 사진 보여주고 의견 묻기 | A | - | - |
@@ -49,8 +49,8 @@
 | dlp-27 | review | npc | Guide | You are welcome. | A2 | 감사에 답하기 | A | - | - |
 | dlp-28 | review | npc | Guide | Of course. You can both look. | A2 | 함께 보기 수락 | A | - | - |
 | dlp-29 | another | npc | Guide | Would you like another photo? | A2 | 추가 촬영 묻기 | A | - | - |
-| dlp-30 | another | option | 두 사람 | No, thanks. This one is fine. | A2 | 추가 촬영 거절 | A | - | - |
-| dlp-31 | another | option | 두 사람 | Could you take one with us sitting? | A2 | 다른 자세 촬영 부탁 | B | 앉은 사진을 부탁하는 with us sitting의 구어 빈도와 등급 판단은 미확인이야. | - |
+| dlp-30 | another | option | B자리 | No, thanks. This one is fine. | A2 | 추가 촬영 거절 | A | - | - |
+| dlp-31 | another | option | B자리 | Could you take one with us sitting? | A2 | 다른 자세 촬영 부탁 | B | 앉은 사진을 부탁하는 with us sitting의 구어 빈도와 등급 판단은 미확인이야. | - |
 | dlp-32 | another | npc | Guide | All right. We are done with the photos. | A2 | 촬영 마무리 | A | - | - |
 | dlp-33 | another | npc | Guide | Sure. Here is your other photo. | A2 | 추가 사진 보여주기 | A | - | - |
 | dlp-34 | return | wait | A자리 | May I have it back, please? | A2 | 맡긴 기기 돌려받기 | A | - | - |
@@ -88,9 +88,9 @@
 | t3 | view | dlp-11 | dlp-12/dlp-13 | B |
 | t4 | pose | - | dlp-16 | A |
 | t5 | pose | - | dlp-17/dlp-18 | B |
-| t6 | ready | dlp-19 | dlp-20/dlp-21 | 둘 중 누구든 |
+| t6 | ready | dlp-19 | dlp-20/dlp-21 | B |
 | t7 | review | dlp-24 | dlp-25/dlp-26 | A |
-| t8 | another | dlp-29 | dlp-30/dlp-31 | 둘 중 누구든 |
+| t8 | another | dlp-29 | dlp-30/dlp-31 | B |
 | t9 | return | - | dlp-34 | A |
 | n1 | return | dlp-35 | - | - |
 | t10 | talk | - | dlp-36 | A |
@@ -400,14 +400,14 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | ipt-01 | welcome | npc | Clerk | Welcome! Are you here for the tour? | B1 | 인사와 방문 목적 묻기 | A | - | - |
-| ipt-02 | welcome | option | 두 사람 | Yes. Where should we wait? | A2 | 대기 위치 묻기 | A | - | - |
-| ipt-03 | welcome | option | 두 사람 | Yes. Could we see the tour information first? | B1 | 안내 자료 요청 | A | - | - |
+| ipt-02 | welcome | option | A자리 | Yes. Where should we wait? | A2 | 대기 위치 묻기 | A | - | - |
+| ipt-03 | welcome | option | A자리 | Yes. Could we see the tour information first? | B1 | 안내 자료 요청 | A | - | - |
 | ipt-04 | welcome | npc | Clerk | Please wait here with the group. | B1 | 대기 위치 안내 | B | 실제 대기 장소와 단체 운영은 확인하지 않은 가상 장면값이다 | - |
 | ipt-05 | welcome | npc | Clerk | Here is the tour information. You can wait here. | B1 | 안내 자료와 대기 위치 제공 | B | 실제 안내 자료와 대기 절차는 확인하지 않은 가상 장면값이다 | - |
 | ipt-06 | sheet | npc | Guide | Please take an information sheet before we begin. | B1 | 안내문 받기 안내 | B | 실제 안내문 배부 여부와 절차는 확인하지 않은 가상 장면값이다 | - |
 | ipt-07 | ready | npc | Guide | We can begin when everyone is ready. | B1 | 시작 준비 확인 | B | 준비를 기다리는 진행 방식은 실제 투어 운영이 아니라 가상 장면값이다 | - |
-| ipt-08 | ready | option | 두 사람 | We're ready. Please speak slowly. | A2 | 준비 알림과 속도 요청 | A | - | - |
-| ipt-09 | ready | option | 두 사람 | Could you give us a moment, please? | A2 | 준비 시간 요청 | A | - | - |
+| ipt-08 | ready | option | B자리 | We're ready. Please speak slowly. | A2 | 준비 알림과 속도 요청 | A | - | - |
+| ipt-09 | ready | option | B자리 | Could you give us a moment, please? | A2 | 준비 시간 요청 | A | - | - |
 | ipt-10 | ready | npc | Guide | Of course. I'll speak slowly. | A2 | 말하기 속도 요청 수락 | A | - | - |
 | ipt-11 | ready | npc | Guide | Of course. Let me know when you're ready. | B1 | 준비 시간 허락 | A | - | - |
 | ipt-12 | walk | npc | Guide | Please stay with the group as we walk. | B1 | 함께 걷기 안내 | B | 함께 걷는 방식은 실제 투어 규칙을 확인하지 않은 가상 장면값이다 | - |
@@ -427,8 +427,8 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | ipt-26 | partner | wait | A자리 | Did you understand that, {B}? | A2 | 상대의 이해 묻기 | A | - | - |
 | ipt-27 | partner | option | B자리 | Yes. I understand the guide now. | B1 | 이해한 상태 알림 | A | - | - |
 | ipt-28 | partner | option | B자리 | I'm not sure. Let's ask one more question. | B1 | 이해 유보와 추가 질문 제안 | A | - | - |
-| ipt-29 | next | option | 두 사람 | Could you tell us what happens next? | B1 | 다음 순서 묻기 | A | - | - |
-| ipt-30 | next | option | 두 사람 | Can we stop here for a moment? | A2 | 잠시 멈춤 요청 | A | - | - |
+| ipt-29 | next | option | B자리 | Could you tell us what happens next? | B1 | 다음 순서 묻기 | A | - | - |
+| ipt-30 | next | option | B자리 | Can we stop here for a moment? | A2 | 잠시 멈춤 요청 | A | - | - |
 | ipt-31 | next | npc | Guide | We will continue through this door. | B1 | 다음 동선 안내 | B | 이어지는 문의 위치와 투어 동선은 확인하지 않은 가상 장면값이다 | - |
 | ipt-32 | next | npc | Guide | Yes. We can wait here before we continue. | B1 | 잠시 멈춤 허락 | B | 잠시 멈추는 장소와 허락은 확인하지 않은 가상 장면값이다 | - |
 | ipt-33 | end | npc | Guide | That is the end of our tour. | B1 | 투어 종료 안내 | A | - | - |
@@ -460,15 +460,15 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | welcome | ipt-01 | ipt-02/ipt-03 | 둘 중 누구든 |
+| t1 | welcome | ipt-01 | ipt-02/ipt-03 | A |
 | n1 | sheet | ipt-06 | - | - |
-| t2 | ready | ipt-07 | ipt-08/ipt-09 | 둘 중 누구든 |
+| t2 | ready | ipt-07 | ipt-08/ipt-09 | B |
 | t3 | walk | ipt-12 | ipt-13/ipt-14 | A |
 | t4 | sign | ipt-16 | ipt-17/ipt-18 | B |
 | t5 | room | ipt-21 | ipt-22/ipt-23 | A |
 | t6 | partner | - | ipt-26 | A |
 | t7 | partner | - | ipt-27/ipt-28 | B |
-| t8 | next | - | ipt-29/ipt-30 | 둘 중 누구든 |
+| t8 | next | - | ipt-29/ipt-30 | B |
 | t9 | end | ipt-33 | ipt-34/ipt-35 | 둘 중 누구든 |
 
 ## 나들이: kamehameha_statue_walk
@@ -683,8 +683,8 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | nss-15 | spice | option | B자리 | How spicy is the sauce? | A2 | 소스 맵기 질문 | A | - | - |
 | nss-16 | spice | npc | Clerk | It's quite spicy. You can leave it off. | B1 | 소스 맵기 설명과 제외 안내 | B | 소스의 맵기 정도와 제외 가능 여부는 실제 매장 사실을 확인하지 않은 장면값이다 | - |
 | nss-17 | sauce | npc | Clerk | Would you like sauce on both plates? | A2 | 소스 제공 방식 묻기 | B | 소스 제공 방식은 실제 메뉴나 선택 가능 여부가 아닌 가상 장면값이다 | - |
-| nss-18 | sauce | option | 두 사람 | No spicy sauce on either plate, please. | A2 | 매운 소스 제외 선택 | A | - | - |
-| nss-19 | sauce | option | 두 사람 | Please put the spicy sauce on the side. | A2 | 소스 따로 제공 요청 | A | - | - |
+| nss-18 | sauce | option | B자리 | No spicy sauce on either plate, please. | A2 | 매운 소스 제외 선택 | A | - | - |
+| nss-19 | sauce | option | B자리 | Please put the spicy sauce on the side. | A2 | 소스 따로 제공 요청 | A | - | - |
 | nss-20 | sauce | npc | Clerk | Of course. I'll leave the spicy sauce off both plates. | B1 | 소스 제외 확인 | B | 소스 제외를 수락하는 것은 실제 매장의 제공 가능 여부가 아닌 가상 장면값이다 | - |
 | nss-21 | sauce | npc | Clerk | I'll put the sauce in a separate cup. | A2 | 소스 따로 제공 수락 | B | 따로 담는 컵 제공 여부와 이 상황의 연어 자연스러움은 현장 검수가 필요하다 | - |
 | nss-22 | review | wait | B자리 | Could you read our order back to us? | A2 | 주문 내용 다시 읽기 요청 | A | - | - |
@@ -743,7 +743,7 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | t4 | share | - | nss-08 | A |
 | t5 | quantity | nss-09 | nss-10/nss-11 | A |
 | t6 | spice | nss-13 | nss-14/nss-15 | B |
-| t7 | sauce | nss-17 | nss-18/nss-19 | 둘 중 누구든 |
+| t7 | sauce | nss-17 | nss-18/nss-19 | B |
 | t8 | review | - | nss-22 | B |
 | t9 | confirm | - | nss-24/nss-25 | A |
 | t10 | total | nss-27 | nss-28/nss-29 | B |
@@ -862,13 +862,13 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | afp-01 | arrival | npc | Host | Aloha! Can I help you? | A1 | 인사 안내 | B | 실제 행사 직원의 인사로 이 하와이어를 쓰는 빈도는 확인하지 않았다. | - |
-| afp-02 | arrival | option | 두 사람 | Hi! Is this the parade? | A1 | 행사 확인 질문 | A | - | - |
-| afp-03 | arrival | option | 두 사람 | Hi! We are here to watch. | A1 | 방문 목적 말하기 | A | - | - |
+| afp-02 | arrival | option | A자리 | Hi! Is this the parade? | A1 | 행사 확인 질문 | A | - | - |
+| afp-03 | arrival | option | A자리 | Hi! We are here to watch. | A1 | 방문 목적 말하기 | A | - | - |
 | afp-04 | arrival | npc | Host | Yes. You can watch from here. | A1 | 확인 관람 안내 | A | - | - |
 | afp-05 | arrival | npc | Host | Welcome! You can watch from here. | A1 | 환영 관람 안내 | A | - | - |
 | afp-06 | place | npc | Host | Please stay on this side. | A1 | 자리 안내 | A | - | - |
-| afp-07 | place | option | 두 사람 | Here, on the left? | A1 | 위치 이해 확인 | A | - | - |
-| afp-08 | place | option | 두 사람 | Can we sit here? | A1 | 앉기 허락 요청 | A | - | - |
+| afp-07 | place | option | B자리 | Here, on the left? | A1 | 위치 이해 확인 | A | - | - |
+| afp-08 | place | option | B자리 | Can we sit here? | A1 | 앉기 허락 요청 | A | - | - |
 | afp-09 | place | npc | Host | Yes. This side, please. | A1 | 위치 확인 | A | - | - |
 | afp-10 | place | npc | Host | Yes, you can sit here. | A1 | 허락 대답 | A | - | - |
 | afp-11 | music | option | A자리 | I like the music! | A1 | 감상 말하기 | A | - | - |
@@ -876,8 +876,8 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | afp-13 | music | option | B자리 | Yes. I like it! | A1 | 동의 감상 | A | - | - |
 | afp-14 | music | option | B자리 | Yes. Let's listen to the music. | A1 | 함께 듣기 제안 | A | - | - |
 | afp-15 | time | npc | Host | You can ask me a question. | A1 | 질문 권유 | A | - | - |
-| afp-16 | time | option | 두 사람 | What time does it start? | A1 | 시작 시각 질문 | A | - | - |
-| afp-17 | time | option | 두 사람 | We will wait here. | A1 | 기다릴 뜻 말하기 | A | - | - |
+| afp-16 | time | option | B자리 | What time does it start? | A1 | 시작 시각 질문 | A | - | - |
+| afp-17 | time | option | B자리 | We will wait here. | A1 | 기다릴 뜻 말하기 | A | - | - |
 | afp-18 | time | npc | Host | It starts at ten. | A1 | 시각 안내 | A | - | - |
 | afp-19 | time | npc | Host | Okay. It starts at ten. | A1 | 뜻 받기 시각 안내 | A | - | - |
 | afp-20 | time | option | A자리 | Ten? Is that right? | A1 | 들은 시각 확인 | A | - | - |
@@ -915,11 +915,11 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | arrival | afp-01 | afp-02/afp-03 | 둘 중 누구든 |
-| t2 | place | afp-06 | afp-07/afp-08 | 둘 중 누구든 |
+| t1 | arrival | afp-01 | afp-02/afp-03 | A |
+| t2 | place | afp-06 | afp-07/afp-08 | B |
 | t3 | music | - | afp-11/afp-12 | A |
 | t4 | music | - | afp-13/afp-14 | B |
-| t5 | time | afp-15 | afp-16/afp-17 | 둘 중 누구든 |
+| t5 | time | afp-15 | afp-16/afp-17 | B |
 | t6 | time | - | afp-20/afp-21 | A |
 | t7 | flowers | afp-23 | afp-24/afp-25 | A |
 | t8 | flowers | - | afp-26 | B |
@@ -943,11 +943,11 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | hsh-01 | arrival | npc | Host | Hi! Are you here for the hula show? | B1 | 방문 목적 묻기 | A | - | - |
-| hsh-02 | arrival | option | 두 사람 | Yes. We'd like to watch. | B1 | 방문 목적 대답 | A | - | - |
-| hsh-03 | arrival | option | 두 사람 | We don't know where to sit. | B1 | 자리 정보 부족 알리기 | A | - | - |
+| hsh-02 | arrival | option | B자리 | Yes. We'd like to watch. | B1 | 방문 목적 대답 | A | - | - |
+| hsh-03 | arrival | option | B자리 | We don't know where to sit. | B1 | 자리 정보 부족 알리기 | A | - | - |
 | hsh-04 | seats | npc | Host | You can sit here or on the other side. | B1 | 자리 안내 | A | - | - |
-| hsh-05 | seats | option | 두 사람 | We'd like to sit here, please. | B1 | 자리 선택 | A | - | - |
-| hsh-06 | seats | option | 두 사람 | Could you show us the other seats? | B1 | 위치 안내 요청 | A | - | - |
+| hsh-05 | seats | option | B자리 | We'd like to sit here, please. | B1 | 자리 선택 | A | - | - |
+| hsh-06 | seats | option | B자리 | Could you show us the other seats? | B1 | 위치 안내 요청 | A | - | - |
 | hsh-07 | seats | npc | Host | These two seats are free. | B1 | 자리 사용 가능 안내 | A | - | - |
 | hsh-08 | seats | npc | Host | The other seats are by that table. | B1 | 다른 자리 위치 안내 | A | - | - |
 | hsh-09 | reaction | option | A자리 | I liked that song, {B}. | B1 | 개인 감상 말하기 | A | - | - |
@@ -1004,8 +1004,8 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 
 | 차례 | 장면 | NPC 줄 | 고르는 줄 | 자리 |
 |---|---|---|---|---|
-| t1 | arrival | hsh-01 | hsh-02/hsh-03 | 둘 중 누구든 |
-| t2 | seats | hsh-04 | hsh-05/hsh-06 | 둘 중 누구든 |
+| t1 | arrival | hsh-01 | hsh-02/hsh-03 | B |
+| t2 | seats | hsh-04 | hsh-05/hsh-06 | B |
 | t3 | reaction | - | hsh-09/hsh-10 | A |
 | t4 | reaction | - | hsh-11/hsh-12 | B |
 | t5 | question | hsh-13 | hsh-14/hsh-15 | A |

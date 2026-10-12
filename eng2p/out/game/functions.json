@@ -42,7 +42,7 @@
   },
   "authoredLine": {
    "source": "out/game/authored.json lines[].function, practice[].function",
-   "count": 135
+   "count": 136
   },
   "authoredMission": {
    "source": "out/game/outings.json missions[].functions",
@@ -77,10 +77,10 @@
   },
   "cardFunctions": 18,
   "missions": 18,
-  "scoredTurns": 213,
-  "sameFunctionTurns": 160,
+  "scoredTurns": 214,
+  "sameFunctionTurns": 161,
   "splitFunctionTurns": 53,
-  "lineFunctions": 72,
+  "lineFunctions": 73,
   "missionFunctions": 26
  },
  "unlabeledByLecture": {
@@ -5652,6 +5652,7 @@
     "되묻기",
     "이름 말하기",
     "인사",
+    "환영 감사",
     "작별"
    ]
   },
@@ -6086,6 +6087,13 @@
     }
    },
    "7": {
+    "id": "t6b",
+    "same": "환영 감사",
+    "pick": {
+     "ng-26": "환영 감사"
+    }
+   },
+   "8": {
     "id": "t7",
     "same": "작별",
     "pick": {
@@ -8197,6 +8205,9 @@
    "waikiki_beach_chair_umbrella",
    "honolulu_zoo_ticket",
    "diamond_head_lookout_directions"
+  ],
+  "환영 감사": [
+   "neighbor_greeting"
   ]
  },
  "byCardFunction": {
