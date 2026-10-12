@@ -178,12 +178,12 @@ game 저장소 시험(`Scripts/test_outings_ref.py`)이 이 표가 실제 파일
 | `waikiki_beach` | 1 | 와이키키 해변 |
 | `kapiolani_park` | 1 | 카피올라니 공원 |
 | `honolulu_zoo` | 1 | 호놀룰루 동물원 |
-| `queen_kapiolani_hotel` | 1 | 퀘 카피올라니 호텔 |
+| `queen_kapiolani_hotel` | 1 | 퀸 카피올라니 호텔 |
 | `ala_moana_center` | 1 | 알라모아나 센터 |
 | `ala_moana_beach_park` | 1 | 알라모아나 비치 파크 |
 | `outrigger_reef` | 1 | 아웃리거 리프 와이키키 비치 리조트 |
 | `diamond_head_lookout` | 1 | 다이아몬드 헤드 전망대 |
-| `eggs_n_things_saratoga` | 1 | 에그스 앤 띠스 사라토가 |
+| `eggs_n_things_saratoga` | 1 | 에그스 앤 띵스 사라토가 |
 | `cheesecake_factory` | 1 | 치즈케이크 팩토리 |
 | `marukame_udon` | 1 | 마루카메 우동 |
 | `dukes_waikiki` | 1 | 듀크스 와이키키 |
@@ -193,9 +193,9 @@ game 저장소 시험(`Scripts/test_outings_ref.py`)이 이 표가 실제 파일
 | `musubi_cafe_iyasume` | 1 | 무스비 카페 이야스메 |
 | `tonkatsu_tamafuji` | 1 | 돈카츠 타마후지 |
 | `arancino_di_mare` | 1 | 아란치노 디 마레 |
-| `hula_grill_waikiki` | 1 | 훘라 그릴 와이키키 |
+| `hula_grill_waikiki` | 1 | 훌라 그릴 와이키키 |
 | `heavenly_island_lifestyle` | 1 | 헤븐리 아일랜드 라이프스타일 |
-| `waiola_shave_ice` | 1 | 와이올라 셸이브 아이스 |
+| `waiola_shave_ice` | 1 | 와이올라 쉐이브 아이스 |
 | `banan_waikiki` | 1 | 바난 와이키키 |
 | `diamond_head_trailhead` | 2 | 다이아몬드 헤드 등산로 입구 |
 | `iolani_palace` | 2 | 이올라니 궁전 |
