@@ -113,6 +113,8 @@
 
 크기 차례에서 B자리가 두 사람의 크기를 확정한다. A가 고명 추천만 물으면 추가 주문으로 세지 않고 앞서 고른 기본 국수를 유지한다. 고명을 직접 주문하는 B자리만 그 주문을 더하며, 주문한 물건의 수량으로 고정 금액을 추정하지 않는다.
 
+결제 차례는 t10에서 결제 준비를 묻고(mud-41) 곧바로 결제하거나(mud-42) 합계를 먼저 보여 달라고 한다(mud-35 > mud-36). 두 갈래 모두 t11에서 결제 수단을 한 번만 묻는다(mud-33, mud-34). 이미 카드로 답한 갈래에서 같은 질문을 되묻지 않는다.
+
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
 | mud-01 | line | option | 두 사람 | Excuse me. Is this the line? | A1 | 줄 확인 | A | - | - |
@@ -147,6 +149,8 @@
 | mud-30 | more | option | 두 사람 | Yes, that's all. | A1 | 주문 끝내기 | A | - | - |
 | mud-31 | more | option | 두 사람 | Water, please. | A1 | 음료 요청 | A | - | - |
 | mud-32 | more | npc | Cashier | There's water by the tables. | A1 | 물 위치 안내 | B | 물을 받는 위치는 실제 매장 운영을 확인한 정보가 아니라 가상 장면값이다 | - |
+| mud-41 | pay | npc | Cashier | Are you ready to pay? | A1 | 결제 준비 묻기 | A | - | - |
+| mud-42 | pay | option | 두 사람 | Yes, we're ready. | A1 | 결제 준비 답하기 | A | - | - |
 | mud-33 | pay | npc | Cashier | Cash or card? | A1 | 결제 수단 묻기 | A | - | - |
 | mud-34 | pay | option | 두 사람 | Card, please. | A1 | 결제 수단 선택 | A | - | - |
 | mud-35 | pay | option | 두 사람 | Can we see the total first? | A2 | 금액 확인 요청 | A | - | - |
@@ -190,7 +194,7 @@
 | t7 | topping | mud-23 | mud-24/mud-25 | A |
 | t8 | friend | mud-13 | mud-27/mud-28 | B |
 | t9 | more | mud-29 | mud-30/mud-31 | 둘 중 누구든 |
-| t10 | pay | mud-33 | mud-34/mud-35 | 둘 중 누구든 |
+| t10 | pay | mud-41 | mud-35/mud-42 | 둘 중 누구든 |
 | t11 | pay | mud-33 | mud-34 | 둘 중 누구든 |
 | t12 | seat | - | mud-37/mud-38 | 둘 중 누구든 |
 
