@@ -189,7 +189,7 @@ game 저장소 시험(`Scripts/test_outings_ref.py`)이 이 표가 실제 파일
 | `dukes_waikiki` | 1 | 듀크스 와이키키 |
 | `island_vintage_coffee` | 1 | 아일랜드 빈티지 커피 |
 | `honolulu_cookie_company` | 1 | 호놀룰루 쿠키 컴퍼니 |
-| `leonards_bakery` | 1 | 레너즈 베이커리 |
+| `leonards_bakery` | 1 | 레오나즈 베이커리 |
 | `musubi_cafe_iyasume` | 1 | 무스비 카페 이야스메 |
 | `tonkatsu_tamafuji` | 1 | 돈카츠 타마후지 |
 | `arancino_di_mare` | 1 | 아란치노 디 마레 |
@@ -205,7 +205,7 @@ game 저장소 시험(`Scripts/test_outings_ref.py`)이 이 표가 실제 파일
 | `hanauma_bay` | 3 | 하나우마 베이 |
 | `pearl_harbor_visitor_center` | 3 | 진주만 방문자 센터 |
 | `uss_arizona_memorial` | 3 | 애리조나 기념관 |
-| `polynesian_cultural_center` | 3 | 폴리네시안 문화 센터 |
+| `polynesian_cultural_center` | 3 | 폴리네시안 문화센터 |
 | `dole_plantation` | 3 | 돌 플랜테이션 |
 | `kualoa_regional_park` | 3 | 쿠알로아 지역 공원 |
 | `lanikai_beach` | 3 | 라니카이 비치 |
