@@ -3270,6 +3270,12 @@
       "scored": true,
       "branch": {
        "bs-13": "bs-14"
+      },
+      "resume": {
+       "bs-13": [
+        "bs-11",
+        "bs-12"
+       ]
       }
      },
      {
@@ -3518,6 +3524,12 @@
       "scored": true,
       "branch": {
        "am-20": "am-21"
+      },
+      "resume": {
+       "am-20": [
+        "am-18",
+        "am-19"
+       ]
       }
      },
      {
