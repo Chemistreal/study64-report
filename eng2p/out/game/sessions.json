@@ -1,12 +1,23 @@
 {
  "schemaVersion": 1,
- "appHash": "e03de071b2aa3407c574e3f7e9bd3d6c886e990e2517c0bc09a9c07ebf082d81",
+ "appHash": "5fcc1006f5b60a5b2667d70cd574726c9edadc9ec8a1ac49fb4a315cedd8bf38",
  "note": "게임이 받을 1년치 세션. 앱을 띄워 288세션을 걷고 앱의 셈을 그대로 불러 뽑는다. 손으로 안 고친다. scripts/derive_game.js 를 다시 돌린다.",
  "grade": "B",
  "gradeWhy": "덱이 담은 영어는 판 자료가 진 등급을 그대로 진다. 판 자료 중 B등급이 있다.",
  "generator": "scripts/derive_game.js",
  "source": "english.html 의 plan() 과 dueCards() 와 markCardRun() 과 판마다의 덱 함수, out/data, docs/game.md 4장, docs/spec.md 2.3 2.5 8.4",
  "start": "2026-08-10",
+ "day": {
+  "planMinutes": 120,
+  "clockMinutes": 90,
+  "planNote": "planMinutes 는 계획 눈금이다. 세션 수 곱하기 이 값이 누적 시간 통과선(144/288/432/576)과 등급 구간(acts.json)을 센다. 걸린 시간이 아니다. 실제 하루는 clockMinutes 에 그날 block3.minutes 를 더한 길이다.",
+  "block3": {
+   "clock": false,
+   "cap": null,
+   "note": "블록 3 은 시계로 닫지 않는다. 그날 카드(cards)와 제 날이 된 복습(review)을 다 돌면 끝난다. 시간이 모자라 카드를 건너뛰거나 뒤로 미루지 않는다. block3.minutes 는 cards.json 의 카드 분(종이 기준 추정)을 더한 예상 소요이고 안내다. 게임에서 잰 분(card_run 의 t0 t1)이 쌓이면 그것으로 바꾼다.",
+   "basis": "cards.json minutes"
+  }
+ },
  "dateNote": "date 는 시작일에서 쉬는 날 없이 걸은 명목 날짜다. 간격 복습을 이 날짜로 뽑았다",
  "roleRule": {
   "kind": "session_parity",
@@ -1252,7 +1263,7 @@
    }
   ],
   "session": false,
-  "note": "2시간을 못 내는 날. 수행일로 센다. 세션 번호는 안 오르고 576시간에 안 센다"
+  "note": "2시간을 못 내는 날. 수행일로 센다. 세션 번호는 안 오르고 576시간에 안 센다. 25분은 두 사람이 고른 길이다. 보통 날의 블록 3 을 자르는 규칙이 아니다. 25분 안에 못 돈 복습은 안 한 것으로 적지 않고(skipped 줄 없음) 칸도 안 내린다"
  },
  "blocks": [
   {
@@ -1261,7 +1272,8 @@
    "minutes": 40,
    "talk": true,
    "uses": "media",
-   "together": true
+   "together": true,
+   "clock": true
   },
   {
    "no": 2,
@@ -1269,15 +1281,18 @@
    "minutes": 30,
    "talk": true,
    "uses": "set",
-   "together": true
+   "together": true,
+   "clock": true
   },
   {
    "no": 3,
    "name": "페어 드릴",
-   "minutes": 30,
+   "minutes": null,
    "talk": true,
    "uses": "cards",
-   "together": true
+   "together": true,
+   "clock": false,
+   "expect": "sessions[].block3.minutes"
   },
   {
    "no": 4,
@@ -1286,7 +1301,8 @@
    "talk": true,
    "uses": "media",
    "together": true,
-   "retell": true
+   "retell": true,
+   "clock": true
   }
  ],
  "count": 288,
@@ -1314,6 +1330,13 @@
     "Q1-007"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -1607,6 +1630,13 @@
     "Q1-007"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -1900,6 +1930,13 @@
     "Q1-007"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -2193,6 +2230,13 @@
     "Q1-014"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -2599,6 +2643,13 @@
     "Q1-006",
     "Q1-007"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 7,
+    "todayMinutes": 22,
+    "reviewMinutes": 23,
+    "minutes": 45
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -2997,6 +3048,13 @@
     "Q1-014"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -3403,6 +3461,13 @@
     "Q1-013",
     "Q1-014"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 7,
+    "todayMinutes": 23,
+    "reviewMinutes": 22,
+    "minutes": 45
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -3827,6 +3892,13 @@
     "Q1-021"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -4251,6 +4323,13 @@
     "Q1-021"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -4675,6 +4754,13 @@
     "Q1-028"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -5116,6 +5202,13 @@
     "Q1-020",
     "Q1-021"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 14,
+    "todayMinutes": 23,
+    "reviewMinutes": 46,
+    "minutes": 69
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -5542,6 +5635,13 @@
     "Q1-028"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -5982,6 +6082,13 @@
     "Q1-027",
     "Q1-028"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 14,
+    "todayMinutes": 20,
+    "reviewMinutes": 45,
+    "minutes": 65
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -6368,6 +6475,13 @@
     "Q1-034"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 20,
+    "reviewMinutes": 0,
+    "minutes": 20
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -6754,6 +6868,13 @@
     "Q1-034"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 20,
+    "reviewMinutes": 0,
+    "minutes": 20
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -7140,6 +7261,13 @@
     "Q1-040"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -7581,6 +7709,13 @@
     "Q1-033",
     "Q1-034"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 13,
+    "todayMinutes": 21,
+    "reviewMinutes": 43,
+    "minutes": 64
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -8008,6 +8143,13 @@
     "Q1-040"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -8451,6 +8593,13 @@
     "Q1-039",
     "Q1-040"
    ],
+   "block3": {
+    "cards": 8,
+    "review": 13,
+    "todayMinutes": 27,
+    "reviewMinutes": 44,
+    "minutes": 71
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -8880,6 +9029,13 @@
     "Q1-048"
    ],
    "review": [],
+   "block3": {
+    "cards": 8,
+    "review": 0,
+    "todayMinutes": 27,
+    "reviewMinutes": 0,
+    "minutes": 27
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -9308,6 +9464,13 @@
     "Q1-055"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 24,
+    "reviewMinutes": 0,
+    "minutes": 24
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -9664,6 +9827,13 @@
     "Q1-055"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 24,
+    "reviewMinutes": 0,
+    "minutes": 24
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -10036,6 +10206,13 @@
     "Q1-047",
     "Q1-048"
    ],
+   "block3": {
+    "cards": 8,
+    "review": 14,
+    "todayMinutes": 28,
+    "reviewMinutes": 47,
+    "minutes": 75
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -10465,6 +10642,13 @@
     "Q1-063"
    ],
    "review": [],
+   "block3": {
+    "cards": 8,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -10907,6 +11091,13 @@
     "Q1-054",
     "Q1-055"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 13,
+    "todayMinutes": 25,
+    "reviewMinutes": 45,
+    "minutes": 70
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -11344,6 +11535,13 @@
     "Q1-062",
     "Q1-063"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 8,
+    "todayMinutes": 25,
+    "reviewMinutes": 28,
+    "minutes": 53
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -11772,6 +11970,13 @@
     "Q1-077"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 25,
+    "reviewMinutes": 0,
+    "minutes": 25
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -12200,6 +12405,13 @@
     "Q1-077"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 25,
+    "reviewMinutes": 0,
+    "minutes": 25
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -12650,6 +12862,13 @@
     "Q1-069",
     "Q1-070"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 22,
+    "todayMinutes": 21,
+    "reviewMinutes": 75,
+    "minutes": 96
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -13077,6 +13296,13 @@
     "Q1-083"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -13530,6 +13756,13 @@
     "Q1-076",
     "Q1-077"
    ],
+   "block3": {
+    "cards": 14,
+    "review": 14,
+    "todayMinutes": 45,
+    "reviewMinutes": 49,
+    "minutes": 94
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -13848,6 +14081,13 @@
     "Q1-082",
     "Q1-083"
    ],
+   "block3": {
+    "cards": 14,
+    "review": 14,
+    "todayMinutes": 46,
+    "reviewMinutes": 49,
+    "minutes": 95
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -14280,6 +14520,13 @@
     "Q1-040"
    ],
    "review": [],
+   "block3": {
+    "cards": 12,
+    "review": 0,
+    "todayMinutes": 41,
+    "reviewMinutes": 0,
+    "minutes": 41
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -14678,6 +14925,13 @@
     "Q1-055"
    ],
    "review": [],
+   "block3": {
+    "cards": 15,
+    "review": 0,
+    "todayMinutes": 51,
+    "reviewMinutes": 0,
+    "minutes": 51
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -15125,6 +15379,13 @@
     "Q1-020",
     "Q1-021"
    ],
+   "block3": {
+    "cards": 15,
+    "review": 7,
+    "todayMinutes": 53,
+    "reviewMinutes": 23,
+    "minutes": 76
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -15562,6 +15823,13 @@
     "Q1-083"
    ],
    "review": [],
+   "block3": {
+    "cards": 13,
+    "review": 0,
+    "todayMinutes": 46,
+    "reviewMinutes": 0,
+    "minutes": 46
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -16004,6 +16272,13 @@
     "Q1-076",
     "Q1-077"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 14,
+    "todayMinutes": 23,
+    "reviewMinutes": 48,
+    "minutes": 71
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -16311,6 +16586,13 @@
     "Q1-082",
     "Q1-083"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 23,
+    "reviewMinutes": 21,
+    "minutes": 44
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -16611,6 +16893,13 @@
     "Q1-089"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -16910,6 +17199,13 @@
     "Q1-094"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 19,
+    "reviewMinutes": 0,
+    "minutes": 19
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -17325,6 +17621,13 @@
     "Q1-088",
     "Q1-089"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 12,
+    "todayMinutes": 19,
+    "reviewMinutes": 43,
+    "minutes": 62
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -17727,6 +18030,13 @@
     "Q1-094"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 19,
+    "reviewMinutes": 0,
+    "minutes": 19
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -18142,6 +18452,13 @@
     "Q1-093",
     "Q1-094"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 11,
+    "todayMinutes": 21,
+    "reviewMinutes": 40,
+    "minutes": 61
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -18569,6 +18886,13 @@
     "Q1-100"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -18996,6 +19320,13 @@
     "Q1-100"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -19424,6 +19755,13 @@
     "Q1-107"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 24,
+    "reviewMinutes": 0,
+    "minutes": 24
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -19873,6 +20211,13 @@
     "Q1-099",
     "Q1-100"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 20,
+    "todayMinutes": 24,
+    "reviewMinutes": 71,
+    "minutes": 95
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -20301,6 +20646,13 @@
     "Q1-107"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 24,
+    "reviewMinutes": 0,
+    "minutes": 24
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -20749,6 +21101,13 @@
     "Q1-106",
     "Q1-107"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 19,
+    "todayMinutes": 25,
+    "reviewMinutes": 67,
+    "minutes": 92
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -21146,6 +21505,13 @@
     "Q1-062",
     "Q1-063"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 8,
+    "todayMinutes": 25,
+    "reviewMinutes": 28,
+    "minutes": 53
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -21534,6 +21900,13 @@
     "Q1-114"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 25,
+    "reviewMinutes": 0,
+    "minutes": 25
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -21921,6 +22294,13 @@
     "Q1-120"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -22369,6 +22749,13 @@
     "Q1-113",
     "Q1-114"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 20,
+    "todayMinutes": 21,
+    "reviewMinutes": 71,
+    "minutes": 92
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -22796,6 +23183,13 @@
     "Q1-120"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -23245,6 +23639,13 @@
     "Q1-119",
     "Q1-120"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 20,
+    "todayMinutes": 26,
+    "reviewMinutes": 70,
+    "minutes": 96
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -23680,6 +24081,13 @@
     "Q1-082",
     "Q1-083"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 26,
+    "reviewMinutes": 21,
+    "minutes": 47
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -24108,6 +24516,13 @@
     "Q1-127"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 26,
+    "reviewMinutes": 0,
+    "minutes": 26
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -24535,6 +24950,13 @@
     "Q1-133"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 25,
+    "reviewMinutes": 0,
+    "minutes": 25
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -24911,6 +25333,13 @@
     "Q1-126",
     "Q1-127"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 14,
+    "todayMinutes": 25,
+    "reviewMinutes": 51,
+    "minutes": 76
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -25272,6 +25701,13 @@
     "Q1-133"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 25,
+    "reviewMinutes": 0,
+    "minutes": 25
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -25645,6 +26081,13 @@
     "Q1-132",
     "Q1-133"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 12,
+    "todayMinutes": 23,
+    "reviewMinutes": 46,
+    "minutes": 69
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -26081,6 +26524,13 @@
     "Q1-138"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -26517,6 +26967,13 @@
     "Q1-138"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -26953,6 +27410,13 @@
     "Q1-143"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -27412,6 +27876,13 @@
     "Q1-137",
     "Q1-138"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 18,
+    "todayMinutes": 22,
+    "reviewMinutes": 72,
+    "minutes": 94
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -27852,6 +28323,13 @@
     "Q1-143"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -28308,6 +28786,13 @@
     "Q1-142",
     "Q1-143"
    ],
+   "block3": {
+    "cards": 4,
+    "review": 16,
+    "todayMinutes": 19,
+    "reviewMinutes": 66,
+    "minutes": 85
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -28749,6 +29234,13 @@
     "Q1-147"
    ],
    "review": [],
+   "block3": {
+    "cards": 4,
+    "review": 0,
+    "todayMinutes": 19,
+    "reviewMinutes": 0,
+    "minutes": 19
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -29190,6 +29682,13 @@
     "Q1-147"
    ],
    "review": [],
+   "block3": {
+    "cards": 4,
+    "review": 0,
+    "todayMinutes": 19,
+    "reviewMinutes": 0,
+    "minutes": 19
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -29630,6 +30129,13 @@
     "Q1-150"
    ],
    "review": [],
+   "block3": {
+    "cards": 3,
+    "review": 0,
+    "todayMinutes": 18,
+    "reviewMinutes": 0,
+    "minutes": 18
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -30089,6 +30595,13 @@
     "Q1-146",
     "Q1-147"
    ],
+   "block3": {
+    "cards": 3,
+    "review": 15,
+    "todayMinutes": 18,
+    "reviewMinutes": 63,
+    "minutes": 81
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -30532,6 +31045,13 @@
     "Q1-150"
    ],
    "review": [],
+   "block3": {
+    "cards": 3,
+    "review": 0,
+    "todayMinutes": 18,
+    "reviewMinutes": 0,
+    "minutes": 18
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -30994,6 +31514,13 @@
     "Q1-149",
     "Q1-150"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 15,
+    "todayMinutes": 22,
+    "reviewMinutes": 64,
+    "minutes": 86
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -31444,6 +31971,13 @@
     "Q2-006"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -31894,6 +32428,13 @@
     "Q2-006"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -32344,6 +32885,13 @@
     "Q2-012"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 24,
+    "reviewMinutes": 0,
+    "minutes": 24
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -32816,6 +33364,13 @@
     "Q2-005",
     "Q2-006"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 17,
+    "todayMinutes": 24,
+    "reviewMinutes": 66,
+    "minutes": 90
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -33270,6 +33825,13 @@
     "Q2-012"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 24,
+    "reviewMinutes": 0,
+    "minutes": 24
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -33740,6 +34302,13 @@
     "Q2-011",
     "Q2-012"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 15,
+    "todayMinutes": 22,
+    "reviewMinutes": 63,
+    "minutes": 85
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -34203,6 +34772,13 @@
     "Q1-006",
     "Q1-007"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 22,
+    "reviewMinutes": 23,
+    "minutes": 45
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -34658,6 +35234,13 @@
     "Q2-018"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -35113,6 +35696,13 @@
     "Q2-024"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 18,
+    "reviewMinutes": 0,
+    "minutes": 18
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -35595,6 +36185,13 @@
     "Q2-017",
     "Q2-018"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 26,
+    "todayMinutes": 18,
+    "reviewMinutes": 92,
+    "minutes": 110
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -36050,6 +36647,13 @@
     "Q2-024"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 18,
+    "reviewMinutes": 0,
+    "minutes": 18
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -36524,6 +37128,13 @@
     "Q2-023",
     "Q2-024"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 18,
+    "todayMinutes": 23,
+    "reviewMinutes": 67,
+    "minutes": 90
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -36987,6 +37598,13 @@
     "Q1-020",
     "Q1-021"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 23,
+    "reviewMinutes": 23,
+    "minutes": 46
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -37442,6 +38060,13 @@
     "Q2-030"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 23,
+    "reviewMinutes": 0,
+    "minutes": 23
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -37897,6 +38522,13 @@
     "Q2-036"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -38377,6 +39009,13 @@
     "Q2-029",
     "Q2-030"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 24,
+    "todayMinutes": 21,
+    "reviewMinutes": 91,
+    "minutes": 112
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -38832,6 +39471,13 @@
     "Q2-036"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -39305,6 +39951,13 @@
     "Q2-035",
     "Q2-036"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 17,
+    "todayMinutes": 27,
+    "reviewMinutes": 61,
+    "minutes": 88
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -39768,6 +40421,13 @@
     "Q1-033",
     "Q1-034"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 27,
+    "reviewMinutes": 20,
+    "minutes": 47
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -40224,6 +40884,13 @@
     "Q2-048"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -40680,6 +41347,13 @@
     "Q2-048"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -41159,6 +41833,13 @@
     "Q2-041",
     "Q2-042"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 22,
+    "todayMinutes": 20,
+    "reviewMinutes": 90,
+    "minutes": 110
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -41615,6 +42296,13 @@
     "Q2-054"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 20,
+    "reviewMinutes": 0,
+    "minutes": 20
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -42087,6 +42775,13 @@
     "Q2-047",
     "Q2-048"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 15,
+    "todayMinutes": 24,
+    "reviewMinutes": 67,
+    "minutes": 91
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -42558,6 +43253,13 @@
     "Q2-053",
     "Q2-054"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 14,
+    "todayMinutes": 24,
+    "reviewMinutes": 47,
+    "minutes": 71
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -43014,6 +43716,13 @@
     "Q2-066"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -43470,6 +44179,13 @@
     "Q2-066"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -43952,6 +44668,13 @@
     "Q2-059",
     "Q2-060"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 25,
+    "todayMinutes": 27,
+    "reviewMinutes": 97,
+    "minutes": 124
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -44418,6 +45141,13 @@
     "Q1-062",
     "Q1-063"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 8,
+    "todayMinutes": 27,
+    "reviewMinutes": 28,
+    "minutes": 55
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -44897,6 +45627,13 @@
     "Q2-065",
     "Q2-066"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 12,
+    "todayMinutes": 46,
+    "reviewMinutes": 50,
+    "minutes": 96
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -45376,6 +46113,13 @@
     "Q2-071",
     "Q2-072"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 19,
+    "todayMinutes": 40,
+    "reviewMinutes": 72,
+    "minutes": 112
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -45840,6 +46584,13 @@
     "Q2-036"
    ],
    "review": [],
+   "block3": {
+    "cards": 12,
+    "review": 0,
+    "todayMinutes": 44,
+    "reviewMinutes": 0,
+    "minutes": 44
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -46304,6 +47055,13 @@
     "Q2-048"
    ],
    "review": [],
+   "block3": {
+    "cards": 12,
+    "review": 0,
+    "todayMinutes": 55,
+    "reviewMinutes": 0,
+    "minutes": 55
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -46783,6 +47541,13 @@
     "Q2-017",
     "Q2-018"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 13,
+    "todayMinutes": 44,
+    "reviewMinutes": 47,
+    "minutes": 91
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -47255,6 +48020,13 @@
     "Q1-082",
     "Q1-083"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 6,
+    "todayMinutes": 49,
+    "reviewMinutes": 21,
+    "minutes": 70
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -47725,6 +48497,13 @@
     "Q2-065",
     "Q2-066"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 12,
+    "todayMinutes": 33,
+    "reviewMinutes": 40,
+    "minutes": 73
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -48192,6 +48971,13 @@
     "Q2-071",
     "Q2-072"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 33,
+    "reviewMinutes": 27,
+    "minutes": 60
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -48652,6 +49438,13 @@
     "Q2-079"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 33,
+    "reviewMinutes": 0,
+    "minutes": 33
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -49111,6 +49904,13 @@
     "Q2-085"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 26,
+    "reviewMinutes": 0,
+    "minutes": 26
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -49585,6 +50385,13 @@
     "Q2-078",
     "Q2-079"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 13,
+    "todayMinutes": 26,
+    "reviewMinutes": 56,
+    "minutes": 82
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -50045,6 +50852,13 @@
     "Q2-085"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 26,
+    "reviewMinutes": 0,
+    "minutes": 26
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -50518,6 +51332,13 @@
     "Q2-084",
     "Q2-085"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 12,
+    "todayMinutes": 25,
+    "reviewMinutes": 47,
+    "minutes": 72
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -50985,6 +51806,13 @@
     "Q1-088",
     "Q1-089"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 25,
+    "reviewMinutes": 23,
+    "minutes": 48
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -51445,6 +52273,13 @@
     "Q2-091"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 25,
+    "reviewMinutes": 0,
+    "minutes": 25
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -51905,6 +52740,13 @@
     "Q2-097"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 25,
+    "reviewMinutes": 0,
+    "minutes": 25
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -52390,6 +53232,13 @@
     "Q2-090",
     "Q2-091"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 24,
+    "todayMinutes": 25,
+    "reviewMinutes": 104,
+    "minutes": 129
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -52850,6 +53699,13 @@
     "Q2-097"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 25,
+    "reviewMinutes": 0,
+    "minutes": 25
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -53329,6 +54185,13 @@
     "Q2-096",
     "Q2-097"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 18,
+    "todayMinutes": 20,
+    "reviewMinutes": 79,
+    "minutes": 99
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -53802,6 +54665,13 @@
     "Q2-053",
     "Q2-054"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 12,
+    "todayMinutes": 20,
+    "reviewMinutes": 41,
+    "minutes": 61
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -54262,6 +55132,13 @@
     "Q2-103"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 20,
+    "reviewMinutes": 0,
+    "minutes": 20
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -54723,6 +55600,13 @@
     "Q2-110"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 35,
+    "reviewMinutes": 0,
+    "minutes": 35
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -55212,6 +56096,13 @@
     "Q2-102",
     "Q2-103"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 25,
+    "todayMinutes": 35,
+    "reviewMinutes": 93,
+    "minutes": 128
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -55675,6 +56566,13 @@
     "Q2-110"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 35,
+    "reviewMinutes": 0,
+    "minutes": 35
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -56158,6 +57056,13 @@
     "Q2-109",
     "Q2-110"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 19,
+    "todayMinutes": 35,
+    "reviewMinutes": 82,
+    "minutes": 117
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -56637,6 +57542,13 @@
     "Q2-071",
     "Q2-072"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 13,
+    "todayMinutes": 35,
+    "reviewMinutes": 52,
+    "minutes": 87
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -57102,6 +58014,13 @@
     "Q2-117"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 35,
+    "reviewMinutes": 0,
+    "minutes": 35
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -57566,6 +58485,13 @@
     "Q2-123"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -58050,6 +58976,13 @@
     "Q2-116",
     "Q2-117"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 19,
+    "todayMinutes": 28,
+    "reviewMinutes": 76,
+    "minutes": 104
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -58514,6 +59447,13 @@
     "Q2-123"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -58992,6 +59932,13 @@
     "Q2-122",
     "Q2-123"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 13,
+    "todayMinutes": 21,
+    "reviewMinutes": 63,
+    "minutes": 84
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -59464,6 +60411,13 @@
     "Q1-126",
     "Q1-127"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 21,
+    "reviewMinutes": 26,
+    "minutes": 47
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -59928,6 +60882,13 @@
     "Q2-129"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 21,
+    "reviewMinutes": 0,
+    "minutes": 21
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -60393,6 +61354,13 @@
     "Q2-136"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 34,
+    "reviewMinutes": 0,
+    "minutes": 34
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -60887,6 +61855,13 @@
     "Q2-128",
     "Q2-129"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 26,
+    "todayMinutes": 34,
+    "reviewMinutes": 114,
+    "minutes": 148
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -61354,6 +62329,13 @@
     "Q2-136"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 34,
+    "reviewMinutes": 0,
+    "minutes": 34
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -61841,6 +62823,13 @@
     "Q2-135",
     "Q2-136"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 19,
+    "todayMinutes": 33,
+    "reviewMinutes": 88,
+    "minutes": 121
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -62315,6 +63304,13 @@
     "Q1-137",
     "Q1-138"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 5,
+    "todayMinutes": 33,
+    "reviewMinutes": 23,
+    "minutes": 56
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -62783,6 +63779,13 @@
     "Q2-143"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 33,
+    "reviewMinutes": 0,
+    "minutes": 33
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -63251,6 +64254,13 @@
     "Q2-150"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 40,
+    "reviewMinutes": 0,
+    "minutes": 40
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -63745,6 +64755,13 @@
     "Q2-142",
     "Q2-143"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 24,
+    "todayMinutes": 40,
+    "reviewMinutes": 101,
+    "minutes": 141
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -64214,6 +65231,13 @@
     "Q2-150"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 40,
+    "reviewMinutes": 0,
+    "minutes": 40
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -64704,6 +65728,13 @@
     "Q2-149",
     "Q2-150"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 20,
+    "todayMinutes": 31,
+    "reviewMinutes": 99,
+    "minutes": 130
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -65118,6 +66149,13 @@
     "Q1-146",
     "Q1-147"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 4,
+    "todayMinutes": 31,
+    "reviewMinutes": 19,
+    "minutes": 50
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -65527,6 +66565,13 @@
     "Q3-007"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 31,
+    "reviewMinutes": 0,
+    "minutes": 31
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -65934,6 +66979,13 @@
     "Q3-012"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 24,
+    "reviewMinutes": 0,
+    "minutes": 24
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -66426,6 +67478,13 @@
     "Q3-006",
     "Q3-007"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 23,
+    "todayMinutes": 24,
+    "reviewMinutes": 102,
+    "minutes": 126
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -66894,6 +67953,13 @@
     "Q3-012"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 24,
+    "reviewMinutes": 0,
+    "minutes": 24
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -67383,6 +68449,13 @@
     "Q3-011",
     "Q3-012"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 19,
+    "todayMinutes": 43,
+    "reviewMinutes": 99,
+    "minutes": 142
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -67863,6 +68936,13 @@
     "Q2-005",
     "Q2-006"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 43,
+    "reviewMinutes": 22,
+    "minutes": 65
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -68336,6 +69416,13 @@
     "Q3-018"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 43,
+    "reviewMinutes": 0,
+    "minutes": 43
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -68810,6 +69897,13 @@
     "Q3-025"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 27,
+    "reviewMinutes": 0,
+    "minutes": 27
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -69311,6 +70405,13 @@
     "Q3-017",
     "Q3-018"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 26,
+    "todayMinutes": 27,
+    "reviewMinutes": 133,
+    "minutes": 160
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -69785,6 +70886,13 @@
     "Q3-025"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 27,
+    "reviewMinutes": 0,
+    "minutes": 27
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -70277,6 +71385,13 @@
     "Q3-024",
     "Q3-025"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 18,
+    "todayMinutes": 30,
+    "reviewMinutes": 79,
+    "minutes": 109
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -70758,6 +71873,13 @@
     "Q2-017",
     "Q2-018"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 30,
+    "reviewMinutes": 22,
+    "minutes": 52
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -71232,6 +72354,13 @@
     "Q3-031"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 30,
+    "reviewMinutes": 0,
+    "minutes": 30
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -71706,6 +72835,13 @@
     "Q3-037"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -72206,6 +73342,13 @@
     "Q3-030",
     "Q3-031"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 24,
+    "todayMinutes": 28,
+    "reviewMinutes": 112,
+    "minutes": 140
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -72681,6 +73824,13 @@
     "Q3-037"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -73178,6 +74328,13 @@
     "Q3-036",
     "Q3-037"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 20,
+    "todayMinutes": 31,
+    "reviewMinutes": 89,
+    "minutes": 120
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -73662,6 +74819,13 @@
     "Q2-029",
     "Q2-030"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 31,
+    "reviewMinutes": 23,
+    "minutes": 54
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -74137,6 +75301,13 @@
     "Q3-049"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -74612,6 +75783,13 @@
     "Q3-049"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 22,
+    "reviewMinutes": 0,
+    "minutes": 22
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -75115,6 +76293,13 @@
     "Q3-043",
     "Q3-044"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 26,
+    "todayMinutes": 30,
+    "reviewMinutes": 115,
+    "minutes": 145
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -75592,6 +76777,13 @@
     "Q3-055"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 30,
+    "reviewMinutes": 0,
+    "minutes": 30
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -76089,6 +77281,13 @@
     "Q3-048",
     "Q3-049"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 18,
+    "todayMinutes": 28,
+    "reviewMinutes": 90,
+    "minutes": 118
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -76580,6 +77779,13 @@
     "Q3-054",
     "Q3-055"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 12,
+    "todayMinutes": 28,
+    "reviewMinutes": 57,
+    "minutes": 85
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -77057,6 +78263,13 @@
     "Q3-068"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 43,
+    "reviewMinutes": 0,
+    "minutes": 43
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -77538,6 +78751,13 @@
     "Q3-068"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 43,
+    "reviewMinutes": 0,
+    "minutes": 43
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -78047,6 +79267,13 @@
     "Q3-061",
     "Q3-062"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 27,
+    "todayMinutes": 28,
+    "reviewMinutes": 118,
+    "minutes": 146
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -78535,6 +79762,13 @@
     "Q2-053",
     "Q2-054"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 28,
+    "reviewMinutes": 20,
+    "minutes": 48
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -79037,6 +80271,13 @@
     "Q3-067",
     "Q3-068"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 11,
+    "todayMinutes": 55,
+    "reviewMinutes": 65,
+    "minutes": 120
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -79474,6 +80715,13 @@
     "Q3-073",
     "Q3-074"
    ],
+   "block3": {
+    "cards": 13,
+    "review": 18,
+    "todayMinutes": 70,
+    "reviewMinutes": 82,
+    "minutes": 152
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -79956,6 +81204,13 @@
     "Q3-037"
    ],
    "review": [],
+   "block3": {
+    "cards": 12,
+    "review": 0,
+    "todayMinutes": 58,
+    "reviewMinutes": 0,
+    "minutes": 58
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -80439,6 +81694,13 @@
     "Q3-049"
    ],
    "review": [],
+   "block3": {
+    "cards": 12,
+    "review": 0,
+    "todayMinutes": 53,
+    "reviewMinutes": 0,
+    "minutes": 53
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -80938,6 +82200,13 @@
     "Q3-017",
     "Q3-018"
    ],
+   "block3": {
+    "cards": 13,
+    "review": 12,
+    "todayMinutes": 58,
+    "reviewMinutes": 65,
+    "minutes": 123
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -81431,6 +82700,13 @@
     "Q2-071",
     "Q2-072"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 6,
+    "todayMinutes": 71,
+    "reviewMinutes": 27,
+    "minutes": 98
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -81927,6 +83203,13 @@
     "Q3-067",
     "Q3-068"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 13,
+    "todayMinutes": 30,
+    "reviewMinutes": 70,
+    "minutes": 100
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -82356,6 +83639,13 @@
     "Q3-073",
     "Q3-074"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 30,
+    "reviewMinutes": 28,
+    "minutes": 58
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -82786,6 +84076,13 @@
     "Q1-006",
     "Q1-007"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 7,
+    "todayMinutes": 30,
+    "reviewMinutes": 23,
+    "minutes": 53
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -83207,6 +84504,13 @@
     "Q3-087"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 31,
+    "reviewMinutes": 0,
+    "minutes": 31
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -83704,6 +85008,13 @@
     "Q3-080",
     "Q3-081"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 13,
+    "todayMinutes": 31,
+    "reviewMinutes": 60,
+    "minutes": 91
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -84195,6 +85506,13 @@
     "Q1-013",
     "Q1-014"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 31,
+    "reviewMinutes": 22,
+    "minutes": 53
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -84691,6 +86009,13 @@
     "Q3-086",
     "Q3-087"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 12,
+    "todayMinutes": 29,
+    "reviewMinutes": 59,
+    "minutes": 88
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -85183,6 +86508,13 @@
     "Q2-078",
     "Q2-079"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 29,
+    "reviewMinutes": 33,
+    "minutes": 62
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -85675,6 +87007,13 @@
     "Q1-020",
     "Q1-021"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 29,
+    "reviewMinutes": 23,
+    "minutes": 52
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -86160,6 +87499,13 @@
     "Q3-100"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -86672,6 +88018,13 @@
     "Q3-092",
     "Q3-093"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 26,
+    "todayMinutes": 28,
+    "reviewMinutes": 116,
+    "minutes": 144
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -87165,6 +88518,13 @@
     "Q1-027",
     "Q1-028"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 7,
+    "todayMinutes": 28,
+    "reviewMinutes": 23,
+    "minutes": 51
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -87667,6 +89027,13 @@
     "Q3-099",
     "Q3-100"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 18,
+    "todayMinutes": 22,
+    "reviewMinutes": 81,
+    "minutes": 103
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -88163,6 +89530,13 @@
     "Q3-054",
     "Q3-055"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 12,
+    "todayMinutes": 22,
+    "reviewMinutes": 55,
+    "minutes": 77
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -88653,6 +90027,13 @@
     "Q1-033",
     "Q1-034"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 6,
+    "todayMinutes": 22,
+    "reviewMinutes": 20,
+    "minutes": 42
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -89137,6 +90518,13 @@
     "Q3-111"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 43,
+    "reviewMinutes": 0,
+    "minutes": 43
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -89650,6 +91038,13 @@
     "Q3-104",
     "Q3-105"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 24,
+    "todayMinutes": 43,
+    "reviewMinutes": 104,
+    "minutes": 147
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -90145,6 +91540,13 @@
     "Q1-039",
     "Q1-040"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 43,
+    "reviewMinutes": 21,
+    "minutes": 64
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -90654,6 +92056,13 @@
     "Q3-110",
     "Q3-111"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 19,
+    "todayMinutes": 32,
+    "reviewMinutes": 114,
+    "minutes": 146
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -91157,6 +92566,13 @@
     "Q3-073",
     "Q3-074"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 12,
+    "todayMinutes": 32,
+    "reviewMinutes": 48,
+    "minutes": 80
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -91656,6 +93072,13 @@
     "Q1-047",
     "Q1-048"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 8,
+    "todayMinutes": 32,
+    "reviewMinutes": 27,
+    "minutes": 59
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -92145,6 +93568,13 @@
     "Q3-124"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 30,
+    "reviewMinutes": 0,
+    "minutes": 30
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -92655,6 +94085,13 @@
     "Q3-117",
     "Q3-118"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 19,
+    "todayMinutes": 30,
+    "reviewMinutes": 89,
+    "minutes": 119
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -93153,6 +94590,13 @@
     "Q1-054",
     "Q1-055"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 30,
+    "reviewMinutes": 24,
+    "minutes": 54
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -93664,6 +95108,13 @@
     "Q3-123",
     "Q3-124"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 20,
+    "todayMinutes": 30,
+    "reviewMinutes": 101,
+    "minutes": 131
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -94163,6 +95614,13 @@
     "Q2-116",
     "Q2-117"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 30,
+    "reviewMinutes": 35,
+    "minutes": 65
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -94662,6 +96120,13 @@
     "Q1-069",
     "Q1-070"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 30,
+    "reviewMinutes": 25,
+    "minutes": 55
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -95154,6 +96619,13 @@
     "Q3-137"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 45,
+    "reviewMinutes": 0,
+    "minutes": 45
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -95674,6 +97146,13 @@
     "Q3-129",
     "Q3-130"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 26,
+    "todayMinutes": 45,
+    "reviewMinutes": 120,
+    "minutes": 165
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -96175,6 +97654,13 @@
     "Q1-076",
     "Q1-077"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 7,
+    "todayMinutes": 45,
+    "reviewMinutes": 25,
+    "minutes": 70
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -96693,6 +98179,13 @@
     "Q3-136",
     "Q3-137"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 25,
+    "todayMinutes": 29,
+    "reviewMinutes": 127,
+    "minutes": 156
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -97192,6 +98685,13 @@
     "Q2-128",
     "Q2-129"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 29,
+    "reviewMinutes": 21,
+    "minutes": 50
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -97684,6 +99184,13 @@
     "Q3-143"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 29,
+    "reviewMinutes": 0,
+    "minutes": 29
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -98177,6 +99684,13 @@
     "Q3-150"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 45,
+    "reviewMinutes": 0,
+    "minutes": 45
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -98697,6 +100211,13 @@
     "Q3-142",
     "Q3-143"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 25,
+    "todayMinutes": 45,
+    "reviewMinutes": 122,
+    "minutes": 167
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -99191,6 +100712,13 @@
     "Q3-150"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 45,
+    "reviewMinutes": 0,
+    "minutes": 45
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -99706,6 +101234,13 @@
     "Q3-149",
     "Q3-150"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 21,
+    "todayMinutes": 30,
+    "reviewMinutes": 118,
+    "minutes": 148
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -100208,6 +101743,13 @@
     "Q2-142",
     "Q2-143"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 30,
+    "reviewMinutes": 33,
+    "minutes": 63
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -100709,6 +102251,13 @@
     "Q1-088",
     "Q1-089"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 30,
+    "reviewMinutes": 23,
+    "minutes": 53
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -101203,6 +102752,13 @@
     "Q4-012"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 48,
+    "reviewMinutes": 0,
+    "minutes": 48
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -101727,6 +103283,13 @@
     "Q4-005",
     "Q4-006"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 24,
+    "todayMinutes": 48,
+    "reviewMinutes": 121,
+    "minutes": 169
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -102232,6 +103795,13 @@
     "Q1-093",
     "Q1-094"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 5,
+    "todayMinutes": 48,
+    "reviewMinutes": 19,
+    "minutes": 67
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -102751,6 +104321,13 @@
     "Q4-011",
     "Q4-012"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 19,
+    "todayMinutes": 45,
+    "reviewMinutes": 136,
+    "minutes": 181
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -103260,6 +104837,13 @@
     "Q3-006",
     "Q3-007"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 45,
+    "reviewMinutes": 31,
+    "minutes": 76
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -103768,6 +105352,13 @@
     "Q1-099",
     "Q1-100"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 45,
+    "reviewMinutes": 21,
+    "minutes": 66
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -104269,6 +105860,13 @@
     "Q4-024"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 28,
+    "reviewMinutes": 0,
+    "minutes": 28
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -104796,6 +106394,13 @@
     "Q4-017",
     "Q4-018"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 24,
+    "todayMinutes": 28,
+    "reviewMinutes": 131,
+    "minutes": 159
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -105306,6 +106911,13 @@
     "Q1-106",
     "Q1-107"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 28,
+    "reviewMinutes": 24,
+    "minutes": 52
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -105828,6 +107440,13 @@
     "Q4-023",
     "Q4-024"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 18,
+    "todayMinutes": 56,
+    "reviewMinutes": 106,
+    "minutes": 162
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -106343,6 +107962,13 @@
     "Q3-017",
     "Q3-018"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 56,
+    "reviewMinutes": 43,
+    "minutes": 99
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -106859,6 +108485,13 @@
     "Q1-113",
     "Q1-114"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 7,
+    "todayMinutes": 56,
+    "reviewMinutes": 25,
+    "minutes": 81
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -107367,6 +109000,13 @@
     "Q4-038"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 46,
+    "reviewMinutes": 0,
+    "minutes": 46
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -107895,6 +109535,13 @@
     "Q4-030",
     "Q4-031"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 26,
+    "todayMinutes": 46,
+    "reviewMinutes": 158,
+    "minutes": 204
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -108403,6 +110050,13 @@
     "Q1-119",
     "Q1-120"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 46,
+    "reviewMinutes": 21,
+    "minutes": 67
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -108924,6 +110578,13 @@
     "Q4-037",
     "Q4-038"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 20,
+    "todayMinutes": 42,
+    "reviewMinutes": 119,
+    "minutes": 161
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -109440,6 +111101,13 @@
     "Q3-030",
     "Q3-031"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 42,
+    "reviewMinutes": 30,
+    "minutes": 72
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -109957,6 +111625,13 @@
     "Q1-126",
     "Q1-127"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 48,
+    "reviewMinutes": 26,
+    "minutes": 74
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -110471,6 +112146,13 @@
     "Q4-050"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 48,
+    "reviewMinutes": 0,
+    "minutes": 48
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -111011,6 +112693,13 @@
     "Q4-043",
     "Q4-044"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 25,
+    "todayMinutes": 31,
+    "reviewMinutes": 155,
+    "minutes": 186
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -111532,6 +113221,13 @@
     "Q1-132",
     "Q1-133"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 31,
+    "reviewMinutes": 25,
+    "minutes": 56
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -112067,6 +113763,13 @@
     "Q4-049",
     "Q4-050"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 20,
+    "todayMinutes": 46,
+    "reviewMinutes": 139,
+    "minutes": 185
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -112597,6 +114300,13 @@
     "Q4-055",
     "Q4-056"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 13,
+    "todayMinutes": 46,
+    "reviewMinutes": 62,
+    "minutes": 108
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -113120,6 +114830,13 @@
     "Q1-137",
     "Q1-138"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 5,
+    "todayMinutes": 54,
+    "reviewMinutes": 23,
+    "minutes": 77
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -113642,6 +115359,13 @@
     "Q4-069"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 54,
+    "reviewMinutes": 0,
+    "minutes": 54
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -114188,6 +115912,13 @@
     "Q4-061",
     "Q4-062"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 23,
+    "todayMinutes": 41,
+    "reviewMinutes": 140,
+    "minutes": 181
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -114723,6 +116454,13 @@
     "Q3-054",
     "Q3-055"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 11,
+    "todayMinutes": 41,
+    "reviewMinutes": 52,
+    "minutes": 93
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -115268,6 +117006,13 @@
     "Q4-068",
     "Q4-069"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 13,
+    "todayMinutes": 78,
+    "reviewMinutes": 102,
+    "minutes": 180
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -115792,6 +117537,13 @@
     "Q4-075",
     "Q4-076"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 20,
+    "todayMinutes": 73,
+    "reviewMinutes": 100,
+    "minutes": 173
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -116309,6 +118061,13 @@
     "Q1-146",
     "Q1-147"
    ],
+   "block3": {
+    "cards": 14,
+    "review": 4,
+    "todayMinutes": 102,
+    "reviewMinutes": 19,
+    "minutes": 121
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -116825,6 +118584,13 @@
     "Q4-050"
    ],
    "review": [],
+   "block3": {
+    "cards": 12,
+    "review": 0,
+    "todayMinutes": 90,
+    "reviewMinutes": 0,
+    "minutes": 90
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -117356,6 +119122,13 @@
     "Q4-017",
     "Q4-018"
    ],
+   "block3": {
+    "cards": 12,
+    "review": 12,
+    "todayMinutes": 77,
+    "reviewMinutes": 88,
+    "minutes": 165
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -117891,6 +119664,13 @@
     "Q3-073",
     "Q3-074"
    ],
+   "block3": {
+    "cards": 14,
+    "review": 9,
+    "todayMinutes": 95,
+    "reviewMinutes": 46,
+    "minutes": 141
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -118427,6 +120207,13 @@
     "Q4-068",
     "Q4-069"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 13,
+    "todayMinutes": 46,
+    "reviewMinutes": 82,
+    "minutes": 128
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -118959,6 +120746,13 @@
     "Q4-075",
     "Q4-076"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 7,
+    "todayMinutes": 46,
+    "reviewMinutes": 41,
+    "minutes": 87
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -119490,6 +121284,13 @@
     "Q2-005",
     "Q2-006"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 46,
+    "reviewMinutes": 22,
+    "minutes": 68
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -120013,6 +121814,13 @@
     "Q4-089"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 50,
+    "reviewMinutes": 0,
+    "minutes": 50
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -120556,6 +122364,13 @@
     "Q4-082",
     "Q4-083"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 14,
+    "todayMinutes": 50,
+    "reviewMinutes": 102,
+    "minutes": 152
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -121091,6 +122906,13 @@
     "Q2-011",
     "Q2-012"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 50,
+    "reviewMinutes": 24,
+    "minutes": 74
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -121633,6 +123455,13 @@
     "Q4-088",
     "Q4-089"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 13,
+    "todayMinutes": 38,
+    "reviewMinutes": 96,
+    "minutes": 134
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -122170,6 +123999,13 @@
     "Q3-080",
     "Q3-081"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 38,
+    "reviewMinutes": 30,
+    "minutes": 68
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -122706,6 +124542,13 @@
     "Q2-017",
     "Q2-018"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 38,
+    "reviewMinutes": 22,
+    "minutes": 60
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -123234,6 +125077,13 @@
     "Q4-100"
    ],
    "review": [],
+   "block3": {
+    "cards": 5,
+    "review": 0,
+    "todayMinutes": 35,
+    "reviewMinutes": 0,
+    "minutes": 35
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -123789,6 +125639,13 @@
     "Q4-094",
     "Q4-095"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 25,
+    "todayMinutes": 35,
+    "reviewMinutes": 157,
+    "minutes": 192
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -124325,6 +126182,13 @@
     "Q2-023",
     "Q2-024"
    ],
+   "block3": {
+    "cards": 5,
+    "review": 6,
+    "todayMinutes": 35,
+    "reviewMinutes": 18,
+    "minutes": 53
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -124873,6 +126737,13 @@
     "Q4-099",
     "Q4-100"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 17,
+    "todayMinutes": 33,
+    "reviewMinutes": 133,
+    "minutes": 166
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -125416,6 +127287,13 @@
     "Q4-055",
     "Q4-056"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 12,
+    "todayMinutes": 33,
+    "reviewMinutes": 60,
+    "minutes": 93
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -125953,6 +127831,13 @@
     "Q2-029",
     "Q2-030"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 33,
+    "reviewMinutes": 23,
+    "minutes": 56
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -126483,6 +128368,13 @@
     "Q4-112"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 48,
+    "reviewMinutes": 0,
+    "minutes": 48
+   },
    "pick": "mirror",
    "decks": {
     "mirror": [
@@ -127044,6 +128936,13 @@
     "Q4-105",
     "Q4-106"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 25,
+    "todayMinutes": 48,
+    "reviewMinutes": 145,
+    "minutes": 193
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -127586,6 +129485,13 @@
     "Q2-035",
     "Q2-036"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 48,
+    "reviewMinutes": 21,
+    "minutes": 69
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [
@@ -128141,6 +130047,13 @@
     "Q4-111",
     "Q4-112"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 18,
+    "todayMinutes": 43,
+    "reviewMinutes": 137,
+    "minutes": 180
+   },
    "pick": "hearme",
    "decks": {
     "mirror": [
@@ -128691,6 +130604,13 @@
     "Q4-075",
     "Q4-076"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 12,
+    "todayMinutes": 43,
+    "reviewMinutes": 63,
+    "minutes": 106
+   },
    "pick": "ladder",
    "decks": {
     "mirror": [
@@ -129235,6 +131155,13 @@
     "Q2-041",
     "Q2-042"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 43,
+    "reviewMinutes": 27,
+    "minutes": 70
+   },
    "pick": "overlap",
    "decks": {
     "mirror": [
@@ -129772,6 +131699,13 @@
     "Q4-126"
    ],
    "review": [],
+   "block3": {
+    "cards": 7,
+    "review": 0,
+    "todayMinutes": 54,
+    "reviewMinutes": 0,
+    "minutes": 54
+   },
    "pick": "reask",
    "decks": {
     "mirror": [
@@ -130334,6 +132268,13 @@
     "Q4-118",
     "Q4-119"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 19,
+    "todayMinutes": 54,
+    "reviewMinutes": 119,
+    "minutes": 173
+   },
    "pick": "rebound",
    "decks": {
     "mirror": [
@@ -130883,6 +132824,13 @@
     "Q2-047",
     "Q2-048"
    ],
+   "block3": {
+    "cards": 7,
+    "review": 6,
+    "todayMinutes": 54,
+    "reviewMinutes": 28,
+    "minutes": 82
+   },
    "pick": "recall",
    "decks": {
     "mirror": [
@@ -131444,6 +133392,13 @@
     "Q4-125",
     "Q4-126"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 19,
+    "todayMinutes": 44,
+    "reviewMinutes": 122,
+    "minutes": 166
+   },
    "pick": "relay",
    "decks": {
     "mirror": [
@@ -131994,6 +133949,13 @@
     "Q3-117",
     "Q3-118"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 7,
+    "todayMinutes": 44,
+    "reviewMinutes": 32,
+    "minutes": 76
+   },
    "pick": "swapline",
    "decks": {
     "mirror": [
@@ -132543,6 +134505,13 @@
     "Q2-059",
     "Q2-060"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 44,
+    "reviewMinutes": 24,
+    "minutes": 68
+   },
    "pick": "twohalf",
    "decks": {
     "mirror": [
@@ -133085,6 +135054,13 @@
     "Q4-138"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 33,
+    "reviewMinutes": 0,
+    "minutes": 33
+   },
    "pick": "wave",
    "decks": {
     "mirror": [
@@ -133654,6 +135630,13 @@
     "Q4-131",
     "Q4-132"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 26,
+    "todayMinutes": 33,
+    "reviewMinutes": 163,
+    "minutes": 196
+   },
    "pick": "wall",
    "decks": {
     "mirror": [
@@ -134203,6 +136186,13 @@
     "Q2-065",
     "Q2-066"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 33,
+    "reviewMinutes": 22,
+    "minutes": 55
+   },
    "pick": "onesee",
    "decks": {
     "mirror": [
@@ -134771,6 +136761,13 @@
     "Q4-137",
     "Q4-138"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 25,
+    "todayMinutes": 60,
+    "reviewMinutes": 164,
+    "minutes": 224
+   },
    "pick": "whose",
    "decks": {
     "mirror": [
@@ -135325,6 +137322,13 @@
     "Q3-129",
     "Q3-130"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 6,
+    "todayMinutes": 60,
+    "reviewMinutes": 30,
+    "minutes": 90
+   },
    "pick": "flip",
    "decks": {
     "mirror": [
@@ -135872,6 +137876,13 @@
     "Q4-144"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 60,
+    "reviewMinutes": 0,
+    "minutes": 60
+   },
    "pick": "apart",
    "decks": {
     "mirror": [
@@ -136419,6 +138430,13 @@
     "Q4-150"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 40,
+    "reviewMinutes": 0,
+    "minutes": 40
+   },
    "pick": "chain",
    "decks": {
     "mirror": [
@@ -136993,6 +139011,13 @@
     "Q4-143",
     "Q4-144"
    ],
+   "block3": {
+    "cards": 6,
+    "review": 25,
+    "todayMinutes": 40,
+    "reviewMinutes": 187,
+    "minutes": 227
+   },
    "pick": "clash",
    "decks": {
     "mirror": [
@@ -137541,6 +139566,13 @@
     "Q4-150"
    ],
    "review": [],
+   "block3": {
+    "cards": 6,
+    "review": 0,
+    "todayMinutes": 40,
+    "reviewMinutes": 0,
+    "minutes": 40
+   },
    "pick": "cutin",
    "decks": {
     "mirror": [

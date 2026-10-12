@@ -121,7 +121,9 @@ def load():
         "raw": raw,
         "manifest": jload(MANIFEST),
         "sessions": len(s["sessions"]),
-        "minutes": sum(b["minutes"] for b in s["blocks"]),
+        # 계획 눈금. 블록 분의 합이 아니다 (블록 3 의 minutes 는 null). 원본은 앱 블록 표(index.json)의 합이다
+        "minutes": sum(b["minutes"] for b in jload(os.path.join(ROOT, "out", "data", "index.json"))["blocks"]),
+        "dayPlan": (s.get("day") or {}).get("planMinutes"),
         "pass": pass_last_hours(),
         "th": doc_thresholds(),
         "spec": spec_line_ok(),
@@ -168,7 +170,9 @@ def rule_plan(d):
     if p.get("sessions") != d["sessions"]:
         out.append("plan.sessions %r 가 sessions.json 의 %d 와 다르다" % (p.get("sessions"), d["sessions"]))
     if d["minutes"] % 60 or p.get("hoursPerSession") != d["minutes"] // 60:
-        out.append("plan.hoursPerSession %r 가 블록 분 합계 %d 에서 안 나온다" % (p.get("hoursPerSession"), d["minutes"]))
+        out.append("plan.hoursPerSession %r 가 앱 블록 표 합계 %d 에서 안 나온다" % (p.get("hoursPerSession"), d["minutes"]))
+    if d["dayPlan"] != d["minutes"]:
+        out.append("sessions.json 의 day.planMinutes %r 가 앱 블록 표 합계 %d 와 다르다" % (d["dayPlan"], d["minutes"]))
     if len(d["pass"]) != 4:
         out.append("앱 PASS 에서 누적 시간 통과선 넷을 못 읽었다: %s" % d["pass"])
     elif p.get("totalHours") != d["pass"][-1]:
@@ -424,6 +428,10 @@ def breaks():
     @add("세션당 시간을 3 으로 적는다", "plan")
     def _(d):
         d["acts"]["plan"]["hoursPerSession"] = 3
+
+    @add("sessions.json 의 day.planMinutes 가 앱 블록 표 합과 다르다 (블록 3 분을 더해 150 으로 적는다)", "plan")
+    def _(d):
+        d["dayPlan"] = 150
 
     @add("한국어 번역을 참으로 한다", "captions")
     def _(d):

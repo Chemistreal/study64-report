@@ -4,7 +4,8 @@
 **막(Act)을 두지 않는다.** 단위는 세션 번호 1~288 뿐이다 (사용자 결정 2026-10-10, game 저장소 Docs/acts_KO.md 5장).
 사람이 손으로 경계를 쓰지 않는다. 구간은 계획 숫자와 기준선 표에서 나온다 (통과선 파생 규칙과 같다).
 
-    계획      세션 수는 sessions.json 의 count, 세션당 시간은 sessions.json 의 블록 분 합계(120분 = 2시간)에서 나온다.
+    계획      세션 수는 sessions.json 의 count, 세션당 시간은 sessions.json 의 day.planMinutes(앱 블록 표의 합 120분 = 2시간)에서 나온다.
+              **계획 눈금이다. 걸린 시간이 아니다** (블록 3 에 시계가 없다. 기준서 2.3, 개정문 31)
               총시간은 앱 PASS 의 누적 시간 통과선(144/288/432/576)의 끝 값이고 세션 수 곱하기 세션당 시간과 같아야 한다
     구간      세션 s 의 목표 등급 = 그 세션 **끝** 누적 시간(세션당 시간 곱하기 s)이 처음으로 들어가는 기준선의 등급이다.
               기준선은 11.1 표(A1 100h, A2 200h, B1 400h, B2 600h)다. 이웃한 같은 등급은 하나로 접는다.
@@ -82,9 +83,11 @@ def plan_numbers(errs):
     if not isinstance(sessions, int) or sessions != len(s.get("sessions", [])) or sessions < 1:
         errs.append("sessions.json 의 count 가 세션 수와 다르다")
         return None
-    minutes = sum(b["minutes"] for b in s["blocks"])
-    if minutes % 60 != 0 or minutes < 60:
-        errs.append("블록 분 합계 %d 가 한 시간의 배수가 아니다" % minutes)
+    # 세션당 시간은 계획 눈금이다 (sessions.json 의 day.planMinutes = 앱 블록 표의 합). 걸린 시간이 아니다.
+    # 블록 3 에 시계가 없어서(개정문 31) 블록 분을 더하면 안 된다. 블록 3 의 minutes 는 null 이다
+    minutes = (s.get("day") or {}).get("planMinutes")
+    if not isinstance(minutes, int) or isinstance(minutes, bool) or minutes % 60 != 0 or minutes < 60:
+        errs.append("sessions.json 의 day.planMinutes %r 가 한 시간의 배수 정수가 아니다" % (minutes,))
         return None
     hps = minutes // 60
     badge = jload(BADGE)

@@ -75,8 +75,11 @@ const SCHEMA_VERSION = 1;
 /* 모양 개정 번호. **판 번호(SCHEMA_VERSION)와 다르다.** 줄의 `v` 는 1 그대로고 이미 쓴 줄은 모두 그대로 맞다.
    개정 2 (2026-10-10): 나들이 미션 줄을 더했다. 더하기만 했다 (칸을 안 뺐고 범위를 안 좁혔다).
    docs/game_results.md 4.15. check_game.py 가 개정 1 고정본(tools/game/results_fixture/results_schema.rev1.json)을 놓고
-   "넓히기만 했는가"를 본다 */
-const SCHEMA_REVISION = 2;
+   "넓히기만 했는가"를 본다.
+   개정 3 (2026-10-12): 블록 3 에 시간 상한이 없다 (기준서 2.3, 개정문 31). 결과 줄의 칸과 값은 안 바뀌었다 (설명 글만).
+   sessions.json 에 맨 위 `day` 와 세션마다 `block3` 를 더했고 blocks[2] 의 `minutes` 는 null 이다 (`clock` false).
+   **마지막 하나는 더하기가 아니라 뜻이 바뀐 값이다.** 옛 게임은 이 값을 30 으로 읽어 카드를 자른다. docs/game_results.md 4.15 */
+const SCHEMA_REVISION = 3;
 const PLAYS_JS = path.join(HERE, "out", "app", "plays.js");
 const RECALL_JS = path.join(HERE, "app", "play", "recall.js");
 
@@ -152,7 +155,7 @@ function buildResultsSchema() {
   const int = (min, max, d) => ({ type: "integer", minimum: min, maximum: max, description: d });
   const en = (list, d) => ({ type: "string", enum: list, description: d });
   const OUTCOME = en(["pass", "near", "miss", "skipped"],
-    "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (시간이 끝났거나 건너뜀)");
+    "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (두 사람이 건너뜀. 블록 3 에서 시간이 모자라 건너뛰는 일은 없다. 짧은 날에 안 돈 복습 카드는 줄을 쓰지 않는다)");
   const VIA = en(["speech", "manual"], "speech 말 판정기가 들었다 / manual 사람이 '했다' 를 눌렀다");
   const ENV = (t, team) => ({
     v: { const: SCHEMA_VERSION, description: "계약 판 번호. sessions.json 의 schemaVersion 과 같다" },
@@ -181,7 +184,7 @@ function buildResultsSchema() {
   };
   const defs = {
     session_start: def("session_start", true, {
-      mode: en(["normal", "busy", "short"], "보통 날 120분 / 바쁜 날 15분 혼자 / 짧은 날 45분 둘이. busy 와 short 는 세션 번호를 안 올린다"),
+      mode: en(["normal", "busy", "short"], "보통 날 블록 넷(1 40분, 2 30분, 3 시계 없음, 4 20분) / 바쁜 날 15분 혼자 / 짧은 날 45분 둘이. busy 와 short 는 세션 번호를 안 올린다"),
       seatA: en(["a", "b"], "그날 먼저 말을 여는 사람의 자리 (역할 A)"),
       dataHash: str("^[0-9a-f]{64}$", "그때 읽은 Data/*.json 의 dataHash"),
       game: str("^[0-9A-Za-z._-]{1,16}$", "게임 판 이름"),
@@ -194,7 +197,7 @@ function buildResultsSchema() {
       block: BLOCK, place: { type: "string", minLength: 1, maxLength: 40, description: "그 블록의 장소 이름 (sessions.json places)" },
     }),
     block_end: def("block_end", true, {
-      block: BLOCK, ended: en(["done", "timer", "quit"], "done 다 함 / timer 블록 시간이 끝남 / quit 닫음"),
+      block: BLOCK, ended: en(["done", "timer", "quit"], "done 다 함 / timer 블록 시간이 끝남 (시계가 있는 블록 1 2 4 만. 블록 3 은 시계가 없어 쓰지 않는다) / quit 닫음"),
     }),
     media_play: def("media_play", true, {
       block: BLOCK, media: str("^[a-z0-9-]{3,24}$", "녹음 id (lle1-NN)"),
@@ -238,7 +241,8 @@ function buildResultsSchema() {
     "x-rules": ["t1 >= t0", "e 의 첫 글자 h/g 가 device host/guest 와 같다",
                 "date 는 달력에 있는 날이다", "한 줄은 한 JSON 객체이고 줄바꿈이 없다"],
     "x-revisions": ["1 (2026-10-08) 줄 11가지",
-                    "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)"],
+                    "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)",
+                    "3 (2026-10-12) 블록 3 에 시계가 없다 (기준서 2.3, 개정문 31). 줄의 칸과 값은 그대로이고 설명 글만 바뀌었다. 바뀐 것은 sessions.json 쪽이다 (day, block3, blocks[2].minutes null)"],
     oneOf: Object.keys(defs).map((k) => ({ $ref: "#/$defs/" + k })),
     $defs: defs,
   };
@@ -376,6 +380,10 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
     const item = (x) => (x && typeof x === "object" && x.id) ? x.id : x;
     const idsOf = (p) => cards.filter((c) => p && p.cards && c.quarter === p.quarter &&
                                       c.no >= p.cards.from && c.no <= p.cards.to).map((c) => c.id);
+    /* 카드 한 장의 분 (cards.json 의 minutes, 종이 기준 추정). 블록 3 의 예상 소요를 셀 때만 쓴다. 상한이 아니다 */
+    const minOf = {};
+    cards.forEach((c) => { minOf[c.id] = c.minutes; });
+    const sumMin = (ids) => ids.reduce((a, k) => a + (Number.isInteger(minOf[k]) ? minOf[k] : NaN), 0);
     const real = window.today, realPlan = window.plan;
     const realSave = window.save, realNow = window.saveNow;
     /* 600장 x 288일을 적는다. 저장은 안 한다. 걷는 동안만 막고 돌려놓는다 */
@@ -414,6 +422,10 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
         set: own.set || null,
         media: pl.media || null, emergency: pl.emergency || null,
         cards: todays, review: review,
+        /* 블록 3 은 시계가 없다. 오늘 카드와 복습을 다 돈다. 이 값은 예상 소요(안내)이고 상한이 아니다 (기준서 2.3) */
+        block3: { cards: todays.length, review: review.length,
+                  todayMinutes: sumMin(todays), reviewMinutes: sumMin(review),
+                  minutes: sumMin(todays) + sumMin(review) },
         pick: (picks[own.session - 1] || {}).pick || null,
         decks: {},
       };
@@ -483,6 +495,19 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
      블록 4 는 다시 말하기로 연다 (개정문 25). */
   got.blocks = (got.blocks || []).map((b) => Object.assign({}, b, { together: true, talk: true },
                                                             b.no === 4 ? { retell: true } : {}));
+  /* **블록 3 에 시간 상한이 없다** (2026-10-12, 기준서 2.3, 개정문 31).
+     앱의 블록 표(index.json)는 표준 하루 120분이고 블록 3 이 30분이다. 그 합은 계획 눈금(통과선 144/288/432/576)을 센다.
+     게임 쪽 블록 3 에서는 분을 뺀다 (`minutes` null, `clock` false). 게임이 이 값으로 카드를 자르지 못하게 하려는 것이다.
+     그날의 예상 소요는 세션마다 `block3.minutes` 다. 안내이고 상한이 아니다. 시계가 있는 블록(1 2 4)은 분이 그대로다 */
+  const planMinutes = got.blocks.reduce((a, b) => a + (Number.isInteger(b.minutes) ? b.minutes : 0), 0);
+  got.blocks = got.blocks.map((b) => Object.assign({}, b, b.no === 3
+    ? { minutes: null, clock: false, expect: "sessions[].block3.minutes" } : { clock: true }));
+  const clockMinutes = got.blocks.reduce((a, b) => a + (b.clock && Number.isInteger(b.minutes) ? b.minutes : 0), 0);
+  const badMin = got.sessions.filter((r) => !Number.isInteger(r.block3.minutes)).map((r) => r.s);
+  if (badMin.length) {
+    console.log("[실패] 카드 분(cards.json minutes)이 정수가 아닌 세션이 있다: " + badMin.slice(0, 5).join(" "));
+    process.exit(1);
+  }
 
   /* 다시 말하기. 그 주 이야기를 그날까지. 두 사람이 각자 세 번 */
   got.sessions.forEach((r) => {
@@ -510,6 +535,16 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
     source: "english.html 의 plan() 과 dueCards() 와 markCardRun() 과 판마다의 덱 함수, " +
             "out/data, docs/game.md 4장, docs/spec.md 2.3 2.5 8.4",
     start: START,
+    day: {
+      planMinutes: planMinutes,
+      clockMinutes: clockMinutes,
+      planNote: "planMinutes 는 계획 눈금이다. 세션 수 곱하기 이 값이 누적 시간 통과선(144/288/432/576)과 등급 구간(acts.json)을 센다. " +
+                "걸린 시간이 아니다. 실제 하루는 clockMinutes 에 그날 block3.minutes 를 더한 길이다.",
+      block3: { clock: false, cap: null,
+                note: "블록 3 은 시계로 닫지 않는다. 그날 카드(cards)와 제 날이 된 복습(review)을 다 돌면 끝난다. 시간이 모자라 카드를 건너뛰거나 뒤로 미루지 않는다. " +
+                      "block3.minutes 는 cards.json 의 카드 분(종이 기준 추정)을 더한 예상 소요이고 안내다. 게임에서 잰 분(card_run 의 t0 t1)이 쌓이면 그것으로 바꾼다.",
+                basis: "cards.json minutes" },
+    },
     dateNote: "date 는 시작일에서 쉬는 날 없이 걸은 명목 날짜다. 간격 복습을 이 날짜로 뽑았다",
     roleRule: roleRule,
     roleVectors: roleVectors,
@@ -546,7 +581,8 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
       minutes: 45, together: true,
       parts: [{ what: "review", minutes: 25 }, { what: "retell", minutes: 20 }],
       session: false,
-      note: "2시간을 못 내는 날. 수행일로 센다. 세션 번호는 안 오르고 576시간에 안 센다",
+      note: "2시간을 못 내는 날. 수행일로 센다. 세션 번호는 안 오르고 576시간에 안 센다. " +
+            "25분은 두 사람이 고른 길이다. 보통 날의 블록 3 을 자르는 규칙이 아니다. 25분 안에 못 돈 복습은 안 한 것으로 적지 않고(skipped 줄 없음) 칸도 안 내린다",
     },
     blocks: got.blocks.length ? got.blocks : null,
     count: got.sessions.length,

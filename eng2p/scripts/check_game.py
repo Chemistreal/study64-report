@@ -9,8 +9,15 @@
 
     강 96 / 세트 288 / 카드 600 / 실제 녹음 52과 / 비상판 80 / 48주
 
-그리고 하루의 꼴을 본다. 블록 넷이 120분인가, 두 사람이 늘 같은 곳에 있는가,
-무대가 문서 표와 같은가.
+그리고 하루의 꼴을 본다. 블록 1 2 4 가 시계가 있는 90분이고 블록 3 에는 시계가 없는가,
+두 사람이 늘 같은 곳에 있는가, 무대가 문서 표와 같은가.
+
+개정문 31 (2026-10-12) 블록 3 에 시간 상한이 없다. 오늘 카드와 제 날이 된 복습이 하루 안에 다 도는가를 건다.
+
+    시계 없음       블록 3 의 minutes 가 null 이고 clock 이 false 다. cap 같은 칸이 없다
+    예상 소요       세션마다 block3 의 장수와 분이 카드 자료(cards.json)에서 다시 센 값과 같다
+    안 잘림         세션의 오늘 카드가 그 강(다지기 주면 다시 짜는 두 강)의 카드 범위 전부다
+    계획 눈금       day.planMinutes 가 앱의 블록 표 합(120)이고 288 곱하기 그 값이 기준서 총 시간(576)이다
 
 개정문 24 25 26 (2026-10-07) 셋을 여기서 건다. **숫자는 기준서 문장에서 읽는다.**
 
@@ -34,6 +41,7 @@
 
 사용법:
     python3 scripts/check_game.py              # 지문 표만 빼고 다
+    python3 scripts/check_game.py --break      # + 블록 3 시계 판의 깸 시험 열 (all.py 가 이렇게 부른다)
     python3 scripts/check_game.py --manifest   # 지문 표만 (derive_game_manifest.py 다음에)
     python3 scripts/check_game.py --all        # 둘 다 (손으로 볼 때)
 
@@ -76,7 +84,8 @@ ENGLISH_HTML = os.path.join(ROOT, "..", "english.html")
 # 같은 판 번호 안의 **개정**마다도 지문을 둔다 (results_schema.json 의 revision, 없으면 1). 개정은 더하기만 한다:
 # 이미 쓴 줄(v 1)이 모두 그대로 맞아야 한다. 그것은 results_schema_gate 가 개정 1 고정본으로 본다 (docs/game_results.md 4.15).
 SHAPES = {1: {1: "3dd2178bbff905e4cfc430a7e50b975ebe523c2f95a810fc4be9b06d286b89ac",
-              2: "6e798e4551e30c936b015447442ef68454b61b866a88e3d434e1ca4f23f29798"}}
+              2: "6e798e4551e30c936b015447442ef68454b61b866a88e3d434e1ca4f23f29798",
+              3: "0dfd25101544184fb8377aeafd8d77bbcaea78b51280a58ce2a89f948ff428c5"}}
 REV1_SCHEMA = os.path.join(ROOT, "tools", "game", "results_fixture", "results_schema.rev1.json")
 OUTING_FIXTURE = os.path.join(ROOT, "tools", "game", "results_fixture", "outing.jsonl")
 
@@ -138,11 +147,14 @@ def main():
     rows.append(("강의록", gap("강의록", [x["lecture"] for x in S],
                                [h["lecture"] for h in data("handouts")["items"]])))
 
-    # 3. 하루의 꼴. 블록 넷이 120분이다
+    # 3. 하루의 꼴. 블록 1 2 4 는 시계가 있는 90분이고 블록 3 은 시계가 없다 (개정문 31)
     n += 1
     blocks = G.get("blocks") or []
-    if [b.get("no") for b in blocks] != [1, 2, 3, 4] or sum(b.get("minutes", 0) for b in blocks) != 120:
-        FAIL.append("블록 넷이 120분이 아니다: %s" %
+    clocked = [b for b in blocks if b.get("clock") is True]
+    if [b.get("no") for b in blocks] != [1, 2, 3, 4] or [b.get("no") for b in clocked] != [1, 2, 4] \
+            or any(not isinstance(b.get("minutes"), int) or isinstance(b.get("minutes"), bool) for b in clocked) \
+            or sum(b["minutes"] for b in clocked) != 90:
+        FAIL.append("시계가 있는 블록 1 2 4 가 90분이 아니다: %s" %
                     " ".join("%s:%s" % (b.get("no"), b.get("minutes")) for b in blocks))
 
     src = open(DOC, encoding="utf-8").read()
@@ -240,6 +252,12 @@ def main():
     rows.append(("간격 복습", spaced(G, S, spec)))
     rows.append(("다시 말하기", retold(G, S, blocks, spec)))
     rows.append(("다지기 주", firmed(G, S, spec)))
+    rows.append(("블록 3 시계", open_block3(G, S)))
+    if "--break" in sys.argv:
+        missed = break_open_block3(G, S)
+        rows.append(("깸 시험", (len(BREAKS) - len(missed), len(BREAKS))))
+        for m in missed:
+            FAIL.append("깸 시험을 열두째 판이 못 잡았다: " + m)
     rows.append(("자료 계약", contract(G, S)))
     rows.append(("결과 모양", results_schema_gate(G)))
     rows.append(("결과 고정본", results_fixture(G)))
@@ -416,13 +434,14 @@ def firmed(G, S, spec):
     n += 1
     if odd:
         FAIL.append("주마다 강 수가 기준서 7.1 과 다른 주가 있다: %s" % " ".join(map(str, odd[:8])))
-    # 시간 셈. 세션 288 x 블록 120분 = 576시간이 기준서 1장 값과 같아야 한다
+    # 시간 셈. 세션 288 x 계획 눈금 120분 = 576시간이 기준서 1장 값과 같아야 한다.
+    # **계획 눈금이다.** 걸린 시간이 아니다 (기준서 2.3, 개정문 31). 실제 하루는 블록 3 의 예상 소요만큼 다르다
     tm = re.search(r"총 (\d+)시간", spec)
-    mins = sum(b.get("minutes", 0) for b in (G.get("blocks") or []))
+    mins = (G.get("day") or {}).get("planMinutes", 0)
     hours = len(S) * mins / 60
     n += 1
     if not tm or hours != int(tm.group(1)):
-        FAIL.append("세션 %d개 x %d분 = %g시간이 기준서 1장 총 시간 %s 와 다르다"
+        FAIL.append("세션 %d개 x 계획 눈금 %s분 = %g시간이 기준서 1장 총 시간 %s 와 다르다"
                     % (len(S), mins, hours, tm.group(1) if tm else "?"))
     # 짧은 날. 45분, 세션이 아니다
     sd = G.get("shortDay") or {}
@@ -433,6 +452,154 @@ def firmed(G, S, spec):
             or sd.get("session") is not False or not sd.get("together"):
         FAIL.append("짧은 날이 기준서 2.5 와 다르다: %s" % json.dumps(sd, ensure_ascii=False)[:120])
     return len(S) - len(bad), len(S)
+
+
+def open_block3(G, S):
+    """12. 블록 3 에 시간 상한이 없다 (기준서 2.3, 개정문 31, 2026-10-12).
+
+    오늘 카드와 제 날이 된 복습이 하루 안에 다 도는가. 시계가 카드를 자르는 칸이 자료에 없는가.
+    예상 소요(block3)는 카드 자료에서 **따로 다시 센 값**과 같은가. 센 값은 안내이고 상한이 아니다."""
+    global n
+    ok = 0
+    total = 0
+
+    def chk(cond, msg):
+        nonlocal ok, total
+        global n
+        n += 1
+        total += 1
+        if cond:
+            ok += 1
+        else:
+            FAIL.append(msg)
+
+    blocks = {b.get("no"): b for b in (G.get("blocks") or [])}
+    b3 = blocks.get(3) or {}
+    # 자르는 칸이 자료에 없다. 상한을 뜻하는 이름의 칸이 블록 안에도 맨 위 day 에도 없다
+    chk(b3.get("minutes") is None and b3.get("clock") is False and "minutes" in b3,
+        "블록 3 에 분이 있거나 clock 이 false 가 아니다: %s" % json.dumps(b3, ensure_ascii=False)[:100])
+    ban = ("cap", "limit", "budget", "maxMinutes", "timeLimit", "upTo")
+    chk(not any(k in b for b in blocks.values() for k in ban)
+        and all(k not in (G.get("day") or {}) for k in ban),
+        "블록이나 day 에 시간 상한을 뜻하는 칸이 있다")
+    d3 = (G.get("day") or {}).get("block3") or {}
+    chk(d3.get("clock") is False and d3.get("cap") is None,
+        "day.block3 가 clock false cap null 이 아니다: %s" % json.dumps(d3, ensure_ascii=False)[:100])
+    # 계획 눈금은 앱의 블록 표 합이다 (원본이 따로 있다)
+    idx = data("index")
+    plan = sum(b["minutes"] for b in idx["blocks"])
+    day = G.get("day") or {}
+    chk(day.get("planMinutes") == plan == 120 and day.get("clockMinutes") == 90,
+        "day.planMinutes %s clockMinutes %s 가 앱 블록 표(합 %s)와 다르다" % (day.get("planMinutes"), day.get("clockMinutes"), plan))
+    # 결과 줄 설명이 시간 때문에 건너뛴다고 말하지 않는다
+    RS = load_json(RSCHEMA) if os.path.exists(RSCHEMA) else {}
+    unit = ((RS.get("$defs") or {}).get("card_run") or {}).get("properties", {}).get("outcome", {})
+    chk("시간이 끝" not in unit.get("description", "") and "시간이 모자라 건너뛰는 일은 없다" in unit.get("description", ""),
+        "결과 줄 outcome 설명이 시간 때문에 건너뛴다고 말하거나 안 건너뛴다는 말이 없다")
+
+    # 세션마다: 오늘 카드가 그 강의 전부이고, 예상 소요가 카드 자료에서 다시 센 값과 같다
+    cards = {c["id"]: c for c in data("cards")["items"]}
+    lec = {l["no"]: l for l in data("lectures")["items"]}
+
+    def of(no):
+        L = lec[no]
+        return ["%s-%03d" % (L["quarter"], k) for k in range(L["cards"]["from"], L["cards"]["to"] + 1)]
+
+    cut, wrong, order = [], [], []
+    for x in S:
+        want = []
+        if x.get("consolidate"):
+            for no in x.get("revisit") or []:
+                want += of(no)
+        elif x.get("lecture") is not None:
+            want = of(x["lecture"])
+        if sorted(x["cards"]) != sorted(want):
+            cut.append(x["s"])
+        t = sum(cards[k]["minutes"] for k in x["cards"])
+        r = sum(cards[k]["minutes"] for k in x["review"])
+        got = x.get("block3") or {}
+        if got != {"cards": len(x["cards"]), "review": len(x["review"]), "todayMinutes": t,
+                   "reviewMinutes": r, "minutes": t + r}:
+            wrong.append(x["s"])
+        if len(set(x["cards"]) & set(x["review"])) or len(set(x["review"])) != len(x["review"]):
+            order.append(x["s"])
+    chk(not cut, "오늘 카드가 그 강의 카드 전부가 아닌 세션이 %d개다 (%s). 시계가 카드를 자르면 안 된다"
+        % (len(cut), " ".join(map(str, cut[:6]))))
+    chk(not wrong, "block3 예상 소요가 카드 자료에서 다시 센 값과 다른 세션이 %d개다 (%s)"
+        % (len(wrong), " ".join(map(str, wrong[:6]))))
+    chk(not order, "오늘 카드와 복습이 겹치거나 복습에 같은 카드가 두 번인 세션이 %d개다 (%s)"
+        % (len(order), " ".join(map(str, order[:6]))))
+    # 짧은 날의 25분은 보통 날을 자르는 규칙이 아니라는 말이 자료에 있다
+    sd = G.get("shortDay") or {}
+    chk("보통 날의 블록 3 을 자르는 규칙이 아니다" in sd.get("note", ""), "shortDay.note 에 25분이 보통 날을 자르는 규칙이 아니라는 말이 없다")
+    return ok, total
+
+
+BREAKS = ["블록 3 에 30분을 되돌린다", "블록 3 clock 을 true 로 한다", "블록 3 에 cap 칸을 만든다",
+          "day.planMinutes 를 150 으로 적는다", "한 세션의 오늘 카드 하나를 지운다 (시계가 카드를 자른다)",
+          "한 세션의 block3.minutes 를 1 줄인다", "오늘 카드와 복습에 같은 카드를 둔다",
+          "결과 줄 skipped 설명이 시간이 끝났다고 한다", "day.block3.cap 을 30 으로 적는다",
+          "shortDay.note 에서 보통 날을 안 자른다는 말을 지운다"]
+
+
+def break_open_block3(G, S):
+    """열두째 판의 깸 시험. 규칙마다 비튼 사본을 넣어 판이 실패를 내는지 본다. 못 잡은 것의 이름을 돌려준다."""
+    import copy
+    global n
+    keep_fail, keep_n = list(FAIL), n
+    missed = []
+
+    def mutate(i, G2, S2):
+        b3 = [b for b in G2["blocks"] if b["no"] == 3][0]
+        if i == 0:
+            b3["minutes"] = 30
+        elif i == 1:
+            b3["clock"] = True
+        elif i == 2:
+            b3["cap"] = 30
+        elif i == 3:
+            G2["day"]["planMinutes"] = 150
+        elif i == 4:
+            S2[10]["cards"] = S2[10]["cards"][:-1]
+        elif i == 5:
+            S2[20]["block3"]["minutes"] -= 1
+        elif i == 6:
+            S2[30]["review"] = S2[30]["cards"][:1] + S2[30]["review"]
+        elif i == 7:
+            return "outcome"
+        elif i == 8:
+            G2["day"]["block3"]["cap"] = 30
+        elif i == 9:
+            G2["shortDay"]["note"] = G2["shortDay"]["note"].replace("보통 날의 블록 3 을 자르는 규칙이 아니다", "")
+        return None
+
+    for i, name in enumerate(BREAKS):
+        G2, S2 = copy.deepcopy(G), copy.deepcopy(S)
+        G2["sessions"] = S2
+        del FAIL[:]
+        tweak = mutate(i, G2, S2)
+        if tweak == "outcome":
+            global RSCHEMA
+            RS = load_json(RSCHEMA)
+            RS["$defs"]["card_run"]["properties"]["outcome"]["description"] += " 시간이 끝났거나 건너뜀"
+            import tempfile
+            fd, tmp = tempfile.mkstemp(suffix=".json")
+            os.close(fd)
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(RS, f, ensure_ascii=False)
+            old, RSCHEMA = RSCHEMA, tmp
+            try:
+                open_block3(G2, S2)
+            finally:
+                RSCHEMA = old
+                os.remove(tmp)
+        else:
+            open_block3(G2, S2)
+        if not FAIL:
+            missed.append(name)
+    FAIL[:] = keep_fail
+    n = keep_n
+    return missed
 
 
 # ---------------------------------------------------------------------------------------------

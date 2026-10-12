@@ -219,17 +219,26 @@ def main():
     app = APP.read_text(encoding="utf-8")
 
     # 1. 블록 넷의 이름과 분. 앱의 BLOCKS 가 원본이다.
-    blocks = re.findall(r'\{n:"([^"]+)",m:(\d+)', app)
+    # 블록 3 은 시계로 닫지 않는다 (개정문 31). 앱에 open:true 가 붙은 블록은 매뉴얼 표의 시간 칸이 "예상 소요" 여야 한다.
+    # 앱의 m 은 계획 눈금(하루 120분)을 세는 값이다. 상한이 아니다
+    blocks = re.findall(r'\{n:"([^"]+)",m:(\d+)(,open:true)?', app)
     if len(blocks) != 4:
         FAIL.append("앱에서 블록 넷을 못 찾았다: %d개" % len(blocks))
     else:
-        for i, (name, m) in enumerate(blocks, 1):
+        if [i for i, b in enumerate(blocks, 1) if b[2]] != [3]:
+            FAIL.append("시계가 없는 블록(open:true)이 블록 3 하나가 아니다: %s" % [i for i, b in enumerate(blocks, 1) if b[2]])
+        for i, (name, m, opened) in enumerate(blocks, 1):
+            if opened:
+                row = re.search(r"^\| %d %s \| 예상 소요 \|" % (i, re.escape(name)), man, re.M)
+                if not row:
+                    FAIL.append("블록 %d 은 시계가 없는데 매뉴얼 2.2 표의 시간 칸이 '예상 소요' 가 아니다" % i)
+                continue
             row = re.search(r"^\| %d %s \| (\d+)분 \|" % (i, re.escape(name)), man, re.M)
             if not row:
                 FAIL.append("매뉴얼 2.2 표에 '%d %s' 줄이 없다" % (i, name))
             elif row.group(1) != m:
                 FAIL.append("블록 %d 이 앱은 %s분 매뉴얼은 %s분이다" % (i, m, row.group(1)))
-        total = sum(int(m) for _, m in blocks)
+        total = sum(int(m) for _, m, _ in blocks)
         if total != 120:
             FAIL.append("블록 합이 %d분이다. 120분이어야 한다" % total)
 
@@ -286,7 +295,7 @@ def main():
     if "말해도 된다" not in consts:
         FAIL.append("앱의 블록 1 지시가 말해도 된다고 안 한다")
     # 매뉴얼 2.2 표의 대화 칸. 네 줄 다 허용이나 필수여야 한다. 금지가 하나라도 있으면 실패다
-    talk = re.findall(r"^\| [1-4] [^|]+ \| \d+분 \|[^|]*\| ([^|]+) \|", man, re.M)
+    talk = re.findall(r"^\| [1-4] [^|]+ \| (?:\d+분|예상 소요) \|[^|]*\| ([^|]+) \|", man, re.M)
     if len(talk) != 4:
         FAIL.append("매뉴얼 2.2 표에서 대화 칸 넷을 못 읽었다: %d개" % len(talk))
     elif [t.strip() for t in talk][:2] != ["허용", "필수"] or any("금지" in t for t in talk):

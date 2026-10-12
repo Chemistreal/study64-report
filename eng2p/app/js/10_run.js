@@ -21,7 +21,8 @@ function gotoBlock(i, opt){
     slideDir = (i>T.idx) ? "next" : "prev";
   }
   T.idx=i;
-  T.left=BLOCKS[i].m*60;
+  /* over: 시계가 없는 블록(open)이 예상 시간을 넘긴 초. 블록을 옮기면 0 이다 */
+  T.left=BLOCKS[i].m*60; T.over=0;
   hideSessionDone();
   saveSession();
   paintTimer();

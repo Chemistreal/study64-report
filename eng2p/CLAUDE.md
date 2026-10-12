@@ -85,7 +85,7 @@ python3 scripts/all.py
 ```
 
 **한 줄이다.** 걸음은 `scripts/all.py` 의 `STEPS` 표가 쥐고 끝에 몇 걸음이었는지 찍는다.
-2026-10-10 에 백마흔여섯이다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물넷, 화면 예순하나, 상태 갱신 셋이다 (check_ui.js 는 셋으로 쪼개 돌아 145번 돈다).
+2026-10-12 에 표는 백마흔일곱 줄이고 병렬로 돌 때는 check_ui.js 를 셋으로 쪼개 백마흔아홉 걸음이다. 파생 마흔일곱, 어긋남 하나, 규격 열, 대조 스물다섯, 화면 예순하나, 상태 갱신 셋이다.
 기본은 **병렬**이다 (`scripts/par_run.py`, 일꾼 `min(6, cpu)`). 브라우저 검사까지 다 돌아 8분쯤 걸린다 (측정 427~492초). `--serial` 은 차례대로 21분쯤이다. 화면 검사가 브라우저를 띄운다.
 **건너뜀은 실패다.** 브라우저나 크로미움을 못 찾으면 `all.py` 가 1 로 끝난다. 일부러 건너뛸 때만 `--allow-skip`. 그 밖에 `--jobs N` `--only` `--times` `--timeout` `--plan`. 자세한 것은 `docs/pipeline.md`.
 이 컨테이너에서는 `NODE_PATH=/opt/node22/lib/node_modules` 와 루트 `tests/` 의 `npm install` (PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1) 이 있어야 브라우저 걸음이 돈다.
@@ -294,6 +294,9 @@ out/game/spelling_rule.json 틀린 철자 규칙 f13 의 기준 목록 40개. ga
 out/game/sessions.json 게임 세션 288개. 파생물이다. 손으로 안 고친다
 out/game/acts.json 세션 번호 기준 구간표. **막이 아니라 세션 단위다.** 목표 등급 구간은 계획 숫자(144/288/432/576시간)와 기준선 표에서 파생하고 손으로 경계를 안 쓴다. 공개 한계와 듣기 뒤 영어 자막 정책을 든다. scripts/derive_acts.py, scripts/check_acts.py (깸 시험 28). game 저장소 Data/acts.json 과 같다
 docs/play_unused.md   1년 내내 한 번도 안 뜨는 자료. **기준선 표가 여기 있다**
+docs/day_length.md    **블록 3 에 시계가 없다** (2026-10-12, 개정문 31). 오늘 카드와 복습을 다 돈다. 하루 소요를 288세션 세어 정직하게 적었다 (평균 161분, 최대 317분). 계획 눈금 576시간은 걸린 시간이 아니다
+docs/curve.md         난이도 곡선. 카드 쪽 셋은 A1 에서 B2 로 오르고 새 낱말만 역방향이다. 자료를 옮겨서는 못 고치는 까닭과 필요한 새 콘텐츠 계산
+scripts/report_curve.py, scripts/check_curve.py 두 문서의 표를 다시 센다. 오르는 지표가 내려가면, 역방향 폭이 문서와 다르면 실패
 scripts/check_pages.py 뿌리 화면 검수 열여덟을 들인다. **CI 와 같은 자다.** 그 자가 안 보는 홀로 선 js 도 본다
 scripts/rehearse.js    **검사가 아니라 리허설이다.** 엿새를 실제로 돌고 화면 글을 옮겨 적는다
 scripts/rehearse_session.js 한 세션 두 시간. 블록 안에서 바뀌는 자리 열넷을 뜬다

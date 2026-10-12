@@ -4,7 +4,7 @@
  "title": "호놀룰루 결과 JSONL 한 줄",
  "description": "사실만 적는다. 소리, 받아쓴 글, 이름, 사람별 점수는 안 담는다. 풀이는 docs/game_results.md",
  "version": 1,
- "revision": 2,
+ "revision": 3,
  "generator": "scripts/derive_game.js",
  "x-forbiddenKeys": [
   "name",
@@ -35,7 +35,8 @@
  ],
  "x-revisions": [
   "1 (2026-10-08) 줄 11가지",
-  "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)"
+  "2 (2026-10-10) 나들이: block 에 0, activity.kind 에 outing, activity.ref 길이 40, 줄 종류 outing_turn. 더하기만 했다 (v 는 1 그대로)",
+  "3 (2026-10-12) 블록 3 에 시계가 없다 (기준서 2.3, 개정문 31). 줄의 칸과 값은 그대로이고 설명 글만 바뀌었다. 바뀐 것은 sessions.json 쪽이다 (day, block3, blocks[2].minutes null)"
  ],
  "oneOf": [
   {
@@ -148,7 +149,7 @@
       "busy",
       "short"
      ],
-     "description": "보통 날 120분 / 바쁜 날 15분 혼자 / 짧은 날 45분 둘이. busy 와 short 는 세션 번호를 안 올린다"
+     "description": "보통 날 블록 넷(1 40분, 2 30분, 3 시계 없음, 4 20분) / 바쁜 날 15분 혼자 / 짧은 날 45분 둘이. busy 와 short 는 세션 번호를 안 올린다"
     },
     "seatA": {
      "type": "string",
@@ -418,7 +419,7 @@
       "timer",
       "quit"
      ],
-     "description": "done 다 함 / timer 블록 시간이 끝남 / quit 닫음"
+     "description": "done 다 함 / timer 블록 시간이 끝남 (시계가 있는 블록 1 2 4 만. 블록 3 은 시계가 없어 쓰지 않는다) / quit 닫음"
     }
    }
   },
@@ -623,7 +624,7 @@
       "miss",
       "skipped"
      ],
-     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (시간이 끝났거나 건너뜀)"
+     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (두 사람이 건너뜀. 블록 3 에서 시간이 모자라 건너뛰는 일은 없다. 짧은 날에 안 돈 복습 카드는 줄을 쓰지 않는다)"
     },
     "via": {
      "type": "string",
@@ -746,7 +747,7 @@
       "miss",
       "skipped"
      ],
-     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (시간이 끝났거나 건너뜀)"
+     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (두 사람이 건너뜀. 블록 3 에서 시간이 모자라 건너뛰는 일은 없다. 짧은 날에 안 돈 복습 카드는 줄을 쓰지 않는다)"
     },
     "via": {
      "type": "string",
@@ -888,7 +889,7 @@
       "miss",
       "skipped"
      ],
-     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (시간이 끝났거나 건너뜀)"
+     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (두 사람이 건너뜀. 블록 3 에서 시간이 모자라 건너뛰는 일은 없다. 짧은 날에 안 돈 복습 카드는 줄을 쓰지 않는다)"
     },
     "via": {
      "type": "string",
@@ -1036,7 +1037,7 @@
       "miss",
       "skipped"
      ],
-     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (시간이 끝났거나 건너뜀)"
+     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (두 사람이 건너뜀. 블록 3 에서 시간이 모자라 건너뛰는 일은 없다. 짧은 날에 안 돈 복습 카드는 줄을 쓰지 않는다)"
     },
     "via": {
      "type": "string",
@@ -1151,7 +1152,7 @@
       "miss",
       "skipped"
      ],
-     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (시간이 끝났거나 건너뜀)"
+     "description": "pass 첫 시도에 기준을 넘었다 / near 다시 하거나 고치고서야 넘었다 / miss 기준을 못 넘기고 넘어갔다 / skipped 안 했다 (두 사람이 건너뜀. 블록 3 에서 시간이 모자라 건너뛰는 일은 없다. 짧은 날에 안 돈 복습 카드는 줄을 쓰지 않는다)"
     },
     "via": {
      "type": "string",

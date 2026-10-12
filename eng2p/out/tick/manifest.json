@@ -1,9 +1,9 @@
 {
  "note": "하루 끝 틱(scripts/game_tick.js)이 PC 에서 돌려면 필요한 파일의 크기와 해시다. 손으로 고치지 않는다. scripts/derive_tick_bundle.py 를 다시 돌린다. PC 의 Tools\\sync_tick.ps1 이 받는다.",
  "generator": "scripts/derive_tick_bundle.py",
- "tickHash": "ca64c55938495d5480bd515bc274f9d2a38b9c5a7774bd4cbd50e542120e5582",
- "appHash": "e03de071b2aa3407c574e3f7e9bd3d6c886e990e2517c0bc09a9c07ebf082d81",
- "schemaSha256": "34b9b07d40b7c7b872383cc62d5293b0f2a017b2a697f5e5f3cf7a9bd7a5c12f",
+ "tickHash": "a8f657adbffce8a9d59b435a81c458bb22ba09d5fe3fdbf07f9a21c8a78df45f",
+ "appHash": "5fcc1006f5b60a5b2667d70cd574726c9edadc9ec8a1ac49fb4a315cedd8bf38",
+ "schemaSha256": "e1e9ae55e2973c3d5b7e27a710eb3b9afa5d779398a29a76b334b61ee7b4d434",
  "nodeMin": 22,
  "entry": "eng2p/scripts/game_tick.js",
  "algorithm": {
@@ -16,8 +16,8 @@
  "files": [
   {
    "file": "english.html",
-   "bytes": 298561,
-   "sha256": "a2d025e69f677fcc9385749239ad64a4299ad00b3123187c13afe1a619d22094"
+   "bytes": 298716,
+   "sha256": "e1ca2ef3202d7a71d8bf49227412c3d6d2f8ae6cfd41b13fdfc21370fb852047"
   },
   {
    "file": "eng2p/scripts/game_tick.js",
@@ -31,8 +31,8 @@
   },
   {
    "file": "eng2p/app/js/01_const.js",
-   "bytes": 9771,
-   "sha256": "b1e2e7a4c0e7463dd3229f134d1dd612db80d0cdd57a349c61375dee779ceb9f"
+   "bytes": 10072,
+   "sha256": "f6544a09a6d9ce219b174ed14032d5d45d5c32728e6ffc8a307e75244632016b"
   },
   {
    "file": "eng2p/app/js/02_store.js",
@@ -71,8 +71,8 @@
   },
   {
    "file": "eng2p/app/js/05_session.js",
-   "bytes": 25340,
-   "sha256": "ef7b116871d190052b11701972fae2d4af1227018672b2fdd977d332d99e2647"
+   "bytes": 25347,
+   "sha256": "b969a8b8f76797ef831ec5d7f95e434b6eb98346871f5316d6419c5e56cdade4"
   },
   {
    "file": "eng2p/app/js/06_cards.js",
@@ -91,8 +91,8 @@
   },
   {
    "file": "eng2p/app/js/08_script.js",
-   "bytes": 26257,
-   "sha256": "2a7b08ceab9fd22f8142c6113eaaddda776027227bbbdba54dcc1695cd2af842"
+   "bytes": 26869,
+   "sha256": "22be86ba293f572b0a5f2ef3316ebc521917ba652b36d3d6a7efac23da0ca135"
   },
   {
    "file": "eng2p/app/js/09_lecture.js",
@@ -101,8 +101,8 @@
   },
   {
    "file": "eng2p/app/js/10_run.js",
-   "bytes": 15783,
-   "sha256": "044c1327369f352bdb16dcb9738949dbff21a9f8caacaa4fae30e855d3a8246b"
+   "bytes": 15898,
+   "sha256": "be36deb3a8fccf6d52508d3acbdb4d306906328216e3b76aef00c9390aa677ac"
   },
   {
    "file": "eng2p/app/js/11_ledger.js",
@@ -156,8 +156,8 @@
   },
   {
    "file": "eng2p/out/game/results_schema.json",
-   "bytes": 34197,
-   "sha256": "34b9b07d40b7c7b872383cc62d5293b0f2a017b2a697f5e5f3cf7a9bd7a5c12f"
+   "bytes": 35146,
+   "sha256": "e1e9ae55e2973c3d5b7e27a710eb3b9afa5d779398a29a76b334b61ee7b4d434"
   }
  ]
 }
