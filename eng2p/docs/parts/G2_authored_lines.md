@@ -29,7 +29,7 @@
 | dkd-07 | ready | option | 두 사람 | We need a minute, please. | A1 | 시간 요청 | A | - | - |
 | dkd-08 | ready | option | 두 사람 | What do you recommend? | A2 | 추천 묻기 | A | - | - |
 | dkd-09 | ready | npc | Server | Of course. Take your time. | A1 | 기다려 주기 | A | - | - |
-| dkd-10 | ready | npc | Server | The fish comes with rice. | A2 | 음식 구성 안내 | B | 생선과 밥의 구성은 실제 메뉴를 확인한 정보가 아니라 가상 장면값이다 | - |
+| dkd-10 | ready | npc | Server | The fish is good. It comes with rice. | A2 | 음식 구성 안내 | A | - | - |
 | dkd-11 | plan | wait | A자리 | Would you like fish or chicken, {B}? | A2 | 상대의 선택 묻기 | A | - | - |
 | dkd-12 | plan | option | B자리 | I'd like fish. | A2 | 선호 말하기 | A | - | - |
 | dkd-13 | plan | option | B자리 | I'm not sure yet. | A1 | 선택 유보 | A | - | - |
@@ -136,7 +136,7 @@
 | mud-19 | size | npc | Clerk | Sure. Take your time. | A1 | 기다려 주기 | A | - | - |
 | mud-20 | size | npc | Clerk | And what size for your friend? | A1 | 상대 크기 묻기 | A | - | - |
 | mud-21 | size | option | B자리 | Two small bowls, please. | A2 | 두 사람의 크기 확정 | A | - | - |
-| mud-22 | size | option | B자리 | One small and one large bowl, please. | A2 | 두 사람의 크기 확정 | A | - | - |
+| mud-22 | size | option | B자리 | Small for my friend, large for me, please. | A2 | 두 사람의 크기 확정 | A | - | - |
 | mud-23 | topping | npc | Clerk | Would you like something on top? | A2 | 고명 추가 묻기 | A | - | - |
 | mud-24 | topping | option | A자리 | What do you recommend? | A2 | 고명 추천 묻기 | A | - | - |
 | mud-25 | topping | option | A자리 | No extras for me, thank you. | A2 | 추가 거절 | A | - | - |
@@ -390,11 +390,11 @@
 | pha-10 | ingredients | option | B자리 | The ingredients, please. | A2 | 확인할 내용 고르기 | B | ingredients를 짧은 선택 답으로 쓰는 자연스러움과 등급은 사용자 확인이 필요해요 | - |
 | pha-11 | ingredients | option | B자리 | Could you read the label with us? | A2 | 함께 라벨 읽어 달라고 부탁하기 | A | - | - |
 | pha-12 | ingredients | npc | Clerk | The ingredients are on the back. | A2 | 성분 표시 위치 알려 주기 | B | 성분이 뒷면에 있는 것은 이 가상 상자의 설정이며 실제 제품 표시 위치를 단정하지 않아요 | - |
-| pha-13 | ingredients | npc | Clerk | They're on the back. Let's read them together. | A2 | 성분을 함께 읽기 | B | 함께 성분표를 읽는 가상 응대이며 성분이 안전한지 판단하는 설명은 넣지 않았어요 | - |
+| pha-13 | ingredients | npc | Clerk | Let's read the ingredients on the back together. | A2 | 성분을 함께 읽기 | A | - | - |
 | pha-14 | directions | npc | Clerk | The directions are here on the label. | A2 | 사용법 표시 위치 알려 주기 | B | 사용법의 위치만 안내하며 실제 제품의 사용 방법이나 복용량을 제시하지 않아요 | - |
 | pha-15 | directions | option | B자리 | How do I use these drops? | A2 | 제품 사용법 묻기 | B | 약국에서 쓰는 제품 사용법 질문이며 drops가 목 제품을 가리키는 연어는 사용자 확인이 필요해요 | - |
 | pha-16 | directions | option | B자리 | I need help understanding these directions. | A2 | 사용법 이해에 도움 요청하기 | B | 의약품 directions의 의미와 help understanding 구문의 난이도는 사용자 확인이 필요해요 | - |
-| pha-17 | directions | npc | Clerk | We'll ask the pharmacist to explain them. | A2 | 사용법 설명을 약사에게 연결하기 | B | 약사에게 실제 사용법 확인을 맡기는 가상 응대이며 구체적인 복용 지시는 쓰지 않았어요 | - |
+| pha-17 | directions | npc | Clerk | We'll ask the pharmacist how to use these. | A2 | 사용법 설명을 약사에게 연결하기 | A | - | - |
 | pha-18 | medicine | npc | Clerk | Do you take any other medicine? | A2 | 다른 약 사용 여부 묻기 | B | 가상 상담 연결을 위한 질문이며 실제 진단이나 제품 선택 근거로 쓰지 않았어요 | - |
 | pha-19 | medicine | option | A자리 | No, I don't take any medicine. | A2 | 다른 약을 먹지 않는다고 알리기 | A | - | - |
 | pha-20 | medicine | option | A자리 | I have my medicine list here. | A2 | 약 목록을 보여 주겠다고 알리기 | A | - | - |
@@ -409,7 +409,7 @@
 | pha-29 | decision | npc | Clerk | Do you want to buy this box? | A1 | 구매 여부 묻기 | A | - | - |
 | pha-30 | decision | option | B자리 | I'll take it. Thank you. | A1 | 구매를 결정하고 감사하기 | A | - | - |
 | pha-31 | decision | option | B자리 | Could we speak to the pharmacist first? | A2 | 구매를 미루고 약사 상담 요청하기 | A | - | - |
-| pha-32 | decision | npc | Clerk | Keep the label. Ask a pharmacist before using it. | A2 | 사용 전 약사 확인을 안내하기 | B | 실제 복용 방법을 제시하지 않고 약사에게 확인하도록 하는 표현은 사용자 검토가 필요해요 | - |
+| pha-32 | decision | npc | Clerk | Keep the label. Ask a pharmacist before using these. | A2 | 사용 전 약사 확인을 안내하기 | A | - | - |
 | pha-33 | decision | npc | Clerk | Sure. Please wait here. I'll ask them to come. | A2 | 약사 상담을 기다리게 안내하기 | B | 약사 호출과 대기 장소는 이 장면만의 가상 절차이며 실제 약국 절차를 단정하지 않아요 | - |
 
 ### 연습할 말 (이 나들이의 연습 15개)
@@ -928,7 +928,7 @@
 | amr-18 | reader | option | B자리 | Could you show me where to put it? | B1 | 사용 위치 묻기 | A | - | - |
 | amr-19 | card | npc | Clerk | Is the card ending in four six eight two yours? | B1 | 카드 소유 확인 | B | 카드 끝 번호를 하나씩 읽는 이 확인 문구의 실제 직원 말투는 확인하지 않았다 | - |
 | amr-20 | card | option | A자리 | Yes, that is my card. | B1 | 소유 확인 | A | - | - |
-| amr-21 | card | option | A자리 | Could you repeat those numbers? | B1 | 번호 다시 듣기 | A | - | - |
+| amr-21 | card | option | A자리 | Yes, that's my card. Could you repeat those numbers? | B1 | 번호 다시 듣기 | A | - | - |
 | amr-22 | timing | npc | Clerk | The refund may take three business days. | B1 | 처리 시간 안내 | B | business days를 쓰는 환불 안내의 자연스러움과 난이도는 검증 전이다 | - |
 | amr-23 | timing | option | B자리 | Could you write that down? | B1 | 기록 부탁 | A | - | - |
 | amr-24 | timing | option | B자리 | What should I do if it takes longer? | B1 | 지연 때 대처 묻기 | A | - | - |
@@ -944,7 +944,7 @@
 | amr-34 | exchange | npc | Clerk | We do not have another size in this style. | B1 | 교환 불가 이유 설명 | A | - | - |
 | amr-35 | reader | npc | Clerk | The card reader is on your right. | B1 | 기계 위치 안내 | A | - | - |
 | amr-36 | card | npc | Clerk | Four, six, eight, two. | B1 | 카드 번호 반복 | A | - | - |
-| amr-37 | timing | npc | Clerk | I will write the time on your receipt. | B1 | 기록 약속 | A | - | - |
+| amr-37 | timing | npc | Clerk | I'll write how long it may take on your receipt. | B1 | 기록 약속 | A | - | - |
 | amr-38 | timing | npc | Clerk | Call the number on your receipt if you need help. | B1 | 연락 방법 안내 | A | - | - |
 | amr-39 | paper | npc | Clerk | Yes, you can keep both receipts. | B1 | 원본 보관 허락 | A | - | - |
 | amr-40 | finish | npc | Clerk | It is printed on your receipt. | B1 | 연락처 안내 | A | - | - |
@@ -959,7 +959,7 @@
 | amr-p4 | Could you explain why I cannot exchange it? | 거절 이유 묻기 | amr-12 | - |
 | amr-p5 | I paid with this card. | 결제 수단 밝히기 | amr-14 | - |
 | amr-p6 | Could you show me where to put it? | 사용 위치 묻기 | amr-18 | - |
-| amr-p7 | Could you repeat those numbers? | 번호 다시 듣기 | amr-21 | - |
+| amr-p7 | Yes, that's my card. Could you repeat those numbers? | 번호 다시 듣기 | amr-21 | - |
 | amr-p8 | Could you write that down? | 기록 부탁 | amr-23 | - |
 | amr-p9 | What should I do if it takes longer? | 지연 때 대처 묻기 | amr-24 | - |
 | amr-p10 | Can I keep the original receipt too? | 원본 보관 허락 묻기 | amr-27 | - |
@@ -1028,7 +1028,7 @@
 | pnl-32 | setting | npc | Clerk | Follow the labels on your clothes. | B1 | 옷의 지침 확인 안내 | A | - | - |
 | pnl-33 | laundry_cost | npc | Clerk | No. The dryer costs two dollars. | B1 | 별도 건조 요금 설명 | A | - | - |
 | pnl-34 | laundry_cost | npc | Clerk | Yes. Use the card reader on the machine. | B1 | 결제 위치 안내 | A | - | - |
-| pnl-35 | dryer | npc | Clerk | Choose the heat that matches the labels. | B1 | 옷 지침에 맞춘 선택 안내 | B | 건조기의 heat와 옷 표시를 연결하는 직원 연어는 실제 구어 검증이 필요하다 | - |
+| pnl-35 | dryer | npc | Clerk | Choose a heat setting that matches the labels. | B1 | 옷 지침에 맞춘 선택 안내 | A | - | - |
 | pnl-36 | phone_charge | npc | Clerk | The number is listed on your bill. | B1 | 내역 확인 위치 안내 | A | - | - |
 | pnl-37 | phone_charge | npc | Clerk | No. That call was not included. | B1 | 포함되지 않은 통화 확인 | A | - | - |
 | pnl-38 | phone_plan | npc | Clerk | Local calls are included. International calls cost extra. | B1 | 포함 범위 설명 | B | 실제 요금제 사실이 아닌 가상 정책이며 local calls 범위의 이해 가능성을 검증해야 한다 | - |

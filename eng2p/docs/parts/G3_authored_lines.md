@@ -58,7 +58,7 @@
 | dlp-36 | talk | wait | A자리 | What do you like about the view, {B}? | A2 | 동행에게 경치 의견 묻기 | A | - | - |
 | dlp-37 | talk | option | B자리 | I like the blue ocean. | A2 | 경치 묘사 | A | - | - |
 | dlp-38 | talk | option | B자리 | Which part do you like? | A2 | 동행에게 되묻기 | A | - | - |
-| dlp-39 | finish | wait | A자리 | I like the ocean, too. Let us sit here. | A2 | 의견 말하고 휴식 제안 | A | - | - |
+| dlp-39 | finish | wait | A자리 | I like the ocean. Let's sit here. | A2 | 의견 말하고 휴식 제안 | A | - | - |
 
 ### 연습할 말 (이 나들이의 연습 10개)
 
@@ -206,7 +206,7 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | sfl-01 | door | npc | Guide | Welcome! Have you taken a surf lesson before? | B1 | 인사와 경험 묻기 | A | - | - |
 | sfl-02 | door | option | A자리 | No. This is my first lesson. | A2 | 경험 말하기 | A | - | - |
 | sfl-03 | door | option | A자리 | Can you explain the safety rules first? | B1 | 안전 설명 요청 | A | - | - |
-| sfl-04 | door | npc | Guide | Of course. We'll start with the safety talk. | B1 | 안전 설명 시작 | B | 강습을 시작하는 말의 현장 쓰임과 안전 설명 구성을 확인하지 않았다 | - |
+| sfl-04 | door | npc | Guide | We'll start with the safety talk. | B1 | 안전 설명 시작 | A | - | - |
 | sfl-05 | begin | npc | Guide | Please wait for my instructions before we begin. | B1 | 시작 전 지침 안내 | B | 가상 강습의 일반 안내이며 실제 강사의 안전 지침을 확인한 대사가 아니다 | - |
 | sfl-06 | begin | option | B자리 | So we wait until you tell us to start? | B1 | 들은 지침 확인 | A | - | - |
 | sfl-07 | begin | option | B자리 | Could you say that more slowly? | A2 | 속도 조절 요청 | A | - | - |
@@ -595,10 +595,10 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | phv-19 | choose | npc | Clerk | Of course. Take your time. | A1 | 선택 시간 허용 | A | - | - |
 | phv-20 | choose | npc | Clerk | You could look at the displays first. | A2 | 방문 순서 제안 | B | 전시를 먼저 보라는 추천은 실제 동선 지침이 아닌 가상 직원의 제안이다 | - |
 | phv-21 | bag | wait | A자리 | What should we do with this bag? | A2 | 가방 처리 질문 | A | - | - |
-| phv-22 | bag | npc | Clerk | Please check the bag rules with staff before you enter. | B1 | 직원에게 규칙 확인 요청 | B | 가방 허용 여부나 보관 절차를 단정하지 않는 응답이며 현장 화용 검수가 필요하다 | - |
+| phv-22 | bag | npc | Clerk | Please ask the entrance staff about the bag rules before you enter. | B1 | 직원에게 규칙 확인 요청 | A | - | - |
 | phv-23 | repair | option | B자리 | Could you say that more slowly, please? | A2 | 느리게 반복 요청 | A | - | - |
 | phv-24 | repair | option | B자리 | Could you show us the rules in writing? | A2 | 글로 된 규칙 요청 | B | 현장 규정을 글로 보여 달라는 요청의 지역 화용은 사람 검수가 필요하다 | - |
-| phv-25 | repair | npc | Clerk | Check with staff before you enter. | A2 | 안내를 짧게 반복 | B | 실제 가방 정책을 설명하지 않고 직원 확인을 다시 요청하는 가상 응답이다 | - |
+| phv-25 | repair | npc | Clerk | Ask the staff there before you enter. | A2 | 안내를 짧게 반복 | A | - | - |
 | phv-26 | repair | npc | Clerk | I'll show you where to find the written rules. | A2 | 글로 된 규칙 위치 안내 | B | 규칙을 적은 자료의 실제 제공 여부를 확인하지 않은 가상 장면값이다 | - |
 | phv-27 | route | option | A자리 | Where should we go for the next program? | A2 | 다음 프로그램 장소 질문 | A | - | - |
 | phv-28 | route | option | A자리 | Could we see the displays before the next program? | B1 | 일정 조정 가능 여부 질문 | A | - | - |
@@ -874,7 +874,7 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | afp-11 | music | option | A자리 | I like the music! | A1 | 감상 말하기 | A | - | - |
 | afp-12 | music | option | A자리 | Can you hear the music, {B}? | A1 | 동행에게 묻기 | A | - | - |
 | afp-13 | music | option | B자리 | Yes. I like it! | A1 | 동의 감상 | A | - | - |
-| afp-14 | music | option | B자리 | Let's listen to the music. | A1 | 함께 듣기 제안 | A | - | - |
+| afp-14 | music | option | B자리 | Yes. Let's listen to the music. | A1 | 함께 듣기 제안 | A | - | - |
 | afp-15 | time | npc | Host | You can ask me a question. | A1 | 질문 권유 | A | - | - |
 | afp-16 | time | option | 두 사람 | What time does it start? | A1 | 시작 시각 질문 | A | - | - |
 | afp-17 | time | option | 두 사람 | We will wait here. | A1 | 기다릴 뜻 말하기 | A | - | - |
@@ -953,7 +953,7 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 | hsh-09 | reaction | option | A자리 | I liked that song, {B}. | B1 | 개인 감상 말하기 | A | - | - |
 | hsh-10 | reaction | option | A자리 | Did you understand the words of that song, {B}? | B1 | 동행의 이해 묻기 | A | - | - |
 | hsh-11 | reaction | option | B자리 | I'm not sure what it means. | B1 | 지식 부족 말하기 | A | - | - |
-| hsh-12 | reaction | option | B자리 | I'd like to learn more about it. | B1 | 더 알고 싶은 뜻 말하기 | A | - | - |
+| hsh-12 | reaction | option | B자리 | I don't understand it yet. I'd like to learn more. | B1 | 더 알고 싶은 뜻 말하기 | A | - | - |
 | hsh-13 | question | npc | Host | The show is over. Do you have a question? | B1 | 종료 알림 질문 권유 | A | - | - |
 | hsh-14 | question | option | A자리 | Could we ask about the song? | B1 | 질문 허락 요청 | A | - | - |
 | hsh-15 | question | option | A자리 | We want to understand what the song means. | B1 | 설명이 필요한 목적 말하기 | A | - | - |
