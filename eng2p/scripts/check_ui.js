@@ -597,6 +597,29 @@ const runs = (u) => !PART || PART.k === { A: 1, B: 2, C: 3 }[u];
   if (auto.saved !== 1) fails.push("자동 넘김: 넘어간 자리가 저장이 안 됐다");
   await page.evaluate(() => { T.run = false; clearInterval(T.tick); });
 
+  // 13b. **블록 3 은 시계가 없다** (기준서 2.3, 개정문 31). 시계가 0 이 되어도 다음 블록으로 안 넘어간다.
+  //      넘어가면 시간이 모자라 카드를 건너뛰는 규칙이 된다. 넘기는 것은 두 사람이다 (다음 블록 단추).
+  await page.evaluate(() => { const c = document.getElementById("tSound"); if (c) c.checked = false;
+                              gotoBlock(2); T.left = 2; });
+  await page.click("#tStart");
+  await page.waitForTimeout(3600);
+  const open3 = await page.evaluate(() => ({
+    idx: T.idx, run: T.run, over: T.over, left: T.left,
+    clock: (document.getElementById("tClock") || {}).textContent || "",
+    saved: S.session ? S.session.idx : null,
+  }));
+  if (open3.idx !== 2) fails.push("블록 3 시계: 0 이 되자 블록이 넘어갔다 (" + open3.idx + "). 시계가 없는 블록이다");
+  if (!open3.run) fails.push("블록 3 시계: 0 이 되자 타이머가 멈췄다");
+  if (!(open3.over >= 1)) fails.push("블록 3 시계: 예상 시간을 넘긴 초를 안 센다 (" + open3.over + ")");
+  if (open3.left !== 0) fails.push("블록 3 시계: 남은 시간이 0 이 아니다 (" + open3.left + ")");
+  if (!/^\+/.test(open3.clock)) fails.push("블록 3 시계: 넘긴 초를 '+분:초' 로 안 보인다 ('" + open3.clock + "')");
+  if (open3.saved !== 2) fails.push("블록 3 시계: 멈춘 자리가 블록 3 으로 안 저장됐다 (" + open3.saved + ")");
+  await page.evaluate(() => $("#tSkip").click());
+  const after3 = await page.evaluate(() => ({ idx: T.idx, over: T.over }));
+  if (after3.idx !== 3) fails.push("블록 3 시계: 다음 블록 단추가 블록 4 로 못 넘겼다 (" + after3.idx + ")");
+  if (after3.over !== 0) fails.push("블록 3 시계: 블록을 넘겼는데 넘긴 초가 남았다 (" + after3.over + ")");
+  await page.evaluate(() => { T.run = false; clearInterval(T.tick); });
+
   // 15. 세션 안 재생. 블록 1과 4의 소리가 **그 칸 안에서** 난다.
   //     paintTimer 가 매초 돌고 그 안에서 블록 칸을 다시 그렸다. 심은 것이 1초를 못 살았다.
   //     그래서 재생기를 미디어 탭에 두고 40분을 그 탭에서 보냈다.

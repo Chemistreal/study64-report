@@ -1777,7 +1777,7 @@ var BLOCKS=[
  {n:"대조 교차",m:30,d:"NPC 설명 8분, 같이 재구성 8분, 상호 검토 10분, 기록 4분.",
   da:"2단계에서 먼저 말한다. 3단계에서는 B가 먼저 말하니 잇는다.",
   db:"2단계에서 A 다음에 잇는다. 3단계에서 먼저 말한다."},
- {n:"페어 드릴",m:30,d:"NPC 출제와 같이 반응. 시간 압박을 건다.",
+ {n:"페어 드릴",m:30,open:true,d:"NPC 출제와 같이 반응. 시계로 안 닫는다.",
   da:"먼저 반응한다. 게임이 없는 날은 출제 면을 소리 내어 읽는다. 정답은 어느 화면에도 없다.",
   db:"A 다음에 잇는다. 제한 시간 안에 같이 반응한다. 정확성보다 속도가 먼저다."},
  {n:"공동 입력",m:20,d:"같은 자료를 함께 듣는다.",
@@ -3004,7 +3004,7 @@ function renderRings(pl,weekDone,rec){
   s+="</div>";
   box.innerHTML=s;
 }
-var T={idx:0,left:BLOCKS[0].m*60,run:false,tick:null};
+var T={idx:0,left:BLOCKS[0].m*60,run:false,tick:null,over:0};
 
 function saveSession(){
   if(!SESSION_DAY) SESSION_DAY=realToday();
@@ -4306,7 +4306,8 @@ function paintTimer(){
   }
   renderSidePick(A,B);
   renderBlockPane();
-  $("#tClock").textContent=fmt(Math.max(0,T.left));
+  var ck=(b.open && T.over>0) ? "+"+fmt(T.over) : fmt(Math.max(0,T.left));
+  $("#tClock").textContent=ck;
   var sl=$("#tSessLeft");
   if(sl) sl.textContent="세션 남은 "+sessionLeftMin()+"분 · 블록 "+(T.idx+1)+" / "+BLOCKS.length;
   $("#tDesc").textContent=b.d;
@@ -4322,7 +4323,7 @@ function paintTimer(){
   $("#tStart").textContent=T.run?"일시정지":(T.left===b.m*60&&T.idx===0?"시작":"이어서");
   $("#tOne").textContent=T.left===BLOCKS[0].m*60&&T.idx===0?"세션 시작":"세션 이어서";
   $("#focusBlock").textContent="블록 "+(T.idx+1)+" · "+b.n;
-  $("#focusClock").textContent=fmt(Math.max(0,T.left));
+  $("#focusClock").textContent=ck;
   if(typeof renderWhere==="function") renderWhere();
   $("#focusToggle").textContent=T.run?"일시정지":"이어서";
   document.title=(T.run?fmt(Math.max(0,T.left))+" · ":"")+"eng2p 운영 콘솔";
@@ -4331,6 +4332,7 @@ function paintTimer(){
 }
 function tick(){
   T.left--;
+  if(T.left<=0 && BLOCKS[T.idx].open){ T.left=0; if(!T.over++) beep(); paintTimer(); return; }
   if(T.left%10===0) saveSession();   // 10초마다 남긴다. 매초 쓰면 저장이 잦다
   if(T.left<=0){
     beep();
@@ -4508,7 +4510,7 @@ function gotoBlock(i, opt){
     slideDir = (i>T.idx) ? "next" : "prev";
   }
   T.idx=i;
-  T.left=BLOCKS[i].m*60;
+  T.left=BLOCKS[i].m*60; T.over=0;
   hideSessionDone();
   saveSession();
   paintTimer();

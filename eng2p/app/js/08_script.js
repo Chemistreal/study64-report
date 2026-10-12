@@ -438,7 +438,9 @@ function paintTimer(){
   }
   renderSidePick(A,B);
   renderBlockPane();
-  $("#tClock").textContent=fmt(Math.max(0,T.left));
+  /* 시계가 없는 블록이 예상 시간을 넘기면 시계 자리에 넘긴 초를 "+분:초" 로 보인다 */
+  var ck=(b.open && T.over>0) ? "+"+fmt(T.over) : fmt(Math.max(0,T.left));
+  $("#tClock").textContent=ck;
   var sl=$("#tSessLeft");
   if(sl) sl.textContent="세션 남은 "+sessionLeftMin()+"분 · 블록 "+(T.idx+1)+" / "+BLOCKS.length;
   $("#tDesc").textContent=b.d;
@@ -454,7 +456,7 @@ function paintTimer(){
   $("#tStart").textContent=T.run?"일시정지":(T.left===b.m*60&&T.idx===0?"시작":"이어서");
   $("#tOne").textContent=T.left===BLOCKS[0].m*60&&T.idx===0?"세션 시작":"세션 이어서";
   $("#focusBlock").textContent="블록 "+(T.idx+1)+" · "+b.n;
-  $("#focusClock").textContent=fmt(Math.max(0,T.left));
+  $("#focusClock").textContent=ck;
   /* 짝과 견줄 짧은 표시. 상대가 지금 어디인지는 이 기기가 모른다 (T246). */
   if(typeof renderWhere==="function") renderWhere();
   $("#focusToggle").textContent=T.run?"일시정지":"이어서";
@@ -465,6 +467,10 @@ function paintTimer(){
 }
 function tick(){
   T.left--;
+  /* **시계가 없는 블록은 0 이 되어도 안 닫는다** (블록 3, 기준서 2.3, 개정문 31).
+     카드가 남았는데 시간이 다 됐다고 다음 블록으로 넘기면 시간이 모자라 카드를 건너뛰는 규칙이 된다.
+     한 번 소리로 알리고 넘긴 초를 센다. 넘기는 것은 두 사람이다 (다음 블록 단추). */
+  if(T.left<=0 && BLOCKS[T.idx].open){ T.left=0; if(!T.over++) beep(); paintTimer(); return; }
   if(T.left%10===0) saveSession();   // 10초마다 남긴다. 매초 쓰면 저장이 잦다
   if(T.left<=0){
     beep();

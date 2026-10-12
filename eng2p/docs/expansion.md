@@ -46,7 +46,7 @@ world.md 8장이 두 층을 갈랐다. **핵심은 288세션이고 확장은 일
 | 슬랭 전면 금지 | CLAUDE.md | 잡담과 새로 쓴 글에 SLANG 목록 (derive_ext_common.py) 이 없다. 라디오 원문은 VOA 그대로라 안 건다 |
 | 상표와 실존 인물 | town.md, scenes.md | derive_town.py BRANDS 를 그대로 쓴다. 잡담과 새로 쓴 글에 PEOPLE 목록이 없다 |
 | 신성한 것 | sources.md 3.5, audit_culture | 새로 쓴 글에 SACRED 목록 (Pele, heiau, Kumulipo, 1893 전복 등) 이 없다 |
-| 하루 120분을 안 민다 | world.md 6, 8장 | 확장은 다 일요일과 남는 시간. 안 해도 이야기는 간다 |
+| 하루(블록 넷)를 안 민다 | world.md 6, 8장 | 확장은 다 일요일과 남는 시간. 안 해도 이야기는 간다. 블록 3 에 시계가 없어(개정문 31) 하루가 이미 길다. 그 하루를 더 늘리지 않는다 |
 
 ## 3. 라디오 (C-real)
 
