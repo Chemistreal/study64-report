@@ -225,7 +225,7 @@ A자리가 예약 명의자이며 유일한 운전자다. A가 자기 면허증,
 | acr-20 | charges | npc | Clerk | If you decline insurance, you pay only the booking charge and taxes. | B2 | 보험 제외 금액 구성 | B | 보험 제외 시 요금 구성은 실제 업체 계약 정보가 아니라 가상 장면값이다 | - |
 | acr-21 | review | npc | Clerk | Please review the written terms before making an insurance choice. | B2 | 보험 조건 검토 요청 | B | 보험 선택 전 서면 검토를 요청하는 순서는 가상 장면의 절차다 | - |
 | acr-22 | review | option | A자리 | I'd like to read these terms before choosing any optional insurance. | B2 | 검토 시간 확보 | A | - | - |
-| acr-23 | review | option | A자리 | Could you explain which costs these options leave out? | B2 | 보험 제외 범위 질문 | B | 보험의 제외 범위를 leave out으로 묻는 표현은 전문 뜻과 연어 검수가 필요하다 | - |
+| acr-23 | review | option | A자리 | Could you explain which costs these options don't cover? | B2 | 보험 제외 범위 질문 | A | - | - |
 | acr-24 | review | npc | Clerk | The exclusions are listed here; I can go through them with you. | B2 | 제외 범위 함께 확인 | B | exclusions는 보험 문서의 전문 낱말이며 실제 보장 제외 내용을 새로 정하지 않았다 | - |
 | acr-25 | choice | option | A자리 | I've read the terms. I'll decline the insurance. | B2 | 선택 보험 거절 | B | 보험 거절의 현장 화용과 decline의 등급은 사람 검수가 필요하다 | - |
 | acr-26 | choice | option | A자리 | Please add the insurance option marked here to this booking. | B2 | 표시된 선택 보험 요청 | B | 구체 상품을 새로 정하지 않고 가상 화면의 조건과 가격을 선택하는 말이다 | - |
@@ -257,7 +257,7 @@ A자리가 예약 명의자이며 유일한 운전자다. A가 자기 면허증,
 | acr-p5 | Which amount would we pay if we decline the optional insurance? | 보험 거절 시 합계 확인 | acr-17 | - |
 | acr-p6 | Why is the total higher than the booking charge? | 기본 요금과 합계 비교 | acr-18 | - |
 | acr-p7 | I'd like to read these terms before choosing any optional insurance. | 검토 시간 확보 | acr-22 | - |
-| acr-p8 | Could you explain which costs these options leave out? | 보험 제외 범위 질문 | acr-23 | - |
+| acr-p8 | Could you explain which costs these options don't cover? | 보험 제외 범위 질문 | acr-23 | - |
 | acr-p9 | I've read the terms. I'll decline the insurance. | 선택 보험 거절 | acr-25 | - |
 | acr-p10 | Please add the insurance option marked here to this booking. | 표시된 선택 보험 요청 | acr-26 | - |
 | acr-p11 | Could you go through this total before we sign anything? | 서명 전 요금 재설명 요청 | acr-29 | - |
@@ -334,12 +334,12 @@ A와 B는 함께 살 공간을 비교하는 사람이며 어느 쪽도 임대 �
 | aph-27 | rules | npc | Clerk | Which house rules would you like to ask about? | B2 | 거주 규칙 질문 받기 | A | - | - |
 | aph-28 | rules | option | B자리 | Are overnight guests allowed, and are there any limits we should know about? | B2 | 손님 규칙과 제한 질문 | A | - | - |
 | aph-29 | rules | option | B자리 | When are quiet hours, and how do we report a noise problem? | B2 | 조용한 시간과 신고 방법 질문 | B | quiet hours라는 거주 규칙 연어와 현장 화용은 사람 검수가 필요하다 | - |
-| aph-30 | rules | npc | Clerk | Guest rules and quiet hours are on this sheet; let's review them together. | B2 | 서면 거주 규칙 검토 | B | 손님 규칙과 조용한 시간의 값을 짓지 않고 가상 규칙 자료를 함께 확인한다 | - |
+| aph-30 | rules | npc | Clerk | The sheet lists guest rules, quiet hours, and how to report noise. Let's read it together. | B2 | 서면 거주 규칙 검토 | A | - | - |
 | aph-31 | repair | option | A자리 | Could you also explain how we would request a repair? | B2 | 수리 요청 방법 질문 | B | 수리 요청의 현장 화용과 절차 용어는 사람 검수가 필요하다 | - |
 | aph-32 | repair | option | A자리 | Which repairs would we be expected to pay for ourselves? | B2 | 수리비 책임 범위 질문 | B | 수리비 부담을 묻는 현장 화용은 사람 검수가 필요하며 실제 법률 책임은 정하지 않았다 | - |
 | aph-33 | repair | npc | Clerk | The offer lists repair contacts and who pays; we can check each point. | B2 | 서면 연락처와 비용 책임 확인 | B | 수리 연락처와 비용 책임을 가상 제안에서 확인하며 실제 권리나 의무를 설명하지 않는다 | - |
 | aph-34 | decision | npc | Clerk | What would help you make a decision after the viewing? | B2 | 결정에 필요한 조건 묻기 | A | - | - |
-| aph-35 | decision | option | B자리 | Could we come back at another time to hear the street noise again? | B2 | 추가 방문 요청 | A | - | - |
+| aph-35 | decision | option | B자리 | Could we come back at another time to hear the street noise? | B2 | 추가 방문 요청 | A | - | - |
 | aph-36 | decision | option | B자리 | We'd like to compare this offer with another apartment before we decide. | B2 | 다른 집과 비교 위해 결정 유보 | A | - | - |
 | aph-37 | decision | npc | Clerk | That's fine. Contact me if you'd like another viewing or want to discuss the offer. | B2 | 추가 방문과 협의 연락 제안 | B | 추가 방문과 연락을 허용하는 것은 가상 진행이며 실제 방문 예약 완료가 아니다 | - |
 | aph-38 | finish | option | A자리 | Thank you. We'll review this offer together before making a decision. | B2 | 공동 검토 계획 | A | - | - |
@@ -367,7 +367,7 @@ A와 B는 함께 살 공간을 비교하는 사람이며 어느 쪽도 임대 �
 | aph-p13 | When are quiet hours, and how do we report a noise problem? | 조용한 시간과 신고 방법 질문 | aph-29 | - |
 | aph-p14 | Could you also explain how we would request a repair? | 수리 요청 방법 질문 | aph-31 | - |
 | aph-p15 | Which repairs would we be expected to pay for ourselves? | 수리비 책임 범위 질문 | aph-32 | - |
-| aph-p16 | Could we come back at another time to hear the street noise again? | 추가 방문 요청 | aph-35 | - |
+| aph-p16 | Could we come back at another time to hear the street noise? | 추가 방문 요청 | aph-35 | - |
 | aph-p17 | We'd like to compare this offer with another apartment before we decide. | 다른 집과 비교 위해 결정 유보 | aph-36 | - |
 | aph-p18 | Thank you. Could you write down the details we still need to check? | 남은 확인 사항 기록 요청 | aph-39 | - |
 
@@ -450,7 +450,7 @@ A와 B는 함께 살 공간을 비교하는 사람이며 어느 쪽도 임대 �
 | lyd-34 | observation | wait | B자리 | I'd like to look at the two lei again while we watch. | B2 | 관찰 초점 말하기 | A | - | - |
 | lyd-35 | compare | npc | Guide | Have the labels helped you compare them? | B1 | 설명 도움 확인 | A | - | - |
 | lyd-36 | compare | option | A자리 | Yes. Knowing the materials helps me describe the difference more clearly. | B2 | 설명 평가와 이유 | A | - | - |
-| lyd-37 | compare | option | A자리 | They help, but I'd need more information before discussing their history. | B2 | 평가와 판단 유보 | A | - | - |
+| lyd-37 | compare | option | A자리 | They help, but I'd need more information before discussing the history of the lei. | B2 | 평가와 판단 유보 | A | - | - |
 | lyd-38 | next | option | B자리 | Let's ask the host where we can find more information. | B2 | 추가 질문 제안 | A | - | - |
 | lyd-39 | next | option | B자리 | For now, I'd rather focus on what the guide explained. | B2 | 현재 범위에 대한 선호 | B | focus on의 의견 표현과 줄의 난이도 경계는 사람 검수가 필요하다 | - |
 
@@ -470,7 +470,7 @@ A와 B는 함께 살 공간을 비교하는 사람이며 어느 쪽도 임대 �
 | lyd-p8 | What should we do if we have questions during the activity? | 질문 대응 절차 묻기 | lyd-25 | - |
 | lyd-p9 | I appreciate having time to ask because I don't want to assume I understand. | 조심스러운 의견과 이유 | lyd-29 | - |
 | lyd-p10 | I'd prefer to watch today and leave the activity for another visit. | 참여 유보와 대안 | lyd-32 | - |
-| lyd-p11 | They help, but I'd need more information before discussing their history. | 평가와 판단 유보 | lyd-37 | - |
+| lyd-p11 | They help, but I'd need more information before discussing the history of the lei. | 평가와 판단 유보 | lyd-37 | - |
 | lyd-p12 | For now, I'd rather focus on what the guide explained. | 현재 범위에 대한 선호 | lyd-39 | - |
 
 ### 미니게임 차례
@@ -540,7 +540,7 @@ A와 B는 함께 살 공간을 비교하는 사람이며 어느 쪽도 임대 �
 | dpt-34 | total | option | B자리 | Could you show me the total on the screen? | B1 | 표시 금액 확인 요청 | A | - | - |
 | dpt-35 | total | npc | Cashier | Yes. The screen shows twelve dollars, including the box. | B1 | 총액과 상자 포함 확인 | B | 화면 금액과 상자 포함 조건은 가상 장면에만 해당한다 | - |
 | dpt-36 | pay | option | B자리 | I'll pay by card, please. | A2 | 결제 방식 선택 | A | - | - |
-| dpt-37 | pay | option | B자리 | Can I pay in cash instead? | A2 | 다른 결제 방식 허용 요청 | A | - | - |
+| dpt-37 | pay | option | B자리 | Can I pay in cash? | A2 | 다른 결제 방식 허용 요청 | A | - | - |
 | dpt-38 | pay | npc | Cashier | Yes, cash and cards are both accepted here. | B1 | 결제 방식 허용 응답 | B | 현금과 카드의 접수 가능 여부는 실제 매장 정책이 아닌 가상 장면 값이다 | - |
 | dpt-39 | pay | npc | Cashier | Please pay when you're ready. | A2 | 실제 결제 동작 요청 | A | - | - |
 | dpt-40 | collect | npc | Cashier | Here are your cup and receipt. | A2 | 결제 확인 뒤 물건 건네기 | A | - | - |
@@ -558,7 +558,7 @@ A와 B는 함께 살 공간을 비교하는 사람이며 어느 쪽도 임대 �
 | dpt-p7 | I'm looking for a gift that's easy to carry home. | 휴대할 선물 조건 설명 | dpt-27 | - |
 | dpt-p8 | I'd like one small cup. Could I check the price before paying? | 선택 후 가격 확인 요청 | dpt-31 | - |
 | dpt-p9 | Does that include the box? | 총액의 포함 범위 확인 | dpt-33 | - |
-| dpt-p10 | Can I pay in cash instead? | 다른 결제 방식 허용 요청 | dpt-37 | - |
+| dpt-p10 | Can I pay in cash? | 다른 결제 방식 허용 요청 | dpt-37 | - |
 
 ### 미니게임 차례
 
@@ -668,7 +668,7 @@ A와 B는 함께 살 공간을 비교하는 사람이며 어느 쪽도 임대 �
 목표 등급: B2
 할 일: cd-her-1 / I can describe symptoms and their order, give registration details, and check instructions. / 상황의 조건과 정보를 함께 확인할 수 있다.
 허용 이름: -
-갈래: her-08 > her-09, her-16 > her-17, her-26 > her-28, her-27 > her-28, her-30 > her-33, her-31 > her-32, her-36 > her-37
+갈래: her-08 > her-09, her-16 > her-17, her-26 > her-28, her-27 > her-28, her-30 > her-33, her-31 > her-32, her-35 > her-37, her-36 > her-37
 
 상황: 제안 장소 id는 new:hospital_er이며 원본에 등록되지 않아 장소 메타는 -다. 이름 없는 가상 응급실에서 증상, 시간 순서, 접수 정보와 안내 이해만 연습한다. 실제 접수 순서, 대기 장소, 서류 요건과 진료 가능성을 확인한 정보가 아니며 진단, 약 이름, 복용량과 치료법을 넣지 않는다.
 
@@ -790,7 +790,7 @@ A자리가 환자이고 B는 동행자다. 가상 경위는 아침 식사 뒤 �
 | hbc-11 | summary | npc | Guide | Yes. We want visitors to enjoy the bay without changing it. | B1 | 요약 확인 | B | 가상 안내의 취지를 확인하는 말이며 실제 관리기관의 설명을 대변하지 않는다 | - |
 | hbc-12 | opinion | npc | Guide | Would you like to add anything? | B1 | 의견이나 확인 요청 받기 | A | - | - |
 | hbc-13 | opinion | option | B자리 | I think the reason matters because people follow advice more carefully when they understand it. | B2 | 이유를 든 의견 | B | 안내 이해와 행동을 연결하는 의견의 표현과 B2 판단은 사람 검수가 필요하다 | - |
-| hbc-14 | opinion | option | B자리 | I'd like one point clarified before we decide how to act. | B2 | 결정 전 설명 요청 | B | one point clarified의 수동 청크와 등급은 사람 검수가 필요하다 | - |
+| hbc-14 | opinion | option | B자리 | Could you explain the goal before we decide how to act? | B2 | 결정 전 설명 요청 | A | - | - |
 | hbc-15 | opinion | npc | Guide | We want people to notice how their actions affect the place. | B2 | 가상 안내의 초점 보충 | B | 가상 안내자의 교육 목적이며 실제 기관의 운영 방침을 대변하지 않는다 | - |
 | hbc-16 | staff | wait | A자리 | If we see something unusual, should we ask a member of staff? | B2 | 조건을 둔 확인 질문 | B | a member of staff의 직원 확인 화용은 현장별로 달라 검수가 필요하다 | - |
 | hbc-17 | staff | npc | Guide | Please ask us before you act if you're unsure what to do. | B2 | 가상 확인 절차 안내 | B | 안내자에게 먼저 묻는 절차는 실제 운영 규정이 아니라 가상 장면 값이다 | - |
@@ -824,7 +824,7 @@ A자리가 환자이고 B는 동행자다. 가상 경위는 아침 식사 뒤 �
 | hbc-p2 | Why does leaving things in place matter? | 안내 이유 질문 | hbc-06 | - |
 | hbc-p3 | So the idea is to protect sea life by giving it space. | 보호 이유 요약 | hbc-10 | - |
 | hbc-p4 | I think the reason matters because people follow advice more carefully when they understand it. | 이유를 든 의견 | hbc-13 | - |
-| hbc-p5 | I'd like one point clarified before we decide how to act. | 결정 전 설명 요청 | hbc-14 | - |
+| hbc-p5 | Could you explain the goal before we decide how to act? | 결정 전 설명 요청 | hbc-14 | - |
 | hbc-p6 | If we see something unusual, should we ask a member of staff? | 조건을 둔 확인 질문 | hbc-16 | - |
 | hbc-p7 | I'd explain the goal first, then ask what my friend thinks. | 설명 방법 제안 | hbc-20 | - |
 | hbc-p8 | I support this approach, although I'd like people to have clear explanations. | 조건을 덧붙인 지지 의견 | hbc-22 | - |
@@ -873,7 +873,7 @@ A자리가 환자이고 B는 동행자다. 가상 경위는 아침 식사 뒤 �
 | kmd-05 | etiquette | npc | Guide | Please let the speaker finish before asking a question. | B1 | 가상 대화 예절 안내 | B | 이야기 뒤 질문하는 방식은 실제 행사 규칙이 아니라 이 집단의 가상 안내다 | - |
 | kmd-06 | etiquette | option | B자리 | Is that to help everyone follow the talk without interruptions? | B2 | 예절 안내의 이유 확인 | B | follow the talk without interruptions의 연어와 등급은 사람 검수가 필요하다 | - |
 | kmd-07 | etiquette | option | B자리 | Could you explain why you're asking us to wait? | B1 | 예절 안내의 이유 질문 | A | - | - |
-| kmd-08 | etiquette | npc | Guide | Waiting lets everyone hear the full point before we discuss it. | B2 | 가상 안내의 이유 설명 | B | 끊지 않고 듣는 일반적 이유이며 현지 문화 예절을 대변하는 설명은 아니다 | - |
+| kmd-08 | etiquette | npc | Guide | Waiting lets everyone hear the full explanation before we discuss it. | B2 | 가상 안내의 이유 설명 | A | - | - |
 | kmd-09 | summary | npc | Guide | How would you describe the plan in your own words? | B1 | 들은 진행 설명 요약 요청 | A | - | - |
 | kmd-10 | summary | option | A자리 | We'll listen first and ask questions afterward, so we don't miss the speaker's point. | B2 | 진행과 이유 요약 | B | afterward와 speaker's point의 요약 청크 및 등급은 사람 검수가 필요하다 | - |
 | kmd-11 | summary | option | A자리 | The plan puts listening before questions. Have I understood the order correctly? | B2 | 요약을 통한 이해 확인 | B | puts listening before questions의 청크와 등급은 사람 검수가 필요하다 | - |
@@ -889,7 +889,7 @@ A자리가 환자이고 B는 동행자다. 가상 경위는 아침 식사 뒤 �
 | kmd-21 | participate | option | A자리 | Would it be better to save our questions until the talk ends? | B2 | 참여 방법 제안과 확인 | A | - | - |
 | kmd-22 | participate | npc | Guide | Please wait until I invite questions, and then give others a turn too. | B2 | 가상 참여 순서 안내 | B | 안내자가 질문을 받는 순서와 발언 기회는 실제 행사 규칙이 아니라 가상 안내다 | - |
 | kmd-23 | reason | npc | Guide | What is the main reason for waiting to ask questions? | B1 | 안내 이유 요약 요청 | A | - | - |
-| kmd-24 | reason | option | B자리 | It helps everyone hear the full point before sharing their own views. | B2 | 듣는 예절의 이유 요약 | B | sharing their own views의 의견 전달 청크와 등급은 사람 검수가 필요하다 | - |
+| kmd-24 | reason | option | B자리 | It helps everyone hear the full explanation before sharing their own views. | B2 | 듣는 예절의 이유 요약 | A | - | - |
 | kmd-25 | reason | option | B자리 | I understand the order, but could you confirm who invites questions? | B2 | 이해와 진행 담당자 확인 | A | - | - |
 | kmd-26 | reason | npc | Guide | I'll invite questions when the speaker has finished. | B1 | 가상 진행 담당자 확인 | B | 질문을 받는 담당자와 시점은 실제 행사 운영이 아니라 가상 진행 설명이다 | - |
 | kmd-27 | suggest | npc | Guide | How would you respond if your friend wanted to speak early? | B1 | 가정 상황의 대응 묻기 | A | - | - |
@@ -962,8 +962,8 @@ A자리가 환자이고 B는 동행자다. 가상 경위는 아침 식사 뒤 �
 | kld-06 | flexibility | option | B자리 | Could we keep the plan flexible instead of filling every hour? | B2 | 일정 부담 완화 요청 | B | flexible의 계획 용법과 요청 말투의 실제 사용 빈도는 검증하지 않았다 | - |
 | kld-07 | timing | npc | Guide | What should we check before we choose a time? | B1 | 일정 확정 전 확인 묻기 | A | - | - |
 | kld-08 | timing | option | A자리 | We should check travel time and today's conditions before fixing our schedule. | B2 | 확인할 조건 설명 | B | 조건과 일정 확정에 관한 표현의 등급 경계는 사람 검수 전이다 | - |
-| kld-09 | timing | option | A자리 | Could we plan lunch first and set the travel time later? | B2 | 계획 순서 조정 요청 | A | - | - |
-| kld-10 | food_start | npc | Guide | Let's leave travel times open while we plan the food and gear. | B2 | 시간 유보와 준비 안내 | B | food and gear와 leave open의 계획 연어는 실제 현지 사용 검증 전이다 | - |
+| kld-09 | timing | option | A자리 | Could we plan lunch first and choose our departure time later? | B2 | 계획 순서 조정 요청 | A | - | - |
+| kld-10 | food_start | npc | Guide | Let's plan the food and gear before we choose when to leave. | B2 | 시간 유보와 준비 안내 | A | - | - |
 | kld-11 | lunch_question | wait | A자리 | Would you rather pack a light lunch or buy food later, {B}? | B1 | 동행의 식사 선호 묻기 | B | light lunch와 would rather의 결합 등급은 사람 검수 전이다 | - |
 | kld-12 | lunch_choice | option | B자리 | I'd rather bring sandwiches so we don't depend on finding a shop. | B2 | 준비 선호와 이유 설명 | A | - | - |
 | kld-13 | lunch_choice | option | B자리 | Could we bring fruit now and decide about lunch before we leave? | B2 | 간식 제안과 점심 결정 유보 | A | - | - |
@@ -978,7 +978,7 @@ A자리가 환자이고 B는 동행자다. 가상 경위는 아침 식사 뒤 �
 | kld-22 | day_order | npc | Guide | How will you fit the activities around lunch? | B1 | 점심을 기준으로 순서 묻기 | B | fit around의 일정 용법과 난이도 경계는 사람 검수 전이다 | - |
 | kld-23 | day_order | option | A자리 | Let's relax in the morning, eat lunch, and leave the walk for the afternoon. | B2 | 하루 활동 순서 제안 | A | - | - |
 | kld-24 | day_order | option | A자리 | Could we put lunch between a morning break and an afternoon walk? | B2 | 활동 순서 합의 요청 | A | - | - |
-| kld-25 | order_agreement | npc | Guide | A morning break, lunch, then a walk can stay a flexible plan. | B1 | 제안 순서와 유연성 확인 | B | 활동 순서는 가상 장면 값이며 flexible plan의 등급 판단은 사람 검수 전이다 | - |
+| kld-25 | order_agreement | npc | Guide | That order works. We can still keep the plan flexible. | B1 | 제안 순서와 유연성 확인 | A | - | - |
 | kld-26 | walk_decision | option | B자리 | If we feel tired after lunch, let's skip the walk and rest instead. | B2 | 피곤할 때 계획 조정 제안 | A | - | - |
 | kld-27 | walk_decision | option | B자리 | Could we decide about the walk after lunch rather than promise to do everything? | B2 | 산책 결정 유보 요청 | A | - | - |
 | kld-28 | remaining | npc | Guide | What needs to be settled before you leave? | B1 | 남은 결정 묻기 | B | settled의 계획 결정 용법과 등급은 사람 검수 전이다 | - |
