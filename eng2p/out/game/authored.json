@@ -899,7 +899,7 @@
     "please"
    ],
    "stretchWords": [],
-   "ko": "하나씩 주세요."
+   "ko": "각 맛으로 하나씩 주세요."
   },
   {
    "id": "cs-09",
@@ -2241,7 +2241,7 @@
     "each"
    ],
    "stretchWords": [],
-   "ko": "하나씩 주세요."
+   "ko": "한 사람에 하나씩 주세요."
   },
   {
    "id": "mu-13",
@@ -2834,7 +2834,7 @@
     "half"
    ],
    "stretchWords": [],
-   "ko": "반반으로 주세요."
+   "ko": "설탕이랑 시나몬으로 반씩 주세요."
   },
   {
    "id": "lm-11",
@@ -4088,7 +4088,7 @@
    "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "그쪽은요?"
+   "ko": "손님은 뭘로 드릴까요?"
   },
   {
    "id": "cc-08",
@@ -4249,7 +4249,7 @@
    "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "그쪽은요?"
+   "ko": "손님은 어떤 걸로 하시겠어요?"
   },
   {
    "id": "cc-16",
@@ -6122,7 +6122,7 @@
    "stretchWords": [
     "iced"
    ],
-   "ko": "따뜻한 걸로요, 차가운 걸로요?"
+   "ko": "따뜻한 걸로요, 얼음 넣은 걸로요?"
   },
   {
    "id": "cf-08",
@@ -6166,7 +6166,7 @@
    "stretchWords": [
     "iced"
    ],
-   "ko": "차가운 걸로 주세요."
+   "ko": "얼음 넣은 걸로 주세요."
   },
   {
    "id": "cf-10",
@@ -6853,7 +6853,7 @@
     "snacks"
    ],
    "stretchWords": [],
-   "ko": "과자가 어디 있어요?"
+   "ko": "간식이 어디 있어요?"
   },
   {
    "id": "ab-05",
@@ -8251,7 +8251,7 @@
    "scene": "getoff",
    "kind": "option",
    "who": "A자리",
-   "say": "Please tell us. We get off at the zoo.",
+   "say": "Tell us when we're at the zoo, please.",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A2",
@@ -8265,7 +8265,7 @@
    ],
    "stretchWords": [],
    "branchOf": [],
-   "ko": "알려 주세요. 저희는 동물원에서 내려요."
+   "ko": "동물원에 도착하면 알려 주세요."
   },
   {
    "id": "bs-19",
@@ -8273,7 +8273,7 @@
    "scene": "getoff",
    "kind": "npc",
    "who": "Driver",
-   "say": "Okay. I will tell you when we get there.",
+   "say": "I'll tell you when we get there.",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A2",
@@ -10320,7 +10320,7 @@
    "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "곧장 가서 왼쪽으로 돌라고요."
+   "ko": "곧장 가서 왼쪽으로 돌아요."
   },
   {
    "id": "dh-07",
@@ -10485,7 +10485,7 @@
    "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "모퉁이에서 오른쪽으로 돈다고요."
+   "ko": "모퉁이에서 오른쪽으로 돌아요."
   },
   {
    "id": "dh-16",
@@ -11117,7 +11117,7 @@
    "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "어떤 사이즈가 필요하세요?"
+   "ko": "어떤 크기가 필요하세요?"
   },
   {
    "id": "hb-15",
@@ -11620,7 +11620,7 @@
    "function": "하나씩 고르기",
    "line": "cs-08",
    "provenance": "authored",
-   "ko": "하나씩 주세요."
+   "ko": "각 맛으로 하나씩 주세요."
   },
   {
    "id": "cs-p3",
@@ -11773,7 +11773,7 @@
    "function": "수량 말하기",
    "line": "mu-12",
    "provenance": "authored",
-   "ko": "하나씩 주세요."
+   "ko": "한 사람에 하나씩 주세요."
   },
   {
    "id": "mu-p4",
@@ -11836,7 +11836,7 @@
    "function": "반반 고르기",
    "line": "lm-10",
    "provenance": "authored",
-   "ko": "반반으로 주세요."
+   "ko": "설탕이랑 시나몬으로 반씩 주세요."
   },
   {
    "id": "lm-p3",
@@ -12322,7 +12322,7 @@
    "function": "고르기",
    "line": "cf-09",
    "provenance": "authored",
-   "ko": "차가운 걸로 주세요."
+   "ko": "얼음 넣은 걸로 주세요."
   },
   {
    "id": "cf-p4",
@@ -12502,7 +12502,7 @@
    "function": "위치 묻기 틀 2",
    "line": "ab-04",
    "provenance": "authored",
-   "ko": "과자가 어디 있어요?"
+   "ko": "간식이 어디 있어요?"
   },
   {
    "id": "ab-p3",
