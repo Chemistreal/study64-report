@@ -152,7 +152,7 @@
 | cs-05 | flavor | option | A자리 | Coconut, please. | A1 | 맛 고르기 | A | - | 코코넛으로 주세요. |
 | cs-06 | flavor | npc | Clerk | And for you? | A1 | 상대에게 묻기 | A | - | 손님은요? |
 | cs-07 | flavor | option | B자리 | The same, please. | A1 | 같은 것 고르기 | A | - | 같은 걸로 주세요. |
-| cs-08 | flavor | option | B자리 | One of each, please. | A1 | 하나씩 고르기 | A | - | 하나씩 주세요. |
+| cs-08 | flavor | option | B자리 | One of each, please. | A1 | 하나씩 고르기 | A | - | 각 맛으로 하나씩 주세요. |
 | cs-09 | count | wait | A자리 | Two or four, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 두 개? 네 개? |
 | cs-10 | count | wait | B자리 | I want four. And you? | A1 | 말하고 되묻기 | A | - | 난 네 개. 너는? |
 | cs-11 | count | npc | Clerk | How many cookies? | A1 | 수량 묻기 | A | - | 쿠키 몇 개요? |
@@ -184,7 +184,7 @@
 | id | 연습할 말 | 기능 | 줄 | 한국어 |
 |---|---|---|---|---|
 | cs-p1 | Chocolate, please. | 맛 고르기 | cs-04 | 초콜릿으로 주세요. |
-| cs-p2 | One of each, please. | 하나씩 고르기 | cs-08 | 하나씩 주세요. |
+| cs-p2 | One of each, please. | 하나씩 고르기 | cs-08 | 각 맛으로 하나씩 주세요. |
 | cs-p3 | Four cookies, please. | 수량 말하기 | cs-13 | 쿠키 네 개 주세요. |
 | cs-p4 | Yes, that is all. | 대답 | cs-16 | 네, 그게 다예요. |
 | cs-p5 | A box, please. | 고르기 | cs-20 | 상자에 주세요. |
@@ -318,7 +318,7 @@
 | mu-09 | count | npc | Clerk | How many? | A1 | 수량 묻기 | A | - | 몇 개요? |
 | mu-10 | count | option | B자리 | Two, please. | A1 | 수량 말하기 | A | - | 두 개 주세요. |
 | mu-11 | count | option | B자리 | Three, please. | A1 | 수량 말하기 | A | - | 세 개 주세요. |
-| mu-12 | count | option | B자리 | One each, please. | A1 | 수량 말하기 | A | - | 하나씩 주세요. |
+| mu-12 | count | option | B자리 | One each, please. | A1 | 수량 말하기 | A | - | 한 사람에 하나씩 주세요. |
 | mu-13 | more | npc | Clerk | Anything else? | A1 | 추가 묻기 | A | - | 더 필요한 건요? |
 | mu-14 | more | option | B자리 | No, that is all. | A1 | 대답 | A | - | 아니요, 그게 다예요. |
 | mu-15 | more | option | B자리 | One more Spam musubi, please. | A1 | 추가 요청 | A | - | 스팸 무스비 하나 더 주세요. |
@@ -349,7 +349,7 @@
 |---|---|---|---|---|
 | mu-p1 | Hi! One minute, please. | 시간 벌기 | mu-02 | 안녕하세요! 잠깐만요. |
 | mu-p2 | Spam, please. | 종류 고르기 | mu-06 | 스팸으로 주세요. |
-| mu-p3 | One each, please. | 수량 말하기 | mu-12 | 하나씩 주세요. |
+| mu-p3 | One each, please. | 수량 말하기 | mu-12 | 한 사람에 하나씩 주세요. |
 | mu-p4 | To go, please. | 고르기 | mu-18 | 포장해 주세요. |
 | mu-p5 | For here, please. | 고르기 | mu-17 | 여기서 먹을게요. |
 | mu-p6 | How much is one? | 값 묻기 | mu-19 | 하나에 얼마예요? |
@@ -398,7 +398,7 @@
 | lm-07 | type | npc | Clerk | Sugar or cinnamon? | A1 | 고르게 묻기 | A | - | 설탕이요, 시나몬이요? |
 | lm-08 | type | option | A자리 | Sugar, please. | A1 | 고르기 | A | - | 설탕으로 주세요. |
 | lm-09 | type | option | A자리 | Cinnamon, please. | A1 | 고르기 | A | - | 시나몬으로 주세요. |
-| lm-10 | type | option | A자리 | Half and half, please. | A1 | 반반 고르기 | A | - | 반반으로 주세요. |
+| lm-10 | type | option | A자리 | Half and half, please. | A1 | 반반 고르기 | A | - | 설탕이랑 시나몬으로 반씩 주세요. |
 | lm-11 | check | wait | B자리 | Is that enough, {A}? | A1 | 상대에게 묻기 | A | - | {A}, 그 정도면 충분해? |
 | lm-12 | check | wait | A자리 | Yes, that is enough. | A1 | 대답 | A | - | 응, 충분해. |
 | lm-13 | more | npc | Clerk | Anything else? | A1 | 추가 묻기 | A | - | 더 필요한 건요? |
@@ -429,7 +429,7 @@
 | id | 연습할 말 | 기능 | 줄 | 한국어 |
 |---|---|---|---|---|
 | lm-p1 | Six, please. | 수량 말하기 | lm-05 | 여섯 개 주세요. |
-| lm-p2 | Half and half, please. | 반반 고르기 | lm-10 | 반반으로 주세요. |
+| lm-p2 | Half and half, please. | 반반 고르기 | lm-10 | 설탕이랑 시나몬으로 반씩 주세요. |
 | lm-p3 | Two more, please. | 추가 요청 | lm-15 | 두 개 더 주세요. |
 | lm-p4 | To go, please. | 고르기 | lm-17 | 포장해 주세요. |
 | lm-p5 | Can I have a box, please? | 포장 부탁 | lm-19 | 상자에 담아 주시겠어요? |
@@ -561,7 +561,7 @@
 | cc-04 | drink | npc | Server | Hi! What would you like to drink? | A2 | 음료 묻기 | A | - | 안녕하세요! 마실 것은 뭘로 하시겠어요? |
 | cc-05 | drink | option | A자리 | Coffee, please. | A1 | 음료 주문 | A | - | 커피 주세요. |
 | cc-06 | drink | option | A자리 | Tea, please. | A1 | 음료 주문 | A | - | 차 주세요. |
-| cc-07 | drink | npc | Server | And for you? | A1 | 상대에게 묻기 | A | - | 그쪽은요? |
+| cc-07 | drink | npc | Server | And for you? | A1 | 상대에게 묻기 | A | - | 손님은 뭘로 드릴까요? |
 | cc-08 | drink | option | B자리 | Lemonade, please. | A1 | 음료 주문 | A | - | 레모네이드 주세요. |
 | cc-09 | drink | option | B자리 | Milk, please. | A1 | 음료 주문 | A | - | 우유 주세요. |
 | cc-10 | pick | wait | A자리 | Cheesecake or chocolate cake, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 치즈케이크? 초콜릿 케이크? |
@@ -569,7 +569,7 @@
 | cc-12 | order | npc | Server | What would you like? | A2 | 주문 묻기 | A | - | 뭘로 하시겠어요? |
 | cc-13 | order | option | A자리 | A piece of cheesecake, please. | A1 | 주문 | A | - | 치즈케이크 한 조각 주세요. |
 | cc-14 | order | option | A자리 | A piece of chocolate cake, please. | A1 | 주문 | A | - | 초콜릿 케이크 한 조각 주세요. |
-| cc-15 | order | npc | Server | What about you? | A1 | 상대에게 묻기 | A | - | 그쪽은요? |
+| cc-15 | order | npc | Server | What about you? | A1 | 상대에게 묻기 | A | - | 손님은 어떤 걸로 하시겠어요? |
 | cc-16 | order | option | B자리 | The same, please. | A1 | 같은 것 고르기 | A | - | 같은 걸로 주세요. |
 | cc-17 | order | option | B자리 | Cheesecake, please. | A1 | 주문 | A | - | 치즈케이크 주세요. |
 | cc-18 | fork | wait | B자리 | Can we have two forks, please? | A2 | 부탁 | A | - | 포크 두 개 주시겠어요? |
@@ -823,9 +823,9 @@
 | cf-04 | drink | option | A자리 | Tea, please. | A1 | 음료 주문 | A | - | 차 주세요. |
 | cf-05 | drink | option | A자리 | Sorry, can you say that again? | A1 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | cf-06 | drink | npc | Cashier | Sure. What can I get you? | A1 | 되풀이 | A | - | 그럼요. 뭘 드릴까요? |
-| cf-07 | temp | npc | Cashier | Hot or iced? | A1 | 고르기 묻기 | A | - | 따뜻한 걸로요, 차가운 걸로요? |
+| cf-07 | temp | npc | Cashier | Hot or iced? | A1 | 고르기 묻기 | A | - | 따뜻한 걸로요, 얼음 넣은 걸로요? |
 | cf-08 | temp | option | A자리 | Hot, please. | A1 | 고르기 | A | - | 따뜻한 걸로 주세요. |
-| cf-09 | temp | option | A자리 | Iced, please. | A1 | 고르기 | A | - | 차가운 걸로 주세요. |
+| cf-09 | temp | option | A자리 | Iced, please. | A1 | 고르기 | A | - | 얼음 넣은 걸로 주세요. |
 | cf-10 | size | npc | Cashier | What size? Small, medium or large? | A1 | 크기 묻기 | A | - | 어떤 크기로요? 작은 거, 중간, 큰 거요? |
 | cf-11 | size | option | A자리 | Small, please. | A1 | 크기 말하기 | A | - | 작은 걸로 주세요. |
 | cf-12 | size | option | A자리 | Medium, please. | A1 | 크기 말하기 | A | - | 중간 크기로 주세요. |
@@ -865,7 +865,7 @@
 |---|---|---|---|---|
 | cf-p1 | Coffee, please. | 음료 주문 | cf-02 | 커피 주세요. |
 | cf-p2 | A latte, please. | 음료 주문 | cf-03 | 라테 주세요. |
-| cf-p3 | Iced, please. | 고르기 | cf-09 | 차가운 걸로 주세요. |
+| cf-p3 | Iced, please. | 고르기 | cf-09 | 얼음 넣은 걸로 주세요. |
 | cf-p4 | Medium, please. | 크기 말하기 | cf-12 | 중간 크기로 주세요. |
 | cf-p5 | To go, please. | 고르기 | cf-23 | 가져갈게요. |
 | cf-p6 | It's {A}. | 이름 말하기 | cf-25 | {A}예요. |
@@ -922,7 +922,7 @@
 | ab-01 | shelf | npc | Clerk | Hi! Can I help you? | A1 | 인사 안내 | A | - | 안녕하세요! 도와드릴까요? |
 | ab-02 | shelf | option | A자리 | Where is the water? | A1 | 위치 묻기 | A | - | 물이 어디 있어요? |
 | ab-03 | shelf | option | A자리 | Where is the juice? | A1 | 위치 묻기 | A | - | 주스가 어디 있어요? |
-| ab-04 | shelf | option | A자리 | Where are the snacks? | A1 | 위치 묻기 | A | - | 과자가 어디 있어요? |
+| ab-04 | shelf | option | A자리 | Where are the snacks? | A1 | 위치 묻기 | A | - | 간식이 어디 있어요? |
 | ab-05 | shelf | npc | Clerk | Over there, on the left. | A1 | 위치 안내 | A | - | 저쪽 왼쪽에 있어요. |
 | ab-06 | shelf | wait | A자리 | Thank you! | A1 | 감사 | A | - | 고맙습니다! |
 | ab-07 | shelf2 | npc | Clerk | Can I help you too? | A1 | 도움 묻기 | A | - | 손님도 도와드릴까요? |
@@ -955,7 +955,7 @@
 | id | 연습할 말 | 기능 | 줄 | 한국어 |
 |---|---|---|---|---|
 | ab-p1 | Where is the water? | 위치 묻기 틀 1 | ab-02 | 물이 어디 있어요? |
-| ab-p2 | Where are the snacks? | 위치 묻기 틀 2 | ab-04 | 과자가 어디 있어요? |
+| ab-p2 | Where are the snacks? | 위치 묻기 틀 2 | ab-04 | 간식이 어디 있어요? |
 | ab-p3 | Thank you very much! | 감사 | ab-12 | 정말 고맙습니다! |
 | ab-p4 | How much is this? | 값 묻기 | ab-13 | 이거 얼마예요? |
 | ab-p5 | Sorry, can you say that again? | 되묻기 | ab-22 | 죄송해요, 다시 말해 주시겠어요? |
@@ -1085,8 +1085,8 @@
 | bs-15 | seat | npc | Driver | Thank you. Please take a seat. | A1 | 안내 | A | - | 고맙습니다. 앉으세요. |
 | bs-16 | seat | wait | B자리 | Thank you. | A1 | 감사 | A | - | 고맙습니다. |
 | bs-17 | getoff | option | A자리 | We get off at the zoo. | A1 | 내릴 곳 말하기 | A | - | 저희는 동물원에서 내려요. |
-| bs-18 | getoff | option | A자리 | Please tell us. We get off at the zoo. | A2 | 내릴 곳 말하기 부탁 | A | - | 알려 주세요. 저희는 동물원에서 내려요. |
-| bs-19 | getoff | npc | Driver | Okay. I will tell you when we get there. | A2 | 안내 | A | - | 네. 도착하면 말씀드릴게요. |
+| bs-18 | getoff | option | A자리 | Tell us when we're at the zoo, please. | A2 | 내릴 곳 말하기 부탁 | A | - | 동물원에 도착하면 알려 주세요. |
+| bs-19 | getoff | npc | Driver | I'll tell you when we get there. | A2 | 안내 | A | - | 네. 도착하면 말씀드릴게요. |
 | bs-20 | ride | option | B자리 | Is this the zoo? | A1 | 도착 묻기 | A | - | 여기가 동물원이에요? |
 | bs-21 | ride | option | B자리 | Is this our stop? | A1 | 도착 묻기 | A | - | 여기가 우리가 내릴 곳이에요? |
 | bs-22 | ride | npc | Driver | Not yet. The next stop is the zoo. | A1 | 대답 | A | - | 아직이에요. 다음 정류장이 동물원이에요. |
@@ -1385,7 +1385,7 @@
 | dh-03 | ask | option | A자리 | Where is the lookout, please? | A2 | 길 묻기 | A | - | 전망대가 어디인가요? |
 | dh-04 | way1 | npc | Guide | Sure. Go straight, then turn left. | A1 | 방향 알려 주기 | A | - | 네. 곧장 가서 왼쪽으로 도세요. |
 | dh-05 | way1 | option | A자리 | Straight, then left. | A1 | 방향 확인 | A | - | 곧장 가서 왼쪽이요. |
-| dh-06 | way1 | option | A자리 | Go straight, then turn left. | A1 | 방향 확인 | A | - | 곧장 가서 왼쪽으로 돌라고요. |
+| dh-06 | way1 | option | A자리 | Go straight, then turn left. | A1 | 방향 확인 | A | - | 곧장 가서 왼쪽으로 돌아요. |
 | dh-07 | way1 | option | A자리 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | dh-08 | way1 | npc | Guide | Straight. Then turn left. | A1 | 되풀이 | A | - | 곧장 가세요. 그리고 왼쪽으로 도세요. |
 | dh-09 | far | option | A자리 | Is it far? | A1 | 거리 묻기 | A | - | 멀어요? |
@@ -1394,7 +1394,7 @@
 | dh-12 | far | npc | Guide | Yes, it's near. | A1 | 거리 말하기 | A | - | 네, 가까워요. |
 | dh-13 | way2 | npc | Guide | At the corner, turn right. | A1 | 방향 알려 주기 | A | - | 모퉁이에서 오른쪽으로 도세요. |
 | dh-14 | way2 | option | B자리 | Corner, then right. | A1 | 방향 확인 | A | - | 모퉁이에서 오른쪽이요. |
-| dh-15 | way2 | option | B자리 | Turn right at the corner. | A1 | 방향 확인 | A | - | 모퉁이에서 오른쪽으로 돈다고요. |
+| dh-15 | way2 | option | B자리 | Turn right at the corner. | A1 | 방향 확인 | A | - | 모퉁이에서 오른쪽으로 돌아요. |
 | dh-16 | way2 | wait | A자리 | Left or right, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 왼쪽이야, 오른쪽이야? |
 | dh-17 | way2 | wait | B자리 | Right, at the corner. | A1 | 대답 | A | - | 오른쪽, 모퉁이에서. |
 | dh-18 | way3 | npc | Guide | Then go up the stairs. | A1 | 방향 알려 주기 | A | - | 그다음에 계단을 올라가세요. |
@@ -1480,7 +1480,7 @@
 | hb-11 | gear | option | B자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
 | hb-12 | size | wait | A자리 | What size are you, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 어떤 크기가 맞아? |
 | hb-13 | size | wait | B자리 | I'm a medium. And you? | A1 | 말하고 되묻기 | A | - | 난 중간 크기야. 너는? |
-| hb-14 | size | npc | Clerk | What size do you need? | A1 | 크기 묻기 | A | - | 어떤 사이즈가 필요하세요? |
+| hb-14 | size | npc | Clerk | What size do you need? | A1 | 크기 묻기 | A | - | 어떤 크기가 필요하세요? |
 | hb-15 | size | option | A자리 | Small, please. | A1 | 크기 말하기 | A | - | 작은 크기로 주세요. |
 | hb-16 | size | option | A자리 | Medium, please. | A1 | 크기 말하기 | A | - | 중간 크기로 주세요. |
 | hb-17 | size | option | A자리 | Large, please. | A1 | 크기 말하기 | A | - | 큰 크기로 주세요. |
