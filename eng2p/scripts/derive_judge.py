@@ -287,9 +287,22 @@ def pair_options(material):
     return [[x.strip() for x in m.split(" / ")] for m in material]
 
 
+def pin_labels(cards):
+    """이름표 열쇠 셋은 G14 에서 카드 답 글이 낱말 -> 단어로 바뀌어도 판정 열쇠 값(이름표)은 그대로 둔다.
+    표는 docs/game_wording_g14.json 의 judgeLabels 다 (새 글 -> 열쇠에 남길 옛 글). 이름표를 단어로 옮기려면 그 표를 비운다."""
+    with open(os.path.join(ROOT, "docs", "game_wording_g14.json"), encoding="utf-8") as f:
+        pin = json.load(f)["judgeLabels"]
+    for r in cards:
+        k = r["key"]
+        if k.get("form") != "label":
+            continue
+        k["items"] = [[pin.get(x, x) for x in it] if isinstance(it, list) else pin.get(it, it) for it in k["items"]]
+        k["labels"] = [pin.get(x, x) for x in k.get("labels", [])]
+
+
 def input_of(card, form, how):
     """두 사람이 답하는 길. 한국어 이름표는 말로 못 받아쓰므로 누른다 (영어 받아쓰기 모델)."""
-    if "한국어로 말한다" in how:
+    if "한국어로 말한다" in how or "한국어로 말해요" in how:
         return "speak_ko"          # 한국어 뜻을 말로 받는다. 영어 받아쓰기로는 못 받는다 (game_data.md 3장)
     if form in ("label", "side", "flag", "npc_pick"):
         return "choose"
@@ -301,7 +314,7 @@ def input_of(card, form, how):
         return "observe"
     if "짚" in how:
         return "tap_word"
-    if "적는다" in how:
+    if "적는다" in how or "적어요" in how:
         return "write"
     return "speak"
 
@@ -332,7 +345,7 @@ def key_of(card, manual):
         return from_numbered(card, nm[0], nm[1], how), "answer"
 
     # 한 줄 산문 가운데 읽는 꼴 셋
-    m = re.fullmatch(r"(?:마지막 낱말은 )?%s\s*(?:개|쌍|문장)\s*모두\s*(\d+)음절이(?:다|고 끝에 모음이 없다)\." % NUM, ans)
+    m = re.fullmatch(r"(?:마지막 (?:낱말은|단어는) )?%s\s*(?:개|쌍|문장)\s*모두\s*(\d+)음절이(?:다|고 끝에 모음이 없다)\." % NUM, ans)
     if m:
         return {"form": "number", "items": [int(m.group(2))] * n, "derived": "한 줄 산문: 모두 같다"}, "answer"
     m = re.fullmatch(r"%s\s*문장\s*모두\s*강세가\s*%s이다\." % (NUM, NUM), ans)
@@ -347,16 +360,16 @@ def key_of(card, manual):
         return {"form": "tokens", "match": "phrase",
                 "items": [{"of": [m.group(1)], "need": 1}] * n,
                 "derived": "한 줄 산문: 모두 같다"}, "answer"
-    m = re.fullmatch(r"다섯 개 모두 앞의 두 낱말이 (.+?) 로 같다\.", ans)
+    m = re.fullmatch(r"다섯 개 모두 앞의 두 (?:낱말이|단어가) (.+?) 로 같다\.", ans)
     if m:
         return {"form": "tokens", "match": "phrase",
                 "items": [{"of": [m.group(1)], "need": 1}] * n,
                 "derived": "한 줄 산문: 모두 같다"}, "answer"
-    m = re.fullmatch(r"(?:B는|둘은) (?:(?:A가|NPC 가) )?흘린 덩어리(?:가 원래 어느 낱말들인지|의 원형(?:과 낱말 수)?)(?:을|를)? 낸다\. 재료 그대로다\.", ans)
+    m = re.fullmatch(r"(?:B는|둘은) (?:(?:A가|NPC 가) )?흘린 덩어리(?:가 원래 어느 (?:낱말|단어)들인지|의 원형(?:과 (?:낱말|단어) 수)?)(?:을|를)? 낸다\. 재료 그대로다\.", ans)
     if m:
         items = [{"of": [x], "need": 1} for x in material_of(card)]
         k = {"form": "tokens", "match": "phrase", "items": items, "derived": "재료 그대로"}
-        if "낱말 수" in ans:
+        if "낱말 수" in ans or "단어 수" in ans:
             k["alsoCount"] = [len(x.split()) for x in material_of(card)]
         return k, "answer+material"
     m = re.fullmatch(r"받아들이는 응답은 (.+?) 이고 거절은 (.+?) 이다\.", ans)
@@ -514,6 +527,7 @@ def build():
         "passMismatch": mism,
         "cards": out,
     }
+    pin_labels(out)
     return obj, fail
 
 

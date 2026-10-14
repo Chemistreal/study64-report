@@ -172,7 +172,7 @@ def build_hold(src, rows, sessions, fail):
                 n = len(deck.get("mirror", []))
                 if n:
                     plan[str(q["s"])] = balanced_plan("mirror:%d" % q["s"], n)
-            e["pick"] = {"of": "NPC 가 말하는 낱말. 0 이면 덱 항목의 a, 1 이면 b",
+            e["pick"] = {"of": "NPC 가 말하는 단어. 0 이면 덱 항목의 a, 1 이면 b",
                          "rule": "세션마다 0 과 1 이 같은 수. 순서는 sha1(mirror:세션:회 번호) 사전순의 앞쪽 절반이 1",
                          "plan": plan}
         plays.append(e)

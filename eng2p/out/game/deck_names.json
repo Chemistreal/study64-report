@@ -224,17 +224,17 @@
  "voices": {
   "mirror": {
    "voice": "npc",
-   "text": "낱말 둘",
+   "text": "단어 둘",
    "why": "NPC 가 둘 중 하나를 말한다 (game.md 1.3)"
   },
   "swapline": {
    "voice": "npc",
-   "text": "대본 줄과 바꾼 낱말",
-   "why": "NPC 가 한 낱말을 바꿔 말한다"
+   "text": "대본 줄과 바꾼 단어",
+   "why": "NPC 가 한 단어를 바꿔 말한다"
   },
   "hearme": {
    "voice": "npc",
-   "text": "낱말",
+   "text": "단어",
    "why": "게임이 들려준 자리를 다시 말한다"
   },
   "relay": {
@@ -244,7 +244,7 @@
   },
   "chain": {
    "voice": "npc",
-   "text": "청크",
+   "text": "말 덩어리",
    "why": "NPC 가 먼저 던진다"
   },
   "twohalf": {
@@ -254,7 +254,7 @@
   },
   "overlap": {
    "voice": "none",
-   "text": "청크",
+   "text": "말 덩어리",
    "why": "둘이 글로 적는다. 소리가 없다"
   },
   "ladder": {
@@ -269,7 +269,7 @@
   },
   "rebound": {
    "voice": "npc",
-   "text": "청크",
+   "text": "말 덩어리",
    "why": "NPC 가 던지고 받는다"
   },
   "onesee": {

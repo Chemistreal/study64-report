@@ -58,9 +58,9 @@
 
 | 카드 | 형태 | 값 | 근거 문구 | 선택지 |
 |---|---|---|---|---|
-| Q1-004 | side | 1 | 뒤 문장이 살아남는 낱말이 더 많다 | - |
+| Q1-004 | side | 1 | 뒤 문장이 살아남는 단어가 더 많다 | - |
 | Q1-010 | side | 0 | 앞쪽이 1음절, 뒤쪽이 2음절이다 | - |
-| Q1-024 | side | 1 | 뒤쪽은 l 이 낱말 끝에 있다 | - |
+| Q1-024 | side | 1 | 뒤쪽은 l 이 단어 끝에 있다 | - |
 | Q1-038 | side | 0 | 뒤쪽이 앞쪽보다 음절이 더 많다 | - |
 | Q1-066 | side | 1 | 뒤쪽은 이미 지난 일이다 | - |
 | Q1-073 | side | 0 | 앞쪽이 소리가 붙어 넘어가는 쪽이다 | - |
@@ -68,7 +68,7 @@
 | Q1-087 | side | 1 | 앞 문장보다 뒤 문장이 더 많다 | - |
 | Q1-096 | side | 1 | 앞쪽은 내리고 뒤쪽은 올린다 | - |
 | Q2-001 | side | 0 | 앞의 것이 덩어리이고 뒤의 것이 조립이다 | - |
-| Q1-023 | label | "끝" | l 이 낱말 끝에 있다 | ["앞","끝"] |
+| Q1-023 | label | "끝" | l 이 단어 끝에 있다 | ["앞","끝"] |
 | Q1-025 | label | "있음" | l 뒤에 자음이 붙어 있다 | ["있음","없음"] |
 | Q3-070 | label | ["못 가름","가정","못 가름","가정","조건"] | 2번과 4번만 앞 조각으로 가정인 것이 드러난다 | ["조건","가정","못 가름"] |
 | Q3-001 | flag | [false,true,false,true,false] | 2번과 4번이 3초를 넘겼다 | ["3초를 넘김"] |
@@ -159,7 +159,7 @@ B 면에 적힌 통과선이 다르면 `kShown` 에 같이 적는다. 세 장이
 | 함수 | 격식 | 중립 | 친근 | 몸짓 | 뜻 |
 |---|---|---|---|---|---|
 | grant | ["Of course.","Sure!","Okay."] | ["Sure!","Of course.","Okay."] | ["Sure!","Okay.","Of course."] | emote-yes | 부탁을 들어준다 |
-| agree | ["Okay.","Of course."] | ["Okay.","Sure!"] | ["Okay.","Sure!"] | emote-yes | 정해진 것을 받아 닫는다 |
+| agree | ["Okay.","Of course."] | ["Okay.","Sure!"] | ["Okay.","Sure!"] | emote-yes | 정해진 내용에 동의해요. |
 | approve | ["Good idea.","Great idea!","Okay."] | ["Good idea.","Great idea!","Sure!","Okay."] | ["Great idea!","Good idea.","Sure!","Okay."] | emote-yes | 제안이 좋다고 받는다 |
 | sympathize | ["I am very sorry to hear that.","That's too bad."] | ["That's too bad.","I am very sorry to hear that."] | ["That's too bad.","Do you want to talk about it?"] | idle | 불평을 듣고 안됐다고 한다 |
 | take_apology | ["That's okay.","It's okay.","Don't worry."] | ["It's okay.","That's okay.","No problem."] | ["No problem.","It's okay.","Don't worry.","That's okay."] | emote-yes | 사과를 받아 준다 |
@@ -308,16 +308,16 @@ none 은 소리가 없는 판이다.
 
 | 판 | 목소리 | 글 | 까닭 |
 |---|---|---|---|
-| mirror | npc | 낱말 둘 | NPC 가 둘 중 하나를 말한다 (game.md 1.3) |
-| swapline | npc | 대본 줄과 바꾼 낱말 | NPC 가 한 낱말을 바꿔 말한다 |
-| hearme | npc | 낱말 | 게임이 들려준 자리를 다시 말한다 |
+| mirror | npc | 단어 둘 | NPC 가 둘 중 하나를 말한다 (game.md 1.3) |
+| swapline | npc | 대본 줄과 바꾼 단어 | NPC 가 한 단어를 바꿔 말한다 |
+| hearme | npc | 단어 | 게임이 들려준 자리를 다시 말한다 |
 | relay | radio | 줄 번호와 초 | 라디오 실제 녹음 구간을 튼다. 이름이 있어도 그 목소리가 Anna 다 |
-| chain | npc | 청크 | NPC 가 먼저 던진다 |
+| chain | npc | 말 덩어리 | NPC 가 먼저 던진다 |
 | twohalf | npc | 앞뒤 토막 | 뒤 절반은 NPC 가 쥔다 |
-| overlap | none | 청크 | 둘이 글로 적는다. 소리가 없다 |
+| overlap | none | 말 덩어리 | 둘이 글로 적는다. 소리가 없다 |
 | ladder | radio | 줄 번호와 초 | 라디오 실제 녹음 구간을 배속으로 튼다 |
 | wall | none | 카드 번호 | 게임이 단서를 화면에 띄운다 |
-| rebound | npc | 청크 | NPC 가 던지고 받는다 |
+| rebound | npc | 말 덩어리 | NPC 가 던지고 받는다 |
 | onesee | npc | 카드 번호 | NPC 만 상황을 안다 |
 | wave | radio | 줄 번호와 초 | 라디오 실제 녹음 구간이다 |
 | whose | npc | 카드 번호 | NPC 가 읽고 셋 중 하나를 고른다 |
@@ -464,8 +464,8 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 
 | 판 | 쥐는 쪽 | 쥐는 자리 | 쥐는 것 | 근거 문구 |
 |---|---|---|---|---|
-| mirror | npc | - | 둘 중 어느 낱말인지 | NPC 가 둘 중 하나를 말한다 |
-| swapline | npc | - | 바꾼 낱말 | NPC 가 한 낱말을 바꿔 말한다 |
+| mirror | npc | - | 둘 중 어느 단어인지 | NPC 가 둘 중 하나를 말한다 |
+| swapline | npc | - | 바꾼 단어 | NPC 가 한 단어를 바꿔 말한다 |
 | hearme | game | - | 다시 말할 자리 | 게임이 들려준 자리를 같이 다시 말한다 |
 | relay | npc | - | 전할 줄 | NPC 가 한 번 말한다 |
 | chain | none | - | - | - |
@@ -477,7 +477,7 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 | onesee | npc | - | 상황 | NPC 만 상황을 안다 |
 | wave | npc | - | 세기 | NPC 가 세기를 쥔다 |
 | whose | none | - | - | - |
-| reask | npc | - | 뭉갤 줄 | NPC 가 못 알아들은 척한다 |
+| reask | npc | - | 또렷하지 않게 말할 문장 | NPC 가 못 알아들은 척한다 |
 | cutin | none | - | - | - |
 | clash | none | - | - | - |
 | flip | npc | - | 답 | NPC 가 답하고 둘이 같이 판정한다 |
@@ -702,3 +702,21 @@ JSON 이 이 모양이어야 로더가 읽는다. 항목 하나가 구조체로 
 
 규칙과 관문은 `docs/authored.md`, 배치는 `docs/outings.md`. 말뭉치 줄의 규칙(2장)은 그대로다.
 
+
+## 14. 게임 화면 글의 G14 다듬기 (docs/game_wording_g14.json)
+
+게임 저장소의 G14 문구 제안(한국어 화면 글을 해요체와 쉬운 말로, 낱말을 단어로, 청크를 말 덩어리로)을 이 저장소의 원본에 옮긴 자리다. `Data/` 는 이 저장소의 `out/game/` 사본이라 여기서 고치지 않으면 다음 `Tools/sync_data.ps1` 이 되돌린다.
+
+| 자료 | 고친 원본 |
+|---|---|
+| `out/data/cards.json` 의 카드 글 (지시, 성공 기준, 비고, 정답, 모범 답안, 재료, 변형축) | `out/cards/*.md` |
+| `out/game/sets.json` 의 세트 글 | `out/sets/*.md` |
+| `out/game/emergency.json` 의 제목과 인출 지시 | `out/emergency/*.md` (제목이 "인출" 로 안 끝나도 읽는다: `derive_data.py` 의 `EMG_HEAD`) |
+| `out/game/transcripts_ko.json` | `docs/transcripts_ko.md` |
+| `out/game/scenes.json` 의 회 이름, `town.json` 의 생활 이름 | `docs/world.md` 5장 표, `docs/town.md` |
+| `out/game/deck_names.json`, `hold.json`, `replies.json` 의 글 | 이 문서 4장 6.2 10.4 표와 `docs/game.md` 1.3, `docs/play_rules.md` 15장 |
+| `out/game/results_schema.json` 의 설명 | `scripts/derive_game.js`, `docs/game_results.md` 4장 |
+| `out/game/sessions.json` 의 블록 이름, 트랙 이름, 따로 쓰고 같이 펴기 판의 제목과 함정 문장, `dateNote` | `docs/game_wording_g14.json` (블록 이름, 트랙 이름, 강의 제목, 블록 2 문장은 종이 교재와 앱이 그대로 쓰므로 거기는 안 고치고 게임 자료에만 얹는다) 와 `scripts/derive_game.js` |
+| `out/game/functions.json` 의 트랙 이름과 설명 | 같은 표의 `track` 과 `scripts/derive_functions.py` |
+
+`docs/game_wording_g14.json` 의 칸마다 옛 글(from)을 적어 두었다. `derive_game.js` 는 앱에서 뽑은 글이 옛 글과 다르면 실패한다. 강의 블록 2 문장이나 블록 이름이 바뀌면 이 표를 다시 본다.
