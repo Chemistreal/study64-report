@@ -80,13 +80,13 @@
     },
     {
       "file": "cards.js",
-      "bytes": 453900,
-      "sha256": "2aac57d1e3f7810adae23641fa6d9441912e1dd84d89e8b3ce117cf4fe10962f"
+      "bytes": 454880,
+      "sha256": "cc59d1835d8455000ff7ae113b9050db177499cd10b9fe9da781e1d8932bfde2"
     },
     {
       "file": "cards.json",
-      "bytes": 582044,
-      "sha256": "6fae9ab26f8bedc06ccbc0e0084e32d903187216d88ddfd09481cc1917b2e7ee"
+      "bytes": 583024,
+      "sha256": "f58c98dfb866c1c7abe89552bceca1f138cfb2eda30f4685bf35ccd7d40f3866"
     },
     {
       "file": "chunks.js",
@@ -105,13 +105,13 @@
     },
     {
       "file": "emergency.js",
-      "bytes": 40076,
-      "sha256": "78d1334a0710a3724823442757044d704d6ecfa5ec7c66e57dd4da70d0a13e25"
+      "bytes": 39941,
+      "sha256": "2fe677378f3fc7a0decb93893665e4ae9e21c8ec0db864d6a211e8a371ae28bf"
     },
     {
       "file": "emergency.json",
-      "bytes": 52186,
-      "sha256": "c327042c730d97dc7ed1fed1d72b5caf7ade7408837e89c2640887b2171fcef2"
+      "bytes": 52051,
+      "sha256": "4f7f45c9688942109a648a912794bfd28037b608fa9fe22461040d076edfc100"
     },
     {
       "file": "ground.js",
@@ -185,13 +185,13 @@
     },
     {
       "file": "wall.js",
-      "bytes": 58605,
-      "sha256": "ec768ec14fa6b0c086ad857e5fb2e580dbc7abaead8e3163109037e1159b7740"
+      "bytes": 58729,
+      "sha256": "0ddca2d408f08b80a34cd82fe778a2d78a2bc784756c3abdd3cba3924de3960a"
     },
     {
       "file": "wall.json",
-      "bytes": 74109,
-      "sha256": "646af1509dd366d3cf61183e4617ddb765d7b3a4ac90b0cd5449fd128082ad8f"
+      "bytes": 74233,
+      "sha256": "811bf27706f2f75da1fee4773f06e39565fcd0e40c0b98947a465cc74784b948"
     },
     {
       "file": "situ.js",
@@ -255,13 +255,13 @@
     },
     {
       "file": "flip.js",
-      "bytes": 40611,
-      "sha256": "412f792863e150f16d52c9152e8c28b44c80a206860588203da074e5f09282ee"
+      "bytes": 40694,
+      "sha256": "f36e4b8b19f4d4deecd4f6448e89021c6f20f27ff14ed90c08b14db0064052e6"
     },
     {
       "file": "flip.json",
-      "bytes": 50918,
-      "sha256": "4614467b905d8e5b9970505f33b7eca63100e316b255e39e470a6942b6ba61c9"
+      "bytes": 51001,
+      "sha256": "87b7da295136aebc7f5db7ce77aefe26e3e30ec7efcbd541d2226d2538423f3d"
     },
     {
       "file": "onepick.js",
@@ -346,12 +346,12 @@
     {
       "file": "hold.js",
       "bytes": 5859,
-      "sha256": "aec66e8b23db4c2da78a0cfddb77955aaf4832e021ef4f8b3bd64792491481bd"
+      "sha256": "aaaf6eb52f9afa6ad93bcb0cab34846fd8d11e6e3dbd22d8a872f0ad03b04c33"
     },
     {
       "file": "hold.json",
       "bytes": 7676,
-      "sha256": "4e23e8e3e248cc754f7df570d90f1fc6c96f2740eb8ff8b981b78898a6b627c3"
+      "sha256": "60ed25e946c37294588329a281bf693c919905d84cf4c286f7666991e3234c52"
     },
     {
       "file": "more.js",
@@ -420,13 +420,13 @@
     },
     {
       "file": "sets.js",
-      "bytes": 363228,
-      "sha256": "769ee1c604903275ad3b10bd869b9d99785e4ed98558a48c916f99d1420c3ada"
+      "bytes": 369353,
+      "sha256": "d491ffc7d2128fbd43e310d1fc0d0e4dffe4bbd94b299639d6fb87b2c1fc17da"
     },
     {
       "file": "sets.json",
-      "bytes": 545533,
-      "sha256": "b59d0f1f3fa34eb1ab2a2c6aeb5429f94a85cdf19f25b1690c073dba44923f05"
+      "bytes": 551658,
+      "sha256": "7492b696c49ead82dc71691deacb51115e4c55c5b8590c677af4b0c2795ee6cb"
     },
     {
       "file": "swaps.js",

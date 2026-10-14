@@ -1,7 +1,7 @@
 {
  "note": "게임 Data 폴더에 들어가는 *.json 의 크기와 해시, 그리고 두 노트북이 맞춰 보는 dataHash 다. 손으로 고치지 않는다. scripts/derive_game_manifest.py 를 다시 돌린다.",
  "generator": "scripts/derive_game_manifest.py",
- "dataHash": "cccc97d55b60a5dc10a6b1dce4e83b04fc21b4fd992edf0ab76f74fb7ade1c21",
+ "dataHash": "24f49270efda5de6f81caa504428a3b1115351d34cf409e5e2a998d7d2e1755c",
  "algorithm": {
   "name": "dataHash/1",
   "files": "Data/*.json 중 manifest.json 과 *.local.json 을 뺀 것",
@@ -31,8 +31,8 @@
   },
   {
    "file": "cards.json",
-   "bytes": 582044,
-   "sha256": "6fae9ab26f8bedc06ccbc0e0084e32d903187216d88ddfd09481cc1917b2e7ee",
+   "bytes": 583024,
+   "sha256": "f58c98dfb866c1c7abe89552bceca1f138cfb2eda30f4685bf35ccd7d40f3866",
    "from": "out/data/cards.json"
   },
   {
@@ -43,26 +43,26 @@
   },
   {
    "file": "deck_names.json",
-   "bytes": 516514,
-   "sha256": "0dd2e9ef15a494291034e5d4b40da743bd8133a73a7b2fae7440b6854bd31466",
+   "bytes": 516535,
+   "sha256": "b900ffee37698a3332b160c7169646ccfdc3463f9ff28b58a78c5ee4058e8fef",
    "from": "out/game/deck_names.json"
   },
   {
    "file": "emergency.json",
-   "bytes": 43362,
-   "sha256": "d23704457a61e78430327121d9e8ce0add2eba489fc9434da044d3becfab5602",
+   "bytes": 43227,
+   "sha256": "74d7d088c8a364d1a6a05524be727359331da19385530097c8e1cb1c0558fb5d",
    "from": "out/game/emergency.json"
   },
   {
    "file": "functions.json",
-   "bytes": 136016,
-   "sha256": "d530045385d06086ea03179a30b432f56621ffd0ea8a1818b32f5e42e2e291ef",
+   "bytes": 137374,
+   "sha256": "836867911eb67dedb46f85f095d2d60f68c365835245288f2cc23cca3c61c116",
    "from": "out/game/functions.json"
   },
   {
    "file": "hold.json",
-   "bytes": 12840,
-   "sha256": "0bf55601bceaffdbc1fb11725482e96a95115ee5e2c34359bf94ee3c2528ea3d",
+   "bytes": 12863,
+   "sha256": "4aae84e7f44788f12ea2c2ccd5f7289b1871e9ee2e86746408860abfe83a4d73",
    "from": "out/game/hold.json"
   },
   {
@@ -86,31 +86,31 @@
   {
    "file": "replies.json",
    "bytes": 51540,
-   "sha256": "a78fa032d762e73badbe39612a14bd998ccc6423e8b1cdc4dbf2cfe1abaaa98f",
+   "sha256": "62fcac407f1e10d5c64b937152885eab1e9212d945cc40c0aee4d78b05ae7fc6",
    "from": "out/game/replies.json"
   },
   {
    "file": "results_schema.json",
    "bytes": 35892,
-   "sha256": "9eb44427a3c149a5a2d1d733065dd3558018fe819ec6094c2991ec4944944799",
+   "sha256": "6b29eb4c1e5dc52cd1cf9d91d5e68ca7d32eb581675bd74805a7afbc35e614b7",
    "from": "out/game/results_schema.json"
   },
   {
    "file": "scenes.json",
-   "bytes": 586905,
-   "sha256": "98cabd99de621c1696bc339c5087b45a64fee8a6afe5fdc18f6b456e99696116",
+   "bytes": 587097,
+   "sha256": "8ec29dc412c6daf572d03b2c34035b238dd06fa49554ab03a9fd1ccdb585dd4d",
    "from": "out/game/scenes.json"
   },
   {
    "file": "sessions.json",
-   "bytes": 2412453,
-   "sha256": "7ca0101c30404d2b10a2aea85faa20305cab28cc284113f610b9c8dd2cb8148c",
+   "bytes": 2411762,
+   "sha256": "32bdbffd0d9ddcac6d71715dafc010b267f00b622a0522f4a406579e08f933cb",
    "from": "out/game/sessions.json"
   },
   {
    "file": "sets.json",
-   "bytes": 456116,
-   "sha256": "b202f4e4d01b0c33a22c59adf3be491c8b8c1c5b848ecac17594fee23403017c",
+   "bytes": 462241,
+   "sha256": "5fa82cd3779b029a642ec527fbe916ca1dc6b0bd5a00cba048b31700ae09dd7e",
    "from": "out/game/sets.json"
   },
   {
@@ -127,8 +127,8 @@
   },
   {
    "file": "town.json",
-   "bytes": 15986,
-   "sha256": "14a59afaf04e935b3d2fa6b7883ff752ba847368151bd5f9d4b9623b2ffaba2c",
+   "bytes": 16004,
+   "sha256": "7da6db304123aad6ea383b89cb9685a99c143a09fc79d58c7b2702896d2f08b4",
    "from": "out/game/town.json"
   },
   {
@@ -139,8 +139,8 @@
   },
   {
    "file": "transcripts_ko.json",
-   "bytes": 25025,
-   "sha256": "9ee6a960955c099317e22620996a84331d82a7c121a163403fcec6ba2b9920f4",
+   "bytes": 25138,
+   "sha256": "d0013db332460ecf694203234dc09a15a42e8620fa3b5f32cf08cec6cacff0f4",
    "from": "out/game/transcripts_ko.json"
   },
   {
