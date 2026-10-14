@@ -774,13 +774,13 @@
      "type": "integer",
      "minimum": 0,
      "maximum": 99,
-     "description": "기준 낱말 중 들린 수. 모르면 0"
+     "description": "기준 단어 중 들린 수. 모르면 0"
     },
     "n": {
      "type": "integer",
      "minimum": 0,
      "maximum": 99,
-     "description": "기준 낱말 수. 모르면 0"
+     "description": "기준 단어 수. 모르면 0"
     }
    }
   },

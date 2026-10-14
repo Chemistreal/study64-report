@@ -58,13 +58,16 @@ REPAIR_TERMS = ["되묻기", "자기수정", "끊김 처리", "이해 확인", "
 # 강의 단위 라벨을 붙여도 되는 트랙. 나머지(소리, 자동화, 문법)는 기능이 아니라 소리, 속도, 규칙을 연습한다
 LECTURE_TRACKS = ["청크", "repair", "화용"]
 BASES = ["purpose", "pass", "rotation", "title"]
+# 트랙의 화면 이름 (G14). 게임 자료에만 얹는다
+with open(os.path.join(ROOT, "docs", "game_wording_g14.json"), encoding="utf-8") as _f:
+    TRACK_NAME = json.load(_f)["track"]
 # fn 이 빈 카드의 까닭. 키는 강의 트랙이다
 WHY = {
-    "소리": "소리 트랙 강의다. 소리를 가려내고 따라 하는 연습이라 기준서의 기능 낱말이 없다",
-    "자동화": "자동화 트랙 강의다. 속도와 무중단을 재는 연습이라 기준서의 기능 낱말이 없다",
-    "문법": "문법 트랙 강의다. 덩어리에서 규칙을 뽑는 연습이라 기준서의 기능 낱말이 없다",
-    "청크": "청크 트랙 강의인데 제목이 기준서나 지은 줄의 기능 낱말이 아니다 (덩어리의 주제 이름이다)",
-    "repair": "repair 트랙 강의인데 제목과 카드에 기준서 2.1 의 repair 낱말이 없다",
+    "소리": "소리 트랙 강의다. 소리를 가려내고 따라 하는 연습이라 기준서의 기능 단어가 없다",
+    "자동화": "자동화 트랙 강의다. 속도와 무중단을 재는 연습이라 기준서의 기능 단어가 없다",
+    "문법": "문법 트랙 강의다. 덩어리에서 규칙을 뽑는 연습이라 기준서의 기능 단어가 없다",
+    "청크": "청크 트랙 강의인데 제목이 기준서나 지은 줄의 기능 단어가 아니다 (덩어리의 주제 이름이다)",
+    "repair": "repair 트랙 강의인데 제목과 카드에 기준서 2.1 의 repair 단어가 없다",
     "화용": "화용 트랙 강의인데 조합 등록부(state/rotation.md)에도 제목에도 없다",
 }
 SECTION_DONE = "done"
@@ -218,9 +221,11 @@ def build():
                 fn, by = hits, "pass"
         if not fn and l["no"] in lec_label:
             fn, by = lec_label[l["no"]]
-        row = {"lecture": l["no"], "track": l["track"], "type": c["type"], "fn": fn, "by": by}
+        # 화면 이름은 docs/game_wording_g14.json 의 track 표다. 내부 값(l["track"])은 앱과 강의 그대로고 WHY 의 키다
+        shown = TRACK_NAME.get(l["track"], l["track"])
+        row = {"lecture": l["no"], "track": shown, "type": c["type"], "fn": fn, "by": by}
         if not fn:
-            row["why"] = l["track"]
+            row["why"] = shown
             counts["none"] += 1
         else:
             counts[by] += 1
@@ -284,8 +289,8 @@ def build():
             "authoredMission": {"source": "out/game/outings.json missions[].functions", "count": len(mission_fns)},
         },
         "rules": {
-            "cards": "카드 자신의 라벨이 있으면 강의 것은 안 쓴다. purpose: 역할형 카드 A 면의 purpose. pass: repair형 카드 a.pass 에 repair 낱말이 "
-                     "그대로 있다. rotation: 강의가 state/rotation.md 3.1 에 있다. title: 청크와 repair 트랙 강의 제목에 어휘 셋의 낱말이 있다. "
+            "cards": "카드 자신의 라벨이 있으면 강의 것은 안 쓴다. purpose: 역할형 카드 A 면의 purpose. pass: repair형 카드 a.pass 에 repair 단어가 "
+                     "그대로 있다. rotation: 강의가 state/rotation.md 3.1 에 있다. title: 청크와 repair 트랙 강의 제목에 어휘 셋의 단어가 있다. "
                      "없으면 fn 이 비고 why 가 까닭(강의 트랙)이다",
             "done": "해낸 차례 = outcome 이 pass 나 near (docs/game_results.md 5.1). miss 와 skipped 의 기능은 세지 않는다 (tone.md 3장: 한 것만 적는다)",
             "turns": "미션 차례 번호는 game.turns 의 1부터 센 번호다 (NPC 만 말하는 차례도 번호를 먹는다). 점수 차례만 있다. "

@@ -216,7 +216,7 @@ function buildResultsSchema() {
     card_run: def("card_run", false, Object.assign({
       block: BLOCK, id: str("^Q[1-4]-[0-9]{3}$", "카드 id"),
     }, unit, {
-      k: int(0, 99, "기준 낱말 중 들린 수. 모르면 0"), n: int(0, 99, "기준 낱말 수. 모르면 0"),
+      k: int(0, 99, "기준 단어 중 들린 수. 모르면 0"), n: int(0, 99, "기준 단어 수. 모르면 0"),
     })),
     play_round: def("play_round", false, Object.assign({
       block: BLOCK, play: str("^[a-z]{3,12}$", "판 id (playblocks.json)"), round: int(1, 999, "회 번호"),
@@ -462,6 +462,35 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
   await browser.close();
 
   if (perr) { console.log("[실패] 앱이 오류를 냈다: " + perr); process.exit(1); }
+  /* 화면 글의 G14 다듬기 (docs/game_wording_g14.json). 앱과 종이 교재가 쓰는 원본 글(강의 제목, 블록 2 문장,
+     블록 이름, 트랙 이름)은 안 건드리고, 게임 자료에만 얹는다. 옛 글이 표와 다르면 원본이 바뀐 것이라 실패로 낸다 */
+  const WORDING = JSON.parse(fs.readFileSync(path.join(HERE, "docs", "game_wording_g14.json"), "utf8"));
+  const wfail = [];
+  const trackName = (t) => (t != null && Object.prototype.hasOwnProperty.call(WORDING.track, t) ? WORDING.track[t] : t);
+  got.sessions.forEach((r) => {
+    r.track = trackName(r.track);
+    ((r.decks || {}).apart || []).forEach((it) => {
+      it.track = trackName(it.track);
+      const w = WORDING.apart[String(it.no)];
+      if (!w) return;
+      ["title", "trap"].forEach((f) => {
+        if (!w[f]) return;
+        if (it[f] === w[f][1]) return;
+        if (it[f] !== w[f][0]) wfail.push("apart " + it.no + " " + f + ": 원본 글이 표의 옛 글과 다르다 (" + it[f] + ")");
+        else it[f] = w[f][1];
+      });
+    });
+  });
+  got.blocks = (got.blocks || []).map((b) => {
+    const w = WORDING.blocks[String(b.no)];
+    if (!w) return b;
+    if (b.name !== w[0]) { wfail.push("블록 " + b.no + " 이름: 원본 글이 표의 옛 글과 다르다 (" + b.name + ")"); return b; }
+    return Object.assign({}, b, { name: w[1] });
+  });
+  if (wfail.length) {
+    wfail.forEach((m) => console.log("[실패] docs/game_wording_g14.json " + m));
+    process.exit(1);
+  }
   const missed = Object.keys(got.miss);
   if (missed.length) {
     missed.forEach((k) => console.log("[실패] " + k + " 덱을 못 뽑았다: " + got.miss[k]));
@@ -556,7 +585,7 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
                       "block3.minutes 는 cards.json 의 카드 분(종이 기준 추정)을 더한 예상 소요이고 안내다. 게임에서 잰 분(card_run 의 t0 t1)이 쌓이면 그것으로 바꾼다.",
                 basis: "cards.json minutes" },
     },
-    dateNote: "date 는 시작일에서 쉬는 날 없이 걸은 명목 날짜다. 간격 복습을 이 날짜로 뽑았다",
+    dateNote: "date는 시작일부터 주당 여섯 세션과 일요일 휴식을 반영한 명목 날짜예요. 실제 수행일과는 달라질 수 있어요. 간격 복습의 명목 일정은 이 날짜로 계산해요.",
     roleRule: roleRule,
     roleVectors: roleVectors,
     runtime: {

@@ -111,7 +111,10 @@ def check_cards(F):
             continue
         if r["type"] != c["type"]:
             fail.append("카드 %s 의 type 이 cards.json 과 다르다" % cid)
-        if lecs.get(r["lecture"], {}).get("track") != r["track"]:
+        # 화면 이름 (docs/game_wording_g14.json 의 track). why 표의 키는 내부 값이다
+        shown = DF.TRACK_NAME.get(lecs.get(r["lecture"], {}).get("track"), lecs.get(r["lecture"], {}).get("track"))
+        inner = {v: k for k, v in DF.TRACK_NAME.items()}.get(r.get("why"), r.get("why"))
+        if shown != r["track"]:
             fail.append("카드 %s 의 lecture/track 이 lectures.json 과 다르다" % cid)
         if r["fn"]:
             if r["by"] not in DF.BASES:
@@ -124,7 +127,7 @@ def check_cards(F):
                 fail.append("카드 %s 의 라벨이 겹친다" % cid)
         else:
             none += 1
-            if r["by"] is not None or r.get("why") not in why or r.get("why") != r["track"]:
+            if r["by"] is not None or inner not in why or r.get("why") != r["track"]:
                 fail.append("카드 %s 에 라벨이 없는데 까닭(why)이 트랙 %s 의 것이 아니다" % (cid, r["track"]))
         if c["type"] == "역할" and not (r["by"] == "purpose" and r["fn"] == [c["a"].get("purpose")]):
             fail.append("역할형 카드 %s 가 purpose 로 안 붙었다" % cid)
@@ -148,7 +151,7 @@ def check_force(F):
     lectures = load(DF.LECTURES)["items"]
     track = {l["no"]: l["track"] for l in lectures}
     for cid, r in F["cards"].items():
-        if r["by"] in ("rotation", "title") and r["track"] not in DF.LECTURE_TRACKS:
+        if r["by"] in ("rotation", "title") and {v: k for k, v in DF.TRACK_NAME.items()}.get(r["track"], r["track"]) not in DF.LECTURE_TRACKS:
             fail.append("카드 %s: %s 트랙 강의에 강의 단위 라벨(%s)이 붙었다 (억지로 붙이지 않는다)" % (cid, r["track"], r["by"]))
         if r["by"] == "rotation" and r["fn"] != [lec_reg.get(r["lecture"])]:
             fail.append("카드 %s 의 등록부 라벨이 state/rotation.md 3.1 과 다르다" % cid)
