@@ -44,7 +44,7 @@
 | 5 | Marsha: We relax in the living room. | 우리는 거실에서 쉬어요. |
 | 6 | Anna: I relax in the living room. | 저는 거실에서 쉬어요. |
 | 7 | Marsha, let’s go upstairs! | Marsha, 위층으로 가요! |
-| 8 | Marsha: | Marsha: (뒤에 말이 없음) |
+| 8 | Marsha: | (화자 표시만 있고 대사는 없어요.) |
 | 9 | Anna? Where are you? | Anna? 어디 있어요? |
 | 10 | Anna: Marsha, I am in the bathroom! I wash in the bathroom. | Marsha, 저 욕실에 있어요! 저는 욕실에서 씻어요. |
 | 11 | Marsha: I am in the bedroom. We sleep in the bedroom. | 저는 침실에 있어요. 우리는 침실에서 자요. |
@@ -66,7 +66,7 @@
 | 10 | Pete: That’s right, Anna. This is the mailroom. | 맞아요, Anna. 여기는 우편물실이에요. |
 | 11 | Anna: The gym is across from … what? | 헬스장은 ... 뭐 맞은편이죠? |
 | 12 | Pete: The gym is across from the lounge. | 헬스장은 라운지 맞은편이에요. |
-| 13 | Anna: Across from the lounge. Right. Thanks! | 라운지 맞은편. 맞다. 고마워요! |
+| 13 | Anna: Across from the lounge. Right. Thanks! | 라운지 맞은편. 맞아요. 고마워요! |
 | 14 | (In the lounge) | (라운지에서) |
 | 15 | Anna: Pete! This is not the gym! | Pete! 여기는 헬스장이 아니에요! |
 | 16 | Pete: The gym is across from the lounge. It is behind the lobby. | 헬스장은 라운지 맞은편이에요. 로비 뒤에 있어요. |
@@ -82,7 +82,7 @@
 | 26 | (In the gym) | (헬스장에서) |
 | 27 | Anna: Pete! Pete? | Pete! Pete? |
 | 28 | Pete: I want to work out too! Join me! | 저도 운동하고 싶어요! 같이 해요! |
-| 29 | Anna: I’m good. | 전 괜찮아요. |
+| 29 | Anna: I’m good. | 저는 사양할게요. |
 
 ## lle1-09
 
@@ -109,7 +109,7 @@
 | 19 | Anna: Oh. I see. Mexico. | 아. 알겠어요. Mexico군요. |
 | 20 | Anna: Washington weather changes often. Remember to check the forecast -- the right forecast. | Washington 날씨는 자주 바뀌어요. 일기 예보를 꼭 확인하세요 -- 알맞은 지역의 예보로요. |
 | 21 | Phone: Yes, Anna. Next time remember to check the right fore… | 네, Anna. 다음에는 알맞은 일기 예… |
-| 22 | Anna: Okay, thank you Phone. Goodbye, Phone. | 알겠어요, 고마워요, Phone. 안녕, Phone. |
+| 22 | Anna: Okay, thank you Phone. Goodbye, Phone. | 알겠어요, 고마워요, Phone. 안녕히 계세요, Phone. |
 | 23 | Anna: Until next time! | 다음에 또 만나요! |
 
 ## lle1-10
@@ -117,26 +117,26 @@
 | 줄 | 영어 | 한국어 |
 |---|---|---|
 | 1 | Anna: Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling. | 안녕하세요! 오늘 제 친구 Ashley가 놀러 와요. 제 새 아파트를 보여 줄 거예요! 아! Ashley한테 전화가 왔어요. |
-| 2 | Anna: Hi | 안녕 |
+| 2 | Anna: Hi | 안녕하세요 |
 | 3 | Ashley! | Ashley! |
 | 4 | Ashley: Hi Anna! I’m coming to your apartment. Where is your apartment? | 안녕하세요, Anna! 지금 가고 있어요. 아파트가 어디에 있어요? |
 | 5 | Anna: My apartment is near the Columbia Heights Metro. | 제 아파트는 Columbia Heights Metro 근처에 있어요. |
 | 6 | Ashley: It is near the Columbia Heights Metro? | Columbia Heights Metro 근처라고요? |
-| 7 | Anna: Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead. | 네. Metro에서 나와서 오른쪽으로 도세요. 그다음 버스 정류장에서 왼쪽으로 도세요. 그리고 곧장 앞으로 걸어오세요. |
-| 8 | Ashley: Okay. Exit Metro, turn right, turn left, then go straight ahead? | 알겠어요. Metro에서 나와서 오른쪽으로 돌고, 왼쪽으로 돌고, 그다음 곧장 앞으로 가는 거죠? |
+| 7 | Anna: Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead. | 네. Metro 지하철역에서 나와서 오른쪽으로 도세요. 그다음 버스 정류장에서 왼쪽으로 도세요. 그리고 곧장 앞으로 걸어오세요. |
+| 8 | Ashley: Okay. Exit Metro, turn right, turn left, then go straight ahead? | 알겠어요. Metro 지하철역에서 나와서 오른쪽으로 돌고, 왼쪽으로 돌고, 그다음 곧장 앞으로 가는 거죠? |
 | 9 | Anna: Yes. My apartment is near a coffee shop. | 네. 제 아파트는 커피숍 근처에 있어요. |
 | 10 | Ashley: Okay. See you soon! | 알겠어요. 곧 봐요! |
-| 11 | Anna: Hi, | 안녕, |
+| 11 | Anna: Hi, | 안녕하세요, |
 | 12 | Ashley. | Ashley. |
 | 13 | Ashley: Anna, Which coffee shop? There are three coffee shops. | Anna, 어느 커피숍이에요? 커피숍이 세 군데 있어요. |
 | 14 | Anna: Okay, my apartment is across from a big department store. | 알겠어요, 제 아파트는 큰 백화점 맞은편에 있어요. |
 | 15 | Ashley: A big department store? Ah, I see it! | 큰 백화점이요? 아, 보여요! |
-| 16 | Anna: Okay! Bye, | 좋아요! 잘 가요, |
+| 16 | Anna: Okay! Bye, | 좋아요! 이따 봐요, |
 | 17 | Ashley. See you soon! | Ashley. 곧 봐요! |
 | 18 | Ashley: Okay. See you soon. | 네. 곧 봐요. |
-| 19 | Anna: Ashley! Ashley! Ashley! Over here! It’s | Ashley! Ashley! Ashley! 여기예요! 이쪽은 |
-| 20 | Anna! It’s | Anna예요! 이쪽은 |
-| 21 | Anna! Hi! | Anna예요! 안녕! |
+| 19 | Anna: Ashley! Ashley! Ashley! Over here! It’s | Ashley! Ashley! Ashley! 여기예요! 저... |
+| 20 | Anna! It’s | Anna예요! 저... |
+| 21 | Anna! Hi! | Anna예요! 안녕하세요! |
 | 22 | Anna: I love having my friends over. Come on! | 친구들이 집에 오는 게 정말 좋아요. 어서 와요! |
 | 23 | Ashley: Great! | 좋아요! |
 
@@ -162,7 +162,7 @@
 | 16 | Anna: Now I have cash. I can buy stamps. | 이제 현금이 생겼어요. 우표를 살 수 있어요. |
 | 17 | Marsha: That store sells stamps. | 저 가게에서 우표를 팔아요. |
 | 18 | Anna: Wait here. | 여기서 기다려요. |
-| 19 | Anna: I have stamps. | 우표를 샀어요. |
+| 19 | Anna: I have stamps. | 우표가 있어요. |
 | 20 | Marsha: Wow, you’re fast. | 와, 빠르네요. |
 | 21 | Anna: Thank you, thank you letters, for sending my words… my love … to my family and friends - | 고마워요, 고마워요, 편지들아. 내 말을 ... 내 사랑을 ... 가족과 친구들에게 보내 줘서 - |
 | 22 | Marsha: Do you have more cash? | 현금 더 있어요? |
@@ -191,15 +191,15 @@
 | 12 | Anna: They make jokes at a rodeo. They make people laugh. | 로데오에서 농담을 해요. 사람들을 웃게 만들어요. |
 | 13 | Marsha: That-That';s very different. | 그, 그건 정말 색다르네요. |
 | 14 | Marsha: Who is that woman in the picture? | 사진 속 저 여자분은 누구예요? |
-| 15 | Anna: That is my Aunt Lavender. She is my mom's sister. She loves gardening and makes spoons. | 저분은 Aunt Lavender예요. 우리 엄마의 자매예요. 정원 가꾸기를 정말 좋아하고 숟가락을 만들어요. |
+| 15 | Anna: That is my Aunt Lavender. She is my mom's sister. She loves gardening and makes spoons. | 저분은 Lavender 이모예요. 우리 엄마와 자매예요. 정원 가꾸기를 정말 좋아하고 숟가락을 만들어요. |
 | 16 | Marsha: She makes spoons? | 숟가락을 만든다고요? |
 | 17 | Anna: Of course. | 그럼요. |
 | 18 | Marsha: That, too, is very different. | 그것도 정말 색다르네요. |
-| 19 | Anna: Oh! This is my Uncle John. He is my father's brother. | 아! 이분은 Uncle John이에요. 우리 아버지의 형제예요. |
-| 20 | Marsha: What does Uncle John do? | Uncle John은 무슨 일을 해요? |
+| 19 | Anna: Oh! This is my Uncle John. He is my father's brother. | 아! 이분은 John 삼촌이에요. 우리 아버지와 형제예요. |
+| 20 | Marsha: What does Uncle John do? | John 삼촌은 무슨 일을 해요? |
 | 21 | Anna: He's a chicken farmer. And makes guitars. He's awesome, and I'm his favorite niece. | 닭 농장을 해요. 그리고 기타를 만들어요. 정말 멋진 분이고, 저는 그분이 제일 아끼는 조카예요. |
 | 22 | Marsha: Who are they? | 이 사람들은 누구예요? |
-| 23 | Anna: They are my cousins. They are my Uncle John's daughter and son. | 제 사촌들이에요. Uncle John의 딸과 아들이에요. |
+| 23 | Anna: They are my cousins. They are my Uncle John's daughter and son. | 제 사촌들이에요. John 삼촌의 딸과 아들이에요. |
 | 24 | Marsha: What do they do? | 이 사람들은 무슨 일을 해요? |
 | 25 | Anna: They raise sheep and make sweaters. | 양을 키우고 스웨터를 만들어요. |
 | 26 | Marsha: Yeah, that's not a surprise. | 네, 놀랍지도 않네요. |
@@ -212,9 +212,9 @@
 | 33 | Her mother and father are rodeo clowns. | 어머니와 아버지는 로데오 광대예요. |
 | 34 | Her father's parents are from Italy. These grandparents speak Italian. | 아버지 쪽 조부모님은 Italy 출신이에요. 이 조부모님은 이탈리아어를 해요. |
 | 35 | Anna's mother's parents live in California. These grandparents have a farm and raise horses. | Anna 어머니 쪽 조부모님은 California에 살아요. 이 조부모님은 농장이 있고 말을 키워요. |
-| 36 | Anna's mother's sister is Aunt Lavender. She loves gardening. | Anna 어머니의 자매는 Aunt Lavender예요. 정원 가꾸기를 정말 좋아해요. |
-| 37 | Anna's father has a brother. His name is John. Uncle John makes guitars. | Anna의 아버지에게는 형제가 한 명 있어요. 이름은 John이에요. Uncle John은 기타를 만들어요. |
-| 38 | Uncle John has a daughter and a son. They are Anna's cousins. They raise sheep. | Uncle John에게는 딸과 아들이 있어요. 두 사람은 Anna의 사촌이에요. 양을 키워요. |
+| 36 | Anna's mother's sister is Aunt Lavender. She loves gardening. | Anna 어머니와 자매인 분이 Lavender 이모예요. 정원 가꾸기를 정말 좋아해요. |
+| 37 | Anna's father has a brother. His name is John. Uncle John makes guitars. | Anna의 아버지에게는 형제가 한 명 있어요. 이름은 John이에요. John 삼촌은 기타를 만들어요. |
+| 38 | Uncle John has a daughter and a son. They are Anna's cousins. They raise sheep. | John 삼촌에게는 딸과 아들이 있어요. 두 사람은 Anna의 사촌이에요. 양을 키워요. |
 | 39 | Anna's brother has two children. They are Anna's niece and nephew. | Anna의 남자 형제에게는 아이가 둘 있어요. 두 아이는 Anna의 조카딸과 조카아들이에요. |
 
 ## lle1-13
@@ -227,11 +227,11 @@
 | 4 | Rebecca: Yes! | 네! |
 | 5 | Anna: Awesome! | 멋져요! |
 | 6 | Rebecca: Awesome! | 멋져요! |
-| 7 | Anna: This is a drum band. I never listen to a drum band. But today I am listening to a drum band because it’s Shakespeare’s birthday! | 이건 드럼 밴드예요. 저는 드럼 밴드를 절대 듣지 않아요. 하지만 오늘은 Shakespeare의 생일이라서 드럼 밴드를 듣고 있어요! |
-| 8 | Anna: This is a puppet show. I never watch puppet shows. But today I am watching a puppet show because it’s Shakespeare’s birthday! | 이건 인형극이에요. 저는 인형극을 절대 보지 않아요. 하지만 오늘은 Shakespeare의 생일이라서 인형극을 보고 있어요! |
+| 7 | Anna: This is a drum band. I never listen to a drum band. But today I am listening to a drum band because it’s Shakespeare’s birthday! | 이건 드럼 밴드예요. 저는 평소에는 드럼 밴드를 듣지 않아요. 하지만 오늘은 Shakespeare의 생일이라서 드럼 밴드를 듣고 있어요! |
+| 8 | Anna: This is a puppet show. I never watch puppet shows. But today I am watching a puppet show because it’s Shakespeare’s birthday! | 이건 인형극이에요. 저는 평소에는 인형극을 보지 않아요. 하지만 오늘은 Shakespeare의 생일이라서 인형극을 보고 있어요! |
 | 9 | Anna: My clothes are usual. His clothes are unusual. | 제 옷은 평범해요. 저분의 옷은 평범하지 않아요. |
 | 10 | Anna: In Washington, D.C. seeing a politician or even the President is usual. Seeing the Queen of England is very unusual! Your majesty! | Washington, D.C.에서는 정치인이나 대통령을 보는 일도 흔해요. 영국 여왕을 보는 건 아주 드문 일이에요! 여왕 폐하! |
-| 11 | Anna: This is sword fighting. I never sword fight. But today I am sword fighting because it’s Shakespeare’s birthday! | 이건 칼싸움이에요. 저는 칼싸움을 절대 하지 않아요. 하지만 오늘은 Shakespeare의 생일이라서 칼싸움을 하고 있어요! |
+| 11 | Anna: This is sword fighting. I never sword fight. But today I am sword fighting because it’s Shakespeare’s birthday! | 이건 칼싸움이에요. 저는 평소에는 칼싸움을 하지 않아요. 하지만 오늘은 Shakespeare의 생일이라서 칼싸움을 하고 있어요! |
 | 12 | Anna: There are many things to do in Washington, D.C. -- some usual, some unusual. | Washington, D.C.에는 할 일이 많아요 -- 흔한 일도 있고 평소와 다른 일도 있어요. |
 | 13 | Anna: Today, I am not bored because … it is William Shakespeare’s birthday! | 오늘은 지루하지 않아요. 왜냐하면 ... William Shakespeare의 생일이니까요! |
 
@@ -258,7 +258,7 @@
 | 17 | Anna: These clothes are formal: a suit jacket, a dress shirt and a tie! They look great! | 이 옷들은 격식 있는 옷이에요. 정장 재킷, 와이셔츠, 넥타이요! 멋져 보여요! |
 | 18 | Genie: Those clothes look great … for a man! Something is wrong. | 그 옷들은 멋져 보이네요 ... 남자에게는요! 뭔가 잘못됐어요. |
 | 19 | Anna: Let me see. | 어디 봐요. |
-| 20 | Anna: There. Now try. | 자, 이제 입어 봐요. |
+| 20 | Anna: There. Now try. | 자, 이제 해 봐요. |
 | 21 | Genie: Oh. Thanks! Now these clothes look great on you! | 아. 고마워요! 이제 이 옷들이 잘 어울려요! |
 | 22 | Anna: They do! Um, Genie, can you put on a gold belt? | 정말 그러네요! 음, Genie, 금색 벨트를 해 줄 수 있어요? |
 | 23 | Genie: Sure! | 물론이죠! |
@@ -278,7 +278,7 @@
 | 줄 | 영어 | 한국어 |
 |---|---|---|
 | 1 | Marsha: Hi, Anna. What’s going on? | 안녕하세요, Anna. 별일 없어요? |
-| 2 | Anna: Not much. How about you? | 별일 없어요. 당신은요? |
+| 2 | Anna: Not much. How about you? | 별일 없어요. Marsha는요? |
 | 3 | Marsha: Busy as usual. Hey, do you wanna see a movie with me? | 늘 그렇듯 바빠요. 저기, 저랑 영화 보러 갈래요? |
 | 4 | Anna: Sure! I never have time to see a movie. When? | 좋아요! 저는 영화 볼 시간이 전혀 없어요. 언제요? |
 | 5 | Marsha: Are you busy this Thursday at 6pm? | 이번 주 목요일 저녁 6시에 바빠요? |
@@ -291,9 +291,9 @@
 | 12 | Marsha: We always eat dinner together and sometimes we play board games. | 항상 같이 저녁을 먹고 가끔 보드게임을 해요. |
 | 13 | Anna: Playing board games is fun, too! The word game Scrabble is my favorite. | 보드게임도 재미있죠! 단어 게임 Scrabble이 제일 좋아요. |
 | 14 | Marsha: I like Connect Four! | 저는 Connect Four를 좋아해요! |
-| 15 | Anna: I’m not busy Monday night. Are you? | 월요일 밤에는 안 바빠요. 당신은요? |
+| 15 | Anna: I’m not busy Monday night. Are you? | 월요일 밤에는 안 바빠요. Marsha는요? |
 | 16 | Marsha: I am busy on Monday night. I’m going to jog in the park with my friend. Do you jog? | 월요일 밤에는 바빠요. 친구와 공원에서 조깅할 거예요. 조깅해요? |
-| 17 | Anna: Oh! I always jog. Well, sometimes I jog. Okay, I never jog. But I will try because it is good for you. | 아! 저는 항상 조깅해요. 음, 가끔 조깅해요. 좋아요, 사실 절대 안 해요. 하지만 몸에 좋으니까 해 볼게요. |
+| 17 | Anna: Oh! I always jog. Well, sometimes I jog. Okay, I never jog. But I will try because it is good for you. | 아! 저는 항상 조깅해요. 음, 가끔 조깅해요. 사실은 조깅을 전혀 안 해요. 하지만 몸에 좋으니까 해 볼게요. |
 | 18 | Marsha: I always feel great after I jog. | 저는 조깅하고 나면 항상 기분이 좋아요. |
 | 19 | Marsha: How about on Wednesday night? | 수요일 밤은 어때요? |
 | 20 | Anna: Wednesday night I am not busy. Oh, no, wait. This Wednesday night I will be busy. | 수요일 밤은 안 바빠요. 아, 아니, 잠깐만요. 이번 수요일 밤에는 바쁠 거예요. |
@@ -364,7 +364,7 @@
 | 줄 | 영어 | 한국어 |
 |---|---|---|
 | 1 | Anna: Hi there! Summer in Washington, D.C. is hot and sunny. I always ride the Metro to work. Riding the Metro is cool and fast. But today it’s closed. So, I am walking to work. | 안녕하세요! Washington, D.C.의 여름은 덥고 화창해요. 저는 항상 Metro를 타고 출근해요. Metro를 타면 시원하고 빨라요. 그런데 오늘은 운행을 안 해요. 그래서 걸어서 출근하고 있어요. |
-| 2 | (On the phone) Ms. Weaver, I am late this morning. The Metro is closed. So, I am walking to work. | (전화로) Ms. Weaver, 오늘 아침에 늦을 것 같아요. Metro가 운행하지 않아요. 그래서 걸어서 출근하고 있어요. |
+| 2 | (On the phone) Ms. Weaver, I am late this morning. The Metro is closed. So, I am walking to work. | (전화로) Ms. Weaver, 오늘 아침 출근이 늦어졌어요. Metro가 운행하지 않아요. 그래서 걸어서 출근하고 있어요. |
 | 3 | Caty: That’s too bad. It’s really hot today. | 안됐네요. 오늘 정말 더워요. |
 | 4 | Anna: Yes it is. | 네, 그래요. |
 | 5 | Caty: When you arrive, please come to my office. I have important news to tell you. | 도착하면 제 사무실로 와요. 알려 줄 중요한 소식이 있어요. |
@@ -383,7 +383,7 @@
 | 18 | Anna: Thank you, Ms. Weaver. But what does all that mean? | 고마워요, Ms. Weaver. 그런데 그게 다 무슨 뜻이에요? |
 | 19 | Caty: I have a new assignment for you! Your skills are perfect for a new show … a children’s show. | 새 임무가 있어요! Anna의 능력은 새 프로그램에 딱 맞아요 ... 어린이 프로그램이에요. |
 | 20 | Anna: A children’s show ... That is awesome! When do I start? | 어린이 프로그램이요 ... 정말 멋져요! 언제 시작해요? |
-| 21 | Caty: You start next month. Start thinking of ideas for the show. | 다음 달부터 시작해요. 프로그램 아이디어를 생각해 보기 시작해요. |
+| 21 | Caty: You start next month. Start thinking of ideas for the show. | 다음 달부터 시작해요. 프로그램 아이디어를 생각해 보세요. |
 | 22 | Anna: I have tons of ideas! I can show children what it’s like in outer space ... | 아이디어가 엄청 많아요! 아이들에게 우주가 어떤지 보여 줄 수 있어요 ... |
 | 23 | Caty: Great … | 좋아요 ... |
 | 24 | Anna: … or in the deep, dark ocean … | ... 아니면 깊고 어두운 바다 속이요 ... |
