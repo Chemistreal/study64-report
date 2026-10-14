@@ -25,9 +25,9 @@
 | out/lectures/q4 24편 | 78 | 68 | 10 | eng2p_ground_lectures_q4.md |
 | out/dialog 18편 | 201 | 108 | 93 | eng2p_ground_dialog.md |
 | out/sets 48편 | 38 | 30 | 8 | eng2p_ground_sets.md |
-| out/emergency 4편 | 204 | 129 | 75 | eng2p_ground_emergency.md |
+| out/emergency 4편 | 203 | 129 | 74 | eng2p_ground_emergency.md |
 | out/input 4편 | 61 | 52 | 9 | eng2p_ground_input.md |
 | out/tasks 48편 | 67 | 42 | 25 | eng2p_ground_tasks.md |
 
-합계 재료 2712개 / 근거 있음 1585개 / **근거 없음 1127개 (42%)**
+합계 재료 2711개 / 근거 있음 1585개 / **근거 없음 1126개 (42%)**
 

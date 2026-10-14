@@ -156,7 +156,7 @@ def check_common(path, text):
     if is_admin(path):
         return
 
-    SAFE = re.compile(r"(없다|않는다|없고|아니다|아니라|아닌|각자|둘 다|서로)")
+    SAFE = re.compile(r"(없다|않는다|않아요|없고|아니다|아니라|아닌|각자|둘 다|서로)")
     for m in re.finditer(r"(혼자|각자 알아서|스스로 만들어)", text):
         s = text.rfind("\n", 0, m.start()) + 1
         e = text.find("\n", m.end())

@@ -20,33 +20,33 @@
 
 | 자리 | 문장 | 근거 |
 |---|---|---|
-| set_w02 133줄 | clear l | **근거 없음** |
-| set_w02 133줄 | dark l | **근거 없음** |
+| set_w02 129줄 | clear l | **근거 없음** |
+| set_w02 129줄 | dark l | **근거 없음** |
 | set_w04 28줄 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
-| set_w04 170줄 | I want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 25 |
-| set_w04 170줄 | We want to | lle1-45:42 |
-| set_w04 171줄 | She wants to | lle1-33:4 |
-| set_w04 184줄 | has to | lle1-21:14 |
-| set_w04 184줄 | have to | lle1-02:10 / lle1-07:29 / lle1-14:30 / lle1-15:3 외 21 |
-| set_w04 205줄 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
+| set_w04 134줄 | have to | lle1-02:10 / lle1-07:29 / lle1-14:30 / lle1-15:3 외 21 |
+| set_w04 169줄 | I want to | lle1-03:3 / lle1-03:14 / lle1-03:18 / lle1-05:1 외 25 |
+| set_w04 169줄 | We want to | lle1-45:42 |
+| set_w04 170줄 | She wants to | lle1-33:4 |
+| set_w04 182줄 | has to | lle1-21:14 |
+| set_w04 203줄 | ought to | lle1-25:21 / lle1-26:20 / lle1-31:28 / lle1-41:17 |
 | set_w05 30줄 | lot of | lle1-20:33 / lle1-22:7 / lle1-22:29 / lle1-24:12 외 10 |
 | set_w05 30줄 | out of | lle1-23:26 / lle1-23:28 / lle1-23:29 / lle1-32:34 외 5 |
 | set_w05 30줄 | kind of | lle1-24:13 / lle1-24:14 / lle1-25:8 / lle1-30:33 |
 | set_w05 30줄 | sort of | **근거 없음** |
-| set_w05 135줄 | should go | lle1-31:19 |
-| set_w05 135줄 | should have gone | **근거 없음** |
+| set_w05 133줄 | should go | lle1-31:19 |
+| set_w05 133줄 | should have gone | **근거 없음** |
 | set_w08 68줄 | You are ready | lle1-28:21 |
 | set_w09 104줄 | Nice to meet you | lle1-01:4 / lle1-01:5 / lle1-02:13 / lle1-07:14 외 2 |
 | set_w09 104줄 | Good to see you | **근거 없음** |
 | set_w09 138줄 | Can you | lle1-14:22 / lle1-14:25 / lle1-20:14 / lle1-20:17 외 17 |
 | set_w09 138줄 | Could you | lle1-43:23 / lle1-43:34 |
 | set_w09 138줄 | Would you mind | **근거 없음** |
-| set_w11 136줄 | on Friday | lle1-17:9 |
+| set_w11 135줄 | on Friday | lle1-17:9 |
 | set_w14 135줄 | give me | lle1-26:7 / lle1-32:14 / lle1-33:9 / lle1-43:12 외 3 |
 | set_w14 135줄 | let me | lle1-14:19 / lle1-18:13 / lle1-20:13 / lle1-20:15 외 6 |
 | set_w14 135줄 | don't know | lle1-14:1 / lle1-20:12 / lle1-20:32 / lle1-21:7 외 3 |
 | set_w19 66줄 | I think | lle1-27:8 / lle1-27:19 / lle1-34:31 / lle1-34:41 외 11 |
-| set_w19 180줄 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
+| set_w19 179줄 | going to | lle1-14:1 / lle1-17:6 / lle1-17:16 / lle1-17:22 외 25 |
 | set_w25 70줄 | Let me think | **근거 없음** |
 | set_w27 174줄 | Go ahead | **근거 없음** |
 | set_w33 42줄 | It's like | lle1-19:22 / lle1-25:12 |

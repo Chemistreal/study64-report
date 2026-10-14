@@ -398,7 +398,8 @@ def handouts():
     return rows, bad
 
 
-EMG_HEAD = re.compile(r"^##\s*(\d{3})\s+(.+?인출)\s*$", re.M)
+# 제목은 "인출" 로 끝나지 않아도 된다 (게임이 읽는 제목은 풀어 쓴 말이다). "없는 이유" 절은 비상판이 아니다.
+EMG_HEAD = re.compile(r"^##\s*(\d{3})\s+((?:(?!없는 이유).)+?)\s*$", re.M)
 
 
 def emergency():
