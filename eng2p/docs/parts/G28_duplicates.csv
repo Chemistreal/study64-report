@@ -1,0 +1,215 @@
+quarter,cards,material,kind,judgment
+Q1,Q1-001;Q1-005,I am Pete.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-001;Q1-006,Are you Anna?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-001;Q1-017;Q1-093,I want a book.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-001;Q1-007,She has a car.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-002;Q1-005;Q1-102;Q1-103;Q1-104;Q1-106,Nice to meet you.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-002;Q1-005,We cook in the kitchen.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-002;Q1-006,I sleep in the bedroom.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-002;Q1-006;Q1-126,The gym is across from the lounge.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-003;Q1-006;Q1-082,One day is cold and windy.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-003;Q1-005;Q1-082,Every day I check the forecast.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-003;Q1-121;Q1-122,Every day I learn more about this great city.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-008;Q1-012;Q1-035;Q1-036;Q1-037,street,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-008;Q1-012,spring,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-008;Q1-012,school,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-008;Q1-012,strong,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-008;Q1-012,splash,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-009;Q1-025;Q1-027;Q1-035;Q1-036,milk,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-011;Q1-013;Q1-020;Q1-035;Q1-036;Q1-037,asked,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-011;Q1-013,helped,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-011;Q1-013,worked,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-011;Q1-013,jumped,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-011;Q1-013;Q1-020,walked,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-015;Q1-019;Q1-021,book,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-015;Q1-019;Q1-021,cat,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-015;Q1-019;Q1-021,map,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-015;Q1-019;Q1-021,bed,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-015;Q1-019;Q1-021,dog,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-018;Q1-020,books,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-018;Q1-020,cats,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-018;Q1-020,maps,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-023;Q1-026,feel,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-023;Q1-026,ball,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-023;Q1-026,call,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-023;Q1-026;Q1-144,well,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-023;Q1-026,tell,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-025;Q1-027;Q1-028,help,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-025;Q1-027,old,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-025;Q1-027;Q1-028;Q1-035;Q1-036,cold,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-025;Q1-027,salt,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-029;Q1-033;Q1-034,she / see,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-029;Q1-033;Q1-034,sheet / seat,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-029;Q1-033;Q1-034,ship / sip,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-029;Q1-033;Q1-034,shore / sore,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-029;Q1-033;Q1-034,shy / sigh,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-035;Q1-036,she,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-037;Q1-039;Q1-040,Wednesday,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-037;Q1-039;Q1-040,business,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-039;Q1-040,chocolate,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-039;Q1-040,comfortable,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-039;Q1-040,vegetable,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-041;Q1-046;Q1-054;Q1-061;Q1-068,going to,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-058;Q1-061;Q1-068,want to,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-056;Q1-061;Q1-068,got to,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068,have to,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068;Q1-069,ought to,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-042;Q1-047,I'm gonna go.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-042;Q1-047,He's gonna help.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-043;Q1-047,You have to wait.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-043;Q1-047,She ought to know.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-043;Q1-047,We gotta leave.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-049;Q1-054;Q1-061;Q1-062;Q1-068,has to,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068,a lot of,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068;Q1-075,out of,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068,kind of,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068,sort of,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-064;Q1-068;Q1-069,what are you,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-064;Q1-068;Q1-069,would you,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-064;Q1-068,could you,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-064;Q1-068;Q1-069,should have,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-064;Q1-068,would have,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-065;Q1-116;Q1-118,Could you wait here?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-066;Q1-067,I should go. / I should have gone.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-068;Q1-069,could have,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-071;Q1-075;Q1-076,an apple,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-071;Q1-075;Q1-076,pick it up,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-071;Q1-076,turn it off,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-072;Q1-076,take it easy,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-072;Q1-076,check it out,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-078;Q1-082;Q1-083,I can go today.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-078;Q1-082;Q1-083,She was at home.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-078;Q1-082;Q1-083,We are from Korea.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-078;Q1-083,They are at the park.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-078;Q1-083,He is a teacher.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-084;Q1-086,want / book,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-085;Q1-088;Q1-089,I am going to the store.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-085;Q1-086;Q1-088;Q1-089;Q1-097,She works in a big office.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-085;Q1-088;Q1-089,We can meet you tomorrow.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-085;Q1-086;Q1-088;Q1-089,They have a lot of time.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-085;Q1-088;Q1-089,He is reading a new book.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-091;Q1-094,What do you want? / I want a book.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-091;Q1-094,Who works here? / She works here.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-091;Q1-094,When do we need it? / We need it now.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-093;Q1-095;Q1-099,She works here.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-095;Q1-099,I am from Korea.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-095;Q1-099,Are you from Korea?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-095;Q1-099;Q1-102;Q1-103;Q1-104;Q1-106;Q1-110;Q1-112;Q1-128;Q1-133,Where are you from?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-095;Q1-099,Does she work here?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-097;Q1-116;Q1-118,Can you help me?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-097;Q1-109;Q1-110;Q1-112,Where is the library?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-102;Q1-104;Q1-106;Q1-110;Q1-112,Who is your friend,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-102;Q1-103;Q1-104;Q1-106,I have to go now,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-104;Q1-106,Let's go,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-109;Q1-110,Where is your apartment?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-116;Q1-118;Q1-128;Q1-133,Would you mind closing the door?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-116;Q1-118;Q1-127,Can you say that again?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-116;Q1-118,Can you come here?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-121;Q1-122;Q1-126,The library is on this street on the corner.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-121;Q1-122;Q1-126,Friday nights are when I visit my parents.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-121;Q1-122,The gym is across from the lounge next to the mailroom.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-123;Q1-126,I will reimburse you tomorrow.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q1,Q1-123;Q1-126,We need a preliminary answer.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-007;Q2-130,Okay then.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-008;Q2-037,How about you?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-008;Q2-022;Q2-092,Um-hum.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-008;Q2-037,What do you think?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-008;Q2-022;Q2-037,Right.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-008;Q2-037,And you?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-009;Q2-065,My favorite is,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-013;Q2-039,It was fine.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-014;Q2-065,"In fact,",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-015;Q2-027;Q2-030;Q2-049,I work here.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-015;Q2-023;Q2-049,This job is great.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-019;Q2-021,give me,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-019;Q2-021,let me,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-019;Q2-021,do not know,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-019;Q2-021,going to,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-019;Q2-021;Q2-124;Q2-126,want to,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-023;Q2-053,Working outdoors is nice.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-030;Q2-057,She called me.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-030;Q2-049,The store was closed.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-030;Q2-073,I like this place.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-034;Q2-094,I put the flour in the refrigerator.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-034;Q2-094,She works at the same place.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-034;Q2-057,We are cooking for friends.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-050;Q2-053;Q2-095,I have so much to tell you.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q2,Q2-124;Q2-126,next time,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-002;Q3-022;Q3-038;Q3-040;Q3-096;Q3-099,Where are you from?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-002;Q3-038;Q3-039;Q3-095,Do you have a pen?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-002;Q3-039;Q3-095;Q3-099,Are you okay?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-002;Q3-022;Q3-039,Is there a supermarket near here?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-003;Q3-040;Q3-096;Q3-099,What is wrong?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-003;Q3-082,Why do you have a map of the world?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-003;Q3-038;Q3-040;Q3-096,What did you do?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-003;Q3-006;Q3-038;Q3-040;Q3-096,How's the new apartment?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-003;Q3-039,Do you have a doctor?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-004;Q3-039;Q3-063;Q3-068;Q3-095,Do you want some water?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-004;Q3-038;Q3-039,Can you write code?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-005;Q3-006;Q3-024;Q3-025,What do you want to do this weekend?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-005;Q3-006;Q3-025,Why did you choose that one?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-005;Q3-025,What is the best way to get there?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-005;Q3-024,How do you make it?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-005;Q3-024;Q3-025,What would you do first?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-008;Q3-009,I can't.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-010;Q3-012;Q3-063;Q3-068,Can you help me now?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-010;Q3-012;Q3-063;Q3-068,Do you want to go with me?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-010;Q3-012;Q3-068,Can we start earlier?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-012;Q3-068,Can you take this one too?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-020;Q3-057,My delivery will arrive in 2 days.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-020;Q3-057;Q3-120,There are nine innings in a game.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-022;Q3-040,Where do you live?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-022;Q3-040,Who is your roommate?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-025;Q3-040,How long does it take?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-026;Q3-028;Q3-050,"If you want to see the White House, you need to walk.",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-026;Q3-050;Q3-101,"When you find an American symbol, you win points.",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-026;Q3-069,"If it works, we can go together.",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-026;Q3-038;Q3-040,When did you start feeling sick?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-026;Q3-069;Q3-078,"If I can, I will call you back.",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-026;Q3-028;Q3-069;Q3-078,"When you get there, send me a message.",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-026;Q3-028;Q3-069,"If you want, we can stop now.",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-027;Q3-070,If you want,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-039;Q3-095,Are you ready?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-039;Q3-095,Can you help me?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-045;Q3-046,But this game is really fun.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-051;Q3-060;Q3-062;Q3-097,It was really windy today,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-051;Q3-057;Q3-078,The supermarket is near the apartment,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-051;Q3-060;Q3-077,We will be driving for a long time,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-051;Q3-060;Q3-062;Q3-097;Q3-099;Q3-120,I am a little nervous,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-056;Q3-139,I am tired of my untidy hair. / Are you tired of your untidy hair?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-057;Q3-077;Q3-082;Q3-120,I have a pen in my bag.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-057;Q3-097;Q3-099;Q3-120,This game is really fun.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-060;Q3-062;Q3-097,I don't have a skill.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-060;Q3-062,I started today.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-060;Q3-120;Q3-122,I want to cook dinner.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-060;Q3-120;Q3-122,She is new to D.C.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-060;Q3-062;Q3-097;Q3-120;Q3-122,I love running.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-069;Q3-077,"If I were you, I would call first.",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-077;Q3-082,It is a big book.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-078;Q3-082,I am tired of my untidy hair.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-086;Q3-103,supermarket,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q3,Q3-101;Q3-102,You have to find things that aren't really there.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-002;Q4-020;Q4-023;Q4-134,Where are you from?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-002;Q4-019;Q4-023;Q4-147,Do you have a pen?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-002;Q4-019;Q4-023;Q4-134,Are you okay?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-003;Q4-020,What is wrong?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-003;Q4-020;Q4-023;Q4-134,What did you do?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-003;Q4-020,How's the new apartment?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-004;Q4-019,Do you want some water?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-013;Q4-053;Q4-103,"Yes, it is.",exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-015;Q4-021;Q4-134,This game is really fun.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-015;Q4-021;Q4-147,It was really windy today.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-015;Q4-021;Q4-147,I love running.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-019;Q4-023;Q4-147,Can you help me?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-020;Q4-147,When did you start?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-021;Q4-134,I am a little nervous.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-053;Q4-103,Me too.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-053;Q4-103,I know.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-053;Q4-103,Really?,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-053;Q4-103,That's good.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-090;Q4-128,Two robbers were grabbing her bag like this.,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-094;Q4-131,was too far away,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-094;Q4-131,had no time,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-094;Q4-131,didn't have my own umbrella,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-094;Q4-131,had a lot of time,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.
+Q4,Q4-129;Q4-130,53강 if 와 when,exact lexical material,B 의도적 반복/다른 목표 여부를 함께 검토한다.

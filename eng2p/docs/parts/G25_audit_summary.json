@@ -1,0 +1,54 @@
+{
+  "sessions": 96,
+  "unique_full_lecture_handout_pairs": 32,
+  "full_set_steps": 384,
+  "finding_rows": 158,
+  "kind_counts": {
+    "content": 143,
+    "cards": 4,
+    "progress": 2,
+    "schedule": 9
+  },
+  "week_counts": {
+    "9": 15,
+    "10": 19,
+    "11": 16,
+    "12": 23,
+    "13": 17,
+    "18": 37,
+    "14": 21,
+    "15": 15,
+    "16": 23,
+    "17": 28,
+    "19": 35,
+    "20": 25,
+    "21": 27,
+    "22": 21,
+    "23": 20,
+    "24": 37
+  },
+  "worst_five_weeks": [
+    [
+      18,
+      37
+    ],
+    [
+      24,
+      37
+    ],
+    [
+      19,
+      35
+    ],
+    [
+      17,
+      28
+    ],
+    [
+      21,
+      27
+    ]
+  ],
+  "status": "done",
+  "source_changed": false
+}

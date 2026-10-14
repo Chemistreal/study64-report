@@ -1,0 +1,6 @@
+file,count,checked,full text read,mechanical scope,CEFR,audio/UI,A/B
+out/data/ext_radio.json,89,89,89,"metadata, source, provenance, words, placement, dates",unknown,unrun,B
+out/data/ext_notices.json,24,24,24,"metadata, source, provenance, words, placement, dates",unknown,unrun,B
+out/data/ext_readers.json,10,10,10,"metadata, source, provenance, words, placement, dates",unknown,unrun,B
+out/data/ext_smalltalk.json,2580,2580,2580,"metadata, source, provenance, words, placement, dates",unknown,unrun,B
+out/data/ext_calendar.json,48,48,48,"metadata, source, provenance, words, placement, dates",unknown,unrun,B

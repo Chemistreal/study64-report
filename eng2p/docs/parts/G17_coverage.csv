@@ -1,0 +1,13 @@
+unit,count,checked,problems,proposed
+dukes_dinner,52,52,0,52
+marukame_udon,56,56,1,56
+ala_moana_shopping,45,45,0,45
+grocery_store,51,51,1,51
+pharmacy,48,48,0,48
+thebus_ride,51,51,1,51
+bank_post_office,49,49,1,49
+taxi_ride,48,48,0,48
+library_card,51,51,0,51
+clinic_visit,54,54,0,54
+ala_moana_returns,51,51,1,51
+phone_and_laundry,50,50,0,50

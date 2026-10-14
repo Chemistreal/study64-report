@@ -1,0 +1,80 @@
+term,first use lecture,first use line,first substantive lecture,explanation lecture candidate,explanation line candidate,first context,explanation context,status,A/B
+3인칭,5,53,5,not found,,복수형 어미와 3인칭 어미가 전부 s 계열이라 등장 빈도가 아주 높다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+LRE,1,127,1,61,11,그 목록이 미해결 LRE가 되고 주간 판정 세션의 입력이 된다.,Q3 통과 조건에 LRE 세션당 8회 이상이 있다.,candidate; explanation quality requires manual review,B
+clear l,4,14,4,4,14,"light, look, learn 의 첫소리가 그것이다. 이걸 clear l 이라고 부른다.","light, look, learn 의 첫소리가 그것이다. 이걸 clear l 이라고 부른다.",candidate; explanation quality requires manual review,B
+dark l,3,177,4,4,18,4강은 dark l 이다. 낱말 끝이나 자음 앞에 오는 l 소리를 다룬다.,소리가 목구멍 쪽으로 물러난다. 이걸 dark l 이라고 부른다.,candidate; explanation quality requires manual review,B
+repair,1,139,1,not found,,007 은 repair형이다. NPC 가 중간에 일부러 박자를 흐트러뜨린다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+강세,1,11,1,1,11,영어 문장에서 시간을 먹는 건 음절이 아니라 강세다.,영어 문장에서 시간을 먹는 건 음절이 아니라 강세다.,candidate; explanation quality requires manual review,B
+강세 박자,1,92,1,1,92,강세 박자로 들으면 NEED 와 NOW 두 기둥이 서고 I 와 it 이 그 사이에 끼어 있다.,강세 박자로 들으면 NEED 와 NOW 두 기둥이 서고 I 와 it 이 그 사이에 끼어 있다.,candidate; explanation quality requires manual review,B
+과거분사,10,36,10,not found,,세 형태 다 뒤에 과거분사가 온다. 그 자리가 단서다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+과거형,2,34,2,2,34,asked 는 과거형 어미가 붙어 자음 셋이 이어진다.,asked 는 과거형 어미가 붙어 자음 셋이 이어진다.,candidate; explanation quality requires manual review,B
+관계대명사,32,69,32,not found,,부정사나 관계대명사 같은 말이 먼저 떠오르면 그 말에 맞는 규칙을 찾게 된다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+관사,1,39,1,not found,,"눌린 음절은 소리가 거의 사라지는데, 그 자리에 있는 게 관사와 전치사와 조동사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+구개음화,4,172,5,5,70,5강은 구개음화다. 한국어 규칙이 영어로 넘어가서 s 소리를 바꿔 놓는 자리를 다룬다.,한국어에는 구개음화 규칙이 있다.,candidate; explanation quality requires manual review,B
+기능어,1,46,1,1,46,"전자를 내용어, 후자를 기능어라고 부른다.","전자를 내용어, 후자를 기능어라고 부른다.",candidate; explanation quality requires manual review,B
+낱말,1,44,1,1,44,"내용을 나르는 낱말이 강세를 갖는다. 명사, 동사, 형용사, 부사, 의문사다.","내용을 나르는 낱말이 강세를 갖는다. 명사, 동사, 형용사, 부사, 의문사다.",candidate; explanation quality requires manual review,B
+내용어,1,46,1,1,46,"전자를 내용어, 후자를 기능어라고 부른다.","전자를 내용어, 후자를 기능어라고 부른다.",candidate; explanation quality requires manual review,B
+단순 과거,10,69,10,not found,,조동사 뒤의 have 가 안 들리면 그 문장을 단순 과거로 받아들이게 된다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+대명사,1,45,1,not found,,"문법을 붙잡는 낱말은 강세를 안 갖는다. 관사, 전치사, 접속사, 대명사, 조동사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+대조,1,120,1,4,145,손뼉 맞추기를 건너뛰면 두 사람의 기준 박자가 달라져 대조가 성립하지 않는다.,블록 2 대조 교차에서는 NPC 가 clear l 과 dark l 의 자리 규칙을 설명하고 둘이 같이 듣는다.,candidate; explanation quality requires manual review,B
+동사,1,44,1,not found,,"내용을 나르는 낱말이 강세를 갖는다. 명사, 동사, 형용사, 부사, 의문사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+레지스터,14,154,14,20,13,질문이 바뀌면 강세가 옮겨 간다는 것이 20강 레지스터와 24강 여닫기의 바닥이다.,**같은 내용을 상대에 따라 다르게 말한다. 그 거리를 레지스터라고 부른다.**,candidate; explanation quality requires manual review,B
+명사,1,44,1,not found,,"내용을 나르는 낱말이 강세를 갖는다. 명사, 동사, 형용사, 부사, 의문사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+모음,1,182,2,not found,,자음군 하나에 모음이 끼면 그 자리에서 한 박자가 더 생긴다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+모음 삽입,2,66,2,2,66,이것이 모음 삽입이다.,이것이 모음 삽입이다.,candidate; explanation quality requires manual review,B
+목적어,8,40,8,not found,,뒤에 동사가 와야 줄어든다. 목적어가 오면 안 준다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+무성음,38,19,38,not found,,1형 앞이 무성음이면 t 소리,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+문말 억양,15,62,15,15,62,한국어에도 문말 억양이 있다. 그래서 이 자리는 아주 낯설지는 않다.,한국어에도 문말 억양이 있다. 그래서 이 자리는 아주 낯설지는 않다.,candidate; explanation quality requires manual review,B
+문법,1,40,1,1,40,문법 시간에 제일 자주 나오는 것들이 소리에서는 제일 안 들린다.,문법 시간에 제일 자주 나오는 것들이 소리에서는 제일 안 들린다.,candidate; explanation quality requires manual review,B
+문장,1,11,1,1,54,영어 문장에서 시간을 먹는 건 음절이 아니라 강세다.,강세 자리를 못 잡으면 낱말을 아무리 외워도 문장이 안 들린다.,candidate; explanation quality requires manual review,B
+문장 강세,12,160,12,not found,,14강 문장 강세의 준비물이기 때문이다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+반례,2,150,2,2,151,둘이 그 설명에 반례를 하나 찾아 붙인다. 같은 말을 반복하지 않는다. A가 먼저 말하고 B가 잇는다.,반례가 안 나오면 규칙이 너무 넓게 잡힌 것이다.,candidate; explanation quality requires manual review,B
+복수,2,35,2,2,35,texts 는 복수형 어미가 붙어 자음 넷이 이어진다.,texts 는 복수형 어미가 붙어 자음 넷이 이어진다.,candidate; explanation quality requires manual review,B
+부사,1,44,1,not found,,"내용을 나르는 낱말이 강세를 갖는다. 명사, 동사, 형용사, 부사, 의문사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+부정어,13,55,13,13,55,또 하나는 부정어다. not 은 기능어인데 강세를 받는다.,또 하나는 부정어다. not 은 기능어인데 강세를 받는다.,candidate; explanation quality requires manual review,B
+서술어,21,71,21,not found,,한국어는 서술어가 문장 끝에 온다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+소유,8,35,8,8,35,have 는 소유의 뜻일 때와 의무의 뜻일 때가 있다.,have 는 소유의 뜻일 때와 의무의 뜻일 때가 있다.,candidate; explanation quality requires manual review,B
+수식,62,59,62,not found,,한국어에서는 수식이 언제나 명사 앞에 오므로,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+시제,3,73,3,not found,,한국어에서는 시제와 수를 뒤에 붙는 음절로 표시하므로,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+약모음,11,179,11,not found,,12강은 약모음이다. 강세 없는 자리의 모음이 뭉개지는 현상을 다룬다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+약형,33,128,33,not found,,28강 축약 카드와 053 을 붙여 돌리면 약형과 눌림이 한자리에서 보인다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+어미,2,33,2,2,34,뒤에 붙는 자음군은 어미에서 많이 나온다.,asked 는 과거형 어미가 붙어 자음 셋이 이어진다.,candidate; explanation quality requires manual review,B
+어순,14,27,14,14,27,한국어라면 어순을 바꾸거나 조사를 붙여서 표시할 것을 영어는 소리로 한다.,한국어라면 어순을 바꾸거나 조사를 붙여서 표시할 것을 영어는 소리로 한다.,candidate; explanation quality requires manual review,B
+억양,14,174,15,15,13,15강은 억양이다. 문장 끝을 올리는지 내리는지가 뜻을 어떻게 가르는지 다룬다.,**소리의 높이가 문장 끝에서 올라가는지 내려가는지를 억양이라고 부른다.**,candidate; explanation quality requires manual review,B
+연음,2,157,2,11,14,자음군은 3강의 어말 자음과 11강의 연음이 딛고 서는 바닥이라,이걸 연음이라고 부른다.,candidate; explanation quality requires manual review,B
+원형,7,89,7,not found,,말하기는 또박또박 해도 된다. 대신 줄어든 소리를 들었을 때 원형을 복원할 수 있어야 한다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+유성음,8,26,8,8,26,have to 와 has to 는 다르다. 앞 낱말 끝의 유성음이 무성음으로 바뀐다.,have to 와 has to 는 다르다. 앞 낱말 끝의 유성음이 무성음으로 바뀐다.,candidate; explanation quality requires manual review,B
+유음,4,54,4,4,54,한국어에는 유음이 하나뿐이다. 자리에 따라 두 소리로 갈리는 구분이 없다.,한국어에는 유음이 하나뿐이다. 자리에 따라 두 소리로 갈리는 구분이 없다.,candidate; explanation quality requires manual review,B
+음성,1,144,1,1,150,같은 음성을 세 번 듣되 회차마다 찾을 것을 바꾼다.,블록 1 함께 듣기 40분에는 같은 음성을 둘이 같이 반복해서 듣는다.,candidate; explanation quality requires manual review,B
+음운,7,16,7,not found,,규칙적으로 일어나는 음운 현상이고 정중하게 말하는 자리에서도 일어난다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+음절,1,11,1,not found,,영어 문장에서 시간을 먹는 건 음절이 아니라 강세다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+음절 박자,1,63,1,1,63,한국어는 음절 박자 언어다. 음절마다 같은 시간을 주는 것이 규칙이다.,한국어는 음절 박자 언어다. 음절마다 같은 시간을 주는 것이 규칙이다.,candidate; explanation quality requires manual review,B
+의문사,1,44,1,not found,,"내용을 나르는 낱말이 강세를 갖는다. 명사, 동사, 형용사, 부사, 의문사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+인출,16,133,16,16,133,Q1에서 3초로 잡았다. Q2 통과 조건이 0.5초 인출이라 아직 여유가 있다.,Q1에서 3초로 잡았다. Q2 통과 조건이 0.5초 인출이라 아직 여유가 있다.,candidate; explanation quality requires manual review,B
+인칭,5,53,5,not found,,복수형 어미와 3인칭 어미가 전부 s 계열이라 등장 빈도가 아주 높다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+입술,3,23,3,3,106,map 은 입술을 붙였다 떼고 끝난다. 그 뒤에 아무 소리도 없다.,둘이 나란히 앉아 같은 카드만 본다. 입술이 붙었다 떨어지는 걸 보면 눈으로 세게 된다.,candidate; explanation quality requires manual review,B
+입천장,4,17,4,4,17,"혀끝은 잇몸에 닿거나 닿지 않아도 되고, 혀 뒤쪽이 입천장 뒤로 올라간다.","혀끝은 잇몸에 닿거나 닿지 않아도 되고, 혀 뒤쪽이 입천장 뒤로 올라간다.",candidate; explanation quality requires manual review,B
+잇몸,3,22,3,3,22,good 은 끝에서 혀끝을 잇몸에 붙였다 떼고 끝난다.,good 은 끝에서 혀끝을 잇몸에 붙였다 떼고 끝난다.,candidate; explanation quality requires manual review,B
+자동화,19,159,19,25,21,Q1 통과 조건에 되묻기 3형 자동화가 들어 있고 그것만 12주 내내 재기 때문이다.,둘 사이의 거리를 자동화라고 부른다.,candidate; explanation quality requires manual review,B
+자음,2,11,2,not found,,영어는 자음을 여러 개 붙여 놓고도 음절 하나로 처리한다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+자음 흡수,11,87,11,11,87,영어의 자음 흡수는 그 규칙과 비슷해 보이지만 범위가 다르다.,영어의 자음 흡수는 그 규칙과 비슷해 보이지만 범위가 다르다.,candidate; explanation quality requires manual review,B
+자음군,1,175,2,2,12,2강은 자음군이다. street 한 낱말을 세 덩어리로 늘려 읽게 만드는 힘을 다룬다.,이렇게 붙어 있는 덩어리를 자음군이라고 부른다.,candidate; explanation quality requires manual review,B
+전이,1,65,1,5,76,이것이 음절 박자 전이다.,이것이 구개음화 전이다.,candidate; explanation quality requires manual review,B
+전치사,1,39,1,not found,,"눌린 음절은 소리가 거의 사라지는데, 그 자리에 있는 게 관사와 전치사와 조동사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+접속사,1,45,1,not found,,"문법을 붙잡는 낱말은 강세를 안 갖는다. 관사, 전치사, 접속사, 대명사, 조동사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+정형,73,152,74,not found,,처음 만난 사람과는 정형이 없고 화제를 스스로 찾아야 한다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+조동사,1,39,1,not found,,"눌린 음절은 소리가 거의 사라지는데, 그 자리에 있는 게 관사와 전치사와 조동사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+종성,2,63,2,not found,,"한국어의 음절 구조는 초성 하나, 중성 하나, 종성 하나다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+주어,32,43,32,not found,,주어 다음에 be 동사나 have 가 오고 그다음에 형용사나 명사가 온다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+중성,2,63,2,not found,,"한국어의 음절 구조는 초성 하나, 중성 하나, 종성 하나다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+청크,10,172,16,16,16,11강부터 15강까지 다섯 강이 남았고 그 뒤로 청크와 화용이 온다.,**자주 쓰는 덩어리를 통째로 꺼내 쓴다. 그 덩어리를 청크라고 부른다.**,candidate; explanation quality requires manual review,B
+초성,2,63,2,not found,,"한국어의 음절 구조는 초성 하나, 중성 하나, 종성 하나다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+초점,1,142,1,1,142,미디어는 lle1-01 을 쓴다. 1회차 초점은 소리다.,미디어는 lle1-01 을 쓴다. 1회차 초점은 소리다.,candidate; explanation quality requires manual review,B
+최소대립쌍,5,159,5,not found,,최소대립쌍은 듣기 판정이 먼저 서야 하므로 산출 카드는 뒤로 미룬다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+축약,2,91,2,7,12,축약 20종 식별이 그것이다. 축약은 자음이 더 빽빽하게 붙는 형태다.,붙으면 소리가 줄어든다. 이걸 축약이라고 부른다.,candidate; explanation quality requires manual review,B
+평서문,15,17,15,15,43,평서문은 끝을 내린다.,다섯 번째 쓰임도 있다. 평서문 끝을 올리면 질문이 된다.,candidate; explanation quality requires manual review,B
+표기 유도 오류,2,77,2,2,77,이것이 표기 유도 오류다. 습관 문제가 아니라 표기 체계가 오발음을 생산하는 구조다.,이것이 표기 유도 오류다. 습관 문제가 아니라 표기 체계가 오발음을 생산하는 구조다.,candidate; explanation quality requires manual review,B
+혀끝,2,83,2,3,22,"""윗니 뒤에 혀끝을 대고 바람만 내보낸다"" 같은 형태다. 이건 한국어로 적어도 된다.",good 은 끝에서 혀끝을 잇몸에 붙였다 떼고 끝난다.,candidate; explanation quality requires manual review,B
+형용사,1,44,1,not found,,"내용을 나르는 낱말이 강세를 갖는다. 명사, 동사, 형용사, 부사, 의문사다.",명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B
+화석화,7,93,7,7,93,Q1의 목표는 화석화 없이 넘어가는 것이지 빨리 말하는 것이 아니다.,Q1의 목표는 화석화 없이 넘어가는 것이지 빨리 말하는 것이 아니다.,candidate; explanation quality requires manual review,B
+화용,10,172,14,not found,,11강부터 15강까지 다섯 강이 남았고 그 뒤로 청크와 화용이 온다.,명시 풀이 후보 없음. 이름만 나열한 목록은 뜻 풀이로 인증하지 않음.,candidate; explanation quality requires manual review,B

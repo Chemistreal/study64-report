@@ -1,0 +1,2851 @@
+{
+  "input_files": [
+    "validation/week5/G20_check_source/study/eng2p/out/game/sessions.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/cards.json",
+    "validation/week5/G20_check_source/study/eng2p/out/game/transcripts.json",
+    "validation/week5/G20_check_source/study/eng2p/out/game/outings.json",
+    "validation/week5/G20_check_source/study/eng2p/out/game/authored.json",
+    "validation/week5/G20_check_source/study/eng2p/out/game/acts.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/lectures.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/sets.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/index.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/playblocks.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/track.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/halves.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/manifest.json",
+    "validation/week5/G20_check_source/study/eng2p/out/data/index_q1.js",
+    "validation/week5/G20_check_source/study/eng2p/out/data/index_q2.js",
+    "validation/week5/G20_check_source/study/eng2p/out/data/index_q3.js",
+    "validation/week5/G20_check_source/study/eng2p/out/data/index_q4.js",
+    "validation/week5/G20_check_source/study/eng2p/docs/authored_words.md",
+    "validation/week5/G20_check_source/study/eng2p/docs/parts/G2_authored_words.md",
+    "validation/week5/G20_check_source/study/eng2p/docs/parts/G3_authored_words.md",
+    "validation/week5/G20_check_source/study/eng2p/docs/parts/G5_authored_words.md",
+    "deliverables_week5/G17/files/study/eng2p/docs/parts/G17_authored_lines_v2.md",
+    "deliverables_week5/G18/files/study/eng2p/docs/parts/G18_authored_lines_v2.md",
+    "deliverables_week5/G19/files/study/eng2p/docs/parts/G19_authored_lines_v2.md"
+  ],
+  "sessions": 288,
+  "audited_rows": 240,
+  "cards": 600,
+  "fresh_media": 52,
+  "all_new_words": 1869,
+  "quarter_split_weeks": {
+    "Q1": 12,
+    "Q2": 12,
+    "Q3": 12,
+    "Q4": 12
+  },
+  "card_visits": 4281,
+  "today_visits": 1951,
+  "review_visits": 2330,
+  "block3_sum": 20460,
+  "block3_mean": 71.04166666666667,
+  "day_mean": 161.04166666666666,
+  "max_day": [
+    317,
+    287
+  ],
+  "days_ge180": 85,
+  "days_ge240": 27,
+  "year_hours": 773.0,
+  "legacy_over30": 209,
+  "legacy_runs": [
+    [
+      5,
+      5
+    ],
+    [
+      7,
+      7
+    ],
+    [
+      11,
+      11
+    ],
+    [
+      13,
+      13
+    ],
+    [
+      17,
+      17
+    ],
+    [
+      19,
+      19
+    ],
+    [
+      23,
+      23
+    ],
+    [
+      25,
+      26
+    ],
+    [
+      29,
+      29
+    ],
+    [
+      31,
+      38
+    ],
+    [
+      41,
+      41
+    ],
+    [
+      43,
+      43
+    ],
+    [
+      47,
+      47
+    ],
+    [
+      49,
+      50
+    ],
+    [
+      53,
+      53
+    ],
+    [
+      55,
+      56
+    ],
+    [
+      59,
+      59
+    ],
+    [
+      61,
+      61
+    ],
+    [
+      65,
+      65
+    ],
+    [
+      67,
+      67
+    ],
+    [
+      71,
+      71
+    ],
+    [
+      73,
+      73
+    ],
+    [
+      77,
+      77
+    ],
+    [
+      79,
+      80
+    ],
+    [
+      83,
+      83
+    ],
+    [
+      85,
+      86
+    ],
+    [
+      89,
+      89
+    ],
+    [
+      91,
+      92
+    ],
+    [
+      95,
+      95
+    ],
+    [
+      97,
+      98
+    ],
+    [
+      101,
+      111
+    ],
+    [
+      113,
+      113
+    ],
+    [
+      115,
+      116
+    ],
+    [
+      119,
+      119
+    ],
+    [
+      121,
+      122
+    ],
+    [
+      124,
+      129
+    ],
+    [
+      131,
+      131
+    ],
+    [
+      133,
+      134
+    ],
+    [
+      136,
+      147
+    ],
+    [
+      149,
+      149
+    ],
+    [
+      151,
+      153
+    ],
+    [
+      155,
+      155
+    ],
+    [
+      157,
+      158
+    ],
+    [
+      161,
+      161
+    ],
+    [
+      163,
+      164
+    ],
+    [
+      167,
+      167
+    ],
+    [
+      169,
+      189
+    ],
+    [
+      191,
+      201
+    ],
+    [
+      203,
+      212
+    ],
+    [
+      214,
+      225
+    ],
+    [
+      227,
+      288
+    ]
+  ],
+  "current_overflow": 0,
+  "nominal_schedule_mismatches": [],
+  "due_late_days_distribution": {
+    "0": 2904,
+    "1": 76
+  },
+  "all_card_visits_min": 3,
+  "carry": [
+    "Q4-133",
+    "Q4-134",
+    "Q4-135",
+    "Q4-136",
+    "Q4-137",
+    "Q4-138",
+    "Q4-139",
+    "Q4-140",
+    "Q4-141",
+    "Q4-142",
+    "Q4-143",
+    "Q4-144",
+    "Q4-145",
+    "Q4-146",
+    "Q4-147",
+    "Q4-148",
+    "Q4-149",
+    "Q4-150"
+  ],
+  "cards_below5": [
+    "Q4-133",
+    "Q4-134",
+    "Q4-135",
+    "Q4-136",
+    "Q4-137",
+    "Q4-138",
+    "Q4-139",
+    "Q4-140",
+    "Q4-141",
+    "Q4-142",
+    "Q4-143",
+    "Q4-144",
+    "Q4-145",
+    "Q4-146",
+    "Q4-147",
+    "Q4-148",
+    "Q4-149",
+    "Q4-150"
+  ],
+  "word_first_gap": {
+    "1": 1739,
+    "2": 10,
+    "4": 4,
+    "64": 1,
+    "3": 17,
+    "59": 1,
+    "156": 1,
+    "56": 2,
+    "68": 1,
+    "5": 4,
+    "9": 3,
+    "31": 1,
+    "22": 1,
+    "10": 2,
+    "245": 1,
+    "23": 1,
+    "134": 1,
+    "20": 1,
+    "237": 1,
+    "14": 1,
+    "65": 1,
+    "213": 1,
+    "141": 1,
+    "7": 1,
+    "58": 1,
+    "216": 2,
+    "120": 2,
+    "46": 1,
+    "43": 1,
+    "49": 1,
+    "128": 1,
+    "176": 1,
+    "194": 1,
+    "186": 1,
+    "42": 1,
+    "44": 2,
+    "125": 1,
+    "124": 1
+  },
+  "word_later_gaps": {
+    "1": 32163,
+    "2": 3027,
+    "6": 1245,
+    "7": 589,
+    "3": 1546,
+    "4": 1318,
+    "8": 647,
+    "16": 285,
+    "10": 425,
+    "5": 812,
+    "17": 112,
+    "9": 244,
+    "15": 161,
+    "28": 188,
+    "51": 78,
+    "11": 393,
+    "19": 153,
+    "48": 10,
+    "27": 63,
+    "25": 68,
+    "18": 432,
+    "13": 314,
+    "32": 74,
+    "83": 2,
+    "14": 310,
+    "12": 183,
+    "33": 31,
+    "49": 22,
+    "36": 104,
+    "67": 11,
+    "22": 89,
+    "53": 9,
+    "40": 123,
+    "103": 110,
+    "23": 103,
+    "31": 220,
+    "29": 54,
+    "35": 23,
+    "26": 168,
+    "21": 146,
+    "45": 50,
+    "20": 52,
+    "60": 6,
+    "34": 203,
+    "109": 4,
+    "30": 35,
+    "37": 19,
+    "39": 23,
+    "38": 120,
+    "47": 11,
+    "41": 10,
+    "44": 15,
+    "52": 105,
+    "88": 8,
+    "72": 4,
+    "64": 8,
+    "90": 2,
+    "220": 1,
+    "112": 7,
+    "43": 20,
+    "56": 3,
+    "55": 3,
+    "46": 53,
+    "42": 19,
+    "57": 4,
+    "76": 5,
+    "124": 3,
+    "50": 7,
+    "59": 3,
+    "66": 2,
+    "178": 1,
+    "81": 3,
+    "94": 5,
+    "85": 9,
+    "69": 2,
+    "70": 3,
+    "65": 1,
+    "24": 39,
+    "189": 1,
+    "121": 5,
+    "78": 3,
+    "82": 12,
+    "73": 9,
+    "118": 3,
+    "120": 2,
+    "75": 2,
+    "71": 3,
+    "84": 1,
+    "172": 3,
+    "97": 8,
+    "62": 2,
+    "98": 2,
+    "199": 1,
+    "58": 3,
+    "190": 1,
+    "176": 2,
+    "91": 5,
+    "148": 3,
+    "93": 2,
+    "95": 3,
+    "79": 4,
+    "117": 2,
+    "181": 3,
+    "54": 4,
+    "116": 2,
+    "61": 4,
+    "188": 2,
+    "100": 5,
+    "196": 2,
+    "114": 2,
+    "183": 1,
+    "157": 2,
+    "107": 5,
+    "105": 3,
+    "193": 1,
+    "101": 2,
+    "110": 3,
+    "169": 3,
+    "154": 2,
+    "123": 3,
+    "173": 1,
+    "104": 3,
+    "151": 2,
+    "108": 3,
+    "99": 2,
+    "166": 1,
+    "87": 1,
+    "63": 1,
+    "102": 2,
+    "89": 4,
+    "96": 1,
+    "68": 2,
+    "80": 2,
+    "92": 1,
+    "142": 2,
+    "106": 5,
+    "127": 3,
+    "115": 3,
+    "113": 2,
+    "139": 1
+  },
+  "word_never_again": [
+    [
+      "pat",
+      15
+    ],
+    [
+      "elevator",
+      17
+    ],
+    [
+      "enjoying",
+      17
+    ],
+    [
+      "bottles",
+      17
+    ],
+    [
+      "pool",
+      17
+    ],
+    [
+      "iced",
+      20
+    ],
+    [
+      "latte",
+      20
+    ],
+    [
+      "drinks",
+      20
+    ],
+    [
+      "cookie",
+      20
+    ],
+    [
+      "snacks",
+      22
+    ],
+    [
+      "cookies",
+      23
+    ],
+    [
+      "eleven",
+      23
+    ],
+    [
+      "coconut",
+      23
+    ],
+    [
+      "mango",
+      26
+    ],
+    [
+      "flavor",
+      26
+    ],
+    [
+      "lemon",
+      26
+    ],
+    [
+      "strawberry",
+      26
+    ],
+    [
+      "spoon",
+      26
+    ],
+    [
+      "musubi",
+      28
+    ],
+    [
+      "napkin",
+      28
+    ],
+    [
+      "egg",
+      28
+    ],
+    [
+      "spam",
+      28
+    ],
+    [
+      "spot",
+      30
+    ],
+    [
+      "chairs",
+      30
+    ],
+    [
+      "umbrellas",
+      30
+    ],
+    [
+      "malasadas",
+      37
+    ],
+    [
+      "half",
+      37
+    ],
+    [
+      "aloha",
+      37
+    ],
+    [
+      "total",
+      37
+    ],
+    [
+      "cinnamon",
+      37
+    ],
+    [
+      "receipt",
+      39
+    ],
+    [
+      "spicy",
+      39
+    ],
+    [
+      "sixteen",
+      39
+    ],
+    [
+      "rice",
+      39
+    ],
+    [
+      "bandages",
+      42
+    ],
+    [
+      "toothpaste",
+      42
+    ],
+    [
+      "soap",
+      42
+    ],
+    [
+      "price",
+      42
+    ],
+    [
+      "shampoo",
+      42
+    ],
+    [
+      "factory",
+      43
+    ],
+    [
+      "cake",
+      43
+    ],
+    [
+      "lemonade",
+      43
+    ],
+    [
+      "cheesecake",
+      43
+    ],
+    [
+      "sweet",
+      43
+    ],
+    [
+      "forks",
+      43
+    ],
+    [
+      "piece",
+      43
+    ],
+    [
+      "fare",
+      44
+    ],
+    [
+      "stairs",
+      46
+    ],
+    [
+      "view",
+      46
+    ],
+    [
+      "lookout",
+      46
+    ],
+    [
+      "toast",
+      47
+    ],
+    [
+      "snorkel",
+      48
+    ],
+    [
+      "touch",
+      48
+    ],
+    [
+      "fins",
+      48
+    ],
+    [
+      "masks",
+      48
+    ]
+  ],
+  "word_exposure_ge100": [
+    [
+      "new",
+      188
+    ],
+    [
+      "this",
+      275
+    ],
+    [
+      "i",
+      288
+    ],
+    [
+      "one",
+      171
+    ],
+    [
+      "to",
+      288
+    ],
+    [
+      "work",
+      171
+    ],
+    [
+      "hi",
+      160
+    ],
+    [
+      "but",
+      236
+    ],
+    [
+      "from",
+      188
+    ],
+    [
+      "is",
+      288
+    ],
+    [
+      "you",
+      288
+    ],
+    [
+      "and",
+      274
+    ],
+    [
+      "am",
+      252
+    ],
+    [
+      "it",
+      285
+    ],
+    [
+      "that",
+      271
+    ],
+    [
+      "need",
+      147
+    ],
+    [
+      "very",
+      115
+    ],
+    [
+      "are",
+      279
+    ],
+    [
+      "in",
+      281
+    ],
+    [
+      "big",
+      115
+    ],
+    [
+      "more",
+      169
+    ],
+    [
+      "has",
+      140
+    ],
+    [
+      "about",
+      201
+    ],
+    [
+      "there",
+      235
+    ],
+    [
+      "a",
+      286
+    ],
+    [
+      "city",
+      110
+    ],
+    [
+      "my",
+      265
+    ],
+    [
+      "out",
+      124
+    ],
+    [
+      "with",
+      182
+    ],
+    [
+      "well",
+      204
+    ],
+    [
+      "next",
+      248
+    ],
+    [
+      "the",
+      288
+    ],
+    [
+      "go",
+      244
+    ],
+    [
+      "two",
+      114
+    ],
+    [
+      "great",
+      196
+    ],
+    [
+      "today",
+      214
+    ],
+    [
+      "anna",
+      274
+    ],
+    [
+      "apartment",
+      101
+    ],
+    [
+      "she",
+      206
+    ],
+    [
+      "they",
+      176
+    ],
+    [
+      "we",
+      246
+    ],
+    [
+      "want",
+      219
+    ],
+    [
+      "like",
+      214
+    ],
+    [
+      "yes",
+      228
+    ],
+    [
+      "people",
+      122
+    ],
+    [
+      "washington",
+      172
+    ],
+    [
+      "no",
+      217
+    ],
+    [
+      "day",
+      128
+    ],
+    [
+      "see",
+      215
+    ],
+    [
+      "here",
+      241
+    ],
+    [
+      "hello",
+      163
+    ],
+    [
+      "let",
+      182
+    ],
+    [
+      "at",
+      236
+    ],
+    [
+      "her",
+      121
+    ],
+    [
+      "s",
+      265
+    ],
+    [
+      "where",
+      182
+    ],
+    [
+      "marsha",
+      116
+    ],
+    [
+      "what",
+      251
+    ],
+    [
+      "m",
+      139
+    ],
+    [
+      "c",
+      191
+    ],
+    [
+      "too",
+      183
+    ],
+    [
+      "not",
+      229
+    ],
+    [
+      "awesome",
+      102
+    ],
+    [
+      "how",
+      176
+    ],
+    [
+      "going",
+      185
+    ],
+    [
+      "thanks",
+      153
+    ],
+    [
+      "me",
+      250
+    ],
+    [
+      "good",
+      189
+    ],
+    [
+      "right",
+      171
+    ],
+    [
+      "oh",
+      178
+    ],
+    [
+      "d",
+      185
+    ],
+    [
+      "he",
+      103
+    ],
+    [
+      "on",
+      211
+    ],
+    [
+      "long",
+      102
+    ],
+    [
+      "love",
+      125
+    ],
+    [
+      "or",
+      104
+    ],
+    [
+      "so",
+      183
+    ],
+    [
+      "tell",
+      103
+    ],
+    [
+      "until",
+      193
+    ],
+    [
+      "call",
+      117
+    ],
+    [
+      "time",
+      247
+    ],
+    [
+      "help",
+      154
+    ],
+    [
+      "okay",
+      210
+    ],
+    [
+      "for",
+      247
+    ],
+    [
+      "your",
+      221
+    ],
+    [
+      "think",
+      106
+    ],
+    [
+      "then",
+      123
+    ],
+    [
+      "can",
+      234
+    ],
+    [
+      "take",
+      114
+    ],
+    [
+      "come",
+      126
+    ],
+    [
+      "have",
+      257
+    ],
+    [
+      "sure",
+      121
+    ],
+    [
+      "sorry",
+      136
+    ],
+    [
+      "do",
+      238
+    ],
+    [
+      "back",
+      116
+    ],
+    [
+      "now",
+      224
+    ],
+    [
+      "wait",
+      115
+    ],
+    [
+      "get",
+      153
+    ],
+    [
+      "all",
+      152
+    ],
+    [
+      "know",
+      190
+    ],
+    [
+      "of",
+      250
+    ],
+    [
+      "will",
+      166
+    ],
+    [
+      "please",
+      137
+    ],
+    [
+      "many",
+      121
+    ],
+    [
+      "really",
+      181
+    ],
+    [
+      "some",
+      134
+    ],
+    [
+      "when",
+      168
+    ],
+    [
+      "first",
+      168
+    ],
+    [
+      "look",
+      116
+    ],
+    [
+      "find",
+      109
+    ],
+    [
+      "don",
+      120
+    ],
+    [
+      "t",
+      170
+    ],
+    [
+      "why",
+      128
+    ],
+    [
+      "be",
+      190
+    ],
+    [
+      "fun",
+      106
+    ],
+    [
+      "start",
+      102
+    ],
+    [
+      "an",
+      113
+    ],
+    [
+      "was",
+      170
+    ],
+    [
+      "works",
+      103
+    ],
+    [
+      "little",
+      103
+    ],
+    [
+      "did",
+      161
+    ]
+  ],
+  "card_first_gap_sessions": {
+    "1": 600
+  },
+  "card_later_gap_sessions": {
+    "1": 687,
+    "2": 327,
+    "6": 531,
+    "18": 367,
+    "49": 20,
+    "103": 222,
+    "52": 234,
+    "15": 75,
+    "3": 178,
+    "51": 183,
+    "13": 53,
+    "5": 79,
+    "10": 50,
+    "8": 50,
+    "4": 25
+  },
+  "card_first_gap_days": {
+    "1": 600
+  },
+  "card_later_gap_days": {
+    "1": 446,
+    "2": 466,
+    "7": 531,
+    "21": 367,
+    "3": 230,
+    "57": 20,
+    "120": 196,
+    "60": 417,
+    "18": 75,
+    "15": 53,
+    "6": 53,
+    "12": 50,
+    "9": 50,
+    "4": 75,
+    "121": 26,
+    "5": 26
+  },
+  "consolidation_new_words": [],
+  "planned_early_token_rows": 1732,
+  "lecture_spacing_exceptions": [
+    [
+      48,
+      []
+    ],
+    [
+      70,
+      []
+    ],
+    [
+      72,
+      []
+    ],
+    [
+      86,
+      [
+        30
+      ]
+    ],
+    [
+      90,
+      [
+        30
+      ]
+    ],
+    [
+      92,
+      [
+        30
+      ]
+    ],
+    [
+      95,
+      [
+        30
+      ]
+    ],
+    [
+      96,
+      [
+        60
+      ]
+    ]
+  ],
+  "bands": {
+    "A1": {
+      "sessions": 50,
+      "new_words_mean": 16.28,
+      "block3_mean": 42.92,
+      "new_card_count": 114,
+      "new_card_minutes_mean": 3.456140350877193,
+      "new_role_share": 0.0
+    },
+    "A2": {
+      "sessions": 50,
+      "new_words_mean": 8.78,
+      "block3_mean": 47.06,
+      "new_card_count": 102,
+      "new_card_minutes_mean": 3.9705882352941178,
+      "new_role_share": 12.745098039215685
+    },
+    "B1": {
+      "sessions": 100,
+      "new_words_mean": 2.88,
+      "block3_mean": 70.76,
+      "new_card_count": 202,
+      "new_card_minutes_mean": 4.762376237623762,
+      "new_role_share": 16.33663366336634
+    },
+    "B2": {
+      "sessions": 88,
+      "new_words_mean": 3.727272727272727,
+      "block3_mean": 100.9659090909091,
+      "new_card_count": 182,
+      "new_card_minutes_mean": 6.6923076923076925,
+      "new_role_share": 32.417582417582416
+    }
+  },
+  "problems": [
+    {
+      "from": 49,
+      "to": 49,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 53,
+      "to": 53,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 55,
+      "to": 55,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 65,
+      "to": 65,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 77,
+      "to": 77,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 83,
+      "to": 83,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 85,
+      "to": 85,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 89,
+      "to": 89,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 95,
+      "to": 95,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 97,
+      "to": 97,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 101,
+      "to": 101,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 103,
+      "to": 104,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 107,
+      "to": 107,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 119,
+      "to": 119,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 121,
+      "to": 121,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 125,
+      "to": 125,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 127,
+      "to": 127,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 131,
+      "to": 131,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 137,
+      "to": 137,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 139,
+      "to": 139,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 143,
+      "to": 143,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 145,
+      "to": 145,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 149,
+      "to": 149,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 151,
+      "to": 151,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 155,
+      "to": 155,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 157,
+      "to": 157,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 161,
+      "to": 161,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 163,
+      "to": 163,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 167,
+      "to": 167,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 169,
+      "to": 169,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 173,
+      "to": 173,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 175,
+      "to": 176,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 179,
+      "to": 181,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 185,
+      "to": 185,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 191,
+      "to": 191,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 193,
+      "to": 193,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 197,
+      "to": 197,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 199,
+      "to": 199,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 203,
+      "to": 203,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 205,
+      "to": 205,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 209,
+      "to": 209,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 211,
+      "to": 211,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 215,
+      "to": 215,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 217,
+      "to": 217,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 221,
+      "to": 221,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 223,
+      "to": 223,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 227,
+      "to": 227,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 229,
+      "to": 230,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 233,
+      "to": 233,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 235,
+      "to": 235,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 239,
+      "to": 239,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 241,
+      "to": 242,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 245,
+      "to": 253,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 257,
+      "to": 257,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 259,
+      "to": 259,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 263,
+      "to": 263,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 265,
+      "to": 266,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 269,
+      "to": 269,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 271,
+      "to": 272,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 275,
+      "to": 275,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 277,
+      "to": 277,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 281,
+      "to": 281,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 283,
+      "to": 284,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 287,
+      "to": 287,
+      "kind": "a",
+      "issue": "하루 예상 소요 180분 이상",
+      "severity": "높음",
+      "metric": "90 + 오늘 카드 분 + 복습 분 >= 180",
+      "A/B": "B"
+    },
+    {
+      "from": 52,
+      "to": 52,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 55,
+      "to": 55,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 58,
+      "to": 58,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 67,
+      "to": 67,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 73,
+      "to": 73,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 76,
+      "to": 76,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 79,
+      "to": 79,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 82,
+      "to": 82,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 85,
+      "to": 85,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 88,
+      "to": 88,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 91,
+      "to": 91,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 93,
+      "to": 93,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 95,
+      "to": 95,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 97,
+      "to": 97,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 99,
+      "to": 99,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 112,
+      "to": 112,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 118,
+      "to": 118,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 124,
+      "to": 124,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 136,
+      "to": 136,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 145,
+      "to": 145,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 148,
+      "to": 148,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 151,
+      "to": 151,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 154,
+      "to": 154,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 157,
+      "to": 157,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 160,
+      "to": 160,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 163,
+      "to": 163,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 165,
+      "to": 165,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 167,
+      "to": 167,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 169,
+      "to": 169,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 171,
+      "to": 171,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 173,
+      "to": 173,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 202,
+      "to": 202,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 211,
+      "to": 211,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 217,
+      "to": 217,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 220,
+      "to": 220,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 223,
+      "to": 223,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 226,
+      "to": 226,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 229,
+      "to": 229,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 232,
+      "to": 232,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 235,
+      "to": 235,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 237,
+      "to": 237,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 239,
+      "to": 239,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 241,
+      "to": 241,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 243,
+      "to": 243,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 245,
+      "to": 245,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 253,
+      "to": 253,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 256,
+      "to": 256,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 259,
+      "to": 259,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 262,
+      "to": 262,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 280,
+      "to": 280,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 286,
+      "to": 286,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값의 1.5배 초과",
+      "severity": "검토",
+      "metric": "new_words > 1.5 * previous6_median; 중앙 0인 재개도 포함",
+      "A/B": "B"
+    },
+    {
+      "from": 49,
+      "to": 51,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 53,
+      "to": 53,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 94,
+      "to": 94,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 96,
+      "to": 96,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 98,
+      "to": 98,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 100,
+      "to": 100,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 102,
+      "to": 103,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 166,
+      "to": 166,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 168,
+      "to": 168,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 170,
+      "to": 170,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 172,
+      "to": 172,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 174,
+      "to": 175,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 238,
+      "to": 238,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 240,
+      "to": 240,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 242,
+      "to": 242,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 244,
+      "to": 244,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 246,
+      "to": 247,
+      "kind": "d",
+      "issue": "직전 6세션 중앙값 절반 미만",
+      "severity": "검토",
+      "metric": "previous6_median > 0 and new_words < median / 2",
+      "A/B": "B"
+    },
+    {
+      "from": 174,
+      "to": 201,
+      "kind": "d",
+      "issue": "새 낱말 종류가 없는 12세션 이상 연속",
+      "severity": "검토",
+      "metric": "new_words == 0",
+      "A/B": "B"
+    },
+    {
+      "from": 263,
+      "to": 279,
+      "kind": "d",
+      "issue": "새 낱말 종류가 없는 12세션 이상 연속",
+      "severity": "검토",
+      "metric": "new_words == 0",
+      "A/B": "B"
+    },
+    {
+      "from": 59,
+      "to": 59,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 71,
+      "to": 71,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 77,
+      "to": 77,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 83,
+      "to": 83,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 86,
+      "to": 86,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 89,
+      "to": 89,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 95,
+      "to": 95,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 101,
+      "to": 101,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 113,
+      "to": 113,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 119,
+      "to": 119,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 125,
+      "to": 125,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 131,
+      "to": 131,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 137,
+      "to": 137,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 143,
+      "to": 143,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 149,
+      "to": 149,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 155,
+      "to": 155,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 161,
+      "to": 161,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 167,
+      "to": 167,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 173,
+      "to": 173,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 185,
+      "to": 185,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 191,
+      "to": 191,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 197,
+      "to": 197,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 203,
+      "to": 203,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 209,
+      "to": 209,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 215,
+      "to": 215,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 221,
+      "to": 221,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 228,
+      "to": 228,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 233,
+      "to": 233,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 239,
+      "to": 239,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 245,
+      "to": 245,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 257,
+      "to": 257,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 263,
+      "to": 263,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 269,
+      "to": 269,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 275,
+      "to": 275,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 281,
+      "to": 281,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    },
+    {
+      "from": 287,
+      "to": 287,
+      "kind": "e",
+      "issue": "이후 미션에 아직 핵심 녹음에서 안 들은 토큰",
+      "severity": "검토",
+      "metric": "입력 줄·미션 세션·최초 녹음 세션을 early 표에 전부 기록",
+      "A/B": "B"
+    }
+  ],
+  "seconds": 0.14479406400005246,
+  "failures": []
+}

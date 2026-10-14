@@ -1,0 +1,96 @@
+quarter,left cards,right cards,left material,right material,kind,judgment
+Q1,Q1-001;Q1-007,Q1-017,She has a car.,She has a cat.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-001;Q1-007,Q1-031,She has a car.,She has a sheet.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-001;Q1-007,Q1-052,She has a car.,She has a dog.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-017,Q1-031,She has a cat.,She has a sheet.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-017,Q1-052,She has a cat.,She has a dog.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-031,Q1-052,She has a sheet.,She has a dog.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-001,Q1-017,We need a plan.,We need a map.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-016,Q1-084,sleep / sleeping,sleep / bedroom,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-054;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-058;Q1-061;Q1-068,going to,want to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-054;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-056;Q1-061;Q1-068,going to,got to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-054;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068,going to,have to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-054;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068;Q1-069,going to,ought to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-054;Q1-061;Q1-068,Q1-049;Q1-054;Q1-061;Q1-062;Q1-068,going to,has to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-054;Q1-061;Q1-068,Q1-107,going to,Nice to /,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-058;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-056;Q1-061;Q1-068,want to,got to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-058;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068,want to,have to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-058;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068;Q1-069,want to,ought to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-058;Q1-061;Q1-068,Q1-049;Q1-054;Q1-061;Q1-062;Q1-068,want to,has to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-058;Q1-061;Q1-068,Q1-107,want to,Nice to /,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-056;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068,got to,have to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-056;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068;Q1-069,got to,ought to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-056;Q1-061;Q1-068,Q1-049;Q1-054;Q1-061;Q1-062;Q1-068,got to,has to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-056;Q1-061;Q1-068,Q1-107,got to,Nice to /,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068;Q1-069,have to,ought to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068,Q1-049;Q1-054;Q1-061;Q1-062;Q1-068,have to,has to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068,Q1-107,have to,Nice to /,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068;Q1-069,Q1-049;Q1-054;Q1-061;Q1-062;Q1-068,ought to,has to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-061;Q1-068;Q1-069,Q1-107,ought to,Nice to /,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-049;Q1-054;Q1-061;Q1-062;Q1-068,Q1-107,has to,Nice to /,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-041;Q1-046;Q1-049;Q1-054;Q1-058;Q1-061;Q1-068,Q1-084;Q1-086,want to,want / book,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-043,Q1-050,He has to work today.,She has to work today.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-052,Q1-093,I have a car.,They have a car.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068,Q1-063,a lot of,a lot people,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068;Q1-075,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068,out of,kind of,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068;Q1-075,Q1-056;Q1-058;Q1-061;Q1-062;Q1-068,out of,sort of,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-064;Q1-068;Q1-069,Q1-107,what are you,Where are you /,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-064;Q1-068;Q1-069,Q1-064;Q1-068,would you,could you,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-064;Q1-068;Q1-069,Q1-064;Q1-068,would you,would have,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-064;Q1-068,Q1-068;Q1-069,could you,could have,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-064;Q1-068;Q1-069,Q1-064;Q1-068,should have,would have,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-064;Q1-068;Q1-069,Q1-068;Q1-069,should have,could have,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-064;Q1-068,Q1-068;Q1-069,would have,could have,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-065,Q1-097;Q1-116;Q1-118,Would you help me?,Can you help me?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-073,Q1-074,an apple / a pear,an apple / a book,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-073,Q1-074,come in / come here,come in / come back,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-090,Q1-091;Q1-094,[She] works here. / She works [here].,Who works here? / She works here.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-095;Q1-099,Q1-114,I am from Korea.,I am from a,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-097;Q1-109;Q1-110;Q1-112,Q1-109,Where is the library?,Where is the station?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-097;Q1-109;Q1-110;Q1-112,Q1-109,Where is the library?,Where is the gym?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q1,Q1-107,Q1-114,Who is your /,Where is your,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-002,Q2-032,Can you help me?,Can you hear me?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-002,Q2-032,Are you ready?,Are you coming?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-009,I want,I think,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-082,I want,I ___ yesterday.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-009,I need,I think,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-082,I need,I ___ yesterday.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-009,I have,I think,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-082,I have,I ___ yesterday.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-009,I can,I think,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-082,I can,I ___ yesterday.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-009,I will,I think,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-003,Q2-082,I will,I ___ yesterday.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-009,Q2-082,I think,I ___ yesterday.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-007,Q2-100,Hi there!,"here, there",one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-007,Q2-130,See you later.,See you then.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-007;Q2-130,Q2-009,Okay then.,"First, then",one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-008;Q2-037,Q2-065,How about you?,What about you,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-008;Q2-037,Q2-124,And you?,see you,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-009,Q2-125,"First, then",first time,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-013,Q2-101,I went there yesterday.,You went there yesterday.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-013;Q2-039,Q2-030,It was fine.,It was expensive.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-019;Q2-021,Q2-019;Q2-021;Q2-124;Q2-126,going to,want to,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-020,Q2-102,I do not know.,They do not know.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-034;Q2-094,Q2-053,I put the flour in the refrigerator.,I put the flour inside the refrigerator.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-074,Q2-099,This is my favorite.,It is my favorite.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-082,Q2-100,I ___ yesterday.,"today, yesterday",one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-124;Q2-126,Q2-125,next time,first time,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-124;Q2-126,Q2-125,next time,next day,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q2,Q2-125,Q2-130,take it,Take care.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-002;Q3-038;Q3-039;Q3-095,Q3-003;Q3-039,Do you have a pen?,Do you have a doctor?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-002;Q3-038;Q3-039;Q3-095,Q3-004,Do you have a pen?,Do you have a cough?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-002;Q3-038;Q3-039;Q3-095,Q3-112,Do you have a pen?,Do you have a fever?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-003;Q3-039,Q3-004,Do you have a doctor?,Do you have a cough?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-003;Q3-039,Q3-112,Do you have a doctor?,Do you have a fever?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-004,Q3-112,Do you have a cough?,Do you have a fever?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-002;Q3-039;Q3-095;Q3-099,Q3-039;Q3-095,Are you okay?,Are you ready?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-008;Q3-009,Q3-045,I can't.,I know.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-051;Q3-060;Q3-062;Q3-097,Q3-120,It was really windy today,It is really windy today.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-051,Q3-060;Q3-062;Q3-097,I don't have a job,I don't have a skill.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q3,Q3-077;Q3-082,Q3-078,It is a big book.,This is a big book.,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q4,Q4-002;Q4-019;Q4-023;Q4-147,Q4-003,Do you have a pen?,Do you have a doctor?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q4,Q4-002;Q4-019;Q4-023;Q4-147,Q4-004,Do you have a pen?,Do you have a cough?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q4,Q4-003,Q4-004,Do you have a doctor?,Do you have a cough?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q4,Q4-002;Q4-019;Q4-023;Q4-134,Q4-019,Are you okay?,Are you ready?,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.
+Q4,Q4-053;Q4-103,Q4-058,I know.,I agree,one lexical substitution,B 목표 대조나 의도적 반복일 수 있다.

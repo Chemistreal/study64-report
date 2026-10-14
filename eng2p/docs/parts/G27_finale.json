@@ -1,0 +1,26 @@
+{
+  "scene_rows_Q4": 286,
+  "finale_N": 288,
+  "named_cast": [
+    "Ben",
+    "Daniel",
+    "Dr. Patel",
+    "Grace",
+    "Lena",
+    "Malia",
+    "Mr. Kahale",
+    "Mr. Lee",
+    "Mr. Ortiz",
+    "Mrs. Lee",
+    "Mrs. Tanaka",
+    "Ms. Evans",
+    "Rosa",
+    "Sarah",
+    "Tom"
+  ],
+  "named_count": 15,
+  "guest_table_count": 14,
+  "permanent_host": "Sarah",
+  "missing_guest_names": [],
+  "B": "실제목소리·사람느낌·역사문화사실확인미실시"
+}

@@ -1,0 +1,97 @@
+lecture,quarter,session,title,Korean errors found,English-spelling tricks found,translationese found,unexplained jargon found,order problems,length problems,verdict,A/B,Latin outside evidence
+1,Q1,"1,2,3",1강. 영어는 강세 박자다,6,0,의미 및 단정 문장 검토; 개별 제안 참조,15,부당 선행 차단과 카드 일정은 개별 제안 참조,15 paragraph candidates; character ceiling undefined,rewrite,B,1
+2,Q1,"4,5,6",2강. 자음이 붙어 있는 자리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,8,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,rewrite,B,5
+3,Q1,"7,8,9",3강. 낱말 끝에 오는 자음,4,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,rewrite,B,3
+4,Q1,"10,11,12",4강. dark l,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,rewrite,B,2
+5,Q1,"13,14,15",5강. s 가 뒤 모음에 끌려가는 자리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,3,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,rewrite,B,2
+6,Q1,"16,17,18",6강. 한글로 적으면 왜 틀리는가,5,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,rewrite,B,0
+7,Q1,"19,20",7강. to 앞에서 줄어드는 자리 1,5,0,의미 및 단정 문장 검토; 개별 제안 참조,2,부당 선행 차단과 카드 일정은 개별 제안 참조,18 paragraph candidates; character ceiling undefined,rewrite,B,0
+8,Q1,"21,22",8강. to 앞에서 줄어드는 자리 2,5,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,13 paragraph candidates; character ceiling undefined,rewrite,B,0
+9,Q1,"23,24",9강. of 앞에서 줄어드는 자리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,rewrite,B,0
+10,Q1,"25,26",10강. you 앞과 have 뒤에서 줄어드는 자리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,2,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,rewrite,B,0
+11,Q1,"27,28",11강. 낱말 끝이 다음 낱말 앞으로 넘어가는 자리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,rewrite,B,2
+12,Q1,"29,30",12강. 강세 없는 자리의 모음,4,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,rewrite,B,0
+13,Q1,"37,38,39",13강. 살아남는 낱말과 눌리는 낱말,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,rewrite,B,0
+14,Q1,"40,41,42",14강. 내용어 중에서도 어디를 때리는가,3,0,의미 및 단정 문장 검토; 개별 제안 참조,2,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,fix,B,0
+15,Q1,"43,44,45",15강. 문장 끝을 올리는가 내리는가,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,13 paragraph candidates; character ceiling undefined,rewrite,B,1
+16,Q1,"46,47,48",16강. 낱말이 아니라 덩어리로 저장한다,5,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,rewrite,B,0
+17,Q1,"49,50,51",17강. 인사와 확인 덩어리,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+18,Q1,"52,53,54",18강. 요청과 응답 덩어리,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,5 paragraph candidates; character ceiling undefined,fix,B,0
+19,Q1,"55,56,57",19강. 못 알아들었을 때 되묻기,2,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,0
+20,Q1,"58,59,60",20강. 같은 말을 세 가지 거리로,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,fix,B,0
+21,Q1,"61,62,63",21강. 말하다 스스로 고쳐 잡기,2,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,fix,B,0
+22,Q1,"64,65,66",22강. 시간과 장소 덩어리,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,fix,B,0
+23,Q1,"67,68,69",23강. 말이 안 나올 때 시간 벌기,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+24,Q1,"70,71,72",24강. 대화를 여닫는 법,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,rewrite,B,0
+25,Q2,"73,74,75",25강. 아는 것과 나오는 것은 다르다,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+26,Q2,"76,77,78",26강. 600 목록의 구조,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,fix,B,0
+27,Q2,"79,80,81",27강. 시작 덩어리,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,5 paragraph candidates; character ceiling undefined,fix,B,0
+28,Q2,"82,83,84",28강. 축약 나머지 계열,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,fix,B,6
+29,Q2,"85,86,87",29강. 이어 붙이는 덩어리,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,fix,B,0
+30,Q2,"88,89,90",30강. 0.5초의 뜻,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,5 paragraph candidates; character ceiling undefined,fix,B,0
+31,Q2,"91,92",31강. 되돌리는 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+32,Q2,"93,94",32강. 덩어리에서 규칙을 뽑는 법,3,0,의미 및 단정 문장 검토; 개별 제안 참조,2,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+33,Q2,"95,96",33강. 빠른 속도에 적응하는 법,2,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,fix,B,0
+34,Q2,"97,98",34강. 시간 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+35,Q2,"99,100",35강. 어디가 막히는지 찾는 법,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,0
+36,Q2,"101,102",36강. 끊기는 자리와 끼어드는 자리,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+37,Q2,"109,110,111",37강. 의견 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,5 paragraph candidates; character ceiling undefined,fix,B,0
+38,Q2,"112,113,114",38강. 시제 두 개의 소리와 형태,5,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,rewrite,B,0
+39,Q2,"115,116,117",39강. 무중단 30초,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,13 paragraph candidates; character ceiling undefined,rewrite,B,0
+40,Q2,"118,119,120",40강. 확인하는 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,1
+41,Q2,"121,122,123",41강. 강세가 옮겨 가는 자리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+42,Q2,"124,125,126",42강. 이해 확인과 명료화 요청,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,rewrite,B,0
+43,Q2,"127,128,129",43강. 이야기 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,fix,B,0
+44,Q2,"130,131,132",44강. 무중단 60초,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+45,Q2,"133,134,135",45강. 겹치는 자음,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,fix,B,0
+46,Q2,"136,137,138",46강. 마무리 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+47,Q2,"139,140,141",47강. 대화 유지와 화제 전환,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,5 paragraph candidates; character ceiling undefined,fix,B,0
+48,Q2,"142,143,144",48강. 무중단 90초,5,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,rewrite,B,0
+49,Q3,"145,146,147",49강. 3초의 뜻,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,13 paragraph candidates; character ceiling undefined,fix,B,0
+50,Q3,"148,149,150",50강. 거절 덩어리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,rewrite,B,0
+51,Q3,"151,152,153",51강. 상사와 권위 앞에서,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,rewrite,B,0
+52,Q3,"154,155,156",52강. 반응이 늦는 자리 진단,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,rewrite,B,0
+53,Q3,"157,158,159",53강. 조건 표현 뽑기,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,rewrite,B,0
+54,Q3,"160,161,162",54강. 겹쳐 말할 때 처리,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+55,Q3,"163,164",55강. 3초 반응 계단 1,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+56,Q3,"165,166",56강. 불동의 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+57,Q3,"167,168",57강. 이유와 결과 뽑기,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,rewrite,B,0
+58,Q3,"169,170",58강. 3초 반응 계단 2,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,14 paragraph candidates; character ceiling undefined,rewrite,B,0
+59,Q3,"171,172",59강. 거절의 세 거리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,rewrite,B,0
+60,Q3,"173,174",60강. 조건과 가정 덩어리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,rewrite,B,0
+61,Q3,"181,182,183",61강. LRE 를 일부러 만드는 법,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+62,Q3,"184,185,186",62강. 붙여 늘리는 규칙 뽑기,4,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,rewrite,B,0
+63,Q3,"187,188,189",63강. 세 사람 대화에서 차례 잡기,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+64,Q3,"190,191,192",64강. 3초 반응 계단 3,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,fix,B,0
+65,Q3,"193,194,195",65강. 설명 덩어리 확장,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,fix,B,0
+66,Q3,"196,197,198",66강. 불동의하면서 관계 지키기,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,rewrite,B,0
+67,Q3,"199,200,201",67강. 겹침 속에서 3초,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,fix,B,0
+68,Q3,"202,203,204",68강. 때를 붙이는 규칙 뽑기,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,0
+69,Q3,"205,206,207",69강. 오해를 되돌리는 절차,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,4 paragraph candidates; character ceiling undefined,fix,B,0
+70,Q3,"208,209,210",70강. 3초 전면 측정,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+71,Q3,"211,212,213",71강. 600에서 900으로,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,rewrite,B,0
+72,Q3,"214,215,216",72강. Q3 마감 측정,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,rewrite,B,0
+73,Q4,"217,218,219",73강. 3분 발화의 뜻,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+74,Q4,"220,221,222",74강. 처음 만난 사람,3,0,의미 및 단정 문장 검토; 개별 제안 참조,1,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,fix,B,0
+75,Q4,"223,224,225",75강. 잡담 덩어리,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,rewrite,B,0
+76,Q4,"226,227,228",76강. 2초 반응,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,rewrite,B,0
+77,Q4,"229,230,231",77강. 협상의 구조,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,fix,B,0
+78,Q4,"232,233,234",78강. 3분 중에 끊긴 자리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,0
+79,Q4,"235,236",79강. 길게 잇는 규칙 뽑기,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,fix,B,0
+80,Q4,"237,238",80강. 잡담의 화제 고르기,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,6 paragraph candidates; character ceiling undefined,fix,B,0
+81,Q4,"239,240",81강. 3분 채우기 계단 1,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,13 paragraph candidates; character ceiling undefined,fix,B,0
+82,Q4,"241,242",82강. 협상 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,0
+83,Q4,"243,244",83강. 주도권 넘기고 받기,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,7 paragraph candidates; character ceiling undefined,fix,B,5
+84,Q4,"245,246",84강. 잘못 시작한 이야기 되돌리기,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,0
+85,Q4,"253,254,255",85강. 3분이 무너진 자리 복구,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,fix,B,0
+86,Q4,"256,257,258",86강. 처음 만난 사람과 잡담,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,14 paragraph candidates; character ceiling undefined,fix,B,1
+87,Q4,"259,260,261",87강. 시간을 겹쳐 말하는 규칙,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,rewrite,B,0
+88,Q4,"262,263,264",88강. 마무리와 다음 약속 덩어리,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,8 paragraph candidates; character ceiling undefined,fix,B,0
+89,Q4,"265,266,267",89강. 3분 채우기 계단 2,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,fix,B,0
+90,Q4,"268,269,270",90강. 세 레지스터를 한자리에서,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,10 paragraph candidates; character ceiling undefined,fix,B,0
+91,Q4,"271,272,273",91강. 3분 안에서 자기수정,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,0
+92,Q4,"274,275,276",92강. 협상에서 물러나는 자리,2,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,11 paragraph candidates; character ceiling undefined,fix,B,0
+93,Q4,"277,278,279",93강. 규칙 뽑기 마감,6,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,14 paragraph candidates; character ceiling undefined,rewrite,B,0
+94,Q4,"280,281,282",94강. 3분 발화 전면 측정,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,12 paragraph candidates; character ceiling undefined,fix,B,0
+95,Q4,"283,284,285",95강. Q4 화용 종합,3,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,9 paragraph candidates; character ceiling undefined,fix,B,3
+96,Q4,"286,287,288",96강. Q4 마감 측정,4,0,의미 및 단정 문장 검토; 개별 제안 참조,0,부당 선행 차단과 카드 일정은 개별 제안 참조,14 paragraph candidates; character ceiling undefined,rewrite,B,0

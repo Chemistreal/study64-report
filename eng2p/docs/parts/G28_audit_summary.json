@@ -1,0 +1,19 @@
+{
+  "cards": 600,
+  "faces": 1200,
+  "files": 12,
+  "manual proposals": 436,
+  "answer proposals": 53,
+  "face verdicts": {
+    "change": 646,
+    "unsure": 226,
+    "ok": 328
+  },
+  "least certain": [
+    "실제 강세/음절/쉼/억양",
+    "동적 참조와 NPC 실행",
+    "정중함과 담화 기능의 문맥",
+    "공식 CEFR와 학습 깊이",
+    "실제 사용자 시간과 부담"
+  ]
+}

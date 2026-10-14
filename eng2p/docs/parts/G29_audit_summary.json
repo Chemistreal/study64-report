@@ -1,0 +1,38 @@
+{
+  "counts": {
+    "radio": 89,
+    "notices": 24,
+    "readers": 10,
+    "smalltalk": 2580,
+    "calendar": 48
+  },
+  "verdicts": {
+    "radio": {
+      "change": 89
+    },
+    "notices": {
+      "change": 20,
+      "unsure": 4
+    },
+    "readers": {
+      "change": 10
+    },
+    "smalltalk": {
+      "ok": 2426,
+      "change": 154
+    },
+    "calendar": {
+      "ok": 44,
+      "change": 4
+    }
+  },
+  "facts": 502,
+  "proposals": 278,
+  "read": {
+    "notices": 24,
+    "readers": 10,
+    "smalltalk": 2580,
+    "radio": 89,
+    "calendar": 48
+  }
+}

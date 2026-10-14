@@ -1,0 +1,55 @@
+{
+  "cards": 600,
+  "faces": 1200,
+  "mechanical problems": 5,
+  "manual B proposal rows": 436,
+  "exact material groups": 214,
+  "near material pairs": 95,
+  "word rows": 5698,
+  "official CEFR": "not computable",
+  "legacy block3 minutes": 30,
+  "current block3 minutes": null,
+  "audio": "not run",
+  "problems": [
+    {
+      "card": "Q2-119",
+      "face": "both",
+      "field": "minutes",
+      "kind": "time-estimate",
+      "problem": "다섯 시행의 발화만 최소 4.167분으로 예상 4분보다 길다. 현재 3블록 상한은 없다.",
+      "A/B": "B"
+    },
+    {
+      "card": "Q2-144",
+      "face": "both",
+      "field": "minutes",
+      "kind": "time-estimate",
+      "problem": "다섯 시행의 발화만 최소 5.833분으로 예상 5분보다 길다. 현재 3블록 상한은 없다.",
+      "A/B": "B"
+    },
+    {
+      "card": "Q2-145",
+      "face": "both",
+      "field": "minutes",
+      "kind": "time-estimate",
+      "problem": "다섯 시행의 발화만 최소 6.667분으로 예상 5분보다 길다. 현재 3블록 상한은 없다.",
+      "A/B": "B"
+    },
+    {
+      "card": "Q2-146",
+      "face": "both",
+      "field": "minutes",
+      "kind": "time-estimate",
+      "problem": "다섯 시행의 발화만 최소 7.500분으로 예상 6분보다 길다. 현재 3블록 상한은 없다.",
+      "A/B": "B"
+    },
+    {
+      "card": "Q2-147",
+      "face": "both",
+      "field": "minutes",
+      "kind": "time-estimate",
+      "problem": "다섯 시행의 발화만 최소 7.500분으로 예상 6분보다 길다. 현재 3블록 상한은 없다.",
+      "A/B": "B"
+    }
+  ]
+}

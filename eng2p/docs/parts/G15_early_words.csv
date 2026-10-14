@@ -1,0 +1,1733 @@
+mission,unlock,line ID,token,first media session,relation,A/B
+dukes_dinner,59,dkd-01,table,never in core media,not in core,B
+dukes_dinner,59,dkd-03,by,73,later,B
+dukes_dinner,59,dkd-03,table,never in core media,not in core,B
+dukes_dinner,59,dkd-03,window,171,later,B
+dukes_dinner,59,dkd-05,menus,never in core media,not in core,B
+dukes_dinner,59,dkd-06,order,169,later,B
+dukes_dinner,59,dkd-08,recommend,never in core media,not in core,B
+dukes_dinner,59,dkd-10,fish,76,later,B
+dukes_dinner,59,dkd-10,rice,never in core media,not in core,B
+dukes_dinner,59,dkd-11,fish,76,later,B
+dukes_dinner,59,dkd-11,would,173,later,B
+dukes_dinner,59,dkd-12,fish,76,later,B
+dukes_dinner,59,dkd-13,yet,235,later,B
+dukes_dinner,59,dkd-14,drink,163,later,B
+dukes_dinner,59,dkd-14,would,173,later,B
+dukes_dinner,59,dkd-15,water,85,later,B
+dukes_dinner,59,dkd-16,tea,93,later,B
+dukes_dinner,59,dkd-18,water,85,later,B
+dukes_dinner,59,dkd-19,tea,93,later,B
+dukes_dinner,59,dkd-20,would,173,later,B
+dukes_dinner,59,dkd-21,rice,never in core media,not in core,B
+dukes_dinner,59,dkd-22,spicy,never in core media,not in core,B
+dukes_dinner,59,dkd-23,spicy,never in core media,not in core,B
+dukes_dinner,59,dkd-24,fish,76,later,B
+dukes_dinner,59,dkd-25,fish,76,later,B
+dukes_dinner,59,dkd-25,rice,never in core media,not in core,B
+dukes_dinner,59,dkd-26,anything,73,later,B
+dukes_dinner,59,dkd-26,else,73,later,B
+dukes_dinner,59,dkd-28,could,245,later,B
+dukes_dinner,59,dkd-28,forks,never in core media,not in core,B
+dukes_dinner,59,dkd-29,forks,never in core media,not in core,B
+dukes_dinner,59,dkd-30,enjoy,never in core media,not in core,B
+dukes_dinner,59,dkd-30,meals,never in core media,not in core,B
+dukes_dinner,59,dkd-33,could,245,later,B
+dukes_dinner,59,dkd-33,water,85,later,B
+dukes_dinner,59,dkd-34,bring,73,later,B
+dukes_dinner,59,dkd-34,water,85,later,B
+dukes_dinner,59,dkd-36,by,73,later,B
+dukes_dinner,59,dkd-36,card,73,later,B
+dukes_dinner,59,dkd-36,could,245,later,B
+dukes_dinner,59,dkd-36,pay,169,later,B
+dukes_dinner,59,dkd-38,card,73,later,B
+dukes_dinner,59,dkd-39,card,73,later,B
+marukame_udon,71,mud-01,line,95,later,B
+marukame_udon,71,mud-02,order,169,later,B
+marukame_udon,71,mud-03,counter,88,later,B
+marukame_udon,71,mud-05,order,169,later,B
+marukame_udon,71,mud-06,bowls,never in core media,not in core,B
+marukame_udon,71,mud-06,udon,never in core media,not in core,B
+marukame_udon,71,mud-07,kind,79,later,B
+marukame_udon,71,mud-07,noodles,never in core media,not in core,B
+marukame_udon,71,mud-08,udon,never in core media,not in core,B
+marukame_udon,71,mud-10,udon,never in core media,not in core,B
+marukame_udon,71,mud-11,sauce,never in core media,not in core,B
+marukame_udon,71,mud-11,udon,never in core media,not in core,B
+marukame_udon,71,mud-12,sauce,never in core media,not in core,B
+marukame_udon,71,mud-12,side,171,later,B
+marukame_udon,71,mud-14,udon,never in core media,not in core,B
+marukame_udon,71,mud-15,same,93,later,B
+marukame_udon,71,mud-16,bowl,never in core media,not in core,B
+marukame_udon,71,mud-16,would,173,later,B
+marukame_udon,71,mud-17,bowl,never in core media,not in core,B
+marukame_udon,71,mud-18,choose,never in core media,not in core,B
+marukame_udon,71,mud-21,bowls,never in core media,not in core,B
+marukame_udon,71,mud-23,top,never in core media,not in core,B
+marukame_udon,71,mud-23,would,173,later,B
+marukame_udon,71,mud-24,recommend,never in core media,not in core,B
+marukame_udon,71,mud-25,extras,235,later,B
+marukame_udon,71,mud-26,add,never in core media,not in core,B
+marukame_udon,71,mud-26,could,245,later,B
+marukame_udon,71,mud-26,egg,91,later,B
+marukame_udon,71,mud-27,egg,91,later,B
+marukame_udon,71,mud-28,extra,235,later,B
+marukame_udon,71,mud-28,toppings,never in core media,not in core,B
+marukame_udon,71,mud-31,water,85,later,B
+marukame_udon,71,mud-32,by,73,later,B
+marukame_udon,71,mud-32,tables,never in core media,not in core,B
+marukame_udon,71,mud-32,water,85,later,B
+marukame_udon,71,mud-41,pay,169,later,B
+marukame_udon,71,mud-33,card,73,later,B
+marukame_udon,71,mud-34,card,73,later,B
+marukame_udon,71,mud-35,total,never in core media,not in core,B
+marukame_udon,71,mud-36,screen,never in core media,not in core,B
+marukame_udon,71,mud-36,total,never in core media,not in core,B
+marukame_udon,71,mud-37,sit,101,later,B
+marukame_udon,71,mud-38,seats,82,later,B
+marukame_udon,71,mud-39,seats,82,later,B
+marukame_udon,71,mud-40,sit,101,later,B
+ala_moana_shopping,77,ams-06,choose,never in core media,not in core,B
+ala_moana_shopping,77,ams-06,could,245,later,B
+ala_moana_shopping,77,ams-09,would,173,later,B
+ala_moana_shopping,77,ams-11,could,245,later,B
+ala_moana_shopping,77,ams-12,fitting,95,later,B
+ala_moana_shopping,77,ams-13,fitting,95,later,B
+ala_moana_shopping,77,ams-13,follow,85,later,B
+ala_moana_shopping,77,ams-14,fit,95,later,B
+ala_moana_shopping,77,ams-15,fits,95,later,B
+ala_moana_shopping,77,ams-16,fit,95,later,B
+ala_moana_shopping,77,ams-19,same,93,later,B
+ala_moana_shopping,77,ams-20,same,93,later,B
+ala_moana_shopping,77,ams-23,dollars,229,later,B
+ala_moana_shopping,77,ams-23,pay,169,later,B
+ala_moana_shopping,77,ams-23,twenty,never in core media,not in core,B
+ala_moana_shopping,77,ams-24,pay,169,later,B
+ala_moana_shopping,77,ams-25,could,245,later,B
+ala_moana_shopping,77,ams-25,pay,169,later,B
+ala_moana_shopping,77,ams-28,could,245,later,B
+ala_moana_shopping,77,ams-31,receipt,never in core media,not in core,B
+ala_moana_shopping,77,ams-31,would,173,later,B
+ala_moana_shopping,77,ams-32,receipt,never in core media,not in core,B
+ala_moana_shopping,77,ams-33,could,245,later,B
+ala_moana_shopping,77,ams-34,receipt,never in core media,not in core,B
+grocery_store,83,grs-02,bread,88,later,B
+grocery_store,83,grs-03,bread,88,later,B
+grocery_store,83,grs-03,could,245,later,B
+grocery_store,83,grs-04,milk,never in core media,not in core,B
+grocery_store,83,grs-05,follow,85,later,B
+grocery_store,83,grs-06,bread,88,later,B
+grocery_store,83,grs-07,loaf,88,later,B
+grocery_store,83,grs-08,loaf,88,later,B
+grocery_store,83,grs-09,add,never in core media,not in core,B
+grocery_store,83,grs-09,dollars,229,later,B
+grocery_store,83,grs-09,loaf,88,later,B
+grocery_store,83,grs-09,shall,never in core media,not in core,B
+grocery_store,83,grs-10,apples,171,later,B
+grocery_store,83,grs-11,apples,171,later,B
+grocery_store,83,grs-11,could,245,later,B
+grocery_store,83,grs-12,bananas,88,later,B
+grocery_store,83,grs-14,apples,171,later,B
+grocery_store,83,grs-14,would,173,later,B
+grocery_store,83,grs-15,apples,171,later,B
+grocery_store,83,grs-16,apples,171,later,B
+grocery_store,83,grs-17,add,never in core media,not in core,B
+grocery_store,83,grs-17,apples,171,later,B
+grocery_store,83,grs-17,dollars,229,later,B
+grocery_store,83,grs-17,shall,never in core media,not in core,B
+grocery_store,83,grs-18,enough,95,later,B
+grocery_store,83,grs-19,bag,88,later,B
+grocery_store,83,grs-20,bag,88,later,B
+grocery_store,83,grs-20,use,99,later,B
+grocery_store,83,grs-23,could,245,later,B
+grocery_store,83,grs-23,list,88,later,B
+grocery_store,83,grs-24,apples,171,later,B
+grocery_store,83,grs-24,bread,88,later,B
+grocery_store,83,grs-24,dollars,229,later,B
+grocery_store,83,grs-24,five,85,later,B
+grocery_store,83,grs-25,could,245,later,B
+grocery_store,83,grs-25,total,never in core media,not in core,B
+grocery_store,83,grs-26,altogether,never in core media,not in core,B
+grocery_store,83,grs-26,dollars,229,later,B
+grocery_store,83,grs-26,five,85,later,B
+grocery_store,83,grs-27,dollars,229,later,B
+grocery_store,83,grs-27,five,85,later,B
+grocery_store,83,grs-27,pay,169,later,B
+grocery_store,83,grs-27,would,173,later,B
+grocery_store,83,grs-35,receipt,never in core media,not in core,B
+grocery_store,83,grs-35,would,173,later,B
+grocery_store,83,grs-36,receipt,never in core media,not in core,B
+grocery_store,83,grs-37,bag,88,later,B
+grocery_store,83,grs-37,could,245,later,B
+grocery_store,83,grs-38,groceries,never in core media,not in core,B
+grocery_store,83,grs-38,receipt,never in core media,not in core,B
+grocery_store,83,g17grs-01,altogether,never in core media,not in core,B
+grocery_store,83,g17grs-01,dollars,229,later,B
+grocery_store,83,g17grs-01,five,85,later,B
+pharmacy,86,pha-02,hurts,99,later,B
+pharmacy,86,pha-02,throat,163,later,B
+pharmacy,86,pha-03,could,245,later,B
+pharmacy,86,pha-03,drops,never in core media,not in core,B
+pharmacy,86,pha-03,throat,163,later,B
+pharmacy,86,pha-04,drops,never in core media,not in core,B
+pharmacy,86,pha-04,label,never in core media,not in core,B
+pharmacy,86,pha-04,throat,163,later,B
+pharmacy,86,pha-05,hurting,99,later,B
+pharmacy,86,pha-06,could,245,later,B
+pharmacy,86,pha-06,partner,237,later,B
+pharmacy,86,pha-07,pharmacist,never in core media,not in core,B
+pharmacy,86,pha-07,throat,163,later,B
+pharmacy,86,pha-08,both,253,later,B
+pharmacy,86,pha-09,would,173,later,B
+pharmacy,86,pha-10,ingredients,88,later,B
+pharmacy,86,pha-11,could,245,later,B
+pharmacy,86,pha-11,label,never in core media,not in core,B
+pharmacy,86,pha-12,ingredients,88,later,B
+pharmacy,86,pha-13,ingredients,88,later,B
+pharmacy,86,pha-14,directions,171,later,B
+pharmacy,86,pha-14,label,never in core media,not in core,B
+pharmacy,86,pha-15,drops,never in core media,not in core,B
+pharmacy,86,pha-15,use,99,later,B
+pharmacy,86,pha-16,directions,171,later,B
+pharmacy,86,pha-16,understanding,239,later,B
+pharmacy,86,pha-17,pharmacist,never in core media,not in core,B
+pharmacy,86,pha-17,use,99,later,B
+pharmacy,86,pha-18,medicine,never in core media,not in core,B
+pharmacy,86,pha-19,medicine,never in core media,not in core,B
+pharmacy,86,pha-20,list,88,later,B
+pharmacy,86,pha-20,medicine,never in core media,not in core,B
+pharmacy,86,pha-21,answer,91,later,B
+pharmacy,86,pha-21,pharmacist,never in core media,not in core,B
+pharmacy,86,pha-22,could,245,later,B
+pharmacy,86,pha-22,directions,171,later,B
+pharmacy,86,pha-24,directions,171,later,B
+pharmacy,86,pha-24,label,never in core media,not in core,B
+pharmacy,86,pha-25,price,never in core media,not in core,B
+pharmacy,86,pha-25,would,173,later,B
+pharmacy,86,pha-26,drops,never in core media,not in core,B
+pharmacy,86,pha-27,box,88,later,B
+pharmacy,86,pha-27,price,never in core media,not in core,B
+pharmacy,86,pha-28,box,88,later,B
+pharmacy,86,pha-28,dollars,229,later,B
+pharmacy,86,pha-28,six,never in core media,not in core,B
+pharmacy,86,pha-29,box,88,later,B
+pharmacy,86,pha-31,could,245,later,B
+pharmacy,86,pha-31,pharmacist,never in core media,not in core,B
+pharmacy,86,pha-32,keep,99,later,B
+pharmacy,86,pha-32,label,never in core media,not in core,B
+pharmacy,86,pha-32,pharmacist,never in core media,not in core,B
+thebus_ride,89,tbr-01,would,173,later,B
+thebus_ride,89,tbr-05,would,173,later,B
+thebus_ride,89,tbr-06,fare,never in core media,not in core,B
+thebus_ride,89,tbr-07,fare,never in core media,not in core,B
+thebus_ride,89,tbr-08,fare,never in core media,not in core,B
+thebus_ride,89,tbr-08,sign,97,later,B
+thebus_ride,89,tbr-09,dollars,229,later,B
+thebus_ride,89,tbr-09,each,167,later,B
+thebus_ride,89,tbr-09,fare,never in core media,not in core,B
+thebus_ride,89,tbr-10,both,253,later,B
+thebus_ride,89,tbr-10,dollars,229,later,B
+thebus_ride,89,tbr-10,six,never in core media,not in core,B
+thebus_ride,89,tbr-11,could,245,later,B
+thebus_ride,89,tbr-11,price,never in core media,not in core,B
+thebus_ride,89,tbr-12,dollars,229,later,B
+thebus_ride,89,tbr-12,six,never in core media,not in core,B
+thebus_ride,89,tbr-13,pay,169,later,B
+thebus_ride,89,tbr-14,pay,169,later,B
+thebus_ride,89,tbr-14,use,99,later,B
+thebus_ride,89,tbr-16,hold,262,later,B
+thebus_ride,89,tbr-16,pay,169,later,B
+thebus_ride,89,tbr-17,hold,262,later,B
+thebus_ride,89,tbr-17,pay,169,later,B
+thebus_ride,89,tbr-19,sit,101,later,B
+thebus_ride,89,tbr-20,could,245,later,B
+thebus_ride,89,tbr-20,sit,101,later,B
+thebus_ride,89,tbr-21,sit,101,later,B
+thebus_ride,89,tbr-23,could,245,later,B
+thebus_ride,89,tbr-25,reach,never in core media,not in core,B
+thebus_ride,89,tbr-28,through,95,later,B
+thebus_ride,89,tbr-29,moment,never in core media,not in core,B
+thebus_ride,89,tbr-29,stand,never in core media,not in core,B
+thebus_ride,89,tbr-30,use,99,later,B
+thebus_ride,89,tbr-35,crossing,never in core media,not in core,B
+thebus_ride,89,tbr-35,use,99,later,B
+bank_post_office,101,bpo-01,account,never in core media,not in core,B
+bank_post_office,101,bpo-02,documents,never in core media,not in core,B
+bank_post_office,101,bpo-04,deposit,never in core media,not in core,B
+bank_post_office,101,bpo-05,could,245,later,B
+bank_post_office,101,bpo-05,deposit,never in core media,not in core,B
+bank_post_office,101,bpo-05,explain,never in core media,not in core,B
+bank_post_office,101,bpo-07,account,never in core media,not in core,B
+bank_post_office,101,bpo-07,number,101,same-session,B
+bank_post_office,101,bpo-08,account,never in core media,not in core,B
+bank_post_office,101,bpo-08,number,101,same-session,B
+bank_post_office,101,bpo-09,could,245,later,B
+bank_post_office,101,bpo-11,id,never in core media,not in core,B
+bank_post_office,101,bpo-12,passport,never in core media,not in core,B
+bank_post_office,101,bpo-14,deposit,never in core media,not in core,B
+bank_post_office,101,bpo-14,would,173,later,B
+bank_post_office,101,bpo-15,dollars,229,later,B
+bank_post_office,101,bpo-15,hundred,262,later,B
+bank_post_office,101,bpo-16,receipt,never in core media,not in core,B
+bank_post_office,101,bpo-16,would,173,later,B
+bank_post_office,101,bpo-17,paper,171,later,B
+bank_post_office,101,bpo-17,receipt,never in core media,not in core,B
+bank_post_office,101,bpo-18,balance,never in core media,not in core,B
+bank_post_office,101,bpo-19,receipt,never in core media,not in core,B
+bank_post_office,101,bpo-20,account,never in core media,not in core,B
+bank_post_office,101,bpo-20,dollars,229,later,B
+bank_post_office,101,bpo-20,hundred,262,later,B
+bank_post_office,101,bpo-21,mail,never in core media,not in core,B
+bank_post_office,101,bpo-22,address,never in core media,not in core,B
+bank_post_office,101,bpo-23,envelope,245,later,B
+bank_post_office,101,bpo-24,address,never in core media,not in core,B
+bank_post_office,101,bpo-26,costs,169,later,B
+bank_post_office,101,bpo-26,dollars,229,later,B
+bank_post_office,101,bpo-27,could,245,later,B
+bank_post_office,101,bpo-27,date,never in core media,not in core,B
+bank_post_office,101,bpo-27,delivery,169,later,B
+bank_post_office,101,bpo-28,include,never in core media,not in core,B
+bank_post_office,101,bpo-28,price,never in core media,not in core,B
+bank_post_office,101,bpo-30,price,never in core media,not in core,B
+bank_post_office,101,bpo-31,pay,169,later,B
+bank_post_office,101,bpo-31,would,173,later,B
+bank_post_office,101,bpo-32,pay,169,later,B
+bank_post_office,101,bpo-33,receipt,never in core media,not in core,B
+bank_post_office,101,bpo-36,receipt,never in core media,not in core,B
+taxi_ride,119,txr-01,hotel,never in core media,not in core,B
+taxi_ride,119,txr-02,fare,never in core media,not in core,B
+taxi_ride,119,txr-03,heading,171,later,B
+taxi_ride,119,txr-04,could,245,later,B
+taxi_ride,119,txr-04,hotel,never in core media,not in core,B
+taxi_ride,119,txr-05,available,never in core media,not in core,B
+taxi_ride,119,txr-05,short,223,later,B
+taxi_ride,119,txr-06,address,never in core media,not in core,B
+taxi_ride,119,txr-07,address,never in core media,not in core,B
+taxi_ride,119,txr-08,dollars,229,later,B
+taxi_ride,119,txr-08,hotel,never in core media,not in core,B
+taxi_ride,119,txr-08,twenty,never in core media,not in core,B
+taxi_ride,119,txr-09,charges,never in core media,not in core,B
+taxi_ride,119,txr-09,extra,235,later,B
+taxi_ride,119,txr-09,include,never in core media,not in core,B
+taxi_ride,119,txr-11,charges,never in core media,not in core,B
+taxi_ride,119,txr-11,extra,235,later,B
+taxi_ride,119,txr-12,fifteen,never in core media,not in core,B
+taxi_ride,119,txr-12,traffic,165,later,B
+taxi_ride,119,txr-14,could,245,later,B
+taxi_ride,119,txr-14,trunk,never in core media,not in core,B
+taxi_ride,119,txr-16,trunk,never in core media,not in core,B
+taxi_ride,119,txr-21,could,245,later,B
+taxi_ride,119,txr-23,lower,never in core media,not in core,B
+taxi_ride,119,txr-23,volume,never in core media,not in core,B
+taxi_ride,119,txr-25,entrance,never in core media,not in core,B
+taxi_ride,119,txr-25,main,never in core media,not in core,B
+taxi_ride,119,txr-29,dollars,229,later,B
+taxi_ride,119,txr-29,twenty,never in core media,not in core,B
+taxi_ride,119,txr-30,pay,169,later,B
+taxi_ride,119,txr-31,could,245,later,B
+taxi_ride,119,txr-31,receipt,never in core media,not in core,B
+taxi_ride,119,txr-34,receipt,never in core media,not in core,B
+library_card,125,lbc-04,address,never in core media,not in core,B
+library_card,125,lbc-04,id,never in core media,not in core,B
+library_card,125,lbc-07,could,245,later,B
+library_card,125,lbc-07,form,never in core media,not in core,B
+library_card,125,lbc-09,address,never in core media,not in core,B
+library_card,125,lbc-10,address,never in core media,not in core,B
+library_card,125,lbc-13,borrow,256,later,B
+library_card,125,lbc-13,would,173,later,B
+library_card,125,lbc-15,could,245,later,B
+library_card,125,lbc-16,shelves,never in core media,not in core,B
+library_card,125,lbc-19,could,245,later,B
+library_card,125,lbc-19,suggest,never in core media,not in core,B
+library_card,125,lbc-21,would,173,later,B
+library_card,125,lbc-22,borrow,256,later,B
+library_card,125,lbc-23,may,232,later,B
+library_card,125,lbc-26,would,173,later,B
+library_card,125,lbc-29,would,173,later,B
+library_card,125,lbc-31,borrow,256,later,B
+library_card,125,lbc-39,could,245,later,B
+library_card,125,lbc-39,date,never in core media,not in core,B
+clinic_visit,131,clv-02,doctor,163,later,B
+clinic_visit,131,clv-03,appointment,never in core media,not in core,B
+clinic_visit,131,clv-07,could,245,later,B
+clinic_visit,131,clv-07,form,never in core media,not in core,B
+clinic_visit,131,clv-09,nurse,never in core media,not in core,B
+clinic_visit,131,clv-14,throat,163,later,B
+clinic_visit,131,clv-15,could,245,later,B
+clinic_visit,131,clv-15,partner,237,later,B
+clinic_visit,131,clv-15,stay,165,later,B
+clinic_visit,131,clv-15,throat,163,later,B
+clinic_visit,131,clv-16,partner,237,later,B
+clinic_visit,131,clv-16,stay,165,later,B
+clinic_visit,131,clv-17,sore,163,later,B
+clinic_visit,131,clv-17,throat,163,later,B
+clinic_visit,131,clv-18,since,256,later,B
+clinic_visit,131,clv-21,cough,163,later,B
+clinic_visit,131,clv-22,coughing,163,later,B
+clinic_visit,131,clv-23,sore,163,later,B
+clinic_visit,131,clv-23,throat,163,later,B
+clinic_visit,131,clv-24,medicine,never in core media,not in core,B
+clinic_visit,131,clv-25,medicine,never in core media,not in core,B
+clinic_visit,131,clv-28,throat,163,later,B
+clinic_visit,131,clv-30,could,245,later,B
+clinic_visit,131,clv-31,throat,163,later,B
+clinic_visit,131,clv-32,explain,never in core media,not in core,B
+clinic_visit,131,clv-32,steps,243,later,B
+clinic_visit,131,clv-33,could,245,later,B
+clinic_visit,131,clv-34,explain,never in core media,not in core,B
+clinic_visit,131,clv-36,information,173,later,B
+ala_moana_returns,137,amr-02,would,173,later,B
+ala_moana_returns,137,amr-04,problem,171,later,B
+ala_moana_returns,137,amr-06,could,245,later,B
+ala_moana_returns,137,amr-06,label,never in core media,not in core,B
+ala_moana_returns,137,amr-07,original,never in core media,not in core,B
+ala_moana_returns,137,amr-07,receipt,never in core media,not in core,B
+ala_moana_returns,137,amr-08,original,never in core media,not in core,B
+ala_moana_returns,137,amr-08,receipt,never in core media,not in core,B
+ala_moana_returns,137,amr-10,exchange,never in core media,not in core,B
+ala_moana_returns,137,amr-10,offer,never in core media,not in core,B
+ala_moana_returns,137,amr-10,refund,never in core media,not in core,B
+ala_moana_returns,137,amr-11,refund,never in core media,not in core,B
+ala_moana_returns,137,amr-11,would,173,later,B
+ala_moana_returns,137,amr-12,could,245,later,B
+ala_moana_returns,137,amr-12,exchange,never in core media,not in core,B
+ala_moana_returns,137,amr-12,explain,never in core media,not in core,B
+ala_moana_returns,137,amr-13,refund,never in core media,not in core,B
+ala_moana_returns,137,amr-14,paid,never in core media,not in core,B
+ala_moana_returns,137,amr-15,used,169,later,B
+ala_moana_returns,137,amr-16,insert,never in core media,not in core,B
+ala_moana_returns,137,amr-16,paid,never in core media,not in core,B
+ala_moana_returns,137,amr-18,could,245,later,B
+ala_moana_returns,137,amr-19,eight,never in core media,not in core,B
+ala_moana_returns,137,amr-19,ending,167,later,B
+ala_moana_returns,137,amr-19,six,never in core media,not in core,B
+ala_moana_returns,137,amr-21,could,245,later,B
+ala_moana_returns,137,amr-22,may,232,later,B
+ala_moana_returns,137,amr-22,refund,never in core media,not in core,B
+ala_moana_returns,137,amr-23,could,245,later,B
+ala_moana_returns,137,amr-24,longer,never in core media,not in core,B
+ala_moana_returns,137,amr-25,receipt,never in core media,not in core,B
+ala_moana_returns,137,amr-27,original,never in core media,not in core,B
+ala_moana_returns,137,amr-27,receipt,never in core media,not in core,B
+ala_moana_returns,137,amr-30,service,never in core media,not in core,B
+ala_moana_returns,137,amr-32,label,never in core media,not in core,B
+ala_moana_returns,137,amr-33,purchase,never in core media,not in core,B
+ala_moana_returns,137,amr-34,style,never in core media,not in core,B
+ala_moana_returns,137,amr-35,reader,217,later,B
+ala_moana_returns,137,amr-36,eight,never in core media,not in core,B
+ala_moana_returns,137,amr-36,six,never in core media,not in core,B
+ala_moana_returns,137,amr-37,may,232,later,B
+ala_moana_returns,137,amr-37,receipt,never in core media,not in core,B
+ala_moana_returns,137,amr-38,receipt,never in core media,not in core,B
+ala_moana_returns,137,amr-39,both,253,later,B
+ala_moana_returns,137,amr-39,receipts,never in core media,not in core,B
+ala_moana_returns,137,amr-40,printed,never in core media,not in core,B
+ala_moana_returns,137,amr-40,receipt,never in core media,not in core,B
+phone_and_laundry,167,pnl-01,washer,never in core media,not in core,B
+phone_and_laundry,167,pnl-02,could,245,later,B
+phone_and_laundry,167,pnl-02,detergent,never in core media,not in core,B
+phone_and_laundry,167,pnl-03,drawer,never in core media,not in core,B
+phone_and_laundry,167,pnl-05,could,245,later,B
+phone_and_laundry,167,pnl-05,drawer,never in core media,not in core,B
+phone_and_laundry,167,pnl-06,choose,never in core media,not in core,B
+phone_and_laundry,167,pnl-06,close,256,later,B
+phone_and_laundry,167,pnl-06,setting,never in core media,not in core,B
+phone_and_laundry,167,pnl-07,setting,never in core media,not in core,B
+phone_and_laundry,167,pnl-08,labels,never in core media,not in core,B
+phone_and_laundry,167,pnl-09,costs,169,later,B
+phone_and_laundry,167,pnl-09,dollars,229,later,B
+phone_and_laundry,167,pnl-09,pay,169,later,B
+phone_and_laundry,167,pnl-10,include,never in core media,not in core,B
+phone_and_laundry,167,pnl-11,pay,169,later,B
+phone_and_laundry,167,pnl-12,dryer,never in core media,not in core,B
+phone_and_laundry,167,pnl-12,ends,167,same-session,B
+phone_and_laundry,167,pnl-13,heat,never in core media,not in core,B
+phone_and_laundry,167,pnl-13,setting,never in core media,not in core,B
+phone_and_laundry,167,pnl-14,labels,never in core media,not in core,B
+phone_and_laundry,167,pnl-16,bill,never in core media,not in core,B
+phone_and_laundry,167,pnl-17,would,173,later,B
+phone_and_laundry,167,pnl-18,bill,never in core media,not in core,B
+phone_and_laundry,167,pnl-18,higher,never in core media,not in core,B
+phone_and_laundry,167,pnl-19,charge,never in core media,not in core,B
+phone_and_laundry,167,pnl-19,could,245,later,B
+phone_and_laundry,167,pnl-19,explain,never in core media,not in core,B
+phone_and_laundry,167,pnl-19,extra,235,later,B
+phone_and_laundry,167,pnl-20,charge,never in core media,not in core,B
+phone_and_laundry,167,pnl-20,dollar,229,later,B
+phone_and_laundry,167,pnl-22,included,never in core media,not in core,B
+phone_and_laundry,167,pnl-23,explain,never in core media,not in core,B
+phone_and_laundry,167,pnl-24,included,never in core media,not in core,B
+phone_and_laundry,167,pnl-25,could,245,later,B
+phone_and_laundry,167,pnl-25,details,never in core media,not in core,B
+phone_and_laundry,167,pnl-26,details,never in core media,not in core,B
+phone_and_laundry,167,pnl-26,text,never in core media,not in core,B
+phone_and_laundry,167,pnl-28,could,245,later,B
+phone_and_laundry,167,pnl-28,explain,never in core media,not in core,B
+phone_and_laundry,167,pnl-28,includes,never in core media,not in core,B
+phone_and_laundry,167,pnl-30,amount,never in core media,not in core,B
+phone_and_laundry,167,pnl-30,bottle,173,later,B
+phone_and_laundry,167,pnl-30,detergent,never in core media,not in core,B
+phone_and_laundry,167,pnl-30,shown,never in core media,not in core,B
+phone_and_laundry,167,pnl-32,labels,never in core media,not in core,B
+phone_and_laundry,167,pnl-33,costs,169,later,B
+phone_and_laundry,167,pnl-33,dollars,229,later,B
+phone_and_laundry,167,pnl-33,dryer,never in core media,not in core,B
+phone_and_laundry,167,pnl-34,machine,243,later,B
+phone_and_laundry,167,pnl-34,reader,217,later,B
+phone_and_laundry,167,pnl-35,choose,never in core media,not in core,B
+phone_and_laundry,167,pnl-35,heat,never in core media,not in core,B
+phone_and_laundry,167,pnl-35,labels,never in core media,not in core,B
+phone_and_laundry,167,pnl-35,setting,never in core media,not in core,B
+phone_and_laundry,167,pnl-36,bill,never in core media,not in core,B
+phone_and_laundry,167,pnl-37,included,never in core media,not in core,B
+phone_and_laundry,167,pnl-38,cost,169,later,B
+phone_and_laundry,167,pnl-38,extra,235,later,B
+phone_and_laundry,167,pnl-38,included,never in core media,not in core,B
+phone_and_laundry,167,pnl-38,local,never in core media,not in core,B
+phone_and_laundry,167,pnl-39,cost,169,later,B
+phone_and_laundry,167,pnl-39,extra,235,later,B
+phone_and_laundry,167,pnl-39,included,never in core media,not in core,B
+phone_and_laundry,167,pnl-39,local,never in core media,not in core,B
+diamond_head_lookout,95,dlp-02,could,245,later,B
+diamond_head_lookout,95,dlp-03,spot,never in core media,not in core,B
+diamond_head_lookout,95,dlp-05,spot,never in core media,not in core,B
+diamond_head_lookout,95,dlp-05,view,never in core media,not in core,B
+diamond_head_lookout,95,dlp-08,camera,226,later,B
+diamond_head_lookout,95,dlp-08,could,245,later,B
+diamond_head_lookout,95,dlp-08,instead,never in core media,not in core,B
+diamond_head_lookout,95,dlp-08,use,99,later,B
+diamond_head_lookout,95,dlp-09,use,99,later,B
+diamond_head_lookout,95,dlp-10,camera,226,later,B
+diamond_head_lookout,95,dlp-10,use,99,later,B
+diamond_head_lookout,95,dlp-11,would,173,later,B
+diamond_head_lookout,95,dlp-13,view,never in core media,not in core,B
+diamond_head_lookout,95,dlp-15,include,never in core media,not in core,B
+diamond_head_lookout,95,dlp-15,view,never in core media,not in core,B
+diamond_head_lookout,95,dlp-16,stand,never in core media,not in core,B
+diamond_head_lookout,95,dlp-18,closer,never in core media,not in core,B
+diamond_head_lookout,95,dlp-19,both,253,later,B
+diamond_head_lookout,95,dlp-21,moment,never in core media,not in core,B
+diamond_head_lookout,95,dlp-22,camera,226,later,B
+diamond_head_lookout,95,dlp-25,view,never in core media,not in core,B
+diamond_head_lookout,95,dlp-26,could,245,later,B
+diamond_head_lookout,95,dlp-28,both,253,later,B
+diamond_head_lookout,95,dlp-29,would,173,later,B
+diamond_head_lookout,95,dlp-31,could,245,later,B
+diamond_head_lookout,95,dlp-31,sitting,101,later,B
+diamond_head_lookout,95,dlp-32,done,101,later,B
+diamond_head_lookout,95,dlp-34,may,232,later,B
+diamond_head_lookout,95,dlp-36,view,never in core media,not in core,B
+diamond_head_lookout,95,dlp-39,sit,101,later,B
+diamond_head_hike,113,dhh-01,trail,never in core media,not in core,B
+diamond_head_hike,113,dhh-01,would,173,later,B
+diamond_head_hike,113,dhh-02,hike,never in core media,not in core,B
+diamond_head_hike,113,dhh-02,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-02,suggest,never in core media,not in core,B
+diamond_head_hike,113,dhh-02,would,173,later,B
+diamond_head_hike,113,dhh-03,could,245,later,B
+diamond_head_hike,113,dhh-03,map,151,later,B
+diamond_head_hike,113,dhh-03,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-04,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-04,shorter,never in core media,not in core,B
+diamond_head_hike,113,dhh-05,marked,never in core media,not in core,B
+diamond_head_hike,113,dhh-05,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-06,map,151,later,B
+diamond_head_hike,113,dhh-06,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-06,shorter,never in core media,not in core,B
+diamond_head_hike,113,dhh-07,usually,never in core media,not in core,B
+diamond_head_hike,113,dhh-08,entrance,never in core media,not in core,B
+diamond_head_hike,113,dhh-09,allow,never in core media,not in core,B
+diamond_head_hike,113,dhh-10,entrance,never in core media,not in core,B
+diamond_head_hike,113,dhh-11,map,151,later,B
+diamond_head_hike,113,dhh-11,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-12,explain,never in core media,not in core,B
+diamond_head_hike,113,dhh-13,could,245,later,B
+diamond_head_hike,113,dhh-14,arrow,never in core media,not in core,B
+diamond_head_hike,113,dhh-14,entrance,never in core media,not in core,B
+diamond_head_hike,113,dhh-14,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-16,understand,239,later,B
+diamond_head_hike,113,dhh-17,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-18,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-18,shorter,never in core media,not in core,B
+diamond_head_hike,113,dhh-18,would,173,later,B
+diamond_head_hike,113,dhh-19,map,151,later,B
+diamond_head_hike,113,dhh-22,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-23,could,245,later,B
+diamond_head_hike,113,dhh-23,entrance,never in core media,not in core,B
+diamond_head_hike,113,dhh-24,notice,never in core media,not in core,B
+diamond_head_hike,113,dhh-25,entrance,never in core media,not in core,B
+diamond_head_hike,113,dhh-25,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-26,map,151,later,B
+diamond_head_hike,113,dhh-27,map,151,later,B
+diamond_head_hike,113,dhh-27,marked,never in core media,not in core,B
+diamond_head_hike,113,dhh-28,guide,never in core media,not in core,B
+diamond_head_hike,113,dhh-29,would,173,later,B
+diamond_head_hike,113,dhh-30,entrance,never in core media,not in core,B
+diamond_head_hike,113,dhh-30,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-31,could,245,later,B
+diamond_head_hike,113,dhh-31,map,151,later,B
+diamond_head_hike,113,dhh-32,entrance,never in core media,not in core,B
+diamond_head_hike,113,dhh-32,route,never in core media,not in core,B
+diamond_head_hike,113,dhh-33,beside,never in core media,not in core,B
+diamond_head_hike,113,dhh-34,farther,never in core media,not in core,B
+diamond_head_hike,113,dhh-34,would,173,later,B
+diamond_head_hike,113,dhh-35,rest,163,later,B
+diamond_head_hike,113,dhh-36,head,171,later,B
+diamond_head_hike,113,dhh-36,would,173,later,B
+surf_lesson,149,sfl-01,surf,237,later,B
+surf_lesson,149,sfl-03,explain,never in core media,not in core,B
+surf_lesson,149,sfl-03,rules,never in core media,not in core,B
+surf_lesson,149,sfl-03,safety,never in core media,not in core,B
+surf_lesson,149,sfl-04,safety,never in core media,not in core,B
+surf_lesson,149,sfl-05,instructions,never in core media,not in core,B
+surf_lesson,149,sfl-07,could,245,later,B
+surf_lesson,149,sfl-09,would,173,later,B
+surf_lesson,149,sfl-11,used,169,later,B
+surf_lesson,149,sfl-12,explain,never in core media,not in core,B
+surf_lesson,149,sfl-13,discuss,never in core media,not in core,B
+surf_lesson,149,sfl-14,signal,never in core media,not in core,B
+surf_lesson,149,sfl-16,explain,never in core media,not in core,B
+surf_lesson,149,sfl-17,would,173,later,B
+surf_lesson,149,sfl-18,warning,never in core media,not in core,B
+surf_lesson,149,sfl-20,explain,never in core media,not in core,B
+surf_lesson,149,sfl-21,understand,239,later,B
+surf_lesson,149,sfl-23,teacher,154,later,B
+surf_lesson,149,sfl-27,easily,never in core media,not in core,B
+surf_lesson,149,sfl-29,anytime,never in core media,not in core,B
+surf_lesson,149,sfl-29,pause,never in core media,not in core,B
+surf_lesson,149,sfl-32,short,223,later,B
+surf_lesson,149,sfl-33,stay,165,later,B
+surf_lesson,149,sfl-34,enter,171,later,B
+surf_lesson,149,sfl-34,review,239,later,B
+surf_lesson,149,sfl-34,rules,never in core media,not in core,B
+surf_lesson,149,sfl-34,safety,never in core media,not in core,B
+surf_lesson,149,sfl-35,decide,never in core media,not in core,B
+surf_lesson,149,sfl-35,review,239,later,B
+surf_lesson,149,sfl-36,stay,165,later,B
+surf_lesson,149,sfl-37,explain,never in core media,not in core,B
+surf_lesson,149,sfl-38,stay,165,later,B
+hanauma_bay_snorkel,173,hbs-03,could,245,later,B
+hanauma_bay_snorkel,173,hbs-03,volume,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-06,would,173,same-session,B
+hanauma_bay_snorkel,173,hbs-07,could,245,later,B
+hanauma_bay_snorkel,173,hbs-07,explain,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-07,rules,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-07,safety,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-08,rules,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-10,rules,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-12,fins,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-12,mask,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-15,mask,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-16,loose,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-17,could,245,later,B
+hanauma_bay_snorkel,173,hbs-18,mask,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-19,signals,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-20,signal,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-21,signals,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-22,explain,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-23,could,245,later,B
+hanauma_bay_snorkel,173,hbs-23,signals,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-24,decision,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-26,conditions,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-28,choices,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-29,would,173,same-session,B
+hanauma_bay_snorkel,173,hbs-30,conditions,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-30,suitable,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-31,staff,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-32,staff,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-33,would,173,same-session,B
+hanauma_bay_snorkel,173,hbs-34,decide,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-34,staff,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-35,rather,never in core media,not in core,B
+hanauma_bay_snorkel,173,hbs-36,while,243,later,B
+iolani_palace_tour,155,ipt-01,tour,never in core media,not in core,B
+iolani_palace_tour,155,ipt-03,could,245,later,B
+iolani_palace_tour,155,ipt-03,information,173,later,B
+iolani_palace_tour,155,ipt-03,tour,never in core media,not in core,B
+iolani_palace_tour,155,ipt-04,group,never in core media,not in core,B
+iolani_palace_tour,155,ipt-05,information,173,later,B
+iolani_palace_tour,155,ipt-05,tour,never in core media,not in core,B
+iolani_palace_tour,155,ipt-06,information,173,later,B
+iolani_palace_tour,155,ipt-06,sheet,never in core media,not in core,B
+iolani_palace_tour,155,ipt-09,could,245,later,B
+iolani_palace_tour,155,ipt-09,moment,never in core media,not in core,B
+iolani_palace_tour,155,ipt-12,group,never in core media,not in core,B
+iolani_palace_tour,155,ipt-12,stay,165,later,B
+iolani_palace_tour,155,ipt-13,stay,165,later,B
+iolani_palace_tour,155,ipt-14,could,245,later,B
+iolani_palace_tour,155,ipt-15,beside,never in core media,not in core,B
+iolani_palace_tour,155,ipt-15,stay,165,later,B
+iolani_palace_tour,155,ipt-16,entrance,never in core media,not in core,B
+iolani_palace_tour,155,ipt-17,entrance,never in core media,not in core,B
+iolani_palace_tour,155,ipt-18,could,245,later,B
+iolani_palace_tour,155,ipt-21,would,173,later,B
+iolani_palace_tour,155,ipt-23,could,245,later,B
+iolani_palace_tour,155,ipt-23,moment,never in core media,not in core,B
+iolani_palace_tour,155,ipt-24,information,173,later,B
+iolani_palace_tour,155,ipt-24,sheet,never in core media,not in core,B
+iolani_palace_tour,155,ipt-25,moment,never in core media,not in core,B
+iolani_palace_tour,155,ipt-26,understand,239,later,B
+iolani_palace_tour,155,ipt-27,guide,never in core media,not in core,B
+iolani_palace_tour,155,ipt-27,understand,239,later,B
+iolani_palace_tour,155,ipt-29,could,245,later,B
+iolani_palace_tour,155,ipt-30,moment,never in core media,not in core,B
+iolani_palace_tour,155,ipt-33,end,167,later,B
+iolani_palace_tour,155,ipt-33,tour,never in core media,not in core,B
+iolani_palace_tour,155,ipt-35,information,173,later,B
+iolani_palace_tour,155,ipt-35,may,232,later,B
+iolani_palace_tour,155,ipt-35,sheet,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-02,could,245,later,B
+kamehameha_statue_walk,161,ksw-05,crossing,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-06,crossing,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-07,could,245,later,B
+kamehameha_statue_walk,161,ksw-07,crossing,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-08,crossing,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-13,information,173,later,B
+kamehameha_statue_walk,161,ksw-13,path,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-13,sheet,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-14,would,173,later,B
+kamehameha_statue_walk,161,ksw-15,aloud,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-15,could,245,later,B
+kamehameha_statue_walk,161,ksw-16,information,173,later,B
+kamehameha_statue_walk,161,ksw-17,path,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-17,stay,165,later,B
+kamehameha_statue_walk,161,ksw-18,information,173,later,B
+kamehameha_statue_walk,161,ksw-18,sheet,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-19,would,173,later,B
+kamehameha_statue_walk,161,ksw-20,sheet,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-22,information,173,later,B
+kamehameha_statue_walk,161,ksw-23,top,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-24,path,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-25,path,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-26,path,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-28,shall,never in core media,not in core,B
+kamehameha_statue_walk,161,ksw-31,directions,171,later,B
+kamehameha_statue_walk,161,ksw-31,would,173,later,B
+kamehameha_statue_walk,161,ksw-33,could,245,later,B
+kamehameha_statue_walk,161,ksw-35,crossing,never in core media,not in core,B
+pearl_harbor_visit,185,phv-04,displays,never in core media,not in core,B
+pearl_harbor_visit,185,phv-04,schedule,never in core media,not in core,B
+pearl_harbor_visit,185,phv-05,programs,never in core media,not in core,B
+pearl_harbor_visit,185,phv-05,tickets,235,later,B
+pearl_harbor_visit,185,phv-06,could,245,later,B
+pearl_harbor_visit,185,phv-06,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-06,schedule,never in core media,not in core,B
+pearl_harbor_visit,185,phv-07,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-07,ticket,235,later,B
+pearl_harbor_visit,185,phv-08,programs,never in core media,not in core,B
+pearl_harbor_visit,185,phv-08,schedule,never in core media,not in core,B
+pearl_harbor_visit,185,phv-09,could,245,later,B
+pearl_harbor_visit,185,phv-09,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-10,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-11,schedule,never in core media,not in core,B
+pearl_harbor_visit,185,phv-12,length,never in core media,not in core,B
+pearl_harbor_visit,185,phv-13,charge,never in core media,not in core,B
+pearl_harbor_visit,185,phv-13,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-15,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-16,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-17,choose,never in core media,not in core,B
+pearl_harbor_visit,185,phv-17,could,245,later,B
+pearl_harbor_visit,185,phv-17,moment,never in core media,not in core,B
+pearl_harbor_visit,185,phv-18,could,245,later,B
+pearl_harbor_visit,185,phv-18,suggest,never in core media,not in core,B
+pearl_harbor_visit,185,phv-20,could,245,later,B
+pearl_harbor_visit,185,phv-20,displays,never in core media,not in core,B
+pearl_harbor_visit,185,phv-22,entrance,never in core media,not in core,B
+pearl_harbor_visit,185,phv-22,rules,never in core media,not in core,B
+pearl_harbor_visit,185,phv-22,staff,never in core media,not in core,B
+pearl_harbor_visit,185,phv-23,could,245,later,B
+pearl_harbor_visit,185,phv-24,could,245,later,B
+pearl_harbor_visit,185,phv-24,rules,never in core media,not in core,B
+pearl_harbor_visit,185,phv-25,staff,never in core media,not in core,B
+pearl_harbor_visit,185,phv-26,rules,never in core media,not in core,B
+pearl_harbor_visit,185,phv-27,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-28,could,245,later,B
+pearl_harbor_visit,185,phv-28,displays,never in core media,not in core,B
+pearl_harbor_visit,185,phv-28,program,never in core media,not in core,B
+pearl_harbor_visit,185,phv-29,shown,never in core media,not in core,B
+pearl_harbor_visit,185,phv-31,displays,never in core media,not in core,B
+pearl_harbor_visit,185,phv-32,schedule,never in core media,not in core,B
+pearl_harbor_visit,185,phv-35,may,232,later,B
+pearl_harbor_visit,185,phv-36,enjoy,never in core media,not in core,B
+pearl_harbor_visit,185,phv-38,displays,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-02,could,245,later,B
+north_shore_shrimp_truck,191,nss-02,menu,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-04,menu,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-04,portions,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-04,shown,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-06,rather,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-12,menu,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-13,spicy,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-14,spicy,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-15,sauce,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-15,spicy,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-16,quite,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-16,spicy,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-17,both,253,later,B
+north_shore_shrimp_truck,191,nss-17,sauce,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-18,either,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-18,sauce,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-18,spicy,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-19,sauce,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-19,spicy,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-20,both,253,later,B
+north_shore_shrimp_truck,191,nss-20,sauce,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-20,spicy,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-21,sauce,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-21,separate,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-22,could,245,later,B
+north_shore_shrimp_truck,191,nss-23,sauce,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-23,spicy,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-25,could,245,later,B
+north_shore_shrimp_truck,191,nss-25,forks,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-26,add,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-26,forks,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-28,total,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-30,accept,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-30,total,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-33,could,245,later,B
+north_shore_shrimp_truck,191,nss-33,receipt,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-34,receipt,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-37,both,253,later,B
+north_shore_shrimp_truck,191,nss-38,could,245,later,B
+north_shore_shrimp_truck,191,nss-38,napkins,never in core media,not in core,B
+north_shore_shrimp_truck,191,nss-39,both,253,later,B
+north_shore_shrimp_truck,191,nss-40,napkins,never in core media,not in core,B
+sunset_beach_day,197,sbd-02,sunset,never in core media,not in core,B
+sunset_beach_day,197,sbd-03,could,245,later,B
+sunset_beach_day,197,sbd-03,explain,never in core media,not in core,B
+sunset_beach_day,197,sbd-06,staff,never in core media,not in core,B
+sunset_beach_day,197,sbd-06,visitors,never in core media,not in core,B
+sunset_beach_day,197,sbd-07,include,never in core media,not in core,B
+sunset_beach_day,197,sbd-08,could,245,later,B
+sunset_beach_day,197,sbd-09,staff,never in core media,not in core,B
+sunset_beach_day,197,sbd-10,waves,never in core media,not in core,B
+sunset_beach_day,197,sbd-11,waves,never in core media,not in core,B
+sunset_beach_day,197,sbd-12,describe,never in core media,not in core,B
+sunset_beach_day,197,sbd-12,safety,never in core media,not in core,B
+sunset_beach_day,197,sbd-12,staff,never in core media,not in core,B
+sunset_beach_day,197,sbd-13,conditions,never in core media,not in core,B
+sunset_beach_day,197,sbd-13,explain,never in core media,not in core,B
+sunset_beach_day,197,sbd-13,staff,never in core media,not in core,B
+sunset_beach_day,197,sbd-14,notice,never in core media,not in core,B
+sunset_beach_day,197,sbd-14,waves,never in core media,not in core,B
+sunset_beach_day,197,sbd-15,waves,never in core media,not in core,B
+sunset_beach_day,197,sbd-16,could,245,later,B
+sunset_beach_day,197,sbd-16,waves,never in core media,not in core,B
+sunset_beach_day,197,sbd-17,farther,never in core media,not in core,B
+sunset_beach_day,197,sbd-17,waves,never in core media,not in core,B
+sunset_beach_day,197,sbd-18,while,243,later,B
+sunset_beach_day,197,sbd-20,rather,never in core media,not in core,B
+sunset_beach_day,197,sbd-20,sunset,never in core media,not in core,B
+sunset_beach_day,197,sbd-22,notices,never in core media,not in core,B
+sunset_beach_day,197,sbd-24,notices,never in core media,not in core,B
+sunset_beach_day,197,sbd-25,staff,never in core media,not in core,B
+sunset_beach_day,197,sbd-26,sky,never in core media,not in core,B
+sunset_beach_day,197,sbd-28,could,245,later,B
+sunset_beach_day,197,sbd-28,moment,never in core media,not in core,B
+sunset_beach_day,197,sbd-30,sunset,never in core media,not in core,B
+sunset_beach_day,197,sbd-33,enjoy,never in core media,not in core,B
+sunset_beach_day,197,sbd-33,view,never in core media,not in core,B
+sunset_beach_day,197,sbd-35,entrance,never in core media,not in core,B
+sunset_beach_day,197,sbd-35,path,never in core media,not in core,B
+hula_show,143,hsh-01,hula,never in core media,not in core,B
+hula_show,143,hsh-04,side,171,later,B
+hula_show,143,hsh-06,could,245,later,B
+hula_show,143,hsh-08,table,never in core media,not in core,B
+hula_show,143,hsh-10,understand,239,later,B
+hula_show,143,hsh-12,understand,239,later,B
+hula_show,143,hsh-12,yet,235,later,B
+hula_show,143,hsh-14,could,245,later,B
+hula_show,143,hsh-15,understand,239,later,B
+hula_show,143,hsh-16,guide,never in core media,not in core,B
+hula_show,143,hsh-17,guide,never in core media,not in core,B
+hula_show,143,hsh-18,would,173,later,B
+hula_show,143,hsh-19,could,245,later,B
+hula_show,143,hsh-19,explain,never in core media,not in core,B
+hula_show,143,hsh-21,host,never in core media,not in core,B
+hula_show,143,hsh-22,either,never in core media,not in core,B
+hula_show,143,hsh-22,host,never in core media,not in core,B
+hula_show,143,hsh-23,host,never in core media,not in core,B
+hula_show,143,hsh-24,could,245,later,B
+hula_show,143,hsh-25,host,never in core media,not in core,B
+hula_show,143,hsh-26,host,never in core media,not in core,B
+hula_show,143,hsh-27,explanation,157,later,B
+hula_show,143,hsh-27,yet,235,later,B
+hula_show,143,hsh-28,host,never in core media,not in core,B
+hula_show,143,hsh-28,understand,239,later,B
+hula_show,143,hsh-29,explained,never in core media,not in core,B
+hula_show,143,hsh-30,host,never in core media,not in core,B
+hula_show,143,hsh-30,table,never in core media,not in core,B
+hula_show,143,hsh-32,calm,never in core media,not in core,B
+hula_show,143,hsh-32,felt,163,later,B
+hula_show,143,hsh-33,enjoyed,never in core media,not in core,B
+hula_show,143,hsh-33,understand,239,later,B
+hula_show,143,hsh-35,explain,never in core media,not in core,B
+hula_show,143,hsh-36,program,never in core media,not in core,B
+hula_show,143,hsh-37,available,never in core media,not in core,B
+hula_show,143,hsh-38,table,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-01,allergies,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-01,requests,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-02,allergy,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-02,could,245,later,B
+eggs_n_things_special_requests,203,esr-02,milk,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-03,contains,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-03,dish,229,later,B
+eggs_n_things_special_requests,203,esr-03,milk,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-04,could,245,later,B
+eggs_n_things_special_requests,203,esr-04,milk,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-04,without,245,later,B
+eggs_n_things_special_requests,203,esr-05,decide,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-06,milk,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-07,surface,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-08,milk,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-11,cheese,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-11,toast,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-11,without,245,later,B
+eggs_n_things_special_requests,203,esr-12,cheese,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-12,could,245,later,B
+eggs_n_things_special_requests,203,esr-12,toast,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-13,sauce,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-14,add,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-15,plain,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-15,prefer,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-15,sauce,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-16,request,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-17,both,253,later,B
+eggs_n_things_special_requests,203,esr-17,could,245,later,B
+eggs_n_things_special_requests,203,esr-17,details,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-18,cheese,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-18,toast,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-18,without,245,later,B
+eggs_n_things_special_requests,203,esr-19,requested,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-19,toast,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-20,cheese,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-21,cheese,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-21,could,245,later,B
+eggs_n_things_special_requests,203,esr-21,replace,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-23,cheese,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-23,could,245,later,B
+eggs_n_things_special_requests,203,esr-23,instead,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-24,cheese,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-24,fresh,253,later,B
+eggs_n_things_special_requests,203,esr-24,without,245,later,B
+eggs_n_things_special_requests,203,esr-27,could,245,later,B
+eggs_n_things_special_requests,203,esr-27,while,243,later,B
+eggs_n_things_special_requests,203,esr-31,could,245,later,B
+eggs_n_things_special_requests,203,esr-31,fork,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-32,fork,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-33,could,245,later,B
+eggs_n_things_special_requests,203,esr-33,moment,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-34,items,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-34,review,239,later,B
+eggs_n_things_special_requests,203,esr-35,items,never in core media,not in core,B
+eggs_n_things_special_requests,203,esr-36,included,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-02,introduction,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-03,could,245,later,B
+polynesian_cultural_center,209,pcc-03,rushing,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-03,without,245,later,B
+polynesian_cultural_center,209,pcc-04,thirty,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-05,differ,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-06,attend,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-06,both,253,later,B
+polynesian_cultural_center,209,pcc-07,explains,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-07,program,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-07,while,243,later,B
+polynesian_cultural_center,209,pcc-08,attend,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-08,both,253,later,B
+polynesian_cultural_center,209,pcc-08,short,223,later,B
+polynesian_cultural_center,209,pcc-09,prefer,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-10,background,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-11,decide,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-11,prefer,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-12,explain,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-13,could,245,later,B
+polynesian_cultural_center,209,pcc-13,decide,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-13,explain,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-14,may,232,later,B
+polynesian_cultural_center,209,pcc-15,host,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-16,host,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-17,afterward,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-21,between,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-21,rather,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-22,could,245,later,B
+polynesian_cultural_center,209,pcc-22,example,223,later,B
+polynesian_cultural_center,209,pcc-23,discussing,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-24,host,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-25,understanding,239,later,B
+polynesian_cultural_center,209,pcc-26,could,245,later,B
+polynesian_cultural_center,209,pcc-26,while,243,later,B
+polynesian_cultural_center,209,pcc-28,deciding,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-28,whether,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-29,could,245,later,B
+polynesian_cultural_center,209,pcc-29,decide,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-29,while,243,later,B
+polynesian_cultural_center,209,pcc-30,beside,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-30,decide,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-30,table,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-30,while,243,later,B
+polynesian_cultural_center,209,pcc-31,yet,235,later,B
+polynesian_cultural_center,209,pcc-32,choose,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-32,schedule,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-33,already,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-33,introduction,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-33,short,223,later,B
+polynesian_cultural_center,209,pcc-33,since,256,later,B
+polynesian_cultural_center,209,pcc-34,schedule,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-35,compare,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-35,decision,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-35,final,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-35,options,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-37,discuss,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-37,options,never in core media,not in core,B
+polynesian_cultural_center,209,pcc-38,could,245,later,B
+airport_rental_car,215,acr-01,confirmation,never in core media,not in core,B
+airport_rental_car,215,acr-02,confirmation,never in core media,not in core,B
+airport_rental_car,215,acr-03,could,245,later,B
+airport_rental_car,215,acr-07,documents,never in core media,not in core,B
+airport_rental_car,215,acr-08,id,never in core media,not in core,B
+airport_rental_car,215,acr-09,documents,never in core media,not in core,B
+airport_rental_car,215,acr-09,missing,never in core media,not in core,B
+airport_rental_car,215,acr-10,documents,never in core media,not in core,B
+airport_rental_car,215,acr-11,documents,never in core media,not in core,B
+airport_rental_car,215,acr-12,choices,never in core media,not in core,B
+airport_rental_car,215,acr-12,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-12,optional,never in core media,not in core,B
+airport_rental_car,215,acr-13,covers,never in core media,not in core,B
+airport_rental_car,215,acr-13,decide,never in core media,not in core,B
+airport_rental_car,215,acr-13,explain,never in core media,not in core,B
+airport_rental_car,215,acr-13,option,never in core media,not in core,B
+airport_rental_car,215,acr-14,conditions,never in core media,not in core,B
+airport_rental_car,215,acr-14,price,never in core media,not in core,B
+airport_rental_car,215,acr-15,decide,never in core media,not in core,B
+airport_rental_car,215,acr-15,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-15,price,never in core media,not in core,B
+airport_rental_car,215,acr-15,terms,never in core media,not in core,B
+airport_rental_car,215,acr-16,charge,never in core media,not in core,B
+airport_rental_car,215,acr-16,screen,never in core media,not in core,B
+airport_rental_car,215,acr-16,taxes,never in core media,not in core,B
+airport_rental_car,215,acr-17,amount,never in core media,not in core,B
+airport_rental_car,215,acr-17,decline,never in core media,not in core,B
+airport_rental_car,215,acr-17,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-17,optional,never in core media,not in core,B
+airport_rental_car,215,acr-18,charge,never in core media,not in core,B
+airport_rental_car,215,acr-18,higher,never in core media,not in core,B
+airport_rental_car,215,acr-18,total,never in core media,not in core,B
+airport_rental_car,215,acr-19,charge,never in core media,not in core,B
+airport_rental_car,215,acr-19,choose,never in core media,not in core,B
+airport_rental_car,215,acr-19,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-19,taxes,never in core media,not in core,B
+airport_rental_car,215,acr-20,charge,never in core media,not in core,B
+airport_rental_car,215,acr-20,decline,never in core media,not in core,B
+airport_rental_car,215,acr-20,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-20,taxes,never in core media,not in core,B
+airport_rental_car,215,acr-21,choice,never in core media,not in core,B
+airport_rental_car,215,acr-21,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-21,review,239,later,B
+airport_rental_car,215,acr-21,terms,never in core media,not in core,B
+airport_rental_car,215,acr-22,choosing,never in core media,not in core,B
+airport_rental_car,215,acr-22,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-22,optional,never in core media,not in core,B
+airport_rental_car,215,acr-22,terms,never in core media,not in core,B
+airport_rental_car,215,acr-23,could,245,later,B
+airport_rental_car,215,acr-23,cover,never in core media,not in core,B
+airport_rental_car,215,acr-23,explain,never in core media,not in core,B
+airport_rental_car,215,acr-23,options,never in core media,not in core,B
+airport_rental_car,215,acr-24,exclusions,never in core media,not in core,B
+airport_rental_car,215,acr-25,decline,never in core media,not in core,B
+airport_rental_car,215,acr-25,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-25,terms,never in core media,not in core,B
+airport_rental_car,215,acr-26,add,never in core media,not in core,B
+airport_rental_car,215,acr-26,insurance,never in core media,not in core,B
+airport_rental_car,215,acr-26,marked,never in core media,not in core,B
+airport_rental_car,215,acr-26,option,never in core media,not in core,B
+airport_rental_car,215,acr-27,choice,never in core media,not in core,B
+airport_rental_car,215,acr-27,review,239,later,B
+airport_rental_car,215,acr-27,screen,never in core media,not in core,B
+airport_rental_car,215,acr-27,total,never in core media,not in core,B
+airport_rental_car,215,acr-28,choice,never in core media,not in core,B
+airport_rental_car,215,acr-28,copy,never in core media,not in core,B
+airport_rental_car,215,acr-28,could,245,later,B
+airport_rental_car,215,acr-28,total,never in core media,not in core,B
+airport_rental_car,215,acr-29,could,245,later,B
+airport_rental_car,215,acr-29,total,never in core media,not in core,B
+airport_rental_car,215,acr-30,charges,never in core media,not in core,B
+airport_rental_car,215,acr-30,copy,never in core media,not in core,B
+airport_rental_car,215,acr-30,explain,never in core media,not in core,B
+airport_rental_car,215,acr-32,due,never in core media,not in core,B
+airport_rental_car,215,acr-33,agreed,never in core media,not in core,B
+airport_rental_car,215,acr-33,charge,never in core media,not in core,B
+airport_rental_car,215,acr-34,charges,never in core media,not in core,B
+airport_rental_car,215,acr-34,due,never in core media,not in core,B
+airport_rental_car,215,acr-34,sheet,never in core media,not in core,B
+airport_rental_car,215,acr-35,copy,never in core media,not in core,B
+airport_rental_car,215,acr-35,could,245,later,B
+airport_rental_car,215,acr-35,due,never in core media,not in core,B
+airport_rental_car,215,acr-35,mark,never in core media,not in core,B
+airport_rental_car,215,acr-36,agree,241,later,B
+airport_rental_car,215,acr-36,charges,never in core media,not in core,B
+airport_rental_car,215,acr-36,explain,never in core media,not in core,B
+airport_rental_car,215,acr-37,charges,never in core media,not in core,B
+airport_rental_car,215,acr-37,details,never in core media,not in core,B
+airport_rental_car,215,acr-37,mark,never in core media,not in core,B
+airport_rental_car,215,acr-37,review,239,later,B
+airport_rental_car,215,acr-38,reviewed,239,later,B
+airport_rental_car,215,acr-38,whether,never in core media,not in core,B
+airport_rental_car,215,acr-39,pickup,never in core media,not in core,B
+airport_rental_car,215,acr-39,reviewed,239,later,B
+airport_rental_car,215,acr-39,terms,never in core media,not in core,B
+airport_rental_car,215,acr-40,discuss,never in core media,not in core,B
+airport_rental_car,215,acr-40,terms,never in core media,not in core,B
+apartment_hunting,221,aph-01,view,never in core media,not in core,B
+apartment_hunting,221,aph-02,compare,never in core media,not in core,B
+apartment_hunting,221,aph-02,decision,never in core media,not in core,B
+apartment_hunting,221,aph-03,could,245,later,B
+apartment_hunting,221,aph-03,viewing,never in core media,not in core,B
+apartment_hunting,221,aph-04,monthly,never in core media,not in core,B
+apartment_hunting,221,aph-04,rules,never in core media,not in core,B
+apartment_hunting,221,aph-05,matters,never in core media,not in core,B
+apartment_hunting,221,aph-07,expect,never in core media,not in core,B
+apartment_hunting,221,aph-07,noise,never in core media,not in core,B
+apartment_hunting,221,aph-08,judge,never in core media,not in core,B
+apartment_hunting,221,aph-08,noise,never in core media,not in core,B
+apartment_hunting,221,aph-08,open,never in core media,not in core,B
+apartment_hunting,221,aph-10,could,245,later,B
+apartment_hunting,221,aph-10,noise,never in core media,not in core,B
+apartment_hunting,221,aph-10,open,never in core media,not in core,B
+apartment_hunting,221,aph-11,could,245,later,B
+apartment_hunting,221,aph-13,could,245,later,B
+apartment_hunting,221,aph-13,monthly,never in core media,not in core,B
+apartment_hunting,221,aph-13,understand,239,later,B
+apartment_hunting,221,aph-14,bills,never in core media,not in core,B
+apartment_hunting,221,aph-14,monthly,never in core media,not in core,B
+apartment_hunting,221,aph-14,separately,never in core media,not in core,B
+apartment_hunting,221,aph-15,dollars,229,later,B
+apartment_hunting,221,aph-15,electricity,never in core media,not in core,B
+apartment_hunting,221,aph-15,separately,never in core media,not in core,B
+apartment_hunting,221,aph-15,thousand,never in core media,not in core,B
+apartment_hunting,221,aph-16,included,never in core media,not in core,B
+apartment_hunting,221,aph-17,deposit,never in core media,not in core,B
+apartment_hunting,221,aph-18,charges,never in core media,not in core,B
+apartment_hunting,221,aph-18,could,245,later,B
+apartment_hunting,221,aph-18,due,never in core media,not in core,B
+apartment_hunting,221,aph-19,charges,never in core media,not in core,B
+apartment_hunting,221,aph-19,offer,never in core media,not in core,B
+apartment_hunting,221,aph-20,compare,never in core media,not in core,B
+apartment_hunting,221,aph-20,could,245,later,B
+apartment_hunting,221,aph-20,offer,never in core media,not in core,B
+apartment_hunting,221,aph-21,copy,never in core media,not in core,B
+apartment_hunting,221,aph-21,could,245,later,B
+apartment_hunting,221,aph-21,review,239,later,B
+apartment_hunting,221,aph-22,agreed,never in core media,not in core,B
+apartment_hunting,221,aph-22,copy,never in core media,not in core,B
+apartment_hunting,221,aph-22,viewing,never in core media,not in core,B
+apartment_hunting,221,aph-23,lease,never in core media,not in core,B
+apartment_hunting,221,aph-23,offer,never in core media,not in core,B
+apartment_hunting,221,aph-24,lease,never in core media,not in core,B
+apartment_hunting,221,aph-25,decide,never in core media,not in core,B
+apartment_hunting,221,aph-25,discuss,never in core media,not in core,B
+apartment_hunting,221,aph-25,lease,never in core media,not in core,B
+apartment_hunting,221,aph-25,shorter,never in core media,not in core,B
+apartment_hunting,221,aph-26,discuss,never in core media,not in core,B
+apartment_hunting,221,aph-26,lease,never in core media,not in core,B
+apartment_hunting,221,aph-26,length,never in core media,not in core,B
+apartment_hunting,221,aph-26,terms,never in core media,not in core,B
+apartment_hunting,221,aph-27,rules,never in core media,not in core,B
+apartment_hunting,221,aph-28,allowed,never in core media,not in core,B
+apartment_hunting,221,aph-28,limits,never in core media,not in core,B
+apartment_hunting,221,aph-28,overnight,never in core media,not in core,B
+apartment_hunting,221,aph-29,noise,never in core media,not in core,B
+apartment_hunting,221,aph-29,quiet,never in core media,not in core,B
+apartment_hunting,221,aph-30,noise,never in core media,not in core,B
+apartment_hunting,221,aph-30,quiet,never in core media,not in core,B
+apartment_hunting,221,aph-30,rules,never in core media,not in core,B
+apartment_hunting,221,aph-30,sheet,never in core media,not in core,B
+apartment_hunting,221,aph-31,could,245,later,B
+apartment_hunting,221,aph-31,explain,never in core media,not in core,B
+apartment_hunting,221,aph-31,repair,never in core media,not in core,B
+apartment_hunting,221,aph-31,request,never in core media,not in core,B
+apartment_hunting,221,aph-32,expected,never in core media,not in core,B
+apartment_hunting,221,aph-32,ourselves,243,later,B
+apartment_hunting,221,aph-32,repairs,never in core media,not in core,B
+apartment_hunting,221,aph-33,contacts,never in core media,not in core,B
+apartment_hunting,221,aph-33,offer,never in core media,not in core,B
+apartment_hunting,221,aph-33,repair,never in core media,not in core,B
+apartment_hunting,221,aph-34,decision,never in core media,not in core,B
+apartment_hunting,221,aph-34,viewing,never in core media,not in core,B
+apartment_hunting,221,aph-35,could,245,later,B
+apartment_hunting,221,aph-35,noise,never in core media,not in core,B
+apartment_hunting,221,aph-36,compare,never in core media,not in core,B
+apartment_hunting,221,aph-36,decide,never in core media,not in core,B
+apartment_hunting,221,aph-36,offer,never in core media,not in core,B
+apartment_hunting,221,aph-37,contact,never in core media,not in core,B
+apartment_hunting,221,aph-37,discuss,never in core media,not in core,B
+apartment_hunting,221,aph-37,offer,never in core media,not in core,B
+apartment_hunting,221,aph-37,viewing,never in core media,not in core,B
+apartment_hunting,221,aph-38,decision,never in core media,not in core,B
+apartment_hunting,221,aph-38,offer,never in core media,not in core,B
+apartment_hunting,221,aph-38,review,239,later,B
+apartment_hunting,221,aph-39,could,245,later,B
+apartment_hunting,221,aph-39,details,never in core media,not in core,B
+apartment_hunting,221,aph-40,note,never in core media,not in core,B
+apartment_hunting,221,aph-40,open,never in core media,not in core,B
+apartment_hunting,221,aph-40,review,239,later,B
+lei_day,228,lyd-01,table,never in core media,not in core,B
+lei_day,228,lyd-02,could,245,later,B
+lei_day,228,lyd-02,explain,never in core media,not in core,B
+lei_day,228,lyd-02,visitors,never in core media,not in core,B
+lei_day,228,lyd-03,closer,never in core media,not in core,B
+lei_day,228,lyd-03,may,232,later,B
+lei_day,228,lyd-04,table,never in core media,not in core,B
+lei_day,228,lyd-04,touching,never in core media,not in core,B
+lei_day,228,lyd-05,table,never in core media,not in core,B
+lei_day,228,lyd-05,touching,never in core media,not in core,B
+lei_day,228,lyd-07,lei,never in core media,not in core,B
+lei_day,228,lyd-08,visitors,never in core media,not in core,B
+lei_day,228,lyd-09,activity,never in core media,not in core,B
+lei_day,228,lyd-09,items,never in core media,not in core,B
+lei_day,228,lyd-10,display,never in core media,not in core,B
+lei_day,228,lyd-10,items,never in core media,not in core,B
+lei_day,228,lyd-11,decide,never in core media,not in core,B
+lei_day,228,lyd-11,labels,never in core media,not in core,B
+lei_day,228,lyd-12,between,never in core media,not in core,B
+lei_day,228,lyd-12,difference,never in core media,not in core,B
+lei_day,228,lyd-12,lei,never in core media,not in core,B
+lei_day,228,lyd-12,understand,239,later,B
+lei_day,228,lyd-13,could,245,later,B
+lei_day,228,lyd-13,explain,never in core media,not in core,B
+lei_day,228,lyd-13,labels,never in core media,not in core,B
+lei_day,228,lyd-14,flowers,never in core media,not in core,B
+lei_day,228,lyd-14,label,never in core media,not in core,B
+lei_day,228,lyd-15,labels,never in core media,not in core,B
+lei_day,228,lyd-16,describe,never in core media,not in core,B
+lei_day,228,lyd-16,labels,never in core media,not in core,B
+lei_day,228,lyd-16,lei,never in core media,not in core,B
+lei_day,228,lyd-17,could,245,later,B
+lei_day,228,lyd-17,label,never in core media,not in core,B
+lei_day,228,lyd-18,lei,never in core media,not in core,B
+lei_day,228,lyd-19,flowers,never in core media,not in core,B
+lei_day,228,lyd-19,label,never in core media,not in core,B
+lei_day,228,lyd-19,lei,never in core media,not in core,B
+lei_day,228,lyd-20,describe,never in core media,not in core,B
+lei_day,228,lyd-20,materials,never in core media,not in core,B
+lei_day,228,lyd-20,rather,never in core media,not in core,B
+lei_day,228,lyd-21,could,245,later,B
+lei_day,228,lyd-21,instead,never in core media,not in core,B
+lei_day,228,lyd-22,labels,never in core media,not in core,B
+lei_day,228,lyd-23,host,never in core media,not in core,B
+lei_day,228,lyd-23,table,never in core media,not in core,B
+lei_day,228,lyd-24,activity,never in core media,not in core,B
+lei_day,228,lyd-25,activity,never in core media,not in core,B
+lei_day,228,lyd-26,afterward,never in core media,not in core,B
+lei_day,228,lyd-26,could,245,later,B
+lei_day,228,lyd-29,appreciate,never in core media,not in core,B
+lei_day,228,lyd-29,assume,never in core media,not in core,B
+lei_day,228,lyd-29,understand,239,later,B
+lei_day,228,lyd-30,activity,never in core media,not in core,B
+lei_day,228,lyd-32,activity,never in core media,not in core,B
+lei_day,228,lyd-32,prefer,never in core media,not in core,B
+lei_day,228,lyd-34,lei,never in core media,not in core,B
+lei_day,228,lyd-34,while,243,later,B
+lei_day,228,lyd-35,compare,never in core media,not in core,B
+lei_day,228,lyd-35,labels,never in core media,not in core,B
+lei_day,228,lyd-36,clearly,never in core media,not in core,B
+lei_day,228,lyd-36,describe,never in core media,not in core,B
+lei_day,228,lyd-36,difference,never in core media,not in core,B
+lei_day,228,lyd-36,materials,never in core media,not in core,B
+lei_day,228,lyd-37,discussing,never in core media,not in core,B
+lei_day,228,lyd-37,lei,never in core media,not in core,B
+lei_day,228,lyd-38,host,never in core media,not in core,B
+lei_day,228,lyd-39,explained,never in core media,not in core,B
+lei_day,228,lyd-39,focus,never in core media,not in core,B
+lei_day,228,lyd-39,guide,never in core media,not in core,B
+lei_day,228,lyd-39,rather,never in core media,not in core,B
+dole_plantation,233,dpt-01,decide,never in core media,not in core,B
+dole_plantation,233,dpt-02,could,245,later,B
+dole_plantation,233,dpt-02,explain,never in core media,not in core,B
+dole_plantation,233,dpt-02,main,never in core media,not in core,B
+dole_plantation,233,dpt-02,tour,never in core media,not in core,B
+dole_plantation,233,dpt-03,include,never in core media,not in core,B
+dole_plantation,233,dpt-04,display,never in core media,not in core,B
+dole_plantation,233,dpt-05,guide,never in core media,not in core,B
+dole_plantation,233,dpt-05,separate,never in core media,not in core,B
+dole_plantation,233,dpt-06,separate,never in core media,not in core,B
+dole_plantation,233,dpt-06,tour,never in core media,not in core,B
+dole_plantation,233,dpt-07,include,never in core media,not in core,B
+dole_plantation,233,dpt-08,separate,never in core media,not in core,B
+dole_plantation,233,dpt-09,guide,never in core media,not in core,B
+dole_plantation,233,dpt-10,display,never in core media,not in core,B
+dole_plantation,233,dpt-10,entrance,never in core media,not in core,B
+dole_plantation,233,dpt-11,entrance,never in core media,not in core,B
+dole_plantation,233,dpt-13,entrance,never in core media,not in core,B
+dole_plantation,233,dpt-14,longer,never in core media,not in core,B
+dole_plantation,233,dpt-15,while,243,later,B
+dole_plantation,233,dpt-16,could,245,later,B
+dole_plantation,233,dpt-16,decide,never in core media,not in core,B
+dole_plantation,233,dpt-17,without,245,later,B
+dole_plantation,233,dpt-18,tour,never in core media,not in core,B
+dole_plantation,233,dpt-18,without,245,later,B
+dole_plantation,233,dpt-19,could,245,later,B
+dole_plantation,233,dpt-20,separate,never in core media,not in core,B
+dole_plantation,233,dpt-20,tour,never in core media,not in core,B
+dole_plantation,233,dpt-21,display,never in core media,not in core,B
+dole_plantation,233,dpt-23,decide,never in core media,not in core,B
+dole_plantation,233,dpt-24,could,245,later,B
+dole_plantation,233,dpt-24,moment,never in core media,not in core,B
+dole_plantation,233,dpt-26,gift,259,later,B
+dole_plantation,233,dpt-27,carry,never in core media,not in core,B
+dole_plantation,233,dpt-27,gift,259,later,B
+dole_plantation,233,dpt-28,could,245,later,B
+dole_plantation,233,dpt-28,smaller,never in core media,not in core,B
+dole_plantation,233,dpt-29,both,253,later,B
+dole_plantation,233,dpt-29,price,never in core media,not in core,B
+dole_plantation,233,dpt-31,could,245,later,B
+dole_plantation,233,dpt-31,price,never in core media,not in core,B
+dole_plantation,233,dpt-32,total,never in core media,not in core,B
+dole_plantation,233,dpt-32,twelve,never in core media,not in core,B
+dole_plantation,233,dpt-33,include,never in core media,not in core,B
+dole_plantation,233,dpt-34,could,245,later,B
+dole_plantation,233,dpt-34,screen,never in core media,not in core,B
+dole_plantation,233,dpt-34,total,never in core media,not in core,B
+dole_plantation,233,dpt-35,including,never in core media,not in core,B
+dole_plantation,233,dpt-35,screen,never in core media,not in core,B
+dole_plantation,233,dpt-35,twelve,never in core media,not in core,B
+dole_plantation,233,dpt-38,accepted,never in core media,not in core,B
+dole_plantation,233,dpt-38,both,253,later,B
+dole_plantation,233,dpt-40,receipt,never in core media,not in core,B
+manoa_falls_hike,239,mfh-02,since,256,later,B
+manoa_falls_hike,239,mfh-02,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-03,conditions,never in core media,not in core,B
+manoa_falls_hike,239,mfh-03,trail,never in core media,not in core,B
+manoa_falls_hike,239,mfh-03,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-04,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-05,notice,never in core media,not in core,B
+manoa_falls_hike,239,mfh-05,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-05,visitors,never in core media,not in core,B
+manoa_falls_hike,239,mfh-06,decide,never in core media,not in core,B
+manoa_falls_hike,239,mfh-07,notice,never in core media,not in core,B
+manoa_falls_hike,239,mfh-08,decide,never in core media,not in core,B
+manoa_falls_hike,239,mfh-08,staff,never in core media,not in core,B
+manoa_falls_hike,239,mfh-08,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-09,notice,never in core media,not in core,B
+manoa_falls_hike,239,mfh-09,visitors,never in core media,not in core,B
+manoa_falls_hike,239,mfh-10,trail,never in core media,not in core,B
+manoa_falls_hike,239,mfh-10,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-11,could,245,later,B
+manoa_falls_hike,239,mfh-11,explain,never in core media,not in core,B
+manoa_falls_hike,239,mfh-12,decide,never in core media,not in core,B
+manoa_falls_hike,239,mfh-12,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-13,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-14,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-15,could,245,later,B
+manoa_falls_hike,239,mfh-15,notice,never in core media,not in core,B
+manoa_falls_hike,239,mfh-16,staff,never in core media,not in core,B
+manoa_falls_hike,239,mfh-16,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-17,staff,never in core media,not in core,B
+manoa_falls_hike,239,mfh-17,unsure,never in core media,not in core,B
+manoa_falls_hike,239,mfh-18,explain,never in core media,not in core,B
+manoa_falls_hike,239,mfh-18,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-19,could,245,later,B
+manoa_falls_hike,239,mfh-19,expected,never in core media,not in core,B
+manoa_falls_hike,239,mfh-19,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-20,could,245,later,B
+manoa_falls_hike,239,mfh-20,explain,never in core media,not in core,B
+manoa_falls_hike,239,mfh-20,notice,never in core media,not in core,B
+manoa_falls_hike,239,mfh-22,conditions,never in core media,not in core,B
+manoa_falls_hike,239,mfh-22,trail,never in core media,not in core,B
+manoa_falls_hike,239,mfh-22,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-23,discuss,never in core media,not in core,B
+manoa_falls_hike,239,mfh-23,while,243,later,B
+manoa_falls_hike,239,mfh-24,choose,never in core media,not in core,B
+manoa_falls_hike,239,mfh-24,could,245,later,B
+manoa_falls_hike,239,mfh-24,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-25,rather,never in core media,not in core,B
+manoa_falls_hike,239,mfh-25,while,243,later,B
+manoa_falls_hike,239,mfh-26,trail,never in core media,not in core,B
+manoa_falls_hike,239,mfh-26,without,245,later,B
+manoa_falls_hike,239,mfh-27,against,never in core media,not in core,B
+manoa_falls_hike,239,mfh-27,could,245,later,B
+manoa_falls_hike,239,mfh-27,decide,never in core media,not in core,B
+manoa_falls_hike,239,mfh-28,activity,never in core media,not in core,B
+manoa_falls_hike,239,mfh-28,choose,never in core media,not in core,B
+manoa_falls_hike,239,mfh-28,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-29,reasonable,never in core media,not in core,B
+manoa_falls_hike,239,mfh-29,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-30,decide,never in core media,not in core,B
+manoa_falls_hike,239,mfh-30,prefer,never in core media,not in core,B
+manoa_falls_hike,239,mfh-31,update,never in core media,not in core,B
+manoa_falls_hike,239,mfh-33,discuss,never in core media,not in core,B
+manoa_falls_hike,239,mfh-33,trail,never in core media,not in core,B
+manoa_falls_hike,239,mfh-33,without,245,later,B
+hospital_emergency,245,her-01,emergency,245,same-session,B
+hospital_emergency,245,her-02,pain,never in core media,not in core,B
+hospital_emergency,245,her-02,since,256,later,B
+hospital_emergency,245,her-02,stomach,253,later,B
+hospital_emergency,245,her-02,worse,never in core media,not in core,B
+hospital_emergency,245,her-03,explaining,never in core media,not in core,B
+hospital_emergency,245,her-03,stomach,253,later,B
+hospital_emergency,245,her-04,pain,never in core media,not in core,B
+hospital_emergency,245,her-05,eight,never in core media,not in core,B
+hospital_emergency,245,her-05,shortly,never in core media,not in core,B
+hospital_emergency,245,her-05,since,256,later,B
+hospital_emergency,245,her-06,began,never in core media,not in core,B
+hospital_emergency,245,her-06,exact,never in core media,not in core,B
+hospital_emergency,245,her-07,pain,never in core media,not in core,B
+hospital_emergency,245,her-09,cause,never in core media,not in core,B
+hospital_emergency,245,her-09,without,245,same-session,B
+hospital_emergency,245,her-11,began,never in core media,not in core,B
+hospital_emergency,245,her-11,notice,never in core media,not in core,B
+hospital_emergency,245,her-11,pain,never in core media,not in core,B
+hospital_emergency,245,her-12,pain,never in core media,not in core,B
+hospital_emergency,245,her-12,sat,never in core media,not in core,B
+hospital_emergency,245,her-13,pain,never in core media,not in core,B
+hospital_emergency,245,her-13,worse,never in core media,not in core,B
+hospital_emergency,245,her-14,pain,never in core media,not in core,B
+hospital_emergency,245,her-15,clearly,never in core media,not in core,B
+hospital_emergency,245,her-15,describe,never in core media,not in core,B
+hospital_emergency,245,her-15,stomach,253,later,B
+hospital_emergency,245,her-16,could,245,same-session,B
+hospital_emergency,245,her-16,explain,never in core media,not in core,B
+hospital_emergency,245,her-17,focus,never in core media,not in core,B
+hospital_emergency,245,her-17,pain,never in core media,not in core,B
+hospital_emergency,245,her-19,could,245,same-session,B
+hospital_emergency,245,her-20,explain,never in core media,not in core,B
+hospital_emergency,245,her-21,details,never in core media,not in core,B
+hospital_emergency,245,her-21,note,never in core media,not in core,B
+hospital_emergency,245,her-21,registration,never in core media,not in core,B
+hospital_emergency,245,her-22,address,never in core media,not in core,B
+hospital_emergency,245,her-22,form,never in core media,not in core,B
+hospital_emergency,245,her-23,could,245,same-session,B
+hospital_emergency,245,her-23,form,never in core media,not in core,B
+hospital_emergency,245,her-23,id,never in core media,not in core,B
+hospital_emergency,245,her-24,form,never in core media,not in core,B
+hospital_emergency,245,her-24,id,never in core media,not in core,B
+hospital_emergency,245,her-25,patient,never in core media,not in core,B
+hospital_emergency,245,her-26,id,never in core media,not in core,B
+hospital_emergency,245,her-26,permission,never in core media,not in core,B
+hospital_emergency,245,her-27,id,never in core media,not in core,B
+hospital_emergency,245,her-28,details,never in core media,not in core,B
+hospital_emergency,245,her-29,address,never in core media,not in core,B
+hospital_emergency,245,her-29,form,never in core media,not in core,B
+hospital_emergency,245,her-29,patient's,never in core media,not in core,B
+hospital_emergency,245,her-30,could,245,same-session,B
+hospital_emergency,245,her-30,details,never in core media,not in core,B
+hospital_emergency,245,her-31,address,never in core media,not in core,B
+hospital_emergency,245,her-31,correcting,never in core media,not in core,B
+hospital_emergency,245,her-32,certainly,never in core media,not in core,B
+hospital_emergency,245,her-33,address,never in core media,not in core,B
+hospital_emergency,245,her-34,member,never in core media,not in core,B
+hospital_emergency,245,her-34,staff,never in core media,not in core,B
+hospital_emergency,245,her-35,member,never in core media,not in core,B
+hospital_emergency,245,her-35,staff,never in core media,not in core,B
+hospital_emergency,245,her-36,could,245,same-session,B
+hospital_emergency,245,her-37,member,never in core media,not in core,B
+hospital_emergency,245,her-37,staff,never in core media,not in core,B
+hospital_emergency,245,her-38,pain,never in core media,not in core,B
+hospital_emergency,245,her-38,worse,never in core media,not in core,B
+hospital_emergency,245,her-39,pain,never in core media,not in core,B
+hospital_emergency,245,her-40,note,never in core media,not in core,B
+hospital_emergency,245,her-40,nurse,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-02,distance,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-02,explain,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-02,sea,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-02,visitors,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-03,affect,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-03,choices,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-03,sea,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-04,disturbed,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-04,feed,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-05,distance,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-06,leaving,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-06,matter,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-07,explain,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-07,protect,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-08,sea,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-08,unchanged,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-09,main,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-10,giving,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-10,protect,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-10,sea,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-11,changing,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-11,enjoy,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-11,visitors,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-12,add,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-13,matters,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-13,reason,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-14,decide,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-14,explain,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-15,affect,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-15,notice,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-16,member,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-16,staff,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-17,unsure,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-18,explain,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-18,reason,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-19,changing,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-19,its,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-19,sea,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-20,explain,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-22,although,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-22,approach,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-22,clear,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-22,support,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-23,judge,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-23,situation,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-23,unsure,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-24,judgment,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-25,choices,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-28,suggest,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-28,unsure,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-28,visitors,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-29,assuming,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-29,difference,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-29,instead,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-29,staff,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-30,suggest,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-32,guidance,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-32,reason,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-33,further,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-33,inconvenience,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-33,protecting,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-33,worth,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-34,decide,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-34,guidance,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-35,staff,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-35,uncertain,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-35,whenever,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-36,decide,never in core media,not in core,B
+hanauma_bay_conservation,257,hbc-36,reason,never in core media,not in core,B
+kamehameha_day,263,kmd-02,explain,never in core media,not in core,B
+kamehameha_day,263,kmd-03,visitors,never in core media,not in core,B
+kamehameha_day,263,kmd-05,speaker,never in core media,not in core,B
+kamehameha_day,263,kmd-06,interruptions,never in core media,not in core,B
+kamehameha_day,263,kmd-07,explain,never in core media,not in core,B
+kamehameha_day,263,kmd-08,discuss,never in core media,not in core,B
+kamehameha_day,263,kmd-09,describe,never in core media,not in core,B
+kamehameha_day,263,kmd-10,afterward,never in core media,not in core,B
+kamehameha_day,263,kmd-10,miss,never in core media,not in core,B
+kamehameha_day,263,kmd-10,speaker's,never in core media,not in core,B
+kamehameha_day,263,kmd-11,correctly,never in core media,not in core,B
+kamehameha_day,263,kmd-11,understood,never in core media,not in core,B
+kamehameha_day,263,kmd-12,period,never in core media,not in core,B
+kamehameha_day,263,kmd-14,appreciate,never in core media,not in core,B
+kamehameha_day,263,kmd-14,brief,never in core media,not in core,B
+kamehameha_day,263,kmd-14,introduction,never in core media,not in core,B
+kamehameha_day,263,kmd-14,prefer,never in core media,not in core,B
+kamehameha_day,263,kmd-15,provided,never in core media,not in core,B
+kamehameha_day,263,kmd-15,support,never in core media,not in core,B
+kamehameha_day,263,kmd-15,unclear,never in core media,not in core,B
+kamehameha_day,263,kmd-17,background,never in core media,not in core,B
+kamehameha_day,263,kmd-18,deciding,never in core media,not in core,B
+kamehameha_day,263,kmd-18,rather,never in core media,not in core,B
+kamehameha_day,263,kmd-19,final,never in core media,not in core,B
+kamehameha_day,263,kmd-19,moment,never in core media,not in core,B
+kamehameha_day,263,kmd-20,group,never in core media,not in core,B
+kamehameha_day,263,kmd-20,interrupting,never in core media,not in core,B
+kamehameha_day,263,kmd-21,save,never in core media,not in core,B
+kamehameha_day,263,kmd-22,invite,never in core media,not in core,B
+kamehameha_day,263,kmd-23,main,never in core media,not in core,B
+kamehameha_day,263,kmd-23,reason,never in core media,not in core,B
+kamehameha_day,263,kmd-24,views,never in core media,not in core,B
+kamehameha_day,263,kmd-25,confirm,never in core media,not in core,B
+kamehameha_day,263,kmd-25,invites,never in core media,not in core,B
+kamehameha_day,263,kmd-26,invite,never in core media,not in core,B
+kamehameha_day,263,kmd-26,speaker,never in core media,not in core,B
+kamehameha_day,263,kmd-27,respond,never in core media,not in core,B
+kamehameha_day,263,kmd-28,suggest,never in core media,not in core,B
+kamehameha_day,263,kmd-29,note,never in core media,not in core,B
+kamehameha_day,263,kmd-30,guidance,never in core media,not in core,B
+kamehameha_day,263,kmd-31,balance,never in core media,not in core,B
+kamehameha_day,263,kmd-32,assume,never in core media,not in core,B
+kamehameha_day,263,kmd-32,interrupt,never in core media,not in core,B
+kamehameha_day,263,kmd-33,afterward,never in core media,not in core,B
+kamehameha_day,263,kmd-33,compare,never in core media,not in core,B
+kamehameha_day,263,kmd-33,shall,never in core media,not in core,B
+kamehameha_day,263,kmd-34,discuss,never in core media,not in core,B
+kamehameha_day,263,kmd-35,discussing,never in core media,not in core,B
+kailua_lanikai_day,269,kld-02,quiet,never in core media,not in core,B
+kailua_lanikai_day,269,kld-03,activities,never in core media,not in core,B
+kailua_lanikai_day,269,kld-03,compare,never in core media,not in core,B
+kailua_lanikai_day,269,kld-03,decide,never in core media,not in core,B
+kailua_lanikai_day,269,kld-04,compare,never in core media,not in core,B
+kailua_lanikai_day,269,kld-04,quiet,never in core media,not in core,B
+kailua_lanikai_day,269,kld-05,case,never in core media,not in core,B
+kailua_lanikai_day,269,kld-05,either,never in core media,not in core,B
+kailua_lanikai_day,269,kld-05,open,never in core media,not in core,B
+kailua_lanikai_day,269,kld-06,flexible,never in core media,not in core,B
+kailua_lanikai_day,269,kld-06,instead,never in core media,not in core,B
+kailua_lanikai_day,269,kld-07,choose,never in core media,not in core,B
+kailua_lanikai_day,269,kld-08,conditions,never in core media,not in core,B
+kailua_lanikai_day,269,kld-08,schedule,never in core media,not in core,B
+kailua_lanikai_day,269,kld-09,choose,never in core media,not in core,B
+kailua_lanikai_day,269,kld-09,departure,never in core media,not in core,B
+kailua_lanikai_day,269,kld-10,choose,never in core media,not in core,B
+kailua_lanikai_day,269,kld-10,gear,never in core media,not in core,B
+kailua_lanikai_day,269,kld-11,rather,never in core media,not in core,B
+kailua_lanikai_day,269,kld-12,depend,never in core media,not in core,B
+kailua_lanikai_day,269,kld-12,rather,never in core media,not in core,B
+kailua_lanikai_day,269,kld-12,sandwiches,never in core media,not in core,B
+kailua_lanikai_day,269,kld-13,decide,never in core media,not in core,B
+kailua_lanikai_day,269,kld-14,sandwiches,never in core media,not in core,B
+kailua_lanikai_day,269,kld-15,sandwiches,never in core media,not in core,B
+kailua_lanikai_day,269,kld-18,sunscreen,never in core media,not in core,B
+kailua_lanikai_day,269,kld-19,add,never in core media,not in core,B
+kailua_lanikai_day,269,kld-19,sunscreen,never in core media,not in core,B
+kailua_lanikai_day,269,kld-20,add,never in core media,not in core,B
+kailua_lanikai_day,269,kld-20,sunscreen,never in core media,not in core,B
+kailua_lanikai_day,269,kld-22,activities,never in core media,not in core,B
+kailua_lanikai_day,269,kld-24,between,never in core media,not in core,B
+kailua_lanikai_day,269,kld-25,flexible,never in core media,not in core,B
+kailua_lanikai_day,269,kld-26,instead,never in core media,not in core,B
+kailua_lanikai_day,269,kld-26,skip,never in core media,not in core,B
+kailua_lanikai_day,269,kld-27,decide,never in core media,not in core,B
+kailua_lanikai_day,269,kld-27,rather,never in core media,not in core,B
+kailua_lanikai_day,269,kld-28,settled,never in core media,not in core,B
+kailua_lanikai_day,269,kld-29,choose,never in core media,not in core,B
+kailua_lanikai_day,269,kld-29,conditions,never in core media,not in core,B
+kailua_lanikai_day,269,kld-30,neither,never in core media,not in core,B
+kailua_lanikai_day,269,kld-30,remaining,never in core media,not in core,B
+kailua_lanikai_day,269,kld-31,choose,never in core media,not in core,B
+kailua_lanikai_day,269,kld-31,conditions,never in core media,not in core,B
+kailua_lanikai_day,269,kld-32,departure,never in core media,not in core,B
+kailua_lanikai_day,269,kld-32,gear,never in core media,not in core,B
+kailua_lanikai_day,269,kld-32,open,never in core media,not in core,B
+kailua_lanikai_day,269,kld-33,confirm,never in core media,not in core,B
+kailua_lanikai_day,269,kld-33,details,never in core media,not in core,B
+kailua_lanikai_day,269,kld-33,remaining,never in core media,not in core,B
+kailua_lanikai_day,269,kld-34,clear,never in core media,not in core,B
+kailua_lanikai_day,269,kld-34,details,never in core media,not in core,B
+dukes_celebration,275,dcl-01,reservation,never in core media,not in core,B
+dukes_celebration,275,dcl-02,six,never in core media,not in core,B
+dukes_celebration,275,dcl-02,table,never in core media,not in core,B
+dukes_celebration,275,dcl-03,occasion,never in core media,not in core,B
+dukes_celebration,275,dcl-04,add,never in core media,not in core,B
+dukes_celebration,275,dcl-04,anniversary,never in core media,not in core,B
+dukes_celebration,275,dcl-04,note,never in core media,not in core,B
+dukes_celebration,275,dcl-05,anniversary,never in core media,not in core,B
+dukes_celebration,275,dcl-05,prefer,never in core media,not in core,B
+dukes_celebration,275,dcl-05,quiet,never in core media,not in core,B
+dukes_celebration,275,dcl-06,add,never in core media,not in core,B
+dukes_celebration,275,dcl-06,anniversary,never in core media,not in core,B
+dukes_celebration,275,dcl-06,note,never in core media,not in core,B
+dukes_celebration,275,dcl-07,note,never in core media,not in core,B
+dukes_celebration,275,dcl-07,prefer,never in core media,not in core,B
+dukes_celebration,275,dcl-07,quiet,never in core media,not in core,B
+dukes_celebration,275,dcl-08,reservation,never in core media,not in core,B
+dukes_celebration,275,dcl-09,confirm,never in core media,not in core,B
+dukes_celebration,275,dcl-10,six,never in core media,not in core,B
+dukes_celebration,275,dcl-11,six,never in core media,not in core,B
+dukes_celebration,275,dcl-12,six,never in core media,not in core,B
+dukes_celebration,275,dcl-13,available,never in core media,not in core,B
+dukes_celebration,275,dcl-13,reservation,never in core media,not in core,B
+dukes_celebration,275,dcl-15,reservation,never in core media,not in core,B
+dukes_celebration,275,dcl-16,request,never in core media,not in core,B
+dukes_celebration,275,dcl-16,table,never in core media,not in core,B
+dukes_celebration,275,dcl-17,possible,never in core media,not in core,B
+dukes_celebration,275,dcl-18,matters,never in core media,not in core,B
+dukes_celebration,275,dcl-18,quieter,never in core media,not in core,B
+dukes_celebration,275,dcl-18,table,never in core media,not in core,B
+dukes_celebration,275,dcl-18,view,never in core media,not in core,B
+dukes_celebration,275,dcl-19,note,never in core media,not in core,B
+dukes_celebration,275,dcl-19,particular,never in core media,not in core,B
+dukes_celebration,275,dcl-19,preference,never in core media,not in core,B
+dukes_celebration,275,dcl-19,table,never in core media,not in core,B
+dukes_celebration,275,dcl-20,reservation,never in core media,not in core,B
+dukes_celebration,275,dcl-22,reservation,never in core media,not in core,B
+dukes_celebration,275,dcl-22,table,never in core media,not in core,B
+dukes_celebration,275,dcl-23,table,never in core media,not in core,B
+dukes_celebration,275,dcl-24,available,never in core media,not in core,B
+dukes_celebration,275,dcl-24,table,never in core media,not in core,B
+dukes_celebration,275,dcl-25,open,never in core media,not in core,B
+dukes_celebration,275,dcl-25,quieter,never in core media,not in core,B
+dukes_celebration,275,dcl-25,somewhere,never in core media,not in core,B
+dukes_celebration,275,dcl-25,table,never in core media,not in core,B
+dukes_celebration,275,dcl-26,quite,never in core media,not in core,B
+dukes_celebration,275,dcl-27,table,never in core media,not in core,B
+dukes_celebration,275,dcl-28,decide,never in core media,not in core,B
+dukes_celebration,275,dcl-28,table,never in core media,not in core,B
+dukes_celebration,275,dcl-30,farther,never in core media,not in core,B
+dukes_celebration,275,dcl-31,decide,never in core media,not in core,B
+dukes_celebration,275,dcl-32,table,never in core media,not in core,B
+dukes_celebration,275,dcl-34,prefer,never in core media,not in core,B
+dukes_celebration,275,dcl-34,quieter,never in core media,not in core,B
+dukes_celebration,275,dcl-34,table,never in core media,not in core,B
+dukes_celebration,275,dcl-35,choice,never in core media,not in core,B
+dukes_celebration,275,dcl-35,menus,never in core media,not in core,B
+dukes_celebration,275,dcl-35,note,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-04,simple,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-04,suggest,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-05,useful,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-06,smaller,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-07,compare,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-08,apart,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-08,differ,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-10,pockets,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-11,open,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-12,smaller,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-13,carries,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-13,few,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-13,usually,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-14,less,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-14,prefer,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-14,smaller,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-15,carry,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-15,easier,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-15,prefer,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-15,smaller,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-16,compare,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-16,decide,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-16,prices,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-17,labels,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-17,less,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-17,prices,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-17,smaller,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-18,smaller,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-20,price,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-21,protect,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-22,price,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-24,whether,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-26,address,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-26,provide,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-27,address,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-27,provide,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-28,address,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-30,thirty,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-30,total,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-31,include,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-31,total,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-32,charge,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-32,explain,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-33,included,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-33,items,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-33,total,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-34,charges,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-35,address,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-36,package,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-36,total,never in core media,not in core,B
+ala_moana_gift_shopping,281,ags-37,total,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-01,decide,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-01,whether,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-02,confirm,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-02,entry,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-04,confirmed,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-04,entry,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-07,miss,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-08,decide,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-12,moment,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-12,pace,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-13,decision,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-13,final,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-13,pace,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-17,moment,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-20,clearly,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-20,explain,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-21,stands,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-22,instead,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-22,pretending,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-22,understood,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-23,notice,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-23,understood,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-27,matters,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-29,explain,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-30,explain,never in core media,not in core,B
+diamond_head_sunrise,287,dhs-31,explain,never in core media,not in core,B

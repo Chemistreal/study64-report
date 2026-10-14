@@ -1,0 +1,124 @@
+{
+  "range": [
+    217,
+    288
+  ],
+  "sessions": 72,
+  "source_files_checked": [
+    "out/handouts/eng2p_handout_l073.md",
+    "out/handouts/eng2p_handout_l074.md",
+    "out/handouts/eng2p_handout_l075.md",
+    "out/handouts/eng2p_handout_l076.md",
+    "out/handouts/eng2p_handout_l077.md",
+    "out/handouts/eng2p_handout_l078.md",
+    "out/handouts/eng2p_handout_l079.md",
+    "out/handouts/eng2p_handout_l080.md",
+    "out/handouts/eng2p_handout_l081.md",
+    "out/handouts/eng2p_handout_l082.md",
+    "out/handouts/eng2p_handout_l083.md",
+    "out/handouts/eng2p_handout_l084.md",
+    "out/handouts/eng2p_handout_l085.md",
+    "out/handouts/eng2p_handout_l086.md",
+    "out/handouts/eng2p_handout_l087.md",
+    "out/handouts/eng2p_handout_l088.md",
+    "out/handouts/eng2p_handout_l089.md",
+    "out/handouts/eng2p_handout_l090.md",
+    "out/handouts/eng2p_handout_l091.md",
+    "out/handouts/eng2p_handout_l092.md",
+    "out/handouts/eng2p_handout_l093.md",
+    "out/handouts/eng2p_handout_l094.md",
+    "out/handouts/eng2p_handout_l095.md",
+    "out/handouts/eng2p_handout_l096.md",
+    "out/lectures/eng2p_q4_l073.md",
+    "out/lectures/eng2p_q4_l074.md",
+    "out/lectures/eng2p_q4_l075.md",
+    "out/lectures/eng2p_q4_l076.md",
+    "out/lectures/eng2p_q4_l077.md",
+    "out/lectures/eng2p_q4_l078.md",
+    "out/lectures/eng2p_q4_l079.md",
+    "out/lectures/eng2p_q4_l080.md",
+    "out/lectures/eng2p_q4_l081.md",
+    "out/lectures/eng2p_q4_l082.md",
+    "out/lectures/eng2p_q4_l083.md",
+    "out/lectures/eng2p_q4_l084.md",
+    "out/lectures/eng2p_q4_l085.md",
+    "out/lectures/eng2p_q4_l086.md",
+    "out/lectures/eng2p_q4_l087.md",
+    "out/lectures/eng2p_q4_l088.md",
+    "out/lectures/eng2p_q4_l089.md",
+    "out/lectures/eng2p_q4_l090.md",
+    "out/lectures/eng2p_q4_l091.md",
+    "out/lectures/eng2p_q4_l092.md",
+    "out/lectures/eng2p_q4_l093.md",
+    "out/lectures/eng2p_q4_l094.md",
+    "out/lectures/eng2p_q4_l095.md",
+    "out/lectures/eng2p_q4_l096.md"
+  ],
+  "problems": [
+    {
+      "session": 237,
+      "id": "Q4-237",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    },
+    {
+      "session": 239,
+      "id": "Q4-239",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    },
+    {
+      "session": 240,
+      "id": "Q4-240",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    },
+    {
+      "session": 241,
+      "id": "Q4-241",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    },
+    {
+      "session": 242,
+      "id": "Q4-242",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    },
+    {
+      "session": 243,
+      "id": "Q4-243",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    },
+    {
+      "session": 244,
+      "id": "Q4-244",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    },
+    {
+      "session": 245,
+      "id": "Q4-245",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    },
+    {
+      "session": 246,
+      "id": "Q4-246",
+      "kind": "lecture",
+      "problem": "세트와 세션 강 연결이 달라요.",
+      "A/B": "B"
+    }
+  ],
+  "lexical_candidate_rows": 14,
+  "all_new_word_forms": 1811
+}

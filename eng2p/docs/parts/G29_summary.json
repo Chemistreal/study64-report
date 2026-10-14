@@ -1,0 +1,27 @@
+{
+  "items": 2751,
+  "counts": {
+    "radio": 89,
+    "notices": 24,
+    "readers": 10,
+    "smalltalk": 2580,
+    "calendar": 48
+  },
+  "mechanical problems": 1,
+  "problems": [
+    {
+      "kind": "radio",
+      "id": "np-3560996",
+      "field": "duplicate",
+      "problem": "identical transcript to np-3381159",
+      "A/B": "B"
+    }
+  ],
+  "CEFR check": "unknown: no full CEFR lexicon; heard/supplemental checks are not CEFR",
+  "dates": 336,
+  "event claims": 11,
+  "radio duplicates": 1,
+  "radio cue alignment": "not supplied; playback not performed",
+  "core cues estimate": true,
+  "year consistency": "48 weeks, six study days, Sunday rest; actual dates recomputed"
+}

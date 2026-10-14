@@ -1,0 +1,275 @@
+mission,id,English,verdict,proposal,A/B,reason
+eggs_n_things_special_requests,esr-05,"Before I decide, how do you cook the food?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+eggs_n_things_special_requests,esr-08,I can't promise there will be no milk in your food.,keep,-,B,보장할 수 없다는 현재 G8 안내를 유지해요. 실제 음식이나 물의 안전을 판정하거나 새 의료 조언을 넣지 않았어요.
+eggs_n_things_special_requests,esr-23,Could you make new eggs instead of just taking off the cheese?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-03,Could you help us plan the afternoon without rushing?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-04,The talk uses pictures. The show has music and starts thirty minutes later.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+polynesian_cultural_center,pcc-05,How does the talk differ from the show?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-06,Would there be enough time to attend both?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-07,"The talk explains the program, while the show lets you watch and listen.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+polynesian_cultural_center,pcc-08,"Yes. There's a short break after the talk, so you can attend both.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+polynesian_cultural_center,pcc-09,"I'd prefer the talk first, but how does that sound to you, {B}?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-10,That suits me because I'd like some background before the show.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-11,"I prefer music, but let's try the talk before we decide about the show.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-13,"Yes, please. Could you explain the order before we decide?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-15,"First, the host welcomes everyone. Music follows, and questions come at the end.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+polynesian_cultural_center,pcc-16,"Yes. First, the host welcomes everyone; then music follows. Questions come at the end.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+polynesian_cultural_center,pcc-17,"So the welcome comes before the music, and we ask questions afterward. Is that right?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-18,"When you say questions come last, do you mean after the music?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-21,Why do the questions come at the end rather than between parts?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-22,Could you give us an example of a question we could ask?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-25,I like having time for questions because we can check our understanding.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-26,We could write down our questions while we listen.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-28,We'll check the time before deciding whether to watch the show.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-29,Where could we take a break while we decide?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-32,Let's check the schedule together before we choose our next stop.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-33,"I'd like a short break first, since we've already heard the introduction.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-35,Let's compare the next options before we make a final decision.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+polynesian_cultural_center,pcc-37,We'll discuss the options together and ask if we need help.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-01,Can I have the booking name and confirmation number?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-02,The booking is under {A}; here's the confirmation number.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-03,Could you check the booking using my name first?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-04,Sure. I can look it up under {A}.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-05,Who will be driving?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-06,I'll be the only driver; {B} is traveling with me.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-07,I'm the driver. Which documents do you need from me?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-08,"I need your license, photo ID, and credit card.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-09,Here are my documents; please tell me if anything is missing.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-10,Here are my documents. Do you need anything else from me?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-11,Thanks. I have the documents I need for this booking.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-12,Would you like to hear the optional insurance choices?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-13,Yes. Please explain what each option covers before we decide.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-14,Can we see the price and conditions in writing first?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-15,I'll show you the insurance terms and price before you decide.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-16,The screen shows the booking charge and taxes.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-17,Which amount would we pay if we decline the optional insurance?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-18,Why is the total higher than the booking charge?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-19,"You pay the booking charge, taxes, and any insurance you choose.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-20,"If you decline insurance, you pay only the booking charge and taxes.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-21,Please review the written terms before making an insurance choice.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-22,I'd like to read these terms before choosing any optional insurance.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-23,Could you explain which costs these options don't cover?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-24,The exclusions are listed here; I can go through them with you.,review,Costs that aren't covered are listed here. I can explain them to you.,B,보장 제외 범위를 함께 확인하는 기능을 그대로 두고 exclusions와 go through를 직접 풀어요. 실제 보험 보장 내용은 추가하지 않아요.
+airport_rental_car,acr-25,I've read the terms. I'll decline the insurance.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-26,Please add the insurance option marked here to this booking.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-27,The screen now shows the total for your choice. Please review it.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-28,This total matches our choice. Could we have a copy before signing?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-29,Could you go through this total before we sign anything?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-30,I'll give you a written copy and explain any charges you ask about.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-31,"Before you sign, what would you like to check about returning the car?",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-32,"Where should we return the car, and when is it due?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-33,What happens to the charge if we return the car after the agreed time?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-34,"The return place, due time, and late charges are on this sheet.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-35,Could you mark the return place and due time on our copy?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-36,Please explain the late charges before we agree to the booking.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-37,I'll mark those details and review the late charges with you.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-38,"Once you've reviewed everything, please tell me whether you're ready to sign.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+airport_rental_car,acr-39,We've reviewed the terms. We'd like to sign and continue with pickup.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+airport_rental_car,acr-40,We need more time to discuss the terms before signing.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-01,Are you here to view the apartment together?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-02,Yes. We'd like to compare the space and costs before making a decision.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-03,Yes. Could you tell us what we'll see during the viewing?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-04,"We'll look at the rooms, then go over the monthly costs and rules.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-05,Here's the living room. What matters most to you?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-06,We need enough space for two people to work at home.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-07,How much noise can we expect from the street?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-08,I can't judge the noise for you; we can listen with the windows open.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-09,"Take a look around, and tell me what you'd like to check.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-10,Could we open the windows to see how much noise comes in?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-11,Could you show us where we'd put a desk?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-12,Yes. We can check the windows and where a desk would fit.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-13,"The space could work for us, but we'd like to understand the full monthly cost.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-14,"What is the monthly rent, and which bills would we pay separately?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-15,Rent is two thousand dollars a month; you pay electricity separately.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-16,Water is included. What else would you like to check about costs?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-17,"Is there a deposit, and when would we need to pay it?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-18,Would any other charges be due before we could move in?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-19,This offer lists all charges and when you need to pay.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-20,Could you show us the offer so we can compare the costs?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-21,Could we take a copy and review it together later?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-22,Yes. You can take a copy; nothing is agreed during this viewing.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-23,This offer has a one-year lease. What would you like to know about it?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-24,What happens if we need to leave before the lease ends?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-25,Can we discuss a shorter lease before we decide?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-26,The terms for ending early are here. We can discuss the lease length.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-27,Which house rules would you like to ask about?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-28,"Are overnight guests allowed, and are there any limits we should know about?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-29,"When are quiet hours, and how do we report a noise problem?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-30,"The sheet lists guest rules, quiet hours, and how to report noise. Let's read it together.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-31,Could you also explain how we would request a repair?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-32,Which repairs would we be expected to pay for ourselves?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-33,The offer lists repair contacts and who pays; we can check each point.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-34,What would help you make a decision after the viewing?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-35,Could we come back at another time to hear the street noise?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-36,We'd like to compare this offer with another apartment before we decide.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-37,That's fine. Contact me if you'd like another viewing or want to discuss the offer.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+apartment_hunting,aph-38,Thank you. We'll review this offer together before making a decision.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-39,Thank you. Could you write down the details we still need to check?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+apartment_hunting,aph-40,Yes. I'll note the open questions for you to review.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+lei_day,lyd-02,Could you explain what the sign asks visitors to do?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-05,"Yes. Watch from here, then ask me before touching anything on the table.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+lei_day,lyd-07,Does that mean we should ask before picking up a lei?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-08,Why are visitors asked to check with you first?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-09,Yes. Ask first so I can show you which items we use for this activity.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+lei_day,lyd-10,Some items are for the display; I'll show you what we can use.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+lei_day,lyd-11,"Let's ask about the labels before we decide what to do, {B}.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-12,I'd like to understand the difference between these two lei.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-13,Could you explain what the two labels tell us?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-16,Do the labels describe what each lei is made of?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-17,Could you give us an example using the first label?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-20,"So they describe the materials, rather than the history. Is that right?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-21,Where could we learn about the history instead?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-25,What should we do if we have questions during the activity?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-29,I appreciate having time to ask because I don't want to assume I understand.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-31,"We'll watch first, then ask before we try anything.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-32,I'd prefer to watch today and leave the activity for another visit.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-34,I'd like to look at the two lei again while we watch.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-36,Yes. Knowing the materials helps me describe the difference more clearly.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-37,"They help, but I'd need more information before discussing the history of the lei.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-38,Let's ask the host where we can find more information.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+lei_day,lyd-39,"For now, I'd rather focus on what the guide explained.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+dole_plantation,dpt-06,"So the shop visit is separate from the garden tour, right?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+dole_plantation,dpt-11,"So we meet here first, then at the garden entrance?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+dole_plantation,dpt-18,Can we visit the shop without joining the garden tour?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-06,So we should wait here before we decide about the walk?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-10,"The weather report may change, and we don't have the trail update yet.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+manoa_falls_hike,mfh-11,Could you explain what that means for our plans?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-12,Where can we get the next update before we decide?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-16,It asks us to wait here until staff give an update.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-19,Thanks. Could you say when the next update is expected?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-20,Could you explain why the notice asks us to wait?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-22,"We don't have the trail update yet, so we can't answer questions about trail conditions.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+manoa_falls_hike,mfh-27,We could visit a shop later if we decide against the walk.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-29,"That sounds reasonable, but let's wait for the update first.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+manoa_falls_hike,mfh-30,I'd prefer to decide together once we have more information.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-01,What brings you to the emergency department today?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-02,"I've had pain in my stomach since this morning, and it's getting worse.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-03,My stomach started hurting this morning. I need help explaining what happened.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-04,I'll listen. Please tell me when the pain started.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-05,"It started around eight, shortly after breakfast; it hasn't stopped since then.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-06,"It began after breakfast, but I'm not sure of the exact time.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-07,"I was with {A} at breakfast, before the pain started.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-08,Would it help if I told you what I saw after breakfast?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-09,"Yes. Please tell me what you saw, without guessing at the cause.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-10,Is someone here who can tell me what they saw?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-11,What did you notice after the pain began?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-12,"{A} sat down because of the pain, and we came here together.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-13,"{A} told me the pain was getting worse, so we came here together.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-14,What does the pain feel like now?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-15,"It's still in my stomach, but I can't describe the feeling clearly.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-16,Could you ask me one question at a time so I can explain it?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-17,Of course. Let's focus on where you feel the pain first.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-18,Can you point to where it hurts?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-19,It hurts here. Could you write down what I've told you?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-20,It hurts here. Please tell me if you need me to explain anything again.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-21,I'll note what you've told me. We also need some details for registration.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-22,I can give you my name and address. Which form should I use?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-23,Could you help me with the form while {B} gets my ID?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-24,Use this form. Your friend can bring your ID to this desk.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-25,Are you the patient or the person who came with the patient?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-26,"I'm here with {A}, and I have permission to hand you my friend's ID.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-27,I'm here with {A}. May I hand you my friend's ID?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-28,"Yes. Please hand it to me, and I'll return it after checking the details.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-29,Please check the patient's name and address on the form.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-30,These are my details. Could you read them back so I can check them?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-31,My address needs correcting. Can you help me change this line?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-32,Certainly. Let's check that line together before we continue.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-33,I'll read the name and address to you so you can check them.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-34,Please stay here until a staff member comes to speak with you.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-35,So we should wait here and speak to a staff member when they come?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-36,"Could you repeat where we should wait, please?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-37,"Stay here, at this desk, until a staff member comes to speak with you.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hospital_emergency,her-38,"While we wait, who should I tell if the pain gets worse?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-39,I'd like to report a change in the pain. Who should I speak to?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hospital_emergency,her-40,Tell me or another nurse if anything changes; I'll note what you report.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hanauma_bay_conservation,hbc-02,Could you explain why visitors should keep their distance from sea life?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-03,I'd like to understand how our choices affect sea life.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-04,Animals need space to feed and rest without being disturbed.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hanauma_bay_conservation,hbc-05,"For this visit, please watch from a distance and leave things where you find them.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hanauma_bay_conservation,hbc-08,"Sea life needs a place to live, so we try to leave that place unchanged.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hanauma_bay_conservation,hbc-10,So the idea is to protect sea life by giving it space.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-13,I think the reason matters because people follow advice more carefully when they understand it.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-14,Could you explain the goal before we decide how to act?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-15,We want people to notice how their actions affect the place.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hanauma_bay_conservation,hbc-16,"If we see something unusual, should we ask a member of staff?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-17,Please ask us before you act if you're unsure what to do.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hanauma_bay_conservation,hbc-19,Give sea life space so it can live without our visit changing its home.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-22,"I support this approach, although I'd like people to have clear explanations.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-23,"I understand the goal, but I'm unsure how to judge each situation.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-25,A short example would help us connect the advice with our choices.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-27,"For example, watching without moving things leaves the place as you found it.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hanauma_bay_conservation,hbc-29,They could ask staff instead of assuming that a small action makes no difference.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-30,I'd suggest waiting until they understand what the advice means.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-32,"I understand the reason, but I'd like to read the guidance before making plans.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-33,No further questions. I think protecting this place is worth a little inconvenience.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-34,We can go over the guidance together before you decide what to do.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+hanauma_bay_conservation,hbc-35,Thanks. We'll check with staff whenever we're uncertain about an action.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+hanauma_bay_conservation,hbc-36,Thanks. We'll keep the reason in mind when we decide what to do.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-04,"We'll hear a short talk first, then there will be time for questions.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+kamehameha_day,kmd-06,Is that to help everyone follow the talk without interruptions?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-08,Waiting lets everyone hear the full explanation before we discuss it.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+kamehameha_day,kmd-10,"We'll listen first and ask questions afterward, so we don't miss the speaker's point.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-11,The plan puts listening before questions. Have I understood the order correctly?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-14,"I appreciate having time for questions, but I'd prefer a brief introduction.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-15,"I support listening first, provided there's time to ask about unclear points.",review,-,B,provided의 조건부 지지는 B2 토론 기능에 가치가 있어요. C1이라고 단정할 근거는 없고 미리 듣는 학습자의 이해도는 교사 확인이 필요해요.
+kamehameha_day,kmd-17,A little background would help me understand why people care about this day.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-18,I'd rather hear the whole talk before deciding what to ask.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-20,Could you tell us how to ask something without interrupting the group?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-21,Would it be better to save our questions until the talk ends?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-22,"Please wait until I invite questions, and then give others a turn too.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+kamehameha_day,kmd-24,It helps everyone hear the full explanation before sharing their own views.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-25,"I understand the order, but could you confirm who invites questions?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-28,I'd suggest waiting because everyone should have a chance to hear the full explanation.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-29,I'd note the question so my friend could ask it at the right time.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-31,I'd like to balance my wish to ask questions with other people's chance to listen.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-32,I don't want to assume that being interested gives me the right to interrupt.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-33,"Shall we wait for the talk and compare our thoughts afterward, {B}?",keep,"Should we wait for the talk and compare our thoughts afterward, {B}?",B,듣고 의견을 나누는 제안 기능과 이름 자리를 유지하며 미국 동행 말투와 자연스러운 풀이로 맞춰요.
+kamehameha_day,kmd-34,Yes. Hearing the whole talk should give us more to discuss.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kamehameha_day,kmd-35,Let's listen first. I'd like some time to think before discussing it.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-03,"Before we decide, could we compare the activities we both want?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-05,Let's leave the afternoon open in case either of us needs a rest.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-06,Could we keep the plan flexible instead of filling every hour?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-08,We should check travel time and today's conditions before fixing our schedule.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-09,Could we plan lunch first and choose our departure time later?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-10,Let's plan the food and gear before we choose when to leave.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+kailua_lanikai_day,kld-12,I'd rather bring sandwiches so we don't depend on finding a shop.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-13,Could we bring fruit now and decide about lunch before we leave?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-14,"Let's bring fruit and sandwiches, so we won't need to look for food.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-15,I can pack fruit and sandwiches. Would you take care of the water?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-16,"I'll bring water and towels, but I'd like to keep the bags light.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-17,I can bring water and towels. Do we need anything else for the sun?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-19,I'll add hats and sunscreen. We can leave anything we won't use at home.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-20,Could you check the hats while I add sunscreen to the bag?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-23,"Let's relax in the morning, eat lunch, and leave the walk for the afternoon.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-24,Could we put lunch between a morning break and an afternoon walk?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-26,"If we feel tired after lunch, let's skip the walk and rest instead.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-27,Could we decide about the walk after lunch rather than promise to do everything?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-29,We still need to check travel times and conditions before we choose when to leave.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-30,Could we write down the remaining checks so neither of us forgets them?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-32,So we have a plan for food and gear; the departure time is still open.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+kailua_lanikai_day,kld-33,I agree with that plan. Let's confirm the remaining details before we leave.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+dukes_celebration,dcl-18,A quieter table matters more to us than the view.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+dukes_celebration,dcl-19,"I'll note your preference, but I can't promise a particular table.",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+dukes_celebration,dcl-25,"Could we sit somewhere quieter, if another table is open?",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+ala_moana_gift_shopping,ags-08,How do they differ apart from the size?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+ala_moana_gift_shopping,ags-24,Could you tell us whether you can ship it to her?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-01,What should you check before you decide whether you're ready to start?,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+diamond_head_sunrise,dhs-02,I'd like to confirm our entry plans before we check the bags.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-03,Could you help us review what still needs checking before we start?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-04,Your entry plans are confirmed. Let's check your bags next.,keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+diamond_head_sunrise,dhs-06,"I have mine, but I'd like a minute to check your bag with you.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-07,Could we check both bags together so we don't miss anything?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-09,"We've checked both bags, and each of us has water and a light.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-11,"We're ready, and we'd like to take our time on the walk.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-12,Could we wait a moment and agree on a pace before we start?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-15,"Yes. We've checked everything together, and we're both ready to start.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-18,"Looking back on your practice this year, what can you do better now?",keep,-,B,직원의 짧은 질문이나 안내는 다음 학습자 응답을 받는 기능이어서 길이만으로 교육 가치가 없다고 판정하지 않아요.
+diamond_head_sunrise,dhs-19,I used to wait for the right words; now I try and ask for help.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-20,"I'm still nervous sometimes, but I can explain what I need more clearly now.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-22,I learned to ask for another explanation instead of pretending I understood.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-23,Your questions helped me notice when I hadn't understood something.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-25,We learned to give each other time without answering every question for each other.,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-26,"When I lost my place, you waited and helped me start again.",review,-,B,lost my place는 연습 중 흐름을 놓친 뜻으로 가능하지만 위치를 잃었다고 오해할 수 있어요. 실제 이전 연습 기억을 가리키는지 미검증이에요.
+diamond_head_sunrise,dhs-28,"I'd like us to keep asking questions, even when we don't find the words immediately.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-29,Could we agree to explain what we mean before trying to speak faster?,keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
+diamond_head_sunrise,dhs-32,"Let's keep that habit, and remind each other that it's fine to need help.",keep,-,B,비교·조건·이유·의견·정중한 요청의 기능을 문맥에서 수행해요. 짧다고 억지로 어렵게 하지 않으며 실제 B2 학습자 성취는 미검증이에요.
