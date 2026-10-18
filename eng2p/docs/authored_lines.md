@@ -84,7 +84,7 @@
 | enb-31 | pay | npc | Server | It is twenty-four dollars. | A1 | 값 말하기 | B | 숫자와 값은 장면용으로 정한 것이다. 실제 가격이 아니고 말투 자체는 자연스럽지만 달러 읽는 법("twenty-four dollars")이 이 등급에 맞는지 확신이 없다 | 24달러예요. |
 | enb-32 | pay | npc | Server | Thank you. Have a nice day! | A1 | 작별 | A | - | 고맙습니다. 좋은 하루 보내세요! |
 | enb-33 | pay | wait | 두 사람 | You too! Thank you! | A1 | 작별 | A | - | 좋은 하루 보내세요! 고맙습니다! |
-| enb-34 | order | option | A자리 | Can I have water, please? | A1 | 물 추가 요청 | A | - | 물 좀 주시겠어요? |
+| enb-34 | order | option | A자리 | Can I have some water, please? | A1 | 물 추가 요청 | A | - | 물 좀 주시겠어요? |
 | enb-35 | order | option | A자리 | Where is the bathroom? | A1 | 시설 위치 묻기 | A | - | 화장실이 어디예요? |
 | enb-36 | order | npc | Server | Sure. Here is your water. | A1 | 건네기 | A | - | 그럼요. 물 여기 있어요. |
 | enb-37 | order | npc | Server | It is over there. | A1 | 위치 안내 | A | - | 저쪽에 있어요. |
@@ -103,7 +103,7 @@
 | enb-p6 | Can we have the check, please? | 계산서 요청 | enb-27 | 계산서 주시겠어요? |
 | enb-p7 | How much is it? | 값 묻기 | enb-30 | 얼마예요? |
 | enb-p8 | Sorry, can you say that again? | 되묻기 | enb-25 | 죄송해요, 다시 말해 주시겠어요? |
-| enb-p9 | Can I have water, please? | 물 추가 요청 | enb-34 | 물 좀 주시겠어요? |
+| enb-p9 | Can I have some water, please? | 물 추가 요청 | enb-34 | 물 좀 주시겠어요? |
 | enb-p10 | Where is the bathroom? | 시설 위치 묻기 | enb-35 | 화장실이 어디예요? |
 
 ### 미니게임 차례
@@ -1477,7 +1477,7 @@
 | hb-06 | gear | npc | Clerk | And fins? | A2 | 장비 묻기 | A | - | 오리발은요? |
 | hb-07 | gear | option | A자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
 | hb-08 | gear | option | A자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
-| hb-09 | gear | npc | Clerk | A snorkel too? | A2 | 장비 묻기 | A | - | 숨 쉬는 관도 필요하세요? |
+| hb-09 | gear | npc | Clerk | Snorkels too? | A2 | 장비 묻기 | A | - | 숨 쉬는 관도 필요하세요? |
 | hb-10 | gear | option | B자리 | Yes, please. | A1 | 예 대답 | A | - | 네, 주세요. |
 | hb-11 | gear | option | B자리 | No, thank you. | A1 | 아니오 대답 | A | - | 아니요, 괜찮아요. |
 | hb-12 | size | wait | A자리 | What size are you, {B}? | A1 | 상대에게 묻기 | A | - | {B}, 어떤 크기가 맞아? |
@@ -1498,7 +1498,7 @@
 | hb-27 | pay | option | B자리 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
 | hb-28 | more | npc | Clerk | Is that all? | A1 | 추가 묻기 | A | - | 이게 다예요? |
 | hb-29 | more | wait | B자리 | Yes, that's all. | A1 | 대답 | A | - | 네, 그게 다예요. |
-| hb-30 | safety | npc | Clerk | Do not touch the fish. | A1 | 주의 듣기 | B | 영어는 자연스럽지만 실제 하나우마 베이의 규칙 문구인지 확인하지 못했다. 직원은 'Please do not...'이라고 더 정중하게 말할 수 있다 | 물고기를 만지지 마세요. |
+| hb-30 | safety | npc | Clerk | Please don't touch the fish. | A1 | 주의 듣기 | B | 영어는 자연스럽지만 실제 하나우마 베이의 규칙 문구인지 확인하지 못했다. 직원은 'Please do not...'이라고 더 정중하게 말할 수 있다 | 물고기를 만지지 마세요. |
 | hb-31 | safety | wait | 두 사람 | Okay! Thank you. | A1 | 알겠다고 말하기 | A | - | 알겠어요! 고맙습니다. |
 | hb-32 | safety | npc | Clerk | Stay with your friend. | A1 | 주의 듣기 | B | 안전 문구로는 'Stay with your buddy.'가 더 흔할 수 있고, 직원이 장비 대여 때 이 말을 하는지 실제 절차를 모른다 | 친구와 함께 계세요. |
 | hb-33 | safety | wait | 두 사람 | Okay, we will. | A1 | 알겠다고 말하기 | A | - | 네, 그럴게요. |

@@ -23,5 +23,5 @@
 | am-13 | ala_moana_basic_shopping | Do you have this in small? | 'in small'과 'in a small' 중 미국 가게에서 어느 쪽이 더 흔한지 확신이 없다. 둘 다 들린다 |
 | am-27 | ala_moana_basic_shopping | Do you want a bag? | 점원은 'Do you need a bag?'나 'Would you like a bag?'를 더 자주 쓸 수 있다. want 가 조금 직설적인지 확신이 없다 |
 | bc-22 | waikiki_beach_chair_umbrella | Your spot is on the left. | 해변 대여소 직원이 자리를 정해 주는지는 실제 운영 방식을 모른다(장면용으로 정함). 'spot' 이라는 말은 자연스럽지만 직원이 이렇게 말하는지 확신이 없다 |
-| hb-30 | hanauma_bay_gear_rental | Do not touch the fish. | 영어는 자연스럽지만 실제 하나우마 베이의 규칙 문구인지 확인하지 못했다. 직원은 'Please do not...'이라고 더 정중하게 말할 수 있다 |
+| hb-30 | hanauma_bay_gear_rental | Please don't touch the fish. | 영어는 자연스럽지만 실제 하나우마 베이의 규칙 문구인지 확인하지 못했다. 직원은 'Please do not...'이라고 더 정중하게 말할 수 있다 |
 | hb-32 | hanauma_bay_gear_rental | Stay with your friend. | 안전 문구로는 'Stay with your buddy.'가 더 흔할 수 있고, 직원이 장비 대여 때 이 말을 하는지 실제 절차를 모른다 |

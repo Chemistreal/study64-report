@@ -667,7 +667,7 @@
    "scene": "order",
    "kind": "option",
    "who": "A자리",
-   "say": "Can I have water, please?",
+   "say": "Can I have some water, please?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)",
    "cefr": "A1",
@@ -11012,7 +11012,7 @@
    "scene": "gear",
    "kind": "npc",
    "who": "Clerk",
-   "say": "A snorkel too?",
+   "say": "Snorkels too?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A2",
@@ -11021,10 +11021,10 @@
    "selfCheck": "A",
    "selfCheckWhy": null,
    "introduces": [
-    "snorkel"
+    "snorkels"
    ],
    "stretchWords": [
-    "snorkel"
+    "snorkels"
    ],
    "ko": "숨 쉬는 관도 필요하세요?"
   },
@@ -11402,7 +11402,7 @@
    "scene": "safety",
    "kind": "npc",
    "who": "Clerk",
-   "say": "Do not touch the fish.",
+   "say": "Please don't touch the fish.",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A1",
@@ -11588,7 +11588,7 @@
   {
    "id": "enb-p9",
    "outing": "eggs_n_things_breakfast",
-   "say": "Can I have water, please?",
+   "say": "Can I have some water, please?",
    "function": "물 추가 요청",
    "line": "enb-34",
    "provenance": "authored",
