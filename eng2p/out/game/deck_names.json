@@ -448,8 +448,8 @@
    "extra": {
     "who": "Pete"
    },
-   "swapped": "Hi! Are you {A}?",
-   "slot": "{A}"
+   "swapped": "Hi! Are you {B}?",
+   "slot": "{B}"
   },
   {
    "id": "df1ef2f1eb5",
@@ -600,8 +600,8 @@
    "extra": {
     "who": "Pete"
    },
-   "swapped": "Hi, {B}. It’s going great. How’s it going with you?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}. It’s going great. How’s it going with you?",
+   "slot": "{A}"
   },
   {
    "id": "dd547df85f2",
@@ -626,8 +626,8 @@
    "extra": {
     "who": "Pete"
    },
-   "swapped": "That’s right, {A}. This is the mailroom.",
-   "slot": "{A}"
+   "swapped": "That’s right, {B}. This is the mailroom.",
+   "slot": "{B}"
   },
   {
    "id": "dd9bb2076f6",
@@ -652,8 +652,8 @@
    "extra": {
     "who": "Anna"
    },
-   "swapped": "Oh, {A}. This is not the gym.",
-   "slot": "{A}"
+   "swapped": "Oh, {B}. This is not the gym.",
+   "slot": "{B}"
   },
   {
    "id": "de1ed4fbd30",
@@ -775,8 +775,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "{B}, what are those in the books?",
-   "slot": "{B}"
+   "swapped": "{A}, what are those in the books?",
+   "slot": "{A}"
   },
   {
    "id": "d9204dc7688",
@@ -800,8 +800,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "{A}, what are those in the books?",
-   "slot": "{A}"
+   "swapped": "{B}, what are those in the books?",
+   "slot": "{B}"
   },
   {
    "id": "dc4acaa4f64",
@@ -825,8 +825,8 @@
    "extra": {
     "who": "Anna"
    },
-   "swapped": "{B}, these are letters to my family and friends back home … four letters! Is there a post office near here?",
-   "slot": "{B}"
+   "swapped": "{A}, these are letters to my family and friends back home … four letters! Is there a post office near here?",
+   "slot": "{A}"
   },
   {
    "id": "dce5fe084a1",
@@ -850,8 +850,8 @@
    "extra": {
     "who": "Anna"
    },
-   "swapped": "Hello! DC is a city for walking. In our neighborhood, I can do all my errands. {B}, before we get ice cream, I need to return three books to the library. Where is the library?",
-   "slot": "{B}"
+   "swapped": "Hello! DC is a city for walking. In our neighborhood, I can do all my errands. {A}, before we get ice cream, I need to return three books to the library. Where is the library?",
+   "slot": "{A}"
   },
   {
    "id": "de114c30977",
@@ -875,8 +875,8 @@
    "extra": {
     "who": "Anna"
    },
-   "swapped": "{B}, these are letters to my family and friends back home … four letters! Is there a post office near here?",
-   "slot": "{B}"
+   "swapped": "{A}, these are letters to my family and friends back home … four letters! Is there a post office near here?",
+   "slot": "{A}"
   },
   {
    "id": "d9223927b59",
@@ -900,8 +900,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "{B}, here's your coffee.",
-   "slot": "{B}"
+   "swapped": "{A}, here's your coffee.",
+   "slot": "{A}"
   },
   {
    "id": "d33915039e2",
@@ -1238,8 +1238,8 @@
    "extra": {
     "who": "Amelia"
    },
-   "swapped": "Hi, {B}! So, what are we going to talk about on the first show?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}! So, what are we going to talk about on the first show?",
+   "slot": "{A}"
   },
   {
    "id": "db88e6ba977",
@@ -1263,8 +1263,8 @@
    "extra": {
     "who": "Amelia"
    },
-   "swapped": "Hi, {A}! So, what are we going to talk about on the first show?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}! So, what are we going to talk about on the first show?",
+   "slot": "{B}"
   },
   {
    "id": "de787158323",
@@ -1311,8 +1311,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "Hi, {B}! Have a seat.",
-   "slot": "{B}"
+   "swapped": "Hi, {A}! Have a seat.",
+   "slot": "{A}"
   },
   {
    "id": "de739425cc6",
@@ -1336,8 +1336,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "I'm really busy too, {B}. Let’s get to work.",
-   "slot": "{B}"
+   "swapped": "I'm really busy too, {A}. Let’s get to work.",
+   "slot": "{A}"
   },
   {
    "id": "d304bd53a10",
@@ -1530,8 +1530,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "{B}, where is the flour? It's not in the cabinets.",
-   "slot": "{B}"
+   "swapped": "{A}, where is the flour? It's not in the cabinets.",
+   "slot": "{A}"
   },
   {
    "id": "dc29acdee47",
@@ -1555,8 +1555,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "{A}, where is the flour? It's not in the cabinets.",
-   "slot": "{A}"
+   "swapped": "{B}, where is the flour? It's not in the cabinets.",
+   "slot": "{B}"
   },
   {
    "id": "dc3fad4bd29",
@@ -1580,8 +1580,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "{A}, where are the eggs?",
-   "slot": "{A}"
+   "swapped": "{B}, where are the eggs?",
+   "slot": "{B}"
   },
   {
    "id": "dfcf392e96a",
@@ -1653,8 +1653,8 @@
    "extra": {
     "who": "Penelope"
    },
-   "swapped": "{A}! I am really happy to see you!",
-   "slot": "{A}"
+   "swapped": "{B}! I am really happy to see you!",
+   "slot": "{B}"
   },
   {
    "id": "d4de1d6ef31",
@@ -2048,8 +2048,8 @@
    "extra": {
     "who": "Jonathan"
    },
-   "swapped": "Hey, {B}! Who’s your friend?",
-   "slot": "{B}"
+   "swapped": "Hey, {A}! Who’s your friend?",
+   "slot": "{A}"
   },
   {
    "id": "d13d4f1b9b2",
@@ -2193,8 +2193,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "{B}, do you have a pen?",
-   "slot": "{B}"
+   "swapped": "{A}, do you have a pen?",
+   "slot": "{A}"
   },
   {
    "id": "df81c4d2e90",
@@ -2316,8 +2316,8 @@
    "extra": {
     "who": "Marsha"
    },
-   "swapped": "{A}, did you get your driver’s license?",
-   "slot": "{A}"
+   "swapped": "{B}, did you get your driver’s license?",
+   "slot": "{B}"
   },
   {
    "id": "d25bfaabffd",
@@ -2433,8 +2433,8 @@
    "extra": {
     "who": "MINDY"
    },
-   "swapped": "I will try one more time, {A}.",
-   "slot": "{A}"
+   "swapped": "I will try one more time, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "dc340bb8e15",
@@ -2458,8 +2458,8 @@
    "extra": {
     "who": "MINDY"
    },
-   "swapped": "Thanks, {B}. Give me a call when you find the answer.",
-   "slot": "{B}"
+   "swapped": "Thanks, {A}. Give me a call when you find the answer.",
+   "slot": "{A}"
   },
   {
    "id": "dc38f936494",
@@ -2483,8 +2483,8 @@
    "extra": {
     "who": "MINDY"
    },
-   "swapped": "I will try one more time, {A}.",
-   "slot": "{A}"
+   "swapped": "I will try one more time, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "ddb297a0ed0",
@@ -2644,8 +2644,8 @@
    "extra": {
     "who": "Ashley"
    },
-   "swapped": "Are you okay, {B}?",
-   "slot": "{B}"
+   "swapped": "Are you okay, {A}?",
+   "slot": "{A}"
   },
   {
    "id": "d3dd1872611",
@@ -2830,8 +2830,8 @@
    "extra": {
     "who": "Anna"
    },
-   "swapped": "{A}, today the weather is beautiful, isn’t it?",
-   "slot": "{A}"
+   "swapped": "{B}, today the weather is beautiful, isn’t it?",
+   "slot": "{B}"
   },
   {
    "id": "d9ecf574b09",
@@ -2938,8 +2938,8 @@
    "extra": {
     "who": "Anna"
    },
-   "swapped": "Hi, {A}. Are you busy?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}. Are you busy?",
+   "slot": "{B}"
   },
   {
    "id": "ded34b91eae",
@@ -3075,8 +3075,8 @@
    "extra": {
     "who": "MINDY"
    },
-   "swapped": "{B}, do not forget me.",
-   "slot": "{B}"
+   "swapped": "{A}, do not forget me.",
+   "slot": "{A}"
   },
   {
    "id": "dbf15614c69",
@@ -3099,8 +3099,8 @@
    "extra": {
     "who": "MINDY"
    },
-   "swapped": "{B}, do not forget me.",
-   "slot": "{B}"
+   "swapped": "{A}, do not forget me.",
+   "slot": "{A}"
   },
   {
    "id": "dc95cdfb5e6",
@@ -3289,8 +3289,8 @@
    "extra": {
     "who": "Guy"
    },
-   "swapped": "{A}, what did you see and what happened to your arm?",
-   "slot": "{A}"
+   "swapped": "{B}, what did you see and what happened to your arm?",
+   "slot": "{B}"
   },
   {
    "id": "d956e01728a",
@@ -3314,8 +3314,8 @@
    "extra": {
     "who": "Guy"
    },
-   "swapped": "{B}, what did you see and what happened to your arm?",
-   "slot": "{B}"
+   "swapped": "{A}, what did you see and what happened to your arm?",
+   "slot": "{A}"
   },
   {
    "id": "de388406980",
@@ -3339,8 +3339,8 @@
    "extra": {
     "who": "Anna"
    },
-   "swapped": "{B}, I was minding my own business. See, I work over there.",
-   "slot": "{B}"
+   "swapped": "{A}, I was minding my own business. See, I work over there.",
+   "slot": "{A}"
   },
   {
    "id": "d0152eb763a",
@@ -3423,8 +3423,8 @@
    "extra": {
     "who": "Jonathan"
    },
-   "swapped": "Hey, {B}. Things are great. What’s up?",
-   "slot": "{B}"
+   "swapped": "Hey, {A}. Things are great. What’s up?",
+   "slot": "{A}"
   },
   {
    "id": "df6780f02aa",
@@ -3550,8 +3550,8 @@
    "extra": {
     "who": "Healthy"
    },
-   "swapped": "Good idea, {B}. You must eat more vegetables … like celery!",
-   "slot": "{B}"
+   "swapped": "Good idea, {A}. You must eat more vegetables … like celery!",
+   "slot": "{A}"
   },
   {
    "id": "d4e33f27afc",
@@ -3698,8 +3698,8 @@
    "extra": {
     "who": "Pete"
    },
-   "swapped": "{A}, I can fix it myself. But thanks.",
-   "slot": "{A}"
+   "swapped": "{B}, I can fix it myself. But thanks.",
+   "slot": "{B}"
   },
   {
    "id": "d1c7f764bde",
@@ -3740,8 +3740,8 @@
     38,
     39
    ],
-   "swapped": "Yes! Hi there! Are you {B}?",
-   "slot": "{B}"
+   "swapped": "Yes! Hi there! Are you {A}?",
+   "slot": "{A}"
   },
   {
    "id": "d726b1df840",
@@ -3782,8 +3782,8 @@
     38,
     39
    ],
-   "swapped": "Hi! Are you {A}?",
-   "slot": "{A}"
+   "swapped": "Hi! Are you {B}?",
+   "slot": "{B}"
   },
   {
    "id": "d0a49cbaa3f",
@@ -3861,8 +3861,8 @@
     40,
     42
    ],
-   "swapped": "{A}? Where are you?",
-   "slot": "{A}"
+   "swapped": "{B}? Where are you?",
+   "slot": "{B}"
   },
   {
    "id": "d0fe0a5bc6e",
@@ -4201,10 +4201,10 @@
    ]
   },
   {
-   "id": "d83442e468e",
+   "id": "d6cdd23758a",
    "deck": "cutin",
    "field": "line",
-   "text": "Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
+   "text": "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
    "names": [
     "Ashley"
    ],
@@ -4213,9 +4213,29 @@
    "media": "lle1-10",
    "sessions": [
     13,
-    15,
+    33,
+    49,
     51
    ]
+  },
+  {
+   "id": "d5b799d4e1e",
+   "deck": "cutin",
+   "field": "line",
+   "text": "Anna, which coffee shop? There are three coffee shops.",
+   "names": [
+    "Anna"
+   ],
+   "handling": "swap",
+   "why": "부르는 말이고 바꾼 글이 lle1-10 대본 그대로다",
+   "media": "lle1-10",
+   "sessions": [
+    14,
+    33,
+    49
+   ],
+   "swapped": "{A}, which coffee shop? There are three coffee shops.",
+   "slot": "{A}"
   },
   {
    "id": "d43d8dca62b",
@@ -4252,24 +4272,6 @@
    "slot": "{B}"
   },
   {
-   "id": "d99ecf13b33",
-   "deck": "cutin",
-   "field": "line",
-   "text": "Anna, Which coffee shop? There are three coffee shops.",
-   "names": [
-    "Anna"
-   ],
-   "handling": "swap",
-   "why": "부르는 말이고 바꾼 글이 lle1-10 대본 그대로다",
-   "media": "lle1-10",
-   "sessions": [
-    15,
-    50
-   ],
-   "swapped": "{A}, Which coffee shop? There are three coffee shops.",
-   "slot": "{A}"
-  },
-  {
    "id": "d3c15bd3cf6",
    "deck": "cutin",
    "field": "line",
@@ -4302,8 +4304,8 @@
     16,
     52
    ],
-   "swapped": "Thanks, {A}. You know our neighborhood so well.",
-   "slot": "{A}"
+   "swapped": "Thanks, {B}. You know our neighborhood so well.",
+   "slot": "{B}"
   },
   {
    "id": "d628f99b11f",
@@ -4338,8 +4340,8 @@
     17,
     53
    ],
-   "swapped": "{A}, now I need to buy stamps.",
-   "slot": "{A}"
+   "swapped": "{B}, now I need to buy stamps.",
+   "slot": "{B}"
   },
   {
    "id": "df9b910079e",
@@ -4455,8 +4457,8 @@
     24,
     62
    ],
-   "swapped": "Sorry, {A}. I have to help other friends. Go to the magazine if you want me to help again.",
-   "slot": "{A}"
+   "swapped": "Sorry, {B}. I have to help other friends. Go to the magazine if you want me to help again.",
+   "slot": "{B}"
   },
   {
    "id": "d7d3f9246b0",
@@ -4492,8 +4494,8 @@
     26,
     66
    ],
-   "swapped": "{A}, it looks like we’ll never have time to see a movie.",
-   "slot": "{A}"
+   "swapped": "{B}, it looks like we’ll never have time to see a movie.",
+   "slot": "{B}"
   },
   {
    "id": "d5993cac66d",
@@ -4526,8 +4528,8 @@
     27,
     28
    ],
-   "swapped": "Just the facts, {A}.",
-   "slot": "{A}"
+   "swapped": "Just the facts, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "d86eb49cf53",
@@ -4545,8 +4547,8 @@
     30,
     71
    ],
-   "swapped": "{A}, I have good news and I have bad news. Which do you want to hear first?",
-   "slot": "{A}"
+   "swapped": "{B}, I have good news and I have bad news. Which do you want to hear first?",
+   "slot": "{B}"
   },
   {
    "id": "d175f71ac54",
@@ -4596,8 +4598,8 @@
     35,
     61
    ],
-   "swapped": "{B}, these clothes look and feel great! Let’s go to the theater!",
-   "slot": "{B}"
+   "swapped": "{A}, these clothes look and feel great! Let’s go to the theater!",
+   "slot": "{A}"
   },
   {
    "id": "dbf0ea14487",
@@ -4614,8 +4616,8 @@
     36,
     67
    ],
-   "swapped": "Stop! {A}, you are doing it again.",
-   "slot": "{A}"
+   "swapped": "Stop! {B}, you are doing it again.",
+   "slot": "{B}"
   },
   {
    "id": "ddcf1275b2e",
@@ -4722,8 +4724,8 @@
    "sessions": [
     69
    ],
-   "swapped": "Stop, stop, stop!! {A}, you cannot say you are happy.",
-   "slot": "{A}"
+   "swapped": "Stop, stop, stop!! {B}, you cannot say you are happy.",
+   "slot": "{B}"
   },
   {
    "id": "ded00773b85",
@@ -4896,8 +4898,8 @@
    "sessions": [
     83
    ],
-   "swapped": "I'm really busy too, {A}. Let’s get to work.",
-   "slot": "{A}"
+   "swapped": "I'm really busy too, {B}. Let’s get to work.",
+   "slot": "{B}"
   },
   {
    "id": "d9cdd8613ce",
@@ -4998,8 +5000,8 @@
     88,
     125
    ],
-   "swapped": "{B}, this is the shopping list for breakfast. I said, take the shopping list - on the refrigerator - for dinner!",
-   "slot": "{B}"
+   "swapped": "{A}, this is the shopping list for breakfast. I said, take the shopping list - on the refrigerator - for dinner!",
+   "slot": "{A}"
   },
   {
    "id": "d82e53f665f",
@@ -5128,8 +5130,8 @@
    "sessions": [
     90
    ],
-   "swapped": "{B}, what took you so long? Our guests will be here soon!",
-   "slot": "{B}"
+   "swapped": "{A}, what took you so long? Our guests will be here soon!",
+   "slot": "{A}"
   },
   {
    "id": "d6b7ddd5061",
@@ -5168,8 +5170,8 @@
     127,
     129
    ],
-   "swapped": "{A}, where is the flour? It's not in the cabinets.",
-   "slot": "{A}"
+   "swapped": "{B}, where is the flour? It's not in the cabinets.",
+   "slot": "{B}"
   },
   {
    "id": "de4635ccc3f",
@@ -5186,8 +5188,8 @@
     91,
     129
    ],
-   "swapped": "{B}, where are the eggs?",
-   "slot": "{B}"
+   "swapped": "{A}, where are the eggs?",
+   "slot": "{A}"
   },
   {
    "id": "d7de65dc3d9",
@@ -5205,8 +5207,8 @@
     106,
     127
    ],
-   "swapped": "{A}, why are the eggs in here?",
-   "slot": "{A}"
+   "swapped": "{B}, why are the eggs in here?",
+   "slot": "{B}"
   },
   {
    "id": "dd342799449",
@@ -5259,8 +5261,8 @@
     94,
     131
    ],
-   "swapped": "{A}! I am really happy to see you!",
-   "slot": "{A}"
+   "swapped": "{B}! I am really happy to see you!",
+   "slot": "{B}"
   },
   {
    "id": "dd5e9257c7f",
@@ -5296,8 +5298,8 @@
     96,
     134
    ],
-   "swapped": "{A}, you are speaking too softly. Can you speak more loudly and a little more, um, seriously?",
-   "slot": "{A}"
+   "swapped": "{B}, you are speaking too softly. Can you speak more loudly and a little more, um, seriously?",
+   "slot": "{B}"
   },
   {
    "id": "df58142bcc8",
@@ -5471,8 +5473,8 @@
     103,
     109
    ],
-   "swapped": "Hey, {B}, my friend is having a party on Saturday. Can you come with me?",
-   "slot": "{B}"
+   "swapped": "Hey, {A}, my friend is having a party on Saturday. Can you come with me?",
+   "slot": "{A}"
   },
   {
    "id": "db46e004974",
@@ -5489,8 +5491,8 @@
     105,
     121
    ],
-   "swapped": "That is great, {B}. In fact, I am here to buy some seafood for my dinner party.",
-   "slot": "{B}"
+   "swapped": "That is great, {A}. In fact, I am here to buy some seafood for my dinner party.",
+   "slot": "{A}"
   },
   {
    "id": "d3f77caf8e1",
@@ -5569,8 +5571,8 @@
    "sessions": [
     110
    ],
-   "swapped": "{B}, maybe you can just bring food.",
-   "slot": "{B}"
+   "swapped": "{A}, maybe you can just bring food.",
+   "slot": "{A}"
   },
   {
    "id": "d21d3eacd05",
@@ -5678,8 +5680,8 @@
    "sessions": [
     122
    ],
-   "swapped": "It’s a special boat, {B}. Well, thanks for your help. See you later!",
-   "slot": "{B}"
+   "swapped": "It’s a special boat, {A}. Well, thanks for your help. See you later!",
+   "slot": "{A}"
   },
   {
    "id": "d296cd319c1",
@@ -5809,8 +5811,8 @@
    "sessions": [
     132
    ],
-   "swapped": "I love your apartment building, {A}. Is your rent expensive?",
-   "slot": "{A}"
+   "swapped": "I love your apartment building, {B}. Is your rent expensive?",
+   "slot": "{B}"
   },
   {
    "id": "da92db8466a",
@@ -5841,8 +5843,8 @@
    "sessions": [
     135
    ],
-   "swapped": "You know, {A}. I think that I have the perfect part for you.",
-   "slot": "{A}"
+   "swapped": "You know, {B}. I think that I have the perfect part for you.",
+   "slot": "{B}"
   },
   {
    "id": "d391f2b02b1",
@@ -5907,8 +5909,8 @@
    "sessions": [
     143
    ],
-   "swapped": "Well, thank you for sharing your news and so much more with us, {A}.",
-   "slot": "{A}"
+   "swapped": "Well, thank you for sharing your news and so much more with us, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "dffca7e9ed7",
@@ -6024,8 +6026,8 @@
     147,
     182
    ],
-   "swapped": "Hey, {B}! Who’s your friend?",
-   "slot": "{B}"
+   "swapped": "Hey, {A}! Who’s your friend?",
+   "slot": "{A}"
   },
   {
    "id": "d569e2ea251",
@@ -6165,8 +6167,8 @@
     149,
     185
    ],
-   "swapped": "Excuse me? {A}? Is that you?",
-   "slot": "{A}"
+   "swapped": "Excuse me? {B}? Is that you?",
+   "slot": "{B}"
   },
   {
    "id": "dfb0a65e711",
@@ -6302,8 +6304,8 @@
     152,
     188
    ],
-   "swapped": "{B}, hi! Hi, we are here!",
-   "slot": "{B}"
+   "swapped": "{A}, hi! Hi, we are here!",
+   "slot": "{A}"
   },
   {
    "id": "d05ee41fc69",
@@ -6370,8 +6372,8 @@
     153,
     189
    ],
-   "swapped": "{A}, do you have a pen?",
-   "slot": "{A}"
+   "swapped": "{B}, do you have a pen?",
+   "slot": "{B}"
   },
   {
    "id": "d4fdc700ca2",
@@ -6487,8 +6489,8 @@
    "sessions": [
     155
    ],
-   "swapped": "Hi, {B}. Excuse me, I have to go.",
-   "slot": "{B}"
+   "swapped": "Hi, {A}. Excuse me, I have to go.",
+   "slot": "{A}"
   },
   {
    "id": "d0b56f89493",
@@ -6751,8 +6753,8 @@
     168,
     206
    ],
-   "swapped": "Coworker 1: But time travel is not real. You’re so silly, {B}.",
-   "slot": "{B}"
+   "swapped": "Coworker 1: But time travel is not real. You’re so silly, {A}.",
+   "slot": "{A}"
   },
   {
    "id": "ddc7b1eaeb3",
@@ -7038,8 +7040,8 @@
    "sessions": [
     200
    ],
-   "swapped": "Please take it again, {B}.",
-   "slot": "{B}"
+   "swapped": "Please take it again, {A}.",
+   "slot": "{A}"
   },
   {
    "id": "dbd1a0a9df2",
@@ -7119,8 +7121,8 @@
    "sessions": [
     203
    ],
-   "swapped": "You were driving too slow! {B}, stay on the street!",
-   "slot": "{B}"
+   "swapped": "You were driving too slow! {A}, stay on the street!",
+   "slot": "{A}"
   },
   {
    "id": "dee9433e5e9",
@@ -7277,8 +7279,8 @@
    "sessions": [
     215
    ],
-   "swapped": "Thanks for the advice, {B}. But I’m running in a special race.",
-   "slot": "{B}"
+   "swapped": "Thanks for the advice, {A}. But I’m running in a special race.",
+   "slot": "{A}"
   },
   {
    "id": "dfe9b6cd0f3",
@@ -7328,8 +7330,8 @@
    "sessions": [
     218
    ],
-   "swapped": "Hi, {A}! What do you need?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}! What do you need?",
+   "slot": "{B}"
   },
   {
    "id": "d8126a10537",
@@ -7345,8 +7347,8 @@
    "sessions": [
     219
    ],
-   "swapped": "In fact, there is a Halloween party tonight. I need my friend, {B}. {B}!",
-   "slot": "{B}"
+   "swapped": "In fact, there is a Halloween party tonight. I need my friend, {A}. {A}!",
+   "slot": "{A}"
   },
   {
    "id": "d9a65f7da41",
@@ -7535,8 +7537,8 @@
    "sessions": [
     224
    ],
-   "swapped": "{A}, today the weather is beautiful, isn’t it?",
-   "slot": "{A}"
+   "swapped": "{B}, today the weather is beautiful, isn’t it?",
+   "slot": "{B}"
   },
   {
    "id": "ddf5120a633",
@@ -7552,8 +7554,8 @@
    "sessions": [
     224
    ],
-   "swapped": "You have very curly hair, {A}.",
-   "slot": "{A}"
+   "swapped": "You have very curly hair, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "d8ca343b70f",
@@ -7661,8 +7663,8 @@
    "sessions": [
     227
    ],
-   "swapped": "{B}! Hi! What’re you doing?",
-   "slot": "{B}"
+   "swapped": "{A}! Hi! What’re you doing?",
+   "slot": "{A}"
   },
   {
    "id": "d3d0a772646",
@@ -7854,8 +7856,8 @@
    "sessions": [
     234
    ],
-   "swapped": "Hi, {A}. Yes. At 10 a.m. I am writing. Every day I do my morning show. Sorry!",
-   "slot": "{A}"
+   "swapped": "Hi, {B}. Yes. At 10 a.m. I am writing. Every day I do my morning show. Sorry!",
+   "slot": "{B}"
   },
   {
    "id": "d8ff2c66610",
@@ -7871,8 +7873,8 @@
    "sessions": [
     234
    ],
-   "swapped": "It’s okay, {A}. Come by this afternoon.",
-   "slot": "{A}"
+   "swapped": "It’s okay, {B}. Come by this afternoon.",
+   "slot": "{B}"
   },
   {
    "id": "dc87f5e6cf3",
@@ -7889,8 +7891,8 @@
     235,
     278
    ],
-   "swapped": "Hi, {A}. Where are you going?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}. Where are you going?",
+   "slot": "{B}"
   },
   {
    "id": "dfa958d4f22",
@@ -8041,8 +8043,8 @@
     240,
     282
    ],
-   "swapped": "Yes. {B}, this chart shows the audience of The Time Traveling Treehouse. If you look at it, you will see something bad. Your audience is going down, down, DOWN!",
-   "slot": "{B}"
+   "swapped": "Yes. {A}, this chart shows the audience of The Time Traveling Treehouse. If you look at it, you will see something bad. Your audience is going down, down, DOWN!",
+   "slot": "{A}"
   },
   {
    "id": "d7d567c39fa",
@@ -8059,8 +8061,8 @@
     243,
     244
    ],
-   "swapped": "I had no time to be afraid, {B}. Well, I had time while I was resting on a bench. I had a lot of time.",
-   "slot": "{B}"
+   "swapped": "I had no time to be afraid, {A}. Well, I had time while I was resting on a bench. I had a lot of time.",
+   "slot": "{A}"
   },
   {
    "id": "deb00fcd991",
@@ -8077,8 +8079,8 @@
     243,
     244
    ],
-   "swapped": "{A}, what did you see and what happened to your arm?",
-   "slot": "{A}"
+   "swapped": "{B}, what did you see and what happened to your arm?",
+   "slot": "{B}"
   },
   {
    "id": "decbdd6eca1",
@@ -8164,8 +8166,8 @@
     245,
     246
    ],
-   "swapped": "Well, losing your wallet is bad, but it's not the end of the world, {A}.",
-   "slot": "{A}"
+   "swapped": "Well, losing your wallet is bad, but it's not the end of the world, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "df0468a0932",
@@ -8200,8 +8202,8 @@
     247,
     265
    ],
-   "swapped": "{B}, be careful. Things might go wrong.",
-   "slot": "{B}"
+   "swapped": "{A}, be careful. Things might go wrong.",
+   "slot": "{A}"
   },
   {
    "id": "dddcb5135a4",
@@ -8218,8 +8220,8 @@
     247,
     265
    ],
-   "swapped": "This is hard. {A}! {A}!",
-   "slot": "{A}"
+   "swapped": "This is hard. {B}! {B}!",
+   "slot": "{B}"
   },
   {
    "id": "d0ce4de3d03",
@@ -8250,8 +8252,8 @@
    "sessions": [
     248
    ],
-   "swapped": "{B}, I have to go, too. Are you returning to work?",
-   "slot": "{B}"
+   "swapped": "{A}, I have to go, too. Are you returning to work?",
+   "slot": "{A}"
   },
   {
    "id": "dab58a19c52",
@@ -8319,8 +8321,8 @@
     250,
     277
    ],
-   "swapped": "What do you mean, learn how to ride a bike? Oh, {B}! {B}, {B}!",
-   "slot": "{B}"
+   "swapped": "What do you mean, learn how to ride a bike? Oh, {A}! {A}, {A}!",
+   "slot": "{A}"
   },
   {
    "id": "dd4f2eac9bc",
@@ -8337,8 +8339,8 @@
     250,
     277
    ],
-   "swapped": "{B}, you should go a lot earlier than 7 o’clock.",
-   "slot": "{B}"
+   "swapped": "{A}, you should go a lot earlier than 7 o’clock.",
+   "slot": "{A}"
   },
   {
    "id": "d660e19ad24",
@@ -8585,8 +8587,8 @@
    "sessions": [
     260
    ],
-   "swapped": "{A}! Can I borrow your scissors?",
-   "slot": "{A}"
+   "swapped": "{B}! Can I borrow your scissors?",
+   "slot": "{B}"
   },
   {
    "id": "d01e633af8f",
@@ -8685,8 +8687,8 @@
    "sessions": [
     262
    ],
-   "swapped": "{B}, kicking the tires will not help.",
-   "slot": "{B}"
+   "swapped": "{A}, kicking the tires will not help.",
+   "slot": "{A}"
   },
   {
    "id": "d04b4dc733d",
@@ -8719,8 +8721,8 @@
    "sessions": [
     263
    ],
-   "swapped": "Well, you did not help, {A}. You did not help!!",
-   "slot": "{A}"
+   "swapped": "Well, you did not help, {B}. You did not help!!",
+   "slot": "{B}"
   },
   {
    "id": "d329e21f17c",
@@ -8751,8 +8753,8 @@
    "sessions": [
     264
    ],
-   "swapped": "{B}, {B}! Pull yourself together, man. Give me the keys. I must feel the key in the ignition and turn it myself.",
-   "slot": "{B}"
+   "swapped": "{A}, {A}! Pull yourself together, man. Give me the keys. I must feel the key in the ignition and turn it myself.",
+   "slot": "{A}"
   },
   {
    "id": "dc2819a90e9",
@@ -8858,8 +8860,8 @@
    "sessions": [
     273
    ],
-   "swapped": "{A}, I was minding my own business. See, I work over there.",
-   "slot": "{A}"
+   "swapped": "{B}, I was minding my own business. See, I work over there.",
+   "slot": "{B}"
   },
   {
    "id": "db178e001f1",
@@ -8922,8 +8924,8 @@
    "sessions": [
     283
    ],
-   "swapped": "Woo-hoo! That is right, {A}.",
-   "slot": "{A}"
+   "swapped": "Woo-hoo! That is right, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "dff3861c638",
@@ -9853,8 +9855,8 @@
     6,
     42
    ],
-   "swapped": "{B}? Where are you?",
-   "slot": "{B}"
+   "swapped": "{A}? Where are you?",
+   "slot": "{A}"
   },
   {
    "id": "d4d68330078",
@@ -9961,8 +9963,8 @@
     9,
     45
    ],
-   "swapped": "No, {A}! Not that way! Go that way!",
-   "slot": "{A}"
+   "swapped": "No, {B}! Not that way! Go that way!",
+   "slot": "{B}"
   },
   {
    "id": "dd0a1599564",
@@ -9979,8 +9981,8 @@
     9,
     45
    ],
-   "swapped": "Oh, {B}. This is not the gym.",
-   "slot": "{B}"
+   "swapped": "Oh, {A}. This is not the gym.",
+   "slot": "{A}"
   },
   {
    "id": "de6a41641ca",
@@ -9996,8 +9998,8 @@
    "sessions": [
     9
    ],
-   "swapped": "That’s right, {B}. This is the mailroom.",
-   "slot": "{B}"
+   "swapped": "That’s right, {A}. This is the mailroom.",
+   "slot": "{A}"
   },
   {
    "id": "d0ad5d664d8",
@@ -10048,8 +10050,8 @@
     10,
     47
    ],
-   "swapped": "Yes, {A}. It is warm.",
-   "slot": "{A}"
+   "swapped": "Yes, {B}. It is warm.",
+   "slot": "{B}"
   },
   {
    "id": "d1eb8743e72",
@@ -10118,10 +10120,10 @@
    ]
   },
   {
-   "id": "de3de620783",
+   "id": "dbcbdc0c2e0",
    "deck": "reask",
    "field": "line",
-   "text": "Ashley. See you soon!",
+   "text": "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
    "names": [
     "Ashley"
    ],
@@ -10133,6 +10135,24 @@
     33,
     49
    ]
+  },
+  {
+   "id": "d6003ab1fdb",
+   "deck": "reask",
+   "field": "line",
+   "text": "Anna, which coffee shop? There are three coffee shops.",
+   "names": [
+    "Anna"
+   ],
+   "handling": "swap",
+   "why": "부르는 말이고 바꾼 글이 lle1-10 대본 그대로다",
+   "media": "lle1-10",
+   "sessions": [
+    14,
+    50
+   ],
+   "swapped": "{A}, which coffee shop? There are three coffee shops.",
+   "slot": "{A}"
   },
   {
    "id": "dae526dabfe",
@@ -10149,14 +10169,14 @@
     14,
     50
    ],
-   "swapped": "Hi {A}! I’m coming to your apartment. Where is your apartment?",
-   "slot": "{A}"
+   "swapped": "Hi {B}! I’m coming to your apartment. Where is your apartment?",
+   "slot": "{B}"
   },
   {
-   "id": "d604e562ddd",
+   "id": "de3de620783",
    "deck": "reask",
    "field": "line",
-   "text": "Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
+   "text": "Ashley. See you soon!",
    "names": [
     "Ashley"
    ],
@@ -10164,27 +10184,9 @@
    "why": "이름이 부르는 말이 아니다 (자기소개, 남을 가리킴, 글자 이야기, 소유)",
    "media": "lle1-10",
    "sessions": [
-    15,
-    51
+    14,
+    50
    ]
-  },
-  {
-   "id": "d732d8732ed",
-   "deck": "reask",
-   "field": "line",
-   "text": "Anna, Which coffee shop? There are three coffee shops.",
-   "names": [
-    "Anna"
-   ],
-   "handling": "swap",
-   "why": "부르는 말이고 바꾼 글이 lle1-10 대본 그대로다",
-   "media": "lle1-10",
-   "sessions": [
-    15,
-    51
-   ],
-   "swapped": "{B}, Which coffee shop? There are three coffee shops.",
-   "slot": "{B}"
   },
   {
    "id": "d98c39efedc",
@@ -10235,8 +10237,8 @@
     16,
     53
    ],
-   "swapped": "Hello! DC is a city for walking. In our neighborhood, I can do all my errands. {A}, before we get ice cream, I need to return three books to the library. Where is the library?",
-   "slot": "{A}"
+   "swapped": "Hello! DC is a city for walking. In our neighborhood, I can do all my errands. {B}, before we get ice cream, I need to return three books to the library. Where is the library?",
+   "slot": "{B}"
   },
   {
    "id": "deec55befbe",
@@ -10306,8 +10308,8 @@
     18,
     54
    ],
-   "swapped": "{B}, now I need to buy stamps.",
-   "slot": "{B}"
+   "swapped": "{A}, now I need to buy stamps.",
+   "slot": "{A}"
   },
   {
    "id": "da23f482eb5",
@@ -10356,8 +10358,8 @@
     24,
     63
    ],
-   "swapped": "Sorry, {B}. I have to help other friends. Go to the magazine if you want me to help again.",
-   "slot": "{B}"
+   "swapped": "Sorry, {A}. I have to help other friends. Go to the magazine if you want me to help again.",
+   "slot": "{A}"
   },
   {
    "id": "d7f6f334033",
@@ -10461,8 +10463,8 @@
     30,
     71
    ],
-   "swapped": "Those are great ideas, {A}. Please go think of more … at your desk.",
-   "slot": "{A}"
+   "swapped": "Those are great ideas, {B}. Please go think of more … at your desk.",
+   "slot": "{B}"
   },
   {
    "id": "dea39785d38",
@@ -10496,8 +10498,8 @@
     32,
     43
    ],
-   "swapped": "Hi, {B}. It’s going great. How’s it going with you?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}. It’s going great. How’s it going with you?",
+   "slot": "{A}"
   },
   {
    "id": "d6b48da350f",
@@ -10625,8 +10627,8 @@
    "sessions": [
     62
    ],
-   "swapped": "Oh, {A}! This green shirt is too large and this orange skirt is too orange.",
-   "slot": "{A}"
+   "swapped": "Oh, {B}! This green shirt is too large and this orange skirt is too orange.",
+   "slot": "{B}"
   },
   {
    "id": "de15765ddd6",
@@ -10642,8 +10644,8 @@
    "sessions": [
     65
    ],
-   "swapped": "{A}, it looks like we’ll never have time to see a movie.",
-   "slot": "{A}"
+   "swapped": "{B}, it looks like we’ll never have time to see a movie.",
+   "slot": "{B}"
   },
   {
    "id": "d11dd69b25d",
@@ -10847,8 +10849,8 @@
    "sessions": [
     83
    ],
-   "swapped": "I'm really busy too, {B}. Let’s get to work.",
-   "slot": "{B}"
+   "swapped": "I'm really busy too, {A}. Let’s get to work.",
+   "slot": "{A}"
   },
   {
    "id": "d010a0fb55b",
@@ -10879,8 +10881,8 @@
    "sessions": [
     85
    ],
-   "swapped": "{B}, you love to eat seafood. Did you grow up on the water?",
-   "slot": "{B}"
+   "swapped": "{A}, you love to eat seafood. Did you grow up on the water?",
+   "slot": "{A}"
   },
   {
    "id": "db9abeff877",
@@ -10896,8 +10898,8 @@
    "sessions": [
     86
    ],
-   "swapped": "It’s a special boat, {A}. Well, thanks for your help. See you later!",
-   "slot": "{A}"
+   "swapped": "It’s a special boat, {B}. Well, thanks for your help. See you later!",
+   "slot": "{B}"
   },
   {
    "id": "d7e1fd382a1",
@@ -10996,8 +10998,8 @@
    "sessions": [
     89
    ],
-   "swapped": "{B}, this is the shopping list for breakfast. I said, take the shopping list - on the refrigerator - for dinner!",
-   "slot": "{B}"
+   "swapped": "{A}, this is the shopping list for breakfast. I said, take the shopping list - on the refrigerator - for dinner!",
+   "slot": "{A}"
   },
   {
    "id": "df487c50fbf",
@@ -11045,8 +11047,8 @@
     106,
     127
    ],
-   "swapped": "{A}, why are the eggs in here?",
-   "slot": "{A}"
+   "swapped": "{B}, why are the eggs in here?",
+   "slot": "{B}"
   },
   {
    "id": "d9dce85cfb6",
@@ -11081,8 +11083,8 @@
     92,
     128
    ],
-   "swapped": "{B}, where is the flour? It's not in the cabinets.",
-   "slot": "{B}"
+   "swapped": "{A}, where is the flour? It's not in the cabinets.",
+   "slot": "{A}"
   },
   {
    "id": "dc66c9ddd5f",
@@ -11099,8 +11101,8 @@
     92,
     128
    ],
-   "swapped": "{A}, where are the eggs?",
-   "slot": "{A}"
+   "swapped": "{B}, where are the eggs?",
+   "slot": "{B}"
   },
   {
    "id": "da032003943",
@@ -11137,8 +11139,8 @@
     94,
     132
    ],
-   "swapped": "I love your apartment building, {A}. Is your rent expensive?",
-   "slot": "{A}"
+   "swapped": "I love your apartment building, {B}. Is your rent expensive?",
+   "slot": "{B}"
   },
   {
    "id": "d025c394412",
@@ -11259,8 +11261,8 @@
     105,
     121
    ],
-   "swapped": "That is great, {B}. In fact, I am here to buy some seafood for my dinner party.",
-   "slot": "{B}"
+   "swapped": "That is great, {A}. In fact, I am here to buy some seafood for my dinner party.",
+   "slot": "{A}"
   },
   {
    "id": "d5415eb2fdc",
@@ -11293,8 +11295,8 @@
     107,
     133
    ],
-   "swapped": "You know, {B}. I think that I have the perfect part for you.",
-   "slot": "{B}"
+   "swapped": "You know, {A}. I think that I have the perfect part for you.",
+   "slot": "{A}"
   },
   {
    "id": "dd2761331d8",
@@ -11657,8 +11659,8 @@
    "sessions": [
     140
    ],
-   "swapped": "Hello, {A}, are you there?",
-   "slot": "{A}"
+   "swapped": "Hello, {B}, are you there?",
+   "slot": "{B}"
   },
   {
    "id": "dbb4a483f04",
@@ -11704,8 +11706,8 @@
    "sessions": [
     142
    ],
-   "swapped": "Well, thank you for sharing your news and so much more with us, {A}.",
-   "slot": "{A}"
+   "swapped": "Well, thank you for sharing your news and so much more with us, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "dc4f54c41bf",
@@ -12034,8 +12036,8 @@
     151,
     188
    ],
-   "swapped": "{A}, do you have a pen?",
-   "slot": "{A}"
+   "swapped": "{B}, do you have a pen?",
+   "slot": "{B}"
   },
   {
    "id": "d4f041636d7",
@@ -12445,8 +12447,8 @@
     170,
     210
    ],
-   "swapped": "Thanks. Thanks a lot, {B}! Here, here's your product! You should call it \"Hair Be Really, Really Bad!\" Until next time, {B}! Till next time.",
-   "slot": "{B}"
+   "swapped": "Thanks. Thanks a lot, {A}! Here, here's your product! You should call it \"Hair Be Really, Really Bad!\" Until next time, {A}! Till next time.",
+   "slot": "{A}"
   },
   {
    "id": "dfc0b1756f0",
@@ -12534,8 +12536,8 @@
     176,
     187
    ],
-   "swapped": "{B}, hi! Hi, we are here!",
-   "slot": "{B}"
+   "swapped": "{A}, hi! Hi, we are here!",
+   "slot": "{A}"
   },
   {
    "id": "df71983a369",
@@ -12716,8 +12718,8 @@
    "sessions": [
     192
    ],
-   "swapped": "Really, {B}? Can you help me?",
-   "slot": "{B}"
+   "swapped": "Really, {A}? Can you help me?",
+   "slot": "{A}"
   },
   {
    "id": "ddd9e543fce",
@@ -12733,8 +12735,8 @@
    "sessions": [
     192
    ],
-   "swapped": "{A}, I am good at asking questions. Let me ask you some.",
-   "slot": "{A}"
+   "swapped": "{B}, I am good at asking questions. Let me ask you some.",
+   "slot": "{B}"
   },
   {
    "id": "d78aa46d9fa",
@@ -12750,8 +12752,8 @@
    "sessions": [
     200
    ],
-   "swapped": "Oh, Hi, {A}. How can I help you?",
-   "slot": "{A}"
+   "swapped": "Oh, Hi, {B}. How can I help you?",
+   "slot": "{B}"
   },
   {
    "id": "d0da6bcf0d5",
@@ -12797,8 +12799,8 @@
    "sessions": [
     202
    ],
-   "swapped": "You were driving too slow! {B}, stay on the street!",
-   "slot": "{B}"
+   "swapped": "You were driving too slow! {A}, stay on the street!",
+   "slot": "{A}"
   },
   {
    "id": "d27eaf65991",
@@ -12846,8 +12848,8 @@
    "sessions": [
     204
    ],
-   "swapped": "Hands on the wheel, {A}.",
-   "slot": "{A}"
+   "swapped": "Hands on the wheel, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "dd35f11d409",
@@ -12893,8 +12895,8 @@
    "sessions": [
     208
    ],
-   "swapped": "{A}, you don’t believe everything you see in ads, do you?",
-   "slot": "{A}"
+   "swapped": "{B}, you don’t believe everything you see in ads, do you?",
+   "slot": "{B}"
   },
   {
    "id": "d567effd5bf",
@@ -13004,8 +13006,8 @@
    "sessions": [
     214
    ],
-   "swapped": "Are you okay, {B}?",
-   "slot": "{B}"
+   "swapped": "Are you okay, {A}?",
+   "slot": "{A}"
   },
   {
    "id": "d0ef8d301a6",
@@ -13038,8 +13040,8 @@
    "sessions": [
     216
    ],
-   "swapped": "Thanks, {A}. Good luck to you, too.",
-   "slot": "{A}"
+   "swapped": "Thanks, {B}. Good luck to you, too.",
+   "slot": "{B}"
   },
   {
    "id": "dfed3c7a89d",
@@ -13136,8 +13138,8 @@
    "sessions": [
     223
    ],
-   "swapped": "Hi {A}, how are you?",
-   "slot": "{A}"
+   "swapped": "Hi {B}, how are you?",
+   "slot": "{B}"
   },
   {
    "id": "df61687d12e",
@@ -13184,8 +13186,8 @@
    "sessions": [
     224
    ],
-   "swapped": "{A}? Is that you?",
-   "slot": "{A}"
+   "swapped": "{B}? Is that you?",
+   "slot": "{B}"
   },
   {
    "id": "d47bb27e540",
@@ -13329,8 +13331,8 @@
    "sessions": [
     229
    ],
-   "swapped": "{A}, you pick the second country. Here is $10.",
-   "slot": "{A}"
+   "swapped": "{B}, you pick the second country. Here is $10.",
+   "slot": "{B}"
   },
   {
    "id": "daddcd7c1fb",
@@ -13442,8 +13444,8 @@
    "sessions": [
     233
    ],
-   "swapped": "Hi, {B}! Are you busy?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}! Are you busy?",
+   "slot": "{A}"
   },
   {
    "id": "d37dbd8667c",
@@ -13521,8 +13523,8 @@
    "sessions": [
     236
    ],
-   "swapped": "Hi, {A}! Where are you going?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}! Where are you going?",
+   "slot": "{B}"
   },
   {
    "id": "dac7466a808",
@@ -13639,8 +13641,8 @@
     237,
     238
    ],
-   "swapped": "Woo-hoo! That is right, {B}.",
-   "slot": "{B}"
+   "swapped": "Woo-hoo! That is right, {A}.",
+   "slot": "{A}"
   },
   {
    "id": "d7dbf06911e",
@@ -13722,8 +13724,8 @@
     245,
     246
    ],
-   "swapped": "Well, losing your wallet is bad, but it's not the end of the world, {A}.",
-   "slot": "{A}"
+   "swapped": "Well, losing your wallet is bad, but it's not the end of the world, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "db2c73983ba",
@@ -13755,8 +13757,8 @@
    "sessions": [
     248
    ],
-   "swapped": "You have very curly hair, {B}.",
-   "slot": "{B}"
+   "swapped": "You have very curly hair, {A}.",
+   "slot": "{A}"
   },
   {
    "id": "d43ed59627a",
@@ -13837,8 +13839,8 @@
     252,
     271
    ],
-   "swapped": "{B}, what did you see and what happened to your arm?",
-   "slot": "{B}"
+   "swapped": "{A}, what did you see and what happened to your arm?",
+   "slot": "{A}"
   },
   {
    "id": "d68f47f82ff",
@@ -13920,8 +13922,8 @@
    "sessions": [
     255
    ],
-   "swapped": "Good idea, {A}. See you later!",
-   "slot": "{A}"
+   "swapped": "Good idea, {B}. See you later!",
+   "slot": "{B}"
   },
   {
    "id": "da506b288e7",
@@ -14163,8 +14165,8 @@
    "sessions": [
     267
    ],
-   "swapped": "{A}, be careful. Things might go wrong.",
-   "slot": "{A}"
+   "swapped": "{B}, be careful. Things might go wrong.",
+   "slot": "{B}"
   },
   {
    "id": "dec5e0d50ab",
@@ -14257,8 +14259,8 @@
    "sessions": [
     272
    ],
-   "swapped": "{A}, I was minding my own business. See, I work over there.",
-   "slot": "{A}"
+   "swapped": "{B}, I was minding my own business. See, I work over there.",
+   "slot": "{B}"
   },
   {
    "id": "db3f7662ebd",
@@ -14289,8 +14291,8 @@
    "sessions": [
     278
    ],
-   "swapped": "Hi, {B}. Where are you going?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}. Where are you going?",
+   "slot": "{A}"
   },
   {
    "id": "daf3d2abb63",
@@ -14652,8 +14654,8 @@
     "from": "great",
     "to": "bread"
    },
-   "swapped": "Hi, {A}. It’s going great. How’s it going with you?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}. It’s going great. How’s it going with you?",
+   "slot": "{B}"
   },
   {
    "id": "d3fd01ab654",
@@ -14697,8 +14699,8 @@
     "from": "right",
     "to": "light"
    },
-   "swapped": "That’s right, {A}. This is the mailroom.",
-   "slot": "{A}"
+   "swapped": "That’s right, {B}. This is the mailroom.",
+   "slot": "{B}"
   },
   {
    "id": "d0094b2881e",
@@ -14986,10 +14988,10 @@
    "slot": "{A}"
   },
   {
-   "id": "d9900590d08",
+   "id": "d3ca5c33999",
    "deck": "swapline",
    "field": "line",
-   "text": "Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
+   "text": "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
    "names": [
     "Ashley"
    ],
@@ -15008,10 +15010,10 @@
    }
   },
   {
-   "id": "dacfd9f78bd",
+   "id": "deb4e45f759",
    "deck": "swapline",
    "field": "line",
-   "text": "Anna, Which coffee shop? There are three coffee shops.",
+   "text": "Anna, which coffee shop? There are three coffee shops.",
    "names": [
     "Anna"
    ],
@@ -15027,7 +15029,7 @@
     "from": "shop",
     "to": "show"
    },
-   "swapped": "{A}, Which coffee shop? There are three coffee shops.",
+   "swapped": "{A}, which coffee shop? There are three coffee shops.",
    "slot": "{A}"
   },
   {
@@ -15119,8 +15121,8 @@
     "from": "know",
     "to": "now"
    },
-   "swapped": "Thanks, {A}. You know our neighborhood so well.",
-   "slot": "{A}"
+   "swapped": "Thanks, {B}. You know our neighborhood so well.",
+   "slot": "{B}"
   },
   {
    "id": "daa81c6911b",
@@ -15165,8 +15167,8 @@
     "from": "walking",
     "to": "talking"
    },
-   "swapped": "Hello! DC is a city for walking. In our neighborhood, I can do all my errands. {A}, before we get ice cream, I need to return three books to the library. Where is the library?",
-   "slot": "{A}"
+   "swapped": "Hello! DC is a city for walking. In our neighborhood, I can do all my errands. {B}, before we get ice cream, I need to return three books to the library. Where is the library?",
+   "slot": "{B}"
   },
   {
    "id": "d87d8c0f727",
@@ -15512,8 +15514,8 @@
     "from": "going",
     "to": "doing"
    },
-   "swapped": "Hi, {B}. What’s going on?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}. What’s going on?",
+   "slot": "{A}"
   },
   {
    "id": "d39e08a6f87",
@@ -15803,8 +15805,8 @@
     "from": "seat",
     "to": "eat"
    },
-   "swapped": "Hi, {A}! Have a seat.",
-   "slot": "{A}"
+   "swapped": "Hi, {B}! Have a seat.",
+   "slot": "{B}"
   },
   {
    "id": "ddcb054eeb6",
@@ -15825,8 +15827,8 @@
     "from": "busy",
     "to": "buy"
    },
-   "swapped": "I'm really busy too, {A}. Let’s get to work.",
-   "slot": "{A}"
+   "swapped": "I'm really busy too, {B}. Let’s get to work.",
+   "slot": "{B}"
   },
   {
    "id": "d11dc1dfc40",
@@ -15889,8 +15891,8 @@
     "from": "love",
     "to": "live"
    },
-   "swapped": "{B}, you love to eat seafood. Did you grow up on the water?",
-   "slot": "{B}"
+   "swapped": "{A}, you love to eat seafood. Did you grow up on the water?",
+   "slot": "{A}"
   },
   {
    "id": "d1b4c8e827d",
@@ -15956,8 +15958,8 @@
     "from": "what",
     "to": "hat"
    },
-   "swapped": "{B}, what took you so long? Our guests will be here soon!",
-   "slot": "{B}"
+   "swapped": "{A}, what took you so long? Our guests will be here soon!",
+   "slot": "{A}"
   },
   {
    "id": "d13cdaf2336",
@@ -16064,8 +16066,8 @@
     "from": "said",
     "to": "sad"
    },
-   "swapped": "{A}, this is the shopping list for breakfast. I said, take the shopping list - on the refrigerator - for dinner!",
-   "slot": "{A}"
+   "swapped": "{B}, this is the shopping list for breakfast. I said, take the shopping list - on the refrigerator - for dinner!",
+   "slot": "{B}"
   },
   {
    "id": "de554bd4129",
@@ -16154,8 +16156,8 @@
     "from": "good",
     "to": "food"
    },
-   "swapped": "{B}! Mmm! Hey, this tastes good! {B}, you made it work!",
-   "slot": "{B}"
+   "swapped": "{A}! Mmm! Hey, this tastes good! {A}, you made it work!",
+   "slot": "{A}"
   },
   {
    "id": "d2f16be49b9",
@@ -16270,8 +16272,8 @@
     "from": "best",
     "to": "rest"
    },
-   "swapped": "{B}, that is the best job for you! Do you remember when we were little? We played in that old treehouse behind my family’s house for hours!",
-   "slot": "{B}"
+   "swapped": "{A}, that is the best job for you! Do you remember when we were little? We played in that old treehouse behind my family’s house for hours!",
+   "slot": "{A}"
   },
   {
    "id": "dab866fd2e8",
@@ -16423,8 +16425,8 @@
     "from": "just",
     "to": "must"
    },
-   "swapped": "{B}, maybe you can just bring food.",
-   "slot": "{B}"
+   "swapped": "{A}, maybe you can just bring food.",
+   "slot": "{A}"
   },
   {
    "id": "d145d645050",
@@ -16590,8 +16592,8 @@
     "from": "what",
     "to": "hat"
    },
-   "swapped": "Hi, {B}! So, what are we going to talk about on the first show?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}! So, what are we going to talk about on the first show?",
+   "slot": "{A}"
   },
   {
    "id": "d38807d9253",
@@ -16694,8 +16696,8 @@
     "from": "shopping",
     "to": "stopping"
    },
-   "swapped": "Hi, {B}. Do you have the shopping list?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}. Do you have the shopping list?",
+   "slot": "{A}"
   },
   {
    "id": "d8d3072fe16",
@@ -16716,8 +16718,8 @@
     "from": "there",
     "to": "here"
    },
-   "swapped": "{A}, there was no shopping list - on the refrigerator - for dinner!",
-   "slot": "{A}"
+   "swapped": "{B}, there was no shopping list - on the refrigerator - for dinner!",
+   "slot": "{B}"
   },
   {
    "id": "da39563b33d",
@@ -16758,8 +16760,8 @@
     "from": "where",
     "to": "here"
    },
-   "swapped": "{B}, where are the eggs?",
-   "slot": "{B}"
+   "swapped": "{A}, where are the eggs?",
+   "slot": "{A}"
   },
   {
    "id": "da4dc03e644",
@@ -16884,8 +16886,8 @@
     "from": "three",
     "to": "tree"
    },
-   "swapped": "{B}, I will be acting in three movies.",
-   "slot": "{B}"
+   "swapped": "{A}, I will be acting in three movies.",
+   "slot": "{A}"
   },
   {
    "id": "dd5effd7dcb",
@@ -17008,8 +17010,8 @@
     "from": "too",
     "to": "took"
    },
-   "swapped": "It’s great to see you too, {A}. I see you are still wearing your tree costume. Does this have anything to do with your big news?",
-   "slot": "{A}"
+   "swapped": "It’s great to see you too, {B}. I see you are still wearing your tree costume. Does this have anything to do with your big news?",
+   "slot": "{B}"
   },
   {
    "id": "d28e3bb782d",
@@ -17103,8 +17105,8 @@
     "from": "friend",
     "to": "field"
    },
-   "swapped": "Hey, {B}! Who’s your friend?",
-   "slot": "{B}"
+   "swapped": "Hey, {A}! Who’s your friend?",
+   "slot": "{A}"
   },
   {
    "id": "dfce7000cc7",
@@ -17261,8 +17263,8 @@
     "from": "pen",
     "to": "aren"
    },
-   "swapped": "{B}, do you have a pen?",
-   "slot": "{B}"
+   "swapped": "{A}, do you have a pen?",
+   "slot": "{A}"
   },
   {
    "id": "de92f17ef28",
@@ -17437,8 +17439,8 @@
     "from": "code",
     "to": "come"
    },
-   "swapped": "No, I can’t code! I can’t teach! I can’t cook! {B}, I can’t do anything. This is sad. I’m gonna write about my feelings in my blog.",
-   "slot": "{B}"
+   "swapped": "No, I can’t code! I can’t teach! I can’t cook! {A}, I can’t do anything. This is sad. I’m gonna write about my feelings in my blog.",
+   "slot": "{A}"
   },
   {
    "id": "de5089afb54",
@@ -17777,8 +17779,8 @@
     "from": "take",
     "to": "make"
    },
-   "swapped": "Please take it again, {A}.",
-   "slot": "{A}"
+   "swapped": "Please take it again, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "d05b24a7cf0",
@@ -17915,8 +17917,8 @@
     "from": "Just",
     "to": "Must"
    },
-   "swapped": "No, {B}. Just the ones with my friends.",
-   "slot": "{B}"
+   "swapped": "No, {A}. Just the ones with my friends.",
+   "slot": "{A}"
   },
   {
    "id": "dff926425f3",
@@ -18118,8 +18120,8 @@
     "from": "lot",
     "to": "got"
    },
-   "swapped": "{A}, that's a lot of followers! You can make money writing!",
-   "slot": "{A}"
+   "swapped": "{B}, that's a lot of followers! You can make money writing!",
+   "slot": "{B}"
   },
   {
    "id": "dab2867c860",
@@ -18342,8 +18344,8 @@
     "from": "see",
     "to": "she"
    },
-   "swapped": "{A}, you don’t believe everything you see in ads, do you?",
-   "slot": "{A}"
+   "swapped": "{B}, you don’t believe everything you see in ads, do you?",
+   "slot": "{B}"
   },
   {
    "id": "deddd78fb36",
@@ -18444,8 +18446,8 @@
     "from": "better",
     "to": "batter"
    },
-   "swapped": "Wow, I feel better. {A}, you are a great listener.",
-   "slot": "{A}"
+   "swapped": "Wow, I feel better. {B}, you are a great listener.",
+   "slot": "{B}"
   },
   {
    "id": "d6317ef35fd",
@@ -18507,8 +18509,8 @@
     "from": "race",
     "to": "are"
    },
-   "swapped": "Thanks for the advice, {B}. But I’m running in a special race.",
-   "slot": "{B}"
+   "swapped": "Thanks for the advice, {A}. But I’m running in a special race.",
+   "slot": "{A}"
   },
   {
    "id": "def5050f4a0",
@@ -18595,8 +18597,8 @@
     "from": "What",
     "to": "Hat"
    },
-   "swapped": "Hi, {A}! What do you need?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}! What do you need?",
+   "slot": "{B}"
   },
   {
    "id": "df7ea9a1fee",
@@ -18722,8 +18724,8 @@
     "from": "know",
     "to": "now"
    },
-   "swapped": "Oh, I know her. She works in my office! {B}, hi! Come and join us!",
-   "slot": "{B}"
+   "swapped": "Oh, I know her. She works in my office! {A}, hi! Come and join us!",
+   "slot": "{A}"
   },
   {
    "id": "dddb16d0d1c",
@@ -18744,8 +18746,8 @@
     "from": "today",
     "to": "day"
    },
-   "swapped": "{B}, today the weather is beautiful, isn’t it?",
-   "slot": "{B}"
+   "swapped": "{A}, today the weather is beautiful, isn’t it?",
+   "slot": "{A}"
   },
   {
    "id": "d020f786adc",
@@ -18829,8 +18831,8 @@
     "from": "live",
     "to": "alive"
    },
-   "swapped": "{A}, hi! Remember me? I live in your building.",
-   "slot": "{A}"
+   "swapped": "{B}, hi! Remember me? I live in your building.",
+   "slot": "{B}"
   },
   {
    "id": "de8dc3a137a",
@@ -19015,8 +19017,8 @@
     "from": "writing",
     "to": "waiting"
    },
-   "swapped": "Hi, {A}. Yes. At 10 a.m. I am writing. Every day I do my morning show. Sorry!",
-   "slot": "{A}"
+   "swapped": "Hi, {B}. Yes. At 10 a.m. I am writing. Every day I do my morning show. Sorry!",
+   "slot": "{B}"
   },
   {
    "id": "dbc373d56f6",
@@ -19037,8 +19039,8 @@
     "from": "busy",
     "to": "buy"
    },
-   "swapped": "Hi, {A}. Are you busy?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}. Are you busy?",
+   "slot": "{B}"
   },
   {
    "id": "dc71814929a",
@@ -19059,8 +19061,8 @@
     "from": "busy",
     "to": "buy"
    },
-   "swapped": "Hi, {B}. Are you busy?",
-   "slot": "{B}"
+   "swapped": "Hi, {A}. Are you busy?",
+   "slot": "{A}"
   },
   {
    "id": "d998c79714e",
@@ -19081,8 +19083,8 @@
     "from": "Come",
     "to": "Came"
    },
-   "swapped": "It’s okay, {A}. Come by this afternoon.",
-   "slot": "{A}"
+   "swapped": "It’s okay, {B}. Come by this afternoon.",
+   "slot": "{B}"
   },
   {
    "id": "d514722371e",
@@ -19127,8 +19129,8 @@
     "from": "love",
     "to": "live"
    },
-   "swapped": "You really love baseball. Have fun at the game, {A}.",
-   "slot": "{A}"
+   "swapped": "You really love baseball. Have fun at the game, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "d8dd7c957a5",
@@ -19150,8 +19152,8 @@
     "from": "forget",
     "to": "forgot"
    },
-   "swapped": "{A}, do not forget me.",
-   "slot": "{A}"
+   "swapped": "{B}, do not forget me.",
+   "slot": "{B}"
   },
   {
    "id": "dd057aca547",
@@ -19194,8 +19196,8 @@
     "from": "Sorry",
     "to": "Worry"
    },
-   "swapped": "Sorry, {A}. Let’s try again.",
-   "slot": "{A}"
+   "swapped": "Sorry, {B}. Let’s try again.",
+   "slot": "{B}"
   },
   {
    "id": "d41d622c047",
@@ -19240,8 +19242,8 @@
     "from": "right",
     "to": "light"
    },
-   "swapped": "{B}, I'm calling for help right now.",
-   "slot": "{B}"
+   "swapped": "{A}, I'm calling for help right now.",
+   "slot": "{A}"
   },
   {
    "id": "d0398bfc289",
@@ -19307,8 +19309,8 @@
     "from": "too",
     "to": "took"
    },
-   "swapped": "{A}, I can’t. I’m too busy. I have to give a big presentation in one hour. Sorry!",
-   "slot": "{A}"
+   "swapped": "{B}, I can’t. I’m too busy. I have to give a big presentation in one hour. Sorry!",
+   "slot": "{B}"
   },
   {
    "id": "df4c6fbfbde",
@@ -19373,8 +19375,8 @@
     "from": "very",
     "to": "every"
    },
-   "swapped": "You have very curly hair, {A}.",
-   "slot": "{A}"
+   "swapped": "You have very curly hair, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "df2f459552b",
@@ -19523,8 +19525,8 @@
     "from": "What",
     "to": "Hat"
    },
-   "swapped": "What do you mean, learn how to ride a bike? Oh, {A}! {A}, {A}!",
-   "slot": "{A}"
+   "swapped": "What do you mean, learn how to ride a bike? Oh, {B}! {B}, {B}!",
+   "slot": "{B}"
   },
   {
    "id": "d8a771b98ca",
@@ -19694,8 +19696,8 @@
     "from": "bread",
     "to": "break"
    },
-   "swapped": "You don’t have to buy bread. Buy some donuts, {A}!",
-   "slot": "{A}"
+   "swapped": "You don’t have to buy bread. Buy some donuts, {B}!",
+   "slot": "{B}"
   },
   {
    "id": "d899be97f0d",
@@ -19737,8 +19739,8 @@
     "from": "city",
     "to": "cats"
    },
-   "swapped": "{B}! The topic is “Violence in the city.” Violence. Not violins.",
-   "slot": "{B}"
+   "swapped": "{A}! The topic is “Violence in the city.” Violence. Not violins.",
+   "slot": "{A}"
   },
   {
    "id": "d7501ea6edf",
@@ -19889,8 +19891,8 @@
     "from": "too",
     "to": "took"
    },
-   "swapped": "You too, {A}. Oh, wait. Do you have pen and paper I can borrow?",
-   "slot": "{A}"
+   "swapped": "You too, {B}. Oh, wait. Do you have pen and paper I can borrow?",
+   "slot": "{B}"
   },
   {
    "id": "d8a6107b664",
@@ -19911,8 +19913,8 @@
     "from": "Well",
     "to": "Tell"
    },
-   "swapped": "Well, you did not help, {A}. You did not help!!",
-   "slot": "{A}"
+   "swapped": "Well, you did not help, {B}. You did not help!!",
+   "slot": "{B}"
   },
   {
    "id": "d2bd9a521a0",
@@ -20037,8 +20039,8 @@
     "from": "know",
     "to": "now"
    },
-   "swapped": "I know that, {B}. But there were too many spark plugs … in there. So I took out the extra ones.",
-   "slot": "{B}"
+   "swapped": "I know that, {A}. But there were too many spark plugs … in there. So I took out the extra ones.",
+   "slot": "{A}"
   },
   {
    "id": "d35481dab16",
@@ -20081,8 +20083,8 @@
     "from": "hard",
     "to": "card"
    },
-   "swapped": "This is hard. {A}! {A}!",
-   "slot": "{A}"
+   "swapped": "This is hard. {B}! {B}!",
+   "slot": "{B}"
   },
   {
    "id": "da128d5a385",
@@ -20203,8 +20205,8 @@
     "from": "Well",
     "to": "Tell"
    },
-   "swapped": "I had no time to be afraid, {B}. Well, I had time while I was resting on a bench. I had a lot of time.",
-   "slot": "{B}"
+   "swapped": "I had no time to be afraid, {A}. Well, I had time while I was resting on a bench. I had a lot of time.",
+   "slot": "{A}"
   },
   {
    "id": "dc2616f6c04",
@@ -20245,8 +20247,8 @@
     "from": "Where",
     "to": "Here"
    },
-   "swapped": "Hi, {A}. Where are you going?",
-   "slot": "{A}"
+   "swapped": "Hi, {B}. Where are you going?",
+   "slot": "{B}"
   },
   {
    "id": "dd3df8c8fa6",
@@ -20389,8 +20391,8 @@
     "from": "hoo",
     "to": "hot"
    },
-   "swapped": "Woo-hoo! That is right, {B}.",
-   "slot": "{B}"
+   "swapped": "Woo-hoo! That is right, {A}.",
+   "slot": "{A}"
   },
   {
    "id": "dd8acd95acc",
@@ -20471,8 +20473,8 @@
     "from": "yell",
     "to": "tell"
    },
-   "swapped": "Please don’t yell, {B}. The ocean can teach us about surfing.",
-   "slot": "{B}"
+   "swapped": "Please don’t yell, {A}. The ocean can teach us about surfing.",
+   "slot": "{A}"
   },
   {
    "id": "d412d259afd",
@@ -20543,8 +20545,8 @@
    "extra": {
     "li": 1
    },
-   "swapped": "{B}, I am in the kitchen!",
-   "slot": "{B}"
+   "swapped": "{A}, I am in the kitchen!",
+   "slot": "{A}"
   },
   {
    "id": "de94d9671ed",
@@ -20568,8 +20570,8 @@
    "extra": {
     "li": 9
    },
-   "swapped": "{A}, I am in the bathroom!",
-   "slot": "{A}"
+   "swapped": "{B}, I am in the bathroom!",
+   "slot": "{B}"
   },
   {
    "id": "d28f7c5808e",
@@ -20617,14 +20619,14 @@
    "extra": {
     "li": 17
    },
-   "swapped": "{B}, it is not cold, windy, or snowy.",
-   "slot": "{B}"
+   "swapped": "{A}, it is not cold, windy, or snowy.",
+   "slot": "{A}"
   },
   {
-   "id": "d017bf31029",
+   "id": "ddd43a5a0b3",
    "deck": "twohalf",
    "field": "a+b",
-   "text": "Today, my friend Ashley, is coming over.",
+   "text": "Today, my friend Ashley is coming over.",
    "names": [
     "Ashley"
    ],
@@ -20660,8 +20662,8 @@
    "extra": {
     "li": 5
    },
-   "swapped": "{B}, what are those in the books?",
-   "slot": "{B}"
+   "swapped": "{A}, what are those in the books?",
+   "slot": "{A}"
   },
   {
    "id": "d6f15a5b28b",
@@ -20703,8 +20705,8 @@
    "extra": {
     "li": 10
    },
-   "swapped": "{A}, now I need to buy stamps.",
-   "slot": "{A}"
+   "swapped": "{B}, now I need to buy stamps.",
+   "slot": "{B}"
   },
   {
    "id": "d30deaccad4",
@@ -20802,8 +20804,8 @@
    "extra": {
     "li": 28
    },
-   "swapped": "{B}, these clothes look and feel great!",
-   "slot": "{B}"
+   "swapped": "{A}, these clothes look and feel great!",
+   "slot": "{A}"
   },
   {
    "id": "dc93fdbc54e",
@@ -20842,8 +20844,8 @@
    "extra": {
     "li": 24
    },
-   "swapped": "{A}, it looks like we’ll never have time to see a movie.",
-   "slot": "{A}"
+   "swapped": "{B}, it looks like we’ll never have time to see a movie.",
+   "slot": "{B}"
   },
   {
    "id": "d17333cae7f",
@@ -20905,8 +20907,8 @@
    "extra": {
     "li": 38
    },
-   "swapped": "{A}, you cannot say you are angry!",
-   "slot": "{A}"
+   "swapped": "{B}, you cannot say you are angry!",
+   "slot": "{B}"
   },
   {
    "id": "d329ac66b41",
@@ -21301,8 +21303,8 @@
    "extra": {
     "li": 0
    },
-   "swapped": "{B}, please hand me the flour.",
-   "slot": "{B}"
+   "swapped": "{A}, please hand me the flour.",
+   "slot": "{A}"
   },
   {
    "id": "d7a706d0aca",
@@ -21322,8 +21324,8 @@
    "extra": {
     "li": 21
    },
-   "swapped": "{B}, I can’t leave our hometown.",
-   "slot": "{B}"
+   "swapped": "{A}, I can’t leave our hometown.",
+   "slot": "{A}"
   },
   {
    "id": "d8b36b0596e",
@@ -21381,8 +21383,8 @@
    "extra": {
     "li": 7
    },
-   "swapped": "I love your apartment building, {B}.",
-   "slot": "{B}"
+   "swapped": "I love your apartment building, {A}.",
+   "slot": "{A}"
   },
   {
    "id": "dfc7398c03a",
@@ -21420,8 +21422,8 @@
    "extra": {
     "li": 24
    },
-   "swapped": "Have fun at the zoo and thanks, {B}!",
-   "slot": "{B}"
+   "swapped": "Have fun at the zoo and thanks, {A}!",
+   "slot": "{A}"
   },
   {
    "id": "d3c7b934154",
@@ -21587,8 +21589,8 @@
    "extra": {
     "li": 17
    },
-   "swapped": "{B}, that is the best job for you!",
-   "slot": "{B}"
+   "swapped": "{A}, that is the best job for you!",
+   "slot": "{A}"
   },
   {
    "id": "d4783f97b3e",
@@ -21687,8 +21689,8 @@
    "extra": {
     "li": 9
    },
-   "swapped": "{B}, I will be acting in three movies.",
-   "slot": "{B}"
+   "swapped": "{A}, I will be acting in three movies.",
+   "slot": "{A}"
   },
   {
    "id": "d498813300b",
@@ -21817,8 +21819,8 @@
    "extra": {
     "li": 8
    },
-   "swapped": "{B}, do you have a pen?",
-   "slot": "{B}"
+   "swapped": "{A}, do you have a pen?",
+   "slot": "{A}"
   },
   {
    "id": "d81d7689bcc",
@@ -21901,8 +21903,8 @@
    "extra": {
     "li": 8
    },
-   "swapped": "I’m sorry to hear that, {A}.",
-   "slot": "{A}"
+   "swapped": "I’m sorry to hear that, {B}.",
+   "slot": "{B}"
   },
   {
    "id": "dae05872d1d",
@@ -22099,8 +22101,8 @@
    "extra": {
     "li": 32
    },
-   "swapped": "{B}, it’s on my other list -- Best Roadside Sights.",
-   "slot": "{B}"
+   "swapped": "{A}, it’s on my other list -- Best Roadside Sights.",
+   "slot": "{A}"
   },
   {
    "id": "dad323085ea",
@@ -22120,8 +22122,8 @@
    "extra": {
     "li": 4
    },
-   "swapped": "Do you want to sit down, {B}?",
-   "slot": "{B}"
+   "swapped": "Do you want to sit down, {A}?",
+   "slot": "{A}"
   },
   {
    "id": "dc2f23bf855",
@@ -22214,8 +22216,8 @@
    "extra": {
     "li": 29
    },
-   "swapped": "{B}, you don’t believe everything you see in ads, do you?",
-   "slot": "{B}"
+   "swapped": "{A}, you don’t believe everything you see in ads, do you?",
+   "slot": "{A}"
   },
   {
    "id": "d5903fcdb60",
@@ -22254,8 +22256,8 @@
    "extra": {
     "li": 14
    },
-   "swapped": "Thank you for your time, {B}!",
-   "slot": "{B}"
+   "swapped": "Thank you for your time, {A}!",
+   "slot": "{A}"
   },
   {
    "id": "dc00e64da43",
@@ -22602,8 +22604,8 @@
    "extra": {
     "li": 5
    },
-   "swapped": "{A}, this chart shows the audience of The Time Traveling Treehouse.",
-   "slot": "{A}"
+   "swapped": "{B}, this chart shows the audience of The Time Traveling Treehouse.",
+   "slot": "{B}"
   },
   {
    "id": "dfa37735171",
@@ -22698,8 +22700,8 @@
    "extra": {
     "li": 0
    },
-   "swapped": "He said, “{B}, never … ” No wait, “Always have emergency money.",
-   "slot": "{B}"
+   "swapped": "He said, “{A}, never … ” No wait, “Always have emergency money.",
+   "slot": "{A}"
   },
   {
    "id": "d93b83f0022",
@@ -22774,8 +22776,8 @@
    "extra": {
     "li": 27
    },
-   "swapped": "I was talking to my niece, {B}.",
-   "slot": "{B}"
+   "swapped": "I was talking to my niece, {A}.",
+   "slot": "{A}"
   },
   {
    "id": "d3a6e06ccce",
@@ -22947,8 +22949,8 @@
    "extra": {
     "li": 4
    },
-   "swapped": "{A}, I can fix it myself.",
-   "slot": "{A}"
+   "swapped": "{B}, I can fix it myself.",
+   "slot": "{B}"
   },
   {
    "id": "d50a1a39c91",
@@ -23005,8 +23007,8 @@
    "extra": {
     "li": 31
    },
-   "swapped": "{B}, kicking the tires will not help.",
-   "slot": "{B}"
+   "swapped": "{A}, kicking the tires will not help.",
+   "slot": "{A}"
   },
   {
    "id": "d002801428a",

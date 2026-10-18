@@ -10,8 +10,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "cues.json",
-      "bytes": 23985,
-      "sha256": "30ad7cb771c8f4c4fb1c1272b70bb8201cd798306133351a6b7220df9ee769ff"
+      "bytes": 23981,
+      "sha256": "5543247284c0961449e4577574f70d70c6ee409c70e06a829483291982e050a0"
     },
     {
       "file": "lecturetext.json",
@@ -20,8 +20,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "transcripts.json",
-      "bytes": 114861,
-      "sha256": "90fd4e014dc2e34240c43299535cb8302553df7a37cc828bbe790fb2d8905499"
+      "bytes": 114860,
+      "sha256": "42c1acd40c48ce50fd8e768875124e94c6fb7f5fa14be02e4ff9cb61a8621250"
     },
     {
       "file": "ext_calendar.js",
@@ -100,8 +100,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "cues.js",
-      "bytes": 24004,
-      "sha256": "120e4d5873d557e1b517024272f1c7f8718982c899f404e302b6a54735a155a4"
+      "bytes": 24000,
+      "sha256": "67f7c1c7fa6ca850fab32c7a774a2f0684e3d47fd5c15f4e4a6080740974d212"
     },
     {
       "file": "emergency.js",
@@ -120,13 +120,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "halves.js",
-      "bytes": 83482,
-      "sha256": "e159d50497cb01023c606448372956baec5dc04b909eb685e9570a7e07205909"
+      "bytes": 83481,
+      "sha256": "d99b82f5492dc8f36473b94089c71ea8a5095c0211c244ed03fa03e3d9abc8f3"
     },
     {
       "file": "halves.json",
-      "bytes": 153769,
-      "sha256": "511eeeb81642fc770e9dd76d43aed1e5055c39c7b48e8465fd3d74fbb519fb4e"
+      "bytes": 153768,
+      "sha256": "0bc07474db080ca1b5314a1a7d8d145429f76b5a2ad94c72cb67f65adbab3ca3"
     },
     {
       "file": "handouts.js",
@@ -410,13 +410,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "relay.js",
-      "bytes": 13072,
-      "sha256": "d68e676e5625ecaf864cd236f03ab9166bee2ba356a41a0ab3e089f1187bf958"
+      "bytes": 13074,
+      "sha256": "bc8c0e1eb458a0a6186c4a604c33d13073e67f4e6c08ec58f4676ced2cbb1e73"
     },
     {
       "file": "relay.json",
-      "bytes": 30350,
-      "sha256": "3e5c3ac2d633b717539ffcf9f3cc6d4fab09bed2744a303ed28f8609f65e5e45"
+      "bytes": 30352,
+      "sha256": "11f7ce7f6a858e5f0e22cfd9c30034657acc4141d7fe588c440ab2dd9a345e9d"
     },
     {
       "file": "sets.js",
@@ -430,13 +430,13 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "swaps.js",
-      "bytes": 57447,
-      "sha256": "115bc19700494542f97f5fd2b09f86a1f2ecb9f40b07820a45851318e52849f1"
+      "bytes": 57397,
+      "sha256": "61cf88b993b28a298eb22cec3397c431e1936c1e6f64b05bf03df62d3b3f4698"
     },
     {
       "file": "swaps.json",
-      "bytes": 131759,
-      "sha256": "cb390811e1da534e2d3e69b7a75c5b4b8c7ccf8412c17a6e5c24572f40ccf43c"
+      "bytes": 131645,
+      "sha256": "8079031bfbada97bd3f4309906eb24bba8da15f82c14f2f0aad777fd335c1b6c"
     },
     {
       "file": "tasks.js",
@@ -450,8 +450,8 @@ window.ENG2P_MANIFEST={
     },
     {
       "file": "transcripts.js",
-      "bytes": 114887,
-      "sha256": "11055969c9d305baa7e8a17d2e1dcb4c902642bd0bb3877f3afe61f49ff64e8f"
+      "bytes": 114886,
+      "sha256": "90ba7ed75af6bad927be35bdcfa033a0c10b33933b2d53c83fd2a1ed02108cd1"
     }
   ]
 };

@@ -1,7 +1,7 @@
 {
  "note": "게임 Data 폴더에 들어가는 *.json 의 크기와 해시, 그리고 두 노트북이 맞춰 보는 dataHash 다. 손으로 고치지 않는다. scripts/derive_game_manifest.py 를 다시 돌린다.",
  "generator": "scripts/derive_game_manifest.py",
- "dataHash": "d24eed8a4a00995fb83228f298e422093f15e444afaa17fbf5360733694e45d4",
+ "dataHash": "9ad3f7a0a0981761d7b244b197df02fc113ede3e7a59c10ba70ad86e18548c68",
  "algorithm": {
   "name": "dataHash/1",
   "files": "Data/*.json 중 manifest.json 과 *.local.json 을 뺀 것",
@@ -37,14 +37,14 @@
   },
   {
    "file": "cues.json",
-   "bytes": 16842,
-   "sha256": "7aa8bef5cc67675bbd8d757bc13d4e32afc22a64d547ca866884ac3768b79c95",
+   "bytes": 16838,
+   "sha256": "cc3fc3e00d3587b5f0d43812afccb0b777f0ae24ef624cc4ce4b287876115ef2",
    "from": "out/game/cues.json"
   },
   {
    "file": "deck_names.json",
-   "bytes": 516535,
-   "sha256": "b900ffee37698a3332b160c7169646ccfdc3463f9ff28b58a78c5ee4058e8fef",
+   "bytes": 516547,
+   "sha256": "a725490ce0fcec36d79b35b4b74b3774deb1a8d17d7910662e5ec6322d518863",
    "from": "out/game/deck_names.json"
   },
   {
@@ -103,8 +103,8 @@
   },
   {
    "file": "sessions.json",
-   "bytes": 2411762,
-   "sha256": "32bdbffd0d9ddcac6d71715dafc010b267f00b622a0522f4a406579e08f933cb",
+   "bytes": 2411925,
+   "sha256": "5549cf56c16dbd9d469550b28946867671a9ba30672106940e99c4be85d28389",
    "from": "out/game/sessions.json"
   },
   {
@@ -133,14 +133,14 @@
   },
   {
    "file": "transcripts.json",
-   "bytes": 107902,
-   "sha256": "956e33496a04ea142711048dc3e1fbf4cea75ea850b9202b97713d5ce251aa89",
+   "bytes": 107901,
+   "sha256": "7b9f0ecfc2938feb0a5500879fa6dbca82054b365af15285c6d218264ea877f9",
    "from": "out/game/transcripts.json"
   },
   {
    "file": "transcripts_ko.json",
-   "bytes": 25138,
-   "sha256": "d0013db332460ecf694203234dc09a15a42e8620fa3b5f32cf08cec6cacff0f4",
+   "bytes": 25117,
+   "sha256": "a479712f1f0accf4d9bac997cc0c80dba5e72a78ddfe0b514217152e1c4b3323",
    "from": "out/game/transcripts_ko.json"
   },
   {

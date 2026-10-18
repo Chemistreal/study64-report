@@ -6197,20 +6197,20 @@
      {
       "li": 8,
       "n": 8,
-      "at": 48.46,
-      "dur": 4.57
+      "at": 48.41,
+      "dur": 4.58
      },
      {
-      "li": 4,
-      "n": 8,
-      "at": 20.34,
-      "dur": 5.49
+      "li": 13,
+      "n": 10,
+      "at": 62.48,
+      "dur": 6.53
      },
      {
       "li": 12,
       "n": 9,
-      "at": 56.35,
-      "dur": 6.17
+      "at": 56.3,
+      "dur": 6.18
      }
     ],
     "chain": [
@@ -6292,10 +6292,10 @@
     ],
     "ladder": [
      {
-      "li": 13,
-      "n": 10,
-      "at": 62.52,
-      "dur": 6.51
+      "li": 7,
+      "n": 11,
+      "at": 41.08,
+      "dur": 7.33
      }
     ],
     "wall": [
@@ -6341,26 +6341,26 @@
     ],
     "wave": [
      {
-      "li": 13,
-      "n": 10,
-      "at": 62.52,
-      "dur": 6.51
+      "li": 12,
+      "n": 9,
+      "at": 56.3,
+      "dur": 6.18
      }
     ],
     "reask": [
      "A big department store? Ah, I see it!",
      "My apartment is near the Columbia Heights Metro.",
+     "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "Okay. See you soon!",
-     "I love having my friends over. Come on!",
-     "Ashley. See you soon!"
+     "I love having my friends over. Come on!"
     ],
     "cutin": [
      "Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead.",
      "A big department store? Ah, I see it!",
-     "Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "Okay. Exit Metro, turn right, turn left, then go straight ahead?",
      "Ashley! Ashley! Ashley! Over here! It’s",
-     "I love having my friends over. Come on!"
+     "I love having my friends over. Come on!",
+     "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling."
     ],
     "clash": [
      {
@@ -6588,22 +6588,22 @@
     ],
     "relay": [
      {
+      "li": 4,
+      "n": 8,
+      "at": 20.26,
+      "dur": 5.49
+     },
+     {
       "li": 3,
       "n": 12,
-      "at": 13.14,
-      "dur": 7.2
+      "at": 13.05,
+      "dur": 7.21
      },
      {
       "li": 7,
       "n": 11,
-      "at": 41.15,
-      "dur": 7.31
-     },
-     {
-      "li": 13,
-      "n": 10,
-      "at": 62.52,
-      "dur": 6.51
+      "at": 41.08,
+      "dur": 7.33
      }
     ],
     "chain": [
@@ -6638,18 +6638,18 @@
     ],
     "twohalf": [
      {
+      "li": 0,
+      "si": 1,
+      "a": "Today, my friend",
+      "b": "Ashley is coming over.",
+      "n": 7
+     },
+     {
       "li": 21,
       "si": 0,
       "a": "I love having",
       "b": "my friends over.",
       "n": 6
-     },
-     {
-      "li": 0,
-      "si": 1,
-      "a": "Today, my friend",
-      "b": "Ashley, is coming over.",
-      "n": 7
      },
      {
       "li": 6,
@@ -6687,8 +6687,8 @@
      {
       "li": 3,
       "n": 12,
-      "at": 13.14,
-      "dur": 7.2
+      "at": 13.05,
+      "dur": 7.21
      }
     ],
     "wall": [
@@ -6734,26 +6734,26 @@
     ],
     "wave": [
      {
-      "li": 12,
-      "n": 9,
-      "at": 56.35,
-      "dur": 6.17
+      "li": 8,
+      "n": 8,
+      "at": 48.41,
+      "dur": 4.58
      }
     ],
     "reask": [
+     "Ashley. See you soon!",
      "It is near the Columbia Heights Metro?",
      "Okay. Exit Metro, turn right, turn left, then go straight ahead?",
-     "Hi Anna! I’m coming to your apartment. Where is your apartment?",
-     "Yes. My apartment is near a coffee shop.",
-     "Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead."
+     "Anna, which coffee shop? There are three coffee shops.",
+     "Hi Anna! I’m coming to your apartment. Where is your apartment?"
     ],
     "cutin": [
      "It is near the Columbia Heights Metro?",
+     "Anna, which coffee shop? There are three coffee shops.",
      "My apartment is near the Columbia Heights Metro.",
      "Okay. See you soon.",
      "Yes. My apartment is near a coffee shop.",
-     "Okay, my apartment is across from a big department store.",
-     "Okay. See you soon!"
+     "Okay, my apartment is across from a big department store."
     ],
     "clash": [
      {
@@ -6983,20 +6983,20 @@
      {
       "li": 8,
       "n": 8,
-      "at": 48.46,
-      "dur": 4.57
+      "at": 48.41,
+      "dur": 4.58
      },
      {
-      "li": 4,
-      "n": 8,
-      "at": 20.34,
-      "dur": 5.49
+      "li": 13,
+      "n": 10,
+      "at": 62.48,
+      "dur": 6.53
      },
      {
       "li": 12,
       "n": 9,
-      "at": 56.35,
-      "dur": 6.17
+      "at": 56.3,
+      "dur": 6.18
      }
     ],
     "chain": [
@@ -7059,18 +7059,18 @@
       "n": 10
      },
      {
+      "li": 0,
+      "si": 1,
+      "a": "Today, my friend",
+      "b": "Ashley is coming over.",
+      "n": 7
+     },
+     {
       "li": 21,
       "si": 0,
       "a": "I love having",
       "b": "my friends over.",
       "n": 6
-     },
-     {
-      "li": 0,
-      "si": 1,
-      "a": "Today, my friend",
-      "b": "Ashley, is coming over.",
-      "n": 7
      }
     ],
     "overlap": [
@@ -7078,10 +7078,10 @@
     ],
     "ladder": [
      {
-      "li": 7,
-      "n": 11,
-      "at": 41.15,
-      "dur": 7.31
+      "li": 12,
+      "n": 9,
+      "at": 56.3,
+      "dur": 6.18
      }
     ],
     "wall": [
@@ -7127,26 +7127,26 @@
     ],
     "wave": [
      {
-      "li": 4,
-      "n": 8,
-      "at": 20.34,
-      "dur": 5.49
+      "li": 13,
+      "n": 10,
+      "at": 62.48,
+      "dur": 6.53
      }
     ],
     "reask": [
+     "Yes. My apartment is near a coffee shop.",
+     "Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead.",
      "Okay. See you soon.",
      "Okay, my apartment is across from a big department store.",
-     "Anna, Which coffee shop? There are three coffee shops.",
-     "Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "Ashley! Ashley! Ashley! Over here! It’s"
     ],
     "cutin": [
+     "Okay. See you soon!",
      "Ashley. See you soon!",
-     "Anna, Which coffee shop? There are three coffee shops.",
      "Hi Anna! I’m coming to your apartment. Where is your apartment?",
      "Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead.",
      "A big department store? Ah, I see it!",
-     "Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling."
+     "Okay. Exit Metro, turn right, turn left, then go straight ahead?"
     ],
     "clash": [
      {
@@ -7374,22 +7374,22 @@
     ],
     "relay": [
      {
-      "li": 5,
-      "n": 7,
-      "at": 26.43,
-      "dur": 3.38
+      "li": 14,
+      "n": 8,
+      "at": 63.34,
+      "dur": 4.97
      },
      {
-      "li": 4,
-      "n": 7,
-      "at": 22.86,
-      "dur": 3.57
+      "li": 1,
+      "n": 8,
+      "at": 17.67,
+      "dur": 3.48
      },
      {
       "li": 15,
       "n": 8,
-      "at": 68.37,
-      "dur": 3.38
+      "at": 68.31,
+      "dur": 3.37
      }
     ],
     "chain": [
@@ -7493,8 +7493,8 @@
      {
       "li": 27,
       "n": 12,
-      "at": 102.65,
-      "dur": 7.95
+      "at": 102.66,
+      "dur": 7.94
      }
     ],
     "wall": [
@@ -7561,10 +7561,10 @@
     ],
     "wave": [
      {
-      "li": 27,
-      "n": 12,
-      "at": 102.65,
-      "dur": 7.95
+      "li": 15,
+      "n": 8,
+      "at": 68.31,
+      "dur": 3.37
      }
     ],
     "reask": [
@@ -7822,22 +7822,22 @@
     ],
     "relay": [
      {
-      "li": 1,
-      "n": 8,
-      "at": 17.69,
-      "dur": 3.48
-     },
-     {
       "li": 27,
       "n": 12,
-      "at": 102.65,
-      "dur": 7.95
+      "at": 102.66,
+      "dur": 7.94
      },
      {
-      "li": 14,
-      "n": 8,
-      "at": 63.4,
-      "dur": 4.97
+      "li": 5,
+      "n": 7,
+      "at": 26.41,
+      "dur": 3.37
+     },
+     {
+      "li": 4,
+      "n": 7,
+      "at": 22.83,
+      "dur": 3.58
      }
     ],
     "chain": [
@@ -7939,10 +7939,10 @@
     ],
     "ladder": [
      {
-      "li": 14,
+      "li": 1,
       "n": 8,
-      "at": 63.4,
-      "dur": 4.97
+      "at": 17.67,
+      "dur": 3.48
      }
     ],
     "wall": [
@@ -8009,10 +8009,10 @@
     ],
     "wave": [
      {
-      "li": 14,
-      "n": 8,
-      "at": 63.4,
-      "dur": 4.97
+      "li": 27,
+      "n": 12,
+      "at": 102.66,
+      "dur": 7.94
      }
     ],
     "reask": [
@@ -8256,22 +8256,22 @@
     ],
     "relay": [
      {
-      "li": 5,
-      "n": 7,
-      "at": 26.43,
-      "dur": 3.38
+      "li": 14,
+      "n": 8,
+      "at": 63.34,
+      "dur": 4.97
      },
      {
-      "li": 4,
-      "n": 7,
-      "at": 22.86,
-      "dur": 3.57
+      "li": 1,
+      "n": 8,
+      "at": 17.67,
+      "dur": 3.48
      },
      {
       "li": 15,
       "n": 8,
-      "at": 68.37,
-      "dur": 3.38
+      "at": 68.31,
+      "dur": 3.37
      }
     ],
     "chain": [
@@ -8375,8 +8375,8 @@
      {
       "li": 15,
       "n": 8,
-      "at": 68.37,
-      "dur": 3.38
+      "at": 68.31,
+      "dur": 3.37
      }
     ],
     "wall": [
@@ -8443,10 +8443,10 @@
     ],
     "wave": [
      {
-      "li": 4,
-      "n": 7,
-      "at": 22.86,
-      "dur": 3.57
+      "li": 14,
+      "n": 8,
+      "at": 63.34,
+      "dur": 4.97
      }
     ],
     "reask": [
@@ -8706,22 +8706,22 @@
     ],
     "relay": [
      {
+      "li": 33,
+      "n": 10,
+      "at": 141.51,
+      "dur": 7.64
+     },
+     {
+      "li": 18,
+      "n": 11,
+      "at": 69.83,
+      "dur": 5.78
+     },
+     {
       "li": 31,
       "n": 11,
-      "at": 130.85,
+      "at": 130.82,
       "dur": 6.44
-     },
-     {
-      "li": 38,
-      "n": 11,
-      "at": 182.32,
-      "dur": 7.2
-     },
-     {
-      "li": 35,
-      "n": 9,
-      "at": 159.21,
-      "dur": 6.65
      }
     ],
     "chain": [
@@ -8823,10 +8823,10 @@
     ],
     "ladder": [
      {
-      "li": 38,
+      "li": 18,
       "n": 11,
-      "at": 182.32,
-      "dur": 7.2
+      "at": 69.83,
+      "dur": 5.78
      }
     ],
     "wall": [
@@ -8895,7 +8895,7 @@
      {
       "li": 18,
       "n": 11,
-      "at": 69.9,
+      "at": 69.83,
       "dur": 5.78
      }
     ],
@@ -9142,21 +9142,21 @@
     ],
     "relay": [
      {
-      "li": 33,
-      "n": 10,
-      "at": 141.54,
-      "dur": 7.63
+      "li": 38,
+      "n": 11,
+      "at": 182.32,
+      "dur": 7.2
      },
      {
-      "li": 18,
-      "n": 11,
-      "at": 69.9,
-      "dur": 5.78
+      "li": 35,
+      "n": 9,
+      "at": 159.19,
+      "dur": 6.65
      },
      {
       "li": 11,
       "n": 10,
-      "at": 42.09,
+      "at": 42.12,
       "dur": 5.56
      }
     ],
@@ -9259,10 +9259,10 @@
     ],
     "ladder": [
      {
-      "li": 11,
-      "n": 10,
-      "at": 42.09,
-      "dur": 5.56
+      "li": 38,
+      "n": 11,
+      "at": 182.32,
+      "dur": 7.2
      }
     ],
     "wall": [
@@ -9329,10 +9329,10 @@
     ],
     "wave": [
      {
-      "li": 31,
-      "n": 11,
-      "at": 130.85,
-      "dur": 6.44
+      "li": 35,
+      "n": 9,
+      "at": 159.19,
+      "dur": 6.65
      }
     ],
     "reask": [
@@ -14635,20 +14635,20 @@
      {
       "li": 8,
       "n": 8,
-      "at": 48.46,
-      "dur": 4.57
+      "at": 48.41,
+      "dur": 4.58
      },
      {
-      "li": 4,
-      "n": 8,
-      "at": 20.34,
-      "dur": 5.49
+      "li": 13,
+      "n": 10,
+      "at": 62.48,
+      "dur": 6.53
      },
      {
       "li": 12,
       "n": 9,
-      "at": 56.35,
-      "dur": 6.17
+      "at": 56.3,
+      "dur": 6.18
      }
     ],
     "chain": [
@@ -14730,10 +14730,10 @@
     ],
     "ladder": [
      {
-      "li": 12,
-      "n": 9,
-      "at": 56.35,
-      "dur": 6.17
+      "li": 13,
+      "n": 10,
+      "at": 62.48,
+      "dur": 6.53
      }
     ],
     "wall": [
@@ -14779,26 +14779,26 @@
     ],
     "wave": [
      {
-      "li": 7,
-      "n": 11,
-      "at": 41.15,
-      "dur": 7.31
+      "li": 4,
+      "n": 8,
+      "at": 20.26,
+      "dur": 5.49
      }
     ],
     "reask": [
      "A big department store? Ah, I see it!",
      "My apartment is near the Columbia Heights Metro.",
+     "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "Okay. See you soon!",
-     "I love having my friends over. Come on!",
-     "Ashley. See you soon!"
+     "I love having my friends over. Come on!"
     ],
     "cutin": [
-     "Okay. Exit Metro, turn right, turn left, then go straight ahead?",
      "Ashley! Ashley! Ashley! Over here! It’s",
      "I love having my friends over. Come on!",
+     "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "It is near the Columbia Heights Metro?",
-     "My apartment is near the Columbia Heights Metro.",
-     "Okay. See you soon."
+     "Anna, which coffee shop? There are three coffee shops.",
+     "My apartment is near the Columbia Heights Metro."
     ],
     "clash": [
      {
@@ -14976,13 +14976,6 @@
       "d": 1
      },
      {
-      "li": 12,
-      "wi": 3,
-      "from": "very",
-      "to": "every",
-      "d": 1
-     },
-     {
       "li": 34,
       "wi": 3,
       "from": "live",
@@ -15002,6 +14995,13 @@
       "from": "new",
       "to": "now",
       "d": 1
+     },
+     {
+      "li": 13,
+      "wi": 0,
+      "from": "Who",
+      "to": "Hot",
+      "d": 2
      }
     ],
     "hearme": [
@@ -15038,21 +15038,21 @@
     ],
     "relay": [
      {
-      "li": 33,
-      "n": 10,
-      "at": 141.54,
-      "dur": 7.63
+      "li": 38,
+      "n": 11,
+      "at": 182.32,
+      "dur": 7.2
      },
      {
-      "li": 18,
-      "n": 11,
-      "at": 69.9,
-      "dur": 5.78
+      "li": 35,
+      "n": 9,
+      "at": 159.19,
+      "dur": 6.65
      },
      {
       "li": 11,
       "n": 10,
-      "at": 42.09,
+      "at": 42.12,
       "dur": 5.56
      }
     ],
@@ -15155,10 +15155,10 @@
     ],
     "ladder": [
      {
-      "li": 31,
-      "n": 11,
-      "at": 130.85,
-      "dur": 6.44
+      "li": 33,
+      "n": 10,
+      "at": 141.51,
+      "dur": 7.64
      }
     ],
     "wall": [
@@ -15225,10 +15225,10 @@
     ],
     "wave": [
      {
-      "li": 33,
-      "n": 10,
-      "at": 141.54,
-      "dur": 7.63
+      "li": 31,
+      "n": 11,
+      "at": 130.82,
+      "dur": 6.44
      }
     ],
     "reask": [
@@ -21216,20 +21216,20 @@
      {
       "li": 8,
       "n": 8,
-      "at": 48.46,
-      "dur": 4.57
+      "at": 48.41,
+      "dur": 4.58
      },
      {
-      "li": 4,
-      "n": 8,
-      "at": 20.34,
-      "dur": 5.49
+      "li": 13,
+      "n": 10,
+      "at": 62.48,
+      "dur": 6.53
      },
      {
       "li": 12,
       "n": 9,
-      "at": 56.35,
-      "dur": 6.17
+      "at": 56.3,
+      "dur": 6.18
      }
     ],
     "chain": [
@@ -21264,18 +21264,18 @@
     ],
     "twohalf": [
      {
+      "li": 0,
+      "si": 1,
+      "a": "Today, my friend",
+      "b": "Ashley is coming over.",
+      "n": 7
+     },
+     {
       "li": 21,
       "si": 0,
       "a": "I love having",
       "b": "my friends over.",
       "n": 6
-     },
-     {
-      "li": 0,
-      "si": 1,
-      "a": "Today, my friend",
-      "b": "Ashley, is coming over.",
-      "n": 7
      },
      {
       "li": 6,
@@ -21311,10 +21311,10 @@
     ],
     "ladder": [
      {
-      "li": 12,
-      "n": 9,
-      "at": 56.35,
-      "dur": 6.17
+      "li": 13,
+      "n": 10,
+      "at": 62.48,
+      "dur": 6.53
      }
     ],
     "wall": [
@@ -21361,26 +21361,26 @@
     ],
     "wave": [
      {
-      "li": 7,
-      "n": 11,
-      "at": 41.15,
-      "dur": 7.31
+      "li": 4,
+      "n": 8,
+      "at": 20.26,
+      "dur": 5.49
      }
     ],
     "reask": [
      "A big department store? Ah, I see it!",
      "My apartment is near the Columbia Heights Metro.",
+     "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "Okay. See you soon!",
-     "I love having my friends over. Come on!",
-     "Ashley. See you soon!"
+     "I love having my friends over. Come on!"
     ],
     "cutin": [
-     "Okay. Exit Metro, turn right, turn left, then go straight ahead?",
      "Ashley! Ashley! Ashley! Over here! It’s",
      "I love having my friends over. Come on!",
+     "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "It is near the Columbia Heights Metro?",
-     "My apartment is near the Columbia Heights Metro.",
-     "Okay. See you soon."
+     "Anna, which coffee shop? There are three coffee shops.",
+     "My apartment is near the Columbia Heights Metro."
     ],
     "clash": [
      {
@@ -21618,22 +21618,22 @@
     ],
     "relay": [
      {
+      "li": 4,
+      "n": 8,
+      "at": 20.26,
+      "dur": 5.49
+     },
+     {
       "li": 3,
       "n": 12,
-      "at": 13.14,
-      "dur": 7.2
+      "at": 13.05,
+      "dur": 7.21
      },
      {
       "li": 7,
       "n": 11,
-      "at": 41.15,
-      "dur": 7.31
-     },
-     {
-      "li": 13,
-      "n": 10,
-      "at": 62.52,
-      "dur": 6.51
+      "at": 41.08,
+      "dur": 7.33
      }
     ],
     "chain": [
@@ -21696,18 +21696,18 @@
       "n": 10
      },
      {
+      "li": 0,
+      "si": 1,
+      "a": "Today, my friend",
+      "b": "Ashley is coming over.",
+      "n": 7
+     },
+     {
       "li": 21,
       "si": 0,
       "a": "I love having",
       "b": "my friends over.",
       "n": 6
-     },
-     {
-      "li": 0,
-      "si": 1,
-      "a": "Today, my friend",
-      "b": "Ashley, is coming over.",
-      "n": 7
      }
     ],
     "overlap": [
@@ -21715,10 +21715,10 @@
     ],
     "ladder": [
      {
-      "li": 4,
+      "li": 8,
       "n": 8,
-      "at": 20.34,
-      "dur": 5.49
+      "at": 48.41,
+      "dur": 4.58
      }
     ],
     "wall": [
@@ -21765,25 +21765,25 @@
     ],
     "wave": [
      {
-      "li": 3,
-      "n": 12,
-      "at": 13.14,
-      "dur": 7.2
+      "li": 7,
+      "n": 11,
+      "at": 41.08,
+      "dur": 7.33
      }
     ],
     "reask": [
+     "Ashley. See you soon!",
      "It is near the Columbia Heights Metro?",
      "Okay. Exit Metro, turn right, turn left, then go straight ahead?",
-     "Hi Anna! I’m coming to your apartment. Where is your apartment?",
-     "Yes. My apartment is near a coffee shop.",
-     "Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead."
+     "Anna, which coffee shop? There are three coffee shops.",
+     "Hi Anna! I’m coming to your apartment. Where is your apartment?"
     ],
     "cutin": [
+     "Okay. See you soon.",
      "Yes. My apartment is near a coffee shop.",
      "Okay, my apartment is across from a big department store.",
      "Okay. See you soon!",
      "Ashley. See you soon!",
-     "Anna, Which coffee shop? There are three coffee shops.",
      "Hi Anna! I’m coming to your apartment. Where is your apartment?"
     ],
     "clash": [
@@ -22015,20 +22015,20 @@
      {
       "li": 8,
       "n": 8,
-      "at": 48.46,
-      "dur": 4.57
+      "at": 48.41,
+      "dur": 4.58
      },
      {
-      "li": 4,
-      "n": 8,
-      "at": 20.34,
-      "dur": 5.49
+      "li": 13,
+      "n": 10,
+      "at": 62.48,
+      "dur": 6.53
      },
      {
       "li": 12,
       "n": 9,
-      "at": 56.35,
-      "dur": 6.17
+      "at": 56.3,
+      "dur": 6.18
      }
     ],
     "chain": [
@@ -22110,10 +22110,10 @@
     ],
     "ladder": [
      {
-      "li": 8,
+      "li": 4,
       "n": 8,
-      "at": 48.46,
-      "dur": 4.57
+      "at": 20.26,
+      "dur": 5.49
      }
     ],
     "wall": [
@@ -22160,26 +22160,26 @@
     ],
     "wave": [
      {
-      "li": 8,
-      "n": 8,
-      "at": 48.46,
-      "dur": 4.57
+      "li": 3,
+      "n": 12,
+      "at": 13.05,
+      "dur": 7.21
      }
     ],
     "reask": [
+     "Yes. My apartment is near a coffee shop.",
+     "Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead.",
      "Okay. See you soon.",
      "Okay, my apartment is across from a big department store.",
-     "Anna, Which coffee shop? There are three coffee shops.",
-     "Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "Ashley! Ashley! Ashley! Over here! It’s"
     ],
     "cutin": [
      "Yes. Exit the Metro and turn right. Then at the bus station turn left. Then walk straight ahead.",
      "A big department store? Ah, I see it!",
-     "Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling.",
      "Okay. Exit Metro, turn right, turn left, then go straight ahead?",
      "Ashley! Ashley! Ashley! Over here! It’s",
-     "I love having my friends over. Come on!"
+     "I love having my friends over. Come on!",
+     "Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling."
     ],
     "clash": [
      {
@@ -22407,22 +22407,22 @@
     ],
     "relay": [
      {
-      "li": 5,
-      "n": 7,
-      "at": 26.43,
-      "dur": 3.38
+      "li": 14,
+      "n": 8,
+      "at": 63.34,
+      "dur": 4.97
      },
      {
-      "li": 4,
-      "n": 7,
-      "at": 22.86,
-      "dur": 3.57
+      "li": 1,
+      "n": 8,
+      "at": 17.67,
+      "dur": 3.48
      },
      {
       "li": 15,
       "n": 8,
-      "at": 68.37,
-      "dur": 3.38
+      "at": 68.31,
+      "dur": 3.37
      }
     ],
     "chain": [
@@ -22524,10 +22524,10 @@
     ],
     "ladder": [
      {
-      "li": 1,
-      "n": 8,
-      "at": 17.69,
-      "dur": 3.48
+      "li": 5,
+      "n": 7,
+      "at": 26.41,
+      "dur": 3.37
      }
     ],
     "wall": [
@@ -22594,10 +22594,10 @@
     ],
     "wave": [
      {
-      "li": 5,
-      "n": 7,
-      "at": 26.43,
-      "dur": 3.38
+      "li": 1,
+      "n": 8,
+      "at": 17.67,
+      "dur": 3.48
      }
     ],
     "reask": [
@@ -22862,22 +22862,22 @@
     ],
     "relay": [
      {
-      "li": 1,
-      "n": 8,
-      "at": 17.69,
-      "dur": 3.48
-     },
-     {
       "li": 27,
       "n": 12,
-      "at": 102.65,
-      "dur": 7.95
+      "at": 102.66,
+      "dur": 7.94
      },
      {
-      "li": 14,
-      "n": 8,
-      "at": 63.4,
-      "dur": 4.97
+      "li": 5,
+      "n": 7,
+      "at": 26.41,
+      "dur": 3.37
+     },
+     {
+      "li": 4,
+      "n": 7,
+      "at": 22.83,
+      "dur": 3.58
      }
     ],
     "chain": [
@@ -22979,10 +22979,10 @@
     ],
     "ladder": [
      {
-      "li": 4,
-      "n": 7,
-      "at": 22.86,
-      "dur": 3.57
+      "li": 14,
+      "n": 8,
+      "at": 63.34,
+      "dur": 4.97
      }
     ],
     "wall": [
@@ -23049,10 +23049,10 @@
     ],
     "wave": [
      {
-      "li": 15,
-      "n": 8,
-      "at": 68.37,
-      "dur": 3.38
+      "li": 4,
+      "n": 7,
+      "at": 22.83,
+      "dur": 3.58
      }
     ],
     "reask": [
@@ -23296,22 +23296,22 @@
     ],
     "relay": [
      {
-      "li": 5,
-      "n": 7,
-      "at": 26.43,
-      "dur": 3.38
+      "li": 14,
+      "n": 8,
+      "at": 63.34,
+      "dur": 4.97
      },
      {
-      "li": 4,
-      "n": 7,
-      "at": 22.86,
-      "dur": 3.57
+      "li": 1,
+      "n": 8,
+      "at": 17.67,
+      "dur": 3.48
      },
      {
       "li": 15,
       "n": 8,
-      "at": 68.37,
-      "dur": 3.38
+      "at": 68.31,
+      "dur": 3.37
      }
     ],
     "chain": [
@@ -23413,10 +23413,10 @@
     ],
     "ladder": [
      {
-      "li": 5,
+      "li": 4,
       "n": 7,
-      "at": 26.43,
-      "dur": 3.38
+      "at": 22.83,
+      "dur": 3.58
      }
     ],
     "wall": [
@@ -23483,10 +23483,10 @@
     ],
     "wave": [
      {
-      "li": 1,
-      "n": 8,
-      "at": 17.69,
-      "dur": 3.48
+      "li": 5,
+      "n": 7,
+      "at": 26.41,
+      "dur": 3.37
      }
     ],
     "reask": [
@@ -23690,13 +23690,6 @@
       "d": 1
      },
      {
-      "li": 12,
-      "wi": 3,
-      "from": "very",
-      "to": "every",
-      "d": 1
-     },
-     {
       "li": 34,
       "wi": 3,
       "from": "live",
@@ -23716,6 +23709,13 @@
       "from": "new",
       "to": "now",
       "d": 1
+     },
+     {
+      "li": 13,
+      "wi": 0,
+      "from": "Who",
+      "to": "Hot",
+      "d": 2
      }
     ],
     "hearme": [
@@ -23752,22 +23752,22 @@
     ],
     "relay": [
      {
+      "li": 33,
+      "n": 10,
+      "at": 141.51,
+      "dur": 7.64
+     },
+     {
+      "li": 18,
+      "n": 11,
+      "at": 69.83,
+      "dur": 5.78
+     },
+     {
       "li": 31,
       "n": 11,
-      "at": 130.85,
+      "at": 130.82,
       "dur": 6.44
-     },
-     {
-      "li": 38,
-      "n": 11,
-      "at": 182.32,
-      "dur": 7.2
-     },
-     {
-      "li": 35,
-      "n": 9,
-      "at": 159.21,
-      "dur": 6.65
      }
     ],
     "chain": [
@@ -23869,10 +23869,10 @@
     ],
     "ladder": [
      {
-      "li": 31,
-      "n": 11,
-      "at": 130.85,
-      "dur": 6.44
+      "li": 33,
+      "n": 10,
+      "at": 141.51,
+      "dur": 7.64
      }
     ],
     "wall": [
@@ -23939,10 +23939,10 @@
     ],
     "wave": [
      {
-      "li": 33,
-      "n": 10,
-      "at": 141.54,
-      "dur": 7.63
+      "li": 31,
+      "n": 11,
+      "at": 130.82,
+      "dur": 6.44
      }
     ],
     "reask": [
@@ -24125,13 +24125,6 @@
     ],
     "swapline": [
      {
-      "li": 13,
-      "wi": 0,
-      "from": "Who",
-      "to": "Hot",
-      "d": 2
-     },
-     {
       "li": 6,
       "wi": 3,
       "from": "some",
@@ -24157,6 +24150,13 @@
       "wi": 5,
       "from": "many",
       "to": "any",
+      "d": 1
+     },
+     {
+      "li": 5,
+      "wi": 2,
+      "from": "want",
+      "to": "wait",
       "d": 1
      }
     ],
@@ -24194,21 +24194,21 @@
     ],
     "relay": [
      {
-      "li": 33,
-      "n": 10,
-      "at": 141.54,
-      "dur": 7.63
+      "li": 38,
+      "n": 11,
+      "at": 182.32,
+      "dur": 7.2
      },
      {
-      "li": 18,
-      "n": 11,
-      "at": 69.9,
-      "dur": 5.78
+      "li": 35,
+      "n": 9,
+      "at": 159.19,
+      "dur": 6.65
      },
      {
       "li": 11,
       "n": 10,
-      "at": 42.09,
+      "at": 42.12,
       "dur": 5.56
      }
     ],
@@ -24313,7 +24313,7 @@
      {
       "li": 35,
       "n": 9,
-      "at": 159.21,
+      "at": 159.19,
       "dur": 6.65
      }
     ],
@@ -24381,10 +24381,10 @@
     ],
     "wave": [
      {
-      "li": 35,
-      "n": 9,
-      "at": 159.21,
-      "dur": 6.65
+      "li": 33,
+      "n": 10,
+      "at": 141.51,
+      "dur": 7.64
      }
     ],
     "reask": [
@@ -24560,13 +24560,6 @@
     ],
     "swapline": [
      {
-      "li": 5,
-      "wi": 2,
-      "from": "want",
-      "to": "wait",
-      "d": 1
-     },
-     {
       "li": 11,
       "wi": 2,
       "from": "jokes",
@@ -24592,6 +24585,13 @@
       "wi": 3,
       "from": "mother",
       "to": "other",
+      "d": 1
+     },
+     {
+      "li": 17,
+      "wi": 1,
+      "from": "too",
+      "to": "took",
       "d": 1
      }
     ],
@@ -24629,22 +24629,22 @@
     ],
     "relay": [
      {
+      "li": 33,
+      "n": 10,
+      "at": 141.51,
+      "dur": 7.64
+     },
+     {
+      "li": 18,
+      "n": 11,
+      "at": 69.83,
+      "dur": 5.78
+     },
+     {
       "li": 31,
       "n": 11,
-      "at": 130.85,
+      "at": 130.82,
       "dur": 6.44
-     },
-     {
-      "li": 38,
-      "n": 11,
-      "at": 182.32,
-      "dur": 7.2
-     },
-     {
-      "li": 35,
-      "n": 9,
-      "at": 159.21,
-      "dur": 6.65
      }
     ],
     "chain": [
@@ -24746,10 +24746,10 @@
     ],
     "ladder": [
      {
-      "li": 33,
-      "n": 10,
-      "at": 141.54,
-      "dur": 7.63
+      "li": 31,
+      "n": 11,
+      "at": 130.82,
+      "dur": 6.44
      }
     ],
     "wall": [

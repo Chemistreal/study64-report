@@ -8,7 +8,7 @@
   "summary": {
     "lessons": 52,
     "files": 275,
-    "bytes": 164706194
+    "bytes": 164706193
   },
   "files": [
     {
@@ -1623,27 +1623,27 @@
     {
       "path": "media/english/transcripts/lle1-10.md",
       "role": "conversation-transcript",
-      "bytes": 1440,
+      "bytes": 1439,
       "mime": "text/markdown",
-      "sha256": "15e31cefef72e0fbb563f51864aadc18be37b292131ddda3aadb68dad51bb88c",
+      "sha256": "6b4e5adc4f9051d9e60bb3adb8754f56ad575947096b3d3cde801472c755ee80",
       "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
       "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-10/3285228.html"
     },
     {
       "path": "media/english/transcripts/lle1-11.md",
       "role": "conversation-transcript",
-      "bytes": 1841,
+      "bytes": 1842,
       "mime": "text/markdown",
-      "sha256": "bcdc3634b5e6f3f2d0dbf2411f430bb34500c22093ac53d2165a74c641210664",
+      "sha256": "f19716a3f4d9859211f5a56a62fe9816aab547abcfeaab89d9a08b2ad6c324fd",
       "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
       "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-11-this-is-my-neighborhood/3293986.html"
     },
     {
       "path": "media/english/transcripts/lle1-12.md",
       "role": "conversation-transcript",
-      "bytes": 2502,
+      "bytes": 2501,
       "mime": "text/markdown",
-      "sha256": "375163bfcafe98e3a27eee7842650f19198957ae72f5c99745af01230f890327",
+      "sha256": "402ab9c42fbef9f1313c4ce56a8b10baacd4546f06e48ecfa08dae172efc0cd9",
       "license": "VOA Learning English public-domain material; credit learningenglish.voanews.com",
       "sourceUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-12-meet-my-family/3301733.html"
     },

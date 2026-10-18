@@ -82,7 +82,7 @@
 | 26 | (In the gym) | (헬스장에서) |
 | 27 | Anna: Pete! Pete? | Pete! Pete? |
 | 28 | Pete: I want to work out too! Join me! | 저도 운동하고 싶어요! 같이 해요! |
-| 29 | Anna: I’m good. | 저는 사양할게요. |
+| 29 | Anna: I’m good. | 전 괜찮아요. |
 
 ## lle1-09
 
@@ -116,7 +116,7 @@
 
 | 줄 | 영어 | 한국어 |
 |---|---|---|
-| 1 | Anna: Hi! Today, my friend Ashley, is coming over. I am showing her my new apartment! Oh! That’s Ashley calling. | 안녕하세요! 오늘 제 친구 Ashley가 놀러 와요. 제 새 아파트를 보여 줄 거예요! 아! Ashley한테 전화가 왔어요. |
+| 1 | Anna: Hi! Today, my friend Ashley is coming over. I am showing her my new apartment! Oh! That’s Ashley calling. | 안녕하세요! 오늘 제 친구 Ashley가 놀러 와요. 제 새 아파트를 보여 줄 거예요! 아! Ashley한테 전화가 왔어요. |
 | 2 | Anna: Hi | 안녕하세요 |
 | 3 | Ashley! | Ashley! |
 | 4 | Ashley: Hi Anna! I’m coming to your apartment. Where is your apartment? | 안녕하세요, Anna! 지금 가고 있어요. 아파트가 어디에 있어요? |
@@ -128,7 +128,7 @@
 | 10 | Ashley: Okay. See you soon! | 알겠어요. 곧 봐요! |
 | 11 | Anna: Hi, | 안녕하세요, |
 | 12 | Ashley. | Ashley. |
-| 13 | Ashley: Anna, Which coffee shop? There are three coffee shops. | Anna, 어느 커피숍이에요? 커피숍이 세 군데 있어요. |
+| 13 | Ashley: Anna, which coffee shop? There are three coffee shops. | Anna, 어느 커피숍이에요? 커피숍이 세 군데 있어요. |
 | 14 | Anna: Okay, my apartment is across from a big department store. | 알겠어요, 제 아파트는 큰 백화점 맞은편에 있어요. |
 | 15 | Ashley: A big department store? Ah, I see it! | 큰 백화점이요? 아, 보여요! |
 | 16 | Anna: Okay! Bye, | 좋아요! 이따 봐요, |
@@ -164,10 +164,10 @@
 | 18 | Anna: Wait here. | 여기서 기다려요. |
 | 19 | Anna: I have stamps. | 우표가 있어요. |
 | 20 | Marsha: Wow, you’re fast. | 와, 빠르네요. |
-| 21 | Anna: Thank you, thank you letters, for sending my words… my love … to my family and friends - | 고마워요, 고마워요, 편지들아. 내 말을 ... 내 사랑을 ... 가족과 친구들에게 보내 줘서 - |
+| 21 | Anna: Thank you, thank you letters, for sending my words… my love … to my family and friends - | 고마워, 고마워, 편지들아. 내 말을 ... 내 사랑을 ... 가족과 친구들에게 전해 줘서 - |
 | 22 | Marsha: Do you have more cash? | 현금 더 있어요? |
 | 23 | Anna: I do! | 있어요! |
-| 24 | Marsh and | Marsha와 |
+| 24 | Marsha and | Marsha와 |
 | 25 | Anna: Ice cream!! | 아이스크림!! |
 | 26 | Anna: I love my new neighborhood! Everything is near our apartment! Even hair salons*, and ice cream! | 새 동네가 정말 좋아요! 모든 게 우리 아파트 가까이에 있어요! 미용실*도, 아이스크림도요! |
 | 27 | Anna: Until next time! | 다음에 또 만나요! |
@@ -189,7 +189,7 @@
 | 10 | Anna: This is my mother and this is my father. They are rodeo clowns. | 이분은 우리 어머니고 이분은 우리 아버지예요. 두 분은 로데오 광대예요. |
 | 11 | Marsha: What do rodeo clowns do? | 로데오 광대는 무슨 일을 해요? |
 | 12 | Anna: They make jokes at a rodeo. They make people laugh. | 로데오에서 농담을 해요. 사람들을 웃게 만들어요. |
-| 13 | Marsha: That-That';s very different. | 그, 그건 정말 색다르네요. |
+| 13 | Marsha: That-That's very different. | 그, 그건 정말 색다르네요. |
 | 14 | Marsha: Who is that woman in the picture? | 사진 속 저 여자분은 누구예요? |
 | 15 | Anna: That is my Aunt Lavender. She is my mom's sister. She loves gardening and makes spoons. | 저분은 Lavender 이모예요. 우리 엄마와 자매예요. 정원 가꾸기를 정말 좋아하고 숟가락을 만들어요. |
 | 16 | Marsha: She makes spoons? | 숟가락을 만든다고요? |
@@ -205,7 +205,7 @@
 | 26 | Marsha: Yeah, that's not a surprise. | 네, 놀랍지도 않네요. |
 | 27 | Marsha: Thanks for showing me your family photos. Your family is very different. | 가족사진을 보여 줘서 고마워요. 가족이 정말 색다르네요. |
 | 28 | Anna: I do feel better. Thanks for listening. I have many more photos! | 기분이 정말 나아졌어요. 들어 줘서 고마워요. 사진이 훨씬 더 많아요! |
-| 29 | Marsha: Yeah. Yeah, you do. | 그래요. 정말 그렇겠죠. |
+| 29 | Marsha: Yeah. Yeah, you do. | 네. 정말 많네요. |
 | 30 | Anna: Washington, DC is my new home. But I like remembering my old home, too. | Washington, DC는 제 새 고향이에요. 하지만 옛 고향을 떠올리는 것도 좋아요. |
 | 31 | Anna's Family Tree | Anna의 가계도 |
 | 32 | This is a family tree. Anna tells Marsha about her parents. | 이것은 가계도예요. Anna가 Marsha에게 부모님에 대해 이야기해요. |
