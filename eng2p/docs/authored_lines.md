@@ -166,15 +166,15 @@
 | cs-19 | bag | option | B자리 | A bag, please. | A1 | 고르기 | A | - | 봉지에 주세요. |
 | cs-20 | bag | option | B자리 | A box, please. | A1 | 고르기 | A | - | 상자에 주세요. |
 | cs-21 | pay | wait | 두 사람 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
-| cs-22 | pay | npc | Clerk | That is eleven dollars. Cash or card? | A1 | 값 말하기 결제 묻기 | A | - | 11달러예요. 현금으로 하실까요, 카드로 하실까요? |
+| cs-22 | pay | npc | Clerk | That's eleven dollars. Cash or card? | A1 | 값 말하기 결제 묻기 | A | - | 11달러예요. 현금으로 하실까요, 카드로 하실까요? |
 | cs-23 | pay | option | 두 사람 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
 | cs-24 | pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
-| cs-25 | pay | option | 두 사람 | Sorry, can you say that one more time? | A2 | 되묻기 | A | - | 죄송해요, 한 번만 더 말해 주시겠어요? |
+| cs-25 | pay | option | 두 사람 | Sorry, can you say that again? | A1 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
 | cs-26 | thanks | npc | Clerk | Here are your cookies. Enjoy! | A1 | 물건 내기 | A | - | 쿠키 여기 있어요. 맛있게 드세요! |
 | cs-27 | thanks | wait | 두 사람 | Thank you very much! | A1 | 감사 | A | - | 정말 고맙습니다! |
 | cs-28 | share | wait | A자리 | Do you want one now, {B}? | A1 | 권하기 | A | - | {B}, 지금 하나 먹을래? |
 | cs-29 | share | wait | B자리 | Yes, please! | A1 | 대답 | A | - | 응, 줘! |
-| cs-30 | bye | npc | Clerk | You are welcome! Have a nice day! | A1 | 작별 | A | - | 천만에요! 좋은 하루 보내세요! |
+| cs-30 | bye | npc | Clerk | Have a nice day! | A1 | 작별 | A | - | 좋은 하루 보내세요! |
 | cs-31 | bye | wait | 두 사람 | You too! Bye! | A1 | 작별 | A | - | 좋은 하루 보내세요! 안녕히 계세요! |
 
 ### 연습할 말 (이 나들이의 카드 여덟)
@@ -189,7 +189,7 @@
 | cs-p4 | Yes, that is all. | 대답 | cs-16 | 네, 그게 다예요. |
 | cs-p5 | A box, please. | 고르기 | cs-20 | 상자에 주세요. |
 | cs-p6 | How much is it? | 값 묻기 | cs-21 | 얼마예요? |
-| cs-p7 | Sorry, can you say that one more time? | 되묻기 | cs-25 | 죄송해요, 한 번만 더 말해 주시겠어요? |
+| cs-p7 | Sorry, can you say that again? | 되묻기 | cs-25 | 죄송해요, 다시 말해 주시겠어요? |
 | cs-p8 | Thank you very much! | 감사 | cs-27 | 정말 고맙습니다! |
 
 ### 미니게임 차례
@@ -773,9 +773,9 @@
 | hf-p12 | Another key, please. | 부탁 | hf-24 | 열쇠 하나 더 주세요. |
 | hf-p13 | Thank you very much. | 감사 | hf-27 | 정말 고맙습니다. |
 | hf-p14 | A bottle of water, please. | 물 주문 | hf-33 | 물 한 병 주세요. |
-| hf-p15 | Five dollars. | 값 말하기 | hf-34 | 5달러예요. |
+| hf-p15 | Five dollars. Okay. | 값 확인 | hf-36 | 5달러요. 알겠어요. |
 | hf-p16 | How much is it? | 값 묻기 | hf-35 | 얼마예요? |
-| hf-p17 | Cash or card? | 결제 묻기 | hf-37 | 현금으로 내시겠어요, 카드로 내시겠어요? |
+| hf-p17 | Towels, please. | 부탁 | hf-05 | 수건 주세요. |
 | hf-p18 | Card, please. | 결제 | hf-38 | 카드로 할게요. |
 | hf-p19 | Cash, please. | 결제 | hf-40 | 현금으로 할게요. |
 | hf-p20 | Room six. | 방 번호 말하기 | hf-41 | 6호예요. |
@@ -846,7 +846,7 @@
 | cf-27 | food | npc | Cashier | Anything else? | A1 | 추가 묻기 | A | - | 더 필요한 건요? |
 | cf-28 | food | option | B자리 | A cookie, please. | A1 | 추가 주문 | A | - | 쿠키 하나 주세요. |
 | cf-29 | food | option | B자리 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
-| cf-30 | pay | npc | Cashier | That's nine dollars. Cash or card? | A1 | 값 결제 묻기 | A | - | 9달러예요. 현금으로 내시겠어요, 카드로 내시겠어요? |
+| cf-30 | pay | npc | Cashier | That's nine dollars. | A1 | 값 말하기 | A | - | 9달러예요. |
 | cf-31 | pay | option | 두 사람 | Card, please. | A1 | 결제 | A | - | 카드로 할게요. |
 | cf-32 | pay | option | 두 사람 | Cash, please. | A1 | 결제 | A | - | 현금으로 할게요. |
 | cf-33 | pay | npc | Cashier | Thank you! We will call your name. | A1 | 안내 | A | - | 고맙습니다! 이름을 불러 드릴게요. |
@@ -882,8 +882,8 @@
 | cf-p17 | No, thank you. That is all. | 주문 끝내기 | cf-29 | 아니요, 고맙습니다. 그게 다예요. |
 | cf-p18 | Cash, please. | 결제 | cf-32 | 현금으로 할게요. |
 | cf-p19 | How much is it? | 값 묻기 | cf-37 | 얼마예요? |
-| cf-p20 | It is nine dollars. | 값 되풀이 | cf-38 | 9달러예요. |
-| cf-p21 | Cash or card? | 결제 묻기 | cf-39 | 현금으로 내시겠어요, 카드로 내시겠어요? |
+| cf-p20 | For here, please. | 고르기 | cf-22 | 여기서 먹을게요. |
+| cf-p21 | Thank you! | 감사 | cf-34 | 고맙습니다! |
 
 ### 미니게임 차례
 

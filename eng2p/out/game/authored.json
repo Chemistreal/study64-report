@@ -1166,7 +1166,7 @@
    "scene": "pay",
    "kind": "npc",
    "who": "Clerk",
-   "say": "That is eleven dollars. Cash or card?",
+   "say": "That's eleven dollars. Cash or card?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A1",
@@ -1229,10 +1229,10 @@
    "scene": "pay",
    "kind": "option",
    "who": "두 사람",
-   "say": "Sorry, can you say that one more time?",
+   "say": "Sorry, can you say that again?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
-   "cefr": "A2",
+   "cefr": "A1",
    "function": "되묻기",
    "canDo": "cd-cookie-1",
    "selfCheck": "A",
@@ -1240,7 +1240,7 @@
    "introduces": [],
    "stretchWords": [],
    "branchOf": [],
-   "ko": "죄송해요, 한 번만 더 말해 주시겠어요?"
+   "ko": "죄송해요, 다시 말해 주시겠어요?"
   },
   {
    "id": "cs-26",
@@ -1327,7 +1327,7 @@
    "scene": "bye",
    "kind": "npc",
    "who": "Clerk",
-   "say": "You are welcome! Have a nice day!",
+   "say": "Have a nice day!",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A1",
@@ -1337,7 +1337,7 @@
    "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "천만에요! 좋은 하루 보내세요!"
+   "ko": "좋은 하루 보내세요!"
   },
   {
    "id": "cs-31",
@@ -6580,21 +6580,20 @@
    "scene": "pay",
    "kind": "npc",
    "who": "Cashier",
-   "say": "That's nine dollars. Cash or card?",
+   "say": "That's nine dollars.",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)",
    "cefr": "A1",
-   "function": "값 결제 묻기",
+   "function": "값 말하기",
    "canDo": "cd-cf-1",
    "selfCheck": "A",
    "selfCheckWhy": null,
    "introduces": [
-    "card",
     "dollars",
     "nine"
    ],
    "stretchWords": [],
-   "ko": "9달러예요. 현금으로 내시겠어요, 카드로 내시겠어요?"
+   "ko": "9달러예요."
   },
   {
    "id": "cf-31",
@@ -11661,11 +11660,11 @@
   {
    "id": "cs-p7",
    "outing": "cookie_snack",
-   "say": "Sorry, can you say that one more time?",
+   "say": "Sorry, can you say that again?",
    "function": "되묻기",
    "line": "cs-25",
    "provenance": "authored",
-   "ko": "죄송해요, 한 번만 더 말해 주시겠어요?"
+   "ko": "죄송해요, 다시 말해 주시겠어요?"
   },
   {
    "id": "cs-p8",
@@ -12237,11 +12236,11 @@
   {
    "id": "hf-p15",
    "outing": "hotel_front_desk",
-   "say": "Five dollars.",
-   "function": "값 말하기",
-   "line": "hf-34",
+   "say": "Five dollars. Okay.",
+   "function": "값 확인",
+   "line": "hf-36",
    "provenance": "authored",
-   "ko": "5달러예요."
+   "ko": "5달러요. 알겠어요."
   },
   {
    "id": "hf-p16",
@@ -12255,11 +12254,11 @@
   {
    "id": "hf-p17",
    "outing": "hotel_front_desk",
-   "say": "Cash or card?",
-   "function": "결제 묻기",
-   "line": "hf-37",
+   "say": "Towels, please.",
+   "function": "부탁",
+   "line": "hf-05",
    "provenance": "authored",
-   "ko": "현금으로 내시겠어요, 카드로 내시겠어요?"
+   "ko": "수건 주세요."
   },
   {
    "id": "hf-p18",
@@ -12471,20 +12470,20 @@
   {
    "id": "cf-p20",
    "outing": "cafe_order",
-   "say": "It is nine dollars.",
-   "function": "값 되풀이",
-   "line": "cf-38",
+   "say": "For here, please.",
+   "function": "고르기",
+   "line": "cf-22",
    "provenance": "authored",
-   "ko": "9달러예요."
+   "ko": "여기서 먹을게요."
   },
   {
    "id": "cf-p21",
    "outing": "cafe_order",
-   "say": "Cash or card?",
-   "function": "결제 묻기",
-   "line": "cf-39",
+   "say": "Thank you!",
+   "function": "감사",
+   "line": "cf-34",
    "provenance": "authored",
-   "ko": "현금으로 내시겠어요, 카드로 내시겠어요?"
+   "ko": "고맙습니다!"
   },
   {
    "id": "ab-p1",

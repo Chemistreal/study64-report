@@ -1,7 +1,7 @@
 {
  "note": "게임 Data 폴더에 들어가는 *.json 의 크기와 해시, 그리고 두 노트북이 맞춰 보는 dataHash 다. 손으로 고치지 않는다. scripts/derive_game_manifest.py 를 다시 돌린다.",
  "generator": "scripts/derive_game_manifest.py",
- "dataHash": "24f49270efda5de6f81caa504428a3b1115351d34cf409e5e2a998d7d2e1755c",
+ "dataHash": "e70121938f98cbe31840dbfcf56663bb83cf61edac2e32c8f4323ea0980fc42f",
  "algorithm": {
   "name": "dataHash/1",
   "files": "Data/*.json 중 manifest.json 과 *.local.json 을 뺀 것",
@@ -25,8 +25,8 @@
   },
   {
    "file": "authored.json",
-   "bytes": 313764,
-   "sha256": "dfd515f22a319e1a21c7a34fb1ac53ca0e213242d573826ff65c753caabdb1a9",
+   "bytes": 313536,
+   "sha256": "5609e22d6abb96fbddf86b11f739681f2a0ede75fe8234071fb1bae18c5a6762",
    "from": "out/game/authored.json"
   },
   {
