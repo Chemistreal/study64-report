@@ -7667,7 +7667,7 @@
    "scene": "price2",
    "kind": "option",
    "who": "B자리",
-   "say": "How much is this?",
+   "say": "How much is this one?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A1",
@@ -7678,7 +7678,7 @@
    "introduces": [],
    "stretchWords": [],
    "branchOf": [],
-   "ko": "이거 얼마예요?"
+   "ko": "이건 얼마예요?"
   },
   {
    "id": "ph-19",

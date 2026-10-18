@@ -1012,7 +1012,7 @@
 | ph-15 | more | option | B자리 | Shampoo, please. | A1 | 물건 말하기 | A | - | 샴푸 주세요. |
 | ph-16 | more | option | B자리 | No, thank you. That is all. | A1 | 주문 끝내기 | A | - | 아니요, 고맙습니다. 그게 다예요. |
 | ph-17 | price2 | npc | Clerk | Okay. Here you are. | A1 | 건네기 | A | - | 네. 여기 있어요. |
-| ph-18 | price2 | option | B자리 | How much is this? | A1 | 값 묻기 | A | - | 이거 얼마예요? |
+| ph-18 | price2 | option | B자리 | How much is this one? | A1 | 값 묻기 | A | - | 이건 얼마예요? |
 | ph-19 | price2 | option | B자리 | How much is it? | A1 | 값 묻기 | A | - | 얼마예요? |
 | ph-20 | price2 | npc | Clerk | That's four dollars. | A1 | 값 말하기 | A | - | 4달러예요. |
 | ph-21 | pay | npc | Clerk | That's twelve dollars. Cash or card? | A1 | 값 결제 묻기 | A | - | 12달러예요. 현금으로 내시겠어요, 카드로 내시겠어요? |
