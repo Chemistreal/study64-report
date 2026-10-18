@@ -191,11 +191,11 @@
 | 12 | Anna: They make jokes at a rodeo. They make people laugh. | 로데오에서 농담을 해요. 사람들을 웃게 만들어요. |
 | 13 | Marsha: That-That's very different. | 그, 그건 정말 색다르네요. |
 | 14 | Marsha: Who is that woman in the picture? | 사진 속 저 여자분은 누구예요? |
-| 15 | Anna: That is my Aunt Lavender. She is my mom's sister. She loves gardening and makes spoons. | 저분은 Lavender 이모예요. 우리 엄마와 자매예요. 정원 가꾸기를 정말 좋아하고 숟가락을 만들어요. |
+| 15 | Anna: That is my Aunt Lavender. She is my mom's sister. She loves gardening and makes spoons. | 저분은 Lavender 이모예요. 우리 엄마의 자매예요. 정원 가꾸기를 정말 좋아하고 숟가락을 만들어요. |
 | 16 | Marsha: She makes spoons? | 숟가락을 만든다고요? |
 | 17 | Anna: Of course. | 그럼요. |
 | 18 | Marsha: That, too, is very different. | 그것도 정말 색다르네요. |
-| 19 | Anna: Oh! This is my Uncle John. He is my father's brother. | 아! 이분은 John 삼촌이에요. 우리 아버지와 형제예요. |
+| 19 | Anna: Oh! This is my Uncle John. He is my father's brother. | 아! 이분은 John 삼촌이에요. 우리 아버지의 형제예요. |
 | 20 | Marsha: What does Uncle John do? | John 삼촌은 무슨 일을 해요? |
 | 21 | Anna: He's a chicken farmer. And makes guitars. He's awesome, and I'm his favorite niece. | 닭 농장을 해요. 그리고 기타를 만들어요. 정말 멋진 분이고, 저는 그분이 제일 아끼는 조카예요. |
 | 22 | Marsha: Who are they? | 이 사람들은 누구예요? |
@@ -212,7 +212,7 @@
 | 33 | Her mother and father are rodeo clowns. | 어머니와 아버지는 로데오 광대예요. |
 | 34 | Her father's parents are from Italy. These grandparents speak Italian. | 아버지 쪽 조부모님은 Italy 출신이에요. 이 조부모님은 이탈리아어를 해요. |
 | 35 | Anna's mother's parents live in California. These grandparents have a farm and raise horses. | Anna 어머니 쪽 조부모님은 California에 살아요. 이 조부모님은 농장이 있고 말을 키워요. |
-| 36 | Anna's mother's sister is Aunt Lavender. She loves gardening. | Anna 어머니와 자매인 분이 Lavender 이모예요. 정원 가꾸기를 정말 좋아해요. |
+| 36 | Anna's mother's sister is Aunt Lavender. She loves gardening. | Anna 어머니의 자매는 Lavender 이모예요. 정원 가꾸기를 정말 좋아해요. |
 | 37 | Anna's father has a brother. His name is John. Uncle John makes guitars. | Anna의 아버지에게는 형제가 한 명 있어요. 이름은 John이에요. John 삼촌은 기타를 만들어요. |
 | 38 | Uncle John has a daughter and a son. They are Anna's cousins. They raise sheep. | John 삼촌에게는 딸과 아들이 있어요. 두 사람은 Anna의 사촌이에요. 양을 키워요. |
 | 39 | Anna's brother has two children. They are Anna's niece and nephew. | Anna의 남자 형제에게는 아이가 둘 있어요. 두 아이는 Anna의 조카딸과 조카아들이에요. |
