@@ -1780,7 +1780,7 @@
    "scene": "pay",
    "kind": "wait",
    "who": "B자리",
-   "say": "How much for two?",
+   "say": "How much is that?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A1",
@@ -1790,7 +1790,7 @@
    "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "두 개에 얼마예요?"
+   "ko": "얼마예요?"
   },
   {
    "id": "si-23",
@@ -2362,7 +2362,7 @@
    "scene": "pay",
    "kind": "wait",
    "who": "A자리",
-   "say": "How much is one?",
+   "say": "How much is that?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (2026-10-10)",
    "cefr": "A1",
@@ -2372,7 +2372,7 @@
    "selfCheckWhy": null,
    "introduces": [],
    "stretchWords": [],
-   "ko": "하나에 얼마예요?"
+   "ko": "얼마예요?"
   },
   {
    "id": "mu-20",
@@ -9543,7 +9543,7 @@
    "scene": "greet",
    "kind": "option",
    "who": "A자리",
-   "say": "Can I have two chairs, please?",
+   "say": "Hi! Can we get chairs?",
    "provenance": "authored",
    "author": "claude-sonnet-5.5 (기존, 2026-10-10), codex (추가, 2026-10-11)",
    "cefr": "A1",
@@ -9555,7 +9555,7 @@
     "chairs"
    ],
    "stretchWords": [],
-   "ko": "의자 두 개 주세요."
+   "ko": "안녕하세요! 의자를 빌릴 수 있을까요?"
   },
   {
    "id": "bc-29",
@@ -11732,11 +11732,11 @@
   {
    "id": "si-p7",
    "outing": "shave_ice_snack",
-   "say": "How much for two?",
+   "say": "How much is that?",
    "function": "값 묻기",
    "line": "si-22",
    "provenance": "authored",
-   "ko": "두 개에 얼마예요?"
+   "ko": "얼마예요?"
   },
   {
    "id": "si-p8",
@@ -11795,11 +11795,11 @@
   {
    "id": "mu-p6",
    "outing": "musubi_day",
-   "say": "How much is one?",
+   "say": "How much is that?",
    "function": "값 묻기",
    "line": "mu-19",
    "provenance": "authored",
-   "ko": "하나에 얼마예요?"
+   "ko": "얼마예요?"
   },
   {
    "id": "mu-p7",

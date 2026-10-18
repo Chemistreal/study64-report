@@ -246,7 +246,7 @@
 | si-19 | spoon | npc | Clerk | One spoon or two? | A1 | 수량 묻기 | A | - | 숟가락은 하나요, 두 개요? |
 | si-20 | spoon | option | B자리 | One spoon, please. | A1 | 수량 말하기 | A | - | 숟가락 하나 주세요. |
 | si-21 | spoon | option | B자리 | Two spoons, please. | A1 | 수량 말하기 | A | - | 숟가락 두 개 주세요. |
-| si-22 | pay | wait | B자리 | How much for two? | A1 | 값 묻기 | A | - | 두 개에 얼마예요? |
+| si-22 | pay | wait | B자리 | How much is that? | A1 | 값 묻기 | A | - | 얼마예요? |
 | si-23 | pay | npc | Clerk | That is eight dollars. | A1 | 값 말하기 | A | - | 8달러예요. |
 | si-24 | pay | option | 두 사람 | Here is ten dollars. | A1 | 값 내기 | B | 돈을 건네며 하는 말로 "Here you go."가 더 흔할 수 있다. 금액을 넣어 "Here is twenty dollars."라고 해도 이해는 되지만 원어민이 실제로 이렇게 말하는 빈도에는 확신이 없다 | 여기 10달러요. |
 | si-25 | pay | option | 두 사람 | Sorry, can you say that again? | A2 | 되묻기 | A | - | 죄송해요, 다시 말해 주시겠어요? |
@@ -272,7 +272,7 @@
 | si-p4 | The same flavor, please. | 같은 것 고르기 | si-15 | 같은 맛으로 주세요. |
 | si-p5 | No, thank you. | 아니오 대답 | si-18 | 아니요, 괜찮아요. |
 | si-p6 | Two spoons, please. | 수량 말하기 | si-21 | 숟가락 두 개 주세요. |
-| si-p7 | How much for two? | 값 묻기 | si-22 | 두 개에 얼마예요? |
+| si-p7 | How much is that? | 값 묻기 | si-22 | 얼마예요? |
 | si-p8 | Sorry, can you say that again? | 되묻기 | si-25 | 죄송해요, 다시 말해 주시겠어요? |
 
 ### 미니게임 차례
@@ -304,6 +304,7 @@
 허용 이름: Spam
 갈래: mu-23 > mu-20
 재개: t9:mu-23 > mu-21/mu-22
+상황: 가상의 무스비 가게다. 스팸, 닭고기, 달걀 중 무엇을 고르고 몇 개를 사든 하나에 3달러로 안내한다. 3달러는 이 장면에서만 정한 값이며 실제 가게의 가격이 아니다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -325,7 +326,7 @@
 | mu-16 | go | npc | Clerk | For here or to go? | A1 | 고르게 묻기 | A | - | 여기서 드실 건가요, 포장하실 건가요? |
 | mu-17 | go | option | B자리 | For here, please. | A1 | 고르기 | A | - | 여기서 먹을게요. |
 | mu-18 | go | option | B자리 | To go, please. | A1 | 고르기 | A | - | 포장해 주세요. |
-| mu-19 | pay | wait | A자리 | How much is one? | A1 | 값 묻기 | A | - | 하나에 얼마예요? |
+| mu-19 | pay | wait | A자리 | How much is that? | A1 | 값 묻기 | A | - | 얼마예요? |
 | mu-20 | pay | npc | Clerk | Each one is three dollars. | A1 | 값 말하기 | A | - | 하나에 3달러예요. |
 | mu-21 | pay | option | 두 사람 | Okay. Card, please. | A1 | 결제 | A | - | 알겠어요. 카드로 할게요. |
 | mu-22 | pay | option | 두 사람 | Okay. Cash, please. | A1 | 결제 | A | - | 알겠어요. 현금으로 할게요. |
@@ -352,7 +353,7 @@
 | mu-p3 | One each, please. | 수량 말하기 | mu-12 | 한 사람에 하나씩 주세요. |
 | mu-p4 | To go, please. | 고르기 | mu-18 | 포장해 주세요. |
 | mu-p5 | For here, please. | 고르기 | mu-17 | 여기서 먹을게요. |
-| mu-p6 | How much is one? | 값 묻기 | mu-19 | 하나에 얼마예요? |
+| mu-p6 | How much is that? | 값 묻기 | mu-19 | 얼마예요? |
 | mu-p7 | No, thank you. | 아니오 대답 | mu-26 | 아니요, 괜찮아요. |
 | mu-p8 | Sorry, can you say that again? | 되묻기 | mu-23 | 죄송해요, 다시 말해 주시겠어요? |
 
@@ -1216,6 +1217,7 @@
 허용 이름: -
 갈래: bc-09 > bc-10, bc-11 > bc-13, bc-12 > bc-13, bc-24 > bc-25, bc-29 > bc-30
 재개: t4:bc-09 > bc-07/bc-08
+상황: 가상의 해변 대여소다. 의자 두 개를 빌리든 의자와 우산을 하나씩 빌리든 하나에 10달러, 합계 20달러로 같다. 10달러와 20달러는 이 장면에서만 정한 값이며 실제 대여소의 요금이 아니다.
 
 | id | 장면 | 종류 | 인물 | 영어 | 등급 | 기능 | 점검 | 이유 | 한국어 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -1246,7 +1248,7 @@
 | bc-25 | place | npc | Clerk | No, it's near. | A1 | 대답 | A | - | 아니요, 가까워요. |
 | bc-26 | bye | npc | Clerk | Have fun! | A1 | 작별 | A | - | 즐거운 시간 보내세요! |
 | bc-27 | bye | wait | 두 사람 | Thank you! Bye! | A1 | 작별 | A | - | 고맙습니다! 안녕히 계세요! |
-| bc-28 | greet | option | A자리 | Can I have two chairs, please? | A1 | 바로 주문 | A | - | 의자 두 개 주세요. |
+| bc-28 | greet | option | A자리 | Hi! Can we get chairs? | A1 | 바로 주문 | A | - | 안녕하세요! 의자를 빌릴 수 있을까요? |
 | bc-29 | more | option | B자리 | Water, please. | A1 | 추가 요청 | A | - | 물 주세요. |
 | bc-30 | more | npc | Clerk | Water is over there. | A1 | 위치 안내 | A | - | 물은 저쪽에 있어요. |
 
