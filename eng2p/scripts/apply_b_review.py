@@ -213,25 +213,26 @@ def sheet_html(outs, missions, state):
 <title>B 등급 영어 줄 검토</title>
 <style>
 @page { size: A4 landscape; margin: 6mm; }
-body { font: 9px/1.25 "Noto Sans KR", "Malgun Gothic", sans-serif; margin: 0; color: #111; background: #fff; }
-h1 { font-size: 13px; margin: 0 0 2px; }
+body { font: 12px/1.3 "Noto Sans KR", "Malgun Gothic", sans-serif; margin: 0; color: #111; background: #fff; }
+h1 { font-size: 16px; margin: 0 0 2px; }
 p { margin: 0 0 3px; }
 table { border-collapse: collapse; width: 100%%; }
 td, th { border: 1px solid #999; padding: 1px 4px; vertical-align: top; }
 th { background: #eee; }
 tr.m td { background: #dde7f3; }
-tr.m span { color: #555; font-size: 9px; }
+tr.m span { color: #555; font-size: 12px; }
 td.n { text-align: center; width: 34px; }
-td.n small { color: #666; font-size: 8px; }
-td.e { font-weight: bold; width: 135px; font-size: 11px; }
+td.n small { color: #666; font-size: 12px; }
+td.e { font-weight: bold; width: 135px; font-size: 13px; }
 td.a { width: 80px; text-align: center; font-size: 14px; }
 i { color: #555; font-style: normal; }
-@media (max-width: 700px) { table { font-size: 9px; } }
+/* A4 한 장에 들게 종이에서만 줄인다. 화면은 12px 바닥 (tools/audit_pages.py) */
+@media print { body { font-size: 7pt; } h1 { font-size: 10pt; } tr.m span, td.n small { font-size: 6.5pt; } td.e { font-size: 8pt; } td.a { font-size: 10pt; } }
 </style></head><body>
 <h1>B 등급 영어 줄 검토 (%d줄)</h1>
 <p>줄마다 <b>O (쓴다)</b> 나 <b>X (뺀다)</b> 만 적는다. 뜻이 통하고 말해도 어색하지 않으면 O. 모르겠으면 비워 둔다. 답은 "3 O, 4 X" 처럼 번호로 말해도 된다.</p>
 <table>
-<tr><th>번호</th><th>영어</th><th>상황</th><th>한국어 뜻</th><th>왜 B 인가 (걸리는 말)</th><th>O (쓴다) / X (뺀다)</th></tr>
+<tr><th scope="col">번호</th><th scope="col">영어</th><th scope="col">상황</th><th scope="col">한국어 뜻</th><th scope="col">왜 B 인가 (걸리는 말)</th><th scope="col">O (쓴다) / X (뺀다)</th></tr>
 %s
 </table>
 </body></html>

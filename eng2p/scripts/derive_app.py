@@ -162,7 +162,7 @@ def main():
         return 1
 
     # 차례에 안 적힌 조각이 생겼으면 그것도 알린다. 조용히 빠지면 안 된다.
-    here = sorted(str(f.relative_to(APP)) for f in APP.rglob("*")
+    here = sorted(f.relative_to(APP).as_posix() for f in APP.rglob("*")
                   if f.is_file() and f.name != "order.txt")
     extra = [n for n in here if n not in names]
     if extra:

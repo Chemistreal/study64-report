@@ -407,12 +407,12 @@ t7에서 안내문을 보라는 갈래를 고르면 두 사람이 가상 안내�
 세션: 155
 목표 등급: B1
 할 일: cd-ipt-1 / I can follow tour instructions, ask questions, and check my understanding. / 투어 안내를 듣고 질문하며 이해한 내용을 확인할 수 있다.
-허용 이름: \u02BBIolani Palace
+허용 이름: ʻIolani Palace
 갈래: ipt-02 > ipt-04, ipt-03 > ipt-05, ipt-08 > ipt-10, ipt-09 > ipt-11, ipt-13 > ipt-15, ipt-14 > ipt-15, ipt-17 > ipt-19, ipt-18 > ipt-20, ipt-22 > ipt-24, ipt-23 > ipt-25, ipt-29 > ipt-31, ipt-30 > ipt-32, ipt-34 > ipt-36, ipt-35 > ipt-37
 재개: -
 건너뜀: -
 
-이름 주석: \u02BBIolani Palace는 이 미션 배경인 왕궁의 고유 이름이다. \u02BBIolani 첫 글자는 docs/culture.md 5.3의 U+02BB \u02BBokina로 쓴다. 이름의 어원이나 번역 뜻을 새로 설명하지 않는다. culture.md 5.2의 원래 사용 제한과 2026-10-09 로컬 빌드 허용 기록을 함께 확인했다. 일반 영어 palace를 허용 이름으로 면제하지 않으며 대사에는 고유 이름을 넣지 않는다. 이름 발음과 문화적 화용은 미확인이다.
+이름 주석: ʻIolani Palace는 이 미션 배경인 왕궁의 고유 이름이다. ʻIolani 첫 글자는 docs/culture.md 5.3의 U+02BB ʻokina로 쓴다. 이름의 어원이나 번역 뜻을 새로 설명하지 않는다. culture.md 5.2의 원래 사용 제한과 2026-10-09 로컬 빌드 허용 기록을 함께 확인했다. 일반 영어 palace를 허용 이름으로 면제하지 않으며 대사에는 고유 이름을 넣지 않는다. 이름 발음과 문화적 화용은 미확인이다.
 
 속도 요청 주석: ipt-08과 ipt-10은 천천히 말해 달라는 요청과 그 응답을 연습하는 대사다. 이 데이터에는 음성 속도 설정이 없으며 실제 말하기 속도와 TTS 재생 속도는 검증하지 않았다.
 

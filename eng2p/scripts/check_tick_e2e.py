@@ -357,7 +357,7 @@ class Sim:
 
     # -- 쓰는 파일을 안 건드렸는지 본다
     def snapshot(self):
-        return {str(p.relative_to(self.res)): sha(p.read_bytes()) for p in sorted(self.res.rglob("*")) if p.is_file()}
+        return {p.relative_to(self.res).as_posix(): sha(p.read_bytes()) for p in sorted(self.res.rglob("*")) if p.is_file()}
 
     def run(self):
         for i, kind in enumerate(PLAN):
@@ -413,7 +413,7 @@ class Sim:
 
     def variants(self, date, today, text, final=False):
         core = jcore(text)
-        files = {str(p.relative_to(self.res)): p.read_bytes() for p in sorted(self.res.rglob("*")) if p.is_file()}
+        files = {p.relative_to(self.res).as_posix(): p.read_bytes() for p in sorted(self.res.rglob("*")) if p.is_file()}
 
         def run_in(files_map, extra=(), state=True):
             d = self.tmp_results(files_map)

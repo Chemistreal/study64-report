@@ -481,6 +481,29 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
       });
     });
   });
+  /* 한 줄 바꾸기(swapline)의 낱말 번호. 앱은 알파벳 낱말로 세고 게임은 공백으로 나눈 낱말로 센다
+     (PlayRunner.cpp SplitWords = ParseIntoArrayWS, 줄은 첫 ": " 뒤). `…` `--` 같은 기호 낱말이 있으면 둘이 갈린다.
+     **앱의 swaps.json 은 그대로 두고 게임 자료로 낼 때만 바꾼다** (게임 GM27 J7, 2026-10-19 에 Data 에서 손으로 97곳을 고쳤다).
+     낱말이 그 줄에 공백 낱말로 있으면 원래 번호에 가장 가까운 자리로 옮긴다. 하이픈 낱말의 일부(80-year-old 의 year)는
+     공백 낱말로 특정이 안 돼 그대로 둔다 (13곳). 그 수가 바뀌면 원본이 바뀐 것이라 알린다 */
+  const TR = JSON.parse(fs.readFileSync(path.join(HERE, "out", "data", "transcripts.json"), "utf8")).items;
+  const bare = (w) => w.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, "").toLowerCase();
+  const swp = { same: 0, moved: 0, none: [] };
+  got.sessions.forEach((r) => {
+    ((r.decks || {}).swapline || []).forEach((it) => {
+      const line = ((TR[r.media] || [])[it.li]) || "";
+      const at = line.indexOf(": ");
+      const tok = (at >= 0 ? line.slice(at + 2) : line).split(/\s+/).filter((t) => t);
+      const f = String(it.from).toLowerCase();
+      if (tok[it.wi] !== undefined && bare(tok[it.wi]) === f) { swp.same++; return; }
+      const c = [];
+      tok.forEach((t, i) => { if (bare(t) === f) c.push(i); });
+      if (!c.length) { swp.none.push(r.s); return; }
+      c.sort((a, b) => Math.abs(a - it.wi) - Math.abs(b - it.wi) || a - b);
+      it.wi = c[0];
+      swp.moved++;
+    });
+  });
   got.blocks = (got.blocks || []).map((b) => {
     const w = WORDING.blocks[String(b.no)];
     if (!w) return b;
@@ -641,7 +664,8 @@ const KEYS = ["chunks", "halves", "listen", "pairs", "reask", "relay", "situ", "
               " / 간격 복습 " + got.sessions.reduce((a, r) => a + r.review.length, 0) +
               "장 / 다섯 번 못 채운 카드 " + carry.length + "장 / schemaVersion " + SCHEMA_VERSION +
               " appHash " + obj.appHash.slice(0, 12) + " / roleRule " + roleRule.kind + " 벡터 " + roleVectors.length +
-              " / out/game/results_schema.json " + Math.round(schemaTxt.length / 1024) + "KB");
+              " / out/game/results_schema.json " + Math.round(schemaTxt.length / 1024) + "KB" +
+              " / 한 줄 바꾸기 낱말 번호 공백 기준 " + swp.moved + "곳 옮김, 하이픈 낱말 " + swp.none.length + "곳 그대로");
 })().catch((e) => {
   console.log("[실패] 게임 세션을 뽑다가 멈췄다: " + e.message);
   process.exit(1);

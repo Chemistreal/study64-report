@@ -46,12 +46,12 @@ window.ENG2P_MANIFEST={
     {
       "file": "ext_radio.js",
       "bytes": 701672,
-      "sha256": "df6919f62b83cd622fe63a5d017372bbbef282323aef2ae0e746edbce20cf392"
+      "sha256": "89be572e3bbebbb4bf8711633638583a26a083b26af0c7332bf4f4d193c211cb"
     },
     {
       "file": "ext_radio.json",
       "bytes": 843447,
-      "sha256": "cc629898ad4cbe2d8810b738c837199848ab779f65ae798bb96115c2f4c90b7b"
+      "sha256": "be9615a17bc7051ee35e28f4674eece130589c506f0025f04518ae4747c2a962"
     },
     {
       "file": "ext_readers.js",

@@ -129,7 +129,7 @@ def inline_materials(path):
 
 def materials(path):
     """그 파일의 영어 재료를 뽑는다. (표시, 문장) 목록."""
-    p = str(path)
+    p = pathlib.Path(path).as_posix()   # 윈도우에서도 / 로 견준다
     if "/sets/" in p or "/emergency/" in p or "/input/" in p or "/tasks/" in p:
         return inline_materials(path)
     if "lectures" in str(path) or "dialog" in str(path):
@@ -229,7 +229,7 @@ def is_list(text):
 def report(path, tr):
     """파일 한 장짜리 보고서."""
     return report_items("eng2p_ground_" + path.stem.replace("eng2p_", "") + ".md",
-                        str(path.resolve().relative_to(ROOT)), materials(path), tr)
+                        path.resolve().relative_to(ROOT).as_posix(), materials(path), tr)
 
 
 def report_group(name, src, paths, tr):
