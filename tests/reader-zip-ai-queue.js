@@ -10,7 +10,7 @@ const server=http.createServer(async(req,res)=>{
  const p=(req.url||'/').split('?')[0],file=p==='/'?'reader/index.html':'reader/'+decodeURIComponent(p).replace(/^\/+/,'');
  const filename=path.resolve(root,file);
  if(!filename.startsWith(path.join(root,'reader')+path.sep)){res.writeHead(404).end();return}
- try{const bytes=await fs.readFile(filename);res.setHeader('Content-Type',filename.endsWith('.js')?'text/javascript':filename.endsWith('.webmanifest')?'application/manifest+json':'application/octet-stream');res.end(bytes)}catch(e){res.writeHead(404).end()}
+ try{const bytes=await fs.readFile(filename);res.setHeader('Content-Type',filename.endsWith('.html')?'text/html; charset=utf-8':filename.endsWith('.js')?'text/javascript':filename.endsWith('.webmanifest')?'application/manifest+json':'application/octet-stream');res.end(bytes)}catch(e){res.writeHead(404).end()}
 });
 (async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
