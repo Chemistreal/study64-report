@@ -32,6 +32,10 @@ jobs:
         run: |
           python -m py_compile app.py
           python -m pytest -q test_app.py
+      - name: Install FFmpeg for HLS regression test
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
       - name: Check that FFmpeg can produce HLS segments
         run: |
           command -v ffmpeg
