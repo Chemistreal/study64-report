@@ -99,8 +99,9 @@ async function request(value){return await value}
   const restoredPage=await restoredContext.newPage();
   restoredPage.on('dialog',d=>d.accept(passphrase));
   await restoredPage.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
+  await restoredPage.waitForFunction(()=>typeof state!=='undefined'&&!!state.db);
   await restoredPage.locator('#backupInput').setInputFiles({name:'test.ybk',mimeType:'application/octet-stream',buffer:bytes});
-  await restoredPage.waitForFunction(()=>document.querySelector('#bookCount')?.textContent==='1',{timeout:30000});
+  try{await restoredPage.waitForFunction(()=>document.querySelector('#bookCount')?.textContent==='1',null,{timeout:30000})}catch(e){console.error('Restore diagnostics:',await restoredPage.evaluate(()=>({toast:document.querySelector('#toast')?.textContent,status:document.querySelector('#bookCount')?.textContent,dbReady:!!state.db})));throw e}
   const restoredSource=await restoredPage.evaluate(async()=>{
    const db=await new Promise((resolve,reject)=>{const req=indexedDB.open('yeobaek-reader-v1',4);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
    const book=await new Promise(resolve=>{const req=db.transaction('books').objectStore('books').getAll();req.onsuccess=()=>resolve(req.result[0])});
