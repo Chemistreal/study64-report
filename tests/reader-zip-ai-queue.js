@@ -44,8 +44,8 @@ const server=http.createServer(async(req,res)=>{
 
   const test=await page.evaluate(async()=>{
    const JSZip=await zipLib(),zip=new JSZip();
-   zip.file('첫번째.txt',('문장 자동 생성 테스트를 반복합니다. '.repeat(1100)));
-   zip.file('둘째.md','# 두번째\n\n별도의 도서를 가져왔습니다.');
+   zip.file('01-first.txt',('문장 자동 생성 테스트를 반복합니다. '.repeat(1100)));
+   zip.file('02-second.md','# 두번째\n\n별도의 도서를 가져왔습니다.');
    const bytes=await zip.generateAsync({type:'uint8array'});
    const item=new File([bytes],'chat-batch.zip',{type:'application/zip'});
    const clipboard=new DataTransfer();clipboard.items.add(item);
@@ -62,7 +62,7 @@ const server=http.createServer(async(req,res)=>{
   assert.equal(first.count,2);
   assert.equal(first.consent,true,'first-use permission must be sought');
   assert.equal(first.queue.length,2);
-  assert.ok(first.names.includes('첫번째'));
+  assert.ok(first.names.includes('01-first'));
 
   await page.waitForFunction(()=>state.localAiQueue.some(j=>j.status==='failed'),null,{timeout:30000});
   const failed=await page.evaluate(async()=>{
