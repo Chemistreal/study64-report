@@ -117,3 +117,51 @@ def test_full_ffmpeg_pipeline_with_stub_speech_provider(monkeypatch):
         playlist = (Path(directory) / "index.m3u8").read_text()
         assert "#EXTINF:" in playlist
         assert "#EXT-X-ENDLIST" in playlist
+
+
+def test_expired_job_cleanup_without_a_new_request():
+    """A timer, not a new POST, must be sufficient to clear obsolete media."""
+    import asyncio
+    import time
+
+    with tempfile.TemporaryDirectory() as root:
+        expired = Path(root) / "expired"
+        expired.mkdir()
+        (expired / "segment_00000.ts").write_bytes(b"stale")
+        recent = Path(root) / "recent"
+        recent.mkdir()
+        (recent / "segment_00000.ts").write_bytes(b"keep")
+        old = time.time() - service.TTL_SECONDS - 30
+        service.jobs["expire-test"] = service.Job(
+            "expire-test", expired, last_access=old, status="ready"
+        )
+        service.jobs["retain-test"] = service.Job(
+            "retain-test", recent, last_access=time.time(), status="ready"
+        )
+        try:
+            asyncio.run(service.cleanup())
+            assert "expire-test" not in service.jobs
+            assert not expired.exists()
+            assert "retain-test" in service.jobs
+            assert recent.exists()
+        finally:
+            service.jobs.pop("expire-test", None)
+            service.jobs.pop("retain-test", None)
+
+
+def test_failed_jobs_expire_quickly():
+    import asyncio
+    import time
+
+    with tempfile.TemporaryDirectory() as root:
+        failed = Path(root) / "failed"
+        failed.mkdir()
+        service.jobs["failed-test"] = service.Job(
+            "failed-test",
+            failed,
+            last_access=time.time() - service.FAILED_JOB_TTL_SECONDS - 2,
+            status="failed",
+        )
+        asyncio.run(service.cleanup())
+        assert "failed-test" not in service.jobs
+        assert not failed.exists()

@@ -8,6 +8,7 @@ selected speech provider. NO permanent book/audio database is created.
 from __future__ import annotations
 
 import asyncio
+from contextlib import asynccontextmanager
 import os
 import re
 import secrets
@@ -37,6 +38,8 @@ MAX_PENDING = 3
 synth_lock = asyncio.Semaphore(MAX_ACTIVE)
 MAX_TEXT = 60000
 TTL_SECONDS = 3600
+FAILED_JOB_TTL_SECONDS = 120
+REAPER_INTERVAL_SECONDS = 60
 VOICES = {
     "ko-KR-SunHiNeural": "선희 · 여성",
     "ko-KR-InJoonNeural": "인준 · 남성",
@@ -46,7 +49,24 @@ ROOT = Path(tempfile.mkdtemp(prefix="yeobaek-tts-"))
 jobs: dict[str, "Job"] = {}
 creation_times: list[float] = []
 
-app = FastAPI(title="여백 임시 스트리밍 TTS", docs_url=None, redoc_url=None)
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Keep stale media from accumulating even if no new request arrives.
+    janitor = asyncio.create_task(periodic_cleanup(), name="yeobaek-hls-reaper")
+    try:
+        yield
+    finally:
+        janitor.cancel()
+        await asyncio.gather(janitor, return_exceptions=True)
+        active = [job.task for job in jobs.values() if job.task and not job.task.done()]
+        for task in active:
+            task.cancel()
+        if active:
+            await asyncio.gather(*active, return_exceptions=True)
+        await asyncio.to_thread(shutil.rmtree, ROOT, True)
+
+
+app = FastAPI(title="여백 임시 스트리밍 TTS", docs_url=None, redoc_url=None, lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ORIGINS,
@@ -98,12 +118,35 @@ def authorize(provided: str | None) -> None:
 
 async def cleanup() -> None:
     now = time.time()
-    for key, job in list(jobs.items()):
-        if job.status in ("ready", "failed", "cancelled") and now - job.last_access > TTL_SECONDS:
+    stale = []
+    for key, job in tuple(jobs.items()):
+        if job.status not in ("ready", "failed", "cancelled"):
+            continue
+        ttl = TTL_SECONDS if job.status == "ready" else FAILED_JOB_TTL_SECONDS
+        if now - job.last_access <= ttl:
+            continue
+        if jobs.get(key) is job:
+            stale.append((key, job))
+    for key, job in stale:
+        if job.task and not job.task.done():
+            job.task.cancel()
+            await asyncio.gather(job.task, return_exceptions=True)
+        if jobs.get(key) is job:
             jobs.pop(key, None)
-            if job.task and not job.task.done():
-                job.task.cancel()
             await asyncio.to_thread(shutil.rmtree, job.directory, True)
+
+
+async def periodic_cleanup() -> None:
+    while True:
+        await asyncio.sleep(REAPER_INTERVAL_SECONDS)
+        try:
+            await cleanup()
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            # A cleanup error must not silently kill the janitor task.
+            import logging
+            logging.getLogger(__name__).exception("Temporary HLS cleanup failed")
 
 
 async def schedule_synthesis(job: Job, text: str, voice: str, rate: int) -> None:
@@ -275,9 +318,3 @@ async def media(job_id: str, name: str, request: Request):
     return FileResponse(file, media_type=mime, headers=headers)
 
 
-@app.on_event("shutdown")
-async def shutdown():
-    for job in jobs.values():
-        if job.task and not job.task.done():
-            job.task.cancel()
-    await asyncio.to_thread(shutil.rmtree, ROOT, True)

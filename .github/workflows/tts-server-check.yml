@@ -25,6 +25,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Test reader JavaScript title, stream recovery and drafts
+        run: node tts-server/test_reader_client.mjs
       - name: Install server and test packages
         run: python -m pip install --quiet -r tts-server/requirements.txt pytest httpx
       - name: Install FFmpeg for HLS regression test
