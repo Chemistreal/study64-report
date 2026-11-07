@@ -29,16 +29,28 @@
 #composerText:focus{outline:none}
 .composer-footer{display:flex;align-items:center;gap:9px;border-top:1px solid var(--line);padding-top:9px}
 .composer-title-label{color:var(--muted);font-size:12px;white-space:nowrap}
-#composerTitle{flex:1;min-width:0;border:0;background:transparent;font-size:13px;color:var(--ink);padding:7px 4px}
+#composerTitle{flex:1;min-width:0;border:0;background:transparent;font-size:16px;color:var(--ink);padding:7px 4px}
 #composerTitle:focus{outline:1px solid var(--line);border-radius:5px}
 .composer-save{display:flex;align-items:center;gap:7px;flex:none;background:var(--accent);border:0;border-radius:11px;color:#fff;padding:10px 13px;font-weight:700;font-size:12px}
 .composer-save:disabled{opacity:.45}
 #libraryView .content{padding-bottom:300px}
-@media(max-width:650px){.composer-dock{width:calc(100% - 18px);padding-bottom:max(8px,env(safe-area-inset-bottom))}.composer-box{border-radius:15px;padding:10px 12px}.composer-heading{font-size:12px}#composerText{min-height:42px;max-height:24vh}.composer-title-label{display:none}.composer-footer{gap:5px}#composerTitle{font-size:12px}.composer-save{padding:10px}.composer-save .icon{display:none}#libraryView .content{padding-bottom:405px}}
+@media(max-width:650px){.composer-dock{width:calc(100% - 18px);padding-bottom:max(8px,env(safe-area-inset-bottom))}.composer-box{border-radius:15px;padding:10px 12px}.composer-heading{font-size:12px}#composerText{min-height:42px;max-height:24vh}.composer-title-label{display:none}.composer-footer{gap:5px}#composerTitle{font-size:16px}.composer-save{padding:10px}.composer-save .icon{display:none}#libraryView .content{padding-bottom:405px}}
 #streamServerUrl,#streamServerKey{display:block;width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:16px;margin:4px 0 12px;min-height:42px}#streamStatus{overflow-wrap:anywhere;white-space:pre-line}#streamCancelBtn:disabled{opacity:.45}
 .library-filters{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin:-4px 0 18px;color:var(--muted);font-size:12px}.library-filters label{display:flex;align-items:center;gap:7px}.library-filters select{border:1px solid var(--line);border-radius:9px;padding:8px 11px;color:var(--ink);background:var(--panel);min-height:38px}.trash-items{display:flex;flex-direction:column;gap:10px}.trash-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 3px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.trash-item .button{flex:none;padding:9px 12px}@media(max-width:650px){.library-filters{gap:6px}.trash-item{align-items:start;flex-wrap:wrap}}
 [data-focus-reading="true"] .reader-block:not(.current){opacity:.44;transition:opacity .15s}[data-focus-reading="true"] .reader-block.current{opacity:1}.reader-highlight{background:#fee8a5;color:inherit;border-radius:3px;box-decoration-break:clone}[data-theme=dark] .reader-highlight{background:#69532a;color:#fff1cb}.outline-list .note-snippet{font-size:12px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere}.reader-actions #highlightBtn{background:var(--panel)}.annot-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.annot-actions button{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:7px;padding:7px 10px;font-size:12px}@media(max-width:650px){.reader-actions .icon-btn{width:30px;height:32px}.reader-actions{gap:1px}}
 #libraryView .content{padding-bottom:420px}.composer-attachment-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px;font-size:12px;color:var(--muted)}.composer-attachment-row button{flex:none}.composer-ai-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px;color:var(--muted)}.composer-ai-row .ai-toggle-row{margin:0 12px 0 0;flex:1;min-width:185px}.composer-ai-row #queueStatus{width:100%;font-size:12px;line-height:1.55;color:var(--muted)}.composer-dock.is-file-hover .composer-box{outline:2px dashed var(--accent);outline-offset:3px;background:#eef7ed}@media(max-width:650px){.composer-attachment-row,.composer-ai-row{gap:6px}.composer-attachment-row button,.composer-ai-row button{font-size:12px;padding:9px 10px}}
+@media(hover:none) and (pointer:coarse){input:not([type=checkbox]):not([type=radio]),textarea,select{font-size:16px!important}}
+@media(max-width:650px){
+  .composer-box{display:flex;flex-direction:column;min-width:0;max-height:min(76dvh,580px);overflow-y:auto;overscroll-behavior:contain}
+  .composer-heading{order:0;flex-wrap:wrap;min-width:0}
+  .composer-footer{order:1;border-top:0;border-bottom:1px solid var(--line);padding-top:0;padding-bottom:7px;margin-bottom:5px;min-width:0}
+  #composerTitle{font-size:16px;min-width:0}
+  #composerText{order:2;flex:none;min-width:0;min-height:62px}
+  .composer-attachment-row{order:3;min-width:0}
+  .composer-ai-row{order:4;min-width:0}
+  .composer-attachment-row .button{min-height:40px;font-size:12px}
+  #composerFileStatus{flex:1;min-width:0;overflow-wrap:anywhere}
+}
 </style>
 </head>
 <body>
@@ -55,7 +67,7 @@
   <div class="composer-box">
     <div class="composer-heading"><span>글을 붙여넣으면 제목을 자동으로 정리합니다.</span><span id="composerCount" aria-live="polite">0자 · 기기에 임시 저장</span></div>
     <textarea id="composerText" rows="2" maxlength="1000000" placeholder="글을 붙여넣거나 ZIP 파일을 이 창으로 끌어다 놓으세요. iPhone에서는 아래 파일 첨부를 누르세요." aria-label="읽을 글 또는 파일 붙여넣기"></textarea>
-    <div class="composer-attachment-row"><button class="button light small" type="button" id="composerAttachBtn">ZIP · 파일 첨부</button><span id="composerFileStatus" role="status" aria-live="polite">ZIP 파일 붙여넣기 · 드래그 또는 파일 선택 지원</span><input class="hidden" id="composerFileInput" type="file" multiple accept=".zip,.txt,.md,.markdown,.html,.htm,.pdf,.docx,.epub,.hwpx,.json,application/zip,application/x-zip-compressed" aria-label="채팅 입력창에 문서 또는 ZIP 첨부"></div>
+    <div class="composer-attachment-row"><button class="button light small" type="button" id="composerPasteBtn" aria-label="클립보드에서 글 또는 ZIP 붙여넣기">클립보드 붙여넣기</button><button class="button light small" type="button" id="composerAttachBtn">ZIP · 파일 첨부</button><span id="composerFileStatus" role="status" aria-live="polite">아이폰 파일 앱의 ZIP은 ‘ZIP · 파일 첨부’로 선택하세요.</span><input class="hidden" id="composerFileInput" type="file" multiple accept=".zip,.txt,.md,.markdown,.html,.htm,.pdf,.docx,.epub,.hwpx,.json,application/zip,application/x-zip-compressed" aria-label="채팅 입력창에 문서 또는 ZIP 첨부"></div>
     <div class="composer-footer">
       <label for="composerTitle" class="composer-title-label">제목</label>
       <input id="composerTitle" type="text" maxlength="180" placeholder="내용을 입력하면 제목을 자동으로 추천합니다." aria-label="자동으로 추천한 제목 수정">
