@@ -66,6 +66,24 @@ async function request(value){return await value}
    return {original:text,tags:entries[0].tags,bookmarks:entries[0].bookmarks}
   });
   assert.equal(saved.original,raw,'exact source preservation');
+  const duplicateResult=await page.evaluate(async text=>{
+    const originalConfirm=window.confirm;window.confirm=()=>false;
+    try{await addBook('Duplicate', 'MD', blocksFromText(text,true));return 'duplicate added'}catch(e){return e.message}finally{window.confirm=originalConfirm}
+  },raw);
+  assert.match(duplicateResult,/이미 동일한 글/);
+  const ocrResult=await page.evaluate(async()=>{
+    const originalConfirm=window.confirm,originalTesseract=window.Tesseract;window.confirm=()=>true;
+    let terminated=false;window.Tesseract={createWorker:async()=>({recognize:async()=>({data:{text:'스캔된 페이지에서 찾은 문장입니다.'}}),terminate:async()=>{terminated=true}})};
+    try{
+      const pdf={numPages:1,getPage:async()=>({getViewport:()=>({width:900,height:1100}),render:()=>({promise:Promise.resolve()}),cleanup:()=>{}})};
+      const blocks=await parseScannedPdf(pdf,new File([new Uint8Array(100)],'scan.pdf'));
+      return {recognized:blocks.some(x=>x.text.includes('스캔된 페이지')),terminated};
+    }finally{window.confirm=originalConfirm;window.Tesseract=originalTesseract}
+  });
+  assert.equal(ocrResult.recognized,true);
+  assert.equal(ocrResult.terminated,true);
+
+
   assert.deepEqual(saved.tags,['화학','독서']);
   assert.equal(saved.bookmarks.length,1);
   await page.locator('#searchInput').fill('');
@@ -113,6 +131,6 @@ async function request(value){return await value}
   assert.equal(restoredSource.highlights,1);
   await restoredContext.close();
   assert.equal(errors.length,0,'browser errors: '+errors.join(', '));
-  console.log('PASS: original bytes, encrypted ZIP roundtrip, privacy, reader features and library recovery');
+  console.log('PASS: OCR, deduplication, encrypted ZIP roundtrip, privacy and library recovery');
  }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve))}
 })().catch(e=>{console.error(e);process.exitCode=1});
