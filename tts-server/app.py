@@ -32,7 +32,7 @@ ORIGINS = [
     if origin.strip()
 ]
 ACCESS_TOKEN = os.environ.get("YEOBACK_TTS_ACCESS_TOKEN", "")
-MAX_ACTIVE = 2
+MAX_ACTIVE = 1
 MAX_TEXT = 60000
 TTL_SECONDS = 3600
 VOICES = {
@@ -59,6 +59,7 @@ class Job:
     id: str
     directory: Path
     created: float = field(default_factory=time.time)
+    last_access: float = field(default_factory=time.time)
     status: str = "preparing"
     error: str | None = None
     task: asyncio.Task | None = None
@@ -96,7 +97,7 @@ def authorize(provided: str | None) -> None:
 async def cleanup() -> None:
     now = time.time()
     for key, job in list(jobs.items()):
-        if job.status in ("ready", "failed", "cancelled") and now - job.created > TTL_SECONDS:
+        if job.status in ("ready", "failed", "cancelled") and now - job.last_access > TTL_SECONDS:
             jobs.pop(key, None)
             if job.task and not job.task.done():
                 job.task.cancel()
@@ -156,7 +157,7 @@ async def synthesize(job: Job, text: str, voice: str, rate: int) -> None:
     except Exception as exc:
         job.status = "failed"
         # Avoid writing the user's document into logs or error responses.
-        job.error = f"{type(exc).__name__}: {str(exc)[:180]}"
+        job.error = f"음성 변환 중 오류가 발생했습니다 ({type(exc).__name__})."
     finally:
         if process is not None and process.returncode is None:
             process.kill()
@@ -219,6 +220,7 @@ async def status(
     job = jobs.get(job_id)
     if job is None:
         raise HTTPException(404, "이 세션은 만료되었거나 존재하지 않습니다.")
+    job.last_access = time.time()
     return {
         "status": job.status,
         "ready_to_play": job.ready(),
@@ -248,6 +250,7 @@ async def media(job_id: str, name: str, request: Request):
     job = jobs.get(job_id)
     if job is None:
         raise HTTPException(404, "오디오 세션이 만료되었습니다.")
+    job.last_access = time.time()
     if name != "index.m3u8" and not re.fullmatch(r"segment_\d{5}\.ts", name):
         raise HTTPException(404, "파일을 찾을 수 없습니다.")
     file = job.directory / name
@@ -259,8 +262,6 @@ async def media(job_id: str, name: str, request: Request):
         "Referrer-Policy": "no-referrer",
         "X-Content-Type-Options": "nosniff",
     }
-    if request.method == "HEAD":
-        return Response(headers=headers, media_type=mime)
     return FileResponse(file, media_type=mime, headers=headers)
 
 
