@@ -33,6 +33,8 @@ ORIGINS = [
 ]
 ACCESS_TOKEN = os.environ.get("YEOBACK_TTS_ACCESS_TOKEN", "")
 MAX_ACTIVE = 1
+MAX_PENDING = 3
+synth_lock = asyncio.Semaphore(MAX_ACTIVE)
 MAX_TEXT = 60000
 TTL_SECONDS = 3600
 VOICES = {
@@ -60,7 +62,7 @@ class Job:
     directory: Path
     created: float = field(default_factory=time.time)
     last_access: float = field(default_factory=time.time)
-    status: str = "preparing"
+    status: str = "queued"
     error: str | None = None
     task: asyncio.Task | None = None
 
@@ -102,6 +104,14 @@ async def cleanup() -> None:
             if job.task and not job.task.done():
                 job.task.cancel()
             await asyncio.to_thread(shutil.rmtree, job.directory, True)
+
+
+async def schedule_synthesis(job: Job, text: str, voice: str, rate: int) -> None:
+    """Do not process more than one large audio job simultaneously."""
+    async with synth_lock:
+        if job.status == "cancelled":
+            return
+        await synthesize(job, text, voice, rate)
 
 
 async def synthesize(job: Job, text: str, voice: str, rate: int) -> None:
@@ -190,7 +200,7 @@ async def start(
     creation_times = [t for t in creation_times if now - t < 3600]
     if len(creation_times) >= 12:
         raise HTTPException(429, "시간당 음성 변환 요청 한도에 도달했습니다.")
-    if sum(j.status in ("preparing", "generating") for j in jobs.values()) >= MAX_ACTIVE:
+    if sum(j.status in ("queued", "generating") for j in jobs.values()) >= MAX_PENDING:
         raise HTTPException(429, "다른 음성 변환이 진행 중입니다.")
     if not payload.text.strip():
         raise HTTPException(422, "입력한 글이 비어 있습니다.")
@@ -201,7 +211,7 @@ async def start(
     jobs[job_id] = job
     creation_times.append(now)
     job.task = asyncio.create_task(
-        synthesize(job, payload.text, payload.voice, payload.rate_percent)
+        schedule_synthesis(job, payload.text, payload.voice, payload.rate_percent)
     )
     return {
         "job_id": job_id,
