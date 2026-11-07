@@ -28,6 +28,7 @@ async function request(value){return await value}
   await page.locator('#composerSave').click();
   await page.locator('#readerTitle').getByText('테스트 원본 제목').waitFor();
   await page.locator('#bookmarkBtn').click();
+  await page.waitForFunction(()=>document.querySelector('#bookmarkBtn')?.getAttribute('aria-pressed')==='true');
   assert.equal(await page.locator('#bookmarkBtn').getAttribute('aria-pressed'),'true');
   await page.locator('#backBtn').click();
   await page.locator('#searchInput').fill('원문보존특수표식');
