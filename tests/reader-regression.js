@@ -84,7 +84,34 @@ async function request(value){return await value}
   await page.waitForFunction(()=>document.querySelector('#composerText')?.value==='임시 저장할 두 번째 글입니다.');
   const manifest=await page.evaluate(async()=>{const response=await fetch('./manifest.webmanifest');return response.json()});
   assert.equal(manifest.short_name,'여백');
+  const passphrase='secure-demo-passphrase-123!';
+  const answerPrompt=dialog=>dialog.accept(passphrase);
+  page.on('dialog',answerPrompt);
+  await page.locator('#guideButton').click();
+  const downloadPromise=page.waitForEvent('download',{timeout:30000});
+  await page.locator('#encryptedBackupBtn').click();
+  const archive=await downloadPromise;
+  page.off('dialog',answerPrompt);
+  assert.match(archive.suggestedFilename(),/\.ybk$/);
+  const bytes=await fs.readFile(await archive.path());
+  assert.equal(bytes.subarray(0,8).toString(),'YEOBAEK1');
+  const restoredContext=await browser.newContext();
+  const restoredPage=await restoredContext.newPage();
+  restoredPage.on('dialog',d=>d.accept(passphrase));
+  await restoredPage.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
+  await restoredPage.locator('#backupInput').setInputFiles({name:'test.ybk',mimeType:'application/octet-stream',buffer:bytes});
+  await restoredPage.waitForFunction(()=>document.querySelector('#bookCount')?.textContent==='1',{timeout:30000});
+  const restoredSource=await restoredPage.evaluate(async()=>{
+   const db=await new Promise((resolve,reject)=>{const req=indexedDB.open('yeobaek-reader-v1',4);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+   const book=await new Promise(resolve=>{const req=db.transaction('books').objectStore('books').getAll();req.onsuccess=()=>resolve(req.result[0])});
+   const source=await new Promise(resolve=>{const req=db.transaction('sources').objectStore('sources').get(book.id);req.onsuccess=()=>resolve(req.result)});
+   return {text:await source.blob.text(),bookmarks:book.bookmarks.length,highlights:(book.highlights||[]).length}
+  });
+  assert.equal(restoredSource.text,raw);
+  assert.equal(restoredSource.bookmarks,1);
+  assert.equal(restoredSource.highlights,1);
+  await restoredContext.close();
   assert.equal(errors.length,0,'browser errors: '+errors.join(', '));
-  console.log('PASS: originals, search, highlights, notes, focus, sleep timer, bookmarks, trash, drafts and PWA manifest');
+  console.log('PASS: original bytes, encrypted ZIP roundtrip, privacy, reader features and library recovery');
  }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve))}
 })().catch(e=>{console.error(e);process.exitCode=1});
