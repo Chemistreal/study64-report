@@ -110,7 +110,7 @@ const server=http.createServer(async(req,res)=>{
     document.querySelector('#composerText').value='';
     document.querySelector('#composerText').dispatchEvent(new Event('input',{bubbles:true}));
     Object.defineProperty(navigator,'clipboard',{configurable:true,value:{
-      read:async()=>[],readText:async()=>('# 클립보드 버튼 제목\n\n버튼으로 붙여넣었습니다.')
+      read:async()=>{throw new DOMException('iOS denies binary clipboard','NotAllowedError')},readText:async()=>('# 클립보드 버튼 제목\n\n버튼으로 붙여넣었습니다.')
     }});
   });
   await page.locator('#composerPasteBtn').click();
