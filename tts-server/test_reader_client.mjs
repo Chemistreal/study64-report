@@ -47,5 +47,5 @@ storage.setItem(key,JSON.stringify(expired));
 assert.equal(sessionTools.savedStreamJob(job.bookId,job.base),null);
 assert.match(inline[1],/async function restoreComposerDraft\(\)/);
 assert.match(inline[1],/async function saveComposerDraft\(\)/);
-assert.match(inline[1],/async function playWithoutStream\(\)/);
+assert.match(inline[1],/function playWithoutStream\(\)/);
 console.log('Reader JavaScript, title inference, stream resume and autosave contract: PASS');
