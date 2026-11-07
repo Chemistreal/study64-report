@@ -6,7 +6,7 @@ const assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..');
 const server=http.createServer(async(req,res)=>{
  const url=(req.url||'/').split('?')[0];
- const file=url==='/'?'reader/index.html':decodeURIComponent(url).replace(/^\//,'');
+ const file=url==='/'?'reader/index.html':'reader/'+decodeURIComponent(url).replace(/^\//,'');
  const filename=path.resolve(root,file);
  if(!filename.startsWith(path.join(root,'reader')+path.sep)){res.writeHead(404);res.end();return}
  try{const bytes=await fs.readFile(filename);res.setHeader('Content-Type',filename.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8');res.end(bytes)}catch(e){res.writeHead(404);res.end()}
@@ -27,6 +27,23 @@ async function request(value){return await value}
   assert.equal(await page.locator('#composerTitle').inputValue(),'테스트 원본 제목');
   await page.locator('#composerSave').click();
   await page.locator('#readerTitle').getByText('테스트 원본 제목').waitFor();
+  await page.evaluate(()=>{const el=document.querySelectorAll('.reader-block')[1];const sel=window.getSelection(),range=document.createRange();range.setStart(el.firstChild,0);range.setEnd(el.firstChild,Math.min(12,el.firstChild.textContent.length));sel.removeAllRanges();sel.addRange(range);document.dispatchEvent(new Event('selectionchange'))});
+  page.once('dialog',d=>d.accept('강조 구절 메모'));
+  await page.locator('#highlightBtn').click();
+  await page.waitForFunction(()=>document.querySelectorAll('.reader-highlight').length===1);
+  await page.locator('#settingsBtn').click();
+  await page.locator('#focusMode').check();
+  await page.waitForFunction(()=>document.documentElement.dataset.focusReading==='true');
+  await page.locator('#skipSeconds').selectOption('30');
+  await page.locator('#sleepTimerSelect').selectOption('5');
+  await page.waitForFunction(()=>document.querySelector('#sleepTimerStatus')?.textContent.includes('종료까지'));
+  await page.locator('#sleepTimerSelect').selectOption('0');
+  await page.locator('#settingsDrawer .close-layer').click();
+  await page.locator('#outlineBtn').click();
+  page.once('dialog',d=>d.accept('별도 메모 내용'));
+  await page.locator('#noteBtn').click();
+  await page.waitForFunction(()=>document.querySelector('#highlightsList')?.textContent.includes('별도 메모 내용'));
+  await page.locator('#outlineDrawer .close-layer').click();
   await page.locator('#bookmarkBtn').click();
   await page.waitForFunction(()=>document.querySelector('#bookmarkBtn')?.getAttribute('aria-pressed')==='true');
   assert.equal(await page.locator('#bookmarkBtn').getAttribute('aria-pressed'),'true');
@@ -65,7 +82,9 @@ async function request(value){return await value}
   await page.waitForTimeout(1200);
   await page.reload({waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>document.querySelector('#composerText')?.value==='임시 저장할 두 번째 글입니다.');
+  const manifest=await page.evaluate(async()=>{const response=await fetch('./manifest.webmanifest');return response.json()});
+  assert.equal(manifest.short_name,'여백');
   assert.equal(errors.length,0,'browser errors: '+errors.join(', '));
-  console.log('PASS: original bytes, full-text/tag search, bookmarks, trash restore, draft reload');
+  console.log('PASS: originals, search, highlights, notes, focus, sleep timer, bookmarks, trash, drafts and PWA manifest');
  }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve))}
 })().catch(e=>{console.error(e);process.exitCode=1});
