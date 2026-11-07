@@ -58,7 +58,7 @@ async function request(value){return await value}
   await page.waitForTimeout(250);
   assert.equal(await page.locator('.book-card').count(),1,'tag search');
   const saved=await page.evaluate(async()=>{
-   const db=await new Promise((resolve,reject)=>{const r=indexedDB.open('yeobaek-reader-v1',4);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});
+   const db=await new Promise((resolve,reject)=>{const r=indexedDB.open('yeobaek-reader-v1');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});
    const tx=db.transaction(['books','sources'],'readonly');
    const entries=await new Promise((resolve,reject)=>{const r=tx.objectStore('books').getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});
    const original=await new Promise((resolve,reject)=>{const r=tx.objectStore('sources').get(entries[0].id);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});
@@ -121,7 +121,7 @@ async function request(value){return await value}
   await restoredPage.locator('#backupInput').setInputFiles({name:'test.ybk',mimeType:'application/octet-stream',buffer:bytes});
   try{await restoredPage.waitForFunction(()=>document.querySelector('#bookCount')?.textContent==='1',null,{timeout:30000})}catch(e){console.error('Restore diagnostics:',await restoredPage.evaluate(()=>({toast:document.querySelector('#toast')?.textContent,status:document.querySelector('#bookCount')?.textContent,dbReady:!!state.db})));throw e}
   const restoredSource=await restoredPage.evaluate(async()=>{
-   const db=await new Promise((resolve,reject)=>{const req=indexedDB.open('yeobaek-reader-v1',4);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+   const db=await new Promise((resolve,reject)=>{const req=indexedDB.open('yeobaek-reader-v1');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
    const book=await new Promise(resolve=>{const req=db.transaction('books').objectStore('books').getAll();req.onsuccess=()=>resolve(req.result[0])});
    const source=await new Promise(resolve=>{const req=db.transaction('sources').objectStore('sources').get(book.id);req.onsuccess=()=>resolve(req.result)});
    return {text:await source.blob.text(),bookmarks:book.bookmarks.length,highlights:(book.highlights||[]).length}
