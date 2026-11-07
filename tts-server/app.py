@@ -8,6 +8,7 @@ selected speech provider. NO permanent book/audio database is created.
 from __future__ import annotations
 
 import asyncio
+import html
 from contextlib import asynccontextmanager
 import os
 import re
@@ -20,6 +21,7 @@ from pathlib import Path
 from typing import Literal
 
 import edge_tts
+import httpx
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, Response
@@ -36,7 +38,13 @@ ACCESS_TOKEN = os.environ.get("YEOBACK_TTS_ACCESS_TOKEN", "")
 MAX_ACTIVE = 1
 MAX_PENDING = 3
 synth_lock = asyncio.Semaphore(MAX_ACTIVE)
-MAX_TEXT = 60000
+MAX_TEXT = 250000
+CHUNK_CHARACTERS = 2400
+MAX_JOB_SECONDS = 2400
+TTS_PROVIDER = os.environ.get('TTS_PROVIDER', 'edge').strip().lower()
+AZURE_SPEECH_KEY = os.environ.get('AZURE_SPEECH_KEY', '')
+AZURE_SPEECH_REGION = os.environ.get('AZURE_SPEECH_REGION', '').strip().lower()
+
 TTL_SECONDS = 3600
 FAILED_JOB_TTL_SECONDS = 120
 REAPER_INTERVAL_SECONDS = 60
@@ -83,6 +91,8 @@ class Job:
     created: float = field(default_factory=time.time)
     last_access: float = field(default_factory=time.time)
     status: str = "queued"
+    chunks_total: int = 0
+    chunks_done: int = 0
     error: str | None = None
     task: asyncio.Task | None = None
 
@@ -157,6 +167,75 @@ async def schedule_synthesis(job: Job, text: str, voice: str, rate: int) -> None
         await synthesize(job, text, voice, rate)
 
 
+
+def split_tts_text(text: str, max_chars: int = CHUNK_CHARACTERS) -> list[str]:
+    """Split large books at natural boundaries, not every 60k characters."""
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    result: list[str] = []
+    while text.strip():
+        if len(text) <= max_chars:
+            result.append(text.strip())
+            break
+        section = text[:max_chars]
+        # Use the last meaningful break in the upper half of a chunk.
+        candidates = [
+            section.rfind("\n\n"),
+            section.rfind("\n"),
+            section.rfind(". "),
+            section.rfind("! "),
+            section.rfind("? "),
+            section.rfind("。"),
+            section.rfind("！"),
+            section.rfind("？"),
+            section.rfind(" "),
+        ]
+        at = max(candidates)
+        if at < max_chars // 2:
+            at = max_chars
+        else:
+            at += 1
+        fragment = text[:at].strip()
+        if fragment:
+            result.append(fragment)
+        text = text[at:]
+    return result
+
+
+async def stream_tts_mp3(fragment: str, voice: str, rate: int):
+    """Keep the audio provider replaceable; do not expose credentials to the PWA."""
+    if TTS_PROVIDER == "azure":
+        if not AZURE_SPEECH_KEY or not AZURE_SPEECH_REGION:
+            raise RuntimeError("Azure Speech is not configured")
+        if not re.fullmatch(r"[a-z][a-z0-9]{1,35}", AZURE_SPEECH_REGION):
+            raise RuntimeError("Invalid Azure Speech region")
+        ssml = (
+            '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"'
+            ' xml:lang="ko-KR"><voice name="' + html.escape(voice, quote=True)
+            + '"><prosody rate="' + f"{rate:+d}%" + '">'
+            + html.escape(fragment) + '</prosody></voice></speak>'
+        )
+        address = f"https://{AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1"
+        headers = {
+            "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+            "Content-Type": "application/ssml+xml",
+            "X-Microsoft-OutputFormat": "audio-24khz-48kbitrate-mono-mp3",
+            "User-Agent": "YeobaekReader/1.0",
+        }
+        async with httpx.AsyncClient(timeout=httpx.Timeout(150.0, connect=15.0)) as client:
+            async with client.stream("POST", address, headers=headers, content=ssml.encode("utf-8")) as response:
+                response.raise_for_status()
+                async for data in response.aiter_bytes(8192):
+                    if data:
+                        yield data
+    else:
+        communicate = edge_tts.Communicate(
+            text=fragment, voice=voice, rate=f"{rate:+d}%"
+        )
+        async for part in communicate.stream():
+            if part.get("type") == "audio" and part.get("data"):
+                yield part["data"]
+
+
 async def synthesize(job: Job, text: str, voice: str, rate: int) -> None:
     """Pipe the speech provider's MP3 bytes into FFmpeg's HLS segmenter."""
     process = None
@@ -177,19 +256,23 @@ async def synthesize(job: Job, text: str, voice: str, rate: int) -> None:
             stdout=asyncio.subprocess.DEVNULL,
             stderr=asyncio.subprocess.PIPE,
         )
+        fragments = split_tts_text(text)
+        job.chunks_total = len(fragments)
+        job.chunks_done = 0
         data_seen = False
+
         async def write_stream():
             nonlocal data_seen
-            communicate = edge_tts.Communicate(
-                text=text, voice=voice, rate=f"{rate:+d}%"
-            )
-            async for part in communicate.stream():
-                if part.get("type") == "audio" and part.get("data"):
+            for index, fragment in enumerate(fragments):
+                if job.status == "cancelled":
+                    raise asyncio.CancelledError()
+                async for data in stream_tts_mp3(fragment, voice, rate):
                     data_seen = True
-                    process.stdin.write(part["data"])
+                    process.stdin.write(data)
                     await process.stdin.drain()
+                job.chunks_done = index + 1
 
-        await asyncio.wait_for(write_stream(), timeout=1200)
+        await asyncio.wait_for(write_stream(), timeout=MAX_JOB_SECONDS)
         process.stdin.close()
         if hasattr(process.stdin, "wait_closed"):
             try:
@@ -220,8 +303,9 @@ async def synthesize(job: Job, text: str, voice: str, rate: int) -> None:
 @app.get("/health")
 async def health():
     return {
-        "status": "ok" if ACCESS_TOKEN and shutil.which("ffmpeg") else "unconfigured",
-        "provider": "experimental-edge-online-tts",
+        "status": "ok" if ACCESS_TOKEN and shutil.which("ffmpeg") and (TTS_PROVIDER == "edge" or TTS_PROVIDER == "azure" and AZURE_SPEECH_KEY and AZURE_SPEECH_REGION) else "unconfigured",
+        "provider": TTS_PROVIDER,
+        "limits": {"max_characters": MAX_TEXT, "chunk_characters": CHUNK_CHARACTERS},
         "ephemeral": True,
         "max_characters": MAX_TEXT,
     }
@@ -278,6 +362,8 @@ async def status(
         "status": job.status,
         "ready_to_play": job.ready(),
         "segments_ready": job.segment_count(),
+        "chunks_total": job.chunks_total,
+        "chunks_done": job.chunks_done,
         "error": job.error,
         "hls_url": f"/v1/jobs/{job_id}/index.m3u8",
     }

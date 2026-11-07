@@ -28,7 +28,7 @@ def test_auth_and_input_rejection():
     assert client.post("/v1/jobs", json={"text": "테스트"}).status_code == 401
     assert client.post("/v1/jobs", headers=HEADERS, json={"text": ""}).status_code == 422
     assert client.post(
-        "/v1/jobs", headers=HEADERS, json={"text": "가" * 60001}
+        "/v1/jobs", headers=HEADERS, json={"text": "가" * (service.MAX_TEXT + 1)}
     ).status_code == 422
     assert client.post(
         "/v1/jobs",
@@ -165,3 +165,42 @@ def test_failed_jobs_expire_quickly():
         asyncio.run(service.cleanup())
         assert "failed-test" not in service.jobs
         assert not failed.exists()
+
+def test_book_chunking_preserves_order_without_word_limits():
+    long_book = ("여백은 긴 글도 문장별로 나누어 읽습니다.\n\n" * 9200).strip()
+    assert len(long_book) > 60000
+    parts = service.split_tts_text(long_book)
+    assert len(parts) > 10
+    assert all(0 < len(p) <= service.CHUNK_CHARACTERS for p in parts)
+    no_ws = lambda x: "".join(x.split())
+    assert no_ws("".join(parts)) == no_ws(long_book)
+
+
+def test_azure_ssml_escaping_and_streamed_mp3(monkeypatch):
+    import asyncio
+    import httpx
+
+    seen = []
+    def handler(request):
+        seen.append(request)
+        assert request.url.host == "koreacentral.tts.speech.microsoft.com"
+        assert request.headers["Ocp-Apim-Subscription-Key"] == "test-azure-key"
+        assert request.headers["X-Microsoft-OutputFormat"] == "audio-24khz-48kbitrate-mono-mp3"
+        assert b"&lt;script&gt;" in request.content
+        assert b"<script>" not in request.content
+        return httpx.Response(200, content=b"mock-mp3-bytes")
+
+    actual_client = httpx.AsyncClient
+    transport = httpx.MockTransport(handler)
+    monkeypatch.setattr(service, "TTS_PROVIDER", "azure")
+    monkeypatch.setattr(service, "AZURE_SPEECH_KEY", "test-azure-key")
+    monkeypatch.setattr(service, "AZURE_SPEECH_REGION", "koreacentral")
+    monkeypatch.setattr(service.httpx, "AsyncClient", lambda **kwargs: actual_client(transport=transport))
+    async def check():
+        received = []
+        async for chunk in service.stream_tts_mp3("문장<script>", "ko-KR-SunHiNeural", 0):
+            received.append(chunk)
+        return b"".join(received)
+    result = asyncio.run(check())
+    assert result == b"mock-mp3-bytes"
+    assert len(seen) == 1

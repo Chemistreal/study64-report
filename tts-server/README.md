@@ -38,7 +38,7 @@ docker run --rm -p 8000:8000 -e YEOBACK_TTS_ACCESS_TOKEN -e ALLOWED_ORIGINS yeob
 - **비밀 토큰을 GitHub Pages의 HTML/JS 소스에 넣지 마세요.** 개인 브라우저 세션에만 입력하고 `X-Yeobaek-Key` 헤더로 POST/상태 확인 요청에 사용합니다.
 - HLS URL 자체가 짧은 기간 유효한 접근권한 역할을 하므로 로그/공유 링크에 노출하지 마세요.
 - 서버는 고정 허용 Origin에만 CORS를 엽니다. Origin 검사는 인증을 대신하지 않습니다.
-- 글당 최대 60,000자, 시간당 12개, 대기 포함 3개 작업 제한(동시에 실제 변환하는 작업은 1개)이 있습니다. 외부 공개 용도로 사용하려면 별도 인증·남용 방지·모니터링이 필요합니다.
+- 글당 최대 250,000자(음성은 최대 2,400자 단위로 순서대로 생성), 시간당 12개, 대기 포함 3개 작업 제한(동시에 실제 변환하는 작업은 1개)이 있습니다. 외부 공개 용도로 사용하려면 별도 인증·남용 방지·모니터링이 필요합니다.
 - 서버 재시작·무료 플랜 유휴 종료 시 임시 오디오가 지워집니다. **영구 보관을 원할 때만 별도 저장소를 연결**하세요.
 - Render 무료 웹서비스는 유휴 시 정지하고 로컬 파일 보존이 되지 않습니다. 실제 장문 서비스 안정성은 유료 서버 또는 계속 켜져 있는 개인 서버에서 더 높습니다.
 - GitHub Pages 자체에는 서버 실행 기능이 없습니다. Render 등 외부 호스팅에 별도로 배포해야 합니다.
@@ -46,3 +46,27 @@ docker run --rm -p 8000:8000 -e YEOBACK_TTS_ACCESS_TOKEN -e ALLOWED_ORIGINS yeob
 ## 음성 제공업체 교체
 
 `synthesize()`의 `edge_tts.Communicate().stream()` 부분을 정식 Google Cloud / Azure / 기타 자체 TTS 제공업체의 MP3 스트림으로 교체할 수 있습니다. 개인정보·요금·실패 시 재시도·상용 이용권을 먼저 확인하세요.
+
+## 긴 문서와 음성 제공업체
+
+- `MAX_TEXT=250000` 기본 정책으로, 글은 최대 2,400자 단위로 문장/줄바꿈 경계에서 순서대로 나누어 생성합니다. 원본 텍스트는 여백 브라우저의 별도 원본 저장 영역에서 유지됩니다.
+- 상태 API는 `chunks_total`, `chunks_done`, `segments_ready`를 반환하므로 대기열 진행 상황을 표시할 수 있습니다.
+- 대형 문서의 음성화는 제공업체에 의해 속도 제한·요금·최대 길이·실패가 발생할 수 있습니다. 무료 Render는 실행 중 재시작될 수 있어 **영구 생성·재생의 안정성을 보장하지 않습니다**.
+- 기본 `TTS_PROVIDER=edge`는 공식 공급 API가 아닌 실험적 경로입니다.
+
+### 정식 Azure Speech를 사용하도록 전환 (선택)
+
+정식 REST Text-to-Speech API를 통해 음성을 만들고 싶다면 호스팅 서버의 **비밀 환경변수**로만 설정합니다.
+
+```sh
+TTS_PROVIDER=azure
+AZURE_SPEECH_KEY=<Azure Speech 리소스 키>
+AZURE_SPEECH_REGION=koreacentral
+```
+
+- 여백 웹앱의 HTML/JavaScript, GitHub 커밋, `render.yaml`에 구독키를 절대로 입력하지 마세요.
+- 서버는 SSML로 음성을 요청하며 24kHz mono MP3 스트림을 받아 FFmpeg에 전달합니다.
+- Azure 계정/요금제에 따라 합성 요금이 발생할 수 있으므로, 구독 자격·가격·쿼터를 사전에 확인하고 명시적으로 선택할 때만 사용해야 합니다. 이 저장소 기본값에서는 Azure API가 실행되지 않습니다.
+- 다른 TTS 사업자를 추가할 경우 `stream_tts_mp3`에 공급업체 어댑터를 추가하고, 콘텐츠 전송에 대한 사용자의 사전 동의와 가격 한도를 구현해야 합니다.
+
+공식 참고: https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-text-to-speech
