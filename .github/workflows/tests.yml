@@ -143,6 +143,9 @@ jobs:
       - name: chromium 설치
         timeout-minutes: 10
         run: npx --prefix tests playwright install --with-deps chromium
+      - name: 여백 ZIP 붙여넣기·기기 AI 자동 대기열·이어 만들기 검증
+        timeout-minutes: 5
+        run: NODE_PATH=tests/node_modules node tests/reader-zip-ai-queue.js
       - name: 여백 서재 원본·검색·휴지통·책갈피 브라우저 회귀 검증
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-regression.js
