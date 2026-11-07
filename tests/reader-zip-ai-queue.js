@@ -55,6 +55,10 @@ const server=http.createServer(async(req,res)=>{
   });
   assert.equal(test.prevented,true,'paste must be captured for ZIP files');
   await page.waitForFunction(()=>state.books.length===2,null,{timeout:30000});
+  // ZIP entries commit one by one; model consent is requested only after importFiles finishes.
+  // Synthetic paste may not grant user activation for confirm() in all Chromium versions.
+  if(!await page.evaluate(()=>state.settings.aiConsent))await page.locator('#queueStartBtn').click();
+  await page.waitForFunction(()=>state.settings.aiConsent===true,null,{timeout:15000});
   const first=await page.evaluate(()=>({
     count:state.books.length,queue:state.localAiQueue.map(j=>({title:j.title,status:j.status})),consent:state.settings.aiConsent,
     names:state.books.map(b=>b.title)
