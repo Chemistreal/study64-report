@@ -1,0 +1,16 @@
+# Optional free-tier experimental HLS backend for 여백.
+# This Blueprint does NOT deploy until a Render account connects the repository.
+services:
+  - type: web
+    name: yeobaek-stream-tts
+    runtime: docker
+    plan: free
+    rootDir: tts-server
+    dockerContext: ./tts-server
+    dockerfilePath: ./tts-server/Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: YEOBACK_TTS_ACCESS_TOKEN
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        value: https://chemistreal.github.io
