@@ -126,7 +126,7 @@ async function saveComposer(){
   const isMarkdown=/^\s{0,3}#{1,6}\s+\S/m.test(raw)||/^\s*[-*+]\s+\S/m.test(raw);
   const blocks=blocksFromText(raw,isMarkdown);
   const b=await addBook(title,'TEXT',blocks);
-  $('#composerText').value='';$('#composerTitle').value='';$('#composerTitle').dataset.autoTitle='';refreshComposer();clearTimeout(composerDraftTimer);await storeReq('meta','readwrite',store=>store.delete('composerDraft'));
+  $('#composerText').value='';$('#composerTitle').value='';$('#composerTitle').dataset.autoTitle='';refreshComposer();clearTimeout(composerDraftTimer);try{await storeReq('meta','readwrite',store=>store.delete('composerDraft'))}catch(e){console.error('저장된 초안 정리 실패',e)}
   toast('제목과 문단을 정리해 서재에 저장했습니다.');openBook(b.id)
  }catch(e){console.error(e);toast('글을 저장하지 못했습니다: '+(e.message||'오류'),7500)}
  finally{button.disabled=!$('#composerText').value.trim()}
