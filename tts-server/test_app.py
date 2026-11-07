@@ -73,3 +73,47 @@ def test_ephemeral_hls_access_and_media_headers():
 def test_unknown_session():
     assert client.get("/v1/jobs/no-such-job", headers=HEADERS).status_code == 404
     assert client.get("/v1/jobs/no-such-job/index.m3u8").status_code == 404
+
+def test_full_ffmpeg_pipeline_with_stub_speech_provider(monkeypatch):
+    """Real FFmpeg HLS output from deterministic, locally produced MP3 input."""
+    import asyncio
+    import shutil
+    import subprocess
+
+    if not shutil.which("ffmpeg"):
+        raise AssertionError("CI must install ffmpeg before running tests")
+    result = subprocess.run(
+        [
+            "ffmpeg", "-hide_banner", "-loglevel", "error",
+            "-f", "lavfi", "-i", "sine=frequency=440:duration=9",
+            "-ar", "24000", "-ac", "1", "-c:a", "libmp3lame",
+            "-b:a", "48k", "-f", "mp3", "pipe:1",
+        ],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
+    )
+    speech_bytes = result.stdout
+    assert speech_bytes
+
+    class FakeCommunicate:
+        def __init__(self, text, voice, rate):
+            assert text == "음성 서버 통합 테스트"
+            assert voice in service.VOICES
+            assert rate == "+0%"
+
+        async def stream(self):
+            for start in range(0, len(speech_bytes), 4096):
+                yield {"type": "audio", "data": speech_bytes[start:start + 4096]}
+
+    monkeypatch.setattr(service.edge_tts, "Communicate", FakeCommunicate)
+    with tempfile.TemporaryDirectory() as directory:
+        job = service.Job("test-render", Path(directory))
+        asyncio.run(
+            service.synthesize(job, "음성 서버 통합 테스트",
+                               "ko-KR-SunHiNeural", 0)
+        )
+        assert job.status == "ready", job.error
+        assert job.ready()
+        assert job.segment_count() >= 1
+        playlist = (Path(directory) / "index.m3u8").read_text()
+        assert "#EXTINF:" in playlist
+        assert "#EXT-X-ENDLIST" in playlist
