@@ -131,6 +131,12 @@ const server=http.createServer(async(req,res)=>{
   assert.ok(sizes.inputFont>=16,'iOS input font must prevent auto-zoom');
   assert.ok(sizes.titleRight<=sizes.windowWidth+2&&sizes.inputRight<=sizes.windowWidth+2,'mobile composer input must fit viewport: '+JSON.stringify(sizes));
   assert.ok(sizes.buttonVisible&&sizes.buttonRight<=sizes.windowWidth+2,'file picker must fit on iPhone');
+  mobilePage.on('dialog',dialog=>dialog.dismiss());
+  const fileChooserPromise=mobilePage.waitForEvent('filechooser',{timeout:8000});
+  await mobilePage.locator('#composerAttachBtn').click();
+  const chooser=await fileChooserPromise;
+  await chooser.setFiles({name:'iphone-file-attachment.txt',mimeType:'text/plain',buffer:Buffer.from('# 파일 첨부로 저장한 도서\n\n이 책은 브라우저 파일 선택으로 등록했습니다.','utf8')});
+  await mobilePage.waitForFunction(()=>state.books.some(book=>book.title==='iphone-file-attachment'),null,{timeout:15000});
   await mobile.close();
 
   assert.equal(errors.length,0,'browser page exceptions: '+errors.join(', '));
