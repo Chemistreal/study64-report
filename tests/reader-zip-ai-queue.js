@@ -41,6 +41,9 @@ const server=http.createServer(async(req,res)=>{
   });
   assert.equal(setup.replaced,true);
   assert.equal(setup.queueAuto,true);
+  // Explicitly grant first-use on-device model permission through the real UI.
+  await page.locator('#queueStartBtn').click();
+  await page.waitForFunction(()=>state.settings.aiConsent===true);
 
   const test=await page.evaluate(async()=>{
    const JSZip=await zipLib(),zip=new JSZip();
