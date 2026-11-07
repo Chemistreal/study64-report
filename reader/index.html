@@ -21,6 +21,7 @@
 #deleteFinishedBtn:disabled{opacity:.45}@media(max-width:650px){.library-tools{flex-wrap:wrap;justify-content:flex-end}.reader-actions{gap:2px}.reader-actions .icon-btn{width:32px;height:32px}}
 .ai-toggle-row{display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.65;color:var(--muted);margin:13px 0}.ai-toggle-row input{margin-top:4px;accent-color:var(--accent)}#aiConvertStatus{overflow-wrap:anywhere}
 .bg-check{margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}.bg-check button{margin:4px 6px 4px 0}#backgroundStatus{overflow-wrap:anywhere;font-variant-numeric:tabular-nums;white-space:pre-line}
+.native-player-wrap{margin:12px 0}#nativePlayerSlot audio{display:block;width:100%;max-width:100%;margin:11px 0 15px}
 </style>
 </head>
 <body>
@@ -43,7 +44,7 @@
 <p class="setting-hint">아이폰의 일반 음성합성(TTS)은 화면 잠금이나 앱 전환 후 중단될 수 있습니다. 백그라운드 재생이 필요하다면 MP3/M4A 음성 파일을 이 글에 연결하세요. 오디오는 이 기기에 저장되며 서재 JSON 백업에는 포함되지 않습니다.</p>
 <input id="audioFileInput" class="hidden" type="file" accept=".mp3,.m4a,.mp4,.aac,.wav,audio/*" aria-label="이 글의 오디오 파일 선택">
 <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="button light small" id="attachAudioBtn">오디오 파일 연결</button><button class="button ghost small" id="removeAudioBtn" disabled>연결 해제</button></div>
-<p class="setting-hint" id="audioStatus" aria-live="polite">이 글에 연결된 오디오가 없습니다.</p>
+<p class="setting-hint" id="audioStatus" aria-live="polite">이 글에 연결된 오디오가 없습니다.</p><div id="nativePlayerWrap" class="hidden"><p class="setting-hint">아이폰에서 잠금 화면 재생을 시작할 때는 아래 Safari 기본 플레이어의 재생 버튼도 사용해 보세요. 같은 오디오를 제어합니다.</p><div id="nativePlayerSlot"></div></div>
 <div class="bg-check">
   <div class="setting-head"><span>백그라운드 재생 진단</span></div>
   <p class="setting-hint">60초 테스트음을 재생한 뒤 화면을 잠그거나 다른 앱을 열어 보세요. 소리가 계속 들리면 이 브라우저에서 일반 오디오 백그라운드 재생이 가능한 것입니다. 이 검사는 AI 음성 생성과 무관합니다.</p>
@@ -144,7 +145,7 @@ async function generateAutoFromBook(){const b=state.book;if(!b)return;if(documen
 }
 
 function hasAttachedAudio(){return !!(state.audioUrl&&state.audioBookId===state.book?.id)}
-function setAudioStatus(name){$('#audioStatus').textContent=name?'연결됨: '+name+' · 재생 버튼은 오디오 파일을 재생합니다.':'이 글에 연결된 오디오가 없습니다.';$('#removeAudioBtn').disabled=!name;$('#downloadAudioBtn').disabled=!name}
+function setAudioStatus(name){$('#audioStatus').textContent=name?'연결됨: '+name+' · 재생 버튼은 오디오 파일을 재생합니다.':'이 글에 연결된 오디오가 없습니다.';$('#removeAudioBtn').disabled=!name;$('#downloadAudioBtn').disabled=!name;$('#nativePlayerWrap').classList.toggle('hidden',!name)}
 
 /* 60초 로컬 생성 테스트음: 실제 오디오 태그가 잠금화면에서 살아 있는지 AI 모델 없이 확인한다. */
 function backgroundProbeWav(){
@@ -179,7 +180,7 @@ function setupBackgroundMedia(){try{if(navigator.audioSession)navigator.audioSes
 function saveAudioPosition(force=false){if(!hasAttachedAudio()||!state.book)return;state.book.audioTime=Number.isFinite(state.audio.currentTime)?state.audio.currentTime:0;if(force||Date.now()-state.lastAudioSave>5000){state.lastAudioSave=Date.now();dbPut(state.book).catch(e=>console.error('오디오 위치 저장 실패',e))}}
 function clearBookAudio(){if(state.audio){state.audio.pause();state.audio.removeAttribute('src');state.audio.load()}if(state.audioUrl)URL.revokeObjectURL(state.audioUrl);state.audioUrl=null;state.audioBookId=null;state.audioName='';state.audioIsGenerated=false;setAudioStatus(null);setPlayUI();updateMediaSession();showBackgroundStatus('이 책에 연결된 오디오가 없습니다. AI 변환이나 MP3 연결을 먼저 해 주세요.')}
 async function loadBookAudio(id){try{const record=await storeReq('audio','readonly',store=>store.get(id));if(state.book?.id!==id)return;clearBookAudio();if(!record?.blob)return;state.audioUrl=URL.createObjectURL(record.blob);state.audioBookId=id;state.audioName=record.name||'오디오 파일';state.audioIsGenerated=!!record.aiVoice;const a=state.audio;a.src=state.audioUrl;a.playbackRate=Number(state.settings.rate);const restore=Math.max(0,Number(state.book.audioTime)||0);a.addEventListener('loadedmetadata',function seekSaved(){a.removeEventListener('loadedmetadata',seekSaved);if(hasAttachedAudio()&&state.audioBookId===id&&Number.isFinite(a.duration))try{a.currentTime=Math.min(restore,Math.max(0,a.duration-0.1))}catch(e){}updateAudioPosition()},{once:true});a.load();setAudioStatus(record.name||'오디오 파일');setPlayUI();updateAudioPosition();updateMediaSession();showBackgroundStatus('재생 준비 완료. 재생을 누른 뒤 화면을 잠그고 소리가 이어지는지 확인하세요.')}catch(e){console.error(e);toast('연결된 오디오 파일을 불러오지 못했습니다.',6000)}}
-function setupAudioElement(){const a=document.createElement('audio');a.id='yeobaekBackgroundAudio';a.preload='metadata';a.playsInline=true;document.body.appendChild(a);state.audio=a;
+function setupAudioElement(){const a=document.createElement('audio');a.id='yeobaekBackgroundAudio';a.preload='metadata';a.playsInline=true;a.controls=true;a.setAttribute('aria-label','Safari 기본 오디오북 재생 컨트롤');$('#nativePlayerSlot').appendChild(a);state.audio=a;
  a.addEventListener('play',()=>{if(!hasAttachedAudio())return;state.playing=true;state.playWasInterrupted=false;setPlayUI();updateMediaSession();showBackgroundStatus('오디오 재생 중 · 잠금/다른 앱에서도 들리는지 확인하세요.')});
  a.addEventListener('playing',()=>{if(hasAttachedAudio())showBackgroundStatus('오디오 정상 재생 중 · 잠금화면 제어를 이용할 수 있습니다.')});
  a.addEventListener('pause',()=>{if(!hasAttachedAudio())return;saveAudioPosition(true);state.playing=false;setPlayUI();updateMediaSession();showBackgroundStatus('일시정지됨 · 재생 버튼을 누르면 저장된 위치부터 이어 듣습니다.')});
