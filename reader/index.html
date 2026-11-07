@@ -66,11 +66,11 @@
 <div class="composer-dock" role="region" aria-label="글 빠르게 담기">
   <div class="composer-box">
     <div class="composer-heading"><span>글을 붙여넣으면 제목을 자동으로 정리합니다.</span><span id="composerCount" aria-live="polite">0자 · 기기에 임시 저장</span></div>
-    <textarea id="composerText" rows="2" maxlength="1000000" placeholder="글을 붙여넣거나 ZIP 파일을 이 창으로 끌어다 놓으세요. iPhone에서는 아래 파일 첨부를 누르세요." aria-label="읽을 글 또는 파일 붙여넣기"></textarea>
+    <textarea id="composerText" rows="2" maxlength="1000000" placeholder="여기에 글을 붙여넣으세요. ZIP 파일은 아래 'ZIP · 파일 첨부'를 누르세요." aria-label="읽을 글 또는 파일 붙여넣기"></textarea>
     <div class="composer-attachment-row"><button class="button light small" type="button" id="composerPasteBtn" aria-label="클립보드에서 글 또는 ZIP 붙여넣기">클립보드 붙여넣기</button><button class="button light small" type="button" id="composerAttachBtn">ZIP · 파일 첨부</button><span id="composerFileStatus" role="status" aria-live="polite">아이폰 파일 앱의 ZIP은 ‘ZIP · 파일 첨부’로 선택하세요.</span><input class="hidden" id="composerFileInput" type="file" multiple accept=".zip,.txt,.md,.markdown,.html,.htm,.pdf,.docx,.epub,.hwpx,.json,application/zip,application/x-zip-compressed" aria-label="채팅 입력창에 문서 또는 ZIP 첨부"></div>
     <div class="composer-footer">
-      <label for="composerTitle" class="composer-title-label">제목</label>
-      <input id="composerTitle" type="text" maxlength="180" placeholder="내용을 입력하면 제목을 자동으로 추천합니다." aria-label="자동으로 추천한 제목 수정">
+      <label for="composerTitle" class="composer-title-label">제목 (자동 추천)</label>
+      <input id="composerTitle" type="text" maxlength="180" placeholder="본문을 먼저 넣으면 제목을 자동 추천합니다." aria-label="제목 수정 · 붙여넣은 글은 본문으로 이동">
       <button class="composer-save" id="composerSave" type="button" disabled aria-label="글을 서재에 저장하고 열기">저장 후 읽기 <svg class="icon"><use href="#i-next"/></svg></button>
     </div>
     <div class="composer-ai-row">
