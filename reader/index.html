@@ -160,15 +160,91 @@ async function importComposerFiles(files){
  $('#composerFileStatus').textContent=total?total+'권을 서재에 담았습니다. '+(state.settings.aiAuto?'AI 음성 준비도 예약했습니다.':'자동 음성 준비는 꺼져 있습니다.'):'가져오기에 실패했습니다. ZIP 내부가 문서인지 확인해 주세요.';
  updateLocalAiQueueUI();return total
 }
+function clipboardLooksLikeFileReference(text){
+ const raw=String(text||'').trim();
+ return raw.length>0&&raw.length<800&&(/^(file:|content:|assets-library:|icloud:|shareddocuments:)/i.test(raw)||/^([^\r\n]+[\\/])?[^\\/\r\n]+\.zip(?:\?.*)?$/i.test(raw)||/^(?:https?:\/\/)[^\s]+\.(zip|epub)(?:[?#].*)?$/i.test(raw))
+}
+function showComposerFilePickerHint(){
+ $('#composerFileStatus').textContent='아이폰 파일 앱의 ZIP은 복사·붙여넣기로 전달되지 않을 수 있습니다. 바로 옆 ‘ZIP · 파일 첨부’를 눌러 선택하세요.';
+ toast('ZIP 파일은 ‘ZIP · 파일 첨부’에서 아이폰 파일 앱을 선택하세요.',7000)
+}
+function insertComposerText(text){
+ const input=$('#composerText'),value=String(text||'');
+ if(!value)return;
+ const from=input.selectionStart??input.value.length,to=input.selectionEnd??input.value.length;
+ const separator=from>0&&!/\s$/.test(input.value.slice(0,from))?'\n':'';
+ const at=Math.max(0,Math.min(from,input.value.length));
+ if(input.value.length+value.length+separator.length>Number(input.maxLength||1000000)){toast('입력 가능한 최대 글자 수를 초과했습니다.',7000);return}
+ input.setRangeText(separator+value,at,Math.max(at,to),'end');
+ input.dispatchEvent(new Event('input',{bubbles:true}));
+ input.focus({preventScroll:true});
+ $('#composerFileStatus').textContent='글 본문에 붙여넣었습니다. 제목은 자동으로 추천됩니다.'
+}
+async function pasteComposerClipboard(){
+ const status=$('#composerFileStatus');
+ if(!navigator.clipboard){status.textContent='브라우저의 클립보드 읽기를 지원하지 않습니다. 글 입력칸을 길게 눌러 붙여넣거나 ZIP · 파일 첨부를 이용하세요.';return}
+ try{
+  // Clipboard API MIME types vary across Safari/iOS versions. Only accept real ZIP bytes.
+  if(typeof navigator.clipboard.read==='function'){
+   const items=await navigator.clipboard.read();
+   for(const item of items){
+    const type=item.types.find(t=>/^(application\/zip|application\/x-zip-compressed|application\/octet-stream)$/i.test(t));
+    if(!type)continue;
+    const blob=await item.getType(type);
+    if(blob.size>100*1024*1024){status.textContent='ZIP은 최대 100MB입니다.';return}
+    const head=new Uint8Array(await blob.slice(0,4).arrayBuffer());
+    if(head[0]===0x50&&head[1]===0x4b&&[0x03,0x05,0x07].includes(head[2])&&[0x04,0x06,0x08].includes(head[3])){
+      await importComposerFiles([new File([blob],'클립보드-문서.zip',{type:'application/zip'})]);return
+    }
+   }
+  }
+  if(typeof navigator.clipboard.readText==='function'){
+   const text=await navigator.clipboard.readText();
+   if(text){
+    if(clipboardLooksLikeFileReference(text)){showComposerFilePickerHint();return}
+    insertComposerText(text);return
+   }
+  }
+  showComposerFilePickerHint()
+ }catch(e){
+  console.warn('Safari clipboard read was denied or did not include a file',e);
+  status.textContent='클립보드 접근이 거부됐거나 파일 데이터가 없습니다. 텍스트는 본문을 길게 눌러 붙여넣고, ZIP은 ‘ZIP · 파일 첨부’로 선택하세요.'
+ }
+}
 function setupComposerFileDrop(){
- const input=$('#composerText'),dock=document.querySelector('.composer-dock'),fileInput=$('#composerFileInput');
+ const input=$('#composerText'),title=$('#composerTitle'),dock=document.querySelector('.composer-dock'),fileInput=$('#composerFileInput');
  $('#composerAttachBtn').onclick=()=>fileInput.click();
+ $('#composerPasteBtn').onclick=()=>pasteComposerClipboard();
  fileInput.onchange=async e=>{const files=Array.from(e.target.files||[]);e.target.value='';await importComposerFiles(files)};
- input.addEventListener('paste',e=>{const files=composerFilesFromTransfer(e.clipboardData);if(!files.length)return;e.preventDefault();e.stopPropagation();importComposerFiles(files).catch(err=>{console.error(err);$('#composerFileStatus').textContent='파일 붙여넣기 실패 · '+(err.message||'다시 시도해 주세요')})});
+ // Capture paste for the entire composer. Users often tap the bottom TITLE field on
+ // iOS without noticing: pasted text should still become the BOOK BODY.
+ dock.addEventListener('paste',e=>{
+  const files=composerFilesFromTransfer(e.clipboardData);
+  if(files.length){
+   e.preventDefault();e.stopPropagation();
+   importComposerFiles(files).catch(err=>{console.error(err);$('#composerFileStatus').textContent='파일 붙여넣기 실패 · '+(err.message||'다시 시도해 주세요')});
+   return
+  }
+  const text=e.clipboardData?.getData('text/plain')||'';
+  if(clipboardLooksLikeFileReference(text)){
+   e.preventDefault();e.stopPropagation();showComposerFilePickerHint();return
+  }
+  if(e.target===title&&text){
+   e.preventDefault();e.stopPropagation();insertComposerText(text);return
+  }
+  if(e.target===title&&!text&&e.clipboardData?.types?.length){
+   $('#composerFileStatus').textContent='ZIP 데이터가 클립보드로 전달되지 않았습니다. ‘ZIP · 파일 첨부’로 선택하세요.'
+  }
+ },true);
  dock.addEventListener('dragenter',e=>{if(e.dataTransfer?.types?.includes('Files')){e.preventDefault();e.stopPropagation();dock.classList.add('is-file-hover')}});
  dock.addEventListener('dragover',e=>{if(e.dataTransfer?.types?.includes('Files')){e.preventDefault();e.stopPropagation();e.dataTransfer.dropEffect='copy'}});
  dock.addEventListener('dragleave',e=>{if(!dock.contains(e.relatedTarget))dock.classList.remove('is-file-hover')});
- dock.addEventListener('drop',e=>{if(!e.dataTransfer?.files?.length)return;e.preventDefault();e.stopPropagation();dock.classList.remove('is-file-hover');dragDepth=0;$('#dropOverlay').classList.add('hidden');importComposerFiles(composerFilesFromTransfer(e.dataTransfer)).catch(err=>{console.error(err);$('#composerFileStatus').textContent='첨부 실패 · '+(err.message||'다시 시도해 주세요')})})
+ dock.addEventListener('drop',e=>{
+  if(!e.dataTransfer?.files?.length)return;
+  e.preventDefault();e.stopPropagation();
+  dock.classList.remove('is-file-hover');$('#dropOverlay').classList.add('hidden');
+  importComposerFiles(composerFilesFromTransfer(e.dataTransfer)).catch(err=>{console.error(err);$('#composerFileStatus').textContent='첨부 실패 · '+(err.message||'다시 시도해 주세요')})
+ })
 }
 
 function refreshComposer(){
