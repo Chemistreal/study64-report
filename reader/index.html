@@ -186,7 +186,8 @@ async function pasteComposerClipboard(){
  try{
   // Clipboard API MIME types vary across Safari/iOS versions. Only accept real ZIP bytes.
   if(typeof navigator.clipboard.read==='function'){
-   const items=await navigator.clipboard.read();
+   let items=[];
+   try{items=await navigator.clipboard.read()}catch(e){console.debug('Clipboard file read unavailable; trying text-only access',e)}
    for(const item of items){
     const type=item.types.find(t=>/^(application\/zip|application\/x-zip-compressed|application\/octet-stream)$/i.test(t));
     if(!type)continue;
