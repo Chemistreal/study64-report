@@ -69,14 +69,14 @@ export async function loadLocalAI(report=()=>{}){
 }
 async function voiceFor(id){const safe=VOICES.some(v=>v.id===id)?id:'F1';if(!voiceStyles.has(safe)){const style=loadVoiceStyle([BASE+'/voice_styles/'+safe+'.json']);voiceStyles.set(safe,style)}try{return await voiceStyles.get(safe)}catch(e){voiceStyles.delete(safe);throw e}}
 function partsForBook(book){
- const parts=[];for(const block of book.blocks){let text=String(block.text||'').replace(/\s+/g,' ').trim();if(!text)continue;
+ const parts=[];book.blocks.forEach((block,blockIndex)=>{let text=String(block.text||'').replace(/\s+/g,' ').trim();if(!text)return;const owner=Number.isInteger(block.source)?block.source:blockIndex;
    // Preserve punctuation and ordering, with conservative chunks for Korean VITS inference.
    const sentences=text.match(/[^.!?。！？]+[.!?。！？]*|[.!?。！？]+/g)||[text];let current='';
-   const add=x=>{if(x.trim())parts.push(x.trim())};
+   const add=x=>{if(x.trim())parts.push({text:x.trim(),block:owner})};
    for(let sentence of sentences){sentence=sentence.trim();while(sentence.length>105){if(current){add(current);current=''}let split=sentence.lastIndexOf(' ',105);if(split<38)split=100;add(sentence.slice(0,split));sentence=sentence.slice(split).trim()}
       if(!sentence)continue;if(current.length+sentence.length+1>105){add(current);current=''}current+=(current?' ':'')+sentence}
    if(current)add(current)
- }
+ });
  return parts;
 }
 export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()=>{},signal,maxCharacters=150000}={}){
@@ -90,16 +90,18 @@ export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()
  const style=await voiceFor(voiceId);checkAbort(signal);
  const sampleRate=engine.sampleRate;
  const encoder=new window.lamejs.Mp3Encoder(1,sampleRate,96);
- const output=[];const silence=new Int16Array(Math.floor(sampleRate*.22));
+ const output=[],marks=[];let samples=0;const silence=new Int16Array(Math.floor(sampleRate*.22));
  const feed=pcm=>{for(let start=0;start<pcm.length;start+=11520){const encoded=encoder.encodeBuffer(pcm.subarray(start,start+11520));if(encoded.length)output.push(new Uint8Array(encoded))}};
  for(let i=0;i<segments.length;i++){
    checkAbort(signal);
    onProgress({stage:'synthesizing',message:'문장별로 AI 낭독 오디오 생성 중',done:i,total:segments.length});
-   const result=await engine.call(segments[i],'ko',style,8,1.0,.2);
+   // 문단이 바뀌는 지점의 시각을 적어 둔다(재생 중 문단 따라가기·문단을 눌러 그 위치로 이동).
+   if(!marks.length||marks[marks.length-1][0]!==segments[i].block)marks.push([segments[i].block,Math.round(samples/sampleRate*1000)/1000]);
+   const result=await engine.call(segments[i].text,'ko',style,8,1.0,.2);
    checkAbort(signal);
    const pcm=new Int16Array(result.wav.length);
    for(let j=0;j<pcm.length;j++){pcm[j]=Math.max(-32768,Math.min(32767,Math.round(result.wav[j]*32767)))}
-   feed(pcm);if(i<segments.length-1)feed(silence);
+   feed(pcm);samples+=pcm.length;if(i<segments.length-1){feed(silence);samples+=silence.length}
    await new Promise(resolve=>setTimeout(resolve,0));
  }
  const rest=encoder.flush();if(rest.length)output.push(new Uint8Array(rest));
@@ -107,7 +109,7 @@ export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()
  const blob=new Blob(output,{type:'audio/mpeg'});
  if(blob.size<500)throw Error('변환 결과가 비어 있습니다.');
  onProgress({stage:'done',message:'AI 오디오 생성 완료',done:segments.length,total:segments.length});
- return {blob,voiceId,characters:totalCharacters,segmentCount:segments.length};
+ return {blob,voiceId,characters:totalCharacters,segmentCount:segments.length,marks,duration:samples/sampleRate};
 }
 // Live narration: synthesize one short passage and hand back a playable WAV right away,
 // so reading can start without preparing the whole book first.

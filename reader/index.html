@@ -353,7 +353,7 @@ function refreshBookmarkButton(){const btn=$('#bookmarkBtn');if(!state.book||!bt
 async function toggleBookmark(){if(!state.book)return;const items=state.book.bookmarks||[],index=state.index;state.book.bookmarks=items.some(x=>x.index===index)?items.filter(x=>x.index!==index):[...items,{index,created:Date.now()}].sort((a,b)=>a.index-b.index);await updateBook();refreshBookmarkButton();renderBookmarks();toast(state.book.bookmarks.some(x=>x.index===index)?'현재 문단에 책갈피를 추가했습니다.':'책갈피를 해제했습니다.')}
 function renderBookmarks(){const area=$('#bookmarksList');area.innerHTML='';if(!state.book)return;const saved=state.book.bookmarks||[];if(!saved.length){const empty=document.createElement('p');empty.className='setting-hint';empty.textContent='책갈피가 없습니다. 읽기 화면의 책갈피 버튼으로 저장하세요.';area.append(empty);return}for(const item of saved){if(item.index<0||item.index>=state.book.blocks.length)continue;const btn=document.createElement('button');btn.className='outline-item';btn.textContent=(item.index+1)+'번째 문단 · '+state.book.blocks[item.index].text.slice(0,60);btn.onclick=()=>{const was=state.playing;stopSpeech();closeLayers();showPosition(item.index,{scroll:true});if(was)startSpeech()};area.append(btn)}}
 function refreshFinishedButton(){const b=$('#markFinishedBtn');if(!state.book)return;b.title=state.book.completed?'완독 표시 취소':'완독 표시';b.setAttribute('aria-label',b.title);b.style.color=state.book.completed?'var(--accent)':''}
-function openBook(id){cancelAIJob();stopServerJob();stopSpeech();clearBookAudio();const b=state.books.find(x=>x.id===id);if(!b)return;state.book=b;state.index=Math.min(b.index||0,b.blocks.length-1);state.chunk=Math.max(0,Number(b.speechChunk)||0);$('#libraryView').classList.add('hidden');$('#readerView').classList.remove('hidden');document.body.classList.add('reading');$('#readerTitle').textContent=b.title;$('#topTitle').textContent=b.title;$('#readerInfo').textContent=`${formatType(b)}  ·  ${b.blocks.length.toLocaleString()}개 문단  ·  문단을 누르면 그 부분부터 들을 수 있어요`;const container=$('#readerContent');container.innerHTML='';const frag=document.createDocumentFragment();b.blocks.forEach((block,i)=>{const el=document.createElement(block.kind==='heading'?'h2':'p');el.className='reader-block '+block.kind;el.tabIndex=0;el.textContent=block.text;el.addEventListener('click',()=>{const was=state.playing;stopSpeech();state.chunk=0;state.book.completed=false;showPosition(i,{mark:true});if(was)startSpeech()});el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const was=state.playing;stopSpeech();state.chunk=0;state.book.completed=false;showPosition(i);if(was)startSpeech()}});frag.appendChild(el)});container.appendChild(frag);state.lastSelection=null;applyHighlights();buildOutline();window.scrollTo(0,0);showPosition(state.index,{mark:!!state.settings.focusMode});if(state.index>0)setTimeout(()=>{const el=blockElem(state.index);if(el){state.ignoreScrollUntil=Date.now()+600;el.scrollIntoView({block:'center'})}},70);updateMediaSession();refreshFinishedButton();refreshBookmarkButton();aiNotice('책의 AI 음성을 준비하고 있습니다. 하단 자동 준비 상태를 확인하세요.');updateLocalAiQueueUI();$('#playBtn').disabled=true;return loadBookAudio(id).finally(()=>{if(state.book?.id===id&&!aiJob)$('#playBtn').disabled=false})}
+function openBook(id){cancelAIJob();stopServerJob();stopSpeech();clearBookAudio();const b=state.books.find(x=>x.id===id);if(!b)return;state.book=b;state.index=Math.min(b.index||0,b.blocks.length-1);state.chunk=Math.max(0,Number(b.speechChunk)||0);$('#libraryView').classList.add('hidden');$('#readerView').classList.remove('hidden');document.body.classList.add('reading');$('#readerTitle').textContent=b.title;$('#topTitle').textContent=b.title;$('#readerInfo').textContent=`${formatType(b)}  ·  ${b.blocks.length.toLocaleString()}개 문단  ·  문단을 누르면 그 부분부터 들을 수 있어요`;const container=$('#readerContent');container.innerHTML='';const frag=document.createDocumentFragment();b.blocks.forEach((block,i)=>{const el=document.createElement(block.kind==='heading'?'h2':'p');el.className='reader-block '+block.kind;el.tabIndex=0;el.textContent=block.text;el.addEventListener('click',()=>{const was=state.playing;if(hasAttachedAudio()&&state.audioTimeline){state.chunk=0;state.book.completed=false;showPosition(i,{mark:true});seekAudioToBlock(i);if(was&&state.audio.paused)startSpeech();return}stopSpeech();state.chunk=0;state.book.completed=false;showPosition(i,{mark:true});if(was)startSpeech()});el.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const was=state.playing;stopSpeech();state.chunk=0;state.book.completed=false;showPosition(i);if(was)startSpeech()}});frag.appendChild(el)});container.appendChild(frag);state.lastSelection=null;applyHighlights();buildOutline();window.scrollTo(0,0);showPosition(state.index,{mark:!!state.settings.focusMode});if(state.index>0)setTimeout(()=>{const el=blockElem(state.index);if(el){state.ignoreScrollUntil=Date.now()+600;el.scrollIntoView({block:'center'})}},70);updateMediaSession();refreshFinishedButton();refreshBookmarkButton();aiNotice('책의 AI 음성을 준비하고 있습니다. 하단 자동 준비 상태를 확인하세요.');updateLocalAiQueueUI();$('#playBtn').disabled=true;return loadBookAudio(id).finally(()=>{if(state.book?.id===id&&!aiJob)$('#playBtn').disabled=false})}
 function backToLibrary(){cancelAIJob();stopServerJob();if(state.probeAudio)stopBackgroundProbe();stopSpeech();clearBookAudio();closeLayers();state.book=null;updateMediaSession();$('#readerView').classList.add('hidden');$('#libraryView').classList.remove('hidden');document.body.classList.remove('reading');window.scrollTo(0,0);renderLibrary()}
 function buildOutline(){const list=$('#outlineList');list.innerHTML='';const headings=state.book.blocks.map((b,i)=>({...b,i})).filter(b=>b.kind==='heading');if(!headings.length){const p=document.createElement('p');p.className='setting-hint';p.textContent='이 글에는 별도의 제목이 없습니다. 본문의 원하는 문단을 눌러 이동하세요.';list.append(p);renderBookmarks();renderAnnotations();return}for(const b of headings){const btn=document.createElement('button');btn.className='outline-item'+(b.level>1?' sub':'');btn.textContent=b.text;btn.onclick=()=>{const was=state.playing;stopSpeech();closeLayers();showPosition(b.i,{scroll:true});if(was)startSpeech()};list.append(btn)}renderBookmarks();renderAnnotations()}
 function openLayer(id){closeLayers();state.layer=id;$('#overlay').classList.remove('hidden');$(id).classList.remove('hidden');if(id==='#settingsDrawer')refreshAiModelStatus()}
@@ -387,19 +387,19 @@ const LOCAL_AI_QUEUE_KEY='yeobaek-local-ai-queue-v1';
 const LOCAL_AI_BATCH_CHARS=2600;
 function aiBatchesForBook(book,maxCharacters=LOCAL_AI_BATCH_CHARS){
  const batches=[];let blocks=[],length=0;
- for(const block of book.blocks||[]){
-  let text=String(block.text||'').trim();if(!text)continue;
+ (book.blocks||[]).forEach((block,source)=>{
+  let text=String(block.text||'').trim();if(!text)return;
   while(text.length){
    if(length>0&&length+text.length>maxCharacters){batches.push(blocks);blocks=[];length=0}
    if(text.length>maxCharacters){
     const width=Math.min(text.length,maxCharacters),cut=text.lastIndexOf(' ',width);
     const take=cut>maxCharacters/2?cut:width,part=text.slice(0,take).trim();
-    if(part){blocks.push({kind:block.kind||'paragraph',text:part});length+=part.length}
+    if(part){blocks.push({kind:block.kind||'paragraph',text:part,source});length+=part.length}
     text=text.slice(take).trim();
     if(length){batches.push(blocks);blocks=[];length=0}
-   }else{blocks.push({kind:block.kind||'paragraph',text});length+=text.length;text=''}
+   }else{blocks.push({kind:block.kind||'paragraph',text,source});length+=text.length;text=''}
   }
- }
+ });
  if(blocks.length)batches.push(blocks);
  return batches
 }
@@ -501,6 +501,18 @@ async function startLocalAiQueue(){
  for(const job of state.localAiQueue)if(job.status==='failed'||job.status==='paused'){job.status='queued';job.error=''}
  await persistLocalAiQueue();updateLocalAiQueueUI();scheduleLocalAiQueue(50)
 }
+// 구간별 문단 시각을 이어 붙여 책 전체 시간표를 만든다. 예전에 만든 구간에 시간표가 없으면 만들지 않는다.
+function audioTimeline(parts){
+ if(!parts.length||parts.some(p=>!Array.isArray(p.marks)||!(p.duration>0)))return {};
+ const timeline=[];let offset=0;
+ for(const part of parts){for(const [block,time] of part.marks){if(timeline.length&&timeline[timeline.length-1][0]===block)continue;timeline.push([block,Math.round((offset+time)*1000)/1000])}offset+=part.duration}
+ return {timeline,timelineDuration:Math.round(offset*1000)/1000}
+}
+// 실제 재생 길이에 맞춰 비율을 보정한다(구간마다 MP3 앞뒤 여백이 조금씩 붙는다).
+function timelineScale(){const a=state.audio,d=state.audioTimelineDuration;return a&&d>0&&Number.isFinite(a.duration)&&a.duration>0?a.duration/d:1}
+function audioBlockAt(time){const t=state.audioTimeline;if(!t?.length)return -1;const scale=timelineScale();let lo=0,hi=t.length-1,found=0;while(lo<=hi){const mid=(lo+hi)>>1;if(t[mid][1]*scale<=time+.05){found=mid;lo=mid+1}else hi=mid-1}return t[found][0]}
+function followAudioBlock(){if(!hasAttachedAudio()||!state.audioTimeline||!state.book)return;const block=audioBlockAt(state.audio.currentTime||0);if(block>=0&&block!==state.index)showPosition(block,{scroll:!document.hidden&&state.playing})}
+function seekAudioToBlock(index){const t=state.audioTimeline;if(!hasAttachedAudio()||!t?.length||!Number.isFinite(state.audio.duration))return false;const mark=t.find(m=>m[0]>=index)||t[t.length-1];try{state.audio.currentTime=Math.min(Math.max(0,mark[1]*timelineScale()),Math.max(0,state.audio.duration-.1))}catch(e){return false}saveAudioPosition(true);updateAudioPosition();return true}
 async function cleanupAiParts(bookId,voiceId,batches){
  await new Promise((resolve,reject)=>{
   const tx=state.db.transaction('aiParts','readwrite'),store=tx.objectStore('aiParts');
@@ -524,7 +536,7 @@ async function runLocalAiQueue(){
   job.total=batches.length;await persistLocalAiQueue();
   await acquireGenerationWakeLock();
   const mod=await aiModule();
-  const blobs=[];let bytes=0;
+  const blobs=[],parts=[];let bytes=0;
   for(let i=0;i<batches.length;i++){
    if(signal.aborted||document.hidden||state.localAiPauseRequested)throw new DOMException('AI 음성 변환 일시정지','AbortError');
    if(!state.books.some(b=>b.id===book.id))throw new DOMException('책이 삭제되어 생성 중단','AbortError');
@@ -533,10 +545,10 @@ async function runLocalAiQueue(){
    if(!part?.blob){
     const result=await mod.generateAIBackgroundAudio({blocks:batches[i]}, {voiceId:job.voiceId,maxCharacters:LOCAL_AI_BATCH_CHARS+300,signal,onProgress:p=>{if(job.status==='working'&&p.stage==='synthesizing')aiNotice('기기 내 AI 생성 중 · '+job.title+' · '+(i+1)+'/'+batches.length+'구간 ('+p.done+'/'+p.total+'문장)')}});
     if(signal.aborted||document.hidden||state.localAiPauseRequested)throw new DOMException('AI 음성 변환 일시정지','AbortError');
-    part={id:partId,bookId:book.id,voiceId:job.voiceId,index:i,blob:result.blob,created:Date.now()};
+    part={id:partId,bookId:book.id,voiceId:job.voiceId,index:i,blob:result.blob,marks:Array.isArray(result.marks)?result.marks:null,duration:Number(result.duration)||0,created:Date.now()};
     await storeReq('aiParts','readwrite',store=>store.put(part))
    }
-   blobs.push(part.blob);bytes+=part.blob.size;
+   blobs.push(part.blob);parts.push(part);bytes+=part.blob.size;
    job.done=i+1;job.updated=Date.now();await persistLocalAiQueue();updateLocalAiQueueUI();
    if(bytes>150*1024*1024)throw Error('오디오가 150MB를 초과했습니다. 문서를 나누어 등록해 주세요.');
    await new Promise(resolve=>setTimeout(resolve,0))
@@ -547,7 +559,7 @@ async function runLocalAiQueue(){
    // Each batch is encoded as MPEG Layer III audio. Completed frames are joined
    // in order into a single audio/mpeg Blob for iOS native audio playback.
    const output=new Blob(blobs,{type:'audio/mpeg'});
-   await storeReq('audio','readwrite',store=>store.put({id:book.id,blob:output,name:book.title+' · AI '+job.voiceId+'.mp3',aiVoice:job.voiceId,generatedAt:Date.now()}));
+   await storeReq('audio','readwrite',store=>store.put({id:book.id,blob:output,name:book.title+' · AI '+job.voiceId+'.mp3',aiVoice:job.voiceId,generatedAt:Date.now(),...audioTimeline(parts)}));
    if(state.book?.id===book.id&&!state.playing)await loadBookAudio(book.id);
    toast('AI 음성이 준비됐습니다: '+book.title+' · 재생을 눌러 들으세요.',7000)
   }
@@ -668,13 +680,13 @@ function setupBackgroundMedia(){try{if(navigator.audioSession)navigator.audioSes
 
 function saveAudioPosition(force=false){if(!hasAttachedAudio()||!state.book)return;const time=Number.isFinite(state.audio.currentTime)?state.audio.currentTime:0;state.book.audioTime=time;const now=Date.now();if(force||now-state.lastAudioSave>5000){state.lastAudioSave=now;const id=state.audioBookId;storeReq('audioPositions','readwrite',store=>store.put({id,time,updated:now})).catch(e=>console.error('오디오 이어 듣기 저장 실패',e))}}
 
-function clearBookAudio(){if(state.streamJob?.bookId===state.book?.id&&state.streamJob?.jobId&&state.audioUrl?.startsWith('http')){stopServerJob()}if(state.audio){state.audio.pause();state.audio.removeAttribute('src');state.audio.load()}if(state.audioUrl&&state.audioUrl.startsWith('blob:'))URL.revokeObjectURL(state.audioUrl);state.audioUrl=null;state.audioBookId=null;state.audioName='';state.audioIsGenerated=false;setAudioStatus(null);setPlayUI();updateMediaSession();showBackgroundStatus('이 책에 연결된 오디오가 없습니다. AI 변환이나 MP3 연결을 먼저 해 주세요.')}
-async function loadBookAudio(id){try{const [record,savedPosition]=await Promise.all([storeReq('audio','readonly',store=>store.get(id)),storeReq('audioPositions','readonly',store=>store.get(id))]);if(state.book?.id!==id)return;clearBookAudio();if(Number.isFinite(Number(savedPosition?.time)))state.book.audioTime=Math.max(0,Number(savedPosition.time));if(!record?.blob)return;state.audioUrl=URL.createObjectURL(record.blob);state.audioBookId=id;state.audioName=record.name||'오디오 파일';state.audioIsGenerated=!!record.aiVoice;const a=state.audio;a.src=state.audioUrl;a.playbackRate=Number(state.settings.rate);const restore=Math.max(0,Number(savedPosition?.time??state.book.audioTime)||0);a.addEventListener('loadedmetadata',function seekSaved(){a.removeEventListener('loadedmetadata',seekSaved);if(hasAttachedAudio()&&state.audioBookId===id&&Number.isFinite(a.duration))try{a.currentTime=Math.min(restore,Math.max(0,a.duration-0.1))}catch(e){}updateAudioPosition()},{once:true});a.load();setAudioStatus(record.name||'오디오 파일');setPlayUI();updateAudioPosition();updateMediaSession();showBackgroundStatus('재생 준비 완료. 재생을 누른 뒤 화면을 잠그고 소리가 이어지는지 확인하세요.')}catch(e){console.error(e);toast('연결된 오디오 파일을 불러오지 못했습니다.',6000)}}
+function clearBookAudio(){if(state.streamJob?.bookId===state.book?.id&&state.streamJob?.jobId&&state.audioUrl?.startsWith('http')){stopServerJob()}if(state.audio){state.audio.pause();state.audio.removeAttribute('src');state.audio.load()}if(state.audioUrl&&state.audioUrl.startsWith('blob:'))URL.revokeObjectURL(state.audioUrl);state.audioUrl=null;state.audioBookId=null;state.audioName='';state.audioIsGenerated=false;state.audioTimeline=null;state.audioTimelineDuration=0;setAudioStatus(null);setPlayUI();updateMediaSession();showBackgroundStatus('이 책에 연결된 오디오가 없습니다. AI 변환이나 MP3 연결을 먼저 해 주세요.')}
+async function loadBookAudio(id){try{const [record,savedPosition]=await Promise.all([storeReq('audio','readonly',store=>store.get(id)),storeReq('audioPositions','readonly',store=>store.get(id))]);if(state.book?.id!==id)return;clearBookAudio();if(Number.isFinite(Number(savedPosition?.time)))state.book.audioTime=Math.max(0,Number(savedPosition.time));if(!record?.blob)return;state.audioUrl=URL.createObjectURL(record.blob);state.audioBookId=id;state.audioName=record.name||'오디오 파일';state.audioIsGenerated=!!record.aiVoice;state.audioTimeline=Array.isArray(record.timeline)&&record.timeline.length?record.timeline:null;state.audioTimelineDuration=Number(record.timelineDuration)||0;const a=state.audio;a.src=state.audioUrl;a.playbackRate=Number(state.settings.rate);const restore=Math.max(0,Number(savedPosition?.time??state.book.audioTime)||0);a.addEventListener('loadedmetadata',function seekSaved(){a.removeEventListener('loadedmetadata',seekSaved);if(hasAttachedAudio()&&state.audioBookId===id&&Number.isFinite(a.duration))try{a.currentTime=Math.min(restore,Math.max(0,a.duration-0.1))}catch(e){}updateAudioPosition()},{once:true});a.load();setAudioStatus(record.name||'오디오 파일');setPlayUI();updateAudioPosition();updateMediaSession();showBackgroundStatus('재생 준비 완료. 재생을 누른 뒤 화면을 잠그고 소리가 이어지는지 확인하세요.')}catch(e){console.error(e);toast('연결된 오디오 파일을 불러오지 못했습니다.',6000)}}
 function setupAudioElement(){const a=document.createElement('audio');a.id='yeobaekBackgroundAudio';a.preload='metadata';a.playsInline=true;a.controls=true;a.setAttribute('aria-label','Safari 기본 오디오북 재생 컨트롤');$('#nativePlayerSlot').appendChild(a);state.audio=a;
  a.addEventListener('play',()=>{if(!hasAttachedAudio())return;state.playing=true;state.playWasInterrupted=false;setPlayUI();updateMediaSession();showBackgroundStatus('오디오 재생 중 · 잠금/다른 앱에서도 들리는지 확인하세요.')});
  a.addEventListener('playing',()=>{if(hasAttachedAudio())showBackgroundStatus('오디오 정상 재생 중 · 잠금화면 제어를 이용할 수 있습니다.')});
  a.addEventListener('pause',()=>{if(!hasAttachedAudio())return;saveAudioPosition(true);state.playing=false;setPlayUI();updateMediaSession();showBackgroundStatus('일시정지됨 · 재생 버튼을 누르면 저장된 위치부터 이어 듣습니다.')});
- a.addEventListener('timeupdate',()=>{if(!hasAttachedAudio())return;updateAudioPosition();saveAudioPosition();if(state.sleepDeadline&&Date.now()>=state.sleepDeadline)refreshSleepTimer()});
+ a.addEventListener('timeupdate',()=>{if(!hasAttachedAudio())return;followAudioBlock();updateAudioPosition();saveAudioPosition();if(state.sleepDeadline&&Date.now()>=state.sleepDeadline)refreshSleepTimer()});
  a.addEventListener('ratechange',()=>syncMediaPosition(true));
  a.addEventListener('waiting',()=>{if(hasAttachedAudio())showBackgroundStatus('오디오 데이터를 기다리는 중입니다. 저장 공간 또는 브라우저 상태를 확인하세요.')});
  a.addEventListener('stalled',()=>{if(hasAttachedAudio())showBackgroundStatus('오디오 로딩이 지연되고 있습니다. 네트워크가 아니라 기기 저장소 또는 브라우저 문제일 수 있습니다.')});

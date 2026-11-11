@@ -27,13 +27,14 @@ const SIZES={duration_predictor:3000,text_encoder:5000,vector_estimator:70000,vo
    const name=url.split('/').pop().replace('.onnx','');
    if(SIZES[name])return route.fulfill({status:200,headers:{...headers,'content-type':'application/octet-stream'},body:Buffer.alloc(SIZES[name],7)});
    if(url.endsWith('tts.json'))return route.fulfill({status:200,headers,contentType:'application/json',body:JSON.stringify({ae:{sample_rate:44100}})});
+   if(url.includes('/voice_styles/'))return route.fulfill({status:200,headers,contentType:'application/json',body:JSON.stringify({style_ttl:{dims:[1,1,1],data:[[[0]]]},style_dp:{dims:[1,1,1],data:[[[0]]]}})});
    if(url.endsWith('unicode_indexer.json'))return route.fulfill({status:200,headers,contentType:'application/json',body:'[]'});
    return route.fulfill({status:404,headers,body:''});
   });
   await context.addInitScript(()=>{
    window.__created=[];
    window.ort={env:{wasm:{}},Tensor:class{},InferenceSession:{create:async src=>{window.__created.push(src instanceof Uint8Array?src.length:typeof src);return {}}}};
-   window.lamejs={Mp3Encoder:class{}};
+   window.lamejs={Mp3Encoder:class{encodeBuffer(){return new Int8Array(40)}flush(){return new Int8Array(600)}}};
   });
   const errors=[];
   const openBook=async page=>{
@@ -66,6 +67,16 @@ const SIZES={duration_predictor:3000,text_encoder:5000,vector_estimator:70000,vo
   assert.deepEqual(second.created,[3000,5000,70000,9000],'저장된 모델로 엔진을 만든다');
   assert.ok(second.msgs.some(m=>m.includes('기기에 저장된 AI 모델')),'저장된 모델 안내');
 
+  // 만든 AI 오디오에 문단별 시각이 붙는다(문단 0은 0초, 다음 문단은 앞 문장 길이 + 쉼 뒤).
+  const marks=await second.page.evaluate(async()=>{
+   const mod=await import('./ai-auto.js');const engine=await mod.loadLocalAI();
+   engine.call=async text=>({wav:new Float32Array(text.length*1000)});
+   const out=await mod.generateAIBackgroundAudio({blocks:[{text:'가나다.',source:4},{text:'라마바사.',source:4},{text:'아자차카타.',source:6}]},{voiceId:'F1'});
+   return {marks:out.marks,duration:out.duration};
+  });
+  assert.deepEqual(marks.marks.map(m=>m[0]),[4,6],'one mark per source paragraph');
+  assert.equal(marks.marks[0][1],0);
+  assert.ok(Math.abs(marks.marks[1][1]-(4000+5000+2*Math.floor(44100*.22))/44100)<0.002,'second paragraph starts after the first two sentences and pauses: '+marks.marks[1][1]);
   second.page.on('dialog',d=>d.accept());
   await openBook(second.page);
   await second.page.click('#voiceShortcut');

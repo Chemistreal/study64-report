@@ -154,6 +154,27 @@ const server=http.createServer(async(req,res)=>{
   assert.equal(await series.evaluate(()=>state.book.title),'1강 처음','stays on the finished book when turned off');
   assert.deepEqual(await series.evaluate(()=>window.__spoken),['1강 처음','첫째 강의 본문입니다.']);
   assert.deepEqual(seriesErrors,[]);
-  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 업로드 후 AI 자동 준비 · 다음 책 이어 듣기 · 메뉴에서 고른 AI 목소리로 실시간 낭독 · 기기 음성 선택·대체 PASS');
+
+  // 미리 만든 AI 오디오는 재생 위치에 맞춰 읽는 문단을 따라가고, 문단을 누르면 그 문단의 소리로 이동한다.
+  const synced=await browser.newPage({viewport:{width:1100,height:820}});
+  const syncedErrors=[];synced.on('pageerror',e=>syncedErrors.push(e.message));synced.on('dialog',d=>d.dismiss());
+  await synced.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
+  await synced.waitForFunction(()=>state.db&&document.querySelector('#bookCount'));
+  await synced.evaluate(async()=>{
+   const {id}=await addBook('동기화 시험','md',[{kind:'paragraph',text:'첫 문단.'},{kind:'paragraph',text:'둘째 문단.'},{kind:'paragraph',text:'셋째 문단.'}]);
+   const rate=8000,n=rate*6,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+   await storeReq('audio','readwrite',store=>store.put({id,blob:new Blob([b],{type:'audio/wav'}),name:'동기화.wav',aiVoice:'F1',timeline:[[0,0],[1,1],[2,2]],timelineDuration:3}));
+  });
+  await synced.locator('*:has(.book-open)',{hasText:'동기화 시험'}).last().locator('.book-open').click();
+  await synced.waitForFunction(()=>state.audioTimeline&&Number.isFinite(state.audio.duration)&&state.audio.duration>5);
+  // 실제 길이 6초 / 시간표 3초 → 비율 2배로 맞춘다: 2.5초는 둘째 문단(1초×2 이후).
+  await synced.evaluate(()=>{state.audio.currentTime=2.5;state.audio.dispatchEvent(new Event('timeupdate'))});
+  assert.equal(await synced.evaluate(()=>state.index),1,'audio position moves the current paragraph');
+  await synced.locator('.reader-block').nth(2).click();
+  const jumped=await synced.evaluate(()=>({time:state.audio.currentTime,index:state.index}));
+  assert.equal(jumped.index,2);
+  assert.ok(Math.abs(jumped.time-4)<0.05,'tapping a paragraph seeks the audio to it: '+jumped.time);
+  assert.deepEqual(syncedErrors,[]);
+  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 업로드 후 AI 자동 준비 · 다음 책 이어 듣기 · 오디오 문단 동기화 · 메뉴에서 고른 AI 목소리로 실시간 낭독 · 기기 음성 선택·대체 PASS');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
