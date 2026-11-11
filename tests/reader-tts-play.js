@@ -50,6 +50,26 @@ const server=http.createServer(async(req,res)=>{
   const cleared=await page.evaluate(()=>{const h=window.CSS?.highlights?.get('yb-speaking');return h?h.size:0});
   assert.equal(cleared,0,'highlight is cleared when reading stops');
   assert.deepEqual(errors,[]);
-  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 PASS');
+  assert.equal(await page.locator('#streamServerUrl').count(),0,'stream-server settings are removed from the menu');
+
+  // Uploading a ZIP (here via the 추천 글 shelf) asks once for the on-device model, then prepares AI audio by itself.
+  const shelf=await browser.newPage({viewport:{width:1100,height:820}});
+  const shelfErrors=[],shelfDialogs=[];
+  shelf.on('pageerror',e=>shelfErrors.push(e.message));
+  shelf.on('dialog',d=>{shelfDialogs.push(d.type());d.accept()});
+  await shelf.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
+  await shelf.waitForFunction(()=>state.db&&document.querySelector('#bookCount'));
+  await shelf.evaluate(()=>{window.__aiCalls=0;window.aiModule=async()=>({generateAIBackgroundAudio:async(book,{voiceId,onProgress})=>{window.__aiCalls++;onProgress?.({stage:'synthesizing',done:1,total:1});const bytes=new Uint8Array(1600);bytes[0]=0xff;bytes[1]=0xfb;return {blob:new Blob([bytes],{type:'audio/mpeg'}),voiceId}}})});
+  await shelf.locator('#libraryBtn').click();
+  await shelf.locator('#libraryList button').first().click();
+  await shelf.waitForFunction(()=>state.books.length>=37,null,{timeout:60000});
+  await shelf.waitForFunction(()=>state.settings.aiConsent===true&&window.__aiCalls>0,null,{timeout:30000});
+  const shelfState=await shelf.evaluate(()=>({titles:state.books.map(b=>b.title),queued:state.localAiQueue.length}));
+  assert.equal(shelfDialogs.filter(t=>t==='confirm').length,1,'model download is confirmed exactly once');
+  assert.ok(shelfState.titles.some(t=>t.startsWith('49강')),'first lecture imported');
+  assert.ok(shelfState.titles.some(t=>t.startsWith('82강')),'last lecture imported');
+  assert.ok(shelfState.queued>=37,'every uploaded lecture is queued for AI audio');
+  assert.deepEqual(shelfErrors,[]);
+  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 업로드 후 AI 자동 준비 PASS');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
