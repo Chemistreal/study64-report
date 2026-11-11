@@ -1,5 +1,5 @@
 'use strict';
-/** Headless real-browser regression for chat ZIP paste and device-only AI job queue. */
+/** Headless real-browser regression for chat ZIP paste, clipboard button and the compact iPhone composer. */
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
 const http=require('node:http');
@@ -12,7 +12,7 @@ const server=http.createServer(async(req,res)=>{
  if(!filename.startsWith(path.join(root,'reader')+path.sep)){res.writeHead(404).end();return}
  try{const bytes=await fs.readFile(filename);res.setHeader('Content-Type',filename.endsWith('.html')?'text/html; charset=utf-8':filename.endsWith('.js')?'text/javascript':filename.endsWith('.webmanifest')?'application/manifest+json':'application/octet-stream');res.end(bytes)}catch(e){res.writeHead(404).end()}
 });
-// 채팅 입력창의 '더 보기(⋯)'를 열어 클립보드·AI 준비 버튼을 꺼낸다.
+// 채팅 입력창의 '더 보기(⋯)'를 열어 클립보드 버튼을 꺼낸다.
 const openComposerMore=async page=>{if(await page.locator('#composerMore').isHidden())await page.locator('#composerMoreBtn').click()};
 (async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -23,30 +23,7 @@ const openComposerMore=async page=>{if(await page.locator('#composerMore').isHid
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   page.on('dialog',dialog=>dialog.accept());
   await page.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
-  await page.waitForFunction(()=>state.db?.objectStoreNames?.contains('aiParts'));
-  const setup=await page.evaluate(()=>{
-   const old=window.aiModule;
-   window.__aiInvocations=0;
-   window.__aiInjected=true;
-   window.__failureBudget=1;
-   window.aiModule=async()=>({
-    generateAIBackgroundAudio:async(book,{voiceId,onProgress})=>{
-      window.__aiInvocations++;
-      if(window.__aiInvocations===2&&window.__failureBudget-->0)throw Error('Simulated interruption after checkpoint');
-      onProgress?.({stage:'synthesizing',done:1,total:1});
-      // MP3 payload surrogate: browser test verifies job bookkeeping, not audio quality.
-      const bytes=new Uint8Array(1600);bytes[0]=0xff;bytes[1]=0xfb;bytes[2]=0x90;bytes[3]=0x64;
-      return {blob:new Blob([bytes],{type:'audio/mpeg'}),voiceId}
-    }
-   });
-   return {replaced:window.aiModule!==old,queueAuto:state.settings.aiAuto}
-  });
-  assert.equal(setup.replaced,true);
-  assert.equal(setup.queueAuto,true);
-  // Explicitly grant first-use on-device model permission through the real UI.
-  await openComposerMore(page);await page.locator('#queueStartBtn').click();
-  await page.waitForFunction(()=>state.settings.aiConsent===true);
-
+  await page.waitForFunction(()=>!!state.db);
   const test=await page.evaluate(async()=>{
    const JSZip=await zipLib(),zip=new JSZip();
    zip.file('01-first.txt',('문장 자동 생성 테스트를 반복합니다. '.repeat(1100)));
@@ -60,40 +37,11 @@ const openComposerMore=async page=>{if(await page.locator('#composerMore').isHid
   });
   assert.equal(test.prevented,true,'ZIP paste must be captured even when the title input is focused');
   await page.waitForFunction(()=>state.books.length===2,null,{timeout:30000});
-  // ZIP entries commit one by one; model consent is requested only after importFiles finishes.
-  // Synthetic paste may not grant user activation for confirm() in all Chromium versions.
-  if(!await page.evaluate(()=>state.settings.aiConsent)){await openComposerMore(page);await page.locator('#queueStartBtn').click()}
-  await page.waitForFunction(()=>state.settings.aiConsent===true,null,{timeout:15000});
-  const first=await page.evaluate(()=>({
-    count:state.books.length,queue:state.localAiQueue.map(j=>({title:j.title,status:j.status})),consent:state.settings.aiConsent,
-    names:state.books.map(b=>b.title)
-  }));
+  const first=await page.evaluate(async()=>({count:state.books.length,names:state.books.map(b=>b.title),audio:(await storeReq('audio','readonly',s=>s.count())),aiQueue:typeof state.localAiQueue}));
   assert.equal(first.count,2);
-  assert.equal(first.consent,true,'first-use permission must be sought');
-  assert.equal(first.queue.length,2);
   assert.ok(first.names.includes('01-first'));
-
-  await page.waitForFunction(()=>state.localAiQueue.some(j=>j.status==='failed'),null,{timeout:30000});
-  const failed=await page.evaluate(async()=>{
-   const tx=state.db.transaction('aiParts','readonly');
-   const results=await new Promise(resolve=>{const req=tx.objectStore('aiParts').getAll();req.onsuccess=()=>resolve(req.result)});
-   return {chunks:results.map(x=>x.id),calls:window.__aiInvocations}
-  });
-  assert.ok(failed.chunks.length>=1,'completed chunks must survive a failed batch');
-  assert.ok(failed.calls>=2);
-  await openComposerMore(page);await page.locator('#queueStartBtn').click();
-  await page.waitForFunction(()=>state.localAiQueue.every(j=>j.status==='ready'),null,{timeout:30000});
-  const completed=await page.evaluate(async()=>{
-   const tx=state.db.transaction(['audio','aiParts'],'readonly');
-   const all=store=>new Promise(resolve=>{const r=tx.objectStore(store).getAll();r.onsuccess=()=>resolve(r.result)});
-   const audio=await all('audio'),parts=await all('aiParts');
-   return {audio:audio.map(x=>({id:x.id,size:x.blob.size,voice:x.aiVoice})),partialCount:parts.length,calls:window.__aiInvocations};
-  });
-  assert.equal(completed.audio.length,2);
-  assert.equal(completed.partialCount,0,'temporary checkpoints must be cleared after success');
-  assert.ok(completed.calls>=3);
-  await page.reload({waitUntil:'domcontentloaded'});
-  await page.waitForFunction(()=>state.localAiQueue.length===2&&state.localAiQueue.every(j=>j.status==='ready'));
+  assert.equal(first.audio,0,'text-only ZIP adds no audio');
+  assert.equal(first.aiQueue,'undefined','no on-device AI queue any more');
   // iPhone screenshot regression: text was pasted into the bottom title input,
   // which previously caused Safari to auto-zoom and left the body empty.
   const plainPaste=await page.evaluate(()=>{
@@ -145,6 +93,6 @@ const openComposerMore=async page=>{if(await page.locator('#composerMore').isHid
   await mobile.close();
 
   assert.equal(errors.length,0,'browser page exceptions: '+errors.join(', '));
-  console.log('PASS: iPhone-sized title/text paste, ZIP paste from title, explicit clipboard button, AI queue and resume');
+  console.log('PASS: iPhone-sized title/text paste, ZIP paste from title, explicit clipboard button, compact composer, file picker');
  }finally{await browser?.close();await new Promise(resolve=>server.close(resolve))}
 })().catch(e=>{console.error(e);process.exitCode=1});

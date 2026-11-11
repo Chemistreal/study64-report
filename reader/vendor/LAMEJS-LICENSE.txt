@@ -1,9 +1,0 @@
-lame.min.js — lamejs 1.2.1 (https://github.com/zhuker/lamejs), unmodified copy of
-https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js
-
-lamejs is a JavaScript port of LAME and is distributed under the
-GNU Lesser General Public License v3.0 (LGPL-3.0).
-Full license text: https://www.gnu.org/licenses/lgpl-3.0.txt
-Source code: https://github.com/zhuker/lamejs (tag 1.2.1)
-
-여백은 이 파일을 수정하지 않고 그대로 배포합니다. 다른 lamejs 파일로 바꿔 쓰려면 이 파일을 교체하면 됩니다.

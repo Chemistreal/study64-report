@@ -36,7 +36,17 @@ const root=path.resolve(__dirname,'..');
   page.on('dialog',d=>d.accept());
   await page.goto(origin,{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>typeof state!=='undefined'&&state.db);
-  await page.evaluate(async()=>{state.settings.aiAuto=false;await saveSettings()});
+  // 0) 기기 안 AI 목소리는 뺐다: 예전에 받아 둔 AI 모델 보관함·AI 설정·만들다 만 조각이 있으면 다시 열 때 지우고, AI 설정 칸도 없다.
+  await page.evaluate(async()=>{
+   const cache=await caches.open('yeobaek-ai-model-v1');await cache.put('/model.onnx',new Response('x'.repeat(1000)));
+   state.settings.aiAuto=true;state.settings.aiVoice='M1';state.settings.aiConsent=true;await saveSettings();
+   await storeReq('aiParts','readwrite',st=>st.put({id:'old|F1|0',bookId:'old'}));
+  });
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.waitForFunction(()=>typeof state!=='undefined'&&state.db);
+  await page.waitForFunction(async()=>!(await caches.has('yeobaek-ai-model-v1')),null,{timeout:5000});
+  const cleaned=await page.evaluate(async()=>{const saved=(await storeReq('meta','readonly',st=>st.get('settings')))?.value||{};return {keys:Object.keys(saved).filter(k=>/^ai|keepScreenOn/.test(k)),parts:(await storeReq('aiParts','readonly',st=>st.count())),aiControls:document.querySelectorAll('#aiLiveToggle,#aiVoiceSelect,#aiConvertBtn,#queueStartBtn,#composerAiChip,.ai-export-btn').length,libraryBtn:!!document.querySelector('#settingsLibraryBtn'),files:typeof aiModule+typeof startLiveAi}});
+  assert.deepEqual(cleaned,{keys:[],parts:0,aiControls:0,libraryBtn:true,files:'undefinedundefined'},'device AI leftovers are cleaned up');
   // 1) 추천 글: AI 오디오 책과 사이트 안 추천 글이 함께 보인다
   await page.evaluate(()=>openLibraryShelf());
   const row=page.locator('#libraryList .trash-item',{hasText:'오디오 시험 책'});
@@ -57,10 +67,9 @@ const root=path.resolve(__dirname,'..');
   assert.equal(await page.evaluate(()=>state.books.filter(b=>b.title==='오디오 시험 책').length),1);
   // 4) 책을 열고 목차 등으로 셋째 문단에 간 뒤 읽어주기를 누르면 그 문단부터 오디오가 나온다.
   //    같은 문단 안에서 멈췄다 다시 누르면 처음으로 돌아가지 않고 듣던 자리에서 이어진다. 재생 중에는 소리를 따라 문단 표시가 움직인다.
-  const follow=await page.evaluate(async()=>{
-   await loadScript('./vendor/lame.min.js');
-   const rate=16000,secs=8,pcm=new Int16Array(rate*secs);for(let i=0;i<pcm.length;i++)pcm[i]=Math.round(9000*Math.sin(i*2*Math.PI*330/rate));
-   const enc=new lamejs.Mp3Encoder(1,rate,16),out=[];for(let i=0;i<pcm.length;i+=1152){const b=enc.encodeBuffer(pcm.subarray(i,i+1152));if(b.length)out.push(new Uint8Array(b))}out.push(new Uint8Array(enc.flush()));
+  const tone=(await fs.readFile(path.join(__dirname,'fixtures','tone-8s.mp3'))).toString('base64');   // 8초 330Hz, 16kHz·16kbps(ffmpeg)
+  const follow=await page.evaluate(async tone=>{
+   const out=[Uint8Array.from(atob(tone),c=>c.charCodeAt(0))];
    const b=state.books.find(x=>x.title==='오디오 시험 책');
    await storeReq('audio','readwrite',st=>st.put({id:b.id,blob:new Blob(out,{type:'audio/mpeg'}),name:'시험.mp3',aiVoice:'Hyunsu',generatedAt:Date.now(),timeline:[[0,0],[1,2],[2,4],[3,6]],timelineDuration:8}));
    state.settings.rate=1;openBook(b.id);
@@ -72,7 +81,7 @@ const root=path.resolve(__dirname,'..');
    for(let i=0;i<40&&state.index<3;i++)await new Promise(r=>setTimeout(r,100)); // 6초 지나면 넷째 문단으로
    const followed=state.index;stopSpeech();
    return {jumped,paused,resumed,followed,duration:a.duration};
-  });
+  },tone);
   assert.ok(Math.abs(follow.jumped-4*follow.duration/8)<.35,'play starts at the paragraph being read: '+JSON.stringify(follow));
   assert.ok(follow.paused>follow.jumped&&Math.abs(follow.resumed-follow.paused)<.2,'same paragraph resumes where it paused: '+JSON.stringify(follow));
   assert.equal(follow.followed,3,'the highlighted paragraph follows the audio');
@@ -83,6 +92,6 @@ const root=path.resolve(__dirname,'..');
   await page.locator('#libraryList button',{hasText:'서재에 담기'}).first().waitFor();
   assert.equal(await page.locator('#libraryList .trash-item',{hasText:'오디오 시험 책'}).count(),0);
   assert.deepEqual(errors,[]);
-  console.log('여백 추천 글 AI 오디오 책: 목록 · 조각 받아 잇기 · 시간표 · 중복 없음 · 읽는 문단부터 재생·이어 듣기·문단 따라가기 · 저장소 없을 때 PASS');
+  console.log('여백 추천 글 AI 오디오 책: 기기 AI 흔적 정리 · 목록 · 조각 받아 잇기 · 시간표 · 중복 없음 · 읽는 문단부터 재생·이어 듣기·문단 따라가기 · 저장소 없을 때 PASS');
  }finally{await browser?.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
