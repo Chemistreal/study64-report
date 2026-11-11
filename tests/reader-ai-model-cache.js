@@ -112,6 +112,28 @@ let failAfterParts=Infinity;const ranges=[];
   await second.page.click('#aiModelClearBtn');
   await second.page.waitForFunction(()=>/아직 기기에 없습니다/.test(document.querySelector('#aiModelStatus').textContent));
   assert.equal(await second.page.evaluate(()=>caches.has('yeobaek-ai-model-v1')),false,'지우면 저장소가 사라진다');
+  // GPU(WebGPU)가 있으면 GPU로 엔진을 만들고, GPU로 만들다 실패하면 CPU(wasm)로 바꾼다.
+  for(const gpuFails of [false,true]){
+   const ctx=await browser.newContext({serviceWorkers:'block'});
+   await ctx.route('https://huggingface.co/**',route=>{const url=route.request().url(),name=url.split('/').pop().replace('.onnx','');const headers={'access-control-allow-origin':'*','access-control-expose-headers':'*'};
+    if(SIZES[name])return route.fulfill({status:200,headers:{...headers,'content-type':'application/octet-stream'},body:FILES[name]});
+    if(url.endsWith('tts.json'))return route.fulfill({status:200,headers,contentType:'application/json',body:JSON.stringify({ae:{sample_rate:44100}})});
+    if(url.endsWith('unicode_indexer.json'))return route.fulfill({status:200,headers,contentType:'application/json',body:'[]'});
+    return route.fulfill({status:404,headers,body:''})});
+   await ctx.addInitScript(fails=>{
+    window.__eps=[];
+    Object.defineProperty(navigator,'gpu',{configurable:true,value:{requestAdapter:async()=>({name:'test-gpu'})}});
+    window.ort={env:{wasm:{},webgpu:{}},Tensor:class{},InferenceSession:{create:async(src,opts)=>{window.__eps.push(opts.executionProviders.join('+'));if(fails&&opts.executionProviders.includes('webgpu'))throw Error('webgpu not supported');return {}}}};
+    window.lamejs={Mp3Encoder:class{}};
+   },gpuFails);
+   const page=await ctx.newPage();page.on('pageerror',e=>errors.push(e.message));
+   await page.goto(origin+'/',{waitUntil:'domcontentloaded'});
+   await page.waitForFunction(()=>typeof state!=='undefined'&&state.db);
+   const r=await page.evaluate(async()=>{const mod=await import('./ai-auto.js');await mod.loadLocalAI();return {device:mod.aiDevice(),eps:window.__eps}});
+   if(!gpuFails){assert.equal(r.device,'gpu');assert.deepEqual(r.eps,['webgpu+wasm','webgpu+wasm','webgpu+wasm','webgpu+wasm'],'all four parts load on the GPU')}
+   else{assert.equal(r.device,'cpu','falls back to the CPU when the GPU cannot load the model');assert.equal(r.eps[0],'webgpu+wasm');assert.deepEqual(r.eps.slice(1),['wasm','wasm','wasm','wasm'])}
+   await ctx.close();
+  }
   assert.deepEqual(errors,[]);
   console.log('AI 모델 영구 보관 검사 통과');
  }finally{if(browser)await browser.close();server.close()}
