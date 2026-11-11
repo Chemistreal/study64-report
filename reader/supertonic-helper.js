@@ -8,6 +8,17 @@ let ort;
 export function configureOrt(ortModule) {
     ort = ortModule;
 }
+// Optional loader (url -> Promise<Response>) so the web app can keep model files
+// in persistent storage instead of re-downloading them every session.
+let modelFetch = null;
+export function configureModelFetch(fn) {
+    modelFetch = typeof fn === 'function' ? fn : null;
+}
+async function fetchModelFile(url) {
+    const response = await (modelFetch ? modelFetch(url) : fetch(url));
+    if (!response.ok) throw new Error(`모델 파일을 받지 못했습니다 (${response.status})`);
+    return response;
+}
 
 // Available languages for multilingual TTS
 export const AVAILABLE_LANGS = ['en', 'ko', 'ja', 'ar', 'bg', 'cs', 'da', 'de', 'el', 'es', 'et', 'fi', 'fr', 'hi', 'hr', 'hu', 'id', 'it', 'lt', 'lv', 'nl', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sv', 'tr', 'uk', 'vi', 'na'];
@@ -370,7 +381,7 @@ export async function loadVoiceStyle(voiceStylePaths, verbose = false) {
     const bsz = voiceStylePaths.length;
     
     // Read first file to get dimensions
-    const firstResponse = await fetch(voiceStylePaths[0]);
+    const firstResponse = await fetchModelFile(voiceStylePaths[0]);
     const firstStyle = await firstResponse.json();
     
     const ttlDims = firstStyle.style_ttl.dims;
@@ -389,7 +400,7 @@ export async function loadVoiceStyle(voiceStylePaths, verbose = false) {
     
     // Fill in the data
     for (let i = 0; i < bsz; i++) {
-        const response = await fetch(voiceStylePaths[i]);
+        const response = await fetchModelFile(voiceStylePaths[i]);
         const voiceStyle = await response.json();
         
         // Flatten TTL data
@@ -420,7 +431,7 @@ export async function loadVoiceStyle(voiceStylePaths, verbose = false) {
  * Load configuration from JSON
  */
 export async function loadCfgs(onnxDir) {
-    const response = await fetch(`${onnxDir}/tts.json`);
+    const response = await fetchModelFile(`${onnxDir}/tts.json`);
     const cfgs = await response.json();
     return cfgs;
 }
@@ -429,7 +440,7 @@ export async function loadCfgs(onnxDir) {
  * Load text processor
  */
 export async function loadTextProcessor(onnxDir) {
-    const response = await fetch(`${onnxDir}/unicode_indexer.json`);
+    const response = await fetchModelFile(`${onnxDir}/unicode_indexer.json`);
     const indexer = await response.json();
     return new UnicodeProcessor(indexer);
 }
@@ -438,7 +449,12 @@ export async function loadTextProcessor(onnxDir) {
  * Load ONNX model
  */
 export async function loadOnnx(onnxPath, options) {
-    const session = await ort.InferenceSession.create(onnxPath, options);
+    let source = onnxPath;
+    if (modelFetch && typeof onnxPath === 'string') {
+        const response = await fetchModelFile(onnxPath);
+        source = new Uint8Array(await response.arrayBuffer());
+    }
+    const session = await ort.InferenceSession.create(source, options);
     return session;
 }
 
