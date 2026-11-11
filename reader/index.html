@@ -528,9 +528,18 @@ async function cleanupAiParts(bookId,voiceId,batches){
   tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||Error('부분 파일 삭제 취소'))
  })
 }
+// 지금 열어 둔 책을 먼저, 그다음은 이어 듣기와 같은 순서(제목 자연 순서: 49강→50강…)로 준비한다.
+function nextQueuedAiJob(){
+ const queued=state.localAiQueue.filter(j=>j.status==='queued');if(!queued.length)return null;
+ const current=state.book&&queued.find(j=>j.bookId===state.book.id);if(current)return current;
+ const title=id=>state.books.find(b=>b.id===id)?.title||'';
+ const after=state.book?.title||'';
+ const ordered=[...queued].sort((a,b)=>title(a.bookId).localeCompare(title(b.bookId),'ko',{numeric:true}));
+ return (after&&ordered.find(j=>title(j.bookId).localeCompare(after,'ko',{numeric:true})>0))||ordered[0]
+}
 async function runLocalAiQueue(){
  if(state.localAiRunning||state.live||!state.settings.aiConsent||!state.settings.aiAuto||document.hidden||state.localAiPauseRequested)return;
- const job=state.localAiQueue.find(j=>j.status==='queued');if(!job)return;
+ const job=nextQueuedAiJob();if(!job)return;
  const book=state.books.find(b=>b.id===job.bookId);
  if(!book){state.localAiQueue=state.localAiQueue.filter(j=>j!==job);await persistLocalAiQueue();scheduleLocalAiQueue();return}
  state.localAiRunning=true;state.localAiController=new AbortController();const signal=state.localAiController.signal;

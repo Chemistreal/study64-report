@@ -172,6 +172,12 @@ const server=http.createServer(async(req,res)=>{
   await series.waitForTimeout(300);
   assert.equal(await series.evaluate(()=>state.book.title),'1강 처음','sleep-after-book stops at the end of this book');
   assert.equal(await series.locator('#sleepTimerSelect').inputValue(),'0','the timer resets after stopping');
+  // AI 미리 만들기는 지금 책, 그다음 강의 순서로 고른다.
+  const pick=await series.evaluate(()=>{const saved=state.localAiQueue;const id=t=>state.books.find(b=>b.title===t).id;
+   state.localAiQueue=['10강 끝','2강 가운데','1강 처음'].map(t=>({bookId:id(t),title:t,status:'queued'}));
+   const order=[];for(let i=0;i<3;i++){const j=nextQueuedAiJob();order.push(j.title);j.status='ready'}
+   state.localAiQueue=saved;return order});
+  assert.deepEqual(pick,['1강 처음','2강 가운데','10강 끝'],'AI preparation follows the listening order');
   assert.deepEqual(seriesErrors,[]);
 
   // 미리 만든 AI 오디오는 재생 위치에 맞춰 읽는 문단을 따라가고, 문단을 누르면 그 문단의 소리로 이동한다.
