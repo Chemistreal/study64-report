@@ -88,7 +88,7 @@ const server=http.createServer(async(req,res)=>{
    state.settings.aiConsent=true;await saveSettings();
    window.__synth=[];window.__played=[];window.__voices=[];
    const wav=seconds=>{const rate=8000,n=Math.round(rate*seconds),b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);return new Blob([b],{type:'audio/wav'})};
-   window.aiModule=async()=>({synthesizeSpeech:async(text,opts)=>{window.__synth.push(text);window.__voices.push(opts?.voiceId);await new Promise(r=>setTimeout(r,40));return {blob:wav(.12),duration:.12}}});
+   window.aiModule=async()=>({synthesizeSpeech:async(text,opts)=>{window.__synth.push(text);window.__voices.push(opts?.voiceId);(window.__steps=window.__steps||[]).push(opts?.steps);await new Promise(r=>setTimeout(r,40));return {blob:wav(.12),duration:.12}}});
   });
   await live.locator('#composerText').fill('# 실시간\n\n첫째 문장입니다. 둘째 문장입니다.\n\n셋째 문단입니다.');
   await live.locator('#composerSave').click();
@@ -104,6 +104,7 @@ const server=http.createServer(async(req,res)=>{
   await live.waitForFunction(()=>state.book.completed===true&&!state.playing,null,{timeout:20000});
   const liveResult=await live.evaluate(()=>({synth:window.__synth,played:window.__played,spoken:window.__spoken,voices:window.__voices}));
   assert.ok(liveResult.voices.length&&liveResult.voices.every(v=>v==='M1'),'live narration uses the AI voice chosen in the menu');
+  assert.ok((await live.evaluate(()=>window.__steps)).every(n=>n===8),'normal AI quality uses 8 refinement steps');
   assert.deepEqual(liveDialogs,[],'live AI reading asks nothing');
   const labels=await live.evaluate(()=>({seen:window.__labels,now:$('#playerLabel').textContent}));
   assert.ok(labels.seen.some(t=>/^AI 낭독 · (\d+초 앞서 준비|마지막 문장)/.test(t)),'player shows how far ahead the AI voice is: '+labels.seen.join(' | '));

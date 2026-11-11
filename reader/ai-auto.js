@@ -47,6 +47,8 @@ let modelPromise=null;
 const voiceStyles=new Map();
 const VOICES=Object.freeze([{id:'F1',label:'미나 · 여성'},{id:'F2',label:'소라 · 여성'},{id:'F3',label:'유나 · 여성'},{id:'M1',label:'에이든 · 남성'},{id:'M2',label:'히로 · 남성'},{id:'M3',label:'레오 · 남성'}]);
 export const aiVoices=VOICES;
+// 소리를 다듬는 단계 수: 적을수록 빨리 만들고, 많을수록 곱다(기본 8).
+function cleanSteps(steps){const n=Math.round(Number(steps));return Number.isFinite(n)?Math.min(16,Math.max(3,n)):8}
 function checkAbort(signal){if(signal?.aborted)throw new DOMException('음성 만들기가 취소되었습니다.','AbortError')}
 export async function loadLocalAI(report=()=>{}){
  if(modelPromise)return modelPromise;
@@ -79,7 +81,7 @@ function partsForBook(book){
  });
  return parts;
 }
-export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()=>{},signal,maxCharacters=150000}={}){
+export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()=>{},signal,maxCharacters=150000,steps=8}={}){
  if(!book?.blocks?.length)throw Error('읽을 문서가 없습니다.');
  const totalCharacters=book.blocks.reduce((n,b)=>n+String(b.text||'').length,0);
  if(totalCharacters>maxCharacters)throw Error('이 책은 '+totalCharacters.toLocaleString()+'자로, 현재 기기 내 AI 자동 변환 한도('+maxCharacters.toLocaleString()+'자)를 초과합니다. 문서를 나누어 변환해 주세요.');
@@ -97,7 +99,7 @@ export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()
    onProgress({stage:'synthesizing',message:'문장별로 AI 낭독 오디오 생성 중',done:i,total:segments.length});
    // 문단이 바뀌는 지점의 시각을 적어 둔다(재생 중 문단 따라가기·문단을 눌러 그 위치로 이동).
    if(!marks.length||marks[marks.length-1][0]!==segments[i].block)marks.push([segments[i].block,Math.round(samples/sampleRate*1000)/1000]);
-   const result=await engine.call(segments[i].text,'ko',style,8,1.0,.2);
+   const result=await engine.call(segments[i].text,'ko',style,cleanSteps(steps),1.0,.2);
    checkAbort(signal);
    const pcm=new Int16Array(result.wav.length);
    for(let j=0;j<pcm.length;j++){pcm[j]=Math.max(-32768,Math.min(32767,Math.round(result.wav[j]*32767)))}
@@ -115,13 +117,13 @@ export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()
 export async function warmUp(voiceId='F1',onProgress=()=>{}){await loadLocalAI(message=>onProgress({stage:'loading',message}));await voiceFor(voiceId);return true}
 // Live narration: synthesize one short passage and hand back a playable WAV right away,
 // so reading can start without preparing the whole book first.
-export async function synthesizeSpeech(text,{voiceId='F1',signal,onProgress=()=>{}}={}){
+export async function synthesizeSpeech(text,{voiceId='F1',signal,onProgress=()=>{},steps=8}={}){
  const clean=String(text||'').replace(/\s+/g,' ').trim();if(!clean)return null;
  checkAbort(signal);
  const engine=await loadLocalAI(message=>onProgress({stage:'loading',message}));
  checkAbort(signal);
  const style=await voiceFor(voiceId);checkAbort(signal);
- const result=await engine.call(clean,'ko',style,8,1.0,.2);
+ const result=await engine.call(clean,'ko',style,cleanSteps(steps),1.0,.2);
  checkAbort(signal);
  const blob=new Blob([writeWavFile(result.wav,engine.sampleRate)],{type:'audio/wav'});
  return {blob,duration:result.wav.length/engine.sampleRate};
