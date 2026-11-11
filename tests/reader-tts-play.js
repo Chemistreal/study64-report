@@ -93,7 +93,7 @@ const server=http.createServer(async(req,res)=>{
   await live.locator('#composerText').fill('# 실시간\n\n첫째 문장입니다. 둘째 문장입니다.\n\n셋째 문단입니다.');
   await live.locator('#composerSave').click();
   await live.locator('#readerTitle').getByText('실시간').waitFor();
-  await live.evaluate(()=>{const a=liveAudio();a.addEventListener('playing',()=>{if(!a.loop)window.__played.push(CSS.highlights.get('yb-speaking')?[...CSS.highlights.get('yb-speaking')][0]?.toString()||'':'')})});
+  await live.evaluate(()=>{window.__labels=[];const a=liveAudio();a.addEventListener('playing',()=>{window.__labels.push($('#playerLabel').textContent);if(!a.loop)window.__played.push(CSS.highlights.get('yb-speaking')?[...CSS.highlights.get('yb-speaking')][0]?.toString()||'':'')})});
   // 목소리 메뉴 맨 위의 AI 목소리를 고르면 실시간 낭독이 그 목소리로 나온다.
   await live.evaluate(()=>loadVoices());
   const pickVoice=async value=>{await live.locator('#voiceShortcut').click();await live.locator('#voiceSelect').selectOption(value);await live.waitForTimeout(100);await live.locator('#settingsDrawer .close-layer').click()};
@@ -105,6 +105,9 @@ const server=http.createServer(async(req,res)=>{
   const liveResult=await live.evaluate(()=>({synth:window.__synth,played:window.__played,spoken:window.__spoken,voices:window.__voices}));
   assert.ok(liveResult.voices.length&&liveResult.voices.every(v=>v==='M1'),'live narration uses the AI voice chosen in the menu');
   assert.deepEqual(liveDialogs,[],'live AI reading asks nothing');
+  const labels=await live.evaluate(()=>({seen:window.__labels,now:$('#playerLabel').textContent}));
+  assert.ok(labels.seen.some(t=>/^AI 낭독 · (\d+초 앞서 준비|마지막 문장)/.test(t)),'player shows how far ahead the AI voice is: '+labels.seen.join(' | '));
+  assert.equal(labels.now,'LISTENING MODE','label returns when reading stops');
   assert.deepEqual(liveResult.spoken,[],'device speech is not used while AI live reading works');
   assert.deepEqual(liveResult.synth,['실시간','첫째 문장입니다. 둘째 문장입니다.','셋째 문단입니다.'],'AI synthesizes each passage in order');
   assert.deepEqual(liveResult.played.map(t=>t.replace(/\s+/g,' ').trim()),liveResult.synth,'each AI passage plays with its sentence highlighted');
