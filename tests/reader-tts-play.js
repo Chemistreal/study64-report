@@ -69,6 +69,11 @@ const server=http.createServer(async(req,res)=>{
   assert.ok(shelfState.titles.some(t=>t.startsWith('49강')),'first lecture imported');
   assert.ok(shelfState.titles.some(t=>t.startsWith('82강')),'last lecture imported');
   assert.ok(shelfState.queued>=37,'every uploaded lecture is queued for AI audio');
+  // 서재 카드마다 AI 음성 준비 상태가 보인다(대기 → 만드는 중 → 준비됨).
+  await shelf.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-audio')].some(el=>!el.hidden&&/오디오 준비됨/.test(el.textContent)),null,{timeout:30000});
+  const badges=await shelf.evaluate(()=>[...document.querySelectorAll('#bookGrid .book-audio')].filter(el=>!el.hidden).map(el=>el.textContent));
+  assert.ok(badges.length>=37,'every lecture card shows its AI audio state: '+badges.length);
+  assert.ok(badges.some(t=>/대기|만드는 중/.test(t)),'cards still waiting say so: '+badges.slice(0,5).join(','));
   assert.deepEqual(shelfErrors,[]);
 
   // 실시간 AI 낭독: 미리 만들지 않아도 재생하면 AI 목소리로 지금 문장부터 이어 읽는다(모델은 짧은 무음 WAV를 돌려주는 가짜).
