@@ -12,6 +12,8 @@ const server=http.createServer(async(req,res)=>{
  if(!filename.startsWith(path.join(root,'reader')+path.sep)){res.writeHead(404).end();return}
  try{const bytes=await fs.readFile(filename);res.setHeader('Content-Type',filename.endsWith('.html')?'text/html; charset=utf-8':filename.endsWith('.js')?'text/javascript':filename.endsWith('.webmanifest')?'application/manifest+json':'application/octet-stream');res.end(bytes)}catch(e){res.writeHead(404).end()}
 });
+// 채팅 입력창의 '더 보기(⋯)'를 열어 클립보드·AI 준비 버튼을 꺼낸다.
+const openComposerMore=async page=>{if(await page.locator('#composerMore').isHidden())await page.locator('#composerMoreBtn').click()};
 (async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  let browser;
@@ -42,7 +44,7 @@ const server=http.createServer(async(req,res)=>{
   assert.equal(setup.replaced,true);
   assert.equal(setup.queueAuto,true);
   // Explicitly grant first-use on-device model permission through the real UI.
-  await page.locator('#queueStartBtn').click();
+  await openComposerMore(page);await page.locator('#queueStartBtn').click();
   await page.waitForFunction(()=>state.settings.aiConsent===true);
 
   const test=await page.evaluate(async()=>{
@@ -60,7 +62,7 @@ const server=http.createServer(async(req,res)=>{
   await page.waitForFunction(()=>state.books.length===2,null,{timeout:30000});
   // ZIP entries commit one by one; model consent is requested only after importFiles finishes.
   // Synthetic paste may not grant user activation for confirm() in all Chromium versions.
-  if(!await page.evaluate(()=>state.settings.aiConsent))await page.locator('#queueStartBtn').click();
+  if(!await page.evaluate(()=>state.settings.aiConsent)){await openComposerMore(page);await page.locator('#queueStartBtn').click()}
   await page.waitForFunction(()=>state.settings.aiConsent===true,null,{timeout:15000});
   const first=await page.evaluate(()=>({
     count:state.books.length,queue:state.localAiQueue.map(j=>({title:j.title,status:j.status})),consent:state.settings.aiConsent,
@@ -79,7 +81,7 @@ const server=http.createServer(async(req,res)=>{
   });
   assert.ok(failed.chunks.length>=1,'completed chunks must survive a failed batch');
   assert.ok(failed.calls>=2);
-  await page.locator('#queueStartBtn').click();
+  await openComposerMore(page);await page.locator('#queueStartBtn').click();
   await page.waitForFunction(()=>state.localAiQueue.every(j=>j.status==='ready'),null,{timeout:30000});
   const completed=await page.evaluate(async()=>{
    const tx=state.db.transaction(['audio','aiParts'],'readonly');
@@ -113,7 +115,7 @@ const server=http.createServer(async(req,res)=>{
       read:async()=>{throw new DOMException('iOS denies binary clipboard','NotAllowedError')},readText:async()=>('# 클립보드 버튼 제목\n\n버튼으로 붙여넣었습니다.')
     }});
   });
-  await page.locator('#composerPasteBtn').click();
+  await openComposerMore(page);await page.locator('#composerPasteBtn').click();
   await page.waitForFunction(()=>document.querySelector('#composerText').value.includes('버튼으로 붙여넣었습니다.'));
   assert.equal(await page.locator('#composerTitle').inputValue(),'클립보드 버튼 제목');
 
@@ -127,6 +129,9 @@ const server=http.createServer(async(req,res)=>{
     return {titleFont:parseFloat(getComputedStyle(title).fontSize),inputFont:parseFloat(getComputedStyle(input).fontSize),windowWidth:innerWidth,pageWidth:document.documentElement.scrollWidth,
       titleRight:a.right,inputRight:b.right,buttonRight:buttons.right,buttonVisible:buttons.width>0}
   });
+  // 채팅 입력창처럼: 비어 있을 때는 한 줄(+ · 입력칸 · ⋯ · 보내기)만 보이고, 더 보기는 접혀 있다.
+  const dock=await mobilePage.evaluate(()=>({h:Math.round(document.querySelector('#composerBox').getBoundingClientRect().height),more:document.querySelector('#composerMore').hidden}));
+  assert.ok(dock.h<=72&&dock.more,'empty composer stays one compact line on iPhone: '+JSON.stringify(dock));
   assert.ok(sizes.titleFont>=16,'iOS title font must prevent auto-zoom: '+JSON.stringify(sizes));
   assert.ok(sizes.inputFont>=16,'iOS input font must prevent auto-zoom');
   assert.ok(sizes.titleRight<=sizes.windowWidth+2&&sizes.inputRight<=sizes.windowWidth+2,'mobile composer input must fit viewport: '+JSON.stringify(sizes));
