@@ -5,8 +5,44 @@
  * No credentials or cloud TTS endpoint are required; models are downloaded to the browser.
  * Large model (~380 MB): mobile performance varies. Audio generation must finish in foreground.
  */
-import {configureOrt,loadTextToSpeech,loadVoiceStyle,writeWavFile} from './supertonic-helper.js';
+import {configureOrt,configureModelFetch,loadTextToSpeech,loadVoiceStyle,writeWavFile} from './supertonic-helper.js';
 const BASE='https://huggingface.co/Supertone/supertonic-3/resolve/main';
+// Model files are kept in Cache Storage so the ~400MB download happens only once per device.
+export const MODEL_CACHE='yeobaek-ai-model-v1';
+const MODEL_FILES=['duration_predictor','text_encoder','vector_estimator','vocoder'].map(n=>BASE+'/onnx/'+n+'.onnx');
+let downloadReport=null;
+async function openModelCache(){try{return typeof caches!=='undefined'?await caches.open(MODEL_CACHE):null}catch(e){return null}}
+async function readWithProgress(response,name){
+ const total=Number(response.headers.get('content-length'))||0;
+ if(!response.body?.getReader||!total)return new Uint8Array(await response.arrayBuffer());
+ let bytes=new Uint8Array(total),got=0,last=0;const reader=response.body.getReader();
+ for(;;){const {done,value}=await reader.read();if(done)break;
+   if(got+value.length>bytes.length){const grown=new Uint8Array(Math.max(bytes.length*2,got+value.length));grown.set(bytes.subarray(0,got));bytes=grown}
+   bytes.set(value,got);got+=value.length;
+   const now=Date.now();if(now-last>350){last=now;downloadReport?.(name,got,total)}}
+ downloadReport?.(name,got,total);
+ return got===bytes.length?bytes:bytes.slice(0,got);
+}
+function bytesResponse(bytes){return {ok:true,status:200,arrayBuffer:async()=>bytes.buffer.byteLength===bytes.byteLength?bytes.buffer:bytes.slice().buffer,json:async()=>JSON.parse(new TextDecoder().decode(bytes))}}
+async function cachedModelFetch(url){
+ const cache=await openModelCache();
+ if(cache){try{const hit=await cache.match(url,{ignoreVary:true});if(hit)return hit}catch(e){}}
+ const response=await fetch(url,{credentials:'omit'});
+ if(!response.ok||!cache)return response;
+ const bytes=/\.onnx$/.test(url)?await readWithProgress(response,url.split('/').pop()):new Uint8Array(await response.arrayBuffer());
+ try{await cache.put(url,new Response(new Blob([bytes]),{headers:{'content-type':response.headers.get('content-type')||'application/octet-stream','content-length':String(bytes.byteLength)}}))}
+ catch(e){console.warn('AI 모델을 기기에 저장하지 못했습니다. 다음에 다시 받습니다.',e)}
+ return bytesResponse(bytes);
+}
+configureModelFetch(cachedModelFetch);
+export async function aiModelStatus(){
+ const cache=await openModelCache();if(!cache)return {supported:false,cachedFiles:0,totalFiles:MODEL_FILES.length,bytes:0};
+ let cachedFiles=0,bytes=0;
+ for(const url of MODEL_FILES){try{const hit=await cache.match(url,{ignoreVary:true});if(hit){cachedFiles++;bytes+=Number(hit.headers.get('content-length'))||0}}catch(e){}}
+ return {supported:true,cachedFiles,totalFiles:MODEL_FILES.length,bytes};
+}
+export async function clearAiModel(){modelPromise=null;voiceStyles.clear();try{return typeof caches!=='undefined'&&await caches.delete(MODEL_CACHE)}catch(e){return false}}
+function mb(n){return Math.round(n/1048576)}
 let modelPromise=null;
 const voiceStyles=new Map();
 const VOICES=Object.freeze([{id:'F1',label:'미나 · 여성'},{id:'F2',label:'소라 · 여성'},{id:'F3',label:'유나 · 여성'},{id:'M1',label:'에이든 · 남성'},{id:'M2',label:'히로 · 남성'},{id:'M3',label:'레오 · 남성'}]);
@@ -20,8 +56,13 @@ export async function loadLocalAI(report=()=>{}){
  window.ort.env.wasm.numThreads=1;
  window.ort.env.wasm.wasmPaths='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/';
  modelPromise=(async()=>{
-   report('AI 음성 엔진을 불러옵니다. 처음에는 모델 약 380MB 다운로드가 필요합니다.');
+   const status=await aiModelStatus().catch(()=>({cachedFiles:0,totalFiles:4}));
+   const stored=status.cachedFiles===status.totalFiles;
+   report(stored?'기기에 저장된 AI 모델을 불러옵니다.':'AI 음성 엔진을 받습니다. 처음 한 번만 약 380MB를 받고 기기에 저장합니다.');
+   if(!stored)try{await navigator.storage?.persist?.()}catch(e){}
+   downloadReport=(name,got,total)=>report('AI 모델 받는 중: '+name.replace('.onnx','')+' '+mb(got)+'/'+mb(total)+'MB');
    const output=await loadTextToSpeech(BASE+'/onnx',{executionProviders:['wasm'],graphOptimizationLevel:'all'},(name,index,total)=>report('AI 모델 준비 중: '+name+' ('+index+'/'+total+')'));
+   downloadReport=null;
    return output.textToSpeech;
  })().catch(e=>{modelPromise=null;throw e});
  return modelPromise;
