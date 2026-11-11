@@ -12,7 +12,10 @@ const server=http.createServer(async(req,res)=>{
  if(!filename.startsWith(path.join(root,'reader')+path.sep)){res.writeHead(404);res.end();return}
  try{const bytes=await fs.readFile(filename);res.setHeader('Content-Type',filename.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8');res.end(bytes)}catch(e){res.writeHead(404);res.end()}
 });
-const SIZES={duration_predictor:3000,text_encoder:5000,vector_estimator:70000,vocoder:9000};
+// vector_estimator는 8MB 조각 셋(8+8+4MB)으로 나뉘도록 크게 만든다. 바이트마다 다른 값을 넣어 조각 순서가 틀리면 드러나게 한다.
+const SIZES={duration_predictor:3000,text_encoder:5000,vector_estimator:20*1048576,vocoder:9000};
+const FILES={};for(const [name,size] of Object.entries(SIZES)){const b=Buffer.alloc(size);for(let i=0;i<size;i++)b[i]=(i*7+size)%251;FILES[name]=b}
+let failAfterParts=Infinity;const ranges=[];
 (async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const origin='http://127.0.0.1:'+server.address().port;
@@ -25,7 +28,14 @@ const SIZES={duration_predictor:3000,text_encoder:5000,vector_estimator:70000,vo
    const url=route.request().url();hits.push(url.split('/').pop());
    const headers={'access-control-allow-origin':'*'};
    const name=url.split('/').pop().replace('.onnx','');
-   if(SIZES[name])return route.fulfill({status:200,headers:{...headers,'content-type':'application/octet-stream'},body:Buffer.alloc(SIZES[name],7)});
+   if(SIZES[name]){
+    const range=/bytes=(\d+)-(\d+)?/.exec(route.request().headers()['range']||'');
+    if(!range)return route.fulfill({status:200,headers:{...headers,'content-type':'application/octet-stream'},body:FILES[name]});
+    const start=Number(range[1]),end=Math.min(Number(range[2]??SIZES[name]-1),SIZES[name]-1);
+    ranges.push(name+':'+start);
+    if(name==='vector_estimator'&&ranges.filter(r=>r.startsWith('vector_estimator')).length>failAfterParts)return route.abort('connectionreset');
+    return route.fulfill({status:206,headers:{...headers,'access-control-expose-headers':'*','content-type':'application/octet-stream','content-range':'bytes '+start+'-'+end+'/'+SIZES[name],'etag':'"'+name+'-v1"'},body:FILES[name].subarray(start,end+1)});
+   }
    if(url.endsWith('tts.json'))return route.fulfill({status:200,headers,contentType:'application/json',body:JSON.stringify({ae:{sample_rate:44100}})});
    if(url.includes('/voice_styles/'))return route.fulfill({status:200,headers,contentType:'application/json',body:JSON.stringify({style_ttl:{dims:[1,1,1],data:[[[0]]]},style_dp:{dims:[1,1,1],data:[[[0]]]}})});
    if(url.endsWith('unicode_indexer.json'))return route.fulfill({status:200,headers,contentType:'application/json',body:'[]'});
@@ -33,7 +43,7 @@ const SIZES={duration_predictor:3000,text_encoder:5000,vector_estimator:70000,vo
   });
   await context.addInitScript(()=>{
    window.__created=[];
-   window.ort={env:{wasm:{}},Tensor:class{},InferenceSession:{create:async src=>{window.__created.push(src instanceof Uint8Array?src.length:typeof src);return {}}}};
+   window.ort={env:{wasm:{}},Tensor:class{},InferenceSession:{create:async src=>{window.__created.push(src instanceof Uint8Array?src.length:typeof src);window.__sums=(window.__sums||[]);if(src instanceof Uint8Array){let h=0;for(let i=0;i<src.length;i+=4099)h=(h*31+src[i])>>>0;window.__sums.push(h)}return {}}}};
    window.lamejs={Mp3Encoder:class{encodeBuffer(){return new Int8Array(40)}flush(){return new Int8Array(600)}}};
   });
   const errors=[];
@@ -49,12 +59,30 @@ const SIZES={duration_predictor:3000,text_encoder:5000,vector_estimator:70000,vo
    const messages=await page.evaluate(async()=>{const mod=await import('./ai-auto.js');const msgs=[];const engine=await mod.loadLocalAI(m=>msgs.push(m));return {msgs,rate:engine.sampleRate,created:window.__created}});
    return {page,...messages};
   };
+  // 1) vector_estimator를 두 조각(16MB) 받은 뒤 연결이 끊긴다 → 실패하지만 받은 조각은 남는다.
+  failAfterParts=2;
+  {
+   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(/LOADERR|error/i.test(m.text()))console.log('[page]',m.text())});
+   await page.goto(origin+'/',{waitUntil:'domcontentloaded'});
+   await page.waitForFunction(()=>typeof state!=='undefined'&&state.db);
+   const failed=await page.evaluate(async()=>{const mod=await import('./ai-auto.js');try{await mod.loadLocalAI();return 'loaded'}catch(e){console.log('LOADERR',e.message);return 'failed'}});
+   assert.equal(failed,'failed');
+   const status=await page.evaluate(async()=>{const mod=await import('./ai-auto.js');return mod.aiModelStatus()});
+   assert.equal(status.cachedFiles,2,'the two small files before it are stored whole');
+   assert.equal(status.partialBytes,16*1048576,'two 8MB parts of the big file are kept');
+   assert.equal(await page.evaluate(async()=>!!(await storeReq('meta','readonly',s=>s.get('aiLoadingSince')))),false,'an interrupted download is not mistaken for a crash');
+   await page.close();
+  }
+  failAfterParts=Infinity;ranges.length=0;hits.length=0;
   const first=await load();
-  assert.deepEqual(first.created,[3000,5000,70000,9000],'모델은 받은 바이트로 엔진을 만든다');
+  assert.deepEqual(ranges.filter(r=>r.startsWith('vector_estimator')),['vector_estimator:'+16*1048576],'resumes from where it stopped, not from the start: '+ranges.join(','));
+  assert.equal(await first.page.evaluate(()=>window.__sums.length),4);
+  assert.deepEqual(first.created,[3000,5000,20*1048576,9000],'모델은 받은 바이트로 엔진을 만든다');
+  const expectSum=(()=>{const b=FILES.vector_estimator;let h=0;for(let i=0;i<b.length;i+=4099)h=(h*31+b[i])>>>0;return h})();
+  assert.equal((await first.page.evaluate(()=>window.__sums))[2],expectSum,'the resumed file is joined in the right order, byte for byte');
   assert.equal(first.rate,44100);
-  assert.ok(first.msgs.some(m=>m.includes('처음 한 번만')),'처음에는 다운로드 안내: '+first.msgs.join(' / '));
-  assert.ok(first.msgs.some(m=>/AI 모델 받는 중: vector_estimator/.test(m)),'다운로드 진행률 표시');
-  assert.equal(hits.filter(h=>h.endsWith('.onnx')).length,4,'처음에는 모델 4개를 받는다');
+  assert.ok(first.msgs.some(m=>m.includes('이어서 받습니다')),'이어 받기 안내: '+first.msgs.join(' / '));
+  assert.ok(first.msgs.some(m=>/AI 모델 받는 중 \d+\/약 380MB/.test(m)),'다운로드 진행률 표시: '+first.msgs.join(' / '));
   await openBook(first.page);
   await first.page.click('#settingsBtn');
   await first.page.waitForFunction(()=>/기기에 저장되어 있습니다/.test(document.querySelector('#aiModelStatus').textContent));
@@ -64,7 +92,7 @@ const SIZES={duration_predictor:3000,text_encoder:5000,vector_estimator:70000,vo
   hits.length=0;
   const second=await load();
   assert.equal(hits.length,0,'두 번째 실행에서는 네트워크로 모델을 다시 받지 않는다: '+hits.join(','));
-  assert.deepEqual(second.created,[3000,5000,70000,9000],'저장된 모델로 엔진을 만든다');
+  assert.deepEqual(second.created,[3000,5000,20*1048576,9000],'저장된 모델로 엔진을 만든다');
   assert.ok(second.msgs.some(m=>m.includes('기기에 저장된 AI 모델')),'저장된 모델 안내');
 
   // 만든 AI 오디오에 문단별 시각이 붙는다(문단 0은 0초, 다음 문단은 앞 문장 길이 + 쉼 뒤).
