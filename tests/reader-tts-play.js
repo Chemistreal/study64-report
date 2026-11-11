@@ -88,7 +88,7 @@ const server=http.createServer(async(req,res)=>{
    state.settings.aiConsent=true;await saveSettings();
    window.__synth=[];window.__played=[];window.__voices=[];
    const wav=seconds=>{const rate=8000,n=Math.round(rate*seconds),b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);return new Blob([b],{type:'audio/wav'})};
-   window.aiModule=async()=>({synthesizeSpeech:async(text,opts)=>{window.__synth.push(text);window.__voices.push(opts?.voiceId);(window.__steps=window.__steps||[]).push(opts?.steps);await new Promise(r=>setTimeout(r,40));return {blob:wav(.12),duration:.12}}});
+   window.aiModule=async()=>({warmUp:async()=>true,synthesizeSpeech:async(text,opts)=>{window.__synth.push(text);window.__voices.push(opts?.voiceId);(window.__steps=window.__steps||[]).push(opts?.steps);await new Promise(r=>setTimeout(r,40));return {blob:wav(.12),duration:.12}}});
   });
   await live.locator('#composerText').fill('# 실시간\n\n첫째 문장입니다. 둘째 문장입니다.\n\n셋째 문단입니다.');
   await live.locator('#composerSave').click();
@@ -118,6 +118,32 @@ const server=http.createServer(async(req,res)=>{
   await live.locator('#playBtn').click();
   await live.waitForFunction(()=>state.book.completed===true&&!state.playing,null,{timeout:20000});
   assert.deepEqual(await live.evaluate(()=>window.__synth),[],'replaying reuses the clips it just made');
+  // 긴 글에서 AI가 아직 준비 안 됐어도 재생을 누르면 바로 들린다: 기기 음성으로 먼저 읽다가, 준비되면 다음 문장부터 AI로 넘어간다.
+  await live.evaluate(()=>{
+   state.aiReady=false;state.aiWarm=null;state.liveClips=new Map();state.book.completed=false;state.index=0;state.chunk=0;window.__spoken=[];window.__synth=[];
+   const base=window.aiModule;let release;window.__warmGate=new Promise(r=>release=r);window.__releaseWarm=release;
+   window.aiModule=async()=>{const mod=await base();return {...mod,warmUp:async()=>{await window.__warmGate;return true}}};
+   speechSynthesis.speak=u=>{window.__spoken.push(u.text);setTimeout(()=>{if(window.__spoken.length===1)window.__releaseWarm();u.onend&&u.onend()},60)};
+  });
+  await live.locator('#playBtn').click();
+  await live.waitForFunction(()=>state.book.completed===true&&!state.playing,null,{timeout:20000});
+  const bridged=await live.evaluate(()=>({spoken:window.__spoken,synth:window.__synth,ready:state.aiReady}));
+  assert.ok(bridged.spoken.length>=1,'device voice starts right away while AI loads');
+  assert.ok(bridged.synth.length>=1,'AI voice takes over once ready');
+  assert.deepEqual([...bridged.spoken,...bridged.synth],['실시간','첫째 문장입니다. 둘째 문장입니다.','셋째 문단입니다.'],'no sentence is skipped or read twice across the switch');
+  assert.equal(bridged.ready,true);
+  // 지난번 AI를 불러오다 앱이 멈췄으면, 이번에는 AI를 다시 불러오지 않고 기기 음성으로 읽는다.
+  await live.evaluate(async()=>{await storeReq('meta','readwrite',store=>store.put({key:'aiLoadingSince',value:Date.now()}))});
+  await live.reload({waitUntil:'domcontentloaded'});
+  await live.waitForFunction(()=>state.db&&state.aiLoadCrashed===true,null,{timeout:10000});
+  await live.evaluate(()=>{window.__spoken=[];window.__aiCalled=0;window.aiModule=async()=>{window.__aiCalled++;throw Error('should not load')};speechSynthesis.speak=u=>{window.__spoken.push(u.text);setTimeout(()=>u.onend&&u.onend(),15)}});
+  await live.locator('*:has(.book-open)',{hasText:'실시간'}).last().locator('.book-open').click();
+  await live.evaluate(()=>{state.book.completed=false;state.index=0;state.chunk=0});
+  await live.locator('#playBtn').click();
+  await live.waitForFunction(()=>window.__spoken.length>=3&&!state.playing,null,{timeout:20000});
+  assert.equal(await live.evaluate(()=>window.__aiCalled),0,'after a crash while loading, AI is not loaded again this session');
+  assert.equal(await live.evaluate(async()=>!!(await storeReq('meta','readonly',store=>store.get('aiLoadingSince')))),false,'the crash marker is cleared so the next session can try again');
+  await live.evaluate(()=>{window.aiModule=async()=>({warmUp:async()=>true,synthesizeSpeech:async()=>{throw Error('x')}})});
   // 기기 음성을 고르면 기기 음성으로 읽는다.
   const deviceVoice=await live.evaluate(()=>[...$('#voiceSelect').options].find(o=>!o.value.startsWith('ai:')).value);
   await pickVoice(deviceVoice);

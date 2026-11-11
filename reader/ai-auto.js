@@ -29,8 +29,18 @@ async function cachedModelFetch(url){
  if(cache){try{const hit=await cache.match(url,{ignoreVary:true});if(hit)return hit}catch(e){}}
  const response=await fetch(url,{credentials:'omit'});
  if(!response.ok||!cache)return response;
- const bytes=/\.onnx$/.test(url)?await readWithProgress(response,url.split('/').pop()):new Uint8Array(await response.arrayBuffer());
- try{await cache.put(url,new Response(new Blob([bytes]),{headers:{'content-type':response.headers.get('content-type')||'application/octet-stream','content-length':String(bytes.byteLength)}}))}
+ const headers={'content-type':response.headers.get('content-type')||'application/octet-stream'};
+ const length=response.headers.get('content-length');if(length)headers['content-length']=length;
+ // 받는 흐름을 둘로 나눠 한쪽은 곧장 기기 저장소로 흘려 보낸다 — 256MB 모델을 메모리에 한 벌 더 복사하지 않는다(아이폰 메모리).
+ if(response.body?.tee){
+  const [toCache,toRead]=response.body.tee();
+  const saving=cache.put(url,new Response(toCache,{headers})).catch(e=>console.warn('AI 모델을 기기에 저장하지 못했습니다. 다음에 다시 받습니다.',e));
+  const bytes=await readWithProgress(new Response(toRead,{headers}),url.split('/').pop());
+  await saving;
+  return bytesResponse(bytes);
+ }
+ const bytes=new Uint8Array(await response.arrayBuffer());
+ try{await cache.put(url,new Response(new Blob([bytes]),{headers:{...headers,'content-length':String(bytes.byteLength)}}))}
  catch(e){console.warn('AI 모델을 기기에 저장하지 못했습니다. 다음에 다시 받습니다.',e)}
  return bytesResponse(bytes);
 }
