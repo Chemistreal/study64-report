@@ -146,6 +146,11 @@ jobs:
       - name: 여백 ZIP 붙여넣기·기기 AI 자동 대기열·이어 만들기 검증
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-zip-ai-queue.js
+      # 재생을 누르면 **바로 들려야** 한다. 예전에는 처음 온 사람이 재생·저장할 때마다
+      # AI 모델 380MB 다운로드 확인창이 떴고, 거절하면 아무것도 읽지 않았다.
+      - name: 여백 읽어주기가 확인창 없이 바로 시작되고 읽는 문장을 표시한다
+        timeout-minutes: 5
+        run: NODE_PATH=tests/node_modules node tests/reader-tts-play.js
       - name: 여백 서재 원본·검색·휴지통·책갈피 브라우저 회귀 검증
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-regression.js
