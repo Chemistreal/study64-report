@@ -15,6 +15,8 @@ let downloadReport=null,loadingHook=null;
 let devicePref='auto',activeDevice='cpu';
 export function setDevicePreference(p){const next=['auto','gpu','cpu'].includes(p)?p:'auto';if(next!==devicePref){devicePref=next;if(activeDevice==='gpu'&&next==='cpu')modelPromise=null}}
 export function aiDevice(){return activeDevice}
+// PC 프로그램(Node.js, onnxruntime-node)처럼 브라우저 밖에서 쓸 때 실행 장치 목록을 직접 정한다(예: ['dml','cpu']).
+let epOverride=null;export function setExecutionProviders(list){epOverride=Array.isArray(list)&&list.length?list.slice():null}
 let allowThreads=true;export function setThreadsAllowed(v){allowThreads=!!v}
 export function threadCount(){try{return allowThreads&&self.crossOriginIsolated?Math.max(1,Math.min(4,(navigator.hardwareConcurrency||2)-1)):1}catch(e){return 1}}
 async function gpuUsable(){if(devicePref==='cpu')return false;try{if(!navigator.gpu||!window.ort?.env?.webgpu)return false;return !!(await navigator.gpu.requestAdapter())}catch(e){return false}}
@@ -126,11 +128,11 @@ function checkAbort(signal){if(signal?.aborted)throw new DOMException('음성 �
 export async function loadLocalAI(report=()=>{}){
  if(modelPromise)return modelPromise;
  if(!window.ort)throw Error('음성 추론 도구를 불러오지 못했습니다.');
+ const inBrowser=typeof document!=='undefined';
  if(!window.lamejs?.Mp3Encoder)throw Error('MP3 인코딩 도구를 불러오지 못했습니다.');
  configureOrt(window.ort);
  // 교차 출처 격리(서비스 워커가 COOP/COEP 헤더를 붙임)가 되면 CPU 여러 코어로 계산한다 — 1코어보다 몇 배 빠르다.
- window.ort.env.wasm.numThreads=threadCount();
- window.ort.env.wasm.wasmPaths='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/';
+ if(inBrowser&&window.ort.env?.wasm){window.ort.env.wasm.numThreads=threadCount();window.ort.env.wasm.wasmPaths='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/'}
  modelPromise=(async()=>{
    const status=await aiModelStatus().catch(()=>({cachedFiles:0,totalFiles:4,partialBytes:0}));
    const stored=status.cachedFiles===status.totalFiles;
@@ -138,7 +140,7 @@ export async function loadLocalAI(report=()=>{}){
    if(!stored)await downloadModel(report);
    // 여기부터 모델을 메모리에 올린다 — 이 사이에 페이지가 죽으면 다음에 알 수 있게 표시한다.
    const gpu=await gpuUsable();
-   const load=device=>loadTextToSpeech(BASE+'/onnx',{executionProviders:device==='gpu'?['webgpu','wasm']:['wasm'],graphOptimizationLevel:'all'},(name,index,total)=>report('AI 모델 준비 중'+(device==='gpu'?' (GPU)':'')+': '+name+' ('+index+'/'+total+')'));
+   const load=device=>loadTextToSpeech(BASE+'/onnx',{executionProviders:epOverride||(device==='gpu'?['webgpu','wasm']:['wasm']),graphOptimizationLevel:'all'},(name,index,total)=>report('AI 모델 준비 중'+(device==='gpu'?' (GPU)':'')+': '+name+' ('+index+'/'+total+')'));
    await loadingHook?.(true,gpu?'gpu':threadCount()>1?'cpu-mt':'cpu');
    try{
     if(gpu){try{const output=await load('gpu');activeDevice='gpu';return output.textToSpeech}catch(e){console.warn('GPU로 AI 모델을 불러오지 못해 CPU로 바꿉니다.',e)}}

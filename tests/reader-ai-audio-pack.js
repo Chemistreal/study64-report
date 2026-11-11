@@ -54,7 +54,20 @@ const BODY=['첫 문단입니다. 꾸러미 시험.','둘째 문단입니다.','
   assert.equal(got.audio.find(a=>a.title==='새로 갈 책').size,3000);
   // 카드에 '오디오 준비됨'이 보인다.
   await phone.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-audio')].filter(el=>!el.hidden&&/오디오 준비됨/.test(el.textContent)).length===2);
+  // 3) 다른 TTS 프로그램 결과: 글과 이름이 같은 MP3를 한 ZIP에 → 글을 담고 오디오를 붙인다(이미 있는 같은 글은 재사용).
+  const pairs=await phone.evaluate(async()=>{
+   const JSZip=await zipLib(),zip=new JSZip();
+   const mp3=n=>{const a=new Uint8Array(n);a.set([0xFF,0xF3,0x48,0xC4]);return a};
+   zip.file('세트/01-첫 강의.md','# 첫 강의\n\n세트로 올린 글입니다.');zip.file('세트/01-첫 강의.mp3',mp3(5000));
+   zip.file('세트/02-둘째.txt','오디오 없는 글입니다.');
+   await addBook('01-첫 강의','md',blocksFromText('# 첫 강의\n\n세트로 올린 글입니다.',true));
+   const before=state.books.length;
+   const n=await importFiles([new File([await zip.generateAsync({type:'uint8array'})],'세트.zip',{type:'application/zip'})]);
+   const all=await storeReq('audio','readonly',s=>s.getAll());const first=state.books.filter(b=>b.title==='01-첫 강의');
+   return {n,added:state.books.length-before,firstCount:first.length,firstAudio:all.some(a=>a.id===first[0].id&&a.blob.size===5000&&a.blob.type==='audio/mpeg'),second:!!state.books.find(b=>b.title==='02-둘째')}
+  });
+  assert.deepEqual(pairs,{n:2,added:1,firstCount:1,firstAudio:true,second:true},'text+audio set ZIP: '+JSON.stringify(pairs));
   assert.deepEqual(errors,[]);
-  console.log('여백 AI 오디오 꾸러미: PC에서 보내기 → 다른 기기에서 + 로 가져오기 (같은 글 재사용 · 없는 글 생성 · 문단 시간표 유지) PASS');
+  console.log('여백 AI 오디오 꾸러미: PC에서 보내기 → 다른 기기에서 + 로 가져오기 (같은 글 재사용 · 없는 글 생성 · 문단 시간표 유지) · 글+MP3 세트 ZIP PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});

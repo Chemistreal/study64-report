@@ -385,8 +385,9 @@ async function importAiAudioPack(zip){
   const blocks=item.blocks.filter(b=>b&&typeof b.text==='string').map(b=>({kind:['heading','paragraph','quote','list'].includes(b.kind)?b.kind:'paragraph',text:b.text,...(Number.isInteger(b.level)?{level:b.level}:{})}));
   let book=hashes.get(item.hash)||state.books.find(b=>b.title===item.title&&b.blocks.length===blocks.length);
   if(!book){book=await addBook(item.title.slice(0,180),typeof item.type==='string'?item.type.slice(0,20):'md',blocks);hashes.set(await bookHash(book),book)}
+  const sameBlocks=book.blocks.length===blocks.length;
   const blob=new Blob([await file.async('arraybuffer')],{type:'audio/mpeg'});if(blob.size<500||blob.size>150*1024*1024||await isSilentLameMp3(blob))continue;
-  const timeline=Array.isArray(item.timeline)?item.timeline.filter(m=>Array.isArray(m)&&Number.isInteger(m[0])&&m[0]>=0&&m[0]<book.blocks.length&&Number.isFinite(m[1])&&m[1]>=0).map(m=>[m[0],Number(m[1])]):null;
+  const timeline=sameBlocks&&Array.isArray(item.timeline)?item.timeline.filter(m=>Array.isArray(m)&&Number.isInteger(m[0])&&m[0]>=0&&m[0]<book.blocks.length&&Number.isFinite(m[1])&&m[1]>=0).map(m=>[m[0],Number(m[1])]):null;
   await storeReq('audio','readwrite',store=>store.put({id:book.id,blob,name:String(item.name||book.title+'.mp3').slice(0,200),aiVoice:typeof item.aiVoice==='string'?item.aiVoice.slice(0,8):'F1',generatedAt:Date.now(),...(timeline?.length?{timeline,timelineDuration:Number(item.timelineDuration)||0}:{})}));
   state.audioIds.add(book.id);
   const job=state.localAiQueue.find(j=>j.bookId===book.id);if(job){job.status='ready';job.error=''}
@@ -398,7 +399,42 @@ async function importAiAudioPack(zip){
  toast('AI 오디오 '+count+'권을 가져왔습니다. 화면을 잠가도 들을 수 있습니다.',8000);
  return count
 }
-async function importZip(file){if(file.size>160*1024*1024)throw Error('ZIP 파일 최대 크기는 160MB입니다.');const zip=await (await zipLib()).loadAsync(await file.arrayBuffer(),{checkCRC32:true});if(zip.file(AI_PACK_MANIFEST))return importAiAudioPack(zip);if(file.size>100*1024*1024)throw Error('문서 ZIP 파일 최대 크기는 100MB입니다.');const entries=Object.entries(zip.files).filter(([name,entry])=>!entry.dir&&!name.split('/').some(part=>part.startsWith('.')||part==='__MACOSX')&&IMPORTABLE_EXTS.has(name.split('.').pop().toLowerCase())).sort(([a],[b])=>a.localeCompare(b,undefined,{numeric:true}));if(!entries.length)throw Error('ZIP에 지원 문서가 없습니다.');if(entries.length>60)throw Error('ZIP의 문서는 최대 60권까지 지원합니다.');let total=0,ok=0,errors=[];for(const [name,entry] of entries){try{const estimated=Number(entry._data?.uncompressedSize);if(Number.isFinite(estimated)&&(estimated>25*1024*1024||total+estimated>120*1024*1024))throw Error('압축 해제 크기 제한 초과');const bytes=await entry.async('uint8array');total+=bytes.length;if(bytes.length>25*1024*1024||total>120*1024*1024)throw Error('파일 크기 제한 초과');await importFile(new File([bytes],name.split('/').pop(),{type:'application/octet-stream'}));ok++}catch(e){console.error(name,e);errors.push(name+': '+(e.message||'가져오기 실패'))}}if(!ok)throw Error('ZIP 문서를 읽지 못했습니다. '+errors.slice(0,2).join(' / '));if(errors.length)toast(ok+'권 성공, '+errors.length+'권 실패: '+errors.slice(0,2).join(' / '),9000);return ok}
+// 글 + 오디오 세트 ZIP: '49강.md' 옆에 '49강.mp3'처럼 이름이 같은 오디오가 있으면 그 책에 오디오로 붙인다.
+// 다른 TTS 프로그램으로 PC에서 만든 오디오도 이렇게 올리면 된다. 같은 글이 이미 서재에 있으면 새로 만들지 않고 거기에 붙인다.
+const AUDIO_EXTS=new Set(['mp3','m4a','aac','wav','ogg','opus']);
+const AUDIO_MIME={mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',wav:'audio/wav',ogg:'audio/ogg',opus:'audio/ogg'};
+function zipKey(name){return name.replace(/\.[^./]+$/,'').normalize('NFC').toLowerCase()}
+function audioEntriesOf(zip){const map=new Map();for(const [name,entry] of Object.entries(zip.files)){if(entry.dir||name.split('/').some(p=>p.startsWith('.')||p==='__MACOSX'))continue;const ext=name.split('.').pop().toLowerCase();if(AUDIO_EXTS.has(ext))map.set(zipKey(name),{name,entry,ext})}return map}
+function findIdenticalBook(blocks){return state.books.find(b=>b.blocks.length===blocks.length&&b.blocks.every((x,i)=>x.text===blocks[i].text&&x.kind===blocks[i].kind))||null}
+async function importTextAudioPairs(zip,audioEntries){
+ const docs=Object.entries(zip.files).filter(([name,entry])=>!entry.dir&&!name.split('/').some(p=>p.startsWith('.')||p==='__MACOSX')&&IMPORTABLE_EXTS.has(name.split('.').pop().toLowerCase())).sort(([a],[b])=>a.localeCompare(b,undefined,{numeric:true}));
+ if(!docs.length)throw Error('ZIP에 오디오만 있고 글이 없습니다. 같은 이름의 글(.md, .txt 등)도 함께 넣어 주세요.');
+ if(docs.length>60)throw Error('ZIP의 문서는 최대 60권까지 지원합니다.');
+ let books=0,withAudio=0;const errors=[];
+ for(const [name,entry] of docs){
+  try{
+   const bytes=await entry.async('uint8array');if(bytes.length>25*1024*1024)throw Error('글 파일이 너무 큽니다.');
+   const file=new File([bytes],name.split('/').pop(),{type:'application/octet-stream'}),ext=file.name.split('.').pop().toLowerCase();
+   const pair=audioEntries.get(zipKey(name));
+   let book=null;
+   if(['txt','md','markdown'].includes(ext)){const blocks=blocksFromText(decodeText(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)),ext!=='txt');book=findIdenticalBook(blocks)||await addBook(file.name.replace(/\.[^.]+$/,''),ext,blocks,{blob:file,name:file.name})}
+   else book=await importFile(file);
+   books++;
+   if(pair&&book?.id){
+    const audio=await pair.entry.async('arraybuffer');if(audio.byteLength<500||audio.byteLength>150*1024*1024)throw Error('오디오 파일 크기가 올바르지 않습니다.');
+    await storeReq('audio','readwrite',store=>store.put({id:book.id,blob:new Blob([audio],{type:AUDIO_MIME[pair.ext]||'audio/mpeg'}),name:pair.name.split('/').pop(),storedAt:Date.now()}));
+    state.audioIds.add(book.id);const job=state.localAiQueue.find(j=>j.bookId===book.id);if(job){job.status='ready';job.error=''}
+    withAudio++
+   }
+  }catch(e){console.error(name,e);errors.push(name+': '+(e.message||'가져오기 실패'))}
+ }
+ await persistLocalAiQueue();updateLocalAiQueueUI();renderLibrary();
+ if(state.book&&state.audioIds.has(state.book.id)&&!state.playing)await loadBookAudio(state.book.id);
+ if(!books)throw Error('ZIP 글을 읽지 못했습니다. '+errors.slice(0,2).join(' / '));
+ toast(books+'권을 담고 그중 '+withAudio+'권에 오디오를 붙였습니다.'+(errors.length?' 실패 '+errors.length+'건: '+errors.slice(0,2).join(' / '):' 화면을 잠가도 들을 수 있습니다.'),9000);
+ return books
+}
+async function importZip(file){if(file.size>160*1024*1024)throw Error('ZIP 파일 최대 크기는 160MB입니다.');const zip=await (await zipLib()).loadAsync(await file.arrayBuffer(),{checkCRC32:true});if(zip.file(AI_PACK_MANIFEST))return importAiAudioPack(zip);const audioEntries=audioEntriesOf(zip);if(audioEntries.size)return importTextAudioPairs(zip,audioEntries);if(file.size>100*1024*1024)throw Error('문서 ZIP 파일 최대 크기는 100MB입니다.');const entries=Object.entries(zip.files).filter(([name,entry])=>!entry.dir&&!name.split('/').some(part=>part.startsWith('.')||part==='__MACOSX')&&IMPORTABLE_EXTS.has(name.split('.').pop().toLowerCase())).sort(([a],[b])=>a.localeCompare(b,undefined,{numeric:true}));if(!entries.length)throw Error('ZIP에 지원 문서가 없습니다.');if(entries.length>60)throw Error('ZIP의 문서는 최대 60권까지 지원합니다.');let total=0,ok=0,errors=[];for(const [name,entry] of entries){try{const estimated=Number(entry._data?.uncompressedSize);if(Number.isFinite(estimated)&&(estimated>25*1024*1024||total+estimated>120*1024*1024))throw Error('압축 해제 크기 제한 초과');const bytes=await entry.async('uint8array');total+=bytes.length;if(bytes.length>25*1024*1024||total>120*1024*1024)throw Error('파일 크기 제한 초과');await importFile(new File([bytes],name.split('/').pop(),{type:'application/octet-stream'}));ok++}catch(e){console.error(name,e);errors.push(name+': '+(e.message||'가져오기 실패'))}}if(!ok)throw Error('ZIP 문서를 읽지 못했습니다. '+errors.slice(0,2).join(' / '));if(errors.length)toast(ok+'권 성공, '+errors.length+'권 실패: '+errors.slice(0,2).join(' / '),9000);return ok}
 async function importFile(file){const ext=file.name.split('.').pop().toLowerCase(),title=file.name.replace(/\.[^.]+$/,'');if(ext==='zip')return importZip(file);let blocks;if(['txt','md','markdown','html','htm','json'].includes(ext)){const text=decodeText(await file.arrayBuffer());blocks=['html','htm'].includes(ext)?htmlBlocks(text):blocksFromText(text,['md','markdown'].includes(ext))}else if(ext==='pdf')blocks=await parsePdf(file);else if(ext==='docx')blocks=await parseDocx(file);else if(ext==='epub')blocks=await parseEpub(file);else if(ext==='hwpx')blocks=await parseHwpx(file);else throw Error('지원하지 않는 파일 형식입니다. TXT, MD, PDF, DOCX, EPUB, HWPX 또는 HTML을 선택해 주세요.');return addBook(title,ext,blocks,{blob:file,name:file.name})}
 async function importFiles(files){if(!files.length)return 0;state.importingFiles=true;let ok=0;try{for(const file of files){try{toast('파일을 읽는 중: '+file.name,15000);const number=await importFile(file);ok+=typeof number==='number'?number:1}catch(e){console.error(e);toast(file.name+': '+(e.message||'불러오지 못했습니다.'),7000);await new Promise(r=>setTimeout(r,300))}}}finally{state.importingFiles=false;scheduleLocalAiQueue(1200)}if(ok){toast(`${ok}개 글을 서재에 담았습니다.`+(state.settings.aiAuto&&state.settings.aiConsent?' 기기에서 AI 음성 준비를 시작합니다.':''));if(state.settings.aiAuto&&!state.settings.aiConsent&&!document.hidden)await startLocalAiQueue()}return ok}
 async function deleteFinishedBooks(){const done=state.books.filter(b=>b.completed);if(!done.length)return;if(!confirm('완독한 '+done.length+'권을 휴지통으로 옮길까요? 복원할 수 있습니다.'))return;try{await moveToTrash(done)}catch(e){console.error(e);toast('완독 도서 정리에 실패했습니다.',6500)}}
