@@ -81,28 +81,45 @@ const server=http.createServer(async(req,res)=>{
   await live.waitForFunction(()=>state.db&&document.querySelector('#bookCount'));
   await live.evaluate(async()=>{
    state.settings.aiConsent=true;await saveSettings();
-   window.__synth=[];window.__played=[];
+   window.__synth=[];window.__played=[];window.__voices=[];
    const wav=seconds=>{const rate=8000,n=Math.round(rate*seconds),b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);return new Blob([b],{type:'audio/wav'})};
-   window.aiModule=async()=>({synthesizeSpeech:async(text)=>{window.__synth.push(text);await new Promise(r=>setTimeout(r,40));return {blob:wav(.12),duration:.12}}});
+   window.aiModule=async()=>({synthesizeSpeech:async(text,opts)=>{window.__synth.push(text);window.__voices.push(opts?.voiceId);await new Promise(r=>setTimeout(r,40));return {blob:wav(.12),duration:.12}}});
   });
   await live.locator('#composerText').fill('# 실시간\n\n첫째 문장입니다. 둘째 문장입니다.\n\n셋째 문단입니다.');
   await live.locator('#composerSave').click();
   await live.locator('#readerTitle').getByText('실시간').waitFor();
   await live.evaluate(()=>{const a=liveAudio();a.addEventListener('playing',()=>{if(!a.loop)window.__played.push(CSS.highlights.get('yb-speaking')?[...CSS.highlights.get('yb-speaking')][0]?.toString()||'':'')})});
+  // 목소리 메뉴 맨 위의 AI 목소리를 고르면 실시간 낭독이 그 목소리로 나온다.
+  await live.evaluate(()=>loadVoices());
+  const pickVoice=async value=>{await live.locator('#voiceShortcut').click();await live.locator('#voiceSelect').selectOption(value);await live.waitForTimeout(100);await live.locator('#settingsDrawer .close-layer').click()};
+  assert.equal(await live.locator('#voiceSelect option[value^="ai:"]').count(),6,'six AI voices in the voice menu');
+  await pickVoice('ai:M1');
+  assert.deepEqual(await live.evaluate(()=>({live:state.settings.aiLive,voice:state.settings.aiVoice,section:$('#aiVoiceSelect').value})),{live:true,voice:'M1',section:'M1'});
   await live.locator('#playBtn').click();
   await live.waitForFunction(()=>state.book.completed===true&&!state.playing,null,{timeout:20000});
-  const liveResult=await live.evaluate(()=>({synth:window.__synth,played:window.__played,spoken:window.__spoken}));
+  const liveResult=await live.evaluate(()=>({synth:window.__synth,played:window.__played,spoken:window.__spoken,voices:window.__voices}));
+  assert.ok(liveResult.voices.length&&liveResult.voices.every(v=>v==='M1'),'live narration uses the AI voice chosen in the menu');
   assert.deepEqual(liveDialogs,[],'live AI reading asks nothing');
   assert.deepEqual(liveResult.spoken,[],'device speech is not used while AI live reading works');
   assert.deepEqual(liveResult.synth,['실시간','첫째 문장입니다. 둘째 문장입니다.','셋째 문단입니다.'],'AI synthesizes each passage in order');
   assert.deepEqual(liveResult.played.map(t=>t.replace(/\s+/g,' ').trim()),liveResult.synth,'each AI passage plays with its sentence highlighted');
 
+  // 기기 음성을 고르면 기기 음성으로 읽는다.
+  const deviceVoice=await live.evaluate(()=>[...$('#voiceSelect').options].find(o=>!o.value.startsWith('ai:')).value);
+  await pickVoice(deviceVoice);
+  assert.equal(await live.evaluate(()=>state.settings.aiLive),false);
+  await live.evaluate(()=>{state.book.completed=false;state.index=0;state.chunk=0;window.__spoken=[];window.__synth=[]});
+  await live.locator('#playBtn').click();
+  await live.waitForFunction(()=>window.__spoken.length>=3&&!state.playing,null,{timeout:20000});
+  assert.deepEqual(await live.evaluate(()=>window.__synth),[],'device voice choice does not call the AI');
+
   // AI를 못 불러오면 기기 음성으로 넘어간다.
+  await pickVoice('ai:F1');
   await live.evaluate(()=>{window.aiModule=async()=>{throw Error('offline')};state.book.completed=false;state.index=0;state.chunk=0;window.__spoken=[]});
   await live.locator('#playBtn').click();
   await live.waitForFunction(()=>window.__spoken.length>=3&&!state.playing,null,{timeout:20000});
   assert.equal(await live.evaluate(()=>state.liveAiFailed),true);
   assert.deepEqual(liveErrors,[]);
-  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 업로드 후 AI 자동 준비 · 실시간 AI 낭독과 기기 음성 대체 PASS');
+  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 업로드 후 AI 자동 준비 · 메뉴에서 고른 AI 목소리로 실시간 낭독 · 기기 음성 선택·대체 PASS');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
