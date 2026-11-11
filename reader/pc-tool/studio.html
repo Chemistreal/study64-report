@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>여백 작업실</title>
+<style>
+:root{--bg:#f6f4ee;--panel:#fffdf8;--ink:#23291f;--muted:#69766b;--line:#e2ddd0;--accent:#3f6b4a;--accent-ink:#fff;--warn:#a5552b;--bar:#e9e5da;--ok:#2f7a45;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#171a16;--panel:#1f231e;--ink:#e8ebe3;--muted:#9aa596;--line:#30362e;--accent:#7fb08a;--accent-ink:#11160f;--warn:#e19a6f;--bar:#2b3029;--ok:#7fc893;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+main{max-width:920px;margin:0 auto;padding:28px 18px 60px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+h1{font-size:24px;margin:0;letter-spacing:-.02em}
+h1 small{font-size:14px;color:var(--muted);font-weight:500;margin-left:8px}
+h2{font-size:16px;margin:0 0 12px}
+.status{color:var(--muted);font-size:13px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+#drop{border:2px dashed var(--line);border-radius:14px;padding:30px 16px;text-align:center;cursor:pointer;background:var(--panel);margin-bottom:14px;transition:border-color .15s,background .15s}
+#drop.over{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
+#drop b{display:block;font-size:17px;margin-bottom:4px}
+#drop span{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+label.f,div.f{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted)}
+select,input[type=range]{width:100%}
+select{border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:var(--panel);color:var(--ink);font:inherit;min-height:38px}
+.check{display:flex;gap:8px;align-items:center;font-size:14px;margin-top:12px}
+button{font:inherit;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:9px;padding:7px 12px;cursor:pointer;min-height:36px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:disabled{opacity:.5;cursor:default}
+.job{border-top:1px solid var(--line);padding:14px 0}
+.job:first-of-type{border-top:0;padding-top:0}
+.job-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.job-title{font-weight:600;overflow-wrap:anywhere}
+.meta{color:var(--muted);font-size:13px}
+.bar{height:8px;background:var(--bar);border-radius:99px;overflow:hidden;margin:10px 0 6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .4s}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.pill{display:inline-block;font-size:12px;border-radius:99px;padding:1px 9px;border:1px solid var(--line);color:var(--muted)}
+.pill.ok{color:var(--ok);border-color:var(--ok)}
+.pill.err{color:var(--warn);border-color:var(--warn)}
+.err-text{color:var(--warn);font-size:13px;margin-top:6px;overflow-wrap:anywhere}
+.shelf li{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.shelf ul{list-style:none;margin:10px 0 0;padding:0}
+a{color:var(--accent)}
+.empty{color:var(--muted);font-size:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<main>
+ <header><h1>여백 작업실<small>글 → AI 오디오 책 → 여백 리더</small></h1><div class="status" id="engine"></div></header>
+
+ <div id="drop" tabindex="0" role="button" aria-label="글 파일 올리기"><b>글 파일을 여기에 끌어다 놓으세요</b><span>.md · .txt (파일 하나 = 책 한 권) · 글이 여러 개 든 .zip도 됩니다 · 눌러서 고르기</span><input type="file" id="file" multiple accept=".md,.markdown,.txt,.zip" hidden aria-label="글 파일 고르기"></div>
+
+ <section class="card">
+  <h2>만들기 설정 <span class="meta">— 새로 시작하는 책부터 적용</span></h2>
+  <div class="grid">
+   <div class="f"><span>목소리</span><b id="voiceName" style="color:var(--ink);font-weight:600"></b></div>
+   <label class="f">말 빠르기 <b id="speedVal"></b><input type="range" id="speed" min="0.8" max="2" step="0.05"></label>
+   <label class="f">음질 · 용량<select id="profile"></select></label>
+   <label class="f">동시 요청 수 (많을수록 빠름)<select id="concurrency"><option value="2">2</option><option value="4">4 (기본)</option><option value="6">6</option><option value="8">8</option></select></label>
+  </div>
+  <label class="check"><input type="checkbox" id="autoPublish"> 다 만들면 여백 리더(추천 글)에 자동으로 올리기</label>
+ </section>
+
+ <section class="card"><h2>만드는 책</h2><div id="jobs"></div></section>
+
+ <section class="card" id="publish">
+  <h2>여백 리더에 올리기</h2>
+  <div id="pubState"></div>
+  <div class="shelf" id="shelf"></div>
+ </section>
+ <p class="meta" id="footer"></p>
+</main>
+<script>
+const $=s=>document.querySelector(s);let S=null;
+const fmtDur=s=>!s?'-':s>=3600?(s/3600).toFixed(1)+'시간':Math.max(1,Math.round(s/60))+'분';
+const fmtMB=b=>(b/1048576).toFixed(b<10*1048576?1:0)+'MB';
+const fmtEta=s=>s==null?'남은 시간 계산 중':s<60?'곧 끝남':s<3600?'약 '+Math.ceil(s/60)+'분 남음':'약 '+(s/3600).toFixed(1)+'시간 남음';
+async function api(p,body){const r=await fetch(p,{method:'POST',headers:{'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});const j=await r.json().catch(()=>({}));if(!r.ok)throw Error(j.error||'실패했습니다.');return j}
+function el(tag,attrs={},...kids){const e=document.createElement(tag);for(const [k,v] of Object.entries(attrs)){if(k==='onclick')e.onclick=v;else if(k==='class')e.className=v;else e.setAttribute(k,v)}for(const k of kids)if(k!=null)e.append(k);return e}
+function btn(text,fn,primary){return el('button',{class:primary?'primary':'',onclick:async e=>{e.target.disabled=true;try{await fn()}catch(err){alert(err.message)}finally{e.target.disabled=false}}},text)}
+
+// 올리기
+async function upload(files){
+ for(const f of files){
+  const r=await fetch('/api/upload',{method:'POST',headers:{'x-file-name':encodeURIComponent(f.name)},body:f});
+  if(!r.ok){const j=await r.json().catch(()=>({}));alert(f.name+': '+(j.error||'올리지 못했습니다.'))}
+ }
+}
+const drop=$('#drop');
+drop.onclick=()=>$('#file').click();drop.onkeydown=e=>{if(e.key==='Enter'||e.key===' ')$('#file').click()};
+$('#file').onchange=e=>{upload([...e.target.files]);e.target.value=''};
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};drop.ondragleave=()=>drop.classList.remove('over');
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');upload([...e.dataTransfer.files])};
+
+// 설정
+let settingsBuilt=false;
+function buildSettings(){
+ if(settingsBuilt)return;settingsBuilt=true;
+ $('#voiceName').textContent=S.voice.label+' (Edge 신경망 음성)';
+ for(const [k,p] of Object.entries(S.profiles))$('#profile').append(el('option',{value:k},p.label+' · 시간당 약 '+p.perHourMB+'MB'));
+ const save=()=>api('/api/settings',{speed:+$('#speed').value,profile:$('#profile').value,concurrency:+$('#concurrency').value,autoPublish:$('#autoPublish').checked});
+$('#concurrency').onchange=save;$('#profile').onchange=save;$('#autoPublish').onchange=save;
+ $('#speed').oninput=()=>{$('#speedVal').textContent=(+$('#speed').value).toFixed(2)+'배'};$('#speed').onchange=save;
+}
+function renderSettings(){
+ const s=S.settings;
+ if(document.activeElement!==$('#profile'))$('#profile').value=s.profile;
+ if(document.activeElement!==$('#concurrency'))$('#concurrency').value=String(s.concurrency||4);
+ if(document.activeElement!==$('#speed')){$('#speed').value=s.speed;$('#speedVal').textContent=(+s.speed).toFixed(2)+'배'}
+ $('#autoPublish').checked=!!s.autoPublish;
+}
+
+// 작업 목록
+const STATUS={queued:'기다리는 중',running:'만드는 중',done:'완성',error:'문제 생김',stopped:'멈춤'};
+const STAGE={start:'준비 중',synth:'Edge 음성 받는 중',joining:'MP3로 잇는 중',packing:'ZIP 묶는 중',done:'마무리 중'};
+function renderJobs(){
+ const box=$('#jobs');box.textContent='';
+ if(!S.jobs.length){box.append(el('p',{class:'empty'},'아직 올린 글이 없습니다. 위에 글 파일을 끌어다 놓으면 바로 만들기 시작합니다.'));return}
+ for(const j of [...S.jobs].reverse()){
+  const used=j.used||S.settings,est=j.estimate;
+  const pill=el('span',{class:'pill'+(j.status==='done'?' ok':j.status==='error'?' err':'')},STATUS[j.status]||j.status);
+  const meta=j.status==='done'&&j.result?'오디오 '+fmtDur(j.result.duration)+' · MP3 '+fmtMB(j.result.bytes)+' · ZIP '+fmtMB(j.result.zipBytes):
+   j.chars.toLocaleString()+'자 · 예상 '+fmtDur(est.seconds)+' · 약 '+fmtMB(est.bytes)+' (현수 · '+used.speed+'배속 · '+(S.profiles[used.profile]?.label||used.profile)+')';
+  const card=el('div',{class:'job'},el('div',{class:'job-head'},el('div',{},el('div',{class:'job-title'},j.title+' ',pill),el('div',{class:'meta'},meta))));
+  if(j.status==='running'){
+   const p=j.progress||{},pct=p.total?Math.floor(p.done/p.total*1000)/10:0;
+   const bar=el('div',{class:'bar'},el('i'));bar.firstChild.style.width=pct+'%';card.append(bar);
+   card.append(el('div',{class:'meta'},(STAGE[p.stage]||S.engineMessage||'준비 중')+(p.total?' · '+pct+'% ('+p.done+'/'+p.total+' 문단)':'')+(p.retries?' · 다시 받음 '+p.retries+'번':'')+(p.stage==='synth'?' · '+fmtEta(p.etaSec):'')));
+  }
+  if(j.error)card.append(el('div',{class:'err-text'},j.error));
+  const acts=el('div',{class:'actions',style:'margin-top:10px'});
+  if(j.status==='running'||j.status==='queued')acts.append(btn('멈추기',()=>api('/api/job/'+j.id+'/stop')));
+  if(j.status==='stopped'||j.status==='error')acts.append(btn('이어서 만들기',()=>api('/api/job/'+j.id+'/start'),true));
+  if(j.status==='done'){acts.append(el('a',{href:'/api/job/'+j.id+'/zip'},el('button',{class:'primary'},'원문+오디오 ZIP 받기')));acts.append(btn('ZIP 폴더 열기',()=>api('/api/open?dir=out')));acts.append(btn('지금 설정으로 다시 만들기',()=>confirm('지금 설정으로 처음부터 다시 만들까요?')&&api('/api/job/'+j.id+'/redo')))}
+  acts.append(btn('목록에서 지우기',()=>confirm('「'+j.title+'」 작업을 지울까요? (이미 사이트에 올린 책은 그대로 남습니다)')&&api('/api/job/'+j.id+'/delete')));
+  card.append(acts);box.append(card);
+ }
+}
+
+// 올리기 상태
+function renderPublish(){
+ const box=$('#pubState');box.textContent='';
+ const gh=S.github,pub=S.publish;
+ const line=el('div',{class:'row'});
+ if(!gh)line.append(el('span',{class:'meta'},'GitHub 연결 확인 중…'));
+ else if(!gh.gh)line.append(el('span',{class:'err-text'},'GitHub CLI(gh)가 설치되어 있지 않습니다. PowerShell에서 winget install GitHub.cli 를 실행한 뒤 작업실을 다시 여세요.'));
+ else if(!gh.loggedIn)line.append(el('span',{class:'err-text'},'GitHub 로그인이 필요합니다. '),btn('GitHub 로그인',()=>api('/api/github/login'),true),btn('다시 확인',()=>api('/api/github/check')));
+ else line.append(el('span',{class:'pill ok'},'GitHub '+gh.login),el('a',{href:S.siteUrl,target:'_blank'},'오디오 저장소'),el('a',{href:S.readerUrl,target:'_blank'},'여백 리더 열기'));
+ box.append(line);
+ const usage=el('div',{class:'meta',style:'margin-top:8px'},'사이트에 올릴 오디오 '+fmtMB(S.siteBytes)+' / 약 '+Math.round(S.siteLimit/1048576)+'MB (GitHub Pages 한도)');
+ const bar=el('div',{class:'bar'},el('i'));bar.firstChild.style.width=Math.min(100,S.siteBytes/S.siteLimit*100)+'%';box.append(usage,bar);
+ if(pub&&pub.state!=='idle'){
+  const cls=pub.state==='live'?'pill ok':pub.state==='error'?'pill err':'pill';
+  const label={publishing:'올리는 중',live:'반영됨',pushed:'올림(반영 대기)',error:'올리기 실패',pending:'올리기 대기'}[pub.state]||pub.state;
+  box.append(el('div',{class:'row',style:'margin-top:4px'},el('span',{class:cls},label),el('span',{class:pub.state==='error'?'err-text':'meta'},pub.message||'')));
+ }
+ box.append(el('div',{class:'actions',style:'margin-top:10px'},btn('지금 올리기',()=>api('/api/publish')),btn('올릴 내용 폴더 열기',()=>api('/api/open?dir=site'))));
+ const shelf=$('#shelf');shelf.textContent='';
+ if(!S.shelf.length){shelf.append(el('p',{class:'empty',style:'margin-top:12px'},'아직 사이트에 올릴 책이 없습니다.'));return}
+ const ul=el('ul');
+ for(const it of S.shelf)ul.append(el('li',{},el('span',{},el('b',{},it.title),el('br'),el('span',{class:'meta'},fmtDur(it.duration)+' · '+fmtMB(it.bytes)+' · '+(it.description||''))),btn('사이트에서 내리기',()=>confirm('「'+it.title+'」을(를) 여백 리더 추천 글에서 내릴까요? (이미 담은 기기에는 남습니다)')&&api('/api/shelf/'+it.id+'/remove'))));
+ shelf.append(ul);
+}
+function render(){
+ buildSettings();renderSettings();renderJobs();renderPublish();
+ const eng={idle:'대기 중',working:'만드는 중'}[S.engine]||S.engine;
+ $('#engine').textContent=eng+(S.devices?' · '+S.devices:'')+(S.engineMessage?' · '+S.engineMessage:'');
+ $('#footer').textContent='작업 폴더: '+S.root+' · 이 화면을 닫아도 만들기는 계속됩니다(검은 작업실 창을 닫으면 멈추고, 다음에 이어서 만듭니다).';
+}
+function connect(){const ev=new EventSource('/api/events');ev.onmessage=e=>{S=JSON.parse(e.data);render()};ev.onerror=()=>{$('#engine').textContent='작업실 프로그램과 연결이 끊겼습니다. studio.cmd 를 다시 실행해 주세요.'}}
+connect();
+</script>
+</body>
+</html>

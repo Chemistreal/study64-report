@@ -1,10 +1,8 @@
 {
-  "name": "yeobaek-pc-audio",
+  "name": "yeobaek-pc-studio",
   "private": true,
-  "description": "여백 PC 오디오 만들기: 글 폴더나 ZIP을 여백 AI 목소리 오디오(문단 위치 포함)로 바꿔 '+'로 가져올 ZIP을 만든다.",
+  "description": "여백 작업실: 글을 올리면 Edge 신경망 음성으로 원문+AI 오디오 ZIP을 만들고, 여백 리더 '추천 글'(오디오 저장소)에 자동으로 올린다.",
   "type": "module",
-  "bin": { "yeobaek-audio": "make-audio.mjs" },
-  "dependencies": {
-    "onnxruntime-node": "1.20.1"
-  }
+  "bin": { "yeobaek-audio": "make-audio.mjs", "yeobaek-studio": "studio.mjs" },
+  "scripts": { "studio": "node studio.mjs" }
 }
