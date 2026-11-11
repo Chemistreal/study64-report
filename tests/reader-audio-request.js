@@ -58,6 +58,9 @@ const root=path.resolve(__dirname,'..');
   await page.evaluate(()=>backToLibrary());
   await page.evaluate(id=>openBookActions(id),bookId);
   assert.equal(await page.locator('#requestAudioBtn').textContent(),'현수 오디오 만들기');
+  // 아이폰 폭에서 책 관리 버튼들이 화면 밖으로 밀리지 않는다(예전: '현수 오디오 만들기'가 왼쪽으로 잘림)
+  const fit=await page.evaluate(()=>[...document.querySelectorAll('#bookActionsModal .modal-actions button')].map(b=>{const r=b.getBoundingClientRect();return {t:b.textContent,left:Math.round(r.left),right:Math.round(r.right)}}));
+  for(const b of fit)assert.ok(b.left>=0&&b.right<=390,'book action buttons fit the phone: '+JSON.stringify(fit));
   await page.locator('#requestAudioBtn').click();
   await page.waitForFunction(()=>Object.keys(audioRequests).length===1);
   const expected=E.bookFromBlocks('요청 시험',blocks);
