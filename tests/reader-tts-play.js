@@ -120,6 +120,35 @@ const server=http.createServer(async(req,res)=>{
   await live.waitForFunction(()=>window.__spoken.length>=3&&!state.playing,null,{timeout:20000});
   assert.equal(await live.evaluate(()=>state.liveAiFailed),true);
   assert.deepEqual(liveErrors,[]);
-  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 업로드 후 AI 자동 준비 · 메뉴에서 고른 AI 목소리로 실시간 낭독 · 기기 음성 선택·대체 PASS');
+
+  // 책 하나를 다 들으면 서재 제목 순서(1강→2강→10강)로 다음 책을 이어 읽는다. 끄면 그 책에서 멈춘다.
+  const series=await browser.newPage({viewport:{width:1100,height:820}});
+  const seriesErrors=[];series.on('pageerror',e=>seriesErrors.push(e.message));series.on('dialog',d=>d.dismiss());
+  await series.addInitScript(()=>{window.__spoken=[];speechSynthesis.speak=u=>{window.__spoken.push(u.text);setTimeout(()=>u.onend&&u.onend(),15)}});
+  await series.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
+  await series.waitForFunction(()=>state.db&&document.querySelector('#bookCount'));
+  for(const [title,body] of [['10강 끝','열째 강의 본문입니다.'],['2강 가운데','둘째 강의 본문입니다.'],['1강 처음','첫째 강의 본문입니다.']]){
+   if(await series.locator('#readerView:not(.hidden)').count())await series.locator('#backBtn').click();
+   await series.locator('#composerText').fill('# '+title+'\n\n'+body);
+   await series.locator('#composerSave').click();
+   await series.locator('#readerTitle').getByText(title).waitFor();
+  }
+  assert.equal(await series.evaluate(()=>state.settings.continueNext),true,'continuing to the next book is on by default');
+  await series.locator('#playBtn').click();
+  await series.waitForFunction(()=>state.book?.title==='10강 끝'&&state.book.completed&&!state.playing,null,{timeout:20000});
+  const seriesSpoken=await series.evaluate(()=>window.__spoken);
+  assert.deepEqual(seriesSpoken,['1강 처음','첫째 강의 본문입니다.','2강 가운데','둘째 강의 본문입니다.','10강 끝','열째 강의 본문입니다.'],'books continue in natural title order');
+  // 끄면 다음 책으로 넘어가지 않는다.
+  await series.locator('#backBtn').click();
+  await series.locator('*:has(.book-open)',{hasText:'1강 처음'}).last().locator('.book-open').click();
+  await series.locator('#readerTitle').getByText('1강 처음').waitFor();
+  await series.locator('#settingsBtn').click();await series.locator('#continueNextToggle').uncheck();await series.locator('#settingsDrawer .close-layer').click();
+  await series.evaluate(()=>{window.__spoken=[];state.book.completed=false;state.index=0;state.chunk=0});
+  await series.locator('#playBtn').click();
+  await series.waitForFunction(()=>state.book.completed&&!state.playing,null,{timeout:20000});
+  assert.equal(await series.evaluate(()=>state.book.title),'1강 처음','stays on the finished book when turned off');
+  assert.deepEqual(await series.evaluate(()=>window.__spoken),['1강 처음','첫째 강의 본문입니다.']);
+  assert.deepEqual(seriesErrors,[]);
+  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 업로드 후 AI 자동 준비 · 다음 책 이어 듣기 · 메뉴에서 고른 AI 목소리로 실시간 낭독 · 기기 음성 선택·대체 PASS');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
