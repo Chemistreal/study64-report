@@ -91,7 +91,8 @@ export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()
  checkAbort(signal);
  const style=await voiceFor(voiceId);checkAbort(signal);
  const sampleRate=engine.sampleRate;
- const encoder=new window.lamejs.Mp3Encoder(1,sampleRate,96);
+ // 말소리는 48kbps 모노로도 충분하다 — 강의 1시간이 약 21MB(96kbps면 두 배)라 여러 권을 기기에 담을 수 있다.
+ const encoder=new window.lamejs.Mp3Encoder(1,sampleRate,48);
  const output=[],marks=[];let samples=0;const silence=new Int16Array(Math.floor(sampleRate*.22));
  const feed=pcm=>{for(let start=0;start<pcm.length;start+=11520){const encoded=encoder.encodeBuffer(pcm.subarray(start,start+11520));if(encoded.length)output.push(new Uint8Array(encoded))}};
  for(let i=0;i<segments.length;i++){

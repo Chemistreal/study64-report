@@ -178,6 +178,14 @@ const server=http.createServer(async(req,res)=>{
    const order=[];for(let i=0;i<3;i++){const j=nextQueuedAiJob();order.push(j.title);j.status='ready'}
    state.localAiQueue=saved;return order});
   assert.deepEqual(pick,['1강 처음','2강 가운데','10강 끝'],'AI preparation follows the listening order');
+  // 저장 공간이 모자라면 만들기 전에 멈춘다.
+  const room=await series.evaluate(async()=>{const book={blocks:[{text:'가'.repeat(32000)}]};const real=navigator.storage.estimate;
+   navigator.storage.estimate=async()=>({quota:60*1048576,usage:30*1048576});const small=await aiStorageRoom(book);
+   navigator.storage.estimate=async()=>({quota:4096*1048576,usage:30*1048576});const big=await aiStorageRoom(book);
+   navigator.storage.estimate=real;return {small,big}});
+  assert.equal(room.small.ok,false,'a 32,000-character lecture does not fit in 30MB');
+  assert.ok(room.small.neededMb>40&&room.small.neededMb<80,'needed space estimate: '+room.small.neededMb);
+  assert.equal(room.big.ok,true);
   assert.deepEqual(seriesErrors,[]);
 
   // 미리 만든 AI 오디오는 재생 위치에 맞춰 읽는 문단을 따라가고, 문단을 누르면 그 문단의 소리로 이동한다.

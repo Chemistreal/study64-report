@@ -529,6 +529,11 @@ async function cleanupAiParts(bookId,voiceId,batches){
  })
 }
 // 지금 열어 둔 책을 먼저, 그다음은 이어 듣기와 같은 순서(제목 자연 순서: 49강→50강…)로 준비한다.
+// 한 권을 만들기 전에 저장 공간을 확인한다(48kbps 말소리 ≈ 글자당 약 1KB, 부분 파일·여유분 포함 1.6배).
+async function aiStorageRoom(book){
+ const neededMb=Math.ceil(bookCharacters(book)*1000*1.6/1048576)+20;
+ try{const est=await navigator.storage?.estimate?.();if(!est||!est.quota)return {ok:true,neededMb,freeMb:null};const freeMb=Math.floor((est.quota-(est.usage||0))/1048576);return {ok:freeMb>=neededMb,neededMb,freeMb}}catch(e){return {ok:true,neededMb,freeMb:null}}
+}
 function nextQueuedAiJob(){
  const queued=state.localAiQueue.filter(j=>j.status==='queued');if(!queued.length)return null;
  const current=state.book&&queued.find(j=>j.bookId===state.book.id);if(current)return current;
@@ -551,6 +556,8 @@ async function runLocalAiQueue(){
   const batches=aiBatchesForBook(book);
   if(!batches.length)throw Error('낭독 가능한 문장이 없습니다.');
   job.total=batches.length;await persistLocalAiQueue();
+  const room=await aiStorageRoom(book);
+  if(!room.ok){job.status='queued';state.localAiPauseRequested=true;toast('기기 저장 공간이 부족해 AI 음성 준비를 멈췄습니다. 이 책에 약 '+room.neededMb+'MB가 필요한데 '+room.freeMb+'MB 남았습니다. 다 들은 책을 정리한 뒤 다시 시작해 주세요.',9000);return}
   await acquireGenerationWakeLock();
   const mod=await aiModule();
   const blobs=[],parts=[];let bytes=0;
