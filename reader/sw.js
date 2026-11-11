@@ -11,8 +11,23 @@ self.addEventListener('activate',event=>{event.waitUntil((async()=>{
  const keys=await caches.keys();await Promise.all(keys.filter(key=>key.startsWith('yeobaek-reader-shell-')&&key!==CACHE).map(key=>caches.delete(key)));
  await self.clients.claim();
 })())});
+// 기기 내 AI 음성 엔진(버전 고정 CDN 파일)도 한 번 받으면 보관해, 모델이 저장돼 있으면 오프라인에서도 AI 목소리가 나온다.
+const AI_RUNTIME_CACHE='yeobaek-ai-runtime-v1';
+const AI_RUNTIME_PREFIXES=['https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/','https://cdn.jsdelivr.net/npm/lamejs@1.2.1/'];
 self.addEventListener('fetch',event=>{
  const request=event.request;
+ if(request.method==='GET'&&AI_RUNTIME_PREFIXES.some(prefix=>request.url.startsWith(prefix))){
+  event.respondWith((async()=>{
+   const cache=await caches.open(AI_RUNTIME_CACHE);
+   const existing=await cache.match(request,{ignoreVary:true});
+   // 스크립트(no-cors)로 받은 불투명 응답은 fetch(cors) 요청에 줄 수 없다.
+   if(existing&&(existing.type!=='opaque'||request.mode==='no-cors'))return existing;
+   const response=await fetch(request);
+   if(response.ok||response.type==='opaque'){try{await cache.put(request,response.clone())}catch(e){}}
+   return response;
+  })());
+  return;
+ }
  if(request.method!=='GET'||new URL(request.url).origin!==self.location.origin)return;
  const pathnameUrl=new URL(request.url);pathnameUrl.search='';pathnameUrl.hash='';
  if(!publicUrls.has(pathnameUrl.href))return;
