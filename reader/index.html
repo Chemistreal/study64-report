@@ -750,7 +750,7 @@ async function pumpLive(live){
   const mod=await aiModule();
   while(state.live===live){
    const ahead=live.queue.reduce((n,x)=>n+x.duration,0);
-   if(live.exhausted||ahead>=LIVE_AHEAD_SECONDS)break;
+   if(live.exhausted||ahead>=liveAheadTarget(live))break;
    while(state.localAiRunning&&state.live===live)await liveSleep(150);
    if(state.live!==live)break;
    const item=nextLiveItem(live);if(!item){live.exhausted=true;break}
@@ -767,6 +767,8 @@ async function pumpLive(live){
 }
 // 실시간 낭독 상태: 얼마나 앞서 만들어 뒀는지, 기기가 말하는 속도를 따라가는지 보여준다(첫 문장은 모델 불러오기가 섞여 빼고 잰다).
 function liveAheadSeconds(live){const a=state.liveAudio;let ahead=live.queue.reduce((n,x)=>n+x.duration,0);if(live.current&&a&&Number.isFinite(a.duration))ahead+=Math.max(0,a.duration-a.currentTime);return ahead/cleanRate(state.settings.rate)}
+// 기기가 말하는 속도보다 넉넉히 빨리 만들면 더 멀리(최대 6분) 미리 만들어 둔다 — 화면이 꺼져 계산이 멈춰도 그만큼 이어 들린다.
+function liveAheadTarget(live){const ratio=liveSpeedRatio(live);return live.synthSec>=10&&ratio>0&&ratio<.6?LIVE_AHEAD_SECONDS*3:LIVE_AHEAD_SECONDS}
 function liveSpeedRatio(live){return live.synthSec>0?live.synthMs/1000/live.synthSec:0}
 function updateLiveStatus(live){
  const el=$('#playerLabel');if(!el)return;
