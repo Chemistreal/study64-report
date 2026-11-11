@@ -445,7 +445,10 @@ function primePlaybackFromTap(){
 
 function aiNotice(message){$('#aiConvertStatus').textContent=message}
 function cancelAIJob(){if(aiJob)aiJob.controller.abort()}
-function aiModule(){if(!aiModulePromise){aiModulePromise=(async()=>{if(!window.ort)await loadScript('https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/'+(state.settings.aiDevice!=='cpu'&&'gpu'in navigator?'ort.webgpu.min.js':'ort.min.js'));if(!window.lamejs)await loadScript('https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js');const mod=await import('./ai-auto.js');mod.setLoadingHook?.((on,device)=>markAiLoading(on,device));mod.setDevicePreference?.(state.settings.aiDevice||'auto');return mod})().catch(e=>{aiModulePromise=null;throw e})}return aiModulePromise}
+function aiModule(){if(!aiModulePromise){aiModulePromise=(async()=>{
+// onnxruntime-web 1.17은 최신 크롬에서 없어진 adapter.requestAdapterInfo()를 불러 GPU를 조용히 포기한다 → adapter.info로 채워 준다.
+if(window.GPUAdapter&&!GPUAdapter.prototype.requestAdapterInfo)GPUAdapter.prototype.requestAdapterInfo=function(){return Promise.resolve(this.info||{})};
+if(!window.ort)await loadScript('https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.3/dist/'+(state.settings.aiDevice!=='cpu'&&'gpu'in navigator?'ort.webgpu.min.js':'ort.min.js'));if(!window.lamejs)await loadScript('https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js');const mod=await import('./ai-auto.js');mod.setLoadingHook?.((on,device)=>markAiLoading(on,device));mod.setDevicePreference?.(state.settings.aiDevice||'auto');return mod})().catch(e=>{aiModulePromise=null;throw e})}return aiModulePromise}
 
 const LOCAL_AI_QUEUE_KEY='yeobaek-local-ai-queue-v1';
 const LOCAL_AI_BATCH_CHARS=700;
