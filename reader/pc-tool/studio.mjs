@@ -36,9 +36,11 @@ function changed(){
  if(!pushTimer)pushTimer=setTimeout(()=>{pushTimer=null;const data='data: '+JSON.stringify(view())+'\n\n';for(const c of clients)c.write(data)},300);
 }
 function view(){
- const shelf=P.readShelf(DIRS.site);
+ // 사이트 목록 = 이 PC의 책 + 저장소에 있는 책(아이폰 요청으로 GitHub이 만든 책 포함, 마지막으로 올리거나 받은 상태) − 내린 책
+ const removed=new Set(P.readRemoved(DIRS.site)),mine=P.readShelf(DIRS.site).items,remote=P.readShelf(DIRS.git).items;
+ const shelf={items:[...mine,...remote.filter(x=>!mine.some(m=>m.id===x.id))].filter(x=>!removed.has(x.id))};
  return {...state,jobs:state.jobs.map(j=>({...j,estimate:E.estimate(j.chars,(j.used||state.settings).speed,(j.used||state.settings).profile)})),
-  shelf:shelf.items,siteBytes:P.dirBytes(DIRS.site),siteLimit:P.PAGES_SOFT_LIMIT,siteUrl:P.siteUrl(target()),readerUrl:'https://chemistreal.github.io/study64-report/reader/',
+  shelf:shelf.items,siteBytes:Math.max(P.dirBytes(DIRS.site),P.dirBytes(DIRS.git)),siteLimit:P.PAGES_SOFT_LIMIT,siteUrl:P.siteUrl(target()),readerUrl:'https://chemistreal.github.io/study64-report/reader/',
   voice:E.VOICE,profiles:E.PROFILES,root:ROOT};
 }
 const target=()=>({owner:state.settings.owner||P.DEFAULT_TARGET.owner,repo:state.settings.repo||P.DEFAULT_TARGET.repo});
