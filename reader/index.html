@@ -755,12 +755,13 @@ async function pumpLive(live){
    while(state.localAiRunning&&state.live===live)await liveSleep(150);
    if(state.live!==live)break;
    const item=nextLiveItem(live);if(!item){live.exhausted=true;break}
+   const clipKey=state.settings.aiVoice+'|'+aiSteps()+'|'+item.text,cached=liveClipGet(clipKey);
    const startedAt=performance.now();
-   const out=await mod.synthesizeSpeech(item.text,{voiceId:state.settings.aiVoice,steps:aiSteps(),signal:live.controller.signal,onProgress:p=>{if(p.stage==='loading'&&!live.current&&state.live===live)$('#playerTitle').textContent=p.message}});
+   const out=cached||await mod.synthesizeSpeech(item.text,{voiceId:state.settings.aiVoice,steps:aiSteps(),signal:live.controller.signal,onProgress:p=>{if(p.stage==='loading'&&!live.current&&state.live===live)$('#playerTitle').textContent=p.message}});
    if(state.live!==live)break;
    if(!out)continue;
    item.url=URL.createObjectURL(out.blob);item.duration=out.duration;live.queue.push(item);
-   if(live.synthCount++>0){live.synthMs+=performance.now()-startedAt;live.synthSec+=out.duration}
+   if(!cached){liveClipPut(clipKey,out);if(live.synthCount++>0){live.synthMs+=performance.now()-startedAt;live.synthSec+=out.duration}}
    if(!live.current)playNextLive(live);else updateLiveStatus(live)
   }
  }catch(e){if(e?.name!=='AbortError'&&state.live===live)liveFailed(live,e)}
@@ -769,6 +770,10 @@ async function pumpLive(live){
 // 실시간 낭독 상태: 얼마나 앞서 만들어 뒀는지, 기기가 말하는 속도를 따라가는지 보여준다(첫 문장은 모델 불러오기가 섞여 빼고 잰다).
 function liveAheadSeconds(live){const a=state.liveAudio;let ahead=live.queue.reduce((n,x)=>n+x.duration,0);if(live.current&&a&&Number.isFinite(a.duration))ahead+=Math.max(0,a.duration-a.currentTime);return ahead/cleanRate(state.settings.rate)}
 // 기기가 말하는 속도보다 넉넉히 빨리 만들면 더 멀리(최대 6분) 미리 만들어 둔다 — 화면이 꺼져 계산이 멈춰도 그만큼 이어 들린다.
+// 방금 만든 문장 소리를 잠시 기억해, 앞 문단으로 돌아가거나 문단을 눌러 다시 들을 때 바로 들려준다(최근 약 10분 분량).
+const LIVE_CLIP_LIMIT_SECONDS=600;
+function liveClipGet(key){const map=state.liveClips;if(!map?.has(key))return null;const clip=map.get(key);map.delete(key);map.set(key,clip);return clip}
+function liveClipPut(key,clip){if(!clip?.blob)return;const map=state.liveClips||(state.liveClips=new Map());map.delete(key);map.set(key,clip);let total=0;for(const c of map.values())total+=c.duration||0;for(const [k,c] of map){if(total<=LIVE_CLIP_LIMIT_SECONDS)break;map.delete(k);total-=c.duration||0}}
 function liveAheadTarget(live){const ratio=liveSpeedRatio(live);return live.synthSec>=10&&ratio>0&&ratio<.6?LIVE_AHEAD_SECONDS*3:LIVE_AHEAD_SECONDS}
 function liveSpeedRatio(live){return live.synthSec>0?live.synthMs/1000/live.synthSec:0}
 function updateLiveStatus(live){

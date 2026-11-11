@@ -113,6 +113,11 @@ const server=http.createServer(async(req,res)=>{
   assert.deepEqual(liveResult.synth,['실시간','첫째 문장입니다. 둘째 문장입니다.','셋째 문단입니다.'],'AI synthesizes each passage in order');
   assert.deepEqual(liveResult.played.map(t=>t.replace(/\s+/g,' ').trim()),liveResult.synth,'each AI passage plays with its sentence highlighted');
 
+  // 같은 목소리로 다시 들으면 방금 만든 소리를 다시 써서 AI를 또 부르지 않는다.
+  await live.evaluate(()=>{state.book.completed=false;state.index=0;state.chunk=0;window.__synth=[]});
+  await live.locator('#playBtn').click();
+  await live.waitForFunction(()=>state.book.completed===true&&!state.playing,null,{timeout:20000});
+  assert.deepEqual(await live.evaluate(()=>window.__synth),[],'replaying reuses the clips it just made');
   // 기기 음성을 고르면 기기 음성으로 읽는다.
   const deviceVoice=await live.evaluate(()=>[...$('#voiceSelect').options].find(o=>!o.value.startsWith('ai:')).value);
   await pickVoice(deviceVoice);
