@@ -111,6 +111,8 @@ export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()
  onProgress({stage:'done',message:'AI 오디오 생성 완료',done:segments.length,total:segments.length});
  return {blob,voiceId,characters:totalCharacters,segmentCount:segments.length,marks,duration:samples/sampleRate};
 }
+// Load the model and the chosen voice ahead of time so the first live sentence starts sooner.
+export async function warmUp(voiceId='F1',onProgress=()=>{}){await loadLocalAI(message=>onProgress({stage:'loading',message}));await voiceFor(voiceId);return true}
 // Live narration: synthesize one short passage and hand back a playable WAV right away,
 // so reading can start without preparing the whole book first.
 export async function synthesizeSpeech(text,{voiceId='F1',signal,onProgress=()=>{}}={}){

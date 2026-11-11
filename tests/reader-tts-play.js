@@ -156,6 +156,16 @@ const server=http.createServer(async(req,res)=>{
   await series.waitForFunction(()=>state.book.completed&&!state.playing,null,{timeout:20000});
   assert.equal(await series.evaluate(()=>state.book.title),'1강 처음','stays on the finished book when turned off');
   assert.deepEqual(await series.evaluate(()=>window.__spoken),['1강 처음','첫째 강의 본문입니다.']);
+  // 취침 타이머 '이 책이 끝나면': 이어 듣기가 켜져 있어도 이 책에서 멈춘다.
+  await series.locator('#settingsBtn').click();await series.locator('#continueNextToggle').check();await series.locator('#sleepTimerSelect').selectOption('book');
+  assert.match(await series.locator('#sleepTimerStatus').textContent(),/끝까지 읽으면 멈춥니다/);
+  await series.locator('#settingsDrawer .close-layer').click();
+  await series.evaluate(()=>{window.__spoken=[];state.book.completed=false;state.index=0;state.chunk=0});
+  await series.locator('#playBtn').click();
+  await series.waitForFunction(()=>state.book.completed&&!state.playing&&!state.sleepAfterBook,null,{timeout:20000});
+  await series.waitForTimeout(300);
+  assert.equal(await series.evaluate(()=>state.book.title),'1강 처음','sleep-after-book stops at the end of this book');
+  assert.equal(await series.locator('#sleepTimerSelect').inputValue(),'0','the timer resets after stopping');
   assert.deepEqual(seriesErrors,[]);
 
   // 미리 만든 AI 오디오는 재생 위치에 맞춰 읽는 문단을 따라가고, 문단을 누르면 그 문단의 소리로 이동한다.
