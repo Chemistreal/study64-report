@@ -11,6 +11,11 @@ const BASE='https://huggingface.co/Supertone/supertonic-3/resolve/main';
 export const MODEL_CACHE='yeobaek-ai-model-v1';
 const MODEL_FILES=['duration_predictor','text_encoder','vector_estimator','vocoder'].map(n=>BASE+'/onnx/'+n+'.onnx');
 let downloadReport=null,loadingHook=null;
+// 계산 장치: PC(또는 WebGPU를 지원하는 기기)에서는 GPU로 수십 배 빨리 만든다. GPU가 안 되면 CPU(WASM)로 바꾼다.
+let devicePref='auto',activeDevice='cpu';
+export function setDevicePreference(p){const next=['auto','gpu','cpu'].includes(p)?p:'auto';if(next!==devicePref){devicePref=next;if(activeDevice==='gpu'&&next==='cpu')modelPromise=null}}
+export function aiDevice(){return activeDevice}
+async function gpuUsable(){if(devicePref==='cpu')return false;try{if(!navigator.gpu||!window.ort?.env?.webgpu)return false;return !!(await navigator.gpu.requestAdapter())}catch(e){return false}}
 export function setLoadingHook(fn){loadingHook=typeof fn==='function'?fn:null}
 async function openModelCache(){try{return typeof caches!=='undefined'?await caches.open(MODEL_CACHE):null}catch(e){return null}}
 function bytesResponse(bytes){return {ok:true,status:200,arrayBuffer:async()=>bytes.buffer.byteLength===bytes.byteLength?bytes.buffer:bytes.slice().buffer,json:async()=>JSON.parse(new TextDecoder().decode(bytes))}}
@@ -113,15 +118,23 @@ export async function loadLocalAI(report=()=>{}){
    report(stored?'기기에 저장된 AI 모델을 불러옵니다.':status.partialBytes||status.cachedFiles?'받다 만 AI 모델을 이어서 받습니다.':'AI 음성 엔진을 받습니다. 처음 한 번만 약 380MB를 받고 기기에 저장합니다.');
    if(!stored)await downloadModel(report);
    // 여기부터 모델을 메모리에 올린다 — 이 사이에 페이지가 죽으면 다음에 알 수 있게 표시한다.
-   await loadingHook?.(true);
+   const gpu=await gpuUsable();
+   const load=device=>loadTextToSpeech(BASE+'/onnx',{executionProviders:device==='gpu'?['webgpu','wasm']:['wasm'],graphOptimizationLevel:'all'},(name,index,total)=>report('AI 모델 준비 중'+(device==='gpu'?' (GPU)':'')+': '+name+' ('+index+'/'+total+')'));
+   await loadingHook?.(true,gpu?'gpu':'cpu');
    try{
-    const output=await loadTextToSpeech(BASE+'/onnx',{executionProviders:['wasm'],graphOptimizationLevel:'all'},(name,index,total)=>report('AI 모델 준비 중: '+name+' ('+index+'/'+total+')'));
-    return output.textToSpeech;
+    if(gpu){try{const output=await load('gpu');activeDevice='gpu';return output.textToSpeech}catch(e){console.warn('GPU로 AI 모델을 불러오지 못해 CPU로 바꿉니다.',e)}}
+    const output=await load('cpu');activeDevice='cpu';return output.textToSpeech;
    }finally{await loadingHook?.(false)}
  })().catch(e=>{modelPromise=null;throw e});
  return modelPromise;
 }
 async function voiceFor(id){const safe=VOICES.some(v=>v.id===id)?id:'F1';if(!voiceStyles.has(safe)){const style=loadVoiceStyle([BASE+'/voice_styles/'+safe+'.json']);voiceStyles.set(safe,style)}try{return await voiceStyles.get(safe)}catch(e){voiceStyles.delete(safe);throw e}}
+// GPU에서 계산하다 오류가 나면 CPU로 엔진을 다시 불러 같은 문장을 다시 만든다.
+async function callEngine(text,style,steps,report){
+ let engine=await loadLocalAI(report);
+ try{return await engine.call(text,'ko',style,cleanSteps(steps),1.0,.2)}
+ catch(e){if(activeDevice!=='gpu'||e?.name==='AbortError')throw e;console.warn('GPU 계산 실패, CPU로 다시 만듭니다.',e);devicePref='cpu';modelPromise=null;engine=await loadLocalAI(report);return await engine.call(text,'ko',style,cleanSteps(steps),1.0,.2)}
+}
 function partsForBook(book){
  const parts=[];book.blocks.forEach((block,blockIndex)=>{let text=String(block.text||'').replace(/\s+/g,' ').trim();if(!text)return;const owner=Number.isInteger(block.source)?block.source:blockIndex;
    // Preserve punctuation and ordering, with conservative chunks for Korean VITS inference.
@@ -152,7 +165,7 @@ export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()
    onProgress({stage:'synthesizing',message:'문장별로 AI 낭독 오디오 생성 중',done:i,total:segments.length});
    // 문단이 바뀌는 지점의 시각을 적어 둔다(재생 중 문단 따라가기·문단을 눌러 그 위치로 이동).
    if(!marks.length||marks[marks.length-1][0]!==segments[i].block)marks.push([segments[i].block,Math.round(samples/sampleRate*1000)/1000]);
-   const result=await engine.call(segments[i].text,'ko',style,cleanSteps(steps),1.0,.2);
+   const result=await callEngine(segments[i].text,style,steps,message=>onProgress({stage:'loading',message,done:i,total:segments.length}));
    checkAbort(signal);
    const pcm=new Int16Array(result.wav.length);
    for(let j=0;j<pcm.length;j++){pcm[j]=Math.max(-32768,Math.min(32767,Math.round(result.wav[j]*32767)))}
@@ -176,7 +189,7 @@ export async function synthesizeSpeech(text,{voiceId='F1',signal,onProgress=()=>
  const engine=await loadLocalAI(message=>onProgress({stage:'loading',message}));
  checkAbort(signal);
  const style=await voiceFor(voiceId);checkAbort(signal);
- const result=await engine.call(clean,'ko',style,cleanSteps(steps),1.0,.2);
+ const result=await callEngine(clean,style,steps,message=>onProgress({stage:'loading',message}));
  checkAbort(signal);
  const blob=new Blob([writeWavFile(result.wav,engine.sampleRate)],{type:'audio/wav'});
  return {blob,duration:result.wav.length/engine.sampleRate};

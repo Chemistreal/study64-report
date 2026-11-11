@@ -160,6 +160,9 @@ jobs:
       - name: 여백 현재 책 AI 오디오 버튼이 단계를 보여 주고 일시정지·이어서 만들기가 된다
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-ai-book-button.js
+      - name: 여백 AI 오디오를 다른 기기로 보내고 가져온다
+        timeout-minutes: 5
+        run: NODE_PATH=tests/node_modules node tests/reader-ai-audio-pack.js
       - name: 여백 서재 원본·검색·휴지통·책갈피 브라우저 회귀 검증
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-regression.js
