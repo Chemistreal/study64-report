@@ -29,10 +29,13 @@ jobs:
         run: node tts-server/test_reader_client.mjs
       - name: Install server and test packages
         run: python -m pip install --quiet -r tts-server/requirements.txt pytest httpx
+      # apt 미러가 느린 날에는 apt-get ffmpeg 설치만 8분을 넘겨 검사가 통째로 취소됐다(2026-11-11).
+      # PyPI의 imageio-ffmpeg(정적 ffmpeg 실행 파일, AAC·HLS 포함)를 받아 PATH에 둔다 — 몇 초면 끝난다.
       - name: Install FFmpeg for HLS regression test
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg
+          python -m pip install --quiet imageio-ffmpeg
+          sudo ln -sf "$(python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" /usr/local/bin/ffmpeg
+          ffmpeg -hide_banner -version | head -1
       - name: Check Python syntax and API contract
         working-directory: tts-server
         run: |
