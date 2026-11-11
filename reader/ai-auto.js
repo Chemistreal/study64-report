@@ -5,7 +5,7 @@
  * No credentials or cloud TTS endpoint are required; models are downloaded to the browser.
  * Large model (~380 MB): mobile performance varies. Audio generation must finish in foreground.
  */
-import {configureOrt,loadTextToSpeech,loadVoiceStyle} from './supertonic-helper.js';
+import {configureOrt,loadTextToSpeech,loadVoiceStyle,writeWavFile} from './supertonic-helper.js';
 const BASE='https://huggingface.co/Supertone/supertonic-3/resolve/main';
 let modelPromise=null;
 const voiceStyles=new Map();
@@ -67,4 +67,17 @@ export async function generateAIBackgroundAudio(book,{voiceId='F1',onProgress=()
  if(blob.size<500)throw Error('변환 결과가 비어 있습니다.');
  onProgress({stage:'done',message:'AI 오디오 생성 완료',done:segments.length,total:segments.length});
  return {blob,voiceId,characters:totalCharacters,segmentCount:segments.length};
+}
+// Live narration: synthesize one short passage and hand back a playable WAV right away,
+// so reading can start without preparing the whole book first.
+export async function synthesizeSpeech(text,{voiceId='F1',signal,onProgress=()=>{}}={}){
+ const clean=String(text||'').replace(/\s+/g,' ').trim();if(!clean)return null;
+ checkAbort(signal);
+ const engine=await loadLocalAI(message=>onProgress({stage:'loading',message}));
+ checkAbort(signal);
+ const style=await voiceFor(voiceId);checkAbort(signal);
+ const result=await engine.call(clean,'ko',style,8,1.0,.2);
+ checkAbort(signal);
+ const blob=new Blob([writeWavFile(result.wav,engine.sampleRate)],{type:'audio/wav'});
+ return {blob,duration:result.wav.length/engine.sampleRate};
 }
