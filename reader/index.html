@@ -49,7 +49,7 @@
 #libraryView .content{padding-bottom:150px}
 @media(max-width:650px){.composer-dock{width:calc(100% - 16px);padding-bottom:max(8px,env(safe-area-inset-bottom))}#libraryView .content{padding-bottom:140px}}
 #streamStatus{overflow-wrap:anywhere;white-space:pre-line}#streamCancelBtn:disabled{opacity:.45}
-.library-filters{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin:-4px 0 18px;color:var(--muted);font-size:12px}.library-filters label{display:flex;align-items:center;gap:7px}.library-filters select{border:1px solid var(--line);border-radius:9px;padding:8px 11px;color:var(--ink);background:var(--panel);min-height:38px}.trash-items{display:flex;flex-direction:column;gap:10px}.trash-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 3px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.trash-item .button{flex:none;padding:9px 12px}@media(max-width:650px){.library-filters{gap:6px}.trash-item{align-items:start;flex-wrap:wrap}}
+.library-filters{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin:-4px 0 18px;color:var(--muted);font-size:12px}.library-filters label{display:flex;align-items:center;gap:7px}.library-filters select{border:1px solid var(--line);border-radius:9px;padding:8px 11px;color:var(--ink);background:var(--panel);min-height:38px}.trash-items{display:flex;flex-direction:column;gap:10px}.trash-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 3px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.trash-item .button{flex:none;padding:9px 12px}.shelf-detail{color:var(--muted);font-size:.86em}@media(max-width:650px){.library-filters{gap:6px}.trash-item{align-items:start;flex-wrap:wrap}}
 [data-focus-reading="true"] .reader-block:not(.current){opacity:.44;transition:opacity .15s}[data-focus-reading="true"] .reader-block.current{opacity:1}.reader-highlight{background:#fee8a5;color:inherit;border-radius:3px;box-decoration-break:clone}[data-theme=dark] .reader-highlight{background:#69532a;color:#fff1cb}.outline-list .note-snippet{font-size:12px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere}.reader-actions #highlightBtn{background:var(--panel)}.annot-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.annot-actions button{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:7px;padding:7px 10px;font-size:12px}@media(max-width:650px){.reader-actions .icon-btn{width:30px;height:32px}.reader-actions{gap:1px}}
 #libraryView .content{padding-bottom:150px}.composer-attachment-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px;font-size:12px;color:var(--muted)}.composer-attachment-row button{flex:none}.composer-ai-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:12px;color:var(--muted)}.composer-ai-row .ai-toggle-row{margin:0 12px 0 0;flex:1;min-width:185px}.composer-ai-row #queueStatus{width:100%;font-size:12px;line-height:1.55;color:var(--muted)}.composer-attachment-row .setting-hint{flex:1;min-width:160px;margin:0}.composer-dock.is-file-hover .composer-box{outline:2px dashed var(--accent);outline-offset:3px;background:#eef7ed}@media(max-width:650px){.composer-attachment-row,.composer-ai-row{gap:6px}.composer-attachment-row button,.composer-ai-row button{font-size:12px;padding:9px 10px}}
 @media(hover:none) and (pointer:coarse){input:not([type=checkbox]):not([type=radio]),textarea,select{font-size:16px!important}}
@@ -374,24 +374,33 @@ async function exportAiAudioPack(){
  toast('AI 오디오 '+records.length+'권을 내보냈습니다. 아이폰 여백에서 + 버튼으로 받은 ZIP을 가져오세요.',9000);
  return records.length
 }
+// AI 오디오 한 권(글 문단 + 오디오 + 문단 시간표)을 서재에 붙인다. 같은 글(본문 해시)이 있으면 그 책에, 없으면 새 책으로 만든다.
+// 꾸러미 ZIP(+ 버튼)과 추천 글의 AI 오디오 책(오디오 저장소)이 함께 쓴다.
+const AI_AUDIO_MAX_BYTES=400*1024*1024;
+async function attachAiAudioItem(item,blob,hashes){
+ if(!item||typeof item.title!=='string'||!Array.isArray(item.blocks)||!item.blocks.length||item.blocks.length>20000)return false;
+ if(blob.size<500||blob.size>AI_AUDIO_MAX_BYTES||await isSilentLameMp3(blob))return false;
+ const blocks=item.blocks.filter(b=>b&&typeof b.text==='string').map(b=>({kind:['heading','paragraph','quote','list'].includes(b.kind)?b.kind:'paragraph',text:b.text,...(Number.isInteger(b.level)?{level:b.level}:{})}));
+ if(!blocks.length)return false;
+ let book=hashes.get(item.hash)||state.books.find(b=>b.title===item.title&&b.blocks.length===blocks.length);
+ if(!book){book=await addBook(item.title.slice(0,180),typeof item.type==='string'?item.type.slice(0,20):'md',blocks);hashes.set(await bookHash(book),book)}
+ const sameBlocks=book.blocks.length===blocks.length;
+ const timeline=sameBlocks&&Array.isArray(item.timeline)?item.timeline.filter(m=>Array.isArray(m)&&Number.isInteger(m[0])&&m[0]>=0&&m[0]<book.blocks.length&&Number.isFinite(m[1])&&m[1]>=0).map(m=>[m[0],Number(m[1])]):null;
+ await storeReq('audio','readwrite',store=>store.put({id:book.id,blob,name:String(item.name||book.title+'.mp3').slice(0,200),aiVoice:typeof item.aiVoice==='string'?item.aiVoice.slice(0,8):'F1',generatedAt:Date.now(),...(timeline?.length?{timeline,timelineDuration:Number(item.timelineDuration)||0}:{})}));
+ state.audioIds.add(book.id);
+ const job=state.localAiQueue.find(j=>j.bookId===book.id);if(job){job.status='ready';job.error=''}
+ return true
+}
 async function importAiAudioPack(zip){
  let manifest;try{manifest=JSON.parse(await zip.file(AI_PACK_MANIFEST).async('string'))}catch(e){throw Error('AI 오디오 꾸러미 목록을 읽지 못했습니다.')}
  if(manifest?.format!=='yeobaek-ai-audio'||!Array.isArray(manifest.items)||manifest.items.length>200)throw Error('여백 AI 오디오 꾸러미가 아닙니다.');
  const hashes=new Map();for(const b of state.books)hashes.set(await bookHash(b),b);
  let count=0;
  for(const item of manifest.items){
-  if(!item||typeof item.title!=='string'||typeof item.path!=='string'||!/^audio\/\d+\.mp3$/.test(item.path)||!Array.isArray(item.blocks)||!item.blocks.length||item.blocks.length>20000)continue;
+  if(!item||typeof item.path!=='string'||!/^audio\/\d+\.mp3$/.test(item.path))continue;
   const file=zip.file(item.path);if(!file)continue;
-  const blocks=item.blocks.filter(b=>b&&typeof b.text==='string').map(b=>({kind:['heading','paragraph','quote','list'].includes(b.kind)?b.kind:'paragraph',text:b.text,...(Number.isInteger(b.level)?{level:b.level}:{})}));
-  let book=hashes.get(item.hash)||state.books.find(b=>b.title===item.title&&b.blocks.length===blocks.length);
-  if(!book){book=await addBook(item.title.slice(0,180),typeof item.type==='string'?item.type.slice(0,20):'md',blocks);hashes.set(await bookHash(book),book)}
-  const sameBlocks=book.blocks.length===blocks.length;
-  const blob=new Blob([await file.async('arraybuffer')],{type:'audio/mpeg'});if(blob.size<500||blob.size>150*1024*1024||await isSilentLameMp3(blob))continue;
-  const timeline=sameBlocks&&Array.isArray(item.timeline)?item.timeline.filter(m=>Array.isArray(m)&&Number.isInteger(m[0])&&m[0]>=0&&m[0]<book.blocks.length&&Number.isFinite(m[1])&&m[1]>=0).map(m=>[m[0],Number(m[1])]):null;
-  await storeReq('audio','readwrite',store=>store.put({id:book.id,blob,name:String(item.name||book.title+'.mp3').slice(0,200),aiVoice:typeof item.aiVoice==='string'?item.aiVoice.slice(0,8):'F1',generatedAt:Date.now(),...(timeline?.length?{timeline,timelineDuration:Number(item.timelineDuration)||0}:{})}));
-  state.audioIds.add(book.id);
-  const job=state.localAiQueue.find(j=>j.bookId===book.id);if(job){job.status='ready';job.error=''}
-  count++
+  const blob=new Blob([await file.async('arraybuffer')],{type:'audio/mpeg'});
+  if(await attachAiAudioItem(item,blob,hashes))count++
  }
  await persistLocalAiQueue();updateLocalAiQueueUI();renderLibrary();
  if(state.book&&state.audioIds.has(state.book.id)&&!state.playing)await loadBookAudio(state.book.id);
@@ -951,7 +960,62 @@ function registerReaderKeyboard(){document.addEventListener('keydown',e=>{if(!st
 
 // Play must always speak right away. On-device AI audio is only prepared in the background once the
 // person has explicitly allowed the one-time model download (settings · 'AI 모델 설치·준비 시작').
-async function openLibraryShelf(){openLayer('#libraryModal');const list=$('#libraryList');list.textContent='불러오는 중…';let items;try{const response=await fetch('./library/index.json',{cache:'no-cache'});if(!response.ok)throw Error();items=await response.json();if(!Array.isArray(items))throw Error()}catch(e){list.textContent='추천 글 목록을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.';return}list.textContent='';for(const item of items){if(!item||typeof item.file!=='string'||!/^[^\/\\]+\.(zip|md|txt)$/i.test(item.file))continue;const row=document.createElement('div');row.className='trash-item';const label=document.createElement('span');label.textContent=String(item.title||item.file)+(item.description?' · '+item.description:'');const button=document.createElement('button');button.type='button';button.className='button small';button.textContent='서재에 담기';button.onclick=async()=>{button.disabled=true;button.textContent='받는 중…';try{const response=await fetch('./library/'+encodeURIComponent(item.file));if(!response.ok)throw Error('파일을 받지 못했습니다. 인터넷 연결을 확인해 주세요.');const blob=await response.blob();closeLayers();if(state.book)backToLibrary();await importFiles([new File([blob],item.file,{type:blob.type||'application/octet-stream'})])}catch(e){toast(e.message||'담지 못했습니다.',6000)}finally{button.disabled=false;button.textContent='서재에 담기'}};row.append(label,button);list.append(row)}if(!list.children.length)list.textContent='지금은 추천 글이 없습니다.'}
+// 추천 글 = 사이트 안 추천 글(./library) + PC 작업실이 올린 'AI 오디오 책'(같은 사이트의 /yeobaek-audio/ 저장소).
+// AI 오디오 책은 글·문단 시간표(book.json)와 19MB 조각으로 나눈 MP3를 받아 하나로 이어 붙인다 — 잠금 화면에서도 바로 들을 수 있다.
+const AUDIO_SHELF_URL=location.origin+'/yeobaek-audio/index.json';
+async function loadShelfJson(url){const response=await fetch(url,{cache:'no-cache'});if(!response.ok)throw Error('목록을 받지 못했습니다 ('+response.status+')');return response.json()}
+function shelfRow(title,detail,buttonText,onClick){const row=document.createElement('div');row.className='trash-item';const label=document.createElement('span');label.textContent=title;if(detail){const small=document.createElement('small');small.className='shelf-detail';small.textContent=detail;label.append(document.createElement('br'),small)}const button=document.createElement('button');button.type='button';button.className='button small';button.textContent=buttonText;button.onclick=()=>onClick(button);row.append(label,button);return row}
+function audioLength(sec){const s=Number(sec)||0;return s>=3600?(s/3600).toFixed(1)+'시간':Math.max(1,Math.round(s/60))+'분'}
+async function openLibraryShelf(){
+ openLayer('#libraryModal');const list=$('#libraryList');list.textContent='불러오는 중…';
+ const [local,audio]=await Promise.allSettled([loadShelfJson('./library/index.json'),loadShelfJson(AUDIO_SHELF_URL)]);
+ list.textContent='';
+ const audioItems=audio.status==='fulfilled'&&audio.value?.format==='yeobaek-audio-shelf'&&Array.isArray(audio.value.items)?audio.value.items:[];
+ for(const item of audioItems){
+  if(!item||typeof item.title!=='string'||typeof item.manifest!=='string'||!/^[\w\-./]+\.json$/.test(item.manifest)||item.manifest.includes('..'))continue;
+  const detail='AI 낭독 오디오 포함'+(item.duration?' · '+audioLength(item.duration):'')+(item.bytes?' · '+Math.max(1,Math.round(item.bytes/1048576))+'MB':'')+(typeof item.description==='string'&&item.description?' · '+item.description.slice(0,120):'');
+  list.append(shelfRow(item.title.slice(0,180),detail,'오디오와 함께 담기',button=>importAudioShelfItem(item,button)))
+ }
+ const localItems=local.status==='fulfilled'&&Array.isArray(local.value)?local.value:[];
+ for(const item of localItems){
+  if(!item||typeof item.file!=='string'||!/^[^\/\\]+\.(zip|md|txt)$/i.test(item.file))continue;
+  list.append(shelfRow(String(item.title||item.file),item.description?String(item.description):'','서재에 담기',async button=>{button.disabled=true;button.textContent='받는 중…';try{const response=await fetch('./library/'+encodeURIComponent(item.file));if(!response.ok)throw Error('파일을 받지 못했습니다. 인터넷 연결을 확인해 주세요.');const blob=await response.blob();closeLayers();if(state.book)backToLibrary();await importFiles([new File([blob],item.file,{type:blob.type||'application/octet-stream'})])}catch(e){toast(e.message||'담지 못했습니다.',6000)}finally{button.disabled=false;button.textContent='서재에 담기'}}))
+ }
+ if(!list.children.length)list.textContent=local.status==='rejected'&&audio.status==='rejected'?'추천 글 목록을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.':'지금은 추천 글이 없습니다.'
+}
+async function importAudioShelfItem(item,button){
+ const label='오디오와 함께 담기',mb=Math.max(1,Math.round((Number(item.bytes)||0)/1048576));
+ if(mb>=20&&!confirm('「'+item.title.slice(0,80)+'」 오디오 '+mb+'MB를 받습니다. 와이파이에서 받기를 권합니다. 계속할까요?'))return;
+ button.disabled=true;
+ try{
+  if(!state.db)throw Error('서재 저장소를 열지 못했습니다. 페이지를 새로 고쳐 주세요.');
+  try{const est=await navigator.storage?.estimate?.();if(est?.quota&&(est.quota-(est.usage||0))/1048576<mb*1.2+30)throw Error('기기 저장 공간이 부족합니다. 약 '+Math.ceil(mb*1.2+30)+'MB가 필요합니다.')}catch(e){if(/저장 공간/.test(e.message))throw e}
+  button.textContent='목록 받는 중…';
+  const base=new URL(item.manifest,AUDIO_SHELF_URL),manifest=await loadShelfJson(base.href);
+  if(manifest?.format!=='yeobaek-ai-audio'||!Array.isArray(manifest.items)||manifest.items.length>200)throw Error('오디오 목록 형식이 올바르지 않습니다.');
+  const hashes=new Map();for(const b of state.books)hashes.set(await bookHash(b),b);
+  let count=0;
+  for(const entry of manifest.items){
+   const parts=entry?.audio?.parts;
+   if(!Array.isArray(parts)||!parts.length||parts.length>60||!parts.every(p=>typeof p==='string'&&/^[\w\-.]+\.mp3$/.test(p)))continue;
+   const blobs=[];
+   for(let i=0;i<parts.length;i++){
+    button.textContent='받는 중 '+Math.round(i/parts.length*100)+'%';
+    const response=await fetch(new URL(parts[i],base));if(!response.ok)throw Error('오디오 조각을 받지 못했습니다. 인터넷 연결을 확인하고 다시 눌러 주세요.');
+    blobs.push(await response.blob())
+   }
+   const blob=new Blob(blobs,{type:'audio/mpeg'});
+   if(Number(entry.audio.bytes)&&blob.size!==Number(entry.audio.bytes))throw Error('오디오를 끝까지 받지 못했습니다. 다시 눌러 주세요.');
+   button.textContent='서재에 넣는 중…';
+   if(await attachAiAudioItem(entry,blob,hashes))count++
+  }
+  if(!count)throw Error('담을 오디오가 없습니다.');
+  await persistLocalAiQueue();updateLocalAiQueueUI();renderLibrary();
+  closeLayers();if(state.book)backToLibrary();
+  toast('「'+item.title.slice(0,80)+'」을(를) 오디오와 함께 담았습니다. 화면을 잠가도 들을 수 있습니다.',8000)
+ }catch(e){console.error(e);toast(e.message||'담지 못했습니다.',7000)}
+ finally{button.disabled=false;button.textContent=label}
+}
 function prepareAiInBackground(){const book=state.book;if(!book)return;if(state.settings.aiConsent){queueBookForLocalAI(book,{priority:true}).catch(e=>console.error('AI 준비 예약 실패',e));return}if(state.aiHintShown)return;state.aiHintShown=true;setTimeout(()=>{if(state.playing&&!hasAttachedAudio())toast('기기 음성으로 바로 읽어드립니다. 화면을 잠가도 이어 들으려면 설정에서 AI 오디오 준비를 켜 보세요.',6500)},1200)}
 // Marks the sentence being read aloud without touching the DOM (CSS Custom Highlight API; silently skipped when unsupported).
 const spokenHighlight=(typeof Highlight==='function'&&window.CSS&&CSS.highlights)?new Highlight():null;if(spokenHighlight)CSS.highlights.set('yb-speaking',spokenHighlight);
