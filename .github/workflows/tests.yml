@@ -160,6 +160,12 @@ jobs:
       - name: 여백 추천 글에서 AI 오디오 책을 받아 읽는 문단부터 듣고, 예전 기기 AI 흔적을 지운다
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-audio-shelf.js
+      - name: 오디오 저장소 올리기가 PC·아이폰 요청·Actions 완성을 서로 지우지 않고 합친다
+        timeout-minutes: 2
+        run: node tests/audio-repo-sync.js
+      - name: 여백에서 담은 책을 현수 오디오로 요청하고, 완성되면 그 책에 알아서 붙는다
+        timeout-minutes: 3
+        run: NODE_PATH=tests/node_modules node tests/reader-audio-request.js
       - name: 여백 서재에서 여러 권을 고르거나 전체 선택해 한 번에 휴지통으로 옮긴다
         timeout-minutes: 3
         run: NODE_PATH=tests/node_modules node tests/reader-library-select.js

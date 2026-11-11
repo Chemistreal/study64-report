@@ -1,0 +1,81 @@
+# 여백 오디오 저장소(Chemistreal/yeobaek-audio)의 워크플로. PC 작업실(publish.mjs)이 이 파일을 저장소에 넣는다 — 저장소에서 직접 고치지 마세요.
+# 1) inbox/ 에 들어온 '현수 오디오 만들어 줘' 요청(아이폰 리더가 보낸 글)을 Edge 현수 목소리로 만들어 books/ 에 넣는다.
+# 2) 저장소 내용을 GitHub Pages(https://chemistreal.github.io/yeobaek-audio/)로 배포한다.
+name: 현수 오디오 만들기 · 사이트 배포
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: yeobaek-audio
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - name: 오디오 저장소 받기(최신 main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: site
+          fetch-depth: 1
+      - name: 요청이 있는지 보기
+        id: inbox
+        run: |
+          if ls site/inbox/*.json >/dev/null 2>&1; then echo "has=1" >> "$GITHUB_OUTPUT"; else echo "has=0" >> "$GITHUB_OUTPUT"; fi
+      - name: 여백 작업실 엔진 받기
+        if: steps.inbox.outputs.has == '1'
+        uses: actions/checkout@v4
+        with:
+          repository: Chemistreal/study64-report
+          ref: main
+          path: tool
+          sparse-checkout: reader
+      - uses: actions/setup-python@v5
+        if: steps.inbox.outputs.has == '1'
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        if: steps.inbox.outputs.has == '1'
+        with:
+          node-version: '22'
+      - name: Edge 음성 도구 설치
+        if: steps.inbox.outputs.has == '1'
+        run: python -m pip install --quiet edge-tts imageio-ffmpeg
+      - name: 현수 오디오 만들기(요청마다 완성되는 대로 올림)
+        if: steps.inbox.outputs.has == '1'
+        env:
+          YEOBAEK_PYTHON: python
+          YEOBAEK_STUDIO_DIR: ${{ runner.temp }}/yeobaek
+        run: |
+          git -C site config user.name "yeobaek-audio-bot"
+          git -C site config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node tool/reader/pc-tool/inbox-build.mjs --site site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - id: deployment
+        uses: actions/deploy-pages@v4

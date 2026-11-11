@@ -52,6 +52,19 @@ export function bookFromFile(name,bytes){
  return {title,type:ext==='markdown'?'md':ext,blocks,source:{name:path.basename(name),bytes:Buffer.from(bytes)},chars:blocks.reduce((n,b)=>n+b.text.length,0),hash:bookHash(blocks)};
 }
 
+// 리더(아이폰)가 보낸 문단 그대로 책을 만든다 — 리더와 같은 문단·같은 본문 해시가 되어, 완성된 오디오가 그 책에 바로 붙는다.
+export const MAX_BOOK_CHARS=2000000;
+export function bookFromBlocks(title,blocks,type='md'){
+ if(!Array.isArray(blocks)||!blocks.length||blocks.length>20000)throw Error('문단이 없거나 너무 많습니다.');
+ const clean=blocks.filter(b=>b&&typeof b.text==='string').map(b=>({kind:['heading','paragraph','quote','list'].includes(b.kind)?b.kind:'paragraph',text:b.text,...(Number.isInteger(b.level)?{level:b.level}:{})}));
+ const chars=clean.reduce((n,b)=>n+b.text.length,0);
+ if(!clean.length||!chars)throw Error('읽을 글이 없습니다.');
+ if(chars>MAX_BOOK_CHARS)throw Error('글이 너무 깁니다('+chars.toLocaleString()+'자, 최대 '+MAX_BOOK_CHARS.toLocaleString()+'자).');
+ const name=String(title||'제목 없는 글').replace(/[\\/:*?"<>|\x00-\x1f]/g,'-').trim().slice(0,180)||'제목 없는 글';
+ const md=clean.map(b=>b.kind==='heading'?'#'.repeat(Math.min(6,Math.max(1,b.level||1)))+' '+b.text:b.kind==='list'?'- '+b.text:b.kind==='quote'?'> '+b.text:b.text).join('\n\n');
+ return {title:name,type:['md','txt'].includes(type)?type:'md',blocks:clean,source:{name:name+'.md',bytes:Buffer.from(md)},chars,hash:bookHash(clean)};
+}
+
 // ── 준비 상태 ───────────────────────────────────────────
 export function checkSetup(){
  return new Promise(resolve=>{
@@ -75,6 +88,7 @@ export async function synthesizeBook(book,{speed=DEFAULTS.speed,profile=DEFAULTS
  const segments=book.blocks.map((b,i)=>({block:i,text:b.text})).filter(s=>s.text.trim());
  fs.writeFileSync(path.join(workDir,'segments.json'),JSON.stringify(segments));
  const mp3=path.join(workDir,'audio.mp3');
+ fs.mkdirSync(path.join(STUDIO_ROOT,'cache','tmp'),{recursive:true});
  const started=Date.now();
  onProgress({stage:'start',done:0,total:segments.length});
  const result=await new Promise((resolve,reject)=>{

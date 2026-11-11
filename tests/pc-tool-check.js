@@ -48,9 +48,9 @@ const root=path.resolve(__dirname,'..'),tool=path.join(root,'reader/pc-tool');
  // 5) 명령줄 도움말(표준 출력은 비어 있고 안내는 표준 오류로) · 문법 · 설치 스크립트는 영문만(웹에서 irm | iex 로 받을 때 한글이 깨지지 않게)
  const help=execFileSync(process.execPath,[path.join(tool,'make-audio.mjs'),'--help'],{encoding:'utf8',stdio:['ignore','pipe','pipe']});
  assert.equal(help,'');
- for(const f of ['studio.mjs','publish.mjs','make-audio.mjs'])execFileSync(process.execPath,['--check',path.join(tool,f)]);
+ for(const f of ['studio.mjs','publish.mjs','make-audio.mjs','inbox-build.mjs'])execFileSync(process.execPath,['--check',path.join(tool,f)]);
  const ps=fs.readFileSync(path.join(tool,'setup.ps1'),'utf8');assert.ok(!/[^\x00-\x7f]/.test(ps),'setup.ps1 must be ASCII only');
- for(const f of ['engine.mjs','publish.mjs','studio.mjs','studio.html','make-audio.mjs','edge_book.py','studio.cmd'])assert.ok(ps.includes('pc-tool/'+f),'setup.ps1 downloads pc-tool/'+f);
+ for(const f of ['engine.mjs','publish.mjs','studio.mjs','studio.html','make-audio.mjs','edge_book.py','inbox-build.mjs','audio-site/site.yml','studio.cmd'])assert.ok(ps.includes('pc-tool/'+f),'setup.ps1 downloads pc-tool/'+f);
  try{execFileSync(process.platform==='win32'?'py':'python3',[...(process.platform==='win32'?['-3']:[]),'-c','import ast,sys;ast.parse(open(sys.argv[1],encoding="utf-8").read())',path.join(tool,'edge_book.py')],{stdio:'ignore'})}catch(e){if(e.code!=='ENOENT')throw Error('edge_book.py has a Python syntax error')}
  console.log('여백 작업실: 문단 규칙 공유 · 조각 나누기/잇기 · ZIP · 추천 글 목록 · 도움말 · 설치 스크립트 PASS');
 })().catch(e=>{console.error(e);process.exit(1)});
