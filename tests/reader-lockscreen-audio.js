@@ -87,14 +87,13 @@ const server=http.createServer(async(req,res)=>{
   await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:5000});
   // 7) 화면이 꺼진 채 잠금 화면 일시정지: 소리를 멈추지 않고 음소거 + 위치 기억(iOS가 5초 뒤 소리 연결을 끊지 않게)
   await page.evaluate(()=>{window.__hidden=true;Object.defineProperty(document,'hidden',{configurable:true,get:()=>window.__hidden});Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>window.__hidden?'hidden':'visible'});document.dispatchEvent(new Event('visibilitychange'))});
-  await page.evaluate(()=>{window.__saves=[];const orig=saveAudioPosition;window.saveAudioPosition=function(f){window.__saves.push({soft:!!state.softPause,cur:state.audio.currentTime,stack:new Error().stack.split(String.fromCharCode(10)).slice(2,5).join(' | ')});return orig.apply(this,arguments)}});
   await page.evaluate(()=>window.__ms.handlers.pause());
   const soft=await page.evaluate(()=>({paused:state.audio.paused,muted:state.audio.muted,playing:state.playing,ms:navigator.mediaSession.playbackState,pos:state.softPause?.pos,label:$('#playBtn').getAttribute('aria-label')}));
   assert.equal(soft.paused,false,'the element keeps running so iOS keeps the audio session');
   assert.equal(soft.muted,true);assert.equal(soft.playing,false);assert.equal(soft.ms,'paused');assert.equal(soft.label,'읽어주기');
   // 그동안 소리 위치는 흘러가도(바쁜 컴퓨터에선 데이터를 기다릴 수 있어 넉넉히) 화면·저장 위치는 멈춘 자리
   await page.waitForFunction(p=>state.audio.currentTime>p+0.5,soft.pos,{timeout:15000});
-  const held=await page.evaluate(()=>({shown:$('#playerPercent').textContent,saved:state.book.audioTime,cur:state.audio.currentTime,softNow:state.softPause,saves:window.__saves}));
+  const held=await page.evaluate(()=>({shown:$('#playerPercent').textContent,saved:state.book.audioTime,cur:state.audio.currentTime}));
   assert.ok(held.cur>soft.pos+0.5,'muted element kept playing');
   assert.ok(Math.abs(held.saved-soft.pos)<0.01,'saved position stays at the pause point: '+JSON.stringify({soft,held}));
   // 잠금 화면 재생 → 기억한 자리로 돌아가 소리 켜기
