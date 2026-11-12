@@ -82,7 +82,7 @@
     <p id="composerFileStatus" role="status" aria-live="polite"></p>
     <input class="hidden" id="composerFileInput" type="file" multiple accept=".zip,.txt,.md,.markdown,.html,.htm,.pdf,.docx,.epub,.hwpx,.json,application/zip,application/x-zip-compressed" aria-label="채팅 입력창에 문서 또는 ZIP 첨부">
     <div class="composer-more" id="composerMore" hidden>
-      <div class="composer-attachment-row"><button class="button light small" type="button" id="composerPasteBtn" aria-label="클립보드에서 글 또는 ZIP 붙여넣기">클립보드 붙여넣기</button><span class="setting-hint">아이폰 파일 앱의 ZIP은 + 로 선택하세요. 쓰던 글은 기기에 임시 저장됩니다.</span></div>
+      <div class="composer-attachment-row"><button class="button light small" type="button" id="composerPasteBtn" aria-label="클립보드에서 글 또는 ZIP 붙여넣기">클립보드 붙여넣기</button><span class="setting-hint">파일 앱에서 ‘복사’한 파일은 이 버튼으로 붙여넣으세요(아이폰이 ‘붙여넣기’를 물으면 누르기). 안 되면 + 로 고르세요. 쓰던 글은 기기에 임시 저장됩니다.</span></div>
     </div>
   </div>
 </div>
@@ -208,36 +208,44 @@ function insertComposerText(text){
  input.focus({preventScroll:true});
  $('#composerFileStatus').textContent='글 본문에 붙여넣었습니다. 제목은 자동으로 추천됩니다.'
 }
+// 클립보드의 글: 파일 이름만이면 안내, 긴 글은 바로 책, 보통 글은 입력칸으로
+function handleClipboardText(text){
+ if(clipboardLooksLikeFileReference(text)){showComposerFilePickerHint();return}
+ if(text.length>=LONG_PASTE_CHARS){importPastedLongText(text);return}
+ insertComposerText(text)
+}
+// '⋯ → 클립보드 붙여넣기': 아이폰은 클립보드에 파일이 있으면 입력칸의 붙여넣기 메뉴를 안 띄우기도 한다.
+// 이 버튼은 클립보드를 직접 읽어(아이폰이 '붙여넣기' 말풍선을 띄움) 문서 파일이든 글이든 담는다. 못 담으면 찾은 형식을 보여 준다.
 async function pasteComposerClipboard(){
  const status=$('#composerFileStatus');
- if(!navigator.clipboard){status.textContent='브라우저의 클립보드 읽기를 지원하지 않습니다. 글 입력칸을 길게 눌러 붙여넣거나 + 버튼으로 파일을 첨부하세요.';return}
+ if(!navigator.clipboard){status.textContent='이 브라우저는 클립보드 읽기를 지원하지 않습니다. 입력칸을 길게 눌러 붙여넣거나 + 버튼으로 파일을 고르세요.';return}
+ const seen=[];let denied='';
  try{
-  // Clipboard API MIME types vary across Safari/iOS versions. Accept document files and check their bytes.
   if(typeof navigator.clipboard.read==='function'){
    let items=[];
-   try{items=await navigator.clipboard.read()}catch(e){console.debug('Clipboard file read unavailable; trying text-only access',e)}
+   try{items=await navigator.clipboard.read()}catch(e){denied='읽기 거부('+(e.name||e.message||'오류')+')'}
    for(const item of items){
+    seen.push(...item.types);
     const type=item.types.find(t=>/^(application\/(zip|x-zip-compressed|pdf|epub\+zip|octet-stream|vnd\.openxmlformats-officedocument\.wordprocessingml\.document)|text\/(markdown|x-markdown))$/i.test(t));
-    if(!type)continue;
-    const blob=await item.getType(type);
-    if(blob.size>100*1024*1024){status.textContent='파일은 최대 100MB입니다.';return}
-    const ext=composerExtForType(type);
-    const file=await sniffComposerFile(new File([blob],'클립보드 문서'+(ext?'.'+ext:''),{type}));
-    if(file){await importComposerFiles([file]);return}
+    if(type){
+     const blob=await item.getType(type);
+     if(blob.size>100*1024*1024){status.textContent='파일은 최대 100MB입니다.';return}
+     const ext=composerExtForType(type);
+     const file=await sniffComposerFile(new File([blob],'클립보드 문서'+(ext?'.'+ext:''),{type}));
+     if(file){await importComposerFiles([file]);return}
+    }
+    if(item.types.includes('text/plain')){const text=await (await item.getType('text/plain')).text();if(text.trim()){handleClipboardText(text);return}}
    }
   }
-  if(typeof navigator.clipboard.readText==='function'){
+  if(!seen.length&&typeof navigator.clipboard.readText==='function'){
    const text=await navigator.clipboard.readText();
-   if(text){
-    if(clipboardLooksLikeFileReference(text)){showComposerFilePickerHint();return}
-    if(text.length>=LONG_PASTE_CHARS){await importPastedLongText(text);return}
-    insertComposerText(text);return
-   }
+   if(text&&text.trim()){handleClipboardText(text);return}
   }
-  showComposerFilePickerHint()
+  const kinds=[...new Set(seen)];if(denied)kinds.push(denied);
+  status.textContent='클립보드에서 담을 파일이나 글을 찾지 못했습니다'+(kinds.length?' (찾은 형식: '+kinds.join(', ')+')':' (클립보드가 비어 있음)')+'. 파일 앱에서 다시 ‘복사’하거나 + 버튼으로 고르세요.';
  }catch(e){
-  console.warn('Safari clipboard read was denied or did not include a file',e);
-  status.textContent='클립보드 접근이 거부됐거나 파일 데이터가 없습니다. 텍스트는 본문을 길게 눌러 붙여넣고, ZIP은 + 버튼으로 선택하세요.'
+  console.warn('clipboard read failed',e);
+  status.textContent='클립보드를 읽지 못했습니다('+(e.name||e.message||'오류')+(seen.length?' · 찾은 형식: '+[...new Set(seen)].join(', '):'')+'). 파일은 + 버튼으로 고르세요.'
  }
 }
 function setupComposerFileDrop(){

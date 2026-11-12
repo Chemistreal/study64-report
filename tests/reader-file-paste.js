@@ -59,7 +59,19 @@ const server=http.createServer(async(req,res)=>{
   // 6) 보통 길이의 글은 지금처럼 입력칸으로(제목 칸에 붙여도 본문으로)
   await paste({text:'# 짧은 글\n\n입력칸으로 들어갑니다.'},'#composerTitle');
   assert.match(await page.evaluate(()=>$('#composerText').value),/입력칸으로 들어갑니다/);
+  // 7) '⋯ → 클립보드 붙여넣기' 버튼: 아이폰이 붙여넣기 메뉴를 안 띄울 때. 파일 내용이 글(text/plain)로 오면 책으로,
+  //    못 담으면 찾은 형식을 보여 주고, 읽기가 거부돼도 readText로 글은 받는다.
+  const clip=mock=>page.evaluate(mock=>{const items=mock.items.map(it=>({types:it.types,getType:async t=>new Blob([it.data[t]||''],{type:t})}));Object.defineProperty(navigator,'clipboard',{configurable:true,value:{read:async()=>{if(mock.deny)throw new DOMException('denied','NotAllowedError');return items},readText:async()=>mock.text||''}})},mock);
+  await clip({items:[{types:['text/plain'],data:{'text/plain':'# 클립보드 강의\n\n'+'긴 문장입니다. '.repeat(16000)}}]});
+  await page.evaluate(()=>{if($('#composerMore').hidden)$('#composerMoreBtn').click()});await page.locator('#composerPasteBtn').click();
+  await page.waitForFunction(()=>state.books.some(b=>b.title==='클립보드 강의'),null,{timeout:20000});await back();
+  await clip({items:[{types:['com.apple.uikit.pointer','public.file-url'],data:{}}]});
+  await page.evaluate(()=>{if($('#composerMore').hidden)$('#composerMoreBtn').click()});await page.locator('#composerPasteBtn').click();
+  await page.waitForFunction(()=>/찾은 형식: com\.apple\.uikit\.pointer, public\.file-url/.test($('#composerFileStatus').textContent),null,{timeout:5000});
+  await clip({deny:true,items:[],text:'거부돼도 글은 들어갑니다.'});
+  await page.locator('#composerPasteBtn').click();
+  await page.waitForFunction(()=>/거부돼도 글은 들어갑니다/.test($('#composerText').value),null,{timeout:5000});
   assert.deepEqual(errors,[]);
-  console.log('여백 입력창 파일 붙여넣기: 이름 없는 md(제목 줄로) · 종류 없는 글 파일 · 이름 있는 md · 100만 자 글은 바로 책으로 · 파일 이름만 붙으면 안내 · 짧은 글은 입력칸 PASS');
+  console.log('여백 입력창 파일 붙여넣기: 이름 없는 md(제목 줄로) · 종류 없는 글 파일 · 이름 있는 md · 100만 자 글은 바로 책으로 · 파일 이름만 붙으면 안내 · 짧은 글은 입력칸 · 클립보드 버튼(글로 온 파일·찾은 형식 표시·거부 시 글) PASS');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
