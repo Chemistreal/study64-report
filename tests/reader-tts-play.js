@@ -131,6 +131,7 @@ const server=http.createServer(async(req,res)=>{
   await synced.evaluate(()=>{state.audio.currentTime=2.5;state.audio.dispatchEvent(new Event('timeupdate'))});
   assert.equal(await synced.evaluate(()=>state.index),1,'audio position moves the current paragraph');
   await synced.locator('.reader-block').nth(2).click();
+  await synced.waitForFunction(()=>state.index===2&&Math.abs(state.audio.currentTime-4)<0.05,null,{timeout:5000}).catch(()=>{});   // 바쁜 컴퓨터에서도 위치가 맞춰질 때까지
   const jumped=await synced.evaluate(()=>({time:state.audio.currentTime,index:state.index}));
   assert.equal(jumped.index,2);
   assert.ok(Math.abs(jumped.time-4)<0.05,'tapping a paragraph seeks the audio to it: '+jumped.time);

@@ -26,14 +26,25 @@ const root=path.resolve(__dirname,'..');
   const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
   // 가짜 GitHub: 키 확인 · inbox 파일 올리기 · 실패 표시(raw)
-  const puts=[],inbox=new Map(),failed=new Map();let keyOk=true;
+  const puts=[],inbox=new Map(),failed=new Map(),gitTrees=[];let keyOk=true,gitHead=1;
   await page.route('https://api.github.com/**',async route=>{
    const req=route.request(),u=new URL(req.url()),auth=req.headers()['authorization'];
    const json=(status,body)=>route.fulfill({status,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(body)});
    if(auth!=='Bearer github_pat_good'||!keyOk)return json(401,{message:'Bad credentials'});
    if(u.pathname==='/repos/Chemistreal/yeobaek-audio')return json(200,{full_name:'Chemistreal/yeobaek-audio'});
    const m=u.pathname.match(/^\/repos\/Chemistreal\/yeobaek-audio\/contents\/inbox\/(b-[0-9a-f]{12})\.json$/);
-   if(!m)return json(404,{});
+   if(!m){
+    const g=u.pathname.replace('/repos/Chemistreal/yeobaek-audio','');
+    if(req.method()==='GET'&&g==='/git/ref/heads/main')return json(200,{object:{sha:'c'+gitHead}});
+    if(req.method()==='GET'&&g==='/git/commits/c'+gitHead)return json(200,{tree:{sha:'t'+gitHead}});
+    if(req.method()==='GET'&&g==='/git/trees/t'+gitHead){const list=[];const walk=(d,pre)=>{for(const e of fss.readdirSync(d,{withFileTypes:true})){const p=pre+e.name;if(e.isDirectory())walk(path.join(d,e.name),p+'/');else list.push({path:p,type:'blob',sha:p==='index.json'?'idx':'x'})}};walk(site,'');return json(200,{tree:list})}
+    if(req.method()==='GET'&&g==='/git/blobs/idx')return json(200,{content:fss.readFileSync(path.join(site,'index.json')).toString('base64').replace(/(.{60})/g,'$1\n'),encoding:'base64'});
+    if(req.method()==='POST'&&g==='/git/trees'){const body=JSON.parse(req.postData());gitTrees.push(body);return json(201,{sha:'nt'+gitTrees.length})}
+    if(req.method()==='POST'&&g==='/git/commits')return json(201,{sha:'nc'+gitTrees.length});
+    if(req.method()==='PATCH'&&g==='/git/refs/heads/main'){   // 실제로 지운 것처럼 site 폴더에 반영
+     const tree=gitTrees[gitTrees.length-1];for(const t of tree.tree){if(t.sha===null)fss.rmSync(path.join(site,t.path),{force:true});else if(t.path==='index.json')fss.writeFileSync(path.join(site,'index.json'),t.content)}gitHead++;return json(200,{})}
+    return json(404,{});
+   }
    if(req.method()==='GET')return inbox.has(m[1])?json(200,{sha:'sha-'+m[1]}):json(404,{message:'Not Found'});
    const body=JSON.parse(req.postData());puts.push({id:m[1],sha:body.sha||null,message:body.message,data:JSON.parse(Buffer.from(body.content,'base64').toString('utf8'))});inbox.set(m[1],true);
    return json(201,{content:{sha:'sha-'+m[1]}});
@@ -77,24 +88,43 @@ const root=path.resolve(__dirname,'..');
   const mp3=path.join(tmp,'a.mp3'),bytes=Buffer.from(Array.from({length:2400},(_,i)=>(i*11+3)%251));fss.writeFileSync(mp3,bytes);
   const r={mp3,marks:expected.blocks.map((b,i)=>[i,i*2]),duration:6,bytes:bytes.length,speed:1.5,profile:'small'};
   E.writeSiteBundle(expected,r,path.join(site,'books',sent.id),{partBytes:1000});
-  P.upsertShelf(site,{id:sent.id,title:expected.title,manifest:'books/'+sent.id+'/book.json',bytes:bytes.length,duration:6});
+  P.upsertShelf(site,{id:sent.id,title:expected.title,manifest:'books/'+sent.id+'/book.json',bytes:bytes.length,duration:6,source:'iphone'});
+  P.upsertShelf(site,{id:'b-000000000000',title:'PC 추천 글',manifest:'books/b-000000000000/book.json',bytes:10,duration:1});   // PC가 올린 추천 글(지우면 안 됨)
   await page.evaluate(()=>checkAudioRequests());
   await page.waitForFunction(id=>state.audioIds.has(id),bookId,{timeout:10000});
   const attached=await page.evaluate(async id=>{const a=await storeReq('audio','readonly',s=>s.get(id));return {books:state.books.length,size:a.blob.size,timeline:a.timeline.length,pending:Object.keys(audioRequests).length}},bookId);
   assert.deepEqual(attached,{books:1,size:bytes.length,timeline:3,pending:0});
+  // 받은 뒤: 아이폰 요청분은 서버에서 책 폴더 전체와 목록 항목을 기록 하나로 지운다. PC 추천 글은 남는다.
+  await page.waitForFunction(()=>true);for(let i=0;i<50&&!gitTrees.length;i++)await new Promise(r=>setTimeout(r,100));
+  assert.equal(gitTrees.length,1,'one commit removes the downloaded book from the server');
+  const del=gitTrees[0].tree;
+  assert.ok(del.filter(t=>t.sha===null).length>=4&&del.filter(t=>t.sha===null).every(t=>t.path.startsWith('books/'+sent.id+'/')),'every file of that book folder (parts, book.json, 원문) is removed: '+JSON.stringify(del.map(t=>t.path)));
+  const left=P.readShelf(site).items.map(x=>x.id);
+  assert.ok(!left.includes(sent.id)&&left.includes('b-000000000000'),'the shelf entry is gone, the PC shelf book stays: '+left);
+  assert.ok(!fss.existsSync(path.join(site,'books',sent.id,'audio.001.mp3')));
   assert.match(await badge('요청 시험').textContent(),/오디오 준비됨/);
   // 3-2) 큰 책 받기가 멈춰도(아이폰이 앱을 화면 밖으로 보내면 받던 것을 멈춤) 작은 책은 먼저 붙고, 멈춘 받기는 버렸다가 다음 확인 때 다시 받는다
   const mk=async(title,size)=>{const blocks=[{kind:'paragraph',text:title+' 본문입니다.'}];const id=await page.evaluate(async({title,blocks})=>{const b=await addBook(title,'md',blocks);const sid=await shelfIdFor(b);audioRequests[b.id]={id:sid,title,requested:Date.now()};await saveAudioRequests();return {bookId:b.id,sid}},{title,blocks});
    const book=E.bookFromBlocks(title,blocks);const f=path.join(tmp,title+'.mp3');fss.writeFileSync(f,Buffer.alloc(size,9));
    E.writeSiteBundle(book,{mp3:f,marks:[[0,0]],duration:3,bytes:size,speed:1.5,profile:'small'},path.join(site,'books',id.sid),{partBytes:1000});
    P.upsertShelf(site,{id:id.sid,title,manifest:'books/'+id.sid+'/book.json',bytes:size,duration:3});return id};
+  const huge=await mk('아주 큰 합본',2600);
+  await page.evaluate(()=>{window.__ybAutoAudioMaxBytes=2048;audioPolling=false;return checkAudioRequests()});
+  assert.equal(await page.evaluate(id=>state.audioIds.has(id),huge.bookId),false,'big audio is not downloaded on its own');
+  const hugeBadge=page.locator('#bookGrid .book-card',{hasText:'아주 큰 합본'}).locator('.book-audio');
+  await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-audio')].some(el=>/현수 오디오 받기/.test(el.textContent)));
+  assert.match(await hugeBadge.textContent(),/⬇ 현수 오디오 받기 · 1MB/);
+  await hugeBadge.click();   // 카드의 받기 버튼
+  await page.waitForFunction(id=>state.audioIds.has(id),huge.bookId,{timeout:10000});
+  assert.match(await hugeBadge.textContent(),/오디오 준비됨/);
+  await page.evaluate(()=>{delete window.__ybAutoAudioMaxBytes});
   const big=await mk('큰 묶음 책',5000),small=await mk('작은 강의',1200);
   const hang=new RegExp('/yeobaek-audio/books/'+big.sid+'/audio\\.\\d+\\.mp3');
   const hangMatch=u=>hang.test(u.pathname);
   await page.route(hangMatch,()=>{});   // 큰 책 조각은 끝없이 기다리게(멈춘 받기)
   await page.evaluate(()=>{window.__ybAudioPartTimeoutMs=1500;audioPolling=false;return checkAudioRequests()});
   const afterStall=await page.evaluate(({big,small})=>({small:state.audioIds.has(small.bookId),big:state.audioIds.has(big.bookId),bigPending:!!audioRequests[big.bookId],polling:audioPolling,badge:bookAudioBadge(big.bookId)?.text}),{big,small});
-  assert.deepEqual(afterStall,{small:true,big:false,bigPending:true,polling:false,badge:'현수 오디오 완성 · 받을 차례'},'small book attaches first, the stalled big one is dropped and kept for later: '+JSON.stringify(afterStall));
+  assert.deepEqual(afterStall,{small:true,big:false,bigPending:true,polling:false,badge:'⬇ 현수 오디오 받기 · 1MB'},'small book attaches first, the stalled big one is dropped and kept for later: '+JSON.stringify(afterStall));
   await page.unroute(hangMatch);
   await page.evaluate(id=>openBookActions(id),big.bookId);
   assert.deepEqual(await page.evaluate(()=>({text:$('#requestAudioBtn').textContent,disabled:$('#requestAudioBtn').disabled})),{text:'현수 오디오 받기',disabled:false});
@@ -130,6 +160,6 @@ const root=path.resolve(__dirname,'..');
   keyOk=false;const res=await page.evaluate(async()=>{const b=await addBook('만료 시험','md',[{kind:'paragraph',text:'만료된 키.'}]);return requestHyunsuAudio(b)});
   assert.equal(res,false);
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
