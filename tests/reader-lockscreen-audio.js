@@ -68,7 +68,8 @@ const server=http.createServer(async(req,res)=>{
   await page.waitForFunction(()=>state.audio.paused,null,{timeout:5000});
   const before=await page.evaluate(()=>{const t=state.audio.currentTime,url=state.audioUrl;URL.revokeObjectURL(url);state.audioPausedAt=Date.now()-11*60000;return {t,url}});
   await page.evaluate(()=>window.__ms.handlers.play());
-  await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:10000});
+  // 다시 불러오는 동안은 위치가 잠깐 0 → 재생이 시작되고 자리가 돌아올 때까지
+  await page.waitForFunction(t=>!state.audio.paused&&state.playing&&state.audio.readyState>=2&&Math.abs(state.audio.currentTime-t)<2,before.t,{timeout:15000}).catch(()=>{});
   const after=await page.evaluate(()=>({t:state.audio.currentTime,url:state.audioUrl,src:state.audio.src}));
   assert.notEqual(after.url,before.url,'a fresh audio address is made from the saved file');
   assert.equal(after.src,after.url);
@@ -90,10 +91,11 @@ const server=http.createServer(async(req,res)=>{
   const soft=await page.evaluate(()=>({paused:state.audio.paused,muted:state.audio.muted,playing:state.playing,ms:navigator.mediaSession.playbackState,pos:state.softPause?.pos,label:$('#playBtn').getAttribute('aria-label')}));
   assert.equal(soft.paused,false,'the element keeps running so iOS keeps the audio session');
   assert.equal(soft.muted,true);assert.equal(soft.playing,false);assert.equal(soft.ms,'paused');assert.equal(soft.label,'읽어주기');
-  await page.waitForTimeout(1500);   // 그동안 소리 위치는 흘러가도 화면·저장 위치는 멈춘 자리
+  // 그동안 소리 위치는 흘러가도(바쁜 컴퓨터에선 데이터를 기다릴 수 있어 넉넉히) 화면·저장 위치는 멈춘 자리
+  await page.waitForFunction(p=>state.audio.currentTime>p+0.5,soft.pos,{timeout:15000});
   const held=await page.evaluate(()=>({shown:$('#playerPercent').textContent,saved:state.book.audioTime,cur:state.audio.currentTime}));
   assert.ok(held.cur>soft.pos+0.5,'muted element kept playing');
-  assert.ok(Math.abs(held.saved-soft.pos)<0.01,'saved position stays at the pause point');
+  assert.ok(Math.abs(held.saved-soft.pos)<0.01,'saved position stays at the pause point: '+JSON.stringify({soft,held}));
   // 잠금 화면 재생 → 기억한 자리로 돌아가 소리 켜기
   await page.evaluate(()=>window.__ms.handlers.play());
   const resumed=await page.evaluate(()=>({muted:state.audio.muted,paused:state.audio.paused,playing:state.playing,ms:navigator.mediaSession.playbackState,cur:state.audio.currentTime,soft:!!state.softPause}));
