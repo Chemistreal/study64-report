@@ -145,12 +145,32 @@ function composerFilesFromTransfer(transfer){
   if(!file)return null;
   const ext=String(file.name||'').split('.').pop().toLowerCase();
   if(COMPOSER_FILE_EXTS.has(ext))return file;
-  if(/^(application\/zip|application\/x-zip-compressed)$/i.test(file.type||''))return new File([file],(file.name&&file.name.includes('.')?file.name:'붙여넣은-문서')+'.zip',{type:'application/zip'});
-  return null
+  const byType=composerExtForType(file.type);
+  if(byType)return new File([file],(composerBaseName(file.name)==='붙여넣은 문서'?'':composerBaseName(file.name))+'.'+byType,{type:file.type||'application/octet-stream'});
+  return file.size>0?file:null   // 종류를 모르면 내용을 보고 정한다(importComposerFiles)
  }).filter(Boolean)
 }
+// 붙여넣기·끌어 놓기로 온 파일의 종류: 아이폰은 복사한 파일 이름에 확장자를 안 붙이기도 한다 → MIME, 그래도 모르면 내용으로 정한다.
+const COMPOSER_TYPE_EXTS=[[/^application\/(zip|x-zip-compressed)$/i,'zip'],[/^application\/pdf$/i,'pdf'],[/^application\/epub\+zip$/i,'epub'],[/^application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document$/i,'docx'],[/^application\/(hwp\+zip|haansofthwpx|x-hwpx)$/i,'hwpx'],[/^text\/(markdown|x-markdown)$/i,'md'],[/^text\/html$/i,'html'],[/^application\/json$/i,'json'],[/^text\/plain$/i,'txt']];
+function composerExtForType(type){const t=String(type||'').split(';')[0].trim();for(const [rx,ext] of COMPOSER_TYPE_EXTS)if(rx.test(t))return ext;return ''}
+function composerBaseName(name){const base=String(name||'').replace(/\.[^./\\]*$/,'').trim();return base&&!/^(image|file|파일|untitled)$/i.test(base)?base:'붙여넣은 문서'}
+async function sniffComposerFile(file){
+ let kind=String(file.name||'').includes('.')?String(file.name).split('.').pop().toLowerCase():'';
+ if(!COMPOSER_FILE_EXTS.has(kind)){
+  kind='';const head=new Uint8Array(await file.slice(0,8).arrayBuffer());
+  if(head[0]===0x50&&head[1]===0x4b)kind='zip';else if(head[0]===0x25&&head[1]===0x50&&head[2]===0x44&&head[3]===0x46)kind='pdf';
+  else{const sample=new TextDecoder('utf-8',{fatal:false}).decode(await file.slice(0,65536).arrayBuffer());const bad=(sample.match(/[\uFFFD\u0000-\u0008\u000E-\u001F]/g)||[]).length;if(sample.trim()&&bad<sample.length*.01)kind=/^\s{0,3}#{1,6}\s+\S/m.test(sample)?'md':'txt'}
+  if(!kind)return null;
+ }
+ let base=composerBaseName(file.name);
+ // 이름이 없거나 '파일'·'image'처럼 뜻 없는 글은 첫 제목 줄을 책 제목으로
+ if(base==='붙여넣은 문서'&&['md','markdown','txt'].includes(kind))base=(autoTitleFromText(new TextDecoder().decode(await file.slice(0,8000).arrayBuffer()))||base).replace(/[\\/:*?"<>|]/g,'-').slice(0,80);
+ const name=base+'.'+kind;
+ return name===file.name?file:new File([file],name,{type:file.type||'application/octet-stream'})
+}
 async function importComposerFiles(files){
- const valid=Array.from(files||[]).filter(file=>file&&file.size>0&&COMPOSER_FILE_EXTS.has(String(file.name||'').split('.').pop().toLowerCase()));
+ const named=[];for(const file of Array.from(files||[]))if(file&&file.size>0){const f=await sniffComposerFile(file);if(f)named.push(f)}
+ const valid=named.filter(file=>COMPOSER_FILE_EXTS.has(String(file.name||'').split('.').pop().toLowerCase()));
  if(!valid.length){$('#composerFileStatus').textContent='지원되는 문서 파일이 없습니다. ZIP · PDF · EPUB · TXT 등을 선택해 주세요.';return 0}
  $('#composerFileStatus').textContent=valid.map(f=>f.name).slice(0,3).join(' · ')+(valid.length>3?' 외 '+(valid.length-3)+'개':'')+' · 불러오는 중…';
  const total=await importFiles(valid);
@@ -159,11 +179,22 @@ async function importComposerFiles(files){
 }
 function clipboardLooksLikeFileReference(text){
  const raw=String(text||'').trim();
- return raw.length>0&&raw.length<800&&(/^(file:|content:|assets-library:|icloud:|shareddocuments:)/i.test(raw)||/^([^\r\n]+[\\/])?[^\\/\r\n]+\.zip(?:\?.*)?$/i.test(raw)||/^(?:https?:\/\/)[^\s]+\.(zip|epub)(?:[?#].*)?$/i.test(raw))
+ return raw.length>0&&raw.length<800&&(/^(file:|content:|assets-library:|icloud:|shareddocuments:)/i.test(raw)||(raw.length<300&&!/[\r\n]/.test(raw)&&/^([^\r\n]+[\\/])?[^\\/\r\n]+\.(zip|md|markdown|txt|pdf|epub|docx|hwpx|html?|json)(?:\?.*)?$/i.test(raw))||/^(?:https?:\/\/)[^\s]+\.(zip|epub)(?:[?#].*)?$/i.test(raw))
 }
 function showComposerFilePickerHint(){
- $('#composerFileStatus').textContent='아이폰 파일 앱의 ZIP은 복사·붙여넣기로 전달되지 않을 수 있습니다. 입력칸 왼쪽 + 버튼을 눌러 선택하세요.';
- toast('ZIP 파일은 입력칸 왼쪽 + 버튼에서 아이폰 파일 앱을 선택하세요.',7000)
+ $('#composerFileStatus').textContent='파일 이름만 붙여넣어졌습니다. 파일 앱에서 파일을 길게 눌러 ‘복사’한 뒤 붙여넣거나, 입력칸 왼쪽 + 버튼으로 고르세요.';
+ toast('파일 이름만 붙여넣어졌습니다. 파일 앱에서 ‘복사’한 뒤 붙여넣거나 + 버튼으로 고르세요.',7000)
+}
+// 긴 글(10만 자 이상)은 입력칸에 넣지 않고 바로 책으로 담는다 — 아이폰에서 큰 글을 입력칸에 넣으면 느려지고 글자 수 한도에 걸린다.
+const LONG_PASTE_CHARS=100000;
+async function importPastedLongText(text){
+ const status=$('#composerFileStatus');status.textContent='긴 글('+text.length.toLocaleString()+'자)을 책으로 담는 중…';
+ const title=$('#composerTitle').value.trim()&&$('#composerTitle').value!==$('#composerTitle').dataset.autoTitle?$('#composerTitle').value.trim():autoTitleFromText(text);
+ const isMarkdown=/^\s{0,3}#{1,6}\s+\S/m.test(text)||/^\s*[-*+]\s+\S/m.test(text);
+ try{
+  const b=await addBook(title,isMarkdown?'MD':'TEXT',blocksFromText(text,isMarkdown),{text,name:title+(isMarkdown?'.md':'.txt')});
+  status.textContent='긴 글('+text.length.toLocaleString()+'자)을 「'+b.title.slice(0,40)+'」로 서재에 담았습니다.';toast('붙여넣은 긴 글을 책으로 담았습니다.',6000);openBook(b.id)
+ }catch(e){console.error(e);status.textContent='긴 글을 담지 못했습니다: '+(e.message||'오류')}
 }
 function insertComposerText(text){
  const input=$('#composerText'),value=String(text||'');
@@ -181,25 +212,25 @@ async function pasteComposerClipboard(){
  const status=$('#composerFileStatus');
  if(!navigator.clipboard){status.textContent='브라우저의 클립보드 읽기를 지원하지 않습니다. 글 입력칸을 길게 눌러 붙여넣거나 + 버튼으로 파일을 첨부하세요.';return}
  try{
-  // Clipboard API MIME types vary across Safari/iOS versions. Only accept real ZIP bytes.
+  // Clipboard API MIME types vary across Safari/iOS versions. Accept document files and check their bytes.
   if(typeof navigator.clipboard.read==='function'){
    let items=[];
    try{items=await navigator.clipboard.read()}catch(e){console.debug('Clipboard file read unavailable; trying text-only access',e)}
    for(const item of items){
-    const type=item.types.find(t=>/^(application\/zip|application\/x-zip-compressed|application\/octet-stream)$/i.test(t));
+    const type=item.types.find(t=>/^(application\/(zip|x-zip-compressed|pdf|epub\+zip|octet-stream|vnd\.openxmlformats-officedocument\.wordprocessingml\.document)|text\/(markdown|x-markdown))$/i.test(t));
     if(!type)continue;
     const blob=await item.getType(type);
-    if(blob.size>100*1024*1024){status.textContent='ZIP은 최대 100MB입니다.';return}
-    const head=new Uint8Array(await blob.slice(0,4).arrayBuffer());
-    if(head[0]===0x50&&head[1]===0x4b&&[0x03,0x05,0x07].includes(head[2])&&[0x04,0x06,0x08].includes(head[3])){
-      await importComposerFiles([new File([blob],'클립보드-문서.zip',{type:'application/zip'})]);return
-    }
+    if(blob.size>100*1024*1024){status.textContent='파일은 최대 100MB입니다.';return}
+    const ext=composerExtForType(type);
+    const file=await sniffComposerFile(new File([blob],'클립보드 문서'+(ext?'.'+ext:''),{type}));
+    if(file){await importComposerFiles([file]);return}
    }
   }
   if(typeof navigator.clipboard.readText==='function'){
    const text=await navigator.clipboard.readText();
    if(text){
     if(clipboardLooksLikeFileReference(text)){showComposerFilePickerHint();return}
+    if(text.length>=LONG_PASTE_CHARS){await importPastedLongText(text);return}
     insertComposerText(text);return
    }
   }
@@ -227,6 +258,7 @@ function setupComposerFileDrop(){
   if(clipboardLooksLikeFileReference(text)){
    e.preventDefault();e.stopPropagation();showComposerFilePickerHint();return
   }
+  if(text.length>=LONG_PASTE_CHARS){e.preventDefault();e.stopPropagation();importPastedLongText(text);return}
   if(e.target===title&&text){
    e.preventDefault();e.stopPropagation();insertComposerText(text);return
   }
