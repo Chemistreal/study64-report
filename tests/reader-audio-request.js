@@ -71,7 +71,7 @@ const root=path.resolve(__dirname,'..');
   const badge=t=>page.locator('#bookGrid .book-card',{hasText:t}).locator('.book-audio');
   await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-audio')].some(el=>!el.hidden&&/만드는 중/.test(el.textContent)));
   await page.evaluate(id=>openBookActions(id),bookId);
-  assert.deepEqual(await page.evaluate(()=>({text:$('#requestAudioBtn').textContent,disabled:$('#requestAudioBtn').disabled})),{text:'현수 오디오 만드는 중',disabled:true});
+  assert.deepEqual(await page.evaluate(()=>({text:$('#requestAudioBtn').textContent,disabled:$('#requestAudioBtn').disabled})),{text:'완성됐는지 확인하고 받기',disabled:false});
   await page.evaluate(()=>closeLayers());
   // 3) Actions가 만들었다고 치고 목록에 올린다 → 확인하면 받아서 그 책에 붙는다(새 책을 만들지 않음)
   const mp3=path.join(tmp,'a.mp3'),bytes=Buffer.from(Array.from({length:2400},(_,i)=>(i*11+3)%251));fss.writeFileSync(mp3,bytes);
@@ -83,6 +83,24 @@ const root=path.resolve(__dirname,'..');
   const attached=await page.evaluate(async id=>{const a=await storeReq('audio','readonly',s=>s.get(id));return {books:state.books.length,size:a.blob.size,timeline:a.timeline.length,pending:Object.keys(audioRequests).length}},bookId);
   assert.deepEqual(attached,{books:1,size:bytes.length,timeline:3,pending:0});
   assert.match(await badge('요청 시험').textContent(),/오디오 준비됨/);
+  // 3-2) 큰 책 받기가 멈춰도(아이폰이 앱을 화면 밖으로 보내면 받던 것을 멈춤) 작은 책은 먼저 붙고, 멈춘 받기는 버렸다가 다음 확인 때 다시 받는다
+  const mk=async(title,size)=>{const blocks=[{kind:'paragraph',text:title+' 본문입니다.'}];const id=await page.evaluate(async({title,blocks})=>{const b=await addBook(title,'md',blocks);const sid=await shelfIdFor(b);audioRequests[b.id]={id:sid,title,requested:Date.now()};await saveAudioRequests();return {bookId:b.id,sid}},{title,blocks});
+   const book=E.bookFromBlocks(title,blocks);const f=path.join(tmp,title+'.mp3');fss.writeFileSync(f,Buffer.alloc(size,9));
+   E.writeSiteBundle(book,{mp3:f,marks:[[0,0]],duration:3,bytes:size,speed:1.5,profile:'small'},path.join(site,'books',id.sid),{partBytes:1000});
+   P.upsertShelf(site,{id:id.sid,title,manifest:'books/'+id.sid+'/book.json',bytes:size,duration:3});return id};
+  const big=await mk('큰 묶음 책',5000),small=await mk('작은 강의',1200);
+  const hang=new RegExp('/yeobaek-audio/books/'+big.sid+'/audio\\.\\d+\\.mp3');
+  const hangMatch=u=>hang.test(u.pathname);
+  await page.route(hangMatch,()=>{});   // 큰 책 조각은 끝없이 기다리게(멈춘 받기)
+  await page.evaluate(()=>{window.__ybAudioPartTimeoutMs=1500;audioPolling=false;return checkAudioRequests()});
+  const afterStall=await page.evaluate(({big,small})=>({small:state.audioIds.has(small.bookId),big:state.audioIds.has(big.bookId),bigPending:!!audioRequests[big.bookId],polling:audioPolling,badge:bookAudioBadge(big.bookId)?.text}),{big,small});
+  assert.deepEqual(afterStall,{small:true,big:false,bigPending:true,polling:false,badge:'현수 오디오 완성 · 받을 차례'},'small book attaches first, the stalled big one is dropped and kept for later: '+JSON.stringify(afterStall));
+  await page.unroute(hangMatch);
+  await page.evaluate(id=>openBookActions(id),big.bookId);
+  assert.deepEqual(await page.evaluate(()=>({text:$('#requestAudioBtn').textContent,disabled:$('#requestAudioBtn').disabled})),{text:'현수 오디오 받기',disabled:false});
+  await page.locator('#requestAudioBtn').click();   // 책 관리에서 바로 받기
+  await page.waitForFunction(id=>state.audioIds.has(id),big.bookId,{timeout:10000});
+  await page.evaluate(()=>{delete window.__ybAudioPartTimeoutMs});
   // 4) 실패하면 카드에 '실패'를 보여 주고, 책 관리 버튼은 '다시 보내기'(같은 이름 파일을 sha와 함께 덮어씀)
   const failId=await page.evaluate(async()=>(await addBook('실패 시험','md',[{kind:'paragraph',text:'실패할 글입니다.'}])).id);
   await page.evaluate(async id=>{await requestHyunsuAudio(state.books.find(b=>b.id===id))},failId);
@@ -112,6 +130,6 @@ const root=path.resolve(__dirname,'..');
   keyOk=false;const res=await page.evaluate(async()=>{const b=await addBook('만료 시험','md',[{kind:'paragraph',text:'만료된 키.'}]);return requestHyunsuAudio(b)});
   assert.equal(res,false);
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
