@@ -154,6 +154,9 @@ jobs:
       - name: 여백 읽어주기가 확인창 없이 바로 시작되고 읽는 문장을 표시한다
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-tts-play.js
+      - name: 잠금 화면 일시정지 뒤 다시 재생이 이어지고 재생 막대에 오디오 시간이 나온다
+        timeout-minutes: 5
+        run: NODE_PATH=tests/node_modules node tests/reader-lockscreen-audio.js
       - name: 여백 작업실의 원문+오디오 ZIP을 + 버튼으로 가져온다
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-audio-pack.js
