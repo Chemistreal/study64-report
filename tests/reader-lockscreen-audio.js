@@ -84,7 +84,42 @@ const server=http.createServer(async(req,res)=>{
   await page.waitForFunction(()=>state.audio.paused&&!state.playing,null,{timeout:5000});
   await page.evaluate(()=>window.__ms.handlers.play());
   await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:5000});
+  // 7) 화면이 꺼진 채 잠금 화면 일시정지: 소리를 멈추지 않고 음소거 + 위치 기억(iOS가 5초 뒤 소리 연결을 끊지 않게)
+  await page.evaluate(()=>{window.__hidden=true;Object.defineProperty(document,'hidden',{configurable:true,get:()=>window.__hidden});Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>window.__hidden?'hidden':'visible'});document.dispatchEvent(new Event('visibilitychange'))});
+  await page.evaluate(()=>window.__ms.handlers.pause());
+  const soft=await page.evaluate(()=>({paused:state.audio.paused,muted:state.audio.muted,playing:state.playing,ms:navigator.mediaSession.playbackState,pos:state.softPause?.pos,label:$('#playBtn').getAttribute('aria-label')}));
+  assert.equal(soft.paused,false,'the element keeps running so iOS keeps the audio session');
+  assert.equal(soft.muted,true);assert.equal(soft.playing,false);assert.equal(soft.ms,'paused');assert.equal(soft.label,'읽어주기');
+  await page.waitForTimeout(1500);   // 그동안 소리 위치는 흘러가도 화면·저장 위치는 멈춘 자리
+  const held=await page.evaluate(()=>({shown:$('#playerPercent').textContent,saved:state.book.audioTime,cur:state.audio.currentTime}));
+  assert.ok(held.cur>soft.pos+0.5,'muted element kept playing');
+  assert.ok(Math.abs(held.saved-soft.pos)<0.01,'saved position stays at the pause point');
+  // 잠금 화면 재생 → 기억한 자리로 돌아가 소리 켜기
+  await page.evaluate(()=>window.__ms.handlers.play());
+  const resumed=await page.evaluate(()=>({muted:state.audio.muted,paused:state.audio.paused,playing:state.playing,ms:navigator.mediaSession.playbackState,cur:state.audio.currentTime,soft:!!state.softPause}));
+  assert.equal(resumed.muted,false);assert.equal(resumed.paused,false);assert.equal(resumed.playing,true);assert.equal(resumed.ms,'playing');assert.equal(resumed.soft,false);
+  assert.ok(Math.abs(resumed.cur-soft.pos)<0.3,'resumes exactly where it paused: '+soft.pos+' → '+resumed.cur);
+  // 잠금 화면이 계속 '일시정지' 버튼을 보여 줘서 다시 누르면 → 재생으로(토글)
+  await page.evaluate(()=>window.__ms.handlers.pause());
+  assert.equal(await page.evaluate(()=>!!state.softPause&&state.audio.muted),true);
+  await page.evaluate(()=>window.__ms.handlers.pause());
+  assert.equal(await page.evaluate(()=>!state.softPause&&!state.audio.muted&&state.playing),true,'second pause press resumes');
+  // 음소거 일시정지 중 앱 화면으로 돌아오면 진짜 일시정지(멈춘 자리)
+  await page.evaluate(()=>window.__ms.handlers.pause());
+  const pos2=await page.evaluate(()=>state.softPause.pos);
+  await page.waitForTimeout(600);
+  await page.evaluate(()=>{window.__hidden=false;document.dispatchEvent(new Event('visibilitychange'))});
+  const back=await page.evaluate(()=>({paused:state.audio.paused,muted:state.audio.muted,soft:!!state.softPause,cur:state.audio.currentTime}));
+  assert.equal(back.paused,true);assert.equal(back.muted,false);assert.equal(back.soft,false);assert.ok(Math.abs(back.cur-pos2)<0.3,'back in the app it is a real pause at the same spot');
+  await page.locator('#playBtn').click();
+  await page.waitForFunction(()=>!state.audio.paused&&state.playing&&!state.audio.muted,null,{timeout:5000});
+  // 오래 두면(여기선 0.8초로 줄임) 배터리를 위해 진짜로 멈춘다
+  await page.evaluate(()=>{window.__ybSoftPauseMaxMs=800;window.__hidden=true;document.dispatchEvent(new Event('visibilitychange'))});
+  await page.evaluate(()=>window.__ms.handlers.pause());
+  const pos3=await page.evaluate(()=>state.softPause.pos);
+  await page.waitForFunction(()=>state.audio.paused&&!state.softPause&&!state.audio.muted,null,{timeout:5000});
+  assert.ok(Math.abs(await page.evaluate(()=>state.audio.currentTime)-pos3)<0.3,'the long-pause stop goes back to the pause point');
   assert.deepEqual(errors,[]);
-  console.log('여백 잠금 화면: 재생 막대 오디오 시간(1:02:05 / 2:02:10 · 남은 시간 · 배속 반영) · 재생 중이 되면 조작 다시 등록 · 일시정지→재생 같은 자리 · 오래 멈춤/죽은 주소는 다시 불러와 이어 듣기 · 재생 거부 시 다시 불러오기 PASS');
+  console.log('여백 잠금 화면: 재생 막대 오디오 시간(1:02:05 / 2:02:10 · 남은 시간 · 배속 반영) · 재생 중이 되면 조작 다시 등록 · 일시정지→재생 같은 자리 · 오래 멈춤/죽은 주소는 다시 불러와 이어 듣기 · 재생 거부 시 다시 불러오기 · 화면 꺼진 일시정지는 음소거로 소리 연결 유지(재생·토글·앱 복귀·30분 뒤 진짜 멈춤) PASS');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
