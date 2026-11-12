@@ -44,7 +44,8 @@ const root=path.resolve(__dirname,'..');
   });
   await page.reload({waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>typeof state!=='undefined'&&state.db);
-  await page.waitForFunction(async()=>!(await caches.has('yeobaek-ai-model-v1')),null,{timeout:5000});
+  // 정리는 시작 뒤 비동기로 이어진다 → 모델 보관함·저장된 설정·조각이 모두 지워질 때까지 기다린다(바쁜 컴퓨터에서 흔들리지 않게)
+  await page.waitForFunction(async()=>{if(await caches.has('yeobaek-ai-model-v1'))return false;const saved=(await storeReq('meta','readonly',st=>st.get('settings')))?.value||{};return !Object.keys(saved).some(k=>/^ai|keepScreenOn/.test(k))&&(await storeReq('aiParts','readonly',st=>st.count()))===0},null,{timeout:15000,polling:200});
   const cleaned=await page.evaluate(async()=>{const saved=(await storeReq('meta','readonly',st=>st.get('settings')))?.value||{};return {keys:Object.keys(saved).filter(k=>/^ai|keepScreenOn/.test(k)),parts:(await storeReq('aiParts','readonly',st=>st.count())),aiControls:document.querySelectorAll('#aiLiveToggle,#aiVoiceSelect,#aiConvertBtn,#queueStartBtn,#composerAiChip,.ai-export-btn').length,libraryBtn:!!document.querySelector('#settingsLibraryBtn'),files:typeof aiModule+typeof startLiveAi}});
   assert.deepEqual(cleaned,{keys:[],parts:0,aiControls:0,libraryBtn:true,files:'undefinedundefined'},'device AI leftovers are cleaned up');
   // 1) 추천 글: AI 오디오 책과 사이트 안 추천 글이 함께 보인다
@@ -76,7 +77,7 @@ const root=path.resolve(__dirname,'..');
    const a=state.audio;for(let i=0;i<100&&!(Number.isFinite(a.duration)&&a.duration>0&&state.audioTimeline);i++)await new Promise(r=>setTimeout(r,100));
    a.currentTime=0;showPosition(2,{mark:true});                    // 목차로 셋째 문단(시각 4초)에 감
    startSpeech();const jumped=a.currentTime;
-   await new Promise(r=>setTimeout(r,700));stopSpeech();
+   for(let i=0;i<60&&a.currentTime<jumped+.3;i++)await new Promise(r=>setTimeout(r,100));stopSpeech();   // 실제로 재생이 나아간 뒤 멈춘다(바쁜 컴퓨터에서 흔들리지 않게)
    const paused=a.currentTime;startSpeech();const resumed=a.currentTime;   // 같은 문단: 이어 듣기
    for(let i=0;i<40&&state.index<3;i++)await new Promise(r=>setTimeout(r,100)); // 6초 지나면 넷째 문단으로
    const followed=state.index;stopSpeech();
