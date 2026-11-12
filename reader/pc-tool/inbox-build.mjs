@@ -23,7 +23,9 @@ function listRequests(dir){
  const out=[];
  for(const f of fs.readdirSync(inbox)){if(!/^b-[0-9a-f]{12}\.json$/.test(f))continue;
   try{const r=JSON.parse(fs.readFileSync(path.join(inbox,f),'utf8'));if(r?.format==='yeobaek-audio-request'&&!r.error)out.push({file:f,id:f.slice(0,-5),req:r})}catch(e){out.push({file:f,id:f.slice(0,-5),bad:e})}}
- return out.sort((a,b)=>(a.req?.requested||0)-(b.req?.requested||0));
+ // 짧은 글부터 만든다 — 강의 하나(몇 분)가 100만 자 묶음(한두 시간) 뒤에서 기다리지 않게. 길이가 같으면 먼저 온 순서.
+ const chars=t=>Array.isArray(t.req?.blocks)?t.req.blocks.reduce((n,b)=>n+String(b?.text||'').length,0):0;
+ return out.sort((a,b)=>chars(a)-chars(b)||(a.req?.requested||0)-(b.req?.requested||0));
 }
 const push=(message,mutate)=>P.syncPush({gitDir:site,remoteUrl:null,auth:[],squash:false,workflow:false,message,mutate,report:m=>log(m)});
 
