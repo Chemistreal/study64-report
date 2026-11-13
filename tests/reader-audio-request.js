@@ -160,42 +160,37 @@ const root=path.resolve(__dirname,'..');
   // 7) 키가 만료되면 알려 준다
   keyOk=false;const res=await page.evaluate(async()=>{const b=await addBook('만료 시험','md',[{kind:'paragraph',text:'만료된 키.'}]);return requestHyunsuAudio(b)});
   assert.equal(res,false);
-  // 8) 설정 → '현수 오디오 모두 고음질로 바꾸기': 고음질이 아닌 현수 오디오만 -hq 이름으로 다시 보내고, 완성되면 같은 책에 바꿔 끼운다
+  // 8) 현수 오디오는 모두 원음 그대로: 리더를 열면 예전에 줄여 만든 현수 오디오만 -hq 이름으로 알아서 다시 보내고, 완성되면 같은 책에 조용히 바꿔 끼운다
   keyOk=true;
-  await page.evaluate(()=>openLayer('#settingsDrawer'));await page.evaluate(()=>refreshUpgradeAudioUI());
-  await page.waitForFunction(()=>/고음질로 바꿀 수 있는 책 4권/.test($('#upgradeAudioStatus').textContent));
   const hqFrom=puts.length;
-  await page.locator('#upgradeAudioBtn').click();
+  await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>typeof state!=='undefined'&&state.db&&state.books.length);
   await page.waitForFunction(()=>Object.values(audioRequests).filter(r=>r.upgrade).length===4,null,{timeout:10000});
   const hqPuts=puts.slice(hqFrom);
   assert.equal(hqPuts.length,4,'only the four Hyunsu audio books are sent again');
-  assert.ok(hqPuts.every(x=>/^b-[0-9a-f]{12}-hq$/.test(x.id)&&x.data.profile==='high'),'upgrade requests use their own -hq name and ask for high quality: '+JSON.stringify(hqPuts.map(x=>[x.id,x.data.profile])));
-  assert.match(await page.locator('#upgradeAudioStatus').textContent(),/바꿀 현수 오디오가 없습니다.*4권을 고음질로 바꾸는 중/);
-  assert.equal(await page.locator('#upgradeAudioBtn').isDisabled(),true);
-  // 아주 긴 합본은 아이폰에 담을 수 있는 크기 안에서 가장 좋은 음질로(통찰력 56만 자 → 고음질, 설명회학 68만 자 → 32kbps, 주식 99만 자 → 24kbps)
-  assert.deepEqual(await page.evaluate(()=>[560000,683000,989000,3000000].map(n=>hyunsuProfileFor({blocks:[{text:'가'.repeat(n)}]}))),['high','clear','normal','small']);
-  // 이 기기의 요청 기록이 사라져도(앱 다시 열기) 서버 inbox에 남은 -hq 요청을 보고 다시 잇는다
+  assert.ok(hqPuts.every(x=>/^b-[0-9a-f]{12}-hq$/.test(x.id)&&x.data.profile==='high'),'upgrade requests use their own -hq name and ask for the original quality: '+JSON.stringify(hqPuts.map(x=>[x.id,x.data.profile])));
+  assert.equal(await page.locator('#upgradeAudioBtn').count(),0,'no upgrade button: it happens by itself');
+  // 이 기기의 요청 기록이 사라져도(앱 다시 열기) 서버 inbox에 남은 -hq 요청을 보고 다시 잇는다(다시 보내지 않는다)
   await page.evaluate(async()=>{audioRequests={};await saveAudioRequests()});
+  const adoptFrom=puts.length;
   await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>typeof state!=='undefined'&&state.db&&state.books.length);
   await page.waitForFunction(()=>Object.values(audioRequests).filter(r=>r.upgrade&&/-hq$/.test(r.id)).length===4,null,{timeout:10000});
-  await page.evaluate(()=>closeLayers());
-  assert.match(await badge('요청 시험').textContent(),/오디오 준비됨 · 고음질 만드는 중/);
-  // 지금 오디오는 그대로 둔다(고음질이 오기 전까지 계속 듣는다)
+  await page.waitForTimeout(500);assert.equal(puts.length,adoptFrom,'adopted requests are not sent again');
+  // 지금 오디오는 그대로 두고(새 것이 오기 전까지 계속 듣는다), 카드에는 음질 이야기를 하지 않는다
   assert.equal(await page.evaluate(id=>state.audioIds.has(id),bookId),true);
+  assert.equal(await badge('요청 시험').textContent(),'오디오 준비됨 · 바로 듣기');
   const hqId=sent.id+'-hq',hqBytes=Buffer.from(Array.from({length:3600},(_,i)=>(i*7+5)%251)),hqMp3=path.join(tmp,'hq.mp3');fss.writeFileSync(hqMp3,hqBytes);
   E.writeSiteBundle(expected,{mp3:hqMp3,marks:expected.blocks.map((b,i)=>[i,i*2]),duration:6,bytes:hqBytes.length,speed:1.5,profile:'high'},path.join(site,'books',hqId),{partBytes:1000});
   P.upsertShelf(site,{id:hqId,title:expected.title,manifest:'books/'+hqId+'/book.json',bytes:hqBytes.length,duration:6,speed:1.5,profile:'high',source:'iphone'});
   const trees0=gitTrees.length;
-  await page.evaluate(()=>{audioPolling=false;return checkAudioRequests()});
+  await page.evaluate(()=>{window.__ybAutoAudioMaxBytes=100;audioPolling=false;return checkAudioRequests()});   // 크기와 상관없이 받는다
   await page.waitForFunction(id=>!audioRequests[id],bookId,{timeout:10000});
-  const swapped=await page.evaluate(async id=>{const a=await storeReq('audio','readonly',s=>s.get(id));return {books:state.books.length,size:a.blob.size,profile:a.profile,voice:a.aiVoice,left:Object.values(audioRequests).filter(r=>r.upgrade).length}},bookId);
-  assert.deepEqual(swapped,{books:await page.evaluate(()=>state.books.length),size:hqBytes.length,profile:'high',voice:'Hyunsu',left:3},'the high-quality audio replaces the old one on the same book');
+  const swapped=await page.evaluate(async id=>{const a=await storeReq('audio','readonly',s=>s.get(id));const parts=(await storeReq('meta','readonly',s=>s.getAllKeys())).filter(k=>String(k).startsWith('audio-part:'));return {books:state.books.length,size:a.blob.size,profile:a.profile,voice:a.aiVoice,left:Object.values(audioRequests).filter(r=>r.upgrade).length,parts:parts.length}},bookId);
+  assert.deepEqual(swapped,{books:await page.evaluate(()=>state.books.length),size:hqBytes.length,profile:'high',voice:'Hyunsu',left:3,parts:0},'the original-quality audio (4 parts joined on the device) replaces the old one on the same book, staged parts are cleaned up');
+  await page.evaluate(()=>{delete window.__ybAutoAudioMaxBytes});
   for(let i=0;i<50&&gitTrees.length===trees0;i++)await new Promise(r=>setTimeout(r,100));
   assert.ok(gitTrees.length>trees0&&gitTrees[gitTrees.length-1].tree.filter(t=>t.sha===null).every(t=>t.path.startsWith('books/'+hqId+'/')),'the downloaded -hq copy is removed from the server');
-  await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-card')].some(c=>/요청 시험/.test(c.textContent)&&/^오디오 준비됨 · 고음질 · 바로 듣기$/.test(c.querySelector('.book-audio')?.textContent||'')),null,{timeout:5000});
-  await page.evaluate(()=>refreshUpgradeAudioUI());
-  assert.match(await page.locator('#upgradeAudioStatus').textContent(),/3권을 고음질로 바꾸는 중/);
+  assert.equal(await badge('요청 시험').textContent(),'오디오 준비됨 · 바로 듣기');
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 모두 고음질로 바꾸기(-hq 요청·바꿔 끼우기·서버에서 지움) PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
