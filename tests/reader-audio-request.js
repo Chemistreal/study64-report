@@ -116,7 +116,7 @@ const root=path.resolve(__dirname,'..');
   assert.match(await hugeBadge.textContent(),/⬇ 현수 오디오 받기 · 1MB/);
   await hugeBadge.click();   // 카드의 받기 버튼
   await page.waitForFunction(id=>state.audioIds.has(id),huge.bookId,{timeout:10000});
-  assert.match(await hugeBadge.textContent(),/오디오 준비됨/);
+  await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-card')].some(c=>/아주 큰 합본/.test(c.textContent)&&/오디오 준비됨/.test(c.querySelector('.book-audio')?.textContent||'')),null,{timeout:5000});   // 카드 표시는 받기가 끝난 직후(finally)에 바뀐다
   await page.evaluate(()=>{delete window.__ybAutoAudioMaxBytes});
   const big=await mk('큰 묶음 책',5000),small=await mk('작은 강의',1200);
   const hang=new RegExp('/yeobaek-audio/books/'+big.sid+'/audio\\.\\d+\\.mp3');
@@ -187,7 +187,7 @@ const root=path.resolve(__dirname,'..');
   assert.deepEqual(swapped,{books:await page.evaluate(()=>state.books.length),size:hqBytes.length,profile:'high',voice:'Hyunsu',left:3},'the high-quality audio replaces the old one on the same book');
   for(let i=0;i<50&&gitTrees.length===trees0;i++)await new Promise(r=>setTimeout(r,100));
   assert.ok(gitTrees.length>trees0&&gitTrees[gitTrees.length-1].tree.filter(t=>t.sha===null).every(t=>t.path.startsWith('books/'+hqId+'/')),'the downloaded -hq copy is removed from the server');
-  assert.match(await badge('요청 시험').textContent(),/^오디오 준비됨 · 바로 듣기$/);
+  await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-card')].some(c=>/요청 시험/.test(c.textContent)&&/^오디오 준비됨 · 바로 듣기$/.test(c.querySelector('.book-audio')?.textContent||'')),null,{timeout:5000});
   await page.evaluate(()=>refreshUpgradeAudioUI());
   assert.match(await page.locator('#upgradeAudioStatus').textContent(),/3권을 고음질로 바꾸는 중/);
   assert.deepEqual(errors,[]);
