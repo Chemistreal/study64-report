@@ -43,7 +43,7 @@ const server=http.createServer(async(req,res)=>{
   // 1) 읽기 화면에 오디오 시간
   await page.evaluate(()=>{state.audio.currentTime=3725;state.audio.dispatchEvent(new Event('timeupdate'))});
   await page.waitForFunction(()=>/^1:02:0\d \/ 2:02:10 · 51%$/.test($('#playerPercent').textContent),null,{timeout:5000});
-  assert.match(await page.locator('#playerLabel').textContent(),/^51% 들음 · 남은 (59|60)분|^51% 들음 · 남은 1시간 0분/,'remaining time is shown');
+  assert.match(await page.locator('#playerLabel').textContent(),/^남은 (59|60)분$|^남은 1시간 0분$/,'remaining time is shown');
   // 문단을 눌러 위치를 옮겨도(=showPosition) '읽음 %'로 바뀌지 않는다
   await page.evaluate(()=>showPosition(1,{scroll:false}));
   assert.match(await page.locator('#playerPercent').textContent(),/ \/ 2:02:10 · \d+%$/,'paragraph moves keep the audio clock');
