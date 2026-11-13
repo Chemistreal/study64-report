@@ -26,7 +26,7 @@ export const PROFILES={
  normal:{rate:16000,kbps:24,label:'보통',perHourMB:10.3},
  high:{rate:24000,kbps:48,label:'좋게 · 원음에 가까움',perHourMB:20.6}
 };
-export const DEFAULTS={speed:1.5,profile:'small',concurrency:4};
+export const DEFAULTS={speed:1.5,profile:'high',concurrency:4};
 // 실측(1.3배속 7.3~8.2자/초) → 1배속 약 6자/초. 분량·용량 어림에 쓴다.
 const CHARS_PER_SEC_1X=6;
 export function estimate(chars,speed=DEFAULTS.speed,profile=DEFAULTS.profile){const sec=chars/(CHARS_PER_SEC_1X*speed);return {seconds:sec,bytes:sec*(PROFILES[profile]||PROFILES.small).kbps*125}}
