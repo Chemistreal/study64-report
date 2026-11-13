@@ -171,6 +171,8 @@ const root=path.resolve(__dirname,'..');
   assert.ok(hqPuts.every(x=>/^b-[0-9a-f]{12}-hq$/.test(x.id)&&x.data.profile==='high'),'upgrade requests use their own -hq name and ask for high quality: '+JSON.stringify(hqPuts.map(x=>[x.id,x.data.profile])));
   assert.match(await page.locator('#upgradeAudioStatus').textContent(),/바꿀 현수 오디오가 없습니다.*4권을 고음질로 바꾸는 중/);
   assert.equal(await page.locator('#upgradeAudioBtn').isDisabled(),true);
+  // 아주 긴 합본은 아이폰에 담을 수 있는 크기 안에서 가장 좋은 음질로(통찰력 56만 자 → 고음질, 설명회학 68만 자 → 32kbps, 주식 99만 자 → 24kbps)
+  assert.deepEqual(await page.evaluate(()=>[560000,683000,989000,3000000].map(n=>hyunsuProfileFor({blocks:[{text:'가'.repeat(n)}]}))),['high','clear','normal','small']);
   await page.evaluate(()=>closeLayers());
   assert.match(await badge('요청 시험').textContent(),/오디오 준비됨 · 고음질 만드는 중/);
   // 지금 오디오는 그대로 둔다(고음질이 오기 전까지 계속 듣는다)

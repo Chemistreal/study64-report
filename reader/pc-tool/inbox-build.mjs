@@ -41,6 +41,10 @@ async function main(){
   if(P.bookId(book.hash)!==id.replace(/-hq$/,'')){await fail('요청 이름과 글 내용이 맞지 않습니다.');continue}
   const speed=Number(t.req.speed)>=.8&&Number(t.req.speed)<=2?Number(t.req.speed):E.DEFAULTS.speed;
   const profile=E.PROFILES[t.req.profile]?t.req.profile:E.DEFAULTS.profile;
+  // 오디오 저장소(GitHub Pages)는 1GB 앞에서 멈춘다. 다 만들어도 못 올릴 책은 만들지 않고 남겨 둔다 — 아이폰이 받아 가서 서버에서 지우면(그 기록이 다음 실행을 부른다) 이어 만든다.
+  const need=E.estimate(book.chars,speed,profile).bytes,have=P.dirBytes(site);
+  if(need>P.PAGES_SOFT_LIMIT){await fail('오디오가 너무 커서(약 '+Math.round(need/1048576)+'MB) 저장소에 올릴 수 없습니다. 글을 나눠 주세요.');continue}
+  if(have+need>P.PAGES_SOFT_LIMIT){log('저장소 자리가 모자라 다음에 만듦',id,book.title,'필요 약',Math.round(need/1048576)+'MB','· 지금',Math.round(have/1048576)+'MB');continue}
   log('만드는 중',id,book.title,book.chars.toLocaleString()+'자','· 예상',(E.estimate(book.chars,speed,profile).seconds/60).toFixed(0)+'분 분량');
   const started=Date.now();let last=0;
   let r;
