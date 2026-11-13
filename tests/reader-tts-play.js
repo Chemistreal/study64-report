@@ -76,7 +76,7 @@ const server=http.createServer(async(req,res)=>{
   assert.deepEqual(shelfDialogs,[],'playing asks nothing');
   assert.deepEqual(shelfErrors,[]);
 
-  // 책 하나를 다 들으면 서재 제목 순서(1강→2강→10강)로 다음 책을 이어 읽는다. 끄면 그 책에서 멈춘다.
+  // 책 하나를 다 들으면 그 책에서 멈춘다(다음 책으로 자동으로 넘어가지 않는다 — 2026-11-13 사용자 요청으로 기능 삭제).
   const series=await browser.newPage({viewport:{width:1100,height:820}});
   const seriesErrors=[];series.on('pageerror',e=>seriesErrors.push(e.message));series.on('dialog',d=>d.dismiss());
   await series.addInitScript(()=>{window.__spoken=[];speechSynthesis.speak=u=>{window.__spoken.push(u.text);setTimeout(()=>u.onend&&u.onend(),15)}});
@@ -88,31 +88,13 @@ const server=http.createServer(async(req,res)=>{
    await series.locator('#composerSave').click();
    await series.locator('#readerTitle').getByText(title).waitFor();
   }
-  assert.equal(await series.evaluate(()=>state.settings.continueNext),true,'continuing to the next book is on by default');
+  assert.equal(await series.locator('#continueNextToggle').count(),0,'no next-book toggle');
+  assert.equal(await series.locator('#sleepTimerSelect option[value="book"]').count(),0,'no sleep-after-book option');
   await series.locator('#playBtn').click();
-  await series.waitForFunction(()=>state.book?.title==='10강 끝'&&state.book.completed&&!state.playing,null,{timeout:20000});
-  const seriesSpoken=await series.evaluate(()=>window.__spoken);
-  assert.deepEqual(seriesSpoken,['1강 처음','첫째 강의 본문입니다.','2강 가운데','둘째 강의 본문입니다.','10강 끝','열째 강의 본문입니다.'],'books continue in natural title order');
-  // 끄면 다음 책으로 넘어가지 않는다.
-  await series.locator('#backBtn').click();
-  await series.locator('*:has(.book-open)',{hasText:'1강 처음'}).last().locator('.book-open').click();
-  await series.locator('#readerTitle').getByText('1강 처음').waitFor();
-  await series.locator('#settingsBtn').click();await series.locator('#continueNextToggle').uncheck();await series.locator('#settingsDrawer .close-layer').click();
-  await series.evaluate(()=>{window.__spoken=[];state.book.completed=false;state.index=0;state.chunk=0});
-  await series.locator('#playBtn').click();
-  await series.waitForFunction(()=>state.book.completed&&!state.playing,null,{timeout:20000});
-  assert.equal(await series.evaluate(()=>state.book.title),'1강 처음','stays on the finished book when turned off');
+  await series.waitForFunction(()=>state.book?.completed&&!state.playing,null,{timeout:20000});
+  await series.waitForTimeout(500);
+  assert.equal(await series.evaluate(()=>state.book.title),'1강 처음','stays on the finished book');
   assert.deepEqual(await series.evaluate(()=>window.__spoken),['1강 처음','첫째 강의 본문입니다.']);
-  // 취침 타이머 '이 책이 끝나면': 이어 듣기가 켜져 있어도 이 책에서 멈춘다.
-  await series.locator('#settingsBtn').click();await series.locator('#continueNextToggle').check();await series.locator('#sleepTimerSelect').selectOption('book');
-  assert.match(await series.locator('#sleepTimerStatus').textContent(),/끝까지 읽으면 멈춥니다/);
-  await series.locator('#settingsDrawer .close-layer').click();
-  await series.evaluate(()=>{window.__spoken=[];state.book.completed=false;state.index=0;state.chunk=0});
-  await series.locator('#playBtn').click();
-  await series.waitForFunction(()=>state.book.completed&&!state.playing&&!state.sleepAfterBook,null,{timeout:20000});
-  await series.waitForTimeout(300);
-  assert.equal(await series.evaluate(()=>state.book.title),'1강 처음','sleep-after-book stops at the end of this book');
-  assert.equal(await series.locator('#sleepTimerSelect').inputValue(),'0','the timer resets after stopping');
   assert.deepEqual(seriesErrors,[]);
 
   // 미리 만든 오디오(시간표 있음)는 재생 위치에 맞춰 읽는 문단을 따라가고, 문단을 누르면 그 문단의 소리로 이동한다.
@@ -136,6 +118,6 @@ const server=http.createServer(async(req,res)=>{
   assert.equal(jumped.index,2);
   assert.ok(Math.abs(jumped.time-4)<0.05,'tapping a paragraph seeks the audio to it: '+jumped.time);
   assert.deepEqual(syncedErrors,[]);
-  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 담기(AI 대기열·배지 없음) · 오디오 없는 책은 기기 음성 · 다음 책 이어 듣기 · 취침 타이머 · 오디오 문단 동기화 PASS');
+  console.log('여백 읽어주기: 확인창 없이 바로 낭독 · 읽는 문장 표시 · '+result.spoken.length+'구간 · 추천 글 '+shelfState.titles.length+'권 담기(AI 대기열·배지 없음) · 오디오 없는 책은 기기 음성 · 책 끝에서 멈춤(다음 책 자동 안 넘어감) · 오디오 문단 동기화 PASS');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(e=>{console.error(e);process.exit(1)});

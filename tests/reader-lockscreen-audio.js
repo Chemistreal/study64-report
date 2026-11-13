@@ -42,11 +42,11 @@ const server=http.createServer(async(req,res)=>{
   await page.waitForFunction(()=>hasAttachedAudio()&&Number.isFinite(state.audio.duration)&&state.audio.duration>7000,null,{timeout:15000});
   // 1) 읽기 화면에 오디오 시간
   await page.evaluate(()=>{state.audio.currentTime=3725;state.audio.dispatchEvent(new Event('timeupdate'))});
-  await page.waitForFunction(()=>/^1:02:0\d \/ 2:02:10$/.test($('#playerPercent').textContent),null,{timeout:5000});
+  await page.waitForFunction(()=>/^1:02:0\d \/ 2:02:10 · 51%$/.test($('#playerPercent').textContent),null,{timeout:5000});
   assert.match(await page.locator('#playerLabel').textContent(),/^51% 들음 · 남은 (59|60)분|^51% 들음 · 남은 1시간 0분/,'remaining time is shown');
   // 문단을 눌러 위치를 옮겨도(=showPosition) '읽음 %'로 바뀌지 않는다
   await page.evaluate(()=>showPosition(1,{scroll:false}));
-  assert.match(await page.locator('#playerPercent').textContent(),/ \/ 2:02:10$/,'paragraph moves keep the audio clock');
+  assert.match(await page.locator('#playerPercent').textContent(),/ \/ 2:02:10 · \d+%$/,'paragraph moves keep the audio clock');
   // 배속이면 남은 시간은 배속 기준
   await page.evaluate(()=>{state.audio.playbackRate=2;state.audio.currentTime=3725;state.audio.dispatchEvent(new Event('timeupdate'))});
   await page.waitForFunction(()=>/남은 30분 \(2배\)|남은 31분 \(2배\)/.test($('#playerLabel').textContent),null,{timeout:5000});
@@ -99,7 +99,7 @@ const server=http.createServer(async(req,res)=>{
   const held=await page.evaluate(()=>({shown:$('#playerPercent').textContent,saved:state.book.audioTime,silentRunning:!state.audio.paused,index:state.index}));
   assert.equal(held.silentRunning,true);
   assert.ok(Math.abs(held.saved-soft.pos)<0.01,'saved position stays at the pause point: '+JSON.stringify({soft,held}));
-  assert.match(held.shown,/ \/ 2:02:10$/,'the clock still shows the book audio, not the silence');
+  assert.match(held.shown,/ \/ 2:02:10 · \d+%$/,'the clock still shows the book audio, not the silence');
   // 무음이 멈추면(iOS 방해 등) 바로 다시 틀어 소리 연결을 지킨다 · 무음은 완전한 0이 아닌 들리지 않는 작은 소리(20초) · 기기에 재생 기록
   await page.evaluate(()=>state.audio.pause());
   await page.waitForFunction(()=>state.softPause&&!state.audio.paused&&state.softPause.retries===1&&state.audio.src===state.silentAudioUrl,null,{timeout:5000});
@@ -144,6 +144,6 @@ const server=http.createServer(async(req,res)=>{
   await page.locator('#audioLogClearBtn').click();
   assert.match(await page.locator('#audioLogView').inputValue(),/아직 기록이 없습니다/);
   assert.deepEqual(errors,[]);
-  console.log('여백 잠금 화면: 재생 막대 오디오 시간(1:02:05 / 2:02:10 · 남은 시간 · 배속 반영) · 재생 중이 되면 조작 다시 등록 · 일시정지→재생 같은 자리 · 오래 멈춤/죽은 주소는 다시 불러와 이어 듣기 · 재생 거부 시 다시 불러오기 · 화면 꺼진 일시정지는 무음 반복으로 소리 연결 유지(재생·토글·일시정지 중 뒤로·앱 복귀·30분 뒤 진짜 멈춤) PASS');
+  console.log('여백 잠금 화면: 재생 막대 오디오 시간(1:02:05 / 2:02:10 · 51% · 남은 시간 · 배속 반영) · 재생 중이 되면 조작 다시 등록 · 일시정지→재생 같은 자리 · 오래 멈춤/죽은 주소는 다시 불러와 이어 듣기 · 재생 거부 시 다시 불러오기 · 화면 꺼진 일시정지는 무음 반복으로 소리 연결 유지(재생·토글·일시정지 중 뒤로·앱 복귀·30분 뒤 진짜 멈춤) PASS');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
