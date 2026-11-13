@@ -35,6 +35,7 @@ const root=path.resolve(__dirname,'..');
    const m=u.pathname.match(/^\/repos\/Chemistreal\/yeobaek-audio\/contents\/inbox\/(b-[0-9a-f]{12}(?:-hq)?)\.json$/);
    if(!m){
     const g=u.pathname.replace('/repos/Chemistreal/yeobaek-audio','');
+    if(req.method()==='GET'&&g==='/contents/inbox')return json(200,[...inbox.keys()].map(id=>({name:id+'.json',sha:'sha-'+id+(failed.has(id)?'-failed':'')})));   // 폴더 목록(sha가 바뀐 요청만 받아 본다)
     if(req.method()==='GET'&&g==='/git/ref/heads/main')return json(200,{object:{sha:'c'+gitHead}});
     if(req.method()==='GET'&&g==='/git/commits/c'+gitHead)return json(200,{tree:{sha:'t'+gitHead}});
     if(req.method()==='GET'&&g==='/git/trees/t'+gitHead){const list=[];const walk=(d,pre)=>{for(const e of fss.readdirSync(d,{withFileTypes:true})){const p=pre+e.name;if(e.isDirectory())walk(path.join(d,e.name),p+'/');else list.push({path:p,type:'blob',sha:p==='index.json'?'idx':'x'})}};walk(site,'');return json(200,{tree:list})}
@@ -173,6 +174,10 @@ const root=path.resolve(__dirname,'..');
   assert.equal(await page.locator('#upgradeAudioBtn').isDisabled(),true);
   // 아주 긴 합본은 아이폰에 담을 수 있는 크기 안에서 가장 좋은 음질로(통찰력 56만 자 → 고음질, 설명회학 68만 자 → 32kbps, 주식 99만 자 → 24kbps)
   assert.deepEqual(await page.evaluate(()=>[560000,683000,989000,3000000].map(n=>hyunsuProfileFor({blocks:[{text:'가'.repeat(n)}]}))),['high','clear','normal','small']);
+  // 이 기기의 요청 기록이 사라져도(앱 다시 열기) 서버 inbox에 남은 -hq 요청을 보고 다시 잇는다
+  await page.evaluate(async()=>{audioRequests={};await saveAudioRequests()});
+  await page.reload({waitUntil:'domcontentloaded'});await page.waitForFunction(()=>typeof state!=='undefined'&&state.db&&state.books.length);
+  await page.waitForFunction(()=>Object.values(audioRequests).filter(r=>r.upgrade&&/-hq$/.test(r.id)).length===4,null,{timeout:10000});
   await page.evaluate(()=>closeLayers());
   assert.match(await badge('요청 시험').textContent(),/오디오 준비됨 · 고음질 만드는 중/);
   // 지금 오디오는 그대로 둔다(고음질이 오기 전까지 계속 듣는다)
