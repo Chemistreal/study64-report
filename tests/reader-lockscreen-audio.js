@@ -28,6 +28,8 @@ const server=http.createServer(async(req,res)=>{
   });
   await page.goto('http://127.0.0.1:'+server.address().port+'/',{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>state.db&&document.querySelector('#bookCount'));
+  // 오른쪽 위 업데이트 표시: 배포 때 '업데이트 #번호 · 날짜'로 바뀌고, 배포 전 파일은 '개발판'
+  assert.equal(await page.locator('#buildTag').textContent(),'개발판 (배포 전)');
   // 3시간 길이 오디오 대신, 아주 낮은 표본율로 긴 소리(약 2시간 2분)를 만든다 → 시간 표시에 '시:분:초'가 나오는지 본다.
   await page.evaluate(async()=>{
    const {id}=await addBook('잠금 화면 시험','md',[{kind:'paragraph',text:'첫 문단.'},{kind:'paragraph',text:'둘째 문단.'}]);

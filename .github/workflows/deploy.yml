@@ -23,6 +23,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      # 리더 오른쪽 위에 '업데이트 #PR번호 · 날짜 시각(한국 시간)'을 찍는다.
+      - name: Stamp reader version
+        run: |
+          pr=$(git log -1 --format=%s | grep -oE '\(#[0-9]+\)$' | tr -d '()' || true)
+          when=$(TZ=Asia/Seoul git log -1 --date=format-local:'%Y.%m.%d %H:%M' --format=%cd)
+          sed -i "s|__YB_BUILD__|업데이트 ${pr:+$pr · }$when|" reader/index.html
+          grep -o 'id="buildTag"[^<]*' reader/index.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
