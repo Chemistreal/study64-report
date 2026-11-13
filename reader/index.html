@@ -757,7 +757,7 @@ async function requestHyunsuAudio(book,{quiet=false,upgrade=false}={}){
   // 이미 만들어져 있으면 보내지 않고 바로 받는다
   let done=null;try{done=(await loadShelfJson(AUDIO_SHELF_URL))?.items?.find(x=>x.id===id)}catch(e){}
   if(!done){
-   const body={format:'yeobaek-audio-request',version:1,id,title:book.title,type:book.type||'md',blocks:book.blocks.map(b=>({kind:b.kind||'paragraph',text:b.text,...(b.level?{level:b.level}:{})})),requested:Date.now(),speed:1.5,profile:'high'};
+   const body={format:'yeobaek-audio-request',version:1,id,title:book.title,type:book.type||'md',blocks:book.blocks.map(b=>({kind:b.kind||'paragraph',text:b.text,...(b.level?{level:b.level}:{})})),requested:Date.now(),speed:1.5,profile:hyunsuProfileFor(book)};
    let sha;const old=await fetch(url+'?t='+Date.now(),{headers,cache:'no-store'});if(old.ok)sha=(await old.json()).sha;else if(old.status===401)throw Error('GitHub 키가 올바르지 않거나 만료되었습니다. 설정에서 다시 넣어 주세요.');
    const r=await fetch(url,{method:'PUT',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({message:'현수 오디오 요청: '+book.title.slice(0,80),content:utf8Base64(JSON.stringify(body)),...(sha?{sha}:{})})});
    if(r.status===401||r.status===403||r.status===404)throw Error('GitHub 키에 오디오 저장소에 글을 올릴 권한이 없습니다(Contents: Read and write 필요).');
@@ -772,9 +772,13 @@ async function requestHyunsuAudio(book,{quiet=false,upgrade=false}={}){
 // ── 현수 오디오 고음질로 바꾸기 ──
 // 예전에는 현수 오디오를 16kHz·16kbps('작게')로 줄여 만들었다. 이 기기의 현수 오디오 가운데 고음질(24kHz·48kbps, 원음 그대로)이 아닌 것을
 // 한 번에 다시 만들도록 보내고(inbox/<id>-hq.json), 완성되면 받아서 바꿔 끼운다. 다 받기 전까지는 지금 오디오로 계속 듣는다.
+// 아주 긴 책(수십만 자 합본)은 고음질이면 아이폰에 담을 수 있는 크기(AI_AUDIO_MAX_BYTES)를 넘는다 — 380MB 안에 들어오는 가장 좋은 음질로 만든다.
+// 어림은 작업실 engine.mjs의 estimate와 같다(1배속 약 6자/초, 1.5배속). 실제는 이보다 10% 남짓 작다.
+const HYUNSU_PROFILES=[['high',48],['clear',32],['normal',24],['small',16]],HYUNSU_MAX_BYTES=380*1048576;
+function hyunsuProfileFor(book){const sec=bookCharacters(book)/9;return (HYUNSU_PROFILES.find(([,kbps])=>sec*kbps*125<=HYUNSU_MAX_BYTES)||HYUNSU_PROFILES[3])[0]}
 async function hyunsuUpgradeTargets(){
  let recs=[];try{recs=await storeReq('audio','readonly',s=>s.getAll())||[]}catch(e){}
- return recs.filter(a=>a.aiVoice==='Hyunsu'&&a.profile!=='high').map(a=>({book:state.books.find(b=>b.id===a.id),bytes:a.blob?.size||0})).filter(x=>x.book&&!(audioRequests[x.book.id]&&!audioRequests[x.book.id].error))
+ return recs.filter(a=>a.aiVoice==='Hyunsu'&&!['high','clear','normal'].includes(a.profile)).map(a=>({book:state.books.find(b=>b.id===a.id),bytes:a.blob?.size||0})).filter(x=>x.book&&!(audioRequests[x.book.id]&&!audioRequests[x.book.id].error))
 }
 async function refreshUpgradeAudioUI(){
  const st=$('#upgradeAudioStatus');if(!st)return;
@@ -787,7 +791,7 @@ async function upgradeHyunsuAudio(){
  const list=await hyunsuUpgradeTargets();
  if(!list.length){toast('바꿀 현수 오디오가 없습니다. 모두 고음질이거나 이미 바꾸는 중입니다.');refreshUpgradeAudioUI();return}
  const mb=Math.max(1,Math.round(list.reduce((n,x)=>n+x.bytes,0)/1048576));
- if(!confirm('현수 오디오 '+list.length+'권을 고음질(원음 그대로)로 다시 만들어 받습니다.\n\n· 용량이 약 3배가 됩니다(지금 약 '+mb+'MB → 약 '+mb*3+'MB). 와이파이에서 하기를 권합니다.\n· 다 받기 전까지는 지금 오디오로 계속 들을 수 있고, 들은 위치도 그대로입니다.\n· 보낸 글은 받기 전까지 공개 저장소에 있습니다.\n\n계속할까요?'))return;
+ if(!confirm('현수 오디오 '+list.length+'권을 고음질(원음 그대로)로 다시 만들어 받습니다(아주 긴 합본은 기기에 담을 수 있는 가장 좋은 음질로).\n\n· 용량이 약 2~3배가 됩니다(지금 약 '+mb+'MB → 약 '+mb*3+'MB). 와이파이에서, 리더 화면을 켜 둔 채로 하기를 권합니다. 긴 책이 많으면 몇 시간 걸립니다.\n· 다 받기 전까지는 지금 오디오로 계속 들을 수 있고, 들은 위치도 그대로입니다.\n· 보낸 글은 받기 전까지 공개 저장소에 있습니다.\n\n계속할까요?'))return;
  const btn=$('#upgradeAudioBtn');btn.disabled=true;let ok=0;
  try{for(const x of list){toast('고음질 요청 보내는 중 '+(ok+1)+'/'+list.length,4000);if(await requestHyunsuAudio(x.book,{quiet:true,upgrade:true}))ok++}}
  finally{btn.disabled=false;updateBookBadges();refreshUpgradeAudioUI()}
@@ -817,7 +821,7 @@ async function checkAudioRequests({first=null}={}){
    const book=state.books.find(b=>b.id===bookId);
    if(!book||(state.audioIds.has(bookId)&&!req.upgrade)){delete audioRequests[bookId];continue}
    const item=shelf?.items?.find(x=>x.id===req.id);
-   if(item){req.ready=true;req.error='';req.bytes=Number(item.bytes)||0;if(bookId===first||req.bytes<=autoAudioMaxBytes())ready.push({bookId,req,book,item});continue}
+   if(item){req.ready=true;req.error='';req.bytes=Number(item.bytes)||0;if(bookId===first||req.upgrade||req.bytes<=autoAudioMaxBytes())ready.push({bookId,req,book,item});continue}
    req.ready=false;
    try{const r=await fetch('https://raw.githubusercontent.com/'+AUDIO_REPO+'/main/inbox/'+req.id+'.json?t='+Date.now(),{cache:'no-store'});if(r.ok){const j=await r.json();req.error=typeof j.error==='string'?j.error.slice(0,200):''}}catch(e){}
   }

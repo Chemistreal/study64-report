@@ -24,6 +24,7 @@ export const PROFILES={
  tiny:{rate:8000,kbps:8,label:'최소 · 전화 음질',perHourMB:3.4},
  small:{rate:16000,kbps:16,label:'작게 · 또렷한 말소리',perHourMB:6.9},
  normal:{rate:16000,kbps:24,label:'보통',perHourMB:10.3},
+ clear:{rate:24000,kbps:32,label:'좋게(아주 긴 책) · 24kHz·32kbps',perHourMB:13.7},
  high:{rate:24000,kbps:48,label:'좋게 · 원음에 가까움',perHourMB:20.6}
 };
 export const DEFAULTS={speed:1.5,profile:'high',concurrency:4};
