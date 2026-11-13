@@ -98,6 +98,13 @@ const server=http.createServer(async(req,res)=>{
   assert.equal(held.silentRunning,true);
   assert.ok(Math.abs(held.saved-soft.pos)<0.01,'saved position stays at the pause point: '+JSON.stringify({soft,held}));
   assert.match(held.shown,/ \/ 2:02:10$/,'the clock still shows the book audio, not the silence');
+  // 무음이 멈추면(iOS 방해 등) 바로 다시 틀어 소리 연결을 지킨다 · 무음은 완전한 0이 아닌 들리지 않는 작은 소리(20초) · 기기에 재생 기록
+  await page.evaluate(()=>state.audio.pause());
+  await page.waitForFunction(()=>state.softPause&&!state.audio.paused&&state.softPause.retries===1&&state.audio.src===state.silentAudioUrl,null,{timeout:5000});
+  const silent=await page.evaluate(async()=>{const b=new DataView(await (await fetch(state.silentAudioUrl)).arrayBuffer());let nz=0,max=0;for(let i=44;i<b.byteLength;i+=2){const s=Math.abs(b.getInt16(i,true));if(s)nz++;max=Math.max(max,s)}return {bits:b.getUint16(34,true),sec:b.getUint32(40,true)/2/b.getUint32(24,true),nz,max,log:audioLogText()}});
+  assert.equal(silent.bits,16);assert.equal(silent.sec,20);
+  assert.ok(silent.nz>10000&&silent.max<=2,'near-silent, not digital zero: '+JSON.stringify({nz:silent.nz,max:silent.max}));
+  assert.match(silent.log,/잠금 화면 일시정지 누름 \(재생 중\)\n.*잠금 화면 일시정지 → 무음 유지 시작 \(\d+:\d\d\)[\s\S]*무음이 멈춤\(pause\) → 다시 틀기 1번째/,silent.log);
   // 잠금 화면 재생 → 책 오디오로 돌아가 기억한 자리부터
   await page.evaluate(()=>window.__ms.handlers.play());
   await onBook(soft.pos);
@@ -125,6 +132,15 @@ const server=http.createServer(async(req,res)=>{
   const pos4=await page.evaluate(()=>state.softPause.pos);
   await onBook(pos4);
   assert.equal(await page.evaluate(()=>state.audio.paused&&!state.playing),true,'the long-pause stop is a real pause at the same spot');
+  // 재생 기록: 잠금 화면 버튼·무음 시작/끝·책 오디오 재생 결과가 남고, 설정에서 볼 수 있다
+  const log=await page.evaluate(()=>audioLogText());
+  assert.match(log,/잠금 화면 재생 누름 \(무음 유지 중, 무음 재생 중\)\n.*무음 끝 → 책 오디오 다시 재생 \(멈춘 지 \d+초, \d+:\d\d\)/,log);
+  assert.match(log,/책 오디오 재생(됨|.*AbortError)/);assert.match(log,/앱 화면으로 돌아옴\n.*무음 끝 → 진짜 일시정지/);assert.match(log,/일시정지 0분 지나 진짜로 멈춤/);
+  await page.evaluate(()=>{window.__hidden=false;document.dispatchEvent(new Event('visibilitychange'));openLayer('#settingsDrawer')});
+  await page.locator('#audioLogBtn').click();
+  assert.match(await page.locator('#audioLogView').inputValue(),/무음 유지 시작/);
+  await page.locator('#audioLogClearBtn').click();
+  assert.match(await page.locator('#audioLogView').inputValue(),/아직 기록이 없습니다/);
   assert.deepEqual(errors,[]);
   console.log('여백 잠금 화면: 재생 막대 오디오 시간(1:02:05 / 2:02:10 · 남은 시간 · 배속 반영) · 재생 중이 되면 조작 다시 등록 · 일시정지→재생 같은 자리 · 오래 멈춤/죽은 주소는 다시 불러와 이어 듣기 · 재생 거부 시 다시 불러오기 · 화면 꺼진 일시정지는 무음 반복으로 소리 연결 유지(재생·토글·일시정지 중 뒤로·앱 복귀·30분 뒤 진짜 멈춤) PASS');
  }finally{if(browser)await browser.close();server.close()}
