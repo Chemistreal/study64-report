@@ -3,7 +3,7 @@
 //
 //   node inbox-build.mjs --site <저장소 checkout 폴더> [--jobs 10]
 //
-// 요청 파일 inbox/<id>.json = {format:'yeobaek-audio-request', version:1, id, title, type, blocks:[{kind,text,level?}], requested, speed?, profile?}
+// 요청 파일 inbox/<id>.json (고음질로 다시 받기는 inbox/<id>-hq.json — 같은 책의 추천 글 항목을 건드리지 않게 따로 만든다) = {format:'yeobaek-audio-request', version:1, id, title, type, blocks:[{kind,text,level?}], requested, speed?, profile?}
 // - 아이폰 리더가 보낸 문단 그대로 만든다(같은 본문 해시 → 완성되면 리더가 그 책에 오디오를 붙인다).
 // - 요청 하나가 끝날 때마다 바로 올린다(원격 최신 상태 위에 얹기). 중간에 멈춰도 끝난 책은 남는다.
 // - 실패하면 요청 파일에 error를 적어 둔다(리더가 보여 주고, 같은 요청을 계속 다시 시도하지 않는다. 리더에서 다시 보내면 다시 만든다).
@@ -21,7 +21,7 @@ const log=(...m)=>console.log(new Date().toISOString().slice(11,19),...m);
 function listRequests(dir){
  const inbox=path.join(dir,'inbox');if(!fs.existsSync(inbox))return [];
  const out=[];
- for(const f of fs.readdirSync(inbox)){if(!/^b-[0-9a-f]{12}\.json$/.test(f))continue;
+ for(const f of fs.readdirSync(inbox)){if(!/^b-[0-9a-f]{12}(-hq)?\.json$/.test(f))continue;
   try{const r=JSON.parse(fs.readFileSync(path.join(inbox,f),'utf8'));if(r?.format==='yeobaek-audio-request'&&!r.error)out.push({file:f,id:f.slice(0,-5),req:r})}catch(e){out.push({file:f,id:f.slice(0,-5),bad:e})}}
  // 짧은 글부터 만든다 — 강의 하나(몇 분)가 100만 자 묶음(한두 시간) 뒤에서 기다리지 않게. 길이가 같으면 먼저 온 순서.
  const chars=t=>Array.isArray(t.req?.blocks)?t.req.blocks.reduce((n,b)=>n+String(b?.text||'').length,0):0;
@@ -37,8 +37,8 @@ async function main(){
   if(t.bad){await fail('요청 파일을 읽지 못했습니다.');continue}
   let book;
   try{book=E.bookFromBlocks(t.req.title,t.req.blocks,t.req.type)}catch(e){await fail(e.message);continue}
-  const id=P.bookId(book.hash);
-  if(id!==t.id){await fail('요청 이름과 글 내용이 맞지 않습니다.');continue}
+  const id=t.id;
+  if(P.bookId(book.hash)!==id.replace(/-hq$/,'')){await fail('요청 이름과 글 내용이 맞지 않습니다.');continue}
   const speed=Number(t.req.speed)>=.8&&Number(t.req.speed)<=2?Number(t.req.speed):E.DEFAULTS.speed;
   const profile=E.PROFILES[t.req.profile]?t.req.profile:E.DEFAULTS.profile;
   log('만드는 중',id,book.title,book.chars.toLocaleString()+'자','· 예상',(E.estimate(book.chars,speed,profile).seconds/60).toFixed(0)+'분 분량');

@@ -32,7 +32,7 @@ const root=path.resolve(__dirname,'..');
    const json=(status,body)=>route.fulfill({status,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(body)});
    if(auth!=='Bearer github_pat_good'||!keyOk)return json(401,{message:'Bad credentials'});
    if(u.pathname==='/repos/Chemistreal/yeobaek-audio')return json(200,{full_name:'Chemistreal/yeobaek-audio'});
-   const m=u.pathname.match(/^\/repos\/Chemistreal\/yeobaek-audio\/contents\/inbox\/(b-[0-9a-f]{12})\.json$/);
+   const m=u.pathname.match(/^\/repos\/Chemistreal\/yeobaek-audio\/contents\/inbox\/(b-[0-9a-f]{12}(?:-hq)?)\.json$/);
    if(!m){
     const g=u.pathname.replace('/repos/Chemistreal/yeobaek-audio','');
     if(req.method()==='GET'&&g==='/git/ref/heads/main')return json(200,{object:{sha:'c'+gitHead}});
@@ -49,7 +49,7 @@ const root=path.resolve(__dirname,'..');
    const body=JSON.parse(req.postData());puts.push({id:m[1],sha:body.sha||null,message:body.message,data:JSON.parse(Buffer.from(body.content,'base64').toString('utf8'))});inbox.set(m[1],true);
    return json(201,{content:{sha:'sha-'+m[1]}});
   });
-  await page.route('https://raw.githubusercontent.com/**',route=>{const id=(route.request().url().match(/inbox\/(b-[0-9a-f]{12})\.json/)||[])[1];return failed.has(id)?route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({error:failed.get(id)})}):route.fulfill({status:404,body:''})});
+  await page.route('https://raw.githubusercontent.com/**',route=>{const id=(route.request().url().match(/inbox\/(b-[0-9a-f]{12}(?:-hq)?)\.json/)||[])[1];return failed.has(id)?route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({error:failed.get(id)})}):route.fulfill({status:404,body:''})});
   await page.goto(origin,{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>typeof state!=='undefined'&&state.db);
   // 1) 키: 틀린 키는 거절, 맞는 키는 이 기기에만 저장(설정·백업에는 없음)
@@ -77,7 +77,7 @@ const root=path.resolve(__dirname,'..');
   const expected=E.bookFromBlocks('요청 시험',blocks);
   assert.equal(puts.length,1);const sent=puts[0];
   assert.equal(sent.id,P.bookId(expected.hash),'request is named by the same body hash the builder will compute');
-  assert.equal(sent.data.format,'yeobaek-audio-request');assert.equal(sent.data.speed,1.5);assert.deepEqual(sent.data.blocks.map(b=>[b.kind,b.text]),expected.blocks.map(b=>[b.kind,b.text]),'blocks are sent as stored');
+  assert.equal(sent.data.format,'yeobaek-audio-request');assert.equal(sent.data.speed,1.5);assert.equal(sent.data.profile,'high','new Hyunsu audio is made in high quality');assert.deepEqual(sent.data.blocks.map(b=>[b.kind,b.text]),expected.blocks.map(b=>[b.kind,b.text]),'blocks are sent as stored');
   assert.equal(E.bookFromBlocks(sent.data.title,sent.data.blocks).hash,expected.hash,'the builder rebuilds the identical book');
   const badge=t=>page.locator('#bookGrid .book-card',{hasText:t}).locator('.book-audio');
   await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-audio')].some(el=>!el.hidden&&/만드는 중/.test(el.textContent)));
@@ -159,7 +159,36 @@ const root=path.resolve(__dirname,'..');
   // 7) 키가 만료되면 알려 준다
   keyOk=false;const res=await page.evaluate(async()=>{const b=await addBook('만료 시험','md',[{kind:'paragraph',text:'만료된 키.'}]);return requestHyunsuAudio(b)});
   assert.equal(res,false);
+  // 8) 설정 → '현수 오디오 모두 고음질로 바꾸기': 고음질이 아닌 현수 오디오만 -hq 이름으로 다시 보내고, 완성되면 같은 책에 바꿔 끼운다
+  keyOk=true;
+  await page.evaluate(()=>openLayer('#settingsDrawer'));await page.evaluate(()=>refreshUpgradeAudioUI());
+  await page.waitForFunction(()=>/고음질로 바꿀 수 있는 책 4권/.test($('#upgradeAudioStatus').textContent));
+  const hqFrom=puts.length;
+  await page.locator('#upgradeAudioBtn').click();
+  await page.waitForFunction(()=>Object.values(audioRequests).filter(r=>r.upgrade).length===4,null,{timeout:10000});
+  const hqPuts=puts.slice(hqFrom);
+  assert.equal(hqPuts.length,4,'only the four Hyunsu audio books are sent again');
+  assert.ok(hqPuts.every(x=>/^b-[0-9a-f]{12}-hq$/.test(x.id)&&x.data.profile==='high'),'upgrade requests use their own -hq name and ask for high quality: '+JSON.stringify(hqPuts.map(x=>[x.id,x.data.profile])));
+  assert.match(await page.locator('#upgradeAudioStatus').textContent(),/바꿀 현수 오디오가 없습니다.*4권을 고음질로 바꾸는 중/);
+  assert.equal(await page.locator('#upgradeAudioBtn').isDisabled(),true);
+  await page.evaluate(()=>closeLayers());
+  assert.match(await badge('요청 시험').textContent(),/오디오 준비됨 · 고음질 만드는 중/);
+  // 지금 오디오는 그대로 둔다(고음질이 오기 전까지 계속 듣는다)
+  assert.equal(await page.evaluate(id=>state.audioIds.has(id),bookId),true);
+  const hqId=sent.id+'-hq',hqBytes=Buffer.from(Array.from({length:3600},(_,i)=>(i*7+5)%251)),hqMp3=path.join(tmp,'hq.mp3');fss.writeFileSync(hqMp3,hqBytes);
+  E.writeSiteBundle(expected,{mp3:hqMp3,marks:expected.blocks.map((b,i)=>[i,i*2]),duration:6,bytes:hqBytes.length,speed:1.5,profile:'high'},path.join(site,'books',hqId),{partBytes:1000});
+  P.upsertShelf(site,{id:hqId,title:expected.title,manifest:'books/'+hqId+'/book.json',bytes:hqBytes.length,duration:6,speed:1.5,profile:'high',source:'iphone'});
+  const trees0=gitTrees.length;
+  await page.evaluate(()=>{audioPolling=false;return checkAudioRequests()});
+  await page.waitForFunction(id=>!audioRequests[id],bookId,{timeout:10000});
+  const swapped=await page.evaluate(async id=>{const a=await storeReq('audio','readonly',s=>s.get(id));return {books:state.books.length,size:a.blob.size,profile:a.profile,voice:a.aiVoice,left:Object.values(audioRequests).filter(r=>r.upgrade).length}},bookId);
+  assert.deepEqual(swapped,{books:await page.evaluate(()=>state.books.length),size:hqBytes.length,profile:'high',voice:'Hyunsu',left:3},'the high-quality audio replaces the old one on the same book');
+  for(let i=0;i<50&&gitTrees.length===trees0;i++)await new Promise(r=>setTimeout(r,100));
+  assert.ok(gitTrees.length>trees0&&gitTrees[gitTrees.length-1].tree.filter(t=>t.sha===null).every(t=>t.path.startsWith('books/'+hqId+'/')),'the downloaded -hq copy is removed from the server');
+  assert.match(await badge('요청 시험').textContent(),/^오디오 준비됨 · 바로 듣기$/);
+  await page.evaluate(()=>refreshUpgradeAudioUI());
+  assert.match(await page.locator('#upgradeAudioStatus').textContent(),/3권을 고음질로 바꾸는 중/);
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 모두 고음질로 바꾸기(-hq 요청·바꿔 끼우기·서버에서 지움) PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
