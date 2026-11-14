@@ -47,7 +47,7 @@ const root=path.resolve(__dirname,'..');
     return json(404,{});
    }
    if(req.method()==='GET')return inbox.has(m[1])?json(200,{sha:'sha-'+m[1]}):json(404,{message:'Not Found'});
-   const body=JSON.parse(req.postData());puts.push({id:m[1],sha:body.sha||null,message:body.message,data:JSON.parse(Buffer.from(body.content,'base64').toString('utf8'))});inbox.set(m[1],true);
+   const body=JSON.parse(req.postData());puts.push({id:m[1],sha:body.sha||null,message:body.message,data:JSON.parse(Buffer.from(body.content,'base64').toString('utf8'))});inbox.set(m[1],true);failed.delete(m[1]);   // 다시 보낸 요청 파일에는 실패 표시가 없다(남겨 두면 1분 확인이 옛 실패를 다시 읽어 흔들렸다)
    return json(201,{content:{sha:'sha-'+m[1]}});
   });
   await page.route('https://raw.githubusercontent.com/**',route=>{const id=(route.request().url().match(/inbox\/(b-[0-9a-f]{12}(?:-hq)?)\.json/)||[])[1];return failed.has(id)?route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({error:failed.get(id)})}):route.fulfill({status:404,body:''})});

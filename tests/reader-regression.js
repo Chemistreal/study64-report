@@ -129,9 +129,13 @@ async function request(value){return await value}
   },null,{timeout:30000});
   const restoredSource=await restoredPage.evaluate(async()=>{
    const db=await new Promise((resolve,reject)=>{const req=indexedDB.open('yeobaek-reader-v1');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
-   const book=await new Promise(resolve=>{const req=db.transaction('books').objectStore('books').getAll();req.onsuccess=()=>resolve(req.result[0])});
-   const source=await new Promise(resolve=>{const req=db.transaction('sources').objectStore('sources').get(book.id);req.onsuccess=()=>resolve(req.result)});
-   return {text:await source.blob.text(),bookmarks:book.bookmarks.length,highlights:(book.highlights||[]).length}
+   // 복원은 책·원본을 나눠 쓰므로, 둘 다 들어올 때까지 같은 연결로 다시 읽는다(CI에서 원본보다 책 목록이 먼저 보일 때가 있었다)
+   for(let i=0;;i++){
+    const book=await new Promise(resolve=>{const req=db.transaction('books').objectStore('books').getAll();req.onsuccess=()=>resolve(req.result[0])});
+    const source=book&&await new Promise(resolve=>{const req=db.transaction('sources').objectStore('sources').get(book.id);req.onsuccess=()=>resolve(req.result)});
+    if(source?.blob)return {text:await source.blob.text(),bookmarks:book.bookmarks.length,highlights:(book.highlights||[]).length};
+    if(i>=150)throw Error('restored book source not found');await new Promise(r=>setTimeout(r,200));
+   }
   });
   assert.equal(restoredSource.text,raw);
   assert.equal(restoredSource.bookmarks,1);
