@@ -47,7 +47,7 @@ const root=path.resolve(__dirname,'..');
     return json(404,{});
    }
    if(req.method()==='GET')return inbox.has(m[1])?json(200,{sha:'sha-'+m[1]}):json(404,{message:'Not Found'});
-   const body=JSON.parse(req.postData());puts.push({id:m[1],sha:body.sha||null,message:body.message,data:JSON.parse(Buffer.from(body.content,'base64').toString('utf8'))});inbox.set(m[1],true);
+   const body=JSON.parse(req.postData());puts.push({id:m[1],sha:body.sha||null,message:body.message,data:JSON.parse(Buffer.from(body.content,'base64').toString('utf8'))});inbox.set(m[1],true);failed.delete(m[1]);   // 다시 보낸 요청 파일에는 실패 표시가 없다(남겨 두면 1분 확인이 옛 실패를 다시 읽어 흔들렸다)
    return json(201,{content:{sha:'sha-'+m[1]}});
   });
   await page.route('https://raw.githubusercontent.com/**',route=>{const id=(route.request().url().match(/inbox\/(b-[0-9a-f]{12}(?:-hq)?)\.json/)||[])[1];return failed.has(id)?route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({error:failed.get(id)})}):route.fulfill({status:404,body:''})});
@@ -195,7 +195,55 @@ const root=path.resolve(__dirname,'..');
   for(let i=0;i<50&&gitTrees.length===trees0;i++)await new Promise(r=>setTimeout(r,100));
   assert.ok(gitTrees.length>trees0&&gitTrees[gitTrees.length-1].tree.filter(t=>t.sha===null).every(t=>t.path.startsWith('books/'+hqId+'/')),'the downloaded -hq copy is removed from the server');
   assert.equal(await badge('요청 시험').textContent(),'오디오 준비됨 · 바로 듣기');
+  // 9) 잠금 화면에서 책 오디오를 듣는 동안에는 화면이 꺼져도 확인하고 받는다(듣는 동안은 아이폰이 앱을 재우지 않는다).
+  //    듣지 않으면 화면이 꺼진 동안 쉬고, 지금 듣는 책의 새 오디오는 듣는 중에 바꾸지 않는다(멈춘 뒤 받는다).
+  await page.evaluate(async()=>{state.settings.autoAudio=false;await saveSettings()});
+  const hide=on=>page.evaluate(on=>{if(on){Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>'hidden'})}else{delete document.hidden;delete document.visibilityState}document.dispatchEvent(new Event('visibilitychange'))},on);
+  const lBlocks=[{kind:'paragraph',text:'듣고 있는 책입니다.'}],lBook=E.bookFromBlocks('듣는 책',lBlocks);
+  const listen=await page.evaluate(async blocks=>{   // 짧은 무음 WAV를 붙인 책(원음 아님) + 서버에 원음 다시 받기 요청
+   const b=await addBook('듣는 책','md',blocks),rate=8000,n=rate*2,buf=new ArrayBuffer(44+n),v=new DataView(buf),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};
+   w(0,'RIFF');v.setUint32(4,36+n,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,rate,true);v.setUint32(28,rate,true);v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,n,true);new Uint8Array(buf,44).fill(128);
+   await storeReq('audio','readwrite',s=>s.put({id:b.id,blob:new Blob([buf],{type:'audio/wav'}),name:'듣는.wav',aiVoice:'Hyunsu',profile:'small'}));state.audioIds.add(b.id);
+   const sid=await shelfIdFor(b);audioRequests[b.id]={id:sid+'-hq',title:'듣는 책',requested:Date.now(),upgrade:true};await saveAudioRequests();return {bookId:b.id,sid}},lBlocks);
+  const lHq=listen.sid+'-hq',lMp3=path.join(tmp,'listen-hq.mp3'),lBytes=Buffer.from(Array.from({length:1500},(_,i)=>(i*13+1)%251));fss.writeFileSync(lMp3,lBytes);
+  E.writeSiteBundle(lBook,{mp3:lMp3,marks:[[0,0]],duration:2,bytes:lBytes.length,speed:1.5,profile:'high'},path.join(site,'books',lHq),{partBytes:1000});
+  P.upsertShelf(site,{id:lHq,title:'듣는 책',manifest:'books/'+lHq+'/book.json',bytes:lBytes.length,duration:2,speed:1.5,profile:'high',source:'iphone'});
+  await page.evaluate(id=>openBook(id),listen.bookId);
+  await page.waitForFunction(id=>hasAttachedAudio()&&state.audioBookId===id,listen.bookId,{timeout:10000});
+  await page.evaluate(()=>{state.playing=true;audioPolling=false;window.__ybAudioPollMs=200});   // 재생 중(잠금 화면에서 듣는 중)
+  await hide(true);
+  const fresh=await mk('잠금 중 새 책',1200);   // 화면이 꺼진 뒤 완성된 책
+  await page.evaluate(()=>scheduleAudioPoll());
+  await page.waitForFunction(id=>state.audioIds.has(id),fresh.bookId,{timeout:10000});
+  const heard=await page.evaluate(async id=>({pending:!!audioRequests[id],profile:(await storeReq('audio','readonly',s=>s.get(id))).profile,log:audioLogText()}),listen.bookId);
+  assert.equal(heard.pending,true,'the book being heard keeps its request: it is not swapped while it plays');
+  assert.equal(heard.profile,'small','the audio being heard is untouched');
+  assert.match(heard.log,/화면 꺼진 채 오디오 받기: 「잠금 중 새 책」/,'background downloads are written to the playback log');
+  await page.evaluate(()=>{state.playing=false});   // 화면이 꺼진 채 듣기를 멈춤 → 아이폰은 앱을 재우므로 쉰다
+  const later=await mk('화면 꺼진 뒤 새 책',1100);
+  await page.waitForTimeout(1200);
+  assert.equal(await page.evaluate(id=>state.audioIds.has(id),later.bookId),false,'with the screen off and nothing playing, the reader does not download');
+  await hide(false);   // 화면으로 돌아오면 바로 확인: 멈춘 책의 원음과 기다리던 새 책을 받는다
+  await page.waitForFunction(({a,b})=>!audioRequests[a]&&state.audioIds.has(b),{a:listen.bookId,b:later.bookId},{timeout:10000});
+  assert.equal(await page.evaluate(async id=>(await storeReq('audio','readonly',s=>s.get(id))).profile,listen.bookId),'high','after playback stops, the original-quality audio replaces the old one');
+  // 받는 도중 화면이 꺼져도 듣는 중이면 멈추지 않고, 다시 켜도 처음부터 다시 받지 않는다
+  for(let i=0;i<100&&P.readShelf(site).items.some(x=>x.id===lHq);i++)await new Promise(r=>setTimeout(r,100));   // 받은 -hq 사본 지우기가 끝난 뒤(가짜 서버는 목록을 통째로 덮어쓴다)
+  await page.evaluate(()=>{delete window.__ybAudioPollMs;clearTimeout(audioPollTimer)});await page.waitForFunction(()=>!audioPolling);   // 빠른 확인을 멈춘다(늦추기 전에 먼저 받아 가지 않게)
+  const slow=await mk('천천히 받는 책',4000);let slowHits=0;
+  const slowMatch=u=>new RegExp('/yeobaek-audio/books/'+slow.sid+'/audio\\.\\d+\\.mp3').test(u.pathname);
+  await page.route(slowMatch,async route=>{slowHits++;await new Promise(r=>setTimeout(r,700));await route.continue()});
+  await page.evaluate(()=>{state.playing=true;audioPolling=false});
+  // 목록(index.json)은 잠깐 옛것이 올 수 있다 → 받기가 시작될 때까지 확인을 다시 부른다(실제로는 1분마다 다시 확인)
+  await page.waitForFunction(id=>{if(Number.isFinite(audioRequests[id]?.progress))return true;if(!audioPolling)checkAudioRequests();return false},slow.bookId,{timeout:15000,polling:300});
+  await hide(true);
+  assert.equal(await page.evaluate(()=>!!audioDownloadCtl&&!audioDownloadCtl.signal.aborted),true,'screen off while listening: the download goes on');
+  await hide(false);
+  assert.equal(await page.evaluate(()=>!!audioDownloadCtl&&!audioDownloadCtl.signal.aborted),true,'screen back on: the running download is not restarted');
+  await page.waitForFunction(id=>state.audioIds.has(id),slow.bookId,{timeout:15000});
+  assert.equal(slowHits,4,'each of the 4 parts is fetched once');
+  await page.unroute(slowMatch);
+  await page.evaluate(()=>{state.playing=false});
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});

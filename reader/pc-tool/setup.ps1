@@ -17,7 +17,7 @@ if (-not (Get-Command py -ErrorAction SilentlyContinue)) { Write-Host 'Installin
 if (-not (Get-Command gh -ErrorAction SilentlyContinue)) { Write-Host 'Installing GitHub CLI (winget)...'; winget install -e --id GitHub.cli --accept-package-agreements --accept-source-agreements; Refresh-Path }
 
 # Program files
-$files = 'index.html','vendor/jszip.min.js','vendor/JSZIP-LICENSE.txt','pc-tool/package.json','pc-tool/engine.mjs','pc-tool/publish.mjs','pc-tool/studio.mjs','pc-tool/studio.html','pc-tool/make-audio.mjs','pc-tool/edge_book.py','pc-tool/inbox-build.mjs','pc-tool/audio-site/site.yml','pc-tool/studio.cmd'
+$files = 'index.html','vendor/jszip.min.js','vendor/JSZIP-LICENSE.txt','pc-tool/package.json','pc-tool/engine.mjs','pc-tool/publish.mjs','pc-tool/studio.mjs','pc-tool/studio.html','pc-tool/make-audio.mjs','pc-tool/edge_book.py','pc-tool/pronounce.py','pc-tool/pronounce.txt','pc-tool/inbox-build.mjs','pc-tool/audio-site/site.yml','pc-tool/studio.cmd'
 foreach ($f in $files) {
   $target = Join-Path "$root\app" $f
   New-Item -ItemType Directory -Force -Path (Split-Path $target) | Out-Null
