@@ -51,7 +51,7 @@ async function main(){
   try{r=await E.synthesizeBook(book,{speed,profile,concurrency:jobs,workDir:path.join(work,id),onProgress:p=>{const now=Date.now();if(now-last>30000||p.stage!=='synth'){last=now;log(' ',p.stage,p.done+'/'+p.total,p.retries?'다시 받음 '+p.retries:'')}}})}
   catch(e){await fail('오디오를 만들지 못했습니다: '+e.message);continue}
   const bundle=path.join(work,id,'bundle');E.writeSiteBundle(book,r,bundle);
-  const entry={id,title:book.title,description:'현수 목소리 · '+speed+'배속',manifest:'books/'+id+'/book.json',bytes:r.bytes,duration:r.duration,chars:book.chars,speed,profile,published:Date.now(),source:'iphone'};
+  const entry={id,title:book.title,description:'현수 목소리 · '+speed+'배속',manifest:'books/'+id+'/book.json',bytes:r.bytes,duration:r.duration,chars:book.chars,speed,profile,published:Date.now(),...(t.req.shelf===true?{}:{source:'iphone'})};   // shelf:true = 추천 글로 남긴다(받아 가도 서버에서 지우지 않음)
   await push('현수 오디오: '+book.title.slice(0,60),dir=>{P.mirrorDir(bundle,path.join(dir,'books',id));P.upsertShelf(dir,entry);fs.rmSync(path.join(dir,'inbox',t.file),{force:true})});
   log('완료',id,(r.duration/60).toFixed(1)+'분 오디오',(r.bytes/1048576).toFixed(1)+'MB',((Date.now()-started)/60000).toFixed(1)+'분 걸림');
   fs.rmSync(path.join(work,id),{recursive:true,force:true});
