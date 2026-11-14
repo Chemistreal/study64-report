@@ -182,7 +182,12 @@ const root=path.resolve(__dirname,'..');
   E.writeSiteBundle(expected,{mp3:hqMp3,marks:expected.blocks.map((b,i)=>[i,i*2]),duration:6,bytes:hqBytes.length,speed:1.5,profile:'high'},path.join(site,'books',hqId),{partBytes:1000});
   P.upsertShelf(site,{id:hqId,title:expected.title,manifest:'books/'+hqId+'/book.json',bytes:hqBytes.length,duration:6,speed:1.5,profile:'high',source:'iphone'});
   const trees0=gitTrees.length;
-  await page.evaluate(()=>{window.__ybAutoAudioMaxBytes=100;audioPolling=false;return checkAudioRequests()});   // 크기와 상관없이 받는다
+  // 서버에 다 만들어졌는데 아직 못 받았으면 카드가 받기 버튼으로 바뀐다(눌러서 바로 받는다)
+  await page.evaluate(([id,n])=>{Object.assign(audioRequests[id],{ready:true,bytes:n});updateBookBadges()},[bookId,hqBytes.length]);
+  assert.match(await badge('요청 시험').textContent(),/^⬇ 현수 오디오 받기 · 1MB$/);
+  assert.equal(await badge('요청 시험').getAttribute('role'),'button');
+  await page.evaluate(()=>{window.__ybAutoAudioMaxBytes=100});   // 크기와 상관없이 받는다
+  await badge('요청 시험').click();
   await page.waitForFunction(id=>!audioRequests[id],bookId,{timeout:10000});
   const swapped=await page.evaluate(async id=>{const a=await storeReq('audio','readonly',s=>s.get(id));const parts=(await storeReq('meta','readonly',s=>s.getAllKeys())).filter(k=>String(k).startsWith('audio-part:'));return {books:state.books.length,size:a.blob.size,profile:a.profile,voice:a.aiVoice,left:Object.values(audioRequests).filter(r=>r.upgrade).length,parts:parts.length}},bookId);
   assert.deepEqual(swapped,{books:await page.evaluate(()=>state.books.length),size:hqBytes.length,profile:'high',voice:'Hyunsu',left:3,parts:0},'the original-quality audio (4 parts joined on the device) replaces the old one on the same book, staged parts are cleaned up');
