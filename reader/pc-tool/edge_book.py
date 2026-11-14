@@ -15,6 +15,7 @@ import argparse, asyncio, json, os, re, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 
 import edge_tts
+from pronounce import speakable   # 발음 사전(pronounce.txt)·숫자 범위·조사 맞추기
 
 def say(**kw):
     sys.stdout.write(json.dumps(kw, ensure_ascii=False) + '\n'); sys.stdout.flush()
@@ -121,7 +122,7 @@ def main():
     ap.add_argument('--concurrency', type=int, default=4); ap.add_argument('--gap', type=float, default=0.12)
     args = ap.parse_args()
     segs = json.load(open(args.segments, encoding='utf-8'))
-    for s in segs: s['clean'] = clean(s['text'])
+    for s in segs: s['clean'] = clean(speakable(s['text']))
     segs = [s for s in segs if letters(s['clean'])]
     if not segs: raise SystemExit(say(type='error', message='읽을 글이 없습니다.'))
     seg_dir = os.path.join(args.workdir, 'seg'); os.makedirs(seg_dir, exist_ok=True)
