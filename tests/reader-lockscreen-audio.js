@@ -58,15 +58,15 @@ const server=http.createServer(async(req,res)=>{
   await page.locator('#playBtn').click();
   await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:10000});
   await page.waitForFunction(b=>window.__ms.binds>b,bindsBefore,{timeout:5000});
-  // 3) 잠금 화면 일시정지 → 다시 재생: 같은 자리부터
+  // 3) 화면이 켜진 채 제어 센터에서 일시정지 → 다시 재생: 같은 자리부터. 화면이 켜져 있어도 무음 유지로 멈춘다(그 뒤 잠가도 소리 연결이 안 끊기게)
   await page.evaluate(()=>window.__ms.handlers.pause());
-  await page.waitForFunction(()=>state.audio.paused&&!state.playing&&navigator.mediaSession.playbackState==='paused',null,{timeout:5000});
-  const pausedAt=await page.evaluate(()=>state.audio.currentTime);
+  await page.waitForFunction(()=>state.softPause&&state.audio.src===state.silentAudioUrl&&!state.playing&&navigator.mediaSession.playbackState==='paused',null,{timeout:5000});
+  const pausedAt=await page.evaluate(()=>state.softPause.pos);
   await page.evaluate(()=>window.__ms.handlers.play());
   await page.waitForFunction(()=>!state.audio.paused&&state.playing&&navigator.mediaSession.playbackState==='playing',null,{timeout:5000});
   assert.ok(Math.abs(await page.evaluate(()=>state.audio.currentTime)-pausedAt)<2,'resumes where it paused');
-  // 4) 오래 멈춰서 iOS가 소리를 놓은 상황: 주소(blob)가 죽어 있어도 다시 불러와 같은 자리부터
-  await page.evaluate(()=>window.__ms.handlers.pause());
+  // 4) 오래 멈춰서 iOS가 소리를 놓은 상황(시스템이 멈춘 진짜 일시정지): 주소(blob)가 죽어 있어도 다시 불러와 같은 자리부터
+  await page.evaluate(()=>state.audio.pause());
   await page.waitForFunction(()=>state.audio.paused,null,{timeout:5000});
   const before=await page.evaluate(()=>{const t=state.audio.currentTime,url=state.audioUrl;URL.revokeObjectURL(url);state.audioPausedAt=Date.now()-11*60000;return {t,url}});
   await page.evaluate(()=>window.__ms.handlers.play());
@@ -77,16 +77,17 @@ const server=http.createServer(async(req,res)=>{
   assert.equal(after.src,after.url);
   assert.ok(Math.abs(after.t-before.t)<2,'stale resume keeps the position: '+before.t+' → '+after.t);
   // 5) 재생이 거부되면(멈춘 지 얼마 안 돼도) 다시 불러와 잇는다
-  await page.evaluate(()=>window.__ms.handlers.pause());
+  await page.evaluate(()=>state.audio.pause());
   await page.waitForFunction(()=>state.audio.paused,null,{timeout:5000});
   await page.evaluate(()=>{const a=state.audio,orig=a.play.bind(a);let once=true;a.play=function(){if(once){once=false;return Promise.reject(new DOMException('interrupted','NotAllowedError'))}return orig()}});
   await page.evaluate(()=>window.__ms.handlers.play());
   await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:10000});
-  // 6) 앱 재생 버튼으로 멈춤 → 잠금 화면 재생
+  // 6) 앱 재생 버튼으로 멈춤 → 무음 유지 → 잠금 화면 재생은 멈춘 자리부터(예전: 진짜 일시정지라 화면을 잠그면 iOS가 소리 연결을 끊어 재생이 안 됐다)
   await page.locator('#playBtn').click();
-  await page.waitForFunction(()=>state.audio.paused&&!state.playing,null,{timeout:5000});
+  await page.waitForFunction(()=>state.softPause&&state.audio.src===state.silentAudioUrl&&!state.playing&&$('#playBtn').getAttribute('aria-label')==='읽어주기',null,{timeout:5000});
+  const appPausedAt=await page.evaluate(()=>state.softPause.pos);
   await page.evaluate(()=>window.__ms.handlers.play());
-  await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:5000});
+  await page.waitForFunction(t=>!state.audio.paused&&state.playing&&state.audio.src===state.audioUrl&&Math.abs(state.audio.currentTime-t)<2,appPausedAt,{timeout:10000});
   // 7) 화면이 꺼진 채 잠금 화면 일시정지: 같은 오디오 요소로 무음 소리를 반복 재생하며 위치 기억(음소거는 iOS가 '재생 중'으로 안 쳐서 정보가 사라짐)
   await page.evaluate(()=>{window.__hidden=true;Object.defineProperty(document,'hidden',{configurable:true,get:()=>window.__hidden});Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>window.__hidden?'hidden':'visible'});document.dispatchEvent(new Event('visibilitychange'))});
   const onBook=t=>page.waitForFunction(t=>state.audio.src===state.audioUrl&&!state.softPause&&state.audio.readyState>=1&&Math.abs(state.audio.currentTime-t)<0.5,t,{timeout:15000});
@@ -118,14 +119,24 @@ const server=http.createServer(async(req,res)=>{
   await page.evaluate(()=>window.__ms.handlers.pause());
   await onBook(pos2);
   await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:10000});
-  // 무음 유지 중 앱 화면으로 돌아오면 같은 자리에서 진짜 일시정지
+  // 무음 유지 중 앱 화면을 잠깐 보고 다시 잠가도 무음 유지는 그대로 → 잠금 화면 재생은 멈춘 자리부터(예전: 앱을 보는 순간 진짜 일시정지가 되어 다시 잠그면 재생이 안 됐다)
   await page.evaluate(()=>window.__ms.handlers.pause());
   await page.waitForFunction(()=>state.softPause&&state.audio.src===state.silentAudioUrl,null,{timeout:10000});
   const pos3=await page.evaluate(()=>state.softPause.pos);
   await page.evaluate(()=>{window.__hidden=false;document.dispatchEvent(new Event('visibilitychange'))});
+  await page.waitForTimeout(300);
+  assert.equal(await page.evaluate(()=>!!state.softPause&&state.audio.src===state.silentAudioUrl&&!state.audio.paused&&!state.playing),true,'back in the app the soft pause stays');
+  await page.evaluate(()=>{window.__hidden=true;document.dispatchEvent(new Event('visibilitychange'))});
+  await page.evaluate(()=>window.__ms.handlers.play());
   await onBook(pos3);
-  assert.equal(await page.evaluate(()=>state.audio.paused&&!state.playing&&!state.audio.loop),true,'back in the app it is a real pause');
+  await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:10000});
+  // 앱 화면에서 무음 유지 중이면 앱의 재생 버튼도 멈춘 자리부터
+  await page.evaluate(()=>{window.__hidden=false;document.dispatchEvent(new Event('visibilitychange'))});
   await page.locator('#playBtn').click();
+  await page.waitForFunction(()=>state.softPause&&state.audio.src===state.silentAudioUrl,null,{timeout:10000});
+  const pos5=await page.evaluate(()=>state.softPause.pos);
+  await page.locator('#playBtn').click();
+  await onBook(pos5);
   await page.waitForFunction(()=>!state.audio.paused&&state.playing,null,{timeout:10000});
   // 오래 두면(여기선 0.8초로 줄임) 배터리를 위해 진짜로 멈춘다
   await page.evaluate(()=>{window.__ybSoftPauseMaxMs=800;window.__hidden=true;document.dispatchEvent(new Event('visibilitychange'))});
@@ -137,7 +148,7 @@ const server=http.createServer(async(req,res)=>{
   // 재생 기록: 잠금 화면 버튼·무음 시작/끝·책 오디오 재생 결과가 남고, 설정에서 볼 수 있다
   const log=await page.evaluate(()=>audioLogText());
   assert.match(log,/잠금 화면 재생 누름 \(무음 유지 중, 무음 재생 중\)\n.*무음 끝 → 책 오디오 다시 재생 \(멈춘 지 \d+초, \d+:\d\d\)/,log);
-  assert.match(log,/책 오디오 재생(됨|.*AbortError)/);assert.match(log,/앱 화면으로 돌아옴\n.*무음 끝 → 진짜 일시정지/);assert.match(log,/일시정지 0분 지나 진짜로 멈춤/);
+  assert.match(log,/책 오디오 재생(됨|.*AbortError)/);assert.match(log,/앱 재생 버튼 일시정지 → 무음 유지 시작/);assert.match(log,/일시정지 0분 지나 진짜로 멈춤/);
   await page.evaluate(()=>{window.__hidden=false;document.dispatchEvent(new Event('visibilitychange'));openLayer('#settingsDrawer')});
   await page.locator('#audioLogBtn').click();
   assert.match(await page.locator('#audioLogView').inputValue(),/무음 유지 시작/);

@@ -110,8 +110,16 @@ const server=http.createServer(async(req,res)=>{
   await synced.locator('*:has(.book-open)',{hasText:'동기화 시험'}).last().locator('.book-open').click();
   await synced.waitForFunction(()=>state.audioTimeline&&Number.isFinite(state.audio.duration)&&state.audio.duration>5);
   // 실제 길이 6초 / 시간표 3초 → 비율 2배로 맞춘다: 2.5초는 둘째 문단(1초×2 이후).
+  // 멈춰 있는 동안의 탐색(책을 열 때 복원 등)은 읽던 문단을 바꾸지 않는다
   await synced.evaluate(()=>{state.audio.currentTime=2.5;state.audio.dispatchEvent(new Event('timeupdate'))});
-  assert.equal(await synced.evaluate(()=>state.index),1,'audio position moves the current paragraph');
+  assert.equal(await synced.evaluate(()=>state.index),0,'a seek while paused does not move the reading position');
+  // 재생 중에는 소리를 따라 읽는 문단이 움직인다
+  await synced.locator('#playBtn').click();
+  await synced.waitForFunction(()=>state.playing&&!state.audio.paused,null,{timeout:10000});
+  await synced.evaluate(()=>{state.audio.currentTime=2.5;state.audio.dispatchEvent(new Event('timeupdate'))});
+  await synced.waitForFunction(()=>state.index===1,null,{timeout:5000}).catch(()=>{});
+  assert.equal(await synced.evaluate(()=>state.index),1,'audio position moves the current paragraph while playing');
+  await synced.evaluate(()=>stopSpeech());
   await synced.locator('.reader-block').nth(2).click();
   await synced.waitForFunction(()=>state.index===2&&Math.abs(state.audio.currentTime-4)<0.05,null,{timeout:5000}).catch(()=>{});   // 바쁜 컴퓨터에서도 위치가 맞춰질 때까지
   const jumped=await synced.evaluate(()=>({time:state.audio.currentTime,index:state.index}));
