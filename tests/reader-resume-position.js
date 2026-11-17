@@ -104,7 +104,7 @@ const server=http.createServer(async(req,res)=>{
   // 10) 다 들은 책을 다시 틀면 처음 문단부터
   await page.evaluate(()=>{setAudioNow(audioDur());state.book.completed=true;showPosition(39)});   // 오디오도 끝, 읽던 자리도 마지막 문단
   await page.locator('#playBtn').click();
-  await page.waitForFunction(()=>state.playing&&!state.audio.paused&&state.audio.src===state.audioUrl,null,{timeout:10000});
+  await page.waitForFunction(()=>state.playing&&!state.softPause&&!state.audio.paused&&state.audio.src===state.audioUrl,null,{timeout:15000});
   const a10=await page.evaluate(()=>({t:state.audio.currentTime,index:state.index}));
   assert.ok(a10.t<1.5&&a10.index===0,'replaying a finished book starts at the beginning: '+JSON.stringify(a10));
   // 10-2) 끝까지 들은 뒤 목차로 다른 문단(12)에 가서 재생하면 책 처음이 아니라 그 문단부터
@@ -114,7 +114,7 @@ const server=http.createServer(async(req,res)=>{
   await page.waitForFunction(()=>state.audio.ended||state.audio.duration-state.audio.currentTime<.5,null,{timeout:5000});
   await page.evaluate(()=>{state.book.completed=true;showPosition(39);stopSpeech();showPosition(12)});
   await page.locator('#playBtn').click();
-  await page.waitForFunction(()=>state.playing&&!state.audio.paused,null,{timeout:10000});
+  await page.waitForFunction(()=>state.playing&&!state.softPause&&!state.audio.paused,null,{timeout:15000});
   const a102=await page.evaluate(()=>({t:state.audio.currentTime,index:state.index}));
   assert.ok(Math.abs(a102.t-12)<1.5&&a102.index===12,'after finishing, a paragraph chosen from the outline is where playback starts: '+JSON.stringify(a102));
   // 10-3) 취침 타이머로 멈춘 무음 유지에서는 '일시정지' 명령(잠든 사이 AirPods 빼기)이 책을 다시 틀지 않는다
