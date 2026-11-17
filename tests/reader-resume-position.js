@@ -102,7 +102,7 @@ const server=http.createServer(async(req,res)=>{
   await page.waitForTimeout(800);
   assert.deepEqual(await page.evaluate(()=>({playing:state.playing,soft:!!state.softPause,silent:state.audio.src===state.silentAudioUrl,label:$('#playBtn').getAttribute('aria-label')})),{playing:false,soft:true,silent:true,label:'읽어주기'},'a press while restoring ends in a consistent pause');
   // 10) 다 들은 책을 다시 틀면 처음 문단부터
-  await page.evaluate(()=>{state.book.completed=true;showPosition(39)});
+  await page.evaluate(()=>{setAudioNow(audioDur());state.book.completed=true;showPosition(39)});   // 오디오도 끝, 읽던 자리도 마지막 문단
   await page.locator('#playBtn').click();
   await page.waitForFunction(()=>state.playing&&!state.audio.paused&&state.audio.src===state.audioUrl,null,{timeout:10000});
   const a10=await page.evaluate(()=>({t:state.audio.currentTime,index:state.index}));
