@@ -26,7 +26,7 @@ const root=path.resolve(__dirname,'..');
   const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
   // 가짜 GitHub: 키 확인 · inbox 파일 올리기 · 실패 표시(raw)
-  const puts=[],inbox=new Map(),failed=new Map(),gitTrees=[];let keyOk=true,gitHead=1;
+  const puts=[],inbox=new Map(),failed=new Map(),gitTrees=[],logPuts=[],logRefs=[];let keyOk=true,gitHead=1;
   await page.route('https://api.github.com/**',async route=>{
    const req=route.request(),u=new URL(req.url()),auth=req.headers()['authorization'];
    const json=(status,body)=>route.fulfill({status,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(body)});
@@ -35,6 +35,8 @@ const root=path.resolve(__dirname,'..');
    const m=u.pathname.match(/^\/repos\/Chemistreal\/yeobaek-audio\/contents\/inbox\/(b-[0-9a-f]{12}(?:-hq)?)\.json$/);
    if(!m){
     const g=u.pathname.replace('/repos/Chemistreal/yeobaek-audio','');
+    if(g.startsWith('/contents/logs/')){if(req.method()==='PUT'){logPuts.push({path:g,...JSON.parse(req.postData())});return json(201,{content:{sha:'log1'}})}return json(404,{})}   // 재생 기록 올리기
+    if(req.method()==='POST'&&g==='/git/refs'){logRefs.push(JSON.parse(req.postData()));return json(201,{})}
     if(req.method()==='GET'&&g==='/contents/inbox')return json(200,[...inbox.keys()].map(id=>({name:id+'.json',sha:'sha-'+id+(failed.has(id)?'-failed':'')})));   // 폴더 목록(sha가 바뀐 요청만 받아 본다)
     if(req.method()==='GET'&&g==='/git/ref/heads/main')return json(200,{object:{sha:'c'+gitHead}});
     if(req.method()==='GET'&&g==='/git/commits/c'+gitHead)return json(200,{tree:{sha:'t'+gitHead}});
@@ -243,6 +245,13 @@ const root=path.resolve(__dirname,'..');
   assert.equal(slowHits,4,'each of the 4 parts is fetched once');
   await page.unroute(slowMatch);
   await page.evaluate(()=>{state.playing=false});
+  // 10) 재생 기록은 GitHub 키가 있으면 오디오 저장소의 device-logs 가지(새로 만든 빈 가지)에 자동으로 올라간다(바뀐 것이 있을 때만)
+  await page.evaluate(async()=>{window.__ybLogUpload=true;audioLog('기록 올리기 시험');await uploadAudioLog();await uploadAudioLog()});
+  assert.equal(logPuts.length,1,'uploaded once (the second call has nothing new)');
+  assert.match(logPuts[0].path,/^\/contents\/logs\/[a-z0-9]+\.txt$/);assert.equal(logPuts[0].branch,'device-logs');
+  assert.match(Buffer.from(logPuts[0].content,'base64').toString('utf8'),/기록 올리기 시험/);
+  assert.equal(logRefs[0]?.ref,'refs/heads/device-logs','the log branch is created');
+  assert.deepEqual(gitTrees[gitTrees.length-1].base_tree,undefined,'the log branch starts empty (no copy of the audio books)');
   assert.deepEqual(errors,[]);
   console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
