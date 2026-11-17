@@ -127,9 +127,11 @@ const server=http.createServer(async(req,res)=>{
   await page.evaluate(()=>stopSpeech());
   // 11) 멈춘 채 설정의 기본 플레이어로 옮긴 오디오 위치는 문단도 따라간다(앱 재생 버튼이 예전 문단으로 되돌리지 않게)
   await setSaved(5,5.2);await open();await ready();await page.waitForTimeout(1700);
-  await page.evaluate(()=>{state.audio.currentTime=35.4});
+  await page.evaluate(()=>{openLayer('#settingsDrawer');state.audio.currentTime=35.4});   // 기본 플레이어는 설정 화면에 있다
   await page.waitForFunction(()=>state.index===35,null,{timeout:5000}).catch(()=>{});
   assert.equal(await page.evaluate(()=>state.index),35,'a native-player seek while paused moves the reading paragraph');
+  await page.evaluate(()=>{closeLayers();state.audio.currentTime=20.2});await page.waitForTimeout(800);
+  assert.equal(await page.evaluate(()=>state.index),35,'a seek nobody made from the settings player (e.g. after correcting part lengths) does not move the paragraph');
   assert.deepEqual(errors,[]);
   console.log('여백 이어 듣기 위치: 열 때 읽던 문단 우선(다른 문단이면 그 처음으로, 같은 문단이면 초 그대로) · 불러오기 전 닫아도 0 저장 안 함 · 저절로 생긴 스크롤은 위치 안 바꿈·사용자 스크롤은 가운데 문단 · 돌아오면 지금 문단 보여 줌 · 끊긴 저장소 다시 열기 · 바꿔 끼운 오디오는 예전 초 버림 · 잠금 화면 재생도 옮긴 문단부터 · 되돌리는 중 누름은 멈춤으로 · 다 들은 책은 처음부터 · 기본 플레이어 탐색 따라감 PASS');
  }finally{if(browser)await browser.close();server.close()}
