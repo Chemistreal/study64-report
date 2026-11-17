@@ -108,7 +108,9 @@ const server=http.createServer(async(req,res)=>{
   const a10=await page.evaluate(()=>({t:state.audio.currentTime,index:state.index}));
   assert.ok(a10.t<1.5&&a10.index===0,'replaying a finished book starts at the beginning: '+JSON.stringify(a10));
   // 10-2) 끝까지 들은 뒤 목차로 다른 문단(12)에 가서 재생하면 책 처음이 아니라 그 문단부터
-  await page.evaluate(()=>{stopSpeech();state.audio.currentTime=state.audio.duration;});
+  await page.evaluate(()=>stopSpeech());
+  await page.waitForFunction(()=>!state.softPause&&state.audio.src===state.audioUrl&&state.audio.readyState>=1&&Number.isFinite(state.audio.duration),null,{timeout:15000});
+  await page.evaluate(()=>{state.audio.currentTime=state.audio.duration});
   await page.waitForFunction(()=>state.audio.ended||state.audio.duration-state.audio.currentTime<.5,null,{timeout:5000});
   await page.evaluate(()=>{state.book.completed=true;showPosition(39);stopSpeech();showPosition(12)});
   await page.locator('#playBtn').click();
