@@ -160,6 +160,9 @@ jobs:
       - name: 읽던 자리가 뒤로 가지 않는다(열 때 읽던 문단 우선·불러오기 전 0 저장 안 함·저절로 생긴 스크롤 무시·끊긴 저장소 다시 열기)
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-resume-position.js
+      - name: 긴 오디오는 조각으로 나눠 차례로 튼다(한 권 기준 시간·조각 끝에서 이어 재생)
+        timeout-minutes: 5
+        run: NODE_PATH=tests/node_modules node tests/reader-audio-parts.js
       - name: 여백 작업실의 원문+오디오 ZIP을 + 버튼으로 가져온다
         timeout-minutes: 5
         run: NODE_PATH=tests/node_modules node tests/reader-audio-pack.js
