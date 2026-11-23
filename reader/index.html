@@ -517,7 +517,7 @@ function primePlaybackFromTap(){
 
 // 서재 카드에 AI 음성 준비 상태를 붙인다(재생할 오디오가 이미 있는지, 만드는 중인지).
 async function refreshAudioIds(){if(!state.db)return;try{const keys=await storeReq('audio','readonly',store=>store.getAllKeys());const next=new Set(keys.map(String));const same=next.size===state.audioIds.size&&[...next].every(k=>state.audioIds.has(k));state.audioIds=next;if(!same)updateBookBadges()}catch(e){}}
-function bookAudioBadge(id){const r=audioRequests[id];if(state.audioIds.has(id)&&!(r?.upgrade&&!r.error&&(r.ready||Number.isFinite(r.progress))))return {cls:'ready',text:'오디오 준비됨 · 바로 듣기'};if(!r)return null;if(r.error)return {cls:'failed',text:'현수 오디오 실패 · 책 관리에서 다시 보내기'};if(Number.isFinite(r.progress))return {cls:'working',text:'현수 오디오 받는 중 '+r.progress+'%'};return r.ready?{cls:'download',text:'⬇ 현수 오디오 받기'+(Number(r.bytes)?' · '+Math.max(1,Math.round(Number(r.bytes)/1048576))+'MB':''),onclick:()=>downloadRequestedAudio(id)}:{cls:'working',text:'현수 오디오 만드는 중'}}
+function bookAudioBadge(id){const r=audioRequests[id];if(state.audioIds.has(id)&&!(r?.upgrade&&!r.error&&(r.ready||Number.isFinite(r.progress))))return {cls:'ready',text:'오디오 준비됨 · 바로 듣기'};if(!r)return null;if(r.error)return {cls:'failed',text:'현수 오디오 실패 · 책 관리에서 다시 보내기'};if(Number.isFinite(r.progress))return {cls:'working',text:'현수 오디오 받는 중 '+r.progress+'%'};return r.ready?{cls:'download',text:'⬇ 현수 오디오 받기'+(Number(r.bytes)?' · '+Math.max(1,Math.round(Number(r.bytes)/1048576))+'MB':''),onclick:()=>downloadRequestedAudio(id)}:{cls:'working',text:buildBadgeText(r.build)}}
 function updateBookBadges(){for(const card of document.querySelectorAll('#bookGrid .book-card[data-book-id]')){const el=card.querySelector('.book-audio');if(!el)continue;const badge=bookAudioBadge(card.dataset.bookId);el.hidden=!badge;if(badge){el.className='book-audio '+badge.cls;el.textContent=badge.text.trim();const act=badge.onclick&&!selectMode;el.onclick=act?e=>{e.stopPropagation();badge.onclick()}:null;if(act){el.setAttribute('role','button');el.tabIndex=0}else{el.removeAttribute('role');el.removeAttribute('tabindex')}}}}
 // 이전 버전은 AI 오디오를 44.1kHz·48kbps MP3로 만들었는데, lamejs가 이 조합에서 소리를 거의 비워 버렸다.
 // lamejs가 그때 몰래 32kHz로 바꿔 저장했으므로, MP3 첫 프레임 머리가 MPEG-1·32kHz인 AI 오디오를 찾아 지우고 다시 만들게 한다.
@@ -921,6 +921,24 @@ async function autoRequestAudio(bookId){
  if(await requestHyunsuAudio(book,{quiet:true})){autoSent++;clearTimeout(autoSentTimer);autoSentTimer=setTimeout(()=>{toast(autoSent+'권을 현수 오디오로 만들도록 보냈습니다. 완성되면 알아서 붙습니다.',7000);autoSent=0},2500)}
 }
 // 완성 확인: 목록에 같은 본문의 책이 생기면 받아서 붙이고, 실패한 요청은 이유를 카드에 보여 준다.
+// 서버(오디오 저장소 Actions)가 build-status 가지의 status.json 에 2분마다 적는 진행률을 읽어 카드에 보여 준다: '서버에서 만드는 중 37% · 약 2시간 10분 남음'.
+// 만드는 중 기록은 20분 넘게 새로 적히지 않으면(작업이 끊김) 믿지 않는다. 기다리는 책(앞 책을 폰이 받아 가야 자리가 남)은 기록이 오래돼도 보여 준다.
+async function loadBuildStatus(){
+ if(!githubKey)return null;
+ try{const r=await fetch('https://api.github.com/repos/'+AUDIO_REPO+'/contents/status.json?ref=build-status&t='+Date.now(),{headers:{Authorization:'Bearer '+githubKey,Accept:'application/vnd.github.raw'},cache:'no-store'});if(!r.ok)return null;const j=await r.json();return j?.format==='yeobaek-build-status'?j:null}catch(e){return null}
+}
+function buildInfoFor(status,id){
+ if(!status)return null;const c=status.current,fresh=Date.now()-(Number(status.updated)||0)<20*60000;
+ if(c&&c.id===id&&fresh){const total=Number(c.total)||0,done=Number(c.done)||0;return {stage:String(c.stage||''),pct:total?Math.min(99,Math.floor(100*done/total)):0,eta:Number.isFinite(c.etaSec)?Math.max(0,c.etaSec-(Date.now()-status.updated)/1000):null}}
+ const q=(status.queue||[]).find(x=>x.id===id);return q?{wait:q.wait==='space'?'space':'queue'}:null
+}
+function buildBadgeText(info){
+ if(!info)return '현수 오디오 만드는 중';
+ if(info.wait)return info.wait==='space'?'현수 오디오 차례 기다림 · 앞 책을 받으면 시작':'현수 오디오 차례 기다림';
+ if(info.stage&&!['start','synth'].includes(info.stage))return '서버에서 마무리 중';
+ const m=Number.isFinite(info.eta)&&info.eta>=60?Math.round(info.eta/60):null;
+ return '서버에서 만드는 중 '+info.pct+'%'+(m==null?'':' · 약 '+(m>=60?Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':''):m+'분')+' 남음')
+}
 async function checkAudioRequests({first=null}={}){
  if(!state.db||!Object.keys(audioRequests).length)return;
  if(audioPolling&&Date.now()-audioPollingSince<audioPartTimeoutMs()+30000)return;   // 진행 중이면 그대로. 멈춰 있던 확인은 버리고 새로
@@ -928,14 +946,14 @@ async function checkAudioRequests({first=null}={}){
  const run=++audioPollRun,ctl=new AbortController();audioDownloadCtl=ctl;audioPolling=true;audioPollingSince=Date.now();
  try{
   let shelf=null;try{shelf=await loadShelfJson(AUDIO_SHELF_URL)}catch(e){}
-  const shas=await inboxShas();
+  const shas=await inboxShas(),build=await loadBuildStatus();
   const ready=[];
   for(const [bookId,req] of Object.entries(audioRequests)){
    const book=state.books.find(b=>b.id===bookId);
    if(!book||(state.audioIds.has(bookId)&&!req.upgrade)){delete audioRequests[bookId];continue}
    const item=shelf?.items?.find(x=>x.id===req.id);
    if(item){req.ready=true;req.error='';req.bytes=Number(item.bytes)||0;if(bookId===first||req.upgrade||req.bytes<=autoAudioMaxBytes())ready.push({bookId,req,book,item});continue}
-   req.ready=false;
+   req.ready=false;req.build=buildInfoFor(build,req.id);
    if(shas){const sha=shas.get(req.id);if(!sha||sha===req.sha)continue;req.sha=sha}
    try{const r=await fetch('https://raw.githubusercontent.com/'+AUDIO_REPO+'/main/inbox/'+req.id+'.json?t='+Date.now(),{cache:'no-store'});if(r.ok){const j=await r.json();req.error=typeof j.error==='string'?j.error.slice(0,200):''}}catch(e){}
   }
