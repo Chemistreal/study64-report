@@ -26,7 +26,7 @@ const root=path.resolve(__dirname,'..');
   const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
   // 가짜 GitHub: 키 확인 · inbox 파일 올리기 · 실패 표시(raw)
-  const puts=[],inbox=new Map(),failed=new Map(),gitTrees=[],logPuts=[],logRefs=[];let keyOk=true,gitHead=1;
+  const puts=[],deletes=[],inbox=new Map(),failed=new Map(),gitTrees=[],logPuts=[],logRefs=[];let keyOk=true,gitHead=1;
   await page.route('https://api.github.com/**',async route=>{
    const req=route.request(),u=new URL(req.url()),auth=req.headers()['authorization'];
    const json=(status,body)=>route.fulfill({status,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(body)});
@@ -49,6 +49,7 @@ const root=path.resolve(__dirname,'..');
     return json(404,{});
    }
    if(req.method()==='GET')return inbox.has(m[1])?json(200,{sha:'sha-'+m[1]}):json(404,{message:'Not Found'});
+   if(req.method()==='DELETE'){deletes.push({id:m[1],sha:JSON.parse(req.postData()).sha});inbox.delete(m[1]);return json(200,{})}
    const body=JSON.parse(req.postData());puts.push({id:m[1],sha:body.sha||null,message:body.message,data:JSON.parse(Buffer.from(body.content,'base64').toString('utf8'))});inbox.set(m[1],true);failed.delete(m[1]);   // 다시 보낸 요청 파일에는 실패 표시가 없다(남겨 두면 1분 확인이 옛 실패를 다시 읽어 흔들렸다)
    return json(201,{content:{sha:'sha-'+m[1]}});
   });
@@ -245,6 +246,24 @@ const root=path.resolve(__dirname,'..');
   assert.equal(slowHits,4,'each of the 4 parts is fetched once');
   await page.unroute(slowMatch);
   await page.evaluate(()=>{state.playing=false});
+  // 11) 너무 긴 책(서버 한도)은 「제목 (1/n)」…「제목 (n/n)」 책으로 나눠 각각 보낸다: 강의 제목 앞에서 자르고, 원래 책은 휴지통, 예전 실패 요청은 서버에서 지우고, 읽던 자리는 그 자리가 든 조각으로 연다
+  await page.evaluate(()=>{state.settings.autoAudio=false;window.__ybAudioMaxChars=1000});
+  const lec=[];for(let k=0;k<6;k++){lec.push({kind:'heading',level:2,text:k+'강. 긴 강의'});for(let j=0;j<3;j++)lec.push({kind:'paragraph',text:(k+'강 '+j+'번째 문단입니다. ').repeat(8)})}
+  const longBook=await page.evaluate(async blocks=>{const b=await addBook('아주 긴 합본','md',blocks);b.index=14;await dbPut(b);const sid=await shelfIdFor(b);audioRequests[b.id]={id:sid,title:b.title,requested:Date.now(),error:'글이 너무 깁니다'};await saveAudioRequests();return {id:b.id,sid,chars:bookCharacters(b)}},lec);
+  inbox.set(longBook.sid,true);   // 예전에 보냈다가 실패한 요청 파일
+  const p0=puts.length;
+  await page.evaluate(async id=>{openBook(id);await requestHyunsuAudio(state.books.find(b=>b.id===id))},longBook.id);
+  const split=await page.evaluate(id=>({orig:state.books.some(b=>b.id===id),open:state.book?.title,req:!!audioRequests[id],parts:state.books.filter(b=>/^아주 긴 합본 \(/.test(b.title)).sort((a,b)=>a.title.localeCompare(b.title)).map(b=>({title:b.title,chars:bookCharacters(b),first:b.blocks[0].kind,index:b.index,n:b.blocks.length}))}),longBook.id);
+  assert.deepEqual(split.parts.map(p=>[p.title,p.first,p.n,p.index]),[['아주 긴 합본 (1/3)','heading',8,7],['아주 긴 합본 (2/3)','heading',8,6],['아주 긴 합본 (3/3)','heading',8,0]],'split before lecture headings, reading position moves to the part that holds it: '+JSON.stringify(split));
+  assert.ok(split.parts.every(p=>p.chars<=1000));assert.equal(split.parts.reduce((s,p)=>s+p.chars,0),longBook.chars,'no text lost');
+  assert.equal(split.orig,false);assert.equal(split.req,false);assert.equal(split.open,'아주 긴 합본 (2/3)','the open book is replaced by the part being read');
+  assert.ok(await page.evaluate(async id=>!!(await storeReq('trash','readonly',s=>s.get(id))),longBook.id),'the original goes to the trash (can be restored)');
+  const sentParts=puts.slice(p0);assert.deepEqual(sentParts.map(p=>p.data.title),['아주 긴 합본 (1/3)','아주 긴 합본 (2/3)','아주 긴 합본 (3/3)'],'each part is sent as its own request');
+  for(const p of sentParts)assert.equal(p.id,P.bookId(E.bookFromBlocks(p.data.title,p.data.blocks).hash));
+  await page.waitForFunction(()=>Object.values(audioRequests).filter(r=>/^아주 긴 합본 \(\d\/3\)$/.test(r.title)&&!r.error).length===3);
+  for(let i=0;i<50&&!deletes.length;i++)await new Promise(r=>setTimeout(r,100));
+  assert.deepEqual(deletes,[{id:longBook.sid,sha:'sha-'+longBook.sid}],'the old failed request file is removed from the server');
+  await page.evaluate(()=>{delete window.__ybAudioMaxChars;backToLibrary()});
   // 10) 재생 기록은 GitHub 키가 있으면 오디오 저장소의 device-logs 가지(새로 만든 빈 가지)에 자동으로 올라간다(바뀐 것이 있을 때만)
   await page.evaluate(async()=>{window.__ybLogUpload=true;audioLog('기록 올리기 시험');await uploadAudioLog();await uploadAudioLog()});
   assert.equal(logPuts.length,1,'uploaded once (the second call has nothing new)');
@@ -253,6 +272,6 @@ const root=path.resolve(__dirname,'..');
   assert.equal(logRefs[0]?.ref,'refs/heads/device-logs','the log branch is created');
   assert.deepEqual(gitTrees[gitTrees.length-1].base_tree,undefined,'the log branch starts empty (no copy of the audio books)');
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 너무 긴 책은 (1/n)…으로 나눠 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
