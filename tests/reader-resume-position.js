@@ -144,6 +144,15 @@ const server=http.createServer(async(req,res)=>{
   assert.ok(h2.text&&h2.text!==h1.text&&h2.text.length<=50,'the highlight moves on with the audio: '+JSON.stringify(h2));
   assert.equal(h1.bg,'rgba(0, 0, 0, 0)','the whole paragraph is not painted');
   await page.evaluate(()=>stopSpeech());
+  // 13) 재생 막대 숨기기: 숨기면 글이 아래까지 차고, 작은 버튼으로 재생·일시정지·다시 보이기(다시 열어도 기억)
+  await page.locator('#playerHideBtn').click();
+  assert.deepEqual(await page.evaluate(()=>({hidden:document.body.classList.contains('player-hidden'),bar:getComputedStyle($('.player')).display,mini:!$('#miniPlayer').hidden,saved:state.settings.playerHidden})),{hidden:true,bar:'none',mini:true,saved:true});
+  await page.locator('#miniPlayBtn').click();
+  await page.waitForFunction(()=>state.playing&&$('#miniPlayBtn use').getAttribute('href')==='#i-pause',null,{timeout:10000});
+  await page.locator('#miniPlayBtn').click();
+  await page.waitForFunction(()=>!state.playing,null,{timeout:10000});
+  await page.locator('#playerShowBtn').click();
+  assert.equal(await page.evaluate(()=>!document.body.classList.contains('player-hidden')&&$('#miniPlayer').hidden&&!state.settings.playerHidden),true);
   assert.deepEqual(errors,[]);
   console.log('여백 이어 듣기 위치: 열 때 읽던 문단 우선(다른 문단이면 그 처음으로, 같은 문단이면 초 그대로) · 불러오기 전 닫아도 0 저장 안 함 · 저절로 생긴 스크롤은 위치 안 바꿈·사용자 스크롤은 가운데 문단 · 돌아오면 지금 문단 보여 줌 · 끊긴 저장소 다시 열기 · 바꿔 끼운 오디오는 예전 초 버림 · 잠금 화면 재생도 옮긴 문단부터 · 되돌리는 중 누름은 멈춤으로 · 다 들은 책은 처음부터 · 기본 플레이어 탐색 따라감 PASS');
  }finally{if(browser)await browser.close();server.close()}
