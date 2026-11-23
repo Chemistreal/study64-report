@@ -800,10 +800,61 @@ async function saveGithubKey(){
  }catch(e){toast(e.message||'키를 저장하지 못했습니다.',7000)}finally{btn.disabled=false}
 }
 async function clearGithubKey(){if(!confirm('이 기기에 저장된 GitHub 키를 지울까요?'))return;githubKey='';state.settings.autoAudio=false;await saveSettings();try{await storeReq('meta','readwrite',s=>s.delete(GITHUB_KEY_META))}catch(e){}refreshGithubKeyUI()}
+// 너무 긴 책(오디오 서버는 한 권 200만 자·저장소 950MB까지)은 약 90만 자(오디오 약 570MB) 이하의 책 여러 권으로 나눠 보낸다 — 「제목 (1/3)」 「제목 (2/3)」 …
+// 나눌 자리는 고른 크기에 가까운 제목(강의 시작) 앞을 먼저 고르고, 없으면 가장 가까운 문단 사이. 원래 책은 휴지통으로(복원 가능), 읽던 자리는 그 자리가 든 조각으로 옮긴다.
+const AUDIO_BOOK_MAX_CHARS=900000;
+function audioBookMaxChars(){return Number(window.__ybAudioMaxChars)||AUDIO_BOOK_MAX_CHARS}
+function isPartStart(b){const t=String(b?.text||'').trim();return b?.kind==='heading'||t.length<=80&&/^(제\s*)?\d+\s*(강|장|부|편|화|회)(?=[\s.:)\]]|$)/.test(t)}   // 제목 또는 '27강. 제목' 같은 짧은 줄
+function splitBlocksForAudio(blocks,max=audioBookMaxChars()){
+ const len=blocks.map(b=>String(b.text||'').length),total=len.reduce((a,b)=>a+b,0);if(total<=max)return [blocks];
+ const first=Math.ceil(total/max);
+ for(let n=first;n<first+8;n++){
+  const parts=[];let at=0,left=total;
+  for(let k=n;k>1&&at<blocks.length;k--){
+   const target=left/k;let sum=0,head=-1,headD=Infinity,near=-1,nearD=Infinity;
+   for(let i=at;i<blocks.length&&sum<=max;i++){
+    if(i>at){const d=Math.abs(sum-target);if(d<nearD){near=i;nearD=d}if(isPartStart(blocks[i])&&d<=target*.12&&d<headD){head=i;headD=d}}
+    if(sum>target*1.12)break;sum+=len[i]
+   }
+   const cut=head>=0?head:near>=0?near:at+1;parts.push(blocks.slice(at,cut));for(let i=at;i<cut;i++)left-=len[i];at=cut
+  }
+  if(at<blocks.length)parts.push(blocks.slice(at));
+  if(parts.length>1&&parts.every(p=>p.reduce((s,x)=>s+String(x.text||'').length,0)<=max))return parts
+ }
+ return null
+}
+async function deleteInboxRequest(id){
+ if(!githubKey||!/^b-[0-9a-f]{12}$/.test(id))return;
+ const url='https://api.github.com/repos/'+AUDIO_REPO+'/contents/inbox/'+id+'.json',headers={Authorization:'Bearer '+githubKey,Accept:'application/vnd.github+json'};
+ try{const old=await fetch(url+'?t='+Date.now(),{headers,cache:'no-store'});if(!old.ok)return;const sha=(await old.json()).sha;await fetch(url,{method:'DELETE',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({message:'나눠 보낸 긴 책의 예전 요청 지움: '+id,sha})})}catch(e){console.warn('예전 요청을 지우지 못함',e)}
+}
+async function splitBookForAudio(book,groups){
+ const n=groups.length,now=Date.now(),idx=Number(book.index)||0,wasOpen=state.book?.id===book.id,parts=[];let start=0,here=null;
+ for(let k=0;k<n;k++){
+  const blocks=groups[k].map(x=>({...x})),end=start+blocks.length;
+  const part={id:crypto.randomUUID?crypto.randomUUID():now+'-'+k+'-'+Math.random().toString(36).slice(2),title:(book.title.slice(0,170)+' ('+(k+1)+'/'+n+')'),type:book.type,blocks,index:idx>=end?blocks.length-1:idx>=start?idx-start:0,created:now+n-k,updated:now-k,...(book.tags?.length?{tags:[...book.tags]}:{})};
+  if(idx>=start&&idx<end)here=part;await dbPut(part);parts.push(part);start=end
+ }
+ state.books.unshift(...parts);
+ const oldId=await shelfIdFor(book).catch(()=>'');delete audioRequests[book.id];await saveAudioRequests();
+ await moveToTrash([book]);if(oldId)deleteInboxRequest(oldId);
+ audioLog('긴 책 나눔: 「'+book.title.slice(0,40)+'」 '+bookCharacters(book).toLocaleString()+'자 → '+n+'권');
+ if(wasOpen&&here)openBook(here.id);
+ return parts
+}
 async function requestHyunsuAudio(book,{quiet=false,upgrade=false}={}){
  if(!book)return false;
  if(state.audioIds.has(book.id)&&!upgrade){if(!quiet)toast('이미 오디오가 있는 책입니다.');return false}
  if(!githubKey){if(!quiet){toast('먼저 설정의 ‘AI 오디오 책’에 GitHub 키를 넣어 주세요.',7000);openLayer('#settingsDrawer');setTimeout(()=>$('#audioBookSetting')?.scrollIntoView({block:'start'}),300)}return false}
+ if(!upgrade&&bookCharacters(book)>audioBookMaxChars()){
+  const chars=bookCharacters(book),groups=splitBlocksForAudio(book.blocks);
+  if(!groups){if(!quiet)toast('글이 너무 길어 나눌 수 없습니다('+chars.toLocaleString()+'자).',8000);return false}
+  const n=groups.length;
+  if(!quiet&&!confirm('「'+book.title.slice(0,60)+'」은 '+chars.toLocaleString()+'자라 한 권의 오디오로 만들 수 없습니다(한 권 최대 '+audioBookMaxChars().toLocaleString()+'자).\n\n'+n+'권(「(1/'+n+')」~「('+n+'/'+n+')」)으로 나눠 서재에 담고 각각 현수 오디오를 만들까요? 원래 책은 휴지통으로 옮깁니다(복원 가능).'))return false;
+  const parts=await splitBookForAudio(book,groups);let ok=0;for(const p of parts)if(await requestHyunsuAudio(p,{quiet:true}))ok++;
+  toast('「'+book.title.slice(0,40)+'」을 '+n+'권으로 나눠 현수 오디오를 만들도록 보냈습니다'+(ok<n?' (실패 '+(n-ok)+'권)':'')+'. 한 권씩 차례로 만들어져 완성되는 대로 붙습니다.',9000);
+  return ok>0
+ }
  const id=(await shelfIdFor(book))+(upgrade?'-hq':''),url='https://api.github.com/repos/'+AUDIO_REPO+'/contents/inbox/'+id+'.json',headers={Authorization:'Bearer '+githubKey,Accept:'application/vnd.github+json'};
  try{
   // 이미 만들어져 있으면 보내지 않고 바로 받는다
