@@ -20,7 +20,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 330
+    timeout-minutes: 340
     steps:
       - name: 오디오 저장소 받기(최신 main)
         uses: actions/checkout@v4
@@ -51,8 +51,18 @@ jobs:
       - name: Edge 음성 도구 설치
         if: steps.inbox.outputs.has == '1'
         run: python -m pip install --quiet edge-tts imageio-ffmpeg
-      - name: 현수 오디오 만들기(요청마다 완성되는 대로 올림)
+      # 만들던 문단(조각 소리)을 실행 사이에 이어 간다: 끊기거나 시간이 다 돼도 다음 실행이 받은 문단은 건너뛴다(2026-11-24: 90만 자 책이 음성 서버 거절로 4배 느려져 92%에서 끊김).
+      - name: 만들던 문단 이어받기
         if: steps.inbox.outputs.has == '1'
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/yeobaek-work
+          key: yeobaek-work-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: yeobaek-work-
+      - name: 현수 오디오 만들기(요청마다 완성되는 대로 올림)
+        id: make
+        if: steps.inbox.outputs.has == '1'
+        timeout-minutes: 300
         env:
           YEOBAEK_PYTHON: python
           YEOBAEK_STUDIO_DIR: ${{ runner.temp }}/yeobaek
@@ -60,6 +70,12 @@ jobs:
           git -C site config user.name "yeobaek-audio-bot"
           git -C site config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           node tool/reader/pc-tool/inbox-build.mjs --site site
+      - name: 만들던 문단 남기기(끊겨도 다음 실행이 이어서)
+        if: always() && steps.inbox.outputs.has == '1'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/yeobaek-work
+          key: yeobaek-work-${{ github.run_id }}-${{ github.run_attempt }}
 
   deploy:
     needs: build
