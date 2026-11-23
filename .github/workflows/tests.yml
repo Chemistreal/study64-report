@@ -175,6 +175,8 @@ jobs:
       - name: 오디오 저장소 올리기가 PC·아이폰 요청·Actions 완성을 서로 지우지 않고 합친다
         timeout-minutes: 2
         run: node tests/audio-repo-sync.js
+      - name: 오디오 서버 진행 기록
+        run: node tests/audio-build-status.js
       - name: 여백에서 담은 책을 현수 오디오로 요청하고, 완성되면 그 책에 알아서 붙는다
         timeout-minutes: 3
         run: NODE_PATH=tests/node_modules node tests/reader-audio-request.js

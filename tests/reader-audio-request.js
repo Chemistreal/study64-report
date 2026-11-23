@@ -26,7 +26,7 @@ const root=path.resolve(__dirname,'..');
   const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
   // 가짜 GitHub: 키 확인 · inbox 파일 올리기 · 실패 표시(raw)
-  const puts=[],deletes=[],inbox=new Map(),failed=new Map(),gitTrees=[],logPuts=[],logRefs=[];let keyOk=true,gitHead=1;
+  const puts=[],deletes=[],inbox=new Map(),failed=new Map(),gitTrees=[],logPuts=[],logRefs=[];let keyOk=true,gitHead=1,buildStatus=null;
   await page.route('https://api.github.com/**',async route=>{
    const req=route.request(),u=new URL(req.url()),auth=req.headers()['authorization'];
    const json=(status,body)=>route.fulfill({status,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(body)});
@@ -35,6 +35,7 @@ const root=path.resolve(__dirname,'..');
    const m=u.pathname.match(/^\/repos\/Chemistreal\/yeobaek-audio\/contents\/inbox\/(b-[0-9a-f]{12}(?:-hq)?)\.json$/);
    if(!m){
     const g=u.pathname.replace('/repos/Chemistreal/yeobaek-audio','');
+    if(req.method()==='GET'&&g==='/contents/status.json')return buildStatus?route.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(buildStatus)}):json(404,{});   // 서버 진행률(build-status 가지)
     if(g.startsWith('/contents/logs/')){if(req.method()==='PUT'){logPuts.push({path:g,...JSON.parse(req.postData())});return json(201,{content:{sha:'log1'}})}return json(404,{})}   // 재생 기록 올리기
     if(req.method()==='POST'&&g==='/git/refs'){logRefs.push(JSON.parse(req.postData()));return json(201,{})}
     if(req.method()==='GET'&&g==='/contents/inbox')return json(200,[...inbox.keys()].map(id=>({name:id+'.json',sha:'sha-'+id+(failed.has(id)?'-failed':'')})));   // 폴더 목록(sha가 바뀐 요청만 받아 본다)
@@ -99,7 +100,7 @@ const root=path.resolve(__dirname,'..');
   const attached=await page.evaluate(async id=>{const a=await storeReq('audio','readonly',s=>s.get(id));return {books:state.books.length,size:a.blob.size,timeline:a.timeline.length,pending:Object.keys(audioRequests).length}},bookId);
   assert.deepEqual(attached,{books:1,size:bytes.length,timeline:3,pending:0});
   // 받은 뒤: 아이폰 요청분은 서버에서 책 폴더 전체와 목록 항목을 기록 하나로 지운다. PC 추천 글은 남는다.
-  await page.waitForFunction(()=>true);for(let i=0;i<50&&!gitTrees.length;i++)await new Promise(r=>setTimeout(r,100));
+  await page.waitForFunction(()=>true);for(let i=0;i<50&&gitHead<2;i++)await new Promise(r=>setTimeout(r,100));   // 지우기 기록(PATCH)까지 끝난 뒤 본다
   assert.equal(gitTrees.length,1,'one commit removes the downloaded book from the server');
   const del=gitTrees[0].tree;
   assert.ok(del.filter(t=>t.sha===null).length>=4&&del.filter(t=>t.sha===null).every(t=>t.path.startsWith('books/'+sent.id+'/')),'every file of that book folder (parts, book.json, 원문) is removed: '+JSON.stringify(del.map(t=>t.path)));
@@ -264,6 +265,18 @@ const root=path.resolve(__dirname,'..');
   for(let i=0;i<50&&!deletes.length;i++)await new Promise(r=>setTimeout(r,100));
   assert.deepEqual(deletes,[{id:longBook.sid,sha:'sha-'+longBook.sid}],'the old failed request file is removed from the server');
   await page.evaluate(()=>{delete window.__ybAudioMaxChars;backToLibrary()});
+  // 12) 서버 진행률: build-status 가지의 status.json 을 읽어 카드에 '서버에서 만드는 중 37% · 약 2시간 10분 남음'. 기다리는 책은 '차례 기다림', 20분 넘게 안 바뀐 기록(끊긴 작업)은 믿지 않는다
+  const prog=await page.evaluate(async()=>{const b=await addBook('진행률 시험','md',[{kind:'paragraph',text:'진행률을 볼 글입니다.'}]);const sid=await shelfIdFor(b);audioRequests[b.id]={id:sid,title:b.title,requested:Date.now()};await saveAudioRequests();return {bookId:b.id,sid}});
+  const progBadge=()=>page.evaluate(id=>bookAudioBadge(id)?.text,prog.bookId),check=()=>page.evaluate(()=>{audioPolling=false;return checkAudioRequests()});
+  buildStatus={format:'yeobaek-build-status',version:1,updated:Date.now(),current:{id:prog.sid,title:'진행률 시험',stage:'synth',done:37,total:100,etaSec:7800},queue:[]};
+  await check();assert.equal(await progBadge(),'서버에서 만드는 중 37% · 약 2시간 10분 남음');
+  await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-audio')].some(el=>/서버에서 만드는 중 37%/.test(el.textContent)));
+  buildStatus={...buildStatus,current:{id:prog.sid,stage:'join',done:100,total:100}};await check();assert.equal(await progBadge(),'서버에서 마무리 중');
+  buildStatus={...buildStatus,current:null,queue:[{id:prog.sid,title:'진행률 시험',wait:'space'}]};
+  await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 앞 책을 받으면 시작');
+  buildStatus={...buildStatus,updated:Date.now()-3600000,current:{id:prog.sid,stage:'synth',done:50,total:100},queue:[]};
+  await check();assert.equal(await progBadge(),'현수 오디오 만드는 중','a stale record (stopped run) is not trusted');
+  buildStatus=null;await page.evaluate(id=>{delete audioRequests[id];return saveAudioRequests()},prog.bookId);
   // 10) 재생 기록은 GitHub 키가 있으면 오디오 저장소의 device-logs 가지(새로 만든 빈 가지)에 자동으로 올라간다(바뀐 것이 있을 때만)
   await page.evaluate(async()=>{window.__ybLogUpload=true;audioLog('기록 올리기 시험');await uploadAudioLog();await uploadAudioLog()});
   assert.equal(logPuts.length,1,'uploaded once (the second call has nothing new)');
@@ -272,6 +285,6 @@ const root=path.resolve(__dirname,'..');
   assert.equal(logRefs[0]?.ref,'refs/heads/device-logs','the log branch is created');
   assert.deepEqual(gitTrees[gitTrees.length-1].base_tree,undefined,'the log branch starts empty (no copy of the audio books)');
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 너무 긴 책은 (1/n)…으로 나눠 보내기 · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 너무 긴 책은 (1/n)…으로 나눠 보내기 · 서버 진행률(%·남은 시간·차례 기다림) · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
