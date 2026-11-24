@@ -927,17 +927,42 @@ async function loadBuildStatus(){
  if(!githubKey)return null;
  try{const r=await fetch('https://api.github.com/repos/'+AUDIO_REPO+'/contents/status.json?ref=build-status&t='+Date.now(),{headers:{Authorization:'Bearer '+githubKey,Accept:'application/vnd.github.raw'},cache:'no-store'});if(!r.ok)return null;const j=await r.json();return j?.format==='yeobaek-build-status'?j:null}catch(e){return null}
 }
-function buildInfoFor(status,id){
- if(!status)return null;const c=status.current,fresh=Date.now()-(Number(status.updated)||0)<20*60000;
- if(c&&c.id===id&&fresh){const total=Number(c.total)||0,done=Number(c.done)||0;return {stage:String(c.stage||''),pct:total?Math.min(99,Math.floor(100*done/total)):0,eta:Number.isFinite(c.etaSec)?Math.max(0,c.etaSec-(Date.now()-status.updated)/1000):null}}
- const q=(status.queue||[]).find(x=>x.id===id);return q?{wait:q.wait==='space'?'space':'queue'}:null
+// 남은 시간: 서버 기록이 있으면 그 속도(지금 책에서 잰 글자/초)로, 없으면 어림 속도(1분에 약 3,500자 — 음성 서버가 자주 거절할 때 실제 속도)로 계산한다.
+// 서버는 짧은 책부터 하나씩 만들고, 저장소(950MB)가 모자라면 폰이 앞 책을 받아 갈 때까지 기다린다 — 그 순서대로 앞 책들의 시간을 더한다. finishAt(완성 예상 시각)을 저장해 두고 카드는 지금 시각과의 차이를 보여 준다.
+const BUILD_GUESS_CPS=3500/60,BUILD_BYTES_PER_CHAR=667,BUILD_SPACE_BYTES=950*1048576;
+function planBuildEtas(status){
+ const now=Date.now(),pending=[];
+ for(const [bookId,req] of Object.entries(audioRequests)){if(req.ready||req.error)continue;const book=state.books.find(x=>x.id===bookId);if(!book)continue;req.chars=bookCharacters(book);req.build=null;pending.push(req)}
+ if(!pending.length)return;
+ const byId=new Map(pending.map(r=>[r.id,r])),fresh=status&&now-(Number(status.updated)||0)<20*60000,c=fresh?status.current:null;
+ let cps=BUILD_GUESS_CPS,t=now,guess=true,bytes=0;for(const r of Object.values(audioRequests))if(r.ready&&!r.upgrade)bytes+=Number(r.bytes)||0;   // 다 만들었지만 폰이 아직 안 받아 간 책이 서버 자리를 차지한다
+ if(c){const total=Number(c.total)||0,done=Number(c.done)||0,chars=Number(c.chars)||0,spent=((Number(status.updated)||now)-(Number(c.started)||now))/1000;
+  if(done>0&&spent>60&&chars)cps=Math.max(1,chars*done/Math.max(total,1)/spent);
+  const left=Number.isFinite(c.etaSec)?c.etaSec:chars?chars*(1-done/Math.max(total,1))/cps:0;
+  t=(Number(status.updated)||now)+left*1000;guess=!Number.isFinite(c.etaSec)&&!(done>0&&spent>60);bytes+=chars*BUILD_BYTES_PER_CHAR;
+  const r=byId.get(c.id);if(r){r.build={stage:String(c.stage||''),pct:total?Math.min(99,Math.floor(100*done/total)):0,finishAt:t,guess};byId.delete(c.id)}
+ }
+ // 서버 기록의 기다리는 순서 → 기록에 아직 없는 요청(방금 보낸 것)은 짧은 것부터 뒤에
+ const order=[];if(fresh||status)for(const q of status?.queue||[]){const r=byId.get(q.id);if(r){r._space=q.wait==='space'&&fresh;order.push(r);byId.delete(q.id)}}
+ order.push(...[...byId.values()].sort((x,y)=>x.chars-y.chars||(x.requested||0)-(y.requested||0)));
+ if(!c&&order.length){const first=Math.min(...order.map(r=>Number(r.requested)||now));t=Math.max(now,first)}   // 기록이 없으면 첫 요청을 보낸 때부터 만들기 시작했다고 친다
+ let started=!c;
+ for(const r of order){
+  const need=r.chars*BUILD_BYTES_PER_CHAR;
+  if(r._space||bytes&&bytes+need>BUILD_SPACE_BYTES){delete r._space;r.build={wait:'space'};continue}
+  bytes+=need;t+=r.chars/cps*1000;
+  if(started){r.build={stage:'synth',pct:null,finishAt:Math.max(t,now+60000),guess:true};started=false}else r.build={wait:'queue',finishAt:t,guess:guess||cps===BUILD_GUESS_CPS}
+ }
 }
+function fmtLeft(ms){const m=Math.max(1,Math.round(ms/60000));return m>=60?Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':''):m+'분'}
 function buildBadgeText(info){
  if(!info)return '현수 오디오 만드는 중';
- if(info.wait)return info.wait==='space'?'현수 오디오 차례 기다림 · 앞 책을 받으면 시작':'현수 오디오 차례 기다림';
+ const left=Number.isFinite(info.finishAt)?info.finishAt-Date.now():null,g=info.guess?'(어림)':'';
+ if(info.wait==='space')return '현수 오디오 차례 기다림 · 앞 책을 받으면 시작';
+ if(info.wait)return '현수 오디오 차례 기다림'+(left!=null?' · 약 '+fmtLeft(left)+' 뒤 완성'+g:'');
  if(info.stage&&!['start','synth'].includes(info.stage))return '서버에서 마무리 중';
- const m=Number.isFinite(info.eta)&&info.eta>=60?Math.round(info.eta/60):null;
- return '서버에서 만드는 중 '+info.pct+'%'+(m==null?'':' · 약 '+(m>=60?Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':''):m+'분')+' 남음')
+ const head=info.pct==null?'현수 오디오 만드는 중':'서버에서 만드는 중 '+info.pct+'%';
+ return head+(left==null?'':left<60000?' · 곧 완성'+g:' · 약 '+fmtLeft(left)+' 남음'+g)
 }
 async function checkAudioRequests({first=null}={}){
  if(!state.db||!Object.keys(audioRequests).length)return;
@@ -953,11 +978,11 @@ async function checkAudioRequests({first=null}={}){
    if(!book||(state.audioIds.has(bookId)&&!req.upgrade)){delete audioRequests[bookId];continue}
    const item=shelf?.items?.find(x=>x.id===req.id);
    if(item){req.ready=true;req.error='';req.bytes=Number(item.bytes)||0;if(bookId===first||req.upgrade||req.bytes<=autoAudioMaxBytes())ready.push({bookId,req,book,item});continue}
-   req.ready=false;req.build=buildInfoFor(build,req.id);
+   req.ready=false;
    if(shas){const sha=shas.get(req.id);if(!sha||sha===req.sha)continue;req.sha=sha}
    try{const r=await fetch('https://raw.githubusercontent.com/'+AUDIO_REPO+'/main/inbox/'+req.id+'.json?t='+Date.now(),{cache:'no-store'});if(r.ok){const j=await r.json();req.error=typeof j.error==='string'?j.error.slice(0,200):''}}catch(e){}
   }
-  updateBookBadges();
+  planBuildEtas(build);updateBookBadges();
   // 작은 것부터 받는다(강의 하나가 100MB 넘는 묶음 뒤에서 기다리지 않게). 책 관리에서 누른 책은 맨 먼저.
   ready.sort((x,y)=>(x.bookId===first?-1:0)-(y.bookId===first?-1:0)||(Number(x.item.bytes)||0)-(Number(y.item.bytes)||0));
   for(const {bookId,req,book,item} of ready){
