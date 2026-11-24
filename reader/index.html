@@ -954,15 +954,15 @@ function planBuildEtas(status){
   if(started){r.build={stage:'synth',pct:null,finishAt:Math.max(t,now+60000),guess:true};started=false}else r.build={wait:'queue',finishAt:t,guess:guess||cps===BUILD_GUESS_CPS}
  }
 }
-function fmtLeft(ms){const m=Math.max(1,Math.round(ms/60000));return m>=60?Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':''):m+'분'}
+function fmtBuildLeft(ms){const m=Math.max(1,Math.round(ms/60000));return m>=60?Math.floor(m/60)+'시간'+(m%60?' '+m%60+'분':''):m+'분'}
 function buildBadgeText(info){
  if(!info)return '현수 오디오 만드는 중';
  const left=Number.isFinite(info.finishAt)?info.finishAt-Date.now():null,g=info.guess?'(어림)':'';
  if(info.wait==='space')return '현수 오디오 차례 기다림 · 앞 책을 받으면 시작';
- if(info.wait)return '현수 오디오 차례 기다림'+(left!=null?' · 약 '+fmtLeft(left)+' 뒤 완성'+g:'');
+ if(info.wait)return '현수 오디오 차례 기다림'+(left!=null?' · 약 '+fmtBuildLeft(left)+' 뒤 완성'+g:'');
  if(info.stage&&!['start','synth'].includes(info.stage))return '서버에서 마무리 중';
  const head=info.pct==null?'현수 오디오 만드는 중':'서버에서 만드는 중 '+info.pct+'%';
- return head+(left==null?'':left<60000?' · 곧 완성'+g:' · 약 '+fmtLeft(left)+' 남음'+g)
+ return head+(left==null?'':left<60000?' · 곧 완성'+g:' · 약 '+fmtBuildLeft(left)+' 남음'+g)
 }
 async function checkAudioRequests({first=null}={}){
  if(!state.db||!Object.keys(audioRequests).length)return;
