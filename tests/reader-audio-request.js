@@ -63,7 +63,7 @@ const root=path.resolve(__dirname,'..');
   await page.waitForTimeout(400);assert.equal(await page.evaluate(()=>githubKey),'','a rejected key is not saved');
   await page.locator('#githubKeyInput').fill('github_pat_good');await page.locator('#githubKeySave').click();
   await page.waitForFunction(()=>githubKey==='github_pat_good');
-  assert.match(await page.locator('#githubKeyStatus').textContent(),/저장되어 있습니다/);
+  await page.waitForFunction(()=>/저장되어 있습니다/.test(document.querySelector('#githubKeyStatus').textContent));   // 키는 저장소에 적은 뒤 표시가 바뀐다
   assert.equal(await page.locator('#githubKeyInput').inputValue(),'','the key field is cleared after saving');
   const where=await page.evaluate(async()=>({meta:(await storeReq('meta','readonly',s=>s.get('githubAudioKey')))?.value,inSettings:JSON.stringify(state.settings).includes('github_pat'),inBackup:JSON.stringify(exportableSettings()).includes('github_pat')}));
   assert.deepEqual(where,{meta:'github_pat_good',inSettings:false,inBackup:false});
@@ -275,7 +275,11 @@ const root=path.resolve(__dirname,'..');
   buildStatus={...buildStatus,current:null,queue:[{id:prog.sid,title:'진행률 시험',wait:'space'}]};
   await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 앞 책을 받으면 시작');
   buildStatus={...buildStatus,updated:Date.now()-3600000,current:{id:prog.sid,stage:'synth',done:50,total:100},queue:[]};
-  await check();assert.equal(await progBadge(),'현수 오디오 만드는 중','a stale record (stopped run) is not trusted');
+  await check();assert.match(await progBadge(),/^현수 오디오 (만드는 중 · (약 \d+분 남음|곧 완성)|차례 기다림 · 약 \d+분 뒤 완성)\(어림\)$/,'a stale record (stopped run) is not trusted: the time left is guessed from the length');
+  // 기다리는 책: 지금 책의 남은 시간 + 앞 책들을 지금 책에서 잰 속도로 만든 시간 → '약 45분 뒤 완성'
+  const now=Date.now();buildStatus={...buildStatus,updated:now,current:{id:'b-0123456789ab',title:'앞 책',chars:100000,stage:'synth',done:50,total:100,etaSec:600,started:now-3000000},queue:[{id:prog.sid,title:'진행률 시험',chars:35000,wait:'queue'}]};
+  await page.evaluate(id=>{const b=state.books.find(x=>x.id===id);b.blocks=[{kind:'paragraph',text:'가'.repeat(35000)}]},prog.bookId);
+  await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 약 45분 뒤 완성');
   buildStatus=null;await page.evaluate(id=>{delete audioRequests[id];return saveAudioRequests()},prog.bookId);
   // 10) 재생 기록은 GitHub 키가 있으면 오디오 저장소의 device-logs 가지(새로 만든 빈 가지)에 자동으로 올라간다(바뀐 것이 있을 때만)
   await page.evaluate(async()=>{window.__ybLogUpload=true;audioLog('기록 올리기 시험');await uploadAudioLog();await uploadAudioLog()});
@@ -285,6 +289,6 @@ const root=path.resolve(__dirname,'..');
   assert.equal(logRefs[0]?.ref,'refs/heads/device-logs','the log branch is created');
   assert.deepEqual(gitTrees[gitTrees.length-1].base_tree,undefined,'the log branch starts empty (no copy of the audio books)');
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 너무 긴 책은 (1/n)…으로 나눠 보내기 · 서버 진행률(%·남은 시간·차례 기다림) · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 너무 긴 책은 (1/n)…으로 나눠 보내기 · 서버 진행률(%·남은 시간·기다리는 책의 완성 예상·기록 없을 때 어림·차례 기다림) · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
