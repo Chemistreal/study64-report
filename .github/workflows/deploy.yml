@@ -43,18 +43,23 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages-${{ github.run_attempt }}
-      # GitHub Pages가 '결과물을 찾지 못함'·'나중에 다시 시도'로 자주 실패한다(2026-11). 1분 쉬고 새 이름으로 다시 올려 한 번 더 배포한다.
-      - name: Wait before retrying the deploy
+      # GitHub Pages가 방금 올린 결과물을 '0개'로 보거나('No artifacts named … were found') '나중에 다시 시도'로 실패한다(2026-11, 올리기는 성공).
+      # 목록에 늦게 잡히는 것이라 다시 올리지 않고, 기다렸다가 같은 결과물로 두 번까지 다시 배포한다.
+      - name: Wait before retrying the deploy (1 min)
         if: steps.deployment.outcome == 'failure'
         run: sleep 60
-      - name: Upload artifact again
-        if: steps.deployment.outcome == 'failure'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          name: github-pages-${{ github.run_attempt }}-retry
-          path: '.'
       - name: Deploy to GitHub Pages (retry)
+        id: deployment_retry
         if: steps.deployment.outcome == 'failure'
+        continue-on-error: true
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: github-pages-${{ github.run_attempt }}-retry
+          artifact_name: github-pages-${{ github.run_attempt }}
+      - name: Wait again (2 min)
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
+        run: sleep 120
+      - name: Deploy to GitHub Pages (last retry)
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
