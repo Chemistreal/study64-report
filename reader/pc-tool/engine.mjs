@@ -96,10 +96,13 @@ export async function synthesizeBook(book,{speed=DEFAULTS.speed,profile=DEFAULTS
   const p=spawn(PYTHON,['-X','utf8',path.join(HERE,'edge_book.py'),'--segments',path.join(workDir,'segments.json'),'--workdir',workDir,'--out',mp3,'--voice',VOICE.id,'--rate',rateText(speed),'--sample-rate',String(prof.rate),'--kbps',String(prof.kbps),'--concurrency',String(concurrency)],
    {windowsHide:true,env:{...process.env,PYTHONUTF8:'1',TMP:path.join(STUDIO_ROOT,'cache','tmp'),TEMP:path.join(STUDIO_ROOT,'cache','tmp')}});
   const onAbort=()=>{p.kill();};signal?.addEventListener('abort',onAbort,{once:true});
-  let buf='',done=null,error=null,errText='';
+  let buf='',done=null,error=null,errText='',base=null;
   p.stdout.on('data',d=>{buf+=d;let i;while((i=buf.indexOf('\n'))>=0){const line=buf.slice(0,i).trim();buf=buf.slice(i+1);if(!line)continue;let m;try{m=JSON.parse(line)}catch(e){continue}
-   if(m.type==='progress'){const sec=(Date.now()-started)/1000,frac=m.totalChars?m.chars/m.totalChars:m.done/m.total;
-    onProgress({stage:m.stage,done:m.done,total:m.total,retries:m.retries||0,etaSec:m.stage==='synth'&&frac>0.02&&m.seconds>5?m.seconds/frac*(1-frac):null,elapsed:sec})}
+   if(m.type==='progress'){const sec=(Date.now()-started)/1000;
+    // 남은 시간은 이번에 새로 만든 글자로 잰 속도로 계산한다(이어 만들 때 미리 만들어 둔 문단을 빼야 '2분 남음' 같은 엉뚱한 값이 안 나온다)
+    if(m.stage==='synth'&&base==null)base=m.totalChars?m.chars:m.done;
+    const now=m.totalChars?m.chars:m.done,all=m.totalChars||m.total,made=now-(base||0),frac=made/Math.max(1,all-(base||0));
+    onProgress({stage:m.stage,done:m.done,total:m.total,retries:m.retries||0,etaSec:m.stage==='synth'&&frac>0.02&&m.seconds>5&&made>0?m.seconds/made*(all-now):null,elapsed:sec})}
    else if(m.type==='done')done=m;else if(m.type==='error')error=m.message}});
   p.stderr.on('data',d=>{errText=(errText+d).slice(-2000)});
   p.on('error',e=>reject(Error('음성 프로그램을 실행하지 못했습니다: '+e.message)));
