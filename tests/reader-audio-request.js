@@ -280,6 +280,10 @@ const root=path.resolve(__dirname,'..');
   const now=Date.now();buildStatus={...buildStatus,updated:now,current:{id:'b-0123456789ab',title:'앞 책',chars:100000,stage:'synth',done:50,total:100,etaSec:600,started:now-3000000},queue:[{id:prog.sid,title:'진행률 시험',chars:35000,wait:'queue'}]};
   await page.evaluate(id=>{const b=state.books.find(x=>x.id===id);b.blocks=[{kind:'paragraph',text:'가'.repeat(35000)}]},prog.bookId);
   await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 약 45분 뒤 완성');
+  // 음성 서버가 막아 실행이 멈춘 책: 실행이 끝난 뒤의 기록(current 없음)은 오래돼도 믿는다
+  buildStatus={format:'yeobaek-build-status',version:1,updated:Date.now()-3*3600000,current:null,queue:[{id:prog.sid,title:'진행률 시험',chars:35000,wait:'retry'}]};
+  await check();assert.equal(await progBadge(),'음성 서버가 잠시 막아 쉬는 중 · 만든 부분은 남아 있고 2시간 안에 이어 만듦');
+  assert.equal(await page.evaluate(()=>{const n=Date.UTC(2026,10,24,14,30),t=nextBuildRun(n);return new Date(t).toISOString()}),'2026-11-24T16:23:00.000Z','next scheduled run: even UTC hour, minute 23');
   buildStatus=null;await page.evaluate(id=>{delete audioRequests[id];return saveAudioRequests()},prog.bookId);
   // 10) 재생 기록은 GitHub 키가 있으면 오디오 저장소의 device-logs 가지(새로 만든 빈 가지)에 자동으로 올라간다(바뀐 것이 있을 때만)
   await page.evaluate(async()=>{window.__ybLogUpload=true;audioLog('기록 올리기 시험');await uploadAudioLog();await uploadAudioLog()});
