@@ -33,6 +33,9 @@ def clean(text):
     for rx, rep in CLEAN: text = rx.sub(rep, text)
     return text.strip()
 
+# 음성 서버가 잠시 막으면(몇 시간 연속 요청 등) 문단 하나를 약 20분까지 기다리며 다시 시도한다(2·4·8…초, 한 번에 최대 3분).
+RETRIES = 14
+
 LETTERS = re.compile(r'[\w가-힣]')
 def letters(s): return len(LETTERS.findall(s or ''))
 
@@ -59,7 +62,7 @@ async def fetch_all(segs, args, seg_dir):
         text = segs[i]['clean']
         path = os.path.join(seg_dir, f'{i:05d}.mp3')
         async with sem:
-            for attempt in range(8):
+            for attempt in range(RETRIES):
                 try:
                     audio, spoken = await synth_one(text, args.voice, args.rate)
                     want, got = letters(text), letters(spoken)
@@ -71,8 +74,8 @@ async def fetch_all(segs, args, seg_dir):
                     break
                 except Exception as e:
                     fails += 1
-                    await asyncio.sleep(min(60, 2 ** attempt))
-                    if attempt == 7: raise RuntimeError(f'{i + 1}번째 문단을 받지 못했습니다: {e}')
+                    if attempt == RETRIES - 1: raise RuntimeError(f'{i + 1}번째 문단을 받지 못했습니다: {e}')
+                    await asyncio.sleep(min(180, 2 ** attempt))
         done += 1; done_chars += len(text)
         now = time.time()
         if now - last > 1 or done == len(segs):

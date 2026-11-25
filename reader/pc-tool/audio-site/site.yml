@@ -7,6 +7,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '23 */2 * * *'   # 음성 서버가 막아 멈춘 책을 2시간마다 이어 만든다
 
 permissions:
   contents: write
@@ -20,6 +22,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      has: ${{ steps.inbox.outputs.has }}
     timeout-minutes: 340
     steps:
       - name: 오디오 저장소 받기(최신 main)
@@ -31,7 +35,8 @@ jobs:
       - name: 요청이 있는지 보기
         id: inbox
         run: |
-          if ls site/inbox/*.json >/dev/null 2>&1; then echo "has=1" >> "$GITHUB_OUTPUT"; else echo "has=0" >> "$GITHUB_OUTPUT"; fi
+          # 실패로 적힌 요청만 남았으면 만들 것이 없다(리더에서 다시 보내면 error가 지워진다)
+          if [ -n "$(grep -L '"error"' site/inbox/*.json 2>/dev/null)" ]; then echo "has=1" >> "$GITHUB_OUTPUT"; else echo "has=0" >> "$GITHUB_OUTPUT"; fi
       - name: 여백 작업실 엔진 받기
         if: steps.inbox.outputs.has == '1'
         uses: actions/checkout@v4
@@ -80,6 +85,7 @@ jobs:
 
   deploy:
     needs: build
+    if: github.event_name != 'schedule' || needs.build.outputs.has == '1'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment:

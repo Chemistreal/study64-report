@@ -7,6 +7,7 @@
 // - 아이폰 리더가 보낸 문단 그대로 만든다(같은 본문 해시 → 완성되면 리더가 그 책에 오디오를 붙인다).
 // - 요청 하나가 끝날 때마다 바로 올린다(원격 최신 상태 위에 얹기). 중간에 멈춰도 끝난 책은 남는다.
 // - 만드는 동안 몇 %인지 build-status 가지의 status.json 에 2분마다 적는다(리더 카드에 '서버에서 만드는 중 37%').
+// - 음성 서버가 막아 중간에 멈추면 실패로 적지 않고 이번 실행을 끝낸다. 만든 문단은 캐시에 남고, 2시간마다 도는 실행(또는 다음 push)이 이어 만든다. 더 만들지 못하고 3번 연달아 멈추면 실패로 적는다.
 // - 실패하면 요청 파일에 error를 적어 둔다(리더가 보여 주고, 같은 요청을 계속 다시 시도하지 않는다. 리더에서 다시 보내면 다시 만든다).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -40,7 +41,8 @@ async function main(){
  const queueAfter=i=>[...todo.slice(i+1).map(t=>({...brief(t),wait:'queue'})),...deferred];
  await status.update({current:null,queue:todo.map(t=>({...brief(t),wait:'queue'}))},{force:true});
  for(const [i,t] of todo.entries()){
-  await buildOne(t,i,status,deferred,queueAfter);
+  const r=await buildOne(t,i,status,deferred,queueAfter);
+  if(r==='retry'){const rest=[{...brief(t),wait:'retry'},...queueAfter(i)];await status.update({current:null,queue:rest},{force:true});log('음성 서버가 막아 이번 실행은 여기서 멈춤 — 만든 문단은 남기고 다음 실행에서 이어 만듦');break}
   await status.update({current:null,queue:queueAfter(i)},{force:true});
  }
  await status.flush();
@@ -66,12 +68,17 @@ async function buildOne(t,i,status,deferred,queueAfter){
   await status.update({current:cur,queue:queueAfter(i)},{force:true});
   let r;
   try{r=await E.synthesizeBook(book,{speed,profile,concurrency:jobs,workDir:path.join(work,id),onProgress:p=>{Object.assign(cur,{stage:p.stage,done:p.done,total:p.total,retries:p.retries||0,etaSec:Number.isFinite(p.etaSec)?Math.round(p.etaSec):null});status.update({current:cur},{force:p.stage!=='synth'});const now=Date.now();if(now-last>30000||p.stage!=='synth'){last=now;log(' ',p.stage,p.done+'/'+p.total,p.retries?'다시 받음 '+p.retries:'')}}})}
-  catch(e){await fail('오디오를 만들지 못했습니다: '+e.message);return}
+  catch(e){
+   // 지난번보다 더 만들었으면 멈춘 횟수를 다시 센다 — 아무것도 더 못 만들고 3번 연달아 멈출 때만 실패
+   const stalls=path.join(work,id+'-stalls.txt');let prev={n:0,done:-1};try{prev=JSON.parse(fs.readFileSync(stalls,'utf8'))}catch(x){}
+   const n=cur.done>prev.done?1:prev.n+1;
+   if(/번째 문단을 받지 못했습니다/.test(e.message)&&n<3){fs.mkdirSync(work,{recursive:true});fs.writeFileSync(stalls,JSON.stringify({n,done:cur.done}));log('멈춤',id,e.message,'· '+cur.done+'/'+cur.total+' · 진척 없이 '+n+'번째');return 'retry'}
+   fs.rmSync(stalls,{force:true});await fail('오디오를 만들지 못했습니다: '+e.message);return}
   const bundle=path.join(work,id,'bundle');E.writeSiteBundle(book,r,bundle);
   const entry={id,title:book.title,description:'현수 목소리 · '+speed+'배속',manifest:'books/'+id+'/book.json',bytes:r.bytes,duration:r.duration,chars:book.chars,speed,profile,published:Date.now(),source:'iphone'};
   await push('현수 오디오: '+book.title.slice(0,60),dir=>{P.mirrorDir(bundle,path.join(dir,'books',id));P.upsertShelf(dir,entry);fs.rmSync(path.join(dir,'inbox',t.file),{force:true})});
   log('완료',id,(r.duration/60).toFixed(1)+'분 오디오',(r.bytes/1048576).toFixed(1)+'MB',((Date.now()-started)/60000).toFixed(1)+'분 걸림');
-  fs.rmSync(path.join(work,id),{recursive:true,force:true});
+  fs.rmSync(path.join(work,id),{recursive:true,force:true});fs.rmSync(path.join(work,id+'-stalls.txt'),{force:true});
  }
 }
 main().catch(e=>{console.error('오류:',e?.stack||e);process.exit(1)});
