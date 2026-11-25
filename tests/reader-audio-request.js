@@ -276,10 +276,12 @@ const root=path.resolve(__dirname,'..');
   await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 앞 책을 받으면 시작');
   buildStatus={...buildStatus,updated:Date.now()-3600000,current:{id:prog.sid,stage:'synth',done:50,total:100},queue:[]};
   await check();assert.match(await progBadge(),/^현수 오디오 (만드는 중 · (약 \d+분 남음|곧 완성)|차례 기다림 · 약 \d+분 뒤 완성)\(어림\)$/,'a stale record (stopped run) is not trusted: the time left is guessed from the length');
-  // 기다리는 책: 지금 책의 남은 시간 + 앞 책들을 지금 책에서 잰 속도로 만든 시간 → '약 45분 뒤 완성'
+  // 기다리는 책: 지금 책의 남은 시간 + 앞 책들을 서버가 낸 속도로 만든 시간 → '약 17분 뒤 완성'
   const now=Date.now();buildStatus={...buildStatus,updated:now,current:{id:'b-0123456789ab',title:'앞 책',chars:100000,stage:'synth',done:50,total:100,etaSec:600,started:now-3000000},queue:[{id:prog.sid,title:'진행률 시험',chars:35000,wait:'queue'}]};
   await page.evaluate(id=>{const b=state.books.find(x=>x.id===id);b.blocks=[{kind:'paragraph',text:'가'.repeat(35000)}]},prog.bookId);
-  await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 약 45분 뒤 완성');
+  await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 약 17분 뒤 완성','speed comes from the server ETA: 50,000 chars in 600 s, then 35,000 chars');
+  // 엉터리 남은 시간(이어 만들 때 예전 서버 코드가 미리 만든 문단까지 세서 1초에 300자 넘게 나옴)은 버리고 어림 속도로
+  buildStatus={...buildStatus,updated:Date.now(),current:{...buildStatus.current,etaSec:60}};await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 약 24분 뒤 완성(어림)');
   // 음성 서버가 막아 실행이 멈춘 책: 실행이 끝난 뒤의 기록(current 없음)은 오래돼도 믿는다
   buildStatus={format:'yeobaek-build-status',version:1,updated:Date.now()-3*3600000,current:null,queue:[{id:prog.sid,title:'진행률 시험',chars:35000,wait:'retry'}]};
   await check();assert.equal(await progBadge(),'음성 서버가 잠시 막아 쉬는 중 · 만든 부분은 남아 있고 2시간 안에 이어 만듦');
