@@ -936,10 +936,11 @@ function planBuildEtas(status){
  if(!pending.length)return;
  const byId=new Map(pending.map(r=>[r.id,r])),fresh=status&&now-(Number(status.updated)||0)<20*60000,c=fresh?status.current:null;
  let cps=BUILD_GUESS_CPS,t=now,guess=true,bytes=0;for(const r of Object.values(audioRequests))if(r.ready&&!r.upgrade)bytes+=Number(r.bytes)||0;   // 다 만들었지만 폰이 아직 안 받아 간 책이 서버 자리를 차지한다
- if(c){const total=Number(c.total)||0,done=Number(c.done)||0,chars=Number(c.chars)||0,spent=((Number(status.updated)||now)-(Number(c.started)||now))/1000;
-  if(done>0&&spent>60&&chars)cps=Math.max(1,chars*done/Math.max(total,1)/spent);
-  const left=Number.isFinite(c.etaSec)?c.etaSec:chars?chars*(1-done/Math.max(total,1))/cps:0;
-  t=(Number(status.updated)||now)+left*1000;guess=!Number.isFinite(c.etaSec)&&!(done>0&&spent>60);bytes+=chars*BUILD_BYTES_PER_CHAR;
+ if(c){const total=Number(c.total)||0,done=Number(c.done)||0,chars=Number(c.chars)||0;
+  // 속도는 서버가 낸 남은 시간에서 얻는다(이어 만들 때 미리 만든 문단이 섞이지 않은 값). 믿을 수 없으면 어림 속도
+  const rest=chars*(1-done/Math.max(total,1)),okEta=Number.isFinite(c.etaSec)&&!(c.etaSec>0&&rest/c.etaSec>300)&&!(c.etaSec<=0&&rest>3000);   // 1초에 300자 넘게 만든다는 남은 시간은 엉터리(이어 만들 때 예전 서버 코드가 미리 만든 문단까지 세던 값)
+  if(okEta&&c.etaSec>0&&rest>0)cps=Math.max(1,rest/c.etaSec);const left=okEta?c.etaSec:chars?rest/cps:0;
+  t=(Number(status.updated)||now)+left*1000;guess=!okEta;bytes+=chars*BUILD_BYTES_PER_CHAR;
   const r=byId.get(c.id);if(r){r.build={stage:String(c.stage||''),pct:total?Math.min(99,Math.floor(100*done/total)):0,finishAt:t,guess};byId.delete(c.id)}
  }
  // 서버 기록의 기다리는 순서 → 기록에 아직 없는 요청(방금 보낸 것)은 짧은 것부터 뒤에
