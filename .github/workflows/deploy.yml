@@ -39,6 +39,22 @@ jobs:
           path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages-${{ github.run_attempt }}
+      # GitHub Pages가 '결과물을 찾지 못함'·'나중에 다시 시도'로 자주 실패한다(2026-11). 1분 쉬고 새 이름으로 다시 올려 한 번 더 배포한다.
+      - name: Wait before retrying the deploy
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 60
+      - name: Upload artifact again
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages-${{ github.run_attempt }}-retry
+          path: '.'
+      - name: Deploy to GitHub Pages (retry)
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}-retry

@@ -99,6 +99,25 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
+          name: github-pages-${{ github.run_attempt }}
           path: '.'
       - id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
+      # GitHub Pages가 '결과물을 찾지 못함'·'나중에 다시 시도'로 자주 실패한다(2026-11). 실패하면 만든 오디오가 폰에 안 보이므로, 1분 쉬고 새 이름으로 다시 올려 한 번 더 배포한다.
+      - name: 배포 다시 시도 전 쉬기
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 60
+      - name: 다시 올리기
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages-${{ github.run_attempt }}-retry
+          path: '.'
+      - name: 다시 배포
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}-retry
