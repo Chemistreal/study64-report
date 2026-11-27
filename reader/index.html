@@ -517,7 +517,7 @@ function primePlaybackFromTap(){
 
 // 서재 카드에 AI 음성 준비 상태를 붙인다(재생할 오디오가 이미 있는지, 만드는 중인지).
 async function refreshAudioIds(){if(!state.db)return;try{const keys=await storeReq('audio','readonly',store=>store.getAllKeys());const next=new Set(keys.map(String));const same=next.size===state.audioIds.size&&[...next].every(k=>state.audioIds.has(k));state.audioIds=next;if(!same)updateBookBadges()}catch(e){}}
-function bookAudioBadge(id){const r=audioRequests[id];if(state.audioIds.has(id)&&!(r?.upgrade&&!r.error&&(r.ready||Number.isFinite(r.progress))))return {cls:'ready',text:'오디오 준비됨 · 바로 듣기'+(r?.rebuild?(r.error?' · 새 발음 만들기 실패':' · 새 발음 '+(r.build?.pct!=null?r.build.pct+'%':r.build?.wait?'차례 기다림':'만드는 중')):'')};if(!r)return null;if(r.error)return {cls:'failed',text:'현수 오디오 실패 · 책 관리에서 다시 보내기'};if(Number.isFinite(r.progress))return {cls:'working',text:'현수 오디오 받는 중 '+r.progress+'%'};return r.ready?{cls:'download',text:'⬇ 현수 오디오 받기'+(Number(r.bytes)?' · '+Math.max(1,Math.round(Number(r.bytes)/1048576))+'MB':''),onclick:()=>downloadRequestedAudio(id)}:{cls:'working',text:buildBadgeText(r.build)}}
+function bookAudioBadge(id){const r=audioRequests[id];if(state.audioIds.has(id)&&!(r?.upgrade&&!r.error&&(r.ready||Number.isFinite(r.progress))))return {cls:'ready',text:'오디오 준비됨 · 바로 듣기'+(r?.rebuild?(r.error?' · 새 발음 만들기 실패':' · 새 발음 '+(r.build?.pct!=null?r.build.pct+'%':r.build?.ready?'다 만들어 둠':r.build?.wait?'차례 기다림':'만드는 중')):'')};if(!r)return null;if(r.error)return {cls:'failed',text:'현수 오디오 실패 · 책 관리에서 다시 보내기'};if(Number.isFinite(r.progress))return {cls:'working',text:'현수 오디오 받는 중 '+r.progress+'%'};return r.ready?{cls:'download',text:'⬇ 현수 오디오 받기'+(Number(r.bytes)?' · '+Math.max(1,Math.round(Number(r.bytes)/1048576))+'MB':''),onclick:()=>downloadRequestedAudio(id)}:{cls:'working',text:buildBadgeText(r.build)}}
 function updateBookBadges(){for(const card of document.querySelectorAll('#bookGrid .book-card[data-book-id]')){const el=card.querySelector('.book-audio');if(!el)continue;const badge=bookAudioBadge(card.dataset.bookId);el.hidden=!badge;if(badge){el.className='book-audio '+badge.cls;el.textContent=badge.text.trim();const act=badge.onclick&&!selectMode;el.onclick=act?e=>{e.stopPropagation();badge.onclick()}:null;if(act){el.setAttribute('role','button');el.tabIndex=0}else{el.removeAttribute('role');el.removeAttribute('tabindex')}}}}
 // 이전 버전은 AI 오디오를 44.1kHz·48kbps MP3로 만들었는데, lamejs가 이 조합에서 소리를 거의 비워 버렸다.
 // lamejs가 그때 몰래 32kHz로 바꿔 저장했으므로, MP3 첫 프레임 머리가 MPEG-1·32kHz인 AI 오디오를 찾아 지우고 다시 만들게 한다.
@@ -961,14 +961,14 @@ function planBuildEtas(status){
   const r=byId.get(c.id);if(r){r.build={stage:String(c.stage||''),pct:total?Math.min(99,Math.floor(100*done/total)):0,finishAt:t,guess};byId.delete(c.id)}
  }
  // 서버 기록의 기다리는 순서 → 기록에 아직 없는 요청(방금 보낸 것)은 짧은 것부터 뒤에
- const order=[];if(fresh||status)for(const q of status?.queue||[]){const r=byId.get(q.id);if(r){const hold=fresh||!status.current;r._space=q.wait==='space'&&hold;r._retry=q.wait==='retry'&&hold;order.push(r);byId.delete(q.id)}}
+ const order=[];if(fresh||status)for(const q of status?.queue||[]){const r=byId.get(q.id);if(r){const hold=fresh||!status.current;r._space=q.wait==='space'&&hold;r._ready=!!q.ready;r._retry=q.wait==='retry'&&hold;order.push(r);byId.delete(q.id)}}
  order.push(...[...byId.values()].sort((x,y)=>x.chars-y.chars||(x.requested||0)-(y.requested||0)));
  if(!c&&order.length){const first=Math.min(...order.map(r=>Number(r.requested)||now));t=Math.max(now,first)}   // 기록이 없으면 첫 요청을 보낸 때부터 만들기 시작했다고 친다
  let started=!c;
  for(const r of order){
   const need=r.chars*BUILD_BYTES_PER_CHAR;
   if(r._retry){delete r._retry;delete r._space;r.build={wait:'retry'};t=Math.max(t,nextBuildRun(now));bytes+=need;t+=r.chars/cps*1000;continue}
-  if(r._space||bytes&&bytes+need>BUILD_SPACE_BYTES){delete r._space;r.build={wait:'space'};continue}
+  if(r._space||bytes&&bytes+need>BUILD_SPACE_BYTES){r.build={wait:'space',ready:!!(r._space&&r._ready)};delete r._space;delete r._ready;continue}
   bytes+=need;t+=r.chars/cps*1000;
   if(started){r.build={stage:'synth',pct:null,finishAt:Math.max(t,now+60000),guess:true};started=false}else r.build={wait:'queue',finishAt:t,guess:guess||cps===BUILD_GUESS_CPS}
  }
@@ -979,7 +979,7 @@ function fmtBuildLeft(ms){const m=Math.max(1,Math.round(ms/60000));return m>=60?
 function buildBadgeText(info){
  if(!info)return '현수 오디오 만드는 중';
  const left=Number.isFinite(info.finishAt)?info.finishAt-Date.now():null,g=info.guess?'(어림)':'';
- if(info.wait==='space')return '현수 오디오 차례 기다림 · 앞 책을 받으면 시작';
+ if(info.wait==='space')return info.ready?'현수 오디오 다 만들어 둠 · 앞 책을 받으면 바로 올라옴':'현수 오디오 차례 기다림 · 앞 책을 받으면 시작';
  if(info.wait==='retry')return '음성 서버가 잠시 막아 쉬는 중 · 만든 부분은 남아 있고 2시간 안에 이어 만듦';
  if(info.wait)return '현수 오디오 차례 기다림'+(left!=null?' · 약 '+fmtBuildLeft(left)+' 뒤 완성'+g:'');
  if(info.stage&&!['start','synth'].includes(info.stage))return '서버에서 마무리 중';

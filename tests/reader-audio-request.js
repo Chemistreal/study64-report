@@ -275,6 +275,8 @@ const root=path.resolve(__dirname,'..');
   buildStatus={...buildStatus,current:{id:prog.sid,stage:'join',done:100,total:100}};await check();assert.equal(await progBadge(),'서버에서 마무리 중');
   buildStatus={...buildStatus,current:null,queue:[{id:prog.sid,title:'진행률 시험',wait:'space'}]};
   await check();assert.equal(await progBadge(),'현수 오디오 차례 기다림 · 앞 책을 받으면 시작');
+  buildStatus={...buildStatus,queue:[{id:prog.sid,title:'진행률 시험',wait:'space',ready:true}]};
+  await check();assert.equal(await progBadge(),'현수 오디오 다 만들어 둠 · 앞 책을 받으면 바로 올라옴','a book built ahead while the server is full waits only for space');
   buildStatus={...buildStatus,updated:Date.now()-3600000,current:{id:prog.sid,stage:'synth',done:50,total:100},queue:[]};
   await check();assert.match(await progBadge(),/^현수 오디오 (만드는 중 · (약 \d+분 남음|곧 완성)|차례 기다림 · 약 \d+분 뒤 완성)\(어림\)$/,'a stale record (stopped run) is not trusted: the time left is guessed from the length');
   // 기다리는 책: 지금 책의 남은 시간 + 앞 책들을 서버가 낸 속도로 만든 시간 → '약 17분 뒤 완성'
