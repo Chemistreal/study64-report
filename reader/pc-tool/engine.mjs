@@ -76,13 +76,15 @@ export function checkSetup(){
 }
 
 // ── 책 한 권 만들기 ────────────────────────────────────
-const keyOf=(book,o)=>[book.hash,VOICE.id,o.speed,o.profile,'edge1'].join('|');
+// 발음 사전·규칙(pronounce.txt·pronounce.py)이 바뀌면 받아 둔 문단도 다시 받는다 — 안 그러면 '새 발음으로 다시 만들기'가 예전 소리를 그대로 잇는다.
+export function pronounceKey(){const h=crypto.createHash('sha1');for(const f of ['pronounce.py','pronounce.txt']){try{h.update(fs.readFileSync(path.join(HERE,f),'utf8').replace(/\r\n/g,'\n'))}catch(e){h.update('-')}}return h.digest('hex').slice(0,12)}
+const keyOf=(book,o)=>[book.hash,VOICE.id,o.speed,o.profile,'edge1',pronounceKey()].join('|');
 const aborted=()=>Object.assign(Error('멈췄습니다. 다시 시작하면 받은 데서 이어서 만듭니다.'),{name:'AbortError'});
 export async function synthesizeBook(book,{speed=DEFAULTS.speed,profile=DEFAULTS.profile,concurrency=DEFAULTS.concurrency,workDir,onProgress=()=>{},signal}={}){
  const prof=PROFILES[profile]||PROFILES.small,key=keyOf(book,{speed,profile});
  fs.mkdirSync(workDir,{recursive:true});
- // 속도가 바뀌면 받아 둔 문단을 버린다(용량 단계만 바뀌면 받은 문단은 그대로 쓰고 잇기만 다시 한다).
- const segKey=[book.hash,VOICE.id,speed].join('|'),segKeyFile=path.join(workDir,'seg-key.txt');
+ // 속도나 발음 사전이 바뀌면 받아 둔 문단을 버린다(용량 단계만 바뀌면 받은 문단은 그대로 쓰고 잇기만 다시 한다).
+ const segKey=[book.hash,VOICE.id,speed,pronounceKey()].join('|'),segKeyFile=path.join(workDir,'seg-key.txt');
  let old='';try{old=fs.readFileSync(segKeyFile,'utf8')}catch(e){}
  if(old!==segKey){fs.rmSync(path.join(workDir,'seg'),{recursive:true,force:true});fs.writeFileSync(segKeyFile,segKey)}
  const segments=book.blocks.map((b,i)=>({block:i,text:b.text})).filter(s=>s.text.trim());

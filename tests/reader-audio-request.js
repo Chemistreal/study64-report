@@ -123,6 +123,7 @@ const root=path.resolve(__dirname,'..');
   await page.waitForFunction(id=>state.audioIds.has(id),huge.bookId,{timeout:10000});
   await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-card')].some(c=>/아주 큰 합본/.test(c.textContent)&&/오디오 준비됨/.test(c.querySelector('.book-audio')?.textContent||'')),null,{timeout:5000});   // 카드 표시는 받기가 끝난 직후(finally)에 바뀐다
   await page.evaluate(()=>{delete window.__ybAutoAudioMaxBytes});
+  assert.equal(await page.evaluate(()=>autoAudioMaxBytes()),Infinity,'by default audio of any size downloads by itself (no tap on the card)');
   const big=await mk('큰 묶음 책',5000),small=await mk('작은 강의',1200);
   const hang=new RegExp('/yeobaek-audio/books/'+big.sid+'/audio\\.\\d+\\.mp3');
   const hangMatch=u=>hang.test(u.pathname);
@@ -287,6 +288,31 @@ const root=path.resolve(__dirname,'..');
   await check();assert.equal(await progBadge(),'음성 서버가 잠시 막아 쉬는 중 · 만든 부분은 남아 있고 2시간 안에 이어 만듦');
   assert.equal(await page.evaluate(()=>{const n=Date.UTC(2026,10,24,14,30),t=nextBuildRun(n);return new Date(t).toISOString()}),'2026-11-24T16:23:00.000Z','next scheduled run: even UTC hour, minute 23');
   buildStatus=null;await page.evaluate(id=>{delete audioRequests[id];return saveAudioRequests()},prog.bookId);
+  // 13) 설정 → '모든 책 새 발음으로 다시 만들기': 현수 오디오가 있는 책(다시 만드는 중인 것은 빼고)을 -hq로 다시 보낸다.
+  //     서버 목록에 예전 -hq가 있어도 다시 만들게 보내고, 다 되면 같은 책에 바꿔 끼운다. 읽던 문단은 그대로.
+  const rbExpect=await page.evaluate(async()=>{const recs=(await storeReq('audio','readonly',s=>s.getAll())).filter(a=>a.aiVoice==='Hyunsu');return recs.map(a=>state.books.find(x=>x.id===a.id)).filter(x=>x&&!(audioRequests[x.id]&&!audioRequests[x.id].error)).map(x=>x.id)});
+  assert.ok(rbExpect.includes(bookId),'the book with Hyunsu audio is a target');
+  await page.evaluate(async id=>{const x=state.books.find(y=>y.id===id);x.index=1;await dbPut(x)},bookId);   // 둘째 문단까지 읽음
+  const rbFrom=puts.length;
+  await page.evaluate(()=>{openLayer('#settingsDrawer');$('#audioBookSetting').scrollIntoView()});
+  await page.locator('#rebuildAllAudioBtn').click();
+  await page.waitForFunction(n=>Object.values(audioRequests).filter(r=>r.rebuild).length>=n,rbExpect.length,{timeout:10000});
+  await page.evaluate(()=>closeLayers());
+  const rbPuts=puts.slice(rbFrom);
+  assert.equal(rbPuts.length,rbExpect.length,'every Hyunsu book that is not already being remade is sent');
+  assert.ok(rbPuts.every(x=>/^b-[0-9a-f]{12}-hq$/.test(x.id)),'remakes use the -hq name: '+rbPuts.map(x=>x.id));
+  assert.ok(rbPuts.some(x=>x.id===sent.id+'-hq'));
+  await page.evaluate(()=>checkAudioRequests());
+  assert.match(await badge('요청 시험').textContent(),/^오디오 준비됨 · 바로 듣기 · 새 발음 /,'the card keeps the current audio and says it is being remade');
+  const nbBytes=Buffer.from(Array.from({length:4200},(_,i)=>(i*13+1)%251)),nbMp3=path.join(tmp,'newpron.mp3');fss.writeFileSync(nbMp3,nbBytes);
+  E.writeSiteBundle(expected,{mp3:nbMp3,marks:expected.blocks.map((x,i)=>[i,i*2]),duration:6,bytes:nbBytes.length,speed:1.5,profile:'high'},path.join(site,'books',sent.id+'-hq'),{partBytes:1000});
+  P.upsertShelf(site,{id:sent.id+'-hq',title:expected.title,manifest:'books/'+sent.id+'-hq/book.json',bytes:nbBytes.length,duration:6,speed:1.5,profile:'high',source:'iphone'});
+  const head13=gitHead;await page.evaluate(()=>{window.__ybAutoAudioMaxBytes=100;audioPolling=false;return checkAudioRequests({first:null})});
+  await page.waitForFunction(async id=>(await storeReq('audio','readonly',s=>s.get(id)))?.blob?.size===4200,bookId,{timeout:15000});
+  for(let i=0;i<80&&gitHead===head13;i++)await new Promise(r=>setTimeout(r,100));   // 받은 -hq를 서버에서 지우는 기록까지 끝난 뒤
+  const kept=await page.evaluate(id=>({index:state.books.find(x=>x.id===id).index,pending:!!audioRequests[id]}),bookId);
+  assert.deepEqual(kept,{index:1,pending:false},'the new audio replaces the old one and the reading position stays');
+  await page.evaluate(()=>{delete window.__ybAutoAudioMaxBytes});
   // 10) 재생 기록은 GitHub 키가 있으면 오디오 저장소의 device-logs 가지(새로 만든 빈 가지)에 자동으로 올라간다(바뀐 것이 있을 때만)
   await page.evaluate(async()=>{window.__ybLogUpload=true;audioLog('기록 올리기 시험');await uploadAudioLog();await uploadAudioLog()});
   assert.equal(logPuts.length,1,'uploaded once (the second call has nothing new)');
@@ -295,6 +321,6 @@ const root=path.resolve(__dirname,'..');
   assert.equal(logRefs[0]?.ref,'refs/heads/device-logs','the log branch is created');
   assert.deepEqual(gitTrees[gitTrees.length-1].base_tree,undefined,'the log branch starts empty (no copy of the audio books)');
   assert.deepEqual(errors,[]);
-  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 너무 긴 책은 (1/n)…으로 나눠 보내기 · 서버 진행률(%·남은 시간·기다리는 책의 완성 예상·기록 없을 때 어림·차례 기다림) · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
+  console.log('여백 현수 오디오 요청: 키 저장(설정·백업 제외) · 책 관리에서 요청 · 같은 해시 · 만드는 중 표시 · 완성되면 자동으로 붙음 · 받은 뒤 서버에서 지움(추천 글은 남김) · 큰 것은 카드 받기 버튼 · 작은 것부터·멈춘 받기 다시·책 관리에서 바로 받기 · 실패 표시와 다시 보내기 · 너무 긴 책은 (1/n)…으로 나눠 보내기 · 서버 진행률(%·남은 시간·기다리는 책의 완성 예상·기록 없을 때 어림·차례 기다림) · 모든 책 새 발음으로 다시 만들기(읽던 자리 그대로) · 여러 권 · 자동 만들기 · 만료된 키 · 원음으로 알아서 다시 받기(-hq 요청·다시 잇기·조각 이어 붙이기·바꿔 끼우기·서버에서 지움) · 잠금 화면에서 듣는 동안 받기(듣지 않으면 쉼·듣는 책은 멈춘 뒤 바꿈·받던 것 이어 감) PASS');
  }finally{if(browser)await browser.close();server.close();await fs.rm(tmp,{recursive:true,force:true})}
 })().catch(e=>{console.error(e);process.exit(1)});
