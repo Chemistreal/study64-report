@@ -9,6 +9,7 @@
 // - 만드는 동안 몇 %인지 build-status 가지의 status.json 에 2분마다 적는다(리더 카드에 '서버에서 만드는 중 37%').
 // - 음성 서버가 막아 중간에 멈추면 실패로 적지 않고 이번 실행을 끝낸다. 만든 문단은 캐시에 남고, 2시간마다 도는 실행(또는 다음 push)이 이어 만든다. 더 만들지 못하고 3번 연달아 멈추면 실패로 적는다.
 // - 저장소(1GB)에 자리가 없으면 그 책도 미리 다 만들어 캐시에 두고, 앞 책을 아이폰이 받아 가 자리가 나면 곧바로 올린다(status 의 wait:'space', ready:true).
+// - 한 번 실행은 YEOBAEK_BUDGET_MIN분까지만 만든다. 다 되면 멈추고(more=1) 사이트를 배포한 뒤 워크플로가 자기를 다시 불러 이어 만든다 — 5시간 제한에 걸려 실패하면 배포가 건너뛰어져 폰에 아무것도 안 보였다(2026-11-25~28).
 // - 실패하면 요청 파일에 error를 적어 둔다(리더가 보여 주고, 같은 요청을 계속 다시 시도하지 않는다. 리더에서 다시 보내면 다시 만든다).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,6 +21,10 @@ import {makeStatusWriter} from './build-status.mjs';
 const args=process.argv.slice(2),arg=(k,d)=>{const i=args.indexOf(k);return i>=0?args[i+1]:d};
 const site=path.resolve(arg('--site','site')),jobs=Math.max(1,Math.min(16,Number(arg('--jobs',10))||10));
 const work=path.join(process.env.RUNNER_TEMP||os.tmpdir(),'yeobaek-work');
+// 한 번 실행에 쓸 시간(분, YEOBAEK_BUDGET_MIN). 다 되면 만들던 책은 캐시에 남기고 멈춘다 — 그래야 실행이 정상으로 끝나 사이트가 배포되고(폰에 보임), 다음 실행이 곧바로 이어 만든다.
+const budgetMin=Number(process.env.YEOBAEK_BUDGET_MIN)||0,timeUp=new AbortController();
+if(budgetMin>0)setTimeout(()=>timeUp.abort(),budgetMin*60000).unref();
+const setOutput=(k,v)=>{if(process.env.GITHUB_OUTPUT)fs.appendFileSync(process.env.GITHUB_OUTPUT,k+'='+v+'\n')};
 const log=(...m)=>console.log(new Date().toISOString().slice(11,19),...m);
 
 const reqChars=t=>Array.isArray(t.req?.blocks)?t.req.blocks.reduce((n,b)=>n+String(b?.text||'').length,0):0;
@@ -45,7 +50,9 @@ async function main(){
  const queueAfter=i=>[...todo.slice(i+1).map(t=>({...brief(t),wait:'queue'})),...deferred];
  await status.update({current:null,queue:todo.map(t=>({...brief(t),wait:'queue'}))},{force:true});
  for(const [i,t] of todo.entries()){
+  if(timeUp.signal.aborted){await status.update({current:null,queue:[{...brief(t),wait:'queue'},...queueAfter(i)]},{force:true});log('이번 실행 시간이 다 됨 — 남은 요청은 다음 실행에서');setOutput('more','1');break}
   const r=await buildOne(t,i,status,deferred,queueAfter);
+  if(r==='time'){await status.update({current:null,queue:[{...brief(t),wait:'queue'},...queueAfter(i)]},{force:true});log('이번 실행 시간('+budgetMin+'분)이 다 되어 여기서 멈춤 — 사이트를 배포하고 다음 실행이 이어 만듦');setOutput('more','1');break}
   if(r==='retry'){const rest=[{...brief(t),wait:'retry'},...queueAfter(i)];await status.update({current:null,queue:rest},{force:true});log('음성 서버가 막아 이번 실행은 여기서 멈춤 — 만든 문단은 남기고 다음 실행에서 이어 만듦');break}
   await status.update({current:null,queue:queueAfter(i)},{force:true});
  }
@@ -74,8 +81,9 @@ async function buildOne(t,i,status,deferred,queueAfter){
   const cur={...brief(t),stage:'start',done:0,total:book.blocks.length,retries:0,etaSec:null,started};
   await status.update({current:cur,queue:queueAfter(i)},{force:true});
   let r;
-  try{r=await E.synthesizeBook(book,{speed,profile,concurrency:jobs,workDir:path.join(work,id),onProgress:p=>{Object.assign(cur,{stage:p.stage,done:p.done,total:p.total,retries:p.retries||0,etaSec:Number.isFinite(p.etaSec)?Math.round(p.etaSec):null});status.update({current:cur},{force:p.stage!=='synth'});const now=Date.now();if(now-last>30000||p.stage!=='synth'){last=now;log(' ',p.stage,p.done+'/'+p.total,p.retries?'다시 받음 '+p.retries:'')}}})}
+  try{r=await E.synthesizeBook(book,{speed,profile,concurrency:jobs,workDir:path.join(work,id),signal:timeUp.signal,onProgress:p=>{Object.assign(cur,{stage:p.stage,done:p.done,total:p.total,retries:p.retries||0,etaSec:Number.isFinite(p.etaSec)?Math.round(p.etaSec):null});status.update({current:cur},{force:p.stage!=='synth'});const now=Date.now();if(now-last>30000||p.stage!=='synth'){last=now;log(' ',p.stage,p.done+'/'+p.total,p.retries?'다시 받음 '+p.retries:'')}}})}
   catch(e){
+   if(timeUp.signal.aborted){log('시간이 다 되어 멈춤',id,cur.done+'/'+cur.total,'· 만든 문단은 캐시에 남음');return 'time'}
    // 지난번보다 더 만들었으면 멈춘 횟수를 다시 센다 — 아무것도 더 못 만들고 3번 연달아 멈출 때만 실패
    const stalls=path.join(work,id+'-stalls.txt');let prev={n:0,done:-1};try{prev=JSON.parse(fs.readFileSync(stalls,'utf8'))}catch(x){}
    const n=cur.done>prev.done?1:prev.n+1;

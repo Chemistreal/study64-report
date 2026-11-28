@@ -7,11 +7,17 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      budget:
+        description: '이번 실행에서 만들 시간(분). 1이면 곧바로 배포만 하고 다음 실행이 이어 만든다'
+        required: false
+        default: '90'
   schedule:
     - cron: '23 */2 * * *'   # 음성 서버가 막아 멈춘 책을 2시간마다 이어 만든다
 
 permissions:
   contents: write
+  actions: write   # 시간이 다 되어 멈추면 배포 뒤 이 워크플로를 다시 불러 이어 만든다
   pages: write
   id-token: write
 
@@ -24,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       has: ${{ steps.inbox.outputs.has }}
+      more: ${{ steps.make.outputs.more }}
     timeout-minutes: 340
     steps:
       - name: 오디오 저장소 받기(최신 main)
@@ -68,7 +75,11 @@ jobs:
         id: make
         if: steps.inbox.outputs.has == '1'
         timeout-minutes: 300
+        # 한 번에 90분까지만 만들고 멈춘다(more=1) → 실행이 정상으로 끝나 배포되어 폰에 다 된 책이 보이고, 배포 뒤 다시 불려 이어 만든다.
+        # 2026-11-25~28: 5시간 제한에 걸려 실패로 끝나면 배포가 건너뛰어져 다 만든 책 7권이 폰에 안 보였다. 그래도 죽으면 배포는 하도록 continue-on-error.
+        continue-on-error: true
         env:
+          YEOBAEK_BUDGET_MIN: ${{ github.event.inputs.budget || '90' }}
           YEOBAEK_PYTHON: python
           YEOBAEK_STUDIO_DIR: ${{ runner.temp }}/yeobaek
           GITHUB_TOKEN: ${{ github.token }}   # 진행률을 build-status 가지에 적는다(리더가 읽음)
@@ -126,3 +137,9 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages-${{ github.run_attempt }}
+      # 시간이 다 되어 멈췄으면(만들 책이 남음) 배포가 끝난 뒤 곧바로 다음 실행을 부른다 — 2시간마다 오는 예약 실행을 기다리지 않게
+      - name: 남은 책 이어 만들기 부르기
+        if: always() && needs.build.outputs.more == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run site.yml -R "$GITHUB_REPOSITORY" --ref main
