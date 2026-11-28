@@ -1,0 +1,62 @@
+# 여백 오디오 저장소의 사이트 배포. PC 작업실(publish.mjs)이 이 파일을 저장소에 넣는다 — 저장소에서 직접 고치지 마세요.
+# - site.yml이 실행 끝에 부르고(workflow_call), 서버가 책을 올릴 때마다 inbox-build.mjs가 곧바로 부르고(workflow_dispatch),
+#   아이폰이 받은 책을 지우거나 요청을 보내면(push) 배포한다. 오디오를 만드는 실행(최대 90분)과 따로 돌아서 기다리지 않는다.
+name: 사이트 배포
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # 배포는 한 번에 하나: 뒤에 온 것만 기다리게 남는다(늘 최신 main을 받으므로 마지막 배포에 다 들어간다)
+    concurrency:
+      group: yeobaek-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+          path: '.'
+      - id: deployment
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+      # GitHub Pages가 방금 올린 결과물을 '0개'로 보거나('No artifacts named … were found') '나중에 다시 시도'로 실패한다(2026-11, 올리기는 성공).
+      # 목록에 늦게 잡히는 것이라 다시 올리지 않고, 기다렸다가 같은 결과물로 두 번까지 다시 배포한다.
+      - name: 배포 다시 시도 전 쉬기(1분)
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 60
+      - name: 다시 배포
+        id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: 한 번 더 쉬기(2분)
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
+        run: sleep 120
+      - name: 마지막으로 다시 배포
+        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}

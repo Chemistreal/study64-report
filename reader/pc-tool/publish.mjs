@@ -9,6 +9,7 @@
 //   books/<id>/원문.md              원문
 //   inbox/<id>.json                아이폰 리더가 보낸 '현수 오디오 만들어 줘' 요청(글 문단). Actions가 만들고 지운다. 실패하면 error를 적어 둔다.
 //   .github/workflows/site.yml     요청을 만들고 사이트를 배포하는 워크플로(audio-site/site.yml에서 복사)
+//   .github/workflows/pages.yml    사이트 배포만 하는 워크플로(audio-site/pages.yml에서 복사, site.yml과 inbox-build.mjs가 부름)
 //
 // 올리기 = '원격 최신 상태 위에 바꿀 것만 얹기'. 그 사이 원격이 바뀌면(아이폰 요청·Actions 완성) 다시 받아 다시 얹는다.
 // PC에서는 기록을 한 장으로 다시 써서(squash) 지운 오디오가 저장소 기록에 쌓이지 않게 한다.
@@ -20,6 +21,7 @@ import {fileURLToPath} from 'node:url';
 
 const HERE=path.dirname(fileURLToPath(import.meta.url));
 export const WORKFLOW_SRC=path.join(HERE,'audio-site','site.yml');
+export const WORKFLOW_FILES=['site.yml','pages.yml'];
 export const DEFAULT_TARGET={owner:'Chemistreal',repo:'yeobaek-audio'};
 export const PAGES_SOFT_LIMIT=950*1024*1024;   // GitHub Pages 사이트 한도 1GB 앞에서 멈춘다
 export const GH_AUTH=['-c','credential.helper=','-c','credential.helper=!gh auth git-credential'];   // 이 명령에서만 gh 로그인을 쓴다(전역 설정은 안 바꾼다)
@@ -93,7 +95,7 @@ export async function syncPush({gitDir,remoteUrl,mutate,message,squash=true,auth
   fs.writeFileSync(path.join(gitDir,'.nojekyll'),'');
   fs.writeFileSync(path.join(gitDir,'README.md'),README(target));
   fs.writeFileSync(path.join(gitDir,'.gitattributes'),'* -text\n');
-  if(workflow&&fs.existsSync(WORKFLOW_SRC)){fs.mkdirSync(path.join(gitDir,'.github','workflows'),{recursive:true});fs.copyFileSync(WORKFLOW_SRC,path.join(gitDir,'.github','workflows','site.yml'))}
+  if(workflow&&fs.existsSync(WORKFLOW_SRC)){fs.mkdirSync(path.join(gitDir,'.github','workflows'),{recursive:true});for(const f of WORKFLOW_FILES){const src=path.join(HERE,'audio-site',f);if(fs.existsSync(src))fs.copyFileSync(src,path.join(gitDir,'.github','workflows',f))}}
   const bytes=dirBytes(gitDir);
   if(bytes>PAGES_SOFT_LIMIT)throw Error('오디오 저장소가 '+Math.round(bytes/1048576)+'MB로 GitHub Pages 한도(1GB)에 너무 가깝습니다. 오래된 책을 사이트에서 내린 뒤 다시 올려 주세요.');
   const name=(await run('git',['config','user.name'],{cwd:gitDir,allowFail:true})).stdout,email=(await run('git',['config','user.email'],{cwd:gitDir,allowFail:true})).stdout;
