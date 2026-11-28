@@ -306,6 +306,11 @@ const root=path.resolve(__dirname,'..');
   assert.ok(rbPuts.some(x=>x.id===sent.id+'-hq'));
   await page.evaluate(()=>checkAudioRequests());
   assert.match(await badge('요청 시험').textContent(),/^오디오 준비됨 · 바로 듣기 · 새 발음 /,'the card keeps the current audio and says it is being remade');
+  // 받는 동안 어느 화면에서나 위쪽 띠에 책 이름·%·MB, 설정에는 다시 만들기 현황
+  const dlBar=await page.evaluate(id=>{const r=audioRequests[id];r.progress=40;r.bytes=10*1048576;updateBookBadges();const t=$('#audioDlBar').hidden?'':$('#audioDlBar').textContent;delete r.progress;delete r.bytes;updateBookBadges();return {t,after:$('#audioDlBar').hidden,status:$('#rebuildAllStatus').textContent}},bookId);
+  assert.match(dlBar.t,/^⬇ 새 발음 받는 중 · 「요청 시험」 40% · 4\/10MB · \d+\/\d+권 바꿈$/,'the download strip shows the book, percent and MB: '+dlBar.t);
+  assert.equal(dlBar.after,true,'the strip hides when nothing is downloading');
+  assert.match(dlBar.status,/^새 발음 다시 만들기 0\/\d+권 바꿈/,'settings show how many books were swapped: '+dlBar.status);
   const nbBytes=Buffer.from(Array.from({length:4200},(_,i)=>(i*13+1)%251)),nbMp3=path.join(tmp,'newpron.mp3');fss.writeFileSync(nbMp3,nbBytes);
   E.writeSiteBundle(expected,{mp3:nbMp3,marks:expected.blocks.map((x,i)=>[i,i*2]),duration:6,bytes:nbBytes.length,speed:1.5,profile:'high'},path.join(site,'books',sent.id+'-hq'),{partBytes:1000});
   P.upsertShelf(site,{id:sent.id+'-hq',title:expected.title,manifest:'books/'+sent.id+'-hq/book.json',bytes:nbBytes.length,duration:6,speed:1.5,profile:'high',source:'iphone'});
@@ -314,6 +319,7 @@ const root=path.resolve(__dirname,'..');
   for(let i=0;i<80&&gitHead===head13;i++)await new Promise(r=>setTimeout(r,100));   // 받은 -hq를 서버에서 지우는 기록까지 끝난 뒤
   const kept=await page.evaluate(id=>({index:state.books.find(x=>x.id===id).index,pending:!!audioRequests[id]}),bookId);
   assert.deepEqual(kept,{index:1,pending:false},'the new audio replaces the old one and the reading position stays');
+  assert.match(await page.locator('#toast').textContent(),/새 발음으로 바꿨습니다/,'a toast says the book was swapped');
   await page.evaluate(()=>{delete window.__ybAutoAudioMaxBytes});
   // 10) 재생 기록은 GitHub 키가 있으면 오디오 저장소의 device-logs 가지(새로 만든 빈 가지)에 자동으로 올라간다(바뀐 것이 있을 때만)
   await page.evaluate(async()=>{window.__ybLogUpload=true;audioLog('기록 올리기 시험');await uploadAudioLog();await uploadAudioLog()});
