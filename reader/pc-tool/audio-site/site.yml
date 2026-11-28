@@ -1,6 +1,6 @@
 # 여백 오디오 저장소(Chemistreal/yeobaek-audio)의 워크플로. PC 작업실(publish.mjs)이 이 파일을 저장소에 넣는다 — 저장소에서 직접 고치지 마세요.
 # 1) inbox/ 에 들어온 '현수 오디오 만들어 줘' 요청(아이폰 리더가 보낸 글)을 Edge 현수 목소리로 만들어 books/ 에 넣는다.
-# 2) 저장소 내용을 GitHub Pages(https://chemistreal.github.io/yeobaek-audio/)로 배포한다.
+# 2) 저장소 내용을 GitHub Pages(https://chemistreal.github.io/yeobaek-audio/)로 배포한다(pages.yml).
 name: 현수 오디오 만들기 · 사이트 배포
 
 on:
@@ -94,52 +94,20 @@ jobs:
           path: ${{ runner.temp }}/yeobaek-work
           key: yeobaek-work-${{ github.run_id }}-${{ github.run_attempt }}
 
+  # 배포는 pages.yml(같은 폴더)이 한다. 책을 올리면 inbox-build.mjs가 곧바로 pages.yml을 불러, 90분 실행이 끝나기를 기다리지 않고 폰에 보인다(2026-11-28).
   deploy:
     needs: build
     if: github.event_name != 'schedule' || needs.build.outputs.has == '1'
+    uses: ./.github/workflows/pages.yml
+
+  # 시간이 다 되어 멈췄으면(만들 책이 남음) 배포가 끝난 뒤 곧바로 다음 실행을 부른다 — 2시간마다 오는 예약 실행을 기다리지 않게
+  next:
+    needs: [build, deploy]
+    if: always() && needs.build.outputs.more == '1'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 1
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          name: github-pages-${{ github.run_attempt }}
-          path: '.'
-      - id: deployment
-        continue-on-error: true
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-${{ github.run_attempt }}
-      # GitHub Pages가 방금 올린 결과물을 '0개'로 보거나('No artifacts named … were found') '나중에 다시 시도'로 실패한다(2026-11, 올리기는 성공).
-      # 목록에 늦게 잡히는 것이라 다시 올리지 않고, 기다렸다가 같은 결과물로 두 번까지 다시 배포한다.
-      - name: 배포 다시 시도 전 쉬기(1분)
-        if: steps.deployment.outcome == 'failure'
-        run: sleep 60
-      - name: 다시 배포
-        id: deployment_retry
-        if: steps.deployment.outcome == 'failure'
-        continue-on-error: true
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-${{ github.run_attempt }}
-      - name: 한 번 더 쉬기(2분)
-        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
-        run: sleep 120
-      - name: 마지막으로 다시 배포
-        if: steps.deployment.outcome == 'failure' && steps.deployment_retry.outcome == 'failure'
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-${{ github.run_attempt }}
-      # 시간이 다 되어 멈췄으면(만들 책이 남음) 배포가 끝난 뒤 곧바로 다음 실행을 부른다 — 2시간마다 오는 예약 실행을 기다리지 않게
       - name: 남은 책 이어 만들기 부르기
-        if: always() && needs.build.outputs.more == '1'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run site.yml -R "$GITHUB_REPOSITORY" --ref main

@@ -41,5 +41,16 @@ const {pathToFileURL}=require('node:url');
  await broken.update({current:null},{force:true});await broken.flush();
  // 키가 없으면(PC에서 돌릴 때) 아무것도 하지 않는다
  const n=calls.length;await S.makeStatusWriter({repo:'o/r',token:'',fetchImpl:fakeFetch}).update({current:null},{force:true});assert.equal(calls.length,n);
- console.log('오디오 서버 진행 기록: 빈 build-status 가지 만들기 · 2분마다 · 단계 바뀌면 바로 · 어긋나면 다시 · 실패해도 계속 · 키 없으면 쉼 PASS');
+ // 책을 올리면 곧바로 사이트 배포(pages.yml)를 부른다: main 기준 workflow_dispatch. 키가 없거나 실패해도 멈추지 않는다.
+ const B=await import(pathToFileURL(path.join(__dirname,'..','reader/pc-tool/inbox-build.mjs')).href);
+ const got=[];let answer=204;
+ const srv=require('node:http').createServer((req,res)=>{let body='';req.on('data',c=>body+=c);req.on('end',()=>{got.push({m:req.method,u:req.url,auth:req.headers.authorization,body:JSON.parse(body||'{}')});res.writeHead(answer);res.end()})});
+ await new Promise(r=>srv.listen(0,'127.0.0.1',r));const api='http://127.0.0.1:'+srv.address().port;
+ try{
+  assert.equal(await B.deployNow('b-1',{repo:'o/r',token:'tok',api}),true);
+  assert.deepEqual(got,[{m:'POST',u:'/repos/o/r/actions/workflows/pages.yml/dispatches',auth:'Bearer tok',body:{ref:'main'}}],'dispatches the Pages workflow on main');
+  answer=403;assert.equal(await B.deployNow('b-2',{repo:'o/r',token:'tok',api}),false,'a refused dispatch does not throw');
+  assert.equal(await B.deployNow('b-3',{repo:'o/r',token:'',api}),false);assert.equal(got.length,2,'no token (PC) → no call');
+ }finally{srv.close()}
+ console.log('오디오 서버 진행 기록: 빈 build-status 가지 만들기 · 2분마다 · 단계 바뀌면 바로 · 어긋나면 다시 · 실패해도 계속 · 키 없으면 쉼 · 책 올리면 곧바로 배포 부름 PASS');
 })().catch(e=>{console.error(e);process.exit(1)});

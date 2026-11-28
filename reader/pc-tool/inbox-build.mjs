@@ -9,11 +9,13 @@
 // - 만드는 동안 몇 %인지 build-status 가지의 status.json 에 2분마다 적는다(리더 카드에 '서버에서 만드는 중 37%').
 // - 음성 서버가 막아 중간에 멈추면 실패로 적지 않고 이번 실행을 끝낸다. 만든 문단은 캐시에 남고, 2시간마다 도는 실행(또는 다음 push)이 이어 만든다. 더 만들지 못하고 3번 연달아 멈추면 실패로 적는다.
 // - 저장소(1GB)에 자리가 없으면 그 책도 미리 다 만들어 캐시에 두고, 앞 책을 아이폰이 받아 가 자리가 나면 곧바로 올린다(status 의 wait:'space', ready:true).
+// - 책을 올릴 때마다 사이트 배포(pages.yml)를 곧바로 불러, 실행이 끝나기를 기다리지 않고 몇 분 안에 폰에 보이게 한다.
 // - 한 번 실행은 YEOBAEK_BUDGET_MIN분까지만 만든다. 다 되면 멈추고(more=1) 사이트를 배포한 뒤 워크플로가 자기를 다시 불러 이어 만든다 — 5시간 제한에 걸려 실패하면 배포가 건너뛰어져 폰에 아무것도 안 보였다(2026-11-25~28).
 // - 실패하면 요청 파일에 error를 적어 둔다(리더가 보여 주고, 같은 요청을 계속 다시 시도하지 않는다. 리더에서 다시 보내면 다시 만든다).
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import {pathToFileURL} from 'node:url';
 import * as E from './engine.mjs';
 import * as P from './publish.mjs';
 import {makeStatusWriter} from './build-status.mjs';
@@ -42,6 +44,14 @@ function listRequests(dir){
 const HOLD_LIMIT=3*1024**3;
 const heldBytes=except=>{if(!fs.existsSync(work))return 0;let n=0;for(const d of fs.readdirSync(work)){const p=path.join(work,d);if(d!==except&&fs.statSync(p).isDirectory())n+=P.dirBytes(p)}return n};
 const push=(message,mutate)=>P.syncPush({gitDir:site,remoteUrl:null,auth:[],squash:false,workflow:false,message,mutate,report:m=>log(m)});
+// 책을 올리면 곧바로 사이트 배포(pages.yml)를 부른다 — 이 실행(최대 90분)이 끝나야 배포되면 다 된 책이 그동안 폰에 안 보였다(2026-11-28).
+// 봇이 올린 push는 워크플로를 깨우지 않지만, 같은 토큰으로 부르는 workflow_dispatch는 돈다. 못 불러도 실행 끝의 배포가 있으니 멈추지 않는다.
+export async function deployNow(why,{repo=process.env.GITHUB_REPOSITORY,token=process.env.GITHUB_TOKEN,api=process.env.YEOBAEK_GITHUB_API||'https://api.github.com'}={}){
+ if(!repo||!token)return false;
+ try{const r=await fetch(api+'/repos/'+repo+'/actions/workflows/pages.yml/dispatches',{method:'POST',headers:{authorization:'Bearer '+token,accept:'application/vnd.github+json','x-github-api-version':'2022-11-28','content-type':'application/json'},body:JSON.stringify({ref:'main'}),signal:AbortSignal.timeout(30000)});
+  log(r.ok?'사이트 배포를 부름 — 몇 분 뒤 폰에 보임':'사이트 배포를 부르지 못함('+r.status+') — 이번 실행이 끝날 때 배포됨',why);return r.ok}
+ catch(e){log('사이트 배포를 부르지 못함 — 이번 실행이 끝날 때 배포됨',why,e.message);return false}
+}
 
 async function main(){
  const todo=listRequests(site);
@@ -93,8 +103,9 @@ async function buildOne(t,i,status,deferred,queueAfter){
   const bundle=path.join(work,id,'bundle');E.writeSiteBundle(book,r,bundle);
   const entry={id,title:book.title,description:'현수 목소리 · '+speed+'배속',manifest:'books/'+id+'/book.json',bytes:r.bytes,duration:r.duration,chars:book.chars,speed,profile,published:Date.now(),source:'iphone'};
   await push('현수 오디오: '+book.title.slice(0,60),dir=>{P.mirrorDir(bundle,path.join(dir,'books',id));P.upsertShelf(dir,entry);fs.rmSync(path.join(dir,'inbox',t.file),{force:true})});
+  await deployNow(id);
   log('완료',id,(r.duration/60).toFixed(1)+'분 오디오',(r.bytes/1048576).toFixed(1)+'MB',((Date.now()-started)/60000).toFixed(1)+'분 걸림');
   fs.rmSync(path.join(work,id),{recursive:true,force:true});fs.rmSync(path.join(work,id+'-stalls.txt'),{force:true});
  }
 }
-main().catch(e=>{console.error('오류:',e?.stack||e);process.exit(1)});
+if(import.meta.url===pathToFileURL(process.argv[1]||'').href)main().catch(e=>{console.error('오류:',e?.stack||e);process.exit(1)});

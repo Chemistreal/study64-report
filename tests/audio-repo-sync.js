@@ -18,7 +18,7 @@ const git=(cwd,...a)=>execFileSync('git',a,{cwd,encoding:'utf8',stdio:['ignore',
   const pub=()=>P.syncPush({gitDir:pcGit,remoteUrl:remote,auth:[],who,squash:true,message:'pc',mutate:dir=>{const local=P.readShelf(pcSite),removed=P.readRemoved(pcSite),shelf=P.readShelf(dir);for(const id of removed){shelf.items=shelf.items.filter(x=>x.id!==id);fs.rmSync(path.join(dir,'books',id),{recursive:true,force:true})}for(const it of local.items){P.mirrorDir(path.join(pcSite,'books',it.id),path.join(dir,'books',it.id));shelf.items=shelf.items.filter(x=>x.id!==it.id);shelf.items.unshift(it);fs.rmSync(path.join(dir,'inbox',it.id+'.json'),{force:true})}P.writeShelf(dir,shelf)}});
   let r=await pub();assert.equal(r.changed,true);
   const view=()=>{const c=path.join(tmp,'view-'+Math.random().toString(36).slice(2));git(tmp,'clone','-q','--depth=1',remote,c);return c};
-  let v=view();assert.deepEqual(P.readShelf(v).items.map(x=>x.id),['b-aaaaaaaaaaaa']);assert.ok(fs.existsSync(path.join(v,'.github/workflows/site.yml')),'workflow file is published');
+  let v=view();assert.deepEqual(P.readShelf(v).items.map(x=>x.id),['b-aaaaaaaaaaaa']);assert.ok(fs.existsSync(path.join(v,'.github/workflows/site.yml'))&&fs.existsSync(path.join(v,'.github/workflows/pages.yml')),'workflow files are published');
   assert.equal(git(v,'rev-list','--count','HEAD'),'1');
   // 2) 아이폰: 요청(inbox)을 보통 기록으로 보낸다
   const phone=view();fs.mkdirSync(path.join(phone,'inbox'));fs.writeFileSync(path.join(phone,'inbox','b-bbbbbbbbbbbb.json'),JSON.stringify({format:'yeobaek-audio-request',title:'책 B'}));
