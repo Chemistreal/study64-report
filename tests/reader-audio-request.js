@@ -96,7 +96,11 @@ const root=path.resolve(__dirname,'..');
   P.upsertShelf(site,{id:sent.id,title:expected.title,manifest:'books/'+sent.id+'/book.json',bytes:bytes.length,duration:6,source:'iphone'});
   P.upsertShelf(site,{id:'b-000000000000',title:'PC 추천 글',manifest:'books/b-000000000000/book.json',bytes:10,duration:1});   // PC가 올린 추천 글(지우면 안 됨)
   await page.evaluate(()=>checkAudioRequests());
+  assert.match(await badge('요청 시험').textContent(),/^⬇ 현수 오디오 받기/,'finished audio waits for a tap on the card');
+  assert.equal(await page.evaluate(id=>state.audioIds.has(id),bookId),false,'nothing downloads by itself');
+  await badge('요청 시험').click();
   await page.waitForFunction(id=>state.audioIds.has(id),bookId,{timeout:10000});
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('yb-audio-wanted')||'[]').length),0,'a finished download leaves the to-download list');
   const attached=await page.evaluate(async id=>{const a=await storeReq('audio','readonly',s=>s.get(id));return {books:state.books.length,size:a.blob.size,timeline:a.timeline.length,pending:Object.keys(audioRequests).length}},bookId);
   assert.deepEqual(attached,{books:1,size:bytes.length,timeline:3,pending:0});
   // 받은 뒤: 아이폰 요청분은 서버에서 책 폴더 전체와 목록 항목을 기록 하나로 지운다. PC 추천 글은 남는다.
@@ -123,14 +127,14 @@ const root=path.resolve(__dirname,'..');
   await page.waitForFunction(id=>state.audioIds.has(id),huge.bookId,{timeout:10000});
   await page.waitForFunction(()=>[...document.querySelectorAll('#bookGrid .book-card')].some(c=>/아주 큰 합본/.test(c.textContent)&&/오디오 준비됨/.test(c.querySelector('.book-audio')?.textContent||'')),null,{timeout:5000});   // 카드 표시는 받기가 끝난 직후(finally)에 바뀐다
   await page.evaluate(()=>{delete window.__ybAutoAudioMaxBytes});
-  assert.equal(await page.evaluate(()=>autoAudioMaxBytes()),Infinity,'by default audio of any size downloads by itself (no tap on the card)');
+  assert.equal(await page.evaluate(()=>autoAudioMaxBytes()),0,'by default finished audio waits for a tap (card or get-all) so the percent can be watched');
   const big=await mk('큰 묶음 책',5000),small=await mk('작은 강의',1200);
   const hang=new RegExp('/yeobaek-audio/books/'+big.sid+'/audio\\.\\d+\\.mp3');
   const hangMatch=u=>hang.test(u.pathname);
   await page.route(hangMatch,()=>{});   // 큰 책 조각은 끝없이 기다리게(멈춘 받기)
-  await page.evaluate(()=>{window.__ybAudioPartTimeoutMs=1500;audioPolling=false;return checkAudioRequests()});
+  await page.evaluate(()=>{window.__ybAudioPartTimeoutMs=1500;audioPolling=false;return checkAudioRequests()});assert.match(await page.locator('#audioGetAllBtn').textContent(),/^⬇ 다 된 오디오 모두 받기 · 2권/);await page.locator('#audioGetAllBtn').click();await page.waitForFunction(()=>!audioPolling,null,{timeout:15000});   // 서재의 '모두 받기'
   const afterStall=await page.evaluate(({big,small})=>({small:state.audioIds.has(small.bookId),big:state.audioIds.has(big.bookId),bigPending:!!audioRequests[big.bookId],polling:audioPolling,badge:bookAudioBadge(big.bookId)?.text}),{big,small});
-  assert.deepEqual(afterStall,{small:true,big:false,bigPending:true,polling:false,badge:'⬇ 현수 오디오 받기 · 1MB'},'small book attaches first, the stalled big one is dropped and kept for later: '+JSON.stringify(afterStall));
+  assert.deepEqual(afterStall,{small:true,big:false,bigPending:true,polling:false,badge:'받기 차례 기다림 · 1MB'},'small book attaches first, the stalled big one is dropped and kept for later: '+JSON.stringify(afterStall));
   await page.unroute(hangMatch);
   await page.evaluate(id=>openBookActions(id),big.bookId);
   assert.deepEqual(await page.evaluate(()=>({text:$('#requestAudioBtn').textContent,disabled:$('#requestAudioBtn').disabled})),{text:'현수 오디오 받기',disabled:false});
@@ -200,6 +204,7 @@ const root=path.resolve(__dirname,'..');
   for(let i=0;i<50&&gitTrees.length===trees0;i++)await new Promise(r=>setTimeout(r,100));
   assert.ok(gitTrees.length>trees0&&gitTrees[gitTrees.length-1].tree.filter(t=>t.sha===null).every(t=>t.path.startsWith('books/'+hqId+'/')),'the downloaded -hq copy is removed from the server');
   assert.equal(await badge('요청 시험').textContent(),'오디오 준비됨 · 바로 듣기');
+  await page.evaluate(()=>{window.__ybAutoAudioMaxBytes=1e9});   // 9)는 '받기를 누른 책'과 같은 받기 흐름을 알아서 받기로 켜서 본다
   // 9) 잠금 화면에서 책 오디오를 듣는 동안에는 화면이 꺼져도 확인하고 받는다(듣는 동안은 아이폰이 앱을 재우지 않는다).
   //    듣지 않으면 화면이 꺼진 동안 쉬고, 지금 듣는 책의 새 오디오는 듣는 중에 바꾸지 않는다(멈춘 뒤 받는다).
   await page.evaluate(async()=>{state.settings.autoAudio=false;await saveSettings()});
@@ -248,6 +253,7 @@ const root=path.resolve(__dirname,'..');
   assert.equal(slowHits,4,'each of the 4 parts is fetched once');
   await page.unroute(slowMatch);
   await page.evaluate(()=>{state.playing=false});
+  await page.evaluate(()=>{delete window.__ybAutoAudioMaxBytes});
   // 11) 너무 긴 책(서버 한도)은 「제목 (1/n)」…「제목 (n/n)」 책으로 나눠 각각 보낸다: 강의 제목 앞에서 자르고, 원래 책은 휴지통, 예전 실패 요청은 서버에서 지우고, 읽던 자리는 그 자리가 든 조각으로 연다
   await page.evaluate(()=>{state.settings.autoAudio=false;window.__ybAudioMaxChars=1000});
   const lec=[];for(let k=0;k<6;k++){lec.push({kind:'heading',level:2,text:k+'강. 긴 강의'});for(let j=0;j<3;j++)lec.push({kind:'paragraph',text:(k+'강 '+j+'번째 문단입니다. ').repeat(8)})}
