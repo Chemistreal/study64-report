@@ -753,6 +753,7 @@ async function openLibraryShelf(){
  list.textContent='';
  const audioItems=audio.status==='fulfilled'&&audio.value?.format==='yeobaek-audio-shelf'&&Array.isArray(audio.value.items)?audio.value.items:[];
  for(const item of audioItems){
+  if(item?.source==='iphone')continue;   // 이 기기가 보낸 요청으로 만든 오디오는 그 책 카드의 '받기'로 받는다(추천 글이 아님)
   if(!item||typeof item.title!=='string'||typeof item.manifest!=='string'||!/^[\w\-./]+\.json$/.test(item.manifest)||item.manifest.includes('..'))continue;
   const detail='AI 낭독 오디오 포함'+(item.duration?' · '+audioLength(item.duration):'')+(item.bytes?' · '+Math.max(1,Math.round(item.bytes/1048576))+'MB':'')+(typeof item.description==='string'&&item.description?' · '+item.description.slice(0,120):'');
   list.append(shelfRow(item.title.slice(0,180),detail,'오디오와 함께 담기',button=>importAudioShelfItem(item,button)))

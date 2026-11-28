@@ -18,6 +18,7 @@ const root=path.resolve(__dirname,'..');
  const site=path.join(tmp,'yeobaek-audio'),id=P.bookId(book.hash);
  E.writeSiteBundle(book,r,path.join(site,'books',id),{partBytes:1000});
  P.addToShelf(site,{id,title:book.title,description:'현수 목소리 · 1.5배속',manifest:'books/'+id+'/book.json',bytes:bytes.length,duration:r.duration});
+ P.addToShelf(site,{id:'b-0000000000aa-hq',title:'아이폰이 보낸 책',manifest:'books/b-0000000000aa-hq/book.json',bytes:10,duration:1,source:'iphone'});   // 이 기기의 요청으로 만든 오디오(추천 글에 안 보여야 함)
  const requested=[];
  const server=http.createServer(async(req,res)=>{
   const url=decodeURIComponent((req.url||'/').split('?')[0]);
@@ -54,6 +55,7 @@ const root=path.resolve(__dirname,'..');
   await row.waitFor();
   assert.match(await row.textContent(),/AI 낭독 오디오 포함/);
   assert.ok(await page.locator('#libraryList button',{hasText:'서재에 담기'}).count()>=1,'site library rows still show');
+  assert.equal(await page.locator('#libraryList .trash-item',{hasText:'아이폰이 보낸 책'}).count(),0,'audio made from requests sent by this phone is not offered as a recommended book');
   // 2) 담기 → 조각 3개를 받아 잇고, 글·시간표·목소리와 함께 서재에 들어간다
   await row.locator('button').click();
   await page.waitForFunction(()=>state.books.some(b=>b.title==='오디오 시험 책')&&state.audioIds.size===1,null,{timeout:15000});
